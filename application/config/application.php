@@ -85,6 +85,7 @@ return array(
 		'Inflector' => 'System\\Inflector',
 		'Input' => 'System\\Input',
 		'Lang' => 'System\\Lang',
+		'Log' => 'System\\Log',
 		'URL' => 'System\\URL',
 		'Redirect' => 'System\\Redirect',
 		'Request' => 'System\\Request',

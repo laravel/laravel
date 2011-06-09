@@ -204,9 +204,9 @@ class Session {
 	public static function close()
 	{
 		// -----------------------------------------------------
-		// Flash the old input into the session.
+		// Do we need to re-flash the old Input data?
 		// -----------------------------------------------------
-		static::flash('laravel_old_input', Input::get());
+		static::flash('laravel_old_input', Input::get());			
 
 		// -----------------------------------------------------
 		// Age the session flash data.
