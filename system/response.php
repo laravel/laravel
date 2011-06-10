@@ -21,7 +21,7 @@ class Response {
 	 *
 	 * @var array
 	 */
-	private $headers = array();
+	public $headers = array();
 
 	/**
 	 * HTTP status codes.
