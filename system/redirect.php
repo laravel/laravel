@@ -13,14 +13,8 @@ class Redirect {
 	 */
 	public static function to($url, $method = 'location', $status = 302, $https = false)
 	{
-		// -------------------------------------------------
-		// Prepare the URL.
-		// -------------------------------------------------
 		$url = URL::to($url, $https);
 
-		// -------------------------------------------------
-		// Return the redirect response.
-		// -------------------------------------------------
 		return ($method == 'refresh')
 							? Response::make('', $status)->header('Refresh', '0;url='.$url)
 							: Response::make('', $status)->header('Location', $url);

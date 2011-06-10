@@ -18,17 +18,11 @@ class Memcached {
 	{
 		if (is_null(static::$instance))
 		{
-			// -----------------------------------------------------
-			// Verify that the Memcache extension is installed.
-			// -----------------------------------------------------
 			if ( ! class_exists('Memcache'))
 			{
 				throw new \Exception('Attempting to use Memcached, but the Memcached PHP extension is not installed on this server.');
 			}
 
-			// -----------------------------------------------------
-			// Instantiate the Memcache class.
-			// -----------------------------------------------------
 			$memcache = new \Memcache;
 
 			// -----------------------------------------------------

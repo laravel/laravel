@@ -16,33 +16,21 @@ class Request {
 	 */
 	public static function uri()
 	{
-		// --------------------------------------------------------------
-		// Have we already determined the URI?
-		// --------------------------------------------------------------
 		if ( ! is_null(static::$uri))
 		{
 			return static::$uri;
 		}
 
-		// --------------------------------------------------------------
-		// Use the PATH_INFO variable if it is available.
-		// --------------------------------------------------------------
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			return static::$uri = static::tidy($_SERVER['PATH_INFO']);
 		}
 
-		// --------------------------------------------------------------
-		// If the server REQUEST_URI variable is not available, bail out.
-		// --------------------------------------------------------------
 		if ( ! isset($_SERVER['REQUEST_URI']))
 		{
 			throw new \Exception('Unable to determine the request URI.');			
 		}
 
-		// --------------------------------------------------------------
-		// Get the PHP_URL_PATH of the request URI.
-		// --------------------------------------------------------------
 		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 		// --------------------------------------------------------------

@@ -63,9 +63,6 @@ class Session {
 			static::put('csrf_token', Str::random(16));
 		}
 
-		// -----------------------------------------------------
-		// Set the last activity timestamp for the user.
-		// -----------------------------------------------------
 		static::$session['last_activity'] = time();
 	}
 
@@ -120,14 +117,8 @@ class Session {
 	 */
 	public static function once($key, $default = null)
 	{
-		// -----------------------------------------------------
-		// Get the item from the session.
-		// -----------------------------------------------------
 		$value = static::get($key, $default);
 
-		// -----------------------------------------------------
-		// Delete the item from the session.
-		// -----------------------------------------------------
 		static::forget($key);
 
 		return $value;
@@ -185,14 +176,7 @@ class Session {
 	 */
 	public static function regenerate()
 	{
-		// -----------------------------------------------------
-		// Delete the old session from storage.
-		// -----------------------------------------------------
 		static::driver()->delete(static::$session['id']);
-
-		// -----------------------------------------------------
-		// Create a new session ID.
-		// -----------------------------------------------------
 		static::$session['id'] = Str::random(40);
 	}
 
@@ -203,31 +187,17 @@ class Session {
 	 */
 	public static function close()
 	{
-		// -----------------------------------------------------
-		// Flash the old input data to the session.
-		// -----------------------------------------------------
 		static::flash('laravel_old_input', Input::get());			
-
-		// -----------------------------------------------------
-		// Age the session flash data.
-		// -----------------------------------------------------
 		static::age_flash();
 
-		// -----------------------------------------------------
-		// Save the session to storage.
-		// -----------------------------------------------------
 		static::driver()->save(static::$session);
 
+		// -----------------------------------------------------
+		// Set the session cookie.
+		// -----------------------------------------------------
 		if ( ! headers_sent())
 		{
-			// -----------------------------------------------------
-			// Calculate the cookie lifetime.
-			// -----------------------------------------------------
 			$lifetime = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
-
-			// -----------------------------------------------------
-			// Write the session cookie.
-			// -----------------------------------------------------
 			Cookie::put('laravel_session', static::$session['id'], $lifetime, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'));
 		}
 

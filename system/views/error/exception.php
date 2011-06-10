@@ -20,6 +20,7 @@
 			font-size: 45px;
 			color: #6d6d6d;
 			margin: 0 0 10px 0;
+			text-shadow: 1px 1px #000;
 		}
 
 		h3 {

@@ -120,9 +120,6 @@ class Response {
 	 */
 	public function send()
 	{
-		// -------------------------------------------------
-		// Set the content type if it has not been set.
-		// -------------------------------------------------
 		if ( ! array_key_exists('Content-Type', $this->headers))
 		{
 			$this->header('Content-Type', 'text/html; charset=utf-8');
@@ -133,16 +130,10 @@ class Response {
 		// -------------------------------------------------
 		if ( ! headers_sent())
 		{
-			// -------------------------------------------------
-			// Send the HTTP protocol and status code.
-			// -------------------------------------------------
 			$protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 
 			header($protocol.' '.$this->status.' '.$this->statuses[$this->status]);
 
-			// -------------------------------------------------
-			// Send the rest of the headers.
-			// -------------------------------------------------
 			foreach ($this->headers as $name => $value)
 			{	
 				header($name.': '.$value, true);

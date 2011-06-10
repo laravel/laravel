@@ -18,30 +18,18 @@ return function($class) {
 		return class_alias($aliases[$class], $class);
 	}
 
-	// ----------------------------------------------------------
-	// Check for the class in the system directory.
-	// ----------------------------------------------------------
 	if (file_exists($path = BASE_PATH.$file.EXT))
 	{
 		require $path;
 	}
-	// ----------------------------------------------------------
-	// Check for the class in the models directory.
-	// ----------------------------------------------------------
 	elseif (file_exists($path = APP_PATH.'models/'.$file.EXT))
 	{
 		require $path;
 	}
-	// ----------------------------------------------------------
-	// Check for the class in the packages directory.
-	// ----------------------------------------------------------
 	elseif (file_exists($path = APP_PATH.'packages/'.$file.EXT))
 	{
 		require $path;
 	}
-	// ----------------------------------------------------------
-	// Check for the class in the application directory.
-	// ----------------------------------------------------------
 	elseif (file_exists($path = APP_PATH.$file.EXT))
 	{
 		require $path;

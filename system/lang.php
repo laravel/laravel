@@ -60,22 +60,13 @@ class Lang {
 	 */
 	public function get($language = null)
 	{
-		// --------------------------------------------------------------
-		// If no language was specified, use the default language.
-		// --------------------------------------------------------------
 		if (is_null($language))
 		{
 			$language = Config::get('application.language');
 		}
 
-		// --------------------------------------------------------------
-		// Extract the file and item from the key.
-		// --------------------------------------------------------------
 		list($file, $line) = $this->parse($this->key);
 
-		// --------------------------------------------------------------
-		// Load the language file.
-		// --------------------------------------------------------------
 		$this->load($file, $language);
 
 		// --------------------------------------------------------------
@@ -109,22 +100,13 @@ class Lang {
 	 */
 	private function parse($key)
 	{
-		// ---------------------------------------------
-		// Get the key segments.
-		// ---------------------------------------------
 		$segments = explode('.', $key);
 
-		// ---------------------------------------------
-		// Validate the key format.
-		// ---------------------------------------------
 		if (count($segments) < 2)
 		{
 			throw new \Exception("Invalid language key [$key].");
 		}
 
-		// ---------------------------------------------
-		// Return the file and item name.
-		// ---------------------------------------------
 		return array($segments[0], implode('.', array_slice($segments, 1)));
 	}
 
@@ -137,16 +119,13 @@ class Lang {
 	 */
 	private function load($file, $language)
 	{
-		// --------------------------------------------------------------
-		// Do not load the file if it has already been loaded.
-		// --------------------------------------------------------------
 		if (in_array($language.$file, static::$loaded))
 		{
 			return;
 		}
 
 		// --------------------------------------------------------------
-		// Does the language file exist?
+		// Load the language file into the array of lines.
 		// --------------------------------------------------------------
 		if (file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
 		{
@@ -157,9 +136,6 @@ class Lang {
 			throw new \Exception("Language file [$file] does not exist for language [$language].");
 		}
 
-		// --------------------------------------------------------------
-		// Add the file to the array of loaded files.
-		// --------------------------------------------------------------
 		static::$loaded[] = $language.$file;		
 	}
 

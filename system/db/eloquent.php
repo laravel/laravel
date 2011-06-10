@@ -76,14 +76,7 @@ abstract class Eloquent {
 	 */
 	public static function with()
 	{
-		// -----------------------------------------------------
-		// Create a new model instance.
-		// -----------------------------------------------------
 		$model = Eloquent\Factory::make(get_called_class());
-
-		// -----------------------------------------------------
-		// Set the eager relationships.
-		// -----------------------------------------------------
 		$model->includes = func_get_args();
 
 		return $model;
@@ -117,14 +110,8 @@ abstract class Eloquent {
 	 */
 	private function _first()
 	{
-		// -----------------------------------------------------
-		// Load the hydrated models.
-		// -----------------------------------------------------
 		$results = Eloquent\Hydrate::from($this->take(1));
 
-		// -----------------------------------------------------
-		// Return the first result.
-		// -----------------------------------------------------
 		if (count($results) > 0)
 		{
 			reset($results);
@@ -185,11 +172,16 @@ abstract class Eloquent {
 	/**
 	 * Save the model to the database.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function save()
 	{
-		Eloquent\Warehouse::store($this);
+		if ($this->exists and count($this->dirty) == 0)
+		{
+			return true;
+		}
+
+		return Eloquent\Warehouse::store($this);
 	}
 
 	/**
@@ -215,17 +207,11 @@ abstract class Eloquent {
 			// -----------------------------------------------------
 			$model = $this->$key();
 
-			// -----------------------------------------------------
-			// Return the relationship results.
-			// -----------------------------------------------------
 			return ($this->relating == 'has_one' or $this->relating == 'belongs_to')
 													? $this->ignore[$key] = $model->first()
 													: $this->ignore[$key] = $model->get();
 		}
 
-		// -----------------------------------------------------
-		// Check the "regular" attributes.
-		// -----------------------------------------------------
 		return (array_key_exists($key, $this->attributes)) ? $this->attributes[$key] : null;
 	}
 
@@ -243,9 +229,6 @@ abstract class Eloquent {
 		}
 		else
 		{
-			// -----------------------------------------------------
-			// Add the value to the attributes.
-			// -----------------------------------------------------
 			$this->attributes[$key] = $value;
 			$this->dirty[$key] = $value;
 		}
@@ -274,17 +257,11 @@ abstract class Eloquent {
 	 */
 	public function __call($method, $parameters)
 	{
-		// -----------------------------------------------------
-		// Is the "get" method being called?
-		// -----------------------------------------------------
 		if ($method == 'get')
 		{
 			return $this->_get();
 		}
 
-		// -----------------------------------------------------
-		// Is the "first" method being called?
-		// -----------------------------------------------------
 		if ($method == 'first')
 		{
 			return $this->_first();
@@ -312,22 +289,13 @@ abstract class Eloquent {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// -----------------------------------------------------
-		// Create a new model instance.
-		// -----------------------------------------------------
 		$model = Eloquent\Factory::make(get_called_class());
 
-		// -----------------------------------------------------
-		// Do we need to return the entire table?
-		// -----------------------------------------------------
 		if ($method == 'get')
 		{
 			return $model->_get();
 		}
 
-		// -----------------------------------------------------
-		// Do we need to return the first model from the table?
-		// -----------------------------------------------------
 		if ($method == 'first')
 		{
 			return $model->_first();

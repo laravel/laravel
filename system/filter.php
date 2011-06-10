@@ -18,9 +18,6 @@ class Filter {
 	 */
 	public static function call($filters, $parameters = array())
 	{
-		// --------------------------------------------------------------
-		// Load the route filters.
-		// --------------------------------------------------------------
 		if (is_null(static::$filters))
 		{
 			static::$filters = require APP_PATH.'filters'.EXT;
@@ -28,9 +25,6 @@ class Filter {
 
 		foreach (explode(', ', $filters) as $filter)
 		{
-			// --------------------------------------------------------------
-			// Verify that the filter is defined.
-			// --------------------------------------------------------------
 			if ( ! isset(static::$filters[$filter]))
 			{
 				throw new \Exception("Route filter [$filter] is not defined.");						
@@ -39,7 +33,8 @@ class Filter {
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
 			// --------------------------------------------------------------
-			// If the filter returned a response, return it.
+			// If the filter returned a response, return it since route
+			// filters can override route methods.
 			// --------------------------------------------------------------
 			if ( ! is_null($response))
 			{

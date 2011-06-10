@@ -53,9 +53,6 @@ class Cookie {
 	 */
 	public static function put($key, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
 	{
-		// ----------------------------------------------------------
-		// If the lifetime is less than zero, delete the cookie.
-		// ----------------------------------------------------------
 		if ($minutes < 0)
 		{
 			unset($_COOKIE[$key]);

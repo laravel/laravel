@@ -36,9 +36,6 @@ class Connector {
 		{
 			$connection = new \PDO($config->driver.':host='.$config->host.';dbname='.$config->database, $config->username, $config->password, static::$options);
 
-			// ---------------------------------------------------
-			// Set the correct character set.
-			// ---------------------------------------------------
 			if (isset($config->charset))
 			{
 				$connection->prepare("SET NAMES '".$config->charset."'")->execute();
@@ -46,9 +43,6 @@ class Connector {
 
 			return $connection;
 		}
-		// ---------------------------------------------------
-		// If the driver isn't supported, bail out.
-		// ---------------------------------------------------
 		else
 		{
 			throw new \Exception('Database driver '.$config->driver.' is not supported.');

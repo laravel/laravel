@@ -61,19 +61,10 @@ class Str {
      */
     public static function random($length = 16)
     {
-        // -----------------------------------------------------
-        // Split the character pool into an array.
-        // -----------------------------------------------------
         $pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
 
-        // -----------------------------------------------------
-        // Initialize the return value.
-        // -----------------------------------------------------
         $value = '';
 
-        // -----------------------------------------------------
-        // Build the random string.
-        // -----------------------------------------------------
         for ($i = 0; $i < $length; $i++)
         {
             $value .= $pool[mt_rand(0, 61)];

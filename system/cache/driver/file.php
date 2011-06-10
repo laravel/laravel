@@ -38,16 +38,13 @@ class File implements \System\Cache\Driver {
 		}
 
 		// --------------------------------------------------
-		// Verify that the cache file exists.
+		// Does the cache item even exist?
 		// --------------------------------------------------
 		if ( ! file_exists(APP_PATH.'cache/'.$key))
 		{
 			return $default;
 		}
 
-		// --------------------------------------------------
-		// Read the contents of the cache file.
-		// --------------------------------------------------
 		$cache = file_get_contents(APP_PATH.'cache/'.$key);
 
 		// --------------------------------------------------
@@ -74,10 +71,6 @@ class File implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		// --------------------------------------------------
-		// The expiration time is stored as a UNIX timestamp
-		// at the beginning of the cache file.
-		// --------------------------------------------------
 		file_put_contents(APP_PATH.'cache/'.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
 	}
 

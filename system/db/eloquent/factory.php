@@ -10,13 +10,10 @@ class Factory {
 	 */
 	public static function make($class)
 	{
-		// -----------------------------------------------------
-		// Create a new model instance.
-		// -----------------------------------------------------
 		$model = new $class;
 		
 		// -----------------------------------------------------
-		// Set the active query instance on the model.
+		// Set the fluent query builder on the model.
 		// -----------------------------------------------------
 		$model->query = \System\DB\Query::table(Meta::table($class));
 

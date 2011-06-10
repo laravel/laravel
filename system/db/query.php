@@ -81,14 +81,7 @@ class Query {
 	 */
 	public function __construct($table, $connection = null)
 	{
-		// ---------------------------------------------------
-		// Set the database connection name.
-		// ---------------------------------------------------
 		$this->connection = (is_null($connection)) ? \System\Config::get('db.default') : $connection;
-
-		// ---------------------------------------------------
-		// Build the FROM clause.
-		// ---------------------------------------------------
 		$this->from = 'FROM '.$this->wrap($this->table = $table);
 	}
 
@@ -122,9 +115,6 @@ class Query {
 	 */
 	public function select()
 	{
-		// ---------------------------------------------------
-		// Handle DISTINCT selections.
-		// ---------------------------------------------------
 		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
 
 		// ---------------------------------------------------
@@ -372,15 +362,7 @@ class Query {
 	 */
 	public function find($id)
 	{
-		// ---------------------------------------------------
-		// Set the primary key.
-		// ---------------------------------------------------
-		$this->where('id', '=', $id);
-
-		// ---------------------------------------------------
-		// Get the first result.
-		// ---------------------------------------------------
-		return $this->first();
+		return $this->where('id', '=', $id)->first();
 	}
 
 	/**
@@ -400,9 +382,6 @@ class Query {
 	 */
 	public function get()
 	{
-		// ---------------------------------------------------
-		// Initialize the SELECT clause if it's null.
-		// ---------------------------------------------------
 		if (is_null($this->select))
 		{
 			call_user_func_array(array($this, 'select'), (count(func_get_args()) > 0) ? func_get_args() : array('*'));
@@ -420,14 +399,8 @@ class Query {
 	 */
 	private function aggregate($aggregator, $column)
 	{
-		// ---------------------------------------------------
-		// Build the SELECT clause.
-		// ---------------------------------------------------
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
 
-		// ---------------------------------------------------
-		// Execute the statement.
-		// ---------------------------------------------------
 		$results = \System\DB::query(Query\Compiler::select($this), $this->bindings);
 
 		return $results[0]->aggregate;
@@ -452,54 +425,28 @@ class Query {
 	 */
 	public function insert_get_id($values)
 	{
-		// ---------------------------------------------------
-		// Compile the SQL statement.
-		// ---------------------------------------------------
 		$sql = Query\Compiler::insert($this, $values);
 
 		// ---------------------------------------------------
-		// The Postgres PDO implementation does not cleanly
-		// implement the last insert ID function. So, we'll
-		// use the RETURNING clause available in Postgres.
+		// Postgres.
 		// ---------------------------------------------------
 		if (\System\DB::connection($this->connection)->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
 		{
-			// ---------------------------------------------------
-			// Add the RETURNING clause to the SQL.
-			// ---------------------------------------------------
 			$sql .= ' RETURNING '.$this->wrap('id');
 
-			// ---------------------------------------------------
-			// Prepare the PDO statement.
-			// ---------------------------------------------------
 			$query = \System\DB::connection($this->connection)->prepare($sql);
-
-			// ---------------------------------------------------
-			// Execute the PDO statement.
-			// ---------------------------------------------------
 			$query->execute(array_values($values));
 
-			// ---------------------------------------------------
-			// Fetch the insert ID from the results.
-			// ---------------------------------------------------
 			$result = $query->fetch(\PDO::FETCH_ASSOC);
 
 			return $result['id'];
 		}
 		// ---------------------------------------------------
-		// When using MySQL or SQLite, we can just use the PDO
-		// last insert ID function.
+		// MySQL and SQLite.
 		// ---------------------------------------------------
 		else
 		{
-			// ---------------------------------------------------
-			// Execute the statement.
-			// ---------------------------------------------------
 			\System\DB::query($sql, array_values($values), $this->connection);
-
-			// ---------------------------------------------------
-			// Get the last insert ID.
-			// ---------------------------------------------------
 			return \System\DB::connection($this->connection)->lastInsertId();
 		}
 	}
@@ -523,17 +470,11 @@ class Query {
 	 */
 	public function delete($id = null)
 	{
-		// ---------------------------------------------------
-		// Set the primary key.
-		// ---------------------------------------------------
 		if ( ! is_null($id))
 		{
 			$this->where('id', '=', $id);
 		}
 
-		// ---------------------------------------------------
-		// Execute the statement.
-		// ---------------------------------------------------
 		return \System\DB::query(Query\Compiler::delete($this), $this->bindings, $this->connection);		
 	}
 
@@ -555,9 +496,6 @@ class Query {
 			$wrap = '`';
 		}
 
-		// ---------------------------------------------------
-		// Wrap the element in keyword identifiers.
-		// ---------------------------------------------------
 		return implode('.', array_map(function($segment) use ($wrap) {return ($segment != '*') ? $wrap.$segment.$wrap : $segment;}, explode('.', $value)));
 	}
 

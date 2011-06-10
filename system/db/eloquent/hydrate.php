@@ -22,17 +22,11 @@ class Hydrate {
 		{
 			foreach ($eloquent->includes as $include)
 			{
-				// -----------------------------------------------------
-				// Verify the relationship is defined.
-				// -----------------------------------------------------
 				if ( ! method_exists($eloquent, $include))
 				{
 					throw new \Exception("Attempting to eager load [$include], but the relationship is not defined.");
 				}
 
-				// -----------------------------------------------------
-				// Eagerly load the relationship.
-				// -----------------------------------------------------
 				static::eagerly($eloquent, $include, $results);
 			}
 		}
@@ -49,34 +43,17 @@ class Hydrate {
 	 */
 	private static function base($class, $models)
 	{
-		// -----------------------------------------------------
-		// Initialize the hydrated model array.
-		// -----------------------------------------------------
 		$results = array();
 
-		// -----------------------------------------------------
-		// Hydrate the models from the results.
-		// -----------------------------------------------------
 		foreach ($models as $model)
 		{
-			// -----------------------------------------------------
-			// Instantiate a new model instance.
-			// -----------------------------------------------------
 			$result = new $class;
 
-			// -----------------------------------------------------
-			// Set the model's attributes.
-			// -----------------------------------------------------
 			$result->attributes = (array) $model;
-
-			// -----------------------------------------------------
-			// Indicate that the model already exists.
-			// -----------------------------------------------------
 			$result->exists = true;
 
 			// -----------------------------------------------------
-			// Add the hydrated model to the array of models.
-			// The array is keyed by the primary keys of the models.
+			// The results are keyed by the ID on the record.
 			// -----------------------------------------------------
 			$results[$result->id] = $result;
 		}
@@ -107,13 +84,9 @@ class Hydrate {
 		unset($eloquent->attributes[$spoof]);
 
 		// -----------------------------------------------------
-		// Reset the WHERE clause on the query.
+		// Reset the WHERE clause and bindings on the query.
 		// -----------------------------------------------------
 		$model->query->where = 'WHERE 1 = 1';
-
-		// -----------------------------------------------------
-		// Reset the bindings on the query.
-		// -----------------------------------------------------
 		$model->query->bindings = array();
 
 		// -----------------------------------------------------
@@ -124,23 +97,14 @@ class Hydrate {
 			$result->ignore[$include] = (strpos($eloquent->relating, 'has_many') === 0) ? array() : null;
 		}
 
-		// -----------------------------------------------------
-		// Eagerly load a 1:1 or 1:* relationship.
-		// -----------------------------------------------------
 		if ($eloquent->relating == 'has_one' or $eloquent->relating == 'has_many')
 		{
 			static::eagerly_load_one_or_many($eloquent->relating_key, $eloquent->relating, $include, $model, $results);
 		}
-		// -----------------------------------------------------
-		// Eagerly load a 1:1 (belonging) relationship.
-		// -----------------------------------------------------
 		elseif ($eloquent->relating == 'belongs_to')
 		{
 			static::eagerly_load_belonging($eloquent->relating_key, $include, $model, $results);
 		}
-		// -----------------------------------------------------
-		// Eagerly load a *:* relationship.
-		// -----------------------------------------------------
 		else
 		{
 			static::eagerly_load_many_to_many($eloquent->relating_key, $eloquent->relating_table, strtolower(get_class($eloquent)).'_id', $include, $model, $results);

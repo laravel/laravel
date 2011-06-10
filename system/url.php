@@ -18,9 +18,6 @@ class URL {
 			return $url;
 		}
 
-		// ----------------------------------------------------
-		// Get the base URL of the application.
-		// ----------------------------------------------------
 		$base = Config::get('application.url');
 
 		// ----------------------------------------------------
@@ -55,9 +52,6 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		// ----------------------------------------------------
-		// Does the named route exist?
-		// ----------------------------------------------------
 		if ( ! is_null($route = Router::find($name)))
 		{
 			$uris = explode(', ', key($route));

@@ -66,9 +66,6 @@ class HTML {
 		// -------------------------------------------------------
 		$email = static::email($email);
 
-		// -------------------------------------------------------
-		// If no title is specified, just use the e-mail address.
-		// -------------------------------------------------------
 		if (is_null($title))
 		{
 			$title = $email;
@@ -98,11 +95,7 @@ class HTML {
 	 */
 	public static function image($url, $alt = '', $attributes = array())
 	{
-		// -------------------------------------------------------
-		// Add the "alt" tag to the attributes.
-		// -------------------------------------------------------
 		$attributes['alt'] = Str::entities($alt);
-
 		return '<img src="'.URL::to($url).'"'.static::attributes($attributes).' />';
 	}
 
@@ -162,33 +155,19 @@ class HTML {
 	 */
 	private static function list_elements($type, $list, $attributes)
 	{
-		// -------------------------------------------------------
-		// Verify the list is an array.
-		// -------------------------------------------------------
 		if ( ! is_array($list))
 		{
 			return '';
 		}
 
-		// -------------------------------------------------------
-		// Initialize the output value.
-		// -------------------------------------------------------
 		$html = '';
 
-		// -------------------------------------------------------
-		// Add the list items.
-		// -------------------------------------------------------
 		foreach ($list as $key => $value)
 		{
 			$html .= '<li>'.Str::entities($value).'</li>';
 		}
 
-		// -------------------------------------------------------
-		// Build the list opening tag.
-		// -------------------------------------------------------
-		$start = '<'.$type.static::attributes($attributes).'>';
-
-		return $start.$html.'</'.$type.'>';
+		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
 	}
 
 	/**
@@ -203,23 +182,12 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
-			// -------------------------------------------------------
-			// If the value is null, skip it.
-			// -------------------------------------------------------
-			if (is_null($value))
+			if ( ! is_null($value))
 			{
-				continue;
+				$html[] = $key.'="'.Str::entities($value).'"';
 			}
-
-			// -------------------------------------------------------
-			// Add the HTML attribute to the array of attributes.
-			// -------------------------------------------------------
-			$html[] = $key.'="'.Str::entities($value).'"';
 		}
 
-		// -------------------------------------------------------
-		// Concatenate all of the attributes together.
-		// -------------------------------------------------------
 		if (count($html) > 0)
 		{
 			return ' '.implode(' ', $html);

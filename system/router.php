@@ -26,13 +26,10 @@ class Router {
 	public static function route($method, $uri)
 	{
 		// --------------------------------------------------------------
-		// Add a forward slash to the URI if necessary.
+		// Force the URI to have a forward slash.
 		// --------------------------------------------------------------
 		$uri = ($uri != '/') ? '/'.$uri : $uri;
 
-		// --------------------------------------------------------------
-		// Load all of the application routes.
-		// --------------------------------------------------------------
 		static::$routes = require APP_PATH.'routes'.EXT;
 
 		// --------------------------------------------------------------
@@ -54,19 +51,10 @@ class Router {
 			// --------------------------------------------------------------
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
-				// --------------------------------------------------------------
-				// Multiple routes can be assigned to a callback using commas.
-				// --------------------------------------------------------------
 				foreach (explode(', ', $keys) as $route)
 				{
-					// --------------------------------------------------------------
-					// Change wildcards into regular expressions.
-					// --------------------------------------------------------------
 					$route = str_replace(':num', '[0-9]+', str_replace(':any', '.+', $route));
 
-					// --------------------------------------------------------------
-					// Test the route for a match.
-					// --------------------------------------------------------------
 					if (preg_match('#^'.$route.'$#', $method.' '.$uri))
 					{
 						return new Route($callback, static::parameters(explode('/', $uri), explode('/', $route)));
@@ -84,28 +72,14 @@ class Router {
 	 */
 	public static function find($name)
 	{
-		// ----------------------------------------------------
-		// Have we already looked up this named route?
-		// ----------------------------------------------------
 		if (array_key_exists($name, static::$names))
 		{
 			return static::$names[$name];
 		}
 
-		// ----------------------------------------------------
-		// Instantiate the recursive array iterator.
-		// ----------------------------------------------------
 		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
-
-		// ----------------------------------------------------
-		// Instantiate the recursive iterator iterator.
-		// ----------------------------------------------------
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
-		// ----------------------------------------------------
-		// Iterate through the routes searching for a route
-		// name that matches the given name.
-		// ----------------------------------------------------
 		foreach ($recursiveIterator as $iterator)
 		{
 			$route = $recursiveIterator->getSubIterator();
@@ -128,9 +102,6 @@ class Router {
 	{
 		$parameters = array();
 
-		// --------------------------------------------------------------
-		// Spin through the route segments looking for parameters.
-		// --------------------------------------------------------------
 		for ($i = 0; $i < count($route_segments); $i++)
 		{
 			// --------------------------------------------------------------

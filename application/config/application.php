@@ -92,6 +92,7 @@ return array(
 		'Response' => 'System\\Response',
 		'Session' => 'System\\Session',
 		'Str' => 'System\\Str',
+		'Test' => 'System\\Test',
 		'Text' => 'System\\Text',
 		'View' => 'System\View',
 	),

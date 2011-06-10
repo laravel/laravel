@@ -41,9 +41,6 @@ class Auth {
 			throw new \Exception("You must specify a session driver before using the Auth class.");
 		}
 
-		// -----------------------------------------------------
-		// Get the authentication model.
-		// -----------------------------------------------------
 		$model = static::model();
 
 		// -----------------------------------------------------
@@ -65,9 +62,6 @@ class Auth {
 	 */
 	public static function login($username, $password)
 	{
-		// -----------------------------------------------------
-		// Get the authentication model.
-		// -----------------------------------------------------
 		$model = static::model();
 
 		// -----------------------------------------------------
@@ -82,19 +76,10 @@ class Auth {
 			// -----------------------------------------------------
 			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
 
-			// -----------------------------------------------------
-			// Verify that the passwords match.
-			// -----------------------------------------------------
 			if ($user->password == $password)
 			{
-				// -----------------------------------------------------
-				// Set the user property.
-				// -----------------------------------------------------
 				static::$user = $user;
 
-				// -----------------------------------------------------
-				// Store the user ID in the session.
-				// -----------------------------------------------------
 				Session::put(static::$key, $user->id);
 
 				return true;
@@ -111,14 +96,7 @@ class Auth {
 	 */
 	public static function logout()
 	{
-		// -----------------------------------------------------
-		// Remove the user ID from the session.
-		// -----------------------------------------------------
 		Session::forget(static::$key);
-
-		// -----------------------------------------------------
-		// Clear the current user variable.
-		// -----------------------------------------------------
 		static::$user = null;
 	}
 

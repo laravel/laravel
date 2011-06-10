@@ -40,11 +40,7 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		// -------------------------------------------------
-		// Hydrate the input data for the request.
-		// -------------------------------------------------
 		static::hydrate();
-
 		return static::from_array(static::$input, $key, $default);
 	}
 
@@ -57,9 +53,6 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
-		// -------------------------------------------------
-		// Verify that sessions are enabled.
-		// -------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
@@ -69,7 +62,7 @@ class Input {
 	}
 
 	/**
-	 * Get an item from an array.
+	 * Get an item from an array. If no key is specified, the entire array will be returned.
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -78,9 +71,6 @@ class Input {
 	 */
 	private static function from_array($array, $key, $default)
 	{
-		// -------------------------------------------------
-		// If no key is given, return the entire array.
-		// -------------------------------------------------
 		if (is_null($key))
 		{
 			return $array;

@@ -72,9 +72,6 @@ class Error {
 
 		if (Config::get('error.detail'))
 		{
-			// -----------------------------------------------------
-			// Build the error view.
-			// -----------------------------------------------------
 			$view = View::make('error/exception')
 											->bind('severity', $severity)
 											->bind('message', $message)
@@ -83,16 +80,10 @@ class Error {
 											->bind('trace', $e->getTraceAsString())
 											->bind('contexts', static::context($file, $e->getLine()));
 			
-			// -----------------------------------------------------
-			// Send the detailed error response.
-			// -----------------------------------------------------
 			Response::make($view, 500)->send();
 		}
 		else
 		{
-			// -----------------------------------------------------
-			// Send the generic error response.
-			// -----------------------------------------------------
 			Response::make(View::make('error/500'), 500)->send();
 		}
 
@@ -109,19 +100,10 @@ class Error {
 	 */
 	private static function context($path, $line, $padding = 5)
 	{
-		// -----------------------------------------------------
-		// Verify that the file exists.
-		// -----------------------------------------------------
 		if (file_exists($path))
 		{
-			// -----------------------------------------------------
-			// Get the contents of the file.
-			// -----------------------------------------------------
 			$file = file($path, FILE_IGNORE_NEW_LINES);
 
-			// -----------------------------------------------------
-			// Unshift the array.
-			// -----------------------------------------------------
 			array_unshift($file, '');
 
 			// -----------------------------------------------------
@@ -144,9 +126,6 @@ class Error {
 				$length = null;
 			}
 
-			// -----------------------------------------------------
-			// Return the context.
-			// -----------------------------------------------------
 			return array_slice($file, $start, $length, true);			
 		}
 

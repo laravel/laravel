@@ -25,14 +25,7 @@ class Hash {
 	 */
 	public function __construct($value, $salt = null)
 	{
-		// --------------------------------------------------------------
-		// Get a random salt to hash the value with.
-		// --------------------------------------------------------------
 		$this->salt = (is_null($salt)) ? Str::random(16) : $salt;
-
-		// --------------------------------------------------------------
-		// Perform a salted, SHA-1 hash on the value.
-		// --------------------------------------------------------------
 		$this->value = sha1($value.$this->salt);
 	}
 

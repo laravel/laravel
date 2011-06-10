@@ -20,32 +20,16 @@ class Form {
 			$action = Request::uri();
 		}
 
-		// -------------------------------------------------------
-		// Prepare the action URL.
-		// -------------------------------------------------------
 		$action = URL::to($action);
 
-		// -------------------------------------------------------
-		// Set the action attribute.
-		// -------------------------------------------------------
 		$attributes['action'] = $action;
-
-		// -------------------------------------------------------
-		// Set the method attribute.
-		// -------------------------------------------------------
 		$attributes['method'] = ($method == 'GET' or $method == 'POST') ? $method : 'POST';
 
-		// -------------------------------------------------------
-		// Set the default character set.
-		// -------------------------------------------------------
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
 			$attributes['accept-charset'] = 'UTF-8';			
 		}
 
-		// -------------------------------------------------------
-		// Build the form tag.
-		// -------------------------------------------------------
 		$html = '<form'.HTML::attributes($attributes).'>';
 
 		// -------------------------------------------------------
@@ -79,9 +63,6 @@ class Form {
 	 */
 	public static function raw_token()
 	{
-		// -------------------------------------------------------
-		// Verify that sessions are enabled.
-		// -------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');			
@@ -204,9 +185,6 @@ class Form {
 	 */
 	private static function checkable($type, $name, $value, $checked, $attributes)
 	{
-		// -------------------------------------------------------
-		// Set the checked attribute.
-		// -------------------------------------------------------
 		if ($checked === true)
 		{
 			$attributes['checked'] = 'checked';
@@ -225,9 +203,6 @@ class Form {
 	 */
 	public static function textarea($name, $value = '', $attributes = array())
 	{
-		// -------------------------------------------------------
-		// Add the name to the attributes.
-		// -------------------------------------------------------
 		$attributes['name'] = $name;
 
 		// -------------------------------------------------------
@@ -260,36 +235,17 @@ class Form {
 	 */	
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
-		// -------------------------------------------------------
-		// Set the name attribute.
-		// -------------------------------------------------------
 		$attributes['name'] = $name;
 
-		// -------------------------------------------------------
-		// Initialize the options array.
-		// -------------------------------------------------------
 		$html_options = array();
 
-		// -------------------------------------------------------
-		// Build the options in HTML.
-		// -------------------------------------------------------
 		foreach ($options as $value => $display)
 		{
 			$option_attributes = array();
 
-			// -------------------------------------------------------
-			// Set the value attribute.
-			// -------------------------------------------------------
 			$option_attributes['value'] = $value;
-
-			// -------------------------------------------------------
-			// Set the selected attribute.
-			// -------------------------------------------------------
 			$option_attributes['selected'] = ($value == $selected) ? 'selected' : null;
 
-			// -------------------------------------------------------
-			// Add the option HTML to the array of options.
-			// -------------------------------------------------------
 			$html_options[] = '<option'.HTML::attributes($option_attributes).'>'.$display.'</option>';
 		}
 
@@ -306,19 +262,8 @@ class Form {
 	 */		
 	private static function input($type, $name, $value = null, $attributes = array())
 	{
-		// -------------------------------------------------------
-		// Set the type attribute.
-		// -------------------------------------------------------
 		$attributes['type'] = $type;
-
-		// -------------------------------------------------------
-		// Set the name attribute.
-		// -------------------------------------------------------
 		$attributes['name'] = $name;
-
-		// -------------------------------------------------------
-		// Set the value attribute.
-		// -------------------------------------------------------
 		$attributes['value'] = $value;
 
 		return '<input'.HTML::attributes($attributes).' />'.PHP_EOL;

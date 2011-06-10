@@ -41,10 +41,6 @@ class View {
 	{
 		$this->view = $view;
 		$this->data = $data;
-
-		// -----------------------------------------------------
-		// Get the contents of the view from the file system.
-		// -----------------------------------------------------
 		$this->content = $this->load($view);
 	}
 
@@ -68,23 +64,14 @@ class View {
 	 */
 	private function load($view)
 	{
-		// -----------------------------------------------------
-		// Is the view in the application directory?
-		// -----------------------------------------------------
 		if (file_exists($path = APP_PATH.'views/'.$view.EXT))
 		{
 			return file_get_contents($path);
 		}
-		// -----------------------------------------------------
-		// Is the view in the system directory?
-		// -----------------------------------------------------
 		elseif (file_exists($path = SYS_PATH.'views/'.$view.EXT))
 		{
 			return file_get_contents($path);
 		}
-		// -----------------------------------------------------
-		// Could not locate the view... bail out.
-		// -----------------------------------------------------
 		else
 		{
 			throw new \Exception("View [$view] doesn't exist.");
@@ -111,9 +98,6 @@ class View {
 	 */
 	public function get()
 	{
-		// -----------------------------------------------------
-		// Set the name of the last rendered view.
-		// -----------------------------------------------------
 		static::$last = $this->view;
 
 		// -----------------------------------------------------
@@ -127,24 +111,12 @@ class View {
 			}
 		}
 
-		// -----------------------------------------------------
-		// Extract the view data into the local scope.
-		// -----------------------------------------------------
 		extract($this->data, EXTR_SKIP);
 
-		// -----------------------------------------------------
-		// Start an output buffer to catch the content.
-		// -----------------------------------------------------
 		ob_start();
 
-		// -----------------------------------------------------
-		// Echo the content of the view.
-		// -----------------------------------------------------
 		echo eval('?>'.$this->content);
 
-		// -----------------------------------------------------
-		// Get the contents of the output buffer.
-		// -----------------------------------------------------
 		return ob_get_clean();
 	}
 

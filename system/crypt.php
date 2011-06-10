@@ -48,14 +48,7 @@ class Crypt {
 			mt_srand();
 		}
 
-		// -----------------------------------------------------
-		// Create the input vector.
-		// -----------------------------------------------------
 		$iv = mcrypt_create_iv(static::iv_size(), $random);
-
-		// -----------------------------------------------------
-		// Encrypt the value using MCrypt.
-		// -----------------------------------------------------
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
 		// -----------------------------------------------------
@@ -72,14 +65,8 @@ class Crypt {
 	 */
 	public static function decrypt($value)
 	{
-		// -----------------------------------------------------
-		// Decode the base64 value.
-		// -----------------------------------------------------
 		$value = base64_decode($value, true);
 
-		// -----------------------------------------------------
-		// Validate the base64 conversion.
-		// -----------------------------------------------------
 		if ( ! $value)
 		{
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
@@ -95,9 +82,6 @@ class Crypt {
 		// -----------------------------------------------------
 		$value = substr($value, static::iv_size());
 
-		// -----------------------------------------------------
-		// Decrypt the value using MCrypt.
-		// -----------------------------------------------------
 		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
 	}
 
@@ -108,9 +92,6 @@ class Crypt {
 	 */
 	private static function key()
 	{
-		// -----------------------------------------------------
-		// Validate the application key.
-		// -----------------------------------------------------
 		if (is_null($key = Config::get('application.key')) or $key == '')
 		{
 			throw new \Exception("The encryption class can not be used without an encryption key.");

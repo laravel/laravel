@@ -109,17 +109,11 @@ class Download {
 	 */
 	public static function file($path, $name = null)
 	{
-		// -------------------------------------------------
-		// If no name was specified, just use the basename.
-		// -------------------------------------------------
 		if (is_null($name))
 		{
 			$name = basename($path);
 		}
 
-		// -------------------------------------------------
-		// Set the headers to force the download to occur.
-		// -------------------------------------------------
 		return Response::make(file_get_contents($path))->header('Content-Description', 'File Transfer')
 				 	  						  		   ->header('Content-Type', static::mime(pathinfo($path, PATHINFO_EXTENSION)))
 					  						  		   ->header('Content-Disposition', 'attachment; filename="'.$name.'"')

@@ -10,9 +10,6 @@ class File implements \System\Session\Driver {
 	 */
 	public function load($id)
 	{
-		// -----------------------------------------------------
-		// Look for the session on the file system.
-		// -----------------------------------------------------
 		if (file_exists($path = APP_PATH.'sessions/'.$id))
 		{
 			return unserialize(file_get_contents($path));
@@ -51,9 +48,6 @@ class File implements \System\Session\Driver {
 	{
 		foreach (glob(APP_PATH.'sessions/*') as $file)
 		{
-			// -----------------------------------------------------
-			// If the session file has expired, delete it.
-			// -----------------------------------------------------
 			if (filetype($file) == 'file' and filemtime($file) < $expiration)
 			{
 				@unlink($file);

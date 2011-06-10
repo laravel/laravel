@@ -17,9 +17,6 @@ class DB {
 	 */
 	public static function connection($connection = null)
 	{
-		// ---------------------------------------------------
-		// If no connection was given, use the default.
-		// ---------------------------------------------------
 		if (is_null($connection))
 		{
 			$connection = Config::get('db.default');
@@ -31,14 +28,8 @@ class DB {
 		// ---------------------------------------------------
 		if ( ! array_key_exists($connection, static::$connections))
 		{
-			// ---------------------------------------------------
-			// Get the database configurations.
-			// ---------------------------------------------------
 			$config = Config::get('db.connections');
 
-			// ---------------------------------------------------
-			// Verify the connection has been defined.
-			// ---------------------------------------------------
 			if ( ! array_key_exists($connection, $config))
 			{
 				throw new \Exception("Database connection [$connection] is not defined.");
@@ -63,14 +54,8 @@ class DB {
 	 */
 	public static function query($sql, $bindings = array(), $connection = null)
 	{
-		// ---------------------------------------------------
-		// Create a new PDO statement from the SQL.
-		// ---------------------------------------------------
 		$query = static::connection($connection)->prepare($sql);
 
-		// ---------------------------------------------------
-		// Execute the query with the bindings.
-		// ---------------------------------------------------
 		$result = $query->execute($bindings);
 
 		// ---------------------------------------------------

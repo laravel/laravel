@@ -66,9 +66,6 @@ class Route {
 			}
 		}
 
-		// --------------------------------------------------------------
-		// Make sure the response is a Response instance.
-		// --------------------------------------------------------------
 		$response = ( ! $response instanceof Response) ? new Response($response) : $response;
 
 		// --------------------------------------------------------------
