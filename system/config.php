@@ -31,7 +31,7 @@ class Config {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public static function set($file, $value)
+	public static function set($key, $value)
 	{
 		list($file, $key) = static::parse($key);
 
