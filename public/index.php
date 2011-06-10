@@ -27,9 +27,10 @@ define('BASE_PATH', realpath('../').'/');
 define('EXT', '.php');
 
 // --------------------------------------------------------------
-// Load the configuration and string classes.
+// Load the configuration, error, and string classes.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
+require SYS_PATH.'error'.EXT;
 require SYS_PATH.'str'.EXT;
 
 // --------------------------------------------------------------
@@ -46,11 +47,6 @@ System\Benchmark::$marks['laravel'] = LARAVEL_START;
 // Set the error reporting level.
 // --------------------------------------------------------------
 error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
-
-// --------------------------------------------------------------
-// Ensure Error class loads before any errors fire.
-// --------------------------------------------------------------
-class_exists('System\Error');
 
 // --------------------------------------------------------------
 // Register the error handlers.
