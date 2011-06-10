@@ -48,6 +48,11 @@ System\Benchmark::$marks['laravel'] = LARAVEL_START;
 error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
 
 // --------------------------------------------------------------
+// Ensure Error class loads before any errors fire.
+// --------------------------------------------------------------
+class_exists('System\Error');
+
+// --------------------------------------------------------------
 // Register the error handlers.
 // --------------------------------------------------------------
 set_exception_handler(function($e)
