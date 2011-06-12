@@ -17,13 +17,6 @@ class View {
 	public $data = array();
 
 	/**
-	 * The content of the view.
-	 *
-	 * @var string
-	 */
-	public $content = '';
-
-	/**
 	 * The name of last rendered view.
 	 *
 	 * @var string
@@ -41,7 +34,6 @@ class View {
 	{
 		$this->view = $view;
 		$this->data = $data;
-		$this->content = $this->load($view);
 	}
 
 	/**
@@ -115,7 +107,7 @@ class View {
 
 		ob_start();
 
-		echo eval('?>'.$this->content);
+		echo eval('?>'.$this->load($this->view));
 
 		return ob_get_clean();
 	}
