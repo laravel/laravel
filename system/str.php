@@ -2,13 +2,6 @@
 
 class Str {
 
-    /**
-     * The default encoding.
-     *
-     * @var string
-     */
-    private static $encoding = 'UTF-8';
-
 	/**
 	 * Convert HTML characters to entities.
 	 *
@@ -17,7 +10,7 @@ class Str {
 	 */
 	public static function entities($value)
 	{
-        return htmlentities($value, ENT_QUOTES, static::$encoding, false);
+        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
     /**
@@ -28,7 +21,7 @@ class Str {
      */
     public static function lower($value)
     {
-        return function_exists('mb_strtolower') ? mb_strtolower($value, static::$encoding) : strtolower($value);
+        return function_exists('mb_strtolower') ? mb_strtolower($value, Config::get('application.encoding')) : strtolower($value);
     }
 
     /**
@@ -39,7 +32,7 @@ class Str {
      */
     public static function upper($value)
     {
-        return function_exists('mb_strtoupper') ? mb_strtoupper($value, static::$encoding) : strtoupper($value);
+        return function_exists('mb_strtoupper') ? mb_strtoupper($value, Config::get('application.encoding')) : strtoupper($value);
     }
 
     /**
@@ -50,7 +43,7 @@ class Str {
      */
     public static function title($value)
     {
-        return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, static::$encoding) : ucwords(strtolower($value));
+        return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding')) : ucwords(strtolower($value));
     }
 
     /**

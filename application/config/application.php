@@ -31,6 +31,18 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Application Character Encoding
+	|--------------------------------------------------------------------------
+	|
+	| This default character encoding used by your application. This is the
+	| character encoding that will be used by the Str, Text, and Form classes.
+	|
+	*/
+
+	'encoding' => 'UTF-8',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Timezone
 	|--------------------------------------------------------------------------
 	|

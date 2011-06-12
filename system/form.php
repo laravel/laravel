@@ -22,12 +22,12 @@ class Form {
 
 		$action = URL::to($action);
 
-		$attributes['action'] = $action;
+		$attributes['action'] = HTML::entities($action);
 		$attributes['method'] = ($method == 'GET' or $method == 'POST') ? $method : 'POST';
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
-			$attributes['accept-charset'] = 'UTF-8';			
+			$attributes['accept-charset'] = Config::get('application.encoding');			
 		}
 
 		$html = '<form'.HTML::attributes($attributes).'>';
@@ -142,7 +142,7 @@ class Form {
 	 */
 	public static function button($value, $attributes = array())
 	{
-		return '<button'.HTML::attributes($attributes).'>'.$value.'</button>'.PHP_EOL;
+		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Form {
 			$attributes['cols'] = 50;
 		}
 
-		return '<textarea'.HTML::attributes($attributes).'>'.Str::entities($value).'</textarea>'.PHP_EOL;
+		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
 	}
 
 	/**
@@ -243,10 +243,10 @@ class Form {
 		{
 			$option_attributes = array();
 
-			$option_attributes['value'] = $value;
+			$option_attributes['value'] = HTML::entities($value);
 			$option_attributes['selected'] = ($value == $selected) ? 'selected' : null;
 
-			$html_options[] = '<option'.HTML::attributes($option_attributes).'>'.$display.'</option>';
+			$html_options[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
 		}
 
 		return '<select'.HTML::attributes($attributes).'>'.implode('', $html_options).'</select>'.PHP_EOL;

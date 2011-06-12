@@ -3,6 +3,17 @@
 class HTML {
 
 	/**
+	 * Convert HTML characters to entities.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function entities($value)
+	{
+        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+	}
+
+	/**
 	 * Generate a JavaScript reference.
 	 *
 	 * @param  string  $url
@@ -10,7 +21,7 @@ class HTML {
 	 */
 	public static function script($url)
 	{
-		return '<script type="text/javascript" src="'.trim(URL::to($url), '.js').'.js"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.trim(static::entities(URL::to($url)), '.js').'.js"></script>'.PHP_EOL;
 	}
 
 	/**
@@ -21,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.trim(URL::to($url), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.trim(static::entities(URL::to($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
 	}
 
 	/**
@@ -35,7 +46,7 @@ class HTML {
 	 */
 	public static function link($url, $title, $attributes = array(), $https = false)
 	{
-		return '<a href="'.URL::to($url, $https).'"'.static::attributes($attributes).'>'.Str::entities($title).'</a>';
+		return '<a href="'.static::entities(URL::to($url, $https)).'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -71,7 +82,7 @@ class HTML {
 			$title = $email;
 		}
 
-		return '<a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email.'"'.static::attributes($attributes).'>'.$title.'</a>';
+		return '<a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -95,8 +106,8 @@ class HTML {
 	 */
 	public static function image($url, $alt = '', $attributes = array())
 	{
-		$attributes['alt'] = Str::entities($alt);
-		return '<img src="'.URL::to($url).'"'.static::attributes($attributes).' />';
+		$attributes['alt'] = static::entities($alt);
+		return '<img src="'.static::entities(URL::to($url)).'"'.static::attributes($attributes).' />';
 	}
 
 	/**
@@ -164,7 +175,7 @@ class HTML {
 
 		foreach ($list as $key => $value)
 		{
-			$html .= '<li>'.Str::entities($value).'</li>';
+			$html .= '<li>'.static::entities($value).'</li>';
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
@@ -184,7 +195,7 @@ class HTML {
 		{
 			if ( ! is_null($value))
 			{
-				$html[] = $key.'="'.Str::entities($value).'"';
+				$html[] = $key.'="'.static::entities($value).'"';
 			}
 		}
 
