@@ -84,6 +84,18 @@ class View {
 	}
 
 	/**
+	 * Merge an array into the view data.
+	 *
+	 * @param  array  $data
+	 * @return View
+	 */
+	public function with($data)
+	{
+		$this->data = array_merge($this->data, $data);
+		return $this;
+	}
+
+	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
