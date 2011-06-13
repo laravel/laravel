@@ -124,22 +124,24 @@ abstract class Eloquent {
 	 * Retrieve the query for a 1:1 relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @return mixed
 	 */
-	public function has_one($model)
+	public function has_one($model, $foreign_key = null)
 	{
-		return Eloquent\Relate::has_one($model, $this);
+		return Eloquent\Relate::has_one($model, $foreign_key, $this);
 	}
 
 	/**
 	 * Retrieve the query for a 1:* relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @return mixed
 	 */
-	public function has_many($model)
+	public function has_many($model, $foreign_key = null)
 	{
-		return Eloquent\Relate::has_many($model, $this);
+		return Eloquent\Relate::has_many($model, $foreign_key, $this);
 	}
 
 	/**

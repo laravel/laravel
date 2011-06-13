@@ -6,38 +6,41 @@ class Relate {
 	 * Retrieve the query for a 1:1 relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @param  object  $eloquent
 	 * @return mixed
 	 */
-	public static function has_one($model, $eloquent)
+	public static function has_one($model, $foreign_key, $eloquent)
 	{
 		$eloquent->relating = __FUNCTION__;
-		return static::has_one_or_many($model, $eloquent);
+		return static::has_one_or_many($model, $foreign_key, $eloquent);
 	}
 
 	/**
 	 * Retrieve the query for a 1:* relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @param  object  $eloquent
 	 * @return mixed
 	 */
-	public static function has_many($model, $eloquent)
+	public static function has_many($model, $foreign_key, $eloquent)
 	{
 		$eloquent->relating = __FUNCTION__;
-		return static::has_one_or_many($model, $eloquent);
+		return static::has_one_or_many($model, $foreign_key, $eloquent);
 	}
 
 	/**
 	 * Retrieve the query for a 1:1 or 1:* relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @param  object  $eloquent
 	 * @return mixed
 	 */
-	private static function has_one_or_many($model, $eloquent)
+	private static function has_one_or_many($model, $foreign_key, $eloquent)
 	{
-		$eloquent->relating_key = \System\Str::lower(get_class($eloquent)).'_id';
+		$eloquent->relating_key = (is_null($foreign_key)) ? \System\Str::lower(get_class($eloquent)).'_id' : $foreign_key;
 		return Factory::make($model)->where($eloquent->relating_key, '=', $eloquent->id);
 	}
 
