@@ -47,7 +47,7 @@ class Warehouse {
 	 */
 	public static function forget($eloquent)
 	{
-		return (\System\DB::table(Meta::table(get_class($eloquent)))->where('id', '=', $eloquent->id)->delete() == 1);
+		return \System\DB::table(Meta::table(get_class($eloquent)))->where('id', '=', $eloquent->id)->delete() == 1;
 	}
 
 	/**
