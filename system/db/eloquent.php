@@ -69,6 +69,46 @@ abstract class Eloquent {
 	public $query;
 
 	/**
+	 * Get the table name for a model.
+	 *
+	 * @param  string  $class
+	 * @return string
+	 */
+	public static function table($class)
+	{
+		// -----------------------------------------------------
+		// Check for a table name override.
+		// -----------------------------------------------------
+		if (property_exists($class, 'table'))
+		{
+			return $class::$table;
+		}
+
+		return \System\Str::lower(\System\Inflector::plural($class));
+	}
+
+	/**
+	 * Factory for creating new Eloquent model instances.
+	 *
+	 * @param  string  $class
+	 * @return object
+	 */
+	public static function make($class)
+	{
+		// -----------------------------------------------------
+		// Instantiate the Eloquent model.
+		// -----------------------------------------------------
+		$model = new $class;
+		
+		// -----------------------------------------------------
+		// Set the fluent query builder on the model.
+		// -----------------------------------------------------
+		$model->query = Query::table(static::table($class));
+
+		return $model;
+	}
+
+	/**
 	 * Create a new model instance and set the relationships
 	 * that should be eagerly loaded.
 	 *
@@ -76,7 +116,14 @@ abstract class Eloquent {
 	 */
 	public static function with()
 	{
-		$model = Eloquent\Factory::make(get_called_class());
+		// -----------------------------------------------------
+		// Create a new model instance.
+		// -----------------------------------------------------
+		$model = static::make(get_called_class());
+
+		// -----------------------------------------------------
+		// Set the relationships that should be eager loaded.
+		// -----------------------------------------------------
 		$model->includes = func_get_args();
 
 		return $model;
@@ -90,7 +137,7 @@ abstract class Eloquent {
 	 */
 	public static function find($id)
 	{
-		return Eloquent\Factory::make(get_called_class())->where('id', '=', $id)->first();
+		return static::make(get_called_class())->where('id', '=', $id)->first();
 	}
 
 	/**
@@ -100,7 +147,7 @@ abstract class Eloquent {
 	 */
 	private function _get()
 	{
-		return Eloquent\Hydrate::from($this);
+		return Eloquent\Hydrator::hydrate($this);
 	}
 
 	/**
@@ -110,14 +157,7 @@ abstract class Eloquent {
 	 */
 	private function _first()
 	{
-		$results = Eloquent\Hydrate::from($this->take(1));
-
-		if (count($results) > 0)
-		{
-			reset($results);
-
-			return current($results);
-		}
+		return (count($results = Eloquent\Hydrator::hydrate($this->take(1))) > 0) ? reset($results) : null;
 	}
 
 	/**
@@ -129,7 +169,8 @@ abstract class Eloquent {
 	 */
 	public function has_one($model, $foreign_key = null)
 	{
-		return Eloquent\Relate::has_one($model, $foreign_key, $this);
+		$this->relating = __FUNCTION__;
+		return $this->has_one_or_many($model, $foreign_key);
 	}
 
 	/**
@@ -141,23 +182,65 @@ abstract class Eloquent {
 	 */
 	public function has_many($model, $foreign_key = null)
 	{
-		return Eloquent\Relate::has_many($model, $foreign_key, $this);
+		$this->relating = __FUNCTION__;
+		return $this->has_one_or_many($model, $foreign_key);
+	}
+
+	/**
+	 * Retrieve the query for a 1:1 or 1:* relationship.
+	 *
+	 * @param  string  $model
+	 * @param  string  $foreign_key
+	 * @return mixed
+	 */
+	private function has_one_or_many($model, $foreign_key)
+	{
+		// -----------------------------------------------------
+		// Determine the foreign key for the relationship.
+		//
+		// The foreign key is typically the name of the related
+		// model with an appeneded _id.
+		// -----------------------------------------------------
+		$this->relating_key = (is_null($foreign_key)) ? \System\Str::lower(get_class($this)).'_id' : $foreign_key;
+
+		return static::make($model)->where($this->relating_key, '=', $this->id);
 	}
 
 	/**
 	 * Retrieve the query for a 1:1 belonging relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $foreign_key
 	 * @return mixed
 	 */
-	public function belongs_to($model)
+	public function belongs_to($model, $foreign_key = null)
 	{
-		// -----------------------------------------------------
-		// Get the calling function name.
-		// -----------------------------------------------------
-		list(, $caller) = debug_backtrace(false);
+		$this->relating = __FUNCTION__;
 
-		return Eloquent\Relate::belongs_to($caller, $model, $this);
+		// -----------------------------------------------------
+		// Determine the foreign key of the relationship.
+		// -----------------------------------------------------
+		if ( ! is_null($foreign_key))
+		{
+			$this->relating_key = $foreign_key;
+		}
+		else
+		{
+			// -----------------------------------------------------
+			// Get the calling function name.
+			// -----------------------------------------------------
+			list(, $caller) = debug_backtrace(false);
+
+			// -----------------------------------------------------
+			// Determine the foreign key for the relationship.
+			//
+			// The foreign key for belonging relationships is the
+			// name of the relationship method with an appended _id.
+			// -----------------------------------------------------
+			$this->relating_key = $caller['function'].'_id';
+		}
+
+		return static::make($model)->where('id', '=', $this->attributes[$this->relating_key]);
 	}
 
 	/**
@@ -167,9 +250,39 @@ abstract class Eloquent {
 	 * @param  string  $table
 	 * @return mixed
 	 */
-	public function has_many_and_belongs_to($model, $table = null)
+	public function has_and_belongs_to_many($model, $table = null)
 	{
-		return Eloquent\Relate::has_many_and_belongs_to($model, $table, $this);
+		$this->relating = __FUNCTION__;
+
+		// -----------------------------------------------------
+		// Determine the intermediate table name.
+		// -----------------------------------------------------
+		if ( ! is_null($table))
+		{
+			$this->relating_table = $table;
+		}
+		else
+		{
+			// -----------------------------------------------------
+			// By default, the intermediate table name is the plural
+			// names of the models arranged alphabetically and
+			// concatenated with an underscore.
+			// -----------------------------------------------------
+			$models = array(\System\Inflector::plural($model), \System\Inflector::plural(get_class($this)));
+			sort($models);
+
+			$this->relating_table = \System\Str::lower($models[0].'_'.$models[1]);
+		}
+
+		// -----------------------------------------------------
+		// Determine the foreign key for the relationship.
+		// -----------------------------------------------------
+		$this->relating_key = $this->relating_table.'.'.\System\Str::lower(get_class($this)).'_id';
+
+		return static::make($model)
+						->select(static::table($model).'.*')
+						->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.\System\Str::lower($model).'_id')
+						->where($this->relating_key, '=', $this->id);
 	}
 
 	/**
@@ -188,7 +301,43 @@ abstract class Eloquent {
 			return true;
 		}
 
-		$result = Eloquent\Warehouse::put($this);
+		// -----------------------------------------------------
+		// Get the class name of the Eloquent model.
+		// -----------------------------------------------------
+		$model = get_class($this);
+
+		// -----------------------------------------------------
+		// Get a fresh query instance for the model.
+		// -----------------------------------------------------
+		$this->query = Query::table(static::table($model));
+
+		// -----------------------------------------------------
+		// Set the creation and update timestamps.
+		// -----------------------------------------------------
+		if (property_exists($model, 'timestamps') and $model::$timestamps)
+		{
+			$this->updated_at = date('Y-m-d H:i:s');
+
+			if ( ! $this->exists)
+			{
+				$this->created_at = $this->updated_at;
+			}
+		}
+
+		// -----------------------------------------------------
+		// If the model already exists in the database, we only
+		// need to update it. Otherwise, we'll insert it.
+		// -----------------------------------------------------
+		if ($this->exists)
+		{
+			$result = $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
+		}
+		else
+		{
+			$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
+
+			$result = $this->exists = is_numeric($this->id);
+		}		
 
 		// -----------------------------------------------------
 		// The dirty attributes can be cleared after each save.
@@ -209,7 +358,7 @@ abstract class Eloquent {
 		// -----------------------------------------------------
 		if ($this->exists)
 		{
-			return Eloquent\Warehouse::forget($this);
+			return Query::table(static::table(get_class($this)))->delete($this->id) == 1;
 		}
 
 		return $this->query->delete($id);
@@ -252,12 +401,15 @@ abstract class Eloquent {
 	public function __set($key, $value)
 	{
 		// -----------------------------------------------------
-		// Is the key actually a relationship?
+		// If the key is a relationship, add it to the ignored.
 		// -----------------------------------------------------
 		if (method_exists($this, $key))
 		{
 			$this->ignore[$key] = $value;
 		}
+		// -----------------------------------------------------
+		// Set the attribute and add it to the dirty array.
+		// -----------------------------------------------------
 		else
 		{
 			$this->attributes[$key] = $value;
@@ -288,11 +440,17 @@ abstract class Eloquent {
 	 */
 	public function __call($method, $parameters)
 	{
+		// -----------------------------------------------------
+		// Retrieve an array of models.
+		// -----------------------------------------------------
 		if ($method == 'get')
 		{
 			return $this->_get();
 		}
 
+		// -----------------------------------------------------
+		// Retrieve the first model result.
+		// -----------------------------------------------------
 		if ($method == 'first')
 		{
 			return $this->_first();
@@ -320,13 +478,19 @@ abstract class Eloquent {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		$model = Eloquent\Factory::make(get_called_class());
+		$model = static::make(get_called_class());
 
+		// -----------------------------------------------------
+		// Retrieve the entire table of models.
+		// -----------------------------------------------------
 		if ($method == 'get')
 		{
 			return $model->_get();
 		}
 
+		// -----------------------------------------------------
+		// Retrieve the first model result.
+		// -----------------------------------------------------
 		if ($method == 'first')
 		{
 			return $model->_first();

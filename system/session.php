@@ -23,6 +23,9 @@ class Session {
 	 */
 	public static function driver()
 	{
+		// -----------------------------------------------------
+		// Create the session driver if we haven't already.
+		// -----------------------------------------------------
 		if (is_null(static::$driver))
 		{
 			static::$driver = Session\Factory::make(Config::get('session.driver'));
@@ -110,21 +113,6 @@ class Session {
 	}
 
 	/**
-	 * Get an item from the session and delete it.
-	 *
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public static function once($key, $default = null)
-	{
-		$value = static::get($key, $default);
-
-		static::forget($key);
-
-		return $value;
-	}
-
-	/**
 	 * Write an item to the session.
 	 *
 	 * @param  string  $key
@@ -187,9 +175,19 @@ class Session {
 	 */
 	public static function close()
 	{
+		// -----------------------------------------------------
+		// Flash the old input data to the session.
+		// -----------------------------------------------------
 		static::flash('laravel_old_input', Input::get());			
+
+		// -----------------------------------------------------
+		// Age the flash data.
+		// -----------------------------------------------------
 		static::age_flash();
 
+		// -----------------------------------------------------
+		// Save the session data to storage.
+		// -----------------------------------------------------
 		static::driver()->save(static::$session);
 
 		// -----------------------------------------------------

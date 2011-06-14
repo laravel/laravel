@@ -48,6 +48,9 @@ class Crypt {
 			mt_srand();
 		}
 
+		// -----------------------------------------------------
+		// Create the Mcrypt input vector and encrypt the value.
+		// -----------------------------------------------------
 		$iv = mcrypt_create_iv(static::iv_size(), $random);
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 

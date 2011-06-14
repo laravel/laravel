@@ -10,13 +10,6 @@ class Router {
 	public static $routes;
 
 	/**
-	 * The named routes that have been found so far.
-	 *
-	 * @var array
-	 */
-	public static $names = array();
-
-	/**
 	 * Search a set of routes for the route matching a method and URI.
 	 *
 	 * @param  string  $method
@@ -35,7 +28,7 @@ class Router {
 		// --------------------------------------------------------------
 		if (is_null(static::$routes))
 		{
-			static::$routes = static::routes($uri);
+			static::$routes = Route\Loader::load($uri);
 		}
 
 		// --------------------------------------------------------------
@@ -59,117 +52,17 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $route)
 				{
+					// --------------------------------------------------------------
+					// Convert the route wild-cards to regular expressions.
+					// --------------------------------------------------------------
 					$route = str_replace(':num', '[0-9]+', str_replace(':any', '.+', $route));
 
 					if (preg_match('#^'.$route.'$#', $method.' '.$uri))
 					{
-						return new Route($callback, static::parameters(explode('/', $uri), explode('/', $route)));
+						return new Route($callback, Route\Parser::parameters($uri, $route));
 					}
 				}				
 			}
-		}
-	}
-
-	/**
-	 * Find a route by name.
-	 *
-	 * @param  string  $name
-	 * @return array
-	 */
-	public static function find($name)
-	{
-		// --------------------------------------------------------------
-		// Have we already located this route by name?
-		// --------------------------------------------------------------
-		if (array_key_exists($name, static::$names))
-		{
-			return static::$names[$name];
-		}
-
-		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
-		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
-
-		// --------------------------------------------------------------
-		// Find the named route.
-		// --------------------------------------------------------------
-		foreach ($recursiveIterator as $iterator)
-		{
-			$route = $recursiveIterator->getSubIterator();
-
-			if ($route['name'] == $name)
-			{
-				return static::$names[$name] = array($arrayIterator->key() => iterator_to_array($route));
-			}
-		}
-	}
-
-	/**
-	 * Get the parameters that should be passed to the route callback.
-	 *
-	 * @param  array  $uri_segments
-	 * @param  array  $route_segments
-	 * @return array
-	 */
-	private static function parameters($uri_segments, $route_segments)
-	{
-		$parameters = array();
-
-		for ($i = 0; $i < count($route_segments); $i++)
-		{
-			// --------------------------------------------------------------
-			// Any segment wrapped in parentheses is a parameter.
-			// --------------------------------------------------------------
-			if (strpos($route_segments[$i], '(') === 0)
-			{
-				$parameters[] = $uri_segments[$i];
-			}
-		}
-
-		return $parameters;		
-	}
-
-	/**
-	 * Load the routes based on the request URI.
-	 *
-	 * @param  string  $uri
-	 * @return void
-	 */
-	private static function routes($uri)
-	{
-		// --------------------------------------------------------------
-		// If a route directory is being used, load the route file
-		// corresponding to the first segment of the URI.
-		// --------------------------------------------------------------
-		if (is_dir(APP_PATH.'routes'))
-		{
-			if ($uri == '/')
-			{
-				if ( ! file_exists(APP_PATH.'routes/home'.EXT))
-				{
-					throw new \Exception("A [home] route file is required when using a route directory.");					
-				}
-
-				return require APP_PATH.'routes/home'.EXT;
-			}
-			else
-			{
-				$segments = explode('/', trim($uri, '/'));
-
-				if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
-				{
-					throw new \Exception("No route file defined for routes beginning with [".$segments[0]."]");
-				}
-
-				return require APP_PATH.'routes/'.$segments[0].EXT;
-			}
-		}
-		// --------------------------------------------------------------
-		// If no route directory is being used, we can simply load the
-		// routes file from the application directory.
-		// --------------------------------------------------------------
-		else
-		{
-			return require APP_PATH.'routes'.EXT;
 		}
 	}
 

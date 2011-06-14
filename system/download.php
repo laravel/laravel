@@ -109,6 +109,9 @@ class Download {
 	 */
 	public static function file($path, $name = null)
 	{
+		// -----------------------------------------------------
+		// If no filename was given, use the path basename.
+		// -----------------------------------------------------
 		if (is_null($name))
 		{
 			$name = basename($path);

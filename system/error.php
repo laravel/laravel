@@ -72,13 +72,13 @@ class Error {
 
 		if (Config::get('error.detail'))
 		{
-			$view = View::make('error/exception')
-											->bind('severity', $severity)
-											->bind('message', $message)
-											->bind('file', $file)
-											->bind('line', $e->getLine())
-											->bind('trace', $e->getTraceAsString())
-											->bind('contexts', static::context($file, $e->getLine()));
+			$view = View::make('exception')
+									->bind('severity', $severity)
+									->bind('message', $message)
+									->bind('file', $file)
+									->bind('line', $e->getLine())
+									->bind('trace', $e->getTraceAsString())
+									->bind('contexts', static::context($file, $e->getLine()));
 			
 			Response::make($view, 500)->send();
 		}

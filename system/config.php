@@ -17,8 +17,14 @@ class Config {
 	 */
 	public static function get($key)
 	{
+		// -----------------------------------------------------
+		// Parse the key to separate the file and key name.
+		// -----------------------------------------------------
 		list($file, $key) = static::parse($key);
 
+		// -----------------------------------------------------
+		// Load the appropriate configuration file.
+		// -----------------------------------------------------
 		static::load($file);
 
 		return (array_key_exists($key, static::$items[$file])) ? static::$items[$file][$key] : null;
@@ -33,8 +39,14 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
+		// -----------------------------------------------------
+		// Parse the key to separate the file and key name.
+		// -----------------------------------------------------
 		list($file, $key) = static::parse($key);
 
+		// -----------------------------------------------------
+		// Load the appropriate configuration file.
+		// -----------------------------------------------------
 		static::load($file);
 
 		static::$items[$file][$key] = $value;
@@ -55,6 +67,11 @@ class Config {
 			throw new \Exception("Invalid configuration key [$key].");
 		}
 
+		// -----------------------------------------------------
+		// The left side of the dot is the file name, while
+		// the right side of the dot is the item within that
+		// file being requested.
+		// -----------------------------------------------------
 		return array($segments[0], implode('.', array_slice($segments, 1)));
 	}
 
@@ -66,6 +83,9 @@ class Config {
 	 */
 	public static function load($file)
 	{
+		// -----------------------------------------------------
+		// If we have already loaded the file, bail out.
+		// -----------------------------------------------------
 		if (array_key_exists($file, static::$items))
 		{
 			return;

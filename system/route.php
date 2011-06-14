@@ -55,7 +55,7 @@ class Route {
 			// --------------------------------------------------------------
 			// Call the "before" route filters.
 			// --------------------------------------------------------------
-			$response = isset($this->route['before']) ? Filter::call($this->route['before']) : null;
+			$response = isset($this->route['before']) ? Filter::call($this->route['before'], array(), true) : null;
 
 			// --------------------------------------------------------------
 			// Call the route callback.
@@ -66,7 +66,7 @@ class Route {
 			}
 		}
 
-		$response = ( ! $response instanceof Response) ? new Response($response) : $response;
+		$response = Response::prepare($response);
 
 		// --------------------------------------------------------------
 		// Call the "after" route filters.

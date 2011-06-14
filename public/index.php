@@ -85,7 +85,7 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 // Execute the global "before" filter.
 // --------------------------------------------------------------
-$response = System\Filter::call('before');
+$response = System\Filter::call('before', array(), true);
 
 // --------------------------------------------------------------
 // Only execute the route function if the "before" filter did
@@ -107,12 +107,12 @@ if (is_null($response))
 	}
 	else
 	{
-		$response = System\Response::view('error/404', 404);
+		$response = System\Response::make(View::make('error/404'), 404);
 	}
 }
 else
 {
-	$response = ( ! $response instanceof System\Response) ? new System\Response($response) : $response;
+	$response = System\Response::prepare($response);
 }
 
 // ----------------------------------------------------------

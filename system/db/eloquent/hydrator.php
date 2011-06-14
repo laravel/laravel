@@ -1,6 +1,6 @@
 <?php namespace System\DB\Eloquent;
 
-class Hydrate {
+class Hydrator {
 
 	/**
 	 * Load the array of hydrated models.
@@ -8,7 +8,7 @@ class Hydrate {
 	 * @param  object  $eloquent
 	 * @return array
 	 */
-	public static function from($eloquent)
+	public static function hydrate($eloquent)
 	{
 		// -----------------------------------------------------
 		// Load the base models.
@@ -38,27 +38,30 @@ class Hydrate {
 	 * Hydrate the base models for a query.
 	 *
 	 * @param  string  $class
-	 * @param  array   $models
+	 * @param  array   $results
 	 * @return array
 	 */
-	private static function base($class, $models)
+	private static function base($class, $results)
 	{
-		$results = array();
+		$models = array();
 
-		foreach ($models as $model)
+		foreach ($results as $result)
 		{
-			$result = new $class;
+			$model = new $class;
 
-			$result->attributes = (array) $model;
-			$result->exists = true;
+			// -----------------------------------------------------
+			// Set the attributes and existence flag on the model.
+			// -----------------------------------------------------
+			$model->attributes = (array) $result;
+			$model->exists = true;
 
 			// -----------------------------------------------------
 			// The results are keyed by the ID on the record.
 			// -----------------------------------------------------
-			$results[$result->id] = $result;
+			$models[$model->id] = $model;
 		}
 
-		return $results;
+		return $models;
 	}
 
 	/**
@@ -97,6 +100,9 @@ class Hydrate {
 			$result->ignore[$include] = (strpos($eloquent->relating, 'has_many') === 0) ? array() : null;
 		}
 
+		// -----------------------------------------------------
+		// Eagerly load the relationship.
+		// -----------------------------------------------------
 		if ($eloquent->relating == 'has_one' or $eloquent->relating == 'has_many')
 		{
 			static::eagerly_load_one_or_many($eloquent->relating_key, $eloquent->relating, $include, $model, $results);
@@ -203,7 +209,9 @@ class Hydrate {
 		// We also add the foreign key to the select which will allow us
 		// to match the models back to their parents.
 		// -----------------------------------------------------
-		$inclusions = $model->query->where_in($relating_key, array_keys($results))->get(Meta::table(get_class($model)).'.*', $relating_table.'.'.$foreign_key);
+		$inclusions = $model->query
+								->where_in($relating_key, array_keys($results))
+								->get(\System\DB\Eloquent::table(get_class($model)).'.*', $relating_table.'.'.$foreign_key);
 
 		// -----------------------------------------------------
 		// Get the class name of the related model.
@@ -217,6 +225,9 @@ class Hydrate {
 		{
 			$related = new $class;
 
+			// -----------------------------------------------------
+			// Set the attributes and existence flag on the model.
+			// -----------------------------------------------------
 			$related->exists = true;
 			$related->attributes = (array) $inclusion;
 

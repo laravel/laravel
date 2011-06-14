@@ -56,10 +56,16 @@ class View {
 	 */
 	private function load($view)
 	{
+		// -----------------------------------------------------
+		// Does the view exist in the application directory?
+		// -----------------------------------------------------
 		if (file_exists($path = APP_PATH.'views/'.$view.EXT))
 		{
 			return file_get_contents($path);
 		}
+		// -----------------------------------------------------
+		// Does the view exist in the system directory?
+		// -----------------------------------------------------
 		elseif (file_exists($path = SYS_PATH.'views/'.$view.EXT))
 		{
 			return file_get_contents($path);
@@ -90,6 +96,9 @@ class View {
 	 */
 	public function get()
 	{
+		// -----------------------------------------------------
+		// Set the last rendered view name to the current view.
+		// -----------------------------------------------------
 		static::$last = $this->view;
 
 		// -----------------------------------------------------
@@ -103,8 +112,14 @@ class View {
 			}
 		}
 
+		// -----------------------------------------------------
+		// Extract the view data into the local scope.
+		// -----------------------------------------------------
 		extract($this->data, EXTR_SKIP);
 
+		// -----------------------------------------------------
+		// Get the string content of the view.
+		// -----------------------------------------------------
 		ob_start();
 
 		echo eval('?>'.$this->load($this->view));

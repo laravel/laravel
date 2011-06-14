@@ -16,44 +16,43 @@ class Request {
 	 */
 	public static function uri()
 	{
+		// -------------------------------------------------------
+		// If we have already determined the URI, return it.
+		// -------------------------------------------------------
 		if ( ! is_null(static::$uri))
 		{
 			return static::$uri;
 		}
 
+		// -------------------------------------------------------
+		// If the PATH_INFO is available, use it.
+		// -------------------------------------------------------
 		if (isset($_SERVER['PATH_INFO']))
 		{
-			return static::$uri = static::tidy($_SERVER['PATH_INFO']);
+			$uri = $_SERVER['PATH_INFO'];
 		}
-
-		if ( ! isset($_SERVER['REQUEST_URI']))
+		// -------------------------------------------------------
+		// No PATH_INFO? Let's try REQUEST_URI.
+		// -------------------------------------------------------
+		elseif (isset($_SERVER['REQUEST_URI']))
 		{
-			throw new \Exception('Unable to determine the request URI.');			
+			$uri = str_replace('/index.php', '', $_SERVER['REQUEST_URI']);
 		}
-
-		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-		// --------------------------------------------------------------
-		// Slice the application URL off of the URI.
-		// --------------------------------------------------------------
-		if (strpos($uri, $base_url = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		// -------------------------------------------------------
+		// Neither PATH_INFO or REQUEST_URI are available.
+		// -------------------------------------------------------
+		else
 		{
-			$uri = substr($uri, strlen($base_url));
+			throw new \Exception('Unable to determine the request URI.');
 		}
 
-		return static::$uri = static::tidy($uri);
-	}
+		$uri = trim($uri, '/');
 
-	/**
-	 * Tidy up a URI for use by Laravel. For empty URIs, a forward
-	 * slash will be returned.
-	 *
-	 * @param  string  $uri
-	 * @return string
-	 */
-	private static function tidy($uri)
-	{
-		return ($uri != '/') ? Str::lower(trim($uri, '/')) : '/';
+		// -------------------------------------------------------
+		// If the requests is to the root of the application, we
+		// always return a single forward slash.
+		// -------------------------------------------------------
+		return static::$uri = ($uri == '') ? '/' : Str::lower($uri);
 	}
 
 	/**
@@ -64,8 +63,8 @@ class Request {
 	public static function method()
 	{
 		// --------------------------------------------------------------
-		// The method can be spoofed using a POST variable. This allows 
-		// HTML forms to simulate PUT and DELETE methods.
+		// The method can be spoofed using a POST variable, allowing HTML
+		// forms to simulate PUT and DELETE requests.
 		// --------------------------------------------------------------
 		return (isset($_POST['request_method'])) ? $_POST['request_method'] : $_SERVER['REQUEST_METHOD'];
 	}

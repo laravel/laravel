@@ -25,7 +25,14 @@ class Hash {
 	 */
 	public function __construct($value, $salt = null)
 	{
+		// -------------------------------------------------------
+		// If no salt is given, we'll create a random salt to
+		// use when hashing the password.
+		//
+		// Otherwise, we will use the given salt.
+		// -------------------------------------------------------
 		$this->salt = (is_null($salt)) ? Str::random(16) : $salt;
+
 		$this->value = sha1($value.$this->salt);
 	}
 

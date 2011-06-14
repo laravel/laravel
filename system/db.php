@@ -65,7 +65,7 @@ class DB {
 		// For UPDATE and DELETE statements, return the number
 		// or rows affected by the query.
 		//
-		// For INSERT statements, return a boolean.
+		// For everything else, return a boolean.
 		// ---------------------------------------------------
 		if (strpos(Str::upper($sql), 'SELECT') === 0)
 		{

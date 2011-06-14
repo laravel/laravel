@@ -3,6 +3,24 @@
 class Redirect {
 
 	/**
+	 * The redirect response.
+	 *
+	 * @var Response
+	 */
+	public $response;
+
+	/**
+	 * Create a new redirect instance.
+	 *
+	 * @param  Response  $response
+	 * @return void
+	 */
+	public function __construct($response)
+	{
+		$this->response = $response;
+	}
+
+	/**
 	 * Create a redirect response.
 	 *
 	 * @param  string    $url
@@ -16,8 +34,29 @@ class Redirect {
 		$url = URL::to($url, $https);
 
 		return ($method == 'refresh')
-							? Response::make('', $status)->header('Refresh', '0;url='.$url)
-							: Response::make('', $status)->header('Location', $url);
+							? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
+							: new static(Response::make('', $status)->header('Location', $url));
+	}
+
+	/**
+	 * Add an item to the session flash data.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return Response
+	 */
+	public function with($key, $value)
+	{
+		// ----------------------------------------------------
+		// Since this method uses sessions, make sure a driver
+		// has been specified in the configuration file.
+		// ----------------------------------------------------
+		if (Config::get('session.driver') != '')
+		{
+			Session::flash($key, $value);
+		}
+
+		return $this;
 	}
 
 	/**

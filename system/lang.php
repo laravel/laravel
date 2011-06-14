@@ -65,8 +65,14 @@ class Lang {
 			$language = Config::get('application.language');
 		}
 
+		// -----------------------------------------------------
+		// Parse the key to separate the file and key name.
+		// -----------------------------------------------------
 		list($file, $line) = $this->parse($this->key);
 
+		// -----------------------------------------------------
+		// Load the appropriate language file.
+		// -----------------------------------------------------
 		$this->load($file, $language);
 
 		// --------------------------------------------------------------
@@ -107,6 +113,10 @@ class Lang {
 			throw new \Exception("Invalid language key [$key].");
 		}
 
+		// --------------------------------------------------------------
+		// The left side of the dot is the file name, while the right
+		// side of the dot is the item within that file being requested.
+		// --------------------------------------------------------------
 		return array($segments[0], implode('.', array_slice($segments, 1)));
 	}
 
@@ -119,6 +129,9 @@ class Lang {
 	 */
 	private function load($file, $language)
 	{
+		// --------------------------------------------------------------
+		// If we have already loaded the language file, bail out.
+		// --------------------------------------------------------------
 		if (in_array($language.$file, static::$loaded))
 		{
 			return;

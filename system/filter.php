@@ -14,15 +14,22 @@ class Filter {
 	 *
 	 * @param  string  $filter
 	 * @param  array   $parameters
+	 * @param  bool    $override
 	 * @return mixed
 	 */
-	public static function call($filters, $parameters = array())
+	public static function call($filters, $parameters = array(), $override = false)
 	{
+		// --------------------------------------------------------------
+		// Load the filters if necessary.
+		// --------------------------------------------------------------
 		if (is_null(static::$filters))
 		{
 			static::$filters = require APP_PATH.'filters'.EXT;
 		}
 
+		// --------------------------------------------------------------
+		// Filters can be comma-delimited, so spin through each one.
+		// --------------------------------------------------------------
 		foreach (explode(', ', $filters) as $filter)
 		{
 			if ( ! isset(static::$filters[$filter]))
@@ -33,10 +40,13 @@ class Filter {
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
 			// --------------------------------------------------------------
-			// If the filter returned a response, return it since route
-			// filters can override route methods.
+			// If overriding is set to true and the filter returned a
+			// response, return that response. 
+			//
+			// Overriding allows for convenient halting of the request
+			// flow for things like authentication, CSRF protection, etc.
 			// --------------------------------------------------------------
-			if ( ! is_null($response))
+			if ( ! is_null($response) and $override)
 			{
 				return $response;
 			}

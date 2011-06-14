@@ -35,7 +35,7 @@ return array(
 
 	'csrf' => function()
 	{
-		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::view('error/500', 500) : null;
+		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::make(View::make('error/500'), 500) : null;
 	},
 
 );

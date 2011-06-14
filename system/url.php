@@ -52,13 +52,13 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = Router::find($name)))
+		if ( ! is_null($route = Route\Finder::find($name)))
 		{
-			$uris = explode(', ', key($route));
-
 			// ----------------------------------------------------
 			// Get the first URI assigned to the route.
 			// ----------------------------------------------------
+			$uris = explode(', ', key($route));
+
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// ----------------------------------------------------
@@ -73,6 +73,18 @@ class URL {
 		}
 
 		throw new \Exception("Error generating named route for route [$name]. Route is not defined.");
+	}
+
+	/**
+	 * Generate a HTTPS URL from a route name.
+	 *
+	 * @param  string  $name
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	public static function to_secure_route($name, $parameters = array())
+	{
+		return static::to_route($name, $parameters, true);
 	}
 
 	/**

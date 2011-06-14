@@ -102,15 +102,25 @@ class Response {
 	}
 
 	/**
-	 * Factory for creating new view response instances.
+	 * Take a value returned by a route and prepare a Response instance.
 	 *
-	 * @param  string    $view
-	 * @param  int       $status
+	 * @param  mixed     $response
 	 * @return Response
 	 */
-	public static function view($view, $status = 200)
+	public static function prepare($response)
 	{
-		return static::make(View::make($view), $status);
+		// --------------------------------------------------------------
+		// If the response is a Redirect instance, grab the Response.
+		// --------------------------------------------------------------
+		if ($response instanceof Redirect)
+		{
+			$response = $response->response;
+		}
+
+		// --------------------------------------------------------------
+		// Make sure the response is an instance of the Response class.
+		// --------------------------------------------------------------
+		return ( ! $response instanceof Response) ? new static($response) : $response;
 	}
 
 	/**
@@ -120,6 +130,9 @@ class Response {
 	 */
 	public function send()
 	{
+		// -------------------------------------------------
+		// If a Content-Type header has not been set, do it.
+		// -------------------------------------------------
 		if ( ! array_key_exists('Content-Type', $this->headers))
 		{
 			$this->header('Content-Type', 'text/html; charset=utf-8');
@@ -130,20 +143,39 @@ class Response {
 		// -------------------------------------------------
 		if ( ! headers_sent())
 		{
-			$protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-
-			header($protocol.' '.$this->status.' '.$this->statuses[$this->status]);
-
-			foreach ($this->headers as $name => $value)
-			{	
-				header($name.': '.$value, true);
-			}
+			$this->send_headers();
 		}
 
 		// -------------------------------------------------
 		// Send the content of the response to the browser.
 		// -------------------------------------------------
 		echo (string) $this->content;
+	}
+
+	/**
+	 * Send the response headers to the browser.
+	 *
+	 * @return void
+	 */
+	public function send_headers()
+	{
+		// -------------------------------------------------
+		// Get the proper protocol.
+		// -------------------------------------------------
+		$protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+
+		// -------------------------------------------------
+		// Send the protocol and status header.
+		// -------------------------------------------------
+		header($protocol.' '.$this->status.' '.$this->statuses[$this->status]);
+
+		// -------------------------------------------------
+		// Send the rest of the response headers.
+		// -------------------------------------------------
+		foreach ($this->headers as $name => $value)
+		{	
+			header($name.': '.$value, true);
+		}
 	}
 
 	/**
@@ -160,23 +192,6 @@ class Response {
 	}
 
 	/**
-	 * Add an item to the session flash data.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return Response
-	 */
-	public function with($key, $value)
-	{
-		if (Config::get('session.driver') != '')
-		{
-			Session::flash($key, $value);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Determine if the response is a redirect.
 	 *
 	 * @return bool
@@ -184,60 +199,6 @@ class Response {
 	public function is_redirect()
 	{
 		return $this->status == 301 or $this->status == 302;
-	}
-
-	/**
-	 * Magic Method for getting response View data.
-	 */
-	public function __get($key)
-	{
-		// ------------------------------------------------------
-		// Attempt to get the data from the View.
-		// ------------------------------------------------------
-		if ($this->content instanceof View)
-		{
-			return $this->content->$key;
-		}
-	}
-
-	/**
-	 * Magic Method for setting response View data.
-	 */
-	public function __set($key, $value)
-	{
-		// ------------------------------------------------------
-		// Attempt to set the data on the View.
-		// ------------------------------------------------------
-		if ($this->content instanceof View)
-		{
-			$this->content->bind($key, $value);
-		}
-	}
-
-	/**
-	 * Magic Method for handling dynamic method calls.
-	 */
-	public function __call($method, $parameters)
-	{
-		// ------------------------------------------------------
-		// Attempt to the pass the method to the View instance.
-		// ------------------------------------------------------
-		if ($this->content instanceof View and method_exists($this->content, $method))
-		{
-			call_user_func_array(array($this->content, $method), $parameters);
-
-			return $this;
-		}
-
-		throw new \Exception("Method [$method] does not exist on the Response class.");
-	}
-
-	/**
-	 * Get the content of the response.
-	 */
-	public function __toString()
-	{
-		return (string) $this->content;
 	}
 
 }

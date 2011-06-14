@@ -21,17 +21,6 @@ class Input {
 	}
 
 	/**
-	 * Determine if the old input data contains an item.
-	 *
-	 * @param  string  $key
-	 * @return bool
-	 */
-	public static function has_old($key)
-	{
-		return ( ! is_null(static::old($key)));
-	}
-
-	/**
 	 * Get an item from the input data.
 	 *
 	 * @param  string  $key
@@ -40,8 +29,26 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		static::hydrate();
+        // -----------------------------------------------------
+        // Has the input data been hydrated for the request?
+        // -----------------------------------------------------
+		if (is_null(static::$input))
+		{
+			static::hydrate();
+		}
+
 		return static::from_array(static::$input, $key, $default);
+	}
+
+	/**
+	 * Determine if the old input data contains an item.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function has_old($key)
+	{
+		return ( ! is_null(static::old($key)));
 	}
 
 	/**
@@ -86,39 +93,36 @@ class Input {
 	 */
 	public static function hydrate()
 	{
-		if (is_null(static::$input))
+		switch (Request::method())
 		{
-			switch (Request::method())
-			{
-				case 'GET':
-					static::$input =& $_GET;
-					break;
+			case 'GET':
+				static::$input =& $_GET;
+				break;
 
-				case 'POST':
+			case 'POST':
+				static::$input =& $_POST;
+				break;
+
+			case 'PUT':
+			case 'DELETE':
+				// ----------------------------------------------------------------------
+				// Typically, browsers do not support PUT and DELETE methods on HTML
+				// forms. So, we simulate them using a hidden POST variable.
+				//
+				// If the request method is being "spoofed", we'll move the POST array
+				// into the PUT / DELETE array.
+				// ----------------------------------------------------------------------
+				if (isset($_POST['request_method']) and ($_POST['request_method'] == 'PUT' or $_POST['request_method'] == 'DELETE'))
+				{
 					static::$input =& $_POST;
-					break;
-
-				case 'PUT':
-				case 'DELETE':
-					// ----------------------------------------------------------------------
-					// Typically, browsers do not support PUT and DELETE methods on HTML
-					// forms. So, we simulate them using a hidden POST variable.
-					//
-					// If the request method is being "spoofed", we'll move the POST array
-					// into the PUT / DELETE array.
-					// ----------------------------------------------------------------------
-					if (isset($_POST['request_method']) and ($_POST['request_method'] == 'PUT' or $_POST['request_method'] == 'DELETE'))
-					{
-						static::$input =& $_POST;
-					}
-					// ----------------------------------------------------------------------
-					// If the request is a true PUT request, read the php://input file.
-					// ----------------------------------------------------------------------
-					else
-					{
-						parse_str(file_get_contents('php://input'), static::$input);
-					}
-			}
+				}
+				// ----------------------------------------------------------------------
+				// If the request is a true PUT request, read the php://input file.
+				// ----------------------------------------------------------------------
+				else
+				{
+					parse_str(file_get_contents('php://input'), static::$input);
+				}
 		}
 	}
 

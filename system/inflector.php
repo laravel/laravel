@@ -121,6 +121,9 @@ class Inflector {
 	 */
 	public static function plural($value)
 	{
+        // -----------------------------------------------------
+        // If we have already pluralized this word, return it.
+        // -----------------------------------------------------
         if (array_key_exists($value, static::$plural_cache))
         {
            return static::$plural_cache[$value];
@@ -169,6 +172,9 @@ class Inflector {
 	 */
 	public static function singular($value)
 	{
+        // -----------------------------------------------------
+        // If we have already singularized this word, return it.
+        // -----------------------------------------------------
         if (array_key_exists($value, static::$singular_cache))
         {
            return static::$singular_cache[$value];
