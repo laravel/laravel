@@ -54,6 +54,16 @@ class Form {
 	}
 
 	/**
+	 * Close a HTML form.
+	 *
+	 * @return void
+	 */
+	public static function close()
+	{
+		return '</form>'.PHP_EOL;
+	}
+
+	/**
 	 * Generate a hidden field containing the current CSRF token.
 	 *
 	 * @return string
@@ -294,16 +304,6 @@ class Form {
 		(in_array($name, static::$labels)) ? $attributes['id'] = $name : null;
 
 		return '<input'.HTML::attributes($attributes).' />'.PHP_EOL;
-	}
-
-	/**
-	 * Close a HTML form.
-	 *
-	 * @return void
-	 */
-	public static function close()
-	{
-		return '</form>'.PHP_EOL;
 	}
 
 }
