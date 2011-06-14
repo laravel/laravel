@@ -252,6 +252,16 @@ class Form {
 		return '<select'.HTML::attributes($attributes).'>'.implode('', $html_options).'</select>'.PHP_EOL;
 	}
 
+   /**
+    * Close a HTML form
+    * 
+    * @return string
+    */
+   public static function close()
+   {
+      return '</form>'.PHP_EOL;
+   }
+
 	/**
 	 * Create a HTML input element.
 	 *
