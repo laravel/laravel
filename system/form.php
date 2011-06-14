@@ -259,7 +259,7 @@ class Form {
     */
    public static function close()
    {
-      return '</form>';
+      return '</form>'.PHP_EOL;
    }
 
 	/**
