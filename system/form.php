@@ -3,7 +3,7 @@
 class Form {
 
 	/**
-	 * Stores lables names.
+	 * Stores labels names.
 	 *
 	 * @var array
 	 */
