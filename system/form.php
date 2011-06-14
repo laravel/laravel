@@ -72,6 +72,19 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML label element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */		
+	public static function label($name, $value, $attributes = array())
+	{
+		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
+	}
+
+	/**
 	 * Create a HTML text input element.
 	 *
 	 * @param  string  $name
