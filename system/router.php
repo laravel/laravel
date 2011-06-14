@@ -78,6 +78,9 @@ class Router {
 	 */
 	public static function find($name)
 	{
+		// --------------------------------------------------------------
+		// Have we already located this route by name?
+		// --------------------------------------------------------------
 		if (array_key_exists($name, static::$names))
 		{
 			return static::$names[$name];
@@ -86,6 +89,9 @@ class Router {
 		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
+		// --------------------------------------------------------------
+		// Find the named route.
+		// --------------------------------------------------------------
 		foreach ($recursiveIterator as $iterator)
 		{
 			$route = $recursiveIterator->getSubIterator();
