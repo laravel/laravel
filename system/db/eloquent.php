@@ -178,12 +178,40 @@ abstract class Eloquent {
 	 */
 	public function save()
 	{
+		// -----------------------------------------------------
+		// If the model doesn't have any dirty attributes, there
+		// is no need to save it to the database.
+		// -----------------------------------------------------
 		if ($this->exists and count($this->dirty) == 0)
 		{
 			return true;
 		}
 
-		return Eloquent\Warehouse::store($this);
+		$result = Eloquent\Warehouse::put($this);
+
+		// -----------------------------------------------------
+		// The dirty attributes can be cleared after each save.
+		// -----------------------------------------------------
+		$this->dirty = array();
+
+		return $result;
+	}
+
+	/**
+	 * Delete a model from the database.
+	 */
+	public function delete($id = null)
+	{
+		// -----------------------------------------------------
+		// If the method is being called from an existing model,
+		// only delete that model from the database.
+		// -----------------------------------------------------
+		if ($this->exists)
+		{
+			return Eloquent\Warehouse::forget($this);
+		}
+
+		return $this->query->delete($id);
 	}
 
 	/**

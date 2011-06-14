@@ -8,7 +8,7 @@ class Warehouse {
 	 * @param  object  $eloquent
 	 * @return bool
 	 */
-	public static function store($eloquent)
+	public static function put($eloquent)
 	{
 		$model = get_class($eloquent);
 
@@ -37,6 +37,17 @@ class Warehouse {
 		$eloquent->exists = true;
 
 		return true;
+	}
+
+	/**
+	 * Delete an Eloquent model from the database.
+	 *
+	 * @param  object  $eloquent
+	 * @return bool
+	 */
+	public static function forget($eloquent)
+	{
+		return (\System\DB::table(Meta::table(get_class($eloquent)))->where('id', '=', $eloquent->id)->delete() == 1);
 	}
 
 	/**
