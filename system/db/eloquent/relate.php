@@ -64,18 +64,27 @@ class Relate {
 	 * Retrieve the query for a *:* relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $table
 	 * @param  object  $eloquent
 	 * @return mixed
 	 */
-	public static function has_many_and_belongs_to($model, $eloquent)
+	public static function has_many_and_belongs_to($model, $table, $eloquent)
 	{
 		// -----------------------------------------------------
-		// Get the models involved in the relationship.
+		// Figure out the intermediate table name.
 		// -----------------------------------------------------
-		$models = array(\System\Str::lower($model), \System\Str::lower(get_class($eloquent)));
-		sort($models);
+		if (is_null($table))
+		{
+			$models = array(\System\Str::lower($model), \System\Str::lower(get_class($eloquent)));
+			sort($models);
 
-		$eloquent->relating_table = implode('_', $models);
+			$eloquent->relating_table = implode('_', $models);
+		}
+		else
+		{
+			$eloquent->relating_table = $table;
+		}
+
 		$eloquent->relating = __FUNCTION__;
 		$eloquent->relating_key = $eloquent->relating_table.'.'.\System\Str::lower(get_class($eloquent)).'_id';
 

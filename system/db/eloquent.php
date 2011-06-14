@@ -164,11 +164,12 @@ abstract class Eloquent {
 	 * Retrieve the query for a *:* relationship.
 	 *
 	 * @param  string  $model
+	 * @param  string  $table
 	 * @return mixed
 	 */
-	public function has_many_and_belongs_to($model)
+	public function has_many_and_belongs_to($model, $table = null)
 	{
-		return Eloquent\Relate::has_many_and_belongs_to($model, $this);
+		return Eloquent\Relate::has_many_and_belongs_to($model, $table, $this);
 	}
 
 	/**
