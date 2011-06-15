@@ -70,10 +70,9 @@ class Session {
 	/**
 	 * Determine if the session or flash data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public static function has()
 	{
 		foreach (func_get_args() as $key)
 		{
