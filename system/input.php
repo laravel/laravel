@@ -18,7 +18,25 @@ class Input {
 	{
 		foreach (func_get_args() as $key)
 		{
-			if (is_null($value = static::get($key)) or trim((string) $value) == '')
+			if (is_null(static::get($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if the input data contains an item or set of items that are not empty.
+	 *
+	 * @return bool
+	 */
+	public static function filled()
+	{
+		foreach (func_get_args() as $key)
+		{
+			if ( ! static::has($key) or trim((string) static::get($key)) == '')
 			{
 				return false;
 			}
@@ -49,11 +67,29 @@ class Input {
 	 *
 	 * @return bool
 	 */
-	public static function has_old()
+	public static function had()
 	{
 		foreach (func_get_args() as $key)
 		{
-			if (is_null($value = static::old($key)) or trim((string) $value) == '')
+			if (is_null(static::old($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if the old input data contains an item or set of items that are not empty.
+	 *
+	 * @return bool
+	 */
+	public static function was_filled()
+	{
+		foreach (func_get_args() as $key)
+		{
+			if ( ! static::had($key) or trim((string) static::old($key)) == '')
 			{
 				return false;
 			}
