@@ -45,14 +45,21 @@ class Input {
 	}
 
 	/**
-	 * Determine if the old input data contains an item.
+	 * Determine if the old input data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has_old($key)
+	public static function has_old()
 	{
-		return ( ! is_null(static::old($key)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null($value = static::old($key)) or trim((string) $value) == '')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
