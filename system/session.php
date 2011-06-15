@@ -206,7 +206,7 @@ class Session {
 		// -----------------------------------------------------
 		if (mt_rand(1, 100) <= 2)
 		{
-			static::driver()->sweep(time() - ($config['lifetime'] * 60));
+			static::driver()->sweep(time() - (Config::get('session.lifetime') * 60));
 		}
 	}
 
