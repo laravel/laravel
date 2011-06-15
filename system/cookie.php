@@ -83,14 +83,21 @@ class Cookie {
 	}
 
 	/**
-	 * Determine if a cookie exists.
+	 * Determine if a cookie or set of cookies exists.
 	 *
-	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function has($name)
+	public static function has()
 	{
-		return ( ! is_null(static::get($name)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null(static::get($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
