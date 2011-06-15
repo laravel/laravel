@@ -10,14 +10,21 @@ class Input {
 	public static $input;
 
 	/**
-	 * Determine if the input data contains an item.
+	 * Determine if the input data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public static function has()
 	{
-		return ( ! is_null(static::get($key)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null($value = static::get($key)) or trim((string) $value) == '')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
