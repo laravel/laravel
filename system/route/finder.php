@@ -53,7 +53,7 @@ class Finder {
 		{
 			$route = $recursiveIterator->getSubIterator();
 
-			if (isset($route['name'] and $route['name'] == $name)
+			if (isset($route['name']) and $route['name'] == $name)
 			{
 				return static::$names[$name] = array($arrayIterator->key() => iterator_to_array($route));
 			}
