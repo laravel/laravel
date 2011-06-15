@@ -36,9 +36,6 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-        // -----------------------------------------------------
-        // Has the input data been hydrated for the request?
-        // -----------------------------------------------------
 		if (is_null(static::$input))
 		{
 			static::hydrate();
