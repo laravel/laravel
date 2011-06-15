@@ -77,12 +77,12 @@ class Session {
 	{
 		foreach (func_get_args() as $key)
 		{
-			if ( ! array_key_exists($key, static::$session['data']) and
-		         ! array_key_exists(':old:'.$key, static::$session['data']) and
-		         ! array_key_exists(':new:'.$key, static::$session['data']))
-		    {
-		    	return false;
-		    }
+			if ( ! array_key_exists($key, static::$session['data']) and 
+			     ! array_key_exists(':old:'.$key, static::$session['data']) and 
+			     ! array_key_exists(':new:'.$key, static::$session['data']))
+			{
+				return false;
+			}
 		}
 
 		return true;
