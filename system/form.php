@@ -56,7 +56,7 @@ class Form {
 	/**
 	 * Close a HTML form.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public static function close()
 	{
