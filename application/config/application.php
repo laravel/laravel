@@ -7,13 +7,25 @@ return array(
 	| Application URL
 	|--------------------------------------------------------------------------
 	|
-	| The URL used to access your application. The trailing slash is optional.
-	|
-	| Note: Remove "index.php" from this URL when using mod_rewrite.
+	| The URL used to access your application. Please include a trailing slash.
 	|
 	*/
 
-	'url' => 'http://localhost/index.php',
+	'url' => 'http://localhost/',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Application Index
+	|--------------------------------------------------------------------------
+	|
+	| If you are including the "index.php" in your URLs, you can ignore this.
+	|
+	| However, if you are using mod_rewrite or something similar to get
+	| cleaner URLs, set this option to an empty string.
+	|
+	*/
+
+	'index' => 'index.php',
 
 	/*
 	|--------------------------------------------------------------------------
