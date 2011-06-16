@@ -42,6 +42,11 @@ class Request {
 			{
 				throw new \Exception("Malformed request URI. Request terminated.");
 			}
+
+			if (strpos($uri, '/index.php') === 0)
+			{
+				$uri = str_replace('/index.php', '', $uri);
+			}
 		}
 		// -------------------------------------------------------
 		// Neither PATH_INFO or REQUEST_URI are available.
