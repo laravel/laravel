@@ -46,24 +46,41 @@ class Str {
         return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding')) : ucwords(strtolower($value));
     }
 
-    /**
-     * Generate a random alpha-numeric string.
-     *
-     * @param  int     $length
-     * @return string
-     */
-    public static function random($length = 16)
+
+	/**
+	* Generate a random alpha-numeric or alpha string
+	*
+	* Types:
+	* alnum - Upper and lower case a-z, 0-9 (default)
+	* alpha - Upper and lowercase a-z
+	 *
+	* @param  int     $length
+	* @param  string  $type
+	* @return string
+	*/
+    public static function random($length = 16, $type = 'alnum')
     {
-        $pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
+		switch($type)
+		{
+			case 'alpha':
+				$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+				break;
+			default:
+				$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+				break;
+		}
 
-        $value = '';
+		$pool_length = (strlen($pool) - 1);
+		$pool = str_split($pool, 1);
 
-        for ($i = 0; $i < $length; $i++)
-        {
-            $value .= $pool[mt_rand(0, 61)];
-        }
+		$value = '';
 
-        return $value;
+		for ($i = 0; $i < $length; $i++)
+		{
+			$value .= $pool[mt_rand(0, $pool_length)];
+		}
+
+		return $value;
     }
 
 }
