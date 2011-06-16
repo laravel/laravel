@@ -118,13 +118,13 @@ class Download {
 		}
 
 		return Response::make(file_get_contents($path))->header('Content-Description', 'File Transfer')
-				 	  						  		   ->header('Content-Type', static::mime(pathinfo($path, PATHINFO_EXTENSION)))
-					  						  		   ->header('Content-Disposition', 'attachment; filename="'.$name.'"')
-					  						  		   ->header('Content-Transfer-Encoding', 'binary')
-					  						  		   ->header('Expires', 0)
-					  						  		   ->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-					  						  		   ->header('Pragma', 'public')
-					  						  		   ->header('Content-Length', filesize($path));
+																	->header('Content-Type', static::mime(pathinfo($path, PATHINFO_EXTENSION)))
+																	->header('Content-Disposition', 'attachment; filename="'.$name.'"')
+																	->header('Content-Transfer-Encoding', 'binary')
+																	->header('Expires', 0)
+																	->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+																	->header('Pragma', 'public')
+																	->header('Content-Length', filesize($path));
 	}
 
 	/**

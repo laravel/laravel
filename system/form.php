@@ -16,7 +16,7 @@ class Form {
 	 * @param  string  $method
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function open($action = null, $method = 'POST', $attributes = array())
 	{
 		// -------------------------------------------------------
@@ -34,7 +34,7 @@ class Form {
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
-			$attributes['accept-charset'] = Config::get('application.encoding');			
+			$attributes['accept-charset'] = Config::get('application.encoding');
 		}
 
 		$html = '<form'.HTML::attributes($attributes).'>';
@@ -82,7 +82,7 @@ class Form {
 	{
 		if (Config::get('session.driver') == '')
 		{
-			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');			
+			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');
 		}
 
 		return Session::get('csrf_token');
@@ -99,7 +99,7 @@ class Form {
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
-		
+
 		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
 	}
 
@@ -110,7 +110,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function text($name, $value = null, $attributes = array())
 	{
 		return static::input('text', $name, $value, $attributes);
@@ -122,7 +122,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
@@ -134,7 +134,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function hidden($name, $value = null, $attributes = array())
 	{
 		return static::input('hidden', $name, $value, $attributes);
@@ -146,7 +146,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function file($name, $attributes = array())
 	{
 		return static::input('file', $name, null, $attributes);
