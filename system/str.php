@@ -47,20 +47,43 @@ class Str {
     }
 
     /**
-     * Generate a random alpha-numeric string.
+     * Generate a random alpha or alpha-numeric string.
+     *
+     * Supported types: 'alnum' and 'alpha'.
      *
      * @param  int     $length
+     * @param  string  $type
      * @return string
      */
-    public static function random($length = 16)
+    public static function random($length = 16, $type = 'alnum')
     {
-        $pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
-
         $value = '';
 
+        // -----------------------------------------------------
+        // Get the proper character pool for the type.
+        // -----------------------------------------------------
+        switch ($type)
+        {
+            case 'alpha':
+                $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+
+            default:
+                $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }
+
+        // -----------------------------------------------------
+        // Get the pool length and split the pool into an array.
+        // -----------------------------------------------------
+        $pool_length = strlen($pool) - 1;
+        $pool = str_split($pool, 1);
+
+        // -----------------------------------------------------
+        // Build the random string to the specified length.
+        // -----------------------------------------------------
         for ($i = 0; $i < $length; $i++)
         {
-            $value .= $pool[mt_rand(0, 61)];
+            $value .= $pool[mt_rand(0, $pool_length)];
         }
 
         return $value;
