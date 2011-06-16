@@ -21,7 +21,7 @@ class URL {
 		// ----------------------------------------------------
 		// Get the base URL and index page.
 		// ----------------------------------------------------
-		$base = Config::get('application.url').'/'.Config::get('application.index').'/';
+		$base = Config::get('application.url').'/'.Config::get('application.index');
 
 		// ----------------------------------------------------
 		// Does the URL need an HTTPS protocol?
@@ -31,7 +31,7 @@ class URL {
 			$base = 'https://'.substr($base, 7);
 		}
 
-		return $base.ltrim($url, '/');
+		return rtrim($base, '/').'/'.ltrim($url, '/');
 	}
 
 	/**
