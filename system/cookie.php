@@ -90,7 +90,15 @@ class Cookie {
 	 */
 	public static function has($name)
 	{
-		return ( ! is_null(static::get($name)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null(static::get($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
