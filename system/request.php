@@ -42,8 +42,6 @@ class Request {
 			{
 				throw new \Exception("Malformed request URI. Request terminated.");
 			}
-
-			$uri = str_replace('/index.php', '', $uri);
 		}
 		// -------------------------------------------------------
 		// Neither PATH_INFO or REQUEST_URI are available.
@@ -52,6 +50,21 @@ class Request {
 		{
 			throw new \Exception('Unable to determine the request URI.');
 		}
+
+		// -------------------------------------------------------
+		// Remove the application URL.
+		// -------------------------------------------------------
+		$base_url = parse_url(Config::get('application.url'), PHP_URL_PATH);
+
+		if (strpos($uri, $base_url) === 0)
+		{
+			$uri = (string) substr($uri, strlen($base_url));
+		}
+
+		// -------------------------------------------------------
+		// Remove the application index.
+		// -------------------------------------------------------
+		$uri = str_replace('/index.php', '', $uri);
 
 		$uri = trim($uri, '/');
 
