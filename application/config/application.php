@@ -7,11 +7,11 @@ return array(
 	| Application URL
 	|--------------------------------------------------------------------------
 	|
-	| The URL used to access your application. Please include a trailing slash.
+	| The URL used to access your application. No trailing slash.
 	|
 	*/
 
-	'url' => 'http://localhost/',
+	'url' => 'http://localhost',
 
 	/*
 	|--------------------------------------------------------------------------
