@@ -17,15 +17,13 @@ class Session {
 	private static $session = array();
 
 	/**
-	 * Get the session driver instance.
+	 * Get the session driver. If the driver has already been instantiated, that
+	 * instance will be returned.
 	 *
 	 * @return Session\Driver
 	 */
 	public static function driver()
 	{
-		// -----------------------------------------------------
-		// Create the session driver if we haven't already.
-		// -----------------------------------------------------
 		if (is_null(static::$driver))
 		{
 			static::$driver = Session\Factory::make(Config::get('session.driver'));
@@ -59,7 +57,7 @@ class Session {
 		}
 
 		// -----------------------------------------------------
-		// Generate a CSRF token if one does not exist.
+		// Create a CSRF token for the session if necessary.
 		// -----------------------------------------------------
 		if ( ! static::has('csrf_token'))
 		{
@@ -70,20 +68,27 @@ class Session {
 	}
 
 	/**
-	 * Determine if the session contains an item.
+	 * Determine if the session or flash data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public static function has()
 	{
-		return array_key_exists($key, static::$session['data']) or
-		       array_key_exists(':old:'.$key, static::$session['data']) or
-		       array_key_exists(':new:'.$key, static::$session['data']);
+		foreach (func_get_args() as $key)
+		{
+			if ( ! array_key_exists($key, static::$session['data']) and 
+			     ! array_key_exists(':old:'.$key, static::$session['data']) and 
+			     ! array_key_exists(':new:'.$key, static::$session['data']))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
-	 * Get an item from the session.
+	 * Get an item from the session or flash data.
 	 *
 	 * @param  string  $key
 	 * @return mixed
@@ -96,9 +101,6 @@ class Session {
 			{
 				return static::$session['data'][$key];
 			}
-			// -----------------------------------------------------
-			// Check the flash data for the item.
-			// -----------------------------------------------------
 			elseif (array_key_exists(':old:'.$key, static::$session['data']))
 			{
 				return static::$session['data'][':old:'.$key];
@@ -125,7 +127,7 @@ class Session {
 	}
 
 	/**
-	 * Write a flash item to the session.
+	 * Write an item to the session flash data.
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -176,17 +178,14 @@ class Session {
 	public static function close()
 	{
 		// -----------------------------------------------------
-		// Flash the old input data to the session.
+		// Flash the old input to the session and age the flash.
 		// -----------------------------------------------------
-		static::flash('laravel_old_input', Input::get());			
+		static::flash('laravel_old_input', Input::get());
 
-		// -----------------------------------------------------
-		// Age the flash data.
-		// -----------------------------------------------------
 		static::age_flash();
 
 		// -----------------------------------------------------
-		// Save the session data to storage.
+		// Write the session data to storage.
 		// -----------------------------------------------------
 		static::driver()->save(static::$session);
 
@@ -195,8 +194,18 @@ class Session {
 		// -----------------------------------------------------
 		if ( ! headers_sent())
 		{
-			$lifetime = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
-			Cookie::put('laravel_session', static::$session['id'], $lifetime, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'));
+			$cookie = new Cookie('laravel_session', static::$session['id']);
+
+			if ( ! Config::get('session.expire_on_close'))
+			{
+				$cookie->lifetime = Config::get('session.lifetime');
+			}
+
+			$cookie->path = Config::get('session.path');
+			$cookie->domain = Config::get('session.domain');
+			$cookie->secure = Config::get('session.https');
+
+			$cookie->send();
 		}
 
 		// -----------------------------------------------------
@@ -234,12 +243,12 @@ class Session {
 			if (strpos($key, ':new:') === 0)
 			{
 				// -----------------------------------------------------
-				// Create an :old: flash item.
+				// Create an :old: item for the :new: item.
 				// -----------------------------------------------------
 				static::put(':old:'.substr($key, 5), $value);
 
 				// -----------------------------------------------------
-				// Forget the :new: flash item.
+				// Forget the :new: item.
 				// -----------------------------------------------------
 				static::forget($key);
 			}

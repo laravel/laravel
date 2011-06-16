@@ -55,7 +55,7 @@ class Router {
 					// --------------------------------------------------------------
 					// Convert the route wild-cards to regular expressions.
 					// --------------------------------------------------------------
-					$route = str_replace(':num', '[0-9]+', str_replace(':any', '.+', $route));
+					$route = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $route));
 
 					if (preg_match('#^'.$route.'$#', $method.' '.$uri))
 					{

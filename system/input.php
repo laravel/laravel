@@ -10,14 +10,39 @@ class Input {
 	public static $input;
 
 	/**
-	 * Determine if the input data contains an item.
+	 * Determine if the input data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public static function has()
 	{
-		return ( ! is_null(static::get($key)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null(static::get($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if the input data contains an item or set of items that are not empty.
+	 *
+	 * @return bool
+	 */
+	public static function filled()
+	{
+		foreach (func_get_args() as $key)
+		{
+			if ( ! static::has($key) or trim((string) static::get($key)) == '')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -29,9 +54,6 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-        // -----------------------------------------------------
-        // Has the input data been hydrated for the request?
-        // -----------------------------------------------------
 		if (is_null(static::$input))
 		{
 			static::hydrate();
@@ -41,14 +63,39 @@ class Input {
 	}
 
 	/**
-	 * Determine if the old input data contains an item.
+	 * Determine if the old input data contains an item or set of items.
 	 *
-	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has_old($key)
+	public static function had()
 	{
-		return ( ! is_null(static::old($key)));
+		foreach (func_get_args() as $key)
+		{
+			if (is_null(static::old($key)))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determine if the old input data contains an item or set of items that are not empty.
+	 *
+	 * @return bool
+	 */
+	public static function was_filled()
+	{
+		foreach (func_get_args() as $key)
+		{
+			if ( ! static::had($key) or trim((string) static::old($key)) == '')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
