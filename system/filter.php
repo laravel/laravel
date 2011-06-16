@@ -34,7 +34,7 @@ class Filter {
 		{
 			if ( ! isset(static::$filters[$filter]))
 			{
-				throw new \Exception("Route filter [$filter] is not defined.");						
+				throw new \Exception("Route filter [$filter] is not defined.");
 			}
 
 			$response = call_user_func_array(static::$filters[$filter], $parameters);

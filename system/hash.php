@@ -2,7 +2,7 @@
 
 class Hash {
 
-    /**
+	/**
 	 * The salty, hashed value.
 	 *
 	 * @var string
@@ -49,4 +49,4 @@ class Hash {
 		return new self($value, $salt);
 	}
 
-}	
+}

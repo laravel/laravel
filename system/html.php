@@ -10,7 +10,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class HTML {
 	 *
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function attributes($attributes)
 	{
 		$html = array();
