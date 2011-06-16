@@ -71,16 +71,16 @@ class Str {
 		}
 
 		$pool_length = (strlen($pool) - 1);
-        $pool = str_split($pool, 1);
+		$pool = str_split($pool, 1);
 
-        $value = '';
+		$value = '';
 
-        for ($i = 0; $i < $length; $i++)
-        {
-            $value .= $pool[mt_rand(0, $pool_length)];
-        }
+		for ($i = 0; $i < $length; $i++)
+		{
+			$value .= $pool[mt_rand(0, $pool_length)];
+		}
 
-        return $value;
+		return $value;
     }
 
 }
