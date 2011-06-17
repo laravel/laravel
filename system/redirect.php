@@ -39,6 +39,19 @@ class Redirect {
 	}
 
 	/**
+	 * Create a redirect response to a HTTPS URL.
+	 *
+	 * @param  string    $url
+	 * @param  string    $method
+	 * @param  int       $status
+	 * @return Response
+	 */
+	public static function to_secure($url, $method = 'location', $status = 302)
+	{
+		return static::to($url, $method, $status, true);
+	}
+
+	/**
 	 * Add an item to the session flash data.
 	 *
 	 * @param  string  $key
@@ -57,19 +70,6 @@ class Redirect {
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Create a redirect response to a HTTPS URL.
-	 *
-	 * @param  string    $url
-	 * @param  string    $method
-	 * @param  int       $status
-	 * @return Response
-	 */
-	public static function to_secure($url, $method = 'location', $status = 302)
-	{
-		return static::to($url, $method, $status, true);
 	}
 
 	/**

@@ -12,6 +12,8 @@ class Lang {
 	/**
 	 * All of the loaded language lines.
 	 *
+	 * The array is keyed by [$language.$file].
+	 *
 	 * @var array
 	 */
 	private static $lines = array();
@@ -65,18 +67,12 @@ class Lang {
 			$language = Config::get('application.language');
 		}
 
-		// -----------------------------------------------------
-		// Parse the key to separate the file and key name.
-		// -----------------------------------------------------
 		list($file, $line) = $this->parse($this->key);
 
-		// -----------------------------------------------------
-		// Load the appropriate language file.
-		// -----------------------------------------------------
 		$this->load($file, $language);
 
 		// --------------------------------------------------------------
-		// Get the language line.
+		// Get the language line from the appropriate file array.
 		// --------------------------------------------------------------
 		if (array_key_exists($line, static::$lines[$language.$file]))
 		{
@@ -88,7 +84,8 @@ class Lang {
 		}
 
 		// --------------------------------------------------------------
-		// Make all place-holder replacements.
+		// Make all place-holder replacements. Place-holders are prefixed
+		// with a colon for convenient location.
 		// --------------------------------------------------------------
 		foreach ($this->replacements as $key => $value)
 		{
@@ -106,6 +103,10 @@ class Lang {
 	 */
 	private function parse($key)
 	{
+		// --------------------------------------------------------------
+		// The left side of the dot is the file name, while the right
+		// side of the dot is the item within that file being requested.
+		// --------------------------------------------------------------
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
@@ -113,10 +114,6 @@ class Lang {
 			throw new \Exception("Invalid language key [$key].");
 		}
 
-		// --------------------------------------------------------------
-		// The left side of the dot is the file name, while the right
-		// side of the dot is the item within that file being requested.
-		// --------------------------------------------------------------
 		return array($segments[0], implode('.', array_slice($segments, 1)));
 	}
 
@@ -138,7 +135,8 @@ class Lang {
 		}
 
 		// --------------------------------------------------------------
-		// Load the language file into the array of lines.
+		// Load the language file into the array of lines. The array
+		// is keyed by the language and file name.
 		// --------------------------------------------------------------
 		if (file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
 		{

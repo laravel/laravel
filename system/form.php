@@ -44,7 +44,7 @@ class Form {
 		// -------------------------------------------------------
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
-			$html .= PHP_EOL.static::hidden('request_method', $method);
+			$html .= PHP_EOL.static::hidden('REQUEST_METHOD', $method);
 		}
 
 		return $html.PHP_EOL;

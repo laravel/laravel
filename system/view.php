@@ -55,13 +55,10 @@ class View {
 	 */
 	public function get()
 	{
-		// -----------------------------------------------------
-		// Set the last rendered view name to the current view.
-		// -----------------------------------------------------
 		static::$last = $this->view;
 
 		// -----------------------------------------------------
-		// Get the content of all of the sub-views.
+		// Get the evaluated content of all of the sub-views.
 		// -----------------------------------------------------
 		foreach ($this->data as &$data)
 		{

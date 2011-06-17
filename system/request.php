@@ -3,27 +3,12 @@
 class Request {
 
 	/**
-	 * The request URI.
-	 *
-	 * @var string
-	 */
-	public static $uri;
-
-	/**
 	 * Get the request URI.
 	 *
 	 * @return string
 	 */
 	public static function uri()
 	{
-		// -------------------------------------------------------
-		// If we have already determined the URI, return it.
-		// -------------------------------------------------------
-		if ( ! is_null(static::$uri))
-		{
-			return static::$uri;
-		}
-
 		// -------------------------------------------------------
 		// If the PATH_INFO is available, use it.
 		// -------------------------------------------------------
@@ -62,17 +47,15 @@ class Request {
 		}
 
 		// -------------------------------------------------------
-		// Remove the application index.
+		// Remove the application index and any extra slashes.
 		// -------------------------------------------------------
-		$uri = str_replace('/index.php', '', $uri);
-
-		$uri = trim($uri, '/');
+		$uri = trim(str_replace('/index.php', '', $uri), '/');
 
 		// -------------------------------------------------------
 		// If the requests is to the root of the application, we
 		// always return a single forward slash.
 		// -------------------------------------------------------
-		return static::$uri = ($uri == '') ? '/' : Str::lower($uri);
+		return ($uri == '') ? '/' : Str::lower($uri);
 	}
 
 	/**
@@ -86,7 +69,7 @@ class Request {
 		// The method can be spoofed using a POST variable, allowing HTML
 		// forms to simulate PUT and DELETE requests.
 		// --------------------------------------------------------------
-		return (isset($_POST['request_method'])) ? $_POST['request_method'] : $_SERVER['REQUEST_METHOD'];
+		return Arr::get($_POST, 'REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
 	}
 
 	/**

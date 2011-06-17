@@ -10,7 +10,7 @@ class Response {
 	public $content;
 
 	/**
-	 * The HTTP status code.
+	 * The HTTP status code of the response.
 	 *
 	 * @var int
 	 */
@@ -111,15 +111,13 @@ class Response {
 	{
 		// --------------------------------------------------------------
 		// If the response is a Redirect instance, grab the Response.
+		// The Redirect class manages a Response instance internally.
 		// --------------------------------------------------------------
 		if ($response instanceof Redirect)
 		{
 			$response = $response->response;
 		}
 
-		// --------------------------------------------------------------
-		// Make sure the response is an instance of the Response class.
-		// --------------------------------------------------------------
 		return ( ! $response instanceof Response) ? new static($response) : $response;
 	}
 
@@ -130,25 +128,16 @@ class Response {
 	 */
 	public function send()
 	{
-		// -------------------------------------------------
-		// If a Content-Type header has not been set, do it.
-		// -------------------------------------------------
 		if ( ! array_key_exists('Content-Type', $this->headers))
 		{
 			$this->header('Content-Type', 'text/html; charset=utf-8');
 		}
 
-		// -------------------------------------------------
-		// Send the headers to the browser.
-		// -------------------------------------------------
 		if ( ! headers_sent())
 		{
 			$this->send_headers();
 		}
 
-		// -------------------------------------------------
-		// Send the content of the response to the browser.
-		// -------------------------------------------------
 		echo (string) $this->content;
 	}
 
@@ -159,19 +148,10 @@ class Response {
 	 */
 	public function send_headers()
 	{
-		// -------------------------------------------------
-		// Get the proper protocol.
-		// -------------------------------------------------
 		$protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 
-		// -------------------------------------------------
-		// Send the protocol and status header.
-		// -------------------------------------------------
 		header($protocol.' '.$this->status.' '.$this->statuses[$this->status]);
 
-		// -------------------------------------------------
-		// Send the rest of the response headers.
-		// -------------------------------------------------
 		foreach ($this->headers as $name => $value)
 		{	
 			header($name.': '.$value, true);

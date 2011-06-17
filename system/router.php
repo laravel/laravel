@@ -19,13 +19,10 @@ class Router {
 	public static function route($method, $uri)
 	{
 		// --------------------------------------------------------------
-		// Force the URI to have a forward slash.
+		// Prepend a forward slash since all routes begin with one.
 		// --------------------------------------------------------------
 		$uri = ($uri != '/') ? '/'.$uri : $uri;
 
-		// --------------------------------------------------------------
-		// Load the application routes.
-		// --------------------------------------------------------------
 		if (is_null(static::$routes))
 		{
 			static::$routes = Route\Loader::load($uri);
@@ -50,11 +47,11 @@ class Router {
 			// --------------------------------------------------------------
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
+				// --------------------------------------------------------------
+				// Routes can be comma-delimited, so spin through each one.
+				// --------------------------------------------------------------
 				foreach (explode(', ', $keys) as $route)
 				{
-					// --------------------------------------------------------------
-					// Convert the route wild-cards to regular expressions.
-					// --------------------------------------------------------------
 					$route = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $route));
 
 					if (preg_match('#^'.$route.'$#', $method.' '.$uri))

@@ -20,9 +20,6 @@ class URL {
 			return $url;
 		}
 
-		// ----------------------------------------------------
-		// Get the base URL and index page.
-		// ----------------------------------------------------
 		$base = Config::get('application.url');
 
 		// ----------------------------------------------------
@@ -89,11 +86,13 @@ class URL {
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// ----------------------------------------------------
-			// Replace any parameters in the URI.
+			// Replace any parameters in the URI. This allows
+			// the dynamic creation of URLs that contain parameter
+			// wildcards.
 			// ----------------------------------------------------
 			foreach ($parameters as $parameter)
 			{
-				$uri = preg_replace('/\(\:any\)|\(\:num\)|\(.+\)/', $parameter, $uri, 1);
+				$uri = preg_replace('/\(.+\)/', $parameter, $uri, 1);
 			}
 
 			return static::to($uri, $https);
