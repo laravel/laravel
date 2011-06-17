@@ -45,44 +45,39 @@ class Log {
 	public static function write($type, $message)
 	{
 		// -----------------------------------------------------
-		// Determine the yearly directory.
+		// Create the yearly and monthly directories if needed.
 		// -----------------------------------------------------
-		$directory = APP_PATH.'logs/'.date('Y');
-
-		if ( ! is_dir($directory))
-		{
-			static::make_directory($directory);
-		}
+		static::make_directory($directory = APP_PATH.'logs/'.date('Y'));
+		static::make_directory($directory .= '/'.date('m'));
 
 		// -----------------------------------------------------
-		// Determine the monthly directory.
-		// -----------------------------------------------------
-		$directory .= '/'.date('m');
-
-		if ( ! is_dir($directory))
-		{
-			static::make_directory($directory);
-		}
-
-		// -----------------------------------------------------
-		// Determine the daily file.
+		// Each day has its own log file.
 		// -----------------------------------------------------
 		$file = $directory.'/'.date('d').EXT;
 
+		// -----------------------------------------------------
+		// Append to the log file and set the permissions.
+		// -----------------------------------------------------
 		file_put_contents($file, date('Y-m-d H:i:s').' '.$type.' - '.$message.PHP_EOL, LOCK_EX | FILE_APPEND);
+
 		chmod($file, 0666);
 	}
 
 	/**
 	 * Create a log directory.
 	 *
+	 * If the directory already exists, no action will be taken.
+	 *
 	 * @param  string  $directory
 	 * @return void
 	 */
 	private static function make_directory($directory)
 	{
-		mkdir($directory, 02777);
-		chmod($directory, 02777);
+		if ( ! is_dir($directory))
+		{
+			mkdir($directory, 02777);
+			chmod($directory, 02777);
+		}
 	}
 
 }

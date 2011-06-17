@@ -10,14 +10,25 @@ class Input {
 	public static $input;
 
 	/**
-	 * Determine if the input data contains an item that is not empty.
+	 * Determine if the input data contains an item.
 	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
 	public static function has($key)
 	{
-		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) != '');
+		return ( ! is_null(static::get($key)));
+	}
+
+	/**
+	 * Determine if the input data contains an item that is not empty.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function filled($key)
+	{
+		return (static::has($key) and trim((string) static::get($key)) !== '');
 	}
 
 	/**
@@ -38,14 +49,25 @@ class Input {
 	}
 
 	/**
-	 * Determine if the old input data contains an item that is not empty.
+	 * Determine if the old input data contains an item.
 	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
 	public static function had($key)
 	{
-		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) != '');
+		return ( ! is_null(static::old($key)));
+	}
+
+	/**
+	 * Determine if the old input data contains an item that is not empty.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function was_filled($key)
+	{
+		return (static::had($key) and trim((string) static::old($key)) !== '');
 	}
 
 	/**
