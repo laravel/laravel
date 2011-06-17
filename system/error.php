@@ -3,7 +3,7 @@
 class Error {
 
 	/**
-	 * Error levels.
+	 * Error levels and descriptions.
 	 *
 	 * @var array
 	 */
@@ -32,7 +32,8 @@ class Error {
 	public static function handle($e)
 	{
 		// -----------------------------------------------------
-		// Clean the output buffer.
+		// Clean the output buffer. We don't want any rendered
+		// views or text to be sent to the browser.
 		// -----------------------------------------------------
 		if (ob_get_level() > 0)
 		{
@@ -40,7 +41,7 @@ class Error {
 		}
 
 		// -----------------------------------------------------
-		// Get the error severity.
+		// Get the error severity in human readable format.
 		// -----------------------------------------------------
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
@@ -57,19 +58,21 @@ class Error {
 			$file = $e->getFile();
 		}
 
-		// -----------------------------------------------------
-		// Trim the period off of the error message.
-		// -----------------------------------------------------
 		$message = rtrim($e->getMessage(), '.');
 
-		// -----------------------------------------------------
-		// Log the error.
-		// -----------------------------------------------------
 		if (Config::get('error.log'))
 		{
 			Log::error($message.' in '.$e->getFile().' on line '.$e->getLine());
 		}
 
+		// -----------------------------------------------------
+		// Detailed error view contains the file name and stack
+		// trace of the error. It is not wise to have details
+		// enabled in a production environment.
+		//
+		// The generic error view (error/500) only has a simple,
+		// generic error message suitable for production.
+		// -----------------------------------------------------
 		if (Config::get('error.detail'))
 		{
 			$view = View::make('exception')
@@ -107,24 +110,16 @@ class Error {
 			array_unshift($file, '');
 
 			// -----------------------------------------------------
-			// Calculate the starting position.
+			// Calculate the starting position of the file context.
 			// -----------------------------------------------------
 			$start = $line - $padding;
-
-			if ($start < 0)
-			{
-				$start = 0;
-			}
+			$start = ($start < 0) ? 0 : $start;
 
 			// -----------------------------------------------------
 			// Calculate the context length.
 			// -----------------------------------------------------
 			$length = ($line - $start) + $padding + 1;
-
-			if (($start + $length) > count($file) - 1)
-			{
-				$length = null;
-			}
+			$length = (($start + $length) > count($file) - 1) ? null : $length;
 
 			return array_slice($file, $start, $length, true);			
 		}

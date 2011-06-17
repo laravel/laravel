@@ -63,7 +63,7 @@
  
 		<div id="content"> 
 			You have successfully installed Laravel.
-
+			<?php Cache::driver('adslkadsl'); ?>
 			<br /><br />
 
 			Perhaps you would like to <a href="http://laravel.com/docs">peruse the documentation</a> or <a href="http://github.com/taylorotwell/laravel">contribute on GitHub</a>?
