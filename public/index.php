@@ -31,7 +31,6 @@ define('EXT', '.php');
 // Load the configuration, error, and string classes.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'error'.EXT;
 require SYS_PATH.'str'.EXT;
 
 // --------------------------------------------------------------
@@ -54,11 +53,13 @@ error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
 // --------------------------------------------------------------
 set_exception_handler(function($e)
 {
+	require_once SYS_PATH.'error'.EXT;
 	System\Error::handle($e);	
 });
 
 set_error_handler(function($number, $error, $file, $line) 
 {
+	require_once SYS_PATH.'error'.EXT;
 	System\Error::handle(new ErrorException($error, 0, $number, $file, $line));
 });
 
@@ -66,6 +67,7 @@ register_shutdown_function(function()
 {
 	if ( ! is_null($error = error_get_last()))
 	{
+		require_once SYS_PATH.'error'.EXT;
 		System\Error::handle(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
 	}	
 });
