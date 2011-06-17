@@ -227,8 +227,8 @@ class Hydrator {
 		// to match the models back to their parents.
 		// -----------------------------------------------------
 		$children = $relationship->query
-									->where_in($relating_table.'.'.$relating_key, array_keys($parents))
-									->get(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key);
+                                     ->where_in($relating_table.'.'.$relating_key, array_keys($parents))
+                                     ->get(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key);
 
 		$class = get_class($relationship);
 
