@@ -33,7 +33,7 @@ class Benchmark {
 			return number_format((microtime(true) - static::$marks[$name]) * 1000, 2);
 		}
 
-		return 0.0;
+		throw new \Exception("A Benchmark named [$name] has not been started.");
 	}
 
 	/**
