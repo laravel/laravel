@@ -17,19 +17,19 @@ class Cache {
 	 */
 	public static function driver($driver = null)
 	{
+		// --------------------------------------------------
+		// If the cache driver has already been instantiated,
+		// we'll just return that existing instance.
+		//
+		// Otherwise, we'll instantiate a new one.
+		// --------------------------------------------------
 		if ( ! array_key_exists($driver, static::$drivers))
 		{
-			// --------------------------------------------------
-			// If no driver was specified, use the default.
-			// --------------------------------------------------
 			if (is_null($driver))
 			{
 				$driver = Config::get('cache.driver');
 			}
 
-			// --------------------------------------------------
-			// Create the cache driver.
-			// --------------------------------------------------
 			static::$drivers[$driver] = Cache\Factory::make($driver);
 		}
 
@@ -41,6 +41,13 @@ class Cache {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
+		// --------------------------------------------------
+		// Passing method calls to the driver instance allows
+		// a better API for the developer.
+		//
+		// For instance, instead of saying Cache::driver()->foo(),
+		// we can now just say Cache::foo().
+		// --------------------------------------------------
 		return call_user_func_array(array(static::driver(), $method), $parameters);
 	}
 
