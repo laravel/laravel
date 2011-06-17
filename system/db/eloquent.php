@@ -339,6 +339,9 @@ abstract class Eloquent {
 
 	/**
 	 * Delete a model from the database.
+	 *
+	 * @param  int  $id
+	 * @return int
 	 */
 	public function delete($id = null)
 	{
