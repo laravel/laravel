@@ -94,4 +94,15 @@ class DB {
 		return new DB\Query($table, $connection);
 	}
 
+	/**
+	 * Get the driver name for a database connection.
+	 *
+	 * @param  string  $connection
+	 * @return string
+	 */
+	public static function driver($connection = null)
+	{
+		return static::connection($connection)->getAttribute(\PDO::ATTR_DRIVER_NAME);
+	}
+
 }
