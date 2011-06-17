@@ -101,7 +101,8 @@ class Download {
 	);
 
 	/**
-	 * Create a download response.
+	 * Create a download response. The proper headers will be sent
+	 * to the browser to force the file to be downloaded.
 	 *
 	 * @param  string  $path
 	 * @param  string  $name
@@ -109,22 +110,23 @@ class Download {
 	 */
 	public static function file($path, $name = null)
 	{
-		// -----------------------------------------------------
-		// If no filename was given, use the path basename.
-		// -----------------------------------------------------
 		if (is_null($name))
 		{
 			$name = basename($path);
 		}
 
-		return Response::make(file_get_contents($path))->header('Content-Description', 'File Transfer')
-				 	  						  		   ->header('Content-Type', static::mime(pathinfo($path, PATHINFO_EXTENSION)))
-					  						  		   ->header('Content-Disposition', 'attachment; filename="'.$name.'"')
-					  						  		   ->header('Content-Transfer-Encoding', 'binary')
-					  						  		   ->header('Expires', 0)
-					  						  		   ->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-					  						  		   ->header('Pragma', 'public')
-					  						  		   ->header('Content-Length', filesize($path));
+		$response = Response::make(file_get_contents($path));
+
+		$response->header('Content-Description', 'File Transfer');
+		$response->header('Content-Type', static::mime(pathinfo($path, PATHINFO_EXTENSION)));
+		$response->header('Content-Disposition', 'attachment; filename="'.$name.'"');
+		$response->header('Content-Transfer-Encoding', 'binary');
+		$response->header('Expires', 0);
+		$response->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+		$response->header('Pragma', 'public');
+		$response->header('Content-Length', filesize($path));
+
+		return $response;
 	}
 
 	/**
