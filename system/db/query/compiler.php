@@ -10,30 +10,18 @@ class Compiler {
 	 */
 	public static function select($query)
 	{
-		// ----------------------------------------------------
-		// Add the SELECT, FROM, and WHERE clause to the query.
-		// ----------------------------------------------------
 		$sql = $query->select.' '.$query->from.' '.$query->where;
 
-		// ----------------------------------------------------
-		// Add the ORDER BY clause to the query.
-		// ----------------------------------------------------
 		if (count($query->orderings) > 0)
 		{
 			$sql .= ' ORDER BY '.implode(', ', $query->orderings);
 		}
 
-		// ----------------------------------------------------
-		// Add the LIMIT clause to the query.
-		// ----------------------------------------------------
 		if ( ! is_null($query->limit))
 		{
 			$sql .= ' LIMIT '.$query->limit;
 		}
 
-		// ----------------------------------------------------
-		// Add the OFFSET clause to the query.
-		// ----------------------------------------------------
 		if ( ! is_null($query->offset))
 		{
 			$sql .= ' OFFSET '.$query->offset;
@@ -51,14 +39,8 @@ class Compiler {
 	 */
 	public static function insert($query, $values)
 	{
-		// -----------------------------------------------------
-		// Begin the INSERT statement.
-		// -----------------------------------------------------
-		$sql = 'INSERT INTO '.$query->table.' (';
+		$sql = 'INSERT INTO '.$query->wrap($query->table);
 
-		// ----------------------------------------------------
-		// Wrap each column name in keyword identifiers.
-		// ----------------------------------------------------
 		$columns = array();
 
 		foreach (array_keys($values) as $column)
@@ -66,10 +48,7 @@ class Compiler {
 			$columns[] = $query->wrap($column);
 		}
 
-		// -----------------------------------------------------
-		// Concatenante the columns and values to the statement.
-		// -----------------------------------------------------
-		return $sql .= implode(', ', $columns).') VALUES ('.$query->parameterize($values).')';
+		return $sql .= ' ('.implode(', ', $columns).') VALUES ('.$query->parameterize($values).')';
 	}
 
 	/**
@@ -81,25 +60,16 @@ class Compiler {
 	 */
 	public static function update($query, $values)
 	{
-		// ----------------------------------------------------
-		// Initialize the UPDATE statement.
-		// ----------------------------------------------------
-		$sql = 'UPDATE '.$query->table.' SET ';
+		$sql = 'UPDATE '.$query->wrap($query->table).' SET ';
 
-		// ---------------------------------------------------
-		// Add each column set the statement.
-		// ---------------------------------------------------
-		$columns = array();
+		$sets = array();
 
 		foreach (array_keys($values) as $column)
 		{
-			$columns[] = $query->wrap($column).' = ?';
+			$sets[] = $query->wrap($column).' = ?';
 		}
 
-		// ---------------------------------------------------
-		// Concatenate the SETs to the statement.
-		// ---------------------------------------------------
-		return $sql .= implode(', ', $columns).' '.$query->where;		
+		return $sql .= implode(', ', $sets).' '.$query->where;		
 	}
 
 	/**
