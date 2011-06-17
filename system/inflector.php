@@ -121,25 +121,16 @@ class Inflector {
 	 */
 	public static function plural($value)
 	{
-        // -----------------------------------------------------
-        // If we have already pluralized this word, return it.
-        // -----------------------------------------------------
         if (array_key_exists($value, static::$plural_cache))
         {
            return static::$plural_cache[$value];
         }
 
-        // -----------------------------------------------------
-        // Are the singular and plural forms the same?
-        // -----------------------------------------------------
         if (in_array(Str::lower($value), static::$uncountable))
         {
         	return static::$plural_cache[$value] = $value;
         }
 
-        // -----------------------------------------------------
-        // Is the plural form irregular?
-        // -----------------------------------------------------
         foreach (static::$irregular as $pattern => $irregular)
         {
             $pattern = '/'.$pattern.'$/i';
@@ -150,9 +141,6 @@ class Inflector {
             }
         }
 
-        // -----------------------------------------------------
-        // Check the plural forms for matches.
-        // -----------------------------------------------------
         foreach (static::$plural as $pattern => $plural)
         {
             if (preg_match($pattern, $value))
@@ -172,25 +160,16 @@ class Inflector {
 	 */
 	public static function singular($value)
 	{
-        // -----------------------------------------------------
-        // If we have already singularized this word, return it.
-        // -----------------------------------------------------
         if (array_key_exists($value, static::$singular_cache))
         {
            return static::$singular_cache[$value];
         }
 
-		// -----------------------------------------------------
-		// Are the singular and plural forms the same?
-		// -----------------------------------------------------
         if (in_array(Str::lower($value), static::$uncountable))
         {
         	return static::$singular_cache[$value] = $value;
         }
 
-		// -----------------------------------------------------
-		// Is the plural form irregular?
-		// -----------------------------------------------------
         foreach (static::$irregular as $irregular => $pattern)
         {
             $pattern = '/'.$pattern.'$/i';
@@ -201,9 +180,6 @@ class Inflector {
             }
         }
 
-		// -----------------------------------------------------
-		// Check the singular forms for matches.
-		// -----------------------------------------------------
         foreach (static::$singular as $pattern => $singular)
         {
             if (preg_match($pattern, $value))

@@ -10,7 +10,7 @@ class Input {
 	public static $input;
 
 	/**
-	 * Determine if the input data contains an item or set of items.
+	 * Determine if the input data contains an item or set of items that are not empty.
 	 *
 	 * @return bool
 	 */
@@ -18,25 +18,7 @@ class Input {
 	{
 		foreach (func_get_args() as $key)
 		{
-			if (is_null(static::get($key)))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determine if the input data contains an item or set of items that are not empty.
-	 *
-	 * @return bool
-	 */
-	public static function filled()
-	{
-		foreach (func_get_args() as $key)
-		{
-			if ( ! static::has($key) or trim((string) static::get($key)) == '')
+			if (is_null(static::get($key)) or trim((string) static::get($key)) == '')
 			{
 				return false;
 			}
@@ -59,11 +41,12 @@ class Input {
 			static::hydrate();
 		}
 
-		return static::from_array(static::$input, $key, $default);
+		return Arr::get($key, $default, static::$input);
 	}
 
 	/**
-	 * Determine if the old input data contains an item or set of items.
+	 * Determine if the old input data contains an item or set of
+	 * items that are not empty.
 	 *
 	 * @return bool
 	 */
@@ -71,25 +54,7 @@ class Input {
 	{
 		foreach (func_get_args() as $key)
 		{
-			if (is_null(static::old($key)))
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determine if the old input data contains an item or set of items that are not empty.
-	 *
-	 * @return bool
-	 */
-	public static function was_filled()
-	{
-		foreach (func_get_args() as $key)
-		{
-			if ( ! static::had($key) or trim((string) static::old($key)) == '')
+			if (is_null(static::old($key)) or trim((string) static::old($key)) == '')
 			{
 				return false;
 			}
@@ -112,25 +77,7 @@ class Input {
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
 		}
 
-		return static::from_array(Session::get('laravel_old_input', array()), $key, $default);
-	}
-
-	/**
-	 * Get an item from an array. If no key is specified, the entire array will be returned.
-	 *
-	 * @param  array   $array
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return string
-	 */
-	private static function from_array($array, $key, $default)
-	{
-		if (is_null($key))
-		{
-			return $array;
-		}
-
-		return (array_key_exists($key, $array)) ? $array[$key] : $default;
+		return Arr::get($key, $default, Session::get('laravel_old_input', array()));
 	}
 
 	/**
