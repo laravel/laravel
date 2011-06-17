@@ -21,10 +21,9 @@ class Config {
 		// If a dot is not present, we will just return the
 		// entire configuration array.
 		// -----------------------------------------------------
-		if(strpos($key, '.') == 0)
+		if(strpos($key, '.') === false)
 		{
 			static::load($key);
-
 			return static::$items[$key];
 		}
 
