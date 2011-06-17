@@ -24,31 +24,23 @@ class Finder {
 	 */
 	public static function find($name)
 	{
-		// --------------------------------------------------------------
-		// Load the routes if we haven't already.
-		// --------------------------------------------------------------
 		if (is_null(static::$routes))
 		{
 			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load() : require APP_PATH.'routes'.EXT;
 		}
 
-		// --------------------------------------------------------------
-		// Have we already located this route by name?
-		// --------------------------------------------------------------
 		if (array_key_exists($name, static::$names))
 		{
 			return static::$names[$name];
 		}
 
-		// --------------------------------------------------------------
-		// Instantiate the SPL array iterators.
-		// --------------------------------------------------------------
+		// ---------------------------------------------------------
+		// We haven't located the route before, so we'll need to
+		// iterate through each route to find the matching name.
+		// ---------------------------------------------------------
 		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
-		// --------------------------------------------------------------
-		// Iterate over the routes and find the named route.
-		// --------------------------------------------------------------
 		foreach ($recursiveIterator as $iterator)
 		{
 			$route = $recursiveIterator->getSubIterator();
@@ -63,15 +55,15 @@ class Finder {
 	/**
 	 * Load all of the routes from the routes directory.
 	 *
+	 * All of the various route files will be merged together
+	 * into a single array that can be searched.
+	 *
 	 * @return array
 	 */
 	private static function load()
 	{
 		$routes = array();
 
-		// --------------------------------------------------------------
-		// Merge all of the various route files together.
-		// --------------------------------------------------------------
 		foreach (glob(APP_PATH.'routes/*') as $file)
 		{
 			if (filetype($file) == 'file')
