@@ -76,6 +76,20 @@ abstract class Eloquent {
 	public $query;
 
 	/**
+	 * Create a new Eloquent model instance.
+	 *
+	 * @param  array  $attributes
+	 * @return void
+	 */
+	public function __construct($attributes = array())
+	{
+		foreach ($attributes as $key => $value)
+		{
+			$this->$key = $value;
+		}
+	}
+
+	/**
 	 * Get the table name for a model.
 	 *
 	 * @param  string  $class
@@ -272,12 +286,12 @@ abstract class Eloquent {
 		//
 		// This is the same convention as has_one and has_many.
 		// -----------------------------------------------------
-		$this->relating_key = $this->relating_table.'.'.Str::lower(get_class($this)).'_id';
+		$this->relating_key = Str::lower(get_class($this)).'_id';
 
 		return static::make($model)
 						->select(static::table($model).'.*')
 						->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.Str::lower($model).'_id')
-						->where($this->relating_key, '=', $this->id);
+						->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
 	}
 
 	/**
