@@ -20,6 +20,7 @@ define('LARAVEL_START', microtime(true));
 define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath('../system').'/');
 define('BASE_PATH', realpath('../').'/');
+define('PUBLIC_PATH', realpath(__DIR__.'/'));
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
