@@ -10,7 +10,7 @@ class DB implements \System\Session\Driver {
 	 */
 	public function load($id)
 	{
-		$session = $this->query()->find($id);
+		$session = $this->table()->find($id);
 
 		if ( ! is_null($session))
 		{
@@ -27,7 +27,7 @@ class DB implements \System\Session\Driver {
 	public function save($session)
 	{
 		$this->delete($session['id']);
-		$this->query()->insert(array('id' => $session['id'], 'last_activity' => $session['last_activity'], 'data' => serialize($session['data'])));
+		$this->table()->insert(array('id' => $session['id'], 'last_activity' => $session['last_activity'], 'data' => serialize($session['data'])));
 	}
 
 	/**
@@ -38,7 +38,7 @@ class DB implements \System\Session\Driver {
 	 */
 	public function delete($id)
 	{
-		$this->query()->where('id', '=', $id)->delete();
+		$this->table()->delete($id);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class DB implements \System\Session\Driver {
 	 */
 	public function sweep($expiration)
 	{
-		$this->query()->where('last_activity', '<', $expiration)->delete();
+		$this->table()->where('last_activity', '<', $expiration)->delete();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class DB implements \System\Session\Driver {
 	 *
 	 * @return Query
 	 */
-	private function query()
+	private function table()
 	{
 		return \System\DB::table(\System\Config::get('session.table'));		
 	}
