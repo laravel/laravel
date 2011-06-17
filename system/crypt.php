@@ -25,7 +25,8 @@ class Crypt {
 	public static function encrypt($value)
 	{
 		// -----------------------------------------------------
-		// Determine the input vector source.
+		// Determine the input vector source. Different servers
+		// and operating systems will have varying options.
 		// -----------------------------------------------------
 		if (defined('MCRYPT_DEV_URANDOM'))
 		{
@@ -41,21 +42,19 @@ class Crypt {
 		}
 
 		// -----------------------------------------------------
-		// The system random number generator must be seeded.
+		// The system random number generator must be seeded
+		// to produce adequately random results.
 		// -----------------------------------------------------
 		if ($random === MCRYPT_RAND)
 		{
 			mt_srand();
 		}
 
-		// -----------------------------------------------------
-		// Create the Mcrypt input vector and encrypt the value.
-		// -----------------------------------------------------
 		$iv = mcrypt_create_iv(static::iv_size(), $random);
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
 		// -----------------------------------------------------
-		// Use base64 encoding to get a string value.
+		// We use base64 encoding to get a nice string value.
 		// -----------------------------------------------------
 		return base64_encode($iv.$value);
 	}
@@ -68,6 +67,10 @@ class Crypt {
 	 */
 	public static function decrypt($value)
 	{
+		// -----------------------------------------------------
+		// Since all of our encrypted values are base64 encoded,
+		// we will decode the value here and verify it.
+		// -----------------------------------------------------
 		$value = base64_decode($value, true);
 
 		if ( ! $value)
@@ -81,7 +84,7 @@ class Crypt {
 		$iv = substr($value, 0, static::iv_size());
 
 		// -----------------------------------------------------
-		// Remove the input vector from the value.
+		// Remove the input vector from the encrypted value.
 		// -----------------------------------------------------
 		$value = substr($value, static::iv_size());
 
@@ -105,6 +108,8 @@ class Crypt {
 
 	/**
 	 * Get the input vector size for the cipher and mode.
+	 *
+	 * Different ciphers and modes use varying lengths of input vectors.
 	 *
 	 * @return int
 	 */
