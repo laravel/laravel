@@ -19,9 +19,6 @@ class Filter {
 	 */
 	public static function call($filters, $parameters = array(), $override = false)
 	{
-		// --------------------------------------------------------------
-		// Load the filters if necessary.
-		// --------------------------------------------------------------
 		if (is_null(static::$filters))
 		{
 			static::$filters = require APP_PATH.'filters'.EXT;
