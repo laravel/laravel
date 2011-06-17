@@ -11,25 +11,14 @@ class Parser {
 	 */
 	public static function parameters($uri, $route)
 	{
-		// --------------------------------------------------------------
-		// Split the request URI into segments.
-		// --------------------------------------------------------------
-		$uri_segments = explode('/', $uri);
+		$parameters = array();
 
-		// --------------------------------------------------------------
-		// Split the route URI into segments.
-		// --------------------------------------------------------------
+		$uri_segments = explode('/', $uri);
 		$route_segments = explode('/', $route);
 
 		// --------------------------------------------------------------
-		// Initialize the array of parameters.
-		// --------------------------------------------------------------
-		$parameters = array();
-
-		// --------------------------------------------------------------
-		// Extract all of the parameters out of the URI.
-		//
-		// Any segment wrapped in parentheses is considered a parameter.
+		// Extract all of the parameters out of the URI. Any route
+		// segment wrapped in parentheses is considered a parameter.
 		// --------------------------------------------------------------
 		for ($i = 0; $i < count($route_segments); $i++)
 		{
