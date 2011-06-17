@@ -1,5 +1,9 @@
 <?php namespace System\DB;
 
+use System\DB;
+use System\Config;
+use System\Str;
+
 class Query {
 
 	/**
@@ -81,7 +85,7 @@ class Query {
 	 */
 	public function __construct($table, $connection = null)
 	{
-		$this->connection = (is_null($connection)) ? \System\Config::get('db.default') : $connection;
+		$this->connection = (is_null($connection)) ? Config::get('db.default') : $connection;
 		$this->from = 'FROM '.$this->wrap($this->table = $table);
 	}
 
@@ -116,10 +120,6 @@ class Query {
 	public function select()
 	{
 		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
-
-		// ---------------------------------------------------
-		// Wrap all of the columns in keyword identifiers.
-		// ---------------------------------------------------
 		$this->select .= implode(', ', array_map(array($this, 'wrap'), func_get_args()));
 
 		return $this;
@@ -326,7 +326,7 @@ class Query {
 	 */
 	public function order_by($column, $direction)
 	{
-		$this->orderings[] = $this->wrap($column).' '.\System\Str::upper($direction);
+		$this->orderings[] = $this->wrap($column).' '.Str::upper($direction);
 		return $this;
 	}
 
@@ -387,7 +387,7 @@ class Query {
 			call_user_func_array(array($this, 'select'), (count(func_get_args()) > 0) ? func_get_args() : array('*'));
 		}
 
-		return \System\DB::query(Query\Compiler::select($this), $this->bindings, $this->connection);
+		return DB::query(Query\Compiler::select($this), $this->bindings, $this->connection);
 	}
 
 	/**
@@ -400,10 +400,7 @@ class Query {
 	private function aggregate($aggregator, $column)
 	{
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
-
-		$results = \System\DB::query(Query\Compiler::select($this), $this->bindings);
-
-		return $results[0]->aggregate;
+		return $this->first()->aggregate;
 	}
 
 	/**
@@ -414,7 +411,7 @@ class Query {
 	 */
 	public function insert($values)
 	{
-		return \System\DB::query(Query\Compiler::insert($this, $values), array_values($values), $this->connection);
+		return DB::query(Query\Compiler::insert($this, $values), array_values($values), $this->connection);
 	}
 
 	/**
@@ -427,28 +424,25 @@ class Query {
 	{
 		$sql = Query\Compiler::insert($this, $values);
 
-		// ---------------------------------------------------
-		// Postgres.
-		// ---------------------------------------------------
-		if (\System\DB::connection($this->connection)->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
+		// ---------------------------------------------------------
+		// Use the RETURNING clause on Postgres instead of PDO.
+		// The Postgres PDO ID method is slightly cumbersome.
+		// ---------------------------------------------------------
+		if (DB::driver($this->connection) == 'pgsql')
 		{
-			$sql .= ' RETURNING '.$this->wrap('id');
+			$query = DB::connection($this->connection)->prepare($sql.' RETURNING '.$this->wrap('id'));
 
-			$query = \System\DB::connection($this->connection)->prepare($sql);
 			$query->execute(array_values($values));
 
-			$result = $query->fetch(\PDO::FETCH_ASSOC);
+			return $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
+		}
 
-			return $result['id'];
-		}
-		// ---------------------------------------------------
-		// MySQL and SQLite.
-		// ---------------------------------------------------
-		else
-		{
-			\System\DB::query($sql, array_values($values), $this->connection);
-			return \System\DB::connection($this->connection)->lastInsertId();
-		}
+		// ---------------------------------------------------------
+		// Use the PDO ID method for MySQL and SQLite.
+		// ---------------------------------------------------------
+		DB::query($sql, array_values($values), $this->connection);
+
+		return DB::connection($this->connection)->lastInsertId();
 	}
 
 	/**
@@ -459,7 +453,7 @@ class Query {
 	 */
 	public function update($values)
 	{
-		return \System\DB::query(Query\Compiler::update($this, $values), array_merge(array_values($values), $this->bindings), $this->connection);
+		return DB::query(Query\Compiler::update($this, $values), array_merge(array_values($values), $this->bindings), $this->connection);
 	}
 
 	/**
@@ -475,27 +469,18 @@ class Query {
 			$this->where('id', '=', $id);
 		}
 
-		return \System\DB::query(Query\Compiler::delete($this), $this->bindings, $this->connection);		
+		return DB::query(Query\Compiler::delete($this), $this->bindings, $this->connection);		
 	}
 
 	/**
 	 * Wrap a value in keyword identifiers.
 	 *
 	 * @param  string  $value
-	 * @param  string  $wrap
 	 * @return string
 	 */
-	public function wrap($value, $wrap = '"')
+	public function wrap($value)
 	{
-		// ---------------------------------------------------
-		// If the application is using MySQL, we need to use
-		// a non-standard keyword identifier.
-		// ---------------------------------------------------
-		if (\System\DB::connection($this->connection)->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
-		{
-			$wrap = '`';
-		}
-
+		$wrap = (DB::driver($this->connection) == 'mysql') ? '`' : '"';
 		return implode('.', array_map(function($segment) use ($wrap) {return ($segment != '*') ? $wrap.$segment.$wrap : $segment;}, explode('.', $value)));
 	}
 
@@ -515,17 +500,12 @@ class Query {
 	 */
 	public function __call($method, $parameters)
 	{
-		// ---------------------------------------------------
-		// Handle any of the aggregate functions.
-		// ---------------------------------------------------
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
-			return ($method == 'count') ? $this->aggregate(\System\Str::upper($method), '*') : $this->aggregate(\System\Str::upper($method), $parameters[0]);
+			return ($method == 'count') ? $this->aggregate(Str::upper($method), '*') : $this->aggregate(Str::upper($method), $parameters[0]);
 		}
-		else
-		{
-			throw new \Exception("Method [$method] is not defined on the Query class.");
-		}
+
+		throw new \Exception("Method [$method] is not defined on the Query class.");
 	}
 
 }
