@@ -19,9 +19,6 @@ class Form {
 	 */	
 	public static function open($action = null, $method = 'POST', $attributes = array())
 	{
-		// -------------------------------------------------------
-		// If no action was given, use the current URI.
-		// -------------------------------------------------------
 		if (is_null($action))
 		{
 			$action = Request::uri();
@@ -80,6 +77,10 @@ class Form {
 	 */
 	public static function raw_token()
 	{
+		// -------------------------------------------------------
+		// CSRF tokens are stored in the session, so we need to
+		// make sure a driver has been specified.
+		// -------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');			
@@ -221,8 +222,8 @@ class Form {
 		{
 			$attributes['checked'] = 'checked';
 		}
-		
-		(in_array($name, static::$labels)) ? $attributes['id'] = $name : null;
+
+		$attributes['id'] = static::id($name, $attributes);
 
 		return static::input($type, $name, $value, $attributes);
 	}
@@ -238,7 +239,7 @@ class Form {
 	public static function textarea($name, $value = '', $attributes = array())
 	{
 		$attributes['name'] = $name;
-		(in_array($name, static::$labels)) ? $attributes['id'] = $name : null;
+		$attributes['id'] = static::id($name, $attributes);
 
 		// -------------------------------------------------------
 		// Set the default number of rows.
@@ -271,7 +272,7 @@ class Form {
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
 		$attributes['name'] = $name;
-		(in_array($name, static::$labels)) ? $attributes['id'] = $name : null;
+		$attributes['id'] = static::id($name, $attributes);
 
 		$html_options = array();
 
@@ -301,9 +302,37 @@ class Form {
 		$attributes['type'] = $type;
 		$attributes['name'] = $name;
 		$attributes['value'] = $value;
-		(in_array($name, static::$labels)) ? $attributes['id'] = $name : null;
+		$attributes['id'] = static::id($name, $attributes);
 
 		return '<input'.HTML::attributes($attributes).' />'.PHP_EOL;
+	}
+
+	/**
+	 * Determine the ID attribute for a form element.
+	 *
+	 * @param  string  $name
+	 * @param  array   $attributes
+	 * @return mixed
+	 */
+	private static function id($name, $attributes)
+	{
+		// -------------------------------------------------------
+		// If an ID attribute was already explicitly specified
+		// for the element, just use that.
+		// -------------------------------------------------------
+		if (array_key_exists('id', $attributes))
+		{
+			return $attributes['id'];
+		}
+
+		// -------------------------------------------------------
+		// If a label element was created with a value matching
+		// the name of the form element, use the name as the ID.
+		// -------------------------------------------------------
+		if (in_array($name, static::$labels))
+		{
+			return $name;
+		}
 	}
 
 }
