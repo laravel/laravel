@@ -11,7 +11,7 @@ class Loader {
 	public static function load($uri)
 	{
 		// --------------------------------------------------------------
-		// If a single routes is being used, return it.
+		// If a single route file is being used, return it.
 		// --------------------------------------------------------------
 		if ( ! is_dir(APP_PATH.'routes'))
 		{
