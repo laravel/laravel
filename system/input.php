@@ -10,21 +10,14 @@ class Input {
 	public static $input;
 
 	/**
-	 * Determine if the input data contains an item or set of items that are not empty.
+	 * Determine if the input data contains an item that is not empty.
 	 *
+	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has()
+	public static function has($key)
 	{
-		foreach (func_get_args() as $key)
-		{
-			if (is_null(static::get($key)) or trim((string) static::get($key)) == '')
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) != '');
 	}
 
 	/**
@@ -45,22 +38,14 @@ class Input {
 	}
 
 	/**
-	 * Determine if the old input data contains an item or set of
-	 * items that are not empty.
+	 * Determine if the old input data contains an item that is not empty.
 	 *
+	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function had()
+	public static function had($key)
 	{
-		foreach (func_get_args() as $key)
-		{
-			if (is_null(static::old($key)) or trim((string) static::old($key)) == '')
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) != '');
 	}
 
 	/**
@@ -72,6 +57,10 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
+		// ----------------------------------------------------------
+		// Since old input data is flashed to the session, we need
+		// to make sure a session driver has been specified.
+		// ----------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");

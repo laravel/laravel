@@ -95,7 +95,7 @@ class Cookie {
 	 */
 	public static function has($name)
 	{
-		return ! is_null(static::get($key));
+		return ! is_null(static::get($name));
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		return (array_key_exists($name, $_COOKIE)) ? $_COOKIE[$name] : $default;
+		return Arr::get($_COOKIE, $name, $default);
 	}
 
 	/**

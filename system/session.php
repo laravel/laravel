@@ -68,23 +68,16 @@ class Session {
 	}
 
 	/**
-	 * Determine if the session or flash data contains an item or set of items.
+	 * Determine if the session or flash data contains an item.
 	 *
+	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has()
+	public static function has($key)
 	{
-		foreach (func_get_args() as $key)
-		{
-			if ( ! array_key_exists($key, static::$session['data']) and 
-			     ! array_key_exists(':old:'.$key, static::$session['data']) and 
-			     ! array_key_exists(':new:'.$key, static::$session['data']))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return (array_key_exists($key, static::$session['data']) or
+			    array_key_exists(':old:'.$key, static::$session['data']) or
+			    array_key_exists(':new:'.$key, static::$session['data']));
 	}
 
 	/**

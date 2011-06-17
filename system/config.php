@@ -24,10 +24,12 @@ class Config {
 		if(strpos($key, '.') === false)
 		{
 			static::load($key);
+
 			return static::$items[$key];
 		}
 
 		list($file, $key) = static::parse($key);
+
 		static::load($file);
 
 		if (array_key_exists($key, static::$items[$file]))
@@ -48,6 +50,7 @@ class Config {
 	public static function set($key, $value)
 	{
 		list($file, $key) = static::parse($key);
+
 		static::load($file);
 
 		static::$items[$file][$key] = $value;
