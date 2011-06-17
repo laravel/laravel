@@ -41,7 +41,7 @@ class Input {
 			static::hydrate();
 		}
 
-		return Arr::get($key, $default, static::$input);
+		return Arr::get(static::$input, $key, $default);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Input {
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
 		}
 
-		return Arr::get($key, $default, Session::get('laravel_old_input', array()));
+		return Arr::get(Session::get('laravel_old_input', array()), $key, $default);
 	}
 
 	/**

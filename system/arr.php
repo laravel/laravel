@@ -5,12 +5,12 @@ class Arr {
 	/**
 	 * Get an item from an array.
 	 *
-	 * @param  string  $key
-	 * @param  string  $default
 	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  array   $default
 	 * @return mixed
 	 */
-	public static function get($key, $default = null, $array = array())
+	public static function get($array, $key, $default = null)
 	{
 		if (is_null($key))
 		{
