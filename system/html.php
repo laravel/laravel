@@ -58,7 +58,7 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function link_to_secure($url, $title, $attributes)
+	public static function link_to_secure($url, $title, $attributes = array())
 	{
 		return static::link($url, $title, $attributes, true);
 	}
@@ -71,7 +71,7 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function link_to_asset($url, $title, $attributes)
+	public static function link_to_asset($url, $title, $attributes = array())
 	{
 		return static::link($url, $title, $attributes, false, true);
 	}
