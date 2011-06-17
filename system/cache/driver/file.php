@@ -29,17 +29,11 @@ class File implements \System\Cache\Driver {
 	 */	
 	public function get($key, $default = null)
 	{
-		// --------------------------------------------------
-		// If the item has already been loaded, return it.
-		// --------------------------------------------------
 		if (array_key_exists($key, $this->items))
 		{
 			return $this->items[$key];
 		}
 
-		// --------------------------------------------------
-		// Does the cache item even exist?
-		// --------------------------------------------------
 		if ( ! file_exists(APP_PATH.'cache/'.$key))
 		{
 			return $default;
