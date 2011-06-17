@@ -92,7 +92,7 @@ class URL {
 			// ----------------------------------------------------
 			foreach ($parameters as $parameter)
 			{
-				$uri = preg_replace('/\(.+\)/', $parameter, $uri, 1);
+				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
 			return static::to($uri, $https);
