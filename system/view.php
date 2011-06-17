@@ -49,47 +49,6 @@ class View {
 	}
 
 	/**
-	 * Load the content of a view.
-	 *
-	 * @param  string  $view
-	 * @return string
-	 */
-	private function load($view)
-	{
-		// -----------------------------------------------------
-		// Does the view exist in the application directory?
-		// -----------------------------------------------------
-		if (file_exists($path = APP_PATH.'views/'.$view.EXT))
-		{
-			return file_get_contents($path);
-		}
-		// -----------------------------------------------------
-		// Does the view exist in the system directory?
-		// -----------------------------------------------------
-		elseif (file_exists($path = SYS_PATH.'views/'.$view.EXT))
-		{
-			return file_get_contents($path);
-		}
-		else
-		{
-			throw new \Exception("View [$view] doesn't exist.");
-		}
-	}
-
-	/**
-	 * Add a key / value pair to the view data.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return View
-	 */
-	public function bind($key, $value)
-	{
-		$this->data[$key] = $value;
-		return $this;
-	}
-
-	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
@@ -118,13 +77,66 @@ class View {
 		extract($this->data, EXTR_SKIP);
 
 		// -----------------------------------------------------
-		// Get the string content of the view.
+		// Start the output buffer so nothing escapes to the
+		// browser. The response will be sent later.
 		// -----------------------------------------------------
 		ob_start();
 
-		echo eval('?>'.$this->load($this->view));
+		$path = $this->find();
+
+		// -----------------------------------------------------
+		// We include the view into the local scope within a
+		// try / catch block to catch any exceptions that may
+		// occur while the view is rendering.
+		// -----------------------------------------------------
+		try
+		{
+			include $path;
+		}
+		catch (\Exception $e)
+		{
+			Error::handle($e);
+		}
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get the full path to the view.
+	 *
+	 * Views are cascaded, so the application directory views
+	 * will take precedence over the system directory's views
+	 * of the same name.
+	 *
+	 * @return string
+	 */
+	private function find()
+	{
+		if (file_exists($path = APP_PATH.'views/'.$this->view.EXT))
+		{
+			return $path;
+		}
+		elseif (file_exists($path = SYS_PATH.'views/'.$this->view.EXT))
+		{
+			return $path;
+		}
+		else
+		{
+			throw new \Exception("View [".$this->view."] doesn't exist.");
+		}
+	}
+
+	/**
+	 * Add a key / value pair to the view data.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return View
+	 */
+	public function bind($key, $value)
+	{
+		$this->data[$key] = $value;
+		return $this;
 	}
 
 	/**
