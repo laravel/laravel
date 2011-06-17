@@ -17,8 +17,7 @@ class Parser {
 		$route_segments = explode('/', $route);
 
 		// --------------------------------------------------------------
-		// Extract all of the parameters out of the URI. Any route
-		// segment wrapped in parentheses is considered a parameter.
+		// Any route segment wrapped in parentheses is a parameter.
 		// --------------------------------------------------------------
 		for ($i = 0; $i < count($route_segments); $i++)
 		{
