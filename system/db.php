@@ -3,7 +3,7 @@
 class DB {
 
 	/**
-	 * The active database connections.
+	 * The established database connections.
 	 *
 	 * @var array
 	 */
@@ -25,6 +25,8 @@ class DB {
 		// ---------------------------------------------------
 		// If we have already established this connection,
 		// simply return the existing connection.
+		//
+		// Don't want to establish the same connection twice!
 		// ---------------------------------------------------
 		if ( ! array_key_exists($connection, static::$connections))
 		{
@@ -35,9 +37,6 @@ class DB {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			// ---------------------------------------------------
-			// Establish the database connection.
-			// ---------------------------------------------------
 			static::$connections[$connection] = DB\Connector::connect((object) $config[$connection]);
 		}
 
@@ -59,13 +58,13 @@ class DB {
 		$result = $query->execute($bindings);
 
 		// ---------------------------------------------------
-		// For SELECT statements, return the results in an
-		// array of stdClasses.
+		// For SELECT statements, the results will be returned
+		// as an array of stdClasses.
 		//
-		// For UPDATE and DELETE statements, return the number
-		// or rows affected by the query.
+		// For UPDATE and DELETE statements, the number of
+		// rows affected by the query will be returned.
 		//
-		// For everything else, return a boolean.
+		// For all other statements, return a boolean.
 		// ---------------------------------------------------
 		if (strpos(Str::upper($sql), 'SELECT') === 0)
 		{
@@ -83,6 +82,8 @@ class DB {
 
 	/**
 	 * Begin a fluent query against a table.
+	 *
+	 * This method is simply a convenient shortcut into Query::table.
 	 *
 	 * @param  string  $table
 	 * @param  string  $connection
