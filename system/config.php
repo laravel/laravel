@@ -17,17 +17,16 @@ class Config {
 	 */
 	public static function get($key)
 	{
-		// -----------------------------------------------------
-		// Parse the key to separate the file and key name.
-		// -----------------------------------------------------
 		list($file, $key) = static::parse($key);
 
-		// -----------------------------------------------------
-		// Load the appropriate configuration file.
-		// -----------------------------------------------------
 		static::load($file);
 
-		return (array_key_exists($key, static::$items[$file])) ? static::$items[$file][$key] : null;
+		if (array_key_exists($key, static::$items[$file]))
+		{
+			return static::$items[$file][$key];
+		}
+
+		throw new \Exception("Configuration item [$key] is not defined.");
 	}
 
 	/**
@@ -39,14 +38,8 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
-		// -----------------------------------------------------
-		// Parse the key to separate the file and key name.
-		// -----------------------------------------------------
 		list($file, $key) = static::parse($key);
 
-		// -----------------------------------------------------
-		// Load the appropriate configuration file.
-		// -----------------------------------------------------
 		static::load($file);
 
 		static::$items[$file][$key] = $value;
@@ -60,6 +53,14 @@ class Config {
 	 */
 	private static function parse($key)
 	{
+		// -----------------------------------------------------
+		// The left side of the dot is the file name, while
+		// the right side of the dot is the item within that
+		// file being requested.
+		//
+		// This syntax allows for the easy retrieval and setting
+		// of configuration items.
+		// -----------------------------------------------------
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
@@ -67,11 +68,6 @@ class Config {
 			throw new \Exception("Invalid configuration key [$key].");
 		}
 
-		// -----------------------------------------------------
-		// The left side of the dot is the file name, while
-		// the right side of the dot is the item within that
-		// file being requested.
-		// -----------------------------------------------------
 		return array($segments[0], implode('.', array_slice($segments, 1)));
 	}
 
@@ -96,6 +92,10 @@ class Config {
 			throw new \Exception("Configuration file [$file] does not exist.");
 		}
 
+		// -----------------------------------------------------
+		// Load the configuration array into the array of items.
+		// The items array is keyed by filename.
+		// -----------------------------------------------------
 		static::$items[$file] = require $path;
 	}
 
