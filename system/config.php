@@ -17,9 +17,9 @@ class Config {
 	 */
 	public static function get($key)
 	{
-
 		// -----------------------------------------------------
-		// We are are just pulling in a file, skip loading a key
+		// If a dot is not present, we will just return the
+		// entire configuration array.
 		// -----------------------------------------------------
 		if(strpos($key, '.') == 0)
 		{
@@ -29,7 +29,6 @@ class Config {
 		}
 
 		list($file, $key) = static::parse($key);
-		
 		static::load($file);
 
 		if (array_key_exists($key, static::$items[$file]))
@@ -50,7 +49,6 @@ class Config {
 	public static function set($key, $value)
 	{
 		list($file, $key) = static::parse($key);
-
 		static::load($file);
 
 		static::$items[$file][$key] = $value;
