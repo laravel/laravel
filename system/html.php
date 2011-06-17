@@ -21,7 +21,7 @@ class HTML {
 	 */
 	public static function script($url)
 	{
-		return '<script type="text/javascript" src="'.trim(static::entities(URL::to($url)), '.js').'.js"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.trim(static::entities(URL::to_asset($url)), '.js').'.js"></script>'.PHP_EOL;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.trim(static::entities(URL::to($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.trim(static::entities(URL::to_asset($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
 	}
 
 	/**
@@ -42,11 +42,12 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $attributes
 	 * @param  bool    $https
+	 * @param  bool    $asset
 	 * @return string
 	 */
-	public static function link($url, $title, $attributes = array(), $https = false)
+	public static function link($url, $title, $attributes = array(), $https = false, $asset = false)
 	{
-		return '<a href="'.static::entities(URL::to($url, $https)).'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return '<a href="'.static::entities(URL::to($url, $https, $asset)).'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -57,9 +58,22 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function secure_link($url, $title, $attributes)
+	public static function link_to_secure($url, $title, $attributes)
 	{
 		return static::link($url, $title, $attributes, true);
+	}
+
+	/**
+	 * Generate an HTML link to an asset.
+	 *
+	 * @param  string  $url
+	 * @param  string  $title
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_asset($url, $title, $attributes)
+	{
+		return static::link($url, $title, $attributes, false, true);
 	}
 
 	/**
@@ -72,9 +86,6 @@ class HTML {
 	 */
 	public static function mailto($email, $title = null, $attributes = array())
 	{
-		// -------------------------------------------------------
-		// Obfuscate the e-mail address.
-		// -------------------------------------------------------
 		$email = static::email($email);
 
 		if (is_null($title))
@@ -107,7 +118,7 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = static::entities($alt);
-		return '<img src="'.static::entities(URL::to($url)).'"'.static::attributes($attributes).' />';
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).' />';
 	}
 
 	/**
@@ -166,11 +177,6 @@ class HTML {
 	 */
 	private static function list_elements($type, $list, $attributes)
 	{
-		if ( ! is_array($list))
-		{
-			return '';
-		}
-
 		$html = '';
 
 		foreach ($list as $key => $value)
@@ -199,14 +205,7 @@ class HTML {
 			}
 		}
 
-		if (count($html) > 0)
-		{
-			return ' '.implode(' ', $html);
-		}
-		else
-		{
-			return '';
-		}
+		return (count($html) > 0) ? ' '.implode(' ', $html) : '';
 	}
 
 	/**

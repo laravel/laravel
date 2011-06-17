@@ -6,9 +6,11 @@ class URL {
 	 * Generate an application URL.
 	 *
 	 * @param  string  $url
+	 * @param  bool    $https
+	 * @param  bool    $asset
 	 * @return string
 	 */
-	public static function to($url = '', $https = false)
+	public static function to($url = '', $https = false, $asset = false)
 	{
 		// ----------------------------------------------------
 		// Return the URL unchanged if it is already formed.
@@ -21,7 +23,17 @@ class URL {
 		// ----------------------------------------------------
 		// Get the base URL and index page.
 		// ----------------------------------------------------
-		$base = Config::get('application.url').'/'.Config::get('application.index');
+		$base = Config::get('application.url');
+
+		// ----------------------------------------------------
+		// Assets live in the public directory, so we don't
+		// want to append the index file to the URL if the
+		// URL is to an asset.
+		// ----------------------------------------------------
+		if ( ! $asset)
+		{
+			$base .= '/'.Config::get('application.index');
+		}
 
 		// ----------------------------------------------------
 		// Does the URL need an HTTPS protocol?
@@ -43,6 +55,18 @@ class URL {
 	public static function to_secure($url = '')
 	{
 		return static::to($url, true);
+	}
+
+	/**
+	 * Generate an application URL to an asset. The index file
+	 * will not be added to the URL.
+	 *
+	 * @param  string  $url
+	 * @return string
+	 */
+	public static function to_asset($url)
+	{
+		return static::to($url, false, true);
 	}
 
 	/**
