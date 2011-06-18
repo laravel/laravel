@@ -7,7 +7,7 @@ class Request {
 	 *
 	 * @var string
 	 */
-	private static $uri;
+	public static $uri;
 
 	/**
 	 * Get the request URI.
