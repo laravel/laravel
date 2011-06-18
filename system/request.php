@@ -59,6 +59,24 @@ class Request {
 	}
 
 	/**
+	 * Check the request URI.
+	 *
+	 * @param  mixed $uri
+	 * @return bool
+	 */
+	public static function is($uri)
+	{
+		if (is_array($uri))
+		{
+			return (in_array(static::uri(), $uri)) ? true : false;
+		}
+		else
+		{
+			return (static::uri() == $uri) ? true : false;
+		}
+	}
+
+	/**
 	 * Get the request method.
 	 *
 	 * @return string
