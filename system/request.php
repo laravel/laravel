@@ -10,6 +10,13 @@ class Request {
 	public static $uri;
 
 	/**
+	 * The route handling the current request.
+	 *
+	 * @var Route
+	 */
+	public static $route;
+
+	/**
 	 * Get the request URI.
 	 *
 	 * @return string
@@ -68,28 +75,14 @@ class Request {
 	}
 
 	/**
-	 * Check the URI against a string or set of strings.
+	 * Determine if the route handling the request is a given name.
 	 *
+	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function is()
+	public static function is($name)
 	{
-		$parameters = func_get_args();
-
-		// -------------------------------------------------------
-		// If any of the parameters match the URI, return true.
-		// -------------------------------------------------------
-		if (count($parameters) > 1)
-		{
-			return in_array(static::uri(), $parameters);
-		}
-
-		if (count($parameters) === 1)
-		{
-			return static::uri() == $parameters[0];
-		}
-
-		return false;
+		return (is_array(static::$route->callback) and isset(static::$route->callback['name']) and  static::$route->callback['name'] === $name);
 	}
 
 	/**
@@ -132,7 +125,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public static function is_secure()
+	public static function secure()
 	{
 		return (static::protocol() == 'https');
 	}
@@ -152,9 +145,25 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public static function is_ajax()
+	public static function ajax()
 	{
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and Str::lower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+	}
+
+	/**
+	 * Magic Method to handle dynamic static methods.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		// --------------------------------------------------------------
+		// Dynamically call the "is" method using the given name.
+		//
+		// Example: Request::is_login()
+		// --------------------------------------------------------------
+		if (strpos($method, 'is_') === 0)
+		{
+			return static::is(substr($method, 3));
+		}
 	}
 
 }
