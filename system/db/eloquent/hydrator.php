@@ -49,8 +49,9 @@ class Hydrator {
 
 		foreach ($results as $result)
 		{
-			$model = new $class((array) $result);
+			$model = new $class;
 
+			$model->attributes = (array) $result;
 			$model->exists = true;
 
 			// -----------------------------------------------------
@@ -240,8 +241,9 @@ class Hydrator {
 		// -----------------------------------------------------
 		foreach ($children as $child)
 		{
-			$related = new $class((array) $child);
+			$related = new $class;
 
+			$related->attributes = (array) $child;
 			$related->exists = true;
 
 			// -----------------------------------------------------
