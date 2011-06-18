@@ -40,7 +40,7 @@ class APC implements \System\Cache\Driver {
 		// --------------------------------------------------
 		// Attempt to the get the item from cache.
 		// --------------------------------------------------
-		$cache = apc_fetch($key);
+		$cache = apc_fetch(\System\Config::get('cache.key').$key);
 
 		// --------------------------------------------------
 		// Verify that the item was retrieved.
@@ -63,7 +63,7 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		apc_store($key, $value, $minutes * 60);
+		apc_store(\System\Config::get('cache.key').$key, $value, $minutes * 60);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		apc_delete($key);
+		apc_delete(\System\Config::get('cache.key').$key);
 	}
 
 }
