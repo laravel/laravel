@@ -33,7 +33,7 @@ class Router {
 		// --------------------------------------------------------------
 		if (isset(static::$routes[$method.' '.$uri]))
 		{
-			return new Route(static::$routes[$method.' '.$uri]);
+			return Request::$route = new Route($method.' '.$uri, static::$routes[$method.' '.$uri]);
 		}
 
 		// --------------------------------------------------------------
@@ -50,13 +50,13 @@ class Router {
 				// --------------------------------------------------------------
 				// Routes can be comma-delimited, so spin through each one.
 				// --------------------------------------------------------------
-				foreach (explode(', ', $keys) as $route)
+				foreach (explode(', ', $keys) as $key)
 				{
-					$route = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $route));
+					$key = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $key));
 
-					if (preg_match('#^'.$route.'$#', $method.' '.$uri))
+					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
-						return new Route($callback, Route\Parser::parameters($uri, $route));
+						return Request::$route = new Route($key, $callback, Route\Parser::parameters($uri, $key));
 					}
 				}				
 			}
