@@ -18,16 +18,16 @@ class Loader {
 			return require APP_PATH.'routes'.EXT;			
 		}
 
+		if ( ! file_exists(APP_PATH.'routes/home'.EXT))
+		{
+			throw new \Exception("A [home] route file is required when using a route directory.");					
+		}
+
 		// --------------------------------------------------------------
 		// If the request is to the root, load the "home" routes file.
 		// --------------------------------------------------------------
 		if ($uri == '/')
 		{
-			if ( ! file_exists(APP_PATH.'routes/home'.EXT))
-			{
-				throw new \Exception("A [home] route file is required when using a route directory.");					
-			}
-
 			return require APP_PATH.'routes/home'.EXT;
 		}
 		// --------------------------------------------------------------
@@ -39,7 +39,7 @@ class Loader {
 
 			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
 			{
-				throw new \Exception("No route file defined for routes beginning with [".$segments[0]."]");
+				return require APP_PATH.'routes/home'.EXT;
 			}
 
 			return array_merge(require APP_PATH.'routes/'.$segments[0].EXT, require APP_PATH.'routes/home'.EXT);
