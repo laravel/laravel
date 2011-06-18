@@ -3,14 +3,26 @@
 class Request {
 
 	/**
+	 * The request URI.
+	 *
+	 * @var string
+	 */
+	private static $uri;
+
+	/**
 	 * Get the request URI.
 	 *
 	 * @return string
 	 */
 	public static function uri()
 	{
+		if ( ! is_null(static::$uri))
+		{
+			return static::$uri;
+		}
+
 		// -------------------------------------------------------
-		// If the PATH_INFO is available, use it.
+		// Use the PATH_INFO variable if it is available.
 		// -------------------------------------------------------
 		if (isset($_SERVER['PATH_INFO']))
 		{
@@ -28,9 +40,6 @@ class Request {
 				throw new \Exception("Malformed request URI. Request terminated.");
 			}
 		}
-		// -------------------------------------------------------
-		// Neither PATH_INFO or REQUEST_URI are available.
-		// -------------------------------------------------------
 		else
 		{
 			throw new \Exception('Unable to determine the request URI.');
@@ -59,21 +68,28 @@ class Request {
 	}
 
 	/**
-	 * Check the request URI.
+	 * Check the URI against a string or set of strings.
 	 *
-	 * @param  mixed $uri
 	 * @return bool
 	 */
-	public static function is($uri)
+	public static function is()
 	{
-		if (is_array($uri))
+		$parameters = func_get_args();
+
+		// -------------------------------------------------------
+		// If any of the parameters match the URI, return true.
+		// -------------------------------------------------------
+		if (count($parameters) > 1)
 		{
-			return (in_array(static::uri(), $uri)) ? true : false;
+			return in_array(static::uri(), $parameters);
 		}
-		else
+
+		if (count($parameters) === 1)
 		{
-			return (static::uri() == $uri) ? true : false;
+			return static::uri() == $parameters[0];
 		}
+
+		return false;
 	}
 
 	/**
