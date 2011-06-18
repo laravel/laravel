@@ -1,6 +1,6 @@
 <?php namespace System\Cache\Driver;
 
-class Memcached implements \System\Cache\Driver {
+class File implements \System\Cache\Driver {
 
 	/**
 	 * All of the loaded cache items.
@@ -26,7 +26,7 @@ class Memcached implements \System\Cache\Driver {
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return mixed
-	 */
+	 */	
 	public function get($key, $default = null)
 	{
 		if (array_key_exists($key, $this->items))
@@ -34,14 +34,25 @@ class Memcached implements \System\Cache\Driver {
 			return $this->items[$key];
 		}
 
-		$cache = \System\Memcached::instance()->get(\System\Config::get('cache.key').$key);
-
-		if ($cache === false)
+		if ( ! file_exists(APP_PATH.'cache/'.$key))
 		{
 			return $default;
 		}
 
-		return $this->items[$key] = $cache;
+		$cache = file_get_contents(APP_PATH.'cache/'.$key);
+
+		// --------------------------------------------------
+		// Has the cache expired? The UNIX expiration time
+		// is stored at the beginning of the file.
+		// --------------------------------------------------
+		if (time() >= substr($cache, 0, 10))
+		{
+			$this->forget($key);
+
+			return $default;
+		}
+
+		return $this->items[$key] = unserialize(substr($cache, 10));
 	}
 
 	/**
@@ -54,7 +65,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		\System\Memcached::instance()->set(\System\Config::get('cache.key').$key, $value, 0, $minutes * 60);
+		file_put_contents(APP_PATH.'cache/'.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
 	}
 
 	/**
@@ -65,7 +76,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		\System\Memcached::instance()->delete(\System\Config::get('cache.key').$key);
+		@unlink(APP_PATH.'cache/'.$key);
 	}
 
 }
