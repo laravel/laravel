@@ -29,22 +29,13 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function get($key, $default = null)
 	{
-		// --------------------------------------------------
-		// If the item has already been loaded, return it.
-		// --------------------------------------------------
 		if (array_key_exists($key, $this->items))
 		{
 			return $this->items[$key];
 		}
 
-		// --------------------------------------------------
-		// Attempt to the get the item from cache.
-		// --------------------------------------------------
 		$cache = apc_fetch(\System\Config::get('cache.key').$key);
 
-		// --------------------------------------------------
-		// Verify that the item was retrieved.
-		// --------------------------------------------------
 		if ($cache === false)
 		{
 			return $default;
