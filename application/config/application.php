@@ -118,7 +118,7 @@ return array(
 		'Session' => 'System\\Session',
 		'Str' => 'System\\Str',
 		'Text' => 'System\\Text',
-		'View' => 'System\View',
+		'View' => 'System\\View',
 	),
 
 );
