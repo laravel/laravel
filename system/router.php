@@ -56,7 +56,7 @@ class Router {
 
 					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
-						return Request::$route = new Route($key, $callback, Route\Parser::parameters($uri, $key));
+						return Request::$route = new Route($keys, $callback, Route\Parser::parameters($uri, $key));
 					}
 				}				
 			}
