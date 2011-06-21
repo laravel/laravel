@@ -12,11 +12,23 @@ return array(
 	| Caching can be used to increase the performance of your application
 	| by storing commonly accessed data in memory or in a file.
 	|
-	| Supported Drivers: 'file', 'memcached'.
+	| Supported Drivers: 'file', 'memcached', 'apc'.
 	|
 	*/
 
 	'driver' => 'file',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Cache Key
+	|--------------------------------------------------------------------------
+	|
+	| This key will be prepended to items stored using Memcached and APC to
+	| prevent collisions with other applications on the server.
+	|
+	*/
+
+	'key' => 'laravel',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -35,18 +47,6 @@ return array(
 
 	'servers' => array(
 		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
-	),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Memcached Key
-	|--------------------------------------------------------------------------
-	|
-	| This key will be prepended to items stored using Memcached to avoid
-	| collisions with other applications on the server.
-	|
-	*/
-
-	'key' => 'laravel',	
+	),	
 
 );
