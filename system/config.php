@@ -39,6 +39,44 @@ class Config {
 
 		throw new \Exception("Configuration item [$key] is not defined.");
 	}
+	
+	/**
+	 * Check if a configuration item has been set
+	 *
+	 * @param  string  $key
+	 * @return boolean
+	 */
+	public static function has($key)
+	{
+		// -----------------------------------------------------
+		// If a dot is not present, we will just return the
+		// entire configuration array.
+		// -----------------------------------------------------
+		if (strpos($key, '.') === false)
+		{
+			return isset( static::$items[$key] );
+		}
+
+		list($file, $key) = static::parse($key);
+		
+		// -----------------------------------------------------
+		// Check if the configuration array exists
+		// -----------------------------------------------------
+		if (!array_key_exists($file, static::$items))
+		{
+			return false;
+		}
+		
+		// -----------------------------------------------------
+		// Check if the configuration setting exists
+		// -----------------------------------------------------
+		if (array_key_exists($key, static::$items[$file]))
+		{
+			return isset( static::$items[$file][$key] );
+		}
+
+		return false;
+	}
 
 	/**
 	 * Set a configuration item.

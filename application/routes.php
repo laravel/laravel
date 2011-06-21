@@ -19,6 +19,9 @@ return array(
 
 	'GET /' => function()
 	{
+		
+		var_dump( Config::has( 'application.url' ) );
+		
 		return View::make('home/index');
 	},
 
