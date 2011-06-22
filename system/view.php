@@ -95,6 +95,9 @@ class View {
 		// We include the view into the local scope within a
 		// try / catch block to catch any exceptions that may
 		// occur while the view is rendering.
+		//
+		// Otherwise, a white screen of death will be shown
+		// when an exception occurs while rendering the view.
 		// -----------------------------------------------------
 		try
 		{
@@ -111,9 +114,8 @@ class View {
 	/**
 	 * Get the full path to the view.
 	 *
-	 * Views are cascaded, so the application directory views
-	 * will take precedence over the system directory's views
-	 * of the same name.
+	 * Views are cascaded, so the application directory views will take
+	 * precedence over system directory views of the same name.
 	 *
 	 * @return string
 	 */
