@@ -5,7 +5,7 @@ use System\Lang;
 abstract class Rule {
 
 	/**
-	 * The attributes being validated.
+	 * The attributes being validated by the rule.
 	 *
 	 * @var array
 	 */
@@ -22,7 +22,6 @@ abstract class Rule {
 	 * Create a new validation Rule instance.
 	 *
 	 * @param  array      $attributes
-	 * @param  Validator  $class
 	 * @return void
 	 */
 	public function __construct($attributes)
@@ -39,11 +38,6 @@ abstract class Rule {
 	 */
 	public function validate($attributes, $errors)
 	{
-		if (is_null($this->message))
-		{
-			throw new \Exception("An error message must be specified for every Eloquent validation rule.");
-		}
-
 		foreach ($this->attributes as $attribute)
 		{
 			if ( ! $this->check($attribute, $attributes))
@@ -56,18 +50,28 @@ abstract class Rule {
 	/**
 	 * Prepare the message to be added to the error collector.
 	 *
-	 * Attribute and size place-holders will replace with their actual values.
-	 *
 	 * @param  string  $attribute
 	 * @return string
 	 */
 	private function prepare_message($attribute)
 	{
+		if (is_null($this->message))
+		{
+			throw new \Exception("An error message must be specified for every Eloquent validation rule.");
+		}
+
 		$message = $this->message;
 
+		// ---------------------------------------------------------
+		// Replace any place-holders with their actual values.
+		//
+		// Attribute place-holders are loaded from the language
+		// directory. If the line doesn't exist, the attribute
+		// name will be used instead.
+		// ---------------------------------------------------------
 		if (strpos($message, ':attribute'))
 		{
-			$message = str_replace(':attribute', Lang::line('attributes.'.$attribute)->get(), $message);
+			$message = str_replace(':attribute', Lang::line('attributes.'.$attribute)->get($attribute), $message);
 		}
 
 		if ($this instanceof Rules\Size_Of)
