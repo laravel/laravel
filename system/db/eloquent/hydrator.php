@@ -78,8 +78,9 @@ class Hydrator {
 		// -----------------------------------------------------
 		// Get the relationship Eloquent model.
 		//
-		// We temporarily spoof the "belongs_to" key to allow
-		// the query to be fetched without any problems.
+		// We temporarily spoof the belongs_to key to allow the
+		// query to be fetched without any problems, since the
+		// belongs_to method actually gets the attribute.
 		// -----------------------------------------------------
 		$eloquent->attributes[$spoof = $include.'_id'] = 0;
 
