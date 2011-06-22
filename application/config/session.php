@@ -12,7 +12,7 @@ return array(
 	| Since HTTP is stateless, sessions are used to maintain "state" across
 	| multiple requests from the same user of your application.
 	|
-	| Supported Drivers: 'file', 'db', 'memcached'.
+	| Supported Drivers: 'file', 'db', 'memcached', 'apc'.
 	|
 	*/
 
