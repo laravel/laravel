@@ -69,7 +69,7 @@ class Validator {
 			$rule->validate($this->attributes, $this->errors);
 		}
 
-		return count($this->errors->messages) === 0;
+		return count($this->errors->messages) == 0;
 	}
 
 	/**
