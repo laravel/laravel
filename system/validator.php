@@ -24,7 +24,7 @@ class Validator {
 	public $rules = array();
 
 	/**
-	 * Create a new Eloquent validator instance.
+	 * Create a new Validator instance.
 	 *
 	 * @param  mixed  $target
 	 * @return void
@@ -41,7 +41,7 @@ class Validator {
 	}
 
 	/**
-	 * Create a new Eloquent validator instance.
+	 * Create a new Validator instance.
 	 *
 	 * @param  mixed      $target
 	 * @return Validator
@@ -52,7 +52,7 @@ class Validator {
 	}
 
 	/**
-	 * Determine if the model passes all of the validation rules.
+	 * Determine if the attributes pass all of the validation rules.
 	 *
 	 * @return bool
 	 */
