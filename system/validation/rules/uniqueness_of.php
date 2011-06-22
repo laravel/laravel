@@ -39,7 +39,7 @@ class Uniqueness_Of extends Rule {
 			$this->column = $attribute;
 		}
 
-		return DB::table(Eloquent::table($this->table))->where($this->column, '=', $attributes[$attribute])->count() == 0;
+		return DB::table($this->table)->where($this->column, '=', $attributes[$attribute])->count() == 0;
 	}
 
 	/**
