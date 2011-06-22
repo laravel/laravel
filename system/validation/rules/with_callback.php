@@ -5,7 +5,7 @@ use System\Validation\Rule;
 class With_Callback extends Rule {
 
 	/**
-	 * The callback.
+	 * The callback that will be used to validate the attribute.
 	 *
 	 * @var function
 	 */
@@ -27,7 +27,7 @@ class With_Callback extends Rule {
 
 		if ( ! is_callable($this->callback))
 		{
-			throw new \Exception("A validation callback for the [$attribute] attribute is not callable.");
+			throw new \Exception("The validation callback for the [$attribute] attribute is not callable.");
 		}
 
 		return call_user_func($this->callback, $attributes[$attribute]);
