@@ -34,6 +34,16 @@ class View {
 	{
 		$this->view = $view;
 		$this->data = $data;
+
+		// -----------------------------------------------------
+		// Every view has an error collector. This makes it
+		// convenient to check for any validation errors without
+		// worrying if the error collector is instantiated.
+		//
+		// If an error collector is in the session, it will
+		// be used as the error collector for the view.
+		// -----------------------------------------------------
+		$this->data['errors'] = (Config::get('session.driver') != '' and Session::has('errors')) ? Session::get('errors') : new Validation\Error_Collector;
 	}
 
 	/**

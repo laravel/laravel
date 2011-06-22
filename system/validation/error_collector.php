@@ -32,6 +32,17 @@ class Error_Collector {
 	}
 
 	/**
+	 * Determine if errors exist for an attribute.
+	 *
+	 * @param  string  $attribute
+	 * @return bool
+	 */
+	public function has($attribute)
+	{
+		return $this->first($attribute) !== '';
+	}
+
+	/**
 	 * Get the first error message for an attribute.
 	 *
 	 * @param  string  $attribute
