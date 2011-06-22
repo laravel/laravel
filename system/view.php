@@ -97,7 +97,7 @@ class View {
 		// occur while the view is rendering.
 		//
 		// Otherwise, a white screen of death will be shown
-		// when an exception occurs while rendering the view.
+		// if an exception occurs while rendering the view.
 		// -----------------------------------------------------
 		try
 		{
