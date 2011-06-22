@@ -118,6 +118,7 @@ return array(
 		'Session' => 'System\\Session',
 		'Str' => 'System\\Str',
 		'Text' => 'System\\Text',
+		'Validator' => 'System\\Validator',
 		'View' => 'System\\View',
 	),
 
