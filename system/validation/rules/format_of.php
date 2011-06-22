@@ -34,7 +34,7 @@ class Format_Of extends Rule {
 	 * @param  string  $expression
 	 * @return Format_Of
 	 */
-	public function with($expression)
+	public function using($expression)
 	{
 		$this->expression = $expression;
 		return $this;
