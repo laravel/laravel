@@ -1,5 +1,7 @@
 <?php namespace System\Validation;
 
+use System\Lang;
+
 abstract class Rule {
 
 	/**
