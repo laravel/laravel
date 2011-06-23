@@ -17,12 +17,12 @@ class Dynamic {
 		// ---------------------------------------------------------
 		// Strip the "where_" off of the method.
 		// ---------------------------------------------------------
-		$method = substr($method, 6);
+		$finder = substr($method, 6);
 
 		// ---------------------------------------------------------
 		// Split the column names from the connectors.
 		// ---------------------------------------------------------
-		$segments = preg_split('/(_and_|_or_)/i', $method, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$segments = preg_split('/(_and_|_or_)/i', $finder, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		// ---------------------------------------------------------
 		// The connector variable will determine which connector
@@ -44,6 +44,11 @@ class Dynamic {
 		{
 			if ($segment != '_and_' and $segment != '_or_')
 			{
+				if ( ! array_key_exists($index, $parameters))
+				{
+					throw new \Exception("Wrong number of parameters for dynamic finder [$method].");					
+				}
+
 				$query->where($segment, '=', $parameters[$index], $connector);
 
 				$index++;
