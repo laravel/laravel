@@ -119,7 +119,7 @@ class Size_Of extends Rule {
 	}
 
 	/**
-	 * Set the minimum and maximize size of the attribute.
+	 * Set the minimum and maximum size of the attribute.
 	 *
 	 * @param  int  $minimum
 	 * @param  int  $maximum

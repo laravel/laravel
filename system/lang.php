@@ -3,13 +3,6 @@
 class Lang {
 
 	/**
-	 * All of the loaded language files.
-	 *
-	 * @var array
-	 */
-	private static $loaded = array();
-
-	/**
 	 * All of the loaded language lines.
 	 *
 	 * The array is keyed by [$language.$file].
@@ -55,24 +48,30 @@ class Lang {
 	}
 
 	/**
-	 * Get the language line for a given language.
+	 * Get the language line.
 	 *
-	 * @param  string  $language
+	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($language = null)
+	public function get($default = null)
 	{
-		if (is_null($language))
-		{
-			$language = Config::get('application.language');
-		}
+		$language = Config::get('application.language');
 
 		list($file, $line) = $this->parse($this->key);
 
 		$this->load($file, $language);
 
 		// --------------------------------------------------------------
+		// If the language file did not exist, return the default value.
+		// --------------------------------------------------------------
+		if ( ! array_key_exists($language.$file, static::$lines))
+		{
+			return $default;
+		}
+
+		// --------------------------------------------------------------
 		// Get the language line from the appropriate file array.
+		// If the line doesn't exist, return the default value.
 		// --------------------------------------------------------------
 		if (array_key_exists($line, static::$lines[$language.$file]))
 		{
@@ -80,7 +79,7 @@ class Lang {
 		}
 		else
 		{
-			throw new \Exception("Language line [$line] does not exist for language [$language]");
+			return $default;
 		}
 
 		// --------------------------------------------------------------
@@ -127,27 +126,15 @@ class Lang {
 	private function load($file, $language)
 	{
 		// --------------------------------------------------------------
-		// If we have already loaded the language file, bail out.
+		// If we have already loaded the language file or the file
+		// doesn't exist, bail out.
 		// --------------------------------------------------------------
-		if (in_array($language.$file, static::$loaded))
+		if (array_key_exists($language.$file, static::$lines) or ! file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
 		{
 			return;
 		}
 
-		// --------------------------------------------------------------
-		// Load the language file into the array of lines. The array
-		// is keyed by the language and file name.
-		// --------------------------------------------------------------
-		if (file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
-		{
-			static::$lines[$language.$file] = require $path;
-		}
-		else
-		{
-			throw new \Exception("Language file [$file] does not exist for language [$language].");
-		}
-
-		static::$loaded[] = $language.$file;		
+		static::$lines[$language.$file] = require $path;
 	}
 
 	/**

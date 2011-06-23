@@ -12,7 +12,7 @@ class Presence_Of extends Rule {
 	public $allow_empty = false;
 
 	/**
-	 * Indicates a null should be considered present.
+	 * Indicates null should be considered present.
 	 *
 	 * @var bool
 	 */
