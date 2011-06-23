@@ -500,6 +500,20 @@ class Query {
 	 */
 	public function __call($method, $parameters)
 	{
+		// ---------------------------------------------------------
+		// Dynamic methods allows the building of very expressive
+		// queries. All dynamic methods start with "where_".
+		//
+		// Ex: DB::table('users')->where_email($email)->first();
+		// ---------------------------------------------------------
+		if (strpos($method, 'where_') === 0)
+		{
+			return Query\Dynamic::build($method, $parameters, $this);
+		}
+
+		// ---------------------------------------------------------
+		// Handle any of the aggregate functions.
+		// ---------------------------------------------------------
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
 			return ($method == 'count') ? $this->aggregate(Str::upper($method), '*') : $this->aggregate(Str::upper($method), $parameters[0]);
