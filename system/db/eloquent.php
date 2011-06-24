@@ -477,7 +477,7 @@ abstract class Eloquent {
 	{
 		$model = static::make(get_called_class());
 
-		if ($method == 'get')
+		if ($method == 'get' or $method == 'all')
 		{
 			return $model->_get();
 		}
