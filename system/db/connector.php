@@ -33,7 +33,7 @@ class Connector {
 			// If the database doesn't exist there, maybe the full
 			// path was specified as the database name?
 			// -----------------------------------------------------
-			if (file_exists($path = APP_PATH.'db/'.$config->database.'.sqlite'))
+			if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
 			{
 				return new \PDO('sqlite:'.$path, null, null, static::$options);
 			}

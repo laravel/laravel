@@ -34,12 +34,12 @@ class File implements \System\Cache\Driver {
 			return $this->items[$key];
 		}
 
-		if ( ! file_exists(APP_PATH.'cache/'.$key))
+		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
 		{
 			return $default;
 		}
 
-		$cache = file_get_contents(APP_PATH.'cache/'.$key);
+		$cache = file_get_contents(APP_PATH.'storage/cache/'.$key);
 
 		// --------------------------------------------------
 		// Has the cache expired? The UNIX expiration time
@@ -65,7 +65,7 @@ class File implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		file_put_contents(APP_PATH.'cache/'.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
+		file_put_contents(APP_PATH.'storage/cache/'.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class File implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		@unlink(APP_PATH.'cache/'.$key);
+		@unlink(APP_PATH.'storage/cache/'.$key);
 	}
 
 }
