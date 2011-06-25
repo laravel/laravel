@@ -17,10 +17,11 @@ define('LARAVEL_START', microtime(true));
 // --------------------------------------------------------------
 // Define the framework paths.
 // --------------------------------------------------------------
+define('BASE_PATH', realpath('../').'/');
 define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath('../system').'/');
-define('BASE_PATH', realpath('../').'/');
 define('PUBLIC_PATH', realpath(__DIR__.'/'));
+define('PACKAGE_PATH', APP_PATH.'packages/');
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
