@@ -33,9 +33,9 @@ return function($class) {
 		require $path;
 	}
 	// ----------------------------------------------------------
-	// Is the class in the application/packages directory?
+	// Is the class in the application/libraries directory?
 	// ----------------------------------------------------------
-	elseif (file_exists($path = APP_PATH.'packages/'.$file.EXT))
+	elseif (file_exists($path = APP_PATH.'libraries/'.$file.EXT))
 	{
 		require $path;
 	}
