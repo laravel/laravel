@@ -32,17 +32,17 @@ abstract class Rule {
 	/**
 	 * Run the validation rule.
 	 *
-	 * @param  array            $attributes
-	 * @param  Error_Collector  $errors
+	 * @param  array  $attributes
+	 * @param  array  $errors
 	 * @return void
 	 */
-	public function validate($attributes, $errors)
+	public function validate($attributes, &$errors)
 	{
 		foreach ($this->attributes as $attribute)
 		{
 			if ( ! $this->check($attribute, $attributes))
 			{
-				$errors->add($attribute, $this->prepare_message($attribute));
+				$errors[$attribute][] = $this->prepare_message($attribute);
 			}
 		}
 	}

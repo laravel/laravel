@@ -21,7 +21,7 @@ class HTML {
 	 */
 	public static function script($url)
 	{
-		return '<script type="text/javascript" src="'.trim(static::entities(URL::to_asset($url)), '.js').'.js"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"></script>'.PHP_EOL;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.trim(static::entities(URL::to_asset($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
 	}
 
 	/**

@@ -10,9 +10,9 @@ class Validator {
 	public $attributes;
 
 	/**
-	 * The validation error collector.
+	 * The validation errors
 	 *
-	 * @var Error_Collector
+	 * @var array
 	 */
 	public $errors;
 
@@ -36,8 +36,6 @@ class Validator {
 		// attributes as the validation attributes.
 		// ---------------------------------------------------------
 		$this->attributes = ($target instanceof DB\Eloquent) ? $target->attributes : (array) $target;
-
-		$this->errors = new Validation\Error_Collector;
 	}
 
 	/**
@@ -58,7 +56,7 @@ class Validator {
 	 */
 	public function is_valid()
 	{
-		$this->errors->messages = array();
+		$this->errors = array();
 
 		foreach ($this->rules as $rule)
 		{
@@ -69,7 +67,7 @@ class Validator {
 			$rule->validate($this->attributes, $this->errors);
 		}
 
-		return count($this->errors->messages) == 0;
+		return count($this->errors) == 0;
 	}
 
 	/**
