@@ -57,7 +57,7 @@ abstract class Rule {
 	{
 		if (is_null($this->message))
 		{
-			throw new \Exception("An error message must be specified for every Eloquent validation rule.");
+			throw new \Exception("An error message must be specified for every validation rule.");
 		}
 
 		$message = $this->message;
