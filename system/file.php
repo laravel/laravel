@@ -186,4 +186,15 @@ class File {
 		return $response;
 	}
 
+	/**
+	 * Move uploaded file, Use $_FILES['file'] for $file
+	 *
+	 * @param  array  $file
+	 * @param  string $path
+	 * @return bool
+	 */
+	public static function upload($file, $path)
+	{
+		return ( ! move_uploaded_file($file['tmp_name'], $path)) ? false : true;
+	}
 }
