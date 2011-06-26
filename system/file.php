@@ -137,25 +137,6 @@ class File {
 	}
 
 	/**
-	 * Determine if a file is a given type.
-	 *
-	 * The Fileinfo PHP extension will be used to determine the MIME
-	 * type of the file. Any extension in the File::$mimes array may
-	 * be passed as a type.
-	 */
-	public static function is($extension, $path)
-	{
-		if ( ! array_key_exists($extension, static::$mimes))
-		{
-			throw new \Exception("File extension [$extension] is unknown. Cannot determine file type.");
-		}
-
-		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-
-		return (is_array(static::$mimes[$extension])) ? in_array($mime, static::$mimes[$extension]) : $mime === static::$mimes[$extension];
-	}
-
-	/**
 	 * Extract the extension from a file path.
 	 * 
 	 * @param  string  $path
@@ -181,6 +162,25 @@ class File {
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Determine if a file is a given type.
+	 *
+	 * The Fileinfo PHP extension will be used to determine the MIME
+	 * type of the file. Any extension in the File::$mimes array may
+	 * be passed as a type.
+	 */
+	public static function is($extension, $path)
+	{
+		if ( ! array_key_exists($extension, static::$mimes))
+		{
+			throw new \Exception("File extension [$extension] is unknown. Cannot determine file type.");
+		}
+
+		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+
+		return (is_array(static::$mimes[$extension])) ? in_array($mime, static::$mimes[$extension]) : $mime === static::$mimes[$extension];
 	}
 
 	/**
