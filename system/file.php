@@ -187,14 +187,19 @@ class File {
 	}
 
 	/**
-	 * Move uploaded file, Use $_FILES['file'] for $file
+	 * Move an uploaded file to storage.
 	 *
-	 * @param  array  $file
-	 * @param  string $path
+	 * @param  string  $key
+	 * @param  string  $path
 	 * @return bool
 	 */
-	public static function upload($file, $path)
+	public static function upload($key, $path)
 	{
-		return ( ! move_uploaded_file($file['tmp_name'], $path)) ? false : true;
+		if ( ! array_key_exists($key, $_FILES))
+		{
+			return false;
+		}
+
+		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
 	}
 }
