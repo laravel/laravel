@@ -1,5 +1,6 @@
 <?php namespace System\Validation\Rules;
 
+use System\File;
 use System\Input;
 use System\Validation\Rule;
 
