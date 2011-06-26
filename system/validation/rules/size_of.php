@@ -61,16 +61,19 @@ class Size_Of extends Rule {
 	{
 		if ( ! is_null($this->length) and $attributes[$attribute] !== $this->length)
 		{
+			$this->error = 'number_wrong_size';
 			return false;
 		}
 
 		if ( ! is_null($this->maximum) and $attributes[$attribute] > $this->maximum)
 		{
+			$this->error = 'number_too_big';
 			return false;
 		}
 
 		if ( ! is_null($this->minimum and $attributes[$attribute] < $this->minimum))
 		{
+			$this->error = 'number_too_small';
 			return false;
 		}
 
@@ -90,16 +93,19 @@ class Size_Of extends Rule {
 
 		if ( ! is_null($this->length) and Str::length($value) !== $this->length)
 		{
+			$this->error = 'string_wrong_size';
 			return false;
 		}
 
 		if ( ! is_null($this->maximum) and Str::length($value) > $this->maximum)
 		{
+			$this->error = 'string_too_big';
 			return false;
 		}
 
 		if ( ! is_null($this->minimum) and Str::length($value) < $this->minimum)
 		{
+			$this->error = 'string_too_small';
 			return false;
 		}
 

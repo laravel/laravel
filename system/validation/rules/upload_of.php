@@ -7,11 +7,11 @@ use System\Validation\Rule;
 class Upload_Of extends Rule {
 
 	/**
-	 * The acceptable file extensions.
+	 * The acceptable file types.
 	 *
 	 * @var array
 	 */
-	public $extensions;
+	public $types = array();
 
 	/**
 	 * The maximum file size in bytes.
@@ -38,25 +38,30 @@ class Upload_Of extends Rule {
 
 		if ( ! is_null($this->maximum) and $file['size'] > $this->maximum)
 		{
+			$this->error = 'file_too_big';
 			return false;
 		}
 
-		if ( ! is_null($this->extensions) and ! in_array(File::extension($file['name']), $this->extensions))
+		foreach ($this->types as $type)
 		{
-			return false;
+			if ( ! File::is($type, $file['tmp_name']))
+			{
+				$this->error = 'file_wrong_type';
+				return false;
+			}
 		}
 
 		return true;
 	}
 
 	/**
-	 * Set the acceptable file extensions.
+	 * Set the acceptable file types.
 	 *
 	 * @return Upload_Of
 	 */
-	public function has_extension()
+	public function is()
 	{
-		$this->extensions = func_get_args();
+		$this->types = func_get_args();
 		return $this;
 	}
 

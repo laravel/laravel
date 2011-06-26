@@ -19,6 +19,14 @@ abstract class Rule {
 	public $message;
 
 	/**
+	 * The error type. This is used for rules that have more than
+	 * one type of error such as Size_Of and Upload_Of.
+	 *
+	 * @var string
+	 */
+	protected $error;
+
+	/**
 	 * Create a new validation Rule instance.
 	 *
 	 * @param  array      $attributes
