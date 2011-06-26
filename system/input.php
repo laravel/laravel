@@ -70,6 +70,18 @@ class Input {
 	}
 
 	/**
+	 * Get an item from the uploaded file data.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return array
+	 */
+	public static function file($key, $default = null)
+	{
+		return Arr::get($_FILES, $key, $default);
+	}
+
+	/**
 	 * Hydrate the input data for the request.
 	 *
 	 * @return void
