@@ -110,16 +110,6 @@ class Request {
 	}
 
 	/**
-	 * Determine if the request is using HTTPS.
-	 *
-	 * @return bool
-	 */
-	public static function is_secure()
-	{
-		return (static::protocol() == 'https');
-	}
-
-	/**
 	 * Get the HTTP protocol for the request.
 	 *
 	 * @return string
@@ -127,6 +117,16 @@ class Request {
 	public static function protocol()
 	{
 		return (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+	}
+
+	/**
+	 * Determine if the request is using HTTPS.
+	 *
+	 * @return bool
+	 */
+	public static function is_secure()
+	{
+		return (static::protocol() == 'https');
 	}
 
 	/**
