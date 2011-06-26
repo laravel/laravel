@@ -76,7 +76,7 @@ class Input {
 	 * @param  mixed   $default
 	 * @return array
 	 */
-	public static function file($key, $default = null)
+	public static function file($key = null, $default = null)
 	{
 		return Arr::get($_FILES, $key, $default);
 	}

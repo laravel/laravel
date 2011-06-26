@@ -29,7 +29,7 @@ class Validator {
 	 * @param  mixed  $target
 	 * @return void
 	 */
-	public function __construct($target)
+	public function __construct($target = array())
 	{
 		// ---------------------------------------------------------
 		// If the source is an Eloquent model, use the model's
@@ -44,7 +44,7 @@ class Validator {
 	 * @param  mixed      $target
 	 * @return Validator
 	 */
-	public static function of($target)
+	public static function make($target = array())
 	{
 		return new static($target);
 	}
