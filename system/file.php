@@ -10,27 +10,27 @@ class File {
 	public static $mimes = array(
 		'hqx'   => 'application/mac-binhex40',
 		'cpt'   => 'application/mac-compactpro',
-		'csv'   => 'text/x-comma-separated-values',
+		'csv'   => array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream'),
 		'bin'   => 'application/macbinary',
 		'dms'   => 'application/octet-stream',
 		'lha'   => 'application/octet-stream',
 		'lzh'   => 'application/octet-stream',
-		'exe'   => 'application/octet-stream',
+		'exe'   => array('application/octet-stream', 'application/x-msdownload'),
 		'class' => 'application/octet-stream',
 		'psd'   => 'application/x-photoshop',
 		'so'    => 'application/octet-stream',
 		'sea'   => 'application/octet-stream',
 		'dll'   => 'application/octet-stream',
 		'oda'   => 'application/oda',
-		'pdf'   => 'application/pdf',
+		'pdf'   => array('application/pdf', 'application/x-download'),
 		'ai'    => 'application/postscript',
 		'eps'   => 'application/postscript',
 		'ps'    => 'application/postscript',
 		'smi'   => 'application/smil',
 		'smil'  => 'application/smil',
 		'mif'   => 'application/vnd.mif',
-		'xls'   => 'application/excel',
-		'ppt'   => 'application/powerpoint',
+		'xls'   => array('application/excel', 'application/vnd.ms-excel', 'application/msexcel'),
+		'ppt'   => array('application/powerpoint', 'application/vnd.ms-powerpoint'),
 		'wbxml' => 'application/wbxml',
 		'wmlc'  => 'application/wmlc',
 		'dcr'   => 'application/x-director',
@@ -48,15 +48,15 @@ class File {
 		'swf'   => 'application/x-shockwave-flash',
 		'sit'   => 'application/x-stuffit',
 		'tar'   => 'application/x-tar',
-		'tgz'   => 'application/x-tar',
+		'tgz'   => array('application/x-tar', 'application/x-gzip-compressed'),
 		'xhtml' => 'application/xhtml+xml',
 		'xht'   => 'application/xhtml+xml',
-		'zip'   => 'application/x-zip',
+		'zip'   => array('application/x-zip', 'application/zip', 'application/x-zip-compressed'),
 		'mid'   => 'audio/midi',
 		'midi'  => 'audio/midi',
 		'mpga'  => 'audio/mpeg',
 		'mp2'   => 'audio/mpeg',
-		'mp3'   => 'audio/mpeg',
+		'mp3'   => array('audio/mpeg', 'audio/mpg', 'audio/mpeg3', 'audio/mp3'),
 		'aif'   => 'audio/x-aiff',
 		'aiff'  => 'audio/x-aiff',
 		'aifc'  => 'audio/x-aiff',
@@ -68,9 +68,9 @@ class File {
 		'wav'   => 'audio/x-wav',
 		'bmp'   => 'image/bmp',
 		'gif'   => 'image/gif',
-		'jpeg'  => 'image/jpeg',
-		'jpg'   => 'image/jpeg',
-		'jpe'   => 'image/jpeg',
+		'jpeg'  => array('image/jpeg', 'image/pjpeg'),
+		'jpg'   => array('image/jpeg', 'image/pjpeg'),
+		'jpe'   => array('image/jpeg', 'image/pjpeg'),
 		'png'   => 'image/png',
 		'tiff'  => 'image/tiff',
 		'tif'   => 'image/tiff',
@@ -80,7 +80,7 @@ class File {
 		'shtml' => 'text/html',
 		'txt'   => 'text/plain',
 		'text'  => 'text/plain',
-		'log'   => 'text/plain',
+		'log'   => array('text/plain', 'text/x-log'),
 		'rtx'   => 'text/richtext',
 		'rtf'   => 'text/rtf',
 		'xml'   => 'text/xml',
@@ -95,9 +95,10 @@ class File {
 		'doc'   => 'application/msword',
 		'docx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'word'  => 'application/msword',
+		'word'  => array('application/msword', 'application/octet-stream'),
 		'xl'    => 'application/excel',
-		'eml'   => 'message/rfc822'
+		'eml'   => 'message/rfc822',
+		'json'  => array('application/json', 'text/json'),
 	);
 
 	/**
@@ -155,7 +156,12 @@ class File {
 	 */
 	public static function mime($extension, $default = 'application/octet-stream')
 	{
-		return (array_key_exists($extension, static::$mimes)) ? static::$mimes[$extension] : $default;
+		if (array_key_exists($extension, static::$mimes))
+		{
+			return (is_array(static::$mimes[$extension])) ? static::$mimes[$extension][0] : static::$mimes[$extension];
+		}
+
+		return $default;
 	}
 
 	/**
