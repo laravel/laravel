@@ -46,6 +46,29 @@ class Upload_Of extends Rule {
 		}
 
 		return true;
-	}	
+	}
+
+	/**
+	 * Set the acceptable file extensions.
+	 *
+	 * @return Upload_Of
+	 */
+	public function has_extension()
+	{
+		$this->extensions = func_get_args();
+		return $this;
+	}
+
+	/**
+	 * Set the maximum file size in bytes.
+	 *
+	 * @param  int  $maximum
+	 * @return Upload_Of
+	 */
+	public function less_than($maximum)
+	{
+		$this->maximum = $maximum;
+		return $this;
+	}
 
 }
