@@ -39,7 +39,7 @@ class File {
 		'dvi'   => 'application/x-dvi',
 		'gtar'  => 'application/x-gtar',
 		'gz'    => 'application/x-gzip',
-		'php'   => 'application/x-httpd-php',
+		'php'   => array('application/x-httpd-php', 'text/x-php'),
 		'php4'  => 'application/x-httpd-php',
 		'php3'  => 'application/x-httpd-php',
 		'phtml' => 'application/x-httpd-php',
@@ -134,6 +134,25 @@ class File {
 	public static function append($path, $data)
 	{
 		return file_put_contents($path, $data, LOCK_EX | FILE_APPEND);
+	}
+
+	/**
+	 * Determine if a file is a given type.
+	 *
+	 * The Fileinfo PHP extension will be used to determine the MIME
+	 * type of the file. Any extension in the File::$mimes array may
+	 * be passed as a type.
+	 */
+	public static function is($extension, $path)
+	{
+		if ( ! array_key_exists($extension, static::$mimes))
+		{
+			throw new \Exception("File extension [$extension] is unknown. Cannot determine file type.");
+		}
+
+		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+
+		return (is_array(static::$mimes[$extension])) ? in_array($mime, static::$mimes[$extension]) : $mime === static::$mimes[$extension];
 	}
 
 	/**
