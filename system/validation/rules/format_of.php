@@ -1,8 +1,8 @@
 <?php namespace System\Validation\Rules;
 
-use System\Validation\Rule;
+use System\Validation\Nullable_Rule;
 
-class Format_Of extends Rule {
+class Format_Of extends Nullable_Rule {
 
 	/**
 	 * The regular expression that will be used to validate the attribute.
@@ -16,13 +16,13 @@ class Format_Of extends Rule {
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
-		if ( ! array_key_exists($attribute, $attributes))
+		if ( ! is_null($nullable = parent::check($attribute, $attributes)))
 		{
-			return true;
+			return $nullable;
 		}
 
 		return preg_match($this->expression, $attributes[$attribute]);
@@ -31,7 +31,7 @@ class Format_Of extends Rule {
 	/**
 	 * Set the regular expression.
 	 *
-	 * @param  string  $expression
+	 * @param  string     $expression
 	 * @return Format_Of
 	 */
 	public function using($expression)

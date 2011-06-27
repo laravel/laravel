@@ -17,7 +17,7 @@ class Acceptance_Of extends Rule {
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
@@ -27,7 +27,7 @@ class Acceptance_Of extends Rule {
 	/**
 	 * Set the accepted value.
 	 *
-	 * @param  string  $value
+	 * @param  string         $value
 	 * @return Acceptance_Of
 	 */
 	public function accepts($value)

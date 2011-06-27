@@ -1,8 +1,8 @@
 <?php namespace System\Validation\Rules;
 
-use System\Validation\Rule;
+use System\Validation\Nullable_Rule;
 
-class Inclusion_Of extends Rule {
+class Inclusion_Of extends Nullable_Rule {
 
 	/**
 	 * The accepted values for the attribute.
@@ -16,13 +16,13 @@ class Inclusion_Of extends Rule {
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
-		if ( ! array_key_exists($attribute, $attributes))
+		if ( ! is_null($nullable = parent::check($attribute, $attributes)))
 		{
-			return true;
+			return $nullable;
 		}
 
 		return in_array($attributes[$attribute], $this->accepted);
@@ -31,7 +31,7 @@ class Inclusion_Of extends Rule {
 	/**
 	 * Set the accepted values for the attribute.
 	 *
-	 * @param  array  $accepted
+	 * @param  array         $accepted
 	 * @return Inclusion_Of
 	 */
 	public function in($accepted)

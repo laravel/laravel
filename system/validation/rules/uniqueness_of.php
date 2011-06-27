@@ -1,9 +1,9 @@
 <?php namespace System\Validation\Rules;
 
 use System\DB;
-use System\Validation\Rule;
+use System\Validation\Nullable_Rule;
 
-class Uniqueness_Of extends Rule {
+class Uniqueness_Of extends Nullable_Rule {
 
 	/**
 	 * The database table that should be checked.
@@ -24,13 +24,13 @@ class Uniqueness_Of extends Rule {
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
-		if ( ! array_key_exists($attribute, $attributes))
+		if ( ! is_null($nullable = parent::check($attribute, $attributes)))
 		{
-			return true;
+			return $nullable;
 		}
 
 		if (is_null($this->column))
@@ -44,8 +44,11 @@ class Uniqueness_Of extends Rule {
 	/**
 	 * Set the database table and column.
 	 *
-	 * @param  string  $table
-	 * @param  string  $column
+	 * The attribute name will be used as the column name if no other
+	 * column name is specified.
+	 *
+	 * @param  string         $table
+	 * @param  string         $column
 	 * @return Uniqueness_Of
 	 */
 	public function on($table, $column = null)

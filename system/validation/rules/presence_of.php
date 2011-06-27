@@ -1,70 +1,29 @@
 <?php namespace System\Validation\Rules;
 
-use System\Validation\Rule;
+use System\Validation\Nullable_Rule;
 
-class Presence_Of extends Rule {
-
-	/**
-	 * Indicates an empty string should be considered present.
-	 *
-	 * @var bool
-	 */
-	public $allow_empty = false;
-
-	/**
-	 * Indicates null should be considered present.
-	 *
-	 * @var bool
-	 */
-	public $allow_null = false;
+class Presence_Of extends Nullable_Rule {
 
 	/**
 	 * Evaluate the validity of an attribute.
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
-		if ( ! array_key_exists($attribute, $attributes))
+		if ( ! is_null($nullable = parent::check($attribute, $attributes)))
 		{
-			return false;
+			return $nullable;
 		}
 
-		if (is_null($attributes[$attribute]) and ! $this->allow_null)
-		{
-			return false;
-		}
-
-		if (trim((string) $attributes[$attribute]) === '' and ! $this->allow_empty)
-		{
-			return false;
-		}
-
+		// ---------------------------------------------------------
+		// The Nullable_Rule check method essentially is a check for
+		// the presence of an attribute, so there is no further
+		// checking that needs to be done.
+		// ---------------------------------------------------------
 		return true;
-	}
-
-	/**
-	 * Allow an empty string to be considered present.
-	 *
-	 * @return Presence_Of
-	 */
-	public function allow_empty()
-	{
-		$this->allow_empty = true;
-		return $this;
-	}
-
-	/**
-	 * Allow a null to be considered present.
-	 *
-	 * @return Presence_Of
-	 */
-	public function allow_null()
-	{
-		$this->allow_null = true;
-		return $this;
 	}
 
 }

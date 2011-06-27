@@ -1,8 +1,8 @@
 <?php namespace System\Validation\Rules;
 
-use System\Validation\Rule;
+use System\Validation\Nullable_Rule;
 
-class With_Callback extends Rule {
+class With_Callback extends Nullable_Rule {
 
 	/**
 	 * The callback that will be used to validate the attribute.
@@ -16,18 +16,18 @@ class With_Callback extends Rule {
 	 *
 	 * @param  string  $attribute
 	 * @param  array   $attributes
-	 * @return void
+	 * @return bool
 	 */
 	public function check($attribute, $attributes)
 	{
-		if ( ! array_key_exists($attribute, $attributes))
-		{
-			return true;
-		}
-
 		if ( ! is_callable($this->callback))
 		{
 			throw new \Exception("The validation callback for the [$attribute] attribute is not callable.");
+		}
+
+		if ( ! is_null($nullable = parent::check($attribute, $attributes)))
+		{
+			return $nullable;
 		}
 
 		return call_user_func($this->callback, $attributes[$attribute]);
@@ -36,7 +36,7 @@ class With_Callback extends Rule {
 	/**
 	 * Set the validation callback.
 	 *
-	 * @param  function  $callback
+	 * @param  function       $callback
 	 * @return With_Callback
 	 */
 	public function using($callback)

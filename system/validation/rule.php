@@ -24,7 +24,7 @@ abstract class Rule {
 	 *
 	 * @var string
 	 */
-	protected $error;
+	public $error;
 
 	/**
 	 * Create a new validation Rule instance.
@@ -48,48 +48,25 @@ abstract class Rule {
 	{
 		foreach ($this->attributes as $attribute)
 		{
+			$this->error = null;
+
 			if ( ! $this->check($attribute, $attributes))
 			{
-				$errors[$attribute][] = $this->prepare_message($attribute);
+				$message = Message::get($this, $attribute);
+
+				// -------------------------------------------------------------
+				// Make sure the error message is not duplicated.
+				//
+				// For example, the Nullable rules can add a "required" message.
+				// If the same message has already been added we don't want to
+				// add it again.
+				// -------------------------------------------------------------
+				if ( ! array_key_exists($attribute, $errors) or ! is_array($errors[$attribute]) or ! in_array($message, $errors[$attribute]))
+				{
+					$errors[$attribute][] = $message;
+				}
 			}
 		}
-	}
-
-	/**
-	 * Prepare the message to be added to the error collector.
-	 *
-	 * @param  string  $attribute
-	 * @return string
-	 */
-	private function prepare_message($attribute)
-	{
-		if (is_null($this->message))
-		{
-			throw new \Exception("An error message must be specified for every validation rule.");
-		}
-
-		$message = $this->message;
-
-		// ---------------------------------------------------------
-		// Replace any place-holders with their actual values.
-		//
-		// Attribute place-holders are loaded from the language
-		// directory. If the line doesn't exist, the attribute
-		// name will be used instead.
-		// ---------------------------------------------------------
-		if (strpos($message, ':attribute'))
-		{
-			$message = str_replace(':attribute', Lang::line('attributes.'.$attribute)->get($attribute), $message);
-		}
-
-		if ($this instanceof Rules\Size_Of)
-		{
-			$message = str_replace(':max', $this->maximum, $message);
-			$message = str_replace(':min', $this->minimum, $message);
-			$message = str_replace(':size', $this->length, $message);
-		}
-
-		return $message;
 	}
 
 	/**
