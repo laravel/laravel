@@ -53,7 +53,7 @@ class Request {
 		}
 
 		// -------------------------------------------------------
-		// Remove the application URL.
+		// Remove the application URL and any extra slashes.
 		// -------------------------------------------------------
 		$base_url = parse_url(Config::get('application.url'), PHP_URL_PATH);
 
@@ -62,10 +62,17 @@ class Request {
 			$uri = (string) substr($uri, strlen($base_url));
 		}
 
+		$uri = trim($uri, '/');
+
 		// -------------------------------------------------------
-		// Remove the application index and any extra slashes.
+		// Remove the application index.
 		// -------------------------------------------------------
-		$uri = trim(str_replace('/index.php', '', $uri), '/');
+		$index = Config::get('application.index');
+
+		if (strpos($uri, $index) === 0)
+		{
+			$uri = (string) substr($uri, strlen($index));
+		}
 
 		// -------------------------------------------------------
 		// If the requests is to the root of the application, we
