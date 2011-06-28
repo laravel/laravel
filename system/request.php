@@ -71,7 +71,7 @@ class Request {
 		// If the requests is to the root of the application, we
 		// always return a single forward slash.
 		// -------------------------------------------------------
-		return ($uri == '') ? '/' : Str::lower($uri);
+		return ($uri == '') ? '/' : strtolower($uri);
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Request {
 	 */
 	public static function is_ajax()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and Str::lower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 	/**

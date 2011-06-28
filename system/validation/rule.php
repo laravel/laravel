@@ -40,11 +40,11 @@ abstract class Rule {
 	/**
 	 * Run the validation rule.
 	 *
-	 * @param  array  $attributes
-	 * @param  array  $errors
+	 * @param  array            $attributes
+	 * @param  Error_Collector  $errors
 	 * @return void
 	 */
-	public function validate($attributes, &$errors)
+	public function validate($attributes, $errors)
 	{
 		foreach ($this->attributes as $attribute)
 		{
@@ -52,19 +52,7 @@ abstract class Rule {
 
 			if ( ! $this->check($attribute, $attributes))
 			{
-				$message = Message::get($this, $attribute);
-
-				// -------------------------------------------------------------
-				// Make sure the error message is not duplicated.
-				//
-				// For example, the Nullable rules can add a "required" message.
-				// If the same message has already been added we don't want to
-				// add it again.
-				// -------------------------------------------------------------
-				if ( ! array_key_exists($attribute, $errors) or ! is_array($errors[$attribute]) or ! in_array($message, $errors[$attribute]))
-				{
-					$errors[$attribute][] = $message;
-				}
+				$errors->add($attribute, Message::get($this, $attribute));
 			}
 		}
 	}

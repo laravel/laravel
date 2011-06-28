@@ -66,11 +66,11 @@ class DB {
 		//
 		// For all other statements, return a boolean.
 		// ---------------------------------------------------
-		if (strpos(Str::upper($sql), 'SELECT') === 0)
+		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
 			return $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
 		}
-		elseif (strpos(Str::upper($sql), 'UPDATE') === 0 or strpos(Str::upper($sql), 'DELETE') === 0)
+		elseif (strpos(strtoupper($sql), 'UPDATE') === 0 or strpos(strtoupper($sql), 'DELETE') === 0)
 		{
 			return $query->rowCount();
 		}
@@ -103,6 +103,24 @@ class DB {
 	public static function driver($connection = null)
 	{
 		return static::connection($connection)->getAttribute(\PDO::ATTR_DRIVER_NAME);
+	}
+
+	/**
+	 * Get the table prefix for a database connection.
+	 *
+	 * @param  string  $connection
+	 * @return string
+	 */
+	public static function prefix($connection = null)
+	{
+		$connections = Config::get('db.connections');
+
+		if (is_null($connection))
+		{
+			$connection = Config::get('db.default');
+		}
+
+		return (array_key_exists('prefix', $connections[$connection])) ? $connections[$connection]['prefix'] : '';
 	}
 
 }

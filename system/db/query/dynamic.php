@@ -55,7 +55,7 @@ class Dynamic {
 			}
 			else
 			{
-				$connector = trim(Str::upper($segment), '_');
+				$connector = trim(strtoupper($segment), '_');
 			}
 		}
 

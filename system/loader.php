@@ -4,16 +4,16 @@
  * This function is registered on the auto-loader stack by the front controller.
  */
 return function($class) {
-	
+
 	// ----------------------------------------------------------
 	// Replace namespace slashes with directory slashes.
 	// ----------------------------------------------------------
-	$file = System\Str::lower(str_replace('\\', '/', $class));
+	$file = strtolower(str_replace('\\', '/', $class));
 
 	// ----------------------------------------------------------
 	// Should the class be aliased?
 	// ----------------------------------------------------------
-	if (array_key_exists($class, $aliases = System\Config::get('application.aliases')))
+	if (array_key_exists($class, $aliases = System\Config::get('aliases')))
 	{
 		return class_alias($aliases[$class], $class);
 	}

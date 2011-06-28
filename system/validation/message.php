@@ -47,7 +47,7 @@ class Message {
 		{
 			$class = explode('\\', get_class($rule));
 
-			$rule->error = Str::lower(end($class));
+			$rule->error = strtolower(end($class));
 		}
 
 		return (is_null($rule->message)) ? Lang::line('validation.'.$rule->error)->get() : $rule->message;

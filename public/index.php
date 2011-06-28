@@ -29,20 +29,14 @@ define('PACKAGE_PATH', APP_PATH.'packages/');
 define('EXT', '.php');
 
 // --------------------------------------------------------------
-// Load the configuration, error, and string classes.
+// Load the configuration class.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'str'.EXT;
 
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
 spl_autoload_register(require SYS_PATH.'loader'.EXT);
-
-// --------------------------------------------------------------
-// Set the Laravel starting time in the Benchmark class.
-// --------------------------------------------------------------
-System\Benchmark::$marks['laravel'] = LARAVEL_START;
 
 // --------------------------------------------------------------
 // Set the error reporting level.

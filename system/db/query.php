@@ -326,7 +326,7 @@ class Query {
 	 */
 	public function order_by($column, $direction)
 	{
-		$this->orderings[] = $this->wrap($column).' '.Str::upper($direction);
+		$this->orderings[] = $this->wrap($column).' '.strtoupper($direction);
 		return $this;
 	}
 
@@ -516,7 +516,7 @@ class Query {
 		// ---------------------------------------------------------
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
-			return ($method == 'count') ? $this->aggregate(Str::upper($method), '*') : $this->aggregate(Str::upper($method), $parameters[0]);
+			return ($method == 'count') ? $this->aggregate(strtoupper($method), '*') : $this->aggregate(strtoupper($method), $parameters[0]);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Query class.");

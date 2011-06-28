@@ -10,9 +10,9 @@ class Validator {
 	public $attributes;
 
 	/**
-	 * The validation errors
+	 * The validation error collector.
 	 *
-	 * @var array
+	 * @var Error_Collector
 	 */
 	public $errors;
 
@@ -31,6 +31,8 @@ class Validator {
 	 */
 	public function __construct($target = array())
 	{
+		$this->errors = new Validation\Error_Collector;
+
 		// ---------------------------------------------------------
 		// If the source is an Eloquent model, use the model's
 		// attributes as the validation attributes.
@@ -56,7 +58,7 @@ class Validator {
 	 */
 	public function is_valid()
 	{
-		$this->errors = array();
+		$this->errors->messages = array();
 
 		foreach ($this->rules as $rule)
 		{
@@ -67,7 +69,7 @@ class Validator {
 			$rule->validate($this->attributes, $this->errors);
 		}
 
-		return count($this->errors) == 0;
+		return count($this->errors->messages) == 0;
 	}
 
 	/**

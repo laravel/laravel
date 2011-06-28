@@ -51,8 +51,21 @@ class Connector {
 		// -----------------------------------------------------
 		elseif ($config->driver == 'mysql' or $config->driver == 'pgsql')
 		{
-			$connection = new \PDO($config->driver.':host='.$config->host.';dbname='.$config->database, $config->username, $config->password, static::$options);
+			// -----------------------------------------------------
+			// Build the PDO connection DSN.
+			// -----------------------------------------------------
+			$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
 
+			if (isset($config->port))
+			{
+				$dsn .= ';port='.$config->port;
+			}
+
+			$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
+
+			// -----------------------------------------------------
+			// Set the appropriate character set for the datbase.
+			// -----------------------------------------------------
 			if (isset($config->charset))
 			{
 				$connection->prepare("SET NAMES '".$config->charset."'")->execute();
