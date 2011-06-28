@@ -366,7 +366,7 @@ abstract class Eloquent {
 		// -----------------------------------------------------
 		if ($this->exists)
 		{
-			return Query::table(static::table(get_class($this)))->delete($this->id) == 1;
+			return Query::table(static::table(get_class($this)))->delete($this->id);
 		}
 
 		return $this->query->delete($id);
