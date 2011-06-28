@@ -106,7 +106,7 @@ class Upload_Of extends Nullable_Rule {
 	 */
 	public function is_image()
 	{
-		$this->types = array_merge($this->types, array('jpg', 'gif', 'png', 'bmp'))
+		$this->types = array_merge($this->types, array('jpg', 'gif', 'png', 'bmp'));
 		return $this;
 	}
 

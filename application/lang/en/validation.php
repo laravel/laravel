@@ -45,7 +45,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	"file_wrong_type" => "The :attribute is an invalid file type.",
+	"file_wrong_type" => "The :attribute must be a file of type: :types.",
 	"file_too_big" => "The :attribute exceeds size limit of :maxkb.",
 
 );
