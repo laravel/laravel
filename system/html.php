@@ -10,7 +10,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
