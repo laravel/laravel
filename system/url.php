@@ -142,6 +142,8 @@ class URL {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
+		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
+
 		// ----------------------------------------------------
 		// Dynamically create a secure route URL.
 		// ----------------------------------------------------

@@ -126,7 +126,7 @@ class Inflector {
            return static::$plural_cache[$value];
         }
 
-        if (in_array(Str::lower($value), static::$uncountable))
+        if (in_array(strtolower($value), static::$uncountable))
         {
         	return static::$plural_cache[$value] = $value;
         }
@@ -165,7 +165,7 @@ class Inflector {
            return static::$singular_cache[$value];
         }
 
-        if (in_array(Str::lower($value), static::$uncountable))
+        if (in_array(strtolower($value), static::$uncountable))
         {
         	return static::$singular_cache[$value] = $value;
         }

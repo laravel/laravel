@@ -21,6 +21,9 @@ class Factory {
 			case 'memcached':
 				return new Driver\Memcached;
 
+			case 'apc':
+				return new Driver\APC;
+
 			default:
 				throw new \Exception("Session driver [$driver] is not supported.");
 		}

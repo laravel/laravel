@@ -65,24 +65,20 @@ class Request {
 		// -------------------------------------------------------
 		// Remove the application index and any extra slashes.
 		// -------------------------------------------------------
-		$uri = trim(str_replace('/index.php', '', $uri), '/');
+		$index = Config::get('application.index');
+
+		if (strpos($uri, '/'.$index) === 0)
+		{
+			$uri = (string) substr($uri, strlen('/'.$index));
+		}
+
+		$uri = trim($uri, '/');
 
 		// -------------------------------------------------------
 		// If the requests is to the root of the application, we
 		// always return a single forward slash.
 		// -------------------------------------------------------
-		return ($uri == '') ? '/' : Str::lower($uri);
-	}
-
-	/**
-	 * Determine if the route handling the request is a given name.
-	 *
-	 * @param  string  $name
-	 * @return bool
-	 */
-	public static function is($name)
-	{
-		return (is_array(static::$route->callback) and isset(static::$route->callback['name']) and  static::$route->callback['name'] === $name);
+		return ($uri == '') ? '/' : strtolower($uri);
 	}
 
 	/**
@@ -121,16 +117,6 @@ class Request {
 	}
 
 	/**
-	 * Determine if the request is using HTTPS.
-	 *
-	 * @return bool
-	 */
-	public static function secure()
-	{
-		return (static::protocol() == 'https');
-	}
-
-	/**
 	 * Get the HTTP protocol for the request.
 	 *
 	 * @return string
@@ -141,13 +127,34 @@ class Request {
 	}
 
 	/**
+	 * Determine if the request is using HTTPS.
+	 *
+	 * @return bool
+	 */
+	public static function is_secure()
+	{
+		return (static::protocol() == 'https');
+	}
+
+	/**
 	 * Determine if the request is an AJAX request.
 	 *
 	 * @return bool
 	 */
-	public static function ajax()
+	public static function is_ajax()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and Str::lower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+	}
+
+	/**
+	 * Determine if the route handling the request is a given name.
+	 *
+	 * @param  string  $name
+	 * @return bool
+	 */
+	public static function route_is($name)
+	{
+		return (is_array(static::$route->callback) and isset(static::$route->callback['name']) and  static::$route->callback['name'] === $name);
 	}
 
 	/**
@@ -160,9 +167,9 @@ class Request {
 		//
 		// Example: Request::is_login()
 		// --------------------------------------------------------------
-		if (strpos($method, 'is_') === 0)
+		if (strpos($method, 'route_is_') === 0)
 		{
-			return static::is(substr($method, 3));
+			return static::route_is(substr($method, 9));
 		}
 	}
 

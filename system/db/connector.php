@@ -33,7 +33,7 @@ class Connector {
 			// If the database doesn't exist there, maybe the full
 			// path was specified as the database name?
 			// -----------------------------------------------------
-			if (file_exists($path = APP_PATH.'db/'.$config->database.'.sqlite'))
+			if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
 			{
 				return new \PDO('sqlite:'.$path, null, null, static::$options);
 			}
@@ -41,14 +41,31 @@ class Connector {
 			{
 				return new \PDO('sqlite:'.$config->database, null, null, static::$options);
 			}
+			else
+			{
+				throw new \Exception("SQLite database [".$config->database."] could not be found.");
+			}
 		}
 		// -----------------------------------------------------
 		// Connect to MySQL or Postgres.
 		// -----------------------------------------------------
 		elseif ($config->driver == 'mysql' or $config->driver == 'pgsql')
 		{
-			$connection = new \PDO($config->driver.':host='.$config->host.';dbname='.$config->database, $config->username, $config->password, static::$options);
+			// -----------------------------------------------------
+			// Build the PDO connection DSN.
+			// -----------------------------------------------------
+			$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
 
+			if (isset($config->port))
+			{
+				$dsn .= ';port='.$config->port;
+			}
+
+			$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
+
+			// -----------------------------------------------------
+			// Set the appropriate character set for the datbase.
+			// -----------------------------------------------------
 			if (isset($config->charset))
 			{
 				$connection->prepare("SET NAMES '".$config->charset."'")->execute();

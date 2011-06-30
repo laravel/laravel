@@ -25,18 +25,21 @@ class Loader {
 
 		// --------------------------------------------------------------
 		// If the request is to the root, load the "home" routes file.
+		//
+		// Otherwise, load the route file matching the first segment of
+		// the URI as well as the "home" routes file.
 		// --------------------------------------------------------------
 		if ($uri == '/')
 		{
 			return require APP_PATH.'routes/home'.EXT;
 		}
-		// --------------------------------------------------------------
-		// Load the route file matching the first segment of the URI.
-		// --------------------------------------------------------------
 		else
 		{
 			$segments = explode('/', trim($uri, '/'));
 
+			// --------------------------------------------------------------
+			// If the file doesn't exist, we'll just return the "home" file.
+			// --------------------------------------------------------------
 			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
 			{
 				return require APP_PATH.'routes/home'.EXT;

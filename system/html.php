@@ -10,7 +10,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
@@ -21,7 +21,7 @@ class HTML {
 	 */
 	public static function script($url)
 	{
-		return '<script type="text/javascript" src="'.trim(static::entities(URL::to_asset($url)), '.js').'.js"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"></script>'.PHP_EOL;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.trim(static::entities(URL::to_asset($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
 	}
 
 	/**
@@ -74,6 +74,34 @@ class HTML {
 	public static function link_to_asset($url, $title, $attributes = array())
 	{
 		return static::link($url, $title, $attributes, false, true);
+	}
+
+	/**
+	 * Generate an HTML link to a route.
+	 *
+	 * @param  string  $name
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
+	{
+		return static::link(URL::to_route($name, $parameters, $https), $title, $attributes);
+	}
+
+	/**
+	 * Generate an HTTPS HTML link to a route.
+	 *
+	 * @param  string  $name
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_secure_route($name, $title, $parameters = array(), $attributes = array())
+	{
+		return static::link_to_route($name, $title, $parameters, $attributes, true);
 	}
 
 	/**
@@ -248,6 +276,30 @@ class HTML {
 		}
 
 		return $safe;
+	}
+
+	/**
+	 * Magic Method for handling dynamic static methods.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		// -------------------------------------------------------
+		// Handle the dynamic creation of links to secure routes.
+		// -------------------------------------------------------
+		if (strpos($method, 'link_to_secure_') === 0)
+		{
+			array_unshift($parameters, substr($method, 15));
+			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
+		}
+
+		// -------------------------------------------------------
+		// Handle the dynamic creation of links to routes.
+		// -------------------------------------------------------
+		if (strpos($method, 'link_to_') === 0)
+		{
+			array_unshift($parameters, substr($method, 8));
+			return forward_static_call_array('HTML::link_to_route', $parameters);
+		}
 	}
 
 }

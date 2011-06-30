@@ -47,7 +47,7 @@ class Log {
 		// -----------------------------------------------------
 		// Create the yearly and monthly directories if needed.
 		// -----------------------------------------------------
-		static::make_directory($directory = APP_PATH.'logs/'.date('Y'));
+		static::make_directory($directory = APP_PATH.'storage/logs/'.date('Y'));
 		static::make_directory($directory .= '/'.date('m'));
 
 		// -----------------------------------------------------

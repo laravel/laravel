@@ -10,34 +10,56 @@ class Config {
 	private static $items = array();
 
 	/**
+	 * Determine if a configuration item exists.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function has($key)
+	{
+		return ! is_null(static::get($key));
+	}
+
+	/**
 	 * Get a configuration item.
 	 *
 	 * @param  string  $key
+	 * @param  string  $default
 	 * @return mixed
 	 */
-	public static function get($key)
+	public static function get($key, $default = null)
 	{
 		// -----------------------------------------------------
 		// If a dot is not present, we will just return the
 		// entire configuration array.
+		//
+		// If the configuration file does not exist, the default
+		// value will be returned.
 		// -----------------------------------------------------
 		if(strpos($key, '.') === false)
 		{
 			static::load($key);
 
-			return static::$items[$key];
+			return (array_key_exists($key, static::$items)) ? static::$items[$key] : $default;
 		}
 
 		list($file, $key) = static::parse($key);
 
 		static::load($file);
 
-		if (array_key_exists($key, static::$items[$file]))
+		// -----------------------------------------------------
+		// If the file doesn't exist, return the default.
+		// -----------------------------------------------------
+		if ( ! array_key_exists($file, static::$items))
 		{
-			return static::$items[$file][$key];
+			return $default;
 		}
 
-		throw new \Exception("Configuration item [$key] is not defined.");
+		// -----------------------------------------------------
+		// Return the configuration item. If the item doesn't
+		// exist, the default value will be returned.
+		// -----------------------------------------------------
+		return (array_key_exists($key, static::$items[$file])) ? static::$items[$file][$key] : $default;
 	}
 
 	/**
@@ -91,16 +113,11 @@ class Config {
 	public static function load($file)
 	{
 		// -----------------------------------------------------
-		// If we have already loaded the file, bail out.
+		// Bail out if already loaded or doesn't exist.
 		// -----------------------------------------------------
-		if (array_key_exists($file, static::$items))
+		if (array_key_exists($file, static::$items) or ! file_exists($path = APP_PATH.'config/'.$file.EXT))
 		{
 			return;
-		}
-
-		if ( ! file_exists($path = APP_PATH.'config/'.$file.EXT))
-		{
-			throw new \Exception("Configuration file [$file] does not exist.");
 		}
 
 		// -----------------------------------------------------

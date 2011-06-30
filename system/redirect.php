@@ -77,6 +77,8 @@ class Redirect {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
+		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
+
 		// ----------------------------------------------------
 		// Dynamically redirect to a secure route URL.
 		// ----------------------------------------------------

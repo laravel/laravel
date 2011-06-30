@@ -1,6 +1,7 @@
 <?php namespace System\DB;
 
 use System\Str;
+use System\Config;
 use System\Inflector;
 
 abstract class Eloquent {
@@ -102,7 +103,7 @@ abstract class Eloquent {
 			return $class::$table;
 		}
 
-		return Str::lower(Inflector::plural($class));
+		return strtolower(Inflector::plural($class));
 	}
 
 	/**
@@ -213,7 +214,7 @@ abstract class Eloquent {
 		// For example, the foreign key for a User model would
 		// be user_id. Photo would be photo_id, etc.
 		// -----------------------------------------------------
-		$this->relating_key = (is_null($foreign_key)) ? Str::lower(get_class($this)).'_id' : $foreign_key;
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
 		return static::make($model)->where($this->relating_key, '=', $this->id);
 	}
@@ -276,7 +277,7 @@ abstract class Eloquent {
 
 			sort($models);
 
-			$this->relating_table = Str::lower($models[0].'_'.$models[1]);
+			$this->relating_table = strtolower($models[0].'_'.$models[1]);
 		}
 
 		// -----------------------------------------------------
@@ -286,11 +287,11 @@ abstract class Eloquent {
 		//
 		// This is the same convention as has_one and has_many.
 		// -----------------------------------------------------
-		$this->relating_key = Str::lower(get_class($this)).'_id';
+		$this->relating_key = strtolower(get_class($this)).'_id';
 
 		return static::make($model)
                                ->select(static::table($model).'.*')
-                               ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.Str::lower($model).'_id')
+                               ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id')
                                ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
 	}
 
@@ -365,7 +366,7 @@ abstract class Eloquent {
 		// -----------------------------------------------------
 		if ($this->exists)
 		{
-			return Query::table(static::table(get_class($this)))->delete($this->id) == 1;
+			return Query::table(static::table(get_class($this)))->delete($this->id);
 		}
 
 		return $this->query->delete($id);
@@ -477,7 +478,7 @@ abstract class Eloquent {
 	{
 		$model = static::make(get_called_class());
 
-		if ($method == 'get')
+		if ($method == 'get' or $method == 'all')
 		{
 			return $model->_get();
 		}

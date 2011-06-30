@@ -3,7 +3,7 @@
  * Laravel - A clean and classy framework for PHP web development.
  *
  * @package  Laravel
- * @version  1.0.0 Beta 2
+ * @version  1.1.0
  * @author   Taylor Otwell
  * @license  MIT License
  * @link     http://laravel.com 
@@ -17,10 +17,11 @@ define('LARAVEL_START', microtime(true));
 // --------------------------------------------------------------
 // Define the framework paths.
 // --------------------------------------------------------------
+define('BASE_PATH', realpath('../').'/');
 define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath('../system').'/');
-define('BASE_PATH', realpath('../').'/');
 define('PUBLIC_PATH', realpath(__DIR__.'/'));
+define('PACKAGE_PATH', APP_PATH.'packages/');
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
@@ -28,20 +29,14 @@ define('PUBLIC_PATH', realpath(__DIR__.'/'));
 define('EXT', '.php');
 
 // --------------------------------------------------------------
-// Load the configuration, error, and string classes.
+// Load the configuration class.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'str'.EXT;
 
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
 spl_autoload_register(require SYS_PATH.'loader'.EXT);
-
-// --------------------------------------------------------------
-// Set the Laravel starting time in the Benchmark class.
-// --------------------------------------------------------------
-System\Benchmark::$marks['laravel'] = LARAVEL_START;
 
 // --------------------------------------------------------------
 // Set the error reporting level.
@@ -88,7 +83,7 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 // Execute the global "before" filter.
 // --------------------------------------------------------------
-$response = System\Filter::call('before', array(), true);
+$response = System\Route\Filter::call('before', array(), true);
 
 // --------------------------------------------------------------
 // Only execute the route function if the "before" filter did
@@ -121,7 +116,7 @@ else
 // ----------------------------------------------------------
 // Execute the global "after" filter.
 // ----------------------------------------------------------
-System\Filter::call('after', array($response));
+System\Route\Filter::call('after', array($response));
 
 // ----------------------------------------------------------
 // Stringify the response.

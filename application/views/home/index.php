@@ -4,74 +4,76 @@
 	<meta charset="utf-8"> 
 	<title>Welcome To Laravel!</title> 
  
-	<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css" media="all" /> 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<link href="http://fonts.googleapis.com/css?family=Quattrocento&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Ubuntu&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Lobster+Two&amp;v1" rel="stylesheet" type="text/css" media="all" />
 
 	<style type="text/css">
 		body {
-			background-color: #fff; 
-			font-family: 'Ubuntu', sans-serif; 
-			font-size: 16px;
-			color: #3f3f3f;
-		}
- 
-		h1 {
-			font-size: 40px;
-			color: #6d6d6d;
-			margin: 0 0 10px 0;
-			text-shadow: 1px 1px #000;
-		}		
- 
-		a {
-			color: #000; 
-		}
- 
-		#wrapper {
-			width: 740px;
-		}
- 
-		#content {
-			padding: 10px 10px 10px 10px;
 			background-color: #eee;
-			border-radius: 10px;
+			color: #6d6d6d;
+			font-family: 'Ubuntu';
+			font-size: 15px;
 		}
 
-		#footer {
-			font-size: 12px;
-			padding-top: 10px;
-			text-align: right;
+		a {
+			color: #7089b3;
+			font-weight: bold;
+			text-decoration: none;
+		}
+
+		h1.laravel {
+			font-family: 'Lobster Two', Helvetica, serif;				
+			font-size: 60px;
+			margin: 0 0 15px -10px;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
+		}
+
+		h2 {
+			font-family: 'Quattrocento', serif;
+			font-size: 30px;
+			margin: 30px 0 0 0;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
+		}
+
+		p {
+			margin: 10px 0 0 0;
+			line-height: 25px;
+		}
+
+		#wrapper {
+			background-color: #fff;
+			border-radius: 10px;
+			margin: 0 auto;
+			padding: 10px;
+			width: 80%;
+		}
+
+		#wrapper h2:first-of-type {
+			margin-top: 0;
+		}
+
+		#header {
+			margin: 0 auto;
+			margin-bottom: 15px;
+			margin-top: 20px;
+			width: 80%;
 		}
 	</style>
-
-	<script type="text/javascript"> 
-		$(document).ready(function(){
-			$(window).resize(function(){
-				$('#wrapper').css({
-					position:'absolute', 
-					left: ($(window).width() - $('#wrapper').outerWidth()) / 2, 
-					top: ($(window).height() - $('#wrapper').outerHeight()) / 3
-				});
-		 	});
-		 
-			$(window).resize();
-		});		
-	</script>
 </head> 
 <body>
+	<div id="header">
+		<h1 class="laravel">Laravel</h1>
+	</div>
+
 	<div id="wrapper">
-		<h1>Laravel</h1> 
- 
-		<div id="content"> 
-			You have successfully installed Laravel.
+		<h2>Installation Complete!</h2>
 
-			<br /><br />
+		<p>Ready to dig in? Start building your application in the <strong>application/routes.php</strong> file.</p>
 
-			Perhaps you would like to <a href="http://laravel.com/docs">peruse the documentation</a> or <a href="http://github.com/taylorotwell/laravel">contribute on GitHub</a>?
-		</div>
-
-		<div id="footer">
-			<?php echo Benchmark::memory(); ?>mb &middot; <?php echo Benchmark::check('laravel'); ?>ms
-		</div>
-	</div> 
+		<p>Need to learn more? Peruse our <a href="http://laravel.com/docs">wonderful documentation</a>.</p>
+	</div>
 </body> 
 </html>

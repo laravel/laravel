@@ -63,7 +63,7 @@ class Route {
 		// ------------------------------------------------------------
 		elseif (is_array($this->callback))
 		{
-			$response = isset($this->callback['before']) ? Filter::call($this->callback['before'], array(), true) : null;
+			$response = isset($this->callback['before']) ? Route\Filter::call($this->callback['before'], array(), true) : null;
 
 			// ------------------------------------------------------------
 			// We verify that the before filters did not return a response
@@ -80,7 +80,7 @@ class Route {
 
 		if (is_array($this->callback) and isset($this->callback['after']))
 		{
-			Filter::call($this->callback['after'], array($response));
+			Route\Filter::call($this->callback['after'], array($response));
 		}
 
 		return $response;

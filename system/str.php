@@ -47,6 +47,17 @@ class Str {
     }
 
     /**
+     * Get the length of a string.
+     *
+     * @param  string  $value
+     * @return int
+     */
+    public static function length($value)
+    {
+        return function_exists('mb_strlen') ? mb_strlen($value, Config::get('application.encoding')) : strlen($value);
+    }
+
+    /**
      * Generate a random alpha or alpha-numeric string.
      *
      * Supported types: 'alnum' and 'alpha'.

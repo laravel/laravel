@@ -51,6 +51,20 @@ class Form {
 	}
 
 	/**
+	 * Open a HTML form that accepts file uploads.
+	 *
+	 * @param  string  $action
+	 * @param  string  $method
+	 * @param  array   $attributes
+	 * @return string
+	 */	
+	public static function open_multipart($action = null, $method = 'POST', $attributes = array())
+	{
+		$attributes['enctype'] = 'multipart/form-data';
+		return static::open($action, $method, $attributes);
+	}
+
+	/**
 	 * Close a HTML form.
 	 *
 	 * @return string
@@ -100,7 +114,6 @@ class Form {
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
-		
 		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
 	}
 
