@@ -22,7 +22,6 @@ return array(
 	'Crypt' => 'System\\Crypt',
 	'Date' => 'System\\Date',
 	'DB' => 'System\\DB',
-	'Download' => 'System\\Download',
 	'Eloquent' => 'System\\DB\\Eloquent',
 	'File' => 'System\\File',
 	'Form' => 'System\\Form',
