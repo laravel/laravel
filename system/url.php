@@ -147,6 +147,7 @@ class URL {
 		// ----------------------------------------------------
 		if (strpos($method, 'to_secure_') === 0)
 		{
+			$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 			return static::to_route(substr($method, 10), $parameters, true);
 		}
 
@@ -155,6 +156,7 @@ class URL {
 		// ----------------------------------------------------
 		if (strpos($method, 'to_') === 0)
 		{
+			$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 			return static::to_route(substr($method, 3), $parameters);
 		}
 
