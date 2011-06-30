@@ -23,7 +23,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	"number_not_valid" => "The :attribute must be a valid number.",
+	"number_not_valid" => "The :attribute must be a number.",
 	"number_not_integer" => "The :attribute must be an integer.",
 	"number_wrong_size" => "The :attribute must be :size.",
 	"number_too_big" => "The :attribute must be no more than :max.",
