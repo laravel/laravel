@@ -89,6 +89,17 @@ class Message {
 	private static function get_upload_of_message($rule)
 	{
 		// ---------------------------------------------------------
+		// Upload_Of rules sometimes set a "presence_of" error.
+		//
+		// This occurs when the uploaded file didn't exist and the
+		// "not_required" method was not called.
+		// ---------------------------------------------------------
+		if ($rule->error == 'presence_of')
+		{
+			return static::get_message($rule);
+		}
+
+		// ---------------------------------------------------------
 		// Slice "file_" off of the error type.
 		// ---------------------------------------------------------
 		$error_type = substr($rule->error, 5);

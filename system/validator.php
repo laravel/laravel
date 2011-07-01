@@ -29,9 +29,14 @@ class Validator {
 	 * @param  mixed  $target
 	 * @return void
 	 */
-	public function __construct($target = array())
+	public function __construct($target = null)
 	{
 		$this->errors = new Validation\Error_Collector;
+
+		if (is_null($target))
+		{
+			$target = Input::get();
+		}
 
 		// ---------------------------------------------------------
 		// If the source is an Eloquent model, use the model's
@@ -46,7 +51,7 @@ class Validator {
 	 * @param  mixed      $target
 	 * @return Validator
 	 */
-	public static function make($target = array())
+	public static function make($target = null)
 	{
 		return new static($target);
 	}
