@@ -227,6 +227,11 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
+			if (is_numeric($key))
+			{
+				$key = $value;
+			}
+
 			if ( ! is_null($value))
 			{
 				$html[] = $key.'="'.static::entities($value).'"';
@@ -300,6 +305,8 @@ class HTML {
 			array_unshift($parameters, substr($method, 8));
 			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
+
+		throw new \Exception("Static method [$method] is not defined on the HTML class.");
 	}
 
 }

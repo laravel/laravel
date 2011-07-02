@@ -19,6 +19,7 @@ return array(
 
 	'GET /' => function()
 	{
+		return Form::input('email', 'email', '', array('required', 'class' => 'awesome'));
 		return View::make('home/index');
 	},
 

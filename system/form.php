@@ -146,12 +146,78 @@ class Form {
 	 * Create a HTML hidden input element.
 	 *
 	 * @param  string  $name
+	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
 	 */			
 	public static function hidden($name, $value = null, $attributes = array())
 	{
 		return static::input('hidden', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML email input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function email($name, $value = null, $attributes = array())
+	{
+		return static::input('email', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML URL input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function url($name, $value = null, $attributes = array())
+	{
+		return static::input('url', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML search input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function search($name, $value = null, $attributes = array())
+	{
+		return static::input('search', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML number input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function number($name, $value = null, $attributes = array())
+	{
+		return static::input('number', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML telephone input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function tel($name, $value = null, $attributes = array())
+	{
+		return static::input('tel', $name, $value, $attributes);
 	}
 
 	/**
@@ -310,7 +376,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	private static function input($type, $name, $value = null, $attributes = array())
+	public static function input($type, $name, $value = null, $attributes = array())
 	{
 		$attributes['type'] = $type;
 		$attributes['name'] = $name;
