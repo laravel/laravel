@@ -195,6 +195,19 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML color input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function color($name, $value = null, $attributes = array())
+	{
+		return static::input('color', $name, $value, $attributes);
+	}
+
+	/**
 	 * Create a HTML number input element.
 	 *
 	 * @param  string  $name
@@ -208,6 +221,19 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML range input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function range($name, $value = null, $attributes = array())
+	{
+		return static::input('range', $name, $value, $attributes);
+	}
+
+	/**
 	 * Create a HTML telephone input element.
 	 *
 	 * @param  string  $name
@@ -218,6 +244,19 @@ class Form {
 	public static function tel($name, $value = null, $attributes = array())
 	{
 		return static::input('tel', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML date input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function date($name, $value = null, $attributes = array())
+	{
+		return static::input('date', $name, $value, $attributes);
 	}
 
 	/**
@@ -235,13 +274,25 @@ class Form {
 	/**
 	 * Create a HTML submit input element.
 	 *
-	 * @param  string  $name
+	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
 	 */
 	public static function submit($value, $attributes = array())
 	{
 		return static::input('submit', null, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML reset input element.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function reset($value, $attributes = array())
+	{
+		return static::input('reset', null, $value, $attributes);
 	}
 
 	/**
