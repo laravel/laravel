@@ -260,6 +260,45 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML time input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function time($name, $value = null, $attributes = array())
+	{
+		return static::input('time', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML datetime input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function datetime($name, $value = null, $attributes = array())
+	{
+		return static::input('datetime', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML local datetime input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function datetime_local($name, $value = null, $attributes = array())
+	{
+		return static::input('datetime-local', $name, $value, $attributes);
+	}
+
+	/**
 	 * Create a HTML file input element.
 	 *
 	 * @param  string  $name
@@ -293,6 +332,18 @@ class Form {
 	public static function reset($value, $attributes = array())
 	{
 		return static::input('reset', null, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML image input element.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function image($value, $attributes = array())
+	{
+		return static::input('image', null, $value, $attributes);
 	}
 
 	/**
