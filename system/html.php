@@ -32,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'">'.PHP_EOL;
 	}
 
 	/**
@@ -146,7 +146,7 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = static::entities($alt);
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).' />';
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
 	/**
@@ -157,7 +157,7 @@ class HTML {
 	 */
 	public static function breaks($count = 1)
 	{
-		return str_repeat('<br />', $count);
+		return str_repeat('<br>', $count);
 	}
 
 	/**

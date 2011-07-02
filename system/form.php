@@ -317,7 +317,7 @@ class Form {
 		$attributes['value'] = $value;
 		$attributes['id'] = static::id($name, $attributes);
 
-		return '<input'.HTML::attributes($attributes).' />'.PHP_EOL;
+		return '<input'.HTML::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
