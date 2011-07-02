@@ -73,9 +73,9 @@ class Auth {
 			// -----------------------------------------------------
 			// Hash the password. If a salt is present on the user
 			// record, we will recreate the hashed password using
-			// the salt. Otherwise, we will just use a plain hash.
+			// the salt. Otherwise, we error
 			// -----------------------------------------------------
-			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
+			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : throw new Exception('require a user to have a hash stored');
 
 			if ($user->password === $password)
 			{
