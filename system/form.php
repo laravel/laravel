@@ -25,6 +25,11 @@ class Form {
 		}
 
 		$attributes['action'] = HTML::entities(URL::to($action));
+
+		// -------------------------------------------------------
+		// If the request method is PUT or DELETE, we'll default
+		// the request method to POST.
+		// -------------------------------------------------------
 		$attributes['method'] = ($method == 'GET' or $method == 'POST') ? $method : 'POST';
 
 		// -------------------------------------------------------
