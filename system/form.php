@@ -464,13 +464,12 @@ class Form {
 
 		$html_options = array();
 
+		// -------------------------------------------------------
+		// Build the HTML options for the drop-down.
+		// -------------------------------------------------------
 		foreach ($options as $value => $display)
 		{
-			$option_attributes = array();
-
-			$option_attributes['value'] = HTML::entities($value);
-			$option_attributes['selected'] = ($value == $selected) ? 'selected' : null;
-
+			$option_attributes = array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
 			$html_options[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
 		}
 
