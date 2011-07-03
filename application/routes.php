@@ -13,8 +13,6 @@ return array(
 	| in this file. It's a breeze. Just tell Laravel the request method and
 	| URI a function should respond to.
 	|
-	| To learn more, check out: http://laravel.com/docs/basics/routes
-	|
 	*/
 
 	'GET /' => function()
