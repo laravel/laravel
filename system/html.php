@@ -150,28 +150,6 @@ class HTML {
 	}
 
 	/**
-	 * Generate HTML breaks.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function breaks($count = 1)
-	{
-		return str_repeat('<br>', $count);
-	}
-
-	/**
-	 * Generate non-breaking spaces.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function spaces($count = 1)
-	{
-		return str_repeat('&nbsp;', $count);
-	}
-
-	/**
 	 * Generate an ordered list.
 	 *
 	 * @param  array   $list
