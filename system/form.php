@@ -24,11 +24,13 @@ class Form {
 			$action = Request::uri();
 		}
 
-		$action = URL::to($action);
-
-		$attributes['action'] = HTML::entities($action);
+		$attributes['action'] = HTML::entities(URL::to($action));
 		$attributes['method'] = ($method == 'GET' or $method == 'POST') ? $method : 'POST';
 
+		// -------------------------------------------------------
+		// Set the default character set if it hasn't already been
+		// set in the attributes.
+		// -------------------------------------------------------
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
 			$attributes['accept-charset'] = Config::get('application.encoding');			
