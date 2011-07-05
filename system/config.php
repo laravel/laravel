@@ -30,11 +30,8 @@ class Config {
 	public static function get($key, $default = null)
 	{
 		// -----------------------------------------------------
-		// If a dot is not present, we will just return the
+		// If no dot is in the key, we will just return the
 		// entire configuration array.
-		//
-		// If the configuration file does not exist, the default
-		// value will be returned.
 		// -----------------------------------------------------
 		if(strpos($key, '.') === false)
 		{
@@ -90,9 +87,6 @@ class Config {
 		// The left side of the dot is the file name, while
 		// the right side of the dot is the item within that
 		// file being requested.
-		//
-		// This syntax allows for the easy retrieval and setting
-		// of configuration items.
 		// -----------------------------------------------------
 		$segments = explode('.', $key);
 
