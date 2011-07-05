@@ -120,8 +120,41 @@ class Query {
 	public function select()
 	{
 		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
-		$this->select .= implode(', ', array_map(array($this, 'wrap'), func_get_args()));
 
+		$columns = array();
+
+		foreach (func_get_args() as $column)
+		{
+			// ---------------------------------------------------------
+			// If the column name is being aliases, we will need to
+			// wrap the column name and its alias.
+			// ---------------------------------------------------------
+			if (strpos(strtolower($column), ' as ') !== false)
+			{
+				$segments = explode(' ', $column);
+
+				$columns[] = $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);				
+			}
+			else
+			{
+				$columns[] = $this->wrap($column);
+			}
+		}
+
+		$this->select .= implode(', ', $columns);
+
+		return $this;
+	}
+
+	/**
+	 * Set the FROM clause.
+	 *
+	 * @param  string  $from
+	 * @return Query
+	 */
+	public function from($from)
+	{
+		$this->from = $from;
 		return $this;
 	}
 
