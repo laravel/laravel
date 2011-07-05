@@ -126,7 +126,7 @@ class Query {
 		foreach (func_get_args() as $column)
 		{
 			// ---------------------------------------------------------
-			// If the column name is being aliases, we will need to
+			// If the column name is being aliased, we will need to
 			// wrap the column name and its alias.
 			// ---------------------------------------------------------
 			if (strpos(strtolower($column), ' as ') !== false)
