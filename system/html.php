@@ -146,6 +146,7 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = static::entities($alt);
+
 		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
@@ -205,6 +206,11 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
+			// -------------------------------------------------------
+			// If the attribute key is numeric, assign the attribute
+			// value to the key. This allows for attributes such as
+			// "required", "checked", etc.
+			// -------------------------------------------------------
 			if (is_numeric($key))
 			{
 				$key = $value;
