@@ -19,23 +19,15 @@ class Form {
 	 */	
 	public static function open($action = null, $method = 'POST', $attributes = array())
 	{
-		if (is_null($action))
-		{
-			$action = Request::uri();
-		}
-
-		$attributes['action'] = HTML::entities(URL::to($action));
+		$attributes['action'] = HTML::entities(URL::to((is_null($action)) ? Request::uri() : $action));
 
 		// -------------------------------------------------------
 		// If the request method is PUT or DELETE, we'll default
-		// the request method to POST.
+		// the request method to POST since the reqeust method
+		// is being spoofed by the form.
 		// -------------------------------------------------------
-		$attributes['method'] = ($method == 'GET' or $method == 'POST') ? $method : 'POST';
+		$attributes['method'] = ($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method;
 
-		// -------------------------------------------------------
-		// Set the default character set if it hasn't already been
-		// set in the attributes.
-		// -------------------------------------------------------
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
 			$attributes['accept-charset'] = Config::get('application.encoding');			
@@ -51,7 +43,7 @@ class Form {
 		// -------------------------------------------------------
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
-			$html .= PHP_EOL.static::hidden('REQUEST_METHOD', $method);
+			$html .= PHP_EOL.static::input('hidden', 'REQUEST_METHOD', $method);
 		}
 
 		return $html.PHP_EOL;
@@ -65,20 +57,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function open_multipart($action = null, $method = 'POST', $attributes = array())
+	public static function open_for_files($action = null, $method = 'POST', $attributes = array())
 	{
 		$attributes['enctype'] = 'multipart/form-data';
-		return static::open($action, $method, $attributes);
-	}
 
-	/**
-	 * Close a HTML form.
-	 *
-	 * @return string
-	 */
-	public static function close()
-	{
-		return '</form>'.PHP_EOL;
+		return static::open($action, $method, $attributes);
 	}
 
 	/**
@@ -88,7 +71,7 @@ class Form {
 	 */
 	public static function token()
 	{
-		return static::hidden('csrf_token', static::raw_token());
+		return static::input('hidden', 'csrf_token', static::raw_token());
 	}
 
 	/**
@@ -121,20 +104,21 @@ class Form {
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
+
 		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
 	}
 
 	/**
-	 * Create a HTML text input element.
+	 * Create a HTML input element.
 	 *
 	 * @param  string  $name
-	 * @param  string  $value
+	 * @param  mixed   $value
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function text($name, $value = null, $attributes = array())
+	public static function input($type, $name, $value = null, $attributes = array())
 	{
-		return static::input('text', $name, $value, $attributes);
+		return '<input'.HTML::attributes(array_merge($attributes, array('type' => $type, 'name' => $name, 'value' => $value, 'id' => static::id($name, $attributes)))).'>'.PHP_EOL;
 	}
 
 	/**
@@ -143,23 +127,10 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */		
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
-	}
-
-	/**
-	 * Create a HTML hidden input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */			
-	public static function hidden($name, $value = null, $attributes = array())
-	{
-		return static::input('hidden', $name, $value, $attributes);
 	}
 
 	/**
@@ -169,23 +140,23 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
+	 */		
 	public static function email($name, $value = null, $attributes = array())
 	{
 		return static::input('email', $name, $value, $attributes);
 	}
 
 	/**
-	 * Create a HTML URL input element.
+	 * Create a HTML telephone input element.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
-	public static function url($name, $value = null, $attributes = array())
+	 */		
+	public static function telephone($name, $value = null, $attributes = array())
 	{
-		return static::input('url', $name, $value, $attributes);
+		return static::input('tel', $name, $value, $attributes);
 	}
 
 	/**
@@ -195,10 +166,23 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
+	 */		
 	public static function search($name, $value = null, $attributes = array())
 	{
 		return static::input('search', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML URL input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */		
+	public static function url($name, $value = null, $attributes = array())
+	{
+		return static::input('url', $name, $value, $attributes);
 	}
 
 	/**
@@ -208,10 +192,23 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
+	 */		
 	public static function color($name, $value = null, $attributes = array())
 	{
 		return static::input('color', $name, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML date input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */		
+	public static function date($name, $value = null, $attributes = array())
+	{
+		return static::input('date', $name, $value, $attributes);
 	}
 
 	/**
@@ -221,7 +218,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
+	 */		
 	public static function number($name, $value = null, $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
@@ -234,75 +231,10 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */
+	 */		
 	public static function range($name, $value = null, $attributes = array())
 	{
 		return static::input('range', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML telephone input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function tel($name, $value = null, $attributes = array())
-	{
-		return static::input('tel', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML date input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function date($name, $value = null, $attributes = array())
-	{
-		return static::input('date', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML time input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function time($name, $value = null, $attributes = array())
-	{
-		return static::input('time', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML datetime input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function datetime($name, $value = null, $attributes = array())
-	{
-		return static::input('datetime', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML local datetime input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function datetime_local($name, $value = null, $attributes = array())
-	{
-		return static::input('datetime-local', $name, $value, $attributes);
 	}
 
 	/**
@@ -318,52 +250,51 @@ class Form {
 	}
 
 	/**
-	 * Create a HTML submit input element.
-	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function submit($value, $attributes = array())
-	{
-		return static::input('submit', null, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML reset input element.
-	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function reset($value, $attributes = array())
-	{
-		return static::input('reset', null, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML image input element.
-	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function image($value, $attributes = array())
-	{
-		return static::input('image', null, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML button element.
+	 * Create a HTML textarea element.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function button($value, $attributes = array())
+	public static function textarea($name, $value = '', $attributes = array())
 	{
-		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
+		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+
+		if ( ! isset($attributes['rows']))
+		{
+			$attributes['rows'] = 10;
+		}
+
+		if ( ! isset($attributes['cols']))
+		{
+			$attributes['cols'] = 50;
+		}
+
+		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
+	}
+
+	/**
+	 * Create a HTML select element.
+	 *
+	 * @param  string  $name
+	 * @param  array   $options
+	 * @param  string  $selected
+	 * @param  array   $attributes
+	 * @return string
+	 */	
+	public static function select($name, $options = array(), $selected = null, $attributes = array())
+	{
+		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+
+		$html = array();
+
+		foreach ($options as $value => $display)
+		{
+			$html[] = '<option'.HTML::attributes(array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null)).'>'.HTML::entities($display).'</option>';
+		}
+
+		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
 	}
 
 	/**
@@ -406,92 +337,60 @@ class Form {
 	 */
 	private static function checkable($type, $name, $value, $checked, $attributes)
 	{
-		if ($checked === true)
-		{
-			$attributes['checked'] = 'checked';
-		}
-
-		$attributes['id'] = static::id($name, $attributes);
+		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'checked' => ($checked) ? 'checked' : null));
 
 		return static::input($type, $name, $value, $attributes);
 	}
 
 	/**
-	 * Create a HTML textarea element.
+	 * Create a HTML submit input element.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function submit($value, $attributes = array())
+	{
+		return static::input('submit', null, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML reset input element.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function reset($value, $attributes = array())
+	{
+		return static::input('reset', null, $value, $attributes);
+	}
+
+	/**
+	 * Create a HTML image input element.
+	 *
+	 * @param  string  $url
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function image($url, $name = null, $attributes = array())
+	{
+		$attributes['src'] = URL::to_asset($url);
+
+		return static::input('image', $name, null, $attributes);
+	}
+
+	/**
+	 * Create a HTML button element.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function textarea($name, $value = '', $attributes = array())
+	public static function button($value, $attributes = array())
 	{
-		$attributes['name'] = $name;
-		$attributes['id'] = static::id($name, $attributes);
-
-		// -------------------------------------------------------
-		// Set the default number of rows.
-		// -------------------------------------------------------
-		if ( ! isset($attributes['rows']))
-		{
-			$attributes['rows'] = 10;
-		}
-
-		// -------------------------------------------------------
-		// Set the default number of columns.
-		// -------------------------------------------------------
-		if ( ! isset($attributes['cols']))
-		{
-			$attributes['cols'] = 50;
-		}
-
-		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
-	}
-
-	/**
-	 * Create a HTML select element.
-	 *
-	 * @param  string  $name
-	 * @param  array   $options
-	 * @param  string  $selected
-	 * @param  array   $attributes
-	 * @return string
-	 */	
-	public static function select($name, $options = array(), $selected = null, $attributes = array())
-	{
-		$attributes['name'] = $name;
-		$attributes['id'] = static::id($name, $attributes);
-
-		$html_options = array();
-
-		// -------------------------------------------------------
-		// Build the HTML options for the drop-down.
-		// -------------------------------------------------------
-		foreach ($options as $value => $display)
-		{
-			$option_attributes = array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
-			$html_options[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
-		}
-
-		return '<select'.HTML::attributes($attributes).'>'.implode('', $html_options).'</select>'.PHP_EOL;
-	}
-
-	/**
-	 * Create a HTML input element.
-	 *
-	 * @param  string  $name
-	 * @param  mixed   $value
-	 * @param  array   $attributes
-	 * @return string
-	 */		
-	public static function input($type, $name, $value = null, $attributes = array())
-	{
-		$attributes['type'] = $type;
-		$attributes['name'] = $name;
-		$attributes['value'] = $value;
-		$attributes['id'] = static::id($name, $attributes);
-
-		return '<input'.HTML::attributes($attributes).'>'.PHP_EOL;
+		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
 	}
 
 	/**
@@ -505,7 +404,7 @@ class Form {
 	{
 		// -------------------------------------------------------
 		// If an ID attribute was already explicitly specified
-		// for the element, just use that.
+		// for the element in its attributes, use that ID.
 		// -------------------------------------------------------
 		if (array_key_exists('id', $attributes))
 		{
