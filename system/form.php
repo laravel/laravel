@@ -21,11 +21,8 @@ class Form {
 	{
 		$attributes['action'] = HTML::entities(URL::to((is_null($action)) ? Request::uri() : $action));
 
-		// -------------------------------------------------------
-		// If the request method is PUT or DELETE, we'll default
-		// the request method to POST since the reqeust method
-		// is being spoofed by the form.
-		// -------------------------------------------------------
+		// If the request method is PUT or DELETE, we'll default the request method to POST
+		// since the request method is being spoofed by the form.
 		$attributes['method'] = ($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method;
 
 		if ( ! array_key_exists('accept-charset', $attributes))
@@ -35,12 +32,8 @@ class Form {
 
 		$html = '<form'.HTML::attributes($attributes).'>';
 
-		// -------------------------------------------------------
-		// If the method is PUT or DELETE, we'll need to spoof it
-		// using a hidden input field. 
-		//
-		// For more information, see the Input library.
-		// -------------------------------------------------------
+		// If the request method is PUT or DELETE, create a hidden input element with the
+		// request method in it since HTML forms do not support these two methods.
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
 			$html .= PHP_EOL.static::input('hidden', 'REQUEST_METHOD', $method);
@@ -81,10 +74,6 @@ class Form {
 	 */
 	public static function raw_token()
 	{
-		// -------------------------------------------------------
-		// CSRF tokens are stored in the session, so we need to
-		// make sure a driver has been specified.
-		// -------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');			
@@ -134,6 +123,19 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML search input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */		
+	public static function search($name, $value = null, $attributes = array())
+	{
+		return static::input('search', $name, $value, $attributes);
+	}
+
+	/**
 	 * Create a HTML email input element.
 	 *
 	 * @param  string  $name
@@ -160,19 +162,6 @@ class Form {
 	}
 
 	/**
-	 * Create a HTML search input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */		
-	public static function search($name, $value = null, $attributes = array())
-	{
-		return static::input('search', $name, $value, $attributes);
-	}
-
-	/**
 	 * Create a HTML URL input element.
 	 *
 	 * @param  string  $name
@@ -186,32 +175,6 @@ class Form {
 	}
 
 	/**
-	 * Create a HTML color input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */		
-	public static function color($name, $value = null, $attributes = array())
-	{
-		return static::input('color', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML date input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */		
-	public static function date($name, $value = null, $attributes = array())
-	{
-		return static::input('date', $name, $value, $attributes);
-	}
-
-	/**
 	 * Create a HTML number input element.
 	 *
 	 * @param  string  $name
@@ -222,19 +185,6 @@ class Form {
 	public static function number($name, $value = null, $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
-	}
-
-	/**
-	 * Create a HTML range input element.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
-	 * @return string
-	 */		
-	public static function range($name, $value = null, $attributes = array())
-	{
-		return static::input('range', $name, $value, $attributes);
 	}
 
 	/**
@@ -396,25 +346,20 @@ class Form {
 	/**
 	 * Determine the ID attribute for a form element.
 	 *
+	 * An explicitly specified ID in the attributes takes first precedence, then
+	 * the label names will be checked for a label matching the element name.
+	 *
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return mixed
 	 */
 	private static function id($name, $attributes)
 	{
-		// -------------------------------------------------------
-		// If an ID attribute was already explicitly specified
-		// for the element in its attributes, use that ID.
-		// -------------------------------------------------------
 		if (array_key_exists('id', $attributes))
 		{
 			return $attributes['id'];
 		}
 
-		// -------------------------------------------------------
-		// If a label element was created with a value matching
-		// the name of the form element, use the name as the ID.
-		// -------------------------------------------------------
 		if (in_array($name, static::$labels))
 		{
 			return $name;
