@@ -103,8 +103,10 @@ class Input {
 
 			case 'PUT':
 			case 'DELETE':
+
 				// The request method can be spoofed by specifying a "REQUEST_METHOD" in the $_POST array.
 				// If the method is being spoofed, the $_POST array will be considered the input.
+
 				if (isset($_POST['REQUEST_METHOD']) and in_array($_POST['REQUEST_METHOD'], array('PUT', 'DELETE')))
 				{
 					static::$input =& $_POST;
