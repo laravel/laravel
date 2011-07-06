@@ -49,27 +49,17 @@ class Route {
 	{
 		$response = null;
 
-		// ------------------------------------------------------------
-		// If the route value is just a function, all we have to do
-		// is execute the function! There are no filters to call.
-		// ------------------------------------------------------------
 		if (is_callable($this->callback))
 		{
 			$response = call_user_func_array($this->callback, $this->parameters);
 		}
-		// ------------------------------------------------------------
-		// If the route value is an array, we'll need to check it for
-		// any filters that may be attached.
-		// ------------------------------------------------------------
+		// If the route value is an array, we'll need to check it for any filters that may be attached.
 		elseif (is_array($this->callback))
 		{
 			$response = isset($this->callback['before']) ? Route\Filter::call($this->callback['before'], array(), true) : null;
 
-			// ------------------------------------------------------------
-			// We verify that the before filters did not return a response
-			// Before filters can override the request cycle to make things
-			// like authentication convenient to implement.
-			// ------------------------------------------------------------
+			// Verify that the before filters did not return a response. Before filters can override
+			// the request cycle to make things like authentication more convenient.
 			if (is_null($response) and isset($this->callback['do']))
 			{
 				$response = call_user_func_array($this->callback['do'], $this->parameters);
