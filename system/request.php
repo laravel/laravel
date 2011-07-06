@@ -63,12 +63,7 @@ class Request {
 	 */
 	private static function remove_from_uri($uri, $value)
 	{
-		if (strpos($uri, $value) === 0)
-		{
-			$uri = (string) substr($uri, strlen($value));
-		}
-
-		return $uri;
+		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri; 
 	}
 
 	/**
