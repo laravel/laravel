@@ -76,7 +76,6 @@ class Config {
 	{
 		// The left side of the dot is the file name, while the right side of the dot
 		// is the item within that file being requested.
-
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
