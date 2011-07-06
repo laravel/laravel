@@ -201,14 +201,9 @@ class Session {
 		// ---------------------------------------------------------
 		if ( ! headers_sent())
 		{
-			$cookie = new Cookie('laravel_session', static::$session['id']);
+			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
 
-			$cookie->lifetime = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
-			$cookie->path = Config::get('session.path');
-			$cookie->domain = Config::get('session.domain');
-			$cookie->secure = Config::get('session.https');
-
-			$cookie->send();
+			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'));
 		}
 
 		// ---------------------------------------------------------
