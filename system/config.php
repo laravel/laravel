@@ -29,34 +29,25 @@ class Config {
 	 */
 	public static function get($key, $default = null)
 	{
-		// -----------------------------------------------------
-		// If no dot is in the key, we will just return the
-		// entire configuration array.
-		// -----------------------------------------------------
+		// If no "dot" is present in the key, return the entire configuration array.
 		if(strpos($key, '.') === false)
 		{
 			static::load($key);
 
-			return (array_key_exists($key, static::$items)) ? static::$items[$key] : $default;
+			return Arr::get(static::$items, $key, $default);
 		}
 
 		list($file, $key) = static::parse($key);
 
 		static::load($file);
 
-		// -----------------------------------------------------
-		// If the file doesn't exist, return the default.
-		// -----------------------------------------------------
+		// Verify that the configuration file actually exists.
 		if ( ! array_key_exists($file, static::$items))
 		{
 			return $default;
 		}
 
-		// -----------------------------------------------------
-		// Return the configuration item. If the item doesn't
-		// exist, the default value will be returned.
-		// -----------------------------------------------------
-		return (array_key_exists($key, static::$items[$file])) ? static::$items[$file][$key] : $default;
+		return Arr::get(static::$items[$file], $key, $default);
 	}
 
 	/**
@@ -83,11 +74,9 @@ class Config {
 	 */
 	private static function parse($key)
 	{
-		// -----------------------------------------------------
-		// The left side of the dot is the file name, while
-		// the right side of the dot is the item within that
-		// file being requested.
-		// -----------------------------------------------------
+		// The left side of the dot is the file name, while the right side of the dot
+		// is the item within that file being requested.
+
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
@@ -99,25 +88,19 @@ class Config {
 	}
 
 	/**
-	 * Load all of the configuration items.
+	 * Load all of the configuration items from a file.
 	 *
 	 * @param  string  $file
 	 * @return void
 	 */
 	public static function load($file)
 	{
-		// -----------------------------------------------------
 		// Bail out if already loaded or doesn't exist.
-		// -----------------------------------------------------
 		if (array_key_exists($file, static::$items) or ! file_exists($path = APP_PATH.'config/'.$file.EXT))
 		{
 			return;
 		}
 
-		// -----------------------------------------------------
-		// Load the configuration array into the array of items.
-		// The items array is keyed by filename.
-		// -----------------------------------------------------
 		static::$items[$file] = require $path;
 	}
 
