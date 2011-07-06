@@ -32,6 +32,7 @@ define('EXT', '.php');
 // Load the configuration class.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
+require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
 // Register the auto-loader.
