@@ -44,7 +44,7 @@ class Config {
 		// Verify that the configuration file actually exists.
 		if ( ! array_key_exists($file, static::$items))
 		{
-			return $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
 		return Arr::get(static::$items[$file], $key, $default);
