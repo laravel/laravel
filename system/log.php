@@ -44,20 +44,13 @@ class Log {
 	 */
 	public static function write($type, $message)
 	{
-		// -----------------------------------------------------
 		// Create the yearly and monthly directories if needed.
-		// -----------------------------------------------------
 		static::make_directory($directory = APP_PATH.'storage/logs/'.date('Y'));
 		static::make_directory($directory .= '/'.date('m'));
 
-		// -----------------------------------------------------
-		// Each day has its own log file.
-		// -----------------------------------------------------
+		// Get the daily log file filename.
 		$file = $directory.'/'.date('d').EXT;
 
-		// -----------------------------------------------------
-		// Append to the log file and set the permissions.
-		// -----------------------------------------------------
 		file_put_contents($file, date('Y-m-d H:i:s').' '.$type.' - '.$message.PHP_EOL, LOCK_EX | FILE_APPEND);
 
 		chmod($file, 0666);
