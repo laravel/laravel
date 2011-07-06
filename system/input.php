@@ -34,7 +34,7 @@ class Input {
 			static::hydrate();
 		}
 
-		return Arr::get(static::$input, $key, $default);
+		return (array_key_exists($key, static::$input)) ? static::$input[$key] : $default;
 	}
 
 	/**
@@ -51,26 +51,32 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
+	 * Since input data is flashed to the session, a session driver must be specified
+	 * in order to use this method.
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return string
 	 */
 	public static function old($key = null, $default = null)
 	{
-		// ----------------------------------------------------------
-		// Since old input data is flashed to the session, we need
-		// to make sure a session driver has been specified.
-		// ----------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
 		}
 
-		return Arr::get(Session::get('laravel_old_input', array()), $key, $default);
+		return (array_key_exists($key, $old = Session::get('laravel_old_input', array()))) ? $old[$key] : $default;
 	}
 
 	/**
 	 * Get an item from the uploaded file data.
+	 *
+	 * If a "dot" is present in the key. A specific element will be returned from 
+	 * the specified file array.
+	 *
+	 *     Example: Input::file('picture.size');
+	 *
+	 * The statement above will return the value of $_FILES['picture']['size'].
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -78,11 +84,23 @@ class Input {
 	 */
 	public static function file($key = null, $default = null)
 	{
-		return Arr::get($_FILES, $key, $default);
+		if (strpos($key, '.') !== false)
+		{
+			list($file, $key) = explode('.', $key);
+
+			return (isset($_FILES[$file][$key])) ? $_FILES[$file][$key] : $default;
+		}
+
+		return (array_key_exists($key, $_FILES)) ? $_FILES[$key] : $default;
 	}
 
 	/**
 	 * Hydrate the input data for the request.
+	 *
+	 * Typically, browsers do not support PUT and DELETE methods on HTML forms. So, they are simulated
+	 * by Laravel using a hidden POST element. If the request method is being "spoofed", the POST
+	 * array will be moved into the PUT / DELETE array. True "PUT" or "DELETE" rqeuests will be read
+	 * from the php://input file.
 	 *
 	 * @return void
 	 */
@@ -100,20 +118,10 @@ class Input {
 
 			case 'PUT':
 			case 'DELETE':
-				// ----------------------------------------------------------------------
-				// Typically, browsers do not support PUT and DELETE methods on HTML
-				// forms. So, we simulate them using a hidden POST variable.
-				//
-				// If the request method is being "spoofed", we'll move the POST array
-				// into the PUT / DELETE array.
-				// ----------------------------------------------------------------------
-				if (isset($_POST['request_method']) and ($_POST['request_method'] == 'PUT' or $_POST['request_method'] == 'DELETE'))
+				if (isset($_POST['REQUEST_METHOD']) and in_array($_POST['REQUEST_METHOD'], array('PUT', 'DELETE')))
 				{
 					static::$input =& $_POST;
 				}
-				// ----------------------------------------------------------------------
-				// If the request is a true PUT request, read the php://input file.
-				// ----------------------------------------------------------------------
 				else
 				{
 					parse_str(file_get_contents('php://input'), static::$input);
