@@ -51,9 +51,6 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
-	 * Since input data is flashed to the session, a session driver must be specified
-	 * in order to use this method.
-	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return string
@@ -70,13 +67,6 @@ class Input {
 
 	/**
 	 * Get an item from the uploaded file data.
-	 *
-	 * If a "dot" is present in the key. A specific element will be returned from 
-	 * the specified file array.
-	 *
-	 *     Example: Input::file('picture.size');
-	 *
-	 * The statement above will return the value of $_FILES['picture']['size'].
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -97,11 +87,6 @@ class Input {
 	/**
 	 * Hydrate the input data for the request.
 	 *
-	 * Typically, browsers do not support PUT and DELETE methods on HTML forms. So, they are simulated
-	 * by Laravel using a hidden POST element. If the request method is being "spoofed", the POST
-	 * array will be moved into the PUT / DELETE array. True "PUT" or "DELETE" rqeuests will be read
-	 * from the php://input file.
-	 *
 	 * @return void
 	 */
 	public static function hydrate()
@@ -118,6 +103,8 @@ class Input {
 
 			case 'PUT':
 			case 'DELETE':
+				// The request method can be spoofed by specifying a "REQUEST_METHOD" in the $_POST array.
+				// If the method is being spoofed, the $_POST array will be considered the input.
 				if (isset($_POST['REQUEST_METHOD']) and in_array($_POST['REQUEST_METHOD'], array('PUT', 'DELETE')))
 				{
 					static::$input =& $_POST;
