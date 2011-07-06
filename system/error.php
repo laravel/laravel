@@ -31,24 +31,16 @@ class Error {
 	 */
 	public static function handle($e)
 	{
-		// -----------------------------------------------------
-		// Clean the output buffer. We don't want any rendered
-		// views or text to be sent to the browser.
-		// -----------------------------------------------------
+		// Clean the output buffer. We don't want any rendered views or text sent to the browser.
 		if (ob_get_level() > 0)
 		{
 			ob_clean();
 		}
 
-		// -----------------------------------------------------
 		// Get the error severity in human readable format.
-		// -----------------------------------------------------
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		// -----------------------------------------------------
-		// Get the error file. Views require special handling
-		// since view errors occur within eval'd code.
-		// -----------------------------------------------------
+		// Get the error file. Views require special handling since view errors occur in eval'd code.
 		if (strpos($e->getFile(), 'view.php') !== false and strpos($e->getFile(), "eval()'d code") !== false)
 		{
 			$file = APP_PATH.'views/'.View::$last.EXT;
@@ -65,14 +57,6 @@ class Error {
 			Log::error($message.' in '.$e->getFile().' on line '.$e->getLine());
 		}
 
-		// -----------------------------------------------------
-		// Detailed error view contains the file name and stack
-		// trace of the error. It is not wise to have details
-		// enabled in a production environment.
-		//
-		// The generic error view (error/500) only has a simple,
-		// generic error message suitable for production.
-		// -----------------------------------------------------
 		if (Config::get('error.detail'))
 		{
 			$view = View::make('exception')
@@ -109,15 +93,11 @@ class Error {
 
 			array_unshift($file, '');
 
-			// -----------------------------------------------------
 			// Calculate the starting position of the file context.
-			// -----------------------------------------------------
 			$start = $line - $padding;
 			$start = ($start < 0) ? 0 : $start;
 
-			// -----------------------------------------------------
 			// Calculate the context length.
-			// -----------------------------------------------------
 			$length = ($line - $start) + $padding + 1;
 			$length = (($start + $length) > count($file) - 1) ? null : $length;
 
