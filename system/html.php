@@ -206,11 +206,8 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
-			// -------------------------------------------------------
-			// If the attribute key is numeric, assign the attribute
-			// value to the key. This allows for attributes such as
-			// "required", "checked", etc.
-			// -------------------------------------------------------
+			// Assume numeric-keyed attributes to have the same key and value.
+			// Example: required="required", autofocus="autofocus", etc.
 			if (is_numeric($key))
 			{
 				$key = $value;
@@ -235,30 +232,21 @@ class HTML {
 	{
 		$safe = '';
 
-		// -------------------------------------------------------
-		// Spin through the string letter by letter.
-		// -------------------------------------------------------
 		foreach (str_split($value) as $letter)
 		{
 			switch (rand(1, 3))
 			{
-				// -------------------------------------------------------
 				// Convert the letter to its entity representation.
-				// -------------------------------------------------------
 				case 1:
 					$safe .= '&#'.ord($letter).';';
 					break;
 
-				// -------------------------------------------------------
 				// Convert the letter to a Hex character code.
-				// -------------------------------------------------------
 				case 2:
 					$safe .= '&#x'.dechex(ord($letter)).';';
 					break;
 
-				// -------------------------------------------------------
 				// No encoding.
-				// -------------------------------------------------------
 				case 3:
 					$safe .= $letter;
 			}
@@ -272,18 +260,14 @@ class HTML {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// -------------------------------------------------------
 		// Handle the dynamic creation of links to secure routes.
-		// -------------------------------------------------------
 		if (strpos($method, 'link_to_secure_') === 0)
 		{
 			array_unshift($parameters, substr($method, 15));
 			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
 		}
 
-		// -------------------------------------------------------
 		// Handle the dynamic creation of links to routes.
-		// -------------------------------------------------------
 		if (strpos($method, 'link_to_') === 0)
 		{
 			array_unshift($parameters, substr($method, 8));
