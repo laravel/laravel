@@ -107,7 +107,7 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		return Arr::get($_COOKIE, $name, $default);
+		return (array_key_exists($name, $_COOKIE)) ? $_COOKIE[$name] : $default;
 	}
 
 	/**
