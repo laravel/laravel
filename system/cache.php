@@ -38,6 +38,7 @@ class Cache {
 		// Passing method calls to the driver instance provides a better API for the
 		// developer. For instance, instead of saying Cache::driver()->foo(), we can
 		// now just say Cache::foo().
+
 		return call_user_func_array(array(static::driver(), $method), $parameters);
 	}
 
