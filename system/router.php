@@ -18,9 +18,7 @@ class Router {
 	 */
 	public static function route($method, $uri)
 	{
-		// --------------------------------------------------------------
 		// Prepend a forward slash since all routes begin with one.
-		// --------------------------------------------------------------
 		$uri = ($uri != '/') ? '/'.$uri : $uri;
 
 		if (is_null(static::$routes))
@@ -28,28 +26,18 @@ class Router {
 			static::$routes = Route\Loader::load($uri);
 		}
 
-		// --------------------------------------------------------------
 		// Is there an exact match for the request?
-		// --------------------------------------------------------------
 		if (isset(static::$routes[$method.' '.$uri]))
 		{
 			return Request::$route = new Route($method.' '.$uri, static::$routes[$method.' '.$uri]);
 		}
 
-		// --------------------------------------------------------------
-		// No exact match... check each route individually.
-		// --------------------------------------------------------------
 		foreach (static::$routes as $keys => $callback)
 		{
-			// --------------------------------------------------------------
-			// Only check routes that have multiple URIs or wildcards.
-			// All other routes would have been caught by a literal match.
-			// --------------------------------------------------------------
+			// Only check routes that have multiple URIs or wildcards. All other routes would have
+			// been caught by a literal match.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
-				// --------------------------------------------------------------
-				// Routes can be comma-delimited, so spin through each one.
-				// --------------------------------------------------------------
 				foreach (explode(', ', $keys) as $key)
 				{
 					$key = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $key));
