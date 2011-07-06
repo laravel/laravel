@@ -28,16 +28,10 @@ class Request {
 			return static::$uri;
 		}
 
-		// -------------------------------------------------------
-		// Use the PATH_INFO variable if it is available.
-		// -------------------------------------------------------
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
 		}
-		// -------------------------------------------------------
-		// No PATH_INFO? Let's try REQUEST_URI.
-		// -------------------------------------------------------
 		elseif (isset($_SERVER['REQUEST_URI']))
 		{
 			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -84,15 +78,14 @@ class Request {
 	/**
 	 * Get the request method.
 	 *
+	 * The request method may be spoofed if a hidden "REQUEST_METHOD" POST element 
+	 * is present, allowing HTML forms to simulate PUT and DELETE requests.
+	 *
 	 * @return string
 	 */
 	public static function method()
 	{
-		// --------------------------------------------------------------
-		// The method can be spoofed using a POST variable, allowing HTML
-		// forms to simulate PUT and DELETE requests.
-		// --------------------------------------------------------------
-		return Arr::get($_POST, 'REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+		return (array_key_exists('REQUEST_METHOD', $_POST)) ? $_POST['REQUEST_METHOD'] : $_SERVER['REQUEST_METHOD'];
 	}
 
 	/**
@@ -162,11 +155,6 @@ class Request {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// --------------------------------------------------------------
-		// Dynamically call the "is" method using the given name.
-		//
-		// Example: Request::is_login()
-		// --------------------------------------------------------------
 		if (strpos($method, 'route_is_') === 0)
 		{
 			return static::route_is(substr($method, 9));
