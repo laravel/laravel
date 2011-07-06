@@ -35,44 +35,40 @@ class Request {
 		elseif (isset($_SERVER['REQUEST_URI']))
 		{
 			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-			if ($uri === false)
-			{
-				throw new \Exception("Malformed request URI. Request terminated.");
-			}
 		}
 		else
 		{
 			throw new \Exception('Unable to determine the request URI.');
 		}
 
-		// -------------------------------------------------------
-		// Remove the application URL.
-		// -------------------------------------------------------
-		$base_url = parse_url(Config::get('application.url'), PHP_URL_PATH);
-
-		if (strpos($uri, $base_url) === 0)
+		if ($uri === false)
 		{
-			$uri = (string) substr($uri, strlen($base_url));
+			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		// -------------------------------------------------------
-		// Remove the application index and any extra slashes.
-		// -------------------------------------------------------
-		$index = Config::get('application.index');
-
-		if (strpos($uri, '/'.$index) === 0)
-		{
-			$uri = (string) substr($uri, strlen('/'.$index));
-		}
+		$uri = static::remove_from_uri($uri, parse_url(Config::get('application.url'), PHP_URL_PATH));
+		$uri = static::remove_from_uri($uri, '/'.Config::get('application.index'));
 
 		$uri = trim($uri, '/');
 
-		// -------------------------------------------------------
-		// If the requests is to the root of the application, we
-		// always return a single forward slash.
-		// -------------------------------------------------------
 		return ($uri == '') ? '/' : strtolower($uri);
+	}
+
+	/**
+	 * Remove a string from the beginning of a URI.
+	 *
+	 * @param  string  $uri
+	 * @param  string  $value
+	 * @return string
+	 */
+	private static function remove_from_uri($uri, $value)
+	{
+		if (strpos($uri, $value) === 0)
+		{
+			$uri = (string) substr($uri, strlen($value));
+		}
+
+		return $uri;
 	}
 
 	/**
