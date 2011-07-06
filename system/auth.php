@@ -29,15 +29,12 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
+	 * The user will be loaded using the user ID stored in the session.
+	 *
 	 * @return object
 	 */
 	public static function user()
 	{
-		// -----------------------------------------------------
-		// Verify that sessions are enabled. Since the user ID
-		// is stored in the session, we can't authenticate
-		// without a session driver specified.
-		// -----------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("You must specify a session driver before using the Auth class.");
@@ -45,9 +42,6 @@ class Auth {
 
 		$model = static::model();
 
-		// -----------------------------------------------------
-		// Load the user using the ID stored in the session.
-		// -----------------------------------------------------
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
 			static::$user = $model::find(Session::get(static::$key));
@@ -70,11 +64,8 @@ class Auth {
 
 		if ( ! is_null($user))
 		{
-			// -----------------------------------------------------
-			// Hash the password. If a salt is present on the user
-			// record, we will recreate the hashed password using
-			// the salt. Otherwise, we will just use a plain hash.
-			// -----------------------------------------------------
+			// If a salt is present on the user record, we will recreate the hashed password
+			// using the salt. Otherwise, we will just use a plain hash.
 			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
 
 			if ($user->password === $password)
@@ -97,13 +88,7 @@ class Auth {
 	 */
 	public static function logout()
 	{
-		// -----------------------------------------------------
-		// By removing the user ID from the session, the user
-		// will no longer be considered logged in on subsequent
-		// requests to the application.
-		// -----------------------------------------------------
 		Session::forget(static::$key);
-
 		static::$user = null;
 	}
 
