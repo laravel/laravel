@@ -10,7 +10,7 @@ class DB {
 	private static $connections = array();
 
 	/**
-	 * Get a database connection.
+	 * Get a database connection. Database connections are managed as singletons.
 	 *
 	 * @param  string  $connection
 	 * @return PDO
@@ -22,12 +22,6 @@ class DB {
 			$connection = Config::get('db.default');
 		}
 
-		// ---------------------------------------------------
-		// If we have already established this connection,
-		// simply return the existing connection.
-		//
-		// Don't want to establish the same connection twice!
-		// ---------------------------------------------------
 		if ( ! array_key_exists($connection, static::$connections))
 		{
 			$config = Config::get('db.connections');
@@ -46,6 +40,13 @@ class DB {
 	/**
 	 * Execute a SQL query against the connection.
 	 *
+	 * The method returns the following based on query type:
+	 *
+	 *     SELECT -> Array of stdClasses
+	 *     UPDATE -> Number of rows affected.
+	 *     DELETE -> Number of Rows affected.
+	 *     ELSE   -> Boolean true / false depending on success.
+	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
 	 * @param  string  $connection
@@ -57,15 +58,6 @@ class DB {
 
 		$result = $query->execute($bindings);
 
-		// ---------------------------------------------------
-		// For SELECT statements, the results will be returned
-		// as an array of stdClasses.
-		//
-		// For UPDATE and DELETE statements, the number of
-		// rows affected by the query will be returned.
-		//
-		// For all other statements, return a boolean.
-		// ---------------------------------------------------
 		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
 			return $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
