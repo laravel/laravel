@@ -24,10 +24,9 @@ class APC implements \System\Cache\Driver {
 	 * Get an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get($key, $default = null)
+	public function get($key)
 	{
 		if (array_key_exists($key, $this->items))
 		{
@@ -38,7 +37,7 @@ class APC implements \System\Cache\Driver {
 
 		if ($cache === false)
 		{
-			return is_callable($default) ? call_user_func($default) : $default;
+			return null;
 		}
 
 		return $this->items[$key] = $cache;
