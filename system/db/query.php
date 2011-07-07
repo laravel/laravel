@@ -125,10 +125,8 @@ class Query {
 
 		foreach (func_get_args() as $column)
 		{
-			// ---------------------------------------------------------
-			// If the column name is being aliased, we will need to
-			// wrap the column name and its alias.
-			// ---------------------------------------------------------
+			// If the column name is being aliased, we will need to wrap the column
+			// name and its alias in keyword identifiers.
 			if (strpos(strtolower($column), ' as ') !== false)
 			{
 				$segments = explode(' ', $column);
@@ -433,6 +431,7 @@ class Query {
 	private function aggregate($aggregator, $column)
 	{
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
+
 		return $this->first()->aggregate;
 	}
 
@@ -457,10 +456,8 @@ class Query {
 	{
 		$sql = Query\Compiler::insert($this, $values);
 
-		// ---------------------------------------------------------
-		// Use the RETURNING clause on Postgres instead of PDO.
-		// The Postgres PDO ID method is slightly cumbersome.
-		// ---------------------------------------------------------
+		// Use the RETURNING clause on Postgres instead of the PDO lastInsertID method.
+		// The PDO method is a little cumbersome using Postgres.
 		if (DB::driver($this->connection) == 'pgsql')
 		{
 			$query = DB::connection($this->connection)->prepare($sql.' RETURNING '.$this->wrap('id'));
@@ -470,9 +467,6 @@ class Query {
 			return $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
 		}
 
-		// ---------------------------------------------------------
-		// Use the PDO ID method for MySQL and SQLite.
-		// ---------------------------------------------------------
 		DB::query($sql, array_values($values), $this->connection);
 
 		return DB::connection($this->connection)->lastInsertId();
@@ -514,6 +508,7 @@ class Query {
 	public function wrap($value)
 	{
 		$wrap = (DB::driver($this->connection) == 'mysql') ? '`' : '"';
+
 		return implode('.', array_map(function($segment) use ($wrap) {return ($segment != '*') ? $wrap.$segment.$wrap : $segment;}, explode('.', $value)));
 	}
 
@@ -533,20 +528,11 @@ class Query {
 	 */
 	public function __call($method, $parameters)
 	{
-		// ---------------------------------------------------------
-		// Dynamic methods allows the building of very expressive
-		// queries. All dynamic methods start with "where_".
-		//
-		// Ex: DB::table('users')->where_email($email)->first();
-		// ---------------------------------------------------------
 		if (strpos($method, 'where_') === 0)
 		{
 			return Query\Dynamic::build($method, $parameters, $this);
 		}
 
-		// ---------------------------------------------------------
-		// Handle any of the aggregate functions.
-		// ---------------------------------------------------------
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
 			return ($method == 'count') ? $this->aggregate(strtoupper($method), '*') : $this->aggregate(strtoupper($method), $parameters[0]);
