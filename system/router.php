@@ -23,8 +23,7 @@ class Router {
 			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load($uri) : require APP_PATH.'routes'.EXT;
 		}
 
-		// Put the request method and URI in route form. All routes begin with
-		// the request method and a forward slash.
+		// Put the request method and URI in route form. Routes begin with the request method and a forward slash.
 		$uri = $method.' /'.trim($uri, '/');
 
 		// Is there an exact match for the request?
@@ -35,8 +34,7 @@ class Router {
 
 		foreach (static::$routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs or wildcards. All other routes would
-			// have been caught by a literal match.
+			// Only check routes that have multiple URIs or wildcards. Other routes would be caught by a literal match.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
 				foreach (explode(', ', $keys) as $key)
