@@ -24,30 +24,20 @@ class Memcached implements \System\Cache\Driver {
 	 * Get an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get($key, $default = null)
+	public function get($key)
 	{
-		// --------------------------------------------------
-		// If the item has already been loaded, return it.
-		// --------------------------------------------------
 		if (array_key_exists($key, $this->items))
 		{
 			return $this->items[$key];
 		}
 
-		// --------------------------------------------------
-		// Attempt to the get the item from cache.
-		// --------------------------------------------------
 		$cache = \System\Memcached::instance()->get(\System\Config::get('cache.key').$key);
 
-		// --------------------------------------------------
-		// Verify that the item was retrieved.
-		// --------------------------------------------------
 		if ($cache === false)
 		{
-			return $default;
+			return null;
 		}
 
 		return $this->items[$key] = $cache;
