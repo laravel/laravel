@@ -22,59 +22,66 @@ class Connector {
 	 */
 	public static function connect($config)
 	{
-		// -----------------------------------------------------
-		// Connect to SQLite.
-		// -----------------------------------------------------
 		if ($config->driver == 'sqlite')
 		{
-			// -----------------------------------------------------
-			// Check the application/db directory first.
-			//
-			// If the database doesn't exist there, maybe the full
-			// path was specified as the database name?
-			// -----------------------------------------------------
-			if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
-			{
-				return new \PDO('sqlite:'.$path, null, null, static::$options);
-			}
-			elseif (file_exists($config->database))
-			{
-				return new \PDO('sqlite:'.$config->database, null, null, static::$options);
-			}
-			else
-			{
-				throw new \Exception("SQLite database [".$config->database."] could not be found.");
-			}
+			return static::connect_to_sqlite($config);
 		}
-		// -----------------------------------------------------
-		// Connect to MySQL or Postgres.
-		// -----------------------------------------------------
 		elseif ($config->driver == 'mysql' or $config->driver == 'pgsql')
 		{
-			// -----------------------------------------------------
-			// Build the PDO connection DSN.
-			// -----------------------------------------------------
-			$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
-
-			if (isset($config->port))
-			{
-				$dsn .= ';port='.$config->port;
-			}
-
-			$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
-
-			// -----------------------------------------------------
-			// Set the appropriate character set for the datbase.
-			// -----------------------------------------------------
-			if (isset($config->charset))
-			{
-				$connection->prepare("SET NAMES '".$config->charset."'")->execute();
-			}
-
-			return $connection;
+			return static::connect_to_server($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
+	}
+
+	/**
+	 * Establish a PDO connection to a SQLite database.
+	 *
+	 * @param  array  $config
+	 * @return PDO
+	 */
+	private static function connect_to_sqlite($config)
+	{
+		// Database paths can either be specified relative to the application/storage/db
+		// directory, or as an absolute path.
+
+		if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
+		{
+			return new \PDO('sqlite:'.$path, null, null, static::$options);
+		}
+		elseif (file_exists($config->database))
+		{
+			return new \PDO('sqlite:'.$config->database, null, null, static::$options);
+		}
+		else
+		{
+			throw new \Exception("SQLite database [".$config->database."] could not be found.");
+		}
+	}
+
+	/**
+	 * Connect to a MySQL or PostgreSQL database server.
+	 *
+	 * @param  array  $config
+	 * @return PDO
+	 */
+	private static function connect_to_server($config)
+	{
+		$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
+
+		if (isset($config->port))
+		{
+			$dsn .= ';port='.$config->port;
+		}
+
+		$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
+
+		if (isset($config->charset))
+		{
+			$connection->prepare("SET NAMES '".$config->charset."'")->execute();
+		}
+
+		return $connection;
 	}
 
 }
