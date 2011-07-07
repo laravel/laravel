@@ -36,20 +36,17 @@ class File implements \System\Cache\Driver {
 
 		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
 		{
-			return $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
 		$cache = file_get_contents(APP_PATH.'storage/cache/'.$key);
 
-		// --------------------------------------------------
-		// Has the cache expired? The UNIX expiration time
-		// is stored at the beginning of the file.
-		// --------------------------------------------------
+		// Has the cache expired? The UNIX expiration time is stored at the beginning of the file.
 		if (time() >= substr($cache, 0, 10))
 		{
 			$this->forget($key);
 
-			return $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
 		return $this->items[$key] = unserialize(substr($cache, 10));
