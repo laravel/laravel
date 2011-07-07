@@ -23,7 +23,7 @@ class Router {
 
 		if (is_null(static::$routes))
 		{
-			static::$routes = ( ! is_dir(APP_PATH.'routes')) ? require APP_PATH.'routes'.EXT : static::load($uri);
+			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load($uri) : require APP_PATH.'routes'.EXT;
 		}
 
 		// Is there an exact match for the request?
