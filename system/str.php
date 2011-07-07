@@ -88,17 +88,13 @@ class Str {
      */
     private static function pool($type = 'alnum')
     {
-        if ($type == 'alnum')
+        switch ($type)
         {
-            return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        }
-        elseif ($type == 'alpha')
-        {
-            return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        }
-        else
-        {
-            throw new \Exception("Unrecognized random pool [$type].");
+            case 'alnum':
+                return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+            default:
+                return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         }
     }
 
