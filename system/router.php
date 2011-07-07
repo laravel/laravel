@@ -57,7 +57,7 @@ class Router {
 	 * @param  string  $uri
 	 * @return array
 	 */
-	private static function load($uri)
+	public static function load($uri)
 	{
 		if ( ! is_dir(APP_PATH.'routes'))
 		{
