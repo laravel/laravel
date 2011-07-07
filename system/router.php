@@ -44,13 +44,7 @@ class Router {
 
 					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
-						// Remove the leading slashes from the route and request URIs. Also trim
-						// the request method off of the route URI. This should get the request
-						// and route URIs in the same format so we can extract the parameters.
-						$uri = trim($uri, '/');
-						$key = trim(substr($key, strlen($method.' ')), '/');
-
-						return Request::$route = new Route($keys, $callback, static::parameters(explode('/', $uri), explode('/', $key)));
+						return Request::$route = new Route($keys, $callback, static::parameters($uri, $key));
 					}
 				}				
 			}
@@ -92,23 +86,13 @@ class Router {
 	 *
 	 * Any route segment wrapped in parentheses is considered a parameter.
 	 *
-	 * @param  array  $uri
-	 * @param  array  $route
+	 * @param  string  $uri
+	 * @param  string  $route
 	 * @return array
 	 */
 	private static function parameters($uri, $route)
 	{
-		$parameters = array();
-
-		for ($i = 0; $i < count($route); $i++)
-		{
-			if (strpos($route[$i], '(') === 0)
-			{
-				$parameters[] = $uri[$i];
-			}
-		}
-
-		return $parameters;		
+		return array_values(array_intersect_key(explode('/', $uri), preg_grep('/\(.+\)/', explode('/', $route))));	
 	}	
 
 }
