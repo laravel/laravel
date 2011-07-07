@@ -34,8 +34,8 @@ class Router {
 
 		foreach (static::$routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs or wildcards. All other routes would have
-			// been caught by a literal match.
+			// Only check routes that have multiple URIs or wildcards. All other routes would
+			// have been caught by a literal match.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
 				foreach (explode(', ', $keys) as $key)
@@ -44,6 +44,9 @@ class Router {
 
 					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
+						$uri = trim($uri, '/');
+						$key = trim(substr($key, strlen($method.' ')), '/');
+
 						return Request::$route = new Route($keys, $callback, static::parameters(explode('/', $uri), explode('/', $key)));
 					}
 				}				
