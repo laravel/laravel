@@ -38,7 +38,7 @@ class APC implements \System\Cache\Driver {
 
 		if ($cache === false)
 		{
-			return $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
 		return $this->items[$key] = $cache;
