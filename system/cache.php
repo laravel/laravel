@@ -51,6 +51,30 @@ class Cache {
 	}
 
 	/**
+	 * Get an item from the cache. If it doesn't exist, store the default value
+	 * in the cache and return it.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @param  int     $minutes
+	 * @param  string  $driver
+	 * @return mixed
+	 */
+	public static function maybe($key, $default, $minutes, $driver = null)
+	{
+		if ( ! is_null($item = static::get($key)))
+		{
+			return $item;
+		}
+
+		$default = is_callable($default) ? call_user_func($default) : $default;
+
+		static::driver($driver)->put($key, $default, $minutes);
+
+		return $default;
+	}
+
+	/**
 	 * Pass all other methods to the default driver.
 	 *
 	 * Passing method calls to the driver instance provides a better API for the
