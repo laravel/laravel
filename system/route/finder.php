@@ -34,8 +34,7 @@ class Finder {
 			return static::$names[$name];
 		}
 
-		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
-		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
+		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator = new \RecursiveArrayIterator(static::$routes));
 
 		foreach ($recursiveIterator as $iterator)
 		{
