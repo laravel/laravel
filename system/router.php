@@ -23,7 +23,7 @@ class Router {
 
 		if (is_null(static::$routes))
 		{
-			static::$routes = Route\Loader::load($uri);
+			static::$routes = static::load($uri);
 		}
 
 		// Is there an exact match for the request?
@@ -44,11 +44,70 @@ class Router {
 
 					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
-						return Request::$route = new Route($keys, $callback, Route\Parser::parameters($uri, $key));
+						return Request::$route = new Route($keys, $callback, static::parameters(explode('/', $uri), explode('/', $key)));
 					}
 				}				
 			}
 		}
 	}
+
+	/**
+	 * Load the appropriate route file for the request URI.
+	 *
+	 * @param  string  $uri
+	 * @return array
+	 */
+	private static function load($uri)
+	{
+		if ( ! is_dir(APP_PATH.'routes'))
+		{
+			return require APP_PATH.'routes'.EXT;			
+		}
+
+		if ( ! file_exists(APP_PATH.'routes/home'.EXT))
+		{
+			throw new \Exception("A [home] route file is required when using a route directory.");					
+		}
+
+		if ($uri == '/')
+		{
+			return require APP_PATH.'routes/home'.EXT;
+		}
+		else
+		{
+			$segments = explode('/', trim($uri, '/'));
+
+			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
+			{
+				return require APP_PATH.'routes/home'.EXT;
+			}
+
+			return array_merge(require APP_PATH.'routes/'.$segments[0].EXT, require APP_PATH.'routes/home'.EXT);
+		}
+	}
+
+	/**
+	 * Extract the parameters from a URI based on a route URI.
+	 *
+	 * Any route segment wrapped in parentheses is considered a parameter.
+	 *
+	 * @param  array  $uri
+	 * @param  array  $route
+	 * @return array
+	 */
+	private static function parameters($uri, $route)
+	{
+		$parameters = array();
+
+		for ($i = 0; $i < count($route); $i++)
+		{
+			if (strpos($route[$i], '(') === 0)
+			{
+				$parameters[] = $uri[$i];
+			}
+		}
+
+		return $parameters;		
+	}	
 
 }
