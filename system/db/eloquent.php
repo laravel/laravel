@@ -116,11 +116,8 @@ abstract class Eloquent {
 	{
 		$model = new $class;
 
-		// -----------------------------------------------------
-		// Since this method is only used for instantiating
-		// models for querying purposes, we will go ahead and
-		// set the Query instance on the model.
-		// -----------------------------------------------------
+		// Since this method is only used for instantiating/ models for querying
+		// purposes, we will go ahead and set the Query instance on the model.
 		$model->query = Query::table(static::table($class));
 
 		return $model;
@@ -206,14 +203,9 @@ abstract class Eloquent {
 	 */
 	private function has_one_or_many($model, $foreign_key)
 	{
-		// -----------------------------------------------------
-		// The default foreign key for has one and has many
-		// relationships is the name of the model with an
-		// appended _id.
-		//
-		// For example, the foreign key for a User model would
-		// be user_id. Photo would be photo_id, etc.
-		// -----------------------------------------------------
+		// The default foreign key for has one and has many relationships is the name
+		// of the model with an appended _id. For example, the foreign key for a
+		// User model would be user_id. Photo would be photo_id, etc.
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
 		return static::make($model)->where($this->relating_key, '=', $this->id);
@@ -236,13 +228,9 @@ abstract class Eloquent {
 		}
 		else
 		{
-			// -----------------------------------------------------
-			// The default foreign key for belonging relationships
-			// is the name of the relationship method name with _id.
-			//
-			// So, if a model has a "manager" method returning a
-			// belongs_to relationship, the key would be manager_id.
-			// -----------------------------------------------------
+			// The default foreign key for belonging relationships is the name of the
+			// relationship method name with _id. So, if a model has a "manager" method
+			// returning a belongs_to relationship, the key would be manager_id.
 			list(, $caller) = debug_backtrace(false);
 
 			$this->relating_key = $caller['function'].'_id';
@@ -268,11 +256,8 @@ abstract class Eloquent {
 		}
 		else
 		{
-			// -----------------------------------------------------
-			// By default, the intermediate table name is the plural
-			// names of the models arranged alphabetically and
-			// concatenated with an underscore.
-			// -----------------------------------------------------
+			// By default, the intermediate table name is the plural names of the models
+			// arranged alphabetically and concatenated with an underscore.
 			$models = array(Inflector::plural($model), Inflector::plural(get_class($this)));
 
 			sort($models);
@@ -280,13 +265,8 @@ abstract class Eloquent {
 			$this->relating_table = strtolower($models[0].'_'.$models[1]);
 		}
 
-		// -----------------------------------------------------
-		// The default foreign key for many-to-many relations
-		// is the name of the model with an appended _id.
-		// appended _id.
-		//
+		// The default foreign key for many-to-many relations is the name of the model with an appended _id.
 		// This is the same convention as has_one and has_many.
-		// -----------------------------------------------------
 		$this->relating_key = strtolower(get_class($this)).'_id';
 
 		return static::make($model)
@@ -302,10 +282,6 @@ abstract class Eloquent {
 	 */
 	public function save()
 	{
-		// -----------------------------------------------------
-		// If the model doesn't have any dirty attributes, there
-		// is no need to save it to the database.
-		// -----------------------------------------------------
 		if ($this->exists and count($this->dirty) == 0)
 		{
 			return true;
@@ -313,15 +289,10 @@ abstract class Eloquent {
 
 		$model = get_class($this);
 
-		// -----------------------------------------------------
-		// Since the model was instantiated using "new", a query
-		// instance has not been set. We'll do it now.
-		// -----------------------------------------------------
+		// Since the model was instantiated using "new", a query instance has not been set.
 		$this->query = Query::table(static::table($model));
 
-		// -----------------------------------------------------
 		// Set the creation and update timestamps.
-		// -----------------------------------------------------
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
 			$this->updated_at = date('Y-m-d H:i:s');
@@ -332,10 +303,8 @@ abstract class Eloquent {
 			}
 		}
 
-		// -----------------------------------------------------
-		// If the model already exists in the database, we only
-		// need to update it. Otherwise, we'll insert it.
-		// -----------------------------------------------------
+		// If the model already exists in the database, we only need to update it.
+		// Otherwise, we'll insert the model into the database.
 		if ($this->exists)
 		{
 			$result = $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
@@ -360,16 +329,12 @@ abstract class Eloquent {
 	 */
 	public function delete($id = null)
 	{
-		// -----------------------------------------------------
-		// If the method is being called from an existing model,
-		// only delete that model from the database.
-		// -----------------------------------------------------
 		if ($this->exists)
 		{
 			return Query::table(static::table(get_class($this)))->delete($this->id);
 		}
 
-		return $this->query->delete($id);
+		return 0;
 	}
 
 	/**
@@ -377,18 +342,15 @@ abstract class Eloquent {
 	 */
 	public function __get($key)
 	{
-		// -----------------------------------------------------
-		// Check the ignored attributes first. These attributes
-		// hold all of the loaded relationships.
-		// -----------------------------------------------------
+		// Check the ignored attributes first. These attributes hold all of the
+		// loaded relationships for the model.
 		if (array_key_exists($key, $this->ignore))
 		{
 			return $this->ignore[$key];
 		}
 
-		// -----------------------------------------------------
-		// Is the attribute actually a relationship method?
-		// -----------------------------------------------------
+		// Is the attribute actually a relationship method? If it is, return the
+		// models for the relationship.
 		if (method_exists($this, $key))
 		{
 			$model = $this->$key();
@@ -406,10 +368,7 @@ abstract class Eloquent {
 	 */
 	public function __set($key, $value)
 	{
-		// -----------------------------------------------------
-		// If the key is a relationship, add it to the ignored.
-		// Otherwise, we can simply add it as an attribute.
-		// -----------------------------------------------------
+		// If the key is a relationship, add it to the ignored attributes.
 		if (method_exists($this, $key))
 		{
 			$this->ignore[$key] = $value;
@@ -454,18 +413,13 @@ abstract class Eloquent {
 			return $this->_first();
 		}
 
-		// -----------------------------------------------------
-		// Pass aggregate methods to the query instance.
-		// -----------------------------------------------------
 		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($this->query, $method), $parameters);
 		}
 
-		// -----------------------------------------------------
-		// Pass the method to the query instance. This allows
-		// the chaining of methods from the query builder.
-		// -----------------------------------------------------
+		// Pass the method to the query instance. This allows the chaining of methods
+		// from the query builder, providing a nice, convenient API.
 		call_user_func_array(array($this->query, $method), $parameters);
 
 		return $this;
@@ -488,18 +442,13 @@ abstract class Eloquent {
 			return $model->_first();
 		}
 
-		// -----------------------------------------------------
-		// Pass aggregate methods to the query instance.
-		// -----------------------------------------------------
 		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($model->query, $method), $parameters);
 		}
 
-		// -----------------------------------------------------
-		// Pass the method to the query instance. This allows
-		// the chaining of methods from the query builder.
-		// -----------------------------------------------------
+		// Pass the method to the query instance. This allows the chaining of methods
+		// from the query builder, providing a nice, convenient API.
 		call_user_func_array(array($model->query, $method), $parameters);
 
 		return $model;
