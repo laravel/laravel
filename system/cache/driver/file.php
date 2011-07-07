@@ -27,7 +27,7 @@ class File implements \System\Cache\Driver {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */	
-	public function get($key, $default = null)
+	public function get($key)
 	{
 		if (array_key_exists($key, $this->items))
 		{
@@ -36,17 +36,14 @@ class File implements \System\Cache\Driver {
 
 		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
 		{
-			return is_callable($default) ? call_user_func($default) : $default;
+			return null;
 		}
 
 		$cache = file_get_contents(APP_PATH.'storage/cache/'.$key);
 
-		// Has the cache expired? The UNIX expiration time is stored at the beginning of the file.
 		if (time() >= substr($cache, 0, 10))
 		{
-			$this->forget($key);
-
-			return is_callable($default) ? call_user_func($default) : $default;
+			return $this->forget($key);
 		}
 
 		return $this->items[$key] = unserialize(substr($cache, 10));
