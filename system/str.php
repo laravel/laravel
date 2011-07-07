@@ -70,34 +70,36 @@ class Str {
     {
         $value = '';
 
-        // -----------------------------------------------------
-        // Get the proper character pool for the type.
-        // -----------------------------------------------------
-        switch ($type)
-        {
-            case 'alpha':
-                $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                break;
+        $pool_length = strlen($pool = static::pool($type)) - 1;
 
-            default:
-                $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        }
-
-        // -----------------------------------------------------
-        // Get the pool length and split the pool into an array.
-        // -----------------------------------------------------
-        $pool_length = strlen($pool) - 1;
-        $pool = str_split($pool, 1);
-
-        // -----------------------------------------------------
-        // Build the random string to the specified length.
-        // -----------------------------------------------------
         for ($i = 0; $i < $length; $i++)
         {
             $value .= $pool[mt_rand(0, $pool_length)];
         }
 
         return $value;
+    }
+
+    /**
+     * Get a chracter pool.
+     *
+     * @param  string  $type
+     * @return string
+     */
+    private static function pool($type = 'alnum')
+    {
+        if ($type == 'alnum')
+        {
+            return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }
+        elseif ($type == 'alpha')
+        {
+            return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        }
+        else
+        {
+            throw new \Exception("Unrecognized random pool [$type].");
+        }
     }
 
 }
