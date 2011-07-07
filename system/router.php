@@ -44,6 +44,9 @@ class Router {
 
 					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
 					{
+						// Remove the leading slashes from the route and request URIs. Also trim
+						// the request method off of the route URI. This should get the request
+						// and route URIs in the same format so we can extract the parameters.
 						$uri = trim($uri, '/');
 						$key = trim(substr($key, strlen($method.' ')), '/');
 
