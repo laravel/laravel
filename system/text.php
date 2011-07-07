@@ -17,15 +17,8 @@ class Text {
             return $value;
         }
 
-        // -----------------------------------------------------
-        // Limit the words in the string.
-        // -----------------------------------------------------
         preg_match('/^\s*+(?:\S++\s*+){1,'.$limit.'}/', $value, $matches);
 
-        // -----------------------------------------------------
-        // If the string did not exceed the limit, we won't
-        // need an ending character.
-        // -----------------------------------------------------
         if (strlen($value) == strlen($matches[0]))
         {
             $end = '';
@@ -49,9 +42,7 @@ class Text {
             return $value;
         }
 
-        // -----------------------------------------------------
         // Replace new lines and whitespace in the string.
-        // -----------------------------------------------------
         $value = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $value));
 
         if (strlen($value) <= $limit)
@@ -61,10 +52,6 @@ class Text {
 
         $out = '';
 
-        // -----------------------------------------------------
-        // The string exceeds the character limit. Add each word
-        // to the output individually until we reach the limit.
-        // -----------------------------------------------------
         foreach (explode(' ', trim($value)) as $val)
         {
             $out .= $val.' ';
@@ -90,14 +77,9 @@ class Text {
     {
         $value = ' '.$value.' ';
 
-        // -----------------------------------------------------
         // Assume the word will be book-ended by the following.
-        // -----------------------------------------------------
         $delim = '[-_\'\"`(){}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';
 
-        // -----------------------------------------------------
-        // Replace the censored words.
-        // -----------------------------------------------------
         foreach ($censored as $word)
         {
             if ($replacement != '')
