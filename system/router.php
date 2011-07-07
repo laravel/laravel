@@ -18,18 +18,19 @@ class Router {
 	 */
 	public static function route($method, $uri)
 	{
-		// Prepend a forward slash since all routes begin with one.
-		$uri = ($uri != '/') ? '/'.$uri : $uri;
-
 		if (is_null(static::$routes))
 		{
 			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load($uri) : require APP_PATH.'routes'.EXT;
 		}
 
+		// Put the request method and URI in route form. All routes begin with
+		// the request method and a forward slash.
+		$uri = $method.' /'.trim($uri, '/');
+
 		// Is there an exact match for the request?
-		if (isset(static::$routes[$method.' '.$uri]))
+		if (isset(static::$routes[$uri]))
 		{
-			return Request::$route = new Route($method.' '.$uri, static::$routes[$method.' '.$uri]);
+			return Request::$route = new Route($uri, static::$routes[$uri]);
 		}
 
 		foreach (static::$routes as $keys => $callback)
@@ -42,7 +43,7 @@ class Router {
 				{
 					$key = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $key));
 
-					if (preg_match('#^'.$key.'$#', $method.' '.$uri))
+					if (preg_match('#^'.$key.'$#', $uri))
 					{
 						return Request::$route = new Route($keys, $callback, static::parameters($uri, $key));
 					}
@@ -70,7 +71,7 @@ class Router {
 		}
 		else
 		{
-			$segments = explode('/', trim($uri, '/'));
+			$segments = explode('/', $uri);
 
 			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
 			{
