@@ -34,8 +34,6 @@ class Finder {
 			return static::$names[$name];
 		}
 
-		// We haven't located the route before, so we'll need to iterate through each
-		// route to find the matching name.
 		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
