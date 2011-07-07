@@ -38,10 +38,7 @@ class Validator {
 			$target = Input::get();
 		}
 
-		// ---------------------------------------------------------
-		// If the source is an Eloquent model, use the model's
-		// attributes as the validation attributes.
-		// ---------------------------------------------------------
+		// If the source is an Eloquent model, use the model's attributes as the validation attributes.
 		$this->attributes = ($target instanceof DB\Eloquent) ? $target->attributes : (array) $target;
 	}
 
@@ -67,10 +64,6 @@ class Validator {
 
 		foreach ($this->rules as $rule)
 		{
-			// ---------------------------------------------------------
-			// The error collector is passed to the rule so that the
-			// rule may conveniently add error messages.
-			// ---------------------------------------------------------
 			$rule->validate($this->attributes, $this->errors);
 		}
 
@@ -82,10 +75,6 @@ class Validator {
 	 */
 	public function __call($method, $parameters)
 	{
-		// ---------------------------------------------------------
-		// Check if the validation rule is defined in the rules
-		// directory. If it is, create a new rule and return it.
-		// ---------------------------------------------------------
 		if (file_exists(SYS_PATH.'validation/rules/'.$method.EXT))
 		{
 			$rule = '\\System\\Validation\\Rules\\'.$method;
