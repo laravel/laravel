@@ -14,10 +14,9 @@ interface Driver {
 	 * Get an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @param  mixed   $default
 	 * @return mixed
 	 */	
-	public function get($key, $default = null);
+	public function get($key);
 
 	/**
 	 * Write an item to the cache.
