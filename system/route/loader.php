@@ -10,9 +10,6 @@ class Loader {
 	 */
 	public static function load($uri)
 	{
-		// --------------------------------------------------------------
-		// If a single route file is being used, return it.
-		// --------------------------------------------------------------
 		if ( ! is_dir(APP_PATH.'routes'))
 		{
 			return require APP_PATH.'routes'.EXT;			
@@ -23,12 +20,6 @@ class Loader {
 			throw new \Exception("A [home] route file is required when using a route directory.");					
 		}
 
-		// --------------------------------------------------------------
-		// If the request is to the root, load the "home" routes file.
-		//
-		// Otherwise, load the route file matching the first segment of
-		// the URI as well as the "home" routes file.
-		// --------------------------------------------------------------
 		if ($uri == '/')
 		{
 			return require APP_PATH.'routes/home'.EXT;
@@ -37,9 +28,6 @@ class Loader {
 		{
 			$segments = explode('/', trim($uri, '/'));
 
-			// --------------------------------------------------------------
-			// If the file doesn't exist, we'll just return the "home" file.
-			// --------------------------------------------------------------
 			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
 			{
 				return require APP_PATH.'routes/home'.EXT;
