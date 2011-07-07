@@ -23,7 +23,7 @@ class Router {
 
 		if (is_null(static::$routes))
 		{
-			static::$routes = static::load($uri);
+			static::$routes = ( ! is_dir(APP_PATH.'routes')) ? require APP_PATH.'routes'.EXT : static::load($uri);
 		}
 
 		// Is there an exact match for the request?
@@ -65,11 +65,6 @@ class Router {
 	 */
 	public static function load($uri)
 	{
-		if ( ! is_dir(APP_PATH.'routes'))
-		{
-			return require APP_PATH.'routes'.EXT;			
-		}
-
 		if ( ! file_exists(APP_PATH.'routes/home'.EXT))
 		{
 			throw new \Exception("A [home] route file is required when using a route directory.");					
