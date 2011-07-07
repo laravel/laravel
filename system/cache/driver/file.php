@@ -43,7 +43,9 @@ class File implements \System\Cache\Driver {
 
 		if (time() >= substr($cache, 0, 10))
 		{
-			return $this->forget($key);
+			$this->forget($key);
+
+			return null;
 		}
 
 		return $this->items[$key] = unserialize(substr($cache, 10));
