@@ -17,17 +17,37 @@ class Cache {
 	 */
 	public static function driver($driver = null)
 	{
+		if (is_null($driver))
+		{
+			$driver = Config::get('cache.driver');
+		}
+
 		if ( ! array_key_exists($driver, static::$drivers))
 		{
-			if (is_null($driver))
-			{
-				$driver = Config::get('cache.driver');
-			}
-
 			static::$drivers[$driver] = Cache\Factory::make($driver);
 		}
 
 		return static::$drivers[$driver];
+	}
+
+	/**
+	 * Get an item from the cache.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @param  string  $driver
+	 * @return mixed
+	 */	
+	public static function get($key, $default = null, $driver = null)
+	{
+		$item = static::driver($driver)->get($key);
+
+		if (is_null($item))
+		{
+			return is_callable($default) ? call_user_func($default) : $default;
+		}
+
+		return $item;
 	}
 
 	/**
