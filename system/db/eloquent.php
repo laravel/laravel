@@ -116,7 +116,7 @@ abstract class Eloquent {
 	{
 		$model = new $class;
 
-		// Since this method is only used for instantiating/ models for querying
+		// Since this method is only used for instantiating models for querying
 		// purposes, we will go ahead and set the Query instance on the model.
 		$model->query = Query::table(static::table($class));
 
@@ -132,6 +132,7 @@ abstract class Eloquent {
 	public static function with()
 	{
 		$model = static::make(get_called_class());
+
 		$model->includes = func_get_args();
 
 		return $model;
@@ -197,15 +198,16 @@ abstract class Eloquent {
 	/**
 	 * Retrieve the query for a 1:1 or 1:* relationship.
 	 *
+	 * The default foreign key for has one and has many relationships is the name
+	 * of the model with an appended _id. For example, the foreign key for a
+	 * User model would be user_id. Photo would be photo_id, etc.
+	 *
 	 * @param  string  $model
 	 * @param  string  $foreign_key
 	 * @return mixed
 	 */
 	private function has_one_or_many($model, $foreign_key)
 	{
-		// The default foreign key for has one and has many relationships is the name
-		// of the model with an appended _id. For example, the foreign key for a
-		// User model would be user_id. Photo would be photo_id, etc.
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
 		return static::make($model)->where($this->relating_key, '=', $this->id);
@@ -213,6 +215,10 @@ abstract class Eloquent {
 
 	/**
 	 * Retrieve the query for a 1:1 belonging relationship.
+	 *
+	 * The default foreign key for belonging relationships is the name of the
+	 * relationship method name with _id. So, if a model has a "manager" method
+	 * returning a belongs_to relationship, the key would be manager_id.
 	 *
 	 * @param  string  $model
 	 * @param  string  $foreign_key
@@ -228,9 +234,6 @@ abstract class Eloquent {
 		}
 		else
 		{
-			// The default foreign key for belonging relationships is the name of the
-			// relationship method name with _id. So, if a model has a "manager" method
-			// returning a belongs_to relationship, the key would be manager_id.
 			list(, $caller) = debug_backtrace(false);
 
 			$this->relating_key = $caller['function'].'_id';
@@ -242,6 +245,12 @@ abstract class Eloquent {
 	/**
 	 * Retrieve the query for a *:* relationship.
 	 *
+	 * By default, the intermediate table name is the plural names of the models
+	 * arranged alphabetically and concatenated with an underscore.
+	 *
+	 * The default foreign key for many-to-many relations is the name of the model
+	 * with an appended _id. This is the same convention as has_one and has_many.
+	 *
 	 * @param  string  $model
 	 * @param  string  $table
 	 * @return mixed
@@ -250,23 +259,19 @@ abstract class Eloquent {
 	{
 		$this->relating = __FUNCTION__;
 
-		if ( ! is_null($table))
+		if (is_null($table))
 		{
-			$this->relating_table = $table;
-		}
-		else
-		{
-			// By default, the intermediate table name is the plural names of the models
-			// arranged alphabetically and concatenated with an underscore.
 			$models = array(Inflector::plural($model), Inflector::plural(get_class($this)));
 
 			sort($models);
 
 			$this->relating_table = strtolower($models[0].'_'.$models[1]);
 		}
+		else
+		{
+			$this->relating_table = $table;
+		}
 
-		// The default foreign key for many-to-many relations is the name of the model with an appended _id.
-		// This is the same convention as has_one and has_many.
 		$this->relating_key = strtolower(get_class($this)).'_id';
 
 		return static::make($model)
