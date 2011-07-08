@@ -10,7 +10,10 @@ class Cache {
 	private static $drivers = array();
 
 	/**
-	 * Get a cache driver instance. Cache drivers are singletons.
+	 * Get a cache driver instance. If no driver name is specified, the default
+	 * cache driver will be returned as defined in the cache configuration file.
+	 *
+	 * Note: Cache drivers are managed as singleton instances.
 	 *
 	 * @param  string  $driver
 	 * @return Cache\Driver
@@ -22,12 +25,9 @@ class Cache {
 			$driver = Config::get('cache.driver');
 		}
 
-		if ( ! array_key_exists($driver, static::$drivers))
-		{
-			static::$drivers[$driver] = Cache\Factory::make($driver);
-		}
-
-		return static::$drivers[$driver];
+		return (array_key_exists($driver, static::$drivers))
+                                             ? static::$drivers[$driver] 
+                                             : static::$drivers[$driver] = Cache\Factory::make($driver);
 	}
 
 	/**
@@ -40,9 +40,7 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
-		$item = static::driver($driver)->get($key);
-
-		if (is_null($item))
+		if (is_null($item = static::driver($driver)->get($key)))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
@@ -51,8 +49,8 @@ class Cache {
 	}
 
 	/**
-	 * Get an item from the cache. If it doesn't exist, store the default value
-	 * in the cache and return it.
+	 * Get an item from the cache. If the item doesn't exist in the cache, store
+	 * the default value in the cache and return it.
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -60,7 +58,7 @@ class Cache {
 	 * @param  string  $driver
 	 * @return mixed
 	 */
-	public static function maybe($key, $default, $minutes, $driver = null)
+	public static function remember($key, $default, $minutes, $driver = null)
 	{
 		if ( ! is_null($item = static::get($key)))
 		{
