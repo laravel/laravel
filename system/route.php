@@ -43,7 +43,7 @@ class Route {
 	 *
 	 * @param  mixed     $route
 	 * @param  array     $parameters
-	 * @return mixed
+	 * @return Response
 	 */
 	public function call()
 	{
@@ -57,8 +57,6 @@ class Route {
 		{
 			$response = isset($this->callback['before']) ? Route\Filter::call($this->callback['before'], array(), true) : null;
 
-			// Verify that the before filters did not return a response. Before filters can override
-			// the request cycle to make things like authentication more convenient.
 			if (is_null($response) and isset($this->callback['do']))
 			{
 				$response = call_user_func_array($this->callback['do'], $this->parameters);
