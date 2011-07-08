@@ -7,7 +7,7 @@ class Memcached implements \System\Cache\Driver {
 	 *
 	 * @var array
 	 */
-	private $items = array();
+	public $items = array();
 
 	/**
 	 * Determine if an item exists in the cache.
