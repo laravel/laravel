@@ -78,7 +78,7 @@ class Input {
 		{
 			list($file, $key) = explode('.', $key);
 
-			return (isset($_FILES[$file][$key])) ? $_FILES[$file][$key] : $default;
+			return Arr::get($_FILES[$file], $key, $default);
 		}
 
 		return Arr::get($_FILES, $key, $default);
