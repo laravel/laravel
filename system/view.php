@@ -78,14 +78,7 @@ class View {
 		//
 		// Otherwise, a white screen of death will be shown if an exception occurs
 		// while rendering the view.
-		try
-		{
-			include $path;
-		}
-		catch (\Exception $e)
-		{
-			Error::handle($e);
-		}
+		try { include $path; } catch (\Exception $e) { Error::handle($e); }
 
 		return ob_get_clean();
 	}
