@@ -28,11 +28,6 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function get($key)
 	{
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
 		$cache = apc_fetch(\System\Config::get('cache.key').$key);
 
 		if ($cache === false)
