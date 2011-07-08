@@ -53,7 +53,6 @@ class Route {
 		{
 			$response = call_user_func_array($this->callback, $this->parameters);
 		}
-		// If the route value is an array, we'll need to check it for any filters that may be attached.
 		elseif (is_array($this->callback))
 		{
 			$response = isset($this->callback['before']) ? Route\Filter::call($this->callback['before'], array(), true) : null;
