@@ -34,7 +34,7 @@ class Input {
 			static::hydrate();
 		}
 
-		return (array_key_exists($key, static::$input)) ? static::$input[$key] : $default;
+		return Arr::get(static::$input, $key, $default);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Input {
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
 		}
 
-		return (array_key_exists($key, $old = Session::get('laravel_old_input', array()))) ? $old[$key] : $default;
+		return Arr::get(Session::get('laravel_old_input', array()), $key, $default);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Input {
 			return (isset($_FILES[$file][$key])) ? $_FILES[$file][$key] : $default;
 		}
 
-		return (array_key_exists($key, $_FILES)) ? $_FILES[$key] : $default;
+		return Arr::get($_FILES, $key, $default);
 	}
 
 	/**

@@ -20,7 +20,7 @@ class Router {
 	{
 		if (is_null(static::$routes))
 		{
-			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load($uri) : require APP_PATH.'routes'.EXT;
+			static::$routes = static::load($uri);
 		}
 
 		// Put the request method and URI in route form. Routes begin with the request method and a forward slash.
@@ -58,6 +58,11 @@ class Router {
 	 */
 	public static function load($uri)
 	{
+		if ( ! is_dir(APP_PATH.'routes'))
+		{
+			return require APP_PATH.'routes'.EXT;
+		}
+
 		if ( ! file_exists(APP_PATH.'routes/home'.EXT))
 		{
 			throw new \Exception("A [home] route file is required when using a route directory.");					
@@ -89,7 +94,7 @@ class Router {
 	 * @param  string  $route
 	 * @return array
 	 */
-	private static function parameters($uri, $route)
+	public static function parameters($uri, $route)
 	{
 		return array_values(array_intersect_key(explode('/', $uri), preg_grep('/\(.+\)/', explode('/', $route))));	
 	}	

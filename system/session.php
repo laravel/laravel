@@ -7,14 +7,14 @@ class Session {
 	 *
 	 * @var Session\Driver
 	 */
-	private static $driver;
+	public static $driver;
 
 	/**
 	 * The session.
 	 *
 	 * @var array
 	 */
-	private static $session = array();
+	public static $session = array();
 
 	/**
 	 * Get the session driver.
