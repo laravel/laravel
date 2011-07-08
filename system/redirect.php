@@ -34,8 +34,8 @@ class Redirect {
 		$url = URL::to($url, $https);
 
 		return ($method == 'refresh')
-							? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
-							: new static(Response::make('', $status)->header('Location', $url));
+                             ? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
+                             : new static(Response::make('', $status)->header('Location', $url));
 	}
 
 	/**
@@ -60,10 +60,12 @@ class Redirect {
 	 */
 	public function with($key, $value)
 	{
-		if (Config::get('session.driver') != '')
+		if (Config::get('session.driver') == '')
 		{
-			Session::flash($key, $value);
+			throw new \Exception("Attempting to flash data to the session, but no session driver has been specified.");
 		}
+
+		Session::flash($key, $value);
 
 		return $this;
 	}
