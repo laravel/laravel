@@ -75,13 +75,6 @@ class Redirect {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// Get the parameters for the method. Dynamic routes can be generated using an
-		// array of parameters for routes that contain wildcards, such as /user/(:num).
-		//
-		//     Example: Redirect::to_profile(array(1));
-		//
-		// Here we'll check to see if a parameter was passed. If it wasn't, we'll just
-		// pass an empty array into the URL generator.
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		// Dynamically redirect to a secure route URL.
