@@ -25,9 +25,28 @@ class Cache {
 			$driver = Config::get('cache.driver');
 		}
 
-		return (array_key_exists($driver, static::$drivers))
-                                             ? static::$drivers[$driver] 
-                                             : static::$drivers[$driver] = Cache\Factory::make($driver);
+		if ( ! array_key_exists($driver, static::$drivers))
+		{
+			switch ($driver)
+			{
+				case 'file':
+					static::$drivers[$driver] = new Cache\Driver\File;
+					break;
+
+				case 'memcached':
+					static::$drivers[$driver] = new Cache\Driver\Memcached;
+					break;
+
+				case 'apc':
+					static::$drivers[$driver] = new Cache\Driver\APC;
+					break;
+
+				default:
+					throw new \Exception("Cache driver [$driver] is not supported.");
+			}
+		}
+
+		return static::$drivers[$driver];
 	}
 
 	/**
