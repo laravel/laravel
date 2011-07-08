@@ -53,6 +53,9 @@ class Auth {
 	/**
 	 * Attempt to login a user.
 	 *
+	 * If the user credentials are valid. The user ID will be stored in the session
+	 * and will be considered "logged in" on subsequent requests to the application.
+	 *
 	 * @param  string  $username
 	 * @param  string  $password
 	 */
@@ -78,7 +81,7 @@ class Auth {
 	}
 
 	/**
-	 * Logout the current user of the application.
+	 * Logout the user of the application.
 	 *
 	 * @return void
 	 */
