@@ -26,13 +26,14 @@ class Connector {
 	{
 		$config = static::configuration($connection);
 
-		if ($config->driver == 'sqlite')
+		switch ($config->driver)
 		{
-			return static::connect_to_sqlite($config);
-		}
-		elseif ($config->driver == 'mysql' or $config->driver == 'pgsql')
-		{
-			return static::connect_to_server($config);
+			case 'sqlite':
+				return static::connect_to_sqlite($config);
+
+			case 'mysql':
+			case 'pgsql':
+				return static::connect_to_server($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
