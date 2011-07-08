@@ -115,15 +115,16 @@ class Query {
 	/**
 	 * Add columns to the SELECT clause.
 	 *
+	 * @param  array  $columns
 	 * @return Query
 	 */
-	public function select()
+	public function select($columns = array('*'))
 	{
 		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
 
-		$columns = array();
+		$wrapped = array();
 
-		foreach (func_get_args() as $column)
+		foreach ($columns as $column)
 		{
 			// If the column name is being aliased, we will need to wrap the column
 			// name and its alias in keyword identifiers.
@@ -131,15 +132,15 @@ class Query {
 			{
 				$segments = explode(' ', $column);
 
-				$columns[] = $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);				
+				$wrapped[] = $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);				
 			}
 			else
 			{
-				$columns[] = $this->wrap($column);
+				$wrapped[] = $this->wrap($column);
 			}
 		}
 
-		$this->select .= implode(', ', $columns);
+		$this->select .= implode(', ', $wrapped);
 
 		return $this;
 	}
@@ -388,34 +389,38 @@ class Query {
 	/**
 	 * Find a record by the primary key.
 	 *
-	 * @param  int    $id
+	 * @param  int     $id
+	 * @param  array   $columns
 	 * @return object
 	 */
-	public function find($id)
+	public function find($id, $columns = array('*'))
 	{
-		return $this->where('id', '=', $id)->first();
+		return $this->where('id', '=', $id)->first($columns);
 	}
 
 	/**
 	 * Execute the query as a SELECT statement and return the first result.
 	 *
+	 * @param  array   $columns
 	 * @return object
 	 */
-	public function first()
+	public function first($columns = array('*'))
 	{
-		return (count($results = call_user_func_array(array($this->take(1), 'get'), func_get_args())) > 0) ? $results[0] : null;
+
+		return (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
 	}
 
 	/**
 	 * Execute the query as a SELECT statement.
 	 *
+	 * @param  array  $columns
 	 * @return array
 	 */
-	public function get()
+	public function get($columns = array('*'))
 	{
 		if (is_null($this->select))
 		{
-			call_user_func_array(array($this, 'select'), (count(func_get_args()) > 0) ? func_get_args() : array('*'));
+			$this->select($columns);
 		}
 
 		return DB::query(Query\Compiler::select($this), $this->bindings, $this->connection);
