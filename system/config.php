@@ -10,7 +10,7 @@ class Config {
 	private static $items = array();
 
 	/**
-	 * Determine if a configuration item exists.
+	 * Determine if a configuration item or file exists.
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -23,14 +23,20 @@ class Config {
 	/**
 	 * Get a configuration item.
 	 *
+	 * Configuration items are retrieved using "dot" notation. So, asking for the
+	 * "application.timezone" configuration item would return the "timezone" option
+	 * from the "application" configuration file.
+	 *
+	 * If the name of a configuration file is passed without specifying an item, the
+	 * entire configuration array will be returned.
+	 *
 	 * @param  string  $key
 	 * @param  string  $default
-	 * @return mixed
+	 * @return array
 	 */
 	public static function get($key, $default = null)
 	{
-		// If no "dot" is present in the key, return the entire configuration array.
-		if(strpos($key, '.') === false)
+		if (strpos($key, '.') === false)
 		{
 			static::load($key);
 
@@ -41,7 +47,6 @@ class Config {
 
 		static::load($file);
 
-		// Verify that the configuration file actually exists.
 		if ( ! array_key_exists($file, static::$items))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
@@ -69,13 +74,14 @@ class Config {
 	/**
 	 * Parse a configuration key.
 	 *
+	 * The value on the left side of the dot is the configuration file
+	 * name, while the right side of the dot is the item within that file.
+	 *
 	 * @param  string  $key
 	 * @return array
 	 */
 	private static function parse($key)
 	{
-		// The left side of the dot is the file name, while the right side of the dot
-		// is the item within that file being requested.
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
@@ -94,13 +100,10 @@ class Config {
 	 */
 	public static function load($file)
 	{
-		// Bail out if already loaded or doesn't exist.
-		if (array_key_exists($file, static::$items) or ! file_exists($path = APP_PATH.'config/'.$file.EXT))
+		if ( ! array_key_exists($file, static::$items) and file_exists($path = APP_PATH.'config/'.$file.EXT))
 		{
-			return;
+			static::$items[$file] = require $path;
 		}
-
-		static::$items[$file] = require $path;
 	}
 
 }
