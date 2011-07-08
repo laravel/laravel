@@ -195,7 +195,7 @@ class Hydrator {
 		// models back to their parents.
 		$children = $relationship->query
                                      ->where_in($relating_table.'.'.$relating_key, array_keys($parents))
-                                     ->get(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key);
+                                     ->get(array(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key));
 
 		$class = get_class($relationship);
 
