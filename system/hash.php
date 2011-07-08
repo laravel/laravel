@@ -17,7 +17,11 @@ class Hash {
 	public $salt;
 
 	/**
-	 * Create a new hash instance.
+	 * Create a new salted hash instance.
+	 *
+	 * If no salt is provided, a random, 16 character salt will be generated
+	 * to created the salted, hashed value. If a salt is provided, that salt
+	 * will be used when hashing the value.
 	 *
 	 * @param  string  $value
 	 * @param  string  $salt
@@ -25,7 +29,9 @@ class Hash {
 	 */
 	public function __construct($value, $salt = null)
 	{
-		$this->value = sha1($value.$this->salt = (is_null($salt)) ? Str::random(16) : $salt);
+		$this->salt = (is_null($salt)) ? Str::random(16) : $salt;
+
+		$this->value = sha1($value.$this->salt);
 	}
 
 	/**
