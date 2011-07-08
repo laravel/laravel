@@ -64,11 +64,7 @@ class Auth {
 
 		if ( ! is_null($user))
 		{
-			// If a salt is present on the user record, we will recreate the hashed password
-			// using the salt. Otherwise, we will just use a plain hash.
-			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
-
-			if ($user->password === $password)
+			if ($user->password === Hash::make($password, $user->salt)->value)
 			{
 				static::$user = $user;
 
@@ -89,6 +85,7 @@ class Auth {
 	public static function logout()
 	{
 		Session::forget(static::$key);
+
 		static::$user = null;
 	}
 

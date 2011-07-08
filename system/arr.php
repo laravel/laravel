@@ -5,6 +5,8 @@ class Arr {
 	/**
 	 * Get an item from an array.
 	 *
+	 * If the specified key is null, the entire array will be returned.
+	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default
