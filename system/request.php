@@ -69,14 +69,24 @@ class Request {
 	/**
 	 * Get the request method.
 	 *
-	 * The request method may be spoofed if a hidden "REQUEST_METHOD" POST element 
-	 * is present, allowing HTML forms to simulate PUT and DELETE requests.
-	 *
 	 * @return string
 	 */
 	public static function method()
 	{
-		return (array_key_exists('REQUEST_METHOD', $_POST)) ? $_POST['REQUEST_METHOD'] : $_SERVER['REQUEST_METHOD'];
+		return (static::spoofed()) ? $_POST['REQUEST_METHOD'] : $_SERVER['REQUEST_METHOD'];
+	}
+
+	/**
+	 * Determine if the request method is being spoofed by a hidden Form element.
+	 *
+	 * Hidden form elements are used to spoof PUT and DELETE requests since
+	 * they are not supported by HTML forms.
+	 *
+	 * @return bool
+	 */
+	public static function spoofed()
+	{
+		return array_key_exists('REQUEST_METHOD', $_POST);
 	}
 
 	/**
