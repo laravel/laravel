@@ -40,6 +40,11 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
+		if (array_key_exists($key, static::driver($driver)->items))
+		{
+			return static::driver($driver)->items[$key];
+		}
+
 		if (is_null($item = static::driver($driver)->get($key)))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
