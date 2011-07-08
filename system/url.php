@@ -19,8 +19,6 @@ class URL {
 
 		$base = Config::get('application.url');
 
-		// Assets live in the public directory, and should not have 
-		// the index file appended to their URLs.
 		if ( ! $asset)
 		{
 			$base .= '/'.Config::get('application.index');
