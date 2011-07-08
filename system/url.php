@@ -19,8 +19,8 @@ class URL {
 
 		$base = Config::get('application.url');
 
-		// Assets live in the public directory, so we only want to append
-		// the index file if the URL is to an asset.
+		// Assets live in the public directory, and should not have 
+		// the index file appended to their URLs.
 		if ( ! $asset)
 		{
 			$base .= '/'.Config::get('application.index');
@@ -60,6 +60,10 @@ class URL {
 	/**
 	 * Generate a URL from a route name.
 	 *
+	 * For routes that have wildcard parameters, an array may be passed as the
+	 * second parameter to the method. The values of this array will be used
+	 * to fill the wildcard segments of the route URI.
+	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @param  bool    $https
@@ -69,13 +73,10 @@ class URL {
 	{
 		if ( ! is_null($route = Route\Finder::find($name)))
 		{
-			// Get the first URI assigned to the route.
 			$uris = explode(', ', key($route));
 
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
-			// Replace any parameters in the URI. This allows the dynamic creation of URLs
-			// that contain parameter wildcards.
 			foreach ($parameters as $parameter)
 			{
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
