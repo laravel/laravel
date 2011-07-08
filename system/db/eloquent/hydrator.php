@@ -5,17 +5,15 @@ use System\DB\Eloquent;
 class Hydrator {
 
 	/**
-	 * Load the array of hydrated models.
+	 * Load the array of hydrated models and their eager relationships.
 	 *
 	 * @param  object  $eloquent
 	 * @return array
 	 */
 	public static function hydrate($eloquent)
 	{
-		// Load the base / parent models from the query results.
 		$results = static::base(get_class($eloquent), $eloquent->query->get());
 
-		// Load all of the eager relationships.
 		if (count($results) > 0)
 		{
 			foreach ($eloquent->includes as $include)
@@ -35,6 +33,9 @@ class Hydrator {
 	/**
 	 * Hydrate the base models for a query.
 	 *
+	 * The resulting model array is keyed by the primary keys of the models.
+	 * This allows the models to easily be matched to their children.
+	 *
 	 * @param  string  $class
 	 * @param  array   $results
 	 * @return array
@@ -48,10 +49,9 @@ class Hydrator {
 			$model = new $class;
 
 			$model->attributes = (array) $result;
+
 			$model->exists = true;
 
-			// The results are keyed by the ID on the record. This will allow us to conveniently
-			// match them to child models during eager loading.
 			$models[$model->id] = $model;
 		}
 
@@ -80,6 +80,7 @@ class Hydrator {
 
 		// Reset the WHERE clause and bindings on the query. We'll add our own WHERE clause soon.
 		$relationship->query->where = 'WHERE 1 = 1';
+
 		$relationship->query->bindings = array();
 
 		// Initialize the relationship attribute on the parents. As expected, "many" relationships
@@ -154,8 +155,6 @@ class Hydrator {
 	 */
 	private static function eagerly_load_belonging($relationship, &$parents, $relating_key, $include)
 	{
-		// Gather the keys from the parent models. Since the foreign key is on the parent model
-		// for this type of relationship, we have to gather them individually.
 		$keys = array();
 
 		foreach ($parents as &$parent)
@@ -189,13 +188,10 @@ class Hydrator {
 	{
 		$relationship->query->select = null;
 
-		// Retrieve the raw results as stdClasses.
-		//
-		// We also add the foreign key to the select which will allow us to match the
-		// models back to their parents.
-		$children = $relationship->query
-                                     ->where_in($relating_table.'.'.$relating_key, array_keys($parents))
-                                     ->get(array(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key));
+		$relationship->query->where_in($relating_table.'.'.$relating_key, array_keys($parents));
+
+		// The foreign key is added to the select to allow us to easily match the models back to their parents.
+		$children = $relationship->query->get(array(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key));
 
 		$class = get_class($relationship);
 
@@ -204,10 +200,10 @@ class Hydrator {
 			$related = new $class;
 
 			$related->attributes = (array) $child;
+
 			$related->exists = true;
 
-			// Remove the foreign key from the attributes since it was added to the query
-			// to help us match the models.
+			// Remove the foreign key since it was added to the query to help match to the children.
 			unset($related->attributes[$relating_key]);
 
 			$parents[$child->$relating_key]->ignore[$include][$child->id] = $related;
