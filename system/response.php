@@ -177,4 +177,12 @@ class Response {
 		return $this->status == 301 or $this->status == 302;
 	}
 
+	/**
+	 * Get the parsed content of the Response.
+	 */
+	public function __toString()
+	{
+		return (string) $this->content;
+	}
+
 }
