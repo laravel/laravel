@@ -275,7 +275,7 @@ abstract class Eloquent {
 		$this->relating_key = strtolower(get_class($this)).'_id';
 
 		return static::make($model)
-                               ->select(static::table($model).'.*')
+                               ->select(array(static::table($model).'.*'))
                                ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id')
                                ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
 	}
