@@ -7,10 +7,13 @@ class DB {
 	 *
 	 * @var array
 	 */
-	private static $connections = array();
+	public static $connections = array();
 
 	/**
-	 * Get a database connection. Database connections are managed as singletons.
+	 * Get a database connection. If no database name is specified, the default
+	 * connection will be returned as defined in the db configuration file.
+	 *
+	 * Note: Database connections are managed as singletons.
 	 *
 	 * @param  string  $connection
 	 * @return PDO
@@ -22,19 +25,9 @@ class DB {
 			$connection = Config::get('db.default');
 		}
 
-		if ( ! array_key_exists($connection, static::$connections))
-		{
-			$config = Config::get('db.connections');
-
-			if ( ! array_key_exists($connection, $config))
-			{
-				throw new \Exception("Database connection [$connection] is not defined.");
-			}
-
-			static::$connections[$connection] = DB\Connector::connect((object) $config[$connection]);
-		}
-
-		return static::$connections[$connection];
+		return array_key_exists($connection, static::$connections)
+                                                  ? static::$connections[$connection]
+                                                  : static::$connections[$connection] = DB\Connector::connect($connection);
 	}
 
 	/**
