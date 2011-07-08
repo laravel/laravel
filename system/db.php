@@ -25,9 +25,12 @@ class DB {
 			$connection = Config::get('db.default');
 		}
 
-		return array_key_exists($connection, static::$connections)
-                                                  ? static::$connections[$connection]
-                                                  : static::$connections[$connection] = DB\Connector::connect($connection);
+		if ( ! array_key_exists($connection, static::$connections))
+		{
+			static::$connections[$connection] = DB\Connector::connect($connection);
+		}
+
+		return static::$connections[$connection];
 	}
 
 	/**
