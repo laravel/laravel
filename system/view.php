@@ -66,18 +66,12 @@ class View {
 			}
 		}
 
-		// Extract the view data into the local scope.
 		extract($this->data, EXTR_SKIP);
 
 		ob_start();
 
 		$path = $this->find();
 
-		// We include the view into the local scope within a try / catch to catch any
-		// exceptions that may occur while the view is rendering.
-		//
-		// Otherwise, a white screen of death will be shown if an exception occurs
-		// while rendering the view.
 		try { include $path; } catch (\Exception $e) { Error::handle($e); }
 
 		return ob_get_clean();
