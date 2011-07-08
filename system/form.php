@@ -34,6 +34,9 @@ class Form {
 
 		// If the request method is PUT or DELETE, create a hidden input element with the
 		// request method in it since HTML forms do not support these two methods.
+		//
+		// The Request class will check for this hidden POST element when determining the
+		// request method. If it is present, it will override the real request method.
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
 			$html .= PHP_EOL.static::input('hidden', 'REQUEST_METHOD', $method);
