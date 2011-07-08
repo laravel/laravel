@@ -295,35 +295,41 @@ abstract class Eloquent {
 		$model = get_class($this);
 
 		// Since the model was instantiated using "new", a query instance has not been set.
+		// Only models being used for querying have their query instances set by default.
 		$this->query = Query::table(static::table($model));
 
-		// Set the creation and update timestamps.
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
-			$this->updated_at = date('Y-m-d H:i:s');
-
-			if ( ! $this->exists)
-			{
-				$this->created_at = $this->updated_at;
-			}
+			$this->timestamp();
 		}
 
-		// If the model already exists in the database, we only need to update it.
-		// Otherwise, we'll insert the model into the database.
-		if ($this->exists)
-		{
-			$result = $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
-		}
-		else
-		{
-			$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
-
-			$result = $this->exists = is_numeric($this->id);
-		}		
+		$result = ($this->exists) ? $this->update() : $this->insert();
 
 		$this->dirty = array();
 
 		return $result;
+	}
+
+	/**
+	 * Update an existing model in the database.
+	 *
+	 * @return bool
+	 */
+	private function update()
+	{
+		return $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
+	}
+
+	/**
+	 * Insert a new model into the database.
+	 *
+	 * @return bool
+	 */
+	private function insert()
+	{
+		$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
+
+		return $this->exists = is_numeric($this->id);
 	}
 
 	/**
@@ -343,19 +349,32 @@ abstract class Eloquent {
 	}
 
 	/**
+	 * Set the creation and update timestamps on the model.
+	 *
+	 * @return void
+	 */
+	private function timestamp()
+	{
+		$this->updated_at = date('Y-m-d H:i:s');
+
+		if ( ! $this->exists)
+		{
+			$this->created_at = $this->updated_at;
+		}
+	}
+
+	/**
 	 * Magic method for retrieving model attributes.
 	 */
 	public function __get($key)
 	{
-		// Check the ignored attributes first. These attributes hold all of the
-		// loaded relationships for the model.
+		// The ignored attributes hold all of the loaded relationships for the model.
 		if (array_key_exists($key, $this->ignore))
 		{
 			return $this->ignore[$key];
 		}
 
-		// Is the attribute actually a relationship method? If it is, return the
-		// models for the relationship.
+		// If the attribute is a relationship method, return the related models.
 		if (method_exists($this, $key))
 		{
 			$model = $this->$key();
