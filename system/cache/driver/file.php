@@ -29,11 +29,6 @@ class File implements \System\Cache\Driver {
 	 */	
 	public function get($key)
 	{
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
 		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
 		{
 			return null;
