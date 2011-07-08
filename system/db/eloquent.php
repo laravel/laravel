@@ -274,10 +274,13 @@ abstract class Eloquent {
 
 		$this->relating_key = strtolower(get_class($this)).'_id';
 
-		return static::make($model)
-                               ->select(array(static::table($model).'.*'))
-                               ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id')
-                               ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
+		$relationship = static::make($model);
+
+		$relationship->select(array(static::table($model).'.*'));
+		$relationship->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id');
+		$relationship->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
+
+		return $relationship;
 	}
 
 	/**
@@ -366,9 +369,12 @@ abstract class Eloquent {
 		{
 			$model = $this->$key();
 
-			return ($this->relating == 'has_one' or $this->relating == 'belongs_to')
-                                                                  ? $this->ignore[$key] = $model->first()
-                                                                  : $this->ignore[$key] = $model->get();
+			if (in_array($this->relating, array('has_one', 'belongs_to')))
+			{
+				return $this->ignore[$key] = $model->first();
+			}
+
+			return $this->ignore[$key] = $model->get();
 		}
 
 		return (array_key_exists($key, $this->attributes)) ? $this->attributes[$key] : null;
