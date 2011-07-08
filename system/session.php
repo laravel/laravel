@@ -25,7 +25,27 @@ class Session {
 	{
 		if (is_null(static::$driver))
 		{
-			static::$driver = Session\Factory::make(Config::get('session.driver'));
+			switch (Config::get('session.driver'))
+			{
+				case 'file':
+					static::$driver = new Session\Driver\File;
+					break;
+
+				case 'db':
+					static::$driver = new Session\Driver\DB;
+					break;
+
+				case 'memcached':
+					static::$driver = new Session\Driver\Memcached;
+					break;
+
+				case 'apc':
+					static::$driver = new Session\Driver\APC;
+					break;
+
+				default:
+					throw new \Exception("Session driver [$driver] is not supported.");
+			}			
 		}
 
 		return static::$driver;
