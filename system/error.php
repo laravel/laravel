@@ -31,7 +31,7 @@ class Error {
 	 */
 	public static function handle($e)
 	{
-		// Clean the output buffer. We don't want any rendered views or text sent to the browser.
+		// Clean the output buffer so no previously rendered views or text is sent to the browser.
 		if (ob_get_level() > 0)
 		{
 			ob_clean();
@@ -40,7 +40,8 @@ class Error {
 		// Get the error severity in human readable format.
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		// Get the error file. Views require special handling since view errors occur in eval'd code.
+		// Get the file in which the error occured.
+		// Views require special handling since view errors occur in eval'd code.
 		if (strpos($e->getFile(), 'view.php') !== false and strpos($e->getFile(), "eval()'d code") !== false)
 		{
 			$file = APP_PATH.'views/'.View::$last.EXT;
@@ -60,12 +61,12 @@ class Error {
 		if (Config::get('error.detail'))
 		{
 			$view = View::make('exception')
-									->bind('severity', $severity)
-									->bind('message', $message)
-									->bind('file', $file)
-									->bind('line', $e->getLine())
-									->bind('trace', $e->getTraceAsString())
-									->bind('contexts', static::context($file, $e->getLine()));
+                                   ->bind('severity', $severity)
+                                   ->bind('message', $message)
+                                   ->bind('file', $file)
+                                   ->bind('line', $e->getLine())
+                                   ->bind('trace', $e->getTraceAsString())
+                                   ->bind('contexts', static::context($file, $e->getLine()));
 			
 			Response::make($view, 500)->send();
 		}
