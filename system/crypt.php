@@ -24,21 +24,8 @@ class Crypt {
 	 */
 	public static function encrypt($value)
 	{
-		if (defined('MCRYPT_DEV_URANDOM'))
-		{
-			$random = MCRYPT_DEV_URANDOM;
-		}
-		elseif (defined('MCRYPT_DEV_RANDOM'))
-		{
-			$random = MCRYPT_DEV_RANDOM;
-		}
-		else
-		{
-			$random = MCRYPT_RAND;
-		}
-
-		// The system random number generator must be seeded to produce random results.
-		if ($random === MCRYPT_RAND)
+		// Seed the system random number generator if it is being used.
+		if (($random = static::randomizer()) === MCRYPT_RAND)
 		{
 			mt_srand();
 		}
@@ -47,7 +34,6 @@ class Crypt {
 
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
-		// Use base64 encoding to get a nice string value.
 		return base64_encode($iv.$value);
 	}
 
@@ -76,7 +62,28 @@ class Crypt {
 	}
 
 	/**
-	 * Get the application key.
+	 * Get the random number source that should be used for the OS.
+	 *
+	 * @return int
+	 */
+	private static function randomizer()
+	{
+		if (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return MCRYPT_DEV_URANDOM;
+		}
+		elseif (defined('MCRYPT_DEV_RANDOM'))
+		{
+			return MCRYPT_DEV_RANDOM;
+		}
+		else
+		{
+			return MCRYPT_RAND;
+		}
+	}
+
+	/**
+	 * Get the application key from the application configuration file.
 	 *
 	 * @return string
 	 */
