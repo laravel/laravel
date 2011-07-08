@@ -369,12 +369,7 @@ abstract class Eloquent {
 		{
 			$model = $this->$key();
 
-			if (in_array($this->relating, array('has_one', 'belongs_to')))
-			{
-				return $this->ignore[$key] = $model->first();
-			}
-
-			return $this->ignore[$key] = $model->get();
+			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $model->first() : $model->get();
 		}
 
 		return (array_key_exists($key, $this->attributes)) ? $this->attributes[$key] : null;
