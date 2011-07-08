@@ -109,8 +109,6 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		// If the response is a Redirect instance, grab the Response. The Redirect class
-		// manages a Response instance internally.
 		if ($response instanceof Redirect)
 		{
 			$response = $response->response;
