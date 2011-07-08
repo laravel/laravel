@@ -303,33 +303,20 @@ abstract class Eloquent {
 			$this->timestamp();
 		}
 
-		$result = ($this->exists) ? $this->update() : $this->insert();
+		if ($this->exists)
+		{
+			$result = $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
+		}
+		else
+		{
+			$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
+
+			$result = $this->exists = is_numeric($this->id);
+		}
 
 		$this->dirty = array();
 
 		return $result;
-	}
-
-	/**
-	 * Update an existing model in the database.
-	 *
-	 * @return bool
-	 */
-	private function update()
-	{
-		return $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
-	}
-
-	/**
-	 * Insert a new model into the database.
-	 *
-	 * @return bool
-	 */
-	private function insert()
-	{
-		$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
-
-		return $this->exists = is_numeric($this->id);
 	}
 
 	/**
@@ -345,7 +332,7 @@ abstract class Eloquent {
 			return Query::table(static::table(get_class($this)))->delete($this->id);
 		}
 
-		return 0;
+		return $this->query->delete();
 	}
 
 	/**
