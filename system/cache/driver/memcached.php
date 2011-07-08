@@ -28,11 +28,6 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function get($key)
 	{
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
 		$cache = \System\Memcached::instance()->get(\System\Config::get('cache.key').$key);
 
 		if ($cache === false)
