@@ -86,7 +86,7 @@ class Request {
 	 */
 	public static function spoofed()
 	{
-		return array_key_exists('REQUEST_METHOD', $_POST);
+		return is_array($_POST) and array_key_exists('REQUEST_METHOD', $_POST);
 	}
 
 	/**
