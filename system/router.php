@@ -23,7 +23,8 @@ class Router {
 			static::$routes = static::load($uri);
 		}
 
-		// Put the request method and URI in route form. Routes begin with the request method and a forward slash.
+		// Put the request method and URI in route form. 
+		// Routes begin with the request method and a forward slash.
 		$uri = $method.' /'.trim($uri, '/');
 
 		// Is there an exact match for the request?
@@ -34,7 +35,8 @@ class Router {
 
 		foreach (static::$routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs or wildcards. Other routes would be caught by a literal match.
+			// Only check routes that have multiple URIs or wildcards.
+			// Other routes would have been caught by the check for literal matches.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
 				foreach (explode(', ', $keys) as $key)
@@ -58,31 +60,29 @@ class Router {
 	 */
 	public static function load($uri)
 	{
-		if ( ! is_dir(APP_PATH.'routes'))
+		return (is_dir(APP_PATH.'routes')) ? static::load_from_directory($uri) : require APP_PATH.'routes'.EXT;
+	}
+
+	/**
+	 * Load the appropriate route file from the routes directory.
+	 *
+	 * @param  string  $uri
+	 * @return array
+	 */
+	private static function load_from_directory($uri)
+	{
+		// If it exists, The "home" routes file is loaded for every request. This allows
+		// for "catch-all" routes such as http://example.com/username...
+		$home = (file_exists($path = APP_PATH.'routes/home'.EXT)) ? require $path : array();
+
+		if ($uri == '')
 		{
-			return require APP_PATH.'routes'.EXT;
+			return $home;
 		}
 
-		if ( ! file_exists(APP_PATH.'routes/home'.EXT))
-		{
-			throw new \Exception("A [home] route file is required when using a route directory.");					
-		}
+		$segments = explode('/', $uri);
 
-		if ($uri == '/')
-		{
-			return require APP_PATH.'routes/home'.EXT;
-		}
-		else
-		{
-			$segments = explode('/', $uri);
-
-			if ( ! file_exists(APP_PATH.'routes/'.$segments[0].EXT))
-			{
-				return require APP_PATH.'routes/home'.EXT;
-			}
-
-			return array_merge(require APP_PATH.'routes/'.$segments[0].EXT, require APP_PATH.'routes/home'.EXT);
-		}
+		return (file_exists($path = APP_PATH.'routes/'.$segments[0].EXT)) ? array_merge(require $path, $home) : $home;
 	}
 
 	/**
