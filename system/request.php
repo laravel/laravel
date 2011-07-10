@@ -3,13 +3,6 @@
 class Request {
 
 	/**
-	 * The request URI.
-	 *
-	 * @var string
-	 */
-	public static $uri;
-
-	/**
 	 * The route handling the current request.
 	 *
 	 * @var Route
@@ -19,15 +12,15 @@ class Request {
 	/**
 	 * Get the request URI.
 	 *
+	 * The server PATH_INFO will be used if available. Otherwise, the REQUEST_URI will be used.
+	 * The application URL and index will be removed from the URI.
+	 *
+	 * If the request is to the root of application, a single forward slash will be returned.
+	 *
 	 * @return string
 	 */
 	public static function uri()
 	{
-		if ( ! is_null(static::$uri))
-		{
-			return static::$uri;
-		}
-
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
@@ -46,24 +39,19 @@ class Request {
 			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		$uri = static::remove_from_uri($uri, parse_url(Config::get('application.url'), PHP_URL_PATH));
-		$uri = static::remove_from_uri($uri, '/'.Config::get('application.index'));
+		// Remove the application URL from the URI.
+		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
 
-		$uri = trim($uri, '/');
+		// Remove the application index page from the URI.
+		if (strpos($uri, $index = '/'.Config::get('application.index')) === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
 
-		return ($uri == '') ? '/' : strtolower($uri);
-	}
-
-	/**
-	 * Remove a string from the beginning of a URI.
-	 *
-	 * @param  string  $uri
-	 * @param  string  $value
-	 * @return string
-	 */
-	private static function remove_from_uri($uri, $value)
-	{
-		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri; 
+		return (($uri = trim($uri, '/')) == '') ? '/' : strtolower($uri);
 	}
 
 	/**
@@ -156,6 +144,7 @@ class Request {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
+		// Dynamically determine if a given route is handling the request.
 		if (strpos($method, 'route_is_') === 0)
 		{
 			return static::route_is(substr($method, 9));
