@@ -40,11 +40,9 @@ class Auth {
 			throw new \Exception("You must specify a session driver before using the Auth class.");
 		}
 
-		$model = static::model();
-
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
-			static::$user = $model::find(Session::get(static::$key));
+			static::$user = forward_static_call(array(static::model(), 'find'), Session::get(static::$key));
 		}
 
 		return static::$user;
@@ -61,9 +59,7 @@ class Auth {
 	 */
 	public static function login($username, $password)
 	{
-		$model = static::model();
-
-		$user = $model::where(Config::get('auth.username'), '=', $username)->first();
+		$model = forward_static_call(array(static::model(), 'where'), Config::get('auth.username'), '=', $username)->first();
 
 		if ( ! is_null($user))
 		{

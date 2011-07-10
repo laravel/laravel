@@ -1,13 +1,8 @@
 <?php namespace System\Cache\Driver;
 
-class Memcached implements \System\Cache\Driver {
+use System\Config;
 
-	/**
-	 * All of the loaded cache items.
-	 *
-	 * @var array
-	 */
-	public $items = array();
+class Memcached implements \System\Cache\Driver {
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -28,14 +23,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function get($key)
 	{
-		$cache = \System\Memcached::instance()->get(\System\Config::get('cache.key').$key);
-
-		if ($cache === false)
-		{
-			return null;
-		}
-
-		return $this->items[$key] = $cache;
+		return (($cache = \System\Memcached::instance()->get(Config::get('cache.key').$key)) !== false) ? $cache : null;
 	}
 
 	/**
@@ -48,7 +36,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		\System\Memcached::instance()->set(\System\Config::get('cache.key').$key, $value, 0, $minutes * 60);
+		\System\Memcached::instance()->set(Config::get('cache.key').$key, $value, 0, $minutes * 60);
 	}
 
 	/**
@@ -59,7 +47,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		\System\Memcached::instance()->delete(\System\Config::get('cache.key').$key);
+		\System\Memcached::instance()->delete(Config::get('cache.key').$key);
 	}
 
 }

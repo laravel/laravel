@@ -7,7 +7,14 @@ class Cache {
 	 *
 	 * @var Cache\Driver
 	 */
-	private static $drivers = array();
+	public static $drivers = array();
+
+	/**
+	 * All of the items retrieved by the cache drivers.
+	 *
+	 * @var array
+	 */
+	public static $items = array();
 
 	/**
 	 * Get a cache driver instance. If no driver name is specified, the default
@@ -59,9 +66,9 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
-		if (array_key_exists($key, static::driver($driver)->items))
+		if (isset(static::$items[$driver][$key]))
 		{
-			return static::driver($driver)->items[$key];
+			return static::$items[$driver][$key];
 		}
 
 		if (is_null($item = static::driver($driver)->get($key)))
@@ -69,7 +76,7 @@ class Cache {
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		return $item;
+		return static::$items[$driver][$key] = $item;
 	}
 
 	/**

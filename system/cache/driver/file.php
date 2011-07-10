@@ -3,13 +3,6 @@
 class File implements \System\Cache\Driver {
 
 	/**
-	 * All of the loaded cache items.
-	 *
-	 * @var array
-	 */
-	public $items = array();
-
-	/**
 	 * Determine if an item exists in the cache.
 	 *
 	 * @param  string  $key
@@ -43,7 +36,7 @@ class File implements \System\Cache\Driver {
 			return null;
 		}
 
-		return $this->items[$key] = unserialize(substr($cache, 10));
+		return unserialize(substr($cache, 10));
 	}
 
 	/**
