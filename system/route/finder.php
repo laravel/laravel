@@ -24,6 +24,9 @@ class Finder {
 	 */
 	public static function find($name)
 	{
+		// This class maintains its own list of routes because the router only loads routes that
+		// are applicable to the current request URI. But, this class obviously needs access
+		// to all of the routes, not just the ones applicable to the request URI.
 		if (is_null(static::$routes))
 		{
 			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load() : require APP_PATH.'routes'.EXT;
