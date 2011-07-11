@@ -45,7 +45,7 @@
 			margin: 0; padding: 0;
 		}
 
-		.strong {
+		pre.highlight {
 			font-weight: bold;
 			color: #990000;
 		}
@@ -90,7 +90,7 @@
 		<?php if (count($contexts) > 0): ?>
 
 			<?php foreach($contexts as $num => $context): ?>
-				<pre class="context <?php echo ($line == $num) ? 'strong' : ''; ?>"><?php echo htmlentities($num.': '.$context); ?></pre>
+				<pre class="context <?php echo ($line == $num) ? 'highlight' : ''; ?>"><?php echo htmlentities($num.': '.$context); ?></pre>
 			<?php endforeach; ?>
 
 		<?php else: ?>
