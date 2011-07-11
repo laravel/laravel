@@ -50,6 +50,13 @@
 			color: #990000;
 		}
 
+		#header {
+			margin: 0 auto;
+			margin-bottom: 15px;
+			margin-top: 20px;
+			width: 80%;
+		}
+
 		#wrapper {
 			background-color: #fff;
 			border-radius: 10px;
@@ -60,13 +67,6 @@
 
 		#wrapper h2:first-of-type {
 			margin-top: 0;
-		}
-
-		#header {
-			margin: 0 auto;
-			margin-bottom: 15px;
-			margin-top: 20px;
-			width: 80%;
 		}
 	</style>
 </head> 
