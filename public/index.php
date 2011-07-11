@@ -10,11 +10,6 @@
  */
 
 // --------------------------------------------------------------
-// Set the framework starting time.
-// --------------------------------------------------------------
-define('LARAVEL_START', microtime(true));
-
-// --------------------------------------------------------------
 // Define the framework paths.
 // --------------------------------------------------------------
 define('BASE_PATH', realpath('../').'/');
@@ -86,20 +81,13 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 $response = System\Route\Filter::call('before', array(), true);
 
-// --------------------------------------------------------------
-// Only execute the route function if the "before" filter did
-// not override by sending a response.
-// --------------------------------------------------------------
+// ----------------------------------------------------------
+// Execute the route function.
+// ----------------------------------------------------------
 if (is_null($response))
 {
-	// ----------------------------------------------------------
-	// Route the request to the proper route.
-	// ----------------------------------------------------------
 	$route = System\Router::route(Request::method(), Request::uri());
 
-	// ----------------------------------------------------------
-	// Execute the route function.
-	// ----------------------------------------------------------
 	if ( ! is_null($route))
 	{
 		$response = $route->call();	
