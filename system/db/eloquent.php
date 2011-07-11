@@ -274,19 +274,16 @@ abstract class Eloquent {
 
 		$this->relating_key = strtolower(get_class($this)).'_id';
 
-		$relationship = static::make($model);
-
-		$relationship->select(array(static::table($model).'.*'));
-		$relationship->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id');
-		$relationship->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
-
-		return $relationship;
+		return static::make($model)
+                             ->select(array(static::table($model).'.*'))
+                             ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id')
+                             ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
 	}
 
 	/**
 	 * Save the model to the database.
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function save()
 	{
@@ -303,23 +300,28 @@ abstract class Eloquent {
 
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
-			$this->timestamp();
+			$this->updated_at = date('Y-m-d H:i:s');
+
+			if ( ! $this->exists)
+			{
+				$this->created_at = $this->updated_at;
+			}
 		}
 
+		// If the model already exists in the database, we will just update it.
+		// Otherwise, we will insert the model and set the ID attribute.
 		if ($this->exists)
 		{
-			$result = $this->query->where('id', '=', $this->attributes['id'])->update($this->dirty) == 1;
+			$this->query->where('id', '=', $this->attributes['id'])->update($this->dirty);
 		}
 		else
 		{
 			$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
-
-			$result = $this->exists = is_numeric($this->id);
 		}
 
-		$this->dirty = array();
+		$this->exists = true;
 
-		return $result;
+		$this->dirty = array();
 	}
 
 	/**
@@ -336,21 +338,6 @@ abstract class Eloquent {
 		}
 
 		return $this->query->delete();
-	}
-
-	/**
-	 * Set the creation and update timestamps on the model.
-	 *
-	 * @return void
-	 */
-	private function timestamp()
-	{
-		$this->updated_at = date('Y-m-d H:i:s');
-
-		if ( ! $this->exists)
-		{
-			$this->created_at = $this->updated_at;
-		}
 	}
 
 	/**
@@ -405,9 +392,7 @@ abstract class Eloquent {
 	 */
 	public function __unset($key)
 	{
-		unset($this->attributes[$key]);
-		unset($this->ignore[$key]);
-		unset($this->dirty[$key]);
+		unset($this->attributes[$key], $this->ignore[$key], $this->dirty[$key]);
 	}
 
 	/**
