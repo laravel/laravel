@@ -52,22 +52,18 @@ class Session {
 	}
 
 	/**
-	 * Load the session for the user.
+	 * Load a user session by ID.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	public static function load()
+	public static function load($id)
 	{
-		if ( ! is_null($id = Cookie::get('laravel_session')))
-		{
-			static::$session = static::driver()->load($id);
-		}
+		static::$session = ( ! is_null($id)) ? static::driver()->load($id) : null;
 
-		// If the session is invalid or expired, start a new one.
-		if (is_null($id) or is_null(static::$session) or static::expired(static::$session['last_activity']))
+		if (is_null(static::$session) or static::expired(static::$session['last_activity']))
 		{
-			static::$session['id'] = Str::random(40);
-			static::$session['data'] = array();
+			static::$session = array('id' => Str::random(40), 'data' => array());
 		}
 
 		if ( ! static::has('csrf_token'))
