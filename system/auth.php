@@ -42,7 +42,7 @@ class Auth {
 
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
-			static::$user = forward_static_call(array(static::model(), 'find'), Session::get(static::$key));
+			static::$user = call_user_func(Config::get('auth.by_id'), Session::get(static::$key));
 		}
 
 		return static::$user;
@@ -59,9 +59,7 @@ class Auth {
 	 */
 	public static function login($username, $password)
 	{
-		$user = forward_static_call(array(static::model(), 'where'), Config::get('auth.username'), '=', $username)->first();
-
-		if ( ! is_null($user))
+		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
 			if (Hash::check($password, $user->password))
 			{
@@ -86,16 +84,6 @@ class Auth {
 		Session::forget(static::$key);
 
 		static::$user = null;
-	}
-
-	/**
-	 * Get the authentication model.
-	 *
-	 * @return string
-	 */
-	private static function model()
-	{
-		return '\\'.Config::get('auth.model');
 	}
 
 }
