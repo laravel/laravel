@@ -51,7 +51,7 @@ class Error {
 			$file = $e->getFile();
 		}
 
-		// Trim the period off the error message since we will be formatting it oursevles.
+		// Trim the period off the error message since we will be formatting it ourselves.
 		$message = rtrim($e->getMessage(), '.');
 
 		if (Config::get('error.log'))
