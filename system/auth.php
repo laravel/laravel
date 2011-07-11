@@ -59,11 +59,11 @@ class Auth {
 	 */
 	public static function login($username, $password)
 	{
-		$model = forward_static_call(array(static::model(), 'where'), Config::get('auth.username'), '=', $username)->first();
+		$user = forward_static_call(array(static::model(), 'where'), Config::get('auth.username'), '=', $username)->first();
 
 		if ( ! is_null($user))
 		{
-			if ($user->password === Hash::make($password, $user->salt)->value)
+			if (Hash::check($password, $user->password))
 			{
 				static::$user = $user;
 
