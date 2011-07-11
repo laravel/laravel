@@ -17,6 +17,7 @@ return array(
 
 	'GET /' => function()
 	{
+		$this->
 		return View::make('home/index');
 	},
 

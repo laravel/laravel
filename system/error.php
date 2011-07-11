@@ -66,7 +66,7 @@ class Error {
                                    ->bind('message', $message)
                                    ->bind('file', $file)
                                    ->bind('line', $e->getLine())
-                                   ->bind('trace', $e->getTraceAsString())
+                                   ->bind('trace', $e->getTraceAsString());
 			
 			Response::make($view, 500)->send();
 		}
