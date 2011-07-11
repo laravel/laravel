@@ -60,20 +60,6 @@
 
 			<pre><?php echo $trace; ?></pre>
 		</div>
-
-		<div class="content">
-			<h3>Context:</h3>
-
-			<?php if (count($contexts) > 0) { ?>
-
-				<?php foreach ($contexts as $num => $context) { ?>
-					<pre><?php echo htmlentities($num.' '.$context); ?></pre>
-				<?php } ?>
-
-			<?php } else { ?>
-				Context unavailable.
-			<?php } ?>
-		</div>
 	</div> 
 </body> 
 </html>

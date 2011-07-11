@@ -51,6 +51,7 @@ class Error {
 			$file = $e->getFile();
 		}
 
+		// Trim the period off the error message since we will be formatting it oursevles.
 		$message = rtrim($e->getMessage(), '.');
 
 		if (Config::get('error.log'))
@@ -66,7 +67,6 @@ class Error {
                                    ->bind('file', $file)
                                    ->bind('line', $e->getLine())
                                    ->bind('trace', $e->getTraceAsString())
-                                   ->bind('contexts', static::context($file, $e->getLine()));
 			
 			Response::make($view, 500)->send();
 		}
@@ -76,36 +76,6 @@ class Error {
 		}
 
 		exit(1);
-	}
-
-	/**
-	 * Get the file context of an exception.
-	 *
-	 * @param  string  $path
-	 * @param  int     $line
-	 * @param  int     $padding
-	 * @return array
-	 */
-	private static function context($path, $line, $padding = 5)
-	{
-		if (file_exists($path))
-		{
-			$file = file($path, FILE_IGNORE_NEW_LINES);
-
-			array_unshift($file, '');
-
-			// Calculate the starting position of the file context.
-			$start = $line - $padding;
-			$start = ($start < 0) ? 0 : $start;
-
-			// Calculate the context length.
-			$length = ($line - $start) + $padding + 1;
-			$length = (($start + $length) > count($file) - 1) ? null : $length;
-
-			return array_slice($file, $start, $length, true);			
-		}
-
-		return array();
 	}
 
 }
