@@ -58,7 +58,9 @@ class Router {
 	 */
 	public static function load($uri)
 	{
-		return (is_dir(APP_PATH.'routes')) ? static::load_from_directory($uri) : require APP_PATH.'routes'.EXT;
+		$base = require APP_PATH.'routes'.EXT;
+
+		return (is_dir(APP_PATH.'routes') and $uri !== '') ? array_merge(static::load_from_directory($uri), $base) : $base;
 	}
 
 	/**
@@ -69,18 +71,9 @@ class Router {
 	 */
 	private static function load_from_directory($uri)
 	{
-		// If it exists, The "home" routes file is loaded for every request. This allows
-		// for "catch-all" routes such as http://example.com/username...
-		$home = (file_exists($path = APP_PATH.'routes/home'.EXT)) ? require $path : array();
-
-		if ($uri == '')
-		{
-			return $home;
-		}
-
 		$segments = explode('/', $uri);
 
-		return (file_exists($path = APP_PATH.'routes/'.$segments[0].EXT)) ? array_merge(require $path, $home) : $home;
+		return (file_exists($path = APP_PATH.'routes/'.$segments[0].EXT)) ? require $path : array();
 	}
 
 	/**
