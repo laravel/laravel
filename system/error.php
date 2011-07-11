@@ -86,7 +86,8 @@ class Error {
                                    ->bind('message', $message)
                                    ->bind('file', $file)
                                    ->bind('line', $e->getLine())
-                                   ->bind('trace', $e->getTraceAsString());
+                                   ->bind('trace', $e->getTraceAsString())
+                                   ->bind('contexts', static::context($file, $e->getLine()));
 			
 			Response::make($view, 500)->send();
 		}
@@ -94,6 +95,38 @@ class Error {
 		{
 			Response::make(View::make('error/500'), 500)->send();
 		}
+	}
+
+	/**
+	 * Get the code surrounding a given line in a file.
+	 *
+	 * @param  string  $path
+	 * @param  int     $line
+	 * @param  int     $padding
+	 * @return string
+	 */
+	private static function context($path, $line, $padding = 5)
+	{
+		if (file_exists($path))
+		{
+			$file = file($path, FILE_IGNORE_NEW_LINES);
+
+			array_unshift($file, '');
+		
+			if (($start = $line - $padding) < 0)
+			{
+				$start = 0;
+			}
+
+			if (($length = ($line - $start) + $padding + 1) < 0)
+			{
+				$length = 0;
+			}
+
+			return array_slice($file, $start, $length, true);
+		}
+
+		return array();
 	}
 
 }
