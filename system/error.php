@@ -31,27 +31,15 @@ class Error {
 	 */
 	public static function handle($e)
 	{
-		// Clean the output buffer so no previously rendered views or text is sent to the browser.
 		if (ob_get_level() > 0)
 		{
 			ob_clean();
 		}
 
-		// Get the error severity in human readable format.
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		// Get the file in which the error occured.
-		// Views require special handling since view errors occur in eval'd code.
-		if (strpos($e->getFile(), 'view.php') !== false and strpos($e->getFile(), "eval()'d code") !== false)
-		{
-			$file = APP_PATH.'views/'.View::$last.EXT;
-		}
-		else
-		{
-			$file = $e->getFile();
-		}
+		$file = static::file($e);
 
-		// Trim the period off the error message since we will be formatting it ourselves.
 		$message = rtrim($e->getMessage(), '.');
 
 		if (Config::get('error.log'))
@@ -59,6 +47,38 @@ class Error {
 			Log::error($message.' in '.$e->getFile().' on line '.$e->getLine());
 		}
 
+		static::show($e, $severity, $message, $file);
+
+		exit(1);
+	}
+
+	/**
+	 * Get the path to the file in which an exception occured.
+	 *
+	 * @param  Exception  $e
+	 * @return string
+	 */
+	private static function file($e)
+	{
+		if (strpos($e->getFile(), 'view.php') !== false and strpos($e->getFile(), "eval()'d code") !== false)
+		{
+			return APP_PATH.'views/'.View::$last.EXT;
+		}
+
+		return $e->getFile();
+	}
+
+	/**
+	 * Show the error view.
+	 *
+	 * @param  Exception  $e
+	 * @param  string     $severity
+	 * @param  string     $message
+	 * @param  string     $file
+	 * @return void
+	 */
+	private static function show($e, $severity, $message, $file)
+	{
 		if (Config::get('error.detail'))
 		{
 			$view = View::make('exception')
@@ -74,8 +94,6 @@ class Error {
 		{
 			Response::make(View::make('error/500'), 500)->send();
 		}
-
-		exit(1);
 	}
 
 }
