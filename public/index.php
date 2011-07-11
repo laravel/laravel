@@ -73,7 +73,7 @@ date_default_timezone_set(System\Config::get('application.timezone'));
 // --------------------------------------------------------------
 if (System\Config::get('session.driver') != '')
 {
-	System\Session::load();
+	System\Session::load(System\Cookie::get('laravel_session'));
 }
 
 // --------------------------------------------------------------
