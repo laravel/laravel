@@ -7,11 +7,10 @@ return array(
 	| Application Routes
 	|--------------------------------------------------------------------------
 	|
-	| Here is the "definition", or the public API, of your application.
+	| Here is the public API of your application. To add functionality to your
+	| application, you add to the array located in this file.
 	|
-	| To add functionality to your application, you add to the array located
-	| in this file. It's a breeze. Just tell Laravel the request method and
-	| URI a function should respond to.
+	| It's a breeze. Just tell Laravel the request URIs it should respond to.
 	|
 	*/
 
