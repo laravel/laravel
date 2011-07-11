@@ -35,9 +35,11 @@ require SYS_PATH.'arr'.EXT;
 spl_autoload_register(require SYS_PATH.'loader'.EXT);
 
 // --------------------------------------------------------------
-// Set the error reporting level.
+// Set the error reporting and display levels.
 // --------------------------------------------------------------
-error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
+error_reporting(E_ALL | E_STRICT);
+
+ini_set('display_errors', 'Off');
 
 // --------------------------------------------------------------
 // Register the error handlers.
