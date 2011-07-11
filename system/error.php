@@ -44,7 +44,7 @@ class Error {
 
 		if (Config::get('error.log'))
 		{
-			Log::error($message.' in '.$e->getFile().' on line '.$e->getLine());
+			call_user_func(Config::get('error.logger'), $severity, $message.' in '.$e->getFile().' on line '.$e->getLine());
 		}
 
 		static::show($e, $severity, $message, $file);
