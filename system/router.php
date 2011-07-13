@@ -41,7 +41,9 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $key)
 				{
-					if (preg_match('#^'.$key = static::translate_wildcards($key).'$#', $uri))
+					$key = str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $key));
+
+					if (preg_match('#^'.$key.'$#', $uri))
 					{
 						return Request::$route = new Route($keys, $callback, static::parameters($uri, $key));
 					}
@@ -74,17 +76,6 @@ class Router {
 		$segments = explode('/', $uri);
 
 		return (file_exists($path = APP_PATH.'routes/'.$segments[0].EXT)) ? require $path : array();
-	}
-
-	/**
-	 * Translate route URI wildcards to regular expressions.
-	 *
-	 * @param  string  $key
-	 * @return string
-	 */
-	private static function translate_wildcards($key)
-	{
-		return str_replace(':num', '[0-9]+', str_replace(':any', '[a-zA-Z0-9\-_]+', $key));
 	}
 
 	/**
