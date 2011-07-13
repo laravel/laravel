@@ -1,6 +1,6 @@
 <?php namespace System\Validation;
 
-class Error_Collector {
+class Errors {
 
 	/**
 	 * All of the error messages.
@@ -10,7 +10,7 @@ class Error_Collector {
 	public $messages;
 
 	/**
-	 * Create a new Error Collector instance.
+	 * Create a new Errors instance.
 	 *
 	 * @return void
 	 */
@@ -30,13 +30,7 @@ class Error_Collector {
 	 */
 	public function add($attribute, $message)
 	{
-		// -------------------------------------------------------------
 		// Make sure the error message is not duplicated.
-		//
-		// For example, the Nullable rules can add a "required" message.
-		// If the same message has already been added we don't want to
-		// add it again.
-		// -------------------------------------------------------------
 		if ( ! array_key_exists($attribute, $this->messages) or ! is_array($this->messages[$attribute]) or ! in_array($message, $this->messages[$attribute]))
 		{
 			$this->messages[$attribute][] = $message;
@@ -94,10 +88,6 @@ class Error_Collector {
 	{
 		$all = array();
 
-		// ---------------------------------------------------------
-		// Add each error message to the array of messages. Each
-		// messages will have the specified format applied to it.
-		// ---------------------------------------------------------
 		foreach ($this->messages as $messages)
 		{
 			$all = array_merge($all, $this->format($messages, $format));

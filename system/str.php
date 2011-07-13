@@ -60,13 +60,13 @@ class Str {
     /**
      * Generate a random alpha or alpha-numeric string.
      *
-     * Supported types: 'alnum' and 'alpha'.
+     * Supported types: 'alpha_num' and 'alpha'.
      *
      * @param  int     $length
      * @param  string  $type
      * @return string
      */
-    public static function random($length = 16, $type = 'alnum')
+    public static function random($length = 16, $type = 'alpha_num')
     {
         $value = '';
 
@@ -86,11 +86,11 @@ class Str {
      * @param  string  $type
      * @return string
      */
-    private static function pool($type = 'alnum')
+    private static function pool($type = 'alpha_num')
     {
         switch ($type)
         {
-            case 'alnum':
+            case 'alpha_num':
                 return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             
             default:

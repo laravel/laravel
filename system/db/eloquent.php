@@ -84,6 +84,17 @@ abstract class Eloquent {
 	 */
 	public function __construct($attributes = array())
 	{
+		$this->fill($attributes);
+	}
+
+	/**
+	 * Set the attributes of the model using an array.
+	 *
+	 * @param  array  $attributes
+	 * @return void
+	 */
+	public function fill($attributes)
+	{
 		foreach ($attributes as $key => $value)
 		{
 			$this->$key = $value;

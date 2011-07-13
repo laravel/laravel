@@ -54,25 +54,27 @@ class Lang {
 	/**
 	 * Get the language line.
 	 *
+	 * @param  string  $language
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($default = null)
+	public function get($language = null, $default = null)
 	{
-		$language = Config::get('application.language');
+		if (is_null($language))
+		{
+			$language = Config::get('application.language');
+		}
 
 		list($file, $line) = $this->parse($this->key);
 
 		$this->load($file, $language);
 
-		if ( ! array_key_exists($language.$file, static::$lines))
+		if ( ! isset(static::$lines[$language.$file][$line]))
 		{
-			$line = is_callable($default) ? call_user_func($default) : $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
-		else
-		{
-			$line = Arr::get(static::$lines[$language.$file], $line, $default);
-		}
+
+		$line = static::$lines[$language.$file][$line];
 
 		foreach ($this->replacements as $key => $value)
 		{

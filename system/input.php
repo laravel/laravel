@@ -10,6 +10,18 @@ class Input {
 	public static $input;
 
 	/**
+	 * Get all of the input data for the request.
+	 *
+	 * This method returns a merged array containing Input::get and Input::file.
+	 *
+	 * @return array
+	 */
+	public static function all()
+	{
+		return array_merge(static::get(), static::file());
+	}
+
+	/**
 	 * Determine if the input data contains an item.
 	 *
 	 * @param  string  $key
