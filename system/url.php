@@ -50,7 +50,7 @@ class URL {
 	 * @param  string  $url
 	 * @return string
 	 */
-	public static function to_asset($url)
+	public static function to_asset($url = '')
 	{
 		return static::to($url, false, true);
 	}
