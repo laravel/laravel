@@ -52,7 +52,21 @@ class DB {
 	{
 		$query = static::connection($connection)->prepare($sql);
 
-		$result = $query->execute($bindings);
+		$bindings = array_values($bindings);
+
+		foreach ($bindings as $key => &$binding)
+		{
+			if (is_null($binding))
+			{
+				$query->bindValue($key + 1, null, \PDO::PARAM_INT);
+			}
+			else
+			{
+				$query->bindParam($key + 1, $binding);
+			}
+		}
+
+		$result = $query->execute();
 
 		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
