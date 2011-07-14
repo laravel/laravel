@@ -129,7 +129,7 @@ After setting up HTTP rewriting, you should set the **index** configuration opti
 ## Defining Routes
 
 - [The Basics](#routes-basics)
-- [Route Wildcards & Parameters](#routes-parameters)
+- [Route URI Parameters](#routes-parameters)
 - [Route Filters](#route-filters)
 - [Named Routes](#routes-named)
 - [Organizing Routes](#routes-folder)
@@ -159,5 +159,32 @@ You can easily define a route to handle requests to more than one URI. Just use 
 	}
 
 > **Note:** The routes.php file replaces the "controllers" found in most frameworks. Have a fat model and keep this file light and clean. Thank us later.
+
+[Back To Top](#top)
+
+<a name="routes-parameters"></a>
+### Route URI Parameters
+
+Laravel makes passing URI parameters to your route functions a breeze. Check out this route:
+
+	'PUT /user/(:num)' => function($id) {}
+
+Notice the **(:num)** parameter in the URI? This tells Laravel to allow any numeric value in the second segment of the URI, as well as to pass the segment into the method.
+
+We can also use the **(:any)** parameter to match the segment to any value:
+
+	'DELETE /product/(:any)' => function($name) {}
+
+Of course, you are not limited to one parameter:
+
+	'GET /post/(:num)/(:num)' => function($month, $day) {}
+
+Sometimes you may wish to make a parameter optional. You can do so by placing a **?** in parameter:
+
+	'GET /branch/(:any?)' => function($branch = 'master') {}
+
+If you need more power and precision (or just want to be extra nerdy), you can even use regular expressions:
+
+	'GET /product/([0-9]+)' => function($id) {}
 
 [Back To Top](#top)
