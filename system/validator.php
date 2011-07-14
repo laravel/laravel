@@ -120,7 +120,7 @@ class Validator {
 		// is "required" or "accepted". No other rules have implicit "required" checks.
 		if ( ! array_key_exists($attribute, $this->attributes) and ! in_array($rule, array('required', 'accepted')))
 		{
-			continue;
+			return;
 		}
 
 		if ( ! $this->$validator($attribute, $parameters))
