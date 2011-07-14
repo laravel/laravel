@@ -165,19 +165,11 @@ You can easily define a route to handle requests to more than one URI. Just use 
 <a name="routes-parameters"></a>
 ### Route URI Parameters
 
-Laravel makes passing URI parameters to your route functions a breeze. Check out this route:
+Laravel makes passing URI parameters to your route functions a breeze using the **(:num)** and **(:any)** place-holders:
 
 	'PUT /user/(:num)' => function($id) {}
 
-Notice the **(:num)** parameter in the URI? This tells Laravel to allow any numeric value in the second segment of the URI, as well as to pass the segment into the method.
-
-We can also use the **(:any)** parameter to match the segment to any value:
-
-	'DELETE /product/(:any)' => function($name) {}
-
-Of course, you are not limited to one parameter:
-
-	'GET /post/(:num)/(:num)' => function($month, $day) {}
+	'GET /user/(:any)/edit' => function($username) {}
 
 Sometimes you may wish to make a parameter optional. You can do so by placing a **?** in parameter:
 
