@@ -4,6 +4,7 @@
 
 Laravel is a clean and classy framework for PHP web development. Freeing you from spaghetti code, Laravel helps you create wonderful applications using simple, expressive syntax. Development should be a creative experience that you enjoy, not something that is painful. Enjoy the fresh air.
 
+<a name="top">
 ## Table Of Contents
 
 ### Getting Started
@@ -78,6 +79,8 @@ Installaing the following goodies will help you take full advantage of Laravel, 
 
 - Make sure the **public** directory is the document root of your web server.
 - If you are using mod\_rewrite, set the **index** option in **application/config/application.php** to an empty string.
+
+[Back To Top](#top)
 
 <a name="config"></a>
 ## Basic Configuration
