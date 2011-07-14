@@ -1,4 +1,4 @@
-# Laravel Documentation
+# Laravel - A Clean & Classy PHP Framework
 
 ## Introduction
 
