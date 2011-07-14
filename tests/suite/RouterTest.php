@@ -45,6 +45,16 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(System\Router::route('POST', 'home')->callback['name'], 'post-home');
 	}
 
+	public function testRouterGivesRouteProperSegmentsWhenTheyArePresent()
+	{
+		$this->assertEquals(System\Router::route('GET', 'user/1')->parameters[0], 1);
+		$this->assertEquals(count(System\Router::route('GET', 'user/1')->parameters), 1);
+
+		$this->assertEquals(System\Router::route('GET', 'user/taylor/25/edit')->parameters[0], 'taylor');
+		$this->assertEquals(System\Router::route('GET', 'user/taylor/25/edit')->parameters[1], 25);
+		$this->assertEquals(count(System\Router::route('GET', 'user/taylor/25/edit')->parameters), 2);		
+	}
+
 	public function testRouterRoutesToProperRouteWhenUsingOptionalSegments()
 	{
 		$this->assertEquals(System\Router::route('GET', 'cart')->callback['name'], 'cart');
@@ -52,6 +62,21 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(System\Router::route('GET', 'download')->callback['name'], 'download');
 		$this->assertEquals(System\Router::route('GET', 'download/1')->callback['name'], 'download');
 		$this->assertEquals(System\Router::route('GET', 'download/1/a')->callback['name'], 'download');
+	}
+
+	public function testRouterGivesRouteProperOptionalSegmentsWhenTheyArePresent()
+	{
+		$this->assertTrue(is_array(System\Router::route('GET', 'cart')->parameters));
+		$this->assertEquals(count(System\Router::route('GET', 'cart')->parameters), 0);
+		$this->assertEquals(System\Router::route('GET', 'cart/1')->parameters[0], 1);
+
+		$this->assertEquals(count(System\Router::route('GET', 'download')->parameters), 0);
+		$this->assertEquals(System\Router::route('GET', 'download/1')->parameters[0], 1);
+		$this->assertEquals(count(System\Router::route('GET', 'download/1')->parameters), 1);
+
+		$this->assertEquals(System\Router::route('GET', 'download/1/a')->parameters[0], 1);
+		$this->assertEquals(System\Router::route('GET', 'download/1/a')->parameters[1], 'a');
+		$this->assertEquals(count(System\Router::route('GET', 'download/1/a')->parameters), 2);
 	}
 
 	public function testRouterReturnsNullWhenRouteNotFound()
@@ -95,20 +120,6 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 
 		file_put_contents(APP_PATH.'routes/user.php', "<?php return array('GET /user' => function() {return '/user';}); ?>", LOCK_EX);		
 		file_put_contents(APP_PATH.'routes/cart.php', "<?php return array('GET /cart/edit' => function() {return '/cart/edit';}); ?>", LOCK_EX);		
-	}
-
-	public function testParameterMethodReturnsNoParametersWhenNoneArePresent()
-	{
-		$this->assertEmpty(System\Router::parameters('GET /test/route', 'GET /test/route'));
-		$this->assertEmpty(System\Router::parameters('GET /', 'GET /'));
-	}
-
-	public function testParameterMethodReturnsParametersWhenTheyArePresent()
-	{
-		$this->assertEquals(System\Router::parameters('GET /user/1', 'GET /user/(:num)'), array(1));
-		$this->assertEquals(System\Router::parameters('GET /user/1/2', 'GET /user/(:num)/(:num)'), array(1, 2));
-		$this->assertEquals(System\Router::parameters('GET /user/1/test', 'GET /user/(:num)/(:any)'), array(1, 'test'));
-		$this->assertEquals(System\Router::parameters('GET /user/1/test/again', 'GET /user/(:num)/test/(:any)'), array(1, 'again'));
 	}
 
 }

@@ -107,7 +107,7 @@ class Router {
 	 * @param  string  $route
 	 * @return array
 	 */
-	public static function parameters($uri, $route)
+	private static function parameters($uri, $route)
 	{
 		return array_values(array_intersect_key(explode('/', $uri), preg_grep('/\(.+\)/', explode('/', $route))));	
 	}	
