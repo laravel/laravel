@@ -91,7 +91,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 		$this->assertNull(System\Router::route('POST', 'user/taylor/25/edit'));
 	}
 
-	public function testRouteArrayShouldBeReturnedWhenUsingSingleRoutesFile()
+	public function testRouteLoaderShouldReturnSingleRoutesFileWhenNoFolderIsPresent()
 	{
 		$routes = System\Router::load('test');
 
