@@ -40,4 +40,12 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_string(System\View::make('home/index')->get()));
 	}
 
+	/**
+	 * @expectedException Exception
+	 */
+	public function testExceptionIsThrownWhenViewDoesntExist()
+	{
+		System\View::make('doesnt-exist')->get();
+	}
+
 }
