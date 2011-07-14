@@ -141,15 +141,19 @@ Unlike other PHP frameworks, Laravel places routes and their corresponding funct
 
 All you need to do is tell Laravel the request methods and URIs it should respond to. You define the behavior of the route using an anonymous method:
 
-	'GET /home' => function()
-	{
-		// Handles GET requests to http://example.com/index.php/home
-	},
+	<?php
 
-	'PUT /user/update' => function()
-	{
-		// Handles PUT requests to http://example.com/index.php/user/update
-	}
+	return array(
+
+		'GET /home' => function()
+		{
+			// Handles GET requests to http://example.com/index.php/home
+		},
+
+		'PUT /user/update' => function()
+		{
+			// Handles PUT requests to http://example.com/index.php/user/update
+		}
 
 You can easily define a route to handle requests to more than one URI. Just use commas:
 
