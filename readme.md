@@ -146,8 +146,6 @@ All you need to do is tell Laravel the request methods and URIs it should respon
 		// Handles GET requests to http://example.com/index.php/home
 	},
 
-  
-
 	'PUT /user/update' => function()
 	{
 		// Handles PUT requests to http://example.com/index.php/user/update
