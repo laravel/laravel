@@ -24,7 +24,7 @@ define('PACKAGE_PATH', APP_PATH.'packages/');
 define('EXT', '.php');
 
 // --------------------------------------------------------------
-// Load the configuration class.
+// Load the classes used by the auto-loader.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
