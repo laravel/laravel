@@ -53,6 +53,19 @@ class Validator {
 	}
 
 	/**
+	 * Factory for creating new validator instances.
+	 *
+	 * @param  array      $attributes
+	 * @param  array      $rules
+	 * @param  array      $messages
+	 * @return Validator
+	 */
+	public static function make($attributes, $rules, $messages = array())
+	{
+		return new static($attributes, $rules, $messages);
+	}
+
+	/**
 	 * Validate the target array using the specified validation rules.
 	 *
 	 * @return bool
