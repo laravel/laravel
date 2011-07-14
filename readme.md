@@ -129,7 +129,7 @@ After setting up HTTP rewriting, you should set the **index** configuration opti
 ## Defining Routes
 
 - [The Basics](#routes-basics)
-- [Route URI Parameters](#routes-parameters)
+- [Route URI Wildcards](#routes-wildcards)
 - [Route Filters](#route-filters)
 - [Named Routes](#routes-named)
 - [Organizing Routes](#routes-folder)
@@ -162,20 +162,20 @@ You can easily define a route to handle requests to more than one URI. Just use 
 
 [Back To Top](#top)
 
-<a name="routes-parameters"></a>
-### Route URI Parameters
+<a name="routes-wildcards"></a>
+### Route URI Wildcards
 
-Laravel makes passing URI parameters to your route functions a breeze using the **(:num)** and **(:any)** place-holders:
+You can pass URI segments to your route functions using the **(:num)** and **(:any)** wildcards:
 
 	'PUT /user/(:num)' => function($id) {}
 
 	'GET /user/(:any)/edit' => function($username) {}
 
-Sometimes you may wish to make a parameter optional. You can do so by placing a **?** in parameter:
+You may make segments optional by placing a **?** in the wildcard:
 
 	'GET /branch/(:any?)' => function($branch = 'master') {}
 
-If you need more power and precision (or just want to be extra nerdy), you can even use regular expressions:
+If you need more power and precision, you can even use regular expressions:
 
 	'GET /product/([0-9]+)' => function($id) {}
 
