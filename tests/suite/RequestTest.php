@@ -5,6 +5,16 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		unset($_SERVER['PATH_INFO'], $_SERVER['REQUEST_METHOD']);
+
+		$route = new System\Route(null, null);
+		$route->callback = array('name' => 'test', 'do' => function() {});
+
+		System\Request::$route = $route;
+	}
+
+	public function tearDown()
+	{
+		System\Request::$route = null;
 	}
 
 	/**
@@ -128,8 +138,35 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function testMethodForSpoofedRequests()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
+
 		$_POST['REQUEST_METHOD'] = 'PUT';
 		$this->assertEquals(System\Request::method(), 'PUT');
+
+		$_POST['REQUEST_METHOD'] = 'DELETE';
+		$this->assertEquals(System\Request::method(), 'DELETE');
+	}
+
+	public function testRouteIsReturnsFalseWhenNoSuchNamedRouteExists()
+	{
+		$route = new System\Route(null, null);
+		$route->callback = function() {};
+
+		System\Request::$route = $route;
+
+		$this->assertFalse(System\Request::route_is('test'));
+		$this->assertFalse(System\Request::route_is_test());
+	}
+
+	public function testRouteIsReturnsFalseWhenWrongRouteNameIsGiven()
+	{
+		$this->assertFalse(System\Request::route_is('something'));
+		$this->assertFalse(System\Request::route_is_something());
+	}
+
+	public function testRouteIsReturnsTrueWhenNamedRouteExists()
+	{
+		$this->assertTrue(System\Request::route_is('test'));
+		$this->assertTrue(System\Request::route_is_test());
 	}
 
 }

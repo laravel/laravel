@@ -39,6 +39,7 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 	{
 		$route = new System\Route('GET /', array('after' => 'test', 'do' => function() {return 'route';}));
 		System\Route\Filter::$filters = array('test' => function() {define('LARAVEL_TEST_AFTER_FILTER', 'ran');});
+
 		$route->call();
 
 		$this->assertTrue(defined('LARAVEL_TEST_AFTER_FILTER'));

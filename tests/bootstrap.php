@@ -21,6 +21,11 @@ require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
+// Load the test utilities.
+// --------------------------------------------------------------
+require 'utils'.EXT;
+
+// --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
 spl_autoload_register(require SYS_PATH.'loader'.EXT);

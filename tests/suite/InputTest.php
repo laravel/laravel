@@ -75,6 +75,12 @@ class InputTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(System\Input::has('name'));
 	}
 
+	public function testHasMethodReturnsFalseIfItemIsInInputButIsEmptyString()
+	{
+		System\Input::$input = array('name' => '');
+		$this->assertFalse(System\Input::has('name'));
+	}
+
 	public function testGetMethodReturnsItemByInputKey()
 	{
 		System\Input::$input = array('name' => 'taylor');
@@ -87,6 +93,7 @@ class InputTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNull(System\Input::get('name'));
 		$this->assertEquals(System\Input::get('name', 'test'), 'test');
+		$this->assertEquals(System\Input::get('name', function() {return 'test';}), 'test');
 		$this->assertTrue(is_array(System\Input::get()) and count(System\Input::get()) == 0);
 	}
 
@@ -106,6 +113,15 @@ class InputTest extends PHPUnit_Framework_TestCase {
 	{
 		$_FILES['test'] = array('size' => 500);
 		$this->assertEquals(System\Input::file('test.size'), 500);
+	}
+
+	public function testAllMethodReturnsBothGetAndFileArrays()
+	{
+		$_GET['name'] = 'test';
+		$_FILES['picture'] = array();
+
+		$this->assertArrayHasKey('name', System\Input::all());
+		$this->assertArrayHasKey('picture', System\Input::all());
 	}
 
 	/**
@@ -130,6 +146,17 @@ class InputTest extends PHPUnit_Framework_TestCase {
 		System\Session::$session['data']['laravel_old_input'] = array('name' => 'taylor');
 
 		$this->assertEquals(System\Input::old('name'), 'taylor');
+	}
+
+	public function testOldMethodReturnsDefaultValueWhenItemDoesntExist()
+	{
+		System\Config::set('session.driver', 'test');
+		System\Session::$session['data']['laravel_old_input'] = array();
+
+		$this->assertNull(System\Input::old('name'));
+		$this->assertEquals(System\Input::old('name', 'test'), 'test');
+		$this->assertEquals(System\Input::old('name', function() {return 'test';}), 'test');
+		$this->assertTrue(is_array(System\Input::old()) and count(System\Input::old()) == 0);
 	}
 
 	public function testHadMethodReturnsTrueIfItemIsPresentInOldInputData()

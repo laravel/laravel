@@ -13,6 +13,11 @@ class RouteFilerTest extends PHPUnit_Framework_TestCase {
 		System\Route\Filter::$filters = $filters;
 	}
 
+	public static function tearDownAfterClass()
+	{
+		System\Route\Filter::$filters = require APP_PATH.'filters'.EXT;
+	}
+
 	/**
 	 * @expectedException Exception
 	 */
@@ -35,11 +40,6 @@ class RouteFilerTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->assertEquals(System\Route\Filter::call('vars', array('test'), true), 'test');
 		$this->assertEquals(System\Route\Filter::call('vars2', array('test1', 'test2'), true), 'test1test2');
-	}
-
-	public static function tearDownAfterClass()
-	{
-		System\Route\Filter::$filters = require APP_PATH.'filters'.EXT;
 	}
 
 }
