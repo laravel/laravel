@@ -90,7 +90,7 @@ There is only one option that **must** be set when starting a new application. L
 
 	'url' => 'http://localhost';
 
-> **Note:** If you are using mod_rewrite for [cleaner URLs](/start/config#clean), you should set the index option to an empty string.
+> **Note:** If you are using mod_rewrite for cleaner URLs, you should set the index option to an empty string.
 
 <a name="config-clean"></a>
 ### Cleaner URLs
