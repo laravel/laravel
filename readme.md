@@ -78,3 +78,44 @@ Installaing the following goodies will help you take full advantage of Laravel, 
 
 - Make sure the **public** directory is the document root of your web server.
 - If you are using mod\_rewrite, set the **index** option in **application/config/application.php** to an empty string.
+
+<a name="config"></a>
+## Basic Configuration
+
+### Quick Start
+
+When starting a new project, you shouldn't be bombarded with loads of confusing configuration decisions. For that reason, Laravel is intelligently configured out of the box. The **application/config/application.php** file contains the basic configuration options for your application.
+
+There is only one option that **must** be set when starting a new application. Laravel needs to know the URL you will use to access your application. Simply set the url in the **application/config/application.php** file:
+
+	'url' => 'http://localhost';
+
+> **Note:** If you are using mod_rewrite for [cleaner URLs](/start/config#clean), you should set the index option to an empty string.
+
+<a name="config-clean"></a>
+### Cleaner URLs
+
+Most likely, you do not want your application URLs to contain "index.php". You can remove it using HTTP rewrite rules. If you are using Apache to serve your application, make sure to enable mod_rewrite and create a **.htaccess** file like this one in your **public** directory:
+
+	<IfModule mod_rewrite.c>
+	     RewriteEngine on
+
+	     RewriteCond %{REQUEST_FILENAME} !-f
+	     RewriteCond %{REQUEST_FILENAME} !-d
+
+	     RewriteRule ^(.*)$ index.php/$1 [L]
+	</IfModule>
+
+Is the .htaccess file above not working for you? Try this one:
+
+	Options +FollowSymLinks
+	RewriteEngine on
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	RewriteRule . index.php [L]
+
+After setting up HTTP rewriting, you should set the **index** configuration option in **application/config/application.php** to an empty string.
+
+> **Note:** Each web server has a different method of doing HTTP rewrites, and may require a slightly different .htaccess file.
