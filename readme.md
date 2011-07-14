@@ -122,3 +122,42 @@ Is the .htaccess file above not working for you? Try this one:
 After setting up HTTP rewriting, you should set the **index** configuration option in **application/config/application.php** to an empty string.
 
 > **Note:** Each web server has a different method of doing HTTP rewrites, and may require a slightly different .htaccess file.
+
+[Back To Top](#top)
+
+<a name="routes"></a>
+## Defining Routes
+
+- [The Basics](#routes-basics)
+- [Route Wildcards & Parameters](#routes-parameters)
+- [Route Filters](#route-filters)
+- [Named Routes](#routes-named)
+- [Organizing Routes](#routes-folder)
+
+<a name="routes-basics"></a>
+### The Basics
+
+Unlike other PHP frameworks, Laravel places routes and their corresponding functions in one file: **application/routes.php**. This file contains the "definition", or public API, of your application. To add functionality to your application, you add to the array located in this file.
+
+All you need to do is tell Laravel the request methods and URIs it should respond to. You define the behavior of the route using an anonymous method:
+
+	'GET /home' => function()
+	{
+		// Handles GET requests to http://example.com/index.php/home
+	},
+
+	'PUT /user/update' => function()
+	{
+		// Handles PUT requests to http://example.com/index.php/user/update
+	}
+
+You can easily define a route to handle requests to more than one URI. Just use commas:
+
+	'POST /, POST /home' => function()
+	{
+		// Handles POST requests to http://example.com and http://example.com/index.php/home
+	}
+
+> **Note:** The routes.php file replaces the "controllers" found in most frameworks. Have a fat model and keep this file light and clean. Thank us later.
+
+[Back To Top](#top)
