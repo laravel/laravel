@@ -54,18 +54,28 @@ class Redirect {
 	/**
 	 * Add an item to the session flash data.
 	 *
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * @param  mixed   $value
 	 * @return Response
 	 */
-	public function with($key, $value)
+	public function with($key, $value = null)
 	{
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("Attempting to flash data to the session, but no session driver has been specified.");
 		}
-
-		Session::flash($key, $value);
+		
+		if (is_array($key))
+		{
+			foreach($key as $_key => $_value)
+			{
+				Session::flash($_key, $_value);
+			}
+		}
+		else
+		{
+			Session::flash($key, $value);
+		}
 
 		return $this;
 	}
