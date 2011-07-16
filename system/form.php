@@ -111,6 +111,19 @@ class Form {
 	}
 
 	/**
+	 * Create a HTML text input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function text($name, $value = null, $attributes = array())
+	{
+		return static::input('text', $name, $value, $attributes);
+	}
+
+	/**
 	 * Create a HTML password input element.
 	 *
 	 * @param  string  $name
@@ -120,6 +133,19 @@ class Form {
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
+	}
+
+	/**
+	 * Create a HTML hidden input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function hidden($name, $value = null, $attributes = array())
+	{
+		return static::input('hidden', $name, $value, $attributes);
 	}
 
 	/**
