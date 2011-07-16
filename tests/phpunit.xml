@@ -1,7 +1,0 @@
-<phpunit colors="true" bootstrap="bootstrap.php">
-	<testsuites>
-		<testsuite name="Laravel Tests">
-			<directory>suite</directory>
-		</testsuite>
-	</testsuites>
-</phpunit>
