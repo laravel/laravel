@@ -58,6 +58,16 @@ class Form {
 	}
 
 	/**
+	 * Close a HTML form.
+	 *
+	 * @return string
+	 */
+	public static function close()
+	{
+		return '</form>';
+	}
+
+	/**
 	 * Generate a hidden field containing the current CSRF token.
 	 *
 	 * @return string
