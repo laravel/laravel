@@ -24,9 +24,6 @@ class Filter {
 			static::$filters = require APP_PATH.'filters'.EXT;
 		}
 
-		// --------------------------------------------------------------
-		// Filters can be comma-delimited, so spin through each one.
-		// --------------------------------------------------------------
 		foreach (explode(', ', $filters) as $filter)
 		{
 			if ( ! isset(static::$filters[$filter]))
@@ -36,13 +33,6 @@ class Filter {
 
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
-			// --------------------------------------------------------------
-			// If overriding is set to true and the filter returned a
-			// response, return that response. 
-			//
-			// Overriding allows for convenient halting of the request
-			// flow for things like authentication, CSRF protection, etc.
-			// --------------------------------------------------------------
 			if ( ! is_null($response) and $override)
 			{
 				return $response;

@@ -3,16 +3,11 @@
  * Laravel - A clean and classy framework for PHP web development.
  *
  * @package  Laravel
- * @version  1.1.1
+ * @version  1.2.0
  * @author   Taylor Otwell
  * @license  MIT License
  * @link     http://laravel.com 
  */
-
-// --------------------------------------------------------------
-// Set the framework starting time.
-// --------------------------------------------------------------
-define('LARAVEL_START', microtime(true));
 
 // --------------------------------------------------------------
 // Define the framework paths.
@@ -29,9 +24,10 @@ define('PACKAGE_PATH', APP_PATH.'packages/');
 define('EXT', '.php');
 
 // --------------------------------------------------------------
-// Load the configuration class.
+// Load the classes used by the auto-loader.
 // --------------------------------------------------------------
 require SYS_PATH.'config'.EXT;
+require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
 // Register the auto-loader.
@@ -39,9 +35,11 @@ require SYS_PATH.'config'.EXT;
 spl_autoload_register(require SYS_PATH.'loader'.EXT);
 
 // --------------------------------------------------------------
-// Set the error reporting level.
+// Set the error reporting and display levels.
 // --------------------------------------------------------------
-error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
+error_reporting(E_ALL | E_STRICT);
+
+ini_set('display_errors', 'Off');
 
 // --------------------------------------------------------------
 // Register the error handlers.
@@ -49,13 +47,15 @@ error_reporting((System\Config::get('error.detail')) ? E_ALL | E_STRICT : 0);
 set_exception_handler(function($e)
 {
 	require_once SYS_PATH.'error'.EXT;
+
 	System\Error::handle($e);	
 });
 
 set_error_handler(function($number, $error, $file, $line) 
 {
 	require_once SYS_PATH.'error'.EXT;
-	System\Error::handle(new ErrorException($error, 0, $number, $file, $line));
+
+	System\Error::handle(new ErrorException($error, $number, 0, $file, $line));
 });
 
 register_shutdown_function(function()
@@ -63,7 +63,8 @@ register_shutdown_function(function()
 	if ( ! is_null($error = error_get_last()))
 	{
 		require_once SYS_PATH.'error'.EXT;
-		System\Error::handle(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
+		
+		System\Error::handle(new ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
 	}	
 });
 
@@ -77,7 +78,7 @@ date_default_timezone_set(System\Config::get('application.timezone'));
 // --------------------------------------------------------------
 if (System\Config::get('session.driver') != '')
 {
-	System\Session::load();
+	System\Session::load(System\Cookie::get('laravel_session'));
 }
 
 // --------------------------------------------------------------
@@ -85,28 +86,14 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 $response = System\Route\Filter::call('before', array(), true);
 
-// --------------------------------------------------------------
-// Only execute the route function if the "before" filter did
-// not override by sending a response.
-// --------------------------------------------------------------
+// ----------------------------------------------------------
+// Execute the route function.
+// ----------------------------------------------------------
 if (is_null($response))
 {
-	// ----------------------------------------------------------
-	// Route the request to the proper route.
-	// ----------------------------------------------------------
 	$route = System\Router::route(Request::method(), Request::uri());
 
-	// ----------------------------------------------------------
-	// Execute the route function.
-	// ----------------------------------------------------------
-	if ( ! is_null($route))
-	{
-		$response = $route->call();	
-	}
-	else
-	{
-		$response = System\Response::make(View::make('error/404'), 404);
-	}
+	$response = (is_null($route)) ? System\Response::make(View::make('error/404'), 404) : $route->call();
 }
 else
 {

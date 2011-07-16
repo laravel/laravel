@@ -1,13 +1,8 @@
 <?php namespace System\Cache\Driver;
 
-class APC implements \System\Cache\Driver {
+use System\Config;
 
-	/**
-	 * All of the loaded cache items.
-	 *
-	 * @var array
-	 */
-	private $items = array();
+class APC implements \System\Cache\Driver {
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -24,24 +19,11 @@ class APC implements \System\Cache\Driver {
 	 * Get an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get($key, $default = null)
+	public function get($key)
 	{
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
-		$cache = apc_fetch(\System\Config::get('cache.key').$key);
-
-		if ($cache === false)
-		{
-			return $default;
-		}
-
-		return $this->items[$key] = $cache;
+		return ( ! is_null($cache = apc_fetch(Config::get('cache.key').$key))) ? $cache : null;
 	}
 
 	/**
@@ -54,7 +36,7 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		apc_store(\System\Config::get('cache.key').$key, $value, $minutes * 60);
+		apc_store(Config::get('cache.key').$key, $value, $minutes * 60);
 	}
 
 	/**
@@ -65,7 +47,7 @@ class APC implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		apc_delete(\System\Config::get('cache.key').$key);
+		apc_delete(Config::get('cache.key').$key);
 	}
 
 }

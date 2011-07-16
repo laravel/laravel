@@ -7,10 +7,13 @@ class DB {
 	 *
 	 * @var array
 	 */
-	private static $connections = array();
+	public static $connections = array();
 
 	/**
-	 * Get a database connection.
+	 * Get a database connection. If no database name is specified, the default
+	 * connection will be returned as defined in the db configuration file.
+	 *
+	 * Note: Database connections are managed as singletons.
 	 *
 	 * @param  string  $connection
 	 * @return PDO
@@ -22,22 +25,9 @@ class DB {
 			$connection = Config::get('db.default');
 		}
 
-		// ---------------------------------------------------
-		// If we have already established this connection,
-		// simply return the existing connection.
-		//
-		// Don't want to establish the same connection twice!
-		// ---------------------------------------------------
 		if ( ! array_key_exists($connection, static::$connections))
 		{
-			$config = Config::get('db.connections');
-
-			if ( ! array_key_exists($connection, $config))
-			{
-				throw new \Exception("Database connection [$connection] is not defined.");
-			}
-
-			static::$connections[$connection] = DB\Connector::connect((object) $config[$connection]);
+			static::$connections[$connection] = DB\Connector::connect($connection);
 		}
 
 		return static::$connections[$connection];
@@ -45,6 +35,13 @@ class DB {
 
 	/**
 	 * Execute a SQL query against the connection.
+	 *
+	 * The method returns the following based on query type:
+	 *
+	 *     SELECT -> Array of stdClasses
+	 *     UPDATE -> Number of rows affected.
+	 *     DELETE -> Number of Rows affected.
+	 *     ELSE   -> Boolean true / false depending on success.
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
@@ -55,17 +52,22 @@ class DB {
 	{
 		$query = static::connection($connection)->prepare($sql);
 
-		$result = $query->execute($bindings);
+		$bindings = array_values($bindings);
 
-		// ---------------------------------------------------
-		// For SELECT statements, the results will be returned
-		// as an array of stdClasses.
-		//
-		// For UPDATE and DELETE statements, the number of
-		// rows affected by the query will be returned.
-		//
-		// For all other statements, return a boolean.
-		// ---------------------------------------------------
+		foreach ($bindings as $key => &$binding)
+		{
+			if (is_null($binding))
+			{
+				$query->bindValue($key + 1, null, \PDO::PARAM_INT);
+			}
+			else
+			{
+				$query->bindParam($key + 1, $binding);
+			}
+		}
+
+		$result = $query->execute();
+
 		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
 			return $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');

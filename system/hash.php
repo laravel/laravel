@@ -2,51 +2,43 @@
 
 class Hash {
 
-    /**
-	 * The salty, hashed value.
-	 *
-	 * @var string
-	 */
-	public $value;
-
 	/**
-	 * The salt used during hashing.
+	 * Hash a string using PHPass.
 	 *
-	 * @var string
-	 */
-	public $salt;
-
-	/**
-	 * Create a new hash instance.
-	 *
-	 * @param  string  $value
-	 * @param  string  $salt
-	 * @return void
-	 */
-	public function __construct($value, $salt = null)
-	{
-		// -------------------------------------------------------
-		// If no salt is given, we'll create a random salt to
-		// use when hashing the password.
-		//
-		// Otherwise, we will use the given salt.
-		// -------------------------------------------------------
-		$this->salt = (is_null($salt)) ? Str::random(16) : $salt;
-
-		$this->value = sha1($value.$this->salt);
-	}
-
-	/**
-	 * Factory for creating hash instances.
+	 * PHPass provides reliable bcrypt hashing, and is used by many popular PHP
+	 * applications such as Wordpress and Joomla.
 	 *
 	 * @access public
 	 * @param  string  $value
-	 * @param  string  $salt
-	 * @return Hash
+	 * @return string
 	 */
-	public static function make($value, $salt = null)
+	public static function make($value)
 	{
-		return new self($value, $salt);
+		return static::hasher()->HashPassword($value);
+	}
+
+	/**
+	 * Determine if an unhashed value matches a given hash.
+	 *
+	 * @param  string  $value
+	 * @param  string  $hash
+	 * @return bool
+	 */
+	public static function check($value, $hash)
+	{
+		return static::hasher()->CheckPassword($value, $hash);
+	}
+
+	/**
+	 * Create a new PHPass instance.
+	 *
+	 * @return PasswordHash
+	 */
+	private static function hasher()
+	{
+		require_once SYS_PATH.'vendor/phpass'.EXT;
+
+		return new \PasswordHash(10, false);
 	}
 
 }	

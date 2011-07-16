@@ -32,7 +32,7 @@ class HTML {
 	 */
 	public static function style($url, $media = 'all')
 	{
-		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'">'.PHP_EOL;
 	}
 
 	/**
@@ -146,29 +146,8 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = static::entities($alt);
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).' />';
-	}
 
-	/**
-	 * Generate HTML breaks.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function breaks($count = 1)
-	{
-		return str_repeat('<br />', $count);
-	}
-
-	/**
-	 * Generate non-breaking spaces.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function spaces($count = 1)
-	{
-		return str_repeat('&nbsp;', $count);
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
 	/**
@@ -227,6 +206,13 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
+			// Assume numeric-keyed attributes to have the same key and value.
+			// Example: required="required", autofocus="autofocus", etc.
+			if (is_numeric($key))
+			{
+				$key = $value;
+			}
+
 			if ( ! is_null($value))
 			{
 				$html[] = $key.'="'.static::entities($value).'"';
@@ -246,30 +232,21 @@ class HTML {
 	{
 		$safe = '';
 
-		// -------------------------------------------------------
-		// Spin through the string letter by letter.
-		// -------------------------------------------------------
 		foreach (str_split($value) as $letter)
 		{
 			switch (rand(1, 3))
 			{
-				// -------------------------------------------------------
 				// Convert the letter to its entity representation.
-				// -------------------------------------------------------
 				case 1:
 					$safe .= '&#'.ord($letter).';';
 					break;
 
-				// -------------------------------------------------------
 				// Convert the letter to a Hex character code.
-				// -------------------------------------------------------
 				case 2:
 					$safe .= '&#x'.dechex(ord($letter)).';';
 					break;
 
-				// -------------------------------------------------------
 				// No encoding.
-				// -------------------------------------------------------
 				case 3:
 					$safe .= $letter;
 			}
@@ -283,23 +260,21 @@ class HTML {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// -------------------------------------------------------
 		// Handle the dynamic creation of links to secure routes.
-		// -------------------------------------------------------
 		if (strpos($method, 'link_to_secure_') === 0)
 		{
 			array_unshift($parameters, substr($method, 15));
 			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
 		}
 
-		// -------------------------------------------------------
 		// Handle the dynamic creation of links to routes.
-		// -------------------------------------------------------
 		if (strpos($method, 'link_to_') === 0)
 		{
 			array_unshift($parameters, substr($method, 8));
 			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
+
+		throw new \Exception("Static method [$method] is not defined on the HTML class.");
 	}
 
 }

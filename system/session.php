@@ -7,14 +7,14 @@ class Session {
 	 *
 	 * @var Session\Driver
 	 */
-	private static $driver;
+	public static $driver;
 
 	/**
 	 * The session.
 	 *
 	 * @var array
 	 */
-	private static $session = array();
+	public static $session = array();
 
 	/**
 	 * Get the session driver.
@@ -25,38 +25,47 @@ class Session {
 	{
 		if (is_null(static::$driver))
 		{
-			static::$driver = Session\Factory::make(Config::get('session.driver'));
+			switch (Config::get('session.driver'))
+			{
+				case 'file':
+					static::$driver = new Session\Driver\File;
+					break;
+
+				case 'db':
+					static::$driver = new Session\Driver\DB;
+					break;
+
+				case 'memcached':
+					static::$driver = new Session\Driver\Memcached;
+					break;
+
+				case 'apc':
+					static::$driver = new Session\Driver\APC;
+					break;
+
+				default:
+					throw new \Exception("Session driver [$driver] is not supported.");
+			}			
 		}
 
 		return static::$driver;
 	}
 
 	/**
-	 * Load the session for the user.
+	 * Load a user session by ID.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	public static function load()
+	public static function load($id)
 	{
-		if ( ! is_null($id = Cookie::get('laravel_session')))
+		static::$session = ( ! is_null($id)) ? static::driver()->load($id) : null;
+
+		if (is_null(static::$session) or static::expired(static::$session['last_activity']))
 		{
-			static::$session = static::driver()->load($id);
+			static::$session = array('id' => Str::random(40), 'data' => array());
 		}
 
-		// ---------------------------------------------------------
-		// If the session is invalid or expired, start a new one.
-		// ---------------------------------------------------------
-		if (is_null($id) or is_null(static::$session) or static::expired(static::$session['last_activity']))
-		{
-			static::$session['id'] = Str::random(40);
-			static::$session['data'] = array();
-		}
-
-		// ---------------------------------------------------------
-		// Create a CSRF token for the session if necessary. This
-		// token is used by the Form class and filters to protect
-		// against cross-site request forgeries.
-		// ---------------------------------------------------------
 		if ( ! static::has('csrf_token'))
 		{
 			static::put('csrf_token', Str::random(16));
@@ -110,7 +119,7 @@ class Session {
 			return static::$session['data'][':new:'.$key];
 		}
 
-		return $default;
+		return is_callable($default) ? call_user_func($default) : $default;
 	}
 
 	/**
@@ -165,13 +174,6 @@ class Session {
 	 */
 	public static function regenerate()
 	{
-		// ---------------------------------------------------------
-		// When regenerating the session ID, we go ahead and delete
-		// the session data from storage. Then, we assign a new ID.
-		//
-		// The session will be re-written to storage at the end
-		// of the request to the application.
-		// ---------------------------------------------------------
 		static::driver()->delete(static::$session['id']);
 
 		static::$session['id'] = Str::random(40);
@@ -184,37 +186,22 @@ class Session {
 	 */
 	public static function close()
 	{
-		// ---------------------------------------------------------
-		// Flash the old input data to the session. This allows
-		// the Input::old method to retrieve input from the
-		// previous request made by the user.
-		// ---------------------------------------------------------
+		// Flash the old input data to the session. This allows the Input::old method to
+		// retrieve the input from the previous request made by the user.
 		static::flash('laravel_old_input', Input::get());
 
 		static::age_flash();
 
 		static::driver()->save(static::$session);
 
-		// ---------------------------------------------------------
-		// Send the session cookie the browser so we can remember
-		// who the session belongs to on subsequent requests.
-		// ---------------------------------------------------------
 		if ( ! headers_sent())
 		{
-			$cookie = new Cookie('laravel_session', static::$session['id']);
+			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
 
-			$cookie->lifetime = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
-			$cookie->path = Config::get('session.path');
-			$cookie->domain = Config::get('session.domain');
-			$cookie->secure = Config::get('session.https');
-
-			$cookie->send();
+			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'));
 		}
 
-		// ---------------------------------------------------------
-		// Perform session garbage collection (2% chance).
-		// Session garbage collection removes all expired sessions.
-		// ---------------------------------------------------------
+		// 2% chance of performing session garbage collection...
 		if (mt_rand(1, 100) <= 2)
 		{
 			static::driver()->sweep(time() - (Config::get('session.lifetime') * 60));
@@ -228,9 +215,6 @@ class Session {
 	 */
 	private static function age_flash()
 	{
-		// -----------------------------------------------------
-		// Remove all of the :old: items from the session.
-		// -----------------------------------------------------
 		foreach (static::$session['data'] as $key => $value)
 		{
 			if (strpos($key, ':old:') === 0)
@@ -239,10 +223,6 @@ class Session {
 			}
 		}
 
-		// -----------------------------------------------------
-		// Copy all of the :new: items to :old: items and then
-		// remove the :new: items from the session.
-		// -----------------------------------------------------
 		foreach (static::$session['data'] as $key => $value)
 		{
 			if (strpos($key, ':new:') === 0)

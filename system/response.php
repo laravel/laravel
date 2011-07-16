@@ -109,10 +109,6 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		// --------------------------------------------------------------
-		// If the response is a Redirect instance, grab the Response.
-		// The Redirect class manages a Response instance internally.
-		// --------------------------------------------------------------
 		if ($response instanceof Redirect)
 		{
 			$response = $response->response;
@@ -179,6 +175,14 @@ class Response {
 	public function is_redirect()
 	{
 		return $this->status == 301 or $this->status == 302;
+	}
+
+	/**
+	 * Get the parsed content of the Response.
+	 */
+	public function __toString()
+	{
+		return (string) $this->content;
 	}
 
 }

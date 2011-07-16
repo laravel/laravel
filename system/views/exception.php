@@ -2,78 +2,101 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Laravel - Error</title>
-
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu&amp;subset=latin' rel='stylesheet' type='text/css'>
+	<title>Laravel - <?php echo $severity; ?></title>
+ 
+	<link href="http://fonts.googleapis.com/css?family=Quattrocento&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Ubuntu&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Lobster+Two&amp;v1" rel="stylesheet" type="text/css" media="all" />
 
 	<style type="text/css">
 		body {
-			background-color: #fff;
-			font-family: 'Ubuntu', sans-serif;
-			font-size: 18px;
-			color: #3f3f3f;
-			padding: 10px;
+			background-color: #eee;
+			color: #6d6d6d;
+			font-family: 'Ubuntu';
+			font-size: 15px;
 		}
 
-		h1 {
-			font-family: 'Ubuntu', sans-serif;
-			font-size: 45px;
-			color: #6d6d6d;
-			margin: 0 0 10px 0;
-			text-shadow: 1px 1px #000;
+		h1.laravel {
+			font-family: 'Lobster Two', Helvetica, serif;				
+			font-size: 60px;
+			margin: 0 0 15px -10px;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
 		}
 
-		h3 {
-			color: #6d6d6d;
-			margin: 0 0 10px 0;
+		h2 {
+			font-family: 'Quattrocento', serif;
+			font-size: 30px;
+			margin: 30px 0 0 0;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
+		}
+
+		p {
+			margin: 10px 0 0 0;
+			line-height: 25px;
 		}
 
 		pre {
-			font-size: 14px;
-			margin: 0 0 0 0;
-			padding: 0 0 0 0;
+			font-size: 12px;
 		}
- 
+
+		pre.context {
+			margin: 0; padding: 0;
+		}
+
+		pre.highlight {
+			font-weight: bold;
+			color: #990000;
+		}
+
+		#header {
+			margin: 0 auto;
+			margin-bottom: 15px;
+			margin-top: 20px;
+			width: 80%;
+		}
+
 		#wrapper {
-			width: 100%;
-		}
- 
-		div.content {
-			padding: 10px 10px 10px 10px;
-			background-color: #eee;
+			background-color: #fff;
 			border-radius: 10px;
-			margin-bottom: 10px;
+			margin: 0 auto;
+			padding: 10px;
+			width: 80%;
+		}
+
+		#wrapper h2:first-of-type {
+			margin-top: 0;
 		}
 	</style>
 </head> 
 <body>
+	<div id="header">
+		<h1 class="laravel"><?php echo $severity; ?></h1>
+	</div>
+
 	<div id="wrapper"> 
-		<h1><?php echo $severity; ?></h1> 
- 
-		<div class="content">
-			<h3>Message:</h3> 
-			<?php echo $message; ?> in <strong><?php echo basename($file); ?></strong> on line <strong><?php echo $line; ?></strong>.
-		</div>
+		<h2>Message:</h2>
 
-		<div class="content">
-			<h3>Stack Trace:</h3>
+		<p><?php echo $message; ?> in <strong><?php echo basename($file); ?></strong> on line <strong><?php echo $line; ?></strong>.</p>
 
-			<pre><?php echo $trace; ?></pre>
-		</div>
+		<h2>Stack Trace:</h2>
 
-		<div class="content">
-			<h3>Context:</h3>
+		<pre><?php echo $trace; ?></pre>
 
-			<?php if (count($contexts) > 0) { ?>
+		<h2>Snapshot:</h2>
 
-				<?php foreach ($contexts as $num => $context) { ?>
-					<pre><?php echo htmlentities($num.' '.$context); ?></pre>
-				<?php } ?>
+		<p>
+		<?php if (count($contexts) > 0): ?>
 
-			<?php } else { ?>
-				Context unavailable.
-			<?php } ?>
-		</div>
+			<?php foreach($contexts as $num => $context): ?>
+				<pre class="context <?php echo ($line == $num) ? 'highlight' : ''; ?>"><?php echo htmlentities($num.': '.$context); ?></pre>
+			<?php endforeach; ?>
+
+		<?php else: ?>
+			Snapshot Unavailable.
+		<?php endif; ?>
+		</p>
 	</div> 
 </body> 
 </html>

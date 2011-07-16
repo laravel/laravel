@@ -4,53 +4,84 @@
 	<meta charset="utf-8">
 	<title>500 - Internal Server Error</title>
 
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu&amp;subset=latin' rel='stylesheet' type='text/css'>
+	<link href="http://fonts.googleapis.com/css?family=Quattrocento&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Ubuntu&amp;v1" rel="stylesheet" type="text/css" media="all" />
+	<link href="http://fonts.googleapis.com/css?family=Lobster+Two&amp;v1" rel="stylesheet" type="text/css" media="all" />
 
 	<style type="text/css">
 		body {
-			background-color: #fff;
-			margin: 45px 0 0 0;
-			font-family: 'Ubuntu', sans-serif;
+			background-color: #eee;
+			color: #6d6d6d;
+			font-family: 'Ubuntu';
 			font-size: 16px;
-			color: #3f3f3f;
-		}
-
-		h1 {
-			font-size: 40px;
-			margin: 0 0 10px 0;
 		}
 
 		a {
-			color: #000;
+			color: #7089b3;
+			font-weight: bold;
+			text-decoration: none;
+		}
+
+		h1.laravel {
+			font-family: 'Lobster Two', Helvetica, serif;				
+			font-size: 60px;
+			margin: 0 0 15px -10px;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
+		}
+
+		h2 {
+			font-family: 'Quattrocento', serif;
+			font-size: 30px;
+			margin: 30px 0 0 0;
+			padding: 0;
+			text-shadow: -1px 1px 1px #fff;
+		}
+
+		p {
+			margin: 10px 0 0 0;
+			line-height: 25px;
+		}
+
+		#header {
+			margin: 0 auto;
+			margin-bottom: 15px;
+			margin-top: 20px;
+			width: 80%;
 		}
 
 		#wrapper {
-			width: 740px;
+			background-color: #fff;
+			border-radius: 10px;
 			margin: 0 auto;
+			padding: 10px;
+			width: 80%;
 		}
 
-		#content {
-			padding: 10px 10px 10px 10px;
-			background-color: #ffebe8;
-			border: 1px solid #dd3c10;
-			border-radius: 10px;
+		#wrapper h2:first-of-type {
+			margin-top: 0;
 		}
 	</style>
 </head>
 <body>
-	<div id="wrapper">
+	<div id="header">
 		<?php
 			$messages = array('Whoops!', 'Oh no!', 'Ouch!');
 			$message = $messages[mt_rand(0, 2)];
 		?>
 
-		<h1><?php echo $message; ?></h1>
+		<h1 class="laravel"><?php echo $message; ?></h1>
+	</div>
 
-		<div id="content">
-			An error occured while we were processing your request.
-			<br /><br />
-			Would you like go to our <a href="<?php echo System\Config::get('application.url'); ?>">home page</a> instead?
-		</div>
+	<div id="wrapper">
+		<?php
+			$apologies = array("It's not your fault.", "Don't give up on us.", "We're really sorry.");
+			$apology = $apologies[mt_rand(0, 2)];
+		?>
+
+		<h2><?php echo $apology; ?></h2>
+
+		<p>Something failed while we were handling your request. Would you like go to our <a href="<?php echo System\Config::get('application.url'); ?>">home page</a> instead?</p>
 	</div>
 </body>
 </html>

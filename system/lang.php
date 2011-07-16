@@ -28,6 +28,10 @@ class Lang {
 	/**
 	 * Create a new Lang instance.
 	 *
+	 * Language lines are retrieved using "dot" notation. So, asking for the
+	 * "messages.required" language line would return the "required" line
+	 * from the "messages" language file.	 
+	 *
 	 * @param  string  $line
 	 * @return void
 	 */
@@ -50,42 +54,28 @@ class Lang {
 	/**
 	 * Get the language line.
 	 *
+	 * @param  string  $language
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($default = null)
+	public function get($language = null, $default = null)
 	{
-		$language = Config::get('application.language');
+		if (is_null($language))
+		{
+			$language = Config::get('application.language');
+		}
 
 		list($file, $line) = $this->parse($this->key);
 
 		$this->load($file, $language);
 
-		// --------------------------------------------------------------
-		// If the language file did not exist, return the default value.
-		// --------------------------------------------------------------
-		if ( ! array_key_exists($language.$file, static::$lines))
+		if ( ! isset(static::$lines[$language.$file][$line]))
 		{
-			return $default;
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		// --------------------------------------------------------------
-		// Get the language line from the appropriate file array.
-		// If the line doesn't exist, return the default value.
-		// --------------------------------------------------------------
-		if (array_key_exists($line, static::$lines[$language.$file]))
-		{
-			$line = static::$lines[$language.$file][$line];
-		}
-		else
-		{
-			return $default;
-		}
+		$line = static::$lines[$language.$file][$line];
 
-		// --------------------------------------------------------------
-		// Make all place-holder replacements. Place-holders are prefixed
-		// with a colon for convenient location.
-		// --------------------------------------------------------------
 		foreach ($this->replacements as $key => $value)
 		{
 			$line = str_replace(':'.$key, $value, $line);
@@ -97,15 +87,14 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
+	 * The value on the left side of the dot is the language file name,
+	 * while the right side of the dot is the item within that file.
+	 *	 
 	 * @param  string  $key
 	 * @return array
 	 */
 	private function parse($key)
 	{
-		// --------------------------------------------------------------
-		// The left side of the dot is the file name, while the right
-		// side of the dot is the item within that file being requested.
-		// --------------------------------------------------------------
 		$segments = explode('.', $key);
 
 		if (count($segments) < 2)
@@ -125,16 +114,10 @@ class Lang {
 	 */
 	private function load($file, $language)
 	{
-		// --------------------------------------------------------------
-		// If we have already loaded the language file or the file
-		// doesn't exist, bail out.
-		// --------------------------------------------------------------
-		if (array_key_exists($language.$file, static::$lines) or ! file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
+		if ( ! array_key_exists($language.$file, static::$lines) and file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
 		{
-			return;
+			static::$lines[$language.$file] = require $path;
 		}
-
-		static::$lines[$language.$file] = require $path;
 	}
 
 	/**

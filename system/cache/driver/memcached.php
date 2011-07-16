@@ -1,13 +1,8 @@
 <?php namespace System\Cache\Driver;
 
-class Memcached implements \System\Cache\Driver {
+use System\Config;
 
-	/**
-	 * All of the loaded cache items.
-	 *
-	 * @var array
-	 */
-	private $items = array();
+class Memcached implements \System\Cache\Driver {
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -24,33 +19,11 @@ class Memcached implements \System\Cache\Driver {
 	 * Get an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get($key, $default = null)
+	public function get($key)
 	{
-		// --------------------------------------------------
-		// If the item has already been loaded, return it.
-		// --------------------------------------------------
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
-		// --------------------------------------------------
-		// Attempt to the get the item from cache.
-		// --------------------------------------------------
-		$cache = \System\Memcached::instance()->get(\System\Config::get('cache.key').$key);
-
-		// --------------------------------------------------
-		// Verify that the item was retrieved.
-		// --------------------------------------------------
-		if ($cache === false)
-		{
-			return $default;
-		}
-
-		return $this->items[$key] = $cache;
+		return (($cache = \System\Memcached::instance()->get(Config::get('cache.key').$key)) !== false) ? $cache : null;
 	}
 
 	/**
@@ -63,7 +36,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		\System\Memcached::instance()->set(\System\Config::get('cache.key').$key, $value, 0, $minutes * 60);
+		\System\Memcached::instance()->set(Config::get('cache.key').$key, $value, 0, $minutes * 60);
 	}
 
 	/**
@@ -74,7 +47,7 @@ class Memcached implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		\System\Memcached::instance()->delete(\System\Config::get('cache.key').$key);
+		\System\Memcached::instance()->delete(Config::get('cache.key').$key);
 	}
 
 }

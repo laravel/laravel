@@ -25,17 +25,11 @@ class Memcached {
 
 			$memcache = new \Memcache;
 
-			// -----------------------------------------------------
-			// Configure the Memcache servers.
-			// -----------------------------------------------------
 			foreach (Config::get('cache.servers') as $server)
 			{
 				$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
 			}
 
-			// -----------------------------------------------------
-			// Verify Memcache was configured successfully.
-			// -----------------------------------------------------
 			if ($memcache->getVersion() === false)
 			{
 				throw new \Exception('Memcached is configured. However, no connections could be made. Please verify your memcached configuration.');

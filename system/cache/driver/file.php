@@ -3,13 +3,6 @@
 class File implements \System\Cache\Driver {
 
 	/**
-	 * All of the loaded cache items.
-	 *
-	 * @var array
-	 */
-	private $items = array();
-
-	/**
 	 * Determine if an item exists in the cache.
 	 *
 	 * @param  string  $key
@@ -27,32 +20,23 @@ class File implements \System\Cache\Driver {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */	
-	public function get($key, $default = null)
+	public function get($key)
 	{
-		if (array_key_exists($key, $this->items))
-		{
-			return $this->items[$key];
-		}
-
 		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
 		{
-			return $default;
+			return null;
 		}
 
 		$cache = file_get_contents(APP_PATH.'storage/cache/'.$key);
 
-		// --------------------------------------------------
-		// Has the cache expired? The UNIX expiration time
-		// is stored at the beginning of the file.
-		// --------------------------------------------------
 		if (time() >= substr($cache, 0, 10))
 		{
 			$this->forget($key);
 
-			return $default;
+			return null;
 		}
 
-		return $this->items[$key] = unserialize(substr($cache, 10));
+		return unserialize(substr($cache, 10));
 	}
 
 	/**

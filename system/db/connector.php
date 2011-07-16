@@ -1,5 +1,7 @@
 <?php namespace System\DB;
 
+use System\Config;
+
 class Connector {
 
 	/**
@@ -17,64 +19,92 @@ class Connector {
 	/**
 	 * Establish a PDO database connection.
 	 *
-	 * @param  object  $config
+	 * @param  string  $connection
 	 * @return PDO
 	 */
-	public static function connect($config)
+	public static function connect($connection)
 	{
-		// -----------------------------------------------------
-		// Connect to SQLite.
-		// -----------------------------------------------------
-		if ($config->driver == 'sqlite')
+		$config = static::configuration($connection);
+
+		switch ($config->driver)
 		{
-			// -----------------------------------------------------
-			// Check the application/db directory first.
-			//
-			// If the database doesn't exist there, maybe the full
-			// path was specified as the database name?
-			// -----------------------------------------------------
-			if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
-			{
-				return new \PDO('sqlite:'.$path, null, null, static::$options);
-			}
-			elseif (file_exists($config->database))
-			{
-				return new \PDO('sqlite:'.$config->database, null, null, static::$options);
-			}
-			else
-			{
-				throw new \Exception("SQLite database [".$config->database."] could not be found.");
-			}
-		}
-		// -----------------------------------------------------
-		// Connect to MySQL or Postgres.
-		// -----------------------------------------------------
-		elseif ($config->driver == 'mysql' or $config->driver == 'pgsql')
-		{
-			// -----------------------------------------------------
-			// Build the PDO connection DSN.
-			// -----------------------------------------------------
-			$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
+			case 'sqlite':
+				return static::connect_to_sqlite($config);
 
-			if (isset($config->port))
-			{
-				$dsn .= ';port='.$config->port;
-			}
-
-			$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
-
-			// -----------------------------------------------------
-			// Set the appropriate character set for the datbase.
-			// -----------------------------------------------------
-			if (isset($config->charset))
-			{
-				$connection->prepare("SET NAMES '".$config->charset."'")->execute();
-			}
-
-			return $connection;
+			case 'mysql':
+			case 'pgsql':
+				return static::connect_to_server($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
+	}
+
+	/**
+	 * Establish a PDO connection to a SQLite database.
+	 *
+	 * SQLite database paths can be specified either relative to the application/db
+	 * directory, or as an absolute path to any location on the file system.
+	 *
+	 * @param  array  $config
+	 * @return PDO
+	 */
+	private static function connect_to_sqlite($config)
+	{
+		if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
+		{
+			return new \PDO('sqlite:'.$path, null, null, static::$options);
+		}
+		elseif (file_exists($config->database))
+		{
+			return new \PDO('sqlite:'.$config->database, null, null, static::$options);
+		}
+		else
+		{
+			throw new \Exception("SQLite database [".$config->database."] could not be found.");
+		}
+	}
+
+	/**
+	 * Connect to a MySQL or PostgreSQL database server.
+	 *
+	 * @param  array  $config
+	 * @return PDO
+	 */
+	private static function connect_to_server($config)
+	{
+		$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
+
+		if (isset($config->port))
+		{
+			$dsn .= ';port='.$config->port;
+		}
+
+		$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
+
+		if (isset($config->charset))
+		{
+			$connection->prepare("SET NAMES '".$config->charset."'")->execute();
+		}
+
+		return $connection;
+	}
+
+	/**
+	 * Get the configuration options for a database connection.
+	 *
+	 * @param  string  $connection
+	 * @return object
+	 */
+	private static function configuration($connection)
+	{
+		$config = Config::get('db.connections');
+
+		if ( ! array_key_exists($connection, $config))
+		{
+			throw new \Exception("Database connection [$connection] is not defined.");
+		}
+
+		return (object) $config[$connection];
 	}
 
 }

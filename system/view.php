@@ -57,9 +57,7 @@ class View {
 	{
 		static::$last = $this->view;
 
-		// -----------------------------------------------------
 		// Get the evaluated content of all of the sub-views.
-		// -----------------------------------------------------
 		foreach ($this->data as &$data)
 		{
 			if ($data instanceof View or $data instanceof Response)
@@ -68,35 +66,13 @@ class View {
 			}
 		}
 
-		// -----------------------------------------------------
-		// Extract the view data into the local scope.
-		// -----------------------------------------------------
 		extract($this->data, EXTR_SKIP);
 
-		// -----------------------------------------------------
-		// Start the output buffer so nothing escapes to the
-		// browser. The response will be sent later.
-		// -----------------------------------------------------
 		ob_start();
 
 		$path = $this->find();
 
-		// -----------------------------------------------------
-		// We include the view into the local scope within a
-		// try / catch block to catch any exceptions that may
-		// occur while the view is rendering.
-		//
-		// Otherwise, a white screen of death will be shown
-		// if an exception occurs while rendering the view.
-		// -----------------------------------------------------
-		try
-		{
-			include $path;
-		}
-		catch (\Exception $e)
-		{
-			Error::handle($e);
-		}
+		try { include $path; } catch (\Exception $e) { Error::handle($e); }
 
 		return ob_get_clean();
 	}

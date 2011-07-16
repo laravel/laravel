@@ -27,6 +27,7 @@ class DB implements \System\Session\Driver {
 	public function save($session)
 	{
 		$this->delete($session['id']);
+
 		$this->table()->insert(array('id' => $session['id'], 'last_activity' => $session['last_activity'], 'data' => serialize($session['data'])));
 	}
 

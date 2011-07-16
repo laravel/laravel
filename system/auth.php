@@ -29,28 +29,20 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
+	 * The user will be loaded using the user ID stored in the session.
+	 *
 	 * @return object
 	 */
 	public static function user()
 	{
-		// -----------------------------------------------------
-		// Verify that sessions are enabled. Since the user ID
-		// is stored in the session, we can't authenticate
-		// without a session driver specified.
-		// -----------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("You must specify a session driver before using the Auth class.");
 		}
 
-		$model = static::model();
-
-		// -----------------------------------------------------
-		// Load the user using the ID stored in the session.
-		// -----------------------------------------------------
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
-			static::$user = $model::find(Session::get(static::$key));
+			static::$user = call_user_func(Config::get('auth.by_id'), Session::get(static::$key));
 		}
 
 		return static::$user;
@@ -59,25 +51,17 @@ class Auth {
 	/**
 	 * Attempt to login a user.
 	 *
+	 * If the user credentials are valid. The user ID will be stored in the session
+	 * and will be considered "logged in" on subsequent requests to the application.
+	 *
 	 * @param  string  $username
 	 * @param  string  $password
 	 */
 	public static function login($username, $password)
 	{
-		$model = static::model();
-
-		$user = $model::where(Config::get('auth.username'), '=', $username)->first();
-
-		if ( ! is_null($user))
+		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
-			// -----------------------------------------------------
-			// Hash the password. If a salt is present on the user
-			// record, we will recreate the hashed password using
-			// the salt. Otherwise, we will just use a plain hash.
-			// -----------------------------------------------------
-			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
-
-			if ($user->password === $password)
+			if (Hash::check($password, $user->password))
 			{
 				static::$user = $user;
 
@@ -91,30 +75,15 @@ class Auth {
 	}
 
 	/**
-	 * Logout the current user of the application.
+	 * Logout the user of the application.
 	 *
 	 * @return void
 	 */
 	public static function logout()
 	{
-		// -----------------------------------------------------
-		// By removing the user ID from the session, the user
-		// will no longer be considered logged in on subsequent
-		// requests to the application.
-		// -----------------------------------------------------
 		Session::forget(static::$key);
 
 		static::$user = null;
-	}
-
-	/**
-	 * Get the authentication model.
-	 *
-	 * @return string
-	 */
-	private static function model()
-	{
-		return '\\'.Config::get('auth.model');
 	}
 
 }

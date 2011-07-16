@@ -4,29 +4,39 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Authentication Model
+	| Retrieve Users By ID
 	|--------------------------------------------------------------------------
 	|
-	| This model will be used by the Auth class when retrieving the users of
-	| your application. Feel free to change it to the name of your user model.
+	| This method is called by the Auth::user() method when attempting to
+	| retrieve a user by their user ID.
 	|
-	| Note: The authentication model must be an Eloquent model.
+	| You are free to change this method for your application however you wish.
 	|
 	*/
 
-	'model' => 'User',
+	'by_id' => function($id)
+	{
+		return User::find($id);
+	},
 
 	/*
 	|--------------------------------------------------------------------------
-	| Authentication Username
+	| Retrieve Users By Username
 	|--------------------------------------------------------------------------
 	|
-	| The authentication username is the column on your users table that
-	| is considered the username of the user. Typically, this is either "email"
-	| or "username". However, you are free to make it whatever you wish.
+	| This method is called by the Auth::check() method when attempting to
+	| retrieve a user by their username. 
+	|
+	| You are free to change this method for your application however you wish.
+	|
+	| Note: This method must return an object that has an "id" and a "password"
+	|       property. The type of object returned doesn't matter.
 	|
 	*/
 
-	'username' => 'email',
+	'by_username' => function($username)
+	{
+		return User::where('email', '=', $username)->first();
+	},
 
 );
