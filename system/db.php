@@ -56,14 +56,7 @@ class DB {
 
 		foreach ($bindings as $key => &$binding)
 		{
-			if (is_null($binding))
-			{
-				$query->bindValue($key + 1, null, \PDO::PARAM_INT);
-			}
-			else
-			{
-				$query->bindParam($key + 1, $binding);
-			}
+			$query->bindParam($key + 1, $binding);
 		}
 
 		$result = $query->execute();
