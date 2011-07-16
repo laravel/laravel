@@ -4,7 +4,7 @@
  *
  * @package  Laravel
  * @version  1.2.1
- * @author   Taylor Otwell
+ * @author   Taylor Otwell1
  * @license  MIT License
  * @link     http://laravel.com 
  */
