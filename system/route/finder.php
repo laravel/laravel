@@ -29,7 +29,12 @@ class Finder {
 		// to all of the routes, not just the ones applicable to the request URI.
 		if (is_null(static::$routes))
 		{
-			static::$routes = (is_dir(APP_PATH.'routes')) ? static::load() : require APP_PATH.'routes'.EXT;
+			static::$routes = require APP_PATH.'routes'.EXT;
+
+			if (is_dir(APP_PATH.'routes'))
+			{
+				static::$routes = array_merge(static::load(), static::$routes);
+			}
 		}
 
 		if (array_key_exists($name, static::$names))
