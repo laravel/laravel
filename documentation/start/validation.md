@@ -313,7 +313,7 @@ Need to create your own validation rules? You will love how easy it is! First, c
 
 Next, remove the **Validator** alias from **application/config/aliases.php**.
 
-Alright! You're ready to define your own validation rule. Create a function on your new validator using a **validate_rule** naming convention:
+Alright! You're ready to define your own validation rule. Create a function on your new validator using a **validate_rule** naming convention. Validator methods simply need to return **true** or **false**. It couldn't be any easier, right?
 
 	<?php
 
@@ -326,7 +326,7 @@ Alright! You're ready to define your own validation rule. Create a function on y
 
 	}
 
-Let's dig into this example. The **validate_awesome** function receives two arguments. The first is the value of the attribute being validated, the second is an array of parameters that were specified for the rule, such as a size or list of accepted values (more on that in a second). Validator methods simply return **true** or **false**. It couldn't be any easier, right?
+Let's dig into this example. The **validate_awesome** function receives two arguments. The first is the value of the attribute being validated, the second is an array of parameters that were specified for the rule, such as a size or list of accepted values (more on that in a second).
 
 Now, how do you use your new validator? It's refreshingly simple:
 
@@ -360,7 +360,7 @@ As mentioned above, you may even specify and receive a list of parameters in you
 		
 		public function validate_awesome($attribute, $parameters)
 		{
-			return $attribute = $parameters[0];
+			return $attribute == $parameters[0];
 		}
 
 	}
