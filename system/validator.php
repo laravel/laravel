@@ -334,7 +334,7 @@ class Validator {
 	 */
 	protected function validate_image($attribute)
 	{
-		return static::validate_mime($attribute, array('jpg', 'png', 'gif', 'bmp'));
+		return static::validate_mimes($attribute, array('jpg', 'png', 'gif', 'bmp'));
 	}
 
 	/**
