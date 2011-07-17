@@ -52,14 +52,7 @@ class DB {
 	{
 		$query = static::connection($connection)->prepare($sql);
 
-		$bindings = array_values($bindings);
-
-		foreach ($bindings as $key => &$binding)
-		{
-			$query->bindParam($key + 1, $binding);
-		}
-
-		$result = $query->execute();
+		$result = $query->execute($bindings);
 
 		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
