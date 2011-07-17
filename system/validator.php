@@ -47,6 +47,11 @@ class Validator {
 	 */
 	public function __construct($attributes, $rules, $messages = array())
 	{
+		foreach ($rules as $key => &$rule)
+		{
+			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
+		}
+
 		$this->attributes = $attributes;
 		$this->rules = $rules;
 		$this->messages = $messages;
@@ -86,11 +91,6 @@ class Validator {
 
 		foreach ($this->rules as $attribute => $rules)
 		{
-			if (is_string($rules))
-			{
-				$rules = explode('|', $rules);
-			}
-
 			foreach ($rules as $rule)
 			{
 				$this->check($attribute, $rule);
@@ -242,7 +242,7 @@ class Validator {
 	 */
 	protected function get_size($attribute)
 	{
-		if ($this->has_numeric_rule($attribute))
+		if (is_numeric($this->attributes[$attribute]))
 		{
 			return $this->attributes[$attribute];
 		}
@@ -419,7 +419,7 @@ class Validator {
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message appropriately.
-			if (in_array($rule, $this->size_rules) and ! $this->has_numeric_rule($attribute))
+			if (in_array($rule, $this->size_rules) and ! is_numeric($this->attributes[$attribute]))
 			{
 				return (array_key_exists($attribute, $_FILES)) ? rtrim($message, '.').' kilobytes.' : rtrim($message, '.').' characters.';
 			}
@@ -455,17 +455,6 @@ class Validator {
 		}
 
 		return $message;
-	}
-
-	/**
-	 * Determine if an attribute has either a "numeric" or "integer" rule.
-	 *
-	 * @param  string  $attribute
-	 * @return bool
-	 */
-	protected function has_numeric_rule($attribute)
-	{
-		return $this->has_rule($attribute, array('numeric', 'integer'));
 	}
 
 	/**
