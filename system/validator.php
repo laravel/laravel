@@ -491,7 +491,7 @@ class Validator {
 	}
 
 	/**
-	 * Extrac the rule name and parameters from a rule.
+	 * Extract the rule name and parameters from a rule.
 	 *
 	 * @param  string  $rule
 	 * @return array
