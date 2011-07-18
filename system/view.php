@@ -17,13 +17,6 @@ class View {
 	public $data = array();
 
 	/**
-	 * The name of last rendered view.
-	 *
-	 * @var string
-	 */
-	public static $last;
-
-	/**
 	 * Create a new view instance.
 	 *
 	 * @param  string  $view
@@ -55,8 +48,6 @@ class View {
 	 */
 	public function get()
 	{
-		static::$last = $this->view;
-
 		// Get the evaluated content of all of the sub-views.
 		foreach ($this->data as &$data)
 		{
