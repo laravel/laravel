@@ -92,7 +92,7 @@ class Router {
 		// Now, to properly close the regular expression, we need to append a ")?" for each optional segment in the route.
 		if ($replacements > 0)
 		{
-			$key .= implode('', array_fill(0, $replacements, ')?'));
+			$key .= str_repeat(')?', $replacements);
 		}
 
 		return str_replace(array(':num', ':any'), array('[0-9]+', '[a-zA-Z0-9\-_]+'), $key);
