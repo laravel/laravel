@@ -69,6 +69,8 @@ class Finder {
 	{
 		$routes = array();
 
+		// Since route files can be nested deep within the route directory, we need to
+		// recursively spin through the directory to find every file.
 		$directoryIterator = new \RecursiveDirectoryIterator(APP_PATH.'routes');
 
 		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
