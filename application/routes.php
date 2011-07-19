@@ -12,6 +12,9 @@ return array(
 	|
 	| It's a breeze. Simply tell Laravel the request URIs it should respond to.
 	|
+	| Alternatively, you can organize your routes in a /routes/ subfolder.
+	| See http://laravel.com/docs/start/routes#organize for an example.
+	|
 	*/
 
 	'GET /' => function()
