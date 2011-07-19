@@ -42,7 +42,9 @@ class Finder {
 			return static::$names[$name];
 		}
 
-		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator = new \RecursiveArrayIterator(static::$routes));
+		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
+
+		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
 		foreach ($recursiveIterator as $iterator)
 		{
@@ -67,9 +69,11 @@ class Finder {
 	{
 		$routes = array();
 
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(APP_PATH.'routes'), \RecursiveIteratorIterator::SELF_FIRST);
+		$directoryIterator = new \RecursiveDirectoryIterator(APP_PATH.'routes');
 
-		foreach ($iterator as $file)
+		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+		foreach ($recursiveIterator as $file)
 		{
 			if (filetype($file) === 'file')
 			{
