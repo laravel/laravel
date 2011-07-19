@@ -12,8 +12,8 @@ return array(
 	|
 	| It's a breeze. Simply tell Laravel the request URIs it should respond to.
 	|
-	| Alternatively, you can organize your routes in a /routes/ subfolder.
-	| See http://laravel.com/docs/start/routes#organize for an example.
+	| Need more breathing room? Organize your routes in their own directory.
+	| Here's how: http://laravel.com/docs/start/routes#organize
 	|
 	*/
 
