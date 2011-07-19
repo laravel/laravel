@@ -73,7 +73,15 @@ class Router {
 	{
 		$segments = explode('/', $uri);
 
-		return (file_exists($path = APP_PATH.'routes/'.$segments[0].EXT)) ? require $path : array();
+		foreach (array_reverse($segments, true) as $key => $value)
+		{
+			if (file_exists($path = APP_PATH.'routes/'.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			{
+				return require $path;
+			}
+		}
+
+		return array();
 	}
 
 	/**
