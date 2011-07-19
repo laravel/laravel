@@ -67,12 +67,14 @@ class Finder {
 	{
 		$routes = array();
 
-		foreach (glob(APP_PATH.'routes/*') as $file)
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(APP_PATH.'routes'), \RecursiveIteratorIterator::SELF_FIRST);
+
+		foreach ($iterator as $file)
 		{
-			if (filetype($file) == 'file')
+			if (filetype($file) === 'file')
 			{
 				$routes = array_merge(require $file, $routes);
-			}			
+			}
 		}
 
 		return $routes;
