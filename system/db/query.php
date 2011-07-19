@@ -14,6 +14,13 @@ class Query {
 	private $connection;
 
 	/**
+	 * The database connection configuration.
+	 *
+	 * @var array
+	 */
+	private $config;
+
+	/**
 	 * The SELECT clause.
 	 *
 	 * @var string
@@ -512,6 +519,18 @@ class Query {
 	 */
 	public function wrap($value)
 	{
+		if (is_null($this->config))
+		{
+			$connections = Config::get('db.connections');
+
+			$this->config = $connections[$this->connection];		
+		}
+
+		if (array_key_exists('wrap', $this->config) and $this->config['wrap'] === false)
+		{
+			return $value;
+		}
+
 		$wrap = (DB::driver($this->connection) == 'mysql') ? '`' : '"';
 
 		return implode('.', array_map(function($segment) use ($wrap) {return ($segment != '*') ? $wrap.$segment.$wrap : $segment;}, explode('.', $value)));
