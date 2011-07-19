@@ -34,6 +34,9 @@ class Connector {
 			case 'mysql':
 			case 'pgsql':
 				return static::connect_to_server($config);
+			
+			case 'odbc':
+				return static::connect_to_odbc($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
@@ -45,7 +48,7 @@ class Connector {
 	 * SQLite database paths can be specified either relative to the application/db
 	 * directory, or as an absolute path to any location on the file system.
 	 *
-	 * @param  array  $config
+	 * @param  object  $config
 	 * @return PDO
 	 */
 	private static function connect_to_sqlite($config)
@@ -67,7 +70,7 @@ class Connector {
 	/**
 	 * Connect to a MySQL or PostgreSQL database server.
 	 *
-	 * @param  array  $config
+	 * @param  object  $config
 	 * @return PDO
 	 */
 	private static function connect_to_server($config)
@@ -87,6 +90,17 @@ class Connector {
 		}
 
 		return $connection;
+	}
+
+	/**
+	 * Connect to an ODBC data source.
+	 *
+	 * @param  object  $config
+	 * @return PDO
+	 */
+	private static function connect_to_odbc($config)
+	{
+		return new \PDO($config->dsn, $config->username, $config->password, static::$options);
 	}
 
 	/**
