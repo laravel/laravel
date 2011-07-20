@@ -87,7 +87,7 @@ class Hydrator {
 		// are initialized to an array and "one" relationships are initialized to null.
 		foreach ($parents as &$parent)
 		{
-			$parent->ignore[$include] = (strpos($eloquent->relating, 'has_many') === 0) ? array() : null;
+			$parent->ignore[$include] = (in_array($eloquent->relating, array('has_many', 'has_and_belongs_to_many'))) ? array() : null;
 		}
 
 		if ($eloquent->relating == 'has_one')
