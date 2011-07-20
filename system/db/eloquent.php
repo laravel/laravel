@@ -264,9 +264,11 @@ abstract class Eloquent {
 	 *
 	 * @param  string  $model
 	 * @param  string  $table
+	 * @param  string  $foreign_key
+	 * @param  string  $associated_key
 	 * @return mixed
 	 */
-	public function has_and_belongs_to_many($model, $table = null)
+	public function has_and_belongs_to_many($model, $table = null, $foreign_key = null, $associated_key = null)
 	{
 		$this->relating = __FUNCTION__;
 
@@ -283,11 +285,13 @@ abstract class Eloquent {
 			$this->relating_table = $table;
 		}
 
-		$this->relating_key = strtolower(get_class($this)).'_id';
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
+
+		$associated_key = (is_null($associated_key)) ? strtolower($model).'_id' : $associated_key;
 
 		return static::make($model)
                              ->select(array(static::table($model).'.*'))
-                             ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.strtolower($model).'_id')
+                             ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.$associated_key)
                              ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
 	}
 
