@@ -285,6 +285,8 @@ abstract class Eloquent {
 			$this->relating_table = $table;
 		}
 
+		// Allowing the overriding of the foreign and associated keys provides the flexibility for
+		// self-referential many-to-many relationships, such as a "buddy list".
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
 		$associated_key = (is_null($associated_key)) ? strtolower($model).'_id' : $associated_key;
