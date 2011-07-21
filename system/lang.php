@@ -135,4 +135,12 @@ class Lang {
 		return $this;
 	}
 
+	/**
+	 * Get the string content of the language line.
+	 */
+	public function __toString()
+	{
+		return $this->get();
+	}
+
 }
