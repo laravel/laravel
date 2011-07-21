@@ -118,7 +118,7 @@ class Validator {
 
 		// No validation will be run for attributes that do not exist unless the rule being validated
 		// is "required" or "accepted". No other rules have implicit "required" checks.
-		if ( ! array_key_exists($attribute, $this->attributes) and ! in_array($rule, array('required', 'accepted')))
+		if ( ! static::validate_required($attribute) and ! in_array($rule, array('required', 'accepted')))
 		{
 			return;
 		}
