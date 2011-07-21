@@ -47,11 +47,11 @@ class Paginator {
 	 */
 	public function __construct($results, $total, $per_page)
 	{
+		$this->page = static::page($total, $per_page);
+
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
-
-		$this->page = static::page($this->last_page());
 	}
 
 	/**
@@ -60,11 +60,14 @@ class Paginator {
 	 * The page will be validated and adjusted if it is less than 1 or
 	 * greater than the last page number.
 	 *
-	 * @param  int  $last_page
+	 * @param  int  $total
+	 * @param  int  $per_page
 	 * @return int
 	 */
-	public static function page($last_page)
+	public static function page($total, $per_page)
 	{
+		$last_page = ceil($total / $per_page);
+
 		$page = Input::get('page', 1);
 
 		if (is_numeric($page) and $page > $last_page)
