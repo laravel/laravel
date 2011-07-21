@@ -81,14 +81,15 @@ class Paginator {
 	/**
 	 * Create the HTML pagination links.
 	 *
+	 * @param  string  $language
 	 * @param  int     $adjacent
 	 * @return string
 	 */
-	public function links($adjacent = 3)
+	public function links($language = null, $adjacent = 3)
 	{
 		if ($this->last_page() > 1)
 		{
-			return '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next();
+			return '<div class="pagination">'.$this->previous($language).$this->numbers($adjacent).$this->next($language);
 		}
 
 		return '';
@@ -145,7 +146,7 @@ class Paginator {
 	 */
 	public function previous($language = null)
 	{
-		$text = Lang::line('pagination.previous')->get($language);
+		$text = Lang::line('pagination.previous')->get($language, '&laquo; Previous');
 
 		if ($this->page > 1)
 		{
@@ -163,7 +164,7 @@ class Paginator {
 	 */
 	public function next($language = null)
 	{
-		$text = Lang::line('pagination.next')->get($language);
+		$text = Lang::line('pagination.next')->get($language, 'Next &raquo;');
 
 		if ($this->page < $this->last_page())
 		{
