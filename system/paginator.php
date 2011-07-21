@@ -51,14 +51,14 @@ class Paginator {
 		$this->results = $results;
 		$this->total = $total;
 
-		// Validate and set the current page. If the given page is greater than the last page, the
-		// current page will be set to the last page. If the given page is not an integer or is less
-		// than 1, the current page will be set to 1.
 		$this->page = static::page($this->last_page());
 	}
 
 	/**
 	 * Get the current page from the request query string.
+	 *
+	 * The page will be validated and adjusted if it is less than 1 or
+	 * greater than the last page number.
 	 *
 	 * @param  int  $last_page
 	 * @return int
