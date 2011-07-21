@@ -460,7 +460,7 @@ class Query {
 		// Reset the SELECT clause so we can execute another query to get the results.
 		$this->select = null;
 
-		// Get the current page from the Paginator. The Paginator class will validate the page number.
+		// Get the current page. The Paginator class will validate the page number.
 		$page = \System\Paginator::page(ceil($total / $per_page));
 
 		return new \System\Paginator($this->skip(($page - 1) * $per_page)->take($per_page)->get(), $total, $per_page);
