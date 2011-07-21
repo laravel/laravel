@@ -50,7 +50,6 @@ class Paginator {
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
-
 		$this->page = static::page($this->last_page());
 	}
 
