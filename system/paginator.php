@@ -57,8 +57,7 @@ class Paginator {
 	/**
 	 * Get the current page from the request query string.
 	 *
-	 * The page will be validated and adjusted if it is less than 1 or
-	 * greater than the last page number.
+	 * The page will be validated and adjusted if it is less than one or greater than the last page.
 	 *
 	 * @param  int  $total
 	 * @param  int  $per_page
@@ -98,15 +97,16 @@ class Paginator {
 	/**
 	 * Generate the HTML numeric page links.
 	 *
+	 * If there are not enough pages to make it worth sliding, all of the pages will be listed.
+	 *
+	 * Note: "7" is added to the adjacent range to account for the seven constant elements
+	 * in a slider: the first and last two links, the current page, and the two "..." strings.
+	 *
 	 * @param  int     $adjacent
 	 * @return string
 	 */
-	public function numbers($adjacent = 3)
+	private function numbers($adjacent = 3)
 	{
-		// If there are not enough pages to make it worth sliding, we will show all of the pages.
-		//
-		// We add "7" for the constant elements in a slider: the first and last two links, the
-		// current page, and the two "..." strings.
 		return ($this->last_page() < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page()) : $this->slider($adjacent);
 	}
 
@@ -116,18 +116,16 @@ class Paginator {
 	 * @param  int     $adjacent
 	 * @return string
 	 */
-	protected function slider($adjacent)
+	private function slider($adjacent)
 	{
 		$pagination = '';
 
 		if ($this->page <= $adjacent * 2)
 		{
-			// Buffer the current page with four pages to the right. Any more pages will interfere with hiding.
 			$pagination .= $this->range(1, 4 + ($adjacent * 2)).$this->ending();
 		}
 		elseif ($this->page >= $this->last_page() - ($adjacent * 2))
 		{
-			// Buffer with at least two pages to the left of the current page.
 			$pagination .= $this->beginning().$this->range($this->last_page() - 2 - ($adjacent * 2), $this->last_page());
 		}
 		else
@@ -179,7 +177,7 @@ class Paginator {
 	 *
 	 * @return string
 	 */
-	protected function beginning()
+	private function beginning()
 	{
 		return $this->range(1, 2).'<span class="dots">...</span>';
 	}
@@ -189,7 +187,7 @@ class Paginator {
 	 *
 	 * @return string
 	 */
-	protected function ending()
+	private function ending()
 	{
 		return '<span class="dots">...</span>'.$this->range($this->last_page() - 1, $this->last_page());
 	}
@@ -199,7 +197,7 @@ class Paginator {
 	 *
 	 * @return int
 	 */
-	protected function last_page()
+	private function last_page()
 	{
 		return ceil($this->total / $this->per_page);
 	}
@@ -213,7 +211,7 @@ class Paginator {
 	 * @param  int  $end
 	 * @return string
 	 */
-	protected function range($start, $end)
+	private function range($start, $end)
 	{
 		$pages = '';
 
