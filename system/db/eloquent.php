@@ -194,7 +194,7 @@ abstract class Eloquent {
 		{
 			if ( ! property_exists(get_class($this), 'per_page'))
 			{
-				throw new \Exception("The number of models to display per page has not been specified.");
+				throw new \Exception("The number of models to display per page for model [".get_class($this)."] has not been specified.");
 			}
 
 			$per_page = static::$per_page;
