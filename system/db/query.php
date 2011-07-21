@@ -430,7 +430,14 @@ class Query {
 			$this->select($columns);
 		}
 
-		return DB::query(Query\Compiler::select($this), $this->bindings, $this->connection);
+		$results = DB::query(Query\Compiler::select($this), $this->bindings, $this->connection);
+
+		// Reset the SELECT clause so more queries can be performed using the same instance.
+		// This is helpful for performing counts and then getting actual results, such as
+		// when paginating results.
+		$this->select = null;
+
+		return $results;
 	}
 
 	/**
@@ -457,13 +464,21 @@ class Query {
 	{
 		$total = $this->count();
 
-		// Reset the SELECT clause so we can execute another query to get the results.
-		$this->select = null;
-
-		// Get the current page. The Paginator class will validate the page number.
 		$page = \System\Paginator::page(ceil($total / $per_page));
 
-		return new \System\Paginator($this->skip(($page - 1) * $per_page)->take($per_page)->get(), $total, $per_page);
+		return new \System\Paginator($this->for_page($page, $per_page)->get(), $total, $per_page);
+	}
+
+	/**
+	 * Set the LIMIT and OFFSET values for a given page.
+	 *
+	 * @param  int    $page
+	 * @param  int    $per_page
+	 * @return Query
+	 */
+	public function for_page($page, $per_page)
+	{
+		return $this->skip(($page - 1) * $per_page)->take($per_page);
 	}
 
 	/**
