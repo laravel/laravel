@@ -1,8 +1,8 @@
 <?php namespace System\DB;
 
 use System\DB;
-use System\Config;
 use System\Str;
+use System\Config;
 
 class Query {
 
@@ -445,6 +445,25 @@ class Query {
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
 
 		return $this->first()->aggregate;
+	}
+
+	/**
+	 * Get paginated query results.
+	 *
+	 * @param  int        $per_page
+	 * @return Paginator
+	 */
+	public function paginate($per_page)
+	{
+		$total = $this->count();
+
+		// Reset the SELECT clause so we can execute another query to get the results.
+		$this->select = null;
+
+		// Get the current page from the Paginator. The Paginator class will validate the page number.
+		$page = \System\Paginator::page(ceil($total / $per_page));
+
+		return new \System\Paginator($this->skip(($page - 1) * $per_page)->take($per_page)->get(), $total, $per_page);
 	}
 
 	/**
