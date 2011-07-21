@@ -50,6 +50,7 @@ class Paginator {
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
+
 		$this->page = static::page($this->last_page());
 	}
 
@@ -136,33 +137,37 @@ class Paginator {
 	/**
 	 * Generate the "previous" HTML link.
 	 *
-	 * @param  string  $value
+	 * @param  string  $language
 	 * @return string
 	 */
-	public function previous($value = '&laquo; Previous')
+	public function previous($language = null)
 	{
+		$text = Lang::line('pagination.previous')->get($language);
+
 		if ($this->page > 1)
 		{
-			return HTML::link(Request::uri().'?page='.($this->page - 1), $value, array('class' => 'prev_page')).' ';
+			return HTML::link(Request::uri().'?page='.($this->page - 1), $text, array('class' => 'prev_page')).' ';
 		}
 
-		return HTML::span($value, array('class' => 'disabled prev_page')).' ';
+		return HTML::span($text, array('class' => 'disabled prev_page')).' ';
 	}
 
 	/**
 	 * Generate the "next" HTML link.
 	 *
-	 * @param  string  $value
+	 * @param  string  $language
 	 * @return string
 	 */
-	public function next($value = 'Next &raquo;')
+	public function next($language = null)
 	{
+		$text = Lang::line('pagination.next')->get($language);
+
 		if ($this->page < $this->last_page())
 		{
-			return HTML::link(Request::uri().'?page='.($this->page + 1), $value, array('class' => 'next_page'));
+			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'));
 		}
 
-		return HTML::span($value, array('class' => 'disabled next_page'));
+		return HTML::span($text, array('class' => 'disabled next_page'));
 	}
 
 	/**
