@@ -52,11 +52,12 @@ class Errors {
 	 * Get the first error message for an attribute.
 	 *
 	 * @param  string  $attribute
+	 * @param  string  $format
 	 * @return string
 	 */
-	public function first($attribute)
+	public function first($attribute, $format = ':message')
 	{
-		return (count($messages = $this->get($attribute)) > 0) ? $messages[0] : '';
+		return (count($messages = $this->get($attribute, $format)) > 0) ? $messages[0] : '';
 	}
 
 	/**
