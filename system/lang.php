@@ -32,23 +32,26 @@ class Lang {
 	 * "messages.required" language line would return the "required" line
 	 * from the "messages" language file.	 
 	 *
-	 * @param  string  $line
+	 * @param  string  $key
+	 * @param  array   $replacements
 	 * @return void
 	 */
-	public function __construct($key)
+	public function __construct($key, $replacements = array())
 	{
 		$this->key = $key;
+		$this->replacements = $replacements;
 	}
 
 	/**
 	 * Create a Lang instance for a language line.
 	 *
 	 * @param  string  $key
+	 * @param  array   $replacements
 	 * @return Lang
 	 */
-	public static function line($key)
+	public static function line($key, $replacements = array())
 	{
-		return new static($key);
+		return new static($key, $replacements);
 	}
 
 	/**
