@@ -200,9 +200,9 @@ abstract class Eloquent {
 			$per_page = static::$per_page;
 		}
 
-		$page = \System\Paginator::page(ceil($total / $per_page));
+		$current_page = \System\Paginator::page($total, $per_page);
 
-		return new \System\Paginator($this->for_page($page, $per_page)->get(), $total, $per_page);
+		return new \System\Paginator($this->for_page($current_page, $per_page)->get(), $total, $per_page);
 	}
 
 	/**
