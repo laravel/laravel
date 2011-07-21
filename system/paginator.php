@@ -180,7 +180,7 @@ class Paginator {
 	 */
 	protected function beginning()
 	{
-		return $this->range(1, 2).' ... ';
+		return $this->range(1, 2).'<span class="dots">...</span>';
 	}
 
 	/**
@@ -190,7 +190,7 @@ class Paginator {
 	 */
 	protected function ending()
 	{
-		return ' ... '.$this->range($this->last_page() - 1, $this->last_page());
+		return '<span class="dots">...</span>'.$this->range($this->last_page() - 1, $this->last_page());
 	}
 
 	/**
