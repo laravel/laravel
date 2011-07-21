@@ -181,6 +181,31 @@ abstract class Eloquent {
 	}
 
 	/**
+	 * Get paginated model results.
+	 *
+	 * @param  int        $per_page
+	 * @return Paginator
+	 */
+	private function _paginate($per_page = null)
+	{
+		$total = $this->query->count();
+
+		if (is_null($per_page))
+		{
+			if ( ! property_exists(get_class($this), 'per_page'))
+			{
+				throw new \Exception("The number of models to display per page has not been specified.");
+			}
+
+			$per_page = static::$per_page;
+		}
+
+		$page = \System\Paginator::page(ceil($total / $per_page));
+
+		return new \System\Paginator($this->for_page($page, $per_page)->get(), $total, $per_page);
+	}
+
+	/**
 	 * Retrieve the query for a 1:1 relationship.
 	 *
 	 * @param  string  $model
@@ -190,6 +215,7 @@ abstract class Eloquent {
 	public function has_one($model, $foreign_key = null)
 	{
 		$this->relating = __FUNCTION__;
+
 		return $this->has_one_or_many($model, $foreign_key);
 	}
 
@@ -203,6 +229,7 @@ abstract class Eloquent {
 	public function has_many($model, $foreign_key = null)
 	{
 		$this->relating = __FUNCTION__;
+
 		return $this->has_one_or_many($model, $foreign_key);
 	}
 
@@ -417,14 +444,11 @@ abstract class Eloquent {
 	 */
 	public function __call($method, $parameters)
 	{
-		if ($method == 'get')
+		if (in_array($method, array('get', 'first', 'paginate')))
 		{
-			return $this->_get();
-		}
+			$method = '_'.$method;
 
-		if ($method == 'first')
-		{
-			return $this->_first();
+			return $this->$method();
 		}
 
 		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
@@ -446,14 +470,16 @@ abstract class Eloquent {
 	{
 		$model = static::make(get_called_class());
 
-		if ($method == 'get' or $method == 'all')
+		if ($method == 'all')
 		{
 			return $model->_get();
 		}
 
-		if ($method == 'first')
+		if (in_array($method, array('get', 'first', 'paginate')))
 		{
-			return $model->_first();
+			$method = '_'.$method;
+
+			return $model->$method();
 		}
 
 		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
