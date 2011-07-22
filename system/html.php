@@ -71,9 +71,22 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function link_to_asset($url, $title, $attributes = array())
+	public static function link_to_asset($url, $title, $attributes = array(), $https = false)
 	{
-		return static::link($url, $title, $attributes, false, true);
+		return static::link($url, $title, $attributes, $https, true);
+	}
+
+	/**
+	 * Generate an HTTPS HTML link to an asset.
+	 *
+	 * @param  string  $url
+	 * @param  string  $title
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_secure_asset($url, $title, $attributes = array())
+	{
+		return static::link_to_asset($url, $title, $attributes, true);
 	}
 
 	/**
