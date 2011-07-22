@@ -15,11 +15,12 @@ class Form {
 	 * @param  string  $action
 	 * @param  string  $method
 	 * @param  array   $attributes
+	 * @param  bool    $https
 	 * @return string
 	 */	
-	public static function open($action = null, $method = 'POST', $attributes = array())
+	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
-		$attributes['action'] = HTML::entities(URL::to((is_null($action)) ? Request::uri() : $action));
+		$attributes['action'] = HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
 
 		// If the request method is PUT or DELETE, we'll default the request method to POST
 		// since the request method is being spoofed by the form.
@@ -43,18 +44,45 @@ class Form {
 	}
 
 	/**
+	 * Open a HTML form with a HTTPS action.
+	 *
+	 * @param  string  $action
+	 * @param  string  $method
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function open_secure($action = null, $method = 'POST', $attributes = array())
+	{
+		return static::open($action, $method, $attributes, true);
+	}
+
+	/**
 	 * Open a HTML form that accepts file uploads.
+	 *
+	 * @param  string  $action
+	 * @param  string  $method
+	 * @param  array   $attributes
+	 * @param  bool    $https
+	 * @return string
+	 */	
+	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
+	{
+		$attributes['enctype'] = 'multipart/form-data';
+
+		return static::open($action, $method, $attributes, $https);
+	}
+
+	/**
+	 * Open a HTML form that accepts file uploads with a HTTPS action.
 	 *
 	 * @param  string  $action
 	 * @param  string  $method
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function open_for_files($action = null, $method = 'POST', $attributes = array())
+	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
 	{
-		$attributes['enctype'] = 'multipart/form-data';
-
-		return static::open($action, $method, $attributes);
+		return static::open_for_files($action, $method, $attributes, true);
 	}
 
 	/**
