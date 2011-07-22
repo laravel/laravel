@@ -62,12 +62,10 @@ class Paginator {
 	public function __construct($results, $total, $per_page)
 	{
 		$this->page = static::page($total, $per_page);
-
+		$this->last_page = ceil($total / $per_page);
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
-
-		$this->last_page = ceil($total / $per_page);
 	}
 
 	/**
