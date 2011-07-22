@@ -31,6 +31,13 @@ class Validator {
 	public $errors;
 
 	/**
+	 * The language that should be used when retrieving error messages.
+	 *
+	 * @var string
+	 */
+	public $lang;
+
+	/**
 	 * The "size" related validation rules.
 	 *
 	 * @var array
@@ -425,15 +432,15 @@ class Validator {
 		}
 		else
 		{
-			$message = Lang::line('validation.'.$rule)->get();
+			$message = Lang::line('validation.'.$rule)->get($this->language);
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message appropriately.
 			if (in_array($rule, $this->size_rules) and ! is_numeric($this->attributes[$attribute]))
 			{
 				return (array_key_exists($attribute, $_FILES))
-                                                 ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get().'.'
-                                                 : rtrim($message, '.').' '.Lang::line('validation.characters')->get().'.';
+                                                 ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
+                                                 : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
 			}
 
 			return $message;
@@ -451,7 +458,7 @@ class Validator {
 	 */
 	protected function format_message($message, $attribute, $rule, $parameters)
 	{
-		$display = Lang::line('attributes.'.$attribute)->get(null, function() use ($attribute) { return str_replace('_', ' ', $attribute); });
+		$display = Lang::line('attributes.'.$attribute)->get($this->language, function() use ($attribute) { return str_replace('_', ' ', $attribute); });
 
 		$message = str_replace(':attribute', $display, $message);
 
@@ -502,6 +509,18 @@ class Validator {
 		$parameters = (($colon = strpos($rule, ':')) !== false) ? explode(',', substr($rule, $colon + 1)) : array();
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
+	}
+
+	/**
+	 * Set the language that should be used when retrieving error messages.
+	 *
+	 * @param  string     $langauge
+	 * @return Validator
+	 */
+	public function lang($language)
+	{
+		$this->language = $language;
+		return $this;
 	}
 
 }
