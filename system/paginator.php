@@ -72,11 +72,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$last_page = ceil($total / $per_page);
-
-		$page = Input::get('page', 1);
-
-		if (is_numeric($page) and $page > $last_page)
+		if (is_numeric($page = Input::get('page', 1)) and $page > $last_page = ceil($total / $per_page))
 		{
 			return $last_page;
 		}
@@ -92,12 +88,7 @@ class Paginator {
 	 */
 	public function links($adjacent = 3)
 	{
-		if ($this->last_page() > 1)
-		{
-			return '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next();
-		}
-
-		return '';
+		return ($this->last_page() > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next() : '';
 	}
 
 	/**
@@ -124,22 +115,18 @@ class Paginator {
 	 */
 	private function slider($adjacent)
 	{
-		$pagination = '';
-
 		if ($this->page <= $adjacent * 2)
 		{
-			$pagination .= $this->range(1, 4 + ($adjacent * 2)).$this->ending();
+			return $this->range(1, 4 + ($adjacent * 2)).$this->ending();
 		}
 		elseif ($this->page >= $this->last_page() - ($adjacent * 2))
 		{
-			$pagination .= $this->beginning().$this->range($this->last_page() - 2 - ($adjacent * 2), $this->last_page());
+			return $this->beginning().$this->range($this->last_page() - 2 - ($adjacent * 2), $this->last_page());
 		}
 		else
 		{
-			$pagination .= $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
+			return $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
 		}
-
-		return $pagination;
 	}
 
 	/**
