@@ -97,7 +97,7 @@ class Paginator {
 	 */
 	public function links($adjacent = 3)
 	{
-		return ($this->last_page > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next() : '';
+		return ($this->last_page > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>' : '';
 	}
 
 	/**
