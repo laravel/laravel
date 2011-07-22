@@ -38,13 +38,6 @@ class Paginator {
 	public $last_page;
 
 	/**
-	 * The language being used by the paginator.
-	 *
-	 * @var string
-	 */
-	public $language;
-
-	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
@@ -138,7 +131,7 @@ class Paginator {
 	 */
 	public function previous()
 	{
-		$text = Lang::line('pagination.previous')->get($this->language);
+		$text = Lang::line('pagination.previous')->get();
 
 		if ($this->page > 1)
 		{
@@ -155,7 +148,7 @@ class Paginator {
 	 */
 	public function next()
 	{
-		$text = Lang::line('pagination.next')->get($this->language);
+		$text = Lang::line('pagination.next')->get();
 
 		if ($this->page < $this->last_page)
 		{
@@ -204,18 +197,6 @@ class Paginator {
 		}
 
 		return $pages;
-	}
-
-	/**
-	 * Set the paginator language.
-	 *
-	 * @param  string     $language
-	 * @return Paginator
-	 */
-	public function lang($language)
-	{
-		$this->language = $language;
-		return $this;
 	}
 
 }
