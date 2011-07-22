@@ -51,7 +51,7 @@ class Request {
 			$uri = substr($uri, strlen($index));
 		}
 
-		return (($uri = trim($uri, '/')) == '') ? '/' : strtolower($uri);
+		return (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
 
 	/**
