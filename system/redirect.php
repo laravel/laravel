@@ -27,7 +27,7 @@ class Redirect {
 	 * @param  string    $method
 	 * @param  int       $status
 	 * @param  bool      $https
-	 * @return Response
+	 * @return Redirect
 	 */
 	public static function to($url, $method = 'location', $status = 302, $https = false)
 	{
