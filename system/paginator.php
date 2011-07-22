@@ -93,8 +93,8 @@ class Paginator {
 	 *
 	 * If there are not enough pages to make it worth sliding, all of the pages will be listed.
 	 *
-	 * Note: "7" is added to the adjacent range to account for the seven constant elements
-	 * in a slider: the first and last two links, the current page, and the two "..." strings.
+	 * Note: "7" is added to the adjacent range to account for the seven constant elements in a
+	 *       slider: the first and last two links, the current page, and the two "..." strings.
 	 *
 	 * @param  int     $adjacent
 	 * @return string
