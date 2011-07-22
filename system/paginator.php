@@ -59,6 +59,8 @@ class Paginator {
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
+
+		$this->last_page = ceil($total / $per_page);
 	}
 
 	/**
@@ -88,7 +90,7 @@ class Paginator {
 	 */
 	public function links($adjacent = 3)
 	{
-		return ($this->last_page() > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next() : '';
+		return ($this->last_page > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next() : '';
 	}
 
 	/**
@@ -104,7 +106,7 @@ class Paginator {
 	 */
 	private function numbers($adjacent = 3)
 	{
-		return ($this->last_page() < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page()) : $this->slider($adjacent);
+		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 	}
 
 	/**
@@ -119,9 +121,9 @@ class Paginator {
 		{
 			return $this->range(1, 4 + ($adjacent * 2)).$this->ending();
 		}
-		elseif ($this->page >= $this->last_page() - ($adjacent * 2))
+		elseif ($this->page >= $this->last_page - ($adjacent * 2))
 		{
-			return $this->beginning().$this->range($this->last_page() - 2 - ($adjacent * 2), $this->last_page());
+			return $this->beginning().$this->range($this->last_page - 2 - ($adjacent * 2), $this->last_page);
 		}
 		else
 		{
@@ -155,7 +157,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.next')->get($this->language);
 
-		if ($this->page < $this->last_page())
+		if ($this->page < $this->last_page)
 		{
 			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'));
 		}
@@ -180,17 +182,7 @@ class Paginator {
 	 */
 	private function ending()
 	{
-		return '<span class="dots">...</span>'.$this->range($this->last_page() - 1, $this->last_page());
-	}
-
-	/**
-	 * Calculate the last page based on the last page and the items per page.
-	 *
-	 * @return int
-	 */
-	private function last_page()
-	{
-		return ceil($this->total / $this->per_page);
+		return '<span class="dots">...</span>'.$this->range($this->last_page - 1, $this->last_page);
 	}
 
 	/**
