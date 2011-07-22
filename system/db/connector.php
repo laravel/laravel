@@ -35,8 +35,8 @@ class Connector {
 			case 'pgsql':
 				return static::connect_to_server($config);
 			
-			case 'odbc':
-				return static::connect_to_odbc($config);
+			default:
+				return static::connect_to_generic($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
@@ -93,14 +93,14 @@ class Connector {
 	}
 
 	/**
-	 * Connect to an ODBC data source.
+	 * Connect to a generic data source.
 	 *
 	 * @param  object  $config
 	 * @return PDO
 	 */
-	private static function connect_to_odbc($config)
+	private static function connect_to_generic($config)
 	{
-		return new \PDO($config->dsn, $config->username, $config->password, static::$options);
+		return new \PDO($config->driver.':'.$config->dsn, $config->username, $config->password, static::$options);
 	}
 
 	/**
