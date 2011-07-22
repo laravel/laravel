@@ -67,7 +67,9 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		if (is_numeric($page = Input::get('page', 1)) and $page > $last_page = ceil($total / $per_page))
+		$page = Input::get('page', 1);
+
+		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
 		{
 			return $last_page;
 		}
