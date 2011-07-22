@@ -80,11 +80,11 @@ class Paginator {
 	/**
 	 * Create the HTML pagination links.
 	 *
-	 * @param  string  $language
 	 * @param  int     $adjacent
+	 * @param  string  $language
 	 * @return string
 	 */
-	public function links($language = null, $adjacent = 3)
+	public function links($adjacent = 3, $language = null)
 	{
 		if ($this->last_page() > 1)
 		{
