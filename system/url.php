@@ -19,6 +19,8 @@ class URL {
 
 		$base = Config::get('application.url');
 
+		// If the URL is being generated for a public asset such as an
+		// image, we do not want to include "index.php" in the path.
 		if ( ! $asset)
 		{
 			$base .= '/'.Config::get('application.index');
