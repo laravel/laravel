@@ -137,7 +137,17 @@ class Validator {
 	 */
 	protected function validate_required($attribute)
 	{
-		return array_key_exists($attribute, $this->attributes) and trim($this->attributes[$attribute]) !== '';
+		if ( ! array_key_exists($attribute, $this->attributes))
+		{
+			return false;
+		}
+
+		if (is_string($this->attributes[$attribute]) and trim($this->attributes[$attribute]) === '')
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
