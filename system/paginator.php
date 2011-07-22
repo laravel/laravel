@@ -38,6 +38,20 @@ class Paginator {
 	public $last_page;
 
 	/**
+	 * The language that should be used when generating page links.
+	 *
+	 * @var string
+	 */
+	public $language;
+
+	/**
+	 * Indicates if HTTPS links should be generated.
+	 *
+	 * @var bool
+	 */
+	public $https = false;
+
+	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
@@ -128,11 +142,11 @@ class Paginator {
 	 */
 	public function previous()
 	{
-		$text = Lang::line('pagination.previous')->get();
+		$text = Lang::line('pagination.previous')->get($this->language);
 
 		if ($this->page > 1)
 		{
-			return HTML::link(Request::uri().'?page='.($this->page - 1), $text, array('class' => 'prev_page')).' ';
+			return HTML::link(Request::uri().'?page='.($this->page - 1), $text, array('class' => 'prev_page'), $this->https).' ';
 		}
 
 		return "<span class=\"disabled prev_page\">$text</span> ";
@@ -145,11 +159,11 @@ class Paginator {
 	 */
 	public function next()
 	{
-		$text = Lang::line('pagination.next')->get();
+		$text = Lang::line('pagination.next')->get($this->language);
 
 		if ($this->page < $this->last_page)
 		{
-			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'));
+			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'), $this->https);
 		}
 
 		return "<span class=\"disabled next_page\">$text</span>";
@@ -190,10 +204,33 @@ class Paginator {
 
 		for ($i = $start; $i <= $end; $i++)
 		{
-			$pages .= ($this->page == $i) ? "<span class=\"current\">$i</span> " : HTML::link(Request::uri().'?page='.$i, $i).' ';
+			$pages .= ($this->page == $i) ? "<span class=\"current\">$i</span> " : HTML::link(Request::uri().'?page='.$i, $i, array(), $this->https).' ';
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Set the language that should be used when generating pagination links.
+	 *
+	 * @param  string     $language
+	 * @return Paginator
+	 */
+	public function lang($language)
+	{
+		$this->language = $language;
+		return $this;
+	}
+
+	/**
+	 * Force the pagination links to use HTTPS.
+	 *
+	 * @return Paginator
+	 */
+	public function secure()
+	{
+		$this->https = true;
+		return $this;
 	}
 
 }
