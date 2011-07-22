@@ -195,13 +195,13 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private static function list_elements($type, $list, $attributes)
+	private static function list_elements($type, $list, $attributes = array())
 	{
 		$html = '';
 
 		foreach ($list as $key => $value)
 		{
-			$html .= '<li>'.static::entities($value).'</li>';
+			$html .= (is_array($value)) ? static::list_elements($type, $value) : '<li>'.static::entities($value).'</li>';
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
