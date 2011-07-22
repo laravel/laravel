@@ -514,7 +514,7 @@ class Validator {
 	/**
 	 * Set the language that should be used when retrieving error messages.
 	 *
-	 * @param  string     $langauge
+	 * @param  string     $language
 	 * @return Validator
 	 */
 	public function lang($language)
