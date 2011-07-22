@@ -124,18 +124,6 @@ class Lang {
 	}
 
 	/**
-	 * Set the place-holder replacements.
-	 *
-	 * @param  array  $replacements
-	 * @return Lang 
-	 */
-	public function replace($replacements)
-	{
-		$this->replacements = $replacements;
-		return $this;
-	}
-
-	/**
 	 * Get the string content of the language line.
 	 */
 	public function __toString()
