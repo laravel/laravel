@@ -35,7 +35,7 @@ class Validator {
 	 *
 	 * @var string
 	 */
-	public $lang;
+	public $language;
 
 	/**
 	 * The "size" related validation rules.
