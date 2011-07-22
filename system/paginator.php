@@ -38,6 +38,13 @@ class Paginator {
 	public $last_page;
 
 	/**
+	 * The language being used by the paginator.
+	 *
+	 * @var string
+	 */
+	public $language;
+
+	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
@@ -81,14 +88,13 @@ class Paginator {
 	 * Create the HTML pagination links.
 	 *
 	 * @param  int     $adjacent
-	 * @param  string  $language
 	 * @return string
 	 */
-	public function links($adjacent = 3, $language = null)
+	public function links($adjacent = 3)
 	{
 		if ($this->last_page() > 1)
 		{
-			return '<div class="pagination">'.$this->previous($language).$this->numbers($adjacent).$this->next($language);
+			return '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next();
 		}
 
 		return '';
@@ -139,12 +145,11 @@ class Paginator {
 	/**
 	 * Generate the "previous" HTML link.
 	 *
-	 * @param  string  $language
 	 * @return string
 	 */
-	public function previous($language = null)
+	public function previous()
 	{
-		$text = Lang::line('pagination.previous')->get($language, '&laquo; Previous');
+		$text = Lang::line('pagination.previous')->get($this->language);
 
 		if ($this->page > 1)
 		{
@@ -157,12 +162,11 @@ class Paginator {
 	/**
 	 * Generate the "next" HTML link.
 	 *
-	 * @param  string  $language
 	 * @return string
 	 */
-	public function next($language = null)
+	public function next()
 	{
-		$text = Lang::line('pagination.next')->get($language, 'Next &raquo;');
+		$text = Lang::line('pagination.next')->get($this->language);
 
 		if ($this->page < $this->last_page())
 		{
@@ -221,6 +225,18 @@ class Paginator {
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Set the paginator language.
+	 *
+	 * @param  string     $language
+	 * @return Paginator
+	 */
+	public function lang($language)
+	{
+		$this->language = $language;
+		return $this;
 	}
 
 }
