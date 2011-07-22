@@ -2,6 +2,12 @@
 
 return array(
 
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Error Messages
+	|--------------------------------------------------------------------------
+	*/
+
 	"accepted"   => "The :attribute must be accepted.",
 	"active_url" => "The :attribute does not exist.",
 	"alpha"      => "The :attribute may only contain letters.",
@@ -22,5 +28,15 @@ return array(
 	"size"       => "The :attribute must be :size.",
 	"unique"     => "The :attribute has already been taken.",
 	"url"        => "The :attribute format is invalid.",	
+
+	/*
+	|--------------------------------------------------------------------------
+	| The following words are appended to the "size" messages when applicable,
+	| such as when validating string lengths or the size of file uploads.
+	|--------------------------------------------------------------------------
+	*/
+
+	"characters" => "characters",
+	"kilobytes"  => "kilobytes",
 
 );

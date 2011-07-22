@@ -431,7 +431,9 @@ class Validator {
 			// the default error message appropriately.
 			if (in_array($rule, $this->size_rules) and ! is_numeric($this->attributes[$attribute]))
 			{
-				return (array_key_exists($attribute, $_FILES)) ? rtrim($message, '.').' kilobytes.' : rtrim($message, '.').' characters.';
+				return (array_key_exists($attribute, $_FILES))
+                                                 ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get().'.'
+                                                 : rtrim($message, '.').' '.Lang::line('validation.characters')->get().'.';
 			}
 
 			return $message;
