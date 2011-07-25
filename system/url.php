@@ -54,7 +54,7 @@ class URL {
 	 */
 	public static function to_asset($url = '')
 	{
-		return static::to($url, false, true);
+		return static::to($url, Request::is_secure(), true);
 	}
 
 	/**
