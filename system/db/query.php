@@ -466,7 +466,7 @@ class Query {
 
 		$current_page = \System\Paginator::page($total, $per_page);
 
-		return new \System\Paginator($this->for_page($current_page, $per_page)->get(), $total, $per_page);
+		return \System\Paginator::make($this->for_page($current_page, $per_page)->get(), $total, $per_page);
 	}
 
 	/**
