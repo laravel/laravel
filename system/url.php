@@ -21,8 +21,10 @@ class URL {
 
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
+		// If the URL is to an asset such as an image, we do not need to go through the front controller.
 		$base = ($asset) ? str_replace('/'.Config::get('application.index'), '', $base) : $base;
 
+		// If the resource should be accessed over HTTPS, change the protocol in the URL.
 		$base = ($https and strpos($base, 'http://') === 0) ? 'https://'.substr($base, 7) : $base;
 
 		return $base.'/'.ltrim($url, '/');
