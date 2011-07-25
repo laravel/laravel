@@ -188,6 +188,16 @@ class Paginator {
 	}
 
 	/**
+	 * Determine the last page number based on the total pages and per page limit.
+	 *
+	 * @return int
+	 */
+	private function last_page()
+	{
+		return ceil($this->total / $this->per_page);
+	}
+
+	/**
 	 * Build a range of page links. 
 	 *
 	 * For the current page, an HTML span element will be generated instead of a link.
@@ -206,16 +216,6 @@ class Paginator {
 		}
 
 		return $pages;
-	}
-
-	/**
-	 * Determine the last page number based on the total pages and per page limit.
-	 *
-	 * @return int
-	 */
-	private function last_page()
-	{
-		return ceil($this->total / $this->per_page);
 	}
 
 	/**
