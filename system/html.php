@@ -36,6 +36,18 @@ class HTML {
 	}
 
 	/**
+	 * Generate a HTML span.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function span($value, $attributes = array())
+	{
+		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
+	}
+
+	/**
 	 * Generate a HTML link.
 	 *
 	 * @param  string  $url
