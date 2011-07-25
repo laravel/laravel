@@ -9,9 +9,10 @@ class URL {
 	 *
 	 * @param  string  $url
 	 * @param  bool    $https
+	 * @param  bool    $asset
 	 * @return string
 	 */
-	public static function to($url = '', $https = false)
+	public static function to($url = '', $https = false, $asset = false)
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false)
 		{
@@ -20,10 +21,9 @@ class URL {
 
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
-		if ($https and strpos($base, 'http://') === 0)
-		{
-			$base = 'https://'.substr($base, 7);
-		}
+		$base = ($asset) ? str_replace('/'.Config::get('application.index'), '', $base) : $base;
+
+		$base = ($https and strpos($base, 'http://') === 0) ? 'https://'.substr($base, 7) : $base;
 
 		return $base.'/'.ltrim($url, '/');
 	}
@@ -48,7 +48,7 @@ class URL {
 	 */
 	public static function to_asset($url)
 	{
-		return str_replace('/'.Config::get('application.index'), '', static::to($url, Request::is_secure()));
+		return static::to($url, Request::is_secure(), true);
 	}
 
 	/**
