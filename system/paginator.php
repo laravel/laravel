@@ -110,8 +110,6 @@ class Paginator {
 	 */
 	private function numbers($adjacent = 3)
 	{
-		// "7" is added to the adjacent range to account for the seven constant elements
-		// in a slider: the first and last two links, the current page, and the two "..." strings.
 		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 	}
 
@@ -125,7 +123,7 @@ class Paginator {
 	{
 		if ($this->page <= $adjacent * 2)
 		{
-			return $this->range(1, 4 + ($adjacent * 2)).$this->ending();
+			return $this->range(1, 2 + ($adjacent * 2)).$this->ending();
 		}
 		elseif ($this->page >= $this->last_page - ($adjacent * 2))
 		{
@@ -144,12 +142,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.previous')->get($this->language);
 
-		if ($this->page > 1)
-		{
-			return HTML::link(Request::uri().'?page='.($this->page - 1), $text, array('class' => 'prev_page'), $this->https).' ';
-		}
-
-		return "<span class=\"disabled prev_page\">$text</span> ";
+		return ($this->page > 1) ? $this->link($this->page - 1, $text, 'prev_page').' ' : HTML::span($text, array('class' => 'disabled prev_page')).' ';
 	}
 
 	/**
@@ -161,12 +154,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.next')->get($this->language);
 
-		if ($this->page < $this->last_page)
-		{
-			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'), $this->https);
-		}
-
-		return "<span class=\"disabled next_page\">$text</span>";
+		return ($this->page < $this->last_page) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page')).' ';
 	}
 
 	/**
@@ -176,7 +164,7 @@ class Paginator {
 	 */
 	private function beginning()
 	{
-		return $this->range(1, 2).'<span class="dots">...</span> ';
+		return $this->range(1, 2).$this->dots();
 	}
 
 	/**
@@ -186,7 +174,30 @@ class Paginator {
 	 */
 	private function ending()
 	{
-		return '<span class="dots">...</span> '.$this->range($this->last_page - 1, $this->last_page);
+		return $this->dots().$this->range($this->last_page - 1, $this->last_page);
+	}
+
+	/**
+	 * Create a HTML page link.
+	 *
+	 * @param  int     $page
+	 * @param  string  $text
+	 * @param  string  $attributes
+	 * @return string
+	 */
+	private function link($page, $text, $class)
+	{
+		return HTML::link(Request::uri().'?page='.$page, $text, array('class' => $class), $this->https);
+	}
+
+	/**
+	 * Build a "dots" HTML span element.
+	 *
+	 * @return string
+	 */
+	private function dots()
+	{
+		return HTML::span('...', array('class' => 'dots')).' ';
 	}
 
 	/**
@@ -204,7 +215,7 @@ class Paginator {
 
 		for ($i = $start; $i <= $end; $i++)
 		{
-			$pages .= ($this->page == $i) ? "<span class=\"current\">$i</span> " : HTML::link(Request::uri().'?page='.$i, $i, array(), $this->https).' ';
+			$pages .= ($this->page == $i) ? HTML::span($i, array('class' => 'current')).' ' : $this->link($i, $i, null).' ';
 		}
 
 		return $pages;
