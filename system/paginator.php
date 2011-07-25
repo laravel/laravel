@@ -31,6 +31,13 @@ class Paginator {
 	public $per_page;
 
 	/**
+	 * The last page available for the result set.
+	 *
+	 * @var int
+	 */
+	public $last_page;
+
+	/**
 	 * The language that should be used when generating page links.
 	 *
 	 * @var string
@@ -41,22 +48,40 @@ class Paginator {
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
+	 * @param  int    $page
 	 * @param  int    $total
 	 * @param  int    $per_page
+	 * @param  int    $last_page
 	 * @return void
 	 */
-	public function __construct($results, $total, $per_page)
+	public function __construct($results, $page, $total, $per_page, $last_page)
 	{
-		$this->page = static::page($total, $per_page);
+		$this->last_page = $last_page;
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
+		$this->page = $page;
+	}
+
+	/**
+	 * Create a new Paginator instance.
+	 *
+	 * @param  array      $results
+	 * @param  int        $total
+	 * @param  int        $per_page
+	 * @return Paginator
+	 */
+	public static function make($results, $total, $per_page)
+	{
+		return new static($results, static::page($total, $per_page), $total, $per_page, ceil($total / $per_page));
 	}
 
 	/**
 	 * Get the current page from the request query string.
 	 *
 	 * The page will be validated and adjusted if it is less than one or greater than the last page.
+	 * For example, if the current page is not an integer or less than one, one will be returned.
+	 * If the current page is greater than the last page, the last page will be returned.
 	 *
 	 * @param  int  $total
 	 * @param  int  $per_page
@@ -82,7 +107,7 @@ class Paginator {
 	 */
 	public function links($adjacent = 3)
 	{
-		return ($this->last_page() > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>' : '';
+		return ($this->last_page > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>' : '';
 	}
 
 	/**
@@ -95,7 +120,7 @@ class Paginator {
 	 */
 	private function numbers($adjacent = 3)
 	{
-		return ($this->last_page() < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page()) : $this->slider($adjacent);
+		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 	}
 
 	/**
@@ -110,14 +135,12 @@ class Paginator {
 		{
 			return $this->range(1, 2 + ($adjacent * 2)).$this->ending();
 		}
-		elseif ($this->page >= $this->last_page() - ($adjacent * 2))
+		elseif ($this->page >= $this->last_page - ($adjacent * 2))
 		{
-			return $this->beginning().$this->range($this->last_page() - 2 - ($adjacent * 2), $this->last_page());
+			return $this->beginning().$this->range($this->last_page - 2 - ($adjacent * 2), $this->last_page);
 		}
-		else
-		{
-			return $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
-		}
+
+		return $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
 	}
 
 	/**
@@ -141,7 +164,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.next')->get();
 
-		return ($this->page < $this->last_page()) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page'));
+		return ($this->page < $this->last_page) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page'));
 	}
 
 	/**
@@ -151,7 +174,7 @@ class Paginator {
 	 */
 	private function beginning()
 	{
-		return $this->range(1, 2).$this->dots();
+		return $this->range(1, 2).'<span class="dots">...</span>';
 	}
 
 	/**
@@ -161,40 +184,7 @@ class Paginator {
 	 */
 	private function ending()
 	{
-		return $this->dots().$this->range($this->last_page() - 1, $this->last_page());
-	}
-
-	/**
-	 * Create a HTML page link.
-	 *
-	 * @param  int     $page
-	 * @param  string  $text
-	 * @param  string  $attributes
-	 * @return string
-	 */
-	private function link($page, $text, $class)
-	{
-		return HTML::link(Request::uri().'?page='.$page, $text, array('class' => $class), Request::is_secure());
-	}
-
-	/**
-	 * Build a "dots" HTML span element.
-	 *
-	 * @return string
-	 */
-	private function dots()
-	{
-		return HTML::span('...', array('class' => 'dots')).' ';
-	}
-
-	/**
-	 * Determine the last page number based on the total pages and per page limit.
-	 *
-	 * @return int
-	 */
-	private function last_page()
-	{
-		return ceil($this->total / $this->per_page);
+		return '<span class="dots">...</span>'.$this->range($this->last_page - 1, $this->last_page);
 	}
 
 	/**
@@ -216,6 +206,19 @@ class Paginator {
 		}
 
 		return $pages;
+	}
+
+	/**
+	 * Create a HTML page link.
+	 *
+	 * @param  int     $page
+	 * @param  string  $text
+	 * @param  string  $attributes
+	 * @return string
+	 */
+	private function link($page, $text, $class)
+	{
+		return HTML::link(Request::uri().'?page='.$page, $text, array('class' => $class), Request::is_secure());
 	}
 
 	/**
