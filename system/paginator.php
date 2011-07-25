@@ -47,12 +47,10 @@ class Paginator {
 	 */
 	public function __construct($results, $total, $per_page)
 	{
+		$this->page = static::page($total, $per_page);
 		$this->per_page = $per_page;
 		$this->results = $results;
 		$this->total = $total;
-
-		// Determine the current page based on the total results and per page limit.
-		$this->page = static::page($this->total, $this->per_page);
 	}
 
 	/**
