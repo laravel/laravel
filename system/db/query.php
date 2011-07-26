@@ -458,11 +458,25 @@ class Query {
 	 * Get paginated query results.
 	 *
 	 * @param  int        $per_page
+	 * @param  array      $columns
 	 * @return Paginator
 	 */
-	public function paginate($per_page)
+	public function paginate($per_page, $columns = array('*'))
 	{
+		$select = $this->select;
+
 		$total = $this->count();
+
+		// Every query clears the SELECT clause, so we store the contents of the clause
+		// before executing the count query and then put the contents back in afterwards.
+		if ( ! is_null($select))
+		{
+			$this->select = $select;
+		}
+		else
+		{
+			$this->select($columns);
+		}
 
 		$current_page = \System\Paginator::page($total, $per_page);
 
