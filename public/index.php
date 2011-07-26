@@ -8,6 +8,8 @@
  * @link     http://laravel.com
  */
 
+$time = microtime(true);
+
 // --------------------------------------------------------------
 // Define the framework paths.
 // --------------------------------------------------------------
@@ -15,8 +17,12 @@ define('BASE_PATH', realpath('../').'/');
 define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath('../system').'/');
 define('CONFIG_PATH', APP_PATH.'config/');
+define('LIBRARY_PATH', APP_PATH.'libraries/');
+define('MODEL_PATH', APP_PATH.'models/');
 define('PACKAGE_PATH', APP_PATH.'packages/');
 define('PUBLIC_PATH', realpath(__DIR__.'/'));
+define('ROUTE_PATH', APP_PATH.'routes/');
+define('VIEW_PATH', APP_PATH.'views/');
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
@@ -32,7 +38,25 @@ require SYS_PATH.'arr'.EXT;
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
-spl_autoload_register(require SYS_PATH.'loader'.EXT);
+spl_autoload_register(function($class) 
+{
+	$file = strtolower(str_replace('\\', '/', $class));
+
+	if (array_key_exists($class, $aliases = System\Config::get('aliases')))
+	{
+		return class_alias($aliases[$class], $class);
+	}
+
+	foreach (array(BASE_PATH, MODEL_PATH, LIBRARY_PATH) as $directory)
+	{
+		if (file_exists($path = $directory.$file.EXT))
+		{
+			require $path;
+
+			return;
+		}
+	}
+});
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -91,9 +115,9 @@ $response = System\Route\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Router::route(Request::method(), Request::uri());
+	$route = System\Router::route(System\Request::method(), System\Request::uri());
 
-	$response = (is_null($route)) ? System\Response::make(View::make('error/404'), 404) : $route->call();
+	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
 }
 else
 {
@@ -122,3 +146,5 @@ if (System\Config::get('session.driver') != '')
 // Send the response to the browser.
 // --------------------------------------------------------------
 $response->send();
+
+echo (microtime(true) - $time) * 1000;
