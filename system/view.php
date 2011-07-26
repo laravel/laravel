@@ -127,7 +127,7 @@ class View {
 	 */
 	public function partial($key, $view, $data = array())
 	{
-		return $this->bind($key, View::make($view, $data));
+		return $this->bind($key, static::make($view, $data));
 	}
 
 	/**
