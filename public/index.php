@@ -22,6 +22,7 @@ define('MODEL_PATH', APP_PATH.'models/');
 define('PACKAGE_PATH', APP_PATH.'packages/');
 define('PUBLIC_PATH', realpath(__DIR__.'/'));
 define('ROUTE_PATH', APP_PATH.'routes/');
+define('SYS_VIEW_PATH', SYS_PATH.'views/');
 define('VIEW_PATH', APP_PATH.'views/');
 
 // --------------------------------------------------------------
