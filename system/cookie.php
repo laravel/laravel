@@ -72,7 +72,7 @@ class Cookie {
 	 */
 	public static function forget($name)
 	{
-		return static::put($key, null, -60);
+		return static::put($name, null, -60);
 	}
 
 }
