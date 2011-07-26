@@ -100,7 +100,9 @@ class Config {
 	 */
 	public static function load($file)
 	{
-		if ( ! array_key_exists($file, static::$items) and file_exists($path = APP_PATH.'config/'.$file.EXT))
+		$directory = (isset($_ENV['LARAVEL_ENV'])) ? $_ENV['LARAVEL_ENV'].'/' : '';
+
+		if ( ! array_key_exists($file, static::$items) and file_exists($path = APP_PATH.'config/'.$directory.$file.EXT))
 		{
 			static::$items[$file] = require $path;
 		}
