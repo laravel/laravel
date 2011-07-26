@@ -103,11 +103,11 @@ class View {
 	 */
 	protected function find()
 	{
-		if (file_exists($path = APP_PATH.'views/'.$this->view.EXT))
+		if (file_exists($path = VIEW_PATH.$this->view.EXT))
 		{
 			return $path;
 		}
-		elseif (file_exists($path = SYS_PATH.'views/'.$this->view.EXT))
+		elseif (file_exists($path = SYS_VIEW_PATH.$this->view.EXT))
 		{
 			return $path;
 		}
