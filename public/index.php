@@ -8,8 +8,6 @@
  * @link     http://laravel.com
  */
 
-$time = microtime(true);
-
 // --------------------------------------------------------------
 // Define the framework paths.
 // --------------------------------------------------------------
@@ -147,5 +145,3 @@ if (System\Config::get('session.driver') != '')
 // Send the response to the browser.
 // --------------------------------------------------------------
 $response->send();
-
-echo (microtime(true) - $time) * 1000;
