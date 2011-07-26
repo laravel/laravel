@@ -50,6 +50,25 @@ class View {
 	}
 
 	/**
+	 * Create a new named view instance.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function of($view, $data = array())
+	{
+		$views = Config::get('view.names');
+
+		if ( ! array_key_exists($view, $views))
+		{
+			throw new \Exception("Named view [$view] is not defined.");
+		}
+
+		return static::make($views[$view], $data);
+	}
+
+	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
@@ -99,6 +118,19 @@ class View {
 	}
 
 	/**
+	 * Add a view instance to the view data.
+	 *
+	 * @param  string  $key
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public function partial($key, $view, $data = array())
+	{
+		return $this->bind($key, View::make($view, $data));
+	}
+
+	/**
 	 * Add a key / value pair to the view data.
 	 *
 	 * @param  string  $key
@@ -118,14 +150,7 @@ class View {
 	{
 		if (strpos($method, 'of_') === 0)
 		{
-			$views = Config::get('view.names');
-
-			if ( ! array_key_exists($view = substr($method, 3), $views))
-			{
-				throw new \Exception("Named view [$view] is not defined.");
-			}
-
-			return static::make($views[$view], (isset($parameters[0]) and is_array($parameters[0])) ? $parameters[0] : array());
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
 	}
 
