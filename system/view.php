@@ -111,10 +111,8 @@ class View {
 		{
 			return $path;
 		}
-		else
-		{
-			throw new \Exception("View [".$this->view."] doesn't exist.");
-		}
+
+		throw new \Exception("View [".$this->view."] doesn't exist.");
 	}
 
 	/**
