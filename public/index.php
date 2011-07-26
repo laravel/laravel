@@ -5,8 +5,7 @@
  * @package  Laravel
  * @version  1.3.0
  * @author   Taylor Otwell
- * @license  MIT License
- * @link     http://laravel.com 
+ * @link     http://laravel.com
  */
 
 // --------------------------------------------------------------
