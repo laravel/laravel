@@ -25,7 +25,7 @@ class URL {
 
 		$base = ($https and strpos($base, 'http://') === 0) ? 'https://'.substr($base, 7) : $base;
 
-		return $base.'/'.ltrim($url, '/');
+		return rtrim($base, '/').'/'.ltrim($url, '/');
 	}
 
 	/**
