@@ -7,7 +7,7 @@ class Router {
 	 *
 	 * @var array
 	 */
-	private static $routes = array();
+	public static $routes = array();
 
 	/**
 	 * Simulate a request to a given route. Useful for implementing HMVC.
