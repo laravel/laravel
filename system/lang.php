@@ -119,7 +119,7 @@ class Lang {
 	{
 		if (array_key_exists($language.$file, static::$lines)) return;
 
-		if (file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
+		if (file_exists($path = LANG_PATH.$language.'/'.$file.EXT))
 		{
 			static::$lines[$language.$file] = require $path;
 		}
