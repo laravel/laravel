@@ -150,7 +150,7 @@ class Paginator {
 	 */
 	public function previous()
 	{
-		$text = Lang::line('pagination.previous')->get();
+		$text = Lang::line('pagination.previous')->get($this->language);
 
 		return ($this->page > 1) ? $this->link($this->page - 1, $text, 'prev_page').' ' : HTML::span($text, array('class' => 'disabled prev_page')).' ';
 	}
@@ -162,7 +162,7 @@ class Paginator {
 	 */
 	public function next()
 	{
-		$text = Lang::line('pagination.next')->get();
+		$text = Lang::line('pagination.next')->get($this->language);
 
 		return ($this->page < $this->last_page) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page'));
 	}
