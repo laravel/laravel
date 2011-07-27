@@ -54,7 +54,7 @@ class Connector {
 	 */
 	private static function connect_to_sqlite($config)
 	{
-		if (file_exists($path = APP_PATH.'storage/db/'.$config->database.'.sqlite'))
+		if (file_exists($path = DATABASE_PATH.$config->database.'.sqlite'))
 		{
 			return new \PDO('sqlite:'.$path, null, null, static::$options);
 		}
