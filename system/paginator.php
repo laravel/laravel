@@ -93,7 +93,7 @@ class Paginator {
 
 		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
 		{
-			return $last_page;
+			return ($last_page > 0) ? $last_page : 1;
 		}
 
 		return ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) ? 1 : $page;
