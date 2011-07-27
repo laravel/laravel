@@ -34,6 +34,19 @@ class DB {
 	}
 
 	/**
+	 * Execute a SQL query against the connection and return the first result.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @param  string  $connection
+	 * @return object
+	 */
+	public static function first($sql, $bindings = array(), $connection = null)
+	{
+		return (count($results = static::query($sql, $bindings, $connection)) > 0) ? $results[0] : null;
+	}
+
+	/**
 	 * Execute a SQL query against the connection.
 	 *
 	 * The method returns the following based on query type:
@@ -46,7 +59,7 @@ class DB {
 	 * @param  string  $sql
 	 * @param  array   $bindings
 	 * @param  string  $connection
-	 * @return mixed
+	 * @return array
 	 */
 	public static function query($sql, $bindings = array(), $connection = null)
 	{
