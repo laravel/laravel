@@ -7,7 +7,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	private static $items = array();
+	public static $items = array();
 
 	/**
 	 * Determine if a configuration item or file exists.
@@ -112,7 +112,10 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		return static::$items[$file] = $config;
+		if (count($config) > 0)
+		{
+			static::$items[$file] = $config;
+		}
 	}
 
 }

@@ -413,7 +413,6 @@ class Query {
 	 */
 	public function first($columns = array('*'))
 	{
-
 		return (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
 	}
 
