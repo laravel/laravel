@@ -11,7 +11,7 @@
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
-define('APP_PATH', realpath($application = '../application').'/');
+define('APP_PATH', realpath('../application').'/');
 
 // --------------------------------------------------------------
 // The path to the system directory.
@@ -47,7 +47,7 @@ foreach ($constants as $key => $value)
 	define($key, $value);
 }
 
-unset($constants, $application, $system);
+unset($constants, $system);
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
