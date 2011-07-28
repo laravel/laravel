@@ -25,7 +25,7 @@ return array(
 	|
 	| The database table on which the session should be stored. 
 	|
-	| If you are not using database based sessions, don't worry about this.
+	| This option is only relevant when using the "db" session driver.
 	|
 	*/
 
@@ -36,7 +36,7 @@ return array(
 	| Session Lifetime
 	|--------------------------------------------------------------------------
 	|
-	| How many minutes can a session be idle before expiring?
+	| The number of minutes a session can be idle before expiring.
 	|
 	*/
 
@@ -47,7 +47,7 @@ return array(
 	| Session Expiration On Close
 	|--------------------------------------------------------------------------
 	|
-	| Should the session expire when the user's web browser closes?
+	| Determines if the session should expire when the user's web browser closes.
 	|
 	*/
 
@@ -80,7 +80,7 @@ return array(
 	| Session Cookie HTTPS
 	|--------------------------------------------------------------------------
 	|
-	| Should the session cookie only be transported over HTTPS?
+	| Determines if the session cookie should only be transported over HTTPS.
 	|
 	*/
 
@@ -91,7 +91,7 @@ return array(
 	| HTTP Only Session Cookie
 	|--------------------------------------------------------------------------
 	|
-	| Should the session cookie only be accessible over HTTP?
+	| Determines if the session cookie should only be accessible over HTTP.
 	|
 	| Note: The intention of the "HTTP Only" option is to keep cookies from
 	|       being accessed by client-side scripting languages. However, this
