@@ -11,18 +11,22 @@
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
-define('APP_PATH', realpath('../application').'/');
+define('APP_PATH', realpath($application = '../application').'/');
 
 // --------------------------------------------------------------
 // The path to the system directory.
 // --------------------------------------------------------------
-define('SYS_PATH', realpath('../system').'/');
+define('SYS_PATH', realpath($system = '../system').'/');
+
+// --------------------------------------------------------------
+// The path to the directory containing the system directory.
+// --------------------------------------------------------------
+define('BASE_PATH', realpath(str_replace('system', '', $system)).'/');
 
 // --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
 $constants = array(
-	'BASE_PATH'     => realpath('../').'/',
 	'CACHE_PATH'    => APP_PATH.'storage/cache/',
 	'CONFIG_PATH'   => APP_PATH.'config/',
 	'DATABASE_PATH' => APP_PATH.'storage/db/',
@@ -43,7 +47,7 @@ foreach ($constants as $key => $value)
 	define($key, $value);
 }
 
-unset($constants);
+unset($constants, $application, $system);
 
 // --------------------------------------------------------------
 // Define the PHP file extension.
