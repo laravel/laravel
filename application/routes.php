@@ -10,9 +10,9 @@ return array(
 	| Here is the public API of your application. To add functionality to your
 	| application, you just add to the array located in this file.
 	|
-	| It's a breeze. Simply tell Laravel the HTTP verbs and request URIs it
-	| should respond to. The GET, POST, PUT, and DELETE verbs are all
-	| recognized by the Laravel routing system.
+	| Simply tell Laravel the HTTP verbs and request URIs it should respond to.
+	| You may respond to the GET, POST, PUT, or DELETE verbs. Enjoy the simplicity
+	| and elegance of RESTful routing.
 	|
 	| Here is how to respond to a simple GET request to http://example.com/hello:
 	|
