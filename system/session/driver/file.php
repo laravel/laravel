@@ -10,7 +10,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function load($id)
 	{
-		if (file_exists($path = APP_PATH.'storage/sessions/'.$id))
+		if (file_exists($path = SESSION_PATH.$id))
 		{
 			return unserialize(file_get_contents($path));
 		}
@@ -24,7 +24,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function save($session)
 	{
-		file_put_contents(APP_PATH.'storage/sessions/'.$session['id'], serialize($session), LOCK_EX);
+		file_put_contents(SESSION_PATH.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function delete($id)
 	{
-		@unlink(APP_PATH.'storage/sessions/'.$id);
+		@unlink(SESSION_PATH.$id);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function sweep($expiration)
 	{
-		foreach (glob(APP_PATH.'storage/sessions/*') as $file)
+		foreach (glob(SESSION_PATH.'*') as $file)
 		{
 			if (filetype($file) == 'file' and filemtime($file) < $expiration)
 			{

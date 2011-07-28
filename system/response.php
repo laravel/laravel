@@ -102,6 +102,18 @@ class Response {
 	}
 
 	/**
+	 * Factory for creating new error response instances.
+	 *
+	 * @param  int       $code
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function error($code, $data = array())
+	{
+		return static::make(View::make('error/'.$code, $data), $code);
+	}
+
+	/**
 	 * Take a value returned by a route and prepare a Response instance.
 	 *
 	 * @param  mixed     $response

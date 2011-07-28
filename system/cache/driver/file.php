@@ -22,12 +22,12 @@ class File implements \System\Cache\Driver {
 	 */	
 	public function get($key)
 	{
-		if ( ! file_exists(APP_PATH.'storage/cache/'.$key))
+		if ( ! file_exists(CACHE_PATH.$key))
 		{
 			return null;
 		}
 
-		$cache = file_get_contents(APP_PATH.'storage/cache/'.$key);
+		$cache = file_get_contents(CACHE_PATH.$key);
 
 		if (time() >= substr($cache, 0, 10))
 		{
@@ -49,7 +49,7 @@ class File implements \System\Cache\Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		file_put_contents(APP_PATH.'storage/cache/'.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
+		file_put_contents(CACHE_PATH.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class File implements \System\Cache\Driver {
 	 */
 	public function forget($key)
 	{
-		@unlink(APP_PATH.'storage/cache/'.$key);
+		@unlink(CACHE_PATH.$key);
 	}
 
 }

@@ -31,7 +31,7 @@ class Paginator {
 	public $per_page;
 
 	/**
-	 * The last page number.
+	 * The last page available for the result set.
 	 *
 	 * @var int
 	 */
@@ -45,33 +45,43 @@ class Paginator {
 	public $language;
 
 	/**
-	 * Indicates if HTTPS links should be generated.
+	 * Create a new Paginator instance.
 	 *
-	 * @var bool
+	 * @param  array  $results
+	 * @param  int    $page
+	 * @param  int    $total
+	 * @param  int    $per_page
+	 * @param  int    $last_page
+	 * @return void
 	 */
-	public $https = false;
+	public function __construct($results, $page, $total, $per_page, $last_page)
+	{
+		$this->last_page = $last_page;
+		$this->per_page = $per_page;
+		$this->results = $results;
+		$this->total = $total;
+		$this->page = $page;
+	}
 
 	/**
 	 * Create a new Paginator instance.
 	 *
-	 * @param  array  $results
-	 * @param  int    $total
-	 * @param  int    $per_page
-	 * @return void
+	 * @param  array      $results
+	 * @param  int        $total
+	 * @param  int        $per_page
+	 * @return Paginator
 	 */
-	public function __construct($results, $total, $per_page)
+	public static function make($results, $total, $per_page)
 	{
-		$this->page = static::page($total, $per_page);
-		$this->last_page = ceil($total / $per_page);
-		$this->per_page = $per_page;
-		$this->results = $results;
-		$this->total = $total;
+		return new static($results, static::page($total, $per_page), $total, $per_page, ceil($total / $per_page));
 	}
 
 	/**
 	 * Get the current page from the request query string.
 	 *
 	 * The page will be validated and adjusted if it is less than one or greater than the last page.
+	 * For example, if the current page is not an integer or less than one, one will be returned.
+	 * If the current page is greater than the last page, the last page will be returned.
 	 *
 	 * @param  int  $total
 	 * @param  int  $per_page
@@ -83,10 +93,10 @@ class Paginator {
 
 		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
 		{
-			return $last_page;
+			return ($last_page > 0) ? $last_page : 1;
 		}
 
-		return (filter_var($page, FILTER_VALIDATE_INT) === false or $page < 1) ? 1 : $page;
+		return ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) ? 1 : $page;
 	}
 
 	/**
@@ -110,8 +120,6 @@ class Paginator {
 	 */
 	private function numbers($adjacent = 3)
 	{
-		// "7" is added to the adjacent range to account for the seven constant elements
-		// in a slider: the first and last two links, the current page, and the two "..." strings.
 		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 	}
 
@@ -125,7 +133,7 @@ class Paginator {
 	{
 		if ($this->page <= $adjacent * 2)
 		{
-			return $this->range(1, 4 + ($adjacent * 2)).$this->ending();
+			return $this->range(1, 2 + ($adjacent * 2)).$this->ending();
 		}
 		elseif ($this->page >= $this->last_page - ($adjacent * 2))
 		{
@@ -144,12 +152,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.previous')->get($this->language);
 
-		if ($this->page > 1)
-		{
-			return HTML::link(Request::uri().'?page='.($this->page - 1), $text, array('class' => 'prev_page'), $this->https).' ';
-		}
-
-		return "<span class=\"disabled prev_page\">$text</span> ";
+		return ($this->page > 1) ? $this->link($this->page - 1, $text, 'prev_page').' ' : HTML::span($text, array('class' => 'disabled prev_page')).' ';
 	}
 
 	/**
@@ -161,12 +164,7 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.next')->get($this->language);
 
-		if ($this->page < $this->last_page)
-		{
-			return HTML::link(Request::uri().'?page='.($this->page + 1), $text, array('class' => 'next_page'), $this->https);
-		}
-
-		return "<span class=\"disabled next_page\">$text</span>";
+		return ($this->page < $this->last_page) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page'));
 	}
 
 	/**
@@ -176,7 +174,7 @@ class Paginator {
 	 */
 	private function beginning()
 	{
-		return $this->range(1, 2).'<span class="dots">...</span> ';
+		return $this->range(1, 2).'<span class="dots">...</span>';
 	}
 
 	/**
@@ -186,7 +184,7 @@ class Paginator {
 	 */
 	private function ending()
 	{
-		return '<span class="dots">...</span> '.$this->range($this->last_page - 1, $this->last_page);
+		return '<span class="dots">...</span>'.$this->range($this->last_page - 1, $this->last_page);
 	}
 
 	/**
@@ -194,8 +192,8 @@ class Paginator {
 	 *
 	 * For the current page, an HTML span element will be generated instead of a link.
 	 *
-	 * @param  int  $start
-	 * @param  int  $end
+	 * @param  int     $start
+	 * @param  int     $end
 	 * @return string
 	 */
 	private function range($start, $end)
@@ -204,14 +202,27 @@ class Paginator {
 
 		for ($i = $start; $i <= $end; $i++)
 		{
-			$pages .= ($this->page == $i) ? "<span class=\"current\">$i</span> " : HTML::link(Request::uri().'?page='.$i, $i, array(), $this->https).' ';
+			$pages .= ($this->page == $i) ? HTML::span($i, array('class' => 'current')).' ' : $this->link($i, $i, null).' ';
 		}
 
 		return $pages;
 	}
 
 	/**
-	 * Set the language that should be used when generating pagination links.
+	 * Create a HTML page link.
+	 *
+	 * @param  int     $page
+	 * @param  string  $text
+	 * @param  string  $attributes
+	 * @return string
+	 */
+	private function link($page, $text, $class)
+	{
+		return HTML::link(Request::uri().'?page='.$page, $text, array('class' => $class), Request::is_secure());
+	}
+
+	/**
+	 * Set the language that should be used when generating page links.
 	 *
 	 * @param  string     $language
 	 * @return Paginator
@@ -219,17 +230,6 @@ class Paginator {
 	public function lang($language)
 	{
 		$this->language = $language;
-		return $this;
-	}
-
-	/**
-	 * Force the pagination links to use HTTPS.
-	 *
-	 * @return Paginator
-	 */
-	public function secure()
-	{
-		$this->https = true;
 		return $this;
 	}
 

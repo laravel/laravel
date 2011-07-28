@@ -3,11 +3,27 @@
 class Router {
 
 	/**
-	 * All of the loaded routes.
+	 * All of the loaded routes keyed by route file.
 	 *
 	 * @var array
 	 */
-	public static $routes;
+	public static $routes = array();
+
+	/**
+	 * Simulate a request to a given route. Useful for implementing HMVC.
+	 *
+	 * @param  array|string  $parameters
+	 * @return Response
+	 */
+	public static function call($parameters)
+	{
+		$route = static::route('GET', (is_array($parameters)) ? implode('/', $parameters) : (string) $parameters);
+
+		if ( ! is_null($route))
+		{
+			return $route->call();
+		}
+	}
 
 	/**
 	 * Search a set of routes for the route matching a method and URI.
@@ -18,22 +34,19 @@ class Router {
 	 */
 	public static function route($method, $uri)
 	{
-		if (is_null(static::$routes))
-		{
-			static::$routes = static::load($uri);
-		}
+		$routes = static::load($uri);
 
 		// Put the request method and URI in route form. 
 		// Routes begin with the request method and a forward slash.
 		$uri = $method.' /'.trim($uri, '/');
 
 		// Is there an exact match for the request?
-		if (isset(static::$routes[$uri]))
+		if (isset($routes[$uri]))
 		{
-			return Request::$route = new Route($uri, static::$routes[$uri]);
+			return Request::$route = new Route($uri, $routes[$uri]);
 		}
 
-		foreach (static::$routes as $keys => $callback)
+		foreach ($routes as $keys => $callback)
 		{
 			// Only check routes that have multiple URIs or wildcards.
 			// Other routes would have been caught by the check for literal matches.
@@ -58,7 +71,7 @@ class Router {
 	 */
 	public static function load($uri)
 	{
-		$base = require APP_PATH.'routes'.EXT;
+		$base = (isset(static::$routes[$path = APP_PATH.'routes'.EXT])) ? static::$routes[$path] : static::$routes[$path] = require $path;
 
 		return (is_dir(APP_PATH.'routes') and $uri !== '') ? array_merge(static::load_from_directory($uri), $base) : $base;
 	}
@@ -77,9 +90,13 @@ class Router {
 		// Iterate backwards through the URI looking for the deepest matching file.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = APP_PATH.'routes/'.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			if (isset(static::$routes[$path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT]))
 			{
-				return require $path;
+				return static::$routes[$path];
+			}
+			elseif (file_exists($path))
+			{
+				return static::$routes[$path] = require $path;
 			}
 		}
 

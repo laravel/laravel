@@ -50,6 +50,25 @@ class View {
 	}
 
 	/**
+	 * Create a new named view instance.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function of($view, $data = array())
+	{
+		$views = Config::get('view.names');
+
+		if ( ! array_key_exists($view, $views))
+		{
+			throw new \Exception("Named view [$view] is not defined.");
+		}
+
+		return static::make($views[$view], $data);
+	}
+
+	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
@@ -82,20 +101,31 @@ class View {
 	 *
 	 * @return string
 	 */
-	private function find()
+	protected function find()
 	{
-		if (file_exists($path = APP_PATH.'views/'.$this->view.EXT))
+		if (file_exists($path = VIEW_PATH.$this->view.EXT))
 		{
 			return $path;
 		}
-		elseif (file_exists($path = SYS_PATH.'views/'.$this->view.EXT))
+		elseif (file_exists($path = SYS_VIEW_PATH.$this->view.EXT))
 		{
 			return $path;
 		}
-		else
-		{
-			throw new \Exception("View [".$this->view."] doesn't exist.");
-		}
+
+		throw new \Exception("View [".$this->view."] doesn't exist.");
+	}
+
+	/**
+	 * Add a view instance to the view data.
+	 *
+	 * @param  string  $key
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public function partial($key, $view, $data = array())
+	{
+		return $this->bind($key, static::make($view, $data));
 	}
 
 	/**
@@ -118,14 +148,7 @@ class View {
 	{
 		if (strpos($method, 'of_') === 0)
 		{
-			$views = Config::get('view.names');
-
-			if ( ! array_key_exists($view = substr($method, 3), $views))
-			{
-				throw new \Exception("Named view [$view] is not defined.");
-			}
-
-			return static::make($views[$view], (isset($parameters[0]) and is_array($parameters[0])) ? $parameters[0] : array());
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
 	}
 
