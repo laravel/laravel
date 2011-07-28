@@ -11,7 +11,7 @@ return array(
 	| functions. To make your life easier, we have already setup basic filters
 	| for authentication and CSRF protection.
 	|
-	| For more information, check out: http://laravel.com/docs/basics/routes#filters
+	| For more information, check out: http://laravel.com/docs/start/routes#filters
 	|
 	*/
 
@@ -35,7 +35,7 @@ return array(
 
 	'csrf' => function()
 	{
-		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::make(View::make('error/500'), 500) : null;
+		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::error('500') : null;
 	},
 
 );
