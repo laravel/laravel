@@ -3,29 +3,6 @@
 class Router {
 
 	/**
-	 * All of the loaded routes keyed by route file.
-	 *
-	 * @var array
-	 */
-	public static $routes = array();
-
-	/**
-	 * Simulate a request to a given route. Useful for implementing HMVC.
-	 *
-	 * @param  array|string  $parameters
-	 * @return Response
-	 */
-	public static function call($parameters)
-	{
-		$route = static::route('GET', (is_array($parameters)) ? implode('/', $parameters) : (string) $parameters);
-
-		if ( ! is_null($route))
-		{
-			return $route->call();
-		}
-	}
-
-	/**
 	 * Search a set of routes for the route matching a method and URI.
 	 *
 	 * @param  string  $method
@@ -71,7 +48,7 @@ class Router {
 	 */
 	public static function load($uri)
 	{
-		$base = (isset(static::$routes[$path = APP_PATH.'routes'.EXT])) ? static::$routes[$path] : static::$routes[$path] = require $path;
+		$base = require APP_PATH.'routes'.EXT;
 
 		return (is_dir(APP_PATH.'routes') and $uri !== '') ? array_merge(static::load_from_directory($uri), $base) : $base;
 	}
@@ -90,13 +67,9 @@ class Router {
 		// Iterate backwards through the URI looking for the deepest matching file.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (isset(static::$routes[$path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT]))
+			if (file_exists($path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
-				return static::$routes[$path];
-			}
-			elseif (file_exists($path))
-			{
-				return static::$routes[$path] = require $path;
+				return require $path;
 			}
 		}
 
