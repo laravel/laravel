@@ -21,9 +21,15 @@ class URL {
 
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
-		$base = ($asset) ? str_replace('/'.Config::get('application.index'), '', $base) : $base;
+		if ($asset and Config::get('application.index') !== '')
+		{
+			$base = str_replace('/'.Config::get('application.index'), '', $base);
+		}
 
-		$base = ($https and strpos($base, 'http://') === 0) ? 'https://'.substr($base, 7) : $base;
+		if ($https and strpos($base, 'http://') === 0)
+		{
+			$base = 'https://'.substr($base, 7);
+		}
 
 		return rtrim($base, '/').'/'.ltrim($url, '/');
 	}
