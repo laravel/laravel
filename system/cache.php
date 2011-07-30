@@ -37,15 +37,15 @@ class Cache {
 			switch ($driver)
 			{
 				case 'file':
-					static::$drivers[$driver] = new Cache\Driver\File;
+					static::$drivers[$driver] = new Cache\File;
 					break;
 
 				case 'memcached':
-					static::$drivers[$driver] = new Cache\Driver\Memcached;
+					static::$drivers[$driver] = new Cache\Memcached;
 					break;
 
 				case 'apc':
-					static::$drivers[$driver] = new Cache\Driver\APC;
+					static::$drivers[$driver] = new Cache\APC;
 					break;
 
 				default:
