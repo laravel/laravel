@@ -109,6 +109,8 @@ class URL {
 	 */
 	public static function slug($title, $separator = '-')
 	{
+		$title = html_entity_decode(Str::ascii($title), ENT_QUOTES, Config::get('application.encoding'));
+
 		// Remove all characters that are not the separator, letters, numbers, or whitespace.
 		$title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', Str::lower($title));
 

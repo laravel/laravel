@@ -58,6 +58,21 @@ class Str {
     }
 
     /**
+     * Convert a string to 7-bit ASCII.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function ascii($value)
+    {
+        $foreign = Config::get('ascii');
+
+        $value = preg_replace(array_keys($foreign), array_values($foreign), $value);
+
+        return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $value);
+    }
+
+    /**
      * Generate a random alpha or alpha-numeric string.
      *
      * Supported types: 'alpha_num' and 'alpha'.
