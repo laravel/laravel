@@ -24,6 +24,11 @@ define('SYS_PATH', realpath($system = '../system').'/');
 define('BASE_PATH', realpath(str_replace('system', '', $system)).'/');
 
 // --------------------------------------------------------------
+// The path to the public directory.
+// --------------------------------------------------------------
+define('PUBLIC_PATH', realpath(__DIR__).'/');
+
+// --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
 $constants = array(
@@ -34,10 +39,11 @@ $constants = array(
 	'LIBRARY_PATH'  => APP_PATH.'libraries/',
 	'MODEL_PATH'    => APP_PATH.'models/',
 	'PACKAGE_PATH'  => APP_PATH.'packages/',
-	'PUBLIC_PATH'   => realpath(__DIR__).'/',
 	'ROUTE_PATH'    => APP_PATH.'routes/',
+	'SCRIPT_PATH'   => PUBLIC_PATH.'js/',
 	'SESSION_PATH'  => APP_PATH.'storage/sessions/',
 	'STORAGE_PATH'  => APP_PATH.'storage/',
+	'STYLE_PATH'    => PUBLIC_PATH.'css/',
 	'SYS_VIEW_PATH' => SYS_PATH.'views/',
 	'VIEW_PATH'     => APP_PATH.'views/',
 );
@@ -140,7 +146,7 @@ $response = System\Route\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Router::route(System\Request::method(), System\Request::uri());
+	$route = System\Router::make(System\Request::method(), System\Request::uri())->route();
 
 	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
 }
