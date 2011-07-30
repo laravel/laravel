@@ -1,6 +1,6 @@
-<?php namespace System\Session\Driver;
+<?php namespace System\Session;
 
-class APC implements \System\Session\Driver {
+class File implements Driver {
 
 	/**
 	 * Load a session by ID.
@@ -10,7 +10,10 @@ class APC implements \System\Session\Driver {
 	 */
 	public function load($id)
 	{
-		return \System\Cache::driver('apc')->get($id);
+		if (file_exists($path = SESSION_PATH.$id))
+		{
+			return unserialize(file_get_contents($path));
+		}
 	}
 
 	/**
@@ -21,7 +24,7 @@ class APC implements \System\Session\Driver {
 	 */
 	public function save($session)
 	{
-		\System\Cache::driver('apc')->put($session['id'], $session, \System\Config::get('session.lifetime'));
+		file_put_contents(SESSION_PATH.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
@@ -32,7 +35,7 @@ class APC implements \System\Session\Driver {
 	 */
 	public function delete($id)
 	{
-		\System\Cache::driver('apc')->forget($id);
+		@unlink(SESSION_PATH.$id);
 	}
 
 	/**
@@ -43,7 +46,13 @@ class APC implements \System\Session\Driver {
 	 */
 	public function sweep($expiration)
 	{
-		// APC sessions will expire automatically.
+		foreach (glob(SESSION_PATH.'*') as $file)
+		{
+			if (filetype($file) == 'file' and filemtime($file) < $expiration)
+			{
+				@unlink($file);
+			}			
+		}
 	}
-
+	
 }

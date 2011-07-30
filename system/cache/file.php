@@ -1,6 +1,6 @@
-<?php namespace System\Cache\Driver;
+<?php namespace System\Cache;
 
-class File implements \System\Cache\Driver {
+class File implements Driver {
 
 	/**
 	 * Determine if an item exists in the cache.

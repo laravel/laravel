@@ -24,6 +24,13 @@ class View {
 	public $path;
 
 	/**
+	 * The view composers.
+	 *
+	 * @var array
+	 */
+	private static $composers;
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * @param  string  $view
@@ -46,7 +53,14 @@ class View {
 	 */
 	public static function make($view, $data = array())
 	{
-		return new static($view, $data);
+		if (is_null(static::$composers))
+		{
+			static::$composers = require APP_PATH.'composers'.EXT;
+		}
+
+		$instance = new static($view, $data);
+
+		return (isset(static::$composers[$view])) ? call_user_func(static::$composers[$view], $instance) : $instance;
 	}
 
 	/**
@@ -75,7 +89,6 @@ class View {
 	 */
 	public function get()
 	{
-		// Get the evaluated content of all of the sub-views.
 		foreach ($this->data as &$data)
 		{
 			if ($data instanceof View or $data instanceof Response)

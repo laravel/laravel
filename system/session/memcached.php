@@ -1,6 +1,9 @@
-<?php namespace System\Session\Driver;
+<?php namespace System\Session;
 
-class File implements \System\Session\Driver {
+use System\Cache;
+use System\Config;
+
+class Memcached implements Driver {
 
 	/**
 	 * Load a session by ID.
@@ -10,10 +13,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function load($id)
 	{
-		if (file_exists($path = SESSION_PATH.$id))
-		{
-			return unserialize(file_get_contents($path));
-		}
+		return Cache::driver('memcached')->get($id);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function save($session)
 	{
-		file_put_contents(SESSION_PATH.$session['id'], serialize($session), LOCK_EX);
+		Cache::driver('memcached')->put($session['id'], $session, Config::get('session.lifetime'));
 	}
 
 	/**
@@ -35,7 +35,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function delete($id)
 	{
-		@unlink(SESSION_PATH.$id);
+		Cache::driver('memcached')->forget($id);
 	}
 
 	/**
@@ -46,13 +46,7 @@ class File implements \System\Session\Driver {
 	 */
 	public function sweep($expiration)
 	{
-		foreach (glob(SESSION_PATH.'*') as $file)
-		{
-			if (filetype($file) == 'file' and filemtime($file) < $expiration)
-			{
-				@unlink($file);
-			}			
-		}
+		// Memcached sessions will expire automatically.
 	}
-	
+
 }

@@ -17,22 +17,29 @@ class HTML {
 	 * Generate a JavaScript reference.
 	 *
 	 * @param  string  $url
+	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function script($url)
+	public static function script($url, $attributes = array())
 	{
-		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'></script>'.PHP_EOL;
 	}
 
 	/**
 	 * Generate a CSS reference.
 	 *
 	 * @param  string  $url
+	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function style($url, $media = 'all')
+	public static function style($url, $attributes = array())
 	{
-		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css" media="'.$media.'">'.PHP_EOL;
+		if ( ! array_key_exists('media', $attributes))
+		{
+			$attributes['media'] = 'all';
+		}
+
+		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
