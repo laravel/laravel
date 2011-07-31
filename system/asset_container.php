@@ -1,8 +1,8 @@
-<?php namespace System\Asset;
+<?php namespace System;
 
 use System\HTML;
 
-class Container {
+class Asset_Container {
 
 	/**
 	 * The asset container name.

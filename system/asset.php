@@ -19,7 +19,7 @@ class Asset {
 	{
 		if ( ! isset(static::$containers[$container]))
 		{
-			static::$containers[$container] = new Asset\Container($container);
+			static::$containers[$container] = new Asset_Container($container);
 		}
 
 		return static::$containers[$container];
