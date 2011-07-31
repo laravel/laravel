@@ -26,12 +26,13 @@ class Router {
 	 * @param  array   $routes
 	 * @return void
 	 */
-	public function __construct($method, $uri, $routes)
+	public function __construct($method, $uri, $routes = null)
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
 		$this->request = $method.' /'.trim($uri, '/');
-		$this->routes = $routes;
+
+		$this->routes = (is_null($routes)) ? Loader::load($uri) : $routes;
 	}
 
 	/**

@@ -145,9 +145,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	list($method, $uri) = array(System\Request::method(), System\Request::uri());
-
-	$route = System\Routing\Router::make($method, $uri, System\Routing\Loader::load($uri))->route();
+	$route = System\Routing\Router::make(Request::method(), Request::uri())->route();
 
 	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
 }
