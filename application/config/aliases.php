@@ -19,6 +19,7 @@ return array(
 	*/
 
 	'Auth' => 'System\\Auth',
+	'Asset' => 'System\\Asset',
 	'Benchmark' => 'System\\Benchmark',
 	'Cache' => 'System\\Cache',
 	'Config' => 'System\\Config',
