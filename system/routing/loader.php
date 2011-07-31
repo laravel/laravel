@@ -24,6 +24,8 @@ class Loader {
 			if (file_exists($path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
 				$routes = require $path;
+
+				break;
 			}
 		}
 
