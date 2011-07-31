@@ -138,7 +138,7 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 // Execute the global "before" filter.
 // --------------------------------------------------------------
-$response = System\Route\Filter::call('before', array(), true);
+$response = System\Route_Filter::call('before', array(), true);
 
 // ----------------------------------------------------------
 // Execute the route function.
@@ -157,7 +157,7 @@ else
 // ----------------------------------------------------------
 // Execute the global "after" filter.
 // ----------------------------------------------------------
-System\Route\Filter::call('after', array($response));
+System\Route_Filter::call('after', array($response));
 
 // ----------------------------------------------------------
 // Stringify the response.

@@ -1,6 +1,6 @@
-<?php namespace System\Route;
+<?php namespace System;
 
-class Finder {
+class Route_Finder {
 
 	/**
 	 * All of the loaded routes.

@@ -71,7 +71,7 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = Route\Finder::find($name)))
+		if ( ! is_null($route = Route_Finder::find($name)))
 		{
 			$uris = explode(', ', key($route));
 
@@ -109,7 +109,7 @@ class URL {
 	 */
 	public static function slug($title, $separator = '-')
 	{
-		$title = html_entity_decode(Str::ascii($title), ENT_QUOTES, Config::get('application.encoding'));
+		$title = Str::ascii($title);
 
 		// Remove all characters that are not the separator, letters, numbers, or whitespace.
 		$title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', Str::lower($title));
