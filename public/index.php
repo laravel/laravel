@@ -44,7 +44,6 @@ $constants = array(
 	'SESSION_PATH'  => APP_PATH.'storage/sessions/',
 	'STORAGE_PATH'  => APP_PATH.'storage/',
 	'STYLE_PATH'    => PUBLIC_PATH.'css/',
-	'SYS_VIEW_PATH' => SYS_PATH.'views/',
 	'VIEW_PATH'     => APP_PATH.'views/',
 );
 
