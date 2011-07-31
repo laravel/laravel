@@ -1,4 +1,6 @@
-<?php namespace System;
+<?php namespace System\Routing;
+
+use System\Request;
 
 class Router {
 
@@ -24,13 +26,12 @@ class Router {
 	 * @param  array   $routes
 	 * @return void
 	 */
-	public function __construct($method, $uri, $routes = null)
+	public function __construct($method, $uri, $routes)
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
 		$this->request = $method.' /'.trim($uri, '/');
-
-		$this->routes = (is_array($routes)) ? $routes : $this->load($uri);
+		$this->routes = $routes;
 	}
 
 	/**
@@ -44,34 +45,6 @@ class Router {
 	public static function make($method, $uri, $routes = null)
 	{
 		return new static($method, $uri, $routes);
-	}
-
-	/**
-	 * Load the appropriate routes for the request URI.
-	 *
-	 * @param  string  $uri
-	 * @return array
-	 */
-	public function load($uri)
-	{
-		$base = require APP_PATH.'routes'.EXT;
-
-		if ( ! is_dir(APP_PATH.'routes') or $uri == '')
-		{
-			return $base;
-		}
-
-		list($routes, $segments) = array(array(), explode('/', $uri));
-
-		foreach (array_reverse($segments, true) as $key => $value)
-		{
-			if (file_exists($path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
-			{
-				$routes = require $path;
-			}
-		}
-
-		return array_merge($routes, $base);
 	}
 
 	/**

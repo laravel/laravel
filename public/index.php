@@ -138,14 +138,16 @@ if (System\Config::get('session.driver') != '')
 // --------------------------------------------------------------
 // Execute the global "before" filter.
 // --------------------------------------------------------------
-$response = System\Route_Filter::call('before', array(), true);
+$response = System\Routing\Filter::call('before', array(), true);
 
 // ----------------------------------------------------------
 // Execute the route function.
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Router::make(System\Request::method(), System\Request::uri())->route();
+	list($method, $uri) = array(System\Request::method(), System\Request::uri());
+
+	$route = System\Routing\Router::make($method, $uri, System\Routing\Loader::load($uri))->route();
 
 	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
 }
@@ -157,7 +159,7 @@ else
 // ----------------------------------------------------------
 // Execute the global "after" filter.
 // ----------------------------------------------------------
-System\Route_Filter::call('after', array($response));
+System\Routing\Filter::call('after', array($response));
 
 // ----------------------------------------------------------
 // Stringify the response.

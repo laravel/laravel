@@ -1,6 +1,6 @@
-<?php namespace System;
+<?php namespace System\Routing;
 
-class Route_Filter {
+class Filter {
 
 	/**
 	 * The loaded route filters.

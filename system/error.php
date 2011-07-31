@@ -62,7 +62,7 @@ class Error {
 	{
 		if (Config::get('error.detail'))
 		{
-			$view = View::make('exception')
+			$view = View::make('error/exception')
                                    ->bind('severity', $severity)
                                    ->bind('message', $message)
                                    ->bind('file', $e->getFile())
