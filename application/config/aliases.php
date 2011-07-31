@@ -18,8 +18,8 @@ return array(
 	|
 	*/
 
-	'Auth' => 'System\\Auth',
 	'Asset' => 'System\\Asset',
+	'Auth' => 'System\\Auth',
 	'Benchmark' => 'System\\Benchmark',
 	'Cache' => 'System\\Cache',
 	'Config' => 'System\\Config',
