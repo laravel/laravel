@@ -37,7 +37,12 @@ class Loader {
 	{
 		$base = require $this->path.'routes'.EXT;
 
-		return (is_dir($this->path.'routes') and $uri != '') ? array_merge($this->load_nested_routes($uri), $base) : $base;
+		if ( ! is_dir($this->path.'routes') or $uri == '')
+		{
+			return $base;
+		}
+
+		return array_merge($this->load_nested_routes($uri), $base);
 	}
 
 	/**
