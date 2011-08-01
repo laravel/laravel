@@ -136,6 +136,16 @@ if (System\Config::get('session.driver') != '')
 }
 
 // --------------------------------------------------------------
+// Load all of the core routing classes.
+// --------------------------------------------------------------
+require SYS_PATH.'request'.EXT;
+require SYS_PATH.'response'.EXT;
+require SYS_PATH.'routing/route'.EXT;
+require SYS_PATH.'routing/router'.EXT;
+require SYS_PATH.'routing/loader'.EXT;
+require SYS_PATH.'routing/filter'.EXT;
+
+// --------------------------------------------------------------
 // Register the route filters.
 // --------------------------------------------------------------
 System\Routing\Filter::register(require APP_PATH.'filters'.EXT);
@@ -150,7 +160,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Routing\Router::make(Request::method(), Request::uri(), new System\Routing\Loader)->route();
+	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader)->route();
 
 	$response = (is_null($route)) ? System\Response::error('404') : $route->call();
 }
