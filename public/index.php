@@ -152,7 +152,7 @@ if (is_null($response))
 {
 	$route = System\Routing\Router::make(Request::method(), Request::uri(), new System\Routing\Loader)->route();
 
-	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
+	$response = (is_null($route)) ? System\Response::error('404') : $route->call();
 }
 else
 {
