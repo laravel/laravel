@@ -8,6 +8,8 @@
  * @link     http://laravel.com
  */
 
+$t = microtime(true);
+
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
@@ -160,7 +162,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader)->route();
+	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader(APP_PATH))->route();
 
 	$response = (is_null($route)) ? System\Response::error('404') : $route->call();
 }
