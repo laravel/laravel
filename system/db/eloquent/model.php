@@ -1,10 +1,25 @@
-<?php namespace System\DB;
+<?php namespace System\DB\Eloquent;
 
 use System\Str;
 use System\Config;
 use System\Inflector;
+use System\DB\Manager;
 
-abstract class Eloquent {
+abstract class Model {
+
+	/**
+	 * The connection that shold be used for the model.
+	 *
+	 * @var string
+	 */
+	public static $connection;
+
+	/**
+	 * The model query instance.
+	 *
+	 * @var Query
+	 */
+	public $query;
 
 	/**
 	 * Indicates if the model exists in the database.
@@ -70,13 +85,6 @@ abstract class Eloquent {
 	public $relating_table;
 
 	/**
-	 * The model query instance.
-	 *
-	 * @var Query
-	 */
-	public $query;
-
-	/**
 	 * Create a new Eloquent model instance.
 	 *
 	 * @param  array  $attributes
@@ -102,6 +110,34 @@ abstract class Eloquent {
 	}
 
 	/**
+	 * Set the eagerly loaded models on the queryable model.
+	 *
+	 * @return Model
+	 */
+	private function _with()
+	{
+		$this->includes = func_get_args();
+		return $this;
+	}
+
+	/**
+	 * Factory for creating queryable Eloquent model instances.
+	 *
+	 * @param  string  $class
+	 * @return object
+	 */
+	public static function query($class)
+	{
+		$model = new $class;
+
+		// Since this method is only used for instantiating models for querying
+		// purposes, we will go ahead and set the Query instance on the model.
+		$model->query = Manager::connection(static::$connection)->table(static::table($class));
+
+		return $model;
+	}
+
+	/**
 	 * Get the table name for a model.
 	 *
 	 * @param  string  $class
@@ -118,35 +154,13 @@ abstract class Eloquent {
 	}
 
 	/**
-	 * Factory for creating new Eloquent model instances.
+	 * Get all of the models from the database.
 	 *
-	 * @param  string  $class
-	 * @return object
+	 * @return array
 	 */
-	public static function make($class)
+	public static function all()
 	{
-		$model = new $class;
-
-		// Since this method is only used for instantiating models for querying
-		// purposes, we will go ahead and set the Query instance on the model.
-		$model->query = Query::table(static::table($class));
-
-		return $model;
-	}
-
-	/**
-	 * Create a new model instance and set the relationships
-	 * that should be eagerly loaded.
-	 *
-	 * @return mixed
-	 */
-	public static function with()
-	{
-		$model = static::make(get_called_class());
-
-		$model->includes = func_get_args();
-
-		return $model;
+		return Hydrator::hydrate(static::query(get_called_class()));
 	}
 
 	/**
@@ -157,7 +171,7 @@ abstract class Eloquent {
 	 */
 	public static function find($id)
 	{
-		return static::make(get_called_class())->where('id', '=', $id)->first();
+		return static::query(get_called_class())->where('id', '=', $id)->first();
 	}
 
 	/**
@@ -167,7 +181,7 @@ abstract class Eloquent {
 	 */
 	private function _get()
 	{
-		return Eloquent\Hydrator::hydrate($this);
+		return Hydrator::hydrate($this);
 	}
 
 	/**
@@ -177,7 +191,7 @@ abstract class Eloquent {
 	 */
 	private function _first()
 	{
-		return (count($results = Eloquent\Hydrator::hydrate($this->take(1))) > 0) ? reset($results) : null;
+		return (count($results = Hydrator::hydrate($this->take(1))) > 0) ? reset($results) : null;
 	}
 
 	/**
@@ -192,12 +206,7 @@ abstract class Eloquent {
 
 		if (is_null($per_page))
 		{
-			if ( ! property_exists(get_class($this), 'per_page'))
-			{
-				throw new \Exception("The number of models to display per page for model [".get_class($this)."] has not been specified.");
-			}
-
-			$per_page = static::$per_page;
+			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 15;
 		}
 
 		$current_page = \System\Paginator::page($total, $per_page);
@@ -248,7 +257,7 @@ abstract class Eloquent {
 	{
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
-		return static::make($model)->where($this->relating_key, '=', $this->id);
+		return static::query($model)->where($this->relating_key, '=', $this->id);
 	}
 
 	/**
@@ -277,7 +286,7 @@ abstract class Eloquent {
 			$this->relating_key = $caller['function'].'_id';
 		}
 
-		return static::make($model)->where('id', '=', $this->attributes[$this->relating_key]);
+		return static::query($model)->where('id', '=', $this->attributes[$this->relating_key]);
 	}
 
 	/**
@@ -318,7 +327,7 @@ abstract class Eloquent {
 
 		$associated_key = (is_null($associated_key)) ? strtolower($model).'_id' : $associated_key;
 
-		return static::make($model)
+		return static::query($model)
                              ->select(array(static::table($model).'.*'))
                              ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.$associated_key)
                              ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
@@ -331,25 +340,19 @@ abstract class Eloquent {
 	 */
 	public function save()
 	{
-		if ($this->exists and count($this->dirty) == 0)
-		{
-			return true;
-		}
+		// If the model does not have any dirty attributes, there is no reason
+		// to save it to the database.
+		if ($this->exists and count($this->dirty) == 0) return true;
 
 		$model = get_class($this);
 
 		// Since the model was instantiated using "new", a query instance has not been set.
 		// Only models being used for querying have their query instances set by default.
-		$this->query = Query::table(static::table($model));
+		$this->query = Manager::connection(static::$connection)->table(static::table($model));
 
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
-			$this->updated_at = date('Y-m-d H:i:s');
-
-			if ( ! $this->exists)
-			{
-				$this->created_at = $this->updated_at;
-			}
+			$this->timestamp();
 		}
 
 		// If the model already exists in the database, we will just update it.
@@ -369,6 +372,21 @@ abstract class Eloquent {
 	}
 
 	/**
+	 * Set the creation and update timestamps on the model.
+	 *
+	 * @return void
+	 */
+	private function timestamp()
+	{
+		$this->updated_at = date('Y-m-d H:i:s');
+
+		if ( ! $this->exists)
+		{
+			$this->created_at = $this->updated_at;
+		}
+	}
+
+	/**
 	 * Delete a model from the database.
 	 *
 	 * @param  int  $id
@@ -376,9 +394,13 @@ abstract class Eloquent {
 	 */
 	public function delete($id = null)
 	{
+		// If the delete method is being called on an existing model, we only want to delete
+		// that model. If it is being called from an Eloquent query model, it is probably
+		// the developer's intention to delete more than one model, so we will pass the
+		// delete statement to the query instance.
 		if ($this->exists)
 		{
-			return Query::table(static::table(get_class($this)))->delete($this->id);
+			return Manager::connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
 		}
 
 		return $this->query->delete();
@@ -389,21 +411,24 @@ abstract class Eloquent {
 	 */
 	public function __get($key)
 	{
-		// The ignored attributes hold all of the loaded relationships for the model.
+		// Is the requested item a model relationship that has already been loaded?
+		// All of the loaded relationships are stored in the "ignore" array.
 		if (array_key_exists($key, $this->ignore))
 		{
 			return $this->ignore[$key];
 		}
-
-		// If the attribute is a relationship method, return the related models.
-		if (method_exists($this, $key))
+		// Is the requested item a model relationship? If it is, we will dynamically
+		// load it and return the results of the relationship query.
+		elseif (method_exists($this, $key))
 		{
 			$model = $this->$key();
 
 			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $model->first() : $model->get();
 		}
-
-		return (array_key_exists($key, $this->attributes)) ? $this->attributes[$key] : null;
+		elseif (array_key_exists($key, $this->attributes))
+		{
+			return $this->attributes[$key];
+		}
 	}
 
 	/**
@@ -412,6 +437,7 @@ abstract class Eloquent {
 	public function __set($key, $value)
 	{
 		// If the key is a relationship, add it to the ignored attributes.
+		// Ignored attributes are not stored in the database.
 		if (method_exists($this, $key))
 		{
 			$this->ignore[$key] = $value;
@@ -444,20 +470,24 @@ abstract class Eloquent {
 	 */
 	public function __call($method, $parameters)
 	{
-		if (in_array($method, array('get', 'first', 'paginate')))
+		// To allow the "with", "get", "first", and "paginate" methods to be called both
+		// staticly and on an instance, we need to have private, underscored versions
+		// of the methods and handle them dynamically.
+		if (in_array($method, array('with', 'get', 'first', 'paginate')))
 		{
-			$method = '_'.$method;
-
-			return $this->$method();
+			return call_user_func_array(array($this, '_'.$method), $parameters);
 		}
 
+		// All of the aggregate functions can be passed directly to the query instance.
+		// For these functions, we can simply return the response of the query.
 		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($this->query, $method), $parameters);
 		}
 
 		// Pass the method to the query instance. This allows the chaining of methods
-		// from the query builder, providing a nice, convenient API.
+		// from the query builder, providing the same convenient query API as the
+		// query builder itself.
 		call_user_func_array(array($this->query, $method), $parameters);
 
 		return $this;
@@ -468,30 +498,8 @@ abstract class Eloquent {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		$model = static::make(get_called_class());
-
-		if ($method == 'all')
-		{
-			return $model->_get();
-		}
-
-		if (in_array($method, array('get', 'first', 'paginate')))
-		{
-			$method = '_'.$method;
-
-			return $model->$method();
-		}
-
-		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
-		{
-			return call_user_func_array(array($model->query, $method), $parameters);
-		}
-
-		// Pass the method to the query instance. This allows the chaining of methods
-		// from the query builder, providing a nice, convenient API.
-		call_user_func_array(array($model->query, $method), $parameters);
-
-		return $model;
+		// Just pass the method to a model instance and let the __call method take care of it.
+		return call_user_func_array(array(static::query(get_called_class()), $method), $parameters);
 	}
 
 }

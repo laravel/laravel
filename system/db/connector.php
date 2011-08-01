@@ -9,7 +9,7 @@ class Connector {
 	 *
 	 * @var array
 	 */
-	public static $options = array(
+	public $options = array(
 			\PDO::ATTR_CASE => \PDO::CASE_LOWER,
 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_ORACLE_NULLS => \PDO::NULL_NATURAL,
@@ -20,24 +20,22 @@ class Connector {
 	/**
 	 * Establish a PDO database connection.
 	 *
-	 * @param  string  $connection
+	 * @param  object  $connection
 	 * @return PDO
 	 */
-	public static function connect($connection)
+	public function connect($config)
 	{
-		$config = static::configuration($connection);
-
 		switch ($config->driver)
 		{
 			case 'sqlite':
-				return static::connect_to_sqlite($config);
+				return $this->connect_to_sqlite($config);
 
 			case 'mysql':
 			case 'pgsql':
-				return static::connect_to_server($config);
+				return $this->connect_to_server($config);
 			
 			default:
-				return static::connect_to_generic($config);
+				return $this->connect_to_generic($config);
 		}
 
 		throw new \Exception('Database driver '.$config->driver.' is not supported.');
@@ -47,20 +45,25 @@ class Connector {
 	 * Establish a PDO connection to a SQLite database.
 	 *
 	 * SQLite database paths can be specified either relative to the application/db
-	 * directory, or as an absolute path to any location on the file system.
+	 * directory, or as an absolute path to any location on the file system. In-memory
+	 * databases are also supported.
 	 *
 	 * @param  object  $config
 	 * @return PDO
 	 */
-	private static function connect_to_sqlite($config)
+	private function connect_to_sqlite($config)
 	{
-		if (file_exists($path = DATABASE_PATH.$config->database.'.sqlite'))
+		if ($config->database == ':memory:')
 		{
-			return new \PDO('sqlite:'.$path, null, null, static::$options);
+			return new \PDO('sqlite::memory:', null, null, $this->options);
+		}
+		elseif (file_exists($path = DATABASE_PATH.$config->database.'.sqlite'))
+		{
+			return new \PDO('sqlite:'.$path, null, null, $this->options);
 		}
 		elseif (file_exists($config->database))
 		{
-			return new \PDO('sqlite:'.$config->database, null, null, static::$options);
+			return new \PDO('sqlite:'.$config->database, null, null, $this->options);
 		}
 		else
 		{
@@ -74,7 +77,7 @@ class Connector {
 	 * @param  object  $config
 	 * @return PDO
 	 */
-	private static function connect_to_server($config)
+	private function connect_to_server($config)
 	{
 		$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
 
@@ -83,7 +86,7 @@ class Connector {
 			$dsn .= ';port='.$config->port;
 		}
 
-		$connection = new \PDO($dsn, $config->username, $config->password, static::$options);
+		$connection = new \PDO($dsn, $config->username, $config->password, $this->options);
 
 		if (isset($config->charset))
 		{
@@ -99,27 +102,9 @@ class Connector {
 	 * @param  object  $config
 	 * @return PDO
 	 */
-	private static function connect_to_generic($config)
+	private function connect_to_generic($config)
 	{
-		return new \PDO($config->driver.':'.$config->dsn, $config->username, $config->password, static::$options);
-	}
-
-	/**
-	 * Get the configuration options for a database connection.
-	 *
-	 * @param  string  $connection
-	 * @return object
-	 */
-	private static function configuration($connection)
-	{
-		$config = Config::get('db.connections');
-
-		if ( ! array_key_exists($connection, $config))
-		{
-			throw new \Exception("Database connection [$connection] is not defined.");
-		}
-
-		return (object) $config[$connection];
+		return new \PDO($config->driver.':'.$config->dsn, $config->username, $config->password, $this->options);
 	}
 
 }
