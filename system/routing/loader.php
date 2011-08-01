@@ -51,11 +51,12 @@ class Loader {
 	 * To improve performance, this operation will only be performed once. The routes
 	 * will be cached and returned on every subsequent call.
 	 *
+	 * @param  bool   $reload
 	 * @return array
 	 */
-	public static function everything()
+	public static function everything($reload = false)
 	{
-		if ( ! is_null(static::$routes)) return static::$routes;
+		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
 		$routes = require APP_PATH.'routes'.EXT;
 
