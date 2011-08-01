@@ -65,10 +65,8 @@ class Connector {
 		{
 			return new \PDO('sqlite:'.$config->database, null, null, $this->options);
 		}
-		else
-		{
-			throw new \Exception("SQLite database [".$config->database."] could not be found.");
-		}
+
+		throw new \Exception("SQLite database [".$config->database."] could not be found.");
 	}
 
 	/**
