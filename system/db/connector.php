@@ -47,14 +47,19 @@ class Connector {
 	 * Establish a PDO connection to a SQLite database.
 	 *
 	 * SQLite database paths can be specified either relative to the application/db
-	 * directory, or as an absolute path to any location on the file system.
+	 * directory, or as an absolute path to any location on the file system. In-memory
+	 * databases are also supported.
 	 *
 	 * @param  object  $config
 	 * @return PDO
 	 */
 	private static function connect_to_sqlite($config)
 	{
-		if (file_exists($path = DATABASE_PATH.$config->database.'.sqlite'))
+		if ($config->database == ':memory:')
+		{
+			return new \PDO('sqlite::memory:', null, null, static::$options);
+		}
+		elseif (file_exists($path = DATABASE_PATH.$config->database.'.sqlite'))
 		{
 			return new \PDO('sqlite:'.$path, null, null, static::$options);
 		}
