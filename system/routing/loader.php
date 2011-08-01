@@ -73,7 +73,7 @@ class Loader {
 	 * @param  string  $path
 	 * @return array
 	 */
-	public static function everything($reload = false, $path = null)
+	public static function all($reload = false, $path = null)
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
