@@ -25,9 +25,6 @@ class Loader {
 	/**
 	 * Load the appropriate routes from the routes directory.
 	 *
-	 * This is done by working down the URI until we find the deepest
-	 * possible matching route file.
-	 *
 	 * @param  string  $uri
 	 * @return array
 	 */
@@ -35,6 +32,8 @@ class Loader {
 	{
 		$segments = explode('/', $uri);
 
+		// Work backwards through the URI segments until we find the deepest possible
+		// matching route file in the routes directory.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
 			if (file_exists($path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
