@@ -305,7 +305,7 @@ class Validator {
 			$parameters[1] = $attribute;
 		}
 
-		return DB::table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
+		return DB\Manager::connection()->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
 
 	/**
