@@ -10,6 +10,24 @@ class Loader {
 	private static $routes;
 
 	/**
+	 * The path where the routes are located.
+	 *
+	 * @var string
+	 */
+	public $path;
+
+	/**
+	 * Create a new route loader instance.
+	 *
+	 * @param  string  $path
+	 * @return void
+	 */
+	public function __construct($path)
+	{
+		$this->path = $path;
+	}
+
+	/**
 	 * Load the appropriate routes for the request URI.
 	 *
 	 * @param  string
@@ -17,9 +35,9 @@ class Loader {
 	 */
 	public function load($uri)
 	{
-		$base = require APP_PATH.'routes'.EXT;
+		$base = require $this->path.'routes'.EXT;
 
-		return (is_dir(APP_PATH.'routes') and $uri != '') ? array_merge($this->load_nested_routes($uri), $base) : $base;
+		return (is_dir($this->path.'routes') and $uri != '') ? array_merge($this->load_nested_routes($uri), $base) : $base;
 	}
 
 	/**
@@ -36,7 +54,7 @@ class Loader {
 		// matching route file in the routes directory.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = ROUTE_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			if (file_exists($path = $this->path.'routes/'.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
 				return require $path;
 			}
@@ -51,20 +69,23 @@ class Loader {
 	 * To improve performance, this operation will only be performed once. The routes
 	 * will be cached and returned on every subsequent call.
 	 *
-	 * @param  bool   $reload
+	 * @param  bool    $reload
+	 * @param  string  $path
 	 * @return array
 	 */
-	public static function everything($reload = false)
+	public static function everything($reload = false, $path = null)
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
-		$routes = require APP_PATH.'routes'.EXT;
+		if (is_null($path)) $path = APP_PATH;
 
-		if (is_dir(APP_PATH.'routes'))
+		$routes = require $path.'routes'.EXT;
+
+		if (is_dir($path.'routes'))
 		{
 			// Since route files can be nested deep within the route directory, we need to
 			// recursively spin through the directory to find every file.
-			$directoryIterator = new \RecursiveDirectoryIterator(APP_PATH.'routes');
+			$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
 
 			$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
 
