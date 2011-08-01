@@ -3,13 +3,6 @@
 class Finder {
 
 	/**
-	 * All of the loaded routes.
-	 *
-	 * @var array
-	 */
-	public static $routes;
-
-	/**
 	 * The named routes that have been found so far.
 	 *
 	 * @var array
@@ -17,35 +10,25 @@ class Finder {
 	public static $names = array();
 
 	/**
-	 * Find a route by name.
+	 * Find a named route in a given array of routes.
 	 *
 	 * @param  string  $name
+	 * @param  array   $routes
 	 * @return array
 	 */
-	public static function find($name)
+	public static function find($name, $routes)
 	{
-		// This class maintains its own list of routes because the router only loads routes that
-		// are applicable to the current request URI. But, this class obviously needs access
-		// to all of the routes, not just the ones applicable to the request URI.
-		if (is_null(static::$routes))
-		{
-			static::$routes = require APP_PATH.'routes'.EXT;
-
-			if (is_dir(APP_PATH.'routes'))
-			{
-				static::$routes = array_merge(static::load(), static::$routes);
-			}
-		}
-
 		if (array_key_exists($name, static::$names))
 		{
 			return static::$names[$name];
 		}
 
-		$arrayIterator = new \RecursiveArrayIterator(static::$routes);
+		$arrayIterator = new \RecursiveArrayIterator($routes);
 
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
+		// Since routes can be nested deep within sub-directories, we need to recursively
+		// iterate through each directory and gather all of the routes.
 		foreach ($recursiveIterator as $iterator)
 		{
 			$route = $recursiveIterator->getSubIterator();
@@ -55,35 +38,6 @@ class Finder {
 				return static::$names[$name] = array($arrayIterator->key() => iterator_to_array($route));
 			}
 		}
-	}
-
-	/**
-	 * Load all of the routes from the routes directory.
-	 *
-	 * All of the various route files will be merged together
-	 * into a single array that can be searched.
-	 *
-	 * @return array
-	 */
-	private static function load()
-	{
-		$routes = array();
-
-		// Since route files can be nested deep within the route directory, we need to
-		// recursively spin through the directory to find every file.
-		$directoryIterator = new \RecursiveDirectoryIterator(APP_PATH.'routes');
-
-		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
-
-		foreach ($recursiveIterator as $file)
-		{
-			if (filetype($file) === 'file' and strpos($file, EXT) !== false)
-			{
-				$routes = array_merge(require $file, $routes);
-			}
-		}
-
-		return $routes;
 	}
 
 }

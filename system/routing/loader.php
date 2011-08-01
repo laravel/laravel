@@ -3,6 +3,13 @@
 class Loader {
 
 	/**
+	 * All of the routes for the application.
+	 *
+	 * @var array
+	 */
+	private static $routes;
+
+	/**
 	 * Load the appropriate routes for the request URI.
 	 *
 	 * @param  string
@@ -37,6 +44,40 @@ class Loader {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Get all of the routes for the application.
+	 *
+	 * To improve performance, this operation will only be performed once. The routes
+	 * will be cached and returned on every subsequent call.
+	 *
+	 * @return array
+	 */
+	public static function everything()
+	{
+		if ( ! is_null(static::$routes)) return static::$routes;
+
+		$routes = require APP_PATH.'routes'.EXT;
+
+		if (is_dir(APP_PATH.'routes'))
+		{
+			// Since route files can be nested deep within the route directory, we need to
+			// recursively spin through the directory to find every file.
+			$directoryIterator = new \RecursiveDirectoryIterator(APP_PATH.'routes');
+
+			$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+			foreach ($recursiveIterator as $file)
+			{
+				if (filetype($file) === 'file' and strpos($file, EXT) !== false)
+				{
+					$routes = array_merge(require $file, $routes);
+				}
+			}
+		}
+
+		return static::$routes = $routes;
 	}
 
 }
