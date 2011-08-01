@@ -71,7 +71,7 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = Route_Finder::find($name)))
+		if ( ! is_null($route = Routing\Finder::find($name)))
 		{
 			$uris = explode(', ', key($route));
 

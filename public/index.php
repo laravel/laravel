@@ -136,6 +136,11 @@ if (System\Config::get('session.driver') != '')
 }
 
 // --------------------------------------------------------------
+// Register the route filters.
+// --------------------------------------------------------------
+System\Routing\Filter::register(require APP_PATH.'filters'.EXT);
+
+// --------------------------------------------------------------
 // Execute the global "before" filter.
 // --------------------------------------------------------------
 $response = System\Routing\Filter::call('before', array(), true);
@@ -145,7 +150,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Routing\Router::make(Request::method(), Request::uri())->route();
+	$route = System\Routing\Router::make(Request::method(), Request::uri(), new System\Routing\Loader)->route();
 
 	$response = (is_null($route)) ? System\Response::make(System\View::make('error/404'), 404) : $route->call();
 }

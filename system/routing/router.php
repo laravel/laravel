@@ -23,16 +23,16 @@ class Router {
 	 *
 	 * @param  string  $method
 	 * @param  string  $uri
-	 * @param  array   $routes
+	 * @param  Loader  $loader
 	 * @return void
 	 */
-	public function __construct($method, $uri, $routes = null)
+	public function __construct($method, $uri, $loader)
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
 		$this->request = $method.' /'.trim($uri, '/');
 
-		$this->routes = (is_null($routes)) ? Loader::load($uri) : $routes;
+		$this->routes = $loader->load($uri);
 	}
 
 	/**
@@ -55,6 +55,8 @@ class Router {
 	 */
 	public function route()
 	{
+		// Check for a literal route match first. If we find one, there is
+		// no need to spin through all of the routes.
 		if (isset($this->routes[$this->request]))
 		{
 			return Request::$route = new Route($this->request, $this->routes[$this->request]);
