@@ -37,6 +37,11 @@ class Arr {
 	 */
 	public static function dot($array, $key, $default = null)
 	{
+		if (is_null($key))
+		{
+			return $array;
+		}
+
 		foreach (explode('.', $key) as $segment)
 		{
 			if ( ! isset($array[$segment]))
