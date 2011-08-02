@@ -75,6 +75,7 @@ class Hydrator {
 		unset($eloquent->attributes[$spoof]);
 
 		// Reset the WHERE clause and bindings on the query. We'll add our own WHERE clause soon.
+		// This will allow us to load a range of related models instead of only one.
 		$relationship->query->reset_where();
 
 		// Initialize the relationship attribute on the parents. As expected, "many" relationships
@@ -192,7 +193,7 @@ class Hydrator {
 
 			$related->exists = true;
 
-			// Remove the foreign key since it was added to the query to help match to the children.
+			// Remove the foreign key since it was only added to the query to help match the models.
 			unset($related->attributes[$relating_key]);
 
 			$parents[$child->$relating_key]->ignore[$include][$child->id] = $related;
