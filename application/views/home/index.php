@@ -43,7 +43,14 @@
 			line-height: 25px;
 		}
 
-		#wrapper {
+		#header {
+			margin: 0 auto;
+			margin-bottom: 15px;
+			margin-top: 20px;
+			width: 80%;
+		}
+
+		.wrapper {
 			background-color: #fff;
 			border-radius: 10px;
 			margin: 0 auto;
@@ -51,15 +58,14 @@
 			width: 80%;
 		}
 
-		#wrapper h2:first-of-type {
+		.wrapper h2:first-of-type {
 			margin-top: 0;
 		}
 
-		#header {
-			margin: 0 auto;
-			margin-bottom: 15px;
-			margin-top: 20px;
-			width: 80%;
+		.footer {
+			background-color: #eee;
+			font-size: 12px;
+			text-align: right;
 		}
 	</style>
 </head> 
@@ -68,12 +74,16 @@
 		<h1 class="laravel">Laravel</h1>
 	</div>
 
-	<div id="wrapper">
+	<div class="wrapper">
 		<h2>Installation Complete!</h2>
 
 		<p>Ready to dig in? Start building your application in the <strong>application/routes.php</strong> file.</p>
 
 		<p>Need to learn more? Peruse our <a href="http://laravel.com">wonderful documentation</a>.</p>
+	</div>
+
+	<div class="wrapper footer">
+		<?php echo Benchmark::check('laravel').'ms | '.Benchmark::memory().'mb'; ?>
 	</div>
 </body> 
 </html>
