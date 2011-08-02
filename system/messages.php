@@ -30,8 +30,7 @@ class Messages {
 	 */
 	public function add($key, $message)
 	{
-		// Make sure the message is not duplicated.
-		if ( ! array_key_exists($key, $this->messages) or ! is_array($this->messages[$key]) or ! in_array($message, $this->messages[$key]))
+		if ( ! isset($this->messages[$key]) or array_search($message, $this->messages[$key]) === false)
 		{
 			$this->messages[$key][] = $message;
 		}
