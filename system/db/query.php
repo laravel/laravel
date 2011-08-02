@@ -122,12 +122,7 @@ class Query {
 	{
 		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
 
-		foreach ($columns as $column)
-		{
-			$wrapped[] = $this->wrap($column);
-		}
-
-		$this->select .= implode(', ', $wrapped);
+		$this->select .= implode(', ', array_map(array($this, 'wrap'), $columns));
 
 		return $this;
 	}
@@ -517,11 +512,20 @@ class Query {
 
 		$sql = $this->select.' '.$this->from.' '.$this->where;
 
-		if (count($this->orderings) > 0) $sql .= ' ORDER BY '.implode(', ', $this->orderings);
+		if (count($this->orderings) > 0)
+		{
+			$sql .= ' ORDER BY '.implode(', ', $this->orderings);
+		}
 
-		if ( ! is_null($this->limit)) $sql .= ' LIMIT '.$this->limit;
+		if ( ! is_null($this->limit))
+		{
+			$sql .= ' LIMIT '.$this->limit;
+		}
 
-		if ( ! is_null($this->offset)) $sql .= ' OFFSET '.$this->offset;
+		if ( ! is_null($this->offset))
+		{
+			$sql .= ' OFFSET '.$this->offset;
+		}
 
 		$results = $this->connection->query($sql, $this->bindings);
 
@@ -602,9 +606,7 @@ class Query {
 			$sets[] = $this->wrap($column).' = ?';
 		}
 
-		$sql .= implode(', ', $sets).' '.$this->where;
-
-		return $this->connection->query($sql, array_merge(array_values($values), $this->bindings));
+		return $this->connection->query($sql.implode(', ', $sets).' '.$this->where, array_merge(array_values($values), $this->bindings));
 	}
 
 	/**
@@ -670,11 +672,13 @@ class Query {
 	 */
 	public function __call($method, $parameters)
 	{
+		// Dynamically handle the addition of dynamic where clauses.
 		if (strpos($method, 'where_') === 0)
 		{
 			return $this->dynamic_where($method, $parameters, $this);
 		}
 
+		// Dynamically handle calls to any of the aggregate query functions.
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
 			return ($method == 'count') ? $this->aggregate(strtoupper($method), '*') : $this->aggregate(strtoupper($method), $parameters[0]);
