@@ -635,12 +635,17 @@ class Query {
 	{
 		if (strpos(strtolower($value), ' as ') !== false)
 		{
-			return $this->wrap_alias($value, $connection);
+			return $this->wrap_alias($value);
 		}
 
 		$wrap = $this->connection->wrapper();
 
-		return implode('.', array_map(function($segment) use ($wrap) { return ($segment != '*') ? $wrap.$segment.$wrap : $segment; }, explode('.', $value)));
+		foreach (explode('.', $value) as $segment)
+		{
+			$wrapped[] = ($segment != '*') ? $wrap.$segment.$wrap : $segment;
+		}
+
+		return implode('.', $wrapped);
 	}
 
 	/**
