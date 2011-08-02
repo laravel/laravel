@@ -194,17 +194,19 @@ class Session {
 
 		static::driver()->save(static::$session);
 
+		$config = Config::get('session');
+
 		if ( ! headers_sent())
 		{
-			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
+			$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
 
-			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'), Config::get('session.http_only'));
+			Cookie::put('laravel_session', static::$session['id'], $minutes, $config['path'], $config['domain'], $config['https'], $config['http_only']);
 		}
 
 		// 2% chance of performing session garbage collection...
 		if (mt_rand(1, 100) <= 2)
 		{
-			static::driver()->sweep(time() - (Config::get('session.lifetime') * 60));
+			static::driver()->sweep(time() - ($config['lifetime'] * 60));
 		}
 	}
 
