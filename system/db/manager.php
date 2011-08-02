@@ -29,14 +29,12 @@ class Manager {
 
 		if ( ! array_key_exists($connection, static::$connections))
 		{
-			$config = Config::get('db.connections');
-
-			if ( ! array_key_exists($connection, $config))
+			if (is_null($config = Config::get('db.connections.'.$connection)))
 			{
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			static::$connections[$connection] = new Connection($connection, (object) $config[$connection], new Connector);
+			static::$connections[$connection] = new Connection($connection, (object) $config, new Connector);
 		}
 
 		return static::$connections[$connection];
