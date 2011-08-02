@@ -45,9 +45,7 @@ class Config {
 
 		list($file, $key) = static::parse($key);
 
-		static::load($file);
-
-		if ( ! array_key_exists($file, static::$items))
+		if ( ! static::load($file))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
@@ -99,11 +97,11 @@ class Config {
 	 * Any environment specific configuration files will be merged with the root file.
 	 *
 	 * @param  string  $file
-	 * @return void
+	 * @return bool
 	 */
 	public static function load($file)
 	{
-		if (array_key_exists($file, static::$items)) return;
+		if (array_key_exists($file, static::$items)) return true;
 
 		$config = (file_exists($path = CONFIG_PATH.$file.EXT)) ? require $path : array();
 
@@ -112,10 +110,7 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		if (count($config) > 0)
-		{
-			static::$items[$file] = $config;
-		}
+		return (count(static::$items[$file] = $config) > 0);
 	}
 
 }
