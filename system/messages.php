@@ -105,7 +105,10 @@ class Messages {
 	 */
 	private function format($messages, $format)
 	{
-		array_walk($messages, function(&$message, $key) use ($format) { $message = str_replace(':message', $message, $format); });
+		foreach ($messages as $key => &$message)
+		{
+			$message = str_replace(':message', $message, $format);
+		}
 
 		return $messages;
 	}
