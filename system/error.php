@@ -3,7 +3,7 @@
 class Error {
 
 	/**
-	 * Error levels and descriptions.
+	 * Human-readable error levels and descriptions.
 	 *
 	 * @var array
 	 */
@@ -31,6 +31,9 @@ class Error {
 	 */
 	public static function handle($e)
 	{
+		// Clear the output buffer so nothing is sent to the browser except the error
+		// message. This prevents any views that have already been rendered from being
+		// in an incomplete or erroneous state.
 		if (ob_get_level() > 0)
 		{
 			ob_clean();
@@ -38,11 +41,11 @@ class Error {
 
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		$message = rtrim($e->getMessage(), '.');
+		$message = rtrim($e->getMessage(), '.').' in '.str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile()).' on line '.$e->getLine().'.';
 
 		if (Config::get('error.log'))
 		{
-			call_user_func(Config::get('error.logger'), $severity, $message.' in '.$e->getFile().' on line '.$e->getLine());
+			call_user_func(Config::get('error.logger'), $severity, $message, $e->getTraceAsString());
 		}
 
 		static::show($e, $severity, $message);
@@ -65,11 +68,10 @@ class Error {
 			$view = View::make('error/exception')
                                    ->bind('severity', $severity)
                                    ->bind('message', $message)
-                                   ->bind('file', $e->getFile())
                                    ->bind('line', $e->getLine())
                                    ->bind('trace', $e->getTraceAsString())
                                    ->bind('contexts', static::context($e->getFile(), $e->getLine()));
-			
+
 			Response::make($view, 500)->send();
 		}
 		else
@@ -94,15 +96,9 @@ class Error {
 
 			array_unshift($file, '');
 		
-			if (($start = $line - $padding) < 0)
-			{
-				$start = 0;
-			}
+			if (($start = $line - $padding) < 0) $start = 0;
 
-			if (($length = ($line - $start) + $padding + 1) < 0)
-			{
-				$length = 0;
-			}
+			if (($length = ($line - $start) + $padding + 1) < 0) $length = 0;
 
 			return array_slice($file, $start, $length, true);
 		}
