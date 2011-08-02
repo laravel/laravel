@@ -78,7 +78,7 @@
 	<div id="wrapper"> 
 		<h2>Message:</h2>
 
-		<p><?php echo $message; ?> in <strong><?php echo basename($file); ?></strong> on line <strong><?php echo $line; ?></strong>.</p>
+		<p><?php echo $message; ?></p>
 
 		<h2>Stack Trace:</h2>
 
