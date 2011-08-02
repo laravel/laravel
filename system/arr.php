@@ -22,7 +22,7 @@ class Arr {
 
 		foreach (explode('.', $key) as $segment)
 		{
-			if ( ! isset($array[$segment]))
+			if ( ! array_key_exists($segment, $array))
 			{
 				return is_callable($default) ? call_user_func($default) : $default;
 			}
