@@ -2,6 +2,7 @@
 
 use System\Str;
 use System\Config;
+use System\Paginator;
 
 class Query {
 
@@ -239,6 +240,30 @@ class Query {
 	}
 
 	/**
+	 * Add a where condition for the primary key to the query.
+	 * This is simply a short-cut method for convenience.
+	 *
+	 * @param  mixed  $value
+	 * @return Query
+	 */
+	public function where_id($value)
+	{
+		return $this->where('id', '=', $value);
+	}
+
+	/**
+	 * Add an or where condition for the primary key to the query.
+	 * This is simply a short-cut method for convenience.
+	 *
+	 * @param  mixed  $value
+	 * @return Query
+	 */
+	public function or_where_id($value)
+	{
+		return $this->or_where('id', '=', $value);		
+	}
+
+	/**
 	 * Add a where in condition to the query.
 	 *
 	 * @param  string  $column
@@ -473,7 +498,7 @@ class Query {
 
 		$this->select($columns);
 
-		return \System\Paginator::make($this->for_page(\System\Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**
