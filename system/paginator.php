@@ -107,7 +107,9 @@ class Paginator {
 	 */
 	public function links($adjacent = 3)
 	{
-		return ($this->last_page > 1) ? '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>' : '';
+		if ($this->last_page <= 1) return '';
+
+		return '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>';
 	}
 
 	/**
@@ -120,7 +122,14 @@ class Paginator {
 	 */
 	private function numbers($adjacent = 3)
 	{
-		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
+		// The hard-coded "7" is to account for all of the constant elements in a sliding range.
+		// Namely: The the current page, the two ellipses, the two beginning pages, and the two ending pages.
+		if ($this->last_page < 7 + ($adjacent * 2))
+		{
+			return $this->range(1, $this->last_page);
+		}
+
+		return $this->slider($adjacent);
 	}
 
 	/**
@@ -152,7 +161,12 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.previous')->get($this->language);
 
-		return ($this->page > 1) ? $this->link($this->page - 1, $text, 'prev_page').' ' : HTML::span($text, array('class' => 'disabled prev_page')).' ';
+		if ($this->page > 1)
+		{
+			return $this->link($this->page - 1, $text, 'prev_page').' ';
+		}
+
+		return HTML::span($text, array('class' => 'disabled prev_page')).' ';
 	}
 
 	/**
@@ -164,7 +178,12 @@ class Paginator {
 	{
 		$text = Lang::line('pagination.next')->get($this->language);
 
-		return ($this->page < $this->last_page) ? $this->link($this->page + 1, $text, 'next_page') : HTML::span($text, array('class' => 'disabled next_page'));
+		if ($this->page < $this->last_page)
+		{
+			return $this->link($this->page + 1, $text, 'next_page');
+		}
+
+		return HTML::span($text, array('class' => 'disabled next_page'));
 	}
 
 	/**
