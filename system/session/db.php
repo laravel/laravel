@@ -17,7 +17,11 @@ class DB implements Driver {
 
 		if ( ! is_null($session))
 		{
-			return array('id' => $session->id, 'last_activity' => $session->last_activity, 'data' => unserialize($session->data));
+			return array(
+				'id'            => $session->id,
+				'last_activity' => $session->last_activity,
+				'data'          => unserialize($session->data)
+			);
 		}
 	}
 
@@ -31,7 +35,11 @@ class DB implements Driver {
 	{
 		$this->delete($session['id']);
 
-		$this->table()->insert(array('id' => $session['id'], 'last_activity' => $session['last_activity'], 'data' => serialize($session['data'])));
+		$this->table()->insert(array(
+			'id'            => $session['id'], 
+			'last_activity' => $session['last_activity'], 
+			'data'          => serialize($session['data'])
+		));
 	}
 
 	/**
