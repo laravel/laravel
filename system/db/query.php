@@ -170,7 +170,7 @@ class Query {
 	}
 
 	/**
-	 * Reset the where clause to its initial state.
+	 * Reset the where clause to its initial state. All bindings will be cleared.
 	 *
 	 * @return void
 	 */
@@ -345,6 +345,9 @@ class Query {
 	/**
 	 * Add dynamic where conditions to the query.
 	 *
+	 * Dynamic queries are caught by the __call magic method and are parsed here.
+	 * They provide a convenient, expressive API for building simple conditions.
+	 *
 	 * @param  string  $method
 	 * @param  array   $parameters
 	 * @return Query
@@ -466,24 +469,11 @@ class Query {
 	 */
 	public function paginate($per_page, $columns = array('*'))
 	{
-		$select = $this->select;
-
 		$total = $this->count();
 
-		// Every query clears the SELECT clause, so we store the contents of the clause
-		// before executing the count query and then put the contents back in afterwards.
-		if ( ! is_null($select))
-		{
-			$this->select = $select;
-		}
-		else
-		{
-			$this->select($columns);
-		}
+		$this->select($columns);
 
-		$current_page = \System\Paginator::page($total, $per_page);
-
-		return \System\Paginator::make($this->for_page($current_page, $per_page)->get(), $total, $per_page);
+		return \System\Paginator::make($this->for_page(\System\Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**
@@ -557,8 +547,8 @@ class Query {
 	{
 		$sql = $this->compile_insert($values);
 
-		// Use the RETURNING clause on Postgres instead of the PDO lastInsertID method.
-		// The PDO method is a little cumbersome using Postgres.
+		// Use the RETURNING clause on PostgreSQL so don't have to worry about sequence columns.
+		// MySQL and SQLite can use the PDO's lastInsertID() method.
 		if ($this->connection->driver() == 'pgsql')
 		{
 			$query = $this->connection->pdo->prepare($sql.' RETURNING '.$this->wrap('id'));
@@ -583,10 +573,7 @@ class Query {
 	{
 		$sql = 'INSERT INTO '.$this->wrap($this->table);
 
-		foreach (array_keys($values) as $column)
-		{
-			$columns[] = $this->wrap($column);
-		}
+		$columns = array_map(array($this, 'wrap'), array_keys($values));
 
 		return $sql .= ' ('.implode(', ', $columns).') VALUES ('.$this->parameterize($values).')';
 	}
