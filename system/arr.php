@@ -27,4 +27,27 @@ class Arr {
 		return is_callable($default) ? call_user_func($default) : $default;
 	}
 
+	/**
+	 * Get an item from an array using JavaScript style "dot" notation.
+	 *
+	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public static function dot($array, $key, $default = null)
+	{
+		foreach (explode('.', $key) as $segment)
+		{
+			if ( ! isset($array[$segment]))
+			{
+				return is_callable($default) ? call_user_func($default) : $default;
+			}
+
+			$array = $array[$segment];
+		}
+
+		return $array;
+	}
+
 }
