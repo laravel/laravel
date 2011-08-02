@@ -483,9 +483,9 @@ abstract class Model {
 			return call_user_func_array(array($this, '_'.$method), $parameters);
 		}
 
-		// All of the aggregate functions can be passed directly to the query instance.
-		// For these functions, we can simply return the response of the query.
-		if (in_array($method, array('count', 'sum', 'min', 'max', 'avg')))
+		// All of the aggregate and persistance functions can be passed directly to the query
+		// instance. For these functions, we can simply return the response of the query.
+		if (in_array($method, array('insert', 'update', 'count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($this->query, $method), $parameters);
 		}
