@@ -84,8 +84,8 @@ class Query {
 	 */
 	public function __construct($table, $connection)
 	{
-		$this->connection = $connection;
 		$this->table = $table;
+		$this->connection = $connection;
 		$this->from = 'FROM '.$this->wrap($table);
 	}
 
@@ -471,7 +471,9 @@ class Query {
 	 */
 	public function paginate($per_page, $columns = array('*'))
 	{
-		list($select, $total) = array($this->select, $this->count());
+		$select = $this->select;
+
+		$total = $this->count();
 
 		// Every query clears the SELECT clause, so we store the contents of the clause
 		// before executing the count query and then put the contents back in afterwards.
@@ -515,20 +517,11 @@ class Query {
 
 		$sql = $this->select.' '.$this->from.' '.$this->where;
 
-		if (count($this->orderings) > 0)
-		{
-			$sql .= ' ORDER BY '.implode(', ', $this->orderings);
-		}
+		if (count($this->orderings) > 0) $sql .= ' ORDER BY '.implode(', ', $this->orderings);
 
-		if ( ! is_null($this->limit))
-		{
-			$sql .= ' LIMIT '.$this->limit;
-		}
+		if ( ! is_null($this->limit)) $sql .= ' LIMIT '.$this->limit;
 
-		if ( ! is_null($this->offset))
-		{
-			$sql .= ' OFFSET '.$this->offset;
-		}
+		if ( ! is_null($this->offset)) $sql .= ' OFFSET '.$this->offset;
 
 		$results = $this->connection->query($sql, $this->bindings);
 

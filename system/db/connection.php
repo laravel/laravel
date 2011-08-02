@@ -17,13 +17,6 @@ class Connection {
 	public $config;
 
 	/**
-	 * The Connector instance.
-	 *
-	 * @var Connector
-	 */
-	public $connector;
-
-	/**
 	 * The PDO connection.
 	 *
 	 * @var PDO
@@ -33,17 +26,16 @@ class Connection {
 	/**
 	 * Create a new Connection instance.
 	 *
-	 * @param  string    $name
-	 * @param  object    $config
-	 * @param  Conector  $connector
+	 * @param  string     $name
+	 * @param  object     $config
+	 * @param  Connector  $connector
 	 * @return void
 	 */
 	public function __construct($name, $config, $connector)
 	{
 		$this->name = $name;
 		$this->config = $config;
-		$this->connector = $connector;
-		$this->pdo = $this->connector->connect($this->config);
+		$this->pdo = $connector->connect($this->config);
 	}
 
 	/**
