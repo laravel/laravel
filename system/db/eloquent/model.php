@@ -3,6 +3,7 @@
 use System\Str;
 use System\Config;
 use System\Inflector;
+use System\Paginator;
 use System\DB\Manager;
 
 abstract class Model {
@@ -206,12 +207,10 @@ abstract class Model {
 
 		if (is_null($per_page))
 		{
-			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 15;
+			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 20;
 		}
 
-		$current_page = \System\Paginator::page($total, $per_page);
-
-		return \System\Paginator::make($this->for_page($current_page, $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**
@@ -292,9 +291,6 @@ abstract class Model {
 	/**
 	 * Retrieve the query for a *:* relationship.
 	 *
-	 * By default, the intermediate table name is the plural names of the models
-	 * arranged alphabetically and concatenated with an underscore.
-	 *
 	 * The default foreign key for many-to-many relations is the name of the model
 	 * with an appended _id. This is the same convention as has_one and has_many.
 	 *
@@ -308,29 +304,38 @@ abstract class Model {
 	{
 		$this->relating = __FUNCTION__;
 
-		if (is_null($table))
-		{
-			$models = array(Inflector::plural($model), Inflector::plural(get_class($this)));
-
-			sort($models);
-
-			$this->relating_table = strtolower($models[0].'_'.$models[1]);
-		}
-		else
-		{
-			$this->relating_table = $table;
-		}
+		$this->relating_table = (is_null($table)) ? $this->intermediate_table($model) : $table;
 
 		// Allowing the overriding of the foreign and associated keys provides the flexibility for
 		// self-referential many-to-many relationships, such as a "buddy list".
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
 
+		// The associated key is the foreign key name of the related model. So, if the related model
+		// is "Role", the associated key on the intermediate table would be "role_id".
 		$associated_key = (is_null($associated_key)) ? strtolower($model).'_id' : $associated_key;
 
 		return static::query($model)
                              ->select(array(static::table($model).'.*'))
                              ->join($this->relating_table, static::table($model).'.id', '=', $this->relating_table.'.'.$associated_key)
                              ->where($this->relating_table.'.'.$this->relating_key, '=', $this->id);
+	}
+
+	/**
+	 * Determine the intermediate table name for a given model.
+	 *
+	 * By default, the intermediate table name is the plural names of the models
+	 * arranged alphabetically and concatenated with an underscore.
+	 *	 
+	 * @param  string  $model
+	 * @return string
+	 */
+	private function intermediate_table($model)
+	{
+		$models = array(Inflector::plural($model), Inflector::plural(get_class($this)));
+
+		sort($models);
+
+		return strtolower($models[0].'_'.$models[1]);
 	}
 
 	/**
@@ -359,7 +364,7 @@ abstract class Model {
 		// Otherwise, we will insert the model and set the ID attribute.
 		if ($this->exists)
 		{
-			$this->query->where('id', '=', $this->attributes['id'])->update($this->dirty);
+			$this->query->where_id($this->attributes['id'])->update($this->dirty);
 		}
 		else
 		{
@@ -421,9 +426,9 @@ abstract class Model {
 		// load it and return the results of the relationship query.
 		elseif (method_exists($this, $key))
 		{
-			$model = $this->$key();
+			$query = $this->$key();
 
-			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $model->first() : $model->get();
+			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $query->first() : $query->get();
 		}
 		elseif (array_key_exists($key, $this->attributes))
 		{
