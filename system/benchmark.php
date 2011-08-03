@@ -28,12 +28,7 @@ class Benchmark {
 	 */
 	public static function check($name)
 	{
-		if (array_key_exists($name, static::$marks))
-		{
-			return number_format((microtime(true) - static::$marks[$name]) * 1000, 2);
-		}
-
-		throw new \Exception("A Benchmark named [$name] has not been started.");
+		return (array_key_exists($name, static::$marks)) ? number_format((microtime(true) - static::$marks[$name]) * 1000, 2) : 0.0;
 	}
 
 	/**

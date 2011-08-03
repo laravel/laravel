@@ -61,6 +61,13 @@
 		.wrapper h2:first-of-type {
 			margin-top: 0;
 		}
+
+		.footer {
+			background-color: #eee;
+			text-align: right;
+			font-size: 12px;
+			color: #bbb;
+		}
 	</style>
 </head> 
 <body>
@@ -74,6 +81,10 @@
 		<p>Ready to dig in? Start building your application in the <strong>application/routes.php</strong> file.</p>
 
 		<p>Need to learn more? Peruse our <a href="http://laravel.com">wonderful documentation</a>.</p>
+	</div>
+
+	<div class="wrapper footer">
+		<?php echo System\Benchmark::check('laravel').'ms | '.System\Benchmark::memory(); ?>
 	</div>
 </body> 
 </html>
