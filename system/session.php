@@ -27,6 +27,10 @@ class Session {
 		{
 			switch (Config::get('session.driver'))
 			{
+				case 'cookie':
+					static::$driver = new Session\Cookie;
+					break;
+
 				case 'file':
 					static::$driver = new Session\File;
 					break;
@@ -203,8 +207,8 @@ class Session {
 			Cookie::put('laravel_session', static::$session['id'], $minutes, $config['path'], $config['domain'], $config['https'], $config['http_only']);
 		}
 
-		// 2% chance of performing session garbage collection...
-		if (mt_rand(1, 100) <= 2)
+		// 2% chance of performing session garbage collection on any given request...
+		if (mt_rand(1, 100) <= 2 and static::driver() instanceof Session\Sweeper)
 		{
 			static::driver()->sweep(time() - ($config['lifetime'] * 60));
 		}

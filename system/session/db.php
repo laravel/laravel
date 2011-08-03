@@ -3,7 +3,7 @@
 use System\Config;
 use System\DB\Manager;
 
-class DB implements Driver {
+class DB implements Driver, Sweeper {
 
 	/**
 	 * Load a session by ID.

@@ -37,15 +37,4 @@ class APC implements Driver {
 		Cache::driver('apc')->forget($id);
 	}
 
-	/**
-	 * Delete all expired sessions.
-	 *
-	 * @param  int   $expiration
-	 * @return void
-	 */
-	public function sweep($expiration)
-	{
-		// APC sessions will expire automatically.
-	}
-
 }

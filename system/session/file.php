@@ -1,6 +1,6 @@
 <?php namespace System\Session;
 
-class File implements Driver {
+class File implements Driver, Sweeper {
 
 	/**
 	 * Load a session by ID.

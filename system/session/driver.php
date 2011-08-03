@@ -26,12 +26,4 @@ interface Driver {
 	 */
 	public function delete($id);
 
-	/**
-	 * Delete all expired sessions.
-	 *
-	 * @param  int   $expiration
-	 * @return void
-	 */
-	public function sweep($expiration);
-
 }

@@ -38,15 +38,4 @@ class Memcached implements Driver {
 		Cache::driver('memcached')->forget($id);
 	}
 
-	/**
-	 * Delete all expired sessions.
-	 *
-	 * @param  int   $expiration
-	 * @return void
-	 */
-	public function sweep($expiration)
-	{
-		// Memcached sessions will expire automatically.
-	}
-
 }
