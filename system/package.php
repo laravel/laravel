@@ -23,6 +23,8 @@ class Package {
 			{
 				static::load($value);			
 			}
+
+			return;
 		}
 
 		// Packages may have a bootstrap file, which commonly is used to register auto-loaders

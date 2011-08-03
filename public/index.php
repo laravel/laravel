@@ -141,6 +141,13 @@ require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
 
 // --------------------------------------------------------------
+// Load the packages that are in the auto-loaded packages array.
+// --------------------------------------------------------------
+require SYS_PATH.'package'.EXT;
+
+System\Package::load(System\Config::get('packages.autoload'));
+
+// --------------------------------------------------------------
 // Register the route filters.
 // --------------------------------------------------------------
 System\Routing\Filter::register(require ROUTE_PATH.'filters'.EXT);
