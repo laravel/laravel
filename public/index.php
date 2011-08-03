@@ -145,7 +145,7 @@ require SYS_PATH.'routing/filter'.EXT;
 // --------------------------------------------------------------
 require SYS_PATH.'package'.EXT;
 
-System\Package::load(System\Config::get('packages.autoload'));
+System\Package::load(System\Config::get('package.autoload'));
 
 // --------------------------------------------------------------
 // Register the route filters.

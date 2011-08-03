@@ -65,7 +65,7 @@ class Loader {
 	 */
 	public static function register($path)
 	{
-		static::$paths[] = $path;
+		static::$paths[] = rtrim($path, '/').'/';
 	}
 
 }

@@ -12,30 +12,23 @@ class Package {
 	/**
 	 * Load a package or set of packages.
 	 *
-	 * @param  string|array  $package
+	 * @param  string|array  $packages
 	 * @return void
 	 */
-	public static function load($package)
+	public static function load($packages)
 	{
-		if (is_array($package))
+		foreach ((array) $packages as $package)
 		{
-			foreach ($package as $value)
+			// Packages may have a bootstrap file, which commonly is used to register auto-loaders
+			// and perform other initialization needed to use the package. If the package has a
+			// bootstrapper, we will require it here.
+			if ( ! array_key_exists($package, static::$loaded) and file_exists($path = PACKAGE_PATH.$package.'/bootstrap'.EXT))
 			{
-				static::load($value);			
+				require $path;
 			}
 
-			return;
+			static::$loaded[] = $package;			
 		}
-
-		// Packages may have a bootstrap file, which commonly is used to register auto-loaders
-		// and perform other initialization needed to use the package. If the package has a
-		// bootstrapper, we will require it here.
-		if ( ! array_key_exists($package, static::$loaded) and file_exists($path = PACKAGE_PATH.$package.'/bootstrap'.EXT))
-		{
-			require $path;
-		}
-
-		static::$loaded[] = $package;
 	}
 
 }
