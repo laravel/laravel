@@ -86,13 +86,6 @@ class Input {
 	 */
 	public static function file($key = null, $default = null)
 	{
-		if (strpos($key, '.') !== false)
-		{
-			list($file, $key) = explode('.', $key);
-
-			return Arr::get($_FILES[$file], $key, $default);
-		}
-
 		return Arr::get($_FILES, $key, $default);
 	}
 

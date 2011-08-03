@@ -35,6 +35,7 @@ return array(
 	'Inflector' => 'System\\Inflector',
 	'Input' => 'System\\Input',
 	'Lang' => 'System\\Lang',
+	'Package' => 'System\\Package',
 	'URL' => 'System\\URL',
 	'Redirect' => 'System\\Redirect',
 	'Request' => 'System\\Request',
