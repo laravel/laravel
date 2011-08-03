@@ -35,14 +35,7 @@ class Loader {
 	 */
 	public function load($uri)
 	{
-		$base = require $this->path.'routes'.EXT;
-
-		if ( ! is_dir($this->path.'routes') or $uri == '')
-		{
-			return $base;
-		}
-
-		return array_merge($this->load_nested_routes($uri), $base);
+		return array_merge($this->load_nested_routes($uri), require $this->path.'routes'.EXT);
 	}
 
 	/**
@@ -56,12 +49,12 @@ class Loader {
 		$segments = explode('/', $uri);
 
 		// Work backwards through the URI segments until we find the deepest possible
-		// matching route file in the routes directory.
+		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = $this->path.'routes/'.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			if (is_dir($path = $this->path.implode('/', array_slice($segments, 0, $key + 1))))
 			{
-				return require $path;
+				return require $path.'/routes'.EXT;
 			}
 		}
 
@@ -78,28 +71,23 @@ class Loader {
 	 * @param  string  $path
 	 * @return array
 	 */
-	public static function all($reload = false, $path = null)
+	public static function all($reload = false, $path = ROUTE_PATH)
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
-		if (is_null($path)) $path = APP_PATH;
-
 		$routes = require $path.'routes'.EXT;
 
-		if (is_dir($path.'routes'))
+		// Since route files can be nested deep within the route directory, we need to
+		// recursively spin through the directory to find every file.
+		$directoryIterator = new \RecursiveDirectoryIterator($path);
+
+		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+		foreach ($recursiveIterator as $file)
 		{
-			// Since route files can be nested deep within the route directory, we need to
-			// recursively spin through the directory to find every file.
-			$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
-
-			$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
-
-			foreach ($recursiveIterator as $file)
+			if (filetype($file) === 'file' and strpos($file, EXT) !== false and strpos($file, 'filters'.EXT) === false)
 			{
-				if (filetype($file) === 'file' and strpos($file, EXT) !== false)
-				{
-					$routes = array_merge(require $file, $routes);
-				}
+				$routes = array_merge(require $file, $routes);
 			}
 		}
 

@@ -158,7 +158,7 @@ require SYS_PATH.'routing/filter'.EXT;
 // --------------------------------------------------------------
 // Register the route filters.
 // --------------------------------------------------------------
-System\Routing\Filter::register(require APP_PATH.'filters'.EXT);
+System\Routing\Filter::register(require ROUTE_PATH.'filters'.EXT);
 
 // --------------------------------------------------------------
 // Execute the global "before" filter.
@@ -170,7 +170,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // ----------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader(APP_PATH))->route();
+	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader(ROUTE_PATH))->route();
 
 	$response = (is_null($route)) ? System\Response::error('404') : $route->call();
 }
