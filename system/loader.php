@@ -58,7 +58,8 @@ class Loader {
 	}
 
 	/**
-	 * Register a path with the auto-loader.
+	 * Register a path with the auto-loader. After registering the path, it will be
+	 * checked similarly to the models and libraries directories.
 	 *
 	 * @param  string  $path
 	 * @return void
