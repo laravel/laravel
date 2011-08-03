@@ -67,31 +67,16 @@ define('EXT', '.php');
 // --------------------------------------------------------------
 // Load the classes used by the auto-loader.
 // --------------------------------------------------------------
+require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
-spl_autoload_register(function($class) 
-{
-	$file = strtolower(str_replace('\\', '/', $class));
+System\Loader::bootstrap();
 
-	if (array_key_exists($class, $aliases = System\Config::get('aliases')))
-	{
-		return class_alias($aliases[$class], $class);
-	}
-
-	foreach (array(BASE_PATH, MODEL_PATH, LIBRARY_PATH) as $directory)
-	{
-		if (file_exists($path = $directory.$file.EXT))
-		{
-			require $path;
-
-			return;
-		}
-	}
-});
+spl_autoload_register(array('System\\Loader', 'load'));
 
 // --------------------------------------------------------------
 // Register the framework starting time with the Benchmarker.
