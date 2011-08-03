@@ -52,9 +52,9 @@ class Loader {
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (is_dir($path = $this->path.implode('/', array_slice($segments, 0, $key + 1))))
+			if (file_exists($path = $this->path.'routes/'.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
-				return (file_exists($path = $path.'/routes'.EXT)) ? require $path : array();
+				return require $path;
 			}
 		}
 
@@ -71,7 +71,7 @@ class Loader {
 	 * @param  string  $path
 	 * @return array
 	 */
-	public static function all($reload = false, $path = ROUTE_PATH)
+	public static function all($reload = false, $path = APP_PATH)
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
@@ -79,13 +79,13 @@ class Loader {
 
 		// Since route files can be nested deep within the route directory, we need to
 		// recursively spin through the directory to find every file.
-		$directoryIterator = new \RecursiveDirectoryIterator($path);
+		$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
 
 		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
 
 		foreach ($recursiveIterator as $file)
 		{
-			if (filetype($file) === 'file' and strpos($file, EXT) !== false and strpos($file, 'filters'.EXT) === false)
+			if (filetype($file) === 'file' and strpos($file, EXT) !== false)
 			{
 				$routes = array_merge(require $file, $routes);
 			}
