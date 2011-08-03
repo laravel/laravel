@@ -61,7 +61,7 @@ class Lang {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($language = null, $default = '')
+	public function get($language = null, $default = null)
 	{
 		if (is_null($language))
 		{
@@ -72,7 +72,12 @@ class Lang {
 
 		$this->load($file, $language);
 
-		$line = Arr::get(static::$lines[$language.$file], $line, $default);
+		if ( ! isset(static::$lines[$language.$file][$line]))
+		{
+			return is_callable($default) ? call_user_func($default) : $default;
+		}
+
+		$line = static::$lines[$language.$file][$line];
 
 		foreach ($this->replacements as $key => $value)
 		{

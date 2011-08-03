@@ -110,7 +110,12 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		return (count(static::$items[$file] = $config) > 0);
+		if (count($config) > 0)
+		{
+			static::$items[$file] = $config;
+		}
+
+		return isset(static::$items[$file]);
 	}
 
 }
