@@ -61,7 +61,7 @@ class View {
 	{
 		if (is_null(static::$composers))
 		{
-			static::$composers = require VIEW_PATH.'composers'.EXT;
+			static::$composers = require APP_PATH.'composers'.EXT;
 		}
 
 		$instance = new static($view, $data);
