@@ -54,7 +54,7 @@ class Loader {
 		{
 			if (is_dir($path = $this->path.implode('/', array_slice($segments, 0, $key + 1))))
 			{
-				return require $path.'/routes'.EXT;
+				return (file_exists($path = $path.'/routes'.EXT)) ? require $path : array();
 			}
 		}
 
