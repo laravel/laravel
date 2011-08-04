@@ -9,11 +9,6 @@
  */
 
 // --------------------------------------------------------------
-// Get the framework start time.
-// --------------------------------------------------------------
-$start = microtime(true);
-
-// --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
 define('APP_PATH', realpath('../application').'/');
@@ -89,11 +84,6 @@ require SYS_PATH.'arr'.EXT;
 System\Loader::bootstrap();
 
 spl_autoload_register(array('System\\Loader', 'load'));
-
-// --------------------------------------------------------------
-// Register the framework starting time with the Benchmarker.
-// --------------------------------------------------------------
-System\Benchmark::$marks['laravel'] = $start;
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
