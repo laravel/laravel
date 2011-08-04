@@ -37,7 +37,9 @@ class Loader {
 	 */
 	public function load($uri)
 	{
-		return array_merge($this->load_nested_routes(explode('/', $uri)), require $this->path.'routes'.EXT);
+		$base = (file_exists($path = $this->path.'routes'.EXT)) ? require $path : array();
+
+		return array_merge($this->load_nested_routes(explode('/', $uri)), $base);
 	}
 
 	/**
