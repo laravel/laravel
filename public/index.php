@@ -164,7 +164,7 @@ $response = System\Routing\Filter::call('before', array(), true);
 // --------------------------------------------------------------
 if (is_null($response))
 {
-	$segments = explode('/', $uri = Request::uri());
+	$segments = explode('/', $uri = System\Request::uri());
 
 	if (in_array($segments[0], System\Config::get('application.modules')))
 	{
