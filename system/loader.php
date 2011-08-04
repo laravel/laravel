@@ -75,6 +75,8 @@ class Loader {
 				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**
