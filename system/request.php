@@ -26,9 +26,6 @@ class Request {
 	/**
 	 * Get the request URI.
 	 *
-	 * The server PATH_INFO will be used if available. Otherwise, the REQUEST_URI will be used.
-	 * The application URL and index will be removed from the URI.
-	 *
 	 * If the request is to the root of application, a single forward slash will be returned.
 	 *
 	 * @return string
@@ -37,6 +34,31 @@ class Request {
 	{
 		if ( ! is_null(static::$uri)) return static::$uri;
 
+		$uri = static::raw_uri();
+
+		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
+
+		if (strpos($uri, $index = '/index.php') === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
+
+		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+	}
+
+	/**
+	 * Get the request URI from the $_SERVER array.
+	 *
+	 * The server PATH_INFO will be used if available. Otherwise, the REQUEST_URI will be used.
+	 * The application URL and index will be removed from the URI.
+	 *	 
+	 * @return string
+	 */
+	private static function raw_uri()
+	{
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
@@ -55,17 +77,7 @@ class Request {
 			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
-		{
-			$uri = substr($uri, strlen($base));
-		}
-
-		if (strpos($uri, $index = '/index.php') === 0)
-		{
-			$uri = substr($uri, strlen($index));
-		}
-
-		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+		return $uri;
 	}
 
 	/**
