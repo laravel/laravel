@@ -10,6 +10,20 @@ class Request {
 	public static $route;
 
 	/**
+	 * The request URI.
+	 *
+	 * @var string
+	 */
+	public static $uri;
+
+	/**
+	 * The request URI segments.
+	 *
+	 * @var array
+	 */
+	public static $segments;
+
+	/**
 	 * Get the request URI.
 	 *
 	 * The server PATH_INFO will be used if available. Otherwise, the REQUEST_URI will be used.
@@ -21,6 +35,8 @@ class Request {
 	 */
 	public static function uri()
 	{
+		if ( ! is_null(static::$uri)) return static::$uri;
+
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
@@ -39,19 +55,30 @@ class Request {
 			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		// Remove the application URL from the URI.
 		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
 		{
 			$uri = substr($uri, strlen($base));
 		}
 
-		// Remove the application index page from the URI.
 		if (strpos($uri, $index = '/index.php') === 0)
 		{
 			$uri = substr($uri, strlen($index));
 		}
 
-		return (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+	}
+
+	/**
+	 * Get a segment of the request URI.
+	 *
+	 * @param  int     $segment
+	 * @return string
+	 */
+	public static function segment($segment)
+	{
+		if (is_null(static::$segments)) static::$segments = explode('/', static::uri());
+
+		return (isset(static::$segments[$index = $segment - 1])) ? static::$segments[$index] : null;
 	}
 
 	/**
