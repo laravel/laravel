@@ -7,21 +7,21 @@ class Loader {
 	 *
 	 * @var array
 	 */
-	private static $paths = array(BASE_PATH, MODEL_PATH, LIBRARY_PATH);
+	public static $paths = array(BASE_PATH, MODEL_PATH, LIBRARY_PATH);
 
 	/**
 	 * All of the class aliases.
 	 *
 	 * @var array
 	 */
-	private static $aliases = array();
+	public static $aliases = array();
 
 	/**
 	 * All of the active modules.
 	 *
 	 * @var array
 	 */
-	private static $modules = array();
+	public static $modules = array();
 
 	/**
 	 * Bootstrap the auto-loader.

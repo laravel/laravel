@@ -108,7 +108,7 @@ class View {
 	 */
 	private function compose()
 	{
-		if (is_null(static::$composers[$this->module]))
+		if ( ! isset(static::$composers[$this->module]))
 		{
 			static::$composers[$this->module] = (file_exists($path = $this->path.'composers'.EXT)) ? require $path : array();
 		}
