@@ -3,7 +3,7 @@
  * Laravel - A clean and classy framework for PHP web development.
  *
  * @package  Laravel
- * @version  1.4.1
+ * @version  1.5.0
  * @author   Taylor Otwell
  * @link     http://laravel.com
  */
@@ -24,30 +24,43 @@ define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath($system = '../system').'/');
 
 // --------------------------------------------------------------
-// The path to the directory containing the system directory.
-// --------------------------------------------------------------
-define('BASE_PATH', realpath(str_replace('system', '', $system)).'/');
-
-// --------------------------------------------------------------
 // The path to the public directory.
 // --------------------------------------------------------------
 define('PUBLIC_PATH', realpath(__DIR__).'/');
 
 // --------------------------------------------------------------
+// The path to the packages directory.
+// --------------------------------------------------------------
+define('PACKAGE_PATH', realpath('../packages').'/');
+
+// --------------------------------------------------------------
+// The path to the modules directory.
+// --------------------------------------------------------------
+define('MODULE_PATH', realpath('../modules').'/');
+
+// --------------------------------------------------------------
+// The path to the storage directory.
+// --------------------------------------------------------------
+define('STORAGE_PATH', realpath('../storage').'/');
+
+// --------------------------------------------------------------
+// The path to the directory containing the system directory.
+// --------------------------------------------------------------
+define('BASE_PATH', realpath(str_replace('system', '', $system)).'/');
+
+// --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
 $constants = array(
-	'CACHE_PATH'    => APP_PATH.'storage/cache/',
+	'CACHE_PATH'    => STORAGE_PATH.'cache/',
 	'CONFIG_PATH'   => APP_PATH.'config/',
-	'DATABASE_PATH' => APP_PATH.'storage/db/',
+	'DATABASE_PATH' => STORAGE_PATH.'db/',
 	'LANG_PATH'     => APP_PATH.'lang/',
 	'LIBRARY_PATH'  => APP_PATH.'libraries/',
 	'MODEL_PATH'    => APP_PATH.'models/',
-	'PACKAGE_PATH'  => APP_PATH.'packages/',
 	'ROUTE_PATH'    => APP_PATH.'routes/',
 	'SCRIPT_PATH'   => PUBLIC_PATH.'js/',
-	'SESSION_PATH'  => APP_PATH.'storage/sessions/',
-	'STORAGE_PATH'  => APP_PATH.'storage/',
+	'SESSION_PATH'  => STORAGE_PATH.'sessions/',
 	'STYLE_PATH'    => PUBLIC_PATH.'css/',
 	'VIEW_PATH'     => APP_PATH.'views/',
 );
@@ -70,7 +83,6 @@ define('EXT', '.php');
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
-
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
@@ -145,7 +157,7 @@ require SYS_PATH.'routing/filter'.EXT;
 // --------------------------------------------------------------
 require SYS_PATH.'package'.EXT;
 
-System\Package::load(System\Config::get('package.autoload'));
+System\Package::load(System\Config::get('application.packages'));
 
 // --------------------------------------------------------------
 // Register the route filters.
@@ -157,12 +169,28 @@ System\Routing\Filter::register(require APP_PATH.'filters'.EXT);
 // --------------------------------------------------------------
 $response = System\Routing\Filter::call('before', array(), true);
 
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 // Execute the route function.
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 if (is_null($response))
 {
-	$route = System\Routing\Router::make(System\Request::method(), System\Request::uri(), new System\Routing\Loader(APP_PATH))->route();
+	$segments = explode('/', $uri = Request::uri());
+
+	if (in_array($segments[0], System\Config::get('application.modules')))
+	{
+		$route_path = MODULE_PATH.$segments[0].'/';
+
+		if (file_exists($filters = $route_path.'filters'.EXT))
+		{
+			System\Routing\Filter::register(require $filters);
+		}
+	}
+	else
+	{
+		$route_path = APP_PATH;
+	}
+
+	$route = System\Routing\Router::make(System\Request::method(), $uri, new System\Routing\Loader($route_path))->route();
 
 	$response = (is_null($route)) ? System\Response::error('404') : $route->call();
 }
@@ -171,14 +199,14 @@ else
 	$response = System\Response::prepare($response);
 }
 
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 // Execute the global "after" filter.
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 System\Routing\Filter::call('after', array($response));
 
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 // Stringify the response.
-// ----------------------------------------------------------
+// --------------------------------------------------------------
 $response->content = (string) $response->content;
 
 // --------------------------------------------------------------

@@ -1,5 +1,7 @@
 <?php namespace System\Routing;
 
+use System\Config;
+
 class Loader {
 
 	/**
@@ -35,19 +37,17 @@ class Loader {
 	 */
 	public function load($uri)
 	{
-		return array_merge($this->load_nested_routes($uri), require $this->path.'routes'.EXT);
+		return array_merge($this->load_nested_routes(explode('/', $uri)), require $this->path.'routes'.EXT);
 	}
 
 	/**
 	 * Load the appropriate routes from the routes directory.
 	 *
-	 * @param  string  $uri
+	 * @param  array  $segments
 	 * @return array
 	 */
-	private function load_nested_routes($uri)
+	private function load_nested_routes($segments)
 	{
-		$segments = explode('/', $uri);
-
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
@@ -75,19 +75,35 @@ class Loader {
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
-		$routes = require $path.'routes'.EXT;
+		// Merge all of the module paths in with the specified path so that all
+		// active module routes will also be loaded. So, by default, this method
+		// will search the application path and all active module paths for routes.
+		$paths = array_merge(array($path), array_map(function($module) { return MODULE_PATH.$module.'/'; }, Config::get('application.modules')));
 
-		// Since route files can be nested deep within the route directory, we need to
-		// recursively spin through the directory to find every file.
-		$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
+		$routes = array();
 
-		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
-
-		foreach ($recursiveIterator as $file)
+		foreach ($paths as $path)
 		{
-			if (filetype($file) === 'file' and strpos($file, EXT) !== false)
+			if (file_exists($path.'routes'.EXT))
 			{
-				$routes = array_merge(require $file, $routes);
+				$routes = array_merge($routes, require $path.'routes'.EXT);
+			}
+
+			if (is_dir($path.'routes'))
+			{
+				// Since route files can be nested deep within the route directory, we need to
+				// recursively spin through the directory to find every file.
+				$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
+
+				$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+				foreach ($recursiveIterator as $file)
+				{
+					if (filetype($file) === 'file' and strpos($file, EXT) !== false)
+					{
+						$routes = array_merge($routes, require $file);
+					}
+				}
 			}
 		}
 

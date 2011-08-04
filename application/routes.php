@@ -41,7 +41,7 @@ return array(
 
 	'GET /' => function()
 	{
-		return View::make('home/index');
+		return View::make('home.index');
 	},
 
 );

@@ -12,8 +12,7 @@ return array(
 	| footer partial each time the view is created.
 	|
 	| The composer will receive an instance of the view being created, and is
-	| free to modify the view however you wish. Be sure to always return the
-	| view instance at the end of your composer.
+	| free to modify the view however you wish.
 	|
 	| For more information, check out: http://laravel.com/docs/start/views#composers
 	|
@@ -21,7 +20,7 @@ return array(
 
 	'home/index' => function($view)
 	{
-		return $view;
+		// Do anything you want to the view.
 	},
 
 );

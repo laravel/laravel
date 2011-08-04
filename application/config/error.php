@@ -50,7 +50,7 @@ return array(
 	|
 	*/
 
-	'logger' => function($severity, $message)
+	'logger' => function($severity, $message, $trace)
 	{
 		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' '.$severity.' - '.$message.PHP_EOL);
 	},

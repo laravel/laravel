@@ -46,13 +46,13 @@ return array(
 
 	'before' => function()
 	{
-		// Do stuff before every request is executed.	
+		// Do stuff before every request to your application.
 	},
 
 
 	'after' => function($response)
 	{
-		// Do stuff after every request is executed.
+		// Do stuff after every request to your application.
 	},
 
 

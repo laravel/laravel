@@ -84,7 +84,7 @@
 	</div>
 
 	<div class="wrapper footer">
-		<?php echo System\Benchmark::check('laravel').'ms | '.System\Benchmark::memory(); ?>
+		<?php echo System\Benchmark::check('laravel').'ms | '.System\Benchmark::memory().'mb'; ?>
 	</div>
 </body> 
 </html>

@@ -68,16 +68,16 @@ class Lang {
 			$language = Config::get('application.language');
 		}
 
-		list($file, $line) = $this->parse($this->key);
+		list($module, $file, $line) = $this->parse($this->key, $language);
 
-		$this->load($file, $language);
+		$this->load($module, $file, $language);
 
-		if ( ! isset(static::$lines[$language.$file][$line]))
+		if ( ! isset(static::$lines[$module][$language.$file][$line]))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		$line = static::$lines[$language.$file][$line];
+		$line = static::$lines[$module][$language.$file][$line];
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -94,34 +94,51 @@ class Lang {
 	 * while the right side of the dot is the item within that file.
 	 *	 
 	 * @param  string  $key
+	 * @param  string  $language
 	 * @return array
 	 */
-	private function parse($key)
+	private function parse($key, $language)
 	{
-		$segments = explode('.', $key);
+		// Check for a module qualifier. If a module name is present, we need to extract it from
+		// the language line, otherwise, we will use "application" as the module.
+		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if (count($segments) < 2)
+		// If the language line is stored in a module, we need to strip the module qualifier
+		// off of the language key before continuing.
+		if ($module != 'application')
 		{
-			throw new \Exception("Invalid language key [$key].");
+			$key = substr($key, strpos($key, ':') + 2);
 		}
 
-		return array($segments[0], implode('.', array_slice($segments, 1)));
+		$segments = explode('.', $key);
+
+		if (count($segments) > 1)
+		{
+			return array($module, $segments[0], $segments[1]);
+		}
+
+		throw new \Exception("Invalid language line [$key]. A specific line must be specified.");
 	}
 
 	/**
 	 * Load a language file.
 	 *
+	 * @param  string  $module
 	 * @param  string  $file
 	 * @param  string  $language
 	 * @return void
 	 */
-	private function load($file, $language)
+	private function load($module, $file, $language)
 	{
-		if (array_key_exists($language.$file, static::$lines)) return;
+		// If the language lines for the given module, file, and language have already been
+		// loaded, we can bail out of this method.
+		if (isset(static::$lines[$module][$language.$file])) return;
 
-		if (file_exists($path = LANG_PATH.$language.'/'.$file.EXT))
+		$path = ($module === 'application') ? LANG_PATH : MODULE_PATH.$module.'/lang/';
+
+		if (file_exists($path = $path.$language.'/'.$file.EXT))
 		{
-			static::$lines[$language.$file] = require $path;
+			static::$lines[$module][$language.$file] = require $path;
 		}
 	}
 

@@ -65,6 +65,42 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Auto-Loaded Packages
+	|--------------------------------------------------------------------------
+	|
+	| The packages that should be auto-loaded each time Laravel handles
+	| a request. These should generally be packages that you use on almost
+	| every request to your application.
+	|
+	| Each package specified here will be bootstrapped and can be conveniently
+	| used by your application's routes, models, and libraries.
+	|
+	| Note: The package names in this array should correspond to a package
+	|       directory in application/packages.
+	|
+	*/
+
+	'packages' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Active Modules
+	|--------------------------------------------------------------------------
+	|
+	| Modules are a convenient way to organize your application into logical
+	| components. Each module may have its own libraries, models, routes,
+	| views, language files, and configuration.
+	|
+	| Here you may specify which modules are "active" for your application.
+	| This simply gives Laravel an easy way to know which directories to
+	| check when auto-loading your classes, routes, and views.
+	|
+	*/
+
+	'modules' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Key
 	|--------------------------------------------------------------------------
 	|

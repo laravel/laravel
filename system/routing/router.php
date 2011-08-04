@@ -40,12 +40,12 @@ class Router {
 	 *
 	 * @param  string  $method
 	 * @param  string  $uri
-	 * @param  array   $routes
+	 * @param  Loader  $loader
 	 * @return Router
 	 */
-	public static function make($method, $uri, $routes = null)
+	public static function make($method, $uri, $loader)
 	{
-		return new static($method, $uri, $routes);
+		return new static($method, $uri, $loader);
 	}
 
 	/**

@@ -36,21 +36,19 @@ class Config {
 	 */
 	public static function get($key, $default = null)
 	{
-		if (strpos($key, '.') === false)
-		{
-			static::load($key);
+		list($module, $file, $key) = static::parse($key);
 
-			return Arr::get(static::$items, $key, $default);
-		}
-
-		list($file, $key) = static::parse($key);
-
-		if ( ! static::load($file))
+		if ( ! static::load($module, $file))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		return Arr::get(static::$items[$file], $key, $default);
+		if (is_null($key))
+		{
+			return static::$items[$module][$file];
+		}
+
+		return Arr::get(static::$items[$module][$file], $key, $default);
 	}
 
 	/**
@@ -62,11 +60,14 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
-		list($file, $key) = static::parse($key);
+		list($module, $file, $key) = static::parse($key);
 
-		static::load($file);
+		if (is_null($key) or ! static::load($module, $file))
+		{
+			throw new \Exception("Unable to find configuration file item [$key].");
+		}
 
-		static::$items[$file][$key] = $value;
+		static::$items[$module][$file][$key] = $value;
 	}
 
 	/**
@@ -80,14 +81,24 @@ class Config {
 	 */
 	private static function parse($key)
 	{
-		$segments = explode('.', $key);
+		// Check for a module qualifier. If a module name is present, we need to extract it from
+		// the configuration key, otherwise, we will use "application" as the module.
+		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if (count($segments) < 2)
+		// If the configuration item is stored in a module, we need to strip the module qualifier
+		// off of the configuration key before continuing.
+		if ($module != 'application')
 		{
-			throw new \Exception("Invalid configuration key [$key].");
+			$key = substr($key, strpos($key, ':') + 2);
 		}
 
-		return array($segments[0], implode('.', array_slice($segments, 1)));
+		$segments = explode('.', $key);
+
+		// If there is more than one segment, we need to splice together and portion of the
+		// configuration key that comes after the first segment, which is the file name.
+		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
+
+		return array($module, $segments[0], $key);
 	}
 
 	/**
@@ -97,25 +108,32 @@ class Config {
 	 * Any environment specific configuration files will be merged with the root file.
 	 *
 	 * @param  string  $file
+	 * @param  string  $module
 	 * @return bool
 	 */
-	public static function load($file)
+	public static function load($module, $file)
 	{
-		if (array_key_exists($file, static::$items)) return true;
+		// If the configuration items for this module and file have already been
+		// loaded, we can bail out of this method.
+		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
 
-		$config = (file_exists($path = CONFIG_PATH.$file.EXT)) ? require $path : array();
+		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
-		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
+		// Load the base configuration items for the module and file.
+		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
+
+		// Merge any enviornment specific configuration items for the module and file.
+		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
 		{
 			$config = array_merge($config, require $path);
 		}
 
 		if (count($config) > 0)
 		{
-			static::$items[$file] = $config;
+			static::$items[$module][$file] = $config;
 		}
 
-		return isset(static::$items[$file]);
+		return isset(static::$items[$module][$file]);
 	}
 
 }

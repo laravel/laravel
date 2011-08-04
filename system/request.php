@@ -46,7 +46,7 @@ class Request {
 		}
 
 		// Remove the application index page from the URI.
-		if (strpos($uri, $index = '/'.Config::get('application.index')) === 0)
+		if (strpos($uri, $index = '/index.php') === 0)
 		{
 			$uri = substr($uri, strlen($index));
 		}

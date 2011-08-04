@@ -151,7 +151,22 @@ abstract class Model {
 			return $class::$table;
 		}
 
-		return strtolower(Inflector::plural($class));
+		return strtolower(Inflector::plural(static::model($class)));
+	}
+
+	/**
+	 * Get an Eloquent model name without any namespaces.
+	 *
+	 * @param  string|Model  $model
+	 * @return string
+	 */
+	public static function model($model)
+	{
+		$class = (is_object($model)) ? get_class($model) : $model;
+
+		$segments = array_reverse(explode('\\', $class));
+
+		return $segments[0];
 	}
 
 	/**
@@ -254,7 +269,7 @@ abstract class Model {
 	 */
 	private function has_one_or_many($model, $foreign_key)
 	{
-		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model($this)).'_id' : $foreign_key;
 
 		return static::query($model)->where($this->relating_key, '=', $this->id);
 	}
@@ -308,11 +323,11 @@ abstract class Model {
 
 		// Allowing the overriding of the foreign and associated keys provides the flexibility for
 		// self-referential many-to-many relationships, such as a "buddy list".
-		$this->relating_key = (is_null($foreign_key)) ? strtolower(get_class($this)).'_id' : $foreign_key;
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model($this)).'_id' : $foreign_key;
 
 		// The associated key is the foreign key name of the related model. So, if the related model
 		// is "Role", the associated key on the intermediate table would be "role_id".
-		$associated_key = (is_null($associated_key)) ? strtolower($model).'_id' : $associated_key;
+		$associated_key = (is_null($associated_key)) ? strtolower(static::model($model)).'_id' : $associated_key;
 
 		return static::query($model)
                              ->select(array(static::table($model).'.*'))
@@ -325,13 +340,13 @@ abstract class Model {
 	 *
 	 * By default, the intermediate table name is the plural names of the models
 	 * arranged alphabetically and concatenated with an underscore.
-	 *	 
+	 *
 	 * @param  string  $model
 	 * @return string
 	 */
 	private function intermediate_table($model)
 	{
-		$models = array(Inflector::plural($model), Inflector::plural(get_class($this)));
+		$models = array(Inflector::plural(static::model($model)), Inflector::plural(static::model($this)));
 
 		sort($models);
 

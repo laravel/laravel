@@ -6,32 +6,22 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 
 Stay true to the web with RESTful routing:
 
-```php
-<?php
-
-'GET /' => function()
-{
-	return View::make('home/index');
-}
-```
+	'GET /' => function()
+	{
+		return View::make('home/index');
+	}
 
 Redirect to a named route and flash something to the session:
 
-```php
-<?php return Redirect::to_profile()->with('message', 'Welcome Back!');
-```
+	return Redirect::to_profile()->with('message', 'Welcome Back!');
 
 Retrieve a blog post and eagerly load the comments using Eloquent ORM:
 
-```php
-<?php $posts = Post::with('comments')->find(1);
-```
+	$posts = Post::with('comments')->find(1);
 
 Get input from the previous request to re-populate a form:
 
-```php
-<?php echo Input::old('email');
-```
+	echo Input::old('email');
 
 ### Ready To Learn More?
 
