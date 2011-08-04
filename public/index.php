@@ -19,6 +19,11 @@ define('APP_PATH', realpath('../application').'/');
 define('SYS_PATH', realpath($system = '../system').'/');
 
 // --------------------------------------------------------------
+// The path to the public directory.
+// --------------------------------------------------------------
+define('PUBLIC_PATH', realpath(__DIR__).'/');
+
+// --------------------------------------------------------------
 // The path to the packages directory.
 // --------------------------------------------------------------
 define('PACKAGE_PATH', realpath('../packages').'/');
@@ -32,11 +37,6 @@ define('MODULE_PATH', realpath('../modules').'/');
 // The path to the storage directory.
 // --------------------------------------------------------------
 define('STORAGE_PATH', realpath('../storage').'/');
-
-// --------------------------------------------------------------
-// The path to the public directory.
-// --------------------------------------------------------------
-define('PUBLIC_PATH', realpath(__DIR__).'/');
 
 // --------------------------------------------------------------
 // The path to the directory containing the system directory.
