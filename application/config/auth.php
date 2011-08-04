@@ -41,4 +41,50 @@ return array(
 		return User::where_email($username)->first();
 	},
 
+
+	/*
+	|--------------------------------------------------------------------------
+	| Perform Hash and Salt
+	|--------------------------------------------------------------------------
+	|
+	| When true this let the Auth::login() method to use the following
+	| hash_salt function on the password provided in the login form.
+	|
+	|
+	| Note: Your User model should contain a "salt" attribute
+	|
+	*/
+
+	'perform_hash_salt' => true,
+
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| Hash Salt Password
+	|--------------------------------------------------------------------------
+	|
+	| If the previous field is set to true this method is called by 
+	| the Auth::login() method when attempting to login a user, such as when 
+	| checking credentials received from a login 
+	| form .
+	|
+	| It shall salt and hash a password to match the one save in the Db for
+	| the current user.
+	|
+	| You are free to change this method for your application however you wish.
+	|
+	| Note: This method must return an string that has "id" and "password"
+	|       properties. The type of object returned does not matter.
+	|
+	*/
+
+	'hash_salt' => function($password, $salt)
+	{
+		return Hash::make($password.$salt);
+	},
+
+
+
+
 );

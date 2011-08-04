@@ -61,6 +61,11 @@ class Auth {
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
+			if(isset(Config::get('auth.perform_hash_salt') and Config::get('auth.perform_hash_salt') )
+			{
+				$password = call_user_func(Config::get('auth.hash_salt'), $password, $user->salt))	
+			}
+						
 			if (Hash::check($password, $user->password))
 			{
 				static::$user = $user;
