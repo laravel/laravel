@@ -44,7 +44,7 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Perform Hash and Salt
+	| Perform Password Salt
 	|--------------------------------------------------------------------------
 	|
 	| When true this let the Auth::login() method to use the following
@@ -55,13 +55,13 @@ return array(
 	|
 	*/
 
-	'perform_hash_salt' => true,
+	'perform_salt' => true,
 
 
 
 	/*
 	|--------------------------------------------------------------------------
-	| Hash Salt Password
+	| Salt Password
 	|--------------------------------------------------------------------------
 	|
 	| If the previous field is set to true this method is called by 
@@ -69,19 +69,18 @@ return array(
 	| checking credentials received from a login 
 	| form .
 	|
-	| It shall salt and hash a password to match the one save in the Db for
-	| the current user.
+	| It shall salt the password which hashed should match the one saved in the
+	| Db for the current user.
 	|
 	| You are free to change this method for your application however you wish.
 	|
-	| Note: This method must return an string that has "id" and "password"
-	|       properties. The type of object returned does not matter.
+	| Note: This method must return an string that will be hashed 
 	|
 	*/
 
-	'hash_salt' => function($password, $salt)
+	'salt' => function($password, $salt)
 	{
-		return Hash::make($password.$salt);
+		return $password.$salt;
 	},
 
 
