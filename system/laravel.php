@@ -105,11 +105,6 @@ require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
 
 // --------------------------------------------------------------
-// Register the route filters.
-// --------------------------------------------------------------
-Routing\Filter::register(require APP_PATH.'filters'.EXT);
-
-// --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
 // --------------------------------------------------------------
 if (count(Config::get('application.packages')) > 0)
@@ -120,46 +115,57 @@ if (count(Config::get('application.packages')) > 0)
 }
 
 // --------------------------------------------------------------
-// Execute the global "before" filter.
+// Register the application filters.
 // --------------------------------------------------------------
-$response = Routing\Filter::call('before', array(), true);
+Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
 // --------------------------------------------------------------
-// Route the request and call the appropriate route function.
+// Determine the module that should handle the request.
+// --------------------------------------------------------------
+$segments = explode('/', Request::uri());
+
+define('ACTIVE_MODULE', (in_array($segments[0], Config::get('application.modules'))) ? $segments[0] : 'application');
+
+// --------------------------------------------------------------
+// Determine the path to the root of the active module.
+// --------------------------------------------------------------
+define('ACTIVE_MODULE_PATH', (ACTIVE_MODULE == 'application') ? APP_PATH : MODULE_PATH.ACTIVE_MODULE.'/');
+
+// --------------------------------------------------------------
+// Register the filters for the active module.
+// --------------------------------------------------------------
+if (ACTIVE_MODULE !== 'application' and file_exists($filters = ACTIVE_MODULE_PATH.'filters'.EXT))
+{
+	Routing\Filter::register(require $filters);
+}
+
+// --------------------------------------------------------------
+// Call the "before" filter for the application and module.
+// --------------------------------------------------------------
+foreach (array('before', ACTIVE_MODULE.'::before') as $filter)
+{
+	$response = Routing\Filter::call($filter, array(), true);
+}
+
+// --------------------------------------------------------------
+// Route the request and get the response from the route.
 // --------------------------------------------------------------
 if (is_null($response))
 {
-	if (in_array($module = Request::segment(1), Config::get('application.modules')))
-	{
-		define('ACTIVE_MODULE', $module);
-
-		$path = MODULE_PATH.$module.'/';
-
-		if (file_exists($filters = $path.'filters'.EXT))
-		{
-			Routing\Filter::register(require $filters);
-		}
-	}
-	else
-	{
-		define('ACTIVE_MODULE', 'application');
-
-		$path = APP_PATH;
-	}
-
-	$route = Routing\Router::make(Request::method(), Request::uri(), new Routing\Loader($path))->route();
+	$route = Routing\Router::make(Request::method(), Request::uri(), new Routing\Loader(ACTIVE_MODULE_PATH))->route();
 
 	$response = (is_null($route)) ? Response::error('404') : $route->call();
 }
-else
-{
-	$response = Response::prepare($response);
-}
+
+$response = Response::prepare($response);
 
 // --------------------------------------------------------------
-// Execute the global "after" filter.
+// Call the "after" filter for the application and module.
 // --------------------------------------------------------------
-Routing\Filter::call('after', array($response));
+foreach (array(ACTIVE_MODULE.'::after', 'after') as $filter)
+{
+	Routing\Filter::call($filter, array($response));
+}
 
 // --------------------------------------------------------------
 // Stringify the response.
