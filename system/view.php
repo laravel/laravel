@@ -205,17 +205,6 @@ class View {
 	}
 
 	/**
-	 * Magic Method for handling the dynamic creation of named views.
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (strpos($method, 'of_') === 0)
-		{
-			return static::of(substr($method, 3), $parameters);
-		}
-	}
-
-	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
@@ -263,6 +252,17 @@ class View {
 	{
 		$this->data[$key] = $value;
 		return $this;
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of named views.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (strpos($method, 'of_') === 0)
+		{
+			return static::of(substr($method, 3), $parameters);
+		}
 	}
 
 	/**
