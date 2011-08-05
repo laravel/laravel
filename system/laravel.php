@@ -112,9 +112,12 @@ Routing\Filter::register(require APP_PATH.'filters'.EXT);
 // --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
 // --------------------------------------------------------------
-require SYS_PATH.'package'.EXT;
+if (count(Config::get('application.packages')) > 0)
+{
+	require SYS_PATH.'package'.EXT;
 
-Package::load(Config::get('application.packages'));
+	Package::load(Config::get('application.packages'));
+}
 
 // --------------------------------------------------------------
 // Execute the global "before" filter.
