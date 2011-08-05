@@ -141,7 +141,7 @@ if (ACTIVE_MODULE !== 'application' and file_exists($filters = ACTIVE_MODULE_PAT
 // --------------------------------------------------------------
 foreach (array('before', ACTIVE_MODULE.'::before') as $filter)
 {
-	$response = Routing\Filter::call($filter, array(), true);
+	$response = Routing\Filter::call($filter, array(Request::method(), Request::uri()), true);
 
 	if ( ! is_null($response)) break;
 }
@@ -163,7 +163,7 @@ $response = Response::prepare($response);
 // --------------------------------------------------------------
 foreach (array(ACTIVE_MODULE.'::after', 'after') as $filter)
 {
-	Routing\Filter::call($filter, array($response));
+	Routing\Filter::call($filter, array($response, Request::method(), Request::uri()));
 }
 
 // --------------------------------------------------------------
