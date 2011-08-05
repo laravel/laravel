@@ -163,7 +163,7 @@ class View {
 
 			if ( ! is_null($composer = $this->find_composer_handler($composer)))
 			{
-				return call_user_func($composer, $this);
+				call_user_func($composer, $this);
 			}
 		}
 	}
