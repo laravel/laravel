@@ -63,9 +63,9 @@ class Route {
 		{
 			$response = isset($this->callback['before']) ? Filter::call($this->callback['before'], array(), true) : null;
 
-			if (is_null($response) and isset($this->callback['do']))
+			if (is_null($response) and ! is_null($handler = $this->handler()))
 			{
-				$response = call_user_func_array($this->callback['do'], $this->parameters);
+				$response = call_user_func_array($handler, $this->parameters);
 			}
 		}
 
@@ -77,6 +77,21 @@ class Route {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Extract the route function from the route.
+	 *
+	 * @return Closure
+	 */
+	private function handler()
+	{
+		if (isset($this->callback['do'])) return $this->callback['do'];
+
+		foreach ($this->callback as $value)
+		{
+			if (is_callable($value)) return $value;
+		}
 	}
 
 }
