@@ -261,7 +261,7 @@ class View {
 	{
 		if (strpos($method, 'of_') === 0)
 		{
-			return static::of(substr($method, 3), $parameters);
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
 	}
 
