@@ -57,11 +57,6 @@ class View {
 
 		list($this->module, $this->path, $this->view) = static::parse($view);
 
-		if ( ! file_exists($this->path.$this->view.EXT))
-		{
-			throw new \Exception("View [$view] does not exist.");
-		}
-
 		$this->compose();
 	}
 
@@ -95,7 +90,7 @@ class View {
 
 			if ( ! is_null($view = static::find_view_for_name($name, static::$composers[$module])))
 			{
-				return new static($view, $data);			
+				return new static($view, $data);	
 			}
 		}
 
@@ -145,7 +140,7 @@ class View {
 			$view = substr($view, strpos($view, ':') + 2);
 		}
 
-		return array($module, $path, str_replace('.', '/', $view));
+		return array($module, $path, $view);
 	}
 
 	/**
@@ -211,6 +206,31 @@ class View {
 	 */
 	public function get()
 	{
+		$view = str_replace('.', '/', $this->view);
+
+		if ( ! file_exists($this->path.$view.EXT))
+		{
+			throw new \Exception("View [$view] does not exist.");
+		}
+
+		$this->get_sub_views();
+
+		extract($this->data, EXTR_SKIP);
+
+		ob_start();
+
+		try { include $this->path.$view.EXT; } catch (\Exception $e) { Error::handle($e); }
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Evaluate all of the view and response instances that are bound to the view.
+	 *
+	 * @return void
+	 */
+	private function get_sub_views()
+	{
 		foreach ($this->data as &$data)
 		{
 			if ($data instanceof View or $data instanceof Response)
@@ -218,14 +238,6 @@ class View {
 				$data = (string) $data;
 			}
 		}
-
-		extract($this->data, EXTR_SKIP);
-
-		ob_start();
-
-		try { include $this->path.$this->view.EXT; } catch (\Exception $e) { Error::handle($e); }
-
-		return ob_get_clean();
 	}
 
 	/**
@@ -238,7 +250,7 @@ class View {
 	 */
 	public function partial($key, $view, $data = array())
 	{
-		return $this->bind($key, static::make($view, $data));
+		return $this->bind($key, new static($view, $data));
 	}
 
 	/**
