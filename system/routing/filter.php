@@ -42,10 +42,7 @@ class Filter {
 	{
 		foreach (explode(', ', $filters) as $filter)
 		{
-			if ( ! isset(static::$filters[$filter]))
-			{
-				throw new \Exception("Route filter [$filter] is not defined.");						
-			}
+			if ( ! isset(static::$filters[$filter])) continue;
 
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
