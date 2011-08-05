@@ -115,11 +115,6 @@ if (count(Config::get('application.packages')) > 0)
 }
 
 // --------------------------------------------------------------
-// Register the application filters.
-// --------------------------------------------------------------
-Routing\Filter::register(require APP_PATH.'filters'.EXT);
-
-// --------------------------------------------------------------
 // Determine the module that should handle the request.
 // --------------------------------------------------------------
 $segments = explode('/', Request::uri());
@@ -134,6 +129,8 @@ define('ACTIVE_MODULE_PATH', (ACTIVE_MODULE == 'application') ? APP_PATH : MODUL
 // --------------------------------------------------------------
 // Register the filters for the active module.
 // --------------------------------------------------------------
+Routing\Filter::register(require APP_PATH.'filters'.EXT);
+
 if (ACTIVE_MODULE !== 'application' and file_exists($filters = ACTIVE_MODULE_PATH.'filters'.EXT))
 {
 	Routing\Filter::register(require $filters);
