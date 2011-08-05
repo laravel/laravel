@@ -78,6 +78,53 @@ class View {
 	}
 
 	/**
+	 * Create a new view instance from a view name.
+	 *
+	 * @param  string  $name
+	 * @param  array   $data
+	 * @return View
+	 */
+	private static function of($name, $data = array())
+	{
+		// Search the active module first, then the application module, then all other modules.
+		$modules = array_unique(array_merge(array(ACTIVE_MODULE, 'application'), Config::get('application.modules')));
+
+		foreach ($modules as $module)
+		{
+			static::load_composers($module);
+
+			if ( ! is_null($view = static::find_view_for_name($name, static::$composers[$module])))
+			{
+				return new static($view, $data);			
+			}
+		}
+
+		throw new \Exception("Named view [$name] is not defined.");
+	}
+
+	/**
+	 * Find the view for a given name in an array of composers.
+	 *
+	 * @param  string  $name
+	 * @param  array   $composers
+	 * @return string
+	 */
+	private static function find_view_for_name($name, $composers)
+	{
+		foreach ($composers as $key => $value)
+		{
+			if (is_string($value) and $value == $name)
+			{
+				return $key;
+			}
+			elseif (is_array($value) and isset($value['name']) and $value['name'] == $name)
+			{
+				return $key;
+			}
+		}
+	}
+
+	/**
 	 * Parse a view identifier and get the module, path, and view name.
 	 *
 	 * @param  string  $view
@@ -108,14 +155,63 @@ class View {
 	 */
 	private function compose()
 	{
-		if ( ! isset(static::$composers[$this->module]))
-		{
-			static::$composers[$this->module] = (file_exists($path = $this->path.'composers'.EXT)) ? require $path : array();
-		}
+		static::load_composers($this->module);
 
 		if (isset(static::$composers[$this->module][$this->view]))
 		{
-			call_user_func(static::$composers[$this->module][$this->view], $this);
+			$composer = static::$composers[$this->module][$this->view];
+
+			if ( ! is_null($composer = $this->find_composer_handler($composer)))
+			{
+				return call_user_func($composer, $this);
+			}
+		}
+	}
+
+	/**
+	 * Find the composer handler / function in a composer definition.
+	 *
+	 * If the composer value itself is callable, it will be returned, otherwise the
+	 * first callable value in the composer array will be returned.
+	 *
+	 * @param  mixed    $composer
+	 * @return Closure
+	 */
+	private function find_composer_handler($composer)
+	{
+		if (is_string($composer)) return;
+
+		if (is_callable($composer)) return $composer;
+
+		foreach ($composer as $value)
+		{
+			if (is_callable($value)) return $value;
+		}
+	}	
+
+	/**
+	 * Load the view composers for a given module.
+	 *
+	 * @param  string  $module
+	 * @return void
+	 */
+	private static function load_composers($module)
+	{
+		if (isset(static::$composers[$module])) return;
+
+		$composers = ($module == 'application') ? APP_PATH.'composers'.EXT : MODULE_PATH.$module.'/composers'.EXT;
+
+		static::$composers[$module] = (file_exists($composers)) ? require $composers : array();
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of named views.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (strpos($method, 'of_') === 0)
+		{
+			return static::of(substr($method, 3), $parameters);
 		}
 	}
 
