@@ -4,8 +4,16 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| View Composers
+	| View Names & Composers
 	|--------------------------------------------------------------------------
+	|
+	| Named views give you beautiful syntax when working with your views.
+	| After you have defined a name for a view, you can create an instance of
+	| that view using the expressive View::of dynamic method:
+	|
+	|		return View::of_layout();
+	|
+	| For more information, check out: http://laravel.com/docs/start/views#named-views
 	|
 	| View composers provide a convenient way to add common elements to a view
 	| each time it is created. For example, you may wish to bind a header and
@@ -18,9 +26,9 @@ return array(
 	|
 	*/
 
-	'home/index' => function($view)
+	'home.index' => function($view)
 	{
-		// Do anything you want to the view.
+		//
 	},
 
 );
