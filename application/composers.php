@@ -26,9 +26,9 @@ return array(
 	|
 	*/
 
-	'home.index' => function($view)
+	'home.index' => array('name' => 'home', function($view)
 	{
 		//
-	},
+	}),
 
 );
