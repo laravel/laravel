@@ -17,13 +17,6 @@ class Request {
 	public static $uri;
 
 	/**
-	 * The request URI segments.
-	 *
-	 * @var array
-	 */
-	public static $segments;
-
-	/**
 	 * Get the request URI.
 	 *
 	 * If the request is to the root of application, a single forward slash will be returned.
@@ -34,31 +27,6 @@ class Request {
 	{
 		if ( ! is_null(static::$uri)) return static::$uri;
 
-		$uri = static::raw_uri();
-
-		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
-		{
-			$uri = substr($uri, strlen($base));
-		}
-
-		if (strpos($uri, $index = '/index.php') === 0)
-		{
-			$uri = substr($uri, strlen($index));
-		}
-
-		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
-	}
-
-	/**
-	 * Get the request URI from the $_SERVER array.
-	 *
-	 * The server PATH_INFO will be used if available. Otherwise, the REQUEST_URI will be used.
-	 * The application URL and index will be removed from the URI.
-	 *	 
-	 * @return string
-	 */
-	private static function raw_uri()
-	{
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
@@ -77,20 +45,17 @@ class Request {
 			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		return $uri;
-	}
+		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
 
-	/**
-	 * Get a segment of the request URI.
-	 *
-	 * @param  int     $segment
-	 * @return string
-	 */
-	public static function segment($segment)
-	{
-		if (is_null(static::$segments)) static::$segments = explode('/', static::uri());
+		if (strpos($uri, $index = '/index.php') === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
 
-		return (isset(static::$segments[$index = $segment - 1])) ? static::$segments[$index] : null;
+		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
 
 	/**
