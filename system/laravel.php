@@ -142,6 +142,8 @@ if (ACTIVE_MODULE !== 'application' and file_exists($filters = ACTIVE_MODULE_PAT
 foreach (array('before', ACTIVE_MODULE.'::before') as $filter)
 {
 	$response = Routing\Filter::call($filter, array(), true);
+
+	if ( ! is_null($response)) break;
 }
 
 // --------------------------------------------------------------
