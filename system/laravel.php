@@ -41,11 +41,6 @@ require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
-// Detect all of the application modules.
-// --------------------------------------------------------------
-Config::set('application.modules', $modules = array_map('basename', glob(MODULE_PATH.'*', GLOB_ONLYDIR)));
-
-// --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
 Loader::bootstrap();
@@ -131,7 +126,7 @@ $response = Routing\Filter::call('before', array(), true);
 // --------------------------------------------------------------
 if (is_null($response))
 {
-	if (in_array($module = Request::segment(1), $modules))
+	if (in_array($module = Request::segment(1), Config::get('application.modules')))
 	{
 		define('ACTIVE_MODULE', $module);
 
