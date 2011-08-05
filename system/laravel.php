@@ -1,33 +1,37 @@
 <?php namespace System;
 
 // --------------------------------------------------------------
-// Define the PHP file extension.
+// Define the core framework paths.
 // --------------------------------------------------------------
-define('EXT', '.php');
+define('APP_PATH',     realpath($application).'/');
+define('SYS_PATH',     realpath($system).'/');
+define('PUBLIC_PATH',  realpath($public).'/');
+define('PACKAGE_PATH', realpath($packages).'/');
+define('MODULE_PATH',  realpath($modules).'/');
+define('STORAGE_PATH', realpath($storage).'/');
+define('BASE_PATH',    realpath(str_replace('system', '', $system)).'/');
+
+unset($application, $system, $public, $packages, $modules, $storage);
 
 // --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
-$constants = array(
-	'CACHE_PATH'    => STORAGE_PATH.'cache/',
-	'CONFIG_PATH'   => APP_PATH.'config/',
-	'DATABASE_PATH' => STORAGE_PATH.'db/',
-	'LANG_PATH'     => APP_PATH.'lang/',
-	'LIBRARY_PATH'  => APP_PATH.'libraries/',
-	'MODEL_PATH'    => APP_PATH.'models/',
-	'ROUTE_PATH'    => APP_PATH.'routes/',
-	'SCRIPT_PATH'   => PUBLIC_PATH.'js/',
-	'SESSION_PATH'  => STORAGE_PATH.'sessions/',
-	'STYLE_PATH'    => PUBLIC_PATH.'css/',
-	'VIEW_PATH'     => APP_PATH.'views/',
-);
+define('CACHE_PATH',    STORAGE_PATH.'cache/');
+define('CONFIG_PATH',   APP_PATH.'config/');
+define('DATABASE_PATH', STORAGE_PATH.'db/');
+define('LANG_PATH',     APP_PATH.'lang/');
+define('LIBRARY_PATH',  APP_PATH.'libraries/');
+define('MODEL_PATH',    APP_PATH.'models/');
+define('ROUTE_PATH',    APP_PATH.'routes/');
+define('SCRIPT_PATH',   PUBLIC_PATH.'js/');
+define('SESSION_PATH',  STORAGE_PATH.'sessions/');
+define('STYLE_PATH',    PUBLIC_PATH.'css/');
+define('VIEW_PATH',     APP_PATH.'views/');
 
-foreach ($constants as $key => $value)
-{
-	define($key, $value);
-}
-
-unset($constants, $system);
+// --------------------------------------------------------------
+// Define the PHP file extension.
+// --------------------------------------------------------------
+define('EXT', '.php');
 
 // --------------------------------------------------------------
 // Load the classes used by the auto-loader.
