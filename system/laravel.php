@@ -131,14 +131,22 @@ $response = Routing\Filter::call('before', array(), true);
 // --------------------------------------------------------------
 if (is_null($response))
 {
-	$path = (in_array($module = Request::segment(1), $modules)) ? MODULE_PATH.$module.'/' : APP_PATH;
-
-	if ($path !== APP_PATH)
+	if (in_array($module = Request::segment(1), $modules))
 	{
+		define('ACTIVE_MODULE', $module);
+
+		$path = MODULE_PATH.$module.'/';
+
 		if (file_exists($filters = $path.'filters'.EXT))
 		{
 			Routing\Filter::register(require $filters);
 		}
+	}
+	else
+	{
+		define('ACTIVE_MODULE', 'application');
+
+		$path = APP_PATH;
 	}
 
 	$route = Routing\Router::make(Request::method(), Request::uri(), new Routing\Loader($path))->route();
