@@ -82,6 +82,9 @@ class Route {
 	/**
 	 * Extract the route function from the route.
 	 *
+	 * If a "do" index is specified on the callback, that is the handler.
+	 * Otherwise, we will return the first callable array value.
+	 *
 	 * @return Closure
 	 */
 	private function handler()
