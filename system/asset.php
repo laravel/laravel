@@ -1,5 +1,6 @@
 <?php namespace System;
 
+use System\File;
 use System\HTML;
 
 class Asset {
@@ -75,7 +76,7 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		return call_user_func(array($this, (\System\File::extension($source) == 'css') ? 'style' : 'script'), $name, $source, $dependencies, $attributes);
+		return call_user_func(array($this, (File::extension($source) == 'css') ? 'style' : 'script'), $name, $source, $dependencies, $attributes);
 	}
 
 	/**
