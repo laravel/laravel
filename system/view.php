@@ -75,48 +75,32 @@ class View {
 	/**
 	 * Create a new view instance from a view name.
 	 *
+	 * The view names for the active module will be searched first, followed by
+	 * the view names for the application directory, followed by the view names
+	 * for all other modules.
+	 *
 	 * @param  string  $name
 	 * @param  array   $data
 	 * @return View
 	 */
 	private static function of($name, $data = array())
 	{
-		// Search the active module first, then the application module, then all other modules.
 		$modules = array_unique(array_merge(array(ACTIVE_MODULE, 'application'), Config::get('application.modules')));
 
 		foreach ($modules as $module)
 		{
 			static::load_composers($module);
 
-			if ( ! is_null($view = static::find_view_for_name($name, static::$composers[$module])))
+			foreach (static::$composers[$module] as $key => $value)
 			{
-				return new static($view, $data);	
+				if ($name === $value or (isset($value['name']) and $name === $value['name']))
+				{
+					return new static($key, $data);
+				}
 			}
 		}
 
 		throw new \Exception("Named view [$name] is not defined.");
-	}
-
-	/**
-	 * Find the view for a given name in an array of composers.
-	 *
-	 * @param  string  $name
-	 * @param  array   $composers
-	 * @return string
-	 */
-	private static function find_view_for_name($name, $composers)
-	{
-		foreach ($composers as $key => $value)
-		{
-			if (is_string($value) and $value == $name)
-			{
-				return $key;
-			}
-			elseif (is_array($value) and isset($value['name']) and $value['name'] == $name)
-			{
-				return $key;
-			}
-		}
 	}
 
 	/**
@@ -127,8 +111,6 @@ class View {
 	 */
 	private static function parse($view)
 	{
-		// Check for a module qualifier. If a module name is present, we need to extract it from
-		// the view name, otherwise, we will use "application" as the module.
 		$module = (strpos($view, '::') !== false) ? substr($view, 0, strpos($view, ':')) : 'application';
 
 		$path = ($module == 'application') ? VIEW_PATH : MODULE_PATH.$module.'/views/';
