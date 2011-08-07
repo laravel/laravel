@@ -24,11 +24,9 @@ class Crypt {
 	 */
 	public static function encrypt($value)
 	{
-		// Seed the system random number generator if it is being used.
-		if (($random = static::randomizer()) === MCRYPT_RAND)
-		{
-			mt_srand();
-		}
+		// If the system random number generator is being used, we need to seed
+		// it to get adequately random results.
+		if (($random = static::randomizer()) === MCRYPT_RAND) mt_srand();
 
 		$iv = mcrypt_create_iv(static::iv_size(), $random);
 
