@@ -64,7 +64,7 @@ class Config {
 
 		if (is_null($key) or ! static::load($module, $file))
 		{
-			throw new \Exception("Unable to find configuration file item [$key].");
+			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
 		}
 
 		static::$items[$module][$file][$key] = $value;
@@ -85,8 +85,6 @@ class Config {
 		// the configuration key, otherwise, we will use "application" as the module.
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		// If the configuration item is stored in a module, we need to strip the module qualifier
-		// off of the configuration key before continuing.
 		if ($module != 'application')
 		{
 			$key = substr($key, strpos($key, ':') + 2);
@@ -94,8 +92,6 @@ class Config {
 
 		$segments = explode('.', $key);
 
-		// If there is more than one segment, we need to splice together and portion of the
-		// configuration key that comes after the first segment, which is the file name.
 		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
 
 		return array($module, $segments[0], $key);
@@ -113,8 +109,6 @@ class Config {
 	 */
 	public static function load($module, $file)
 	{
-		// If the configuration items for this module and file have already been
-		// loaded, we can bail out of this method.
 		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
