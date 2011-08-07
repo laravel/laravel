@@ -489,10 +489,7 @@ class Validator {
 		{
 			list($rule, $parameters) = $this->parse($rule);
 
-			if (in_array($rule, $rules))
-			{
-				return true;
-			}
+			if (in_array($rule, $rules)) return true;
 		}
 
 		return false;
