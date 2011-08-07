@@ -1,5 +1,10 @@
 <?php namespace System;
 
+if (Config::get('session.driver') == '')
+{
+	throw new \Exception("You must specify a session driver before using the Auth class.");
+}
+
 class Auth {
 
 	/**
@@ -35,11 +40,6 @@ class Auth {
 	 */
 	public static function user()
 	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception("You must specify a session driver before using the Auth class.");
-		}
-
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
 			static::$user = call_user_func(Config::get('auth.by_id'), Session::get(static::$key));
