@@ -70,10 +70,7 @@ class Messages {
 	 */
 	public function get($key = null, $format = ':message')
 	{
-		if (is_null($key))
-		{
-			return $this->all($format);
-		}
+		if (is_null($key)) return $this->all($format);
 
 		return (array_key_exists($key, $this->messages)) ? $this->format($this->messages[$key], $format) : array();
 	}
