@@ -103,8 +103,6 @@ class Lang {
 		// the language line, otherwise, we will use "application" as the module.
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		// If the language line is stored in a module, we need to strip the module qualifier
-		// off of the language key before continuing.
 		if ($module != 'application')
 		{
 			$key = substr($key, strpos($key, ':') + 2);
@@ -130,8 +128,6 @@ class Lang {
 	 */
 	private function load($module, $file, $language)
 	{
-		// If the language lines for the given module, file, and language have already been
-		// loaded, we can bail out of this method.
 		if (isset(static::$lines[$module][$language.$file])) return;
 
 		$path = ($module === 'application') ? LANG_PATH : MODULE_PATH.$module.'/lang/';
