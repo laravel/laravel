@@ -41,10 +41,7 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		if (is_null(static::$input))
-		{
-			static::hydrate();
-		}
+		if (is_null(static::$input)) static::hydrate();
 
 		return Arr::get(static::$input, $key, $default);
 	}
