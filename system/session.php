@@ -28,31 +28,24 @@ class Session {
 			switch (Config::get('session.driver'))
 			{
 				case 'cookie':
-					static::$driver = new Session\Cookie;
-					break;
+					return static::$driver = new Session\Cookie;
 
 				case 'file':
-					static::$driver = new Session\File;
-					break;
+					return static::$driver = new Session\File;
 
 				case 'db':
-					static::$driver = new Session\DB;
-					break;
+					return static::$driver = new Session\DB;
 
 				case 'memcached':
-					static::$driver = new Session\Memcached;
-					break;
+					return static::$driver = new Session\Memcached;
 
 				case 'apc':
-					static::$driver = new Session\APC;
-					break;
+					return static::$driver = new Session\APC;
 
 				default:
 					throw new \Exception("Session driver [$driver] is not supported.");
 			}			
 		}
-
-		return static::$driver;
 	}
 
 	/**
