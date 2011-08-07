@@ -133,8 +133,6 @@ class View {
 
 		$path = ($module == 'application') ? VIEW_PATH : MODULE_PATH.$module.'/views/';
 
-		// If the view is stored in a module, we need to strip the module qualifier off
-		// of the view name before continuing.
 		if ($module != 'application')
 		{
 			$view = substr($view, strpos($view, ':') + 2);
