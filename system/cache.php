@@ -30,23 +30,18 @@ class Cache {
 			switch ($driver)
 			{
 				case 'file':
-					static::$drivers[$driver] = new Cache\File;
-					break;
+					return static::$drivers[$driver] = new Cache\File;
 
 				case 'memcached':
-					static::$drivers[$driver] = new Cache\Memcached;
-					break;
+					return static::$drivers[$driver] = new Cache\Memcached;
 
 				case 'apc':
-					static::$drivers[$driver] = new Cache\APC;
-					break;
+					return static::$drivers[$driver] = new Cache\APC;
 
 				default:
 					throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 		}
-
-		return static::$drivers[$driver];
 	}
 
 	/**
