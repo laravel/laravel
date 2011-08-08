@@ -22,8 +22,8 @@ class Form {
 	{
 		$attributes['action'] = HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
 
-		// If the request method is PUT or DELETE, we'll default the request method to POST
-		// since the request method is being spoofed by the form.
+		// PUT and DELETE methods are spoofed using a hidden field containing the request method.
+		// Since, HTML does not support PUT and DELETE on forms, we will use POST.
 		$attributes['method'] = ($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method;
 
 		if ( ! array_key_exists('accept-charset', $attributes))
@@ -33,8 +33,6 @@ class Form {
 
 		$html = '<form'.HTML::attributes($attributes).'>';
 
-		// If the request method is PUT or DELETE, create a hidden input element with the
-		// request method in it since HTML forms do not support these two methods.
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
 			$html .= PHP_EOL.static::input('hidden', 'REQUEST_METHOD', $method);
