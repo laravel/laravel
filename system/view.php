@@ -115,7 +115,10 @@ class View {
 
 		$path = ($module == 'application') ? VIEW_PATH : MODULE_PATH.$module.'/views/';
 
-		if ($module != 'application') $view = substr($view, strpos($view, ':') + 2);
+		if ($module != 'application')
+		{
+			$view = substr($view, strpos($view, ':') + 2);
+		}
 
 		return array($module, $path, $view);
 	}
