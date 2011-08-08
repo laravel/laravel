@@ -16,15 +16,16 @@ class Memcached {
 	 */
 	public static function instance()
 	{
-		return ( ! is_null(static::$instance)) ? static::$instance : static::$instance = static::connect();
+		return ( ! is_null(static::$instance)) ? static::$instance : static::$instance = static::connect(Config::get('cache.servers'));
 	}
 
 	/**
 	 * Connect to the configured Memcached servers.
 	 *
+	 * @param  array     $servers
 	 * @return Memcache
 	 */
-	private static function connect()
+	private static function connect($servers)
 	{
 		if ( ! class_exists('Memcache'))
 		{
@@ -33,7 +34,7 @@ class Memcached {
 
 		$memcache = new \Memcache;
 
-		foreach (Config::get('cache.servers') as $server)
+		foreach ($servers as $server)
 		{
 			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
 		}
