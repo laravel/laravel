@@ -35,14 +35,14 @@ class View {
 	 *
 	 * @var array
 	 */
-	private static $composers;
+	protected static $composers;
 
 	/**
 	 * The defined view names.
 	 *
 	 * @var array
 	 */
-	private static $names;
+	protected static $names;
 
 	/**
 	 * Create a new view instance.
@@ -83,11 +83,9 @@ class View {
 	 * @param  array   $data
 	 * @return View
 	 */
-	private static function of($name, $data = array())
+	protected static function of($name, $data = array())
 	{
-		$modules = array_unique(array_merge(array(ACTIVE_MODULE, 'application'), Config::get('application.modules')));
-
-		foreach ($modules as $module)
+		foreach (array_unique(array_merge(array(ACTIVE_MODULE, 'application'), Config::get('application.modules'))) as $module)
 		{
 			static::load_composers($module);
 
@@ -109,7 +107,7 @@ class View {
 	 * @param  string  $view
 	 * @return array
 	 */
-	private static function parse($view)
+	protected static function parse($view)
 	{
 		$module = (strpos($view, '::') !== false) ? substr($view, 0, strpos($view, ':')) : 'application';
 
@@ -128,7 +126,7 @@ class View {
 	 *
 	 * @return void
 	 */
-	private function compose()
+	protected function compose()
 	{
 		static::load_composers($this->module);
 
@@ -147,7 +145,7 @@ class View {
 	 * @param  string  $module
 	 * @return void
 	 */
-	private static function load_composers($module)
+	protected static function load_composers($module)
 	{
 		if (isset(static::$composers[$module])) return;
 
