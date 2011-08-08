@@ -18,10 +18,7 @@ class Finder {
 	 */
 	public static function find($name, $routes)
 	{
-		if (array_key_exists($name, static::$names))
-		{
-			return static::$names[$name];
-		}
+		if (array_key_exists($name, static::$names)) return static::$names[$name];
 
 		$arrayIterator = new \RecursiveArrayIterator($routes);
 
