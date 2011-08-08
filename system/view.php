@@ -174,7 +174,7 @@ class View {
 
 		if (is_callable($composer)) return $composer;
 
-		foreach ($composer as $value)
+		foreach ($composer as $key => $value)
 		{
 			if (is_callable($value)) return $value;
 		}
@@ -198,15 +198,10 @@ class View {
 		// evaluate any sub-views or responses that are present.
 		foreach ($this->data as &$data)
 		{
-			if ($data instanceof View or $data instanceof Response)
-			{
-				$data = (string) $data;
-			}
+			if ($data instanceof View or $data instanceof Response) $data = (string) $data;
 		}
 
-		extract($this->data, EXTR_SKIP);
-
-		ob_start();
+		ob_start() and extract($this->data, EXTR_SKIP);
 
 		try { include $this->path.$view.EXT; } catch (\Exception $e) { Error::handle($e); }
 
