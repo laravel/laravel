@@ -146,10 +146,7 @@ abstract class Model {
 	 */
 	public static function table($class)
 	{
-		if (property_exists($class, 'table'))
-		{
-			return $class::$table;
-		}
+		if (property_exists($class, 'table')) return $class::$table;
 
 		return strtolower(Inflector::plural(static::model($class)));
 	}
@@ -400,10 +397,7 @@ abstract class Model {
 	{
 		$this->updated_at = date('Y-m-d H:i:s');
 
-		if ( ! $this->exists)
-		{
-			$this->created_at = $this->updated_at;
-		}
+		if ( ! $this->exists) $this->created_at = $this->updated_at;
 	}
 
 	/**
@@ -418,12 +412,9 @@ abstract class Model {
 		// that model. If it is being called from an Eloquent query model, it is probably
 		// the developer's intention to delete more than one model, so we will pass the
 		// delete statement to the query instance.
-		if ($this->exists)
-		{
-			return Manager::connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
-		}
+		if ( ! $this->exists) return $this->query->delete();
 
-		return $this->query->delete();
+		return Manager::connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
 	}
 
 	/**
