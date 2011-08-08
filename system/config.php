@@ -79,9 +79,7 @@ class Config {
 
 		if ($module !== 'application') $key = substr($key, strpos($key, ':') + 2);
 
-		$segments = explode('.', $key);
-
-		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
+		$key = (count($segments = explode('.', $key)) > 1) ? implode('.', array_slice($segments, 1)) : null;
 
 		return array($module, $segments[0], $key);
 	}
