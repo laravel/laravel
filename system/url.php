@@ -14,10 +14,7 @@ class URL {
 	 */
 	public static function to($url = '', $https = false, $asset = false)
 	{
-		if (filter_var($url, FILTER_VALIDATE_URL) !== false)
-		{
-			return $url;
-		}
+		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
@@ -127,13 +124,11 @@ class URL {
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
-		// Dynamically create a secure route URL.
 		if (strpos($method, 'to_secure_') === 0)
 		{
 			return static::to_route(substr($method, 10), $parameters, true);
 		}
 
-		// Dynamically create a route URL.
 		if (strpos($method, 'to_') === 0)
 		{
 			return static::to_route(substr($method, 3), $parameters);
