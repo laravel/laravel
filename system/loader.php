@@ -47,15 +47,9 @@ class Loader {
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (array_key_exists($class, static::$aliases))
-		{
-			return class_alias(static::$aliases[$class], $class);
-		}
+		if (array_key_exists($class, static::$aliases)) return class_alias(static::$aliases[$class], $class);
 
-		if ( ! static::load_from_registered($file))
-		{
-			static::load_from_module($file);
-		}
+		( ! static::load_from_registered($file)) or static::load_from_module($file);
 	}
 
 	/**
@@ -104,10 +98,7 @@ class Loader {
 
 			foreach (array($module.'models', $module.'libraries') as $directory)
 			{
-				if (file_exists($path = $directory.'/'.$file.EXT))
-				{
-					return require $path;
-				}
+				if (file_exists($path = $directory.'/'.$file.EXT)) return require $path;
 			}
 		}
 	}
