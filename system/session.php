@@ -65,7 +65,10 @@ class Session {
 			static::$session = array('id' => Str::random(40), 'data' => array());
 		}
 
-		if ( ! static::has('csrf_token')) static::put('csrf_token', Str::random(16));
+		if ( ! static::has('csrf_token'))
+		{
+			static::put('csrf_token', Str::random(16));
+		}
 
 		static::$session['last_activity'] = time();
 	}
