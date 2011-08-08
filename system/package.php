@@ -19,9 +19,9 @@ class Package {
 	{
 		foreach ((array) $packages as $package)
 		{
-			if (file_exists($bootstrap = PACKAGE_PATH.$package.'/bootstrap'.EXT))
+			if ( ! static::loaded($package) and file_exists($bootstrap = PACKAGE_PATH.$package.'/bootstrap'.EXT))
 			{
-				require_once $bootstrap;
+				require $bootstrap;
 			}
 
 			static::$loaded[] = $package;
