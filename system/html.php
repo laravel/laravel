@@ -34,12 +34,11 @@ class HTML {
 	 */
 	public static function style($url, $attributes = array())
 	{
-		if ( ! array_key_exists('media', $attributes))
-		{
-			$attributes['media'] = 'all';
-		}
+		if ( ! array_key_exists('media', $attributes)) $attributes['media'] = 'all';
 
-		return '<link href="'.static::entities(URL::to_asset($url)).'" rel="stylesheet" type="text/css"'.static::attributes($attributes).'>'.PHP_EOL;
+		$attributes = $attributes + array('rel' => 'stylesheet', 'type' => 'text/css');
+
+		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
@@ -148,10 +147,7 @@ class HTML {
 	{
 		$email = static::email($email);
 
-		if (is_null($title))
-		{
-			$title = $email;
-		}
+		if (is_null($title)) $title = $email;
 
 		return '<a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
@@ -240,10 +236,7 @@ class HTML {
 		{
 			// Assume numeric-keyed attributes to have the same key and value.
 			// Example: required="required", autofocus="autofocus", etc.
-			if (is_numeric($key))
-			{
-				$key = $value;
-			}
+			if (is_numeric($key)) $key = $value;
 
 			if ( ! is_null($value))
 			{
@@ -292,17 +285,17 @@ class HTML {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// Handle the dynamic creation of links to secure routes.
 		if (strpos($method, 'link_to_secure_') === 0)
 		{
 			array_unshift($parameters, substr($method, 15));
+
 			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
 		}
 
-		// Handle the dynamic creation of links to routes.
 		if (strpos($method, 'link_to_') === 0)
 		{
 			array_unshift($parameters, substr($method, 8));
+
 			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
 
