@@ -19,16 +19,21 @@ class Package {
 	{
 		foreach ((array) $packages as $package)
 		{
-			// Packages may have a bootstrap file, which commonly is used to register auto-loaders
-			// and perform other initialization needed to use the package. If the package has a
-			// bootstrapper, we will require it here.
-			if ( ! array_key_exists($package, static::$loaded) and file_exists($path = PACKAGE_PATH.$package.'/bootstrap'.EXT))
-			{
-				require $path;
-			}
+			if (file_exists($bootstrap = PACKAGE_PATH.$package.'/bootstrap'.EXT)) require_once $bootstrap;
 
 			static::$loaded[] = $package;			
 		}
+	}
+
+	/**
+	 * Determine if a given package has been loaded.
+	 *
+	 * @param  string  $package
+	 * @return bool
+	 */
+	public static function loaded($package)
+	{
+		return array_key_exists($package, static::$loaded);
 	}
 
 }
