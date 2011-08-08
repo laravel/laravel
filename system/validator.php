@@ -250,7 +250,10 @@ class Validator {
 	 */
 	protected function get_size($attribute)
 	{
-		if (is_numeric($this->attributes[$attribute])) return $this->attributes[$attribute];
+		if (is_numeric($this->attributes[$attribute]) and $this->has_rule($attribute, array('integer', 'numeric')))
+		{
+			return $this->attributes[$attribute];
+		}
 
 		return (array_key_exists($attribute, $_FILES)) ? $this->attributes[$attribute]['size'] / 1024 : Str::length(trim($this->attributes[$attribute]));
 	}
@@ -420,7 +423,7 @@ class Validator {
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message for the appropriate type.
-			if (in_array($rule, $this->size_rules) and ! is_numeric($this->attributes[$attribute]))
+			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, array('numeric', 'integer')))
 			{
 				return (array_key_exists($attribute, $_FILES))
                                                  ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
