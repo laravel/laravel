@@ -27,28 +27,6 @@ class Request {
 	{
 		if ( ! is_null(static::$uri)) return static::$uri;
 
-		$uri = static::raw_uri();
-
-		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
-		{
-			$uri = substr($uri, strlen($base));
-		}
-
-		if (strpos($uri, $index = '/index.php') === 0)
-		{
-			$uri = substr($uri, strlen($index));
-		}
-
-		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
-	}
-
-	/**
-	 * Get the raw request URI from the $_SERVER array.
-	 *
-	 * @return string
-	 */
-	private static function raw_uri()
-	{
 		if (isset($_SERVER['PATH_INFO']))
 		{
 			$uri = $_SERVER['PATH_INFO'];
@@ -67,7 +45,17 @@ class Request {
 			throw new \Exception("Malformed request URI. Request terminated.");
 		}
 
-		return $uri;
+		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
+
+		if (strpos($uri, $index = '/index.php') === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
+
+		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
 
 	/**
