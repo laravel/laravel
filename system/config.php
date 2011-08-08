@@ -93,6 +93,9 @@ class Config {
 	/**
 	 * Load all of the configuration items from a file.
 	 *
+	 * Laravel supports environment specific configuration files. So, the base configuration
+	 * array will be loaded first, then any environment specific options will be merged in.
+	 *
 	 * @param  string  $file
 	 * @param  string  $module
 	 * @return bool
@@ -103,10 +106,8 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
-		// Load the base configuration items from the application directory.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
-		// Merge any environment specific configuration into the base array.
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
 		{
 			$config = array_merge($config, require $path);
