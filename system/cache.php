@@ -54,7 +54,10 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
-		if (is_null($driver)) $driver = Config::get('cache.driver');
+		if (is_null($driver))
+		{
+			$driver = Config::get('cache.driver');
+		}
 
 		if (is_null($item = static::driver($driver)->get($key)))
 		{
