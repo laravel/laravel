@@ -46,6 +46,8 @@ class Session {
 					throw new \Exception("Session driver [$driver] is not supported.");
 			}			
 		}
+
+		return static::$driver;
 	}
 
 	/**
@@ -63,10 +65,7 @@ class Session {
 			static::$session = array('id' => Str::random(40), 'data' => array());
 		}
 
-		if ( ! static::has('csrf_token'))
-		{
-			static::put('csrf_token', Str::random(16));
-		}
+		if ( ! static::has('csrf_token')) static::put('csrf_token', Str::random(16));
 
 		static::$session['last_activity'] = time();
 	}
@@ -191,19 +190,11 @@ class Session {
 
 		static::driver()->save(static::$session);
 
-		$config = Config::get('session');
+		static::write_cookie();
 
-		if ( ! headers_sent())
-		{
-			$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
-
-			Cookie::put('laravel_session', static::$session['id'], $minutes, $config['path'], $config['domain'], $config['https'], $config['http_only']);
-		}
-
-		// 2% chance of performing session garbage collection on any given request...
 		if (mt_rand(1, 100) <= 2 and static::driver() instanceof Session\Sweeper)
 		{
-			static::driver()->sweep(time() - ($config['lifetime'] * 60));
+			static::driver()->sweep(time() - (Config::get('session.lifetime') * 60));
 		}
 	}
 
@@ -230,6 +221,23 @@ class Session {
 
 				static::forget($key);
 			}
+		}
+	}
+
+	/**
+	 * Write the session cookie.
+	 *
+	 * @return void
+	 */
+	private static function write_cookie()
+	{
+		extract(Config::get('session'));
+
+		if ( ! headers_sent())
+		{
+			$minutes = ($expire_on_close) ? 0 : $lifetime;
+
+			Cookie::put('laravel_session', static::$session['id'], $minutes, $path, $domain, $https, $http_only);
 		}
 	}
 
