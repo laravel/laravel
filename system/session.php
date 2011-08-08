@@ -231,10 +231,10 @@ class Session {
 	 */
 	private static function write_cookie()
 	{
-		extract(Config::get('session'));
-
 		if ( ! headers_sent())
 		{
+			extract(Config::get('session'));
+
 			$minutes = ($expire_on_close) ? 0 : $lifetime;
 
 			Cookie::put('laravel_session', static::$session['id'], $minutes, $path, $domain, $https, $http_only);
