@@ -38,10 +38,8 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		// If the configuration file doesn't exist, return the default value.
 		if ( ! static::load($module, $file)) return is_callable($default) ? call_user_func($default) : $default;
 
-		// If no key was specified, return the entire configuration array.
 		if (is_null($key)) return static::$items[$module][$file];
 
 		return Arr::get(static::$items[$module][$file], $key, $default);
@@ -104,10 +102,8 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
-		// Load the base configuration items for the module and file.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
-		// Merge any enviornment specific configuration items for the module and file.
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
 		{
 			$config = array_merge($config, require $path);
