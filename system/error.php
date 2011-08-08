@@ -34,10 +34,7 @@ class Error {
 		// Clear the output buffer so nothing is sent to the browser except the error
 		// message. This prevents any views that have already been rendered from being
 		// in an incomplete or erroneous state.
-		if (ob_get_level() > 0)
-		{
-			ob_clean();
-		}
+		if (ob_get_level() > 0) ob_clean();
 
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
@@ -76,7 +73,7 @@ class Error {
 		}
 		else
 		{
-			Response::make(View::make('error/500'), 500)->send();
+			Response::error('500')->send();
 		}
 	}
 
