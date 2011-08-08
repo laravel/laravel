@@ -60,8 +60,8 @@ class Validator {
 		}
 
 		$this->attributes = $attributes;
-		$this->rules = $rules;
 		$this->messages = $messages;
+		$this->rules = $rules;
 	}
 
 	/**
@@ -125,10 +125,7 @@ class Validator {
 
 		// No validation will be run for attributes that do not exist unless the rule being validated
 		// is "required" or "accepted". No other rules have implicit "required" checks.
-		if ( ! static::validate_required($attribute) and ! in_array($rule, array('required', 'accepted')))
-		{
-			return;
-		}
+		if ( ! static::validate_required($attribute) and ! in_array($rule, array('required', 'accepted'))) return;
 
 		if ( ! $this->$validator($attribute, $parameters))
 		{
@@ -144,15 +141,9 @@ class Validator {
 	 */
 	protected function validate_required($attribute)
 	{
-		if ( ! array_key_exists($attribute, $this->attributes))
-		{
-			return false;
-		}
+		if ( ! array_key_exists($attribute, $this->attributes)) return false;
 
-		if (is_string($this->attributes[$attribute]) and trim($this->attributes[$attribute]) === '')
-		{
-			return false;
-		}
+		if (is_string($this->attributes[$attribute]) and trim($this->attributes[$attribute]) === '') return false;
 
 		return true;
 	}
@@ -259,12 +250,9 @@ class Validator {
 	 */
 	protected function get_size($attribute)
 	{
-		if (is_numeric($this->attributes[$attribute]))
-		{
-			return $this->attributes[$attribute];
-		}
+		if (is_numeric($this->attributes[$attribute])) return $this->attributes[$attribute];
 
-		return (array_key_exists($attribute, $_FILES)) ? $this->attributes[$attribute]['size'] / 1000 : Str::length(trim($this->attributes[$attribute]));
+		return (array_key_exists($attribute, $_FILES)) ? $this->attributes[$attribute]['size'] / 1024 : Str::length(trim($this->attributes[$attribute]));
 	}
 
 	/**
@@ -294,16 +282,15 @@ class Validator {
 	/**
 	 * Validate the uniqueness of an attribute value on a given database table.
 	 *
+	 * If a database column is not specified, the attribute name will be used.
+	 *
 	 * @param  string  $attribute
 	 * @param  array   $parameters
 	 * @return bool
 	 */
 	protected function validate_unique($attribute, $parameters)
 	{
-		if ( ! isset($parameters[1]))
-		{
-			$parameters[1] = $attribute;
-		}
+		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
 		return DB\Manager::connection()->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
@@ -398,10 +385,7 @@ class Validator {
 	{
 		foreach ($parameters as $extension)
 		{
-			if (File::is($extension, $this->attributes[$attribute]['tmp_name']))
-			{
-				return true;
-			}
+			if (File::is($extension, $this->attributes[$attribute]['tmp_name'])) return true;
 		}
 
 		return false;
@@ -435,7 +419,7 @@ class Validator {
 			$message = Lang::line('validation.'.$rule)->get($this->language);
 
 			// For "size" rules that are validating strings or files, we need to adjust
-			// the default error message appropriately.
+			// the default error message for the appropriate type.
 			if (in_array($rule, $this->size_rules) and ! is_numeric($this->attributes[$attribute]))
 			{
 				return (array_key_exists($attribute, $_FILES))
@@ -458,7 +442,7 @@ class Validator {
 	 */
 	protected function format_message($message, $attribute, $rule, $parameters)
 	{
-		$display = Lang::line('attributes.'.$attribute)->get($this->language, function() use ($attribute) { return str_replace('_', ' ', $attribute); });
+		$display = Lang::line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
 
 		$message = str_replace(':attribute', $display, $message);
 
@@ -466,7 +450,7 @@ class Validator {
 		{
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
-			$message = str_replace(':size', $parameters[0], str_replace(':min', $parameters[0], str_replace(':max', $max, $message)));
+			$message = str_replace(array(':size', ':min', ':max'), array($parameters[0], $parameters[0], $max), $message);
 		}
 		elseif (in_array($rule, array('in', 'not_in', 'mimes')))
 		{
