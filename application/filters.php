@@ -44,13 +44,13 @@ return array(
 	|
 	*/
 
-	'before' => function()
+	'before' => function($method, $uri)
 	{
 		// Do stuff before every request to your application.
 	},
 
 
-	'after' => function($response)
+	'after' => function($response, $method, $uri)
 	{
 		// Do stuff after every request to your application.
 	},
