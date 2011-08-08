@@ -86,7 +86,10 @@ class Loader {
 
 		foreach ($paths as $path)
 		{
-			if (file_exists($path.'routes'.EXT)) $routes = array_merge($routes, require $path.'routes'.EXT);
+			if (file_exists($path.'routes'.EXT))
+			{
+				$routes = array_merge($routes, require $path.'routes'.EXT);
+			}
 
 			if (is_dir($path.'routes'))
 			{
@@ -98,7 +101,10 @@ class Loader {
 
 				foreach ($recursiveIterator as $file)
 				{
-					if (filetype($file) === 'file' and strpos($file, EXT) !== false) $routes = array_merge($routes, require $file);
+					if (filetype($file) === 'file' and strpos($file, EXT) !== false)
+					{
+						$routes = array_merge($routes, require $file);
+					}
 				}
 			}
 		}
