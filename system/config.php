@@ -38,15 +38,11 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file))
-		{
-			return is_callable($default) ? call_user_func($default) : $default;
-		}
+		// If the configuration file doesn't exist, return the default value.
+		if ( ! static::load($module, $file)) return is_callable($default) ? call_user_func($default) : $default;
 
-		if (is_null($key))
-		{
-			return static::$items[$module][$file];
-		}
+		// If no key was specified, return the entire configuration array.
+		if (is_null($key)) return static::$items[$module][$file];
 
 		return Arr::get(static::$items[$module][$file], $key, $default);
 	}
@@ -81,14 +77,9 @@ class Config {
 	 */
 	private static function parse($key)
 	{
-		// Check for a module qualifier. If a module name is present, we need to extract it from
-		// the configuration key, otherwise, we will use "application" as the module.
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if ($module != 'application')
-		{
-			$key = substr($key, strpos($key, ':') + 2);
-		}
+		if ($module !== 'application') $key = substr($key, strpos($key, ':') + 2);
 
 		$segments = explode('.', $key);
 
@@ -122,10 +113,7 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		if (count($config) > 0)
-		{
-			static::$items[$module][$file] = $config;
-		}
+		if (count($config) > 0) static::$items[$module][$file] = $config;
 
 		return isset(static::$items[$module][$file]);
 	}
