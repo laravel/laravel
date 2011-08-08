@@ -38,7 +38,10 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file)) return is_callable($default) ? call_user_func($default) : $default;
+		if ( ! static::load($module, $file))
+		{
+			return is_callable($default) ? call_user_func($default) : $default;
+		}
 
 		if (is_null($key)) return static::$items[$module][$file];
 
@@ -77,7 +80,10 @@ class Config {
 	{
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if ($module !== 'application') $key = substr($key, strpos($key, ':') + 2);
+		if ($module !== 'application')
+		{
+			$key = substr($key, strpos($key, ':') + 2);
+		}
 
 		$key = (count($segments = explode('.', $key)) > 1) ? implode('.', array_slice($segments, 1)) : null;
 
@@ -86,9 +92,6 @@ class Config {
 
 	/**
 	 * Load all of the configuration items from a file.
-	 *
-	 * If it exists, the configuration file in the application/config directory will be loaded first.
-	 * Any environment specific configuration files will be merged with the root file.
 	 *
 	 * @param  string  $file
 	 * @param  string  $module
@@ -100,8 +103,10 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
+		// Load the base configuration items from the application directory.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
+		// Merge any environment specific configuration into the base array.
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
 		{
 			$config = array_merge($config, require $path);
