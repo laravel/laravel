@@ -3,7 +3,7 @@
 class Cache {
 
 	/**
-	 * The active cache drivers.
+	 * All of the active cache drivers.
 	 *
 	 * @var Cache\Driver
 	 */
@@ -12,8 +12,6 @@ class Cache {
 	/**
 	 * Get a cache driver instance. If no driver name is specified, the default
 	 * cache driver will be returned as defined in the cache configuration file.
-	 *
-	 * Note: Cache drivers are managed as singleton instances.
 	 *
 	 * @param  string  $driver
 	 * @return Cache\Driver
@@ -54,10 +52,7 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
-		if (is_null($driver))
-		{
-			$driver = Config::get('cache.driver');
-		}
+		if (is_null($driver)) $driver = Config::get('cache.driver');
 
 		if (is_null($item = static::driver($driver)->get($key)))
 		{
@@ -79,10 +74,7 @@ class Cache {
 	 */
 	public static function remember($key, $default, $minutes, $driver = null)
 	{
-		if ( ! is_null($item = static::get($key, null, $driver)))
-		{
-			return $item;
-		}
+		if ( ! is_null($item = static::get($key, null, $driver))) return $item;
 
 		$default = is_callable($default) ? call_user_func($default) : $default;
 
@@ -96,7 +88,7 @@ class Cache {
 	 *
 	 * Passing method calls to the driver instance provides a better API for the
 	 * developer. For instance, instead of saying Cache::driver()->foo(), we can
-	 * now just say Cache::foo().
+	 * just say Cache::foo().
 	 */
 	public static function __callStatic($method, $parameters)
 	{
