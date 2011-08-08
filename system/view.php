@@ -136,31 +136,10 @@ class View {
 		{
 			$composer = static::$composers[$this->module][$this->view];
 
-			if ( ! is_null($composer = $this->find_composer_handler($composer)))
+			if ( ! is_null($composer = $this->find_composer_function($composer)))
 			{
 				call_user_func($composer, $this);
 			}
-		}
-	}
-
-	/**
-	 * Find the composer handler / function in a composer definition.
-	 *
-	 * If the composer value itself is callable, it will be returned, otherwise the
-	 * first callable value in the composer array will be returned.
-	 *
-	 * @param  mixed    $composer
-	 * @return Closure
-	 */
-	private function find_composer_handler($composer)
-	{
-		if (is_string($composer)) return;
-
-		if (is_callable($composer)) return $composer;
-
-		foreach ($composer as $value)
-		{
-			if (is_callable($value)) return $value;
 		}
 	}
 
@@ -177,6 +156,28 @@ class View {
 		$composers = ($module == 'application') ? APP_PATH.'composers'.EXT : MODULE_PATH.$module.'/composers'.EXT;
 
 		static::$composers[$module] = (file_exists($composers)) ? require $composers : array();
+	}
+
+	/**
+	 * Find the composer function in a composer definition.
+	 *
+	 * If the composer value itself is callable, it will be returned, otherwise the
+	 * first callable value in the composer array will be returned. If the composer
+	 * value is a string, it is simply a view name being defined.
+	 *
+	 * @param  mixed    $composer
+	 * @return Closure
+	 */
+	private function find_composer_function($composer)
+	{
+		if (is_string($composer)) return;
+
+		if (is_callable($composer)) return $composer;
+
+		foreach ($composer as $value)
+		{
+			if (is_callable($value)) return $value;
+		}
 	}
 
 	/**
