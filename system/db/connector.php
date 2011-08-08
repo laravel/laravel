@@ -79,10 +79,7 @@ class Connector {
 	{
 		$dsn = $config->driver.':host='.$config->host.';dbname='.$config->database;
 
-		if (isset($config->port))
-		{
-			$dsn .= ';port='.$config->port;
-		}
+		if (isset($config->port)) $dsn .= ';port='.$config->port;
 
 		$connection = new \PDO($dsn, $config->username, $config->password, $this->options);
 
