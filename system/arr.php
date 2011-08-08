@@ -15,10 +15,7 @@ class Arr {
 	 */
 	public static function get($array, $key, $default = null)
 	{
-		if (is_null($key))
-		{
-			return $array;
-		}
+		if (is_null($key)) return $array;
 
 		foreach (explode('.', $key) as $segment)
 		{
