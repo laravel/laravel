@@ -524,6 +524,22 @@ class Query {
 			$this->select($columns);
 		}
 
+		$results = $this->connection->query($this->compile_select(), $this->bindings);
+
+		// Reset the SELECT clause so more queries can be performed using the same instance.
+		// This is helpful for getting aggregates and then getting actual results.
+		$this->select = null;
+
+		return $results;
+	}
+
+	/**
+	 * Compile the query into a SQL SELECT statement.
+	 *
+	 * @return string
+	 */
+	private function compile_select()
+	{
 		$sql = $this->select.' '.$this->from.' '.$this->where;
 
 		if (count($this->orderings) > 0)
@@ -541,13 +557,7 @@ class Query {
 			$sql .= ' OFFSET '.$this->offset;
 		}
 
-		$results = $this->connection->query($sql, $this->bindings);
-
-		// Reset the SELECT clause so more queries can be performed using the same instance.
-		// This is helpful for getting aggregates and then getting actual results.
-		$this->select = null;
-
-		return $results;
+		return $sql;
 	}
 
 	/**
@@ -586,7 +596,7 @@ class Query {
 	}
 
 	/**
-	 * Compile an SQL INSERT statement.
+	 * Compile the query into a SQL INSERT statement.
 	 *
 	 * @param  array   $values
 	 * @return string
