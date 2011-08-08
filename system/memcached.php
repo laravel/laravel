@@ -16,7 +16,12 @@ class Memcached {
 	 */
 	public static function instance()
 	{
-		return ( ! is_null(static::$instance)) ? static::$instance : static::$instance = static::connect(Config::get('cache.servers'));
+		if (is_null(static::$instance))
+		{
+			static::$instance = static::connect(Config::get('cache.servers'));
+		}
+
+		return static::$instance;
 	}
 
 	/**
