@@ -170,6 +170,11 @@ class View {
 			throw new \Exception("View [$view] does not exist.");
 		}
 
+		foreach ($this->data as &$data)
+		{
+			if ($data instanceof View or $data instanceof Response) $data = (string) $data;
+		}
+
 		ob_start() and extract($this->data, EXTR_SKIP);
 
 		try { include $this->path.$view.EXT; } catch (\Exception $e) { Error::handle($e); }
