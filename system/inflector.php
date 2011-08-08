@@ -121,15 +121,9 @@ class Inflector {
 	 */
 	public static function plural($value)
 	{
-        if (array_key_exists($value, static::$plural_cache))
-        {
-           return static::$plural_cache[$value];
-        }
+        if (array_key_exists($value, static::$plural_cache)) return static::$plural_cache[$value];
 
-        if (in_array(strtolower($value), static::$uncountable))
-        {
-        	return static::$plural_cache[$value] = $value;
-        }
+        if (in_array(strtolower($value), static::$uncountable)) return static::$plural_cache[$value] = $value;
 
         foreach (static::$irregular as $pattern => $irregular)
         {
@@ -160,15 +154,9 @@ class Inflector {
 	 */
 	public static function singular($value)
 	{
-        if (array_key_exists($value, static::$singular_cache))
-        {
-           return static::$singular_cache[$value];
-        }
+        if (array_key_exists($value, static::$singular_cache)) return static::$singular_cache[$value];
 
-        if (in_array(strtolower($value), static::$uncountable))
-        {
-        	return static::$singular_cache[$value] = $value;
-        }
+        if (in_array(strtolower($value), static::$uncountable)) return static::$singular_cache[$value] = $value;
 
         foreach (static::$irregular as $irregular => $pattern)
         {
