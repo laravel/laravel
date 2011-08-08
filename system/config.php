@@ -100,7 +100,7 @@ class Config {
 	 * @param  string  $module
 	 * @return bool
 	 */
-	public static function load($module, $file)
+	private static function load($module, $file)
 	{
 		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
 
