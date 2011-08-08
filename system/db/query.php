@@ -482,6 +482,7 @@ class Query {
 	private function aggregate($aggregator, $column)
 	{
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
+
 		return $this->first()->aggregate;
 	}
 
