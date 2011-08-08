@@ -134,11 +134,9 @@ class View {
 
 		if (isset(static::$composers[$this->module][$this->view]))
 		{
-			$composer = static::$composers[$this->module][$this->view];
-
-			if ( ! is_null($composer = $this->find_composer_function($composer)))
+			foreach ((array) static::$composers[$this->module][$this->view] as $key => $value)
 			{
-				call_user_func($composer, $this);
+				if (is_callable($value)) return call_user_func($value, $this);
 			}
 		}
 	}
@@ -159,28 +157,6 @@ class View {
 	}
 
 	/**
-	 * Find the composer function in a composer definition.
-	 *
-	 * If the composer value itself is callable, it will be returned, otherwise the
-	 * first callable value in the composer array will be returned. If the composer
-	 * value is a string, it is simply a view name being defined.
-	 *
-	 * @param  mixed    $composer
-	 * @return Closure
-	 */
-	private function find_composer_function($composer)
-	{
-		if (is_string($composer)) return;
-
-		if (is_callable($composer)) return $composer;
-
-		foreach ($composer as $key => $value)
-		{
-			if (is_callable($value)) return $value;
-		}
-	}
-
-	/**
 	 * Get the parsed content of the view.
 	 *
 	 * @return string
@@ -192,16 +168,6 @@ class View {
 		if ( ! file_exists($this->path.$view.EXT))
 		{
 			throw new \Exception("View [$view] does not exist.");
-		}
-
-		// Before rendering the view, we need to spin through all of the bound data and
-		// evaluate any sub-views or responses that are present.
-		foreach ($this->data as &$data)
-		{
-			if ($data instanceof View or $data instanceof Response)
-			{
-				$data = (string) $data;
-			}
 		}
 
 		ob_start() and extract($this->data, EXTR_SKIP);
