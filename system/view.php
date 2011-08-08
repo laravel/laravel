@@ -194,7 +194,15 @@ class View {
 			throw new \Exception("View [$view] does not exist.");
 		}
 
-		$this->get_sub_views();
+		// Before rendering the view, we need to spin through all of the bound data and
+		// evaluate any sub-views or responses that are present.
+		foreach ($this->data as &$data)
+		{
+			if ($data instanceof View or $data instanceof Response)
+			{
+				$data = (string) $data;
+			}
+		}
 
 		extract($this->data, EXTR_SKIP);
 
@@ -203,22 +211,6 @@ class View {
 		try { include $this->path.$view.EXT; } catch (\Exception $e) { Error::handle($e); }
 
 		return ob_get_clean();
-	}
-
-	/**
-	 * Evaluate the content of all bound sub-views and responses.
-	 *
-	 * @return void
-	 */
-	private function get_sub_views()
-	{
-		foreach ($this->data as &$data)
-		{
-			if ($data instanceof View or $data instanceof Response)
-			{
-				$data = (string) $data;
-			}
-		}
 	}
 
 	/**
