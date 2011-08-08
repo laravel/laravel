@@ -40,6 +40,8 @@ class Cache {
 					throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 		}
+
+		return static::$drivers[$driver];
 	}
 
 	/**
