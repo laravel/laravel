@@ -63,7 +63,7 @@ class Route {
 		{
 			$response = isset($this->callback['before']) ? Filter::call($this->callback['before'], array(), true) : null;
 
-			if (is_null($response) and ! is_null($handler = $this->handler()))
+			if (is_null($response) and ! is_null($handler = $this->find_route_function()))
 			{
 				$response = call_user_func_array($handler, $this->parameters);
 			}
@@ -87,7 +87,7 @@ class Route {
 	 *
 	 * @return Closure
 	 */
-	private function handler()
+	private function find_route_function()
 	{
 		if (isset($this->callback['do'])) return $this->callback['do'];
 
