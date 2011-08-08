@@ -45,6 +45,13 @@ class Paginator {
 	public $language;
 
 	/**
+	 * The values that should be appended to the end of the link query strings.
+	 *
+	 * @var array
+	 */
+	public $append = array();
+
+	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
@@ -124,12 +131,7 @@ class Paginator {
 	{
 		// The hard-coded "7" is to account for all of the constant elements in a sliding range.
 		// Namely: The the current page, the two ellipses, the two beginning pages, and the two ending pages.
-		if ($this->last_page < 7 + ($adjacent * 2))
-		{
-			return $this->range(1, $this->last_page);
-		}
-
-		return $this->slider($adjacent);
+		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 	}
 
 	/**
@@ -237,7 +239,14 @@ class Paginator {
 	 */
 	private function link($page, $text, $class)
 	{
-		return HTML::link(Request::uri().'?page='.$page, $text, array('class' => $class), Request::is_secure());
+		$append = '';
+
+		foreach ($this->append as $key => $value)
+		{
+			$append .= '&'.$key.'='.$value;
+		}
+
+		return HTML::link(Request::uri().'?page='.$page.$append, $text, array('class' => $class), Request::is_secure());
 	}
 
 	/**
@@ -249,6 +258,18 @@ class Paginator {
 	public function lang($language)
 	{
 		$this->language = $language;
+		return $this;
+	}
+
+	/**
+	 * Set the items that should be appended to the link query strings.
+	 *
+	 * @param  array      $values
+	 * @return Paginator
+	 */
+	public function append($values)
+	{
+		$this->append = $values;
 		return $this;
 	}
 
