@@ -115,10 +115,7 @@ class View {
 
 		$path = ($module == 'application') ? VIEW_PATH : MODULE_PATH.$module.'/views/';
 
-		if ($module != 'application')
-		{
-			$view = substr($view, strpos($view, ':') + 2);
-		}
+		if ($module != 'application') $view = substr($view, strpos($view, ':') + 2);
 
 		return array($module, $path, $view);
 	}
@@ -162,7 +159,7 @@ class View {
 		{
 			if (is_callable($value)) return $value;
 		}
-	}	
+	}
 
 	/**
 	 * Load the view composers for a given module.
@@ -193,7 +190,10 @@ class View {
 			throw new \Exception("View [$view] does not exist.");
 		}
 
-		$this->get_sub_views();
+		foreach ($this->data as &$data)
+		{
+			if ($data instanceof View or $data instanceof Response) $data = (string) $data;
+		}
 
 		extract($this->data, EXTR_SKIP);
 
@@ -202,22 +202,6 @@ class View {
 		try { include $this->path.$view.EXT; } catch (\Exception $e) { Error::handle($e); }
 
 		return ob_get_clean();
-	}
-
-	/**
-	 * Evaluate all of the view and response instances that are bound to the view.
-	 *
-	 * @return void
-	 */
-	private function get_sub_views()
-	{
-		foreach ($this->data as &$data)
-		{
-			if ($data instanceof View or $data instanceof Response)
-			{
-				$data = (string) $data;
-			}
-		}
 	}
 
 	/**
