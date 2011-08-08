@@ -28,7 +28,12 @@ class Benchmark {
 	 */
 	public static function check($name)
 	{
-		return (array_key_exists($name, static::$marks)) ? number_format((microtime(true) - static::$marks[$name]) * 1000, 2) : 0.0;
+		if (array_key_exists($name, static::$marks))
+		{
+			return number_format((microtime(true) - static::$marks[$name]) * 1000, 2);
+		}
+
+		return 0.0;
 	}
 
 	/**
