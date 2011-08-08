@@ -69,10 +69,8 @@ class Crypt {
 		{
 			return MCRYPT_DEV_RANDOM;
 		}
-		else
-		{
-			return MCRYPT_RAND;
-		}
+
+		return MCRYPT_RAND;
 	}
 
 	/**
