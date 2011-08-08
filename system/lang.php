@@ -63,10 +63,7 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
-		if (is_null($language))
-		{
-			$language = Config::get('application.language');
-		}
+		if (is_null($language)) $language = Config::get('application.language');
 
 		list($module, $file, $line) = $this->parse($this->key, $language);
 
@@ -99,21 +96,13 @@ class Lang {
 	 */
 	private function parse($key, $language)
 	{
-		// Check for a module qualifier. If a module name is present, we need to extract it from
-		// the language line, otherwise, we will use "application" as the module.
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if ($module != 'application')
-		{
-			$key = substr($key, strpos($key, ':') + 2);
-		}
+		if ($module != 'application') $key = substr($key, strpos($key, ':') + 2);
 
 		$segments = explode('.', $key);
 
-		if (count($segments) > 1)
-		{
-			return array($module, $segments[0], $segments[1]);
-		}
+		if (count($segments = explode('.', $key)) > 1) return array($module, $segments[0], $segments[1]);
 
 		throw new \Exception("Invalid language line [$key]. A specific line must be specified.");
 	}
