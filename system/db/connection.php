@@ -78,10 +78,8 @@ class Connection {
 		{
 			return $query->rowCount();
 		}
-		else
-		{
-			return $result;
-		}
+
+		return $result;
 	}
 
 	/**
