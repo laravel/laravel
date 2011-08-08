@@ -496,9 +496,7 @@ class Query {
 	{
 		$total = $this->count();
 
-		$this->select($columns);
-
-		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get($columns), $total, $per_page);
 	}
 
 	/**
@@ -527,11 +525,20 @@ class Query {
 
 		$sql = $this->select.' '.$this->from.' '.$this->where;
 
-		if (count($this->orderings) > 0) $sql .= ' ORDER BY '.implode(', ', $this->orderings);
+		if (count($this->orderings) > 0)
+		{
+			$sql .= ' ORDER BY '.implode(', ', $this->orderings);
+		}
 
-		if ( ! is_null($this->limit)) $sql .= ' LIMIT '.$this->limit;
+		if ( ! is_null($this->limit))
+		{
+			$sql .= ' LIMIT '.$this->limit;
+		}
 
-		if ( ! is_null($this->offset)) $sql .= ' OFFSET '.$this->offset;
+		if ( ! is_null($this->offset))
+		{
+			$sql .= ' OFFSET '.$this->offset;
+		}
 
 		$results = $this->connection->query($sql, $this->bindings);
 
@@ -563,8 +570,6 @@ class Query {
 	{
 		$sql = $this->compile_insert($values);
 
-		// Use the RETURNING clause on PostgreSQL so don't have to worry about sequence columns.
-		// MySQL and SQLite can use the PDO's lastInsertID() method.
 		if ($this->connection->driver() == 'pgsql')
 		{
 			$query = $this->connection->pdo->prepare($sql.' RETURNING '.$this->wrap('id'));
@@ -620,10 +625,7 @@ class Query {
 	 */
 	public function delete($id = null)
 	{
-		if ( ! is_null($id))
-		{
-			$this->where('id', '=', $id);
-		}
+		if ( ! is_null($id)) $this->where('id', '=', $id);
 
 		return $this->connection->query('DELETE FROM '.$this->wrap($this->table).' '.$this->where, $this->bindings);		
 	}
