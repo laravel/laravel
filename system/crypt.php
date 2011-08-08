@@ -42,9 +42,7 @@ class Crypt {
 	 */
 	public static function decrypt($value)
 	{
-		$value = base64_decode($value, true);
-
-		if ( ! $value)
+		if ( ! is_string($value = base64_decode($value, true)))
 		{
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}
