@@ -195,7 +195,10 @@ class View {
 
 		foreach ($this->data as &$data)
 		{
-			if ($data instanceof View or $data instanceof Response) $data = (string) $data;
+			if ($data instanceof View or $data instanceof Response)
+			{
+				$data = (string) $data;
+			}
 		}
 
 		extract($this->data, EXTR_SKIP);
