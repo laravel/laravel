@@ -38,11 +38,18 @@ class Validator {
 	public $language;
 
 	/**
-	 * The "size" related validation rules.
+	 * The size related validation rules.
 	 *
 	 * @var array
 	 */
 	protected $size_rules = array('size', 'between', 'min', 'max');
+
+	/**
+	 * The numeric related validation rules.
+	 *
+	 * @var array
+	 */
+	protected $numeric_rules = array('numeric', 'integer');
 
 	/**
 	 * Create a new validator instance.
@@ -250,7 +257,7 @@ class Validator {
 	 */
 	protected function get_size($attribute)
 	{
-		if (is_numeric($this->attributes[$attribute]) and $this->has_rule($attribute, array('integer', 'numeric')))
+		if (is_numeric($this->attributes[$attribute]) and $this->has_rule($attribute, $this->numeric_rules))
 		{
 			return $this->attributes[$attribute];
 		}
@@ -423,7 +430,7 @@ class Validator {
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message for the appropriate type.
-			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, array('numeric', 'integer')))
+			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
 				return (array_key_exists($attribute, $_FILES))
                                                  ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
