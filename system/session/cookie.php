@@ -35,9 +35,12 @@ class Cookie implements Driver {
 	 */
 	public function save($session)
 	{
-		$c = \System\Config::get('session');
+		if ( ! headers_sent())
+		{
+			extract(Config::get('session'));
 
-		\System\Cookie::put('session_payload', Crypt::encrypt(serialize($session)), $c['lifetime'], $c['path'], $c['domain'], $c['https'], $c['http_only']);
+			\System\Cookie::put('session_payload', Crypt::encrypt(serialize($session)), $lifetime, $path, $domain, $https, $http_only);
+		}
 	}
 
 	/**
