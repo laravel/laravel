@@ -1,5 +1,6 @@
 <?php namespace System\Routing;
 
+use System\Package;
 use System\Response;
 
 class Route {
@@ -61,6 +62,11 @@ class Route {
 		}
 		elseif (is_array($this->callback))
 		{
+			if (isset($this->callback['needs']))
+			{
+				Package::load(explode(', ', $this->callback['needs']));
+			}
+
 			$response = isset($this->callback['before']) ? Filter::call($this->callback['before'], array(), true) : null;
 
 			if (is_null($response) and ! is_null($handler = $this->find_route_function()))
