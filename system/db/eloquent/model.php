@@ -353,7 +353,7 @@ abstract class Model {
 	/**
 	 * Save the model to the database.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function save()
 	{
@@ -376,16 +376,16 @@ abstract class Model {
 		// Otherwise, we will insert the model and set the ID attribute.
 		if ($this->exists)
 		{
-			$this->query->where_id($this->attributes['id'])->update($this->dirty);
+			$success = ($this->query->where_id($this->attributes['id'])->update($this->dirty) === 1);
 		}
 		else
 		{
-			$this->attributes['id'] = $this->query->insert_get_id($this->attributes);
+			$success = is_numeric($this->attributes['id'] = $this->query->insert_get_id($this->attributes));
 		}
 
-		$this->exists = true;
+		($this->exists = true) and $this->dirty = array();
 
-		$this->dirty = array();
+		return $success;
 	}
 
 	/**
