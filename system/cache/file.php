@@ -31,12 +31,7 @@ class File implements Driver {
 
 		// The cache expiration date is stored as a UNIX timestamp at the beginning
 		// of the cache file. We'll extract it out and check it here.
-		if (time() >= substr($cache, 0, 10))
-		{
-			$this->forget($key);
-
-			return null;
-		}
+		if (time() >= substr($cache, 0, 10)) return $this->forget($key);
 
 		return unserialize(substr($cache, 10));
 	}
