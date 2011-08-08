@@ -47,7 +47,10 @@ class Loader {
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (array_key_exists($class, static::$aliases)) return class_alias(static::$aliases[$class], $class);
+		if (array_key_exists($class, static::$aliases))
+		{
+			return class_alias(static::$aliases[$class], $class);
+		}
 
 		( ! static::load_from_registered($file)) or static::load_from_module($file);
 	}
