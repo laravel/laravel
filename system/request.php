@@ -29,11 +29,15 @@ class Request {
 
 		$uri = static::raw_uri();
 
-		$base = parse_url(Config::get('application.url'), PHP_URL_PATH);
+		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
 
-		if (strpos($uri, $base) === 0) $uri = substr($uri, strlen($base));
-
-		if (strpos($uri, $index = '/index.php') === 0) $uri = substr($uri, strlen($index));
+		if (strpos($uri, $index = '/index.php') === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
 
 		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
