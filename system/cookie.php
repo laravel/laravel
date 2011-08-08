@@ -56,10 +56,7 @@ class Cookie {
 	 */
 	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		if ($minutes < 0)
-		{
-			unset($_COOKIE[$name]);
-		}
+		if ($minutes < 0) unset($_COOKIE[$name]);
 
 		return setcookie($name, $value, ($minutes != 0) ? time() + ($minutes * 60) : 0, $path, $domain, $secure, $http_only);
 	}
