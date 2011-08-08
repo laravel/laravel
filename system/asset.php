@@ -76,7 +76,9 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		return call_user_func(array($this, (File::extension($source) == 'css') ? 'style' : 'script'), $name, $source, $dependencies, $attributes);
+		$type = (File::extension($source) == 'css') ? 'style' : 'script';
+
+		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
 	}
 
 	/**
@@ -200,10 +202,7 @@ class Asset_Container {
 	 */
 	private function get_asset($group, $name)
 	{
-		if ( ! isset($this->assets[$group][$name]))
-		{
-			return '';
-		}
+		if ( ! isset($this->assets[$group][$name])) return '';
 
 		$asset = $this->assets[$group][$name];
 
