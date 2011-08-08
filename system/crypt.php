@@ -24,8 +24,7 @@ class Crypt {
 	 */
 	public static function encrypt($value)
 	{
-		// If the system random number generator is being used, we need to seed
-		// it to get adequately random results.
+		// Seed the system random number generator so it will produce random results.
 		if (($random = static::randomizer()) === MCRYPT_RAND) mt_srand();
 
 		$iv = mcrypt_create_iv(static::iv_size(), $random);
@@ -50,10 +49,8 @@ class Crypt {
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}
 
-		// Extract the input vector from the value.
 		$iv = substr($value, 0, static::iv_size());
 
-		// Remove the input vector from the encrypted value.
 		$value = substr($value, static::iv_size());
 
 		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
@@ -87,12 +84,9 @@ class Crypt {
 	 */
 	private static function key()
 	{
-		if (is_null($key = Config::get('application.key')) or $key == '')
-		{
-			throw new \Exception("The encryption class can not be used without an encryption key.");
-		}
+		if ( ! is_null($key = Config::get('application.key')) and $key !== '') return $key;
 
-		return $key;
+		throw new \Exception("The encryption class can not be used without an encryption key.");
 	}
 
 	/**
