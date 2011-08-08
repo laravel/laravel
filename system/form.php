@@ -145,7 +145,9 @@ class Form {
 	 */		
 	public static function input($type, $name, $value = null, $attributes = array())
 	{
-		return '<input'.HTML::attributes(array_merge($attributes, array('type' => $type, 'name' => $name, 'value' => $value, 'id' => static::id($name, $attributes)))).'>'.PHP_EOL;
+		$id = static::id($name, $attributes);
+
+		return '<input'.HTML::attributes(array_merge($attributes, compact('type', 'name', 'value', 'id'))).'>'.PHP_EOL;
 	}
 
 	/**
@@ -275,15 +277,9 @@ class Form {
 	{
 		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
 
-		if ( ! isset($attributes['rows']))
-		{
-			$attributes['rows'] = 10;
-		}
+		if ( ! isset($attributes['rows'])) $attributes['rows'] = 10;
 
-		if ( ! isset($attributes['cols']))
-		{
-			$attributes['cols'] = 50;
-		}
+		if ( ! isset($attributes['cols'])) $attributes['cols'] = 50;
 
 		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
 	}
@@ -305,7 +301,9 @@ class Form {
 
 		foreach ($options as $value => $display)
 		{
-			$html[] = '<option'.HTML::attributes(array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null)).'>'.HTML::entities($display).'</option>';
+			$option_attributes = array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
+
+			$html[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
 		}
 
 		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
@@ -419,15 +417,9 @@ class Form {
 	 */
 	private static function id($name, $attributes)
 	{
-		if (array_key_exists('id', $attributes))
-		{
-			return $attributes['id'];
-		}
+		if (array_key_exists('id', $attributes)) return $attributes['id'];
 
-		if (in_array($name, static::$labels))
-		{
-			return $name;
-		}
+		if (in_array($name, static::$labels)) return $name;
 	}
 
 }
