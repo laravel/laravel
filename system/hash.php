@@ -12,9 +12,9 @@ class Hash {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function make($value)
+	public static function make($value, $rounds = 10)
 	{
-		return static::hasher()->HashPassword($value);
+		return static::hasher($rounds)->HashPassword($value);
 	}
 
 	/**
@@ -32,13 +32,14 @@ class Hash {
 	/**
 	 * Create a new PHPass instance.
 	 *
+	 * @param  int  $rounds
 	 * @return PasswordHash
 	 */
-	private static function hasher()
+	private static function hasher($rounds = 10)
 	{
 		require_once SYS_PATH.'vendor/phpass'.EXT;
 
-		return new \PasswordHash(10, false);
+		return new \PasswordHash($rounds, false);
 	}
 
-}	
+}
