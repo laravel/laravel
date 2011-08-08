@@ -100,8 +100,6 @@ class Lang {
 
 		if ($module != 'application') $key = substr($key, strpos($key, ':') + 2);
 
-		$segments = explode('.', $key);
-
 		if (count($segments = explode('.', $key)) > 1) return array($module, $segments[0], $segments[1]);
 
 		throw new \Exception("Invalid language line [$key]. A specific line must be specified.");
