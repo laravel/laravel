@@ -40,8 +40,6 @@ return array(
 	| To make your life easier, we have built authentication and CSRF filters
 	| that are ready to attach to your routes. Enjoy.
 	|
-	| For more information, check out: http://laravel.com/docs/start/routes#filters
-	|
 	*/
 
 	'before' => function($method, $uri)
