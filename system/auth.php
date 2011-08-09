@@ -10,7 +10,13 @@ class Auth {
 	/**
 	 * The current user of the application.
 	 *
+	 * If no user is logged in, this variable will be NULL. Otherwise, it will contain
+	 * the result of the "by_id" closure in the authentication configuration file.
+	 *
+	 * However, the user should typically be accessed via the "user" method.
+	 *
 	 * @var object
+	 * @see user()
 	 */
 	public static $user;
 
@@ -24,7 +30,15 @@ class Auth {
 	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
+	 * <code>
+	 *		if (Auth::check())
+	 *		{
+	 *			// The user is logged in...
+	 *		}
+	 * </code>
+	 *
 	 * @return bool
+	 * @see    login
 	 */
 	public static function check()
 	{
@@ -34,9 +48,16 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
-	 * The user will be loaded using the user ID stored in the session.
+	 * To retrieve the user, the user ID stored in the session will be passed to
+	 * the "by_id" closure in the authentication configuration file. The result
+	 * of the closure will be cached and returned.
+	 *
+	 * <code>
+	 *		$email = Auth::user()->email;
+	 * </code>
 	 *
 	 * @return object
+	 * @see    $user
 	 */
 	public static function user()
 	{
@@ -54,8 +75,20 @@ class Auth {
 	 * If the user credentials are valid. The user ID will be stored in the session
 	 * and will be considered "logged in" on subsequent requests to the application.
 	 *
+	 * The password passed to the method should be plain text, as it will be hashed
+	 * by the Hash class when authenticating.
+	 *
+	 * <code>
+	 *		if (Auth::login('test@gmail.com', 'secret'))
+	 *		{
+	 *			// The credentials are valid...
+	 *		}
+	 * </code>
+	 *
 	 * @param  string  $username
 	 * @param  string  $password
+	 * @return bool
+	 * @see    Hash::check()
 	 */
 	public static function login($username, $password)
 	{
@@ -75,7 +108,10 @@ class Auth {
 	}
 
 	/**
-	 * Logout the user of the application.
+	 * Log the user out of the application.
+	 *
+	 * The user ID will be removed from the session and the user will no longer
+	 * be considered logged in on subsequent requests.
 	 *
 	 * @return void
 	 */
