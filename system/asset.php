@@ -26,6 +26,9 @@ class Asset {
 	 *
 	 *		// Get the "footer" asset contanier
 	 *		$container = Asset::container('footer');
+	 *
+	 *		// Add an asset to the "footer" container
+	 *		Asset::container('footer')->add('jquery', 'js/jquery.js');
 	 * </code>
 	 *
 	 * @param  string            $container
