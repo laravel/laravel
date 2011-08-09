@@ -28,7 +28,7 @@ return array(
 	|			return 'Hello World!';
 	|		}
 	|
-	| Here's how to allow URI wildcards using the (:num) or (:any) place-holders:
+	| It's easy to allow URI wildcards using the (:num) or (:any) place-holders:
 	|
 	|		'GET /hello/(:any)' => function($name)
 	|		{
