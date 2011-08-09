@@ -52,7 +52,7 @@ class Loader {
 			return class_alias(static::$aliases[$class], $class);
 		}
 
-		( ! static::load_from_registered($file)) or static::load_from_module($file);
+		(static::load_from_registered($file)) or static::load_from_module($file);
 	}
 
 	/**
