@@ -104,6 +104,9 @@ class Asset_Container {
 	 * <code>
 	 *		// Register jQuery UI as dependent on jQuery
 	 *		Asset::add('jquery-ui', 'js/jquery-ui.js', 'jquery');
+	 *
+	 *		// Register jQuery UI with multiple dependencies
+	 *		Asset::add('jquery-ui', 'js/jquery-ui.js', array('jquery', 'fader'));
 	 * </code>
 	 *
 	 * @param  string  $name
