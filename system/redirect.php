@@ -24,12 +24,12 @@ class Redirect {
 	 * Create a redirect response.
 	 *
 	 * @param  string    $url
-	 * @param  string    $method
 	 * @param  int       $status
+	 * @param  string    $method
 	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public static function to($url, $method = 'location', $status = 302, $https = false)
+	public static function to($url, $status = 302, $method = 'location', $https = false)
 	{
 		$url = URL::to($url, $https);
 
@@ -42,13 +42,13 @@ class Redirect {
 	 * Create a redirect response to a HTTPS URL.
 	 *
 	 * @param  string    $url
-	 * @param  string    $method
 	 * @param  int       $status
+	 * @param  string    $method
 	 * @return Response
 	 */
-	public static function to_secure($url, $method = 'location', $status = 302)
+	public static function to_secure($url, $status = 302, $method = 'location')
 	{
-		return static::to($url, $method, $status, true);
+		return static::to($url, $status, $method, true);
 	}
 
 	/**

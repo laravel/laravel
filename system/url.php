@@ -28,7 +28,7 @@ class URL {
 			$base = 'https://'.substr($base, 7);
 		}
 
-		return rtrim($base, '/').'/'.ltrim($url, '/');
+		return rtrim($base, '/').'/'.trim($url, '/');
 	}
 
 	/**
