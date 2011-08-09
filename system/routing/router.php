@@ -92,11 +92,11 @@ class Router {
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We will add the endings
 		// back on after we know how many replacements we made.
-		$key = str_replace(array('/(:num?)', '/(:any?)'), array('(?:/([0-9]+)', '(?:/([a-zA-Z0-9\-_]+)'), $key, $replacements);
+		$key = str_replace(array('/(:num?)', '/(:any?)'), array('(?:/([0-9]+)', '(?:/([a-zA-Z0-9\.\-_]+)'), $key, $replacements);
 
 		$key .= ($replacements > 0) ? str_repeat(')?', $replacements) : '';
 
-		return str_replace(array(':num', ':any'), array('[0-9]+', '[a-zA-Z0-9\-_]+'), $key);
+		return str_replace(array(':num', ':any'), array('[0-9]+', '[a-zA-Z0-9\.\-_]+'), $key);
 	}
 
 	/**
