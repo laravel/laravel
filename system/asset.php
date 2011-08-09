@@ -51,8 +51,10 @@ class Asset {
 	 * <code>
 	 * // Add jQuery to the default container
 	 * Asset::script('jquery', 'js/jquery.js');
-	 * </code>
 	 *
+	 * // Equivalent call using the container method
+	 * Asset::container()->script('jquery', 'js/jquery.js');
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
