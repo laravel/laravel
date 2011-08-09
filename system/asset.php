@@ -126,8 +126,8 @@ class Asset_Container {
 	 * @param  string  $source
 	 * @param  array   $dependencies
 	 * @param  array   $attributes
-	 * @see    add
 	 * @return void
+	 * @see    add
 	 */
 	public function style($name, $source, $dependencies = array(), $attributes = array())
 	{
@@ -146,8 +146,8 @@ class Asset_Container {
 	 * @param  string  $source
 	 * @param  array   $dependencies
 	 * @param  array   $attributes
-	 * @see    add
 	 * @return void
+	 * @see    add
 	 */
 	public function script($name, $source, $dependencies = array(), $attributes = array())
 	{
