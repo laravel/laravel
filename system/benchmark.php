@@ -3,7 +3,7 @@
 class Benchmark {
 
 	/**
-	 * Benchmark starting times.
+	 * All of the benchmark starting times.
 	 *
 	 * @var array
 	 */
@@ -12,8 +12,16 @@ class Benchmark {
 	/**
 	 * Start a benchmark.
 	 *
+	 * After starting a benchmark, the elapsed time in milliseconds can be
+	 * retrieved using the "check" method.
+	 *
+	 * <code>
+	 * Benchmark::start('name');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @return void
+	 * @see    check
 	 */
 	public static function start($name)
 	{
@@ -23,8 +31,13 @@ class Benchmark {
 	/**
 	 * Get the elapsed time in milliseconds since starting a benchmark.
 	 *
+	 * <code>
+	 * echo Benchmark::check('name');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @return float
+	 * @see    start
 	 */
 	public static function check($name)
 	{
