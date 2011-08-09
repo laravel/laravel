@@ -29,7 +29,7 @@ return array(
 	|
 	| Next, attach the filter to a route:
 	|
-	|		'GET /' => array('before' => 'simple_filter', 'do' => function()
+	|		'GET /' => array('before' => 'simple_filter', function()
 	|		{
 	|			return 'Hello World!';
 	|		})
