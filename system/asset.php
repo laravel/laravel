@@ -6,7 +6,8 @@ use System\HTML;
 class Asset {
 
 	/**
-	 * All of the asset containers.
+	 * All of the asset containers. Asset containers are created through the
+	 * container method, and are managed as singletons.
 	 *
 	 * @var array
 	 */
@@ -15,8 +16,20 @@ class Asset {
 	/**
 	 * Get an asset container instance.
 	 *
-	 * @param  string     $container
-	 * @return Container
+	 * If no container name is specified, the default container will be returned.
+	 * Containers provide a convenient method of grouping assets while maintaining
+	 * expressive code and a clean API.
+	 *
+	 * <code>
+	 *		// Get the default asset container
+	 *		$container = Asset::container();
+	 *
+	 *		// Get the "footer" asset contanier
+	 *		$container = Asset::container('footer');
+	 * </code>
+	 *
+	 * @param  string            $container
+	 * @return Asset_Container
 	 */
 	public static function container($container = 'default')
 	{
@@ -30,6 +43,13 @@ class Asset {
 
 	/**
 	 * Magic Method for calling methods on the default Asset container.
+	 * This allows a convenient API for working with the default container.
+	 *
+	 * <code>
+	 *		// Add jQuery to the default container
+	 *		Asset::script('jquery', 'js/jquery.js');
+	 * </code>
+	 *
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -68,6 +88,24 @@ class Asset_Container {
 	/**
 	 * Add an asset to the container.
 	 *
+	 * The extension of the asset source will be used to determine the type of
+	 * asset being registered (CSS or JavaScript). If you are using a non-standard
+	 * extension, you may use the style or script methods to register assets.
+	 *
+	 * <code>
+	 *		// Register a jQuery asset
+	 *		Asset::add('jquery', 'js/jquery.js');
+	 * </code>
+	 *
+	 * You may also specify asset dependencies. This will instruct the class to
+	 * only link to the registered asset after its dependencies have been linked.
+	 * For example, you may wish to make jQuery UI dependent on jQuery.
+	 *
+	 * <code>
+	 *		// Register jQuery UI as dependent on jQuery
+	 *		Asset::add('jquery-ui', 'js/jquery-ui.js', 'jquery');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $source
 	 * @param  array   $dependencies
@@ -88,6 +126,7 @@ class Asset_Container {
 	 * @param  string  $source
 	 * @param  array   $dependencies
 	 * @param  array   $attributes
+	 * @see    add
 	 * @return void
 	 */
 	public function style($name, $source, $dependencies = array(), $attributes = array())
@@ -107,6 +146,7 @@ class Asset_Container {
 	 * @param  string  $source
 	 * @param  array   $dependencies
 	 * @param  array   $attributes
+	 * @see    add
 	 * @return void
 	 */
 	public function script($name, $source, $dependencies = array(), $attributes = array())
@@ -132,7 +172,7 @@ class Asset_Container {
 	}
 
 	/**
-	 * Get all of the registered CSS assets.
+	 * Get the links to all of the registered CSS assets.
 	 *
 	 * @return  string
 	 */
@@ -142,7 +182,7 @@ class Asset_Container {
 	}
 
 	/**
-	 * Get all of the registered JavaScript assets.
+	 * Get the links to all of the registered JavaScript assets.
 	 *
 	 * @return  string
 	 */
@@ -172,7 +212,11 @@ class Asset_Container {
 	}
 
 	/**
-	 * Get a registered CSS asset.
+	 * Get the link to a single registered CSS asset.
+	 *
+	 * <code>
+	 *		echo $container->get_style('common');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return string
@@ -183,7 +227,11 @@ class Asset_Container {
 	}
 
 	/**
-	 * Get a registered JavaScript asset.
+	 * Get the link to a single registered JavaScript asset.
+	 *
+	 * <code>
+	 *		echo $container->get_script('jquery');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return string
