@@ -28,14 +28,12 @@ return array(
 	|			return 'Hello World!';
 	|		}
 	|
-	| Allow URI wildcards using the (:num) or (:any) place-holders:
+	| Here's how to allow URI wildcards using the (:num) or (:any) place-holders:
 	|
 	|		'GET /hello/(:any)' => function($name)
 	|		{
 	|			return "Welcome, $name.";
 	|		}
-	|
-	| Ready to learn more? Check out: http://laravel.com/docs/start/routes
 	|
 	*/
 
