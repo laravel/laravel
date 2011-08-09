@@ -221,7 +221,7 @@ class Asset_Container {
 	 * Get the link to a single registered CSS asset.
 	 *
 	 * <code>
-	 *		echo $container->get_style('common');
+	 * echo $container->get_style('common');
 	 * </code>
 	 *
 	 * @param  string  $name
