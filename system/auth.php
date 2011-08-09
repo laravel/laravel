@@ -19,7 +19,7 @@ class Auth {
 	 *
 	 * @var string
 	 */
-	private static $key = 'laravel_user_id';
+	protected static $key = 'laravel_user_id';
 
 	/**
 	 * Determine if the current user of the application is authenticated.

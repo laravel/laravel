@@ -35,14 +35,7 @@ class View {
 	 *
 	 * @var array
 	 */
-	protected static $composers;
-
-	/**
-	 * The defined view names.
-	 *
-	 * @var array
-	 */
-	protected static $names;
+	public static $composers;
 
 	/**
 	 * Create a new view instance.
