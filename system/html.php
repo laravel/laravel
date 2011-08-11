@@ -10,29 +10,47 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-        return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
 	 * Generate a JavaScript reference.
 	 *
 	 * @param  string  $url
+	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function script($url)
+	public static function script($url, $attributes = array())
 	{
-		return '<script type="text/javascript" src="'.trim(static::entities(URL::to_asset($url)), '.js').'.js"></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'></script>'.PHP_EOL;
 	}
 
 	/**
 	 * Generate a CSS reference.
 	 *
 	 * @param  string  $url
+	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function style($url, $media = 'all')
+	public static function style($url, $attributes = array())
 	{
-		return '<link href="'.trim(static::entities(URL::to_asset($url)), '.css').'.css" rel="stylesheet" type="text/css" media="'.$media.'" />'.PHP_EOL;
+		if ( ! array_key_exists('media', $attributes)) $attributes['media'] = 'all';
+
+		$attributes = $attributes + array('rel' => 'stylesheet', 'type' => 'text/css');
+
+		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
+	}
+
+	/**
+	 * Generate a HTML span.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function span($value, $attributes = array())
+	{
+		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
 	}
 
 	/**
@@ -71,9 +89,50 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function link_to_asset($url, $title, $attributes = array())
+	public static function link_to_asset($url, $title, $attributes = array(), $https = false)
 	{
-		return static::link($url, $title, $attributes, false, true);
+		return static::link($url, $title, $attributes, $https, true);
+	}
+
+	/**
+	 * Generate an HTTPS HTML link to an asset.
+	 *
+	 * @param  string  $url
+	 * @param  string  $title
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_secure_asset($url, $title, $attributes = array())
+	{
+		return static::link_to_asset($url, $title, $attributes, true);
+	}
+
+	/**
+	 * Generate an HTML link to a route.
+	 *
+	 * @param  string  $name
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
+	{
+		return static::link(URL::to_route($name, $parameters, $https), $title, $attributes);
+	}
+
+	/**
+	 * Generate an HTTPS HTML link to a route.
+	 *
+	 * @param  string  $name
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_secure_route($name, $title, $parameters = array(), $attributes = array())
+	{
+		return static::link_to_route($name, $title, $parameters, $attributes, true);
 	}
 
 	/**
@@ -88,10 +147,7 @@ class HTML {
 	{
 		$email = static::email($email);
 
-		if (is_null($title))
-		{
-			$title = $email;
-		}
+		if (is_null($title)) $title = $email;
 
 		return '<a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
@@ -118,29 +174,8 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = static::entities($alt);
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).' />';
-	}
 
-	/**
-	 * Generate HTML breaks.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function breaks($count = 1)
-	{
-		return str_repeat('<br />', $count);
-	}
-
-	/**
-	 * Generate non-breaking spaces.
-	 *
-	 * @param  int     $count
-	 * @return string
-	 */
-	public static function spaces($count = 1)
-	{
-		return str_repeat('&nbsp;', $count);
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
 	/**
@@ -175,13 +210,13 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private static function list_elements($type, $list, $attributes)
+	private static function list_elements($type, $list, $attributes = array())
 	{
 		$html = '';
 
 		foreach ($list as $key => $value)
 		{
-			$html .= '<li>'.static::entities($value).'</li>';
+			$html .= (is_array($value)) ? static::list_elements($type, $value) : '<li>'.static::entities($value).'</li>';
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
@@ -199,6 +234,10 @@ class HTML {
 
 		foreach ($attributes as $key => $value)
 		{
+			// Assume numeric-keyed attributes to have the same key and value.
+			// Example: required="required", autofocus="autofocus", etc.
+			if (is_numeric($key)) $key = $value;
+
 			if ( ! is_null($value))
 			{
 				$html[] = $key.'="'.static::entities($value).'"';
@@ -218,36 +257,49 @@ class HTML {
 	{
 		$safe = '';
 
-		// -------------------------------------------------------
-		// Spin through the string letter by letter.
-		// -------------------------------------------------------
 		foreach (str_split($value) as $letter)
 		{
 			switch (rand(1, 3))
 			{
-				// -------------------------------------------------------
 				// Convert the letter to its entity representation.
-				// -------------------------------------------------------
 				case 1:
 					$safe .= '&#'.ord($letter).';';
 					break;
 
-				// -------------------------------------------------------
 				// Convert the letter to a Hex character code.
-				// -------------------------------------------------------
 				case 2:
 					$safe .= '&#x'.dechex(ord($letter)).';';
 					break;
 
-				// -------------------------------------------------------
 				// No encoding.
-				// -------------------------------------------------------
 				case 3:
 					$safe .= $letter;
 			}
 		}
 
 		return $safe;
+	}
+
+	/**
+	 * Magic Method for handling dynamic static methods.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (strpos($method, 'link_to_secure_') === 0)
+		{
+			array_unshift($parameters, substr($method, 15));
+
+			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
+		}
+
+		if (strpos($method, 'link_to_') === 0)
+		{
+			array_unshift($parameters, substr($method, 8));
+
+			return forward_static_call_array('HTML::link_to_route', $parameters);
+		}
+
+		throw new \Exception("Static method [$method] is not defined on the HTML class.");
 	}
 
 }

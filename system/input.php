@@ -10,6 +10,18 @@ class Input {
 	public static $input;
 
 	/**
+	 * Get all of the input data for the request.
+	 *
+	 * This method returns a merged array containing Input::get and Input::file.
+	 *
+	 * @return array
+	 */
+	public static function all()
+	{
+		return array_merge(static::get(), static::file());
+	}
+
+	/**
 	 * Determine if the input data contains an item.
 	 *
 	 * @param  string  $key
@@ -29,10 +41,7 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		if (is_null(static::$input))
-		{
-			static::hydrate();
-		}
+		if (is_null(static::$input)) static::hydrate();
 
 		return Arr::get(static::$input, $key, $default);
 	}
@@ -57,16 +66,24 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
-		// ----------------------------------------------------------
-		// Since old input data is flashed to the session, we need
-		// to make sure a session driver has been specified.
-		// ----------------------------------------------------------
 		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception("Sessions must be enabled to retrieve old input data.");
 		}
 
 		return Arr::get(Session::get('laravel_old_input', array()), $key, $default);
+	}
+
+	/**
+	 * Get an item from the uploaded file data.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return array
+	 */
+	public static function file($key = null, $default = null)
+	{
+		return Arr::get($_FILES, $key, $default);
 	}
 
 	/**
@@ -88,20 +105,10 @@ class Input {
 
 			case 'PUT':
 			case 'DELETE':
-				// ----------------------------------------------------------------------
-				// Typically, browsers do not support PUT and DELETE methods on HTML
-				// forms. So, we simulate them using a hidden POST variable.
-				//
-				// If the request method is being "spoofed", we'll move the POST array
-				// into the PUT / DELETE array.
-				// ----------------------------------------------------------------------
-				if (isset($_POST['request_method']) and ($_POST['request_method'] == 'PUT' or $_POST['request_method'] == 'DELETE'))
+				if (Request::spoofed())
 				{
 					static::$input =& $_POST;
 				}
-				// ----------------------------------------------------------------------
-				// If the request is a true PUT request, read the php://input file.
-				// ----------------------------------------------------------------------
 				else
 				{
 					parse_str(file_get_contents('php://input'), static::$input);

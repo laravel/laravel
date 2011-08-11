@@ -7,37 +7,45 @@ class Config {
 	 *
 	 * @var array
 	 */
-	private static $items = array();
+	public static $items = array();
+
+	/**
+	 * Determine if a configuration item or file exists.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function has($key)
+	{
+		return ! is_null(static::get($key));
+	}
 
 	/**
 	 * Get a configuration item.
 	 *
+	 * Configuration items are retrieved using "dot" notation. So, asking for the
+	 * "application.timezone" configuration item would return the "timezone" option
+	 * from the "application" configuration file.
+	 *
+	 * If the name of a configuration file is passed without specifying an item, the
+	 * entire configuration array will be returned.
+	 *
 	 * @param  string  $key
-	 * @return mixed
+	 * @param  string  $default
+	 * @return array
 	 */
-	public static function get($key)
+	public static function get($key, $default = null)
 	{
-		// -----------------------------------------------------
-		// If a dot is not present, we will just return the
-		// entire configuration array.
-		// -----------------------------------------------------
-		if(strpos($key, '.') === false)
-		{
-			static::load($key);
+		list($module, $file, $key) = static::parse($key);
 
-			return static::$items[$key];
+		if ( ! static::load($module, $file))
+		{
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		list($file, $key) = static::parse($key);
+		if (is_null($key)) return static::$items[$module][$file];
 
-		static::load($file);
-
-		if (array_key_exists($key, static::$items[$file]))
-		{
-			return static::$items[$file][$key];
-		}
-
-		throw new \Exception("Configuration item [$key] is not defined.");
+		return Arr::get(static::$items[$module][$file], $key, $default);
 	}
 	
 	/**
@@ -87,65 +95,65 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
-		list($file, $key) = static::parse($key);
+		list($module, $file, $key) = static::parse($key);
 
-		static::load($file);
+		if (is_null($key) or ! static::load($module, $file))
+		{
+			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
+		}
 
-		static::$items[$file][$key] = $value;
+		static::$items[$module][$file][$key] = $value;
 	}
 
 	/**
 	 * Parse a configuration key.
+	 *
+	 * The value on the left side of the dot is the configuration file
+	 * name, while the right side of the dot is the item within that file.
 	 *
 	 * @param  string  $key
 	 * @return array
 	 */
 	private static function parse($key)
 	{
-		// -----------------------------------------------------
-		// The left side of the dot is the file name, while
-		// the right side of the dot is the item within that
-		// file being requested.
-		//
-		// This syntax allows for the easy retrieval and setting
-		// of configuration items.
-		// -----------------------------------------------------
-		$segments = explode('.', $key);
+		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if (count($segments) < 2)
+		if ($module !== 'application')
 		{
-			throw new \Exception("Invalid configuration key [$key].");
+			$key = substr($key, strpos($key, ':') + 2);
 		}
 
-		return array($segments[0], implode('.', array_slice($segments, 1)));
+		$key = (count($segments = explode('.', $key)) > 1) ? implode('.', array_slice($segments, 1)) : null;
+
+		return array($module, $segments[0], $key);
 	}
 
 	/**
-	 * Load all of the configuration items.
+	 * Load all of the configuration items from a file.
+	 *
+	 * Laravel supports environment specific configuration files. So, the base configuration
+	 * array will be loaded first, then any environment specific options will be merged in.
 	 *
 	 * @param  string  $file
-	 * @return void
+	 * @param  string  $module
+	 * @return bool
 	 */
-	public static function load($file)
+	private static function load($module, $file)
 	{
-		// -----------------------------------------------------
-		// If we have already loaded the file, bail out.
-		// -----------------------------------------------------
-		if (array_key_exists($file, static::$items))
+		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
+
+		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
+
+		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
+
+		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
 		{
-			return;
+			$config = array_merge($config, require $path);
 		}
 
-		if ( ! file_exists($path = APP_PATH.'config/'.$file.EXT))
-		{
-			throw new \Exception("Configuration file [$file] does not exist.");
-		}
+		if (count($config) > 0) static::$items[$module][$file] = $config;
 
-		// -----------------------------------------------------
-		// Load the configuration array into the array of items.
-		// The items array is keyed by filename.
-		// -----------------------------------------------------
-		static::$items[$file] = require $path;
+		return isset(static::$items[$module][$file]);
 	}
 
 }

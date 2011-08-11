@@ -1,11 +1,22 @@
 <?php namespace System;
 
+if (Config::get('session.driver') == '')
+{
+	throw new \Exception("You must specify a session driver before using the Auth class.");
+}
+
 class Auth {
 
 	/**
 	 * The current user of the application.
 	 *
+	 * If no user is logged in, this variable will be NULL. Otherwise, it will contain
+	 * the result of the "by_id" closure in the authentication configuration file.
+	 *
+	 * However, the user should typically be accessed via the "user" method.
+	 *
 	 * @var object
+	 * @see user()
 	 */
 	public static $user;
 
@@ -14,12 +25,20 @@ class Auth {
 	 *
 	 * @var string
 	 */
-	private static $key = 'laravel_user_id';
+	protected static $key = 'laravel_user_id';
 
 	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
+	 * <code>
+	 * if (Auth::check())
+	 * {
+	 *		// The user is logged in...
+	 * }
+	 * </code>
+	 *
 	 * @return bool
+	 * @see    login
 	 */
 	public static function check()
 	{
@@ -29,28 +48,22 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
+	 * To retrieve the user, the user ID stored in the session will be passed to
+	 * the "by_id" closure in the authentication configuration file. The result
+	 * of the closure will be cached and returned.
+	 *
+	 * <code>
+	 * $email = Auth::user()->email;
+	 * </code>
+	 *
 	 * @return object
+	 * @see    $user
 	 */
 	public static function user()
 	{
-		// -----------------------------------------------------
-		// Verify that sessions are enabled. Since the user ID
-		// is stored in the session, we can't authenticate
-		// without a session driver specified.
-		// -----------------------------------------------------
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception("You must specify a session driver before using the Auth class.");
-		}
-
-		$model = static::model();
-
-		// -----------------------------------------------------
-		// Load the user using the ID stored in the session.
-		// -----------------------------------------------------
 		if (is_null(static::$user) and Session::has(static::$key))
 		{
-			static::$user = $model::find(Session::get(static::$key));
+			static::$user = call_user_func(Config::get('auth.by_id'), Session::get(static::$key));
 		}
 
 		return static::$user;
@@ -59,25 +72,29 @@ class Auth {
 	/**
 	 * Attempt to login a user.
 	 *
+	 * If the user credentials are valid. The user ID will be stored in the session
+	 * and will be considered "logged in" on subsequent requests to the application.
+	 *
+	 * The password passed to the method should be plain text, as it will be hashed
+	 * by the Hash class when authenticating.
+	 *
+	 * <code>
+	 * if (Auth::login('test@gmail.com', 'secret'))
+	 * {
+	 *		// The credentials are valid...
+	 * }
+	 * </code>
+	 *
 	 * @param  string  $username
 	 * @param  string  $password
+	 * @return bool
+	 * @see    Hash::check()
 	 */
 	public static function login($username, $password)
 	{
-		$model = static::model();
-
-		$user = $model::where(Config::get('auth.username'), '=', $username)->first();
-
-		if ( ! is_null($user))
+		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
-			// -----------------------------------------------------
-			// Hash the password. If a salt is present on the user
-			// record, we will recreate the hashed password using
-			// the salt. Otherwise, we will just use a plain hash.
-			// -----------------------------------------------------
-			$password = (isset($user->salt)) ? Hash::make($password, $user->salt)->value : sha1($password);
-
-			if ($user->password === $password)
+			if (Hash::check($password, $user->password))
 			{
 				static::$user = $user;
 
@@ -91,30 +108,18 @@ class Auth {
 	}
 
 	/**
-	 * Logout the current user of the application.
+	 * Log the user out of the application.
+	 *
+	 * The user ID will be removed from the session and the user will no longer
+	 * be considered logged in on subsequent requests.
 	 *
 	 * @return void
 	 */
 	public static function logout()
 	{
-		// -----------------------------------------------------
-		// By removing the user ID from the session, the user
-		// will no longer be considered logged in on subsequent
-		// requests to the application.
-		// -----------------------------------------------------
 		Session::forget(static::$key);
 
 		static::$user = null;
-	}
-
-	/**
-	 * Get the authentication model.
-	 *
-	 * @return string
-	 */
-	private static function model()
-	{
-		return '\\'.Config::get('auth.model');
 	}
 
 }

@@ -33,9 +33,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The default language of your application. This language will be used by
-	| default by the Lang library when doing string localization.
-	|
-	| If you are not using the Lang library, this option isn't really important.
+	| Lang library as the default language when doing string localization.
 	|
 	*/
 
@@ -46,7 +44,7 @@ return array(
 	| Application Character Encoding
 	|--------------------------------------------------------------------------
 	|
-	| This default character encoding used by your application. This is the
+	| The default character encoding used by your application. This is the
 	| character encoding that will be used by the Str, Text, and Form classes.
 	|
 	*/
@@ -67,6 +65,42 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Auto-Loaded Packages
+	|--------------------------------------------------------------------------
+	|
+	| The packages that should be auto-loaded each time Laravel handles
+	| a request. These should generally be packages that you use on almost
+	| every request to your application.
+	|
+	| Each package specified here will be bootstrapped and can be conveniently
+	| used by your application's routes, models, and libraries.
+	|
+	| Note: The package names in this array should correspond to a package
+	|       directory in application/packages.
+	|
+	*/
+
+	'packages' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Active Modules
+	|--------------------------------------------------------------------------
+	|
+	| Modules are a convenient way to organize your application into logical
+	| components. Each module may have its own libraries, models, routes,
+	| views, language files, and configuration.
+	|
+	| Here you may specify which modules are "active" for your application.
+	| This simply gives Laravel an easy way to know which directories to
+	| check when auto-loading your classes, routes, and views.
+	|
+	*/
+
+	'modules' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Key
 	|--------------------------------------------------------------------------
 	|
@@ -74,51 +108,8 @@ return array(
 	| random and secret. This key is used by the encryption class to generate
 	| secure, encrypted strings.
 	|
-	| If you will not be using the encryption class, this doesn't matter.
-	|
 	*/
 
 	'key' => '',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Class Aliases
-	|--------------------------------------------------------------------------
-	|
-	| Here, you can specify any class aliases that you would like registered
-	| when Laravel loads. Aliases are lazy-loaded, so add as many as you want.
-	|
-	| We have already setup a few to make your life easier.
-	|
-	*/
-
-	'aliases' => array(
-		'Auth' => 'System\\Auth',
-		'Benchmark' => 'System\\Benchmark',
-		'Cache' => 'System\\Cache',
-		'Config' => 'System\\Config',
-		'Cookie' => 'System\\Cookie',
-		'Crypt' => 'System\\Crypt',
-		'Date' => 'System\\Date',
-		'DB' => 'System\\DB',
-		'Download' => 'System\\Download',
-		'Eloquent' => 'System\\DB\\Eloquent',
-		'File' => 'System\\File',
-		'Form' => 'System\\Form',
-		'Hash' => 'System\\Hash',
-		'HTML' => 'System\\HTML',
-		'Inflector' => 'System\\Inflector',
-		'Input' => 'System\\Input',
-		'Lang' => 'System\\Lang',
-		'Log' => 'System\\Log',
-		'URL' => 'System\\URL',
-		'Redirect' => 'System\\Redirect',
-		'Request' => 'System\\Request',
-		'Response' => 'System\\Response',
-		'Session' => 'System\\Session',
-		'Str' => 'System\\Str',
-		'Text' => 'System\\Text',
-		'View' => 'System\\View',
-	),
 
 );

@@ -23,7 +23,7 @@ return array(
 	| Cache Key
 	|--------------------------------------------------------------------------
 	|
-	| This key will be prepended to items stored using Memcached and APC to
+	| This key will be prepended to item keys stored using Memcached and APC to
 	| prevent collisions with other applications on the server.
 	|
 	*/
@@ -35,7 +35,7 @@ return array(
 	| Memcached Servers
 	|--------------------------------------------------------------------------
 	|
-	| Here you can define the Memcached servers used by your application.
+	| The Memcached servers used by your application.
 	|
 	| Memcached is a free and open source, high-performance, distributed memory
 	| object caching system, generic in nature, but intended for use in speeding

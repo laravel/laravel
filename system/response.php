@@ -102,6 +102,18 @@ class Response {
 	}
 
 	/**
+	 * Factory for creating new error response instances.
+	 *
+	 * @param  int       $code
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function error($code, $data = array())
+	{
+		return static::make(View::make('error/'.$code, $data), $code);
+	}
+
+	/**
 	 * Take a value returned by a route and prepare a Response instance.
 	 *
 	 * @param  mixed     $response
@@ -109,10 +121,6 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		// --------------------------------------------------------------
-		// If the response is a Redirect instance, grab the Response.
-		// The Redirect class manages a Response instance internally.
-		// --------------------------------------------------------------
 		if ($response instanceof Redirect)
 		{
 			$response = $response->response;
@@ -179,6 +187,14 @@ class Response {
 	public function is_redirect()
 	{
 		return $this->status == 301 or $this->status == 302;
+	}
+
+	/**
+	 * Get the parsed content of the Response.
+	 */
+	public function __toString()
+	{
+		return (string) $this->content;
 	}
 
 }

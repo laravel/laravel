@@ -18,33 +18,38 @@ class Memcached {
 	{
 		if (is_null(static::$instance))
 		{
-			if ( ! class_exists('Memcache'))
-			{
-				throw new \Exception('Attempting to use Memcached, but the Memcached PHP extension is not installed on this server.');
-			}
-
-			$memcache = new \Memcache;
-
-			// -----------------------------------------------------
-			// Configure the Memcache servers.
-			// -----------------------------------------------------
-			foreach (Config::get('cache.servers') as $server)
-			{
-				$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
-			}
-
-			// -----------------------------------------------------
-			// Verify Memcache was configured successfully.
-			// -----------------------------------------------------
-			if ($memcache->getVersion() === false)
-			{
-				throw new \Exception('Memcached is configured. However, no connections could be made. Please verify your memcached configuration.');
-			}
-
-			static::$instance = $memcache;
+			static::$instance = static::connect(Config::get('cache.servers'));
 		}
 
 		return static::$instance;
+	}
+
+	/**
+	 * Connect to the configured Memcached servers.
+	 *
+	 * @param  array     $servers
+	 * @return Memcache
+	 */
+	private static function connect($servers)
+	{
+		if ( ! class_exists('Memcache'))
+		{
+			throw new \Exception('Attempting to use Memcached, but the Memcached PHP extension is not installed on this server.');
+		}
+
+		$memcache = new \Memcache;
+
+		foreach ($servers as $server)
+		{
+			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
+		}
+
+		if ($memcache->getVersion() === false)
+		{
+			throw new \Exception('Memcached is configured. However, no connections could be made. Please verify your memcached configuration.');
+		}
+
+		return $memcache;
 	}
 
 }

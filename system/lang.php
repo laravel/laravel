@@ -3,90 +3,82 @@
 class Lang {
 
 	/**
-	 * All of the loaded language files.
-	 *
-	 * @var array
-	 */
-	private static $loaded = array();
-
-	/**
 	 * All of the loaded language lines.
 	 *
 	 * The array is keyed by [$language.$file].
 	 *
 	 * @var array
 	 */
-	private static $lines = array();
+	public static $lines = array();
 
 	/**
 	 * The key of the line that is being requested.
 	 *
 	 * @var string
 	 */
-	private $key;
+	public $key;
 
 	/**
 	 * The place-holder replacements.
 	 *
 	 * @var array
 	 */
-	private $replacements = array();
+	public $replacements = array();
 
 	/**
 	 * Create a new Lang instance.
 	 *
-	 * @param  string  $line
+	 * Language lines are retrieved using "dot" notation. So, asking for the
+	 * "messages.required" language line would return the "required" line
+	 * from the "messages" language file.	 
+	 *
+	 * @param  string  $key
+	 * @param  array   $replacements
 	 * @return void
 	 */
-	public function __construct($key)
+	public function __construct($key, $replacements = array())
 	{
 		$this->key = $key;
+		$this->replacements = $replacements;
 	}
 
 	/**
 	 * Create a Lang instance for a language line.
 	 *
 	 * @param  string  $key
+	 * @param  array   $replacements
 	 * @return Lang
 	 */
-	public static function line($key)
+	public static function line($key, $replacements = array())
 	{
-		return new static($key);
+		return new static($key, $replacements);
 	}
 
 	/**
-	 * Get the language line for a given language.
+	 * Get the language line.
 	 *
 	 * @param  string  $language
+	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($language = null)
+	public function get($language = null, $default = null)
 	{
 		if (is_null($language))
 		{
 			$language = Config::get('application.language');
 		}
 
-		list($file, $line) = $this->parse($this->key);
+		list($module, $file, $line) = $this->parse($this->key, $language);
 
-		$this->load($file, $language);
+		$this->load($module, $file, $language);
 
-		// --------------------------------------------------------------
-		// Get the language line from the appropriate file array.
-		// --------------------------------------------------------------
-		if (array_key_exists($line, static::$lines[$language.$file]))
+		if ( ! isset(static::$lines[$module][$language.$file][$line]))
 		{
-			$line = static::$lines[$language.$file][$line];
-		}
-		else
-		{
-			throw new \Exception("Language line [$line] does not exist for language [$language]");
+			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		// --------------------------------------------------------------
-		// Make all place-holder replacements. Place-holders are prefixed
-		// with a colon for convenient location.
-		// --------------------------------------------------------------
+		$line = static::$lines[$module][$language.$file][$line];
+
 		foreach ($this->replacements as $key => $value)
 		{
 			$line = str_replace(':'.$key, $value, $line);
@@ -98,68 +90,56 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
+	 * The value on the left side of the dot is the language file name,
+	 * while the right side of the dot is the item within that file.
+	 *	 
 	 * @param  string  $key
+	 * @param  string  $language
 	 * @return array
 	 */
-	private function parse($key)
+	private function parse($key, $language)
 	{
-		// --------------------------------------------------------------
-		// The left side of the dot is the file name, while the right
-		// side of the dot is the item within that file being requested.
-		// --------------------------------------------------------------
-		$segments = explode('.', $key);
+		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : 'application';
 
-		if (count($segments) < 2)
+		if ($module != 'application')
 		{
-			throw new \Exception("Invalid language key [$key].");
+			$key = substr($key, strpos($key, ':') + 2);
 		}
 
-		return array($segments[0], implode('.', array_slice($segments, 1)));
+		if (count($segments = explode('.', $key)) > 1)
+		{
+			return array($module, $segments[0], $segments[1]);
+		}
+
+		throw new \Exception("Invalid language line [$key]. A specific line must be specified.");
 	}
 
 	/**
 	 * Load a language file.
 	 *
+	 * @param  string  $module
 	 * @param  string  $file
 	 * @param  string  $language
 	 * @return void
 	 */
-	private function load($file, $language)
+	private function load($module, $file, $language)
 	{
-		// --------------------------------------------------------------
-		// If we have already loaded the language file, bail out.
-		// --------------------------------------------------------------
-		if (in_array($language.$file, static::$loaded))
-		{
-			return;
-		}
+		if (isset(static::$lines[$module][$language.$file])) return;
 
-		// --------------------------------------------------------------
-		// Load the language file into the array of lines. The array
-		// is keyed by the language and file name.
-		// --------------------------------------------------------------
-		if (file_exists($path = APP_PATH.'lang/'.$language.'/'.$file.EXT))
-		{
-			static::$lines[$language.$file] = require $path;
-		}
-		else
-		{
-			throw new \Exception("Language file [$file] does not exist for language [$language].");
-		}
+		$path = ($module === 'application') ? LANG_PATH : MODULE_PATH.$module.'/lang/';
 
-		static::$loaded[] = $language.$file;		
+		if (file_exists($path = $path.$language.'/'.$file.EXT))
+		{
+			static::$lines[$module][$language.$file] = require $path;
+		}
 	}
 
 	/**
-	 * Set the place-holder replacements.
-	 *
-	 * @param  array  $replacements
-	 * @return Lang 
+	 * Get the string content of the language line.
 	 */
-	public function replace($replacements)
+	public function __toString()
 	{
-		$this->replacements = $replacements;
-		return $this;
+		return $this->get();
 	}
 
 }

@@ -24,31 +24,31 @@ class Redirect {
 	 * Create a redirect response.
 	 *
 	 * @param  string    $url
-	 * @param  string    $method
 	 * @param  int       $status
+	 * @param  string    $method
 	 * @param  bool      $https
-	 * @return Response
+	 * @return Redirect
 	 */
-	public static function to($url, $method = 'location', $status = 302, $https = false)
+	public static function to($url, $status = 302, $method = 'location', $https = false)
 	{
 		$url = URL::to($url, $https);
 
 		return ($method == 'refresh')
-							? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
-							: new static(Response::make('', $status)->header('Location', $url));
+                             ? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
+                             : new static(Response::make('', $status)->header('Location', $url));
 	}
 
 	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
 	 * @param  string    $url
-	 * @param  string    $method
 	 * @param  int       $status
+	 * @param  string    $method
 	 * @return Response
 	 */
-	public static function to_secure($url, $method = 'location', $status = 302)
+	public static function to_secure($url, $status = 302, $method = 'location')
 	{
-		return static::to($url, $method, $status, true);
+		return static::to($url, $status, $method, true);
 	}
 
 	/**
@@ -60,14 +60,12 @@ class Redirect {
 	 */
 	public function with($key, $value)
 	{
-		// ----------------------------------------------------
-		// Since this method uses sessions, make sure a driver
-		// has been specified in the configuration file.
-		// ----------------------------------------------------
-		if (Config::get('session.driver') != '')
+		if (Config::get('session.driver') == '')
 		{
-			Session::flash($key, $value);
+			throw new \Exception("Attempting to flash data to the session, but no session driver has been specified.");
 		}
+
+		Session::flash($key, $value);
 
 		return $this;
 	}
@@ -77,17 +75,13 @@ class Redirect {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		// ----------------------------------------------------
-		// Dynamically redirect to a secure route URL.
-		// ----------------------------------------------------
+		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
+
 		if (strpos($method, 'to_secure_') === 0)
 		{
 			return static::to(URL::to_route(substr($method, 10), $parameters, true));
 		}
 
-		// ----------------------------------------------------
-		// Dynamically redirect a route URL.
-		// ----------------------------------------------------
 		if (strpos($method, 'to_') === 0)
 		{
 			return static::to(URL::to_route(substr($method, 3), $parameters));

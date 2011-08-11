@@ -1,25 +1,17 @@
 <?php namespace System\DB\Eloquent;
 
-use System\DB\Eloquent;
-
 class Hydrator {
 
 	/**
-	 * Load the array of hydrated models.
+	 * Load the array of hydrated models and their eager relationships.
 	 *
-	 * @param  object  $eloquent
+	 * @param  Model  $eloquent
 	 * @return array
 	 */
 	public static function hydrate($eloquent)
 	{
-		// -----------------------------------------------------
-		// Load the base / parent models from the query results.
-		// -----------------------------------------------------
 		$results = static::base(get_class($eloquent), $eloquent->query->get());
 
-		// -----------------------------------------------------
-		// Load all of the eager relationships.
-		// -----------------------------------------------------
 		if (count($results) > 0)
 		{
 			foreach ($eloquent->includes as $include)
@@ -39,6 +31,9 @@ class Hydrator {
 	/**
 	 * Hydrate the base models for a query.
 	 *
+	 * The resulting model array is keyed by the primary keys of the models.
+	 * This allows the models to easily be matched to their children.
+	 *
 	 * @param  string  $class
 	 * @param  array   $results
 	 * @return array
@@ -52,13 +47,9 @@ class Hydrator {
 			$model = new $class;
 
 			$model->attributes = (array) $result;
+
 			$model->exists = true;
 
-			// -----------------------------------------------------
-			// The results are keyed by the ID on the record. This
-			// will allow us to conveniently match them to child
-			// models during eager loading.
-			// -----------------------------------------------------
 			$models[$model->id] = $model;
 		}
 
@@ -75,53 +66,32 @@ class Hydrator {
 	 */
 	private static function eagerly($eloquent, &$parents, $include)
 	{
-		// -----------------------------------------------------
-		// Get the relationship Eloquent model.
-		//
-		// We temporarily spoof the "belongs_to" key to allow
-		// the query to be fetched without any problems.
-		// -----------------------------------------------------
+		// We temporarily spoof the belongs_to key to allow the query to be fetched without
+		// any problems, since the belongs_to method actually gets the attribute.
 		$eloquent->attributes[$spoof = $include.'_id'] = 0;
 
 		$relationship = $eloquent->$include();
 
 		unset($eloquent->attributes[$spoof]);
 
-		// -----------------------------------------------------
-		// Reset the WHERE clause and bindings on the query.
-		// We'll add our own WHERE clause soon.
-		// -----------------------------------------------------
-		$relationship->query->where = 'WHERE 1 = 1';
-		$relationship->query->bindings = array();
+		// Reset the WHERE clause and bindings on the query. We'll add our own WHERE clause soon.
+		// This will allow us to load a range of related models instead of only one.
+		$relationship->query->reset_where();
 
-		// -----------------------------------------------------
-		// Initialize the relationship attribute on the parents.
-		// As expected, "many" relationships are initialized to
-		// an array and "one" relationships to null.
-		// -----------------------------------------------------
+		// Initialize the relationship attribute on the parents. As expected, "many" relationships
+		// are initialized to an array and "one" relationships are initialized to null.
 		foreach ($parents as &$parent)
 		{
-			$parent->ignore[$include] = (strpos($eloquent->relating, 'has_many') === 0) ? array() : null;
+			$parent->ignore[$include] = (in_array($eloquent->relating, array('has_many', 'has_and_belongs_to_many'))) ? array() : null;
 		}
 
-		// -----------------------------------------------------
-		// Eagerly load the relationships. Phew, almost there!
-		// -----------------------------------------------------
-		if ($eloquent->relating == 'has_one')
+		if (in_array($relating = $eloquent->relating, array('has_one', 'has_many', 'belongs_to')))
 		{
-			static::eagerly_load_one($relationship, $parents, $eloquent->relating_key, $include);
-		}
-		elseif ($eloquent->relating == 'has_many')
-		{
-			static::eagerly_load_many($relationship, $parents, $eloquent->relating_key, $include);
-		}
-		elseif ($eloquent->relating == 'belongs_to')
-		{
-			static::eagerly_load_belonging($relationship, $parents, $eloquent->relating_key, $include);
+			return static::$relating($relationship, $parents, $eloquent->relating_key, $include);			
 		}
 		else
 		{
-			static::eagerly_load_many_to_many($relationship, $parents, $eloquent->relating_key, $eloquent->relating_table, $include);
+			static::has_and_belongs_to_many($relationship, $parents, $eloquent->relating_key, $eloquent->relating_table, $include);
 		}
 	}
 
@@ -135,16 +105,8 @@ class Hydrator {
 	 * @param  string  $include
 	 * @return void
 	 */
-	private static function eagerly_load_one($relationship, &$parents, $relating_key, $include)
+	private static function has_one($relationship, &$parents, $relating_key, $include)
 	{
-		// -----------------------------------------------------
-		// Get the all of the related models by the parent IDs.
-		//
-		// Remember, the parent results are keyed by ID. So, we
-		// can simply pass the keys of the array into the query.
-		//
-		// After getting the models, we'll match by ID.
-		// -----------------------------------------------------
 		foreach ($relationship->where_in($relating_key, array_keys($parents))->get() as $key => $child)
 		{
 			$parents[$child->$relating_key]->ignore[$include] = $child;
@@ -161,7 +123,7 @@ class Hydrator {
 	 * @param  string  $include
 	 * @return void
 	 */
-	private static function eagerly_load_many($relationship, &$parents, $relating_key, $include)
+	private static function has_many($relationship, &$parents, $relating_key, $include)
 	{
 		foreach ($relationship->where_in($relating_key, array_keys($parents))->get() as $key => $child)
 		{
@@ -178,13 +140,8 @@ class Hydrator {
 	 * @param  string  $include
 	 * @return void
 	 */
-	private static function eagerly_load_belonging($relationship, &$parents, $relating_key, $include)
+	private static function belongs_to($relationship, &$parents, $relating_key, $include)
 	{
-		// -----------------------------------------------------
-		// Gather the keys from the parent models. Since the
-		// foreign key is on the parent model for this type of
-		// relationship, we have to gather them individually.
-		// -----------------------------------------------------
 		$keys = array();
 
 		foreach ($parents as &$parent)
@@ -192,14 +149,8 @@ class Hydrator {
 			$keys[] = $parent->$relating_key;
 		}
 
-		// -----------------------------------------------------
-		// Get the related models.
-		// -----------------------------------------------------
 		$children = $relationship->where_in('id', array_unique($keys))->get();
 
-		// -----------------------------------------------------
-		// Match the child models with their parent by ID.
-		// -----------------------------------------------------
 		foreach ($parents as &$parent)
 		{
 			if (array_key_exists($parent->$relating_key, $children))
@@ -220,41 +171,31 @@ class Hydrator {
 	 *
 	 * @return void	
 	 */
-	private static function eagerly_load_many_to_many($relationship, &$parents, $relating_key, $relating_table, $include)
+	private static function has_and_belongs_to_many($relationship, &$parents, $relating_key, $relating_table, $include)
 	{
+		// The model "has and belongs to many" method sets the SELECT clause; however, we need
+		// to clear it here since we will be adding the foreign key to the select.
 		$relationship->query->select = null;
 
-		// -----------------------------------------------------
-		// Retrieve the raw results as stdClasses.
-		//
-		// We also add the foreign key to the select which will allow us
-		// to match the models back to their parents.
-		// -----------------------------------------------------
-		$children = $relationship->query
-                                     ->where_in($relating_table.'.'.$relating_key, array_keys($parents))
-                                     ->get(Eloquent::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key);
+		$relationship->query->where_in($relating_table.'.'.$relating_key, array_keys($parents));
+
+		// The foreign key is added to the select to allow us to easily match the models back to their parents.
+		// Otherwise, there would be no apparent connection between the models to allow us to match them.
+		$children = $relationship->query->get(array(Model::table(get_class($relationship)).'.*', $relating_table.'.'.$relating_key));
 
 		$class = get_class($relationship);
 
-		// -----------------------------------------------------
-		// Create the related models.
-		// -----------------------------------------------------
 		foreach ($children as $child)
 		{
 			$related = new $class;
 
 			$related->attributes = (array) $child;
+
 			$related->exists = true;
 
-			// -----------------------------------------------------
-			// Remove the foreign key from the attributes since it
-			// was added to the query to help us match the models.
-			// -----------------------------------------------------
+			// Remove the foreign key since it was only added to the query to help match the models.
 			unset($related->attributes[$relating_key]);
 
-			// -----------------------------------------------------
-			// Match the child model its parent by ID.
-			// -----------------------------------------------------
 			$parents[$child->$relating_key]->ignore[$include][$child->id] = $related;
 		}
 	}

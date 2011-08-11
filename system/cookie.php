@@ -3,91 +3,6 @@
 class Cookie {
 
 	/**
-	 * The cookie name.
-	 *
-	 * @var string
-	 */
-	public $name;
-
-	/**
-	 * The cookie value.
-	 *
-	 * @var mixed
-	 */
-	public $value;
-
-	/**
-	 * The number of minutes the cookie should live.
-	 *
-	 * @var int
-	 */
-	public $lifetime = 0;
-
-	/**
-	 * The path for which the cookie is available.
-	 *
-	 * @var string
-	 */
-	public $path = '/';
-
-	/**
-	 * The domain for which the cookie is available.
-	 *
-	 * @var string
-	 */
-	public $domain = null;
-
-	/**
-	 * Indicates if the cookie should only be sent over HTTPS.
-	 *
-	 * @var bool
-	 */
-	public $secure = false;
-
-	/**
-	 * Create a new Cookie instance.
-	 *
-	 * Note: Cookies can be sent using the Cookie::put method.
-	 *       However, the number of parameters that method requires
-	 *       is somewhat cumbersome. Instantiating a new Cookie class
-	 *       and setting the properties can be a little easier on the eyes.
-	 *
-	 * @param  string  $name
-	 * @return void
-	 */
-	public function __construct($name, $value = null)
-	{
-		$this->name = $name;
-		$this->value = $value;
-	}
-
-	/**
-	 * Create a new Cookie instance.
-	 *
-	 * @param  string  $name
-	 * @return Cookie
-	 */
-	public static function make($name, $value = null)
-	{
-		return new static($name, $value);
-	}
-
-	/**
-	 * Send the current cookie instance to the user's machine.
-	 *
-	 * @return bool
-	 */
-	public function send()
-	{
-		if (is_null($this->name))
-		{
-			throw new \Exception("Attempting to send cookie without a name.");
-		}
-
-		return static::put($this->name, $this->value, $this->lifetime, $this->path, $this->domain, $this->secure);
-	}
-
-	/**
 	 * Determine if a cookie exists.
 	 *
 	 * @param  string  $name
@@ -113,38 +28,37 @@ class Cookie {
 	/**
 	 * Set a "permanent" cookie. The cookie will last 5 years.
 	 *
-	 * @param  string   $name
-	 * @param  string   $value
-	 * @param  string   $path
-	 * @param  string   $domain
-	 * @param  bool     $secure
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  string  $path
+	 * @param  string  $domain
+	 * @param  bool    $secure
+	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function forever($name, $value, $path = '/', $domain = null, $secure = false)
+	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, $value, 2628000, $path, $domain, $secure);
+		return static::put($name, $value, 2628000, $path, $domain, $secure, $http_only);
 	}
 
 	/**
 	 * Set the value of a cookie. If a negative number of minutes is
 	 * specified, the cookie will be deleted.
 	 *
-	 * @param  string   $name
-	 * @param  string   $value
-	 * @param  int      $minutes
-	 * @param  string   $path
-	 * @param  string   $domain
-	 * @param  bool     $secure
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  int     $minutes
+	 * @param  string  $path
+	 * @param  string  $domain
+	 * @param  bool    $secure
+	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
+	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		if ($minutes < 0)
-		{
-			unset($_COOKIE[$name]);
-		}
+		if ($minutes < 0) unset($_COOKIE[$name]);
 
-		return setcookie($name, $value, ($minutes != 0) ? time() + ($minutes * 60) : 0, $path, $domain, $secure);
+		return setcookie($name, $value, ($minutes != 0) ? time() + ($minutes * 60) : 0, $path, $domain, $secure, $http_only);
 	}
 
 	/**
@@ -155,7 +69,7 @@ class Cookie {
 	 */
 	public static function forget($name)
 	{
-		return static::put($key, null, -60);
+		return static::put($name, null, -60);
 	}
 
 }
