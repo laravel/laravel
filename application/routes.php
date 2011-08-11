@@ -40,10 +40,14 @@ return array(
 	'GET /' => function()
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		
 		var_dump( Config::has( 'application.url' ) );
 		
 		return View::make('home/index');
+=======
+		return View::make('home.index');
+>>>>>>> 3ba3089208dece7255c88b0c4272d62d5a5dad96
 =======
 		return View::make('home.index');
 >>>>>>> 3ba3089208dece7255c88b0c4272d62d5a5dad96

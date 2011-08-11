@@ -18,10 +18,10 @@ class Config {
 	public static function has($key)
 	{
 		return ! is_null(static::get($key));
-	}
+	}=
 
 	/**
-	 * Get a configuration item.
+	 * Determine if a configuration item or file exists.
 	 *
 	 * Configuration items are retrieved using "dot" notation. So, asking for the
 	 * "application.timezone" configuration item would return the "timezone" option
@@ -46,44 +46,6 @@ class Config {
 		if (is_null($key)) return static::$items[$module][$file];
 
 		return Arr::get(static::$items[$module][$file], $key, $default);
-	}
-	
-	/**
-	 * Check if a configuration item has been set
-	 *
-	 * @param  string  $key
-	 * @return boolean
-	 */
-	public static function has($key)
-	{
-		// -----------------------------------------------------
-		// If a dot is not present, we will just return the
-		// entire configuration array.
-		// -----------------------------------------------------
-		if (strpos($key, '.') === false)
-		{
-			return isset( static::$items[$key] );
-		}
-
-		list($file, $key) = static::parse($key);
-		
-		// -----------------------------------------------------
-		// Check if the configuration array exists
-		// -----------------------------------------------------
-		if (!array_key_exists($file, static::$items))
-		{
-			return false;
-		}
-		
-		// -----------------------------------------------------
-		// Check if the configuration setting exists
-		// -----------------------------------------------------
-		if (array_key_exists($key, static::$items[$file]))
-		{
-			return isset( static::$items[$file][$key] );
-		}
-
-		return false;
 	}
 
 	/**
