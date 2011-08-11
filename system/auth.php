@@ -132,9 +132,9 @@ class Auth {
 	 */
 	public static function logout()
 	{
-		Session::forget(static::$key);
-
 		static::$user = null;
+
+		Session::forget(static::$key);
 	}
 
 }
