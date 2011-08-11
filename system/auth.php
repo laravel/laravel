@@ -96,15 +96,30 @@ class Auth {
 		{
 			if (Hash::check($password, $user->password))
 			{
-				static::$user = $user;
-
-				Session::put(static::$key, $user->id);
+				static::remember($user);
 
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Login a user without checking any credentials.
+	 *
+	 * This is helpful for logging in a user after a fresh registration.
+	 *
+	 * Note: The user given to this method should be an object having a "id" property.
+	 *
+	 * @param  object  $user
+	 * @return void
+	 */
+	public static function remember($user)
+	{
+		static::$user = $user;
+
+		Session::put(static::$key, $user->id);
 	}
 
 	/**
