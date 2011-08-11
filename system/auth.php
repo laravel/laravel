@@ -79,7 +79,7 @@ class Auth {
 	 * by the Hash class when authenticating.
 	 *
 	 * <code>
-	 * if (Auth::login('test@gmail.com', 'secret'))
+	 * if (Auth::attempt('test@gmail.com', 'secret'))
 	 * {
 	 *		// The credentials are valid...
 	 * }
