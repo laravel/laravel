@@ -60,6 +60,14 @@ class Loader {
 			array_push($segments, substr($segment, 0, strpos($segment, '.')));
 		}
 
+		// Shift the module name off of the beginning of the array so we can locate the
+		// appropriate route file. Since the module name will not be part of the directory
+		// structure, we need to get rid of it.
+		if (count($segments) > 0 and ACTIVE_MODULE !== 'application')
+		{
+			array_shift($segments);
+		}
+
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
