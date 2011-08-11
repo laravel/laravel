@@ -18,7 +18,7 @@ class Config {
 	public static function has($key)
 	{
 		return ! is_null(static::get($key));
-	}=
+	}
 
 	/**
 	 * Determine if a configuration item or file exists.
