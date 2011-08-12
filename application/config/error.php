@@ -46,7 +46,7 @@ return array(
 	| level such as "Parsing Error" or "Fatal Error".
 	|
 	| A simple logging system has been setup for you. By default, all errors
-	| will be logged to the application/log.txt file.
+	| will be logged to the storage/log.txt file.
 	|
 	*/
 
