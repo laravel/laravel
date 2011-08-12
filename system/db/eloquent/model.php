@@ -9,7 +9,7 @@ use System\DB\Manager;
 abstract class Model {
 
 	/**
-	 * The connection that shold be used for the model.
+	 * The connection that should be used for the model.
 	 *
 	 * @var string
 	 */
