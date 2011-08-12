@@ -122,9 +122,11 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		$type = (File::extension($source) == 'css') ? 'style' : 'script';
+		$source = explode('?', $source);
+		
+		$type = (File::extension($source[0]) == 'css') ? 'style' : 'script';
 
-		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
+		return call_user_func(array($this, $type), $name, $source[0], $dependencies, $attributes);
 	}
 
 	/**
