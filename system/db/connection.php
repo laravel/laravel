@@ -85,6 +85,7 @@ class Connection {
 					}
 				}
 			}
+			return $results;
 		}
 		elseif (strpos(strtoupper($sql), 'UPDATE') === 0 or strpos(strtoupper($sql), 'DELETE') === 0)
 		{
