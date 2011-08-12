@@ -122,9 +122,11 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		$_source = explode('?', $source);
+		// Since assets may contain timestamps to force a refresh, we will strip them
+		// off to get the "real" filename of the asset.
+		$segments = explode('?', $source);
 
-		$type = (File::extension($_source[0]) == 'css') ? 'style' : 'script';
+		$type = (File::extension($segments[0]) == 'css') ? 'style' : 'script';
 
 		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
 	}
