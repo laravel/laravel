@@ -605,6 +605,15 @@ class Query {
 	{
 		$sql = 'INSERT INTO '.$this->wrap($this->table);
 
+		# CHANGE - automatically turn objects and arrays into JSON.
+		foreach($values as $key=>$value)
+		{
+			if(is_object($value) || is_array($value))
+			{
+				$values[$key] = json_decode($value);
+			}
+		}
+
 		$columns = array_map(array($this, 'wrap'), array_keys($values));
 
 		return $sql .= ' ('.implode(', ', $columns).') VALUES ('.$this->parameterize($values).')';

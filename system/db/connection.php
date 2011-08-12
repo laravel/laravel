@@ -72,7 +72,19 @@ class Connection {
 
 		if (strpos(strtoupper($sql), 'SELECT') === 0)
 		{
-			return $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
+			# CHANGE - attempt to automatically decode JSON-type strings.
+			$results = $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
+			foreach($results as $i=>$row)
+			{
+				foreach($row as $k=>$v)
+				{
+					$c = substr($v,0,1);
+					if(($c == "{" || $c == "[") && $j = json_decode($v))
+					{
+						$results[$i]->$k = $j;
+					}
+				}
+			}
 		}
 		elseif (strpos(strtoupper($sql), 'UPDATE') === 0 or strpos(strtoupper($sql), 'DELETE') === 0)
 		{
