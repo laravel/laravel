@@ -1,6 +1,7 @@
 <?php namespace System\Session;
 
 use System\Cache;
+use System\Config;
 
 class APC implements Driver {
 
