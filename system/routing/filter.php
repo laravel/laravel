@@ -49,10 +49,7 @@ class Filter {
 			// "Before" filters may override the request cycle. For example, an authentication
 			// filter may redirect a user to a login view if they are not logged in. Because of
 			// this, we will return the first filter response if overriding is enabled.
-			if ( ! is_null($response) and $override)
-			{
-				return $response;
-			}
+			if ( ! is_null($response) and $override) return $response;
 		}
 	}
 
