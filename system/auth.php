@@ -79,7 +79,7 @@ class Auth {
 	 * by the Hash class when authenticating.
 	 *
 	 * <code>
-	 * if (Auth::attempt('test@gmail.com', 'secret'))
+	 * if (Auth::login('test@gmail.com', 'secret'))
 	 * {
 	 *		// The credentials are valid...
 	 * }
@@ -90,13 +90,13 @@ class Auth {
 	 * @return bool
 	 * @see    Hash::check()
 	 */
-	public static function attempt($username, $password)
+	public static function login($username, $password)
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
 			if (Hash::check($password, $user->password))
 			{
-				static::login($user);
+				static::remember($user);
 
 				return true;
 			}
@@ -106,7 +106,7 @@ class Auth {
 	}
 
 	/**
-	 * Login a given user into the application.
+	 * Log a user into the application without checking credentials.
 	 *
 	 * The user's ID will be stored in the session and the user will be considered
 	 * "logged in" on subsequent requests to the application.
@@ -116,7 +116,7 @@ class Auth {
 	 * @param  object  $user
 	 * @return void
 	 */
-	public static function login($user)
+	public static function remember($user)
 	{
 		static::$user = $user;
 

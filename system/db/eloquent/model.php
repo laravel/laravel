@@ -150,7 +150,7 @@ abstract class Model {
 	{
 		if (property_exists($class, 'table')) return $class::$table;
 
-		return strtolower(Inflector::plural(static::model($class)));
+		return strtolower(Inflector::plural(static::model_name($class)));
 	}
 
 	/**
@@ -159,7 +159,7 @@ abstract class Model {
 	 * @param  string|Model  $model
 	 * @return string
 	 */
-	public static function model($model)
+	public static function model_name($model)
 	{
 		$class = (is_object($model)) ? get_class($model) : $model;
 
@@ -268,7 +268,7 @@ abstract class Model {
 	 */
 	private function has_one_or_many($model, $foreign_key)
 	{
-		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model($this)).'_id' : $foreign_key;
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model_name($this)).'_id' : $foreign_key;
 
 		return static::query($model)->where($this->relating_key, '=', $this->id);
 	}
@@ -322,11 +322,11 @@ abstract class Model {
 
 		// Allowing the overriding of the foreign and associated keys provides the flexibility for
 		// self-referential many-to-many relationships, such as a "buddy list".
-		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model($this)).'_id' : $foreign_key;
+		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model_name($this)).'_id' : $foreign_key;
 
 		// The associated key is the foreign key name of the related model. So, if the related model
 		// is "Role", the associated key on the intermediate table would be "role_id".
-		$associated_key = (is_null($associated_key)) ? strtolower(static::model($model)).'_id' : $associated_key;
+		$associated_key = (is_null($associated_key)) ? strtolower(static::model_name($model)).'_id' : $associated_key;
 
 		return static::query($model)
                              ->select(array(static::table($model).'.*'))
@@ -345,7 +345,7 @@ abstract class Model {
 	 */
 	private function intermediate_table($model)
 	{
-		$models = array(Inflector::plural(static::model($model)), Inflector::plural(static::model($this)));
+		$models = array(Inflector::plural(static::model_name($model)), Inflector::plural(static::model_name($this)));
 
 		sort($models);
 
