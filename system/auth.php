@@ -111,7 +111,7 @@ class Auth {
 	 * The user's ID will be stored in the session and the user will be considered
 	 * "logged in" on subsequent requests to the application.
 	 *
-	 * Note: The user given to this method should be an object having a "id" property.
+	 * Note: The user given to this method should be an object having an "id" property.
 	 *
 	 * @param  object  $user
 	 * @return void

@@ -6,6 +6,7 @@ class Cache {
 	 * All of the active cache drivers.
 	 *
 	 * @var Cache\Driver
+	 * @see driver
 	 */
 	public static $drivers = array();
 
@@ -20,10 +21,7 @@ class Cache {
 	 */
 	public static function driver($driver = null)
 	{
-		if (is_null($driver))
-		{
-			$driver = Config::get('cache.driver');
-		}
+		if (is_null($driver)) $driver = Config::get('cache.driver');
 
 		if ( ! array_key_exists($driver, static::$drivers))
 		{
@@ -56,11 +54,6 @@ class Cache {
 	 */	
 	public static function get($key, $default = null, $driver = null)
 	{
-		if (is_null($driver))
-		{
-			$driver = Config::get('cache.driver');
-		}
-
 		if (is_null($item = static::driver($driver)->get($key)))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
