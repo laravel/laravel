@@ -1,8 +1,6 @@
-<?php namespace System\DB;
+<?php namespace System;
 
-use System\Config;
-
-class Manager {
+class DB {
 
 	/**
 	 * The established database connections.
@@ -17,8 +15,8 @@ class Manager {
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
-	 * @param  string      $connection
-	 * @return Connection
+	 * @param  string         $connection
+	 * @return DB\Connection
 	 */
 	public static function connection($connection = null)
 	{
@@ -34,7 +32,7 @@ class Manager {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			static::$connections[$connection] = new Connection($connection, (object) $config, new Connector);
+			static::$connections[$connection] = new DB\Connection($connection, (object) $config, new DB\Connector);
 		}
 
 		return static::$connections[$connection];
@@ -43,9 +41,9 @@ class Manager {
 	/**
 	 * Begin a fluent query against a table.
 	 *
-	 * @param  string  $table
-	 * @param  string  $connection
-	 * @return Query
+	 * @param  string    $table
+	 * @param  string    $connection
+	 * @return DB\Query
 	 */
 	public static function table($table, $connection = null)
 	{
