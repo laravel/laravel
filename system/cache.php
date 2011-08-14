@@ -10,8 +10,10 @@ class Cache {
 	public static $drivers = array();
 
 	/**
-	 * Get a cache driver instance. If no driver name is specified, the default
-	 * cache driver will be returned as defined in the cache configuration file.
+	 * Get a cache driver instance.
+	 *
+	 * If no driver name is specified, the default cache driver will be returned
+	 * as defined in the cache configuration file.
 	 *
 	 * @param  string  $driver
 	 * @return Cache\Driver

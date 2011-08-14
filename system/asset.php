@@ -6,8 +6,9 @@ use System\HTML;
 class Asset {
 
 	/**
-	 * All of the asset containers. Asset containers are created through the
-	 * container method, and are managed as singletons.
+	 * All of the instantiated asset containers.
+	 *
+	 * Asset containers are created through the container method, and are singletons.
 	 *
 	 * @var array
 	 */

@@ -70,9 +70,6 @@ class Config {
 	/**
 	 * Parse a configuration key.
 	 *
-	 * The value on the left side of the dot is the configuration file
-	 * name, while the right side of the dot is the item within that file.
-	 *
 	 * @param  string  $key
 	 * @return array
 	 */
@@ -93,9 +90,6 @@ class Config {
 	/**
 	 * Load all of the configuration items from a file.
 	 *
-	 * Laravel supports environment specific configuration files. So, the base configuration
-	 * array will be loaded first, then any environment specific options will be merged in.
-	 *
 	 * @param  string  $file
 	 * @param  string  $module
 	 * @return bool
@@ -106,6 +100,9 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
+		// Load the base configuration file. Once that is loaded, we will merge any environment
+		// specific configuration options into the base array. This allows for the convenient
+		// cascading of configuration options depending on the application environment.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))

@@ -90,9 +90,6 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
-	 * The value on the left side of the dot is the language file name,
-	 * while the right side of the dot is the item within that file.
-	 *	 
 	 * @param  string  $key
 	 * @param  string  $language
 	 * @return array

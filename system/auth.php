@@ -10,10 +10,10 @@ class Auth {
 	/**
 	 * The current user of the application.
 	 *
-	 * If no user is logged in, this variable will be NULL. Otherwise, it will contain
-	 * the result of the "by_id" closure in the authentication configuration file.
+	 * If no user is logged in, this will be NULL. Otherwise, it will contain the result
+	 * of the "by_id" closure in the authentication configuration file.
 	 *
-	 * However, the user should typically be accessed via the "user" method.
+	 * Typically, the user should be accessed via the "user" method.
 	 *
 	 * @var object
 	 * @see user()
