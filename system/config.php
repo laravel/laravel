@@ -5,12 +5,14 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
+	 * The configuration item arrays are keyed by module and file.
+	 *
 	 * @var array
 	 */
 	public static $items = array();
 
 	/**
-	 * Determine if a configuration item or file exists.
+	 * Determine if a configuration file or item exists.
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -29,6 +31,14 @@ class Config {
 	 *
 	 * If the name of a configuration file is passed without specifying an item, the
 	 * entire configuration array will be returned.
+	 *
+	 * <code>
+	 *		// Get the application timezone
+	 *		$timezone = Config::get('application.timezone');
+	 *
+	 *		// Get the application configuration array
+	 *		$application = Config::get('application');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $default
@@ -51,6 +61,16 @@ class Config {
 	/**
 	 * Set a configuration item.
 	 *
+	 * If a configuration item is not specified, the entire configuration array will be set.
+	 *
+	 * <code>
+	 *		// Set the application timezone
+	 *		Config::set('application.timezone', 'America/Chicago');
+	 *
+	 *		// Set the application configuration array
+	 *		Config::set('application', array());
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return void
@@ -59,16 +79,16 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if (is_null($key) or ! static::load($module, $file))
+		if ( ! static::load($module, $file))
 		{
 			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
 		}
 
-		static::$items[$module][$file][$key] = $value;
+		(is_null($key)) ? static::$items[$module][$file] = $value : static::$items[$module][$file][$key] = $value;
 	}
 
 	/**
-	 * Parse a configuration key.
+	 * Parse a configuration key into its module, file, and key segments.
 	 *
 	 * @param  string  $key
 	 * @return array
