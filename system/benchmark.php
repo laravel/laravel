@@ -15,10 +15,6 @@ class Benchmark {
 	 * After starting a benchmark, the elapsed time in milliseconds can be
 	 * retrieved using the "check" method.
 	 *
-	 * <code>
-	 * Benchmark::start('name');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @return void
 	 * @see    check
@@ -30,10 +26,6 @@ class Benchmark {
 
 	/**
 	 * Get the elapsed time in milliseconds since starting a benchmark.
-	 *
-	 * <code>
-	 * echo Benchmark::check('name');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return float
