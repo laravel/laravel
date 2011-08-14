@@ -25,7 +25,6 @@ return array(
 	'Config' => 'System\\Config',
 	'Cookie' => 'System\\Cookie',
 	'Crypt' => 'System\\Crypt',
-	'Date' => 'System\\Date',
 	'DB' => 'System\\DB',
 	'Eloquent' => 'System\\DB\\Eloquent\\Model',
 	'File' => 'System\\File',
