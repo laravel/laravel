@@ -88,7 +88,7 @@ class Config {
 	}
 
 	/**
-	 * Parse a configuration key into its module, file, and key segments.
+	 * Parse a configuration key into its module, file, and key parts.
 	 *
 	 * @param  string  $key
 	 * @return array
