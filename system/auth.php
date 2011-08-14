@@ -31,10 +31,10 @@ class Auth {
 	 * Determine if the current user of the application is authenticated.
 	 *
 	 * <code>
-	 * if (Auth::check())
-	 * {
-	 *		// The user is logged in...
-	 * }
+	 *		if (Auth::check())
+	 *		{
+	 *			// The user is logged in...
+	 *		}
 	 * </code>
 	 *
 	 * @return bool
@@ -53,7 +53,7 @@ class Auth {
 	 * of the closure will be cached and returned.
 	 *
 	 * <code>
-	 * $email = Auth::user()->email;
+	 *		$email = Auth::user()->email;
 	 * </code>
 	 *
 	 * @return object
@@ -79,10 +79,10 @@ class Auth {
 	 * by the Hash class when authenticating.
 	 *
 	 * <code>
-	 * if (Auth::login('test@gmail.com', 'secret'))
-	 * {
-	 *		// The credentials are valid...
-	 * }
+	 *		if (Auth::login('test@gmail.com', 'secret'))
+	 *		{
+	 *			// The credentials are valid...
+	 *		}
 	 * </code>
 	 *
 	 * @param  string  $username
