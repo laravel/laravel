@@ -63,10 +63,7 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
-		if (is_null($language))
-		{
-			$language = Config::get('application.language');
-		}
+		if (is_null($language)) $language = Config::get('application.language');
 
 		list($module, $file, $line) = $this->parse($this->key, $language);
 
