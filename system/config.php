@@ -62,14 +62,7 @@ class Config {
 
 		static::load($module, $file);
 
-		if (is_null($key))
-		{
-			static::$items[$module][$file] = $value;
-		}
-		else
-		{
-			Arr::set(static::$items[$module][$file], $key, $value);
-		}
+		Arr::set(static::$items[$module][$file], $key, $value);
 	}
 
 	/**
