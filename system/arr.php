@@ -32,7 +32,7 @@ class Arr {
 	}
 
 	/**
-	 * Set an item in an array.
+	 * Set an array item to a given value.
 	 *
 	 * This method is primarly helpful for setting the value in an array with
 	 * a variable depth, such as configuration arrays.
