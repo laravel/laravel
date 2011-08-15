@@ -20,10 +20,7 @@ class DB {
 	 */
 	public static function connection($connection = null)
 	{
-		if (is_null($connection))
-		{
-			$connection = Config::get('db.default');
-		}
+		if (is_null($connection)) $connection = Config::get('db.default');
 
 		if ( ! array_key_exists($connection, static::$connections))
 		{

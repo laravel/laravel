@@ -38,7 +38,7 @@ class Error {
 
 		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		$message = rtrim($e->getMessage(), '.').' in '.str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile()).' on line '.$e->getLine().'.';
+		$message = static::format($e);
 
 		if (Config::get('error.log'))
 		{
@@ -48,6 +48,19 @@ class Error {
 		static::show($e, $severity, $message);
 
 		exit(1);
+	}
+
+	/**
+	 * Format the error message for a given exception.
+	 *
+	 * @param  Exception  $e
+	 * @return string
+	 */
+	private static function format($e)
+	{
+		$file = str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile());
+
+		return rtrim($e->getMessage(), '.').' in '.$file.' on line '.$e->getLine().'.';
 	}
 
 	/**
