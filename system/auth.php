@@ -33,7 +33,7 @@ class Auth {
 	 */
 	public static function check()
 	{
-		return ( ! is_null(static::user()));
+		return ! is_null(static::user());
 	}
 
 	/**
