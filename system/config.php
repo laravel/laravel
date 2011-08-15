@@ -40,10 +40,7 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file))
-		{
-			return is_callable($default) ? call_user_func($default) : $default;
-		}
+		static::load($module, $file);
 
 		if (is_null($key)) return static::$items[$module][$file];
 
@@ -63,16 +60,13 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file))
-		{
-			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
-		}
+		static::load($module, $file);
 
 		(is_null($key)) ? static::$items[$module][$file] = $value : Arr::set(static::$items[$module][$file], $key, $value);
 	}
 
 	/**
-	 * Parse a configuration key into its module, file, and key parts.
+	 * Parse a configuration key into its module, file, and key segments.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -96,11 +90,11 @@ class Config {
 	 *
 	 * @param  string  $file
 	 * @param  string  $module
-	 * @return bool
+	 * @return void
 	 */
 	private static function load($module, $file)
 	{
-		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
+		if (isset(static::$items[$module][$file])) return true;
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
@@ -114,9 +108,7 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		if (count($config) > 0) static::$items[$module][$file] = $config;
-
-		return isset(static::$items[$module][$file]);
+		static::$items[$module][$file] = $config;
 	}
 
 }
