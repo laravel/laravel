@@ -46,21 +46,21 @@ class Arr {
 	 */
 	public static function set(&$array, $key, $value)
 	{
-		$reference =& $array;
+		$keys = explode('.', $key);
 
-		foreach (explode('.', $key) as $segment)
+		while (count($keys) > 1)
 		{
-			if ( ! isset($reference[$segment]))
+			$key = array_shift($keys);
+
+			if ( ! isset($array[$key]))
 			{
-				$reference[$segment] = $value;
-				
-				return;		
+				$array[$key] = array();
 			}
 
-			$reference =& $reference[$segment];
+			$array =& $array[$key];
 		}
 
-		$reference = $value;
+		$array[array_shift($keys)] = $value;
 	}
 
 }
