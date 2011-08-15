@@ -20,7 +20,7 @@ class Arr {
 
 		foreach (explode('.', $key) as $segment)
 		{
-			if ( ! array_key_exists($segment, $array))
+			if ( ! is_array($array) or ! array_key_exists($segment, $array))
 			{
 				return is_callable($default) ? call_user_func($default) : $default;
 			}
@@ -52,7 +52,7 @@ class Arr {
 		{
 			$key = array_shift($keys);
 
-			if ( ! isset($array[$key]))
+			if ( ! isset($array[$key]) or ! is_array($array[$key]))
 			{
 				$array[$key] = array();
 			}
