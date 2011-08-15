@@ -46,6 +46,8 @@ class Arr {
 	 */
 	public static function set(&$array, $key, $value)
 	{
+		if (is_null($key)) return $array = $value;
+
 		$keys = explode('.', $key);
 
 		while (count($keys) > 1)
