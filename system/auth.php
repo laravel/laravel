@@ -16,7 +16,6 @@ class Auth {
 	 * Typically, the user should be accessed via the "user" method.
 	 *
 	 * @var object
-	 * @see user()
 	 */
 	public static $user;
 
@@ -31,7 +30,6 @@ class Auth {
 	 * Determine if the current user of the application is authenticated.
 	 *
 	 * @return bool
-	 * @see    login
 	 */
 	public static function check()
 	{
@@ -59,7 +57,7 @@ class Auth {
 	}
 
 	/**
-	 * Attempt to login a user.
+	 * Attempt to log a user into your application.
 	 *
 	 * If the user credentials are valid. The user's ID will be stored in the session and the
 	 * user will be considered "logged in" on subsequent requests to the application.
@@ -70,7 +68,6 @@ class Auth {
 	 * @param  string  $username
 	 * @param  string  $password
 	 * @return bool
-	 * @see    Hash::check()
 	 */
 	public static function login($username, $password)
 	{
@@ -88,10 +85,10 @@ class Auth {
 	}
 
 	/**
-	 * Log a user into the application without checking credentials.
+	 * Log a user into your application.
 	 *
 	 * The user's ID will be stored in the session and the user will be considered
-	 * "logged in" on subsequent requests to the application.
+	 * "logged in" on subsequent requests to your application.
 	 *
 	 * Note: The user given to this method should be an object having an "id" property.
 	 *
@@ -106,7 +103,7 @@ class Auth {
 	}
 
 	/**
-	 * Log the user out of the application.
+	 * Log the user out of your application.
 	 *
 	 * The user ID will be removed from the session and the user will no longer
 	 * be considered logged in on subsequent requests.
