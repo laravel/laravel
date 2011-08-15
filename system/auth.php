@@ -30,13 +30,6 @@ class Auth {
 	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
-	 * <code>
-	 *		if (Auth::check())
-	 *		{
-	 *			// The user is logged in...
-	 *		}
-	 * </code>
-	 *
 	 * @return bool
 	 * @see    login
 	 */
@@ -51,10 +44,6 @@ class Auth {
 	 * To retrieve the user, the user ID stored in the session will be passed to
 	 * the "by_id" closure in the authentication configuration file. The result
 	 * of the closure will be cached and returned.
-	 *
-	 * <code>
-	 *		$email = Auth::user()->email;
-	 * </code>
 	 *
 	 * @return object
 	 * @see    $user
@@ -77,13 +66,6 @@ class Auth {
 	 *
 	 * The password passed to the method should be plain text, as it will be hashed
 	 * by the Hash class when authenticating.
-	 *
-	 * <code>
-	 *		if (Auth::login('test@gmail.com', 'secret'))
-	 *		{
-	 *			// The credentials are valid...
-	 *		}
-	 * </code>
 	 *
 	 * @param  string  $username
 	 * @param  string  $password

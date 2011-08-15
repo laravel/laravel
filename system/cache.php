@@ -47,22 +47,6 @@ class Cache {
 	/**
 	 * Get an item from the cache.
 	 *
-	 * If the cached item doesn't exist, the specified default value will be returned.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the cache
-	 *		$name = Cache::get('name');
-	 *
-	 *		// Get the "name" item, but return "Fred" if it doesn't exist
-	 *		$name = Cache::get('name', 'Fred');
-	 * </code>
-	 *
-	 * The driver may also be specified:
-	 *
-	 * <code>
-	 *		$name = Cache::get('name', null, 'memcached');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @param  string  $driver
@@ -81,14 +65,6 @@ class Cache {
 	/**
 	 * Get an item from the cache. If the item doesn't exist in the cache, store
 	 * the default value in the cache and return it.
-	 *
-	 * <code>
-	 *		// Get the name item. If it doesn't exist, store "Fred" for 30 minutes
-	 *		$name = Cache::remember('name', 'Fred', 30);
-	 *
-	 *		// Closures may also be used as default values
-	 *		$name = Cache::remember('votes', function() {return Vote::count();}, 30);
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default

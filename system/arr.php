@@ -9,14 +9,6 @@ class Arr {
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
 	 * in multiple arrays is also supported.
 	 *
-	 * <code>
-	 *		// Returns "taylor"
-	 *		$item = Arr::get(array('name' => 'taylor'), 'name', $default);
-	 *
-	 *		// Returns "taylor"
-	 *		$item = Arr::get(array('name' => array('is' => 'taylor')), 'name.is');
-	 * </code>
-	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default

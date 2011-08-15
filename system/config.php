@@ -32,14 +32,6 @@ class Config {
 	 * If the name of a configuration file is passed without specifying an item, the
 	 * entire configuration array will be returned.
 	 *
-	 * <code>
-	 *		// Get the application timezone
-	 *		$timezone = Config::get('application.timezone');
-	 *
-	 *		// Get the application configuration array
-	 *		$application = Config::get('application');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  string  $default
 	 * @return array
@@ -62,14 +54,6 @@ class Config {
 	 * Set a configuration item.
 	 *
 	 * If a configuration item is not specified, the entire configuration array will be set.
-	 *
-	 * <code>
-	 *		// Set the application timezone
-	 *		Config::set('application.timezone', 'America/Chicago');
-	 *
-	 *		// Set the application configuration array
-	 *		Config::set('application', array());
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
