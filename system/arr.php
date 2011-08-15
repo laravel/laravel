@@ -31,4 +31,36 @@ class Arr {
 		return $array;
 	}
 
+	/**
+	 * Set an item in an array.
+	 *
+	 * This method is primarly helpful for setting the value in an array with
+	 * a variable depth, such as configuration files.
+	 *
+	 * Like the Arr::get method, JavaScript "dot" syntax is supported.
+	 *
+	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public static function set(&$array, $key, $value)
+	{
+		$reference =& $array;
+
+		foreach (explode('.', $key) as $segment)
+		{
+			if ( ! isset($reference[$segment]))
+			{
+				$reference[$segment] = $value;
+				
+				return;		
+			}
+
+			$reference =& $reference[$segment];
+		}
+
+		$reference = $value;
+	}
+
 }
