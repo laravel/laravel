@@ -116,22 +116,11 @@ class Paginator {
 	{
 		if ($this->last_page <= 1) return '';
 
-		return '<div class="pagination">'.$this->previous().$this->numbers($adjacent).$this->next().'</div>';
-	}
-
-	/**
-	 * Generate the HTML numeric page links.
-	 *
-	 * If there are not enough pages to make it worth sliding, all of the pages will be listed.
-	 *
-	 * @param  int     $adjacent
-	 * @return string
-	 */
-	private function numbers($adjacent = 3)
-	{
 		// The hard-coded "7" is to account for all of the constant elements in a sliding range.
 		// Namely: The the current page, the two ellipses, the two beginning pages, and the two ending pages.
-		return ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
+		$numbers = ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
+
+		return '<div class="pagination">'.$this->previous().$numbers.$this->next().'</div>';
 	}
 
 	/**
@@ -246,7 +235,7 @@ class Paginator {
 			$append .= '&'.$key.'='.$value;
 		}
 
-		return HTML::link(Request::uri().'?page='.$page.$append, $text, array('class' => $class), Request::is_secure());
+		return HTML::link(Request::uri().'?page='.$page.$append, $text, compact('class'), Request::is_secure());
 	}
 
 	/**
