@@ -42,9 +42,7 @@ class Config {
 
 		static::load($module, $file);
 
-		if (is_null($key)) return static::$items[$module][$file];
-
-		return Arr::get(static::$items[$module][$file], $key, $default);
+		return (is_null($key)) ? static::$items[$module][$file] : Arr::get(static::$items[$module][$file], $key, $default);
 	}
 
 	/**
