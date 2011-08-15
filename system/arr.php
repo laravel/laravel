@@ -35,7 +35,7 @@ class Arr {
 	 * Set an item in an array.
 	 *
 	 * This method is primarly helpful for setting the value in an array with
-	 * a variable depth, such as configuration files.
+	 * a variable depth, such as configuration arrays.
 	 *
 	 * Like the Arr::get method, JavaScript "dot" syntax is supported.
 	 *
