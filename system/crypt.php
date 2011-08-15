@@ -24,14 +24,28 @@ class Crypt {
 	 */
 	public static function encrypt($value)
 	{
-		// Seed the system random number generator so it will produce random results.
-		if (($random = static::randomizer()) === MCRYPT_RAND) mt_srand();
+		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
 
-		$iv = mcrypt_create_iv(static::iv_size(), $random);
+		return base64_encode($iv.mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv));
+	}
 
-		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+	/**
+	 * Get the random number source available to the OS.
+	 *
+	 * @return int
+	 */
+	protected static function randomizer()
+	{
+		if (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return MCRYPT_DEV_URANDOM;
+		}
+		elseif (defined('MCRYPT_DEV_RANDOM'))
+		{
+			return MCRYPT_DEV_RANDOM;
+		}
 
-		return base64_encode($iv.$value);
+		return MCRYPT_RAND;
 	}
 
 	/**
@@ -47,30 +61,9 @@ class Crypt {
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}
 
-		$iv = substr($value, 0, static::iv_size());
-
-		$value = substr($value, static::iv_size());
+		list($iv, $value) = array(substr($value, 0, static::iv_size()), substr($value, static::iv_size()));
 
 		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
-	}
-
-	/**
-	 * Get the random number source that should be used for the OS.
-	 *
-	 * @return int
-	 */
-	private static function randomizer()
-	{
-		if (defined('MCRYPT_DEV_URANDOM'))
-		{
-			return MCRYPT_DEV_URANDOM;
-		}
-		elseif (defined('MCRYPT_DEV_RANDOM'))
-		{
-			return MCRYPT_DEV_RANDOM;
-		}
-
-		return MCRYPT_RAND;
 	}
 
 	/**
