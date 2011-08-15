@@ -68,7 +68,7 @@ class Config {
 			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
 		}
 
-		(is_null($key)) ? static::$items[$module][$file] = $value : static::$items[$module][$file][$key] = $value;
+		(is_null($key)) ? static::$items[$module][$file] = $value : Arr::set(static::$items[$module][$file], $key, $value);
 	}
 
 	/**
