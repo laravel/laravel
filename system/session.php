@@ -10,7 +10,7 @@ class Session {
 	public static $driver;
 
 	/**
-	 * The session.
+	 * The session payload, which contains the session ID, data and last activity timestamp.
 	 *
 	 * @var array
 	 */
@@ -60,28 +60,24 @@ class Session {
 	{
 		static::$session = ( ! is_null($id)) ? static::driver()->load($id) : null;
 
-		if (is_null(static::$session) or static::expired(static::$session['last_activity']))
-		{
-			static::$session = array('id' => Str::random(40), 'data' => array());
-		}
+		if (static::invalid(static::$session)) static::$session = array('id' => Str::random(40), 'data' => array());
 
-		if ( ! static::has('csrf_token'))
-		{
-			static::put('csrf_token', Str::random(16));
-		}
+		if ( ! static::has('csrf_token')) static::put('csrf_token', Str::random(16));
 
 		static::$session['last_activity'] = time();
 	}
 
 	/**
-	 * Determine if a session has expired based on the last activity.
+	 * Determine if a session is valid.
 	 *
-	 * @param  int  $last_activity
+	 * A session is considered valid if it exists and has not expired.
+	 *
+	 * @param  array  $session
 	 * @return bool
 	 */
-	private static function expired($last_activity)
+	private static function invalid($session)
 	{
-		return (time() - $last_activity) > (Config::get('session.lifetime') * 60);
+		return is_null($session) or (time() - $session['last_activity']) > (Config::get('session.lifetime') * 60);
 	}
 
 	/**
@@ -92,9 +88,7 @@ class Session {
 	 */
 	public static function has($key)
 	{
-		return (array_key_exists($key, static::$session['data']) or
-			    array_key_exists(':old:'.$key, static::$session['data']) or
-			    array_key_exists(':new:'.$key, static::$session['data']));
+		return ( ! is_null(static::get($key)));
 	}
 
 	/**
@@ -105,17 +99,9 @@ class Session {
 	 */
 	public static function get($key, $default = null)
 	{
-		if (array_key_exists($key, static::$session['data']))
+		foreach (array($key, ':old:'.$key, ':new:'.$key) as $possibility)
 		{
-			return static::$session['data'][$key];
-		}
-		elseif (array_key_exists(':old:'.$key, static::$session['data']))
-		{
-			return static::$session['data'][':old:'.$key];
-		}
-		elseif (array_key_exists(':new:'.$key, static::$session['data']))
-		{
-			return static::$session['data'][':new:'.$key];
+			if (array_key_exists($possibility, static::$session['data'])) return static::$session['data'][$possibility];
 		}
 
 		return is_callable($default) ? call_user_func($default) : $default;
@@ -181,12 +167,14 @@ class Session {
 	/**
 	 * Close the session.
 	 *
+	 * The session will be stored in persistant storage and the session cookie will be
+	 * session cookie will be sent to the browser. The old input data will also be
+	 * stored in the session flash data.
+	 *
 	 * @return void
 	 */
 	public static function close()
 	{
-		// Flash the old input data to the session. This allows the Input::old method to
-		// retrieve the input from the previous request made by the user.
 		static::flash('laravel_old_input', Input::get());
 
 		static::age_flash();
@@ -210,10 +198,7 @@ class Session {
 	{
 		foreach (static::$session['data'] as $key => $value)
 		{
-			if (strpos($key, ':old:') === 0)
-			{
-				static::forget($key);
-			}
+			if (strpos($key, ':old:') === 0) static::forget($key);
 		}
 
 		foreach (static::$session['data'] as $key => $value)
