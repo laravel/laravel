@@ -5,14 +5,12 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
-	 * The configuration item arrays are keyed by module and file.
-	 *
 	 * @var array
 	 */
 	public static $items = array();
 
 	/**
-	 * Determine if a configuration file or item exists.
+	 * Determine if a configuration item or file exists.
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -40,15 +38,18 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		static::load($module, $file);
+		if ( ! static::load($module, $file))
+		{
+			return is_callable($default) ? call_user_func($default) : $default;
+		}
 
-		return (is_null($key)) ? static::$items[$module][$file] : Arr::get(static::$items[$module][$file], $key, $default);
+		if (is_null($key)) return static::$items[$module][$file];
+
+		return Arr::get(static::$items[$module][$file], $key, $default);
 	}
 
 	/**
 	 * Set a configuration item.
-	 *
-	 * If a configuration item is not specified, the entire configuration array will be set.
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -58,13 +59,19 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		static::load($module, $file);
+		if ( ! static::load($module, $file))
+		{
+			throw new \Exception("Error setting configuration option. Configuration file [$file] is not defined.");
+		}
 
 		Arr::set(static::$items[$module][$file], $key, $value);
 	}
 
 	/**
-	 * Parse a configuration key into its module, file, and key segments.
+	 * Parse a configuration key.
+	 *
+	 * The value on the left side of the dot is the configuration file
+	 * name, while the right side of the dot is the item within that file.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -86,19 +93,19 @@ class Config {
 	/**
 	 * Load all of the configuration items from a file.
 	 *
+	 * Laravel supports environment specific configuration files. So, the base configuration
+	 * array will be loaded first, then any environment specific options will be merged in.
+	 *
 	 * @param  string  $file
 	 * @param  string  $module
-	 * @return void
+	 * @return bool
 	 */
 	private static function load($module, $file)
 	{
-		if (isset(static::$items[$module][$file])) return true;
+		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
-		// Load the base configuration file. Once that is loaded, we will merge any environment
-		// specific configuration options into the base array. This allows for the convenient
-		// cascading of configuration options depending on the application environment.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
@@ -106,7 +113,9 @@ class Config {
 			$config = array_merge($config, require $path);
 		}
 
-		static::$items[$module][$file] = $config;
+		if (count($config) > 0) static::$items[$module][$file] = $config;
+
+		return isset(static::$items[$module][$file]);
 	}
 
 }
