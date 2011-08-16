@@ -106,6 +106,9 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
+		// Load the base configuration file. Once that is loaded, we will merge any environment
+		// specific configuration options into the base array. This allows for the convenient
+		// cascading of configuration options depending on the application environment.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))
