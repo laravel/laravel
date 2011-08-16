@@ -24,7 +24,7 @@ return array(
 	'Cache' => 'System\\Cache',
 	'Config' => 'System\\Config',
 	'Cookie' => 'System\\Cookie',
-	'Crypt' => 'System\\Crypt',
+	'Crypter' => 'System\\Crypter',
 	'DB' => 'System\\DB',
 	'Eloquent' => 'System\\DB\\Eloquent\\Model',
 	'File' => 'System\\File',

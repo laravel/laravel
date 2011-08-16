@@ -1,12 +1,26 @@
 <?php namespace System\Session;
 
-use System\Crypt;
 use System\Config;
+use System\Crypter;
 
 class Cookie implements Driver {
 
+	/**
+	 * The Crypter instance.
+	 *
+	 * @var Crypter
+	 */
+	private $crypter;
+
+	/**
+	 * Create a new Cookie session driver instance.
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
+		$this->crypter = new Crypter;
+
 		if (Config::get('application.key') == '')
 		{
 			throw new \Exception("You must set an application key before using the Cookie session driver.");
@@ -23,7 +37,7 @@ class Cookie implements Driver {
 	{
 		if (\System\Cookie::has('session_payload'))
 		{
-			return unserialize(Crypt::decrypt(\System\Cookie::get('session_payload')));
+			return unserialize($this->crypter->decrypt(\System\Cookie::get('session_payload')));
 		}
 	}
 
@@ -39,7 +53,9 @@ class Cookie implements Driver {
 		{
 			extract(Config::get('session'));
 
-			\System\Cookie::put('session_payload', Crypt::encrypt(serialize($session)), $lifetime, $path, $domain, $https, $http_only);
+			$payload = $this->crypter->encrypt(serialize($session));
+
+			\System\Cookie::put('session_payload', $payload, $lifetime, $path, $domain, $https, $http_only);
 		}
 	}
 

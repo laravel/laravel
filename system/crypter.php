@@ -1,20 +1,45 @@
 <?php namespace System;
 
-class Crypt {
+class Crypter {
 
 	/**
 	 * The encryption cipher.
 	 *
 	 * @var string
 	 */
-	public static $cipher = 'rijndael-256';
+	public $cipher;
 
 	/**
 	 * The encryption mode.
 	 *
 	 * @var string
 	 */
-	public static $mode = 'cbc';
+	public $mode;
+
+	/**
+	 * Create a new Crypter instance.
+	 *
+	 * @param  string  $cipher
+	 * @param  string  $mode
+	 * @return void
+	 */
+	public function __construct($cipher = 'rijndael-256', $mode = 'cbc')
+	{
+		$this->cipher = $cipher;
+		$this->mode = $mode;
+	}
+
+	/**
+	 * Create a new Crypter instance.
+	 *
+	 * @param  string  $cipher
+	 * @param  string  $mode
+	 * @return Crypt
+	 */
+	public static function make($cipher = 'rijndael-256', $mode = 'cbc')
+	{
+		return new static($cipher, $mode);
+	}
 
 	/**
 	 * Encrypt a value using the MCrypt library.
@@ -22,11 +47,11 @@ class Crypt {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function encrypt($value)
+	public function encrypt($value)
 	{
-		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
+		$iv = mcrypt_create_iv($this->iv_size(), $this->randomizer());
 
-		return base64_encode($iv.mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv));
+		return base64_encode($iv.mcrypt_encrypt($this->cipher, $this->key(), $value, $this->mode, $iv));
 	}
 
 	/**
@@ -34,7 +59,7 @@ class Crypt {
 	 *
 	 * @return int
 	 */
-	protected static function randomizer()
+	protected function randomizer()
 	{
 		if (defined('MCRYPT_DEV_URANDOM'))
 		{
@@ -54,16 +79,16 @@ class Crypt {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function decrypt($value)
+	public function decrypt($value)
 	{
 		if ( ! is_string($value = base64_decode($value, true)))
 		{
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}
 
-		list($iv, $value) = array(substr($value, 0, static::iv_size()), substr($value, static::iv_size()));
+		list($iv, $value) = array(substr($value, 0, $this->iv_size()), substr($value, $this->iv_size()));
 
-		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
+		return rtrim(mcrypt_decrypt($this->cipher, $this->key(), $value, $this->mode, $iv), "\0");
 	}
 
 	/**
@@ -71,7 +96,7 @@ class Crypt {
 	 *
 	 * @return string
 	 */
-	private static function key()
+	private function key()
 	{
 		if ( ! is_null($key = Config::get('application.key')) and $key !== '') return $key;
 
@@ -85,9 +110,9 @@ class Crypt {
 	 *
 	 * @return int
 	 */
-	private static function iv_size()
+	private function iv_size()
 	{
-		return mcrypt_get_iv_size(static::$cipher, static::$mode);
+		return mcrypt_get_iv_size($this->cipher, $this->mode);
 	}
 
 }
