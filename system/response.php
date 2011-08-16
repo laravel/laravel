@@ -133,7 +133,10 @@ class Response {
 	 */
 	public function send()
 	{
-		if ( ! array_key_exists('Content-Type', $this->headers)) $this->header('Content-Type', 'text/html; charset=utf-8');
+		if ( ! array_key_exists('Content-Type', $this->headers))
+		{
+			$this->header('Content-Type', 'text/html; charset=utf-8');
+		}
 
 		if ( ! headers_sent()) $this->send_headers();
 
