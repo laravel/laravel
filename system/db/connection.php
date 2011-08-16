@@ -24,6 +24,13 @@ class Connection {
 	public $pdo;
 
 	/**
+	 * All of the queries that have been executed on the connection.
+	 *
+	 * @var array
+	 */
+	public $queries = array();
+
+	/**
 	 * Create a new Connection instance.
 	 *
 	 * @param  string     $name
@@ -66,6 +73,8 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
+		$this->queries[] = $sql;
+
 		$query = $this->pdo->prepare($sql);
 
 		$result = $query->execute($bindings);
