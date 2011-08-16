@@ -59,25 +59,27 @@ ini_set('display_errors', 'Off');
 // --------------------------------------------------------------
 set_exception_handler(function($e)
 {
-	require_once SYS_PATH.'error'.EXT;
+	require_once SYS_PATH.'exception/handler'.EXT;
 
-	Error::handle($e);	
+	Exception\Handler::make($e)->handle();
 });
 
 set_error_handler(function($number, $error, $file, $line) 
 {
-	require_once SYS_PATH.'error'.EXT;
+	require_once SYS_PATH.'exception/handler'.EXT;
 
-	Error::handle(new \ErrorException($error, $number, 0, $file, $line));
+	Exception\Handler::make(new \ErrorException($error, $number, 0, $file, $line))->handle();
 });
 
 register_shutdown_function(function()
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		require_once SYS_PATH.'error'.EXT;
-		
-		Error::handle(new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
+		require_once SYS_PATH.'exception/handler'.EXT;
+
+		extract($error);
+
+		Exception\Handler::make(new \ErrorException($message, $type, 0, $file, $line))->handle();
 	}	
 });
 
