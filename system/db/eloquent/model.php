@@ -424,9 +424,13 @@ abstract class Model {
 	 */
 	public function __get($key)
 	{
+		if (array_key_exists($key, $this->attributes))
+		{
+			return $this->attributes[$key];
+		}
 		// Is the requested item a model relationship that has already been loaded?
 		// All of the loaded relationships are stored in the "ignore" array.
-		if (array_key_exists($key, $this->ignore))
+		elseif (array_key_exists($key, $this->ignore))
 		{
 			return $this->ignore[$key];
 		}
@@ -437,10 +441,6 @@ abstract class Model {
 			$query = $this->$key();
 
 			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $query->first() : $query->get();
-		}
-		elseif (array_key_exists($key, $this->attributes))
-		{
-			return $this->attributes[$key];
 		}
 	}
 
