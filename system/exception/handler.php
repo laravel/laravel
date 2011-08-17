@@ -83,7 +83,7 @@ class Handler {
 	 */
 	private function get_response($detailed)
 	{
-		return ($detailed) ? $this->detailed_response() : $this->generic_response();
+		return ($detailed) ? $this->detailed_response() : Response::error('500');
 	}
 
 	/**
@@ -102,16 +102,6 @@ class Handler {
 		);
 
 		return Response::make(View::make('error.exception', $data), 500);
-	}
-
-	/**
-	 * Get the generic error report for the exception.
-	 *
-	 * @return Response
-	 */
-	private function generic_response()
-	{
-		return Response::error('500');
 	}
 
 }
