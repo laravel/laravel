@@ -84,22 +84,6 @@ class Wrapper {
 	}
 
 	/**
-	 * Magic Method to handle getting properties from the exception.
-	 */
-	public function __get($key)
-	{
-		return $this->exception->$key;
-	}
-
-	/**
-	 * Magic Method to handle setting properties on the exception.
-	 */
-	public function __set($key, $value)
-	{
-		$this->exception->$key = $value;
-	}
-
-	/**
 	 * Magic Method to pass function calls to the exception.
 	 */
 	public function __call($method, $parameters)
