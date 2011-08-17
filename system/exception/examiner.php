@@ -2,10 +2,10 @@
 
 use System\File;
 
-class Wrapper {
+class Examiner {
 
 	/**
-	 * The exception being wrapped.
+	 * The exception being examined.
 	 *
 	 * @var Exception
 	 */
@@ -33,7 +33,7 @@ class Wrapper {
 	);
 
 	/**
-	 * Create a new exception wrapper instance.
+	 * Create a new exception examiner instance.
 	 *
 	 * @param  Exception  $e
 	 * @return void

@@ -7,9 +7,9 @@ use System\Response;
 class Handler {
 
 	/**
-	 * The exception wrapper for the exception being handled.
+	 * The exception examiner for the exception being handled.
 	 *
-	 * @var Wrapper
+	 * @var Examiner
 	 */
 	public $exception;
 
@@ -21,7 +21,7 @@ class Handler {
 	 */
 	public function __construct($e)
 	{
-		$this->exception = new Wrapper($e);
+		$this->exception = new Examiner($e);
 	}
 
 	/**
