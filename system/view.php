@@ -44,13 +44,13 @@ class View {
 	 * @param  array   $data
 	 * @return void
 	 */
-	public function __construct($view, $data = array())
+	public function __construct($view, $data = array(), $composer = null)
 	{
 		$this->data = $data;
 
 		list($this->module, $this->path, $this->view) = static::parse($view);
 
-		$this->compose();
+		$this->compose($composer);
 	}
 
 	/**
@@ -88,6 +88,17 @@ class View {
 				{
 					return new static($key, $data);
 				}
+                else if (is_array($value))
+                {
+                    // multiple composers per view
+                    foreach ($value as $composer) 
+                    {
+                        if (isset($composer['name']) and $composer['name'] == $name) 
+                        {
+                            return new static($key, $data, $name);
+                        }
+                    }
+                }
 			}
 		}
 
@@ -119,7 +130,7 @@ class View {
 	 *
 	 * @return void
 	 */
-	protected function compose()
+	protected function compose($composer = null)
 	{
 		static::load_composers($this->module);
 
@@ -127,7 +138,21 @@ class View {
 		{
 			foreach ((array) static::$composers[$this->module][$this->view] as $key => $value)
 			{
-				if (is_callable($value)) return call_user_func($value, $this);
+                if (is_callable($value)) 
+                {
+                    return call_user_func($value, $this);
+                } 
+                else if (is_array($value) and isset($value['name']) and $value['name'] === $composer )
+                {
+                    // multiple composers per view
+                    foreach ($value as $k => $v) 
+                    {
+                        if (is_callable($v)) 
+                        {
+                            return call_user_func($v, $this);
+                        }
+                    }
+                }
 			}
 		}
 	}
