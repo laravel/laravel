@@ -194,8 +194,10 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	private function _get()
+	private function _get($columns = array('*'))
 	{
+		$this->query->select($columns);
+
 		return Hydrator::hydrate($this);
 	}
 
@@ -204,9 +206,9 @@ abstract class Model {
 	 *
 	 * @return mixed
 	 */
-	private function _first()
+	private function _first($columns = array('*'))
 	{
-		return (count($results = Hydrator::hydrate($this->take(1))) > 0) ? reset($results) : null;
+		return (count($results = $this->take(1)->_get($columns)) > 0) ? reset($results) : null;
 	}
 
 	/**
@@ -215,7 +217,7 @@ abstract class Model {
 	 * @param  int        $per_page
 	 * @return Paginator
 	 */
-	private function _paginate($per_page = null)
+	private function _paginate($per_page = null, $columns = array('*'))
 	{
 		$total = $this->query->count();
 
@@ -224,7 +226,7 @@ abstract class Model {
 			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 20;
 		}
 
-		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->select($columns)->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**

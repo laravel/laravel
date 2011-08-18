@@ -60,6 +60,8 @@ ini_set('display_errors', 'Off');
 set_exception_handler(function($e)
 {
 	require_once SYS_PATH.'exception/handler'.EXT;
+	require_once SYS_PATH.'exception/examiner'.EXT;
+	require_once SYS_PATH.'file'.EXT;
 
 	Exception\Handler::make($e)->handle();
 });
@@ -67,6 +69,8 @@ set_exception_handler(function($e)
 set_error_handler(function($number, $error, $file, $line) 
 {
 	require_once SYS_PATH.'exception/handler'.EXT;
+	require_once SYS_PATH.'exception/examiner'.EXT;
+	require_once SYS_PATH.'file'.EXT;
 
 	Exception\Handler::make(new \ErrorException($error, $number, 0, $file, $line))->handle();
 });
@@ -76,6 +80,8 @@ register_shutdown_function(function()
 	if ( ! is_null($error = error_get_last()))
 	{
 		require_once SYS_PATH.'exception/handler'.EXT;
+		require_once SYS_PATH.'exception/examiner'.EXT;
+		require_once SYS_PATH.'file'.EXT;
 
 		extract($error);
 

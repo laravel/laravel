@@ -1,4 +1,4 @@
-<?php namespace System;
+<?php namespace Laravel;
 
 class View {
 
@@ -158,7 +158,7 @@ class View {
 
 		if ( ! file_exists($this->path.$view.EXT))
 		{
-			throw new \Exception("View [$view] does not exist.");
+			Exception\Handler::make(new Exception("View [$view] does not exist."))->handle();
 		}
 
 		foreach ($this->data as &$data)
