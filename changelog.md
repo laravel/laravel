@@ -1,5 +1,14 @@
 # Laravel Change Log
 
+## Version 1.5.3
+
+- Various bug fixes.
+- Allow columns to be specified on Eloquent queries.
+
+### Upgrading From 1.5.2
+
+- Replace **system** directory.
+
 ## Version 1.5.2
 
 - Moved **system/db/manager.php** to **system/db.php**. Updated alias appropriately.
