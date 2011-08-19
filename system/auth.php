@@ -72,34 +72,32 @@ class Auth {
 	/**
 	 * Attempt to login a user.
 	 *
+	 * The user will be logged-in by the "login" closure in the authentication
+	 * configuration file.
+	 *
 	 * If the user credentials are valid. The user's ID will be stored in the session and the
 	 * user will be considered "logged in" on subsequent requests to the application.
 	 *
-	 * The password passed to the method should be plain text, as it will be hashed
-	 * by the Hash class when authenticating.
+	 * With the default closure, the password passed to the method should be plain text,
+	 * as it will be hashed by the Hash class when authenticating.
 	 *
 	 * <code>
+	 * // With the default closure, it is used as such
 	 * if (Auth::login('test@gmail.com', 'secret'))
 	 * {
 	 *		// The credentials are valid...
 	 * }
 	 * </code>
 	 *
-	 * @param  string  $username
-	 * @param  string  $password
+	 * @param  variable Parameters for the "login" closure.
 	 * @return bool
-	 * @see    Hash::check()
 	 */
-	public static function login($username, $password)
+	public static function login()
 	{
-		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
+		if (false !== ($user = call_user_func_array(Config::get('auth.login'), func_get_args())))
 		{
-			if (Hash::check($password, $user->password))
-			{
-				static::remember($user);
-
-				return true;
-			}
+			static::remember($user);
+			return true;
 		}
 
 		return false;
