@@ -1,4 +1,4 @@
-<?php namespace System;
+<?php namespace Laravel;
 
 class View {
 
