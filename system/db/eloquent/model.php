@@ -1,10 +1,10 @@
 <?php namespace System\DB\Eloquent;
 
+use System\DB;
 use System\Str;
 use System\Config;
 use System\Inflector;
 use System\Paginator;
-use System\DB\Manager;
 
 abstract class Model {
 
@@ -135,7 +135,7 @@ abstract class Model {
 
 		// Since this method is only used for instantiating models for querying
 		// purposes, we will go ahead and set the Query instance on the model.
-		$model->query = Manager::connection(static::$connection)->table(static::table($class));
+		$model->query = DB::connection(static::$connection)->table(static::table($class));
 
 		return $model;
 	}
@@ -194,8 +194,10 @@ abstract class Model {
 	 *
 	 * @return array
 	 */
-	private function _get()
+	private function _get($columns = array('*'))
 	{
+		$this->query->select($columns);
+
 		return Hydrator::hydrate($this);
 	}
 
@@ -204,9 +206,9 @@ abstract class Model {
 	 *
 	 * @return mixed
 	 */
-	private function _first()
+	private function _first($columns = array('*'))
 	{
-		return (count($results = Hydrator::hydrate($this->take(1))) > 0) ? reset($results) : null;
+		return (count($results = $this->take(1)->_get($columns)) > 0) ? reset($results) : null;
 	}
 
 	/**
@@ -215,7 +217,7 @@ abstract class Model {
 	 * @param  int        $per_page
 	 * @return Paginator
 	 */
-	private function _paginate($per_page = null)
+	private function _paginate($per_page = null, $columns = array('*'))
 	{
 		$total = $this->query->count();
 
@@ -224,7 +226,7 @@ abstract class Model {
 			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 20;
 		}
 
-		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->select($columns)->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**
@@ -367,7 +369,7 @@ abstract class Model {
 
 		// Since the model was instantiated using "new", a query instance has not been set.
 		// Only models being used for querying have their query instances set by default.
-		$this->query = Manager::connection(static::$connection)->table(static::table($model));
+		$this->query = DB::connection(static::$connection)->table(static::table($model));
 
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
@@ -416,7 +418,7 @@ abstract class Model {
 		// delete statement to the query instance.
 		if ( ! $this->exists) return $this->query->delete();
 
-		return Manager::connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
+		return DB::connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
 	}
 
 	/**
@@ -424,9 +426,13 @@ abstract class Model {
 	 */
 	public function __get($key)
 	{
+		if (array_key_exists($key, $this->attributes))
+		{
+			return $this->attributes[$key];
+		}
 		// Is the requested item a model relationship that has already been loaded?
 		// All of the loaded relationships are stored in the "ignore" array.
-		if (array_key_exists($key, $this->ignore))
+		elseif (array_key_exists($key, $this->ignore))
 		{
 			return $this->ignore[$key];
 		}
@@ -437,10 +443,6 @@ abstract class Model {
 			$query = $this->$key();
 
 			return $this->ignore[$key] = (in_array($this->relating, array('has_one', 'belongs_to'))) ? $query->first() : $query->get();
-		}
-		elseif (array_key_exists($key, $this->attributes))
-		{
-			return $this->attributes[$key];
 		}
 	}
 

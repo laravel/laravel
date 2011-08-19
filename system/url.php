@@ -79,6 +79,8 @@ class URL {
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
+			$uri = str_replace(array('/(:any?)', '/(:num?)'), '', $uri);
+
 			return static::to($uri, $https);
 		}
 

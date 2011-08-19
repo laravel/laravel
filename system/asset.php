@@ -6,8 +6,9 @@ use System\HTML;
 class Asset {
 
 	/**
-	 * All of the asset containers. Asset containers are created through the
-	 * container method, and are managed as singletons.
+	 * All of the instantiated asset containers.
+	 *
+	 * Asset containers are created through the container method, and are singletons.
 	 *
 	 * @var array
 	 */
@@ -19,17 +20,6 @@ class Asset {
 	 * If no container name is specified, the default container will be returned.
 	 * Containers provide a convenient method of grouping assets while maintaining
 	 * expressive code and a clean API.
-	 *
-	 * <code>
-	 * // Get the default asset container
-	 * $container = Asset::container();
-	 *
-	 * // Get the "footer" asset contanier
-	 * $container = Asset::container('footer');
-	 *
-	 * // Add an asset to the "footer" container
-	 * Asset::container('footer')->add('jquery', 'js/jquery.js');
-	 * </code>
 	 *
 	 * @param  string            $container
 	 * @return Asset_Container
@@ -46,15 +36,6 @@ class Asset {
 
 	/**
 	 * Magic Method for calling methods on the default Asset container.
-	 * This allows a convenient API for working with the default container.
-	 *
-	 * <code>
-	 * // Add jQuery to the default container
-	 * Asset::script('jquery', 'js/jquery.js');
-	 *
-	 * // Equivalent call using the container method
-	 * Asset::container()->script('jquery', 'js/jquery.js');
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -97,22 +78,9 @@ class Asset_Container {
 	 * asset being registered (CSS or JavaScript). If you are using a non-standard
 	 * extension, you may use the style or script methods to register assets.
 	 *
-	 * <code>
-	 * // Register a jQuery asset
-	 * Asset::add('jquery', 'js/jquery.js');
-	 * </code>
-	 *
 	 * You may also specify asset dependencies. This will instruct the class to
 	 * only link to the registered asset after its dependencies have been linked.
 	 * For example, you may wish to make jQuery UI dependent on jQuery.
-	 *
-	 * <code>
-	 * // Register jQuery UI as dependent on jQuery
-	 * Asset::add('jquery-ui', 'js/jquery-ui.js', 'jquery');
-	 *
-	 * // Register jQuery UI with multiple dependencies
-	 * Asset::add('jquery-ui', 'js/jquery-ui.js', array('jquery', 'fader'));
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $source
@@ -122,11 +90,7 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		// Since assets may contain timestamps to force a refresh, we will strip them
-		// off to get the "real" filename of the asset.
-		$segments = explode('?', $source);
-
-		$type = (File::extension($segments[0]) == 'css') ? 'style' : 'script';
+		$type = (File::extension($source) == 'css') ? 'style' : 'script';
 
 		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
 	}
@@ -226,10 +190,6 @@ class Asset_Container {
 	/**
 	 * Get the link to a single registered CSS asset.
 	 *
-	 * <code>
-	 * echo $container->get_style('common');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @return string
 	 */
@@ -240,10 +200,6 @@ class Asset_Container {
 
 	/**
 	 * Get the link to a single registered JavaScript asset.
-	 *
-	 * <code>
-	 * echo $container->get_script('jquery');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return string

@@ -10,13 +10,12 @@ class Auth {
 	/**
 	 * The current user of the application.
 	 *
-	 * If no user is logged in, this variable will be NULL. Otherwise, it will contain
-	 * the result of the "by_id" closure in the authentication configuration file.
+	 * If no user is logged in, this will be NULL. Otherwise, it will contain the result
+	 * of the "by_id" closure in the authentication configuration file.
 	 *
-	 * However, the user should typically be accessed via the "user" method.
+	 * Typically, the user should be accessed via the "user" method.
 	 *
 	 * @var object
-	 * @see user()
 	 */
 	public static $user;
 
@@ -30,19 +29,11 @@ class Auth {
 	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
-	 * <code>
-	 * if (Auth::check())
-	 * {
-	 *		// The user is logged in...
-	 * }
-	 * </code>
-	 *
 	 * @return bool
-	 * @see    login
 	 */
 	public static function check()
 	{
-		return ( ! is_null(static::user()));
+		return ! is_null(static::user());
 	}
 
 	/**
@@ -51,10 +42,6 @@ class Auth {
 	 * To retrieve the user, the user ID stored in the session will be passed to
 	 * the "by_id" closure in the authentication configuration file. The result
 	 * of the closure will be cached and returned.
-	 *
-	 * <code>
-	 * $email = Auth::user()->email;
-	 * </code>
 	 *
 	 * @return object
 	 * @see    $user
@@ -70,7 +57,7 @@ class Auth {
 	}
 
 	/**
-	 * Attempt to login a user.
+	 * Attempt to log a user into your application.
 	 *
 	 * The user will be logged-in by the "login" closure in the authentication
 	 * configuration file.
@@ -81,15 +68,7 @@ class Auth {
 	 * With the default closure, the password passed to the method should be plain text,
 	 * as it will be hashed by the Hash class when authenticating.
 	 *
-	 * <code>
-	 * // With the default closure, it is used as such
-	 * if (Auth::login('test@gmail.com', 'secret'))
-	 * {
-	 *		// The credentials are valid...
-	 * }
-	 * </code>
-	 *
-	 * @param  variable Parameters for the "login" closure.
+	 * @param  variable Parameters for the "auth.login" closure.
 	 * @return bool
 	 */
 	public static function login()
@@ -104,12 +83,12 @@ class Auth {
 	}
 
 	/**
-	 * Log a user into the application without checking credentials.
+	 * Log a user into your application.
 	 *
 	 * The user's ID will be stored in the session and the user will be considered
-	 * "logged in" on subsequent requests to the application.
+	 * "logged in" on subsequent requests to your application.
 	 *
-	 * Note: The user given to this method should be an object having a "id" property.
+	 * Note: The user given to this method should be an object having an "id" property.
 	 *
 	 * @param  object  $user
 	 * @return void
@@ -122,7 +101,7 @@ class Auth {
 	}
 
 	/**
-	 * Log the user out of the application.
+	 * Log the user out of your application.
 	 *
 	 * The user ID will be removed from the session and the user will no longer
 	 * be considered logged in on subsequent requests.

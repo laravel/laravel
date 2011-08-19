@@ -59,12 +59,12 @@ class Config {
 	{
 		list($module, $file, $key) = static::parse($key);
 
-		if (is_null($key) or ! static::load($module, $file))
+		if ( ! static::load($module, $file))
 		{
-			throw new \Exception("Error setting configuration option. Option [$key] is not defined.");
+			throw new \Exception("Error setting configuration option. Configuration file [$file] is not defined.");
 		}
 
-		static::$items[$module][$file][$key] = $value;
+		Arr::set(static::$items[$module][$file], $key, $value);
 	}
 
 	/**
@@ -106,6 +106,9 @@ class Config {
 
 		$path = ($module === 'application') ? CONFIG_PATH : MODULE_PATH.$module.'/config/';
 
+		// Load the base configuration file. Once that is loaded, we will merge any environment
+		// specific configuration options into the base array. This allows for the convenient
+		// cascading of configuration options depending on the application environment.
 		$config = (file_exists($base = $path.$file.EXT)) ? require $base : array();
 
 		if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = $path.$_SERVER['LARAVEL_ENV'].'/'.$file.EXT))

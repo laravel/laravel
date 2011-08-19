@@ -60,9 +60,8 @@ class Loader {
 			array_push($segments, substr($segment, 0, strpos($segment, '.')));
 		}
 
-		// Shift the module name off of the beginning of the array so we can locate the
-		// appropriate route file. Since the module name will not be part of the directory
-		// structure, we need to get rid of it.
+		// Since it is no part of the route directory structure, shift the module name off of the
+		// beginning of the array so we can locate the appropriate route file.
 		if (count($segments) > 0 and ACTIVE_MODULE !== 'application')
 		{
 			array_shift($segments);
