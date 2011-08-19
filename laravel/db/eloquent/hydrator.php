@@ -66,13 +66,15 @@ class Hydrator {
 	 */
 	private static function eagerly($eloquent, &$parents, $include)
 	{
-		// We temporarily spoof the belongs_to key to allow the query to be fetched without
-		// any problems, since the belongs_to method actually gets the attribute.
-		$eloquent->attributes[$spoof = $include.'_id'] = 0;
+		// We temporarily spoof the query attributes to allow the query to be fetched without
+		// any problems, since the belongs_to method actually gets the related attribute.
+		$first = reset($parents);
+
+		$eloquent->attributes = $first->attributes;
 
 		$relationship = $eloquent->$include();
 
-		unset($eloquent->attributes[$spoof]);
+		$eloquent->attributes = array();
 
 		// Reset the WHERE clause and bindings on the query. We'll add our own WHERE clause soon.
 		// This will allow us to load a range of related models instead of only one.
