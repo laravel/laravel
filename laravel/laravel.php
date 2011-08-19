@@ -9,7 +9,6 @@ define('EXT', '.php');
 // Define the core framework paths.
 // --------------------------------------------------------------
 define('BASE_PATH',    realpath(str_replace('laravel', '', $system)).'/');
-define('CONFIG_PATH',  realpath($config).'/');
 define('MODULE_PATH',  realpath($modules).'/');
 define('PACKAGE_PATH', realpath($packages).'/');
 define('PUBLIC_PATH',  realpath($public).'/');
@@ -22,15 +21,12 @@ unset($system, $config, $modules, $packages, $public, $storage);
 // Define various other framework paths.
 // --------------------------------------------------------------
 define('CACHE_PATH',    STORAGE_PATH.'cache/');
+define('CONFIG_PATH',   SYS_PATH.'config/');
 define('DATABASE_PATH', STORAGE_PATH.'db/');
+define('LANG_PATH',     SYS_PATH.'lang/');
 define('SCRIPT_PATH',   PUBLIC_PATH.'js/');
 define('SESSION_PATH',  STORAGE_PATH.'sessions/');
 define('STYLE_PATH',    PUBLIC_PATH.'css/');
-
-// --------------------------------------------------------------
-// Define the default module.
-// --------------------------------------------------------------
-define('DEFAULT_MODULE', 'application');
 
 // --------------------------------------------------------------
 // Load the classes used by the auto-loader.
@@ -41,11 +37,21 @@ require SYS_PATH.'module'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
+// Define the default module.
+// --------------------------------------------------------------
+define('DEFAULT_MODULE', 'application');
+
+// --------------------------------------------------------------
 // Register the active modules.
 // --------------------------------------------------------------
-Module::$modules = $active;
+Module::$modules = array_merge(array('application' => 'application'), $active);
 
 unset($active);
+
+// --------------------------------------------------------------
+// Define the default module path.
+// --------------------------------------------------------------
+define('DEFAULT_MODULE_PATH', Module::path(DEFAULT_MODULE));
 
 // --------------------------------------------------------------
 // Register the auto-loader.
@@ -141,6 +147,11 @@ define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $se
 // Determine the path to the root of the active module.
 // --------------------------------------------------------------
 define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
+
+// --------------------------------------------------------------
+// Register the filters for the default module.
+// --------------------------------------------------------------
+Routing\Filter::register(require DEFAULT_MODULE_PATH.'filters'.EXT);
 
 // --------------------------------------------------------------
 // Register the filters for the active module.

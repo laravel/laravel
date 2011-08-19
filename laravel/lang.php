@@ -67,14 +67,12 @@ class Lang {
 
 		list($module, $file, $line) = $this->parse($this->key, $language);
 
-		$this->load($module, $file, $language);
-
-		if ( ! isset(static::$lines[$module][$language.$file][$line]))
+		if ( ! $this->load($module, $file, $language))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		$line = static::$lines[$module][$language.$file][$line];
+		$line = Arr::get(static::$lines[$module][$language.$file], $line, $default);
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -109,16 +107,22 @@ class Lang {
 	 * @param  string  $module
 	 * @param  string  $file
 	 * @param  string  $language
-	 * @return void
+	 * @return bool
 	 */
 	private function load($module, $file, $language)
 	{
 		if (isset(static::$lines[$module][$language.$file])) return;
 
-		if (file_exists($path = Module::path($module).'lang/'.$language.'/'.$file.EXT))
+		$lang = array();
+
+		foreach (array(LANG_PATH, Module::path($module).'lang/') as $directory)
 		{
-			static::$lines[$module][$language.$file] = require $path;
+			$lang = (file_exists($path = $directory.$language.'/'.$file.EXT)) ? array_merge($lang, require $path) : $lang;
 		}
+
+		if (count($lang) > 0) static::$lines[$module][$language.$file] = $lang;
+		
+		return isset(static::$lines[$module][$language.$file]);		
 	}
 
 	/**
