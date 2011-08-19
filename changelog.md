@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 1.5.4
+
+- Fix bug in Eloquent belongs_to relationship eager loading.
+
+### Upgrading From 1.5.3
+
+- Replace **system** directory.
+
 ## Version 1.5.3
 
 - Various bug fixes.
