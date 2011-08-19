@@ -44,7 +44,7 @@ define('DEFAULT_MODULE', 'application');
 // --------------------------------------------------------------
 // Register the active modules.
 // --------------------------------------------------------------
-Module::$modules = array_merge(array('application' => 'application'), $active);
+Module::$modules = array_merge(array('application'), $active);
 
 unset($active);
 

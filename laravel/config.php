@@ -46,6 +46,9 @@ class Config {
 	 *
 	 * 		// Get the SQLite database connection configuration
 	 *		$sqlite = Config::get('db.connections.sqlite');
+	 *
+	 *		// Get a configuration item from a module configuration file
+	 *		$option = Config::get('module::file.option');
 	 * </code>
 	 *
 	 * @param  string  $key

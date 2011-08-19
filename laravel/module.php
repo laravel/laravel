@@ -5,21 +5,35 @@ class Module {
 	/**
 	 * The active modules for the installation.
 	 *
+	 * This property is set in the Laravel bootstrap file, and the modules are defined
+	 * by the developer in the front controller.
+	 *
 	 * @var array
 	 */
 	public static $modules = array();
 
 	/**
-	 * All of the loaded module paths.
+	 * All of the loaded module paths keyed by name.
+	 *
+	 * These are stored as the module paths are determined for convenient, fast access.
 	 *
 	 * @var array
 	 */
 	private static $paths = array();
 
 	/**
-	 * Parse a modularized identifier and get the module and key.
+	 * Parse a modularized identifier and return the module and key.
 	 *
-	 * Modular identifiers follow a {module}::{key} convention.
+	 * Modular identifiers follow typically follow a {module}::{key} convention.
+	 * However, for convenience, the default module does not require a module qualifier.
+	 *
+	 * <code>
+	 *		// Returns array('admin', 'test.example')
+	 *		Module::parse('admin::test.example');
+	 *
+	 *		// Returns array('application', 'test.example')
+	 *		Module::parse('test.example');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -36,6 +50,10 @@ class Module {
 	/**
 	 * Get the path for a given module.
 	 *
+	 * If the module exists in the module array as a key, that means a path other than
+	 * the default path has been specified for the module. Otherwise, the module directory
+	 * is assumed to have the same name as the module.
+	 *
 	 * @param  string  $module
 	 * @return string
 	 */
@@ -43,7 +61,11 @@ class Module {
 	{
 		if (array_key_exists($module, static::$paths)) return static::$paths[$module];
 
-		if (array_key_exists($module, static::$modules))
+		if (in_array($module, static::$modules))
+		{
+			return static::$paths[$module] = MODULE_PATH.$module.'/';
+		}
+		elseif (array_key_exists($module, static::$modules))
 		{
 			return static::$paths[$module] = MODULE_PATH.static::$modules[$module].'/';
 		}
@@ -51,9 +73,6 @@ class Module {
 
 	/**
 	 * Get the an array of paths to all of the modules.
-	 *
-	 * The module paths will be determined by the modules that are specified in the application
-	 * modules configuration item. A trailing slash will be added to the paths.
 	 *
 	 * @return array
 	 */
