@@ -43,10 +43,7 @@ class Module {
 	{
 		if (array_key_exists($module, static::$paths)) return static::$paths[$module];
 
-		if (array_key_exists($module, static::$modules))
-		{
-			$path = (strpos(static::$modules[$module], BASE_PATH) === 0) ? static::$modules[$module].'/' : MODULE_PATH.static::$modules[$module].'/';
-		}
+		if (array_key_exists($module, static::$modules)) $path = MODULE_PATH.static::$modules[$module].'/';
 
 		return static::$paths[$module] = $path;
 	}

@@ -11,7 +11,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://beta.laravel.com',
+	'url' => 'http://localhost/laravel/public',
 
 	/*
 	|--------------------------------------------------------------------------

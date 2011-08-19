@@ -12,7 +12,7 @@
 // The active modules for this Laravel installation.
 // --------------------------------------------------------------
 $active = array(
-	'application' => realpath('../application'),
+	'application' => 'application',
 );
 
 // --------------------------------------------------------------
