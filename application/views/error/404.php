@@ -81,7 +81,7 @@
 
 		<h2><?php echo $apology; ?></h2>
 
-		<p>We couldn't find the resource you requested. Would you like go to our <a href="<?php echo System\Config::get('application.url'); ?>">home page</a> instead?</p>
+		<p>We couldn't find the resource you requested. Would you like go to our <a href="<?php echo Laravel\Config::get('application.url'); ?>">home page</a> instead?</p>
 	</div>
 </body>
 </html>
