@@ -1,6 +1,7 @@
 <?php namespace Laravel\DB\Query;
 
 use Laravel\DB\Query;
+use Laravel\DB\Compiler;
 use Laravel\DB\Connection;
 
 class Factory {
@@ -19,13 +20,13 @@ class Factory {
 		switch ($query)
 		{
 			case 'pgsql':
-				return new Postgres($table, $connection);
+				return new Postgres($table, $connection, new Compiler);
 
 			case 'mysql':
-				return new MySQL($table, $connection);
+				return new MySQL($table, $connection, new Compiler);
 
 			default:
-				return new Query($table, $connection);
+				return new Query($table, $connection, new Compiler);
 		}
 	}
 

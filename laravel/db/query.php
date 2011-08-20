@@ -14,6 +14,13 @@ class Query {
 	public $connection;
 
 	/**
+	 * The query compiler instance.
+	 *
+	 * @var Compiler
+	 */
+	public $compiler;
+
+	/**
 	 * The SELECT clause.
 	 *
 	 * @var string
@@ -83,9 +90,10 @@ class Query {
 	 * @param  Connection  $connection
 	 * @return void
 	 */
-	public function __construct($table, Connection $connection)
+	public function __construct($table, Connection $connection, Compiler $compiler)
 	{
 		$this->table = $table;
+		$this->compiler = $compiler;
 		$this->connection = $connection;
 		$this->from = 'FROM '.$this->wrap($table);
 	}
@@ -471,7 +479,7 @@ class Query {
 	{
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
 
-		$result = $this->connection->scalar($this->compile_select(), $this->bindings);
+		$result = $this->connection->scalar($this->compiler->select($this), $this->bindings);
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
@@ -518,40 +526,13 @@ class Query {
 			$this->select($columns);
 		}
 
-		$results = $this->connection->query($this->compile_select(), $this->bindings);
+		$results = $this->connection->query($this->compiler->select($this), $this->bindings);
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
 		$this->select = null;
 
 		return $results;
-	}
-
-	/**
-	 * Compile the query into a SQL SELECT statement.
-	 *
-	 * @return string
-	 */
-	private function compile_select()
-	{
-		$sql = $this->select.' '.$this->from.' '.$this->where;
-
-		if (count($this->orderings) > 0)
-		{
-			$sql .= ' ORDER BY '.implode(', ', $this->orderings);
-		}
-
-		if ( ! is_null($this->limit))
-		{
-			$sql .= ' LIMIT '.$this->limit;
-		}
-
-		if ( ! is_null($this->offset))
-		{
-			$sql .= ' OFFSET '.$this->offset;
-		}
-
-		return $sql;
 	}
 
 	/**
@@ -562,7 +543,7 @@ class Query {
 	 */
 	public function insert($values)
 	{
-		return $this->connection->query($this->compile_insert($values), array_values($values));
+		return $this->connection->query($this->compiler->insert($this, $values), array_values($values));
 	}
 
 	/**
@@ -573,24 +554,9 @@ class Query {
 	 */
 	public function insert_get_id($values)
 	{
-		$this->connection->query($this->compile_insert($values), array_values($values));
+		$this->connection->query($this->compiler->insert($this, $values), array_values($values));
 
 		return $this->connection->pdo->lastInsertId();
-	}
-
-	/**
-	 * Compile the query into a SQL INSERT statement.
-	 *
-	 * @param  array   $values
-	 * @return string
-	 */
-	private function compile_insert($values)
-	{
-		$sql = 'INSERT INTO '.$this->wrap($this->table);
-
-		$columns = array_map(array($this, 'wrap'), array_keys($values));
-
-		return $sql .= ' ('.implode(', ', $columns).') VALUES ('.$this->parameterize($values).')';
 	}
 
 	/**
@@ -601,14 +567,7 @@ class Query {
 	 */
 	public function update($values)
 	{
-		$sql = 'UPDATE '.$this->wrap($this->table).' SET ';
-
-		foreach (array_keys($values) as $column)
-		{
-			$sets[] = $this->wrap($column).' = ?';
-		}
-
-		return $this->connection->query($sql.implode(', ', $sets).' '.$this->where, array_merge(array_values($values), $this->bindings));
+		return $this->connection->query($this->compiler->update($this, $values), array_merge(array_values($values), $this->bindings));
 	}
 
 	/**
@@ -621,7 +580,7 @@ class Query {
 	{
 		if ( ! is_null($id)) $this->where('id', '=', $id);
 
-		return $this->connection->query('DELETE FROM '.$this->wrap($this->table).' '.$this->where, $this->bindings);		
+		return $this->connection->query($this->compiler->delete($this), $this->bindings);		
 	}
 
 	/**
@@ -630,7 +589,7 @@ class Query {
 	 * @param  string      $value
 	 * @return string
 	 */
-	private function wrap($value)
+	public function wrap($value)
 	{
 		if (strpos(strtolower($value), ' as ') !== false) return $this->wrap_alias($value);
 
@@ -648,7 +607,7 @@ class Query {
 	 * @param  string      $value
 	 * @return string
 	 */
-	private function wrap_alias($value)
+	protected function wrap_alias($value)
 	{
 		$segments = explode(' ', $value);
 
@@ -662,7 +621,10 @@ class Query {
 	 *
 	 * @return string
 	 */
-	protected function wrapper() { return '"'; }
+	protected function wrapper()
+	{
+		return '"';
+	}
 
 	/**
 	 * Create query parameters from an array of values.
@@ -670,7 +632,7 @@ class Query {
 	 * @param  array  $values
 	 * @return string
 	 */
-	private function parameterize($values)
+	public function parameterize($values)
 	{
 		return implode(', ', array_fill(0, count($values), '?'));
 	}
