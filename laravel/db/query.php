@@ -91,18 +91,6 @@ class Query {
 	}
 
 	/**
-	 * Create a new query instance.
-	 *
-	 * @param  string      $table
-	 * @param  Connection  $connection
-	 * @return Query
-	 */
-	public static function table($table, Connection $connection)
-	{
-		return new static($table, $connection);
-	}
-
-	/**
 	 * Force the query to return distinct results.
 	 *
 	 * @return Query
@@ -638,16 +626,11 @@ class Query {
 	 */
 	private function wrap($value)
 	{
-		if (strpos(strtolower($value), ' as ') !== false)
-		{
-			return $this->wrap_alias($value);
-		}
-
-		$wrap = $this->connection->wrapper();
+		if (strpos(strtolower($value), ' as ') !== false) return $this->wrap_alias($value);
 
 		foreach (explode('.', $value) as $segment)
 		{
-			$wrapped[] = ($segment != '*') ? $wrap.$segment.$wrap : $segment;
+			$wrapped[] = ($segment != '*') ? $this->connection->wrapper().$segment.$this->connection->wrapper() : $segment;
 		}
 
 		return implode('.', $wrapped);
