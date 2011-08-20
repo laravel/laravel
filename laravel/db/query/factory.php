@@ -14,10 +14,15 @@ class Factory {
 	 */
 	public static function make($table, Connection $connection)
 	{
-		switch ($connection->driver())
+		$query = (isset($connection->config['query'])) ? $connection->config['query'] : $connection->driver();
+
+		switch ($query)
 		{
-			case 'postgres':
+			case 'pgsql':
 				return new Postgres($table, $connection);
+
+			case 'mysql':
+				return new MySQL($table, $connection);
 
 			default:
 				return new Query($table, $connection);

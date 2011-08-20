@@ -167,21 +167,4 @@ class Connection {
 		return $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 	}
 
-	/**
-	 * Get the table prefix for the database connection.
-	 *
-	 * @return string
-	 */
-	public function prefix()
-	{
-		return (array_key_exists('prefix', $this->config)) ? $this->config['prefix'] : '';
-	}
-
-	/**
-	 * Get the keyword identifier wrapper for the connection.
-	 *
-	 * @return string
-	 */
-	public function wrapper() { return '"'; }
-
 }

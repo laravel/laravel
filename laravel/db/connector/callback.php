@@ -2,7 +2,7 @@
 
 use Laravel\DB\Connector;
 
-class Generic extends Connector {
+class Callback extends Connector {
 
 	/**
 	 * Establish a PDO database connection.
@@ -12,7 +12,7 @@ class Generic extends Connector {
 	 */
 	public function connect($config)
 	{
-		return new \PDO($config['driver'].':'.$config['dsn'], $config['username'], $config['password'], $this->options);
+		return call_user_func($config['connector']);
 	}
 
 }

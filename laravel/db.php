@@ -37,9 +37,9 @@ class DB {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			$connector = DB\Connector\Factory::make($config['driver']);
+			$connector = DB\Connector\Factory::make($config);
 
-			static::$connections[$connection] = DB\Connection\Factory::make($connection, $config, $connector);
+			static::$connections[$connection] = new DB\Connection($connection, $config, $connector);
 		}
 
 		return static::$connections[$connection];

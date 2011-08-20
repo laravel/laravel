@@ -5,12 +5,14 @@ class Factory {
 	/**
 	 * Create a new database connector instance for a given driver.
 	 *
-	 * @param  string     $driver
+	 * @param  array      $config
 	 * @return Connector
 	 */
-	public static function make($driver)
+	public static function make($config)
 	{
-		switch ($driver)
+		if (isset($config['connector'])) return new Callback;
+
+		switch ($config['driver'])
 		{
 			case 'sqlite':
 				return new SQLite;
@@ -18,12 +20,11 @@ class Factory {
 			case 'mysql':
 				return new MySQL;
 
-			case 'postgres':
+			case 'pgsql':
 				return new Postgres;
-
-			default:
-				return new Generic;
 		}
+
+		throw new \Exception("Database configuration is invalid. Please verify your configuration.");
 	}
 
 }

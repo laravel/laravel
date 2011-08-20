@@ -1,8 +1,8 @@
-<?php namespace Laravel\DB\Connection;
+<?php namespace Laravel\DB\Query;
 
-use Laravel\DB\Connection;
+use Laravel\DB\Query;
 
-class MySQL extends Connection {
+class MySQL extends Query {
 
 	/**
 	 * Get the keyword identifier wrapper for the connection.

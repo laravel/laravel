@@ -630,7 +630,7 @@ class Query {
 
 		foreach (explode('.', $value) as $segment)
 		{
-			$wrapped[] = ($segment != '*') ? $this->connection->wrapper().$segment.$this->connection->wrapper() : $segment;
+			$wrapped[] = ($segment != '*') ? $this->wrapper().$segment.$this->wrapper() : $segment;
 		}
 
 		return implode('.', $wrapped);
@@ -647,6 +647,18 @@ class Query {
 		$segments = explode(' ', $value);
 
 		return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
+	}
+
+	/**
+	 * Get the keyword identifier wrapper for the connection.
+	 *
+	 * MySQL uses a non-standard wrapper
+	 *
+	 * @return string
+	 */
+	protected function wrapper()
+	{
+		return '"';
 	}
 
 	/**
