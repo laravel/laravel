@@ -42,6 +42,8 @@ class Module {
 	{
 		$module = (strpos($key, '::') !== false) ? substr($key, 0, strpos($key, ':')) : DEFAULT_MODULE;
 
+		$module = str_replace('.', '/', $module);
+
 		if ($module !== DEFAULT_MODULE) $key = substr($key, strpos($key, ':') + 2);
 
 		return array($module, $key);
@@ -50,9 +52,7 @@ class Module {
 	/**
 	 * Get the path for a given module.
 	 *
-	 * If the module exists in the module array as a key, that means a path other than
-	 * the default path has been specified for the module. Otherwise, the module directory
-	 * is assumed to have the same name as the module.
+	 * Once the path has been determined, it will be cached by the class for quick access.
 	 *
 	 * @param  string  $module
 	 * @return string
@@ -64,10 +64,6 @@ class Module {
 		if (in_array($module, static::$modules))
 		{
 			return static::$paths[$module] = MODULE_PATH.$module.'/';
-		}
-		elseif (array_key_exists($module, static::$modules))
-		{
-			return static::$paths[$module] = MODULE_PATH.static::$modules[$module].'/';
 		}
 	}
 

@@ -5,6 +5,11 @@ abstract class Driver {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
+	 * <code>
+	 *		// Determine if the "name" item exists in the cache
+	 *		$exists = Cache::driver()->has('name');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
@@ -29,26 +34,28 @@ abstract class Driver {
 	 * @param  string  $driver
 	 * @return mixed
 	 */
-	abstract public function get($key, $default = null);
-
-	/**
-	 * Prepare the cache item for returning to the requestor.
-	 *
-	 * If the item is NULL, the default will be returned.
-	 *
-	 * @param  mixed  $item
-	 * @param  mixed  $default
-	 * @return mixed
-	 */
-	protected function prepare($item, $default)
+	public function get($key, $default = null)
 	{
-		if ( ! is_null($item)) return $item;
+		if ( ! is_null($item = $this->retrieve($key))) return $item;
 
 		return (is_callable($default)) ? call_user_func($default) : $default;
 	}
 
 	/**
-	 * Write an item to the cache.
+	 * Retrieve an item from the cache driver.
+	 *
+	 * @param  string  $key
+	 * @return mixed
+	 */
+	abstract protected function retrieve($key);
+
+	/**
+	 * Write an item to the cache for a given number of minutes.
+	 *
+	 * <code>
+	 *		// Write the "name" item to the cache for 30 minutes
+	 *		Cache::driver()->put('name', 'Fred', 30);
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -73,7 +80,7 @@ abstract class Driver {
 	 */
 	public function remember($key, $value, $minutes)
 	{
-		if ( ! is_null($item = $this->get($key, null, $driver))) return $item;
+		if ( ! is_null($item = $this->get($key, null))) return $item;
 
 		$default = is_callable($default) ? call_user_func($default) : $default;
 

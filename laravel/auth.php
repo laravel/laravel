@@ -1,10 +1,5 @@
 <?php namespace Laravel;
 
-if (Config::get('session.driver') == '')
-{
-	throw new \Exception("You must specify a session driver before using the Auth class.");
-}
-
 class Auth {
 
 	/**
@@ -17,7 +12,14 @@ class Auth {
 	 *
 	 * @var object
 	 */
-	public static $user;
+	public $user;
+
+	/**
+	 * The session driver being used by the Auth instance.
+	 *
+	 * @var Session\Driver
+	 */
+	protected $session;
 
 	/**
 	 * The key used to store the user ID in the session.
@@ -27,14 +29,25 @@ class Auth {
 	protected static $key = 'laravel_user_id';
 
 	/**
+	 * Create a new Auth class instance.
+	 *
+	 * @param  Session\Driver  $session_driver
+	 * @return void
+	 */
+	public function __construct(Session\Driver $driver)
+	{
+		$this->session = $driver;
+	}
+
+	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
 	 * @see    login()
 	 * @return bool
 	 */
-	public static function check()
+	public function check()
 	{
-		return ! is_null(static::user());
+		return ! is_null($this->user());
 	}
 
 	/**
@@ -50,14 +63,14 @@ class Auth {
 	 *
 	 * @return object
 	 */
-	public static function user()
+	public function user()
 	{
-		if (is_null(static::$user) and Session::has(static::$key))
+		if (is_null($this->user) and $this->session->has(static::$key))
 		{
-			static::$user = call_user_func(Config::get('auth.by_id'), Session::get(static::$key));
+			$this->user = call_user_func(Config::get('auth.by_id'), $this->session->get(static::$key));
 		}
 
-		return static::$user;
+		return $this->user;
 	}
 
 	/**
@@ -80,13 +93,13 @@ class Auth {
 	 * @param  string  $password
 	 * @return bool
 	 */
-	public static function login($username, $password)
+	public function login($username, $password)
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
 			if (Hash::check($password, $user->password))
 			{
-				static::remember($user);
+				$this->remember($user);
 
 				return true;
 			}
@@ -107,11 +120,11 @@ class Auth {
 	 * @param  object  $user
 	 * @return void
 	 */
-	public static function remember($user)
+	public function remember($user)
 	{
-		static::$user = $user;
+		$this->user = $user;
 
-		Session::put(static::$key, $user->id);
+		$this->session->put(static::$key, $user->id);
 	}
 
 	/**
@@ -122,11 +135,29 @@ class Auth {
 	 *
 	 * @return void
 	 */
-	public static function logout()
+	public function logout()
 	{
-		static::$user = null;
+		$this->user = null;
 
-		Session::forget(static::$key);
+		$this->session->forget(static::$key);
+	}
+
+	/**
+	 * Pass all other methods to a generic Auth instance.
+	 *
+	 * This provides a convenient API for working with the default Auth configuration.
+	 *
+	 * <code>
+	 *		// Get the current user of your application
+	 *		$user = Auth::user();
+	 *
+	 *		// Equivalent call using make method
+	 *		$user = Auth::make()->user();
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(new static(Session::driver()), $method), $parameters);
 	}
 
 }

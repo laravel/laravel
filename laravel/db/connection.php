@@ -31,18 +31,59 @@ class Connection {
 	public $queries = array();
 
 	/**
+	 * The database connector instance.
+	 *
+	 * @var Connector
+	 */
+	protected $connector;
+
+	/**
 	 * Create a new Connection instance.
 	 *
 	 * @param  string     $name
-	 * @param  object     $config
+	 * @param  array      $config
 	 * @param  Connector  $connector
 	 * @return void
 	 */
-	public function __construct($name, $config, $connector)
+	public function __construct($name, $config, Connector $connector)
 	{
 		$this->name = $name;
 		$this->config = $config;
-		$this->pdo = $connector->connect($this->config);
+		$this->connector = $connector;
+	}
+
+	/**
+	 * Establish the PDO connection for the connection instance.
+	 *
+	 * @return void
+	 */
+	protected function connect()
+	{
+		$this->pdo = $this->connector->connect($this->config);
+	}
+
+	/**
+	 * Determine if a PDO connection has been established for the connection.
+	 *
+	 * @return bool
+	 */
+	protected function connected()
+	{
+		return ! is_null($this->pdo);
+	}
+
+	/**
+	 * Execute a SQL query against the connection and return a scalar result.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return mixed
+	 */
+	public function scalar($sql, $bindings = array())
+	{
+		$result = (array) $this->first($sql, $bindings);
+
+		return (strpos(strtolower($sql), 'select count') === 0) ? (int) reset($result) : (float) reset($result);
 	}
 
 	/**
@@ -69,26 +110,38 @@ class Connection {
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
-	 * @return array
+	 * @return mixed
 	 */
 	public function query($sql, $bindings = array())
 	{
-		$this->queries[] = $sql;
+		if ( ! $this->connected()) $this->connect();
 
-		$query = $this->pdo->prepare($sql);
+		$this->queries[] = compact('sql', 'bindings');
 
-		$result = $query->execute($bindings);
+		return $this->execute($this->pdo->prepare($sql), $bindings);
+	}
 
-		if (strpos(strtoupper($sql), 'SELECT') === 0)
+	/**
+	 * Execute a prepared PDO statement and return the appropriate results.
+	 *
+	 * @param  PDOStatement  $statement
+	 * @param  array         $results
+	 * @return mixed
+	 */
+	protected function execute(\PDOStatement $statement, $bindings)
+	{
+		$result = $statement->execute($bindings);
+
+		if (strpos(strtoupper($statement->queryString), 'SELECT') === 0)
 		{
-			return $query->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
+			return $statement->fetchAll(\PDO::FETCH_CLASS, 'stdClass');
 		}
-		elseif (strpos(strtoupper($sql), 'UPDATE') === 0 or strpos(strtoupper($sql), 'DELETE') === 0)
+		elseif (strpos(strtoupper($statement->queryString), 'INSERT') === 0)
 		{
-			return $query->rowCount();
+			return $result;
 		}
 
-		return $result;
+		return $statement->rowCount();
 	}
 
 	/**
@@ -99,19 +152,7 @@ class Connection {
 	 */
 	public function table($table)
 	{
-		return new Query($table, $this);
-	}
-
-	/**
-	 * Get the keyword identifier wrapper for the connection.
-	 *
-	 * @return string
-	 */
-	public function wrapper()
-	{
-		if (array_key_exists('wrap', $this->config) and $this->config['wrap'] === false) return '';
-
-		return ($this->driver() == 'mysql') ? '`' : '"';
+		return Query\Factory::make($table, $this);
 	}
 
 	/**
@@ -121,6 +162,8 @@ class Connection {
 	 */
 	public function driver()
 	{
+		if ( ! $this->connected()) $this->connect();
+
 		return $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
 	}
 
@@ -133,5 +176,12 @@ class Connection {
 	{
 		return (array_key_exists('prefix', $this->config)) ? $this->config['prefix'] : '';
 	}
+
+	/**
+	 * Get the keyword identifier wrapper for the connection.
+	 *
+	 * @return string
+	 */
+	public function wrapper() { return '"'; }
 
 }

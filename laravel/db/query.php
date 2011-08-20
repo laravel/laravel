@@ -83,7 +83,7 @@ class Query {
 	 * @param  Connection  $connection
 	 * @return void
 	 */
-	public function __construct($table, $connection)
+	public function __construct($table, Connection $connection)
 	{
 		$this->table = $table;
 		$this->connection = $connection;
@@ -97,7 +97,7 @@ class Query {
 	 * @param  Connection  $connection
 	 * @return Query
 	 */
-	public static function table($table, $connection)
+	public static function table($table, Connection $connection)
 	{
 		return new static($table, $connection);
 	}
@@ -579,18 +579,7 @@ class Query {
 	 */
 	public function insert_get_id($values)
 	{
-		$sql = $this->compile_insert($values);
-
-		if ($this->connection->driver() == 'pgsql')
-		{
-			$query = $this->connection->pdo->prepare($sql.' RETURNING '.$this->wrap('id'));
-
-			$query->execute(array_values($values));
-
-			return $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
-		}
-
-		$this->connection->query($sql, array_values($values));
+		$this->connection->query($this->compile_insert($values), array_values($values));
 
 		return $this->connection->pdo->lastInsertId();
 	}

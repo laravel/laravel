@@ -76,32 +76,39 @@ class Loader {
 	}
 
 	/**
-	 * Load a class that is stored in a module.
+	 * Search the active modules for a given file.
 	 *
 	 * @param  string  $file
 	 * @return void
 	 */
 	private static function load_from_module($file)
 	{
-		// Since all module models and libraries must be namespaced to the
-		// module name, we'll extract the module name from the file.
-		$module = substr($file, 0, strpos($file, '/'));
+		if (is_null($module = static::module_path($file))) return;
 
-		if (in_array($module, Module::$modules))
+		// Slice the module name off of the filename. Even though module libraries
+		// and models are namespaced under the module, there will obviously not be
+		// a folder matching that namespace in the libraries or models directory.
+		$file = substr($file, strlen($module));
+
+		foreach (array(MODULE_PATH.$module.'/models', MODULE_PATH.$module.'/libraries') as $directory)
 		{
-			$module = MODULE_PATH.$module.'/';
+			if (file_exists($path = $directory.'/'.$file.EXT)) return require $path;
+		}
+	}
 
-			// Slice the module name off of the filename. Even though module libraries
-			// and models are namespaced under the module, there will obviously not be
-			// a folder matching that namespace in the libraries or models directories
-			// of the module. Slicing it off will allow us to make a clean search for
-			// the relevant class file.
-			$file = substr($file, strpos($file, '/') + 1);
-
-			foreach (array($module.'models', $module.'libraries') as $directory)
-			{
-				if (file_exists($path = $directory.'/'.$file.EXT)) return require $path;
-			}
+	/**
+	 * Search the module paths for a match on the file.
+	 *
+	 * The file namespace should correspond to a directory within the module directory.
+	 *
+	 * @param  string  $file
+	 * @return string
+	 */
+	private static function module_path($file)
+	{
+		foreach (Module::$modules as $key => $module)
+		{
+			if (strpos($file, $module) === 0) return $module;
 		}
 	}
 

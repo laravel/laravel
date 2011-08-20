@@ -1,10 +1,10 @@
-<?php namespace System\DB\Eloquent;
+<?php namespace Laravel\DB\Eloquent;
 
-use System\DB;
-use System\Str;
-use System\Config;
-use System\Inflector;
-use System\Paginator;
+use Laravel\DB;
+use Laravel\Str;
+use Laravel\Config;
+use Laravel\Inflector;
+use Laravel\Paginator;
 
 abstract class Model {
 

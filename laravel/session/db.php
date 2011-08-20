@@ -2,15 +2,9 @@
 
 use Laravel\Config;
 
-class DB implements Driver, Sweeper {
+class DB extends Driver implements Sweeper {
 
-	/**
-	 * Load a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return array
-	 */
-	public function load($id)
+	protected function load($id)
 	{
 		$session = $this->table()->find($id);
 
@@ -24,40 +18,22 @@ class DB implements Driver, Sweeper {
 		}
 	}
 
-	/**
-	 * Save a session.
-	 *
-	 * @param  array  $session
-	 * @return void
-	 */
-	public function save($session)
+	protected function save()
 	{
-		$this->delete($session['id']);
+		$this->delete($this->session['id']);
 
 		$this->table()->insert(array(
-			'id'            => $session['id'], 
-			'last_activity' => $session['last_activity'], 
-			'data'          => serialize($session['data'])
+			'id'            => $this->session['id'], 
+			'last_activity' => $this->session['last_activity'], 
+			'data'          => serialize($this->session['data'])
 		));
 	}
 
-	/**
-	 * Delete a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return void
-	 */
-	public function delete($id)
+	protected function delete()
 	{
-		$this->table()->delete($id);
+		$this->table()->delete($this->session['id']);
 	}
 
-	/**
-	 * Delete all expired sessions.
-	 *
-	 * @param  int   $expiration
-	 * @return void
-	 */
 	public function sweep($expiration)
 	{
 		$this->table()->where('last_activity', '<', $expiration)->delete();

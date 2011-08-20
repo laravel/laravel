@@ -8,14 +8,14 @@ define('EXT', '.php');
 // --------------------------------------------------------------
 // Define the core framework paths.
 // --------------------------------------------------------------
-define('BASE_PATH',    realpath(str_replace('laravel', '', $system)).'/');
+define('BASE_PATH',    realpath(str_replace('laravel', '', $laravel)).'/');
 define('MODULE_PATH',  realpath($modules).'/');
 define('PACKAGE_PATH', realpath($packages).'/');
 define('PUBLIC_PATH',  realpath($public).'/');
 define('STORAGE_PATH', realpath($storage).'/');
-define('SYS_PATH',     realpath($system).'/');
+define('SYS_PATH',     realpath($laravel).'/');
 
-unset($system, $config, $modules, $packages, $public, $storage);
+unset($laravel, $config, $modules, $packages, $public, $storage);
 
 // --------------------------------------------------------------
 // Define various other framework paths.
@@ -71,6 +71,11 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 'Off');
 
 // --------------------------------------------------------------
+// Set the default timezone.
+// --------------------------------------------------------------
+date_default_timezone_set(Config::get('application.timezone'));
+
+// --------------------------------------------------------------
 // Register the error / exception handlers.
 // --------------------------------------------------------------
 $error_dependencies = function()
@@ -107,19 +112,27 @@ register_shutdown_function(function() use ($error_dependencies)
 });
 
 // --------------------------------------------------------------
-// Set the default timezone.
+// Determine the module that should handle the request.
 // --------------------------------------------------------------
-date_default_timezone_set(Config::get('application.timezone'));
+require SYS_PATH.'request'.EXT;
+
+$segments = explode('/', Request::uri());
+
+define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $segments[0] : DEFAULT_MODULE);
+
+// --------------------------------------------------------------
+// Determine the path to the root of the active module.
+// --------------------------------------------------------------
+define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
 
 // --------------------------------------------------------------
 // Load the session.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session::load(Cookie::get('laravel_session'));
+if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
 
 // --------------------------------------------------------------
 // Load all of the core routing classes.
 // --------------------------------------------------------------
-require SYS_PATH.'request'.EXT;
 require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
@@ -135,18 +148,6 @@ if (count(Config::get('application.packages')) > 0)
 
 	Package::load(Config::get('application.packages'));
 }
-
-// --------------------------------------------------------------
-// Determine the module that should handle the request.
-// --------------------------------------------------------------
-$segments = explode('/', Request::uri());
-
-define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $segments[0] : DEFAULT_MODULE);
-
-// --------------------------------------------------------------
-// Determine the path to the root of the active module.
-// --------------------------------------------------------------
-define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
 
 // --------------------------------------------------------------
 // Register the filters for the default module.
@@ -201,7 +202,19 @@ $response->content = (string) $response->content;
 // --------------------------------------------------------------
 // Close the session.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session::close();
+if (Config::get('session.driver') != '')
+{
+	$driver = Session::driver();
+
+	$driver->flash('laravel_old_input', Input::get());
+
+	$driver->close();
+
+	if ($driver instanceof Session\Sweeper and mt_rand(1, 100) <= 2)
+	{
+		$driver->sweep(time() - (Config::get('session.lifetime') * 60));
+	}
+}
 
 // --------------------------------------------------------------
 // Send the response to the browser.

@@ -136,7 +136,7 @@ class Config {
 
 		foreach (static::paths($module, $file) as $directory)
 		{
-			if (file_exists($path = $directory.$file.EXT)) $config = array_merge($config, require $path);
+			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
 		}
 
 		if (count($config) > 0) static::$items[$module][$file] = $config;
@@ -150,9 +150,9 @@ class Config {
 	 * The paths returned by this method paths will be searched by the load method when merging
 	 * configuration files, meaning the configuration files will cascade in this order.
 	 *
-	 * By default, the system configuration directory will be searched first, followed by the configuration
-	 * configuration directory for the active module. Next, any environment specific configuration
-	 * directories are searched.
+	 * By default, the base configuration directory will be searched first, followed by the configuration
+	 * directory for the active module. Next, any environment specific configuration directories
+	 * will be searched.
 	 *
 	 * @param  string  $module
 	 * @param  string  $file
@@ -160,6 +160,8 @@ class Config {
 	 */
 	private static function paths($module, $file)
 	{
+		$module = str_replace('.', '/', $module);
+
 		$paths = array(CONFIG_PATH, Module::path($module).'config/');
 
 		if (isset($_SERVER['LARAVEL_ENV']))

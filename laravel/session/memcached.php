@@ -3,39 +3,21 @@
 use Laravel\Cache;
 use Laravel\Config;
 
-class Memcached implements Driver {
+class Memcached extends Driver {
 
-	/**
-	 * Load a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return array
-	 */
-	public function load($id)
+	protected function load($id)
 	{
 		return Cache::driver('memcached')->get($id);
 	}
 
-	/**
-	 * Save a session.
-	 *
-	 * @param  array  $session
-	 * @return void
-	 */
-	public function save($session)
+	protected function save()
 	{
-		Cache::driver('memcached')->put($session['id'], $session, Config::get('session.lifetime'));
+		Cache::driver('memcached')->put($this->session['id'], $this->session, Config::get('session.lifetime'));
 	}
 
-	/**
-	 * Delete a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return void
-	 */
-	public function delete($id)
+	protected function delete()
 	{
-		Cache::driver('memcached')->forget($id);
+		Cache::driver('memcached')->forget($this->session['id']);
 	}
 
 }

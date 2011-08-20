@@ -3,7 +3,7 @@
 use Laravel\Config;
 use Laravel\Crypter;
 
-class Cookie implements Driver {
+class Cookie extends Driver {
 
 	/**
 	 * The Crypter instance.
@@ -27,13 +27,7 @@ class Cookie implements Driver {
 		}
 	}
 
-	/**
-	 * Load a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return array
-	 */
-	public function load($id)
+	protected function load($id)
 	{
 		if (\System\Cookie::has('session_payload'))
 		{
@@ -41,31 +35,19 @@ class Cookie implements Driver {
 		}
 	}
 
-	/**
-	 * Save a session.
-	 *
-	 * @param  array  $session
-	 * @return void
-	 */
-	public function save($session)
+	protected function save()
 	{
 		if ( ! headers_sent())
 		{
 			extract(Config::get('session'));
 
-			$payload = $this->crypter->encrypt(serialize($session));
+			$payload = $this->crypter->encrypt(serialize($this->session));
 
 			\System\Cookie::put('session_payload', $payload, $lifetime, $path, $domain, $https, $http_only);
 		}
 	}
 
-	/**
-	 * Delete a session by ID.
-	 *
-	 * @param  string  $id
-	 * @return void
-	 */
-	public function delete($id)
+	protected function delete()
 	{
 		\System\Cookie::forget('session_payload');
 	}

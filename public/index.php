@@ -8,37 +8,49 @@
  * @link     http://laravel.com
  */
 
-// --------------------------------------------------------------
-// The active modules for this Laravel installation.
-// --------------------------------------------------------------
-$active   = array();
+/*
+|--------------------------------------------------------------------------
+| Active Modules
+|--------------------------------------------------------------------------
+|
+| Modules are a convenient way to organize your application into logical
+| components. Each module may have its own libraries, models, routes,
+| views, language files, and configuration.
+|
+| Here you may specify which modules are active for your application.
+| This simply gives Laravel an easy way to know which directories to
+| check when auto-loading your classes, routes, and views.
+|
+*/
 
-// --------------------------------------------------------------
-// The path to the Laravel directory.
-// --------------------------------------------------------------
-$system   = '../laravel';
+$active = array();
 
-// --------------------------------------------------------------
-// The path to the packages directory.
-// --------------------------------------------------------------
+/*
+|--------------------------------------------------------------------------
+| Installation Paths
+|--------------------------------------------------------------------------
+|
+| Here you may specify the location of the various Laravel framework
+| directories for your installation. 
+|
+| Of course, these are already set to the proper default values, so you do
+| not need to change them if you have not modified the directory structure.
+|
+*/
+
+$laravel  = '../laravel';
+
 $packages = '../packages';
 
-// --------------------------------------------------------------
-// The path to the modules directory.
-// --------------------------------------------------------------
 $modules  = '../modules';
 
-// --------------------------------------------------------------
-// The path to the storage directory.
-// --------------------------------------------------------------
 $storage  = '../storage';
 
-// --------------------------------------------------------------
-// The path to the public directory.
-// --------------------------------------------------------------
 $public   = __DIR__;
 
-// --------------------------------------------------------------
-// Launch Laravel.
-// --------------------------------------------------------------
-require $system.'/laravel.php';
+/*
+|--------------------------------------------------------------------------
+| 3... 2... 1... Lift-off!
+|--------------------------------------------------------------------------
+*/
+require $laravel.'/laravel.php';

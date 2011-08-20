@@ -52,7 +52,7 @@ class Cache {
 	}
 
 	/**
-	 * Pass all other methods to the default driver.
+	 * Pass all other methods to the default cache driver.
 	 *
 	 * Passing method calls to the driver instance provides a convenient API for the developer
 	 * when always using the default cache driver.

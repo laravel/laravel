@@ -17,16 +17,30 @@ class Crypter {
 	public $mode;
 
 	/**
+	 * The encryption key.
+	 *
+	 * @var string
+	 */
+	public $key;
+
+	/**
 	 * Create a new Crypter instance.
 	 *
 	 * @param  string  $cipher
 	 * @param  string  $mode
+	 * @param  string  $key
 	 * @return void
 	 */
-	public function __construct($cipher = 'rijndael-256', $mode = 'cbc')
+	public function __construct($cipher, $mode, $key)
 	{
 		$this->cipher = $cipher;
 		$this->mode = $mode;
+		$this->key = $key;
+
+		if (trim((string) $this->key) === '')
+		{
+			throw new \Exception('The encryption class can not be used without an encryption key.');
+		}
 	}
 
 	/**
@@ -34,11 +48,12 @@ class Crypter {
 	 *
 	 * @param  string  $cipher
 	 * @param  string  $mode
+	 * @param  string  $key
 	 * @return Crypt
 	 */
-	public static function make($cipher = 'rijndael-256', $mode = 'cbc')
+	public static function make($cipher = MCRYPT_RIJNDAEL_256, $mode = 'cbc', $key = null)
 	{
-		return new static($cipher, $mode);
+		return new static($cipher, $mode, (is_null($key)) ? Config::get('application.key') : $key);
 	}
 
 	/**
@@ -51,7 +66,7 @@ class Crypter {
 	{
 		$iv = mcrypt_create_iv($this->iv_size(), $this->randomizer());
 
-		return base64_encode($iv.mcrypt_encrypt($this->cipher, $this->key(), $value, $this->mode, $iv));
+		return base64_encode($iv.mcrypt_encrypt($this->cipher, $this->key, $value, $this->mode, $iv));
 	}
 
 	/**
@@ -88,19 +103,7 @@ class Crypter {
 
 		list($iv, $value) = array(substr($value, 0, $this->iv_size()), substr($value, $this->iv_size()));
 
-		return rtrim(mcrypt_decrypt($this->cipher, $this->key(), $value, $this->mode, $iv), "\0");
-	}
-
-	/**
-	 * Get the application key from the application configuration file.
-	 *
-	 * @return string
-	 */
-	private function key()
-	{
-		if ( ! is_null($key = Config::get('application.key')) and $key !== '') return $key;
-
-		throw new \Exception("The encryption class can not be used without an encryption key.");
+		return rtrim(mcrypt_decrypt($this->cipher, $this->key, $value, $this->mode, $iv), "\0");
 	}
 
 	/**
