@@ -471,7 +471,13 @@ class Query {
 	{
 		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
 
-		return $this->first()->aggregate;
+		$result = $this->connection->scalar($this->compile_select(), $this->bindings);
+
+		// Reset the SELECT clause so more queries can be performed using the same instance.
+		// This is helpful for getting aggregates and then getting actual results.
+		$this->select = null;
+
+		return $result;
 	}
 
 	/**
@@ -656,10 +662,7 @@ class Query {
 	 *
 	 * @return string
 	 */
-	protected function wrapper()
-	{
-		return '"';
-	}
+	protected function wrapper() { return '"'; }
 
 	/**
 	 * Create query parameters from an array of values.

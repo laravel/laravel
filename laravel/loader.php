@@ -33,7 +33,7 @@ class Loader {
 	{
 		static::$aliases = Config::get('aliases');
 
-		foreach ($paths as $path) { static::register($path); }
+		foreach ($paths as $path) { static::register_path($path); }
 	}
 
 	/**
@@ -113,15 +113,38 @@ class Loader {
 	}
 
 	/**
-	 * Register a path with the auto-loader. After registering the path, it will be
-	 * checked similarly to the models and libraries directories.
+	 * Register a path with the auto-loader.
+	 *
+	 * After registering the path, it will be checked similarly to the models and libraries directories.
 	 *
 	 * @param  string  $path
 	 * @return void
 	 */
-	public static function register($path)
+	public static function register_path($path)
 	{
 		static::$paths[] = rtrim($path, '/').'/';
+	}
+
+	/**
+	 * Register an alias with the auto-loader.
+	 *
+	 * @param  array  $alias
+	 * @return void
+	 */
+	public static function register_alias($alias)
+	{
+		static::$aliases = array_merge(static::$aliases, $alias);
+	}
+
+	/**
+	 * Remove an alias from the auto-loader's list of aliases.
+	 *
+	 * @param  string  $alias
+	 * @return void
+	 */
+	public static function forget_alias($alias)
+	{
+		unset(static::$aliases[$alias]);
 	}
 
 }

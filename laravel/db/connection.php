@@ -35,7 +35,7 @@ class Connection {
 	 *
 	 * @var Connector
 	 */
-	protected $connector;
+	private $connector;
 
 	/**
 	 * Create a new Connection instance.
@@ -57,7 +57,7 @@ class Connection {
 	 *
 	 * @return void
 	 */
-	protected function connect()
+	public function connect()
 	{
 		$this->pdo = $this->connector->connect($this->config);
 	}
@@ -67,7 +67,7 @@ class Connection {
 	 *
 	 * @return bool
 	 */
-	protected function connected()
+	public function connected()
 	{
 		return ! is_null($this->pdo);
 	}
@@ -128,7 +128,7 @@ class Connection {
 	 * @param  array         $results
 	 * @return mixed
 	 */
-	protected function execute(\PDOStatement $statement, $bindings)
+	private function execute(\PDOStatement $statement, $bindings)
 	{
 		$result = $statement->execute($bindings);
 
