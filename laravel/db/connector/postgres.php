@@ -2,7 +2,7 @@
 
 use Laravel\DB\Connector;
 
-class MySQL extends Connector {
+class Postgres extends Connector {
 
 	/**
 	 * Establish a PDO database connection.
