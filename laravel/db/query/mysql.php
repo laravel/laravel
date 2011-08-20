@@ -11,6 +11,9 @@ class MySQL extends Query {
 	 *
 	 * @return string
 	 */
-	public function wrapper() { return '`'; }
+	public function wrapper()
+	{
+		return '`';
+	}
 
 }
