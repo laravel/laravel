@@ -12,20 +12,11 @@ class Compiler {
 	{
 		$sql = $query->select.' '.$query->from.' '.$query->where;
 
-		if ( ! is_null($query->order))
-		{
-			$sql .= ' '.$query->order;
-		}
+		if ( ! is_null($query->order)) $sql .= ' '.$query->order;
 
-		if ( ! is_null($query->limit))
-		{
-			$sql .= ' '.$query->limit;
-		}
+		if ( ! is_null($query->limit)) $sql .= ' '.$query->limit;
 
-		if ( ! is_null($query->offset))
-		{
-			$sql .= ' '.$query->offset;
-		}
+		if ( ! is_null($query->offset)) $sql .= ' '.$query->offset;
 
 		return $sql;
 	}
