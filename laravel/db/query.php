@@ -531,10 +531,7 @@ class Query {
 	 */
 	public function get($columns = array('*'))
 	{
-		if (is_null($this->select))
-		{
-			$this->select($columns);
-		}
+		if (is_null($this->select)) $this->select($columns);
 
 		$results = $this->connection->query($this->compiler->select($this), $this->bindings);
 
