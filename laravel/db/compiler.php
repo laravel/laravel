@@ -10,80 +10,24 @@ class Compiler {
 	 */
 	public function select(Query $query)
 	{
-		foreach (array('add_select', 'add_from', 'add_where', 'add_order', 'add_limit', 'add_offset') as $builder)
+		$sql = $query->select.' '.$query->from.' '.$query->where;
+
+		if ( ! is_null($query->order))
 		{
-			$sql[] = $this->$builder($query);
+			$sql .= ' '.$query->order;
 		}
 
-		foreach ($sql as $key => $value) { if (is_null($value) or $value === '') unset($sql[$key]); }
+		if ( ! is_null($query->limit))
+		{
+			$sql .= ' '.$query->limit;
+		}
 
-		return implode(' ', $sql);
-	}
+		if ( ! is_null($query->offset))
+		{
+			$sql .= ' '.$query->offset;
+		}
 
-	/**
-	 * Get the SELECT clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_select(Query $query)
-	{
-		return $query->select;
-	}
-
-	/**
-	 * Get the FROM clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_from(Query $query)
-	{
-		return $query->from;
-	}
-
-	/**
-	 * Get the WHERE clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_where(Query $query)
-	{
-		return $query->where;
-	}
-
-	/**
-	 * Get the ORDER BY clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_order(Query $query)
-	{
-		if (count($query->orderings) > 0) return 'ORDER BY'.implode(', ', $query->orderings);
-	}
-
-	/**
-	 * Get the LIMIT clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_limit(Query $query)
-	{
-		if ( ! is_null($query->limit)) return 'LIMIT '.$query->limit;
-	}
-
-	/**
-	 * Get the OFFSET clause from the Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	protected function add_offset(Query $query)
-	{
-		if ( ! is_null($query->offset)) return 'OFFSET '.$query->offset;
+		return $sql;
 	}
 
 	/**

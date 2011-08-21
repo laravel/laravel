@@ -56,6 +56,13 @@ class Query {
 	public $where = 'WHERE 1 = 1';
 
 	/**
+	 * The ORDER BY clause.
+	 *
+	 * @var string
+	 */
+	public $order;
+
+	/**
 	 * The ORDER BY columns.
 	 *
 	 * @var array
@@ -417,6 +424,9 @@ class Query {
 	public function order_by($column, $direction = 'asc')
 	{
 		$this->orderings[] = $this->wrap($column).' '.strtoupper($direction);
+
+		$this->order = 'ORDER BY '.implode(', ', $this->orderings);
+
 		return $this;
 	}
 
@@ -428,7 +438,7 @@ class Query {
 	 */
 	public function skip($value)
 	{
-		$this->offset = $value;
+		$this->offset = 'OFFSET '.$value;
 		return $this;
 	}
 
@@ -440,7 +450,7 @@ class Query {
 	 */
 	public function take($value)
 	{
-		$this->limit = $value;
+		$this->limit = 'LIMIT '.$value;
 		return $this;
 	}
 
