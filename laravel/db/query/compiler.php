@@ -31,9 +31,7 @@ class Compiler {
 			if ( ! is_null($query->$clause)) $sql[] = call_user_func(array($this, 'compile_'.$clause), $query->$clause);
 		}
 
-		foreach ($sql as $key => $value) { if (is_null($value) or (string) $value === '') unset($sql[$key]); }
-
-		return implode(' ', $sql);
+		return implode(' ', array_filter($sql, function($value) { return ! is_null($value) and (string) $value !== ''; }));
 	}
 
 	/**
