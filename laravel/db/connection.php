@@ -152,7 +152,7 @@ class Connection {
 	 */
 	public function table($table)
 	{
-		return Query\Factory::make($table, $this);
+		return Query\Factory::make($table, $this, Query\Compiler\Factory::make($this));
 	}
 
 	/**

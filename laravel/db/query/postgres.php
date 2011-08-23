@@ -5,20 +5,23 @@ use Laravel\DB\Query;
 class Postgres extends Query {
 
 	/**
-	 * Execute an INSERT statement and get the insert ID.
+	 * Insert an array of values into the database table and return the value of the ID column.
+	 *
+	 * <code>
+	 *		// Insert into the "users" table and get the auto-incrementing ID
+	 *		$id = DB::table('users')->insert_get_id(array('email' => 'example@gmail.com'));
+	 * </code>
 	 *
 	 * @param  array  $values
 	 * @return int
 	 */
 	public function insert_get_id($values)
 	{
-		$sql = $this->compile_insert($values);
-
-		$query = $this->connection->pdo->prepare($sql.' RETURNING '.$this->wrap('id'));
+		$query = $this->connection->pdo->prepare($this->compiler->insert_get_id($this, $values));
 
 		$query->execute(array_values($values));
 
-		return $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
+		return (int) $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
 	}
 
 }

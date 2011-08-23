@@ -1,32 +1,27 @@
 <?php namespace Laravel\DB\Query;
 
 use Laravel\DB\Query;
-use Laravel\DB\Compiler;
 use Laravel\DB\Connection;
 
 class Factory {
 
 	/**
-	 * Create a new query instance for a given driver.
+	 * Create a new query instance based on the connection driver.
 	 *
-	 * @param  string  $table
+	 * @param  string      $table
 	 * @param  Connection  $connection
+	 * @param  Compiler    $compiler
 	 * @return Query
 	 */
-	public static function make($table, Connection $connection)
+	public static function make($table, Connection $connection, Compiler $compiler)
 	{
-		$query = (isset($connection->config['query'])) ? $connection->config['query'] : $connection->driver();
-
-		switch ($query)
+		switch ($connection->driver())
 		{
 			case 'pgsql':
-				return new Postgres($table, $connection, new Compiler);
-
-			case 'mysql':
-				return new MySQL($table, $connection, new Compiler);
+				return new Postgres($table, $connection, $compiler);
 
 			default:
-				return new Query($table, $connection, new Compiler);
+				return new Query($table, $connection, $compiler);
 		}
 	}
 

@@ -23,9 +23,17 @@ class Query {
 	/**
 	 * The SELECT clause.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $select;
+
+	/**
+	 * If the query is performing an aggregate function, this will contain the column
+	 * and and function to use when aggregating.
+	 *
+	 * @var array
+	 */
+	public $aggregate;
 
 	/**
 	 * Indicates if the query should return distinct results.
@@ -35,13 +43,6 @@ class Query {
 	public $distinct = false;
 
 	/**
-	 * The FROM clause.
-	 *
-	 * @var string
-	 */
-	public $from;
-
-	/**
 	 * The table name.
 	 *
 	 * @var string
@@ -49,25 +50,25 @@ class Query {
 	public $table;
 
 	/**
-	 * The WHERE clause.
-	 *
-	 * @var string
-	 */
-	public $where = 'WHERE 1 = 1';
-
-	/**
-	 * The ORDER BY clause.
-	 *
-	 * @var string
-	 */
-	public $order;
-
-	/**
-	 * The ORDER BY columns.
+	 * The table joins.
 	 *
 	 * @var array
 	 */
-	public $orderings = array();
+	public $joins;
+
+	/**
+	 * The WHERE clauses.
+	 *
+	 * @var array
+	 */
+	public $wheres;
+
+	/**
+	 * The ORDER BY clauses.
+	 *
+	 * @var array
+	 */
+	public $orderings;
 
 	/**
 	 * The LIMIT value.
@@ -95,14 +96,14 @@ class Query {
 	 *
 	 * @param  string      $table
 	 * @param  Connection  $connection
+	 * @param  Compiler    $compiler
 	 * @return void
 	 */
-	public function __construct($table, Connection $connection, Compiler $compiler)
+	public function __construct($table, Connection $connection, Query\Compiler $compiler)
 	{
 		$this->table = $table;
 		$this->compiler = $compiler;
 		$this->connection = $connection;
-		$this->from = 'FROM '.$this->wrap($table);
 	}
 
 	/**
@@ -113,38 +114,33 @@ class Query {
 	public function distinct()
 	{
 		$this->distinct = true;
+
 		return $this;
 	}
 
 	/**
-	 * Add columns to the SELECT clause.
+	 * Add an array of columns to the SELECT clause.
+	 *
+	 * <code>
+	 *		$query->select(array('id', 'email'));
+	 * </code>
 	 *
 	 * @param  array  $columns
 	 * @return Query
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->select = ($this->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
-
-		$this->select .= implode(', ', array_map(array($this, 'wrap'), $columns));
+		$this->select = $columns;
 
 		return $this;
 	}
 
 	/**
-	 * Set the FROM clause.
+	 * Add a join clause to the query.
 	 *
-	 * @param  string  $from
-	 * @return Query
-	 */
-	public function from($from)
-	{
-		$this->from = $from;
-		return $this;
-	}
-
-	/**
-	 * Add a join to the query.
+	 * <code>
+	 *		$query->join('users', 'users.id', '=', 'posts.user_id');
+	 * </code>
 	 *
 	 * @param  string  $table
 	 * @param  string  $column1
@@ -155,12 +151,17 @@ class Query {
 	 */
 	public function join($table, $column1, $operator, $column2, $type = 'INNER')
 	{
-		$this->from .= ' '.$type.' JOIN '.$this->wrap($table).' ON '.$this->wrap($column1).' '.$operator.' '.$this->wrap($column2);
+		$this->joins[] = compact('table', 'column1', 'operator', 'column2', 'type');
+
 		return $this;
 	}
 
 	/**
 	 * Add a left join to the query.
+	 *
+	 * <code>
+	 *		$query->left_join('users', 'users.id', '=', 'posts.user_id');
+	 * </code>
 	 *
 	 * @param  string  $table
 	 * @param  string  $column1
@@ -180,12 +181,17 @@ class Query {
 	 */
 	public function reset_where()
 	{
-		$this->where = 'WHERE 1 = 1';
+		$this->wheres = array();
+
 		$this->bindings = array();
 	}
 
 	/**
 	 * Add a raw where condition to the query.
+	 *
+	 * <code>
+	 *		$query->raw_where('user_id = ? and password = ?', array(1, 'secret'));
+	 * </code>
 	 *
 	 * @param  string  $where
 	 * @param  array   $bindings
@@ -194,7 +200,8 @@ class Query {
 	 */
 	public function raw_where($where, $bindings = array(), $connector = 'AND')
 	{
-		$this->where .= ' '.$connector.' '.$where;
+		$this->wheres[] = ' '.$connector.' '.$where;
+
 		$this->bindings = array_merge($this->bindings, $bindings);
 
 		return $this;
@@ -202,6 +209,10 @@ class Query {
 
 	/**
 	 * Add a raw or where condition to the query.
+	 *
+	 * <code>
+	 *		$query->raw_or_where('user_id = ? and password = ?', array(1, 'secret'));
+	 * </code>
 	 *
 	 * @param  string  $where
 	 * @param  array   $bindings
@@ -215,6 +226,10 @@ class Query {
 	/**
 	 * Add a where condition to the query.
 	 *
+	 * <code>
+	 *		$query->where('id', '=', 1);
+	 * </code>
+	 *
 	 * @param  string  $column
 	 * @param  string  $operator
 	 * @param  mixed   $value
@@ -223,7 +238,8 @@ class Query {
 	 */
 	public function where($column, $operator, $value, $connector = 'AND')
 	{
-		$this->where .= ' '.$connector.' '.$this->wrap($column).' '.$operator.' ?';
+		$this->wheres[] = array_merge(array('type' => 'where'), compact('column', 'operator', 'value', 'connector'));
+
 		$this->bindings[] = $value;
 
 		return $this;
@@ -231,6 +247,10 @@ class Query {
 
 	/**
 	 * Add an or where condition to the query.
+	 *
+	 * <code>
+	 *		$query->or_where('id', '=', 1);
+	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  string  $operator
@@ -244,7 +264,10 @@ class Query {
 
 	/**
 	 * Add a where condition for the primary key to the query.
-	 * This is simply a short-cut method for convenience.
+	 *
+	 * <code>
+	 *		$query->where_id(1);
+	 * </code>
 	 *
 	 * @param  mixed  $value
 	 * @return Query
@@ -256,7 +279,10 @@ class Query {
 
 	/**
 	 * Add an or where condition for the primary key to the query.
-	 * This is simply a short-cut method for convenience.
+	 *
+	 * <code>
+	 *		$query->or_where_id(1);
+	 * </code>
 	 *
 	 * @param  mixed  $value
 	 * @return Query
@@ -269,14 +295,20 @@ class Query {
 	/**
 	 * Add a where in condition to the query.
 	 *
+	 * <code>
+	 *		$query->where_in('id', array(1, 2, 3));
+	 * </code>
+	 *
 	 * @param  string  $column
 	 * @param  array   $values
 	 * @param  string  $connector
+	 * @param  bool    $not
 	 * @return Query
 	 */
-	public function where_in($column, $values, $connector = 'AND')
+	public function where_in($column, $values, $connector = 'AND', $not = false)
 	{
-		$this->where .= ' '.$connector.' '.$this->wrap($column).' IN ('.$this->parameterize($values).')';
+		$this->wheres[] = array_merge(array('type' => 'where_in'), compact('column', 'values', 'connector', 'not'));
+
 		$this->bindings = array_merge($this->bindings, $values);
 
 		return $this;
@@ -284,6 +316,10 @@ class Query {
 
 	/**
 	 * Add an or where in condition to the query.
+	 *
+	 * <code>
+	 *		$query->or_where_in('id', array(1, 2, 3));
+	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  array   $values
@@ -297,6 +333,10 @@ class Query {
 	/**
 	 * Add a where not in condition to the query.
 	 *
+	 * <code>
+	 *		$query->where_not_in('id', array(1, 2, 3));
+	 * </code>
+	 *
 	 * @param  string  $column
 	 * @param  array   $values
 	 * @param  string  $connector
@@ -304,14 +344,15 @@ class Query {
 	 */
 	public function where_not_in($column, $values, $connector = 'AND')
 	{
-		$this->where .= ' '.$connector.' '.$this->wrap($column).' NOT IN ('.$this->parameterize($values).')';
-		$this->bindings = array_merge($this->bindings, $values);
-
-		return $this;
+		return $this->where_in($column, $values, $connector, true);
 	}
 
 	/**
 	 * Add an or where not in condition to the query.
+	 *
+	 * <code>
+	 *		$query->or_where_not_in('id', array(1, 2, 3));
+	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  array   $values
@@ -327,11 +368,13 @@ class Query {
 	 *
 	 * @param  string  $column
 	 * @param  string  $connector
+	 * @param  bool    $not
 	 * @return Query
 	 */
-	public function where_null($column, $connector = 'AND')
+	public function where_null($column, $connector = 'AND', $not = false)
 	{
-		$this->where .= ' '.$connector.' '.$this->wrap($column).' IS NULL';
+		$this->wheres[] = array_merge(array('type' => 'where_null'), compact('column', 'connector', 'not'));
+
 		return $this;
 	}
 
@@ -355,8 +398,7 @@ class Query {
 	 */
 	public function where_not_null($column, $connector = 'AND')
 	{
-		$this->where .= ' '.$connector.' '.$this->wrap($column).' IS NOT NULL';
-		return $this;
+		return $this->where_null($column, $connector, true);
 	}
 
 	/**
@@ -417,15 +459,21 @@ class Query {
 	/**
 	 * Add an ordering to the query.
 	 *
+	 * <code>
+	 *		// Set an ascending sort on the query
+	 *		$query->order_by('votes', 'asc');
+	 *
+	 *		// Set a descending sort on the query
+	 *		$query->order_by('votes', 'desc');	 
+	 * </code>
+	 *
 	 * @param  string  $column
 	 * @param  string  $direction
 	 * @return Query
 	 */
 	public function order_by($column, $direction = 'asc')
 	{
-		$this->orderings[] = $this->wrap($column).' '.strtoupper($direction);
-
-		$this->order = 'ORDER BY '.implode(', ', $this->orderings);
+		$this->orderings[] = compact('column', 'direction');
 
 		return $this;
 	}
@@ -438,7 +486,8 @@ class Query {
 	 */
 	public function skip($value)
 	{
-		$this->offset = 'OFFSET '.$value;
+		$this->offset = $value;
+
 		return $this;
 	}
 
@@ -450,12 +499,13 @@ class Query {
 	 */
 	public function take($value)
 	{
-		$this->limit = 'LIMIT '.$value;
+		$this->limit = $value;
+
 		return $this;
 	}
 
 	/**
-	 * Set the limit and offset values for a given page.
+	 * Calculate and set the limit and offset values for a given page.
 	 *
 	 * @param  int    $page
 	 * @param  int    $per_page
@@ -468,6 +518,11 @@ class Query {
 
 	/**
 	 * Find a record by the primary key.
+	 *
+	 * <code>
+	 *		// Get the user having an ID of 1
+	 *		$user = DB::table('users')->find(1);
+	 * </code>
 	 *
 	 * @param  int     $id
 	 * @param  array   $columns
@@ -487,7 +542,7 @@ class Query {
 	 */
 	private function aggregate($aggregator, $column)
 	{
-		$this->select = 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
+		$this->aggregate = compact('aggregator', 'column');
 
 		$result = $this->connection->scalar($this->compiler->select($this), $this->bindings);
 
@@ -501,6 +556,17 @@ class Query {
 	/**
 	 * Get paginated query results.
 	 *
+	 * A Paginator instance will be returned, and the results of the query will be stored
+	 * in the "results" property of the Paginator instance.
+	 *
+	 * <code>
+	 *		// Paginate the "users" table
+	 *		$users = DB::table('users')->paginate(15);
+	 *
+	 *		// Paginate the "users" table with a where clause
+	 *		$users = DB::table('users')->where('votes', '>', 100)->paginate(10);
+	 * </code>
+	 *
 	 * @param  int        $per_page
 	 * @param  array      $columns
 	 * @return Paginator
@@ -509,14 +575,16 @@ class Query {
 	{
 		$total = $this->count();
 
-		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get($columns), $total, $per_page);
+		$results = $this->skip((Paginator::page($total, $per_page) - 1) * $per_page)->take($per_page)->get($columns);
+
+		return Paginator::make($results, $total, $per_page);
 	}
 
 	/**
 	 * Execute the query as a SELECT statement and return the first result.
 	 *
-	 * @param  array   $columns
-	 * @return object
+	 * @param  array     $columns
+	 * @return stdClass
 	 */
 	public function first($columns = array('*'))
 	{
@@ -543,7 +611,12 @@ class Query {
 	}
 
 	/**
-	 * Execute an INSERT statement.
+	 * Insert an array of values into the database table.
+	 *
+	 * <code>
+	 *		// Insert into the "users" table
+	 *		$success = DB::table('users')->insert(array('id' => 1, 'email' => 'example@gmail.com'));
+	 * </code>
 	 *
 	 * @param  array  $values
 	 * @return bool
@@ -554,7 +627,12 @@ class Query {
 	}
 
 	/**
-	 * Execute an INSERT statement and get the insert ID.
+	 * Insert an array of values into the database table and return the value of the ID column.
+	 *
+	 * <code>
+	 *		// Insert into the "users" table and get the auto-incrementing ID
+	 *		$id = DB::table('users')->insert_get_id(array('email' => 'example@gmail.com'));
+	 * </code>
 	 *
 	 * @param  array  $values
 	 * @return int
@@ -563,14 +641,19 @@ class Query {
 	{
 		$this->connection->query($this->compiler->insert($this, $values), array_values($values));
 
-		return $this->connection->pdo->lastInsertId();
+		return (int) $this->connection->pdo->lastInsertId();
 	}
 
 	/**
-	 * Execute the query as an UPDATE statement.
+	 * Update an array of values in the database table.
+	 *
+	 * <code>
+	 *		// Update a user's e-mail address
+	 *		$affected = DB::table('users')->where_id(1)->update(array('email' => 'new_email@example.com'));
+	 * </code>
 	 *
 	 * @param  array  $values
-	 * @return bool
+	 * @return int
 	 */
 	public function update($values)
 	{
@@ -580,8 +663,21 @@ class Query {
 	/**
 	 * Execute the query as a DELETE statement.
 	 *
+	 * Optionally, an ID may be passed to the method do delete a specific row.
+	 *
+	 * <code>
+	 *		// Delete everything from the "users" table
+	 *		$affected = DB::table('users')->delete();
+	 *
+	 *		// Delete a specific user from the table
+	 *		$affected = DB::table('users')->delete(1);
+	 *
+	 *		// Execute a delete statement with where conditions
+	 *		$affected = DB::table('users')->where_email($email)->delete();
+	 * </code>
+	 *
 	 * @param  int   $id
-	 * @return bool
+	 * @return int
 	 */
 	public function delete($id = null)
 	{
@@ -591,61 +687,17 @@ class Query {
 	}
 
 	/**
-	 * Wrap a value in keyword identifiers.
-	 *
-	 * @param  string      $value
-	 * @return string
-	 */
-	public function wrap($value)
-	{
-		if (strpos(strtolower($value), ' as ') !== false) return $this->wrap_alias($value);
-
-		foreach (explode('.', $value) as $segment)
-		{
-			$wrapped[] = ($segment != '*') ? $this->wrapper().$segment.$this->wrapper() : $segment;
-		}
-
-		return implode('.', $wrapped);
-	}
-
-	/**
-	 * Wrap an alias in keyword identifiers.
-	 *
-	 * @param  string      $value
-	 * @return string
-	 */
-	protected function wrap_alias($value)
-	{
-		$segments = explode(' ', $value);
-
-		return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
-	}
-
-	/**
-	 * Get the keyword identifier wrapper for the connection.
-	 *
-	 * MySQL uses a non-standard wrapper
-	 *
-	 * @return string
-	 */
-	protected function wrapper()
-	{
-		return '"';
-	}
-
-	/**
-	 * Create query parameters from an array of values.
-	 *
-	 * @param  array  $values
-	 * @return string
-	 */
-	public function parameterize($values)
-	{
-		return implode(', ', array_fill(0, count($values), '?'));
-	}
-
-	/**
 	 * Magic Method for handling dynamic functions.
+	 *
+	 * This method handles all calls to aggregate functions as well as the construction of dynamic where clauses.
+	 *
+	 * <code>
+	 *		// Get the total number of rows on the "users" table
+	 *		$count = DB::table('users')->count();
+	 *
+	 *		// Get a user using a dynamic where clause
+	 *		$user = DB::table('users')->where_email('example@gmail.com')->first();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

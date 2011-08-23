@@ -19,6 +19,11 @@ class MySQL extends Connector {
 			$dsn .= ';port='.$config['port'];
 		}
 
+		if (isset($config['socket']))
+		{
+			$dsn .= ';unix_socket='.$config['socket'];
+		}
+
 		$connection = new \PDO($dsn, $config['username'], $config['password'], $this->options);
 
 		if (isset($config['charset']))
