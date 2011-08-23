@@ -46,6 +46,11 @@ class Crypter {
 	/**
 	 * Create a new Crypter instance.
 	 *
+	 * Any cipher and mode supported by Mcrypt may be specified. For more information regarding
+	 * the supported ciphers and modes, check out: http://php.net/manual/en/mcrypt.ciphers.php
+	 *
+	 * By default, the AES-256 cipher will be used in CBC mode.
+	 *
 	 * @param  string  $cipher
 	 * @param  string  $mode
 	 * @param  string  $key
@@ -57,7 +62,7 @@ class Crypter {
 	}
 
 	/**
-	 * Encrypt a value using the MCrypt library.
+	 * Encrypt a string using Mcrypt.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -89,7 +94,7 @@ class Crypter {
 	}
 
 	/**
-	 * Decrypt a value using the MCrypt library.
+	 * Decrypt a string using Mcrypt.
 	 *
 	 * @param  string  $value
 	 * @return string
