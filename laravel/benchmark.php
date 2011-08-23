@@ -12,8 +12,7 @@ class Benchmark {
 	/**
 	 * Start a benchmark.
 	 *
-	 * After starting a benchmark, the elapsed time in milliseconds can be
-	 * retrieved using the "check" method.
+	 * After starting a benchmark, the elapsed time in milliseconds may be retrieved via the "check" method.
 	 *
 	 * @param  string  $name
 	 * @return void
