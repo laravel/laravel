@@ -74,6 +74,13 @@ class File {
 	/**
 	 * Get a file MIME type by extension.
 	 *
+	 * Any extension in the MIMEs configuration file may be passed to the method.
+	 *
+	 * <code>
+	 *		// Returns "application/x-tar"
+	 *		$mime = File::mime('tar');
+	 * </code>
+	 *
 	 * @param  string  $extension
 	 * @param  string  $default
 	 * @return string
@@ -93,9 +100,17 @@ class File {
 	/**
 	 * Determine if a file is a given type.
 	 *
-	 * The Fileinfo PHP extension will be used to determine the MIME type
-	 * of the file. Any extension in the mimes configuration array may
-	 * be passed as a type.
+	 * The Fileinfo PHP extension will be used to determine the MIME type of the file. Any extension
+	 * in the MIMEs configuration file may be passed as a type.
+	 *
+	 * <code>
+	 *		// Determine if the file is a JPG image
+	 *		$image = File::is('jpg', 'path/to/image.jpg');
+	 * </code>
+	 *
+	 * @param  string  $extension
+	 * @param  string  $path
+	 * @return bool
 	 */
 	public static function is($extension, $path)
 	{
