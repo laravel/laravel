@@ -38,7 +38,7 @@ class File {
 	}
 
 	/**
-	 * Extract the extension from a file path.
+	 * Extract the file extension from a file path.
 	 * 
 	 * @param  string  $path
 	 * @return string
