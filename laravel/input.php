@@ -87,6 +87,18 @@ class Input {
 	}
 
 	/**
+	 * Move an uploaded file to permanent storage.
+	 *
+	 * @param  string  $key
+	 * @param  string  $path
+	 * @return bool
+	 */
+	public static function upload($key, $path)
+	{
+		return array_key_exists($key, $_FILES) ? move_uploaded_file($_FILES[$key]['tmp_name'], $path) : false;
+	}
+
+	/**
 	 * Hydrate the input data for the request.
 	 *
 	 * @return void
