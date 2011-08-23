@@ -39,7 +39,7 @@ class Crypter {
 
 		if (trim((string) $this->key) === '')
 		{
-			throw new \Exception('The encryption class can not be used without an encryption key.');
+			throw new \Exception('The encryption class may not be used without an encryption key.');
 		}
 	}
 
