@@ -51,6 +51,13 @@ class File {
 	/**
 	 * Get the lines surrounding a given line in a file.
 	 *
+	 * The amount of padding with which to surround the line may also be specified.
+	 *
+	 * <code>
+	 *		// Get lines 10 - 20 of the "routes.php" file
+	 *		$lines = File::snapshot(APP_PATH.'routes'.EXT, 15, 5);
+	 * </code>
+	 *
 	 * @param  string  $path
 	 * @param  int     $line
 	 * @param  int     $padding
@@ -64,11 +71,9 @@ class File {
 
 		array_unshift($file, '');
 
-		if (($start = $line - $padding) < 0) $start = 0;
+		$length = ($line - ($start = $line - $padding)) + $padding + 1;
 
-		if (($length = ($line - $start) + $padding + 1) < 0) $length = 0;
-
-		return array_slice($file, $start, $length, true);
+		return array_slice($file, ($start > 0) ? $start : 0, ($length > 0) ? $length : 0, true);
 	}
 
 	/**
@@ -89,12 +94,9 @@ class File {
 	{
 		$mimes = Config::get('mimes');
 
-		if (array_key_exists($extension, $mimes))
-		{
-			return (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
-		}
+		if ( ! array_key_exists($extension, $mimes)) return $default;
 
-		return $default;
+		return (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 	}
 
 	/**
