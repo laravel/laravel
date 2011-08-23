@@ -17,7 +17,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @param  bool    $https
 	 * @return string
-	 */	
+	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
 		$attributes['action'] = HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
