@@ -229,7 +229,7 @@ class Session {
 		{
 			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
 
-			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'), Config::get('http_only'));
+			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'), Config::get('session.http_only'));
 		}
 	}
 
