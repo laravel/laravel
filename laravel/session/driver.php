@@ -231,11 +231,9 @@ abstract class Driver {
 	{
 		if ( ! headers_sent())
 		{
-			extract(Config::get('session'));
+			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
 
-			$minutes = ($expire_on_close) ? 0 : $lifetime;
-
-			Cookie::put('laravel_session', $this->session['id'], $minutes, $path, $domain, $https, $http_only);
+			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'), Config::get('http_only'));
 		}
 	}
 
