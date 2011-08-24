@@ -9,7 +9,7 @@ class Router {
 	 *
 	 * @var string
 	 */
-	public $request;
+	public $destination;
 
 	/**
 	 * All of the loaded routes.
@@ -19,33 +19,46 @@ class Router {
 	public $routes;
 
 	/**
+	 * The current request instance.
+	 *
+	 * @var Request
+	 */
+	private $request;
+
+	/**
+	 * The route loader instance.
+	 *
+	 * @var Loader
+	 */
+	private $loader;
+
+	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  string  $method
-	 * @param  string  $uri
-	 * @param  Loader  $loader
+	 * @param  Request  $request
+	 * @param  Loader   $loader
 	 * @return void
 	 */
-	public function __construct($method, $uri, $loader)
+	public function __construct(Request $request, Loader $loader)
 	{
+		$this->loader = $loader;
+		$this->request = $request;
+
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$this->request = $method.' /'.trim($uri, '/');
-
-		$this->routes = $loader->load($uri);
+		$this->destination = $request->method().' /'.trim($request->uri(), '/');
 	}
 
 	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  string  $method
-	 * @param  string  $uri
-	 * @param  Loader  $loader
+	 * @param  Request  $request
+	 * @param  Loader   $loader
 	 * @return Router
 	 */
-	public static function make($method, $uri, $loader)
+	public static function make(Request $request, Loader $loader)
 	{
-		return new static($method, $uri, $loader);
+		return new static($request, $loader);
 	}
 
 	/**
@@ -55,11 +68,13 @@ class Router {
 	 */
 	public function route()
 	{
+		if (is_null($this->routes)) $this->routes = $this->loader->load($this->request->uri());
+
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
-		if (isset($this->routes[$this->request]))
+		if (isset($this->routes[$this->destination]))
 		{
-			return Request::$route = new Route($this->request, $this->routes[$this->request]);
+			return $this->request->route = new Route($this->destination, $this->routes[$this->destination]);
 		}
 
 		foreach ($this->routes as $keys => $callback)
@@ -70,9 +85,9 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $key)
 				{
-					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $this->request))
+					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $this->destination))
 					{
-						return Request::$route = new Route($keys, $callback, $this->parameters($this->request, $key));
+						return $this->request->route = new Route($keys, $callback, $this->parameters($this->destination, $key));
 					}
 				}				
 			}

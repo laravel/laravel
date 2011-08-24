@@ -22,6 +22,13 @@ class Auth {
 	protected $session;
 
 	/**
+	 * The hashing engine that should be used to perform hashing.
+	 *
+	 * @var Hash\Engine
+	 */
+	protected $hasher;
+
+	/**
 	 * The key used to store the user ID in the session.
 	 *
 	 * @var string
@@ -31,11 +38,13 @@ class Auth {
 	/**
 	 * Create a new Auth class instance.
 	 *
-	 * @param  Session\Driver  $session_driver
+	 * @param  Session\Driver  $driver
+	 * @param  Hash\Engine     $hasher
 	 * @return void
 	 */
-	public function __construct(Session\Driver $driver)
+	public function __construct(Session\Driver $driver, Hash\Engine $hasher)
 	{
+		$this->hasher = $hasher;
 		$this->session = $driver;
 	}
 
@@ -97,7 +106,7 @@ class Auth {
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
 		{
-			if (Hash::check($password, $user->password))
+			if ($this->hasher->check($password, $user->password))
 			{
 				$this->remember($user);
 
@@ -140,24 +149,6 @@ class Auth {
 		$this->user = null;
 
 		$this->session->forget(static::$key);
-	}
-
-	/**
-	 * Pass all other methods to a generic Auth instance.
-	 *
-	 * This provides a convenient API for working with the default Auth configuration.
-	 *
-	 * <code>
-	 *		// Get the current user of your application
-	 *		$user = Auth::user();
-	 *
-	 *		// Equivalent call using make method
-	 *		$user = Auth::make()->user();
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		return call_user_func_array(array(new static(Session::driver()), $method), $parameters);
 	}
 
 }

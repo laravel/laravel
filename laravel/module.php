@@ -61,14 +61,18 @@ class Module {
 	{
 		if (array_key_exists($module, static::$paths)) return static::$paths[$module];
 
-		if (in_array($module, static::$modules))
+		if (array_key_exists($module, static::$modules))
+		{
+			return (static::$modules[$module] == DEFAULT_MODULE_PATH) ? static::$modules[$module] : MODULE_PATH.static::$modules[$module].'/';
+		}
+		elseif (in_array($module, static::$modules))
 		{
 			return static::$paths[$module] = MODULE_PATH.$module.'/';
 		}
 	}
 
 	/**
-	 * Get the an array of paths to all of the modules.
+	 * Get an array of paths to all of the modules.
 	 *
 	 * @return array
 	 */

@@ -4,7 +4,7 @@
  *
  * @package  Laravel
  * @version  2.0.0
- * @author   Taylor Otwell
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
 
@@ -38,15 +38,17 @@ $active = array();
 |
 */
 
-$laravel  = '../laravel';
+$application = '../application';
 
-$packages = '../packages';
+$laravel     = '../laravel';
 
-$modules  = '../modules';
+$packages    = '../packages';
 
-$storage  = '../storage';
+$modules     = '../modules';
 
-$public   = __DIR__;
+$storage     = '../storage';
+
+$public      = __DIR__;
 
 /*
 |--------------------------------------------------------------------------

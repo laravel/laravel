@@ -5,6 +5,8 @@ class HTML {
 	/**
 	 * Convert HTML characters to entities.
 	 *
+	 * The encoding specified in the application configuration file will be used.
+	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -36,7 +38,7 @@ class HTML {
 	{
 		if ( ! array_key_exists('media', $attributes)) $attributes['media'] = 'all';
 
-		$attributes = $attributes + array('rel' => 'stylesheet', 'type' => 'text/css');
+		$attributes = array_merge($attributes, array('rel' => 'stylesheet', 'type' => 'text/css'));
 
 		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
@@ -110,6 +112,16 @@ class HTML {
 	/**
 	 * Generate an HTML link to a route.
 	 *
+	 * An array of parameters may be specified to fill in URI segment wildcards.
+	 *
+	 * <code>
+	 *		// Link to the "login" route
+	 *		echo HTML::link_to_route('login', 'Login');
+	 *
+	 *		// Link to the "profile" route, which has a URI of "/profile/(:any)"
+	 *		echo HTML::link_to_route('profile', 'Profile', array('taylor'));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $title
 	 * @param  array   $parameters
@@ -137,6 +149,8 @@ class HTML {
 
 	/**
 	 * Generate an HTML mailto link.
+	 *
+	 * The E-Mail address will be obfuscated to protect it from spam bots.
 	 *
 	 * @param  string  $email
 	 * @param  string  $title
@@ -282,6 +296,16 @@ class HTML {
 
 	/**
 	 * Magic Method for handling dynamic static methods.
+	 *
+	 * This method primarily handles dynamic calls to create links to named routes.
+	 *
+	 * <code>
+	 *		// Link to the "login" route
+	 *		echo HTML::link_to_login('Login');
+	 *
+	 *		// Link to the "profile" route, which has a URI of "/profile/(:any)"
+	 *		echo HTML::link_to_profile('Profile', array('taylor'));
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

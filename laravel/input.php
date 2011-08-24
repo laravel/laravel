@@ -3,22 +3,92 @@
 class Input {
 
 	/**
-	 * The input data for the request.
+	 * The applicable input for the request.
 	 *
 	 * @var array
 	 */
-	public static $input;
+	public $input;
+
+	/**
+	 * The $_GET array for the request.
+	 *
+	 * @var array
+	 */
+	public $get;
+
+	/**
+	 * The $_POST array for the request.
+	 *
+	 * @var array
+	 */
+	public $post;
+
+	/**
+	 * The $_COOKIE array for the request.
+	 *
+	 * @var array
+	 */
+	public $cookies;
+
+	/**
+	 * The $_FILES array for the request.
+	 *
+	 * @var array
+	 */
+	public $files;
+
+	/**
+	 * Create a new Input instance.
+	 *
+	 * @param  Request  $request
+	 * @param  array    $get
+	 * @param  array    $post
+	 * @param  array    $cookies
+	 * @param  array    $files
+	 */
+	public function __construct(Request $request, $get, $post, $cookies, $files)
+	{
+		$this->get = $get;
+		$this->post = $post;
+		$this->files = $files;
+		$this->cookies = $cookies;
+
+		$this->hydrate($request->method(), $request->is_spoofed());
+	}
+
+	/**
+	 * Hydrate the input for a given request.
+	 *
+	 * @param  string  $method
+	 * @param  bool    $spoofed
+	 * @return void
+	 */
+	private function hydrate($method, $spoofed)
+	{
+		if ($method == 'GET')
+		{
+			$this->input = $this->get;
+		}
+		elseif ($method == 'POST')
+		{
+			$this->input = $this->post;
+		}
+		elseif ($method == 'PUT' or $method == 'DELETE')
+		{
+			($spoofed) ? $this->input = $this->post : parse_str(file_get_contents('php://input'), $this->input);
+		}
+	}
 
 	/**
 	 * Get all of the input data for the request.
 	 *
-	 * This method returns a merged array containing Input::get and Input::file.
+	 * This method returns a merged array containing $input->get() and $input->files().
 	 *
 	 * @return array
 	 */
-	public static function all()
+	public function all()
 	{
-		return array_merge(static::get(), static::file());
+		return array_merge($this->get(), $this->file());
 	}
 
 	/**
@@ -27,9 +97,9 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public function has($key)
 	{
-		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) !== '');
+		return ( ! is_null($this->get($key)) and trim((string) $this->get($key)) !== '');
 	}
 
 	/**
@@ -39,11 +109,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public static function get($key = null, $default = null)
+	public function get($key = null, $default = null)
 	{
-		if (is_null(static::$input)) static::hydrate();
-
-		return Arr::get(static::$input, $key, $default);
+		return Arr::get($this->input, $key, $default);
 	}
 
 	/**
@@ -52,26 +120,24 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function had($key)
+	public function had($key)
 	{
-		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) !== '');
+		return ( ! is_null($this->old($key)) and trim((string) $this->old($key)) !== '');
 	}
 
 	/**
 	 * Get input data from the previous request.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param  string          $key
+	 * @param  mixed           $default
+	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public static function old($key = null, $default = null)
+	public function old($key = null, $default = null, Session\Driver $driver = null)
 	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception("Sessions must be enabled to retrieve old input data.");
-		}
+		if (is_null($driver)) $driver = Session::driver();
 
-		return Arr::get(Session::get('laravel_old_input', array()), $key, $default);
+		return Arr::get($driver->get('laravel_old_input', array()), $key, $default);
 	}
 
 	/**
@@ -81,9 +147,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return array
 	 */
-	public static function file($key = null, $default = null)
+	public function file($key = null, $default = null)
 	{
-		return Arr::get($_FILES, $key, $default);
+		return Arr::get($this->files, $key, $default);
 	}
 
 	/**
@@ -93,39 +159,17 @@ class Input {
 	 * @param  string  $path
 	 * @return bool
 	 */
-	public static function upload($key, $path)
+	public function upload($key, $path)
 	{
-		return array_key_exists($key, $_FILES) ? move_uploaded_file($_FILES[$key]['tmp_name'], $path) : false;
+		return array_key_exists($key, $this->files) ? move_uploaded_file($this->files[$key]['tmp_name'], $path) : false;
 	}
 
 	/**
-	 * Hydrate the input data for the request.
-	 *
-	 * @return void
+	 * Magic Method for retrieving items from the request input.
 	 */
-	public static function hydrate()
+	public function __get($key)
 	{
-		switch (Request::method())
-		{
-			case 'GET':
-				static::$input =& $_GET;
-				break;
-
-			case 'POST':
-				static::$input =& $_POST;
-				break;
-
-			case 'PUT':
-			case 'DELETE':
-				if (Request::spoofed())
-				{
-					static::$input =& $_POST;
-				}
-				else
-				{
-					parse_str(file_get_contents('php://input'), static::$input);
-				}
-		}
+		return $this->get($key);
 	}
 
 }

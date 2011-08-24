@@ -3,92 +3,127 @@
 class Request {
 
 	/**
+	 * The request instance for the current request.
+	 *
+	 * @var Request
+	 */
+	private static $active;
+
+	/**
+	 * The $_SERVER array for the request.
+	 *
+	 * @var array
+	 */
+	private $server;
+
+	/**
+	 * The input instance for the request.
+	 *
+	 * @var Input
+	 */
+	public $input;
+
+	/**
 	 * The route handling the current request.
 	 *
-	 * @var Route
+	 * @var Routing\Route
 	 */
-	public static $route;
+	public $route;
 
 	/**
 	 * The request URI.
 	 *
 	 * @var string
 	 */
-	public static $uri;
+	private $uri;
 
 	/**
-	 * Get the request URI.
+	 * Create a new request instance.
 	 *
-	 * If the request is to the root of application, a single forward slash will be returned.
-	 *
-	 * @return string
+	 * @param  array  $server
+	 * @return void
 	 */
-	public static function uri()
+	public function __construct($server)
 	{
-		if ( ! is_null(static::$uri)) return static::$uri;
+		$this->server = $server;
 
-		$uri = static::raw_uri();
-
-		if (strpos($uri, $base = parse_url(Config::get('application.url'), PHP_URL_PATH)) === 0)
-		{
-			$uri = substr($uri, strlen($base));
-		}
-
-		if (strpos($uri, $index = '/index.php') === 0)
-		{
-			$uri = substr($uri, strlen($index));
-		}
-
-		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+		static::$active = $this;
 	}
 
 	/**
-	 * Get the raw request URI from the $_SERVER array.
+	 * Get the request instance for the current request.
+	 *
+	 * @return Request
+	 */
+	public static function active()
+	{
+		return static::$active;
+	}
+
+	/**
+	 * Get the raw request URI.
 	 *
 	 * @return string
 	 */
-	private static function raw_uri()
+	public function uri()
 	{
-		if (isset($_SERVER['PATH_INFO']))
+		if ( ! is_null($this->uri)) return $this->uri;
+
+		if (isset($this->server['PATH_INFO']))
 		{
-			$uri = $_SERVER['PATH_INFO'];
+			$uri = $this->server['PATH_INFO'];
 		}
-		elseif (isset($_SERVER['REQUEST_URI']))
+		elseif (isset($this->server['REQUEST_URI']))
 		{
-			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
 		}
 		else
 		{
-			throw new \Exception('Unable to determine the request URI.');
+			die('Unable to determine the request URI.');
 		}
 
-		if ($uri === false)
+		if ($uri === false) die('Malformed request URI. Request terminated.');
+
+		return $this->uri = $this->remove_from_uri($uri, array(parse_url(Config::get('application.url'), PHP_URL_PATH), '/index.php'));
+	}
+
+	/**
+	 * Remove an array of values from the beginning from a URI.
+	 *
+	 * @param  string  $uri
+	 * @param  array   $values
+	 * @return string
+	 */
+	private function remove_from_uri($uri, $values)
+	{
+		foreach ($values as $value)
 		{
-			throw new \Exception("Malformed request URI. Request terminated.");
+			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 		}
-
+		
 		return $uri;
 	}
 
 	/**
 	 * Get the request method.
 	 *
+	 * Note: If the request method is being spoofed, the spoofed method will be returned.
+	 *
 	 * @return string
 	 */
-	public static function method()
+	public function method()
 	{
-		return (static::spoofed()) ? $_POST['REQUEST_METHOD'] : $_SERVER['REQUEST_METHOD'];
+		return ($this->is_spoofed()) ? $_POST['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
 	}
 
 	/**
 	 * Determine if the request method is being spoofed by a hidden Form element.
 	 *
-	 * Hidden form elements are used to spoof PUT and DELETE requests since
-	 * they are not supported by HTML forms.
+	 * Hidden elements are used to spoof PUT and DELETE requests since they are not supported by HTML forms.
 	 *
 	 * @return bool
 	 */
-	public static function spoofed()
+	public function is_spoofed()
 	{
 		return is_array($_POST) and array_key_exists('REQUEST_METHOD', $_POST);
 	}
@@ -98,30 +133,30 @@ class Request {
 	 *
 	 * @return string
 	 */
-	public static function ip()
+	public function ip()
 	{
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
 		{
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+			return $this->server['HTTP_X_FORWARDED_FOR'];
 		}
-		elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+		elseif (isset($this->server['HTTP_CLIENT_IP']))
 		{
-			return $_SERVER['HTTP_CLIENT_IP'];
+			return $this->server['HTTP_CLIENT_IP'];
 		}
-		elseif (isset($_SERVER['REMOTE_ADDR']))
+		elseif (isset($this->server['REMOTE_ADDR']))
 		{
-			return $_SERVER['REMOTE_ADDR'];
+			return $this->server['REMOTE_ADDR'];
 		}
 	}
 
 	/**
-	 * Get the HTTP protocol for the request.
+	 * Get the HTTP protocol for the request (http or https).
 	 *
 	 * @return string
 	 */
-	public static function protocol()
+	public function protocol()
 	{
-		return (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+		return (isset($this->server['HTTPS']) and $this->server['HTTPS'] !== 'off') ? 'https' : 'http';
 	}
 
 	/**
@@ -129,9 +164,9 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public static function is_secure()
+	public function is_secure()
 	{
-		return (static::protocol() == 'https');
+		return ($this->protocol() == 'https');
 	}
 
 	/**
@@ -139,9 +174,9 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public static function is_ajax()
+	public function is_ajax()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return (isset($this->server['HTTP_X_REQUESTED_WITH']) and strtolower($this->server['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 	/**
@@ -150,19 +185,32 @@ class Request {
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function route_is($name)
+	public function route_is($name)
 	{
-		return (is_array(static::$route->callback) and isset(static::$route->callback['name']) and  static::$route->callback['name'] === $name);
+		if (is_null($this->route) or ! is_array($this->route->callback) or ! isset($this->route->callback['name'])) return false;
+
+		return $this->route->callback['name'] === $name;
 	}
 
 	/**
 	 * Magic Method to handle dynamic static methods.
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
 		if (strpos($method, 'route_is_') === 0)
 		{
-			return static::route_is(substr($method, 9));
+			return $this->route_is(substr($method, 9));
+		}
+	}
+
+	/**
+	 * Magic Method for dynamically retrieving properties of the request instance.
+	 */
+	public function __get($key)
+	{
+		if ($key === 'input')
+		{
+			return $this->input->all();
 		}
 	}
 

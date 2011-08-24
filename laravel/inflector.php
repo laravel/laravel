@@ -114,6 +114,26 @@ class Inflector {
 	);
 
 	/**
+	 * Get the plural form of a word if the specified count is greater than one.
+	 *
+	 * <code>
+	 *		// Returns "friend"
+	 *		Inflector::plural_if('friend', 1);
+	 *
+	 *		// Returns "friends"
+	 *		Inflector::plural_if('friend', 2);
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @param  int	 $count
+	 * @return string
+	 */
+	public static function plural_if($value, $count)
+	{
+		return ($count > 1) ? static::plural($value) : $value;
+	}
+
+	/**
 	 * Convert a word to its plural form.
 	 *
 	 * @param  string  $value
@@ -121,35 +141,7 @@ class Inflector {
 	 */
 	public static function plural($value)
 	{
-		if (array_key_exists($value, static::$plural_cache))
-		{
-			return static::$plural_cache[$value];
-		}
-		
-		if (in_array(strtolower($value), static::$uncountable))
-		{
-			return static::$plural_cache[$value] = $value;
-		}
-
-		foreach (static::$irregular as $pattern => $irregular)
-		{
-			$pattern = '/'.$pattern.'$/i';
-
-			if (preg_match($pattern, $value))
-			{
-				return static::$plural_cache[$value] = preg_replace($pattern, $irregular, $value);
-			}
-		}
-
-		foreach (static::$plural as $pattern => $plural)
-		{
-			if (preg_match($pattern, $value))
-			{
-				return static::$plural_cache[$value] = preg_replace($pattern, $plural, $value);
-			}
-		}
-
-		return static::$plural_cache[$value] = $value;
+		return static::$plural_cache[$value] = static::inflect($value, static::$plural_cache, array_flip(static::$irregular), static::$plural);
 	}
 
 	/**
@@ -160,47 +152,47 @@ class Inflector {
 	 */
 	public static function singular($value)
 	{
-		if (array_key_exists($value, static::$singular_cache))
+		return static::$singular_cache[$value] = static::inflect($value, static::$singular_cache, static::$irregular, static::$singular);
+	}
+
+	/**
+	 * Convert a word to its singular or plural form.
+	 *
+	 * @param  string  $value
+	 * @param  array   $cache
+	 * @param  array   $irregular
+	 * @param  array   $source
+	 * @return string
+	 */
+	private static function inflect($value, $cache, $irregular, $source)
+	{
+		if (array_key_exists($value, $cache))
 		{
-			return static::$singular_cache[$value];
+			return $cache[$value];
 		}
 
 		if (in_array(strtolower($value), static::$uncountable))
 		{
-			return static::$singular_cache[$value] = $value;
+			return $value;
 		}
 
-		foreach (static::$irregular as $irregular => $pattern)
+		foreach ($irregular as $irregular => $pattern)
 		{
-			$pattern = '/'.$pattern.'$/i';
-
-			if (preg_match($pattern, $value))
+			if (preg_match($pattern = '/'.$pattern.'$/i', $value))
 			{
-				return static::$singular_cache[$value] = preg_replace($pattern, $irregular, $value);
+				return preg_replace($pattern, $irregular, $value);
 			}
 		}
 
-		foreach (static::$singular as $pattern => $singular)
+		foreach ($source as $pattern => $inflected)
 		{
 			if (preg_match($pattern, $value))
 			{
-				return static::$singular_cache[$value] = preg_replace($pattern, $singular, $value);
+				return preg_replace($pattern, $inflected, $value);
 			}
 		}
 
-		return static::$singular_cache[$value] = $value;
-	}
-
-	/**
-	 * Get the plural form of a word if the count is greater than zero.
-	 *
-	 * @param  string  $value
-	 * @param  int	 $count
-	 * @return string
-	 */
-	public static function plural_if($value, $count)
-	{
-		return ($count > 1) ? static::plural($value) : $value;
+		return $value;
 	}
 
 }

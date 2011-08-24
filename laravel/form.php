@@ -3,7 +3,10 @@
 class Form {
 
 	/**
-	 * Stores labels names.
+	 * All of the label names that have been created.
+	 *
+	 * These names are stored so that input elements can automatically be assigned
+	 * an ID based on the corresponding label name.
 	 *
 	 * @var array
 	 */
@@ -11,6 +14,21 @@ class Form {
 
 	/**
 	 * Open a HTML form.
+	 *
+	 * <code>
+	 *		// Open a POST form for the current URI
+	 *		echo Form::open();
+	 *
+	 *		// Open a POST form to a specified URI
+	 *		echo Form::open('user/login');
+	 *
+	 *		// Open a PUT form to a specified URI
+	 *		echo Form::open('user/profile', 'put');
+	 * </code>
+	 *
+	 * Note: If PUT or DELETE is specified as the form method, a hidden input field will be generated
+	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
+	 *       hidden field will allow us to "spoof" PUT and DELETE requests.
 	 *
 	 * @param  string  $action
 	 * @param  string  $method
@@ -20,29 +38,48 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
-		$attributes['action'] = HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
-
-		// PUT and DELETE methods are spoofed using a hidden field containing the request method.
-		// Since, HTML does not support PUT and DELETE on forms, we will use POST.
-		$attributes['method'] = ($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method;
+		list($attributes['action'], $attributes['method']) = array(static::action($action, $https), static::method($method));
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
 			$attributes['accept-charset'] = Config::get('application.encoding');			
 		}
 
-		$html = '<form'.HTML::attributes($attributes).'>';
+		$append = ($method == 'PUT' or $method == 'DELETE') ? static::hidden('REQUEST_METHOD', $method) : '';
 
-		if ($method == 'PUT' or $method == 'DELETE')
-		{
-			$html .= PHP_EOL.static::input('hidden', 'REQUEST_METHOD', $method);
-		}
-
-		return $html.PHP_EOL;
+		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
 	}
 
 	/**
-	 * Open a HTML form with a HTTPS action.
+	 * Determine the appropriate request method to use for a form.
+	 *
+	 * Since PUT and DELETE requests are spoofed using POST requests, we will substitute
+	 * POST for any PUT or DELETE methods. Otherwise, the specified method will be used.
+	 *
+	 * @param  string  $method
+	 * @return string
+	 */
+	private static function method($method)
+	{
+		return strtoupper(($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method);
+	}
+
+	/**
+	 * Determine the appropriate action parameter to use for a form.
+	 *
+	 * If no action is specified, the current request URI will be used.
+	 *
+	 * @param  string  $action
+	 * @param  bool    $https
+	 * @return string
+	 */
+	private static function action($action, $https)
+	{
+		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
+	}
+
+	/**
+	 * Open a HTML form with a HTTPS action URI.
 	 *
 	 * @param  string  $action
 	 * @param  string  $method
@@ -71,7 +108,7 @@ class Form {
 	}
 
 	/**
-	 * Open a HTML form that accepts file uploads with a HTTPS action.
+	 * Open a HTML form that accepts file uploads with a HTTPS action URI.
 	 *
 	 * @param  string  $action
 	 * @param  string  $method
@@ -96,30 +133,39 @@ class Form {
 	/**
 	 * Generate a hidden field containing the current CSRF token.
 	 *
+	 * If a session driver is not provided, the default session driver will be used.
+	 *
+	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public static function token()
+	public static function token(Session\Driver $driver = null)
 	{
-		return static::input('hidden', 'csrf_token', static::raw_token());
+		if (is_null($driver)) $driver = Session::driver();
+
+		return static::input('hidden', 'csrf_token', static::raw_token($driver));
 	}
 
 	/**
 	 * Retrieve the current CSRF token.
 	 *
+	 * If a session driver is not provided, the default session driver will be used.
+	 *
+	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public static function raw_token()
+	public static function raw_token(Session\Driver $driver = null)
 	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception('Sessions must be enabled to retrieve a CSRF token.');			
-		}
+		if (is_null($driver)) $driver = Session::driver();
 
-		return Session::get('csrf_token');
+		return $driver->get('csrf_token');
 	}
 
 	/**
 	 * Create a HTML label element.
+	 *
+	 * <code>
+	 *		echo Form::label('email', 'E-Mail Address');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -135,6 +181,17 @@ class Form {
 
 	/**
 	 * Create a HTML input element.
+	 *
+	 * If an ID attribute is not specified and a label has been generated matching the input
+	 * element name, the label name will be used as the element ID.
+	 *
+	 * <code>
+	 *		// Generate a text type input element
+	 *		echo Form::input('text', 'email');
+	 *
+	 *		// Generate a hidden type input element with a specified value
+	 *		echo Form::input('hidden', 'secret', 'This is a secret.');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $value
@@ -284,6 +341,11 @@ class Form {
 
 	/**
 	 * Create a HTML select element.
+	 *
+	 * <code>
+	 *		// Generate a drop-down with the "S" item selected
+	 *		echo Form::select('sizes', array('L' => 'Large', 'S' => 'Small'), 'S');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $options

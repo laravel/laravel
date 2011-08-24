@@ -8,6 +8,7 @@ define('EXT', '.php');
 // --------------------------------------------------------------
 // Define the core framework paths.
 // --------------------------------------------------------------
+define('APP_PATH',     realpath($application).'/');
 define('BASE_PATH',    realpath(str_replace('laravel', '', $laravel)).'/');
 define('MODULE_PATH',  realpath($modules).'/');
 define('PACKAGE_PATH', realpath($packages).'/');
@@ -15,18 +16,25 @@ define('PUBLIC_PATH',  realpath($public).'/');
 define('STORAGE_PATH', realpath($storage).'/');
 define('SYS_PATH',     realpath($laravel).'/');
 
-unset($laravel, $config, $modules, $packages, $public, $storage);
+unset($laravel, $application, $config, $modules, $packages, $public, $storage);
 
 // --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
 define('CACHE_PATH',    STORAGE_PATH.'cache/');
-define('CONFIG_PATH',   SYS_PATH.'config/');
+define('CONFIG_PATH',   APP_PATH.'config/');
 define('DATABASE_PATH', STORAGE_PATH.'db/');
 define('LANG_PATH',     SYS_PATH.'lang/');
 define('SCRIPT_PATH',   PUBLIC_PATH.'js/');
 define('SESSION_PATH',  STORAGE_PATH.'sessions/');
 define('STYLE_PATH',    PUBLIC_PATH.'css/');
+
+// --------------------------------------------------------------
+// Define the default module and path.
+// --------------------------------------------------------------
+define('DEFAULT_MODULE', 'application');
+
+define('DEFAULT_MODULE_PATH', APP_PATH);
 
 // --------------------------------------------------------------
 // Load the classes used by the auto-loader.
@@ -37,31 +45,26 @@ require SYS_PATH.'module'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 // --------------------------------------------------------------
-// Define the default module.
-// --------------------------------------------------------------
-define('DEFAULT_MODULE', 'application');
-
-// --------------------------------------------------------------
 // Register the active modules.
 // --------------------------------------------------------------
-Module::$modules = array_merge(array('application'), $active);
+Module::$modules = array_merge(array(DEFAULT_MODULE => DEFAULT_MODULE_PATH), $active);
 
 unset($active);
-
-// --------------------------------------------------------------
-// Define the default module path.
-// --------------------------------------------------------------
-define('DEFAULT_MODULE_PATH', Module::path(DEFAULT_MODULE));
 
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
 Loader::bootstrap(array(
-	Module::path(DEFAULT_MODULE).'libraries/',
-	Module::path(DEFAULT_MODULE).'models/',
+	APP_PATH.'libraries/',
+	APP_PATH.'models/',
 ));
 
 spl_autoload_register(array('Laravel\\Loader', 'load'));
+
+// --------------------------------------------------------------
+// Set the default timezone.
+// --------------------------------------------------------------
+date_default_timezone_set(Config::get('application.timezone'));
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -71,9 +74,26 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 'Off');
 
 // --------------------------------------------------------------
-// Set the default timezone.
+// Initialize the request instance for the request.
 // --------------------------------------------------------------
-date_default_timezone_set(Config::get('application.timezone'));
+$request = new Request($_SERVER);
+
+// --------------------------------------------------------------
+// Hydrate the input for the current request.
+// --------------------------------------------------------------
+$request->input = new Input($request, $_GET, $_POST, $_COOKIE, $_FILES);
+
+// --------------------------------------------------------------
+// Determine the module that should handle the request.
+// --------------------------------------------------------------
+$segments = explode('/', $request->uri());
+
+define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $segments[0] : DEFAULT_MODULE);
+
+// --------------------------------------------------------------
+// Determine the path to the root of the active module.
+// --------------------------------------------------------------
+define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
 
 // --------------------------------------------------------------
 // Register the error / exception handlers.
@@ -110,20 +130,6 @@ register_shutdown_function(function() use ($error_dependencies)
 		Exception\Handler::make(new \ErrorException($message, $type, 0, $file, $line))->handle();
 	}	
 });
-
-// --------------------------------------------------------------
-// Determine the module that should handle the request.
-// --------------------------------------------------------------
-require SYS_PATH.'request'.EXT;
-
-$segments = explode('/', Request::uri());
-
-define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $segments[0] : DEFAULT_MODULE);
-
-// --------------------------------------------------------------
-// Determine the path to the root of the active module.
-// --------------------------------------------------------------
-define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
 
 // --------------------------------------------------------------
 // Load the session.
@@ -167,7 +173,7 @@ if (file_exists(ACTIVE_MODULE_PATH.'filters'.EXT))
 // --------------------------------------------------------------
 foreach (array('before', ACTIVE_MODULE.'::before') as $filter)
 {
-	$response = Routing\Filter::call($filter, array(Request::method(), Request::uri()), true);
+	$response = Routing\Filter::call($filter, array($request->method(), $request->uri()), true);
 
 	if ( ! is_null($response)) break;
 }
@@ -179,7 +185,7 @@ if (is_null($response))
 {
 	$loader = new Routing\Loader(ACTIVE_MODULE_PATH);
 
-	$route = Routing\Router::make(Request::method(), Request::uri(), $loader)->route();
+	$route = Routing\Router::make($request, $loader)->route();
 
 	$response = (is_null($route)) ? Response::error('404') : $route->call();
 }
@@ -191,13 +197,13 @@ $response = Response::prepare($response);
 // --------------------------------------------------------------
 foreach (array(ACTIVE_MODULE.'::after', 'after') as $filter)
 {
-	Routing\Filter::call($filter, array($response, Request::method(), Request::uri()));
+	Routing\Filter::call($filter, array($response, $request->method(), $request->uri()));
 }
 
 // --------------------------------------------------------------
 // Stringify the response.
 // --------------------------------------------------------------
-$response->content = (string) $response->content;
+$response->content = ($response->content instanceof View) ? $response->content->get() : (string) $response->content;
 
 // --------------------------------------------------------------
 // Close the session.
@@ -206,7 +212,7 @@ if (Config::get('session.driver') != '')
 {
 	$driver = Session::driver();
 
-	$driver->flash('laravel_old_input', Input::get());
+	$driver->flash('laravel_old_input', $request->input->get());
 
 	$driver->close();
 
