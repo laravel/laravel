@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 1.5.5
+
+- Fix bug in session class cookie option extraction.
+
+### Upgrading From 1.5.4
+
+- Replace **system** directory.
+
 ## Version 1.5.4
 
 - Fix bug in Eloquent belongs_to relationship eager loading.
