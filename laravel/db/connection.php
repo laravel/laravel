@@ -118,7 +118,7 @@ class Connection {
 
 		$this->queries[] = compact('sql', 'bindings');
 
-		return $this->execute($this->pdo->prepare($sql), $bindings);
+		return $this->execute($this->pdo->prepare(trim($sql)), $bindings);
 	}
 
 	/**
