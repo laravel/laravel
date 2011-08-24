@@ -227,7 +227,8 @@ class Session {
 	{
 		if ( ! headers_sent())
 		{
-			extract(Config::get('session'));
+			$session_vars = Config::get('session');
+			extract($session_vars);
 
 			$minutes = ($expire_on_close) ? 0 : $lifetime;
 
