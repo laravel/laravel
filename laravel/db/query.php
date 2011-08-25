@@ -2,6 +2,7 @@
 
 use Laravel\Str;
 use Laravel\Config;
+use Laravel\Request;
 use Laravel\Paginator;
 
 class Query {
@@ -569,15 +570,18 @@ class Query {
 	 *
 	 * @param  int        $per_page
 	 * @param  array      $columns
+	 * @param  int        $page
 	 * @return Paginator
 	 */
 	public function paginate($per_page, $columns = array('*'))
 	{
 		$total = $this->count();
 
-		$results = $this->skip((Paginator::page($total, $per_page) - 1) * $per_page)->take($per_page)->get($columns);
+		$paginator = new Paginator(Request::active()->input->get('page', 1), $total, $per_page);
 
-		return Paginator::make($results, $total, $per_page);
+		$paginator->results = $this->skip(($paginator->page - 1) * $per_page)->take($per_page)->get($columns);
+
+		return $paginator;
 	}
 
 	/**

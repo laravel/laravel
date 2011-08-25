@@ -1,6 +1,78 @@
 <?php namespace Laravel\Cache;
 
+/**
+ * Wrap the file functions in a class that can be injected into driver.
+ * Since the file functions are global, the driver is untestable without
+ * injecting a wrapper around them.
+ */
+class File_Engine {
+
+	/**
+	 * Determine if a file exists.
+	 *
+	 * @param  string  $file
+	 * @return bool
+	 */
+	public function exists($file)
+	{
+		return file_exists($file);
+	}
+
+	/**
+	 * Get the contents of a file.
+	 *
+	 * @param  string  $file
+	 * @return string
+	 */
+	public function get($file)
+	{
+		return file_get_contents($file);
+	}
+
+	/**
+	 * Write to a file.
+	 *
+	 * @param  string  $file
+	 * @param  string  $value
+	 * @return void
+	 */
+	public function put($file, $value)
+	{
+		file_put_contents($file, $value, LOCK_EX);
+	}
+
+	/**
+	 * Delete a file.
+	 *
+	 * @param  string  $file
+	 * @return void
+	 */
+	public function forget($file)
+	{
+		@unlink($file);
+	}
+
+}
+
 class File extends Driver {
+
+	/**
+	 * The File cache engine.
+	 *
+	 * @var File_Engine
+	 */
+	private $file;
+
+	/**
+	 * Create a new File cache driver instance.
+	 *
+	 * @param  File_Engine  $file
+	 * @return void
+	 */
+	public function __construct(File_Engine $file)
+	{
+		$this->file = $file;
+	}
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -26,9 +98,9 @@ class File extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! file_exists(CACHE_PATH.$key)) return null;
+		if ( ! $this->file->exists(CACHE_PATH.$key)) return null;
 
-		if (time() >= substr($cache = file_get_contents(CACHE_PATH.$key), 0, 10))
+		if (time() >= substr($cache = $this->file->get(CACHE_PATH.$key), 0, 10))
 		{
 			return $this->forget($key);
 		}
@@ -51,7 +123,7 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		file_put_contents(CACHE_PATH.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
+		$this->file->put(CACHE_PATH.$key, (time() + ($minutes * 60)).serialize($value));
 	}
 
 	/**
@@ -62,7 +134,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		@unlink(CACHE_PATH.$key);
+		$this->file->forget(CACHE_PATH.$key);
 	}
 
 }

@@ -35,13 +35,13 @@ class Cache {
 			switch ($driver)
 			{
 				case 'file':
-					return static::$drivers[$driver] = new Cache\File;
+					return static::$drivers[$driver] = IoC::container()->resolve('laravel.cache.file');
 
 				case 'memcached':
-					return static::$drivers[$driver] = new Cache\Memcached;
+					return static::$drivers[$driver] = IoC::container()->resolve('laravel.cache.memcached');
 
 				case 'apc':
-					return static::$drivers[$driver] = new Cache\APC;
+					return static::$drivers[$driver] = IoC::container()->resolve('laravel.cache.apc');
 
 				default:
 					throw new \Exception("Cache driver [$driver] is not supported.");

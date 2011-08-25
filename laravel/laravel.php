@@ -10,61 +10,40 @@ define('EXT', '.php');
 // --------------------------------------------------------------
 define('APP_PATH',     realpath($application).'/');
 define('BASE_PATH',    realpath(str_replace('laravel', '', $laravel)).'/');
-define('MODULE_PATH',  realpath($modules).'/');
 define('PACKAGE_PATH', realpath($packages).'/');
 define('PUBLIC_PATH',  realpath($public).'/');
 define('STORAGE_PATH', realpath($storage).'/');
 define('SYS_PATH',     realpath($laravel).'/');
 
-unset($laravel, $application, $config, $modules, $packages, $public, $storage);
+unset($laravel, $application, $config, $packages, $public, $storage);
 
 // --------------------------------------------------------------
 // Define various other framework paths.
 // --------------------------------------------------------------
-define('CACHE_PATH',    STORAGE_PATH.'cache/');
-define('CONFIG_PATH',   APP_PATH.'config/');
-define('DATABASE_PATH', STORAGE_PATH.'db/');
-define('LANG_PATH',     SYS_PATH.'lang/');
-define('SCRIPT_PATH',   PUBLIC_PATH.'js/');
-define('SESSION_PATH',  STORAGE_PATH.'sessions/');
-define('STYLE_PATH',    PUBLIC_PATH.'css/');
-
-// --------------------------------------------------------------
-// Define the default module and path.
-// --------------------------------------------------------------
-define('DEFAULT_MODULE', 'application');
-
-define('DEFAULT_MODULE_PATH', APP_PATH);
+define('CACHE_PATH',      STORAGE_PATH.'cache/');
+define('CONFIG_PATH',     APP_PATH.'config/');
+define('DATABASE_PATH',   STORAGE_PATH.'db/');
+define('LANG_PATH',       APP_PATH.'lang/');
+define('SCRIPT_PATH',     PUBLIC_PATH.'js/');
+define('SESSION_PATH',    STORAGE_PATH.'sessions/');
+define('STYLE_PATH',      PUBLIC_PATH.'css/');
+define('SYS_CONFIG_PATH', SYS_PATH.'config/');
+define('SYS_LANG_PATH',   SYS_PATH.'lang/');
+define('VIEW_PATH',       APP_PATH.'views/');
 
 // --------------------------------------------------------------
 // Load the classes used by the auto-loader.
 // --------------------------------------------------------------
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'module'.EXT;
 require SYS_PATH.'arr'.EXT;
-
-// --------------------------------------------------------------
-// Register the active modules.
-// --------------------------------------------------------------
-Module::$modules = array_merge(array(DEFAULT_MODULE => DEFAULT_MODULE_PATH), $active);
-
-unset($active);
 
 // --------------------------------------------------------------
 // Register the auto-loader.
 // --------------------------------------------------------------
-Loader::bootstrap(array(
-	APP_PATH.'libraries/',
-	APP_PATH.'models/',
-));
+Loader::bootstrap(Config::get('aliases'), array(APP_PATH.'libraries/', APP_PATH.'models/'));
 
 spl_autoload_register(array('Laravel\\Loader', 'load'));
-
-// --------------------------------------------------------------
-// Set the default timezone.
-// --------------------------------------------------------------
-date_default_timezone_set(Config::get('application.timezone'));
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -72,28 +51,6 @@ date_default_timezone_set(Config::get('application.timezone'));
 error_reporting(E_ALL | E_STRICT);
 
 ini_set('display_errors', 'Off');
-
-// --------------------------------------------------------------
-// Initialize the request instance for the request.
-// --------------------------------------------------------------
-$request = new Request($_SERVER);
-
-// --------------------------------------------------------------
-// Hydrate the input for the current request.
-// --------------------------------------------------------------
-$request->input = new Input($request, $_GET, $_POST, $_COOKIE, $_FILES);
-
-// --------------------------------------------------------------
-// Determine the module that should handle the request.
-// --------------------------------------------------------------
-$segments = explode('/', $request->uri());
-
-define('ACTIVE_MODULE', (array_key_exists($segments[0], Module::$modules)) ? $segments[0] : DEFAULT_MODULE);
-
-// --------------------------------------------------------------
-// Determine the path to the root of the active module.
-// --------------------------------------------------------------
-define('ACTIVE_MODULE_PATH', Module::path(ACTIVE_MODULE));
 
 // --------------------------------------------------------------
 // Register the error / exception handlers.
@@ -132,18 +89,28 @@ register_shutdown_function(function() use ($error_dependencies)
 });
 
 // --------------------------------------------------------------
-// Load the session.
+// Set the default timezone.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
+date_default_timezone_set(Config::get('application.timezone'));
 
 // --------------------------------------------------------------
-// Load all of the core routing classes.
+// Load all of the core routing and response classes.
 // --------------------------------------------------------------
 require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
+
+// --------------------------------------------------------------
+// Bootstrap the IoC container.
+// --------------------------------------------------------------
+IoC::bootstrap(Config::get('dependencies'));
+
+// --------------------------------------------------------------
+// Load the session.
+// --------------------------------------------------------------
+if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
 
 // --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
@@ -156,34 +123,36 @@ if (count(Config::get('application.packages')) > 0)
 }
 
 // --------------------------------------------------------------
-// Register the filters for the default module.
+// Initialize the request instance for the request.
 // --------------------------------------------------------------
-Routing\Filter::register(require DEFAULT_MODULE_PATH.'filters'.EXT);
+$request = new Request($_SERVER);
 
 // --------------------------------------------------------------
-// Register the filters for the active module.
+// Hydrate the input for the current request.
 // --------------------------------------------------------------
-if (file_exists(ACTIVE_MODULE_PATH.'filters'.EXT))
-{
-	Routing\Filter::register(require ACTIVE_MODULE_PATH.'filters'.EXT);	
-}
+$request->input = new Input($request, $_GET, $_POST, $_COOKIE, $_FILES);
+
+// --------------------------------------------------------------
+// Register the request as a singleton in the IoC container.
+// --------------------------------------------------------------
+IoC::container()->instance('laravel.request', $request);
+
+// --------------------------------------------------------------
+// Register the filters for the default module.
+// --------------------------------------------------------------
+Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
 // --------------------------------------------------------------
 // Call the "before" filter for the application and module.
 // --------------------------------------------------------------
-foreach (array('before', ACTIVE_MODULE.'::before') as $filter)
-{
-	$response = Routing\Filter::call($filter, array($request->method(), $request->uri()), true);
-
-	if ( ! is_null($response)) break;
-}
+$response = Routing\Filter::call('before', array($request->method(), $request->uri()), true);
 
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
 if (is_null($response))
 {
-	$loader = new Routing\Loader(ACTIVE_MODULE_PATH);
+	$loader = new Routing\Loader(APP_PATH);
 
 	$route = Routing\Router::make($request, $loader)->route();
 
@@ -195,15 +164,12 @@ $response = Response::prepare($response);
 // --------------------------------------------------------------
 // Call the "after" filter for the application and module.
 // --------------------------------------------------------------
-foreach (array(ACTIVE_MODULE.'::after', 'after') as $filter)
-{
-	Routing\Filter::call($filter, array($response, $request->method(), $request->uri()));
-}
+Routing\Filter::call('after', array($response, $request->method(), $request->uri()));
 
 // --------------------------------------------------------------
 // Stringify the response.
 // --------------------------------------------------------------
-$response->content = ($response->content instanceof View) ? $response->content->get() : (string) $response->content;
+$response->content = $response->render();
 
 // --------------------------------------------------------------
 // Close the session.

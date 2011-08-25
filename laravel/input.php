@@ -105,6 +105,16 @@ class Input {
 	/**
 	 * Get an item from the input data.
 	 *
+	 * This method should be used for all request methods (GET, POST, PUT, and DELETE).
+	 *
+	 * <code>
+	 *		// Get the "name" item from the input data
+	 *		$name = Request::active()->input->get('name');
+	 *
+	 *		// Get the "name" item and return "Fred" if it doesn't exist.
+	 *		$name = Request::active()->input->get('name', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return string
@@ -128,6 +138,13 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
+	 * If no session driver is provided, the default driver will be used.
+	 *
+	 * <code>
+	 *		// Get the "name" item from the old input data
+	 *		$name = Request::active()->input->old('name');
+	 * </code>
+	 *
 	 * @param  string          $key
 	 * @param  mixed           $default
 	 * @param  Session\Driver  $driver
@@ -143,6 +160,16 @@ class Input {
 	/**
 	 * Get an item from the uploaded file data.
 	 *
+	 * "Dot" syntax may be used to get a specific item from the file array.
+	 *
+	 * <code>
+	 *		// Get the array of information regarding a given file
+	 *		$file = Request::active()->input->file('picture');
+	 *
+	 *		// Get the size of a given file
+	 *		$file = Request::active()->input->file('picture.size');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return array
@@ -155,6 +182,8 @@ class Input {
 	/**
 	 * Move an uploaded file to permanent storage.
 	 *
+	 * This method is simply a convenient wrapper around move_uploaded_file.
+	 *
 	 * @param  string  $key
 	 * @param  string  $path
 	 * @return bool
@@ -166,6 +195,11 @@ class Input {
 
 	/**
 	 * Magic Method for retrieving items from the request input.
+	 *
+	 * <code>
+	 *		// Retrieve the "name" item from the input data
+	 *		$name = Request::active()->input->name;
+	 * </code>
 	 */
 	public function __get($key)
 	{

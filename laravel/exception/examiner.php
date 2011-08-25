@@ -68,7 +68,7 @@ class Examiner {
 	 */
 	public function message()
 	{
-		$file = str_replace(array(ACTIVE_MODULE_PATH, SYS_PATH), array('MODULE_PATH/', 'SYS_PATH/'), $this->exception->getFile());
+		$file = str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $this->exception->getFile());
 
 		return rtrim($this->exception->getMessage(), '.').' in '.$file.' on line '.$this->exception->getLine().'.';
 	}

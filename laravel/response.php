@@ -1,6 +1,17 @@
 <?php namespace Laravel;
 
-class Response {
+interface Renderable {
+
+	/**
+	 * Get the evaluated string contents of the object.
+	 *
+	 * @return string
+	 */
+	public function render();
+
+}
+
+class Response implements Renderable {
 
 	/**
 	 * The content of the response.
@@ -86,7 +97,7 @@ class Response {
 	public function __construct($content, $status = 200)
 	{
 		$this->content = $content;
-		$this->status = $status;		
+		$this->status = $status;
 	}	
 
 	/**
@@ -103,6 +114,15 @@ class Response {
 
 	/**
 	 * Factory for creating new error response instances.
+	 *
+	 * The response status code will be set using the specified code.
+	 *
+	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 *
+	 * <code>
+	 *		// Return a 404 error response
+	 *		return Response::error('404');
+	 * </code>
 	 *
 	 * @param  int       $code
 	 * @param  array     $data
@@ -121,9 +141,17 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		if ($response instanceof Redirect) $response = $response->response;
-
 		return ( ! $response instanceof Response) ? new static($response) : $response;
+	}
+
+	/**
+	 * Get the evaluated string contents of the response.
+	 *
+	 * @return string
+	 */
+	public function render()
+	{
+		return ($this->content instanceof Renderable) ? $this->content->render() : (string) $this->content;
 	}
 
 	/**
@@ -140,7 +168,7 @@ class Response {
 
 		if ( ! headers_sent()) $this->send_headers();
 
-		echo (string) $this->content;
+		echo $this->render();
 	}
 
 	/**
@@ -163,6 +191,11 @@ class Response {
 	/**
 	 * Add a header to the response.
 	 *
+	 * <code>
+	 *		// Add a "location" header to a response
+	 *		$response->header('Location', 'http://google.com');
+	 * </code>
+	 *
 	 * @param  string    $name
 	 * @param  string    $value
 	 * @return Response
@@ -171,24 +204,6 @@ class Response {
 	{
 		$this->headers[$name] = $value;
 		return $this;
-	}
-
-	/**
-	 * Determine if the response is a redirect.
-	 *
-	 * @return bool
-	 */
-	public function is_redirect()
-	{
-		return $this->status == 301 or $this->status == 302;
-	}
-
-	/**
-	 * Get the parsed content of the Response.
-	 */
-	public function __toString()
-	{
-		return (string) $this->content;
 	}
 
 }

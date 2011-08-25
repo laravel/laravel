@@ -49,6 +49,24 @@ class Auth {
 	}
 
 	/**
+	 * Create a new Auth class instance.
+	 *
+	 * If no session driver or hasher is provided, the default implementations will be used.
+	 *
+	 * @param  Session\Driver  $driver
+	 * @param  Hash\Engine     $hasher
+	 * @return void
+	 */
+	public static function make(Session\Driver $driver = null, Hash\Engine $hasher = null)
+	{
+		if (is_null($driver)) $driver = Session::driver();
+
+		if (is_null($hasher)) $hasher = Hasher::make();
+
+		return new static($driver, $hasher);
+	}
+
+	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
 	 * @see    login()

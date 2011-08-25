@@ -38,6 +38,20 @@ class Paginator {
 	public $last_page;
 
 	/**
+	 * The number of links that should be adjacent to the current page.
+	 *
+	 * @var int
+	 */
+	public $adjacent = 3;
+
+	/**
+	 * Indicates if the generated links should use HTTPS.
+	 *
+	 * @var bool
+	 */
+	public $secure;
+
+	/**
 	 * The language that should be used when generating page links.
 	 *
 	 * @var string
@@ -54,54 +68,48 @@ class Paginator {
 	/**
 	 * Create a new Paginator instance.
 	 *
-	 * @param  array  $results
+	 * In general, the Paginator will be instantiated through the database query. However, you are free
+	 * to instantiate a paginator for an arbitrary array if you wish.
+	 *
+	 * <code>
+	 *		// Create a Paginator for the first page of 10 total results and 2 items per page
+	 *		$paginator = new Paginator(1, 10, 2);
+	 * </code>
+	 *
 	 * @param  int    $page
 	 * @param  int    $total
 	 * @param  int    $per_page
-	 * @param  int    $last_page
 	 * @return void
 	 */
-	public function __construct($results, $page, $total, $per_page, $last_page)
+	public function __construct($page, $total, $per_page)
 	{
-		$this->last_page = $last_page;
+		$this->last_page = ceil($total / $per_page);
 		$this->per_page = $per_page;
-		$this->results = $results;
 		$this->total = $total;
-		$this->page = $page;
+
+		// Determine if the current request is using HTTPS. If it is, we will use HTTPS when
+		// generating the links unless otherwise specified by the secure() method.
+		$this->secure = Request::active()->is_secure();
+
+		// The page method will validate the given page number and adjust it if necessary.
+		// For example, when the given page number is greater than the last page or less
+		// than zero, the page number will be adjusted.
+		$this->page = $this->adjust($page);
 	}
 
 	/**
-	 * Create a new Paginator instance.
-	 *
-	 * @param  array      $results
-	 * @param  int        $total
-	 * @param  int        $per_page
-	 * @return Paginator
-	 */
-	public static function make($results, $total, $per_page)
-	{
-		return new static($results, static::page($total, $per_page), $total, $per_page, ceil($total / $per_page));
-	}
-
-	/**
-	 * Get the current page from the request query string.
+	 * Check a given page number for validity and adjust it if necessary.
 	 *
 	 * The page will be validated and adjusted if it is less than one or greater than the last page.
 	 * For example, if the current page is not an integer or less than one, one will be returned.
 	 * If the current page is greater than the last page, the last page will be returned.
 	 *
-	 * @param  int  $total
-	 * @param  int  $per_page
+	 * @param  int    $page
 	 * @return int
 	 */
-	public static function page($total, $per_page)
+	private function adjust($page)
 	{
-		$page = Input::get('page', 1);
-
-		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
-		{
-			return ($last_page > 0) ? $last_page : 1;
-		}
+		if (is_numeric($page) and $page > $this->last_page) return ($this->last_page > 0) ? $this->last_page : 1;
 
 		return ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) ? 1 : $page;
 	}
@@ -109,42 +117,55 @@ class Paginator {
 	/**
 	 * Create the HTML pagination links.
 	 *
-	 * @param  int     $adjacent
+	 * If there are enough pages, an intelligent, sliding list of links will be created. 
+	 * Otherwise, a simple list of page number links will be created.
+	 *
 	 * @return string
 	 */
-	public function links($adjacent = 3)
+	public function links()
 	{
 		if ($this->last_page <= 1) return '';
 
 		// The hard-coded "7" is to account for all of the constant elements in a sliding range.
 		// Namely: The the current page, the two ellipses, the two beginning pages, and the two ending pages.
-		$numbers = ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
+		$numbers = ($this->last_page < 7 + ($this->adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider();
 
 		return '<div class="pagination">'.$this->previous().$numbers.$this->next().'</div>';
 	}
 
 	/**
-	 * Build sliding list of HTML numeric page links.
+	 * Build a sliding list of HTML numeric page links.
 	 *
-	 * @param  int     $adjacent
+	 * If the current page is close to the beginning of the pages, all of the beginning links will be
+	 * shown and the ending links will be abbreviated.
+	 *
+	 * If the current page is in the middle of the pages, the beginning and ending links will be abbreviated.
+	 *
+	 * If the current page is close to the end of the list of pages, all of the ending links will be
+	 * shown and the beginning links will be abbreviated.
+	 *
 	 * @return string
 	 */
-	private function slider($adjacent)
+	private function slider()
 	{
-		if ($this->page <= $adjacent * 2)
+		if ($this->page <= $this->adjacent * 2)
 		{
-			return $this->range(1, 2 + ($adjacent * 2)).$this->ending();
+			return $this->range(1, 2 + ($this->adjacent * 2)).$this->ending();
 		}
-		elseif ($this->page >= $this->last_page - ($adjacent * 2))
+		elseif ($this->page >= $this->last_page - ($this->adjacent * 2))
 		{
-			return $this->beginning().$this->range($this->last_page - 2 - ($adjacent * 2), $this->last_page);
+			return $this->beginning().$this->range($this->last_page - 2 - ($this->adjacent * 2), $this->last_page);
 		}
-
-		return $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
+		else
+		{
+			return $this->beginning().$this->range($this->page - $this->adjacent, $this->page + $this->adjacent).$this->ending();
+		}
 	}
 
 	/**
 	 * Generate the "previous" HTML link.
+	 *
+	 * The "previous" line from the "pagination" language file will be used to create the link text.
 	 *
 	 * @return string
 	 */
@@ -162,6 +183,8 @@ class Paginator {
 
 	/**
 	 * Generate the "next" HTML link.
+	 *
+	 * The "next" line from the "pagination" language file will be used to create the link text.
 	 *
 	 * @return string
 	 */
@@ -198,9 +221,9 @@ class Paginator {
 	}
 
 	/**
-	 * Build a range of page links. 
+	 * Build a range of page links.
 	 *
-	 * For the current page, an HTML span element will be generated instead of a link.
+	 * A span element will be generated for the current page.
 	 *
 	 * @param  int     $start
 	 * @param  int     $end
@@ -212,7 +235,14 @@ class Paginator {
 
 		for ($i = $start; $i <= $end; $i++)
 		{
-			$pages .= ($this->page == $i) ? HTML::span($i, array('class' => 'current')).' ' : $this->link($i, $i, null).' ';
+			if ($this->page == $i)
+			{
+				$pages .= HTML::span($i, array('class' => 'current')).' ';
+			}
+			else
+			{
+				$pages .= $this->link($i, $i, null).' ';
+			}
 		}
 
 		return $pages;
@@ -235,11 +265,25 @@ class Paginator {
 			$append .= '&'.$key.'='.$value;
 		}
 
-		return HTML::link(Request::uri().'?page='.$page.$append, $text, compact('class'), Request::is_secure());
+		return HTML::link(Request::active()->uri().'?page='.$page.$append, $text, compact('class'), $this->secure);
+	}
+
+	/**
+	 * Force the paginator to return links that use HTTPS.
+	 *
+	 * @param  bool       $secure
+	 * @return Paginator
+	 */
+	public function secure($secure = true)
+	{
+		$this->secure = true;
+		return $this;
 	}
 
 	/**
 	 * Set the language that should be used when generating page links.
+	 *
+	 * The language specified here should correspond to a language directory for your application.
 	 *
 	 * @param  string     $language
 	 * @return Paginator
@@ -252,6 +296,11 @@ class Paginator {
 
 	/**
 	 * Set the items that should be appended to the link query strings.
+	 *
+	 * <code>
+	 *		// Set the "sort" query string item on the links that will be generated
+	 *		echo $paginator->append(array('sort' => 'desc'))->links();
+	 * </code>
 	 *
 	 * @param  array      $values
 	 * @return Paginator

@@ -24,7 +24,9 @@ class HTML {
 	 */
 	public static function script($url, $attributes = array())
 	{
-		return '<script type="text/javascript" src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'></script>'.PHP_EOL;
+		$url = IoC::container()->resolve('laravel.url');
+
+		return '<script type="text/javascript" src="'.static::entities($url->to_asset($url)).'"'.static::attributes($attributes).'></script>'.PHP_EOL;
 	}
 
 	/**
@@ -40,7 +42,9 @@ class HTML {
 
 		$attributes = array_merge($attributes, array('rel' => 'stylesheet', 'type' => 'text/css'));
 
-		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
+		$url = IoC::container()->resolve('laravel.url');
+
+		return '<link href="'.static::entities($url->to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
@@ -67,7 +71,9 @@ class HTML {
 	 */
 	public static function link($url, $title, $attributes = array(), $https = false, $asset = false)
 	{
-		return '<a href="'.static::entities(URL::to($url, $https, $asset)).'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$url = IoC::container()->resolve('laravel.url');
+
+		return '<a href="'.static::entities($url->to($url, $https, $asset)).'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -130,7 +136,7 @@ class HTML {
 	 */
 	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
 	{
-		return static::link(URL::to_route($name, $parameters, $https), $title, $attributes);
+		return static::link(IoC::resolve('laravel.url')->to_route($name, $parameters, $https), $title, $attributes);
 	}
 
 	/**
@@ -189,7 +195,7 @@ class HTML {
 	{
 		$attributes['alt'] = static::entities($alt);
 
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
+		return '<img src="'.static::entities(IoC::resolve('laravel.url')->to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
 	/**

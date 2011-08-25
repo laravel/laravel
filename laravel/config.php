@@ -5,7 +5,7 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
-	 * The configuration arrays are keyed by module and file names.
+	 * The configuration arrays are keyed by file names.
 	 *
 	 * @var array
 	 */
@@ -46,9 +46,6 @@ class Config {
 	 *
 	 * 		// Get the SQLite database connection configuration
 	 *		$sqlite = Config::get('db.connections.sqlite');
-	 *
-	 *		// Get a configuration item from a module configuration file
-	 *		$option = Config::get('module::file.option');
 	 * </code>
 	 *
 	 * @param  string  $key
@@ -57,16 +54,16 @@ class Config {
 	 */
 	public static function get($key, $default = null)
 	{
-		list($module, $file, $key) = static::parse($key);
+		list($file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file))
+		if ( ! static::load($file))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		if (is_null($key)) return static::$items[$module][$file];
+		if (is_null($key)) return static::$items[$file];
 
-		return Arr::get(static::$items[$module][$file], $key, $default);
+		return Arr::get(static::$items[$file], $key, $default);
 	}
 
 	/**
@@ -92,31 +89,26 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
-		list($module, $file, $key) = static::parse($key);
+		list($file, $key) = static::parse($key);
 
-		if ( ! static::load($module, $file))
-		{
-			throw new \Exception("Error setting configuration option. Configuration file [$file] is not defined.");
-		}
+		static::load($file);
 
-		Arr::set(static::$items[$module][$file], $key, $value);
+		(is_null($key)) ? Arr::set(static::$items, $file, $value) : Arr::set(static::$items[$file], $key, $value);
 	}
 
 	/**
-	 * Parse a configuration key and return its module, file, and key segments.
+	 * Parse a configuration key and return its file and key segments.
 	 *
-	 * Modular configuration keys follow a {module}::{file}.{key} convention.
+	 * Configuration keys follow a {file}.{key} convention.
 	 *
 	 * @param  string  $key
 	 * @return array
 	 */
 	private static function parse($key)
 	{
-		list($module, $key) = Module::parse($key);
-
 		$segments = explode('.', $key);
 
-		return array($module, $segments[0], (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null);
+		return array($segments[0], (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null);
 	}
 
 	/**
@@ -125,23 +117,25 @@ class Config {
 	 * If the configuration file has already been loaded, it will not be loaded again.
 	 *
 	 * @param  string  $file
-	 * @param  string  $module
 	 * @return bool
 	 */
-	private static function load($module, $file)
+	private static function load($file)
 	{
-		if (isset(static::$items[$module]) and array_key_exists($file, static::$items[$module])) return true;
+		if (isset(static::$items[$file])) return true;
 
 		$config = array();
 
-		foreach (static::paths($module, $file) as $directory)
+		foreach (static::paths() as $directory)
 		{
 			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
 		}
 
-		if (count($config) > 0) static::$items[$module][$file] = $config;
+		if (count($config) > 0)
+		{
+			static::$items[$file] = $config;
+		}
 
-		return isset(static::$items[$module][$file]);
+		return isset(static::$items[$file]);
 	}
 
 	/**
@@ -150,23 +144,18 @@ class Config {
 	 * The paths returned by this method paths will be searched by the load method when merging
 	 * configuration files, meaning the configuration files will cascade in this order.
 	 *
-	 * By default, the base configuration directory will be searched first, followed by the configuration
-	 * directory for the active module. Next, any environment specific configuration directories
-	 * will be searched.
+	 * The system configuration directory will be searched first, followed by the application
+	 * directory, and finally the environment directory.
 	 *
-	 * @param  string  $module
-	 * @param  string  $file
 	 * @return array
 	 */
-	private static function paths($module, $file)
+	private static function paths()
 	{
-		$module = str_replace('.', '/', $module);
-
-		$paths = array(CONFIG_PATH, Module::path($module).'config/');
+		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
 
 		if (isset($_SERVER['LARAVEL_ENV']))
 		{
-			$paths[] = Module::path($module).'/config/'.$_SERVER['LARAVEL_ENV'].'/';
+			$paths[] = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/';
 		}
 
 		return $paths;

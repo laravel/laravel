@@ -10,23 +10,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Active Modules
-|--------------------------------------------------------------------------
-|
-| Modules are a convenient way to organize your application into logical
-| components. Each module may have its own libraries, models, routes,
-| views, language files, and configuration.
-|
-| Here you may specify which modules are active for your application.
-| This simply gives Laravel an easy way to know which directories to
-| check when auto-loading your classes, routes, and views.
-|
-*/
-
-$active = array();
-
-/*
-|--------------------------------------------------------------------------
 | Installation Paths
 |--------------------------------------------------------------------------
 |
@@ -43,8 +26,6 @@ $application = '../application';
 $laravel     = '../laravel';
 
 $packages    = '../packages';
-
-$modules     = '../modules';
 
 $storage     = '../storage';
 
