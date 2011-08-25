@@ -185,7 +185,7 @@ class Query {
 	public function reset_where()
 	{
 		$this->where = 'WHERE 1 = 1';
-		$this->brackets = 1;
+		$this->brackets = 0;
 		$this->bindings = array();
 	}
 
