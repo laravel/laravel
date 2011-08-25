@@ -1,9 +1,26 @@
 <?php namespace Laravel\Cache;
 
 use Laravel\Config;
-use Laravel\Memcached as Mem;
 
 class Memcached extends Driver {
+
+	/**
+	 * The Memcache instance.
+	 *
+	 * @var Memcache
+	 */
+	private $memcache;
+
+	/**
+	 * Create a new Memcached cache driver instance.
+	 *
+	 * @param  Memcache  $memcache
+	 * @return void
+	 */
+	public function __construct(\Memcache $memcache)
+	{
+		$this->memcache = $memcache;
+	}
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -29,7 +46,7 @@ class Memcached extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return (($cache = Mem::instance()->get(Config::get('cache.key').$key)) !== false) ? $cache : null;
+		return (($cache = $this->memcache->get(Config::get('cache.key').$key)) !== false) ? $cache : null;
 	}
 
 	/**
@@ -47,7 +64,7 @@ class Memcached extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		Mem::instance()->set(Config::get('cache.key').$key, $value, 0, $minutes * 60);
+		$this->memcache->set(Config::get('cache.key').$key, $value, 0, $minutes * 60);
 	}
 
 	/**
@@ -58,7 +75,7 @@ class Memcached extends Driver {
 	 */
 	public function forget($key)
 	{
-		Mem::instance()->delete(Config::get('cache.key').$key);
+		$this->memcache->delete(Config::get('cache.key').$key);
 	}
 
 }

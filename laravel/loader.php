@@ -17,21 +17,15 @@ class Loader {
 	public static $aliases = array();
 
 	/**
-	 * All of the active modules.
-	 *
-	 * @var array
-	 */
-	public static $modules = array();
-
-	/**
 	 * Bootstrap the auto-loader.
 	 *
+	 * @param  array  $aliases
 	 * @param  array  $paths
 	 * @return void
 	 */
-	public static function bootstrap($paths = array())
+	public static function bootstrap($aliases, $paths)
 	{
-		static::$aliases = Config::get('aliases');
+		static::$aliases = $aliases;
 
 		foreach ($paths as $path) { static::register_path($path); }
 	}
@@ -49,66 +43,19 @@ class Loader {
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (array_key_exists($class, static::$aliases)) return class_alias(static::$aliases[$class], $class);
+		if (array_key_exists($class, static::$aliases))
+		{
+			return class_alias(static::$aliases[$class], $class);
+		}
 
-		(static::load_from_registered($file)) or static::load_from_module($file);
-	}
-
-	/**
-	 * Load a class that is stored in the registered directories.
-	 *
-	 * @param  string  $file
-	 * @return bool
-	 */
-	private static function load_from_registered($file)
-	{
 		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))
 			{
 				require $path;
 
-				return true;
+				return;
 			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Search the active modules for a given file.
-	 *
-	 * @param  string  $file
-	 * @return void
-	 */
-	private static function load_from_module($file)
-	{
-		if (is_null($module = static::module_path($file))) return;
-
-		// Slice the module name off of the filename. Even though module libraries
-		// and models are namespaced under the module, there will obviously not be
-		// a folder matching that namespace in the libraries or models directory.
-		$file = substr($file, strlen($module));
-
-		foreach (array(MODULE_PATH.$module.'/models', MODULE_PATH.$module.'/libraries') as $directory)
-		{
-			if (file_exists($path = $directory.'/'.$file.EXT)) return require $path;
-		}
-	}
-
-	/**
-	 * Search the module paths for a match on the file.
-	 *
-	 * The file namespace should correspond to a directory within the module directory.
-	 *
-	 * @param  string  $file
-	 * @return string
-	 */
-	private static function module_path($file)
-	{
-		foreach (Module::$modules as $key => $module)
-		{
-			if (strpos($file, $module) === 0) return $module;
 		}
 	}
 

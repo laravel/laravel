@@ -79,10 +79,10 @@ class Request {
 		}
 		else
 		{
-			die('Unable to determine the request URI.');
+			throw new \Exception('Unable to determine the request URI.');
 		}
 
-		if ($uri === false) die('Malformed request URI. Request terminated.');
+		if ($uri === false) throw new \Exception('Malformed request URI. Request terminated.');
 
 		return $this->uri = $this->remove_from_uri($uri, array(parse_url(Config::get('application.url'), PHP_URL_PATH), '/index.php'));
 	}
@@ -180,7 +180,12 @@ class Request {
 	}
 
 	/**
-	 * Determine if the route handling the request is a given name.
+	 * Determine if the route handling the request has a given name.
+	 *
+	 * <code>
+	 *		// Determine if the route handling the request is named "profile"
+	 *		$profile = Request::active()->route_is('profile');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return bool
@@ -193,7 +198,12 @@ class Request {
 	}
 
 	/**
-	 * Magic Method to handle dynamic static methods.
+	 * Magic Method to handle dynamic method calls to determine the route handling the request.
+	 *
+	 * <code>
+	 *		// Determine if the route handling the request is named "profile"
+	 *		$profile = Request::active()->route_is_profile();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
@@ -205,6 +215,11 @@ class Request {
 
 	/**
 	 * Magic Method for dynamically retrieving properties of the request instance.
+	 *
+	 * <code>
+	 *		// Get all of the input for the request
+	 *		$input = Request::active()->input;
+	 * </code>
 	 */
 	public function __get($key)
 	{

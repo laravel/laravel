@@ -38,6 +38,13 @@ class Validator {
 	public $language;
 
 	/**
+	 * The database connection that should be used by the validator.
+	 *
+	 * @var DB\Connection
+	 */
+	public $connection;
+
+	/**
 	 * The size related validation rules.
 	 *
 	 * @var array
@@ -302,7 +309,9 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		return DB::connection()->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
+		if (is_null($this->connection)) $this->connection = DB::connection();
+
+		return $this->connection->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
 
 	/**
@@ -511,6 +520,18 @@ class Validator {
 	public function lang($language)
 	{
 		$this->language = $language;
+		return $this;
+	}
+
+	/**
+	 * Set the database connection that should be used by the validator.
+	 *
+	 * @param  DB\Connection  $connection
+	 * @return Validator
+	 */
+	public function connection(DB\Connection $connection)
+	{
+		$this->connection = $connection;
 		return $this;
 	}
 

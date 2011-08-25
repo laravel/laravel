@@ -71,7 +71,9 @@ class File {
 
 		array_unshift($file, '');
 
-		$length = ($line - ($start = $line - $padding)) + $padding + 1;
+		$start = $line - $padding;
+
+		$length = ($line - $start) + $padding + 1;
 
 		return array_slice($file, ($start > 0) ? $start : 0, ($length > 0) ? $length : 0, true);
 	}
@@ -126,34 +128,6 @@ class File {
 		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 
 		return (is_array($mimes[$extension])) ? in_array($mime, $mimes[$extension]) : $mime === $mimes[$extension];
-	}
-
-	/**
-	 * Create a response that will force a file to be downloaded.
-	 *
-	 * @param  string  $path
-	 * @param  string  $name
-	 * @return Response
-	 */
-	public static function download($path, $name = null)
-	{
-		if (is_null($name))
-		{
-			$name = basename($path);
-		}
-
-		$response = Response::make(static::get($path));
-
-		$response->header('Content-Description', 'File Transfer');
-		$response->header('Content-Type', static::mime(static::extension($path)));
-		$response->header('Content-Disposition', 'attachment; filename="'.$name.'"');
-		$response->header('Content-Transfer-Encoding', 'binary');
-		$response->header('Expires', 0);
-		$response->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
-		$response->header('Pragma', 'public');
-		$response->header('Content-Length', filesize($path));
-
-		return $response;
 	}
 
 }

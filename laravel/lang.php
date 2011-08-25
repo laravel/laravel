@@ -19,6 +19,13 @@ class Lang {
 	public $key;
 
 	/**
+	 * The language the line should be returned in.
+	 *
+	 * @var string
+	 */
+	public $language;
+
+	/**
 	 * The place-holder replacements.
 	 *
 	 * @var array
@@ -28,22 +35,30 @@ class Lang {
 	/**
 	 * Create a new Lang instance.
 	 *
-	 * Language lines are retrieved using "dot" notation. So, asking for the
-	 * "messages.required" language line would return the "required" line
-	 * from the "messages" language file.	 
-	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @return void
 	 */
-	public function __construct($key, $replacements = array())
+	private function __construct($key, $replacements = array())
 	{
 		$this->key = $key;
 		$this->replacements = $replacements;
+		$this->language = Config::get('application.language');
 	}
 
 	/**
-	 * Create a Lang instance for a language line.
+	 * Create a new Lang instance.
+	 *
+	 * Language lines are retrieved using "dot" notation. So, asking for the "messages.required" langauge
+	 * line would return the "required" line from the "messages" language file.
+	 *
+	 * <code>
+	 *		// Get the "required" line from the "validation" language file
+	 *		$line = Lang::line('validation.required')->get();
+	 *
+	 *		// Specify a replacement for a language line
+	 *		$line = Lang::line('welcome.message', array('name' => 'Fred'))->get();
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
@@ -55,24 +70,47 @@ class Lang {
 	}
 
 	/**
-	 * Get the language line.
+	 * Set the language the line should be returned in.
+	 *
+	 * The language specified in this method should correspond to a language directory in your application.
+	 *
+	 * <code>
+	 *		// Get a "fr" language line
+	 *		$line = Lang::line('validation.required')->in('fr')->get();
+	 * </code>
 	 *
 	 * @param  string  $language
-	 * @param  mixed   $default
+	 * @return Lang
+	 */
+	public function in($language)
+	{
+		$this->language = $language;
+		return $this;
+	}
+
+	/**
+	 * Get the language line.
+	 *
+	 * A default value may also be specified, which will be returned in the language line doesn't exist.
+	 *
+	 * <code>
+	 *		// Get a validation line and return a default value if the line doesn't exist
+	 *		$line = Lang::line('welcome.message')->get('Hello!');
+	 * </code>
+	 *
+	 * @param  string  $language
 	 * @return string
 	 */
-	public function get($language = null, $default = null)
+	public function get($default = null)
 	{
-		if (is_null($language)) $language = Config::get('application.language');
+		list($file, $line) = $this->parse($this->key);
 
-		list($module, $file, $line) = $this->parse($this->key, $language);
-
-		if ( ! $this->load($module, $file, $language))
+		if ( ! $this->load($file))
 		{
 			return is_callable($default) ? call_user_func($default) : $default;
 		}
 
-		$line = Arr::get(static::$lines[$module][$language.$file], $line, $default);
+		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -85,17 +123,16 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
+	 * Language keys follow a {file}.{key} convention.
+	 *
 	 * @param  string  $key
-	 * @param  string  $language
 	 * @return array
 	 */
-	private function parse($key, $language)
+	private function parse($key)
 	{
-		list($module, $key) = Module::parse($key);
-
 		if (count($segments = explode('.', $key)) > 1)
 		{
-			return array($module, $segments[0], implode('.', array_slice($segments, 1)));
+			return array($segments[0], implode('.', array_slice($segments, 1)));
 		}
 
 		throw new \Exception("Invalid language line [$key]. A specific line must be specified.");
@@ -104,25 +141,31 @@ class Lang {
 	/**
 	 * Load a language file.
 	 *
-	 * @param  string  $module
+	 * If the language file has already been loaded, it will not be loaded again.
+	 *
 	 * @param  string  $file
-	 * @param  string  $language
 	 * @return bool
 	 */
-	private function load($module, $file, $language)
+	private function load($file)
 	{
-		if (isset(static::$lines[$module][$language.$file])) return;
+		if (isset(static::$lines[$this->language.$file])) return;
 
-		$lang = array();
+		$language = array();
 
-		foreach (array(LANG_PATH, Module::path($module).'lang/') as $directory)
+		foreach (array(SYS_LANG_PATH, LANG_PATH) as $directory)
 		{
-			$lang = (file_exists($path = $directory.$language.'/'.$file.EXT)) ? array_merge($lang, require $path) : $lang;
+			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
+			{
+				$language = array_merge($language, require $path);
+			}
 		}
 
-		if (count($lang) > 0) static::$lines[$module][$language.$file] = $lang;
+		if (count($language) > 0)
+		{
+			static::$lines[$this->language.$file] = $language;
+		}
 		
-		return isset(static::$lines[$module][$language.$file]);		
+		return isset(static::$lines[$this->language.$file]);		
 	}
 
 	/**

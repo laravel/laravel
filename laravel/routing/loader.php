@@ -60,13 +60,6 @@ class Loader {
 			array_push($segments, substr($segment, 0, strpos($segment, '.')));
 		}
 
-		// Since it is no part of the route directory structure, shift the module name off of the
-		// beginning of the array so we can locate the appropriate route file.
-		if (count($segments) > 0 and ACTIVE_MODULE !== DEFAULT_MODULE)
-		{
-			array_shift($segments);
-		}
-
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
@@ -89,33 +82,30 @@ class Loader {
 	 * @param  bool    $reload
 	 * @return array
 	 */
-	public static function all($reload = false)
+	public static function all($path = APP_PATH, $reload = false)
 	{
 		if ( ! is_null(static::$routes) and ! $reload) return static::$routes;
 
 		$routes = array();
 
-		foreach (Module::paths() as $path)
+		if (file_exists($path.'routes'.EXT))
 		{
-			if (file_exists($path.'routes'.EXT))
+			$routes = array_merge($routes, require $path.'routes'.EXT);
+		}
+
+		if (is_dir($path.'routes'))
+		{
+			// Since route files can be nested deep within the route directory, we need to
+			// recursively spin through the directory to find every file.
+			$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
+
+			$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
+
+			foreach ($recursiveIterator as $file)
 			{
-				$routes = array_merge($routes, require $path.'routes'.EXT);
-			}
-
-			if (is_dir($path.'routes'))
-			{
-				// Since route files can be nested deep within the route directory, we need to
-				// recursively spin through the directory to find every file.
-				$directoryIterator = new \RecursiveDirectoryIterator($path.'routes');
-
-				$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
-
-				foreach ($recursiveIterator as $file)
+				if (filetype($file) === 'file' and strpos($file, EXT) !== false)
 				{
-					if (filetype($file) === 'file' and strpos($file, EXT) !== false)
-					{
-						$routes = array_merge($routes, require $file);
-					}
+					$routes = array_merge($routes, require $file);
 				}
 			}
 		}

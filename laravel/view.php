@@ -1,6 +1,6 @@
 <?php namespace Laravel;
 
-class View {
+class View implements Renderable {
 
 	/**
 	 * The name of the view.
@@ -8,6 +8,13 @@ class View {
 	 * @var string
 	 */
 	public $view;
+
+	/**
+	 * The view name with dots replaced with slashes.
+	 *
+	 * @var string
+	 */
+	protected $path;
 
 	/**
 	 * The view data.
@@ -22,13 +29,6 @@ class View {
 	 * @var string
 	 */
 	public $module;
-
-	/**
-	 * The path to the view.
-	 *
-	 * @var string
-	 */
-	public $path;
 
 	/**
 	 * The defined view composers.
@@ -46,11 +46,9 @@ class View {
 	 */
 	public function __construct($view, $data = array())
 	{
+		$this->view = $view;
 		$this->data = $data;
-
-		list($this->module, $this->path, $this->view) = static::parse($view);
-
-		$this->compose();
+		$this->path = str_replace('.', '/', $view);
 	}
 
 	/**
@@ -68,42 +66,23 @@ class View {
 	/**
 	 * Create a new view instance from a view name.
 	 *
-	 * The view names for the active module will be searched first, followed by the view names
-	 * for the default module. Finally, the names for all modules will be searched.
-	 *
 	 * @param  string  $name
 	 * @param  array   $data
 	 * @return View
 	 */
 	protected static function of($name, $data = array())
 	{
-		foreach (array_unique(array_merge(array(ACTIVE_MODULE, DEFAULT_MODULE), Module::$modules)) as $module)
-		{
-			static::load_composers($module);
+		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
 
-			foreach (static::$composers[$module] as $key => $value)
+		foreach (static::$composers as $key => $value)
+		{
+			if ($name === $value or (isset($value['name']) and $name === $value['name']))
 			{
-				if ($name === $value or (isset($value['name']) and $name === $value['name']))
-				{
-					return new static($key, $data);
-				}
+				return new static($key, $data);
 			}
 		}
 
 		throw new \Exception("Named view [$name] is not defined.");
-	}
-
-	/**
-	 * Parse a view identifier and get the module, path, and view name.
-	 *
-	 * @param  string  $view
-	 * @return array
-	 */
-	protected static function parse($view)
-	{
-		list($module, $view) = Module::parse($view);
-
-		return array($module, Module::path($module).'views/', $view);
 	}
 
 	/**
@@ -113,11 +92,11 @@ class View {
 	 */
 	protected function compose()
 	{
-		static::load_composers($this->module);
+		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
 
-		if (isset(static::$composers[$this->module][$this->view]))
+		if (isset(static::$composers[$this->view]))
 		{
-			foreach ((array) static::$composers[$this->module][$this->view] as $key => $value)
+			foreach ((array) static::$composers[$this->view] as $key => $value)
 			{
 				if (is_callable($value)) return call_user_func($value, $this);
 			}
@@ -125,48 +104,41 @@ class View {
 	}
 
 	/**
-	 * Load the view composers for a given module.
-	 *
-	 * @param  string  $module
-	 * @return void
-	 */
-	protected static function load_composers($module)
-	{
-		if (isset(static::$composers[$module])) return;
-
-		$composers = Module::path($module).'composers'.EXT;
-
-		static::$composers[$module] = (file_exists($composers)) ? require $composers : array();
-	}
-
-	/**
-	 * Get the parsed content of the view.
+	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
 	 */
-	public function get()
+	public function render()
 	{
-		$view = str_replace('.', '/', $this->view);
+		$this->compose();
 
-		if ( ! file_exists($this->path.$view.EXT))
+		if ( ! file_exists(VIEW_PATH.$this->path.EXT))
 		{
-			Exception\Handler::make(new Exception("View [$view] does not exist."))->handle();
+			Exception\Handler::make(new Exception('View ['.$this->path.'] does not exist.'))->handle();
 		}
 
-		foreach ($this->data as &$data)
+		foreach ($this->data as &$data) 
 		{
-			if ($data instanceof View or $data instanceof Response) $data = (string) $data;
+			if ($data instanceof Renderable) $data = $data->render();
 		}
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		try { include $this->path.$view.EXT; } catch (\Exception $e) { Exception\Handler::make($e)->handle(); }
+		try { include VIEW_PATH.$this->path.EXT; } catch (\Exception $e) { Exception\Handler::make($e)->handle(); }
 
 		return ob_get_clean();
 	}
 
 	/**
 	 * Add a view instance to the view data.
+	 *
+	 * <code>
+	 *		// Bind the view "partial/login" to the view
+	 *		View::make('home')->partial('login', 'partial/login');
+	 *
+	 *		// Equivalent binding using the "bind" method
+	 *		View::make('home')->bind('login', View::make('partials/login'));
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $view
@@ -181,6 +153,13 @@ class View {
 	/**
 	 * Add a key / value pair to the view data.
 	 *
+	 * Bound data will be available to the view as variables.
+	 *
+	 * <code>
+	 *		// Bind a "name" value to the view
+	 *		View::make('home')->bind('name', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return View
@@ -193,6 +172,14 @@ class View {
 
 	/**
 	 * Magic Method for handling the dynamic creation of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "login" named view
+	 *		$view = View::of_login();
+	 *
+	 *		// Create an instance of the "login" named view and bind data to the view
+	 *		$view = View::of_login(array('name' => 'Fred'));
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -232,14 +219,6 @@ class View {
 	public function __unset($key)
 	{
 		unset($this->data[$key]);
-	}
-
-	/**
-	 * Get the parsed content of the View.
-	 */
-	public function __toString()
-	{
-		return $this->get();
 	}
 
 }

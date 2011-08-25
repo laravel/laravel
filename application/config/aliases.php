@@ -26,6 +26,7 @@ return array(
 	'Cookie'    => 'Laravel\\Cookie',
 	'Crypter'   => 'Laravel\\Crypter',
 	'DB'        => 'Laravel\\DB',
+	'Download'  => 'Laravel\\Download',
 	'Eloquent'  => 'Laravel\\DB\\Eloquent\\Model',
 	'File'      => 'Laravel\\File',
 	'Form'      => 'Laravel\\Form',

@@ -1,27 +1,20 @@
 <?php namespace Laravel;
 
-class Redirect {
-
-	/**
-	 * The redirect response.
-	 *
-	 * @var Response
-	 */
-	public $response;
-
-	/**
-	 * Create a new redirect instance.
-	 *
-	 * @param  Response  $response
-	 * @return void
-	 */
-	public function __construct($response)
-	{
-		$this->response = $response;
-	}
+class Redirect extends Response {
 
 	/**
 	 * Create a redirect response.
+	 *
+	 * <code>
+	 *		// Create a redirect for the "user/profile" URI
+	 *		return Redirect::to('user/profile');
+	 *
+	 *		// Create a redirect using the 301 status code
+	 *		return Redirect::to('user/profile', 301);
+	 *
+	 *		// Create a redirect using the "refresh" method
+	 *		return Redirect::to('user/profile', 302, 'refresh');
+	 * </code>
 	 *
 	 * @param  string    $url
 	 * @param  int       $status
@@ -33,13 +26,23 @@ class Redirect {
 	{
 		$url = URL::to($url, $https);
 
-		return ($method == 'refresh')
-                             ? new static(Response::make('', $status)->header('Refresh', '0;url='.$url))
-                             : new static(Response::make('', $status)->header('Location', $url));
+		if ($method == 'location')
+		{
+			return static::make('', $status)->header('Refresh', '0;url='.$url);
+		}
+		else
+		{
+			return static::make('', $status)->header('Location', $url);
+		}
 	}
 
 	/**
 	 * Create a redirect response to a HTTPS URL.
+	 *
+	 * <code>
+	 *		// Create a HTTPS redirect to the "user/profile" URI
+	 *		return Redirect::to_secure('user/profile');
+	 * </code>
 	 *
 	 * @param  string    $url
 	 * @param  int       $status
@@ -54,24 +57,37 @@ class Redirect {
 	/**
 	 * Add an item to the session flash data.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * This is useful for passing status messages or other temporary data to the next request.
+	 *
+	 * <code>
+	 *		// Flash a status message to the session on a redirect
+	 *		return Redirect::to('user/profile')->with('status', 'Welcome Back!');
+	 * </code>
+	 *
+	 * @param  string          $key
+	 * @param  mixed           $value
+	 * @param  Session\Driver  $driver
 	 * @return Response
 	 */
-	public function with($key, $value)
+	public function with($key, $value, Session\Driver $driver)
 	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception("Attempting to flash data to the session, but no session driver has been specified.");
-		}
+		if (is_null($driver)) $driver = Session::driver();
 
-		Session::flash($key, $value);
+		$driver->flash($key, $value);
 
 		return $this;
 	}
 
 	/**
-	 * Magic Method to handle redirecting to routes.
+	 * Magic Method to handle redirecting to named routes.
+	 *
+	 * <code>
+	 *		// Create a redirect to the "profile" route
+	 *		return Redirect::to_profile();
+	 *
+	 *		// Create a redirect to the "profile" route using HTTPS
+	 *		return Redirect::to_secure_profile();
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

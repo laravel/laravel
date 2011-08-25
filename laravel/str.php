@@ -3,17 +3,6 @@
 class Str {
 
 	/**
-	 * Convert HTML characters to entities.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function entities($value)
-	{
-		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
-	}
-
-	/**
 	 * Convert a string to lowercase.
 	 *
 	 * @param  string  $value
