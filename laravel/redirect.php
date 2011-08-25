@@ -24,7 +24,7 @@ class Redirect extends Response {
 	 */
 	public static function to($url, $status = 302, $method = 'location', $https = false)
 	{
-		$url = URL::to($url, $https);
+		$url = IoC::container()->resolve('laravel.url')->to($url, $https);
 
 		if ($method == 'location')
 		{
@@ -93,14 +93,16 @@ class Redirect extends Response {
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
+		$url = IoC::container()->resolve('laravel.url');
+
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 10), $parameters, true));
+			return static::to($url->to_route(substr($method, 10), $parameters, true));
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 3), $parameters));
+			return static::to($url->to_route(substr($method, 3), $parameters));
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Redirect class.");

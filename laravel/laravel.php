@@ -46,11 +46,6 @@ Loader::bootstrap(Config::get('aliases'), array(APP_PATH.'libraries/', APP_PATH.
 spl_autoload_register(array('Laravel\\Loader', 'load'));
 
 // --------------------------------------------------------------
-// Bootstrap the IoC container.
-// --------------------------------------------------------------
-IoC::bootstrap(Config::get('dependencies'));
-
-// --------------------------------------------------------------
 // Set the error reporting and display levels.
 // --------------------------------------------------------------
 error_reporting(E_ALL | E_STRICT);
@@ -99,19 +94,23 @@ register_shutdown_function(function() use ($error_dependencies)
 date_default_timezone_set(Config::get('application.timezone'));
 
 // --------------------------------------------------------------
-// Load the session.
-// --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
-
-// --------------------------------------------------------------
 // Load all of the core routing and response classes.
 // --------------------------------------------------------------
-require SYS_PATH.'renderable'.EXT;
 require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
+
+// --------------------------------------------------------------
+// Bootstrap the IoC container.
+// --------------------------------------------------------------
+IoC::bootstrap(Config::get('dependencies'));
+
+// --------------------------------------------------------------
+// Load the session.
+// --------------------------------------------------------------
+if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
 
 // --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
@@ -132,6 +131,11 @@ $request = new Request($_SERVER);
 // Hydrate the input for the current request.
 // --------------------------------------------------------------
 $request->input = new Input($request, $_GET, $_POST, $_COOKIE, $_FILES);
+
+// --------------------------------------------------------------
+// Register the request as a singleton in the IoC container.
+// --------------------------------------------------------------
+IoC::container()->instance('laravel.request', $request);
 
 // --------------------------------------------------------------
 // Register the filters for the default module.

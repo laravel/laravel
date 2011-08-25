@@ -41,6 +41,14 @@ class Container {
 	/**
 	 * Register a dependency as a singleton.
 	 *
+	 * Singletons will only be instantiated the first time they are resolved. On subsequent
+	 * requests for the object, the original instance will be returned.
+	 *
+	 * <code>
+	 *		// Register a dependency as a singleton
+	 *		$container->singleton('user', function() { return new User; })
+	 * </code>
+	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
 	 * @return void
@@ -52,6 +60,14 @@ class Container {
 
 	/**
 	 * Register an instance as a singleton.
+	 *
+	 * This method allows you to register an already existing object instance with the
+	 * container as a singleton instance.
+	 *
+	 * <code>
+	 *		// Register an object instance as a singleton in the container
+	 *		$container->instance('user', new User);
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $instance

@@ -4,6 +4,17 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Laravel URL Writer
+	|--------------------------------------------------------------------------
+	*/
+
+	'laravel.url' => array('singleton' => true, 'resolver' => function()
+	{
+		return new URL;
+	}),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Laravel File Cache Driver
 	|--------------------------------------------------------------------------
 	*/
@@ -19,7 +30,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	'laravel.cache.file_engine' => array('resolver' => function($container)
+	'laravel.cache.file_engine' => array('resolver' => function()
 	{
 		return new Cache\File_Engine;
 	}),
@@ -41,7 +52,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	'laravel.cache.apc_engine' => array('resolver' => function($container)
+	'laravel.cache.apc_engine' => array('resolver' => function()
 	{
 		return new Cache\APC_Engine;
 	}),
@@ -63,7 +74,7 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	'laravel.memcache' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.memcache' => array('singleton' => true, 'resolver' => function()
 	{
 		if ( ! class_exists('Memcache'))
 		{

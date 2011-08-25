@@ -30,10 +30,10 @@ class Form {
 	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
 	 *       hidden field will allow us to "spoof" PUT and DELETE requests.
 	 *
-	 * @param  string  $action
-	 * @param  string  $method
-	 * @param  array   $attributes
-	 * @param  bool    $https
+	 * @param  string   $action
+	 * @param  string   $method
+	 * @param  array    $attributes
+	 * @param  bool     $https
 	 * @return string
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
@@ -69,13 +69,15 @@ class Form {
 	 *
 	 * If no action is specified, the current request URI will be used.
 	 *
-	 * @param  string  $action
-	 * @param  bool    $https
+	 * @param  string   $action
+	 * @param  bool     $https
 	 * @return string
 	 */
 	private static function action($action, $https)
 	{
-		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
+		$url = IoC::container()->resolve('laravel.url');
+
+		return HTML::entities($url->to(((is_null($action)) ? IoC::resolve('laravel.request')->uri() : $action), $https));
 	}
 
 	/**
@@ -447,7 +449,7 @@ class Form {
 	 */
 	public static function image($url, $name = null, $attributes = array())
 	{
-		$attributes['src'] = URL::to_asset($url);
+		$attributes['src'] = IoC::container()->resolve('laravel.url')->to_asset($url);
 
 		return static::input('image', $name, null, $attributes);
 	}

@@ -11,7 +11,7 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function to($url = '', $https = false)
+	public function to($url = '', $https = false)
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
@@ -31,9 +31,9 @@ class URL {
 	 * @param  string  $url
 	 * @return string
 	 */
-	public static function to_secure($url = '')
+	public function to_secure($url = '')
 	{
-		return static::to($url, true);
+		return $this->to($url, true);
 	}
 
 	/**
@@ -44,9 +44,9 @@ class URL {
 	 * @param  string  $url
 	 * @return string
 	 */
-	public static function to_asset($url)
+	public function to_asset($url)
 	{
-		return str_replace('index.php/', '', static::to($url, Request::active()->is_secure()));
+		return str_replace('index.php/', '', $this->to($url, IoC::resolve('laravel.request')->is_secure()));
 	}
 
 	/**
@@ -57,10 +57,10 @@ class URL {
 	 *
 	 * <code>
 	 *		// Generate a URL for the "profile" named route
-	 *		$url = URL::to_route('profile');
+	 *		$url = $url->to_route('profile');
 	 *
 	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = URL::to_route('profile', array('fred'));
+	 *		$url = $url->to_route('profile', array('fred'));
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -68,7 +68,7 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function to_route($name, $parameters = array(), $https = false)
+	public function to_route($name, $parameters = array(), $https = false)
 	{
 		if ( ! is_null($route = Routing\Finder::find($name, Routing\Loader::all())))
 		{
@@ -83,7 +83,7 @@ class URL {
 
 			$uri = str_replace(array('/(:any?)', '/(:num?)'), '', $uri);
 
-			return static::to($uri, $https);
+			return $this->to($uri, $https);
 		}
 
 		throw new \Exception("Error generating named route for route [$name]. Route is not defined.");
@@ -94,16 +94,16 @@ class URL {
 	 *
 	 * <code>
 	 *		// Generate a HTTPS URL for the "profile" named route
-	 *		$url = URL::to_secure_route('profile');
+	 *		$url = $url->to_secure_route('profile');
 	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	public static function to_secure_route($name, $parameters = array())
+	public function to_secure_route($name, $parameters = array())
 	{
-		return static::to_route($name, $parameters, true);
+		return $this->to_route($name, $parameters, true);
 	}
 
 	/**
@@ -111,17 +111,17 @@ class URL {
 	 *
 	 * <code>
 	 *		// Returns "my-first-post"
-	 *		$slug = URL::slug('My First Post!!');
+	 *		$slug = $url->slug('My First Post!!');
 	 *
 	 *		// Returns "my_first_post"
-	 *		$slug = URL::slug('My First Post!!', '_');
+	 *		$slug = $url->slug('My First Post!!', '_');
 	 * </code>
 	 *
 	 * @param  string  $title
 	 * @param  string  $separator
 	 * @return string
 	 */
-	public static function slug($title, $separator = '-')
+	public function slug($title, $separator = '-')
 	{
 		$title = Str::ascii($title);
 
@@ -139,27 +139,27 @@ class URL {
 	 *
 	 * <code>
 	 *		// Generate a URL for the "profile" named route
-	 *		$url = URL::to_profile();
+	 *		$url = $url->to_profile();
 	 *
 	 *		// Generate a URL for the "profile" named route using HTTPS
-	 *		$url = URL::to_secure_profile();
+	 *		$url = $url->to_secure_profile();
 	 *
 	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = URL::to_profile(array('fred'));
+	 *		$url = $url->to_profile(array('fred'));
 	 * </code>
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return static::to_route(substr($method, 10), $parameters, true);
+			return $this->to_route(substr($method, 10), $parameters, true);
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return static::to_route(substr($method, 3), $parameters);
+			return $this->to_route(substr($method, 3), $parameters);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the URL class.");

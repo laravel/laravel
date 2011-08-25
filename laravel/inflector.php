@@ -136,6 +136,14 @@ class Inflector {
 	/**
 	 * Convert a word to its plural form.
 	 *
+	 * <code>
+	 *		// Returns "friends"
+	 *		Inflector::plural('friend');
+	 *
+	 *		// Returns "children"
+	 *		Inflector::plural('child');
+	 * </code>
+	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -146,6 +154,14 @@ class Inflector {
 
 	/**
 	 * Convert a word to its singular form.
+	 *
+	 * <code>
+	 *		// Returns "friend"
+	 *		Inflector::singular('friends');
+	 *
+	 *		// Returns "child"
+	 *		Inflector::singular('children');
+	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string
