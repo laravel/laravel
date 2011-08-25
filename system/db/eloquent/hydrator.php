@@ -50,7 +50,14 @@ class Hydrator {
 
 			$model->exists = true;
 
-			$models[$model->id] = $model;
+			if ($model->id)
+			{
+				$models[$model->id] = $model;
+			}
+			else
+			{
+				$models[] = $model;
+			}
 		}
 
 		return $models;
