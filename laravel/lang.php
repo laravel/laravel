@@ -88,7 +88,7 @@ class Lang {
 
 		if ( ! $this->load($file))
 		{
-			return is_callable($default) ? call_user_func($default) : $default;
+			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
 		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);

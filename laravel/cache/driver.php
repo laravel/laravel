@@ -38,7 +38,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->retrieve($key))) return $item;
 
-		return (is_callable($default)) ? call_user_func($default) : $default;
+		return ($default instanceof \Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
@@ -82,7 +82,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$default = is_callable($default) ? call_user_func($default) : $default;
+		$default = ($default instanceof \Closure) ? call_user_func($default) : $default;
 
 		$this->put($key, $default, $minutes);
 

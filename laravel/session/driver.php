@@ -104,7 +104,7 @@ abstract class Driver {
 			if (array_key_exists($possibility, $this->session['data'])) return $this->session['data'][$possibility];
 		}
 
-		return is_callable($default) ? call_user_func($default) : $default;
+		return ($default instanceof \Closure) ? call_user_func($default) : $default;
 	}
 
 	/**

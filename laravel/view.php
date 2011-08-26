@@ -91,7 +91,7 @@ class View implements Renderable {
 		{
 			foreach ((array) $composers[$this->view] as $key => $value)
 			{
-				if (is_callable($value)) return call_user_func($value, $this);
+				if ($value instanceof \Closure) return call_user_func($value, $this);
 			}
 		}
 	}

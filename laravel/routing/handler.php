@@ -83,7 +83,7 @@ class Handler {
 	{
 		if (isset($route->callback['do'])) return $route->callback['do'];
 
-		foreach ($route->callback as $value) { if (is_callable($value)) return $value; }
+		foreach ($route->callback as $value) { if ($value instanceof Closure) return $value; }
 	}
 
 	/**
