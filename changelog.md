@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 1.6.6
+
+- Fix bug that caused exceptions to not be shown when attempting to render a view that doesn't exist.
+
+### Upgrading from 1.5.5
+
+- Replace **system** directory.
+
 ## Version 1.5.5
 
 - Fix bug in session class cookie option extraction.
