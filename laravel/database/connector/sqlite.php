@@ -1,6 +1,6 @@
-<?php namespace Laravel\DB\Connector;
+<?php namespace Laravel\Database\Connector;
 
-use Laravel\DB\Connector;
+use Laravel\Database\Connector;
 
 class SQLite extends Connector {
 

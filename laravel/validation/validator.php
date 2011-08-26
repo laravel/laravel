@@ -1,7 +1,7 @@
 <?php namespace Laravel\Validation;
 
 use Laravel\Lang;
-use Laravel\DB\Manager as DB;
+use Laravel\Database\Manager as DB;
 
 class Validator {
 
@@ -541,10 +541,10 @@ class Validator {
 	/**
 	 * Set the database connection that should be used by the validator.
 	 *
-	 * @param  DB\Connection  $connection
+	 * @param  Database\Connection  $connection
 	 * @return Validator
 	 */
-	public function connection(DB\Connection $connection)
+	public function connection(Database\Connection $connection)
 	{
 		$this->connection = $connection;
 		return $this;

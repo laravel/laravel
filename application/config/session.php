@@ -12,7 +12,7 @@ return array(
 	| Since HTTP is stateless, sessions are used to maintain "state" across
 	| multiple requests from the same user of your application.
 	|
-	| Supported Drivers: 'cookie', 'file', 'db', 'memcached', 'apc'.
+	| Supported Drivers: 'cookie', 'file', 'database', 'memcached', 'apc'.
 	|
 	*/
 
@@ -25,7 +25,7 @@ return array(
 	|
 	| The database table on which the session should be stored. 
 	|
-	| This option is only relevant when using the "db" session driver.
+	| This option is only relevant when using the "database" session driver.
 	|
 	*/
 

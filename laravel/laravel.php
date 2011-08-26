@@ -23,7 +23,7 @@ unset($laravel, $application, $config, $packages, $public, $storage);
 define('CACHE_PATH',      STORAGE_PATH.'cache/');
 define('CONFIG_PATH',     APP_PATH.'config/');
 define('CONTROLLER_PATH', APP_PATH.'controllers/');
-define('DATABASE_PATH',   STORAGE_PATH.'db/');
+define('DATABASE_PATH',   STORAGE_PATH.'database/');
 define('LANG_PATH',       APP_PATH.'language/');
 define('SCRIPT_PATH',     PUBLIC_PATH.'js/');
 define('SESSION_PATH',    STORAGE_PATH.'sessions/');

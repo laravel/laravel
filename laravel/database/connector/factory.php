@@ -1,4 +1,4 @@
-<?php namespace Laravel\DB\Connector;
+<?php namespace Laravel\Database\Connector;
 
 class Factory {
 
