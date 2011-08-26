@@ -122,6 +122,7 @@ class View {
 	protected function compose()
 	{
 		static::load_composers($this->module);
+		$view = ($this->module != 'application' ? $this->module . '::' : '') . $this->view;
 
 		if (isset(static::$composers[$this->module][$this->view]))
 		{
