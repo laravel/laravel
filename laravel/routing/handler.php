@@ -95,6 +95,8 @@ class Handler {
 	 */
 	protected function handle_closure(Route $route, Closure $closure)
 	{
+		array_unshift($route->parameters, $this->request);
+
 		$response = call_user_func_array($closure, $route->parameters);
 
 		if (is_array($response))
