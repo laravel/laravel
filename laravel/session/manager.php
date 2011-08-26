@@ -1,5 +1,6 @@
 <?php namespace Laravel\Session;
 
+use Laravel\IoC;
 use Laravel\Config;
 
 class Manager {
@@ -26,7 +27,7 @@ class Manager {
 		{
 			$driver = Config::get('session.driver');
 
-			if (in_array($driver, array('cookie', 'file', 'database', 'memcached')))
+			if (in_array($driver, array('cookie', 'file', 'database', 'apc', 'memcached')))
 			{
 				return static::$driver = IoC::container()->resolve('laravel.session.'.$driver);
 			}

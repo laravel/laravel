@@ -188,15 +188,16 @@ abstract class Driver {
 	 * The session will be stored in persistant storage and the session cookie will be
 	 * session cookie will be sent to the browser.
 	 *
+	 * @param  Laravel\Cookie  $cookie
 	 * @return void
 	 */
-	public function close()
+	public function close(\Laravel\Cookie $cookie)
 	{
 		$this->age_flash();
 
 		$this->save();
 
-		$this->write_cookie();
+		$this->write_cookie($cookie);
 	}
 
 	/**
@@ -225,15 +226,20 @@ abstract class Driver {
 	/**
 	 * Write the session cookie.
 	 *
+	 * @param  Laravel\Cookie  $cookie
 	 * @return void
 	 */
-	protected function write_cookie()
+	protected function write_cookie(\Laravel\Cookie $cookie)
 	{
 		if ( ! headers_sent())
 		{
-			$minutes = (Config::get('session.expire_on_close')) ? 0 : Config::get('session.lifetime');
+			$config = Config::get('session');
 
-			Cookie::put('laravel_session', static::$session['id'], $minutes, Config::get('session.path'), Config::get('session.domain'), Config::get('session.https'), Config::get('http_only'));
+			extract($config);
+
+			$minutes = ($expire_on_close) ? 0 : $lifetime;
+
+			$cookie->put('laravel_session', $this->session['id'], $minutes, $path, $domain, $https, $http_only);
 		}
 	}
 

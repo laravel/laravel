@@ -77,7 +77,7 @@ return array(
 
 	'laravel.session.cookie' => array('resolver' => function($container)
 	{
-		return new Session\Cookie(new Crypter, $container->resolve('laravel.request')->input->cookies);
+		return new Session\Cookie(Security\Crypter::make(), $container->resolve('laravel.request')->input->cookies);
 	}),
 
 	/*

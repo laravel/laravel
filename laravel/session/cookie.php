@@ -22,11 +22,11 @@ class Cookie extends Driver {
 	/**
 	 * Create a new Cookie session driver instance.
 	 *
-	 * @param  Crypter  $crypter
-	 * @param  Cookie   $cookie
+	 * @param  Crypter         $crypter
+	 * @param  Laravel\Cookie  $cookie
 	 * @return void
 	 */
-	public function __construct(Crypter $crypter, Cookie $cookie)
+	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie)
 	{
 		$this->cookie = $cookie;
 		$this->crypter = $crypter;

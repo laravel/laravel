@@ -114,21 +114,6 @@ require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/handler'.EXT;
 
 // --------------------------------------------------------------
-// Load the session.
-// --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session\Manager::driver()->start(Cookie::get('laravel_session'));
-
-// --------------------------------------------------------------
-// Load the packages that are in the auto-loaded packages array.
-// --------------------------------------------------------------
-if (count(Config::get('application.packages')) > 0)
-{
-	require SYS_PATH.'package'.EXT;
-
-	Package::load(Config::get('application.packages'));
-}
-
-// --------------------------------------------------------------
 // Initialize the request instance for the request.
 // --------------------------------------------------------------
 $request = new Request($_SERVER);
@@ -139,6 +124,24 @@ IoC::container()->instance('laravel.request', $request);
 // Hydrate the input for the current request.
 // --------------------------------------------------------------
 $request->input = new Input($request->method(), $request->is_spoofed(), $_GET, $_POST, $_FILES, new Cookie($_COOKIE));
+
+// --------------------------------------------------------------
+// Load the session.
+// --------------------------------------------------------------
+if (Config::get('session.driver') != '')
+{
+	Session\Manager::driver()->start($request->input->cookies->get('laravel_session'));
+}
+
+// --------------------------------------------------------------
+// Load the packages that are in the auto-loaded packages array.
+// --------------------------------------------------------------
+if (count(Config::get('application.packages')) > 0)
+{
+	require SYS_PATH.'package'.EXT;
+
+	Package::load(Config::get('application.packages'));
+}
 
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
@@ -161,7 +164,7 @@ if (Config::get('session.driver') != '')
 
 	$driver->flash('laravel_old_input', $request->input->get());
 
-	$driver->close();
+	$driver->close($request->input->cookies);
 
 	if ($driver instanceof Session\Sweeper and mt_rand(1, 100) <= 2)
 	{
