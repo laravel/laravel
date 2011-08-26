@@ -126,7 +126,7 @@ class Handler {
 
 		$controller = $this->resolve($controller);
 
-		$response = $controller->before($this->request);
+		$response = ($method == 'before' or strncmp($method, '_', 1) === 0) ? new Error('404') : $controller->before($this->request);
 
 		return (is_null($response)) ? call_user_func_array(array($controller, $method), $parameters) : $response;
 	}

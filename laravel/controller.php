@@ -11,7 +11,7 @@ abstract class Controller {
 	 * @param  Request  $request
 	 * @return mixed
 	 */
-	public function before(Request $request) {}
+	public function before($request) {}
 
 	/**
 	 * Magic Method to handle calls to undefined functions on the controller.
