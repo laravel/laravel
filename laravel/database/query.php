@@ -519,22 +519,10 @@ class Query {
 	 * @param  int    $per_page
 	 * @return Query
 	 */
-	public function for_page($page, $per_page = 15)
+	public function for_page($page, $per_page)
 	{
 		if ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) $page = 1;
 
-		return $this->skip(($page - 1) * $per_page)->take($per_page)
-	}
-
-	/**
-	 * Calculate and set the limit and offset values for a given page.
-	 *
-	 * @param  int    $page
-	 * @param  int    $per_page
-	 * @return Query
-	 */
-	public function for_page($page, $per_page)
-	{
 		return $this->skip(($page - 1) * $per_page)->take($per_page);
 	}
 
