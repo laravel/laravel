@@ -5,14 +5,7 @@ use Laravel\Request;
 class Router {
 
 	/**
-	 * The request method and URI.
-	 *
-	 * @var string
-	 */
-	public $destination;
-
-	/**
-	 * All of the loaded routes.
+	 * All of the routes available to the router.
 	 *
 	 * @var array
 	 */
@@ -23,58 +16,81 @@ class Router {
 	 *
 	 * @var Request
 	 */
-	private $request;
+	protected $request;
 
 	/**
-	 * The route loader instance.
+	 * The named routes that have been found so far.
 	 *
-	 * @var Loader
+	 * @var array
 	 */
-	private $loader;
+	protected $names = array();
 
 	/**
 	 * Create a new router for a request method and URI.
 	 *
 	 * @param  Request  $request
-	 * @param  Loader   $loader
+	 * @param  array    $routes
 	 * @return void
 	 */
-	public function __construct(Request $request, Loader $loader)
+	public function __construct(Request $request, $routes)
 	{
-		$this->loader = $loader;
+		$this->routes = $routes;
 		$this->request = $request;
-
-		// Put the request method and URI in route form. Routes begin with
-		// the request method and a forward slash.
-		$this->destination = $request->method().' /'.trim($request->uri(), '/');
 	}
 
 	/**
-	 * Create a new router for a request method and URI.
+	 * Find a route by name.
 	 *
-	 * @param  Request  $request
-	 * @param  Loader   $loader
-	 * @return Router
+	 * The returned array will be identical the array defined in the routes.php file.
+	 *
+	 * <code>
+	 *		// Find the "login" named route
+	 *		$route = $router->find('login');
+	 *
+	 *		// Find the "login" named route through the IoC container
+	 *		$route = IoC::resolve('laravel.routing.router')->find('login');
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @return array
 	 */
-	public static function make(Request $request, Loader $loader)
+	public function find($name)
 	{
-		return new static($request, $loader);
+		if (array_key_exists($name, $this->names)) return $this->names[$name];
+
+		$arrayIterator = new \RecursiveArrayIterator($this->routes);
+
+		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
+
+		foreach ($recursiveIterator as $iterator)
+		{
+			$route = $recursiveIterator->getSubIterator();
+
+			if (isset($route['name']) and $route['name'] === $name)
+			{
+				return $this->names[$name] = array($arrayIterator->key() => iterator_to_array($route));
+			}
+		}
 	}
 
 	/**
-	 * Search a set of routes for the route matching a method and URI.
+	 * Search the routes for the route matching a method and URI.
+	 *
+	 * If no route can be found, the application controllers will be searched.
 	 *
 	 * @return Route
 	 */
 	public function route()
 	{
-		if (is_null($this->routes)) $this->routes = $this->loader->load($this->request->uri());
+		// Put the request method and URI in route form. Routes begin with
+		// the request method and a forward slash.
+		$destination = $this->request->method().' /'.trim($this->request->uri(), '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
-		if (isset($this->routes[$this->destination]))
+		if (isset($this->routes[$destination]))
 		{
-			return $this->request->route = new Route($this->destination, $this->routes[$this->destination]);
+			return $this->request->route = new Route($destination, $this->routes[$destination]);
 		}
 
 		foreach ($this->routes as $keys => $callback)
@@ -85,11 +101,73 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $key)
 				{
-					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $this->destination))
+					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return $this->request->route = new Route($keys, $callback, $this->parameters($this->destination, $key));
+						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key));
 					}
 				}				
+			}
+		}
+
+		return $this->route_to_controller();
+	}
+
+	/**
+	 * Attempt to find a controller for the incoming request.
+	 *
+	 * If no corresponding controller can be found, NULL will be returned.
+	 *
+	 * @return Route
+	 */
+	protected function route_to_controller()
+	{
+		$segments = explode('/', trim($this->request->uri(), '/'));
+
+		if ( ! is_null($key = $this->controller_key($segments)))
+		{
+			// Create the controller name for the current request. This controller
+			// name will be returned by the anonymous route we will create. Instead
+			// of using directory slashes, dots will be used to specify the controller
+			// location with the controllers directory.
+			$controller = implode('.', array_slice($segments, 0, $key));
+
+			// Now that we have the controller path and name, we can slice the controller
+			// section of the URI from the array of segments.
+			$segments = array_slice($segments, $key);
+
+			// Extract the controller method from the URI segments. If no more segments
+			// are remaining after slicing off the controller, the "index" method will
+			// be used as the default controller method.
+			$method = (count($segments) > 0) ? array_shift($segments) : 'index';
+
+			// Now we're ready to dummy up a controller delegating route callback. This
+			// callback will look exactly like the callback the developer would create
+			// were they to code the controller delegation manually.
+			$callback = function() use ($controller, $method) { return array($controller, $method); };
+
+			return new Route($controller, $callback, $segments);
+		}
+	}
+
+	/**
+	 * Search the controllers for the application and determine if an applicable
+	 * controller exists for the current request.
+	 *
+	 * If a controller is found, the array key for the controller name in the URI
+	 * segments will be returned by the method, otherwise NULL will be returned.
+	 *
+	 * @param  array  $segments
+	 * @return int
+	 */
+	protected function controller_key($segments)
+	{
+		// Work backwards through the URI segments until we find the deepest possible
+		// matching controller. Once we find it, we will return those routes.
+		foreach (array_reverse($segments, true) as $key => $value)
+		{
+			if (file_exists($path = CONTROLLER_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			{
+				return $key + 1;
 			}
 		}
 	}
@@ -100,7 +178,7 @@ class Router {
 	 * @param  string  $key
 	 * @return string
 	 */
-	private function translate_wildcards($key)
+	protected function translate_wildcards($key)
 	{
 		$replacements = 0;
 
@@ -123,7 +201,7 @@ class Router {
 	 * @param  string  $route
 	 * @return array
 	 */
-	private function parameters($uri, $route)
+	protected function parameters($uri, $route)
 	{
 		return array_values(array_intersect_key(explode('/', $uri), preg_grep('/\(.+\)/', explode('/', $route))));	
 	}	

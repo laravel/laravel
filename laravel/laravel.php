@@ -22,13 +22,14 @@ unset($laravel, $application, $config, $packages, $public, $storage);
 // --------------------------------------------------------------
 define('CACHE_PATH',      STORAGE_PATH.'cache/');
 define('CONFIG_PATH',     APP_PATH.'config/');
+define('CONTROLLER_PATH', APP_PATH.'controllers/');
 define('DATABASE_PATH',   STORAGE_PATH.'db/');
-define('LANG_PATH',       APP_PATH.'lang/');
+define('LANG_PATH',       APP_PATH.'language/');
 define('SCRIPT_PATH',     PUBLIC_PATH.'js/');
 define('SESSION_PATH',    STORAGE_PATH.'sessions/');
 define('STYLE_PATH',      PUBLIC_PATH.'css/');
 define('SYS_CONFIG_PATH', SYS_PATH.'config/');
-define('SYS_LANG_PATH',   SYS_PATH.'lang/');
+define('SYS_LANG_PATH',   SYS_PATH.'language/');
 define('VIEW_PATH',       APP_PATH.'views/');
 
 // --------------------------------------------------------------
@@ -44,6 +45,13 @@ require SYS_PATH.'arr'.EXT;
 Loader::bootstrap(Config::get('aliases'), array(APP_PATH.'libraries/', APP_PATH.'models/'));
 
 spl_autoload_register(array('Laravel\\Loader', 'load'));
+
+// --------------------------------------------------------------
+// Bootstrap the IoC container.
+// --------------------------------------------------------------
+require SYS_PATH.'ioc'.EXT;
+
+IoC::bootstrap(Config::get('container'));
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -66,14 +74,16 @@ set_exception_handler(function($e) use ($error_dependencies)
 {
 	call_user_func($error_dependencies);
 
-	Exception\Handler::make($e)->handle();
+	Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
 });
 
 set_error_handler(function($number, $error, $file, $line) use ($error_dependencies)
 {
 	call_user_func($error_dependencies);
 
-	Exception\Handler::make(new \ErrorException($error, $number, 0, $file, $line))->handle();
+	$e = new \ErrorException($error, $number, 0, $file, $line);
+
+	Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
 });
 
 register_shutdown_function(function() use ($error_dependencies)
@@ -82,9 +92,9 @@ register_shutdown_function(function() use ($error_dependencies)
 	{
 		call_user_func($error_dependencies);
 
-		extract($error);
+		$e = new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']);
 
-		Exception\Handler::make(new \ErrorException($message, $type, 0, $file, $line))->handle();
+		Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
 	}	
 });
 
@@ -96,21 +106,17 @@ date_default_timezone_set(Config::get('application.timezone'));
 // --------------------------------------------------------------
 // Load all of the core routing and response classes.
 // --------------------------------------------------------------
+require SYS_PATH.'input'.EXT;
+require SYS_PATH.'request'.EXT;
 require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
-require SYS_PATH.'routing/loader'.EXT;
-require SYS_PATH.'routing/filter'.EXT;
-
-// --------------------------------------------------------------
-// Bootstrap the IoC container.
-// --------------------------------------------------------------
-IoC::bootstrap(Config::get('dependencies'));
+require SYS_PATH.'routing/handler'.EXT;
 
 // --------------------------------------------------------------
 // Load the session.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '') Session::driver()->start(Cookie::get('laravel_session'));
+if (Config::get('session.driver') != '') Session\Manager::driver()->start(Cookie::get('laravel_session'));
 
 // --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
@@ -127,44 +133,19 @@ if (count(Config::get('application.packages')) > 0)
 // --------------------------------------------------------------
 $request = new Request($_SERVER);
 
-// --------------------------------------------------------------
-// Hydrate the input for the current request.
-// --------------------------------------------------------------
-$request->input = new Input($request, $_GET, $_POST, $_COOKIE, $_FILES);
-
-// --------------------------------------------------------------
-// Register the request as a singleton in the IoC container.
-// --------------------------------------------------------------
 IoC::container()->instance('laravel.request', $request);
 
 // --------------------------------------------------------------
-// Register the filters for the default module.
+// Hydrate the input for the current request.
 // --------------------------------------------------------------
-Routing\Filter::register(require APP_PATH.'filters'.EXT);
-
-// --------------------------------------------------------------
-// Call the "before" filter for the application and module.
-// --------------------------------------------------------------
-$response = Routing\Filter::call('before', array($request->method(), $request->uri()), true);
+$request->input = new Input($request->method(), $request->is_spoofed(), $_GET, $_POST, $_FILES, new Cookie($_COOKIE));
 
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-if (is_null($response))
-{
-	$loader = new Routing\Loader(APP_PATH);
+$route = IoC::container()->resolve('laravel.routing.router')->route();
 
-	$route = Routing\Router::make($request, $loader)->route();
-
-	$response = (is_null($route)) ? Response::error('404') : $route->call();
-}
-
-$response = Response::prepare($response);
-
-// --------------------------------------------------------------
-// Call the "after" filter for the application and module.
-// --------------------------------------------------------------
-Routing\Filter::call('after', array($response, $request->method(), $request->uri()));
+$response = ( ! is_null($route)) ? IoC::container()->resolve('laravel.routing.handler')->handle($route) : new Error('404');
 
 // --------------------------------------------------------------
 // Stringify the response.
@@ -176,7 +157,7 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 if (Config::get('session.driver') != '')
 {
-	$driver = Session::driver();
+	$driver = Session\Manager::driver();
 
 	$driver->flash('laravel_old_input', $request->input->get());
 

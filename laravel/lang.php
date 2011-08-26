@@ -70,25 +70,6 @@ class Lang {
 	}
 
 	/**
-	 * Set the language the line should be returned in.
-	 *
-	 * The language specified in this method should correspond to a language directory in your application.
-	 *
-	 * <code>
-	 *		// Get a "fr" language line
-	 *		$line = Lang::line('validation.required')->in('fr')->get();
-	 * </code>
-	 *
-	 * @param  string  $language
-	 * @return Lang
-	 */
-	public function in($language)
-	{
-		$this->language = $language;
-		return $this;
-	}
-
-	/**
 	 * Get the language line.
 	 *
 	 * A default value may also be specified, which will be returned in the language line doesn't exist.
@@ -123,7 +104,9 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
-	 * Language keys follow a {file}.{key} convention.
+	 * Language keys follow a {file}.{key} convention. If a specific language key is not
+	 * specified, an exception will be thrown. Setting entire language files at run-time
+	 * is not currently supported.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -166,6 +149,25 @@ class Lang {
 		}
 		
 		return isset(static::$lines[$this->language.$file]);		
+	}
+
+	/**
+	 * Set the language the line should be returned in.
+	 *
+	 * The language specified in this method should correspond to a language directory in your application.
+	 *
+	 * <code>
+	 *		// Get a "fr" language line
+	 *		$line = Lang::line('validation.required')->in('fr')->get();
+	 * </code>
+	 *
+	 * @param  string  $language
+	 * @return Lang
+	 */
+	public function in($language)
+	{
+		$this->language = $language;
+		return $this;
 	}
 
 	/**

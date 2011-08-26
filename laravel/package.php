@@ -23,13 +23,14 @@ class Package {
 	 * </code>
 	 *
 	 * @param  string|array  $packages
+	 * @param  string        $path
 	 * @return void
 	 */
-	public static function load($packages)
+	public static function load($packages, $path = PACKAGE_PATH)
 	{
 		foreach ((array) $packages as $package)
 		{
-			if ( ! static::loaded($package) and file_exists($bootstrap = PACKAGE_PATH.$package.'/bootstrap'.EXT))
+			if ( ! static::loaded($package) and file_exists($bootstrap = $path.$package.'/bootstrap'.EXT))
 			{
 				require $bootstrap;
 			}

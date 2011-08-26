@@ -75,9 +75,9 @@ class Form {
 	 */
 	private static function action($action, $https)
 	{
-		$url = IoC::container()->resolve('laravel.url');
+		$request = IoC::container()->resolve('laravel.request');
 
-		return HTML::entities($url->to(((is_null($action)) ? IoC::resolve('laravel.request')->uri() : $action), $https));
+		return HTML::entities(URL::to(((is_null($action)) ? $request->uri() : $action), $https));
 	}
 
 	/**
@@ -135,14 +135,11 @@ class Form {
 	/**
 	 * Generate a hidden field containing the current CSRF token.
 	 *
-	 * If a session driver is not provided, the default session driver will be used.
-	 *
-	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public static function token(Session\Driver $driver = null)
+	public static function token()
 	{
-		if (is_null($driver)) $driver = Session::driver();
+		$driver = IoC::container()->resolve('laravel.session.driver');
 
 		return static::input('hidden', 'csrf_token', static::raw_token($driver));
 	}
@@ -150,16 +147,11 @@ class Form {
 	/**
 	 * Retrieve the current CSRF token.
 	 *
-	 * If a session driver is not provided, the default session driver will be used.
-	 *
-	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public static function raw_token(Session\Driver $driver = null)
+	public static function raw_token()
 	{
-		if (is_null($driver)) $driver = Session::driver();
-
-		return $driver->get('csrf_token');
+		return IoC::container()->resolve('laravel.session.driver')->get('csrf_token');
 	}
 
 	/**
@@ -449,7 +441,7 @@ class Form {
 	 */
 	public static function image($url, $name = null, $attributes = array())
 	{
-		$attributes['src'] = IoC::container()->resolve('laravel.url')->to_asset($url);
+		$attributes['src'] = URL::to_asset($url);
 
 		return static::input('image', $name, null, $attributes);
 	}

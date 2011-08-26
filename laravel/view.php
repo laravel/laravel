@@ -10,7 +10,7 @@ class View implements Renderable {
 	public $view;
 
 	/**
-	 * The view name with dots replaced with slashes.
+	 * The view name with dots replaced by slashes.
 	 *
 	 * @var string
 	 */
@@ -24,31 +24,23 @@ class View implements Renderable {
 	public $data = array();
 
 	/**
-	 * The module that contains the view.
-	 *
-	 * @var string
-	 */
-	public $module;
-
-	/**
-	 * The defined view composers.
-	 *
-	 * @var array
-	 */
-	public static $composers;
-
-	/**
 	 * Create a new view instance.
 	 *
 	 * @param  string  $view
 	 * @param  array   $data
+	 * @param  string  $path
 	 * @return void
 	 */
-	public function __construct($view, $data = array())
+	public function __construct($view, $data = array(), $path = VIEW_PATH)
 	{
 		$this->view = $view;
 		$this->data = $data;
-		$this->path = str_replace('.', '/', $view);
+		$this->path = $path.str_replace('.', '/', $view).EXT;
+
+		if ( ! file_exists($this->path))
+		{
+			throw new \Exception('View ['.$this->path.'] does not exist.');
+		}
 	}
 
 	/**
@@ -56,11 +48,12 @@ class View implements Renderable {
 	 *
 	 * @param  string  $view
 	 * @param  array   $data
+	 * @param  string  $path
 	 * @return View
 	 */
-	public static function make($view, $data = array())
+	public static function make($view, $data = array(), $path = VIEW_PATH)
 	{
-		return new static($view, $data);
+		return new static($view, $data, $path);
 	}
 
 	/**
@@ -72,9 +65,9 @@ class View implements Renderable {
 	 */
 	protected static function of($name, $data = array())
 	{
-		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+		$composers = IoC::container()->resolve('laravel.composers');
 
-		foreach (static::$composers as $key => $value)
+		foreach ($composers as $key => $value)
 		{
 			if ($name === $value or (isset($value['name']) and $name === $value['name']))
 			{
@@ -92,11 +85,11 @@ class View implements Renderable {
 	 */
 	protected function compose()
 	{
-		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+		$composers = IoC::container()->resolve('laravel.composers');
 
-		if (isset(static::$composers[$this->view]))
+		if (isset($composers[$this->view]))
 		{
-			foreach ((array) static::$composers[$this->view] as $key => $value)
+			foreach ((array) $composers[$this->view] as $key => $value)
 			{
 				if (is_callable($value)) return call_user_func($value, $this);
 			}
@@ -106,16 +99,14 @@ class View implements Renderable {
 	/**
 	 * Get the evaluated string content of the view.
 	 *
+	 * If the view has a composer, it will be executed. All sub-views and responses will
+	 * also be evaluated and converted to their string values.
+	 *
 	 * @return string
 	 */
 	public function render()
 	{
 		$this->compose();
-
-		if ( ! file_exists(VIEW_PATH.$this->path.EXT))
-		{
-			Exception\Handler::make(new Exception('View ['.$this->path.'] does not exist.'))->handle();
-		}
 
 		foreach ($this->data as &$data) 
 		{
@@ -124,7 +115,14 @@ class View implements Renderable {
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		try { include VIEW_PATH.$this->path.EXT; } catch (\Exception $e) { Exception\Handler::make($e)->handle(); }
+		try
+		{
+			include $this->path;
+		}
+		catch (\Exception $e)
+		{
+			Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
+		}
 
 		return ob_get_clean();
 	}
@@ -136,8 +134,8 @@ class View implements Renderable {
 	 *		// Bind the view "partial/login" to the view
 	 *		View::make('home')->partial('login', 'partial/login');
 	 *
-	 *		// Equivalent binding using the "bind" method
-	 *		View::make('home')->bind('login', View::make('partials/login'));
+	 *		// Equivalent binding using the "with" method
+	 *		View::make('home')->with('login', View::make('partials/login'));
 	 * </code>
 	 *
 	 * @param  string  $key
@@ -147,7 +145,7 @@ class View implements Renderable {
 	 */
 	public function partial($key, $view, $data = array())
 	{
-		return $this->bind($key, new static($view, $data));
+		return $this->with($key, new static($view, $data));
 	}
 
 	/**
@@ -157,14 +155,14 @@ class View implements Renderable {
 	 *
 	 * <code>
 	 *		// Bind a "name" value to the view
-	 *		View::make('home')->bind('name', 'Fred');
+	 *		View::make('home')->with('name', 'Fred');
 	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return View
 	 */
-	public function bind($key, $value)
+	public function with($key, $value)
 	{
 		$this->data[$key] = $value;
 		return $this;
@@ -202,7 +200,7 @@ class View implements Renderable {
 	 */
 	public function __set($key, $value)
 	{
-		$this->bind($key, $value);
+		$this->with($key, $value);
 	}
 
 	/**

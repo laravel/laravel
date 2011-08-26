@@ -7,20 +7,22 @@ class URL {
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
 	 *
+	 * <code>
+	 *		// Generate the URL: http://example.com/index.php/user/profile
+	 *		$url = URL::to('user/profile');
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public function to($url = '', $https = false)
+	public static function to($url = '', $https = false)
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
-		if ($https and strpos($base, 'http://') === 0)
-		{
-			$base = 'https://'.substr($base, 7);
-		}
+		if ($https) $base = preg_replace('~http://~', 'https://', $base, 1);
 
 		return rtrim($base, '/').'/'.trim($url, '/');
 	}
@@ -28,25 +30,42 @@ class URL {
 	/**
 	 * Generate an application URL with HTTPS.
 	 *
+	 * <code>
+	 *		// Generate the URL: https://example.com/index.php/user/profile
+	 *		$url = URL::to_secure('user/profile');
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @return string
 	 */
-	public function to_secure($url = '')
+	public static function to_secure($url = '')
 	{
-		return $this->to($url, true);
+		return static::to($url, true);
 	}
 
 	/**
 	 * Generate an application URL to an asset.
 	 *
-	 * The index file will not be added to asset URLs.
+	 * The index file will not be added to asset URLs. If the HTTPS option is not
+	 * specified, HTTPS will be used when the active request is also using HTTPS.
+	 *
+	 * <code>
+	 *		// Generate the URL: http://example.com/img/picture.jpg
+	 *		$url = URL::to_asset('img/picture.jpg');
+	 *
+	 *		// Generate the URL: https://example.com/img/picture.jpg
+	 *		$url = URL::to_asset('img/picture.jpg', true);
+	 * </code>
 	 *
 	 * @param  string  $url
+	 * @param  bool    $https
 	 * @return string
 	 */
-	public function to_asset($url)
+	public static function to_asset($url, $https = null)
 	{
-		return str_replace('index.php/', '', $this->to($url, IoC::resolve('laravel.request')->is_secure()));
+		if (is_null($https)) $https = IoC::resolve('laravel.request')->is_secure();
+
+		return str_replace('index.php/', '', static::to($url, $https));
 	}
 
 	/**
@@ -55,22 +74,26 @@ class URL {
 	 * For routes that have wildcard parameters, an array may be passed as the second parameter to the method.
 	 * The values of this array will be used to fill the wildcard segments of the route URI.
 	 *
+	 * Optional parameters will be convereted to spaces if no parameter values are specified.
+	 *
 	 * <code>
 	 *		// Generate a URL for the "profile" named route
-	 *		$url = $url->to_route('profile');
+	 *		$url = URL::to_route('profile');
 	 *
 	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = $url->to_route('profile', array('fred'));
+	 *		$url = URL::to_route('profile', array('fred'));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  array   $parameters
-	 * @param  bool    $https
+	 * @param  string          $name
+	 * @param  array           $parameters
+	 * @param  bool            $https
 	 * @return string
 	 */
-	public function to_route($name, $parameters = array(), $https = false)
+	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = Routing\Finder::find($name, Routing\Loader::all())))
+		$router = IoC::container()->resolve('laravel.routing.router');
+
+		if ( ! is_null($route = $router->find($name)))
 		{
 			$uris = explode(', ', key($route));
 
@@ -81,9 +104,7 @@ class URL {
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
-			$uri = str_replace(array('/(:any?)', '/(:num?)'), '', $uri);
-
-			return $this->to($uri, $https);
+			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
 		throw new \Exception("Error generating named route for route [$name]. Route is not defined.");
@@ -94,16 +115,16 @@ class URL {
 	 *
 	 * <code>
 	 *		// Generate a HTTPS URL for the "profile" named route
-	 *		$url = $url->to_secure_route('profile');
+	 *		$url = URL::to_secure_route('profile');
 	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	public function to_secure_route($name, $parameters = array())
+	public static function to_secure_route($name, $parameters = array())
 	{
-		return $this->to_route($name, $parameters, true);
+		return static::to_route($name, $parameters, true);
 	}
 
 	/**
@@ -111,17 +132,17 @@ class URL {
 	 *
 	 * <code>
 	 *		// Returns "my-first-post"
-	 *		$slug = $url->slug('My First Post!!');
+	 *		$slug = URL::slug('My First Post!!');
 	 *
 	 *		// Returns "my_first_post"
-	 *		$slug = $url->slug('My First Post!!', '_');
+	 *		$slug = URL::slug('My First Post!!', '_');
 	 * </code>
 	 *
 	 * @param  string  $title
 	 * @param  string  $separator
 	 * @return string
 	 */
-	public function slug($title, $separator = '-')
+	public static function slug($title, $separator = '-')
 	{
 		$title = Str::ascii($title);
 
@@ -139,27 +160,27 @@ class URL {
 	 *
 	 * <code>
 	 *		// Generate a URL for the "profile" named route
-	 *		$url = $url->to_profile();
+	 *		$url = URL::to_profile();
 	 *
 	 *		// Generate a URL for the "profile" named route using HTTPS
-	 *		$url = $url->to_secure_profile();
+	 *		$url = URL::to_secure_profile();
 	 *
 	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = $url->to_profile(array('fred'));
+	 *		$url = URL::to_profile(array('fred'));
 	 * </code>
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return $this->to_route(substr($method, 10), $parameters, true);
+			return static::to_route(substr($method, 10), $parameters, true);
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return $this->to_route(substr($method, 3), $parameters);
+			return static::to_route(substr($method, 3), $parameters);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the URL class.");

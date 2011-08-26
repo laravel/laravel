@@ -24,9 +24,9 @@ class Input {
 	public $post;
 
 	/**
-	 * The $_COOKIE array for the request.
+	 * The cookie manager instance.
 	 *
-	 * @var array
+	 * @var Cookie
 	 */
 	public $cookies;
 
@@ -40,31 +40,21 @@ class Input {
 	/**
 	 * Create a new Input instance.
 	 *
-	 * @param  Request  $request
-	 * @param  array    $get
-	 * @param  array    $post
-	 * @param  array    $cookies
-	 * @param  array    $files
+	 * @param  string  $method
+	 * @param  bool    $spoofed
+	 * @param  array   $get
+	 * @param  array   $post
+	 * @param  array   $files
+	 * @param  Cookie  $cookies
+	 * @return void
 	 */
-	public function __construct(Request $request, $get, $post, $cookies, $files)
+	public function __construct($method, $spoofed, $get, $post, $files, Cookie $cookies)
 	{
 		$this->get = $get;
 		$this->post = $post;
 		$this->files = $files;
 		$this->cookies = $cookies;
 
-		$this->hydrate($request->method(), $request->is_spoofed());
-	}
-
-	/**
-	 * Hydrate the input for a given request.
-	 *
-	 * @param  string  $method
-	 * @param  bool    $spoofed
-	 * @return void
-	 */
-	private function hydrate($method, $spoofed)
-	{
 		if ($method == 'GET')
 		{
 			$this->input = $this->get;
@@ -138,8 +128,6 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
-	 * If no session driver is provided, the default driver will be used.
-	 *
 	 * <code>
 	 *		// Get the "name" item from the old input data
 	 *		$name = Request::active()->input->old('name');
@@ -147,12 +135,11 @@ class Input {
 	 *
 	 * @param  string          $key
 	 * @param  mixed           $default
-	 * @param  Session\Driver  $driver
 	 * @return string
 	 */
-	public function old($key = null, $default = null, Session\Driver $driver = null)
+	public function old($key = null, $default = null)
 	{
-		if (is_null($driver)) $driver = Session::driver();
+		$driver = IoC::container()->resolve('laravel.session.driver');
 
 		return Arr::get($driver->get('laravel_old_input', array()), $key, $default);
 	}

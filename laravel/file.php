@@ -3,12 +3,23 @@
 class File {
 
 	/**
+	 * Determine if a file exists.
+	 *
+	 * @param  string  $path
+	 * @return bool
+	 */
+	public function exists($path)
+	{
+		return file_exists($path);
+	}
+
+	/**
 	 * Get the contents of a file.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	public static function get($path)
+	public function get($path)
 	{
 		return file_get_contents($path);
 	}
@@ -20,7 +31,7 @@ class File {
 	 * @param  string  $data
 	 * @return int
 	 */
-	public static function put($path, $data)
+	public function put($path, $data)
 	{
 		return file_put_contents($path, $data, LOCK_EX);
 	}
@@ -32,9 +43,20 @@ class File {
 	 * @param  string  $data
 	 * @return int
 	 */
-	public static function append($path, $data)
+	public function append($path, $data)
 	{
 		return file_put_contents($path, $data, LOCK_EX | FILE_APPEND);
+	}
+
+	/**
+	 * Delete a file.
+	 *
+	 * @param  string  $path
+	 * @return void
+	 */
+	public function delete($path)
+	{
+		@unlink($path);
 	}
 
 	/**
@@ -43,9 +65,42 @@ class File {
 	 * @param  string  $path
 	 * @return string
 	 */
-	public static function extension($path)
+	public function extension($path)
 	{
 		return pathinfo($path, PATHINFO_EXTENSION);
+	}
+
+	/**
+	 * Get the file type of a given file.
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public function type($path)
+	{
+		return filetype($path);
+	}
+
+	/**
+	 * Get the file size of a given file.
+	 *
+	 * @param  string  $file
+	 * @return int
+	 */
+	public function size($path)
+	{
+		return filesize($path);
+	}
+
+	/**
+	 * Get the file's last modification time.
+	 *
+	 * @param  string  $path
+	 * @return int
+	 */
+	public function modified($path)
+	{
+		return filemtime($path);
 	}
 
 	/**
@@ -55,7 +110,7 @@ class File {
 	 *
 	 * <code>
 	 *		// Get lines 10 - 20 of the "routes.php" file
-	 *		$lines = File::snapshot(APP_PATH.'routes'.EXT, 15, 5);
+	 *		$lines = $file->snapshot(APP_PATH.'routes'.EXT, 15, 5);
 	 * </code>
 	 *
 	 * @param  string  $path
@@ -63,7 +118,7 @@ class File {
 	 * @param  int     $padding
 	 * @return array
 	 */
-	public static function snapshot($path, $line, $padding = 5)
+	public function snapshot($path, $line, $padding = 5)
 	{
 		if ( ! file_exists($path)) return array();
 
@@ -85,14 +140,14 @@ class File {
 	 *
 	 * <code>
 	 *		// Returns "application/x-tar"
-	 *		$mime = File::mime('tar');
+	 *		$mime = $file->mime('tar');
 	 * </code>
 	 *
 	 * @param  string  $extension
 	 * @param  string  $default
 	 * @return string
 	 */
-	public static function mime($extension, $default = 'application/octet-stream')
+	public function mime($extension, $default = 'application/octet-stream')
 	{
 		$mimes = Config::get('mimes');
 
@@ -109,14 +164,14 @@ class File {
 	 *
 	 * <code>
 	 *		// Determine if the file is a JPG image
-	 *		$image = File::is('jpg', 'path/to/image.jpg');
+	 *		$image = $file->is('jpg', 'path/to/image.jpg');
 	 * </code>
 	 *
 	 * @param  string  $extension
 	 * @param  string  $path
 	 * @return bool
 	 */
-	public static function is($extension, $path)
+	public function is($extension, $path)
 	{
 		$mimes = Config::get('mimes');
 

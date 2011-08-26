@@ -113,39 +113,11 @@ class Response implements Renderable {
 	}
 
 	/**
-	 * Factory for creating new error response instances.
-	 *
-	 * The response status code will be set using the specified code.
-	 *
-	 * Note: The specified error code should correspond to a view in your views/error directory.
-	 *
-	 * <code>
-	 *		// Return a 404 error response
-	 *		return Response::error('404');
-	 * </code>
-	 *
-	 * @param  int       $code
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public static function error($code, $data = array())
-	{
-		return static::make(View::make('error/'.$code, $data), $code);
-	}
-
-	/**
-	 * Take a value returned by a route and prepare a Response instance.
-	 *
-	 * @param  mixed     $response
-	 * @return Response
-	 */
-	public static function prepare($response)
-	{
-		return ( ! $response instanceof Response) ? new static($response) : $response;
-	}
-
-	/**
 	 * Get the evaluated string contents of the response.
+	 *
+	 * If the content implements the Renderable interface, the render method will be called
+	 * on the content and the result will be returned. Otherwise, the content will be cast
+	 * to a string and returned.
 	 *
 	 * @return string
 	 */
@@ -157,14 +129,14 @@ class Response implements Renderable {
 	/**
 	 * Send the response to the browser.
 	 *
+	 * All of the response header will be sent to the browser first, followed by the content
+	 * of the response instance, which will be evaluated and rendered by the render method.
+	 *
 	 * @return void
 	 */
 	public function send()
 	{
-		if ( ! array_key_exists('Content-Type', $this->headers))
-		{
-			$this->header('Content-Type', 'text/html; charset=utf-8');
-		}
+		if ( ! isset($this->headers['Content-Type'])) $this->header('Content-Type', 'text/html; charset=utf-8');
 
 		if ( ! headers_sent()) $this->send_headers();
 

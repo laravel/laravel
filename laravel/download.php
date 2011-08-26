@@ -20,16 +20,18 @@ class Download extends Response {
 	{
 		if (is_null($name)) $name = basename($path);
 
-		parent::__construct(file_get_contents($path));
+		$file = IoC::container()->resolve('laravel.file');
+
+		parent::__construct($file->get($path));
 
 		$this->header('Content-Description', 'File Transfer');
-		$this->header('Content-Type', File::mime(File::extension($path)));
+		$this->header('Content-Type', $file->mime($file->extension($path)));
 		$this->header('Content-Disposition', 'attachment; filename="'.$name.'"');
 		$this->header('Content-Transfer-Encoding', 'binary');
 		$this->header('Expires', 0);
 		$this->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
 		$this->header('Pragma', 'public');
-		$this->header('Content-Length', filesize($path));
+		$this->header('Content-Length', $file->size($path));
 	}
 
 }

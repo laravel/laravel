@@ -24,15 +24,15 @@ class Redirect extends Response {
 	 */
 	public static function to($url, $status = 302, $method = 'location', $https = false)
 	{
-		$url = IoC::container()->resolve('laravel.url')->to($url, $https);
+		$url = URL::to($url, $https);
 
 		if ($method == 'location')
 		{
-			return static::make('', $status)->header('Refresh', '0;url='.$url);
+			return parent::__construct('', $status)->header('Refresh', '0;url='.$url);
 		}
 		else
 		{
-			return static::make('', $status)->header('Location', $url);
+			return parent::__construct('', $status)->header('Location', $url);
 		}
 	}
 
@@ -66,14 +66,11 @@ class Redirect extends Response {
 	 *
 	 * @param  string          $key
 	 * @param  mixed           $value
-	 * @param  Session\Driver  $driver
 	 * @return Response
 	 */
-	public function with($key, $value, Session\Driver $driver)
+	public function with($key, $value)
 	{
-		if (is_null($driver)) $driver = Session::driver();
-
-		$driver->flash($key, $value);
+		IoC::container()->resolve('laravel.session.driver')->flash($key, $value);
 
 		return $this;
 	}
@@ -93,16 +90,14 @@ class Redirect extends Response {
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
-		$url = IoC::container()->resolve('laravel.url');
-
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return static::to($url->to_route(substr($method, 10), $parameters, true));
+			return static::to(URL::to_route(substr($method, 10), $parameters, true));
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return static::to($url->to_route(substr($method, 3), $parameters));
+			return static::to(URL::to_route(substr($method, 3), $parameters));
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Redirect class.");

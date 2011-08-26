@@ -213,20 +213,4 @@ class Request {
 		}
 	}
 
-	/**
-	 * Magic Method for dynamically retrieving properties of the request instance.
-	 *
-	 * <code>
-	 *		// Get all of the input for the request
-	 *		$input = Request::active()->input;
-	 * </code>
-	 */
-	public function __get($key)
-	{
-		if ($key === 'input')
-		{
-			return $this->input->all();
-		}
-	}
-
 }

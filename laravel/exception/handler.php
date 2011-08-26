@@ -11,28 +11,28 @@ class Handler {
 	 *
 	 * @var Examiner
 	 */
-	public $exception;
+	public $examiner;
 
 	/**
 	 * Create a new exception handler instance.
 	 *
-	 * @param  Exception  $e
+	 * @param  Examiner  $examiner
 	 * @return void
 	 */
-	public function __construct($e)
+	public function __construct(Examiner $examiner)
 	{
-		$this->exception = new Examiner($e);
+		$this->examiner = $examiner;
 	}
 
 	/**
 	 * Create a new exception handler instance.
 	 *
-	 * @param  Exception  $e
+	 * @param  Examiner  $examiner
 	 * @return Handler
 	 */
-	public static function make($e)
+	public static function make(Examiner $examiner)
 	{
-		return new static($e);
+		return new static($examiner);
 	}
 
 	/**
@@ -66,11 +66,7 @@ class Handler {
 	 */
 	private function log()
 	{
-		$parameters = array(
-			$this->exception->severity(),
-			$this->exception->message(),
-			$this->exception->getTraceAsString(),
-		);
+		$parameters = array($this->examiner->severity(), $this->examiner->message(), $this->examiner->getTraceAsString());
 
 		call_user_func_array(Config::get('error.logger'), $parameters);
 	}
@@ -83,7 +79,7 @@ class Handler {
 	 */
 	private function get_response($detailed)
 	{
-		return ($detailed) ? $this->detailed_response() : Response::error('500');
+		return ($detailed) ? $this->detailed_response() : new Error('500');
 	}
 
 	/**
@@ -94,11 +90,11 @@ class Handler {
 	private function detailed_response()
 	{
 		$data = array(
-			'severity' => $this->exception->severity(),
-			'message'  => $this->exception->message(),
-			'line'     => $this->exception->getLine(),
-			'trace'    => $this->exception->getTraceAsString(),
-			'contexts' => $this->exception->context(),
+			'severity' => $this->examiner->severity(),
+			'message'  => $this->examiner->message(),
+			'line'     => $this->examiner->getLine(),
+			'trace'    => $this->examiner->getTraceAsString(),
+			'contexts' => $this->examiner->context(),
 		);
 
 		return Response::make(View::make('error.exception', $data), 500);

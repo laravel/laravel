@@ -45,7 +45,7 @@ class Config {
 	 *		$timezone = Config::get('application.timezone');
 	 *
 	 * 		// Get the SQLite database connection configuration
-	 *		$sqlite = Config::get('db.connections.sqlite');
+	 *		$sqlite = Config::get('database.connections.sqlite');
 	 * </code>
 	 *
 	 * @param  string  $key

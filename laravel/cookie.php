@@ -3,14 +3,32 @@
 class Cookie {
 
 	/**
+	 * All of the cookies for the current request.
+	 *
+	 * @var array
+	 */
+	private $cookies;
+
+	/**
+	 * Create a new cookie manager instance.
+	 *
+	 * @param  array  $cookies
+	 * @return void
+	 */
+	public function __construct(&$cookies)
+	{
+		$this->cookies = &$cookies;
+	}
+
+	/**
 	 * Determine if a cookie exists.
 	 *
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function has($name)
+	public function has($name)
 	{
-		return ! is_null(static::get($name));
+		return ! is_null($this->get($name));
 	}
 
 	/**
@@ -20,9 +38,9 @@ class Cookie {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public static function get($name, $default = null)
+	public function get($name, $default = null)
 	{
-		return Arr::get($_COOKIE, $name, $default);
+		return Arr::get($this->cookies, $name, $default);
 	}
 
 	/**
@@ -36,9 +54,9 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, $value, 2628000, $path, $domain, $secure, $http_only);
+		return $this->put($name, $value, 2628000, $path, $domain, $secure, $http_only);
 	}
 
 	/**
@@ -54,7 +72,7 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
 		if ($minutes < 0) unset($_COOKIE[$name]);
 
@@ -67,9 +85,9 @@ class Cookie {
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function forget($name)
+	public function forget($name)
 	{
-		return static::put($name, null, -60);
+		return $this->put($name, null, -60);
 	}
 
 }

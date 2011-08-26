@@ -1,75 +1,21 @@
 <?php namespace Laravel\Cache;
 
-/**
- * Wrap the file functions in a class that can be injected into driver.
- * Since the file functions are global, the driver is untestable without
- * injecting a wrapper around them.
- */
-class File_Engine {
-
-	/**
-	 * Determine if a file exists.
-	 *
-	 * @param  string  $file
-	 * @return bool
-	 */
-	public function exists($file)
-	{
-		return file_exists($file);
-	}
-
-	/**
-	 * Get the contents of a file.
-	 *
-	 * @param  string  $file
-	 * @return string
-	 */
-	public function get($file)
-	{
-		return file_get_contents($file);
-	}
-
-	/**
-	 * Write to a file.
-	 *
-	 * @param  string  $file
-	 * @param  string  $value
-	 * @return void
-	 */
-	public function put($file, $value)
-	{
-		file_put_contents($file, $value, LOCK_EX);
-	}
-
-	/**
-	 * Delete a file.
-	 *
-	 * @param  string  $file
-	 * @return void
-	 */
-	public function forget($file)
-	{
-		@unlink($file);
-	}
-
-}
-
 class File extends Driver {
 
 	/**
-	 * The File cache engine.
+	 * The file manager instance.
 	 *
-	 * @var File_Engine
+	 * @var Laravel\File
 	 */
 	private $file;
 
 	/**
 	 * Create a new File cache driver instance.
 	 *
-	 * @param  File_Engine  $file
+	 * @param  Laravel\File  $file
 	 * @return void
 	 */
-	public function __construct(File_Engine $file)
+	public function __construct(\Laravel\File $file)
 	{
 		$this->file = $file;
 	}
@@ -134,7 +80,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->file->forget(CACHE_PATH.$key);
+		$this->file->delete(CACHE_PATH.$key);
 	}
 
 }

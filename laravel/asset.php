@@ -1,8 +1,5 @@
 <?php namespace Laravel;
 
-use Laravel\File;
-use Laravel\HTML;
-
 class Asset {
 
 	/**
@@ -36,7 +33,7 @@ class Asset {
 	{
 		if ( ! isset(static::$containers[$container]))
 		{
-			static::$containers[$container] = new Asset_Container($container);
+			static::$containers[$container] = new Asset_Container($container, new File);
 		}
 
 		return static::$containers[$container];
@@ -82,14 +79,23 @@ class Asset_Container {
 	public $assets = array();
 
 	/**
+	 * The file manager instance.
+	 *
+	 * @var File
+	 */
+	private $file;
+
+	/**
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
+	 * @param  File    $file
 	 * @return void
 	 */
-	public function __construct($name)
+	public function __construct($name, File $file)
 	{
 		$this->name = $name;
+		$this->file = $file;
 	}
 
 	/**
@@ -119,7 +125,7 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		$type = (File::extension($source) == 'css') ? 'style' : 'script';
+		$type = ($this->file->extension($source) == 'css') ? 'style' : 'script';
 
 		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
 	}
