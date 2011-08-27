@@ -1,17 +1,102 @@
 <?php namespace Laravel;
 
-interface Renderable {
+class Response_Factory {
 
 	/**
-	 * Get the evaluated string contents of the object.
+	 * The view factory instance.
 	 *
-	 * @return string
+	 * @var View_Factory
 	 */
-	public function render();
+	private $view;
+
+	/**
+	 * The file manager instance.
+	 *
+	 * @var File
+	 */
+	private $file;
+
+	/**
+	 * Create a new response factory instance.
+	 *
+	 * @param  File  $file
+	 * @return void
+	 */
+	public function __construct(View_Factory $view, File $file)
+	{
+		$this->view = $view;
+		$this->file = $file;
+	}
+
+	/**
+	 * Create a new response instance.
+	 *
+	 * @param  mixed     $content
+	 * @param  int       $status
+	 * @return Response
+	 */
+	public function make($content, $status = 200)
+	{
+		return new Response($content, $status);
+	}
+
+	/**
+	 * Create a new download response instance.
+	 *
+	 * <code>
+	 *		// Return a download response for a given file
+	 *		return new Download('path/to/image.jpg');
+	 *
+	 *		// Return a download response for a given file and assign a name
+	 *		return new Download('path/to/image.jpg', 'you.jpg');
+	 * </code>
+	 *
+	 * @param  string    $path
+	 * @param  string    $name
+	 * @return Response
+	 */
+	public function download($path, $name = null)
+	{
+		if (is_null($name)) $name = basename($path);
+
+		$response = new Response($this->file->get($path));
+
+		$response->header('Content-Description', 'File Transfer');
+		$response->header('Content-Type', $this->file->mime($this->file->extension($path)));
+		$response->header('Content-Disposition', 'attachment; filename="'.$name.'"');
+		$response->header('Content-Transfer-Encoding', 'binary');
+		$response->header('Expires', 0);
+		$response->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+		$response->header('Pragma', 'public');
+		$response->header('Content-Length', $this->file->size($path));
+
+		return $response;
+	}
+
+	/**
+	 * Create a new error response instance.
+	 *
+	 * The response status code will be set using the specified code.
+	 *
+	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 *
+	 * <code>
+	 *		// Return a 404 error response
+	 *		return new Error('404');
+	 * </code>
+	 *
+	 * @param  int       $code
+	 * @param  array     $data
+	 * @return void
+	 */
+	public function error($code, $data = array())
+	{
+		return new Response($this->view->make('error/'.$code, $data), $code);
+	}
 
 }
 
-class Response implements Renderable {
+class Response {
 
 	/**
 	 * The content of the response.
@@ -101,29 +186,13 @@ class Response implements Renderable {
 	}	
 
 	/**
-	 * Factory for creating new response instances.
-	 *
-	 * @param  string    $content
-	 * @param  int       $status
-	 * @return Response
-	 */
-	public static function make($content, $status = 200)
-	{
-		return new static($content, $status);
-	}
-
-	/**
 	 * Get the evaluated string contents of the response.
-	 *
-	 * If the content implements the Renderable interface, the render method will be called
-	 * on the content and the result will be returned. Otherwise, the content will be cast
-	 * to a string and returned.
 	 *
 	 * @return string
 	 */
 	public function render()
 	{
-		return ($this->content instanceof Renderable) ? $this->content->render() : (string) $this->content;
+		return ($this->content instanceof View) ? $this->content->render() : (string) $this->content;
 	}
 
 	/**

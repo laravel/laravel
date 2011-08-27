@@ -1,8 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
-use Laravel\IoC;
 use Laravel\Str;
-use Laravel\Config;
 use Laravel\Inflector;
 use Laravel\Database\Manager;
 

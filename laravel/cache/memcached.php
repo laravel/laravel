@@ -1,5 +1,6 @@
 <?php namespace Laravel\Cache;
 
+use Memcache;
 use Laravel\Config;
 
 class Memcached extends Driver {
@@ -12,13 +13,21 @@ class Memcached extends Driver {
 	private $memcache;
 
 	/**
+	 * The cache key from the cache configuration file.
+	 *
+	 * @var string
+	 */
+	private $key;
+
+	/**
 	 * Create a new Memcached cache driver instance.
 	 *
 	 * @param  Memcache  $memcache
 	 * @return void
 	 */
-	public function __construct(\Memcache $memcache)
+	public function __construct(Memcache $memcache, $key)
 	{
+		$this->key = $key;
 		$this->memcache = $memcache;
 	}
 
@@ -46,7 +55,7 @@ class Memcached extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return (($cache = $this->memcache->get(Config::get('cache.key').$key)) !== false) ? $cache : null;
+		return (($cache = $this->memcache->get($this->key.$key)) !== false) ? $cache : null;
 	}
 
 	/**
@@ -64,7 +73,7 @@ class Memcached extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->memcache->set(Config::get('cache.key').$key, $value, 0, $minutes * 60);
+		$this->memcache->set($this->key.$key, $value, 0, $minutes * 60);
 	}
 
 	/**
@@ -75,7 +84,7 @@ class Memcached extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->memcache->delete(Config::get('cache.key').$key);
+		$this->memcache->delete($this->key.$key);
 	}
 
 }

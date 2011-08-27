@@ -1,7 +1,7 @@
 <?php namespace Laravel\Session;
 
 use Laravel\Str;
-use Laravel\Config;
+use Laravel\Input;
 use Laravel\Cookie;
 
 abstract class Driver {
@@ -22,13 +22,14 @@ abstract class Driver {
 	 * If the session has expired, a new, empty session will be generated.
 	 *
 	 * @param  string  $id
+	 * @param  int     $lifetime
 	 * @return void
 	 */
-	public function start($id)
+	public function start($id, $lifetime)
 	{
 		$this->session = ( ! is_null($id)) ? $this->load($id) : null;
 
-		if (is_null($this->session) or (time() - $this->session['last_activity']) > (Config::get('session.lifetime') * 60))
+		if (is_null($this->session) or (time() - $this->session['last_activity']) > ($lifetime * 60))
 		{
 			$this->session = array('id' => Str::random(40), 'data' => array());
 		}
@@ -117,11 +118,13 @@ abstract class Driver {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
-	 * @return void
+	 * @return Driver
 	 */
 	public function put($key, $value)
 	{
 		$this->session['data'][$key] = $value;
+
+		return $this;
 	}
 
 	/**
@@ -137,11 +140,13 @@ abstract class Driver {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
-	 * @return void
+	 * @return Driver
 	 */
 	public function flash($key, $value)
 	{
 		$this->put(':new:'.$key, $value);
+
+		return $this;
 	}
 
 	/**
@@ -153,7 +158,7 @@ abstract class Driver {
 	 * </code>
 	 *
 	 * @param  string  $key
-	 * @return void
+	 * @return Driver
 	 */
 	public function forget($key)
 	{
@@ -188,59 +193,94 @@ abstract class Driver {
 	 * The session will be stored in persistant storage and the session cookie will be
 	 * session cookie will be sent to the browser.
 	 *
-	 * @param  Laravel\Cookie  $cookie
+	 * The input of the current request will also be flashed to the session so it is
+	 * available for the next request via the "old" method on the input class.
+	 *
+	 * @param  Laravel\Input  $input
+	 * @param  array          $config
 	 * @return void
 	 */
-	public function close(\Laravel\Cookie $cookie)
+	public function close(Input $input, $config)
 	{
-		$this->age_flash();
+		$this->flash('laravel_old_input', $input->get())->age();
 
 		$this->save();
 
-		$this->write_cookie($cookie);
+		$this->write_cookie($input->cookies, $config);
+
+		if ($this instanceof Sweeper and mt_rand(1, 100) <= 2)
+		{
+			$this->sweep(time() - ($config['lifetime'] * 60));
+		}
 	}
 
 	/**
 	 * Age the session flash data.
 	 *
+	 * To age the data, we will forget all of the old keys and then rewrite the newly
+	 * flashed items to have old keys, which will be available for the next request.
+	 *
 	 * @return void
 	 */
-	public function age_flash()
+	protected function age()
 	{
 		foreach ($this->session['data'] as $key => $value)
 		{
 			if (strpos($key, ':old:') === 0) $this->forget($key);
 		}
 
-		foreach ($this->session['data'] as $key => $value)
-		{
-			if (strpos($key, ':new:') === 0)
-			{
-				$this->put(':old:'.substr($key, 5), $value);
+		$session = $this->session['data'];
 
-				$this->forget($key);
-			}
-		}
+		$this->session['data'] = array_combine(str_replace(':new:', ':old:', array_keys($session)), array_values($session));
 	}
 
 	/**
 	 * Write the session cookie.
 	 *
+	 * All of the session cookie configuration options are stored in the session
+	 * configuration file. The cookie will only be written if the headers have not
+	 * already been sent to the browser.
+	 *
 	 * @param  Laravel\Cookie  $cookie
+	 * @param  array           $config
 	 * @return void
 	 */
-	protected function write_cookie(\Laravel\Cookie $cookie)
+	protected function write_cookie(Cookie $cookies, $config)
 	{
 		if ( ! headers_sent())
 		{
-			$config = Config::get('session');
-
 			extract($config);
 
 			$minutes = ($expire_on_close) ? 0 : $lifetime;
 
-			$cookie->put('laravel_session', $this->session['id'], $minutes, $path, $domain, $https, $http_only);
+			$cookies->put('laravel_session', $this->session['id'], $minutes, $path, $domain, $https, $http_only);
 		}
+	}
+
+	/**
+	 * Magic Method for retrieving items from the session.
+	 *
+	 * <code>
+	 *		// Get the "name" item from the session
+	 *		$name = $application->session->name;
+	 * </code>
+	 */
+	public function __get($key)
+	{
+		return $this->get($key);
+	}
+
+	/**
+	 * Magic Method for writings items to the session.
+	 *
+	 * <code>
+	 *		// Write "Fred" to the session "name" item
+	 *		$application->session->name = 'Fred';
+	 * </code>
+	 */
+	public function __set($key, $value)
+	{
+		$this->put($key, $value);
 	}
 
 }

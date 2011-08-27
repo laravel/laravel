@@ -1,5 +1,8 @@
 <?php
 
+use Laravel\Application;
+use Laravel\Response;
+
 return array(
 
 	/*
@@ -42,13 +45,13 @@ return array(
 	|
 	*/
 
-	'before' => function(Laravel\Request $request)
+	'before' => function(Application $application)
 	{
 		// Do stuff before every request to your application.
 	},
 
 
-	'after' => function(Laravel\Request $request, Laravel\Response $response)
+	'after' => function(Application $application, Response $response)
 	{
 		// Do stuff after every request to your application.
 	},

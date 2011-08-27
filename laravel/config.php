@@ -9,7 +9,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	public static $items = array();
+	public $items = array();
 
 	/**
 	 * Determine if a configuration item or file exists.
@@ -25,9 +25,9 @@ class Config {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public function has($key)
 	{
-		return ! is_null(static::get($key));
+		return ! is_null($this->get($key));
 	}
 
 	/**
@@ -52,18 +52,18 @@ class Config {
 	 * @param  string  $default
 	 * @return array
 	 */
-	public static function get($key, $default = null)
+	public function get($key, $default = null)
 	{
-		list($file, $key) = static::parse($key);
+		list($file, $key) = $this->parse($key);
 
-		if ( ! static::load($file))
+		if ( ! $this->load($file))
 		{
 			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
-		if (is_null($key)) return static::$items[$file];
+		if (is_null($key)) return $this->items[$file];
 
-		return Arr::get(static::$items[$file], $key, $default);
+		return Arr::get($this->items[$file], $key, $default);
 	}
 
 	/**
@@ -87,13 +87,13 @@ class Config {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public static function set($key, $value)
+	public function set($key, $value)
 	{
-		list($file, $key) = static::parse($key);
+		list($file, $key) = $this->parse($key);
 
-		static::load($file);
+		$this->load($file);
 
-		(is_null($key)) ? Arr::set(static::$items, $file, $value) : Arr::set(static::$items[$file], $key, $value);
+		(is_null($key)) ? Arr::set($this->items, $file, $value) : Arr::set($this->items[$file], $key, $value);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Config {
 	 * @param  string  $key
 	 * @return array
 	 */
-	private static function parse($key)
+	private function parse($key)
 	{
 		$segments = explode('.', $key);
 
@@ -119,23 +119,23 @@ class Config {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	private static function load($file)
+	private function load($file)
 	{
-		if (isset(static::$items[$file])) return true;
+		if (isset($this->items[$file])) return true;
 
 		$config = array();
 
-		foreach (static::paths() as $directory)
+		foreach ($this->paths() as $directory)
 		{
 			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
 		}
 
 		if (count($config) > 0)
 		{
-			static::$items[$file] = $config;
+			$this->items[$file] = $config;
 		}
 
-		return isset(static::$items[$file]);
+		return isset($this->items[$file]);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Config {
 	 *
 	 * @return array
 	 */
-	private static function paths()
+	private function paths()
 	{
 		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
 

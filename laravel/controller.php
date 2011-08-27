@@ -8,14 +8,26 @@ abstract class Controller {
 	 * If a value is returned by the method, it will be halt the request process
 	 * and will be considered the response to the request.
 	 *
-	 * @param  Request  $request
 	 * @return mixed
 	 */
-	public function before($request) {}
+	public function before() {}
+
+	/**
+	 * Magic Method for getting items from the application instance.
+	 */
+	public function __get($key)
+	{
+		$application = IoC::resolve('laravel.application');
+
+		return $application->$key;
+	}
 
 	/**
 	 * Magic Method to handle calls to undefined functions on the controller.
 	 */
-	public function __call($method, $parameters) { return new Error('404'); }
+	public function __call($method, $parameters) 
+	{
+		return IoC::resolve('laravel.application')->responder->error('404');
+	}
 
 }

@@ -1,10 +1,5 @@
 <?php namespace Laravel\Database;
 
-use Laravel\IoC;
-use Laravel\Str;
-use Laravel\Config;
-use Laravel\Request;
-
 class Query {
 
 	/**

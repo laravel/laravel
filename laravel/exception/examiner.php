@@ -12,13 +12,6 @@ class Examiner {
 	public $exception;
 
 	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	private $file;
-
-	/**
 	 * Human-readable error levels and descriptions.
 	 *
 	 * @var array
@@ -43,13 +36,11 @@ class Examiner {
 	 * Create a new exception examiner instance.
 	 *
 	 * @param  Exception  $exception
-	 * @param  File       $file
 	 * @return void
 	 */
-	public function __construct($exception, File $file)
+	public function __construct($exception)
 	{
 		$this->exception = $exception;
-		$this->file = $file;
 	}
 
 	/**
@@ -89,7 +80,19 @@ class Examiner {
 	 */
 	public function context()
 	{
-		return $this->file->snapshot($this->exception->getFile(), $this->exception->getLine());
+		list($path, $line) = array($this->exception->getFile(), $this->exception->getLine());
+
+		if ( ! file_exists($path)) return array();
+
+		$file = file($path, FILE_IGNORE_NEW_LINES);
+
+		array_unshift($file, '');
+
+		$start = $line - 5;
+
+		$length = ($line - $start) + 5 + 1;
+
+		return array_slice($file, ($start > 0) ? $start : 0, ($length > 0) ? $length : 0, true);
 	}
 
 	/**

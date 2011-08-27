@@ -1,7 +1,5 @@
 <?php namespace Laravel\Session;
 
-use Laravel\Config;
-
 class APC extends Driver {
 
 	/**
@@ -12,14 +10,22 @@ class APC extends Driver {
 	private $apc;
 
 	/**
+	 * The session lifetime.
+	 *
+	 * @var int
+	 */
+	private $lifetime;
+
+	/**
 	 * Create a new APC session driver instance.
 	 *
 	 * @param  Cache\APC  $apc
 	 * @return void
 	 */
-	public function __construct(\Laravel\Cache\APC $apc)
+	public function __construct(\Laravel\Cache\APC $apc, $lifetime)
 	{
 		$this->apc = $apc;
+		$this->lifetime = $lifetime;
 	}
 
 	/**
@@ -43,7 +49,7 @@ class APC extends Driver {
 	 */
 	protected function save()
 	{
-		$this->apc->put($this->session['id'], $this->session, Config::get('session.lifetime'));
+		$this->apc->put($this->session['id'], $this->session, $this->lifetime);
 	}
 
 	/**

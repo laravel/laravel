@@ -3,6 +3,24 @@
 class File {
 
 	/**
+	 * All of the MIME types understood by the manager.
+	 *
+	 * @var array
+	 */
+	private $mimes;
+
+	/**
+	 * Create a new file manager instance.
+	 *
+	 * @param  array  $mimes
+	 * @return void
+	 */
+	public function __construct($mimes)
+	{
+		$this->mimes = $mimes;
+	}
+
+	/**
 	 * Determine if a file exists.
 	 *
 	 * @param  string  $path
@@ -104,36 +122,6 @@ class File {
 	}
 
 	/**
-	 * Get the lines surrounding a given line in a file.
-	 *
-	 * The amount of padding with which to surround the line may also be specified.
-	 *
-	 * <code>
-	 *		// Get lines 10 - 20 of the "routes.php" file
-	 *		$lines = $file->snapshot(APP_PATH.'routes'.EXT, 15, 5);
-	 * </code>
-	 *
-	 * @param  string  $path
-	 * @param  int     $line
-	 * @param  int     $padding
-	 * @return array
-	 */
-	public function snapshot($path, $line, $padding = 5)
-	{
-		if ( ! file_exists($path)) return array();
-
-		$file = file($path, FILE_IGNORE_NEW_LINES);
-
-		array_unshift($file, '');
-
-		$start = $line - $padding;
-
-		$length = ($line - $start) + $padding + 1;
-
-		return array_slice($file, ($start > 0) ? $start : 0, ($length > 0) ? $length : 0, true);
-	}
-
-	/**
 	 * Get a file MIME type by extension.
 	 *
 	 * Any extension in the MIMEs configuration file may be passed to the method.
@@ -149,11 +137,9 @@ class File {
 	 */
 	public function mime($extension, $default = 'application/octet-stream')
 	{
-		$mimes = Config::get('mimes');
+		if ( ! array_key_exists($extension, $this->mimes)) return $default;
 
-		if ( ! array_key_exists($extension, $mimes)) return $default;
-
-		return (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
+		return (is_array($this->mimes[$extension])) ? $this->mimes[$extension][0] : $this->mimes[$extension];
 	}
 
 	/**
@@ -173,16 +159,14 @@ class File {
 	 */
 	public function is($extension, $path)
 	{
-		$mimes = Config::get('mimes');
-
-		if ( ! array_key_exists($extension, $mimes))
+		if ( ! array_key_exists($extension, $this->mimes))
 		{
 			throw new \Exception("File extension [$extension] is unknown. Cannot determine file type.");
 		}
 
 		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 
-		return (is_array($mimes[$extension])) ? in_array($mime, $mimes[$extension]) : $mime === $mimes[$extension];
+		return (is_array($this->mimes[$extension])) ? in_array($mime, $this->mimes[$extension]) : $mime === $this->mimes[$extension];
 	}
 
 }

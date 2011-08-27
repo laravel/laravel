@@ -33,7 +33,7 @@ class Asset {
 	{
 		if ( ! isset(static::$containers[$container]))
 		{
-			static::$containers[$container] = new Asset_Container($container, new File);
+			static::$containers[$container] = new Asset_Container($container);
 		}
 
 		return static::$containers[$container];
@@ -79,23 +79,15 @@ class Asset_Container {
 	public $assets = array();
 
 	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	private $file;
-
-	/**
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
 	 * @param  File    $file
 	 * @return void
 	 */
-	public function __construct($name, File $file)
+	public function __construct($name)
 	{
 		$this->name = $name;
-		$this->file = $file;
 	}
 
 	/**
@@ -125,7 +117,7 @@ class Asset_Container {
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
 	{
-		$type = ($this->file->extension($source) == 'css') ? 'style' : 'script';
+		$type = (pathinfo($source, PATHINFO_EXTENSION) == 'css') ? 'style' : 'script';
 
 		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
 	}

@@ -4,6 +4,25 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Database Manager Auto Load
+	|--------------------------------------------------------------------------
+	|
+	| Determines if the database manager will be loaded one every request.
+	|
+	| By default, the database manager is loaded on every request and set on
+	| a property of the application instance. However, if you will not be using
+	| any of the Laravel database facilities, you may set this to "false".
+	|
+	| Loading the database manager does not create database connections. The
+	| connections are only established once you request a connection from the
+	| database manager instance.
+	|
+	*/
+
+	'autoload' => true,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Default Database Connection
 	|--------------------------------------------------------------------------
 	|

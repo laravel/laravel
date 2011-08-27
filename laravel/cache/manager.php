@@ -1,7 +1,6 @@
 <?php namespace Laravel\Cache;
 
-use Laravel\IoC;
-use Laravel\Config;
+use Laravel\Container;
 
 class Manager {
 
@@ -10,7 +9,33 @@ class Manager {
 	 *
 	 * @var Cache\Driver
 	 */
-	public static $drivers = array();
+	public $drivers = array();
+
+	/**
+	 * The application IoC container.
+	 *
+	 * @var Container
+	 */
+	private $container;
+
+	/**
+	 * The default cache driver.
+	 *
+	 * @var string
+	 */
+	private $default;
+
+	/**
+	 * Create a new cache manager instance.
+	 *
+	 * @param  Container  $container
+	 * @return void
+	 */
+	public function __construct(Container $container, $default)
+	{
+		$this->default = $default;
+		$this->container = $container;
+	}
 
 	/**
 	 * Get a cache driver instance.
@@ -20,30 +45,30 @@ class Manager {
 	 *
 	 * <code>
 	 *		// Get the default cache driver
-	 *		$driver = Cache::driver();
+	 *		$driver = $application->cache->driver();
 	 *
 	 *		// Get the APC cache driver
-	 *		$apc = Cache::driver('apc');
+	 *		$apc = $application->cache->driver('apc');
 	 * </code>
 	 *
 	 * @param  string        $driver
 	 * @return Cache\Driver
 	 */
-	public static function driver($driver = null)
+	public function driver($driver = null)
 	{
-		if (is_null($driver)) $driver = Config::get('cache.driver');
+		if (is_null($driver)) $driver = $this->default;
 
-		if ( ! array_key_exists($driver, static::$drivers))
+		if ( ! array_key_exists($driver, $this->drivers))
 		{
 			if ( ! in_array($driver, array('apc', 'file', 'memcached')))
 			{
 				throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 
-			return static::$drivers[$driver] = IoC::container()->resolve('laravel.cache.'.$driver);
+			return $this->drivers[$driver] = $this->container->resolve('laravel.cache.'.$driver);
 		}
 
-		return static::$drivers[$driver];
+		return $this->drivers[$driver];
 	}
 
 	/**
@@ -54,12 +79,12 @@ class Manager {
 	 *
 	 * <code>
 	 *		// Get an item from the default cache driver
-	 *		$name = Cache::get('name');
+	 *		$name = $application->cache->get('name');
 	 * </code>
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
-		return call_user_func_array(array(static::driver(), $method), $parameters);
+		return call_user_func_array(array($this->driver(), $method), $parameters);
 	}
 
 }

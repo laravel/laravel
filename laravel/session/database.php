@@ -1,6 +1,5 @@
 <?php namespace Laravel\Session;
 
-use Laravel\Config;
 use Laravel\Database\Connection;
 
 class Database extends Driver implements Sweeper {
@@ -13,13 +12,22 @@ class Database extends Driver implements Sweeper {
 	private $connection;
 
 	/**
+	 * The database table to which the sessions should be written.
+	 *
+	 * @var string
+	 */
+	private $table;
+
+	/**
 	 * Create a new database session driver.
 	 *
 	 * @param  Connection  $connection
+	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection)
+	public function __construct(Connection $connection, $table)
 	{
+		$this->table = $table;
 		$this->connection = $connection;
 	}
 
@@ -90,7 +98,7 @@ class Database extends Driver implements Sweeper {
 	 */
 	private function table()
 	{
-		return $this->connection->table(Config::get('session.table'));		
+		return $this->connection->table($this->table);		
 	}
 	
 }

@@ -1,7 +1,5 @@
 <?php namespace Laravel\Cache;
 
-use Laravel\Config;
-
 /**
  * Wrap the APC functions in a class that can be injected into driver.
  * Since the APC functions are global, the driver is untestable without
@@ -56,14 +54,22 @@ class APC extends Driver {
 	private $apc;
 
 	/**
+	 * The cache key from the cache configuration file.
+	 *
+	 * @var string
+	 */
+	private $key;
+
+	/**
 	 * Create a new APC cache driver instance.
 	 *
 	 * @param  APC_Engine  $apc
 	 * @return void
 	 */
-	public function __construct(APC_Engine $apc)
+	public function __construct(APC_Engine $apc, $key)
 	{
 		$this->apc = $apc;
+		$this->key = $key;
 	}
 
 	/**
@@ -90,7 +96,7 @@ class APC extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return ( ! is_null($cache = $this->apc->get(Config::get('cache.key').$key))) ? $cache : null;
+		return ( ! is_null($cache = $this->apc->get($this->key.$key))) ? $cache : null;
 	}
 
 	/**
@@ -108,7 +114,7 @@ class APC extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->apc->put(Config::get('cache.key').$key, $value, $minutes * 60);
+		$this->apc->put($this->key.$key, $value, $minutes * 60);
 	}
 
 	/**
@@ -119,7 +125,7 @@ class APC extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->apc->forget(Config::get('cache.key').$key);
+		$this->apc->forget($this->key.$key);
 	}
 
 }

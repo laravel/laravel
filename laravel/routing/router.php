@@ -26,16 +26,24 @@ class Router {
 	protected $names = array();
 
 	/**
+	 * The path the application controllers.
+	 *
+	 * @var string
+	 */
+	protected $controller_path;
+
+	/**
 	 * Create a new router for a request method and URI.
 	 *
 	 * @param  Request  $request
 	 * @param  array    $routes
 	 * @return void
 	 */
-	public function __construct(Request $request, $routes)
+	public function __construct(Request $request, $routes, $controller_path)
 	{
 		$this->routes = $routes;
 		$this->request = $request;
+		$this->controller_path = $controller_path;
 	}
 
 	/**
@@ -84,13 +92,13 @@ class Router {
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$destination = $this->request->method().' /'.trim($this->request->uri(), '/');
+		$destination = $this->request->method.' /'.trim($this->request->uri, '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
 		if (isset($this->routes[$destination]))
 		{
-			return $this->request->route = new Route($destination, $this->routes[$destination]);
+			return $this->request->route = new Route($destination, $this->routes[$destination], array(), $this->controller_path);
 		}
 
 		foreach ($this->routes as $keys => $callback)
@@ -103,7 +111,7 @@ class Router {
 				{
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key));
+						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key), $this->controller_path);
 					}
 				}				
 			}
@@ -121,7 +129,7 @@ class Router {
 	 */
 	protected function route_to_controller()
 	{
-		$segments = explode('/', trim($this->request->uri(), '/'));
+		$segments = explode('/', trim($this->request->uri, '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{
@@ -145,7 +153,7 @@ class Router {
 			// were they to code the controller delegation manually.
 			$callback = function() use ($controller, $method) { return array($controller, $method); };
 
-			return new Route($controller, $callback, $segments);
+			return new Route($controller, $callback, $segments, $this->controller_path);
 		}
 	}
 
@@ -165,7 +173,7 @@ class Router {
 		// matching controller. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = CONTROLLER_PATH.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			if (file_exists($path = $this->controller_path.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
 				return $key + 1;
 			}

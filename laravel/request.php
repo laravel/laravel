@@ -3,18 +3,46 @@
 class Request {
 
 	/**
-	 * The request instance for the current request.
+	 * The request URI.
 	 *
-	 * @var Request
+	 * @var string
 	 */
-	private static $active;
+	public $uri;
 
 	/**
-	 * The $_SERVER array for the request.
+	 * The request method (GET, POST, PUT, or DELETE).
 	 *
-	 * @var array
+	 * @var string
 	 */
-	private $server;
+	public $method;
+
+	/**
+	 * Indicates if the request method is being spoofed by a hidden form element.
+	 *
+	 * @var bool
+	 */
+	public $spoofed;
+
+	/**
+	 * The requestor's IP address.
+	 *
+	 * @var string
+	 */
+	public $ip;
+
+	/**
+	 * Indicates if the request is using HTTPS.
+	 *
+	 * @var bool
+	 */
+	public $secure;
+
+	/**
+	 * Indicates if the request is an AJAX request.
+	 *
+	 * @var bool
+	 */
+	public $ajax;
 
 	/**
 	 * The input instance for the request.
@@ -24,6 +52,13 @@ class Request {
 	public $input;
 
 	/**
+	 * The $_SERVER array for the request.
+	 *
+	 * @var array
+	 */
+	public $server;
+
+	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
@@ -31,44 +66,39 @@ class Request {
 	public $route;
 
 	/**
-	 * The request URI.
-	 *
-	 * @var string
-	 */
-	private $uri;
-
-	/**
 	 * Create a new request instance.
 	 *
-	 * @param  array  $server
+	 * @param  array   $server
+	 * @param  string  $url
 	 * @return void
 	 */
-	public function __construct($server)
+	public function __construct($server, $url)
 	{
 		$this->server = $server;
 
-		static::$active = $this;
+		$this->uri = $this->uri($url);
+
+		foreach (array('method', 'spoofed', 'ip', 'secure', 'ajax') as $item)
+		{
+			$this->$item = $this->$item();
+		}
 	}
 
 	/**
-	 * Get the request instance for the current request.
+	 * Determine the request URI.
 	 *
-	 * @return Request
-	 */
-	public static function active()
-	{
-		return static::$active;
-	}
-
-	/**
-	 * Get the raw request URI.
+	 * The request URI will be trimmed to remove to the application URL and application index file.
+	 * If the request is to the root of the application, the URI will be set to a forward slash.
 	 *
+	 * If the $_SERVER "PATH_INFO" variable is available, it will be used; otherwise, we will try
+	 * to determine the URI using the REQUEST_URI variable. If neither are available,  an exception
+	 * will be thrown by the method.
+	 *
+	 * @param  string  $url
 	 * @return string
 	 */
-	public function uri()
+	private function uri($url)
 	{
-		if ( ! is_null($this->uri)) return $this->uri;
-
 		if (isset($this->server['PATH_INFO']))
 		{
 			$uri = $this->server['PATH_INFO'];
@@ -84,36 +114,26 @@ class Request {
 
 		if ($uri === false) throw new \Exception('Malformed request URI. Request terminated.');
 
-		return $this->uri = $this->remove_from_uri($uri, array(parse_url(Config::get('application.url'), PHP_URL_PATH), '/index.php'));
-	}
-
-	/**
-	 * Remove an array of values from the beginning from a URI.
-	 *
-	 * @param  string  $uri
-	 * @param  array   $values
-	 * @return string
-	 */
-	private function remove_from_uri($uri, $values)
-	{
-		foreach ($values as $value)
+		foreach (array(parse_url($url, PHP_URL_PATH), '/index.php') as $value)
 		{
 			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 		}
-		
-		return $uri;
+
+		return (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
 
 	/**
 	 * Get the request method.
 	 *
-	 * Note: If the request method is being spoofed, the spoofed method will be returned.
+	 * Typically, this will be the value of the REQUEST_METHOD $_SERVER variable.
+	 * However, when the request is being spoofed by a hidden form value, the request
+	 * method will be stored in the $_POST array.
 	 *
 	 * @return string
 	 */
-	public function method()
+	private function method()
 	{
-		return ($this->is_spoofed()) ? $_POST['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
+		return ($this->spoofed()) ? $_POST['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
 	}
 
 	/**
@@ -123,7 +143,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function is_spoofed()
+	private function spoofed()
 	{
 		return is_array($_POST) and array_key_exists('REQUEST_METHOD', $_POST);
 	}
@@ -133,7 +153,7 @@ class Request {
 	 *
 	 * @return string
 	 */
-	public function ip()
+	private function ip()
 	{
 		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
 		{
@@ -150,11 +170,11 @@ class Request {
 	}
 
 	/**
-	 * Get the HTTP protocol for the request (http or https).
+	 * Get the HTTP protocol for the request.
 	 *
 	 * @return string
 	 */
-	public function protocol()
+	private function protocol()
 	{
 		return (isset($this->server['HTTPS']) and $this->server['HTTPS'] !== 'off') ? 'https' : 'http';
 	}
@@ -164,7 +184,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function is_secure()
+	private function secure()
 	{
 		return ($this->protocol() == 'https');
 	}
@@ -174,9 +194,11 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function is_ajax()
+	private function ajax()
 	{
-		return (isset($this->server['HTTP_X_REQUESTED_WITH']) and strtolower($this->server['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		if ( ! isset($this->server['HTTP_X_REQUESTED_WITH'])) return false;
+
+		return strtolower($this->server['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 	}
 
 	/**

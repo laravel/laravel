@@ -3,68 +3,33 @@
 class IoC {
 
 	/**
-	 * The available IoC containers.
+	 * The active container instance.
 	 *
-	 * @var array
+	 * @var Container
 	 */
-	public static $containers = array();
+	public static $container;
 
 	/**
-	 * Bootstrap the default container and register the dependencies.
+	 * Get the active container instance.
 	 *
-	 * @param  array  $dependencies
-	 * @return void
-	 */
-	public static function bootstrap($dependencies)
-	{
-		$container = static::container();
-
-		foreach ($dependencies as $key => $value)
-		{
-			$container->register($key, $value['resolver'], (isset($value['singleton'])) ? $value['singleton'] : false);
-		}
-	}
-
-	/**
-	 * Get a container instance.
-	 *
-	 * If no container name is specified, the default container will be returned.
-	 *
-	 * <code>
-	 *		// Get the default container instance
-	 *		$container = IoC::container();
-	 *
-	 *		// Get a specific container instance
-	 *		$container = IoC::container('models');
-	 * </code>
-	 *
-	 * @param  string     $container
 	 * @return Container
 	 */
-	public static function container($container = 'default')
+	public static function container()
 	{
-		if ( ! array_key_exists($container, static::$containers))
-		{
-			static::$containers[$container] = new Container;
-		}
-
-		return static::$containers[$container];
+		return static::$container;
 	}
 
 	/**
-	 * Magic Method for passing methods to the default container.
+	 * Magic Method for calling methods on the active container instance.
 	 *
 	 * <code>
-	 *		// Resolve an object from the default container
-	 *		$user = IoC::resolve('user');
-	 *
-	 *		// Equivalent method of resolving using the container method
-	 *		$user = IoC::container()->resolve('user');
+	 *		// Get the request registered in the container
+	 *		$request = IoC::resolve('laravel.request');
 	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array(static::container(), $method), $parameters);
+		return call_user_func_array(array(static::$container, $method), $parameters);
 	}
 
 }
@@ -84,6 +49,20 @@ class Container {
 	 * @var array
 	 */
 	private $resolvers = array();
+
+	/**
+	 * Create a new IoC container instance.
+	 *
+	 * @param  array  $dependencies
+	 * @return void
+	 */
+	public function __construct($dependencies = array())
+	{
+		foreach ($dependencies as $key => $value)
+		{
+			$this->register($key, $value['resolver'], (isset($value['singleton'])) ? $value['singleton'] : false);
+		}
+	}
 
 	/**
 	 * Register a dependency and its resolver.

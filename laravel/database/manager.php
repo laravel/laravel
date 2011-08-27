@@ -1,7 +1,5 @@
 <?php namespace Laravel\Database;
 
-use Laravel\Config;
-
 class Manager {
 
 	/**
@@ -9,7 +7,32 @@ class Manager {
 	 *
 	 * @var array
 	 */
-	public static $connections = array();
+	public $connections = array();
+
+	/**
+	 * The database connection configurations.
+	 *
+	 * @var array
+	 */
+	private $config;
+
+	/**
+	 * The default database connection name.
+	 *
+	 * @var string
+	 */
+	private $default;
+
+	/**
+	 * Create a new database manager instance.
+	 *
+	 * @param  string  $default
+	 */
+	public function __construct($config, $default)
+	{
+		$this->config = $config;
+		$this->default = $default;
+	}
 
 	/**
 	 * Get a database connection. If no database name is specified, the default
@@ -28,23 +51,23 @@ class Manager {
 	 * @param  string               $connection
 	 * @return Database\Connection
 	 */
-	public static function connection($connection = null)
+	public function connection($connection = null)
 	{
-		if (is_null($connection)) $connection = Config::get('database.default');
+		if (is_null($connection)) $connection = $this->default;
 
-		if ( ! array_key_exists($connection, static::$connections))
+		if ( ! array_key_exists($connection, $this->connections))
 		{
-			if (is_null($config = Config::get('database.connections.'.$connection)))
+			if ( ! isset($this->config[$connection]))
 			{
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			$connector = Connector\Factory::make($config);
+			$connector = Connector\Factory::make($this->config[$connection]);
 
-			static::$connections[$connection] = new Connection($connection, $config, $connector);
+			static::$connections[$connection] = new Connection($connection, $this->config[$connection], $connector);
 		}
 
-		return static::$connections[$connection];
+		return $this->connections[$connection];
 	}
 
 	/**
@@ -67,9 +90,9 @@ class Manager {
 	 * @param  string    $connection
 	 * @return Database\Query
 	 */
-	public static function table($table, $connection = null)
+	public function table($table, $connection = null)
 	{
-		return static::connection($connection)->table($table);
+		return $this->connection($connection)->table($table);
 	}
 
 	/**
@@ -85,9 +108,9 @@ class Manager {
 	 *		$results = DB::connection()->query('select * from users');
 	 * </code>
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
-		return call_user_func_array(array(static::connection(), $method), $parameters);
+		return call_user_func_array(array($this->connection(), $method), $parameters);
 	}
 
 }

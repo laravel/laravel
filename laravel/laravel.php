@@ -1,57 +1,14 @@
 <?php namespace Laravel;
 
 // --------------------------------------------------------------
-// Define the PHP file extension.
+// Define the framework constants.
 // --------------------------------------------------------------
-define('EXT', '.php');
+require 'bootstrap/constants.php';
 
 // --------------------------------------------------------------
-// Define the core framework paths.
+// Load the application and the core application components.
 // --------------------------------------------------------------
-define('APP_PATH',     realpath($application).'/');
-define('BASE_PATH',    realpath(str_replace('laravel', '', $laravel)).'/');
-define('PACKAGE_PATH', realpath($packages).'/');
-define('PUBLIC_PATH',  realpath($public).'/');
-define('STORAGE_PATH', realpath($storage).'/');
-define('SYS_PATH',     realpath($laravel).'/');
-
-unset($laravel, $application, $config, $packages, $public, $storage);
-
-// --------------------------------------------------------------
-// Define various other framework paths.
-// --------------------------------------------------------------
-define('CACHE_PATH',      STORAGE_PATH.'cache/');
-define('CONFIG_PATH',     APP_PATH.'config/');
-define('CONTROLLER_PATH', APP_PATH.'controllers/');
-define('DATABASE_PATH',   STORAGE_PATH.'database/');
-define('LANG_PATH',       APP_PATH.'language/');
-define('SCRIPT_PATH',     PUBLIC_PATH.'js/');
-define('SESSION_PATH',    STORAGE_PATH.'sessions/');
-define('STYLE_PATH',      PUBLIC_PATH.'css/');
-define('SYS_CONFIG_PATH', SYS_PATH.'config/');
-define('SYS_LANG_PATH',   SYS_PATH.'language/');
-define('VIEW_PATH',       APP_PATH.'views/');
-
-// --------------------------------------------------------------
-// Load the classes used by the auto-loader.
-// --------------------------------------------------------------
-require SYS_PATH.'loader'.EXT;
-require SYS_PATH.'config'.EXT;
-require SYS_PATH.'arr'.EXT;
-
-// --------------------------------------------------------------
-// Register the auto-loader.
-// --------------------------------------------------------------
-Loader::bootstrap(Config::get('aliases'), array(APP_PATH.'libraries/', APP_PATH.'models/'));
-
-spl_autoload_register(array('Laravel\\Loader', 'load'));
-
-// --------------------------------------------------------------
-// Bootstrap the IoC container.
-// --------------------------------------------------------------
-require SYS_PATH.'ioc'.EXT;
-
-IoC::bootstrap(Config::get('container'));
+require SYS_PATH.'bootstrap/core'.EXT;
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -63,92 +20,122 @@ ini_set('display_errors', 'Off');
 // --------------------------------------------------------------
 // Register the error / exception handlers.
 // --------------------------------------------------------------
-$error_dependencies = function()
+set_exception_handler(function($e) use ($application)
 {
-	require_once SYS_PATH.'exception/handler'.EXT;
-	require_once SYS_PATH.'exception/examiner'.EXT;
-	require_once SYS_PATH.'file'.EXT;
-};
-
-set_exception_handler(function($e) use ($error_dependencies)
-{
-	call_user_func($error_dependencies);
-
-	Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
+	call_user_func($application->config->get('error.handler'), $e);
 });
 
-set_error_handler(function($number, $error, $file, $line) use ($error_dependencies)
+set_error_handler(function($number, $error, $file, $line) use ($application)
 {
-	call_user_func($error_dependencies);
+	$exception = new \ErrorException($error, $number, 0, $file, $line);
 
-	$e = new \ErrorException($error, $number, 0, $file, $line);
-
-	Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
+	call_user_func($application->config->get('error.handler'), $exception);
 });
 
-register_shutdown_function(function() use ($error_dependencies)
+register_shutdown_function(function() use ($application)
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		call_user_func($error_dependencies);
+		$exception = new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']);
 
-		$e = new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']);
-
-		Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
+		call_user_func($application->config->get('error.handler'), $exception);
 	}	
 });
 
 // --------------------------------------------------------------
 // Set the default timezone.
 // --------------------------------------------------------------
-date_default_timezone_set(Config::get('application.timezone'));
-
-// --------------------------------------------------------------
-// Load all of the core routing and response classes.
-// --------------------------------------------------------------
-require SYS_PATH.'input'.EXT;
-require SYS_PATH.'request'.EXT;
-require SYS_PATH.'response'.EXT;
-require SYS_PATH.'routing/route'.EXT;
-require SYS_PATH.'routing/router'.EXT;
-require SYS_PATH.'routing/handler'.EXT;
+date_default_timezone_set($application->config->get('application.timezone'));
 
 // --------------------------------------------------------------
 // Initialize the request instance for the request.
 // --------------------------------------------------------------
-$request = new Request($_SERVER);
+$application->request = new Request($_SERVER, $application->config->get('application.url'));
 
-IoC::container()->instance('laravel.request', $request);
+$application->container->instance('laravel.request', $application->request);
 
 // --------------------------------------------------------------
 // Hydrate the input for the current request.
 // --------------------------------------------------------------
-$request->input = new Input($request->method(), $request->is_spoofed(), $_GET, $_POST, $_FILES, new Cookie($_COOKIE));
+$input = array();
+
+if ($application->request->method == 'GET')
+{
+	$input = $_GET;
+}
+elseif ($application->request->method == 'POST')
+{
+	$input = $_POST;
+}
+elseif ($application->request->method == 'PUT' or $application->request->method == 'DELETE')
+{
+	($application->request->spoofed) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
+}
+
+$application->input = new Input($input, $_FILES, new Cookie($_COOKIE));
+
+$application->container->instance('laravel.input', $application->input);
 
 // --------------------------------------------------------------
-// Load the session.
+// Load the cache manager.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '')
+$application->cache = new Cache\Manager($application->container, $application->config->get('cache.driver'));
+
+$application->container->instance('laravel.cache.manager', $application->cache);
+
+// --------------------------------------------------------------
+// Load the database manager.
+// --------------------------------------------------------------
+if ($application->config->get('database.autoload'))
 {
-	Session\Manager::driver()->start($request->input->cookies->get('laravel_session'));
+	$connections = $application->config->get('database.connections');
+
+	$application->database = new Database\Manager($connections, $application->config->get('database.default'));
+
+	$application->container->instance('laravel.database.manager', $application->database);
+
+	unset($connections);
+}
+
+// --------------------------------------------------------------
+// Load the session and session manager.
+// --------------------------------------------------------------
+if ($application->config->get('session.driver') !== '')
+{
+	$application->session = Session\Manager::driver($application->container, $application->config->get('session.driver'));
+
+	$application->container->instance('laravel.session.driver', $application->session);
+
+	$application->session->start($application->input->cookies->get('laravel_session'), $application->config->get('session.lifetime'));
 }
 
 // --------------------------------------------------------------
 // Load the packages that are in the auto-loaded packages array.
 // --------------------------------------------------------------
-if (count(Config::get('application.packages')) > 0)
-{
-	require SYS_PATH.'package'.EXT;
+$packages = $application->config->get('application.packages');
 
-	Package::load(Config::get('application.packages'));
+if (count($packages) > 0)
+{
+	$application->package->load($packages);
 }
+
+unset($packages);
 
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-$route = IoC::container()->resolve('laravel.routing.router')->route();
+$route = $application->container->resolve('laravel.router')->route();
 
-$response = ( ! is_null($route)) ? IoC::container()->resolve('laravel.routing.handler')->handle($route) : new Error('404');
+if ( ! is_null($route))
+{
+	$route->filters = require APP_PATH.'filters'.EXT;
+
+	$response = $route->call($application);
+}
+else
+{
+	$response = new Error('404');
+}
 
 // --------------------------------------------------------------
 // Stringify the response.
@@ -158,18 +145,9 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 // Close the session.
 // --------------------------------------------------------------
-if (Config::get('session.driver') != '')
+if ( ! is_null($application->session))
 {
-	$driver = Session\Manager::driver();
-
-	$driver->flash('laravel_old_input', $request->input->get());
-
-	$driver->close($request->input->cookies);
-
-	if ($driver instanceof Session\Sweeper and mt_rand(1, 100) <= 2)
-	{
-		$driver->sweep(time() - (Config::get('session.lifetime') * 60));
-	}
+	$application->session->close($application->input, $application->config->get('session'));
 }
 
 // --------------------------------------------------------------

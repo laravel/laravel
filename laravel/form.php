@@ -3,6 +3,34 @@
 class Form {
 
 	/**
+	 * The request instance.
+	 *
+	 * @var Request
+	 */
+	private $request;
+
+	/**
+	 * The HTML writer instance.
+	 *
+	 * @var HTML
+	 */
+	private $html;
+
+	/**
+	 * The URL generator instance.
+	 *
+	 * @var URL
+	 */
+	private $url;
+
+	/**
+	 * The CSRF token for the session.
+	 *
+	 * @var string
+	 */
+	public $token;
+
+	/**
 	 * All of the label names that have been created.
 	 *
 	 * These names are stored so that input elements can automatically be assigned
@@ -10,7 +38,22 @@ class Form {
 	 *
 	 * @var array
 	 */
-	private static $labels = array();
+	private $labels = array();
+
+	/**
+	 * Create a new form writer instance.
+	 *
+	 * @param  Request  $request
+	 * @param  string   $token
+	 * @return void
+	 */
+	public function __construct(Request $request, HTML $html, URL $url, $token)
+	{
+		$this->url = $url;
+		$this->html = $html;
+		$this->token = $token;
+		$this->request = $request;
+	}
 
 	/**
 	 * Open a HTML form.
@@ -36,18 +79,18 @@ class Form {
 	 * @param  bool     $https
 	 * @return string
 	 */
-	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
-		list($attributes['action'], $attributes['method']) = array(static::action($action, $https), static::method($method));
+		list($attributes['action'], $attributes['method']) = array($this->action($action, $https), $this->method($method));
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
 			$attributes['accept-charset'] = Config::get('application.encoding');			
 		}
 
-		$append = ($method == 'PUT' or $method == 'DELETE') ? static::hidden('REQUEST_METHOD', $method) : '';
+		$append = ($method == 'PUT' or $method == 'DELETE') ? $this->hidden('REQUEST_METHOD', $method) : '';
 
-		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
+		return '<form'.$this->html->attributes($attributes).'>'.$append.PHP_EOL;
 	}
 
 	/**
@@ -59,7 +102,7 @@ class Form {
 	 * @param  string  $method
 	 * @return string
 	 */
-	private static function method($method)
+	private function method($method)
 	{
 		return strtoupper(($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method);
 	}
@@ -73,11 +116,9 @@ class Form {
 	 * @param  bool     $https
 	 * @return string
 	 */
-	private static function action($action, $https)
+	private function action($action, $https)
 	{
-		$request = IoC::container()->resolve('laravel.request');
-
-		return HTML::entities(URL::to(((is_null($action)) ? $request->uri() : $action), $https));
+		return $this->html->entities($this->url->to(((is_null($action)) ? $this->request->uri : $action), $https));
 	}
 
 	/**
@@ -88,9 +129,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function open_secure($action = null, $method = 'POST', $attributes = array())
+	public function open_secure($action = null, $method = 'POST', $attributes = array())
 	{
-		return static::open($action, $method, $attributes, true);
+		return $this->open($action, $method, $attributes, true);
 	}
 
 	/**
@@ -102,11 +143,11 @@ class Form {
 	 * @param  bool    $https
 	 * @return string
 	 */	
-	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
 
-		return static::open($action, $method, $attributes, $https);
+		return $this->open($action, $method, $attributes, $https);
 	}
 
 	/**
@@ -117,9 +158,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
+	public function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
 	{
-		return static::open_for_files($action, $method, $attributes, true);
+		return $this->open_for_files($action, $method, $attributes, true);
 	}
 
 	/**
@@ -127,7 +168,7 @@ class Form {
 	 *
 	 * @return string
 	 */
-	public static function close()
+	public function close()
 	{
 		return '</form>';
 	}
@@ -137,21 +178,9 @@ class Form {
 	 *
 	 * @return string
 	 */
-	public static function token()
+	public function token()
 	{
-		$driver = IoC::container()->resolve('laravel.session.driver');
-
-		return static::input('hidden', 'csrf_token', static::raw_token($driver));
-	}
-
-	/**
-	 * Retrieve the current CSRF token.
-	 *
-	 * @return string
-	 */
-	public static function raw_token()
-	{
-		return IoC::container()->resolve('laravel.session.driver')->get('csrf_token');
+		return $this->input('hidden', 'csrf_token', $this->token);
 	}
 
 	/**
@@ -166,11 +195,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function label($name, $value, $attributes = array())
+	public function label($name, $value, $attributes = array())
 	{
-		static::$labels[] = $name;
+		$this->labels[] = $name;
 
-		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
+		return '<label for="'.$name.'"'.$this->html->attributes($attributes).'>'.$this->html->entities($value).'</label>'.PHP_EOL;
 	}
 
 	/**
@@ -192,11 +221,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function input($type, $name, $value = null, $attributes = array())
+	public function input($type, $name, $value = null, $attributes = array())
 	{
-		$id = static::id($name, $attributes);
+		$id = $this->id($name, $attributes);
 
-		return '<input'.HTML::attributes(array_merge($attributes, compact('type', 'name', 'value', 'id'))).'>'.PHP_EOL;
+		return '<input'.$this->html->attributes(array_merge($attributes, compact('type', 'name', 'value', 'id'))).'>'.PHP_EOL;
 	}
 
 	/**
@@ -207,9 +236,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function text($name, $value = null, $attributes = array())
+	public function text($name, $value = null, $attributes = array())
 	{
-		return static::input('text', $name, $value, $attributes);
+		return $this->input('text', $name, $value, $attributes);
 	}
 
 	/**
@@ -219,9 +248,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function password($name, $attributes = array())
+	public function password($name, $attributes = array())
 	{
-		return static::input('password', $name, null, $attributes);
+		return $this->input('password', $name, null, $attributes);
 	}
 
 	/**
@@ -232,9 +261,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function hidden($name, $value = null, $attributes = array())
+	public function hidden($name, $value = null, $attributes = array())
 	{
-		return static::input('hidden', $name, $value, $attributes);
+		return $this->input('hidden', $name, $value, $attributes);
 	}
 
 	/**
@@ -245,9 +274,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function search($name, $value = null, $attributes = array())
+	public function search($name, $value = null, $attributes = array())
 	{
-		return static::input('search', $name, $value, $attributes);
+		return $this->input('search', $name, $value, $attributes);
 	}
 
 	/**
@@ -258,9 +287,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function email($name, $value = null, $attributes = array())
+	public function email($name, $value = null, $attributes = array())
 	{
-		return static::input('email', $name, $value, $attributes);
+		return $this->input('email', $name, $value, $attributes);
 	}
 
 	/**
@@ -270,10 +299,10 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
-	public static function telephone($name, $value = null, $attributes = array())
+	 */
+	public function telephone($name, $value = null, $attributes = array())
 	{
-		return static::input('tel', $name, $value, $attributes);
+		return $this->input('tel', $name, $value, $attributes);
 	}
 
 	/**
@@ -284,9 +313,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function url($name, $value = null, $attributes = array())
+	public function url($name, $value = null, $attributes = array())
 	{
-		return static::input('url', $name, $value, $attributes);
+		return $this->input('url', $name, $value, $attributes);
 	}
 
 	/**
@@ -297,9 +326,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function number($name, $value = null, $attributes = array())
+	public function number($name, $value = null, $attributes = array())
 	{
-		return static::input('number', $name, $value, $attributes);
+		return $this->input('number', $name, $value, $attributes);
 	}
 
 	/**
@@ -309,9 +338,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */			
-	public static function file($name, $attributes = array())
+	public function file($name, $attributes = array())
 	{
-		return static::input('file', $name, null, $attributes);
+		return $this->input('file', $name, null, $attributes);
 	}
 
 	/**
@@ -322,15 +351,15 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function textarea($name, $value = '', $attributes = array())
+	public function textarea($name, $value = '', $attributes = array())
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+		$attributes = array_merge($attributes, array('id' => $this->id($name, $attributes), 'name' => $name));
 
 		if ( ! isset($attributes['rows'])) $attributes['rows'] = 10;
 
 		if ( ! isset($attributes['cols'])) $attributes['cols'] = 50;
 
-		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
+		return '<textarea'.$this->html->attributes($attributes).'>'.$this->html->entities($value).'</textarea>'.PHP_EOL;
 	}
 
 	/**
@@ -347,20 +376,20 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function select($name, $options = array(), $selected = null, $attributes = array())
+	public function select($name, $options = array(), $selected = null, $attributes = array())
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+		$attributes = array_merge($attributes, array('id' => $this->id($name, $attributes), 'name' => $name));
 
 		$html = array();
 
 		foreach ($options as $value => $display)
 		{
-			$option_attributes = array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
+			$option_attributes = array('value' => $this->html->entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
 
-			$html[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
+			$html[] = '<option'.$this->html->attributes($option_attributes).'>'.$this->html->entities($display).'</option>';
 		}
 
-		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
+		return '<select'.$this->html->attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
 	}
 
 	/**
@@ -372,9 +401,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function checkbox($name, $value = null, $checked = false, $attributes = array())
+	public function checkbox($name, $value = null, $checked = false, $attributes = array())
 	{
-		return static::checkable('checkbox', $name, $value, $checked, $attributes);
+		return $this->checkable('checkbox', $name, $value, $checked, $attributes);
 	}
 
 	/**
@@ -386,9 +415,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function radio($name, $value = null, $checked = false, $attributes = array())
+	public function radio($name, $value = null, $checked = false, $attributes = array())
 	{
-		return static::checkable('radio', $name, $value, $checked, $attributes);
+		return $this->checkable('radio', $name, $value, $checked, $attributes);
 	}
 
 	/**
@@ -401,11 +430,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private static function checkable($type, $name, $value, $checked, $attributes)
+	private function checkable($type, $name, $value, $checked, $attributes)
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'checked' => ($checked) ? 'checked' : null));
+		$attributes = array_merge($attributes, array('id' => $this->id($name, $attributes), 'checked' => ($checked) ? 'checked' : null));
 
-		return static::input($type, $name, $value, $attributes);
+		return $this->input($type, $name, $value, $attributes);
 	}
 
 	/**
@@ -415,9 +444,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function submit($value, $attributes = array())
+	public function submit($value, $attributes = array())
 	{
-		return static::input('submit', null, $value, $attributes);
+		return $this->input('submit', null, $value, $attributes);
 	}
 
 	/**
@@ -427,9 +456,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function reset($value, $attributes = array())
+	public function reset($value, $attributes = array())
 	{
-		return static::input('reset', null, $value, $attributes);
+		return $this->input('reset', null, $value, $attributes);
 	}
 
 	/**
@@ -439,11 +468,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function image($url, $name = null, $attributes = array())
+	public function image($url, $name = null, $attributes = array())
 	{
-		$attributes['src'] = URL::to_asset($url);
+		$attributes['src'] = $this->url->to_asset($url);
 
-		return static::input('image', $name, null, $attributes);
+		return $this->input('image', $name, null, $attributes);
 	}
 
 	/**
@@ -454,9 +483,9 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function button($value, $attributes = array())
+	public function button($value, $attributes = array())
 	{
-		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
+		return '<button'.$this->html->attributes($attributes).'>'.$this->html->entities($value).'</button>'.PHP_EOL;
 	}
 
 	/**
@@ -469,11 +498,11 @@ class Form {
 	 * @param  array   $attributes
 	 * @return mixed
 	 */
-	private static function id($name, $attributes)
+	private function id($name, $attributes)
 	{
 		if (array_key_exists('id', $attributes)) return $attributes['id'];
 
-		if (in_array($name, static::$labels)) return $name;
+		if (in_array($name, $this->labels)) return $name;
 	}
 
 }

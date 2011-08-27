@@ -1,6 +1,5 @@
 <?php namespace Laravel\Session;
 
-use Laravel\Config;
 use Laravel\Security\Crypter;
 
 class Cookie extends Driver {
@@ -20,21 +19,25 @@ class Cookie extends Driver {
 	private $crypter;
 
 	/**
+	 * The session configuration array.
+	 *
+	 * @var array
+	 */
+	private $config;
+
+	/**
 	 * Create a new Cookie session driver instance.
 	 *
 	 * @param  Crypter         $crypter
 	 * @param  Laravel\Cookie  $cookie
+	 * @param  array           $config
 	 * @return void
 	 */
-	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie)
+	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie, $config)
 	{
 		$this->cookie = $cookie;
+		$this->config = $config;
 		$this->crypter = $crypter;
-
-		if (Config::get('application.key') == '')
-		{
-			throw new \Exception("You must set an application key before using the Cookie session driver.");
-		}
 	}
 
 	/**
@@ -63,7 +66,7 @@ class Cookie extends Driver {
 	{
 		if ( ! headers_sent())
 		{
-			extract(Config::get('session'));
+			extract($this->config);
 
 			$payload = $this->crypter->encrypt(serialize($this->session));
 

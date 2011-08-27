@@ -37,9 +37,9 @@ return array(
 	|
 	*/
 
-	'GET /' => function($request)
+	'GET /' => function($application)
 	{
-		return View::make('home.index');
+		return $application->view->make('home.index');
 	},
 
 );

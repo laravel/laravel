@@ -7,27 +7,24 @@ class Loader {
 	 *
 	 * @var array
 	 */
-	public static $paths = array(BASE_PATH);
+	public $paths;
 
 	/**
 	 * All of the class aliases.
 	 *
 	 * @var array
 	 */
-	public static $aliases = array();
+	public $aliases;
 
 	/**
 	 * Bootstrap the auto-loader.
 	 *
-	 * @param  array  $aliases
-	 * @param  array  $paths
 	 * @return void
 	 */
-	public static function bootstrap($aliases, $paths)
+	public function __construct($aliases, $paths)
 	{
-		static::$aliases = $aliases;
-
-		foreach ($paths as $path) { static::register_path($path); }
+		$this->paths = $paths;
+		$this->aliases = $aliases;
 	}
 
 	/**
@@ -39,16 +36,16 @@ class Loader {
 	 * @param  string  $class
 	 * @return void
 	 */
-	public static function load($class)
+	public function load($class)
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (array_key_exists($class, static::$aliases))
+		if (array_key_exists($class, $this->aliases))
 		{
-			return class_alias(static::$aliases[$class], $class);
+			return class_alias($this->aliases[$class], $class);
 		}
 
-		foreach (static::$paths as $directory)
+		foreach ($this->paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))
 			{
@@ -67,9 +64,9 @@ class Loader {
 	 * @param  string  $path
 	 * @return void
 	 */
-	public static function register_path($path)
+	public function register_path($path)
 	{
-		static::$paths[] = rtrim($path, '/').'/';
+		$this->paths[] = rtrim($path, '/').'/';
 	}
 
 	/**
@@ -78,9 +75,9 @@ class Loader {
 	 * @param  array  $alias
 	 * @return void
 	 */
-	public static function register_alias($alias)
+	public function register_alias($alias)
 	{
-		static::$aliases = array_merge(static::$aliases, $alias);
+		$this->aliases = array_merge($this->aliases, $alias);
 	}
 
 	/**
@@ -89,9 +86,9 @@ class Loader {
 	 * @param  string  $alias
 	 * @return void
 	 */
-	public static function forget_alias($alias)
+	public function forget_alias($alias)
 	{
-		unset(static::$aliases[$alias]);
+		unset($this->aliases[$alias]);
 	}
 
 }

@@ -7,7 +7,7 @@ class Input {
 	 *
 	 * @var array
 	 */
-	public $input;
+	private $input;
 
 	/**
 	 * The $_GET array for the request.
@@ -40,33 +40,16 @@ class Input {
 	/**
 	 * Create a new Input instance.
 	 *
-	 * @param  string  $method
-	 * @param  bool    $spoofed
-	 * @param  array   $get
-	 * @param  array   $post
+	 * @param  array   $input
 	 * @param  array   $files
 	 * @param  Cookie  $cookies
 	 * @return void
 	 */
-	public function __construct($method, $spoofed, $get, $post, $files, Cookie $cookies)
+	public function __construct($input, $files, Cookie $cookies)
 	{
-		$this->get = $get;
-		$this->post = $post;
+		$this->input = $input;
 		$this->files = $files;
 		$this->cookies = $cookies;
-
-		if ($method == 'GET')
-		{
-			$this->input = $this->get;
-		}
-		elseif ($method == 'POST')
-		{
-			$this->input = $this->post;
-		}
-		elseif ($method == 'PUT' or $method == 'DELETE')
-		{
-			($spoofed) ? $this->input = $this->post : parse_str(file_get_contents('php://input'), $this->input);
-		}
 	}
 
 	/**

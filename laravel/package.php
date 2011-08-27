@@ -7,7 +7,7 @@ class Package {
 	 *
 	 * @var array
 	 */
-	public static $loaded = array();
+	public $loaded = array();
 
 	/**
 	 * Load a package or set of packages.
@@ -26,16 +26,16 @@ class Package {
 	 * @param  string        $path
 	 * @return void
 	 */
-	public static function load($packages, $path = PACKAGE_PATH)
+	public function load($packages, $path = PACKAGE_PATH)
 	{
 		foreach ((array) $packages as $package)
 		{
-			if ( ! static::loaded($package) and file_exists($bootstrap = $path.$package.'/bootstrap'.EXT))
+			if ( ! $this->loaded($package) and file_exists($bootstrap = $path.$package.'/bootstrap'.EXT))
 			{
 				require $bootstrap;
 			}
 
-			static::$loaded[] = $package;
+			$this->loaded[] = $package;
 		}
 	}
 
@@ -50,9 +50,9 @@ class Package {
 	 * @param  string  $package
 	 * @return bool
 	 */
-	public static function loaded($package)
+	public function loaded($package)
 	{
-		return array_key_exists($package, static::$loaded);
+		return array_key_exists($package, $this->loaded);
 	}
 
 }

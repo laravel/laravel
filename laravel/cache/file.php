@@ -10,14 +10,23 @@ class File extends Driver {
 	private $file;
 
 	/**
+	 * The path to which the cache files should be written.
+	 *
+	 * @var string
+	 */
+	private $path;
+
+	/**
 	 * Create a new File cache driver instance.
 	 *
 	 * @param  Laravel\File  $file
+	 * @param  string        $path
 	 * @return void
 	 */
-	public function __construct(\Laravel\File $file)
+	public function __construct(\Laravel\File $file, $path)
 	{
 		$this->file = $file;
+		$this->path = $path;
 	}
 
 	/**
@@ -44,9 +53,9 @@ class File extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! $this->file->exists(CACHE_PATH.$key)) return null;
+		if ( ! $this->file->exists($this->path.$key)) return null;
 
-		if (time() >= substr($cache = $this->file->get(CACHE_PATH.$key), 0, 10))
+		if (time() >= substr($cache = $this->file->get($this->path.$key), 0, 10))
 		{
 			return $this->forget($key);
 		}
@@ -69,7 +78,7 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->file->put(CACHE_PATH.$key, (time() + ($minutes * 60)).serialize($value));
+		$this->file->put($this->path.$key, (time() + ($minutes * 60)).serialize($value));
 	}
 
 	/**
@@ -80,7 +89,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->file->delete(CACHE_PATH.$key);
+		$this->file->delete($this->path.$key);
 	}
 
 }

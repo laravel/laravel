@@ -1,6 +1,74 @@
 <?php namespace Laravel;
 
-class View implements Renderable {
+class View_Factory {
+
+	/**
+	 * Create a new view factory instance.
+	 *
+	 * @param  array   $composers
+	 * @param  string  $path
+	 * @return void
+	 */
+	public function __construct($composers, $path)
+	{
+		$this->path = $path;
+		$this->composers = $composers;
+	}
+
+	/**
+	 * Create a new view instance.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public function make($view, $data = array())
+	{
+		return new View($view, $this->path, $data, $this->composers, $this);
+	}
+
+	/**
+	 * Create a new view instance from a view name.
+	 *
+	 * @param  string  $name
+	 * @param  array   $data
+	 * @return View
+	 */
+	protected function of($name, $data = array())
+	{
+		foreach ($this->composers as $key => $value)
+		{
+			if ($name === $value or (isset($value['name']) and $name === $value['name']))
+			{
+				return new View($key, $this->path, $data, $this->composers, $this);
+			}
+		}
+
+		throw new \Exception("Named view [$name] is not defined.");
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "login" named view
+	 *		$view = View::of_login();
+	 *
+	 *		// Create an instance of the "login" named view and bind data to the view
+	 *		$view = View::of_login(array('name' => 'Fred'));
+	 * </code>
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos($method, 'of_') === 0)
+		{
+			return $this->of(substr($method, 3), Arr::get($parameters, 0, array()));
+		}
+	}
+
+}
+
+class View {
 
 	/**
 	 * The name of the view.
@@ -14,14 +82,28 @@ class View implements Renderable {
 	 *
 	 * @var string
 	 */
-	protected $path;
+	public $path;
 
 	/**
 	 * The view data.
 	 *
 	 * @var array
 	 */
-	public $data = array();
+	public $data;
+
+	/**
+	 * The view composers defined for the application.
+	 *
+	 * @var  array  $composers
+	 */
+	protected $composers;
+
+	/**
+	 * The view factory instance, which is used to create sub-views.
+	 *
+	 * @var View_Factory
+	 */
+	protected $factory;
 
 	/**
 	 * Create a new view instance.
@@ -29,12 +111,15 @@ class View implements Renderable {
 	 * @param  string  $view
 	 * @param  array   $data
 	 * @param  string  $path
+	 * @param  array   $composers
 	 * @return void
 	 */
-	public function __construct($view, $data = array(), $path = VIEW_PATH)
+	public function __construct($view, $path, $data, $composers, $factory)
 	{
 		$this->view = $view;
 		$this->data = $data;
+		$this->factory = $factory;
+		$this->composers = $composers;
 		$this->path = $path.str_replace('.', '/', $view).EXT;
 
 		if ( ! file_exists($this->path))
@@ -44,52 +129,15 @@ class View implements Renderable {
 	}
 
 	/**
-	 * Create a new view instance.
-	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @param  string  $path
-	 * @return View
-	 */
-	public static function make($view, $data = array(), $path = VIEW_PATH)
-	{
-		return new static($view, $data, $path);
-	}
-
-	/**
-	 * Create a new view instance from a view name.
-	 *
-	 * @param  string  $name
-	 * @param  array   $data
-	 * @return View
-	 */
-	protected static function of($name, $data = array())
-	{
-		$composers = IoC::container()->resolve('laravel.composers');
-
-		foreach ($composers as $key => $value)
-		{
-			if ($name === $value or (isset($value['name']) and $name === $value['name']))
-			{
-				return new static($key, $data);
-			}
-		}
-
-		throw new \Exception("Named view [$name] is not defined.");
-	}
-
-	/**
 	 * Call the composer for the view instance.
 	 *
 	 * @return void
 	 */
 	protected function compose()
 	{
-		$composers = IoC::container()->resolve('laravel.composers');
-
-		if (isset($composers[$this->view]))
+		if (isset($this->composers[$this->view]))
 		{
-			foreach ((array) $composers[$this->view] as $key => $value)
+			foreach ((array) $this->composers[$this->view] as $key => $value)
 			{
 				if ($value instanceof \Closure) return call_user_func($value, $this);
 			}
@@ -110,7 +158,7 @@ class View implements Renderable {
 
 		foreach ($this->data as &$data) 
 		{
-			if ($data instanceof Renderable) $data = $data->render();
+			if ($data instanceof View or $data instanceof Response) $data = $data->render();
 		}
 
 		ob_start() and extract($this->data, EXTR_SKIP);
@@ -121,7 +169,7 @@ class View implements Renderable {
 		}
 		catch (\Exception $e)
 		{
-			Exception\Handler::make(new Exception\Examiner($e, new File))->handle();
+			Exception\Handler::make(new Exception\Examiner($e))->handle();
 		}
 
 		return ob_get_clean();
@@ -145,7 +193,7 @@ class View implements Renderable {
 	 */
 	public function partial($key, $view, $data = array())
 	{
-		return $this->with($key, new static($view, $data));
+		return $this->with($key, $this->factory->make($view, $data));
 	}
 
 	/**
@@ -166,25 +214,6 @@ class View implements Renderable {
 	{
 		$this->data[$key] = $value;
 		return $this;
-	}
-
-	/**
-	 * Magic Method for handling the dynamic creation of named views.
-	 *
-	 * <code>
-	 *		// Create an instance of the "login" named view
-	 *		$view = View::of_login();
-	 *
-	 *		// Create an instance of the "login" named view and bind data to the view
-	 *		$view = View::of_login(array('name' => 'Fred'));
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (strpos($method, 'of_') === 0)
-		{
-			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
-		}
 	}
 
 	/**
