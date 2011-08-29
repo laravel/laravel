@@ -40,14 +40,6 @@ class Manager {
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
-	 * <code>
-	 *		// Get the default database connection
-	 *		$connection = DB::connection();
-	 *
-	 *		// Get a specific database connection
-	 *		$connection = DB::connection('mysql');
-	 * </code>
-	 *
 	 * @param  string               $connection
 	 * @return Database\Connection
 	 */
@@ -75,17 +67,6 @@ class Manager {
 	 *
 	 * This method primarily serves as a short-cut to the $connection->table() method.
 	 *
-	 * <code>
-	 *		// Begin a fluent query against the "users" table
-	 *		$query = DB::table('users');
-	 *
-	 *		// Equivalent call using the connection table method.
-	 *		$query = DB::connection()->table('users');
-	 *
-	 *		// Begin a fluent query against the "users" table for a specific connection
-	 *		$query = DB::table('users', 'mysql');
-	 * </code>
-	 *
 	 * @param  string    $table
 	 * @param  string    $connection
 	 * @return Database\Query
@@ -99,14 +80,6 @@ class Manager {
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.
-	 *
-	 * <code>
-	 *		// Run a query against the default database connection
-	 *		$results = DB::query('select * from users');
-	 *
-	 *		// Equivalent call using the connection instance
-	 *		$results = DB::connection()->query('select * from users');
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

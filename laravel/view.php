@@ -1,5 +1,62 @@
 <?php namespace Laravel;
 
+/**
+ * The view composer class is responsible for calling the composer on a view and
+ * searching through the view composers for a given view name. It is injected
+ * into the View_Factory and View instances themselves, and is managed as a singleton
+ * by the application IoC container.
+ */
+class View_Composer {
+
+	/**
+	 * Create a new view composer instance.
+	 *
+	 * @param  array  $composers
+	 * @return void
+	 */
+	public function __construct($composers)
+	{
+		$this->composers = $composers;
+	}
+
+	/**
+	 * Find the key for a view by name.
+	 *
+	 * @param  string  $name
+	 * @return string
+	 */
+	public function name($name)
+	{
+		foreach ($this->composers as $key => $value)
+		{
+			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
+		}
+	}
+
+	/**
+	 * Call the composer for the view instance.
+	 *
+	 * @param  View  $view
+	 * @return void
+	 */
+	public function compose(View $view)
+	{
+		if (isset($this->composers[$view->view]))
+		{
+			foreach ((array) $this->composers[$view->view] as $key => $value)
+			{
+				if ($value instanceof \Closure) return call_user_func($value, $view);
+			}
+		}
+	}
+
+}
+
+/**
+ * The view factory class is responsible for the instantiation of Views. It is typically
+ * access through the application instance from a route or controller, and is managed
+ * as a singleton by the application IoC container.
+ */
 class View_Factory {
 
 	/**
@@ -9,10 +66,10 @@ class View_Factory {
 	 * @param  string  $path
 	 * @return void
 	 */
-	public function __construct($composers, $path)
+	public function __construct($path, View_Composer $composer)
 	{
 		$this->path = $path;
-		$this->composers = $composers;
+		$this->composer = $composer;
 	}
 
 	/**
@@ -24,7 +81,7 @@ class View_Factory {
 	 */
 	public function make($view, $data = array())
 	{
-		return new View($view, $this->path, $data, $this->composers, $this);
+		return new View($view, $data, $this->path($view), $this->composer, $this);
 	}
 
 	/**
@@ -36,15 +93,23 @@ class View_Factory {
 	 */
 	protected function of($name, $data = array())
 	{
-		foreach ($this->composers as $key => $value)
+		if ( ! is_null($view = $this->composer->name($name)))
 		{
-			if ($name === $value or (isset($value['name']) and $name === $value['name']))
-			{
-				return new View($key, $this->path, $data, $this->composers, $this);
-			}
+			return new View($view, $data, $this->path($view), $this->composer, $this);
 		}
 
 		throw new \Exception("Named view [$name] is not defined.");
+	}
+
+	/**
+	 * Get the path to a given view on disk.
+	 *
+	 * @param  string  $view
+	 * @return string
+	 */
+	protected function path($view)
+	{
+		return $this->path.str_replace('.', '/', $view).EXT;
 	}
 
 	/**
@@ -68,6 +133,11 @@ class View_Factory {
 
 }
 
+/**
+ * The view class is returned by the View Factory "make" method, and is the primary
+ * class for working with individual views. It provides methods for binding data to
+ * views as well as evaluating and rendering their contents.
+ */
 class View {
 
 	/**
@@ -78,13 +148,6 @@ class View {
 	public $view;
 
 	/**
-	 * The view name with dots replaced by slashes.
-	 *
-	 * @var string
-	 */
-	public $path;
-
-	/**
 	 * The view data.
 	 *
 	 * @var array
@@ -92,11 +155,18 @@ class View {
 	public $data;
 
 	/**
-	 * The view composers defined for the application.
+	 * The path to the view on disk.
 	 *
-	 * @var  array  $composers
+	 * @var string
 	 */
-	protected $composers;
+	protected $path;
+
+	/**
+	 * The view composer instance.
+	 *
+	 * @var View_Composer
+	 */
+	protected $composer;
 
 	/**
 	 * The view factory instance, which is used to create sub-views.
@@ -108,39 +178,24 @@ class View {
 	/**
 	 * Create a new view instance.
 	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @param  string  $path
-	 * @param  array   $composers
+	 * @param  string         $view
+	 * @param  array          $data
+	 * @param  string         $path
+	 * @param  View_Composer  $composer
+	 * @param  View_Factory   $factory
 	 * @return void
 	 */
-	public function __construct($view, $path, $data, $composers, $factory)
+	public function __construct($view, $data, $path, View_Composer $composer, View_Factory $factory)
 	{
 		$this->view = $view;
 		$this->data = $data;
+		$this->path = $path;
 		$this->factory = $factory;
-		$this->composers = $composers;
-		$this->path = $path.str_replace('.', '/', $view).EXT;
+		$this->composer = $composer;
 
 		if ( ! file_exists($this->path))
 		{
 			throw new \Exception('View ['.$this->path.'] does not exist.');
-		}
-	}
-
-	/**
-	 * Call the composer for the view instance.
-	 *
-	 * @return void
-	 */
-	protected function compose()
-	{
-		if (isset($this->composers[$this->view]))
-		{
-			foreach ((array) $this->composers[$this->view] as $key => $value)
-			{
-				if ($value instanceof \Closure) return call_user_func($value, $this);
-			}
 		}
 	}
 
@@ -154,7 +209,7 @@ class View {
 	 */
 	public function render()
 	{
-		$this->compose();
+		$this->composer->compose($this);
 
 		foreach ($this->data as &$data) 
 		{
@@ -163,28 +218,13 @@ class View {
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		try
-		{
-			include $this->path;
-		}
-		catch (\Exception $e)
-		{
-			Exception\Handler::make(new Exception\Examiner($e))->handle();
-		}
+		try { include $this->path; } catch (\Exception $e) { ob_get_clean(); throw $e; }
 
 		return ob_get_clean();
 	}
 
 	/**
 	 * Add a view instance to the view data.
-	 *
-	 * <code>
-	 *		// Bind the view "partial/login" to the view
-	 *		View::make('home')->partial('login', 'partial/login');
-	 *
-	 *		// Equivalent binding using the "with" method
-	 *		View::make('home')->with('login', View::make('partials/login'));
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $view
@@ -200,11 +240,6 @@ class View {
 	 * Add a key / value pair to the view data.
 	 *
 	 * Bound data will be available to the view as variables.
-	 *
-	 * <code>
-	 *		// Bind a "name" value to the view
-	 *		View::make('home')->with('name', 'Fred');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -246,6 +281,16 @@ class View {
 	public function __unset($key)
 	{
 		unset($this->data[$key]);
+	}
+
+	/**
+	 * Magic Method for passing undefined static methods to the View_Factory instance
+	 * registered in the application IoC container. This provides easy access to the
+	 * view functions while still maintaining testability within the view classes.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(IoC::container()->resolve('laravel.view'), $method), $parameters);
 	}
 
 }

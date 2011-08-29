@@ -8,7 +8,7 @@ require 'bootstrap.php';
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
 // --------------------------------------------------------------
-error_reporting(E_ALL | E_STRICT);
+error_reporting(-1);
 
 ini_set('display_errors', 'Off');
 

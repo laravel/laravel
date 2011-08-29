@@ -107,7 +107,7 @@ return array(
 	{
 		require_once SYS_PATH.'view'.EXT;
 
-		return new View_Factory(require APP_PATH.'composers'.EXT, VIEW_PATH);
+		return new View_Factory(VIEW_PATH, new View_Composer(require APP_PATH.'composers'.EXT));
 	}),
 
 	/*
