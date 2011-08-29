@@ -10,13 +10,6 @@ class Application {
 	public $request;
 
 	/**
-	 * The application input manager.
-	 *
-	 * @var Input
-	 */
-	public $input;
-
-	/**
 	 * The application configuration manager.
 	 *
 	 * @var Config
@@ -29,25 +22,6 @@ class Application {
 	 * @var Session\Driver
 	 */
 	public $session;
-
-	/**
-	 * The application cache manager.
-	 *
-	 * @var Cache\Driver
-	 */
-	public $cache;
-
-	/**
-	 * The application database manager.
-	 */
-	public $database;
-
-	/**
-	 * The application auto-loader.
-	 *
-	 * @var Loader
-	 */
-	public $loader;
 
 	/**
 	 * The application IoC container.

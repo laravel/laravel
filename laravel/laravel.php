@@ -1,14 +1,9 @@
 <?php namespace Laravel;
 
 // --------------------------------------------------------------
-// Define the framework constants.
+// Bootstrap the core framework components.
 // --------------------------------------------------------------
-require 'bootstrap/constants.php';
-
-// --------------------------------------------------------------
-// Load the application and the core application components.
-// --------------------------------------------------------------
-require SYS_PATH.'bootstrap/core'.EXT;
+require 'bootstrap.php';
 
 // --------------------------------------------------------------
 // Set the error reporting and display levels.
@@ -53,49 +48,6 @@ date_default_timezone_set($application->config->get('application.timezone'));
 $application->request = new Request($_SERVER, $application->config->get('application.url'));
 
 $application->container->instance('laravel.request', $application->request);
-
-// --------------------------------------------------------------
-// Hydrate the input for the current request.
-// --------------------------------------------------------------
-$input = array();
-
-if ($application->request->method == 'GET')
-{
-	$input = $_GET;
-}
-elseif ($application->request->method == 'POST')
-{
-	$input = $_POST;
-}
-elseif ($application->request->method == 'PUT' or $application->request->method == 'DELETE')
-{
-	($application->request->spoofed) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
-}
-
-$application->input = new Input($input, $_FILES, new Cookie($_COOKIE));
-
-$application->container->instance('laravel.input', $application->input);
-
-// --------------------------------------------------------------
-// Load the cache manager.
-// --------------------------------------------------------------
-$application->cache = new Cache\Manager($application->container, $application->config->get('cache.driver'));
-
-$application->container->instance('laravel.cache.manager', $application->cache);
-
-// --------------------------------------------------------------
-// Load the database manager.
-// --------------------------------------------------------------
-if ($application->config->get('database.autoload'))
-{
-	$connections = $application->config->get('database.connections');
-
-	$application->database = new Database\Manager($connections, $application->config->get('database.default'));
-
-	$application->container->instance('laravel.database.manager', $application->database);
-
-	unset($connections);
-}
 
 // --------------------------------------------------------------
 // Load the session and session manager.

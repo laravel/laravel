@@ -8,6 +8,16 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
+	'laravel.database' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$config = $container->resolve('laravel.config');
+
+		$connections = $config->get('database.connections');
+
+		return new Database\Manager($config->get('database.connections'), $config->get('database.default'));
+	}),
+
+
 	'laravel.file' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new File($container->resolve('laravel.config')->get('mimes'));
@@ -33,6 +43,29 @@ return array(
 		$encoding = $container->resolve('laravel.config')->get('application.encoding');
 
 		return new HTML($container->resolve('laravel.url'), $encoding);
+	}),
+
+
+	'laravel.input' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$application = $container->resolve('laravel.application');
+
+		$input = array();
+
+		if ($application->request->method == 'GET')
+		{
+			$input = $_GET;
+		}
+		elseif ($application->request->method == 'POST')
+		{
+			$input = $_POST;
+		}
+		elseif ($application->request->method == 'PUT' or $application->request->method == 'DELETE')
+		{
+			($application->request->spoofed) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
+		}
+
+		return new Input($input, $_FILES, new Cookie($_COOKIE));
 	}),
 
 
@@ -122,6 +155,17 @@ return array(
 		$table = $container->resolve('laravel.config')->get('session.table');
 
 		return new Session\Database($container->resolve('laravel.database.manager')->connection(), $table);
+	}),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Laravel Cache Manager
+	|--------------------------------------------------------------------------
+	*/
+
+	'laravel.cache' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Cache\Manager($container, $container->resolve('laravel.config')->get('cache.driver'));
 	}),
 
 	/*
