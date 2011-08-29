@@ -3,18 +3,18 @@
 class Redirect extends Response {
 
 	/**
+	 * Create a new redirect generator instance.
+	 *
+	 * @param  URL   $url
+	 * @return void
+	 */
+	public function __construct(URL $url)
+	{
+		$this->url = $url;
+	}
+
+	/**
 	 * Create a redirect response.
-	 *
-	 * <code>
-	 *		// Create a redirect for the "user/profile" URI
-	 *		return Redirect::to('user/profile');
-	 *
-	 *		// Create a redirect using the 301 status code
-	 *		return Redirect::to('user/profile', 301);
-	 *
-	 *		// Create a redirect using the "refresh" method
-	 *		return Redirect::to('user/profile', 302, 'refresh');
-	 * </code>
 	 *
 	 * @param  string    $url
 	 * @param  int       $status
@@ -22,47 +22,39 @@ class Redirect extends Response {
 	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public static function to($url, $status = 302, $method = 'location', $https = false)
+	public function to($url, $status = 302, $method = 'location', $https = false)
 	{
-		$url = URL::to($url, $https);
+		$url = $this->url->to($url, $https);
+
+		parent::__construct('', $status);
 
 		if ($method == 'location')
 		{
-			return parent::__construct('', $status)->header('Refresh', '0;url='.$url);
+			return $this->header('Refresh', '0;url='.$url);
 		}
 		else
 		{
-			return parent::__construct('', $status)->header('Location', $url);
+			return $this->header('Location', $url);
 		}
 	}
 
 	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
-	 * <code>
-	 *		// Create a HTTPS redirect to the "user/profile" URI
-	 *		return Redirect::to_secure('user/profile');
-	 * </code>
-	 *
 	 * @param  string    $url
 	 * @param  int       $status
 	 * @param  string    $method
 	 * @return Response
 	 */
-	public static function to_secure($url, $status = 302, $method = 'location')
+	public function to_secure($url, $status = 302, $method = 'location')
 	{
-		return static::to($url, $status, $method, true);
+		return $this->to($url, $status, $method, true);
 	}
 
 	/**
 	 * Add an item to the session flash data.
 	 *
 	 * This is useful for passing status messages or other temporary data to the next request.
-	 *
-	 * <code>
-	 *		// Flash a status message to the session on a redirect
-	 *		return Redirect::to('user/profile')->with('status', 'Welcome Back!');
-	 * </code>
 	 *
 	 * @param  string          $key
 	 * @param  mixed           $value
@@ -76,28 +68,20 @@ class Redirect extends Response {
 	}
 
 	/**
-	 * Magic Method to handle redirecting to named routes.
-	 *
-	 * <code>
-	 *		// Create a redirect to the "profile" route
-	 *		return Redirect::to_profile();
-	 *
-	 *		// Create a redirect to the "profile" route using HTTPS
-	 *		return Redirect::to_secure_profile();
-	 * </code>
+	 * Magic Method to handle creation of redirects to named routes.
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 10), $parameters, true));
+			return $this->to($this->url->to_route(substr($method, 10), $parameters, true));
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 3), $parameters));
+			return $this->to($this->url->to_route(substr($method, 3), $parameters));
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Redirect class.");

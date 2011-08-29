@@ -178,7 +178,8 @@ class Response {
 	 *
 	 * @param  mixed  $content
 	 * @param  int    $status
-	 */	
+	 * @return void
+	 */
 	public function __construct($content, $status = 200)
 	{
 		$this->content = $content;

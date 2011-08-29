@@ -12,8 +12,6 @@ return array(
 	{
 		$config = $container->resolve('laravel.config');
 
-		$connections = $config->get('database.connections');
-
 		return new Database\Manager($config->get('database.connections'), $config->get('database.default'));
 	}),
 
@@ -21,28 +19,6 @@ return array(
 	'laravel.file' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new File($container->resolve('laravel.config')->get('mimes'));
-	}),
-
-
-	'laravel.form' => array('singleton' => true, 'resolver' => function($container)
-	{
-		$request = $container->resolve('laravel.request');
-
-		$html = $container->resolve('laravel.html');
-
-		$url = $container->resolve('laravel.url');
-
-		$token = ($container->registered('laravel.session.driver')) ? $container->resolve('laravel.session.driver')->get('csrf_token') : null;
-
-		return new Form($request, $html, $url, $token);
-	}),
-
-
-	'laravel.html' => array('singleton' => true, 'resolver' => function($container)
-	{
-		$encoding = $container->resolve('laravel.config')->get('application.encoding');
-
-		return new HTML($container->resolve('laravel.url'), $encoding);
 	}),
 
 
@@ -75,11 +51,9 @@ return array(
 	}),
 
 
-	'laravel.responder' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
 	{
-		require_once SYS_PATH.'response'.PHP;
-
-		return new Response_Factory($container->resolve('laravel.view'), $container->resolve('laravel.file'));
+		return new Redirect($container->resolve('laravel.url'));		
 	}),
 
 
@@ -91,13 +65,11 @@ return array(
 
 	'laravel.url' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$config = $container->resolve('laravel.config');
-
 		$request = $container->resolve('laravel.request');
 
-		$base = $config->get('application.url');
+		$base = $container->resolve('laravel.config')->get('application.url');
 
-		$index = $config->get('application.index');
+		$index = $container->resolve('laravel.config')->get('application.index');
 
 		return new URL($container->resolve('laravel.router'), $base, $index, $request->secure);
 	}),
