@@ -10,22 +10,14 @@ class Response_Factory {
 	private $view;
 
 	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	private $file;
-
-	/**
 	 * Create a new response factory instance.
 	 *
 	 * @param  File  $file
 	 * @return void
 	 */
-	public function __construct(View_Factory $view, File $file)
+	public function __construct(View_Factory $view)
 	{
 		$this->view = $view;
-		$this->file = $file;
 	}
 
 	/**
@@ -41,36 +33,15 @@ class Response_Factory {
 	}
 
 	/**
-	 * Create a new download response instance.
+	 * Create a new response instance containing a view.
 	 *
-	 * <code>
-	 *		// Return a download response for a given file
-	 *		return new Download('path/to/image.jpg');
-	 *
-	 *		// Return a download response for a given file and assign a name
-	 *		return new Download('path/to/image.jpg', 'you.jpg');
-	 * </code>
-	 *
-	 * @param  string    $path
-	 * @param  string    $name
+	 * @param  string    $view
+	 * @param  array     $data
 	 * @return Response
 	 */
-	public function download($path, $name = null)
+	public function view($view, $data = array())
 	{
-		if (is_null($name)) $name = basename($path);
-
-		$response = new Response($this->file->get($path));
-
-		$response->header('Content-Description', 'File Transfer');
-		$response->header('Content-Type', $this->file->mime($this->file->extension($path)));
-		$response->header('Content-Disposition', 'attachment; filename="'.$name.'"');
-		$response->header('Content-Transfer-Encoding', 'binary');
-		$response->header('Expires', 0);
-		$response->header('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
-		$response->header('Pragma', 'public');
-		$response->header('Content-Length', $this->file->size($path));
-
-		return $response;
+		return new Response($this->view->make($view, $data));
 	}
 
 	/**
@@ -79,11 +50,6 @@ class Response_Factory {
 	 * The response status code will be set using the specified code.
 	 *
 	 * Note: The specified error code should correspond to a view in your views/error directory.
-	 *
-	 * <code>
-	 *		// Return a 404 error response
-	 *		return new Error('404');
-	 * </code>
 	 *
 	 * @param  int       $code
 	 * @param  array     $data
@@ -233,11 +199,6 @@ class Response {
 	/**
 	 * Add a header to the response.
 	 *
-	 * <code>
-	 *		// Add a "location" header to a response
-	 *		$response->header('Location', 'http://google.com');
-	 * </code>
-	 *
 	 * @param  string    $name
 	 * @param  string    $value
 	 * @return Response
@@ -245,6 +206,18 @@ class Response {
 	public function header($name, $value)
 	{
 		$this->headers[$name] = $value;
+		return $this;
+	}
+
+	/**
+	 * Set the response status code.
+	 *
+	 * @param  int       $status
+	 * @return Response
+	 */
+	public function status($status)
+	{
+		$this->status = $status;
 		return $this;
 	}
 

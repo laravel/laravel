@@ -16,6 +16,12 @@ return array(
 	}),
 
 
+	'laravel.download' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Download($container->resolve('laravel.file'));		
+	}),
+
+
 	'laravel.file' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new File($container->resolve('laravel.config')->get('mimes'));
@@ -54,6 +60,14 @@ return array(
 	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new Redirect($container->resolve('laravel.url'));		
+	}),
+
+
+	'laravel.response' => array('singleton' => true, 'resolver' => function($container)
+	{
+		require_once SYS_PATH.'response'.EXT;
+
+		return new Response_Factory($container->resolve('laravel.view'));
 	}),
 
 
