@@ -4,7 +4,7 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Laravel Support Components
+	| Laravel Components
 	|--------------------------------------------------------------------------
 	*/
 
@@ -59,7 +59,7 @@ return array(
 
 	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Redirect($container->resolve('laravel.url'));		
+		return new Redirect($container->resolve('laravel.session.driver'), $container->resolve('laravel.url'));		
 	}),
 
 

@@ -223,14 +223,4 @@ class Response {
 		return $this;
 	}
 
-	/**
-	 * Magic Method for passing undefined static methods to the Response_Factory instance
-	 * registered in the application IoC container. This provides easy access to the
-	 * response functions while still maintaining testability within the classes.
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		return call_user_func_array(array(IoC::container()->resolve('laravel.response'), $method), $parameters);
-	}
-
 }

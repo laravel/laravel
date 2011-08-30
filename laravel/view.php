@@ -296,14 +296,4 @@ class View {
 		unset($this->data[$key]);
 	}
 
-	/**
-	 * Magic Method for passing undefined static methods to the View_Factory instance
-	 * registered in the application IoC container. This provides easy access to the
-	 * view functions while still maintaining testability within the view classes.
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		return call_user_func_array(array(IoC::container()->resolve('laravel.view'), $method), $parameters);
-	}
-
 }

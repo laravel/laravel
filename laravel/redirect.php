@@ -3,14 +3,30 @@
 class Redirect extends Response {
 
 	/**
+	 * The URL generator instance.
+	 *
+	 * @var URL
+	 */
+	private $url;
+
+	/**
+	 * The active session driver instance.
+	 *
+	 * @var Session\Driver
+	 */
+	private $session;
+
+	/**
 	 * Create a new redirect generator instance.
 	 *
-	 * @param  URL   $url
+	 * @param  Session\Driver  $session
+	 * @param  URL             $url
 	 * @return void
 	 */
-	public function __construct(URL $url)
+	public function __construct(Session\Driver $session, URL $url)
 	{
 		$this->url = $url;
+		$this->session = $session;
 	}
 
 	/**
@@ -62,7 +78,7 @@ class Redirect extends Response {
 	 */
 	public function with($key, $value)
 	{
-		IoC::container()->resolve('laravel.session.driver')->flash($key, $value);
+		$this->session->flash($key, $value);
 
 		return $this;
 	}

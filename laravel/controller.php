@@ -17,9 +17,7 @@ abstract class Controller {
 	 */
 	public function __get($key)
 	{
-		$application = IoC::resolve('laravel.application');
-
-		return $application->$key;
+		return IoC::resolve('laravel.application')->$key;
 	}
 
 	/**

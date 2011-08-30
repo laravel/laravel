@@ -52,14 +52,6 @@ class Lang {
 	 * Language lines are retrieved using "dot" notation. So, asking for the "messages.required" langauge
 	 * line would return the "required" line from the "messages" language file.
 	 *
-	 * <code>
-	 *		// Get the "required" line from the "validation" language file
-	 *		$line = Lang::line('validation.required')->get();
-	 *
-	 *		// Specify a replacement for a language line
-	 *		$line = Lang::line('welcome.message', array('name' => 'Fred'))->get();
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @return Lang
@@ -73,11 +65,6 @@ class Lang {
 	 * Get the language line.
 	 *
 	 * A default value may also be specified, which will be returned in the language line doesn't exist.
-	 *
-	 * <code>
-	 *		// Get a validation line and return a default value if the line doesn't exist
-	 *		$line = Lang::line('welcome.message')->get('Hello!');
-	 * </code>
 	 *
 	 * @param  string  $language
 	 * @return string
@@ -155,11 +142,6 @@ class Lang {
 	 * Set the language the line should be returned in.
 	 *
 	 * The language specified in this method should correspond to a language directory in your application.
-	 *
-	 * <code>
-	 *		// Get a "fr" language line
-	 *		$line = Lang::line('validation.required')->in('fr')->get();
-	 * </code>
 	 *
 	 * @param  string  $language
 	 * @return Lang

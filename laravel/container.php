@@ -21,11 +21,6 @@ class IoC {
 
 	/**
 	 * Magic Method for calling methods on the active container instance.
-	 *
-	 * <code>
-	 *		// Get the request registered in the container
-	 *		$request = IoC::resolve('laravel.request');
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -69,14 +64,6 @@ class Container {
 	 *
 	 * The resolver function when the registered dependency is requested.
 	 *
-	 * <code>
-	 *		// Register a simple dependency
-	 *		$container->register('name', function() { return 'Fred'; });
-	 *
-	 *		// Register a dependency as a singleton
-	 *		$container->register('name', function() { return new Name; }, true);
-	 * </code>
-	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
 	 * @return void
@@ -88,11 +75,6 @@ class Container {
 
 	/**
 	 * Determine if a dependency has been registered in the container.
-	 *
-	 * <code>
-	 *		// Determine if the "user" dependency is registered in the container
-	 *		$registered = $container->registered('user');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return bool
@@ -107,11 +89,6 @@ class Container {
 	 *
 	 * Singletons will only be instantiated the first time they are resolved. On subsequent
 	 * requests for the object, the original instance will be returned.
-	 *
-	 * <code>
-	 *		// Register a dependency as a singleton
-	 *		$container->singleton('user', function() { return new User; })
-	 * </code>
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
@@ -128,11 +105,6 @@ class Container {
 	 * This method allows you to register an already existing object instance with the
 	 * container as a singleton instance.
 	 *
-	 * <code>
-	 *		// Register an object instance as a singleton in the container
-	 *		$container->instance('user', new User);
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  mixed   $instance
 	 * @return void
@@ -146,11 +118,6 @@ class Container {
 	 * Resolve a dependency.
 	 *
 	 * The dependency's resolver will be called and its result will be returned.
-	 *
-	 * <code>
-	 *		// Resolver the "name" dependency
-	 *		$name = $container->resolve('name');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return mixed

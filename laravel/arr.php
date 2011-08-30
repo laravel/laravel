@@ -9,11 +9,6 @@ class Arr {
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
 	 * in multiple arrays is also supported.
 	 *
-	 * <code>
-	 *		// Returns "taylor"
-	 *		Arr::get(array('name' => array('is' => 'Taylor')), 'name.is');
-	 * </code>
-	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -46,11 +41,6 @@ class Arr {
 	 * parents do no exist, they will also be created as arrays.
 	 *
 	 * Like the Arr::get method, JavaScript "dot" syntax is supported.
-	 *
-	 * <code>
-	 *		// Set "name.is" to "taylor"
-	 *		Arr::set(array('name' => array('is' => 'something')), 'name.is', 'taylor');		
-	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key

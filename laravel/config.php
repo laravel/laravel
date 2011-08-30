@@ -14,14 +14,6 @@ class Config {
 	/**
 	 * Determine if a configuration item or file exists.
 	 *
-	 * <code>
-	 *		// Determine if the "session" configuration file exists
-	 *		Config::has('session');
-	 *
-	 *		// Determine if the application timezone option exists
-	 *		Config::has('application.timezone');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
@@ -39,14 +31,6 @@ class Config {
 	 *
 	 * If the name of a configuration file is passed without specifying an item, the
 	 * entire configuration array will be returned.
-	 *
-	 * <code>
-	 *		// Get the timezone option from the application configuration file
-	 *		$timezone = Config::get('application.timezone');
-	 *
-	 * 		// Get the SQLite database connection configuration
-	 *		$sqlite = Config::get('database.connections.sqlite');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $default
@@ -74,14 +58,6 @@ class Config {
 	 *
 	 * If a specific configuration item is not specified, the entire configuration
 	 * array will be replaced with the given value.
-	 *
-	 * <code>
-	 *		// Set the timezone option in the application configuration file
-	 *		Config::set('application.timezone', 'America/Chicago');
-	 *
-	 *		// Set the session configuration array
-	 *		Config::set('session', array());
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
