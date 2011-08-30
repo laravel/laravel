@@ -9,6 +9,13 @@
 class View_Composer {
 
 	/**
+	 * The view composers.
+	 *
+	 * @var array
+	 */
+	protected $composers;
+
+	/**
 	 * Create a new view composer instance.
 	 *
 	 * @param  array  $composers
@@ -58,6 +65,20 @@ class View_Composer {
  * as a singleton by the application IoC container.
  */
 class View_Factory {
+
+	/**
+	 * The directory containing the views.
+	 *
+	 * @var string
+	 */
+	protected $path;
+
+	/**
+	 * The view composer instance.
+	 *
+	 * @var View_Composer
+	 */
+	protected $composer;
 
 	/**
 	 * Create a new view factory instance.
@@ -114,14 +135,6 @@ class View_Factory {
 
 	/**
 	 * Magic Method for handling the dynamic creation of named views.
-	 *
-	 * <code>
-	 *		// Create an instance of the "login" named view
-	 *		$view = View::of_login();
-	 *
-	 *		// Create an instance of the "login" named view and bind data to the view
-	 *		$view = View::of_login(array('name' => 'Fred'));
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

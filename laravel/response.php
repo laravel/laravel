@@ -57,6 +57,8 @@ class Response_Factory {
 	 */
 	public function error($code, $data = array())
 	{
+		$data['homepage'] = IoC::resolve('laravel.config')->get('application.url');
+
 		return new Response($this->view->make('error/'.$code, $data), $code);
 	}
 
@@ -219,6 +221,16 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
+	}
+
+	/**
+	 * Magic Method for passing undefined static methods to the Response_Factory instance
+	 * registered in the application IoC container. This provides easy access to the
+	 * response functions while still maintaining testability within the classes.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(IoC::container()->resolve('laravel.response'), $method), $parameters);
 	}
 
 }

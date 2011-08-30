@@ -3,6 +3,13 @@
 class Download extends Response {
 
 	/**
+	 * The file manager instance.
+	 *
+	 * @var File
+	 */
+	protected $file;
+
+	/**
 	 * Create a new download generator instance.
 	 *
 	 * @param  File  $file

@@ -37,9 +37,9 @@ return array(
 	|
 	*/
 
-	'GET /' => function($application)
+	'GET /' => function($laravel)
 	{
-		return $application->view->make('home.index');
+		return $laravel->view->make('home.index');
 	},
 
 );
