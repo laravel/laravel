@@ -51,6 +51,12 @@ return array(
 	}),
 
 
+	'laravel.lang' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Lang($container->resolve('laravel.config')->get('application.language'), array(SYS_LANG_PATH, LANG_PATH));		
+	}),
+
+
 	'laravel.package' => array('singleton' => true, 'resolver' => function()
 	{
 		return new Package;

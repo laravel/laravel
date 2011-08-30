@@ -9,45 +9,58 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	public static $lines = array();
+	private static $lines = array();
 
 	/**
-	 * The key of the line that is being requested.
+	 * The default language being used by the application.
 	 *
 	 * @var string
 	 */
-	public $key;
+	private $language;
 
 	/**
-	 * The language the line should be returned in.
-	 *
-	 * @var string
-	 */
-	public $language;
-
-	/**
-	 * The place-holder replacements.
+	 * The paths containing the language files.
 	 *
 	 * @var array
 	 */
-	public $replacements = array();
+	private $paths;
+
+	/**
+	 * The key of the language line being retrieved.
+	 *
+	 * @var string
+	 */
+	private $key;
+
+	/**
+	 * The replacements that should be made on the language line.
+	 *
+	 * @var array
+	 */
+	private $replacements;
+
+	/**
+	 * The language of the line being retrieved.
+	 *
+	 * @var string
+	 */
+	private $line_language;
 
 	/**
 	 * Create a new Lang instance.
 	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
+	 * @param  string  $language
+	 * @param  array   $paths
 	 * @return void
 	 */
-	private function __construct($key, $replacements = array())
+	public function __construct($language, $paths)
 	{
-		$this->key = $key;
-		$this->replacements = $replacements;
-		$this->language = Config::get('application.language');
+		$this->paths = $paths;
+		$this->language = $language;
 	}
 
 	/**
-	 * Create a new Lang instance.
+	 * Begin retrieving a new language line.
 	 *
 	 * Language lines are retrieved using "dot" notation. So, asking for the "messages.required" langauge
 	 * line would return the "required" line from the "messages" language file.
@@ -56,9 +69,13 @@ class Lang {
 	 * @param  array   $replacements
 	 * @return Lang
 	 */
-	public static function line($key, $replacements = array())
+	public function line($key, $replacements = array())
 	{
-		return new static($key, $replacements);
+		$this->key = $key;
+		$this->replacements = $replacements;
+		$this->line_language = $this->language;
+
+		return $this;
 	}
 
 	/**
@@ -78,7 +95,7 @@ class Lang {
 			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
-		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);
+		$line = Arr::get(static::$lines[$this->line_language.$file], $line, $default);
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -118,13 +135,13 @@ class Lang {
 	 */
 	private function load($file)
 	{
-		if (isset(static::$lines[$this->language.$file])) return;
+		if (isset(static::$lines[$this->line_language.$file])) return;
 
 		$language = array();
 
-		foreach (array(SYS_LANG_PATH, LANG_PATH) as $directory)
+		foreach ($this->paths as $directory)
 		{
-			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
+			if (file_exists($path = $directory.$this->line_language.'/'.$file.EXT))
 			{
 				$language = array_merge($language, require $path);
 			}
@@ -132,10 +149,10 @@ class Lang {
 
 		if (count($language) > 0)
 		{
-			static::$lines[$this->language.$file] = $language;
+			static::$lines[$this->line_language.$file] = $language;
 		}
 		
-		return isset(static::$lines[$this->language.$file]);		
+		return isset(static::$lines[$this->line_language.$file]);		
 	}
 
 	/**
@@ -148,7 +165,7 @@ class Lang {
 	 */
 	public function in($language)
 	{
-		$this->language = $language;
+		$this->line_language = $line_language;
 		return $this;
 	}
 
