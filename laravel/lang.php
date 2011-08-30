@@ -42,6 +42,9 @@ class Lang {
 	/**
 	 * The language of the line being retrieved.
 	 *
+	 * This is set to the default language when a new line is requested.
+	 * However, it may be changed using the "in" method.
+	 *
 	 * @var string
 	 */
 	private $line_language;
