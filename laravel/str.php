@@ -10,7 +10,7 @@ class Str {
 	 */
 	public static function lower($value)
 	{
-		return function_exists('mb_strtolower') ? mb_strtolower($value, Config::get('application.encoding')) : strtolower($value);
+		return function_exists('mb_strtolower') ? mb_strtolower($value, static::encoding()) : strtolower($value);
 	}
 
 	/**
@@ -21,7 +21,7 @@ class Str {
 	 */
 	public static function upper($value)
 	{
-		return function_exists('mb_strtoupper') ? mb_strtoupper($value, Config::get('application.encoding')) : strtoupper($value);
+		return function_exists('mb_strtoupper') ? mb_strtoupper($value, static::encoding()) : strtoupper($value);
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Str {
 	 */
 	public static function title($value)
 	{
-		return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding')) : ucwords(strtolower($value));
+		return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, static::encoding()) : ucwords(strtolower($value));
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Str {
 	 */
 	public static function length($value)
 	{
-		return function_exists('mb_strlen') ? mb_strlen($value, Config::get('application.encoding')) : strlen($value);
+		return function_exists('mb_strlen') ? mb_strlen($value, static::encoding()) : strlen($value);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		$foreign = Config::get('ascii');
+		$foreign = IoC::container()->resolve('laravel.config')->get('ascii');
 
 		$value = preg_replace(array_keys($foreign), array_values($foreign), $value);
 
@@ -100,6 +100,16 @@ class Str {
 			default:
 				return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		}
+	}
+
+	/**
+	 * Get the application encoding from the configuration class.
+	 *
+	 * @return string
+	 */
+	private static function encoding()
+	{
+		return IoC::container()->resolve('laravel.config')->get('application.encoding');
 	}
 
 }

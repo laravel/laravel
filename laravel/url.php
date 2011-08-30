@@ -24,11 +24,6 @@ class URL {
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
 	 *
-	 * <code>
-	 *		// Generate the URL: http://example.com/index.php/user/profile
-	 *		$url = URL::to('user/profile');
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
@@ -47,11 +42,6 @@ class URL {
 	/**
 	 * Generate an application URL with HTTPS.
 	 *
-	 * <code>
-	 *		// Generate the URL: https://example.com/index.php/user/profile
-	 *		$url = URL::to_secure('user/profile');
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @return string
 	 */
@@ -65,14 +55,6 @@ class URL {
 	 *
 	 * The index file will not be added to asset URLs. If the HTTPS option is not
 	 * specified, HTTPS will be used when the active request is also using HTTPS.
-	 *
-	 * <code>
-	 *		// Generate the URL: http://example.com/img/picture.jpg
-	 *		$url = URL::to_asset('img/picture.jpg');
-	 *
-	 *		// Generate the URL: https://example.com/img/picture.jpg
-	 *		$url = URL::to_asset('img/picture.jpg', true);
-	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  bool    $https
@@ -92,14 +74,6 @@ class URL {
 	 * The values of this array will be used to fill the wildcard segments of the route URI.
 	 *
 	 * Optional parameters will be convereted to spaces if no parameter values are specified.
-	 *
-	 * <code>
-	 *		// Generate a URL for the "profile" named route
-	 *		$url = URL::to_route('profile');
-	 *
-	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = URL::to_route('profile', array('fred'));
-	 * </code>
 	 *
 	 * @param  string          $name
 	 * @param  array           $parameters
@@ -128,11 +102,6 @@ class URL {
 	/**
 	 * Generate a HTTPS URL from a route name.
 	 *
-	 * <code>
-	 *		// Generate a HTTPS URL for the "profile" named route
-	 *		$url = URL::to_secure_route('profile');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @return string
@@ -145,19 +114,11 @@ class URL {
 	/**
 	 * Generate a URL friendly "slug".
 	 *
-	 * <code>
-	 *		// Returns "my-first-post"
-	 *		$slug = URL::slug('My First Post!!');
-	 *
-	 *		// Returns "my_first_post"
-	 *		$slug = URL::slug('My First Post!!', '_');
-	 * </code>
-	 *
 	 * @param  string  $title
 	 * @param  string  $separator
 	 * @return string
 	 */
-	public static function slug($title, $separator = '-')
+	public function slug($title, $separator = '-')
 	{
 		$title = Str::ascii($title);
 
@@ -172,17 +133,6 @@ class URL {
 
 	/**
 	 * Magic Method for dynamically creating URLs to named routes.
-	 *
-	 * <code>
-	 *		// Generate a URL for the "profile" named route
-	 *		$url = URL::to_profile();
-	 *
-	 *		// Generate a URL for the "profile" named route using HTTPS
-	 *		$url = URL::to_secure_profile();
-	 *
-	 *		// Generate a URL for the "profile" named route with parameters.
-	 *		$url = URL::to_profile(array('fred'));
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
