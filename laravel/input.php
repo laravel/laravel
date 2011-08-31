@@ -24,7 +24,7 @@ class Input {
 	public $post;
 
 	/**
-	 * The cookie manager instance.
+	 * The cookie engine instance.
 	 *
 	 * @var Cookie
 	 */
@@ -82,7 +82,7 @@ class Input {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
-	 * @return string
+	 * @return mixed
 	 */
 	public function get($key = null, $default = null)
 	{
@@ -109,7 +109,7 @@ class Input {
 	 */
 	public function old($key = null, $default = null)
 	{
-		$driver = IoC::container()->resolve('laravel.session.driver');
+		$driver = IoC::container()->resolve('laravel.session');
 
 		return Arr::get($driver->get('laravel_old_input', array()), $key, $default);
 	}

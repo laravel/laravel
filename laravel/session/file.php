@@ -3,7 +3,7 @@
 class File extends Driver implements Sweeper {
 
 	/**
-	 * The file manager instance.
+	 * The file engine instance.
 	 *
 	 * @var Laravel\File
 	 */

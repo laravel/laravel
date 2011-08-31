@@ -25,11 +25,12 @@ class Response_Factory {
 	 *
 	 * @param  mixed     $content
 	 * @param  int       $status
+	 * @param  array     $headers
 	 * @return Response
 	 */
-	public function make($content, $status = 200)
+	public function make($content, $status = 200, $headers = array())
 	{
-		return new Response($content, $status);
+		return new Response($content, $status, $headers);
 	}
 
 	/**
@@ -57,8 +58,6 @@ class Response_Factory {
 	 */
 	public function error($code, $data = array())
 	{
-		$data['homepage'] = IoC::resolve('laravel.config')->get('application.url');
-
 		return new Response($this->view->make('error/'.$code, $data), $code);
 	}
 
@@ -146,13 +145,43 @@ class Response {
 	 *
 	 * @param  mixed  $content
 	 * @param  int    $status
+	 * @param  array  $headers
 	 * @return void
 	 */
-	public function __construct($content, $status = 200)
+	public function __construct($content, $status = 200, $headers = array())
 	{
 		$this->content = $content;
+		$this->headers = $headers;
 		$this->status = $status;
 	}	
+
+	/**
+	 * Create a new response instance.
+	 *
+	 * @param  mixed     $content
+	 * @param  int       $status
+	 * @return Response
+	 */
+	public static function make($content, $status = 200)
+	{
+		return IoC::container()->resolve('laravel.response')->make($content, $status);
+	}
+
+	/**
+	 * Create a new error response instance.
+	 *
+	 * The response status code will be set using the specified code.
+	 *
+	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 *
+	 * @param  int       $code
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function error($code, $data = array())
+	{
+		return IoC::container()->resolve('laravel.response')->error($code, $data);
+	}
 
 	/**
 	 * Get the evaluated string contents of the response.

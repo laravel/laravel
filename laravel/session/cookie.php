@@ -7,7 +7,7 @@ class Cookie extends Driver {
 	/**
 	 * The cookie engine instance.
 	 *
-	 * @var Cookie_Engine
+	 * @var Cookie
 	 */
 	private $cookie;
 

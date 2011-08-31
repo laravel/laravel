@@ -213,6 +213,18 @@ class View {
 	}
 
 	/**
+	 * Create a new view instance.
+	 *
+	 * @param  string         $view
+	 * @param  array          $data
+	 * @return View
+	 */
+	public static function make($view, $data = array())
+	{
+		return IoC::container()->resolve('laravel.view')->make($view, $data);
+	}
+
+	/**
 	 * Get the evaluated string content of the view.
 	 *
 	 * If the view has a composer, it will be executed. All sub-views and responses will

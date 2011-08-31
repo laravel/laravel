@@ -3,7 +3,7 @@
 class File extends Driver {
 
 	/**
-	 * The file manager instance.
+	 * The file engine instance.
 	 *
 	 * @var Laravel\File
 	 */
@@ -31,11 +31,6 @@ class File extends Driver {
 
 	/**
 	 * Determine if an item exists in the cache.
-	 *
-	 * <code>
-	 *		// Determine if the "name" item exists in the cache
-	 *		$exists = Cache::driver()->has('name');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -65,11 +60,6 @@ class File extends Driver {
 
 	/**
 	 * Write an item to the cache for a given number of minutes.
-	 *
-	 * <code>
-	 *		// Write the "name" item to the cache for 30 minutes
-	 *		Cache::driver()->put('name', 'Fred', 30);
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value

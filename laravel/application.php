@@ -1,50 +1,37 @@
 <?php namespace Laravel;
 
-class Application {
+abstract class Resolver {
 
 	/**
-	 * The active request instance.
+	 * Magic Method for resolving classes out of the IoC container.
 	 *
-	 * @var Request
+	 * This allows the derived class to provide access to all of the Laravel libraries
+	 * registered in the container. Currently, this class is derived by the Application
+	 * and Controller classes.
 	 */
-	public $request;
+	public function __get($key)
+	{
+		if (IoC::container()->registered('laravel.'.$key))
+		{
+			return IoC::container()->resolve('laravel.'.$key);
+		}
+		elseif (IoC::container()->registered($key))
+		{
+			return IoC::container()->resolve($key);
+		}
+
+		throw new \Exception("Attempting to access undefined property [$key].");
+	}
+
+}
+
+class Application extends Resolver {
 
 	/**
-	 * The application configuration manager.
-	 *
-	 * @var Config
-	 */
-	public $config;
-
-	/**
-	 * The application session driver.
-	 *
-	 * @var Session\Driver
-	 */
-	public $session;
-
-	/**
-	 * The application IoC container.
+	 * The IoC container instance for the application.
 	 *
 	 * @var Container
 	 */
 	public $container;
-
-	/**
-	 * Magic Method for resolving core classes out of the IoC container.
-	 */
-	public function __get($key)
-	{
-		if ($this->container->registered('laravel.'.$key))
-		{
-			return $this->container->resolve('laravel.'.$key);
-		}
-		elseif ($this->container->registered($key))
-		{
-			return $this->container->resolve($key);
-		}
-
-		throw new \Exception("Attempting to access undefined property [$key] on application instance.");
-	}
 
 }

@@ -67,11 +67,6 @@ abstract class Driver {
 	/**
 	 * Determine if the session or flash data contains an item.
 	 *
-	 * <code>
-	 *		// Determine if "name" item exists in the session
-	 *		$exists = Session::driver()->has('name');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
@@ -85,14 +80,6 @@ abstract class Driver {
 	 *
 	 * A default value may also be specified, and will be returned in the requested
 	 * item does not exist in the session.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the session
-	 *		$name = Session::driver()->get('name');
-	 *
-	 *		// Get the "name" item from the session or return "Fred"
-	 *		$name = Session::driver()->get('name', 'Fred');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -111,11 +98,6 @@ abstract class Driver {
 	/**
 	 * Write an item to the session.
 	 *
-	 * <code>
-	 *		// Write the "name" item to the session
-	 *		Session::driver()->put('name', 'Fred');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return Driver
@@ -133,11 +115,6 @@ abstract class Driver {
 	 * Flash data only exists for the next request. After that, it will be removed from
 	 * the session. Flash data is useful for temporary status or welcome messages.
 	 *
-	 * <code>
-	 *		// Write the "name" item to the session flash data
-	 *		Session::driver()->flash('name', 'Fred');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return Driver
@@ -151,11 +128,6 @@ abstract class Driver {
 
 	/**
 	 * Remove an item from the session.
-	 *
-	 * <code>
-	 *		// Remove the "name" item from the session
-	 *		Session::driver()->forget('name');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @return Driver
@@ -242,7 +214,7 @@ abstract class Driver {
 	 * already been sent to the browser.
 	 *
 	 * @param  Laravel\Cookie  $cookie
-	 * @param  array           $config
+	 * @param  array                  $config
 	 * @return void
 	 */
 	protected function write_cookie(Cookie $cookies, $config)
@@ -259,11 +231,6 @@ abstract class Driver {
 
 	/**
 	 * Magic Method for retrieving items from the session.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the session
-	 *		$name = $application->session->name;
-	 * </code>
 	 */
 	public function __get($key)
 	{
@@ -272,11 +239,6 @@ abstract class Driver {
 
 	/**
 	 * Magic Method for writings items to the session.
-	 *
-	 * <code>
-	 *		// Write "Fred" to the session "name" item
-	 *		$application->session->name = 'Fred';
-	 * </code>
 	 */
 	public function __set($key, $value)
 	{

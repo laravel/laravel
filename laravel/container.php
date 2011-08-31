@@ -12,6 +12,9 @@ class IoC {
 	/**
 	 * Get the active container instance.
 	 *
+	 * The container is set early in the request cycle and can be access here for
+	 * use as a service locator if dependency injection is not practical.
+	 *
 	 * @return Container
 	 */
 	public static function container()

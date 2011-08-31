@@ -8,6 +8,25 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
+	'laravel.config' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
+
+		if (isset($_SERVER['LARAVEL_ENV']))
+		{
+			$paths[] = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/';
+		}
+
+		return new Config($paths);
+	}),
+
+
+	'laravel.cookie' => array('singleton' => true, 'resolver' => function()
+	{
+		return new Cookie($_COOKIE);		
+	}),
+
+
 	'laravel.database' => array('singleton' => true, 'resolver' => function($container)
 	{
 		$config = $container->resolve('laravel.config');
@@ -28,26 +47,44 @@ return array(
 	}),
 
 
+	'laravel.form' => array('resolver' => function($container)
+	{
+		list($request, $html, $url) = array(
+			$container->resolve('laravel.request'),
+			$container->resolve('laravel.html'),
+			$container->resolve('laravel.url'),
+		);
+
+		return new Form($request, $html, $url);
+	}),
+
+
+	'laravel.html' => array('resolver' => function($container)
+	{
+		return new HTML($container->resolve('laravel.url'), $container->resolve('laravel.config')->get('application.encoding'));
+	}),
+
+
 	'laravel.input' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$application = $container->resolve('laravel.application');
+		$request = $container->resolve('laravel.request');
 
 		$input = array();
 
-		if ($application->request->method == 'GET')
+		if ($request->method() == 'GET')
 		{
 			$input = $_GET;
 		}
-		elseif ($application->request->method == 'POST')
+		elseif ($request->method() == 'POST')
 		{
 			$input = $_POST;
 		}
-		elseif ($application->request->method == 'PUT' or $application->request->method == 'DELETE')
+		elseif ($request->method() == 'PUT' or $request->method == 'DELETE')
 		{
-			($application->request->spoofed) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
+			($request->spoofed()) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
 		}
 
-		return new Input($input, $_FILES, new Cookie($_COOKIE));
+		return new Input($input, $_FILES, $container->resolve('laravel.cookie'));
 	}),
 
 
@@ -57,15 +94,29 @@ return array(
 	}),
 
 
+	'laravel.loader' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/');
+
+		return new Loader($container->resolve('laravel.config')->get('aliases'), $paths);
+	}),
+
+
 	'laravel.package' => array('singleton' => true, 'resolver' => function()
 	{
-		return new Package;
+		return new Package(PACKAGE_PATH);
 	}),
 
 
 	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Redirect($container->resolve('laravel.session.driver'), $container->resolve('laravel.url'));		
+		return new Redirect($container->resolve('laravel.url'));
+	}),
+
+
+	'laravel.request' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Request($_SERVER, $_POST, $container->resolve('laravel.config')->get('application.url'));
 	}),
 
 
@@ -83,15 +134,27 @@ return array(
 	}),
 
 
+	'laravel.session' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return $container->resolve('laravel.session.manager')->driver($container->resolve('laravel.config')->get('session.driver'));
+	}),
+
+
+	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Session\Manager($container);
+	}),
+
+
 	'laravel.url' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$request = $container->resolve('laravel.request');
+		list($request, $base, $index) = array(
+			$container->resolve('laravel.request'),
+			$container->resolve('laravel.config')->get('application.url'),
+			$container->resolve('laravel.config')->get('application.index'),
+		);
 
-		$base = $container->resolve('laravel.config')->get('application.url');
-
-		$index = $container->resolve('laravel.config')->get('application.index');
-
-		return new URL($container->resolve('laravel.router'), $base, $index, $request->secure);
+		return new URL($container->resolve('laravel.router'), $base, $index, $request->secure());
 	}),
 
 
@@ -220,7 +283,7 @@ return array(
 	}),
 
 
-	'laravel.cache.memcache.connection' => array('singleton' => true, 'resolver' => function()
+	'laravel.cache.memcache.connection' => array('singleton' => true, 'resolver' => function($container)
 	{
 		if ( ! class_exists('Memcache'))
 		{
@@ -229,7 +292,7 @@ return array(
 
 		$memcache = new \Memcache;
 
-		foreach (Config::get('cache.servers') as $server)
+		foreach ($container->resolve('laravel.config')->get('cache.servers') as $server)
 		{
 			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
 		}

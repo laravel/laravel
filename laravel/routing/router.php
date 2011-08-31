@@ -51,14 +51,6 @@ class Router {
 	 *
 	 * The returned array will be identical the array defined in the routes.php file.
 	 *
-	 * <code>
-	 *		// Find the "login" named route
-	 *		$route = $router->find('login');
-	 *
-	 *		// Find the "login" named route through the IoC container
-	 *		$route = IoC::resolve('laravel.routing.router')->find('login');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @return array
 	 */
@@ -92,7 +84,7 @@ class Router {
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$destination = $this->request->method.' /'.trim($this->request->uri, '/');
+		$destination = $this->request->method().' /'.trim($this->request->uri(), '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
@@ -129,7 +121,7 @@ class Router {
 	 */
 	protected function route_to_controller()
 	{
-		$segments = explode('/', trim($this->request->uri, '/'));
+		$segments = explode('/', trim($this->request->uri(), '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{

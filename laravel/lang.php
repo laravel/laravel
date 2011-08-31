@@ -9,7 +9,7 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	private static $lines = array();
+	private $lines = array();
 
 	/**
 	 * The default language being used by the application.
@@ -98,7 +98,7 @@ class Lang {
 			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
-		$line = Arr::get(static::$lines[$this->line_language.$file], $line, $default);
+		$line = Arr::get($this->lines[$this->line_language.$file], $line, $default);
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -138,7 +138,7 @@ class Lang {
 	 */
 	private function load($file)
 	{
-		if (isset(static::$lines[$this->line_language.$file])) return;
+		if (isset($this->lines[$this->line_language.$file])) return;
 
 		$language = array();
 
@@ -152,10 +152,10 @@ class Lang {
 
 		if (count($language) > 0)
 		{
-			static::$lines[$this->line_language.$file] = $language;
+			$this->lines[$this->line_language.$file] = $language;
 		}
 		
-		return isset(static::$lines[$this->line_language.$file]);		
+		return isset($this->lines[$this->line_language.$file]);		
 	}
 
 	/**
