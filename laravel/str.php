@@ -107,7 +107,7 @@ class Str {
 	 *
 	 * @return string
 	 */
-	private static function encoding()
+	public static function encoding()
 	{
 		return IoC::container()->resolve('laravel.config')->get('application.encoding');
 	}

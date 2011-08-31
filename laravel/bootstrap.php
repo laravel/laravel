@@ -65,6 +65,8 @@ if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = CONFIG_PATH.$_SERVER[
 
 $application->container = new Container($dependencies);
 
+IoC::$container = $application->container;
+
 // --------------------------------------------------------------
 // Load the auto-loader.
 // --------------------------------------------------------------
@@ -73,9 +75,4 @@ spl_autoload_register(array($application->loader, 'load'));
 // --------------------------------------------------------------
 // Register the application in the container.
 // --------------------------------------------------------------
-$application->container->instance('laravel.application', $application);
-
-// --------------------------------------------------------------
-// Set the IoC container instance for use as a service locator.
-// --------------------------------------------------------------
-IoC::$container = $application->container;
+IoC::container()->instance('laravel.application', $application);

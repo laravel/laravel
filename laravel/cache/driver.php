@@ -5,11 +5,6 @@ abstract class Driver {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * <code>
-	 *		// Determine if the "name" item exists in the cache
-	 *		$exists = Cache::driver()->has('name');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
@@ -20,14 +15,6 @@ abstract class Driver {
 	 *
 	 * A default value may also be specified, and will be returned in the requested
 	 * item does not exist in the cache.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the cache
-	 *		$name = Cache::driver()->get('name');
-	 *
-	 *		// Get the "name" item from the cache or return "Fred"
-	 *		$name = Cache::driver()->get('name', 'Fred');
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -52,11 +39,6 @@ abstract class Driver {
 	/**
 	 * Write an item to the cache for a given number of minutes.
 	 *
-	 * <code>
-	 *		// Write the "name" item to the cache for 30 minutes
-	 *		Cache::driver()->put('name', 'Fred', 30);
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @param  int     $minutes
@@ -67,11 +49,6 @@ abstract class Driver {
 	/**
 	 * Get an item from the cache. If the item doesn't exist in the cache, store
 	 * the default value in the cache and return it.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the cache or store "Fred" for 30 minutes
-	 *		$name = Cache::driver()->remember('name', 'Fred', 30);
-	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default

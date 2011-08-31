@@ -7,7 +7,7 @@ class Package {
 	 *
 	 * @var array
 	 */
-	public $loaded = array();
+	private $loaded = array();
 
 	/**
 	 * Load a package or set of packages.

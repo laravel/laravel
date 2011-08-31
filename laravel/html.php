@@ -144,14 +144,6 @@ class HTML {
 	 *
 	 * An array of parameters may be specified to fill in URI segment wildcards.
 	 *
-	 * <code>
-	 *		// Link to the "login" route
-	 *		echo HTML::link_to_route('login', 'Login');
-	 *
-	 *		// Link to the "profile" route, which has a URI of "/profile/(:any)"
-	 *		echo HTML::link_to_route('profile', 'Profile', array('taylor'));
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $title
 	 * @param  array   $parameters
@@ -330,14 +322,6 @@ class HTML {
 	 * Magic Method for handling dynamic static methods.
 	 *
 	 * This method primarily handles dynamic calls to create links to named routes.
-	 *
-	 * <code>
-	 *		// Link to the "login" route
-	 *		echo HTML::link_to_login('Login');
-	 *
-	 *		// Link to the "profile" route, which has a URI of "/profile/(:any)"
-	 *		echo HTML::link_to_profile('Profile', array('taylor'));
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

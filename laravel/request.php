@@ -10,6 +10,13 @@ class Request {
 	public $server;
 
 	/**
+	 * The $_POST array for the request.
+	 *
+	 * @var array
+	 */
+	private $post;
+
+	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
@@ -27,12 +34,14 @@ class Request {
 	 * Create a new request instance.
 	 *
 	 * @param  array   $server
+	 * @param  array   $post
 	 * @param  string  $url
 	 * @return void
 	 */
-	public function __construct($server, $url)
+	public function __construct($server, $post, $url)
 	{
 		$this->url = $url;
+		$this->post = $post;
 		$this->server = $server;
 	}
 
@@ -84,7 +93,7 @@ class Request {
 	 */
 	public function method()
 	{
-		return ($this->spoofed()) ? $_POST['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
+		return ($this->spoofed()) ? $this->post['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
 	}
 
 	/**
@@ -96,7 +105,7 @@ class Request {
 	 */
 	public function spoofed()
 	{
-		return is_array($_POST) and array_key_exists('REQUEST_METHOD', $_POST);
+		return is_array($this->post) and array_key_exists('REQUEST_METHOD', $this->post);
 	}
 
 	/**

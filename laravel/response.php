@@ -25,11 +25,12 @@ class Response_Factory {
 	 *
 	 * @param  mixed     $content
 	 * @param  int       $status
+	 * @param  array     $headers
 	 * @return Response
 	 */
-	public function make($content, $status = 200)
+	public function make($content, $status = 200, $headers = array())
 	{
-		return new Response($content, $status);
+		return new Response($content, $status, $headers);
 	}
 
 	/**
@@ -144,11 +145,13 @@ class Response {
 	 *
 	 * @param  mixed  $content
 	 * @param  int    $status
+	 * @param  array  $headers
 	 * @return void
 	 */
-	public function __construct($content, $status = 200)
+	public function __construct($content, $status = 200, $headers = array())
 	{
 		$this->content = $content;
+		$this->headers = $headers;
 		$this->status = $status;
 	}	
 

@@ -7,14 +7,14 @@ class Loader {
 	 *
 	 * @var array
 	 */
-	public $paths;
+	private $paths;
 
 	/**
 	 * All of the class aliases.
 	 *
 	 * @var array
 	 */
-	public $aliases;
+	private $aliases;
 
 	/**
 	 * Bootstrap the auto-loader.

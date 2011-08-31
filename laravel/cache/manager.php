@@ -43,14 +43,6 @@ class Manager {
 	 * If no driver name is specified, the default cache driver will be returned
 	 * as defined in the cache configuration file.
 	 *
-	 * <code>
-	 *		// Get the default cache driver
-	 *		$driver = $application->cache->driver();
-	 *
-	 *		// Get the APC cache driver
-	 *		$apc = $application->cache->driver('apc');
-	 * </code>
-	 *
 	 * @param  string        $driver
 	 * @return Cache\Driver
 	 */
@@ -76,11 +68,6 @@ class Manager {
 	 *
 	 * Passing method calls to the driver instance provides a convenient API for the developer
 	 * when always using the default cache driver.
-	 *
-	 * <code>
-	 *		// Get an item from the default cache driver
-	 *		$name = $application->cache->get('name');
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

@@ -32,7 +32,7 @@ class Manager {
 	 * @param  string          $driver
 	 * @return Session\Driver
 	 */
-	public static function driver($driver)
+	public function driver($driver)
 	{
 		if (in_array($driver, array('cookie', 'file', 'database', 'apc', 'memcached')))
 		{

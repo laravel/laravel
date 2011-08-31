@@ -24,13 +24,6 @@ class Form {
 	private $url;
 
 	/**
-	 * The CSRF token for the session.
-	 *
-	 * @var string
-	 */
-	public $token;
-
-	/**
 	 * All of the label names that have been created.
 	 *
 	 * These names are stored so that input elements can automatically be assigned
@@ -44,30 +37,19 @@ class Form {
 	 * Create a new form writer instance.
 	 *
 	 * @param  Request  $request
-	 * @param  string   $token
+	 * @param  HTML     $html
+	 * @param  URL      $url
 	 * @return void
 	 */
-	public function __construct(Request $request, HTML $html, URL $url, $token)
+	public function __construct(Request $request, HTML $html, URL $url)
 	{
 		$this->url = $url;
 		$this->html = $html;
-		$this->token = $token;
 		$this->request = $request;
 	}
 
 	/**
 	 * Open a HTML form.
-	 *
-	 * <code>
-	 *		// Open a POST form for the current URI
-	 *		echo Form::open();
-	 *
-	 *		// Open a POST form to a specified URI
-	 *		echo Form::open('user/login');
-	 *
-	 *		// Open a PUT form to a specified URI
-	 *		echo Form::open('user/profile', 'put');
-	 * </code>
 	 *
 	 * Note: If PUT or DELETE is specified as the form method, a hidden input field will be generated
 	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
@@ -180,15 +162,21 @@ class Form {
 	 */
 	public function token()
 	{
-		return $this->input('hidden', 'csrf_token', $this->token);
+		return $this->input('hidden', 'csrf_token', $this->raw_token());
+	}
+
+	/**
+	 * Get the CSRF token for the current session.
+	 *
+	 * @return string
+	 */
+	public function raw_token()
+	{
+		return IoC::container()->resolve('laravel.session')->get('csrf_token');
 	}
 
 	/**
 	 * Create a HTML label element.
-	 *
-	 * <code>
-	 *		echo Form::label('email', 'E-Mail Address');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -207,14 +195,6 @@ class Form {
 	 *
 	 * If an ID attribute is not specified and a label has been generated matching the input
 	 * element name, the label name will be used as the element ID.
-	 *
-	 * <code>
-	 *		// Generate a text type input element
-	 *		echo Form::input('text', 'email');
-	 *
-	 *		// Generate a hidden type input element with a specified value
-	 *		echo Form::input('hidden', 'secret', 'This is a secret.');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $value
@@ -364,11 +344,6 @@ class Form {
 
 	/**
 	 * Create a HTML select element.
-	 *
-	 * <code>
-	 *		// Generate a drop-down with the "S" item selected
-	 *		echo Form::select('sizes', array('L' => 'Large', 'S' => 'Small'), 'S');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $options
