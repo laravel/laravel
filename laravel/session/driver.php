@@ -1,7 +1,7 @@
 <?php namespace Laravel\Session;
 
 use Laravel\Str;
-use Laravel\Input;
+use Laravel\Input_Engine;
 use Laravel\Cookie;
 
 abstract class Driver {
@@ -196,11 +196,11 @@ abstract class Driver {
 	 * The input of the current request will also be flashed to the session so it is
 	 * available for the next request via the "old" method on the input class.
 	 *
-	 * @param  Laravel\Input  $input
-	 * @param  array          $config
+	 * @param  Laravel\Input_Engine  $input
+	 * @param  array                 $config
 	 * @return void
 	 */
-	public function close(Input $input, $config)
+	public function close(Input_Engine $input, $config)
 	{
 		$this->flash('laravel_old_input', $input->get())->age();
 
@@ -242,7 +242,7 @@ abstract class Driver {
 	 * already been sent to the browser.
 	 *
 	 * @param  Laravel\Cookie  $cookie
-	 * @param  array           $config
+	 * @param  array                  $config
 	 * @return void
 	 */
 	protected function write_cookie(Cookie $cookies, $config)

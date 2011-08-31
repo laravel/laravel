@@ -40,37 +40,41 @@ require SYS_PATH.'application'.EXT;
 $application = new Application;
 
 // --------------------------------------------------------------
-// Load the configuration manager and auto-loader.
+// Load the configuration manager.
 // --------------------------------------------------------------
+require SYS_PATH.'facade'.EXT;
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
-
-$application->config = new Config;
-
-$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/');
-
-$application->loader = new Loader($application->config->get('aliases'), $paths);
-
-spl_autoload_register(array($application->loader, 'load'));
-
-unset($paths);
 
 // --------------------------------------------------------------
 // Bootstrap the IoC container.
 // --------------------------------------------------------------
 require SYS_PATH.'container'.EXT;
 
-$application->container = new Container($application->config->get('container'));
+$dependencies = require SYS_CONFIG_PATH.'container'.EXT;
+
+if (file_exists($path = CONFIG_PATH.'container'.EXT))
+{
+	$dependencies = array_merge($dependencies, require $path);
+}
+
+if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/container'.EXT))
+{
+	$dependencies = array_merge($dependencies, require $path);
+}
+
+$application->container = new Container($dependencies);
 
 // --------------------------------------------------------------
-// Register the core application components in the container.
+// Load the auto-loader.
+// --------------------------------------------------------------
+spl_autoload_register(array($application->loader, 'load'));
+
+// --------------------------------------------------------------
+// Register the application in the container.
 // --------------------------------------------------------------
 $application->container->instance('laravel.application', $application);
-
-$application->container->instance('laravel.config', $application->config);
-
-$application->container->instance('laravel.loader', $application->loader);
 
 // --------------------------------------------------------------
 // Set the IoC container instance for use as a service locator.

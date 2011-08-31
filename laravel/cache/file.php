@@ -3,9 +3,9 @@
 class File extends Driver {
 
 	/**
-	 * The file manager instance.
+	 * The file engine instance.
 	 *
-	 * @var Laravel\File
+	 * @var Laravel\File_Engine
 	 */
 	private $file;
 
@@ -19,11 +19,11 @@ class File extends Driver {
 	/**
 	 * Create a new File cache driver instance.
 	 *
-	 * @param  Laravel\File  $file
-	 * @param  string        $path
+	 * @param  Laravel\File_Engine  $file
+	 * @param  string               $path
 	 * @return void
 	 */
-	public function __construct(\Laravel\File $file, $path)
+	public function __construct(\Laravel\File_Engine $file, $path)
 	{
 		$this->file = $file;
 		$this->path = $path;

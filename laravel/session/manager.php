@@ -1,9 +1,26 @@
 <?php namespace Laravel\Session;
 
-use Laravel\Config;
 use Laravel\Container;
 
 class Manager {
+
+	/**
+	 * The container instance.
+	 *
+	 * @var Container
+	 */
+	private $container;
+
+	/**
+	 * Create a new session manager instance.
+	 *
+	 * @param  Container  $container
+	 * @return void
+	 */
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
 
 	/**
 	 * Get the session driver.
@@ -12,15 +29,14 @@ class Manager {
 	 * file. Only one session driver may be active for a given request, so the driver will
 	 * be managed as a singleton.
 	 *
-	 * @param  Container       $container
 	 * @param  string          $driver
 	 * @return Session\Driver
 	 */
-	public static function driver(Container $container, $driver)
+	public static function driver($driver)
 	{
 		if (in_array($driver, array('cookie', 'file', 'database', 'apc', 'memcached')))
 		{
-			return $container->resolve('laravel.session.'.$driver);
+			return $this->container->resolve('laravel.session.'.$driver);
 		}
 
 		throw new \Exception("Session driver [$driver] is not supported.");

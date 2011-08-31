@@ -1,55 +1,8 @@
 <?php namespace Laravel;
 
-class Request {
+class Request extends Facade { public static $resolve = 'request'; }
 
-	/**
-	 * The request URI.
-	 *
-	 * @var string
-	 */
-	public $uri;
-
-	/**
-	 * The request method (GET, POST, PUT, or DELETE).
-	 *
-	 * @var string
-	 */
-	public $method;
-
-	/**
-	 * Indicates if the request method is being spoofed by a hidden form element.
-	 *
-	 * @var bool
-	 */
-	public $spoofed;
-
-	/**
-	 * The requestor's IP address.
-	 *
-	 * @var string
-	 */
-	public $ip;
-
-	/**
-	 * Indicates if the request is using HTTPS.
-	 *
-	 * @var bool
-	 */
-	public $secure;
-
-	/**
-	 * Indicates if the request is an AJAX request.
-	 *
-	 * @var bool
-	 */
-	public $ajax;
-
-	/**
-	 * The input instance for the request.
-	 *
-	 * @var Input
-	 */
-	public $input;
+class Request_Engine {
 
 	/**
 	 * The $_SERVER array for the request.
@@ -66,6 +19,13 @@ class Request {
 	public $route;
 
 	/**
+	 * The base URL of the application.
+	 *
+	 * @var string
+	 */
+	private $url;
+
+	/**
 	 * Create a new request instance.
 	 *
 	 * @param  array   $server
@@ -74,14 +34,8 @@ class Request {
 	 */
 	public function __construct($server, $url)
 	{
+		$this->url = $url;
 		$this->server = $server;
-
-		$this->uri = $this->uri($url);
-
-		foreach (array('method', 'spoofed', 'ip', 'secure', 'ajax') as $item)
-		{
-			$this->$item = $this->$item();
-		}
 	}
 
 	/**
@@ -94,10 +48,9 @@ class Request {
 	 * to determine the URI using the REQUEST_URI variable. If neither are available,  an exception
 	 * will be thrown by the method.
 	 *
-	 * @param  string  $url
 	 * @return string
 	 */
-	private function uri($url)
+	public function uri()
 	{
 		if (isset($this->server['PATH_INFO']))
 		{
@@ -114,7 +67,7 @@ class Request {
 
 		if ($uri === false) throw new \Exception('Malformed request URI. Request terminated.');
 
-		foreach (array(parse_url($url, PHP_URL_PATH), '/index.php') as $value)
+		foreach (array(parse_url($this->url, PHP_URL_PATH), '/index.php') as $value)
 		{
 			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 		}
@@ -131,7 +84,7 @@ class Request {
 	 *
 	 * @return string
 	 */
-	private function method()
+	public function method()
 	{
 		return ($this->spoofed()) ? $_POST['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
 	}
@@ -143,7 +96,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	private function spoofed()
+	public function spoofed()
 	{
 		return is_array($_POST) and array_key_exists('REQUEST_METHOD', $_POST);
 	}
@@ -153,7 +106,7 @@ class Request {
 	 *
 	 * @return string
 	 */
-	private function ip()
+	public function ip()
 	{
 		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
 		{
@@ -174,7 +127,7 @@ class Request {
 	 *
 	 * @return string
 	 */
-	private function protocol()
+	public function protocol()
 	{
 		return (isset($this->server['HTTPS']) and $this->server['HTTPS'] !== 'off') ? 'https' : 'http';
 	}
@@ -184,7 +137,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	private function secure()
+	public function secure()
 	{
 		return ($this->protocol() == 'https');
 	}
@@ -194,7 +147,7 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	private function ajax()
+	public function ajax()
 	{
 		if ( ! isset($this->server['HTTP_X_REQUESTED_WITH'])) return false;
 

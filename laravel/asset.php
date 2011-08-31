@@ -18,14 +18,6 @@ class Asset {
 	 * Containers provide a convenient method of grouping assets while maintaining
 	 * expressive code and a clean API.
 	 *
-	 * <code>
-	 *		// Get the default asset container
-	 *		$container = Asset::container();
-	 *
-	 *		// Get the "footer" asset container
-	 *		$container = Asset::container('footer');
-	 * </code>
-	 *
 	 * @param  string            $container
 	 * @return Asset_Container
 	 */
@@ -44,14 +36,6 @@ class Asset {
 	 *
 	 * This provides a convenient API, allowing the develop to skip the "container"
 	 * method when using the default container.
-	 *
-	 * <code>
-	 *		// Add an asset to the default container
-	 *		Asset::add('jquery', 'js/jquery.js');
-	 *
-	 *		// Equivalent statement using the container method
-	 *		Asset::container()->add('jquery', 'js/jquery.js');
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -100,14 +84,6 @@ class Asset_Container {
 	 * You may also specify asset dependencies. This will instruct the class to
 	 * only link to the registered asset after its dependencies have been linked.
 	 * For example, you may wish to make jQuery UI dependent on jQuery.
-	 *
-	 * <code>
-	 *		// Add an asset to the container
-	 *		Asset::container()->add('jquery', 'js/jquery.js');
-	 *
-	 *		// Add an asset that is dependent on another asset
-	 *		Asset::container()->add('jquery-ui', 'js/jquery-ui.js', array('jquery'));
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $source
@@ -177,10 +153,6 @@ class Asset_Container {
 	/**
 	 * Get the links to all of the registered CSS assets.
 	 *
-	 * <code>
-	 *		echo Asset::container()->styles();
-	 * </code>
-	 *
 	 * @return  string
 	 */
 	public function styles()
@@ -190,10 +162,6 @@ class Asset_Container {
 
 	/**
 	 * Get the links to all of the registered JavaScript assets.
-	 *
-	 * <code>
-	 *		echo Asset::container()->scripts();
-	 * </code>
 	 *
 	 * @return  string
 	 */
@@ -225,10 +193,6 @@ class Asset_Container {
 	/**
 	 * Get the link to a single registered CSS asset.
 	 *
-	 * <code>
-	 *		echo Asset::container()->get_style('common');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @return string
 	 */
@@ -239,10 +203,6 @@ class Asset_Container {
 
 	/**
 	 * Get the link to a single registered JavaScript asset.
-	 *
-	 * <code>
-	 *		echo Asset::container()->get_script('jquery');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return string

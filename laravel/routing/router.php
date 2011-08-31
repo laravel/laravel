@@ -1,6 +1,6 @@
 <?php namespace Laravel\Routing;
 
-use Laravel\Request;
+use Laravel\Request_Engine;
 
 class Router {
 
@@ -14,7 +14,7 @@ class Router {
 	/**
 	 * The current request instance.
 	 *
-	 * @var Request
+	 * @var Request_Engine
 	 */
 	protected $request;
 
@@ -35,11 +35,11 @@ class Router {
 	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  Request  $request
-	 * @param  array    $routes
+	 * @param  Request_Engine  $request
+	 * @param  array           $routes
 	 * @return void
 	 */
-	public function __construct(Request $request, $routes, $controller_path)
+	public function __construct(Request_Engine $request, $routes, $controller_path)
 	{
 		$this->routes = $routes;
 		$this->request = $request;
@@ -50,14 +50,6 @@ class Router {
 	 * Find a route by name.
 	 *
 	 * The returned array will be identical the array defined in the routes.php file.
-	 *
-	 * <code>
-	 *		// Find the "login" named route
-	 *		$route = $router->find('login');
-	 *
-	 *		// Find the "login" named route through the IoC container
-	 *		$route = IoC::resolve('laravel.routing.router')->find('login');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return array
@@ -92,7 +84,7 @@ class Router {
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$destination = $this->request->method.' /'.trim($this->request->uri, '/');
+		$destination = $this->request->method().' /'.trim($this->request->uri(), '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
@@ -129,7 +121,7 @@ class Router {
 	 */
 	protected function route_to_controller()
 	{
-		$segments = explode('/', trim($this->request->uri, '/'));
+		$segments = explode('/', trim($this->request->uri(), '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{

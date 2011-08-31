@@ -8,6 +8,25 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
+	'laravel.config' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
+
+		if (isset($_SERVER['LARAVEL_ENV']))
+		{
+			$paths[] = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/';
+		}
+
+		return new Config($paths);
+	}),
+
+
+	'laravel.cookie' => array('singleton' => true, 'resolver' => function()
+	{
+		return new Cookie($_COOKIE);		
+	}),
+
+
 	'laravel.database' => array('singleton' => true, 'resolver' => function($container)
 	{
 		$config = $container->resolve('laravel.config');
@@ -24,48 +43,72 @@ return array(
 
 	'laravel.file' => array('singleton' => true, 'resolver' => function($container)
 	{
+		require_once SYS_PATH.'file'.EXT;
+
 		return new File($container->resolve('laravel.config')->get('mimes'));
 	}),
 
 
 	'laravel.input' => array('singleton' => true, 'resolver' => function($container)
 	{
+		require_once SYS_PATH.'input'.EXT;
+
 		$application = $container->resolve('laravel.application');
 
 		$input = array();
 
-		if ($application->request->method == 'GET')
+		if ($application->request->method() == 'GET')
 		{
 			$input = $_GET;
 		}
-		elseif ($application->request->method == 'POST')
+		elseif ($application->request->method() == 'POST')
 		{
 			$input = $_POST;
 		}
-		elseif ($application->request->method == 'PUT' or $application->request->method == 'DELETE')
+		elseif ($application->request->method() == 'PUT' or $application->request->method == 'DELETE')
 		{
-			($application->request->spoofed) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
+			($application->request->spoofed()) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
 		}
 
-		return new Input($input, $_FILES, new Cookie($_COOKIE));
+		return new Input_Engine($input, $_FILES, $container->resolve('laravel.cookie'));
 	}),
 
 
 	'laravel.lang' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Lang($container->resolve('laravel.config')->get('application.language'), array(SYS_LANG_PATH, LANG_PATH));		
+		require_once SYS_PATH.'lang'.EXT;
+
+		return new Lang_Engine($container->resolve('laravel.config')->get('application.language'), array(SYS_LANG_PATH, LANG_PATH));		
+	}),
+
+
+	'laravel.loader' => array('singleton' => true, 'resolver' => function($container)
+	{
+		$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/');
+
+		return new Loader($container->resolve('laravel.config')->get('aliases'), $paths);
 	}),
 
 
 	'laravel.package' => array('singleton' => true, 'resolver' => function()
 	{
-		return new Package;
+		return new Package_Engine(PACKAGE_PATH);
 	}),
 
 
 	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Redirect($container->resolve('laravel.session.driver'), $container->resolve('laravel.url'));		
+		require_once SYS_PATH.'redirect'.EXT;
+
+		return new Redirect_Engine($container->resolve('laravel.url'));
+	}),
+
+
+	'laravel.request' => array('singleton' => true, 'resolver' => function($container)
+	{
+		require_once SYS_PATH.'request'.EXT;
+
+		return new Request_Engine($_SERVER, $container->resolve('laravel.config')->get('application.url'));
 	}),
 
 
@@ -83,15 +126,29 @@ return array(
 	}),
 
 
+	'laravel.session' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return $container->resolve('laravel.session.manager')->driver($container->resolve('laravel.config')->get('session.driver'));
+	}),
+
+
+	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Session\Manager($container);
+	}),
+
+
 	'laravel.url' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$request = $container->resolve('laravel.request');
+		require_once SYS_PATH.'url'.EXT;
 
-		$base = $container->resolve('laravel.config')->get('application.url');
+		list($request, $base, $index) = array(
+			$container->resolve('laravel.request'),
+			$container->resolve('laravel.config')->get('application.url'),
+			$container->resolve('laravel.config')->get('application.index'),
+		);
 
-		$index = $container->resolve('laravel.config')->get('application.index');
-
-		return new URL($container->resolve('laravel.router'), $base, $index, $request->secure);
+		return new URL_Engine($container->resolve('laravel.router'), $base, $index, $request->secure());
 	}),
 
 

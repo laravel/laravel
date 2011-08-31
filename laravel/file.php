@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class File_Facade extends Facade { public static $resolve = 'file'; }
+
 class File {
 
 	/**

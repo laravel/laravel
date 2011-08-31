@@ -43,21 +43,10 @@ register_shutdown_function(function() use ($application)
 date_default_timezone_set($application->config->get('application.timezone'));
 
 // --------------------------------------------------------------
-// Initialize the request instance for the request.
-// --------------------------------------------------------------
-$application->request = new Request($_SERVER, $application->config->get('application.url'));
-
-$application->container->instance('laravel.request', $application->request);
-
-// --------------------------------------------------------------
 // Load the session and session manager.
 // --------------------------------------------------------------
 if ($application->config->get('session.driver') !== '')
 {
-	$application->session = Session\Manager::driver($application->container, $application->config->get('session.driver'));
-
-	$application->container->instance('laravel.session.driver', $application->session);
-
 	$application->session->start($application->input->cookies->get('laravel_session'), $application->config->get('session.lifetime'));
 }
 
@@ -76,7 +65,7 @@ unset($packages);
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-$route = $application->container->resolve('laravel.router')->route();
+$route = $application->router->route();
 
 if ( ! is_null($route))
 {
@@ -86,7 +75,7 @@ if ( ! is_null($route))
 }
 else
 {
-	$response = new Error('404');
+	$response = $application->response->error('404');
 }
 
 // --------------------------------------------------------------
@@ -97,7 +86,7 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 // Close the session.
 // --------------------------------------------------------------
-if ( ! is_null($application->session))
+if ($application->config->get('session.driver') !== '')
 {
 	$application->session->close($application->input, $application->config->get('session'));
 }

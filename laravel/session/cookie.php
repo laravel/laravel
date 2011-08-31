@@ -7,7 +7,7 @@ class Cookie extends Driver {
 	/**
 	 * The cookie engine instance.
 	 *
-	 * @var Cookie_Engine
+	 * @var Cookie
 	 */
 	private $cookie;
 
@@ -28,9 +28,9 @@ class Cookie extends Driver {
 	/**
 	 * Create a new Cookie session driver instance.
 	 *
-	 * @param  Crypter         $crypter
+	 * @param  Crypter                $crypter
 	 * @param  Laravel\Cookie  $cookie
-	 * @param  array           $config
+	 * @param  array                  $config
 	 * @return void
 	 */
 	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie, $config)

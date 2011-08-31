@@ -12,6 +12,24 @@ class Config {
 	public $items = array();
 
 	/**
+	 * The paths containing the configuration files.
+	 *
+	 * @var array
+	 */
+	public $paths = array();
+
+	/**
+	 * Create a new configuration manager instance.
+	 *
+	 * @param  array  $paths
+	 * @return void
+	 */
+	public function __construct($paths)
+	{
+		$this->paths = $paths;
+	}
+
+	/**
 	 * Determine if a configuration item or file exists.
 	 *
 	 * @param  string  $key
@@ -101,7 +119,7 @@ class Config {
 
 		$config = array();
 
-		foreach ($this->paths() as $directory)
+		foreach ($this->paths as $directory)
 		{
 			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
 		}
@@ -112,29 +130,6 @@ class Config {
 		}
 
 		return isset($this->items[$file]);
-	}
-
-	/**
-	 * Get the path hierarchy for a given configuration file and module.
-	 *
-	 * The paths returned by this method paths will be searched by the load method when merging
-	 * configuration files, meaning the configuration files will cascade in this order.
-	 *
-	 * The system configuration directory will be searched first, followed by the application
-	 * directory, and finally the environment directory.
-	 *
-	 * @return array
-	 */
-	private function paths()
-	{
-		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
-
-		if (isset($_SERVER['LARAVEL_ENV']))
-		{
-			$paths[] = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/';
-		}
-
-		return $paths;
 	}
 
 }

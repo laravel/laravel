@@ -1,16 +1,18 @@
 <?php namespace Laravel;
 
+class Download_Facade extends Facade { public static $resolve = 'download'; }
+
 class Download extends Response {
 
 	/**
-	 * The file manager instance.
+	 * The file engine instance.
 	 *
 	 * @var File
 	 */
 	protected $file;
 
 	/**
-	 * Create a new download generator instance.
+	 * Create a new download engine instance.
 	 *
 	 * @param  File  $file
 	 * @return void

@@ -3,27 +3,6 @@
 class Application {
 
 	/**
-	 * The active request instance.
-	 *
-	 * @var Request
-	 */
-	public $request;
-
-	/**
-	 * The application configuration manager.
-	 *
-	 * @var Config
-	 */
-	public $config;
-
-	/**
-	 * The application session driver.
-	 *
-	 * @var Session\Driver
-	 */
-	public $session;
-
-	/**
 	 * The application IoC container.
 	 *
 	 * @var Container

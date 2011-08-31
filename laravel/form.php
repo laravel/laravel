@@ -118,7 +118,7 @@ class Form {
 	 */
 	private function action($action, $https)
 	{
-		return $this->html->entities($this->url->to(((is_null($action)) ? $this->request->uri : $action), $https));
+		return $this->html->entities($this->url->to(((is_null($action)) ? $this->request->uri() : $action), $https));
 	}
 
 	/**
