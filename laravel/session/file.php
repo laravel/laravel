@@ -5,7 +5,7 @@ class File extends Driver implements Sweeper {
 	/**
 	 * The file engine instance.
 	 *
-	 * @var Laravel\File_Engine
+	 * @var Laravel\File
 	 */
 	private $file;
 
@@ -19,11 +19,11 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Create a new File session driver instance.
 	 *
-	 * @param  Laravel\File_Engine  $file
-	 * @param  string               $path
+	 * @param  Laravel\File  $file
+	 * @param  string        $path
 	 * @return void
 	 */
-	public function __construct(\Laravel\File_Engine $file, $path)
+	public function __construct(\Laravel\File $file, $path)
 	{
 		$this->file = $file;
 		$this->path = $path;

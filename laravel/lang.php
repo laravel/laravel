@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class Lang extends Facade { public static $resolve = 'lang'; }
-
-class Lang_Engine {
+class Lang {
 
 	/**
 	 * All of the loaded language lines.

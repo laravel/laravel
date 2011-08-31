@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class Redirect extends Facade { public static $resolve = 'redirect'; }
-
-class Redirect_Engine extends Response {
+class Redirect extends Response {
 
 	/**
 	 * The URL generator instance.

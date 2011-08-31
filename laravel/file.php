@@ -1,7 +1,5 @@
 <?php namespace Laravel;
 
-class File_Facade extends Facade { public static $resolve = 'file'; }
-
 class File {
 
 	/**
@@ -12,7 +10,7 @@ class File {
 	private $mimes;
 
 	/**
-	 * Create a new file manager instance.
+	 * Create a new file engine instance.
 	 *
 	 * @param  array  $mimes
 	 * @return void

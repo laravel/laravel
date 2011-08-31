@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class URL extends Facade { public static $resolve = 'url'; }
-
-class URL_Engine {
+class URL {
 
 	/**
 	 * Create a new URL writer instance.

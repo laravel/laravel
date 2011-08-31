@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class Package extends Facade { public static $resolve = 'package'; }
-
-class Package_Engine {
+class Package {
 
 	/**
 	 * All of the loaded packages.

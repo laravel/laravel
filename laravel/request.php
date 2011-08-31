@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class Request extends Facade { public static $resolve = 'request'; }
-
-class Request_Engine {
+class Request {
 
 	/**
 	 * The $_SERVER array for the request.

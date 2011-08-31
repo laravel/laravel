@@ -1,6 +1,6 @@
 <?php namespace Laravel\Routing;
 
-use Laravel\Request_Engine;
+use Laravel\Request;
 
 class Router {
 
@@ -14,7 +14,7 @@ class Router {
 	/**
 	 * The current request instance.
 	 *
-	 * @var Request_Engine
+	 * @var Request
 	 */
 	protected $request;
 
@@ -35,11 +35,11 @@ class Router {
 	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  Request_Engine  $request
-	 * @param  array           $routes
+	 * @param  Request  $request
+	 * @param  array    $routes
 	 * @return void
 	 */
-	public function __construct(Request_Engine $request, $routes, $controller_path)
+	public function __construct(Request $request, $routes, $controller_path)
 	{
 		$this->routes = $routes;
 		$this->request = $request;

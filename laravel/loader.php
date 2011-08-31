@@ -40,8 +40,6 @@ class Loader {
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (strpos($file, 'laravel') !== false) $file = str_replace('_facade', '', $file);
-
 		if (array_key_exists($class, $this->aliases))
 		{
 			return class_alias($this->aliases[$class], $class);

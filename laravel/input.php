@@ -1,8 +1,6 @@
 <?php namespace Laravel;
 
-class Input extends Facade { public static $resolve = 'input'; }
-
-class Input_Engine {
+class Input {
 
 	/**
 	 * The applicable input for the request.

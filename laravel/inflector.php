@@ -116,16 +116,8 @@ class Inflector {
 	/**
 	 * Get the plural form of a word if the specified count is greater than one.
 	 *
-	 * <code>
-	 *		// Returns "friend"
-	 *		Inflector::plural_if('friend', 1);
-	 *
-	 *		// Returns "friends"
-	 *		Inflector::plural_if('friend', 2);
-	 * </code>
-	 *
 	 * @param  string  $value
-	 * @param  int	 $count
+	 * @param  int	   $count
 	 * @return string
 	 */
 	public static function plural_if($value, $count)
@@ -135,14 +127,6 @@ class Inflector {
 
 	/**
 	 * Convert a word to its plural form.
-	 *
-	 * <code>
-	 *		// Returns "friends"
-	 *		Inflector::plural('friend');
-	 *
-	 *		// Returns "children"
-	 *		Inflector::plural('child');
-	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -156,14 +140,6 @@ class Inflector {
 
 	/**
 	 * Convert a word to its singular form.
-	 *
-	 * <code>
-	 *		// Returns "friend"
-	 *		Inflector::singular('friends');
-	 *
-	 *		// Returns "child"
-	 *		Inflector::singular('children');
-	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string

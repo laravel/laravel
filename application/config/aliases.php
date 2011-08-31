@@ -29,7 +29,7 @@ return array(
 	'Download'  => 'Laravel\\Download',
 	'Eloquent'  => 'Laravel\\Database\\Eloquent\\Model',
 	'Error'     => 'Laravel\\Error',
-	'File'      => 'Laravel\\File_Facade',
+	'File'      => 'Laravel\\File',
 	'Form'      => 'Laravel\\Form',
 	'Hasher'    => 'Laravel\\Security\\Hasher',
 	'HTML'      => 'Laravel\\HTML',

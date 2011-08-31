@@ -1,7 +1,5 @@
 <?php namespace Laravel;
 
-class Download_Facade extends Facade { public static $resolve = 'download'; }
-
 class Download extends Response {
 
 	/**
