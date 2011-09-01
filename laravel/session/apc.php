@@ -20,6 +20,7 @@ class APC extends Driver {
 	 * Create a new APC session driver instance.
 	 *
 	 * @param  Cache\APC  $apc
+	 * @param  int        $lifetime
 	 * @return void
 	 */
 	public function __construct(\Laravel\Cache\APC $apc, $lifetime)

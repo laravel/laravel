@@ -10,18 +10,18 @@ class Request {
 	public $server;
 
 	/**
-	 * The $_POST array for the request.
-	 *
-	 * @var array
-	 */
-	private $post;
-
-	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
 	 */
 	public $route;
+
+	/**
+	 * The $_POST array for the request.
+	 *
+	 * @var array
+	 */
+	private $post;
 
 	/**
 	 * The base URL of the application.

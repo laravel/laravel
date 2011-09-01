@@ -52,7 +52,7 @@ class Manager {
 
 		if ( ! array_key_exists($driver, $this->drivers))
 		{
-			if ( ! in_array($driver, array('apc', 'file', 'memcached')))
+			if ( ! $this->container->registered('laravel.cache.'.$driver))
 			{
 				throw new \Exception("Cache driver [$driver] is not supported.");
 			}

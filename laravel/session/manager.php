@@ -34,12 +34,12 @@ class Manager {
 	 */
 	public function driver($driver)
 	{
-		if (in_array($driver, array('cookie', 'file', 'database', 'apc', 'memcached')))
+		if ( ! $this->container->registered('laravel.session.'.$driver))
 		{
-			return $this->container->resolve('laravel.session.'.$driver);
+			throw new \Exception("Session driver [$driver] is not supported.");
 		}
 
-		throw new \Exception("Session driver [$driver] is not supported.");
+		return $this->container->resolve('laravel.session.'.$driver);
 	}
 
 }
