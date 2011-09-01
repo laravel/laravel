@@ -15,6 +15,13 @@ class Route {
 	public $key;
 
 	/**
+	 * The URIs the route responds to.
+	 *
+	 * @var array
+	 */
+	public $uris;
+
+	/**
 	 * The route callback or array.
 	 *
 	 * @var mixed
@@ -56,6 +63,15 @@ class Route {
 		$this->callback = $callback;
 		$this->parameters = $parameters;
 		$this->controller_path = $controller_path;
+
+		// Extract each URI handled by the URI. These will be used to find the route by
+		// URI when requested. The leading slash will be removed for convenience.
+		foreach (explode(', ', $key) as $segment)
+		{
+			$segment = substr($segment, strpos($segment, ' ') + 1);
+
+			$this->uris[] = ($segment !== '/') ? trim($segment, '/') : $segment;
+		}
 	}
 
 	/**
@@ -66,8 +82,14 @@ class Route {
 	 */
 	public function call(Application $application)
 	{
-		$this->validate();
+		if ( ! $this->callback instanceof Closure and ! is_array($this->callback))
+		{
+			throw new \Exception('Invalid route defined for URI ['.$this->key.']');
+		}
 
+		// Run the "before" filters for the route. If a before filter returns a value, that value
+		// will be considered the response to the request and the route function / controller will
+		// not be used to handle the request.
 		if ( ! is_null($response = $this->filter(array_merge($this->before(), array('before')), array($application), true)))
 		{
 			return $this->finish($application, $response);
@@ -78,19 +100,6 @@ class Route {
 		if ( ! is_null($closure)) return $this->handle_closure($application, $closure);
 
 		return $this->finish($application, $application->responder->error('404'));
-	}
-
-	/**
-	 * Validate that a given route is callable.
-	 *
-	 * @return void
-	 */
-	protected function validate()
-	{
-		if ( ! $this->callback instanceof Closure and ! is_array($this->callback))
-		{
-			throw new \Exception('Invalid route defined for URI ['.$this->key.']');
-		}
 	}
 
 	/**
@@ -121,6 +130,9 @@ class Route {
 
 		$response = call_user_func_array($closure, $this->parameters);
 
+		// If the route closure returns an array, we assume that they are returning a
+		// reference to a controller and method and will use the given controller method
+		// to handle the request to the application.
 		if (is_array($response))
 		{
 			$response = $this->delegate($application, $response[0], $response[1], $this->parameters);
@@ -142,7 +154,7 @@ class Route {
 	{
 		if ( ! file_exists($path = $this->controller_path.strtolower(str_replace('.', '/', $controller)).EXT))
 		{
-			throw new \Exception("Controller [$controller] is not defined.");
+			throw new \Exception("Controller [$controller] does not exist.");
 		}
 
 		require $path;
@@ -158,6 +170,9 @@ class Route {
 			$response = $controller->before();
 		}
 
+		// Again, as was the case with route closures, if the controller "before" method returns
+		// a response, it will be considered the response to the request and the controller method
+		// will not be used to handle the request to the application.
 		return (is_null($response)) ? call_user_func_array(array($controller, $method), $parameters) : $response;
 	}
 
@@ -170,10 +185,7 @@ class Route {
 	 */
 	protected function resolve(Container $container, $controller)
 	{
-		if ($container->registered('controllers.'.$controller))
-		{
-			return $container->resolve('controllers.'.$controller);
-		}
+		if ($container->registered('controllers.'.$controller)) return $container->resolve('controllers.'.$controller);
 
 		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
 

@@ -94,6 +94,18 @@ class View_Factory {
 	}
 
 	/**
+	 * Create a new view instance.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public function make($view, $data = array())
+	{
+		return new View($view, $data, $this->path($view), $this->composer, $this);
+	}
+
+	/**
 	 * Create a new view instance from a view name.
 	 *
 	 * @param  string  $name
