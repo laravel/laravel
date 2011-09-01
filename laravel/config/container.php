@@ -158,11 +158,17 @@ return array(
 	}),
 
 
-	'laravel.view' => array('singleton' => true, 'resolver' => function()
+	'laravel.view' => array('singleton' => true, 'resolver' => function($container)
 	{
 		require_once SYS_PATH.'view'.EXT;
 
-		return new View_Factory(VIEW_PATH, new View_Composer(require APP_PATH.'composers'.EXT));
+		return new View_Factory($container->resolve('laravel.view.composer'), VIEW_PATH);
+	}),
+
+
+	'laravel.view.composer' => array('resolver' => function($container)
+	{
+		return new View_Composer($container->resolve('laravel.application'), require APP_PATH.'composers'.EXT);
 	}),
 
 	/*

@@ -9,6 +9,13 @@
 class View_Composer {
 
 	/**
+	 * The application instance.
+	 *
+	 * @var Application
+	 */
+	protected $application;
+
+	/**
 	 * The view composers.
 	 *
 	 * @var array
@@ -21,8 +28,9 @@ class View_Composer {
 	 * @param  array  $composers
 	 * @return void
 	 */
-	public function __construct($composers)
+	public function __construct(Application $application, $composers)
 	{
+		$this->application = $application;
 		$this->composers = $composers;
 	}
 
@@ -52,7 +60,7 @@ class View_Composer {
 		{
 			foreach ((array) $this->composers[$view->view] as $key => $value)
 			{
-				if ($value instanceof \Closure) return call_user_func($value, $view);
+				if ($value instanceof \Closure) return call_user_func($value, $this->application, $view);
 			}
 		}
 	}
@@ -67,13 +75,6 @@ class View_Composer {
 class View_Factory {
 
 	/**
-	 * The directory containing the views.
-	 *
-	 * @var string
-	 */
-	protected $path;
-
-	/**
 	 * The view composer instance.
 	 *
 	 * @var View_Composer
@@ -81,16 +82,23 @@ class View_Factory {
 	protected $composer;
 
 	/**
+	 * The directory containing the views.
+	 *
+	 * @var string
+	 */
+	protected $path;
+
+	/**
 	 * Create a new view factory instance.
 	 *
-	 * @param  array   $composers
-	 * @param  string  $path
+	 * @param  View_Composer  $composer
+	 * @param  string         $path
 	 * @return void
 	 */
-	public function __construct($path, View_Composer $composer)
+	public function __construct(View_Composer $composer, $path)
 	{
-		$this->path = $path;
 		$this->composer = $composer;
+		$this->path = $path;
 	}
 
 	/**

@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'home.index' => array('name' => 'home', function($view)
+	'home.index' => array('name' => 'home', function($laravel, $view)
 	{
 		//
 	}),
