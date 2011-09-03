@@ -1,7 +1,8 @@
 <?php namespace Laravel\Validation;
 
+use Laravel\IoC;
+use Laravel\Str;
 use Laravel\Lang;
-use Laravel\Database\Manager as DB;
 
 class Validator {
 
@@ -64,21 +65,12 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  array  $attributes
-	 * @param  array  $rules
-	 * @param  array  $messages
+	 * @param  Lang  $lang
 	 * @return void
 	 */
-	public function __construct($attributes, $rules, $messages = array())
+	public function __construct(Lang $lang)
 	{
-		foreach ($rules as $key => &$rule)
-		{
-			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
-		}
-
-		$this->attributes = $attributes;
-		$this->messages = $messages;
-		$this->rules = $rules;
+		$this->lang = $lang;
 	}
 
 	/**
@@ -91,7 +83,27 @@ class Validator {
 	 */
 	public static function make($attributes, $rules, $messages = array())
 	{
-		return new static($attributes, $rules, $messages);
+		return IoC::resolve('laravel.validator')->of($attributes, $rules, $messages);
+	}
+
+	/**
+	 * Set the attributes, rules, and messages for the validator.
+	 *
+	 * @param  array      $attributes
+	 * @param  array      $rules
+	 * @param  array      $messages
+	 * @return Validator
+	 */
+	public function of($attributes, $rules, $messages = array())
+	{
+		foreach ($rules as $key => &$rule)
+		{
+			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
+		}
+
+		$this->attributes = $attributes;
+		$this->messages = $messages;
+		$this->rules = $rules;
 	}
 
 	/**
@@ -146,9 +158,9 @@ class Validator {
 
 		if ( ! $this->$validator($attribute, $parameters))
 		{
-			$message = $this->format_message($this->get_message($attribute, $rule);
+			$message = $this->format_message($this->get_message($attribute, $rule));
 
-			$this->errors->add($attribute, $message, $attribute, $rule, $parameters));
+			$this->errors->add($attribute, $message, $attribute, $rule, $parameters);
 		}
 	}
 
@@ -322,7 +334,7 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (is_null($this->connection)) $this->connection = DB::connection();
+		if (is_null($this->connection)) $this->connection = IoC::resolve('laravel.database')->connection();
 
 		return $this->connection->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
@@ -450,15 +462,15 @@ class Validator {
 		}
 		else
 		{
-			$message = Lang::line('validation.'.$rule)->get($this->language);
+			$message = $this->lang->line('validation.'.$rule)->get($this->language);
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message for the appropriate type.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
 				return (array_key_exists($attribute, $_FILES))
-                                   ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
-                                   : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
+                                   ? rtrim($message, '.').' '.$this->lang->line('validation.kilobytes')->get($this->language).'.'
+                                   : rtrim($message, '.').' '.$this->lang->line('validation.characters')->get($this->language).'.';
 			}
 
 			return $message;
@@ -476,7 +488,7 @@ class Validator {
 	 */
 	protected function format_message($message, $attribute, $rule, $parameters)
 	{
-		$display = Lang::line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
+		$display = $this->lang->line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
 
 		$message = str_replace(':attribute', $display, $message);
 

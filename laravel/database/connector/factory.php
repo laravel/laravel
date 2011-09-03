@@ -8,7 +8,7 @@ class Factory {
 	 * @param  array      $config
 	 * @return Connector
 	 */
-	public static function make($config)
+	public function make($config)
 	{
 		if (isset($config['connector'])) return new Callback;
 

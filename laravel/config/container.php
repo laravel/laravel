@@ -8,6 +8,12 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
+	'laravel.auth' => array('resolver' => function($container)
+	{
+		return new Security\Authenticator($container->resolve('laravel.session'), $container->resolve('laravel.hasher'));
+	}),
+
+
 	'laravel.config' => array('singleton' => true, 'resolver' => function($container)
 	{
 		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
@@ -18,6 +24,14 @@ return array(
 		}
 
 		return new Config($paths);
+	}),
+
+
+	'laravel.crypter' => array('resolver' => function($container)
+	{
+		$key = $container->resolve('laravel.config')->get('application.key');
+
+		return new Security\Crypter(MCRYPT_RIJNDAEL_256, 'cbc', $key);
 	}),
 
 
@@ -56,6 +70,12 @@ return array(
 		);
 
 		return new Form($request, $html, $url);
+	}),
+
+
+	'laravel.hasher' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Security\Hashing\BCrypt(10, false);
 	}),
 
 
@@ -158,6 +178,12 @@ return array(
 	}),
 
 
+	'laravel.validator' => array('resolver' => function($container)
+	{
+		return new Validation\Validator($container->resolve('laravel.lang'));
+	}),
+
+
 	'laravel.view' => array('singleton' => true, 'resolver' => function($container)
 	{
 		require_once SYS_PATH.'view'.EXT;
@@ -169,25 +195,6 @@ return array(
 	'laravel.view.composer' => array('resolver' => function($container)
 	{
 		return new View_Composer($container->resolve('laravel.application'), require APP_PATH.'composers'.EXT);
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Security Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.security.auth' => array('resolver' => function($container)
-	{
-		$hasher = $container->resolve('laravel.security.hashing.engine');
-
-		return new Security\Auth(Session\Manager::driver(), $hasher);
-	}),
-
-
-	'laravel.security.hashing.engine' => array('resolver' => function()
-	{
-		return new Security\Hashing\BCrypt(10, false);
 	}),
 
 	/*

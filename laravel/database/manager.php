@@ -10,33 +10,44 @@ class Manager {
 	public $connections = array();
 
 	/**
+	 * The connector factory instance.
+	 *
+	 * @var Connector\Factory
+	 */
+	protected $factory;
+
+	/**
 	 * The database connection configurations.
 	 *
 	 * @var array
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * The default database connection name.
 	 *
 	 * @var string
 	 */
-	private $default;
+	protected $default;
 
 	/**
 	 * Create a new database manager instance.
 	 *
-	 * @param  string  $default
+	 * @param  Connector\Factory  $factory
+	 * @param  array              $config
+	 * @param  string             $default
+	 * @return void
 	 */
-	public function __construct($config, $default)
+	public function __construct(Connector\Factory $factory, $config, $default)
 	{
 		$this->config = $config;
+		$this->factory = $factory;
 		$this->default = $default;
 	}
 
 	/**
 	 * Get a database connection. If no database name is specified, the default
-	 * connection will be returned as defined in the db configuration file.
+	 * connection will be returned as defined in the database configuration file.
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
@@ -54,7 +65,7 @@ class Manager {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			$connector = Connector\Factory::make($this->config[$connection]);
+			$connector = $this->factory->make($this->config[$connection]);
 
 			static::$connections[$connection] = new Connection($connection, $this->config[$connection], $connector);
 		}
@@ -67,8 +78,8 @@ class Manager {
 	 *
 	 * This method primarily serves as a short-cut to the $connection->table() method.
 	 *
-	 * @param  string    $table
-	 * @param  string    $connection
+	 * @param  string          $table
+	 * @param  string          $connection
 	 * @return Database\Query
 	 */
 	public function table($table, $connection = null)

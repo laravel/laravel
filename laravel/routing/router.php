@@ -101,6 +101,8 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $key)
 				{
+					if ( ! is_null($formats = $this->provides($callback))) $key .= '(\.('.implode('|', $formats).'))?';
+
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
 						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key), $this->controller_path);
@@ -170,6 +172,17 @@ class Router {
 				return $key + 1;
 			}
 		}
+	}
+
+	/**
+	 * Get the request formats for which the route provides responses.
+	 *
+	 * @param  mixed  $callback
+	 * @return array
+	 */
+	protected function provides($callback)
+	{
+		return (is_array($callback) and isset($callback['provides'])) ? explode(', ', $callback['provides']) : null;
 	}
 
 	/**

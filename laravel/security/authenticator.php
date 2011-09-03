@@ -1,7 +1,6 @@
 <?php namespace Laravel\Security;
 
 use Laravel\IoC;
-use Laravel\Config;
 use Laravel\Session\Driver;
 
 class Authenticator {
@@ -53,15 +52,13 @@ class Authenticator {
 	}
 
 	/**
-	 * Create a new Auth class instance.
+	 * Get an authenticator instance from the IoC container.
 	 *
-	 * If no session driver or hasher is provided, the default implementations will be used.
-	 *
-	 * @return Auth
+	 * @return Authenticator
 	 */
 	public static function make()
 	{
-		return IoC::container()->resolve('laravel.security.auth');
+		return IoC::container()->resolve('laravel.auth');
 	}
 
 	/**

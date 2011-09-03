@@ -31,6 +31,16 @@ class Request {
 	private $url;
 
 	/**
+	 * The request URI.
+	 *
+	 * After determining the URI once, this property will be set and returned
+	 * on subsequent requests for the URI.
+	 *
+	 * @var string
+	 */
+	private $uri;
+
+	/**
 	 * Create a new request instance.
 	 *
 	 * @param  array   $server
@@ -59,6 +69,8 @@ class Request {
 	 */
 	public function uri()
 	{
+		if ( ! is_null($this->uri)) return $this->uri;
+
 		if (isset($this->server['PATH_INFO']))
 		{
 			$uri = $this->server['PATH_INFO'];
@@ -79,7 +91,19 @@ class Request {
 			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 		}
 
-		return (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+		return $this->uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+	}
+
+	/**
+	 * Get the request format.
+	 *
+	 * The format is determined by essentially taking the "extension" of the URI.
+	 *
+	 * @return string
+	 */
+	public function format()
+	{
+		return (($extension = pathinfo($this->uri(), PATHINFO_EXTENSION)) !== '') ? $extension : 'html';
 	}
 
 	/**

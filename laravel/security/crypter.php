@@ -1,6 +1,6 @@
 <?php namespace Laravel\Security;
 
-use Laravel\Config;
+use Laravel\IoC;
 
 class Crypter {
 
@@ -33,7 +33,7 @@ class Crypter {
 	 * @param  string  $key
 	 * @return void
 	 */
-	public function __construct($cipher = MCRYPT_RIJNDAEL_256, $mode = 'cbc', $key = null)
+	public function __construct($cipher, $mode, $key)
 	{
 		$this->cipher = $cipher;
 		$this->mode = $mode;
@@ -43,24 +43,6 @@ class Crypter {
 		{
 			throw new \Exception('The encryption class may not be used without an encryption key.');
 		}
-	}
-
-	/**
-	 * Create a new Crypter instance.
-	 *
-	 * Any cipher and mode supported by Mcrypt may be specified. For more information regarding
-	 * the supported ciphers and modes, check out: http://php.net/manual/en/mcrypt.ciphers.php
-	 *
-	 * By default, the AES-256 cipher will be used in CBC mode.
-	 *
-	 * @param  string  $cipher
-	 * @param  string  $mode
-	 * @param  string  $key
-	 * @return Crypt
-	 */
-	public static function make($cipher = MCRYPT_RIJNDAEL_256, $mode = 'cbc', $key = null)
-	{
-		return new static($cipher, $mode, (is_null($key)) ? Config::get('application.key') : $key);
 	}
 
 	/**
