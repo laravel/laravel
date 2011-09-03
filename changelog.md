@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 1.5.7
+
+- Fixed bug that prevented view composers from being called for module named views.
+
+### Upgrading from 1.5.6
+
+- Replace **system** directory.
+
 ## Version 1.5.6
 
 - Fix bug that caused exceptions to not be shown when attempting to render a view that doesn't exist.
