@@ -124,10 +124,11 @@ class View {
 	protected function compose()
 	{
 		static::load_composers($this->module);
+		$view = ($this->module != 'application' ? $this->module . '::' : '') . $this->view;
 
-		if (isset(static::$composers[$this->module][$this->view]))
+		if (isset(static::$composers[$this->module][$view]))
 		{
-			foreach ((array) static::$composers[$this->module][$this->view] as $key => $value)
+			foreach ((array) static::$composers[$this->module][$view] as $key => $value)
 			{
 				if (is_callable($value)) return call_user_func($value, $this);
 			}
