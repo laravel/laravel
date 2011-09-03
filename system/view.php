@@ -86,6 +86,8 @@ class View {
 			{
 				if ($name === $value or (isset($value['name']) and $name === $value['name']))
 				{
+					$key = ($module !== 'application') ? $module.'::'.$key : $key;
+
 					return new static($key, $data);
 				}
 			}
