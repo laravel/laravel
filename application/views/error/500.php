@@ -81,7 +81,7 @@
 
 		<h2><?php echo $apology; ?></h2>
 
-		<p>Something failed while we were handling your request. Would you like go to our <a href="<?php echo Laravel\Config::get('application.url'); ?>">home page</a> instead?</p>
+		<p>Something failed while we were handling your request. Would you like go to our <a href="<?php echo Config::get('application.url'); ?>">home page</a> instead?</p>
 	</div>
 </body>
 </html>
