@@ -35,6 +35,7 @@ define('VIEW_PATH',       APP_PATH.'views/');
 // --------------------------------------------------------------
 // Bootstrap the application instance.
 // --------------------------------------------------------------
+require SYS_PATH.'resolver'.EXT;
 require SYS_PATH.'application'.EXT;
 
 $application = new Application;
