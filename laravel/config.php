@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class Config_Facade extends Facade { public static $resolve = 'config'; }
+
 class Config {
 
 	/**
@@ -9,14 +11,14 @@ class Config {
 	 *
 	 * @var array
 	 */
-	public $items = array();
+	protected $items = array();
 
 	/**
 	 * The paths containing the configuration files.
 	 *
 	 * @var array
 	 */
-	public $paths = array();
+	protected $paths = array();
 
 	/**
 	 * Create a new configuration manager instance.

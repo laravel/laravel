@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class Form_Facade extends Facade { public static $resolve = 'form'; }
+
 class Form {
 
 	/**

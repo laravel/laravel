@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class Response_Facade extends Facade { public static $resolve = 'response'; }
+
 class Response_Factory {
 
 	/**

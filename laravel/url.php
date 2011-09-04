@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class URL_Facade extends Facade { public static $resolve = 'url'; }
+
 class URL {
 
 	/**

@@ -61,7 +61,7 @@ return array(
 	}),
 
 
-	'laravel.form' => array('resolver' => function($container)
+	'laravel.form' => array('singleton' => true, 'resolver' => function($container)
 	{
 		list($request, $html, $url) = array(
 			$container->resolve('laravel.request'),
@@ -79,7 +79,7 @@ return array(
 	}),
 
 
-	'laravel.html' => array('resolver' => function($container)
+	'laravel.html' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new HTML($container->resolve('laravel.url'), $container->resolve('laravel.config')->get('application.encoding'));
 	}),
@@ -110,7 +110,9 @@ return array(
 
 	'laravel.lang' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Lang($container->resolve('laravel.config')->get('application.language'), array(SYS_LANG_PATH, LANG_PATH));		
+		require_once SYS_PATH.'lang'.EXT;
+
+		return new Lang_Factory($container->resolve('laravel.config'), array(SYS_LANG_PATH, LANG_PATH));
 	}),
 
 

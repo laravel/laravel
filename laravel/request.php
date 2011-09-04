@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class Request_Facade extends Facade { public static $resolve = 'request'; }
+
 class Request {
 
 	/**

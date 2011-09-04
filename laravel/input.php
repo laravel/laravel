@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class Input_Facade extends Facade { public static $resolve = 'input'; }
+
 class Input {
 
 	/**
@@ -7,7 +9,7 @@ class Input {
 	 *
 	 * @var array
 	 */
-	private $input;
+	protected $input;
 
 	/**
 	 * The $_GET array for the request.

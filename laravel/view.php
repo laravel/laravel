@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+class View_Facade extends Facade { public static $resolve = 'view'; }
+
 /**
  * The view composer class is responsible for calling the composer on a view and
  * searching through the view composers for a given view name. It is injected

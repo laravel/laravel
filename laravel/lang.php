@@ -1,5 +1,50 @@
 <?php namespace Laravel;
 
+class Lang_Facade extends Facade { public static $resolve = 'lang'; }
+
+class Lang_Factory {
+
+	/**
+	 * The configuration manager instance.
+	 *
+	 * @var Config
+	 */
+	protected $config;
+
+	/**
+	 * The paths containing the language files.
+	 *
+	 * @var array
+	 */
+	protected $paths;
+
+	/**
+	 * Create a new language factory instance.
+	 *
+	 * @param  Config  $config
+	 * @param  array   $paths
+	 * @return void
+	 */
+	public function __construct(Config $config, $paths)
+	{
+		$this->paths = $paths;
+		$this->config = $config;
+	}
+
+	/**
+	 * Begin retrieving a language line.
+	 *
+	 * @param  string  $key
+	 * @param  array   $replacements
+	 * @return Lang
+	 */
+	public function line($key, $replacements = array())
+	{
+		return new Lang($key, $replacements, $this->config->get('application.language'), $this->paths);
+	}
+
+}
+
 class Lang {
 
 	/**
@@ -9,21 +54,7 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	private $lines = array();
-
-	/**
-	 * The default language being used by the application.
-	 *
-	 * @var string
-	 */
-	private $language;
-
-	/**
-	 * The paths containing the language files.
-	 *
-	 * @var array
-	 */
-	private $paths;
+	private static $lines = array();
 
 	/**
 	 * The key of the language line being retrieved.
@@ -40,45 +71,34 @@ class Lang {
 	private $replacements;
 
 	/**
-	 * The language of the line being retrieved.
-	 *
-	 * This is set to the default language when a new line is requested.
-	 * However, it may be changed using the "in" method.
+	 * The default language being used by the application.
 	 *
 	 * @var string
 	 */
-	private $line_language;
+	private $language;
+
+	/**
+	 * The paths containing the language files.
+	 *
+	 * @var array
+	 */
+	private $paths;
 
 	/**
 	 * Create a new Lang instance.
 	 *
+	 * @param  string  $key
+	 * @param  array   $replacements
 	 * @param  string  $language
 	 * @param  array   $paths
 	 * @return void
 	 */
-	public function __construct($language, $paths)
-	{
-		$this->paths = $paths;
-		$this->language = $language;
-	}
-
-	/**
-	 * Begin retrieving a new language line.
-	 *
-	 * Language lines are retrieved using "dot" notation. So, asking for the "messages.required" langauge
-	 * line would return the "required" line from the "messages" language file.
-	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
-	 * @return Lang
-	 */
-	public function line($key, $replacements = array())
+	public function __construct($key, $replacements, $language, $paths)
 	{
 		$this->key = $key;
+		$this->paths = $paths;
+		$this->language = $language;
 		$this->replacements = $replacements;
-		$this->line_language = $this->language;
-
-		return $this;
 	}
 
 	/**
@@ -98,7 +118,7 @@ class Lang {
 			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
-		$line = Arr::get($this->lines[$this->line_language.$file], $line, $default);
+		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);
 
 		foreach ($this->replacements as $key => $value)
 		{
@@ -138,13 +158,13 @@ class Lang {
 	 */
 	private function load($file)
 	{
-		if (isset($this->lines[$this->line_language.$file])) return;
+		if (isset(static::$lines[$this->language.$file])) return;
 
 		$language = array();
 
 		foreach ($this->paths as $directory)
 		{
-			if (file_exists($path = $directory.$this->line_language.'/'.$file.EXT))
+			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
 			{
 				$language = array_merge($language, require $path);
 			}
@@ -152,10 +172,10 @@ class Lang {
 
 		if (count($language) > 0)
 		{
-			$this->lines[$this->line_language.$file] = $language;
+			static::$lines[$this->language.$file] = $language;
 		}
 		
-		return isset($this->lines[$this->line_language.$file]);		
+		return isset(static::$lines[$this->language.$file]);		
 	}
 
 	/**
@@ -168,7 +188,7 @@ class Lang {
 	 */
 	public function in($language)
 	{
-		$this->line_language = $line_language;
+		$this->language = $language;
 		return $this;
 	}
 
