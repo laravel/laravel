@@ -7,7 +7,7 @@
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
-$t = microtime(true);
+
 /*
 |--------------------------------------------------------------------------
 | Installation Paths
@@ -37,5 +37,3 @@ $public      = __DIR__;
 |--------------------------------------------------------------------------
 */
 require $laravel.'/laravel.php';
-
-echo (microtime(true) - $t) * 1000;
