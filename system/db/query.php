@@ -49,6 +49,13 @@ class Query {
 	public $where = 'WHERE 1 = 1';
 
 	/**
+	 * Number of open WHERE brackets
+	 *
+	 * @var int
+	 */
+	public $brackets = 0;
+
+	/**
 	 * The ORDER BY columns.
 	 *
 	 * @var array
@@ -178,6 +185,7 @@ class Query {
 	public function reset_where()
 	{
 		$this->where = 'WHERE 1 = 1';
+		$this->brackets = 0;
 		$this->bindings = array();
 	}
 
@@ -237,6 +245,53 @@ class Query {
 	public function or_where($column, $operator, $value)
 	{
 		return $this->where($column, $operator, $value, 'OR');
+	}
+
+	/**
+	 * Add a bracket to where clause
+	 *
+	 * @param  string  $connector
+	 */
+	public function bracket($connector = 'AND')
+	{
+		$this->where .= ' '.$connector.' ( 1 = 1 ';
+		$this->brackets++;
+		
+		return $this;
+	}
+
+	/**
+	 * Add an or bracket to where clause
+	 *
+	 * @return Query
+	 */
+	public function or_bracket()
+	{
+		return $this->bracket('OR');
+	}
+
+	/**
+	 * Closes brackets in where clause
+	 *
+	 * @param  int  $count
+	 * @return Query
+	 */
+	public function close_brackets($count=1)
+	{
+		$this->where .= str_repeat(')', $count);
+		$this->brackets -= $count;
+
+		return $this;
+	}
+
+	/**
+	 * Closes one bracket in where clause
+	 *
+	 * @return Query
+	 */
+	public function close_bracket()
+	{
+		return $this->close_brackets(1);
 	}
 
 	/**
@@ -522,6 +577,11 @@ class Query {
 		if (is_null($this->select))
 		{
 			$this->select($columns);
+		}
+
+		if ($this->brackets > 0)
+		{
+			$this->close_brackets($this->brackets);
 		}
 
 		$results = $this->connection->query($this->compile_select(), $this->bindings);
