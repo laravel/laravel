@@ -41,7 +41,7 @@ require SYS_PATH.'application'.EXT;
 $application = new Application;
 
 // --------------------------------------------------------------
-// Load the configuration manager.
+// Load the configuration manager and its dependencies.
 // --------------------------------------------------------------
 require SYS_PATH.'facade'.EXT;
 require SYS_PATH.'loader'.EXT;
