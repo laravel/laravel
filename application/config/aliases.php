@@ -28,7 +28,6 @@ return array(
 	'DB'        => 'Laravel\\Database\\Manager_Facade',
 	'Download'  => 'Laravel\\Download_Facade',
 	'Eloquent'  => 'Laravel\\Database\\Eloquent\\Model',
-	'Error'     => 'Laravel\\Error',
 	'File'      => 'Laravel\\File_Facade',
 	'Form'      => 'Laravel\\Form_Facade',
 	'Hasher'    => 'Laravel\\Security\\Hashing\\Hasher_Facade',
