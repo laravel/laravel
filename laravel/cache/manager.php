@@ -1,6 +1,9 @@
 <?php namespace Laravel\Cache;
 
+use Laravel\Facade;
 use Laravel\Container;
+
+class Manager_Facade extends Facade { public static $resolve = 'cache'; }
 
 class Manager {
 

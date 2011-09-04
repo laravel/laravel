@@ -1,7 +1,10 @@
 <?php namespace Laravel\Security;
 
 use Laravel\IoC;
+use Laravel\Facade;
 use Laravel\Session\Driver;
+
+class Authenticator_Facade extends Facade { public static $resolve = 'auth'; }
 
 class Authenticator {
 
@@ -49,16 +52,6 @@ class Authenticator {
 	{
 		$this->hasher = $hasher;
 		$this->session = $driver;
-	}
-
-	/**
-	 * Get an authenticator instance from the IoC container.
-	 *
-	 * @return Authenticator
-	 */
-	public static function make()
-	{
-		return IoC::container()->resolve('laravel.auth');
 	}
 
 	/**

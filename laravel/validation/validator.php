@@ -2,7 +2,10 @@
 
 use Laravel\IoC;
 use Laravel\Str;
-use Laravel\Lang;
+use Laravel\Facade;
+use Laravel\Lang_Factory;
+
+class Validator_Facade extends Facade { public static $resolve = 'validator'; }
 
 class Validator {
 
@@ -68,22 +71,9 @@ class Validator {
 	 * @param  Lang  $lang
 	 * @return void
 	 */
-	public function __construct(Lang $lang)
+	public function __construct(Lang_Factory $lang)
 	{
 		$this->lang = $lang;
-	}
-
-	/**
-	 * Factory for creating new validator instances.
-	 *
-	 * @param  array      $attributes
-	 * @param  array      $rules
-	 * @param  array      $messages
-	 * @return Validator
-	 */
-	public static function make($attributes, $rules, $messages = array())
-	{
-		return IoC::resolve('laravel.validator')->of($attributes, $rules, $messages);
 	}
 
 	/**
@@ -104,6 +94,8 @@ class Validator {
 		$this->attributes = $attributes;
 		$this->messages = $messages;
 		$this->rules = $rules;
+
+		return $this;
 	}
 
 	/**

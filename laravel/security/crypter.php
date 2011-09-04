@@ -1,6 +1,9 @@
 <?php namespace Laravel\Security;
 
 use Laravel\IoC;
+use Laravel\Facade;
+
+class Crypter_Facade extends Facade { public static $resolve = 'crypter'; }
 
 class Crypter {
 

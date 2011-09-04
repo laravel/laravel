@@ -1,5 +1,9 @@
 <?php namespace Laravel\Database;
 
+use Laravel\Facade;
+
+class Manager_Facade extends Facade { public static $resolve = 'database'; }
+
 class Manager {
 
 	/**

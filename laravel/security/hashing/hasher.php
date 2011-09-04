@@ -1,5 +1,9 @@
 <?php namespace Laravel\Security\Hashing;
 
+use Laravel\Facade;
+
+class Hasher_Facade extends Facade { public static $resolve = 'hasher'; }
+
 class Hasher {
 
 	/**
@@ -20,19 +24,6 @@ class Hasher {
 	public function __construct(Engine $engine = null)
 	{
 		$this->engine = (is_null($engine)) ? new BCrypt(10, false) : $engine;
-	}
-
-	/**
-	 * Create a new Hasher instance.
-	 *
-	 * If no hashing engine is provided, the BCrypt engine will be used.
-	 *
-	 * @param  Engine  $engine
-	 * @return Hasher
-	 */
-	public static function make(Engine $engine = null)
-	{
-		return new static($engine);
 	}
 
 	/**
