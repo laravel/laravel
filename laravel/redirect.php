@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class Redirect_Facade extends Facade { public static $resolve = 'redirect'; }
+class Redirect_Facade extends Facade {
+
+	public static $resolve = 'redirect';
+
+}
 
 class Redirect extends Response {
 

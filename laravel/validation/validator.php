@@ -5,7 +5,11 @@ use Laravel\Str;
 use Laravel\Facade;
 use Laravel\Lang_Factory;
 
-class Validator_Facade extends Facade { public static $resolve = 'validator'; }
+class Validator_Facade extends Facade {
+
+	public static $resolve = 'validator';
+
+}
 
 class Validator {
 

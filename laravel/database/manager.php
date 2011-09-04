@@ -2,7 +2,11 @@
 
 use Laravel\Facade;
 
-class Manager_Facade extends Facade { public static $resolve = 'database'; }
+class Manager_Facade extends Facade {
+
+	public static $resolve = 'database';
+
+}
 
 class Manager {
 

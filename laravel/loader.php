@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class Loader_Facade extends Facade { public static $resolve = 'loader'; }
+class Loader_Facade extends Facade {
+
+	public static $resolve = 'loader';
+
+}
 
 class Loader {
 

@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class HTML_Facade extends Facade { public static $resolve = 'html'; }
+class HTML_Facade extends Facade {
+
+	public static $resolve = 'html';
+
+}
 
 class HTML {
 

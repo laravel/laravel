@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class Input_Facade extends Facade { public static $resolve = 'input'; }
+class Input_Facade extends Facade {
+
+	public static $resolve = 'input';
+
+}
 
 class Input {
 

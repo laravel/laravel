@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class Lang_Facade extends Facade { public static $resolve = 'lang'; }
+class Lang_Facade extends Facade {
+
+	public static $resolve = 'lang';
+
+}
 
 class Lang_Factory {
 

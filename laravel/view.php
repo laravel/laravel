@@ -1,6 +1,10 @@
 <?php namespace Laravel;
 
-class View_Facade extends Facade { public static $resolve = 'view'; }
+class View_Facade extends Facade {
+
+	public static $resolve = 'view';
+
+}
 
 /**
  * The view composer class is responsible for calling the composer on a view and

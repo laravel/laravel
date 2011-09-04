@@ -3,7 +3,11 @@
 use Laravel\Facade;
 use Laravel\Container;
 
-class Manager_Facade extends Facade { public static $resolve = 'session'; }
+class Manager_Facade extends Facade {
+
+	public static $resolve = 'session';
+
+}
 
 class Manager {
 

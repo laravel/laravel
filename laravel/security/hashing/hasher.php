@@ -2,7 +2,11 @@
 
 use Laravel\Facade;
 
-class Hasher_Facade extends Facade { public static $resolve = 'hasher'; }
+class Hasher_Facade extends Facade {
+
+	public static $resolve = 'hasher';
+
+}
 
 class Hasher {
 
