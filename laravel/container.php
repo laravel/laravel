@@ -39,14 +39,14 @@ class Container {
 	 *
 	 * @var array
 	 */
-	private $singletons = array();
+	public $singletons = array();
 
 	/**
 	 * The registered dependencies.
 	 *
 	 * @var array
 	 */
-	private $resolvers = array();
+	protected $resolvers = array();
 
 	/**
 	 * Create a new IoC container instance.

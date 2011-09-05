@@ -2,6 +2,7 @@
 
 class ArrTest extends PHPUnit_Framework_TestCase {
 
+
 	/**
 	 * @dataProvider getArray
 	 */
@@ -10,6 +11,7 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Arr::get($array, 'email'), $array['email']);
 		$this->assertEquals(Arr::get($array, 'names.uncle'), $array['names']['uncle']);
 	}
+
 
 	/**
 	 * @dataProvider getArray
@@ -20,6 +22,7 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(Arr::get($array, 'names.aunt', 'Tammy'), 'Tammy');
 		$this->assertEquals(Arr::get($array, 'names.aunt', function() {return 'Tammy';}), 'Tammy');
 	}
+
 
 	/**
 	 * @dataProvider getArray
@@ -35,6 +38,7 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($array['names']['friends']['best'], 'Abigail');
 
 	}
+
 
 	public function getArray()
 	{

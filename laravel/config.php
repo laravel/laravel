@@ -119,7 +119,7 @@ class Config {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	private function load($file)
+	protected function load($file)
 	{
 		if (isset($this->items[$file])) return true;
 

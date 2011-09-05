@@ -7,7 +7,7 @@ class Benchmark {
 	 *
 	 * @var array
 	 */
-	public static $marks = array();
+	protected static $marks = array();
 
 	/**
 	 * Start a benchmark.
@@ -32,10 +32,10 @@ class Benchmark {
 	{
 		if (array_key_exists($name, static::$marks))
 		{
-			return number_format((microtime(true) - static::$marks[$name]) * 1000, 2);
+			return (float) number_format((microtime(true) - static::$marks[$name]) * 1000, 2);
 		}
 
-		return 0.0;
+		return (float) 0.0;
 	}
 
 	/**
