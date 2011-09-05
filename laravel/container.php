@@ -141,4 +141,21 @@ class Container {
 		return $object;
 	}
 
+	/**
+	 * Magic Method for resolving classes out of the IoC container.
+	 */
+	public function __get($key)
+	{
+		if ($this->registered('laravel.'.$key))
+		{
+			return $this->resolve('laravel.'.$key);
+		}
+		elseif ($this->registered($key))
+		{
+			return $this->resolve($key);
+		}
+
+		throw new \Exception("Attempting to resolve undefined class [$key].");
+	}
+
 }

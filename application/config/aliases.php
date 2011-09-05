@@ -18,6 +18,7 @@ return array(
 	|
 	*/
 
+	'Arr'        => 'Laravel\\Arr',
 	'Asset'      => 'Laravel\\Asset',
 	'Auth'       => 'Laravel\\Security\\Authenticator_Facade',
 	'Benchmark'  => 'Laravel\\Benchmark',

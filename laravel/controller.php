@@ -1,6 +1,13 @@
 <?php namespace Laravel;
 
-abstract class Controller extends Resolver {
+abstract class Controller {
+
+	/**
+	 * The IoC container instance.
+	 *
+	 * @var Container
+	 */
+	public $container;
 
 	/**
 	 * A stub method that will be called before every request to the controller.
@@ -21,7 +28,7 @@ abstract class Controller extends Resolver {
 	 */
 	public function __call($method, $parameters)
 	{
-		return $this->response->error('404');
+		return $this->container->resolve('laravel.response')->error('404');
 	}
 
 }

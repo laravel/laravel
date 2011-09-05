@@ -202,7 +202,7 @@ return array(
 
 	'laravel.view.composer' => array('resolver' => function($container)
 	{
-		return new View_Composer($container->resolve('laravel.application'), require APP_PATH.'composers'.EXT);
+		return new View_Composer(require APP_PATH.'composers'.EXT);
 	}),
 
 	/*

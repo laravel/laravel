@@ -15,13 +15,6 @@ class View_Facade extends Facade {
 class View_Composer {
 
 	/**
-	 * The application instance.
-	 *
-	 * @var Application
-	 */
-	protected $application;
-
-	/**
 	 * The view composers.
 	 *
 	 * @var array
@@ -31,12 +24,11 @@ class View_Composer {
 	/**
 	 * Create a new view composer instance.
 	 *
-	 * @param  array  $composers
+	 * @param  array      $composers
 	 * @return void
 	 */
-	public function __construct(Application $application, $composers)
+	public function __construct($composers)
 	{
-		$this->application = $application;
 		$this->composers = $composers;
 	}
 
@@ -66,7 +58,7 @@ class View_Composer {
 		{
 			foreach ((array) $this->composers[$view->view] as $key => $value)
 			{
-				if ($value instanceof \Closure) return call_user_func($value, $this->application, $view);
+				if ($value instanceof \Closure) return call_user_func($value, $view);
 			}
 		}
 	}

@@ -33,14 +33,6 @@ define('SYS_LANG_PATH',   SYS_PATH.'language/');
 define('VIEW_PATH',       APP_PATH.'views/');
 
 // --------------------------------------------------------------
-// Bootstrap the application instance.
-// --------------------------------------------------------------
-require SYS_PATH.'resolver'.EXT;
-require SYS_PATH.'application'.EXT;
-
-$application = new Application;
-
-// --------------------------------------------------------------
 // Load the configuration manager and its dependencies.
 // --------------------------------------------------------------
 require SYS_PATH.'facade'.EXT;
@@ -65,16 +57,11 @@ if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = CONFIG_PATH.$_SERVER[
 	$dependencies = array_merge($dependencies, require $path);
 }
 
-$application->container = new Container($dependencies);
+$container = new Container($dependencies);
 
-IoC::$container = $application->container;
+IoC::$container = $container;
 
 // --------------------------------------------------------------
 // Load the auto-loader.
 // --------------------------------------------------------------
-spl_autoload_register(array($application->loader, 'load'));
-
-// --------------------------------------------------------------
-// Register the application in the container.
-// --------------------------------------------------------------
-IoC::container()->instance('laravel.application', $application);
+spl_autoload_register(array($container->loader, 'load'));

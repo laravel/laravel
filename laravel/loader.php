@@ -13,14 +13,14 @@ class Loader {
 	 *
 	 * @var array
 	 */
-	private $paths;
+	protected $paths;
 
 	/**
 	 * All of the class aliases.
 	 *
 	 * @var array
 	 */
-	private $aliases;
+	protected $aliases;
 
 	/**
 	 * Bootstrap the auto-loader.
