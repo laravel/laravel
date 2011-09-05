@@ -62,11 +62,15 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 	{
 		$config = IoC::container()->config;
 
+		$config->set('application.names.test', 'test');
 		$config->set('application.url', 'test');
 		$config->set('session', array());
+		$config->set('test', array());
 
+		$this->assertEquals($config->get('application.names.test'), 'test');
 		$this->assertEquals($config->get('application.url'), 'test');
 		$this->assertEquals($config->get('session'), array());
+		$this->assertEquals($config->get('test'), array());
 	}
 
 }
