@@ -40,15 +40,19 @@ class Connection {
 	/**
 	 * Create a new Connection instance.
 	 *
-	 * @param  string     $name
-	 * @param  array      $config
-	 * @param  Connector  $connector
+	 * @param  Connector         $connector
+	 * @param  Query\Factory     $factory
+	 * @param  Compiler\Factory  $compiler
+	 * @param  string            $name
+	 * @param  array             $config
 	 * @return void
 	 */
-	public function __construct($name, $config, Connector $connector)
+	public function __construct(Connector $connector, Query\Factory $query, Query\Compiler\Factory $compiler, $name, $config)
 	{
 		$this->name = $name;
+		$this->query = $query;
 		$this->config = $config;
+		$this->compiler = $compiler;
 		$this->connector = $connector;
 	}
 
@@ -152,7 +156,7 @@ class Connection {
 	 */
 	public function table($table)
 	{
-		return Query\Factory::make($table, $this, Query\Compiler\Factory::make($this));
+		return $this->query->make($this, $this->compiler->make($this), $table);
 	}
 
 	/**
@@ -165,6 +169,14 @@ class Connection {
 		if ( ! $this->connected()) $this->connect();
 
 		return $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+	}
+
+	/**
+	 * Magic Method for dynamically beginning queries on database tables.
+	 */
+	public function __call($method, $parameters)
+	{
+		return $this->table($method);
 	}
 
 }

@@ -22,7 +22,7 @@ class Manager {
 	 *
 	 * @var Connector\Factory
 	 */
-	protected $factory;
+	protected $connector;
 
 	/**
 	 * The database connection configurations.
@@ -41,16 +41,16 @@ class Manager {
 	/**
 	 * Create a new database manager instance.
 	 *
-	 * @param  Connector\Factory  $factory
+	 * @param  Connector\Factory  $connector
 	 * @param  array              $config
 	 * @param  string             $default
 	 * @return void
 	 */
-	public function __construct(Connector\Factory $factory, $config, $default)
+	public function __construct(Connector\Factory $connector, $config, $default)
 	{
 		$this->config = $config;
-		$this->factory = $factory;
 		$this->default = $default;
+		$this->connector = $connector;
 	}
 
 	/**
@@ -73,9 +73,9 @@ class Manager {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			$connector = $this->factory->make($this->config[$connection]);
+			list($connector, $query, $compiler) = array($this->connector->make($this->config[$connection]), new Query\Factory, new Query\Compiler\Factory);
 
-			static::$connections[$connection] = new Connection($connection, $this->config[$connection], $connector);
+			$this->connections[$connection] = new Connection($connector, $query, $compiler, $connection, $this->config[$connection]);
 		}
 
 		return $this->connections[$connection];

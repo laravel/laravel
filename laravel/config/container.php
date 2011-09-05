@@ -45,7 +45,7 @@ return array(
 	{
 		$config = $container->resolve('laravel.config');
 
-		return new Database\Manager($config->get('database.connections'), $config->get('database.default'));
+		return new Database\Manager(new Database\Connector\Factory, $config->get('database.connections'), $config->get('database.default'));
 	}),
 
 

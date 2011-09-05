@@ -90,12 +90,12 @@ class Query {
 	/**
 	 * Create a new query instance.
 	 *
-	 * @param  string      $table
 	 * @param  Connection  $connection
 	 * @param  Compiler    $compiler
+	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct($table, Connection $connection, Query\Compiler $compiler)
+	public function __construct(Connection $connection, Query\Compiler $compiler, $table)
 	{
 		$this->table = $table;
 		$this->compiler = $compiler;
