@@ -45,13 +45,13 @@ return array(
 	|
 	*/
 
-	'before' => function(Application $application)
+	'before' => function()
 	{
 		// Do stuff before every request to your application.
 	},
 
 
-	'after' => function(Application $application, Response $response)
+	'after' => function(Response $response)
 	{
 		// Do stuff after every request to your application.
 	},

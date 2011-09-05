@@ -90,7 +90,7 @@ class Router {
 		// no need to spin through all of the routes.
 		if (isset($this->routes[$destination]))
 		{
-			return $this->request->route = new Route($destination, $this->routes[$destination], array(), $this->controller_path);
+			return $this->request->route = new Route($destination, $this->routes[$destination], array());
 		}
 
 		foreach ($this->routes as $keys => $callback)
@@ -105,7 +105,7 @@ class Router {
 
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key), $this->controller_path);
+						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key));
 					}
 				}				
 			}
@@ -147,7 +147,7 @@ class Router {
 			// were they to code the controller delegation manually.
 			$callback = function() use ($controller, $method) { return array($controller, $method); };
 
-			return new Route($controller, $callback, $segments, $this->controller_path);
+			return new Route($controller, $callback, $segments);
 		}
 	}
 

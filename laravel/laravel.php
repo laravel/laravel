@@ -67,13 +67,13 @@ unset($packages);
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-$route = $application->router->route();
+$route = $application->container->resolve('laravel.routing.router')->route();
 
 if ( ! is_null($route))
 {
 	$route->filters = require APP_PATH.'filters'.EXT;
 
-	$response = $route->call($application);
+	$response = $application->container->resolve('laravel.routing.caller')->call($route);
 }
 else
 {

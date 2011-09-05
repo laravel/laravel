@@ -150,9 +150,15 @@ return array(
 	}),
 
 
-	'laravel.router' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($container)
 	{
 		return new Routing\Router($container->resolve('laravel.request'), require APP_PATH.'routes'.EXT, CONTROLLER_PATH);
+	}),
+
+
+	'laravel.routing.caller' => array('resolver' => function($container)
+	{
+		return new Routing\Caller($container, CONTROLLER_PATH);
 	}),
 
 
@@ -176,7 +182,7 @@ return array(
 			$container->resolve('laravel.config')->get('application.index'),
 		);
 
-		return new URL($container->resolve('laravel.router'), $base, $index, $request->secure());
+		return new URL($container->resolve('laravel.routing.router'), $base, $index, $request->secure());
 	}),
 
 
