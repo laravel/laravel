@@ -73,6 +73,8 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
+		$sql = trim($sql);
+		
 		$this->queries[] = $sql;
 
 		$query = $this->pdo->prepare($sql);
