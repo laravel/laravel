@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class URL_Facade extends Facade {
-
-	public static $resolve = 'url';
-
-}
-
 class URL {
 
 	/**
@@ -76,8 +70,9 @@ class URL {
 	/**
 	 * Generate a URL from a route name.
 	 *
-	 * For routes that have wildcard parameters, an array may be passed as the second parameter to the method.
-	 * The values of this array will be used to fill the wildcard segments of the route URI.
+	 * For routes that have wildcard parameters, an array may be passed as the second
+	 * parameter to the method. The values of this array will be used to fill the
+	 * wildcard segments of the route URI.
 	 *
 	 * Optional parameters will be convereted to spaces if no parameter values are specified.
 	 *

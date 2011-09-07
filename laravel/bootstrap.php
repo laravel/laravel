@@ -35,7 +35,7 @@ define('VIEW_PATH',       APP_PATH.'views/');
 // --------------------------------------------------------------
 // Load the configuration manager and its dependencies.
 // --------------------------------------------------------------
-require SYS_PATH.'facade'.EXT;
+require SYS_PATH.'facades'.EXT;
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
@@ -62,6 +62,6 @@ $container = new Container($dependencies);
 IoC::$container = $container;
 
 // --------------------------------------------------------------
-// Load the auto-loader.
+// Register the auto-loader on the stack.
 // --------------------------------------------------------------
 spl_autoload_register(array($container->loader, 'load'));

@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Config_Facade extends Facade {
-
-	public static $resolve = 'config'; 
-
-}
-
 class Config {
 
 	/**

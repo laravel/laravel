@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Response_Facade extends Facade {
-
-	public static $resolve = 'response';
-
-}
-
 class Response_Factory {
 
 	/**
@@ -228,6 +222,14 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
+	}
+
+	/**
+	 * Magic Method for calling methods on the response factory instance.
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(IoC::container()->resolve('laravel.response'), $method), $parameters);
 	}
 
 }

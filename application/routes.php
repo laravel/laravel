@@ -16,28 +16,28 @@ return array(
 	|
 	| Here is how to respond to a simple GET request to http://example.com/hello:
 	|
-	|		'GET /hello' => function()
+	|		'GET /hello' => function($laravel)
 	|		{
 	|			return 'Hello World!';
 	|		}
 	|
 	| You can even respond to more than one URI:
 	|
-	|		'GET /hello, GET /world' => function()
+	|		'GET /hello, GET /world' => function($laravel)
 	|		{
 	|			return 'Hello World!';
 	|		}
 	|
 	| It's easy to allow URI wildcards using the (:num) or (:any) place-holders:
 	|
-	|		'GET /hello/(:any)' => function($name)
+	|		'GET /hello/(:any)' => function($laravel, $name)
 	|		{
 	|			return "Welcome, $name.";
 	|		}
 	|
 	*/
 
-	'GET /' => function()
+	'GET /' => function($laravel)
 	{
 		return View::make('home.index');
 	},

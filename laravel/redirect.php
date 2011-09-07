@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Redirect_Facade extends Facade {
-
-	public static $resolve = 'redirect';
-
-}
-
 class Redirect extends Response {
 
 	/**
@@ -18,7 +12,6 @@ class Redirect extends Response {
 	/**
 	 * Create a new redirect generator instance.
 	 *
-	 * @param  Session\Driver  $session
 	 * @param  URL             $url
 	 * @return void
 	 */

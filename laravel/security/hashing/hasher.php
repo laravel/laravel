@@ -1,13 +1,5 @@
 <?php namespace Laravel\Security\Hashing;
 
-use Laravel\Facade;
-
-class Hasher_Facade extends Facade {
-
-	public static $resolve = 'hasher';
-
-}
-
 class Hasher {
 
 	/**
@@ -15,31 +7,21 @@ class Hasher {
 	 *
 	 * @var Hash\Engine
 	 */
-	public $engine;
+	protected $engine;
 
 	/**
 	 * Create a new Hasher instance.
 	 *
-	 * If no hashing engine is provided, the BCrypt engine will be used.
-	 *
 	 * @param  Engine  $engine
 	 * @return void
 	 */
-	public function __construct(Engine $engine = null)
+	public function __construct(Engine $engine)
 	{
-		$this->engine = (is_null($engine)) ? new BCrypt(10, false) : $engine;
+		$this->engine = $engine
 	}
 
 	/**
 	 * Magic Method for delegating method calls to the hashing engine.
-	 *
-	 * <code>
-	 *		// Use the hashing engine to has a value
-	 *		$hash = Hasher::make()->hash('password');
-	 *
-	 *		// Equivalent method using the engine property
-	 *		$hash = Hasher::make()->engine->hash('password');
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
@@ -48,11 +30,6 @@ class Hasher {
 
 	/**
 	 * Magic Method for performing methods on the default hashing engine.
-	 *
-	 * <code>
-	 *		// Hash a value using the default hashing engine
-	 *		$hash = Hasher::hash('password');
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

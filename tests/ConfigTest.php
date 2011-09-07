@@ -2,12 +2,10 @@
 
 class ConfigTest extends PHPUnit_Framework_TestCase {
 
-
 	public function setUp()
 	{
 		IoC::container()->singletons = array();
 	}
-
 
 	/**
 	 * @dataProvider getGetMocker
@@ -19,7 +17,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($mock->has('something'));
 	}
 
-
 	/**
 	 * @dataProvider getGetMocker
 	 */
@@ -30,14 +27,12 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($mock->has('something'));
 	}
 
-
 	public function getGetMocker()
 	{
 		$mock = $this->getMock('Laravel\\Config', array('get'), array(null));
 
 		return array(array($mock, $mock->expects($this->any())->method('get')));
 	}
-
 
 	public function testConfigClassCanRetrieveItems()
 	{
@@ -47,7 +42,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($config->get('application.url'), 'http://localhost');
 	}
 
-
 	public function testGetMethodReturnsDefaultWhenItemDoesntExist()
 	{
 		$config = IoC::container()->config;
@@ -56,7 +50,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($config->get('config.item', 'test'), 'test');
 		$this->assertEquals($config->get('config.item', function() {return 'test';}), 'test');
 	}
-
 
 	public function testConfigClassCanSetItems()
 	{

@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Request_Facade extends Facade {
-
-	public static $resolve = 'request';
-
-}
-
 class Request {
 
 	/**
@@ -192,37 +186,10 @@ class Request {
 	}
 
 	/**
-	 * Determine if the route handling the request has a given name.
+	 * Get the route handling the current request.
 	 *
-	 * <code>
-	 *		// Determine if the route handling the request is named "profile"
-	 *		$profile = Request::active()->route_is('profile');
-	 * </code>
-	 *
-	 * @param  string  $name
-	 * @return bool
+	 * @return Route
 	 */
-	public function route_is($name)
-	{
-		if (is_null($this->route) or ! is_array($this->route->callback) or ! isset($this->route->callback['name'])) return false;
-
-		return $this->route->callback['name'] === $name;
-	}
-
-	/**
-	 * Magic Method to handle dynamic method calls to determine the route handling the request.
-	 *
-	 * <code>
-	 *		// Determine if the route handling the request is named "profile"
-	 *		$profile = Request::active()->route_is_profile();
-	 * </code>
-	 */
-	public function __call($method, $parameters)
-	{
-		if (strpos($method, 'route_is_') === 0)
-		{
-			return $this->route_is(substr($method, 9));
-		}
-	}
+	public function route() { return $this->route; }
 
 }

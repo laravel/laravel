@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class HTML_Facade extends Facade {
-
-	public static $resolve = 'html';
-
-}
-
 class HTML {
 
 	/**
@@ -13,7 +7,7 @@ class HTML {
 	 *
 	 * @var string
 	 */
-	private $encoding;
+	public $encoding;
 
 	/**
 	 * The URL generator instance.

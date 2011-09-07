@@ -31,4 +31,12 @@ abstract class Controller {
 		return $this->container->resolve('laravel.response')->error('404');
 	}
 
+	/**
+	 * Magic Method for retrieving items out of the IoC container.
+	 */
+	public function __get($key)
+	{
+		return $this->container->$key;
+	}
+
 }

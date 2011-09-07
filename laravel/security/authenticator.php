@@ -1,14 +1,7 @@
 <?php namespace Laravel\Security;
 
 use Laravel\IoC;
-use Laravel\Facade;
 use Laravel\Session\Driver;
-
-class Authenticator_Facade extends Facade {
-
-	public static $resolve = 'auth';
-
-}
 
 class Authenticator {
 

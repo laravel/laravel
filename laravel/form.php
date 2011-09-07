@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Form_Facade extends Facade {
-
-	public static $resolve = 'form';
-
-}
-
 class Form {
 
 	/**
@@ -73,7 +67,7 @@ class Form {
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
-			$attributes['accept-charset'] = Config::get('application.encoding');			
+			$attributes['accept-charset'] = $this->html->encoding;			
 		}
 
 		$append = ($method == 'PUT' or $method == 'DELETE') ? $this->hidden('REQUEST_METHOD', $method) : '';

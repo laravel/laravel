@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Download_Facade extends Facade {
-
-	public static $resolve = 'download';
-
-}
-
 class Download extends Response {
 
 	/**
@@ -43,7 +37,7 @@ class Download extends Response {
 			'Content-Type'              => $this->mime($this->file->extension($path)),
 			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
 			'Content-Transfer-Encoding' => 'binary',
-			'Expires' =                 => 0,
+			'Expires'                   => 0,
 			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
 			'Pragma'                    => 'public',
 			'Content-Length'            => $this->file-size($path),

@@ -2,12 +2,40 @@
 
 use Laravel\IoC;
 use Laravel\Str;
-use Laravel\Facade;
 use Laravel\Lang_Factory;
 
-class Validator_Facade extends Facade {
+class Validator_Factory {
 
-	public static $resolve = 'validator';
+	/**
+	 * The language factory instance.
+	 *
+	 * @var Lang_Factory
+	 */
+	protected $lang;
+
+	/**
+	 * Create a new validator factory instance.
+	 *
+	 * @param  Lang_Factory  $lang
+	 * @return void
+	 */
+	public function __construct(Lang_Factory $lang)
+	{
+		$this->lang = $lang;
+	}
+
+	/**
+	 * Create a new validator instance.
+	 *
+	 * @param  array      $attributes
+	 * @param  array      $rules
+	 * @param  array      $messages
+	 * @return Validator
+	 */
+	public function make($attributes, $rules, $messages = array())
+	{
+		return new Validator($this->lang, $attributes, $rules, $messages);
+	}
 
 }
 
@@ -72,34 +100,31 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  Lang  $lang
+	 * @param  Lang_Factory  $lang
+	 * @param  array         $attributes
+	 * @param  array         $rules
+	 * @param  array         $messages
 	 * @return void
 	 */
-	public function __construct(Lang_Factory $lang)
+	public function __construct(Lang_Factory $lang, $attributes, $rules, $messages = array())
 	{
 		$this->lang = $lang;
+		$this->rules = $rules;
+		$this->messages = $messages;
+		$this->attributes = $attributes;
 	}
 
 	/**
-	 * Set the attributes, rules, and messages for the validator.
+	 * Create a new validator instance.
 	 *
 	 * @param  array      $attributes
 	 * @param  array      $rules
 	 * @param  array      $messages
 	 * @return Validator
 	 */
-	public function of($attributes, $rules, $messages = array())
+	public static function make($attributes, $rules, $messages = array())
 	{
-		foreach ($rules as $key => &$rule)
-		{
-			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
-		}
-
-		$this->attributes = $attributes;
-		$this->messages = $messages;
-		$this->rules = $rules;
-
-		return $this;
+		return IoC::container()->resolve('laravel.validator')->make($attributes, $rules, $messages);
 	}
 
 	/**

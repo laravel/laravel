@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Loader_Facade extends Facade {
-
-	public static $resolve = 'loader';
-
-}
-
 class Loader {
 
 	/**
@@ -44,7 +38,7 @@ class Loader {
 	 */
 	public function load($class)
 	{
-		$file = strtolower(str_replace(array('\\', '_Facade'), array('/', ''), $class));
+		$file = strtolower(str_replace('\\', '/', $class));
 
 		if (array_key_exists($class, $this->aliases))
 		{

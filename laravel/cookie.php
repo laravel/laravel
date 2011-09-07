@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Cookie_Facade extends Facade {
-
-	public static $resolve = 'cookie';
-
-}
-
 class Cookie {
 
 	/**

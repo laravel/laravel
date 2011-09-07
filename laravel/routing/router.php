@@ -111,7 +111,7 @@ class Router {
 			}
 		}
 
-		return $this->route_to_controller();
+		return $this->request->route = $this->route_to_controller();
 	}
 
 	/**
@@ -123,6 +123,8 @@ class Router {
 	 */
 	protected function route_to_controller()
 	{
+		if ($this->request->uri() === '/') return new Route($this->request->method().' /', function() { return array('home', 'index'); });
+
 		$segments = explode('/', trim($this->request->uri(), '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
@@ -147,7 +149,7 @@ class Router {
 			// were they to code the controller delegation manually.
 			$callback = function() use ($controller, $method) { return array($controller, $method); };
 
-			return new Route($controller, $callback, $segments);
+			return new Route($this->request->method().' /'.$this->request->uri(), $callback, $segments);
 		}
 	}
 

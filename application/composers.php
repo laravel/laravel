@@ -39,7 +39,12 @@ return array(
 	|
 	*/
 
-	'home.index' => array('name' => 'home', function($view)
+	'global' => function($view, $laravel)
+	{
+		//
+	},
+
+	'home.index' => array('name' => 'home', function($view, $laravel)
 	{
 		//
 	}),

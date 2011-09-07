@@ -1,70 +1,5 @@
 <?php namespace Laravel;
 
-class View_Facade extends Facade {
-
-	public static $resolve = 'view';
-
-}
-
-/**
- * The view composer class is responsible for calling the composer on a view and
- * searching through the view composers for a given view name. It is injected
- * into the View_Factory and View instances themselves, and is managed as a singleton
- * by the application IoC container.
- */
-class View_Composer {
-
-	/**
-	 * The view composers.
-	 *
-	 * @var array
-	 */
-	protected $composers;
-
-	/**
-	 * Create a new view composer instance.
-	 *
-	 * @param  array      $composers
-	 * @return void
-	 */
-	public function __construct($composers)
-	{
-		$this->composers = $composers;
-	}
-
-	/**
-	 * Find the key for a view by name.
-	 *
-	 * @param  string  $name
-	 * @return string
-	 */
-	public function name($name)
-	{
-		foreach ($this->composers as $key => $value)
-		{
-			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
-		}
-	}
-
-	/**
-	 * Call the composer for the view instance.
-	 *
-	 * @param  View  $view
-	 * @return void
-	 */
-	public function compose(View $view)
-	{
-		if (isset($this->composers[$view->view]))
-		{
-			foreach ((array) $this->composers[$view->view] as $key => $value)
-			{
-				if ($value instanceof \Closure) return call_user_func($value, $view);
-			}
-		}
-	}
-
-}
-
 /**
  * The view factory class is responsible for the instantiation of Views. It is typically
  * access through the application instance from a route or controller, and is managed
@@ -108,7 +43,7 @@ class View_Factory {
 	 */
 	public function make($view, $data = array())
 	{
-		return new View($view, $data, $this->path($view), $this->composer, $this);
+		return new View($this, $this->composer, $view, $data, $this->path($view));
 	}
 
 	/**
@@ -122,7 +57,7 @@ class View_Factory {
 	{
 		if ( ! is_null($view = $this->composer->name($name)))
 		{
-			return new View($view, $data, $this->path($view), $this->composer, $this);
+			return $this->make($view, $data);
 		}
 
 		throw new \Exception("Named view [$name] is not defined.");
@@ -147,6 +82,76 @@ class View_Factory {
 		if (strpos($method, 'of_') === 0)
 		{
 			return $this->of(substr($method, 3), Arr::get($parameters, 0, array()));
+		}
+	}
+
+}
+
+/**
+ * The view composer class is responsible for calling the composer on a view and
+ * searching through the view composers for a given view name. It is injected
+ * into the View_Factory and View instances themselves, and is managed as a singleton
+ * by the application IoC container.
+ */
+class View_Composer {
+
+	/**
+	 * The IoC container instance.
+	 *
+	 * @var Container
+	 */
+	protected $container;
+
+	/**
+	 * The view composers.
+	 *
+	 * @var array
+	 */
+	protected $composers;
+
+	/**
+	 * Create a new view composer instance.
+	 *
+	 * @param  Container  $container
+	 * @param  array      $composers
+	 * @return void
+	 */
+	public function __construct(Container $container, $composers)
+	{
+		$this->container = $container;
+		$this->composers = $composers;
+	}
+
+	/**
+	 * Find the key for a view by name.
+	 *
+	 * @param  string  $name
+	 * @return string
+	 */
+	public function name($name)
+	{
+		foreach ($this->composers as $key => $value)
+		{
+			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
+		}
+	}
+
+	/**
+	 * Call the composer for the view instance.
+	 *
+	 * @param  View  $view
+	 * @return void
+	 */
+	public function compose(View $view)
+	{
+		if (isset($this->composers['global'])) call_user_func($this->composers['global'], $view, $this->container);
+
+		if (isset($this->composers[$view->view]))
+		{
+			foreach ((array) $this->composers[$view->view] as $key => $value)
+			{
+				if ($value instanceof \Closure) return call_user_func($value, $view, $this->container);
+			}
 		}
 	}
 
@@ -197,14 +202,14 @@ class View {
 	/**
 	 * Create a new view instance.
 	 *
+	 * @param  View_Factory   $factory
+	 * @param  View_Composer  $composer
 	 * @param  string         $view
 	 * @param  array          $data
 	 * @param  string         $path
-	 * @param  View_Composer  $composer
-	 * @param  View_Factory   $factory
 	 * @return void
 	 */
-	public function __construct($view, $data, $path, View_Composer $composer, View_Factory $factory)
+	public function __construct(View_Factory $factory, View_Composer $composer, $view, $data, $path)
 	{
 		$this->view = $view;
 		$this->data = $data;
@@ -216,6 +221,18 @@ class View {
 		{
 			throw new \Exception('View ['.$this->path.'] does not exist.');
 		}
+	}
+
+	/**
+	 * Create a new view instance.
+	 *
+	 * @param  string         $view
+	 * @param  array          $data
+	 * @return View
+	 */
+	public static function make($view, $data = array())
+	{
+		return IoC::container()->resolve('laravel.view')->make($view, $data);
 	}
 
 	/**

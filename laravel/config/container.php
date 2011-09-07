@@ -158,7 +158,19 @@ return array(
 
 	'laravel.routing.caller' => array('resolver' => function($container)
 	{
-		return new Routing\Caller($container, CONTROLLER_PATH);
+		return new Routing\Caller($container, $container->resolve('laravel.routing.filterer'), $container->resolve('laravel.routing.delegator'));
+	}),
+
+
+	'laravel.routing.filterer' => array('resolver' => function($container)
+	{
+		return new Routing\Filterer(require APP_PATH.'filters'.EXT);		
+	}),
+
+
+	'laravel.routing.delegator' => array('resolver' => function($container)
+	{
+		return new Routing\Delegator($container, CONTROLLER_PATH);
 	}),
 
 
@@ -188,7 +200,7 @@ return array(
 
 	'laravel.validator' => array('resolver' => function($container)
 	{
-		return new Validation\Validator($container->resolve('laravel.lang'));
+		return new Validation\Validator_Factory($container->resolve('laravel.lang'));
 	}),
 
 
@@ -202,7 +214,7 @@ return array(
 
 	'laravel.view.composer' => array('resolver' => function($container)
 	{
-		return new View_Composer(require APP_PATH.'composers'.EXT);
+		return new View_Composer($container, require APP_PATH.'composers'.EXT);
 	}),
 
 	/*

@@ -1,11 +1,5 @@
 <?php namespace Laravel;
 
-class Lang_Facade extends Facade {
-
-	public static $resolve = 'lang';
-
-}
-
 class Lang_Factory {
 
 	/**
@@ -24,6 +18,9 @@ class Lang_Factory {
 
 	/**
 	 * Create a new language factory instance.
+	 *
+	 * Note: The entire configuration manager is used in case the default language
+	 *       is changed during the course of a request to the application.
 	 *
 	 * @param  Config  $config
 	 * @param  array   $paths
@@ -103,6 +100,18 @@ class Lang {
 		$this->paths = $paths;
 		$this->language = $language;
 		$this->replacements = $replacements;
+	}
+
+	/**
+	 * Create a new Lang instance.
+	 *
+	 * @param  string  $key
+	 * @param  array   $replacements
+	 * @return Lang
+	 */
+	public static function line($key, $replacements = array())
+	{
+		return IoC::container()->resolve('laravel.lang')->line($key, $replacements);
 	}
 
 	/**
