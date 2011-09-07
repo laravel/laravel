@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'global' => function($view, $laravel)
+	'shared' => function($view, $laravel)
 	{
 		//
 	},

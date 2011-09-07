@@ -43,10 +43,6 @@ class Config {
 	/**
 	 * Get a configuration item.
 	 *
-	 * Configuration items are retrieved using "dot" notation. So, asking for the
-	 * "application.timezone" configuration item would return the "timezone" option
-	 * from the "application" configuration file.
-	 *
 	 * If the name of a configuration file is passed without specifying an item, the
 	 * entire configuration array will be returned.
 	 *
@@ -70,9 +66,6 @@ class Config {
 
 	/**
 	 * Set a configuration item.
-	 *
-	 * Like the get method, "dot" notation is used to set items, and setting items
-	 * at any depth in the configuration array is supported.
 	 *
 	 * If a specific configuration item is not specified, the entire configuration
 	 * array will be replaced with the given value.
@@ -124,10 +117,7 @@ class Config {
 			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
 		}
 
-		if (count($config) > 0)
-		{
-			$this->items[$file] = $config;
-		}
+		if (count($config) > 0) $this->items[$file] = $config;
 
 		return isset($this->items[$file]);
 	}

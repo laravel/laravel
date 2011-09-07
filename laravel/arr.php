@@ -7,7 +7,7 @@ class Arr {
 	 *
 	 * If the specified key is null, the entire array will be returned. The array may
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
-	 * in multiple arrays is also supported.
+	 * in multiple arrays is supported.
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -35,12 +35,8 @@ class Arr {
 	 * Set an array item to a given value.
 	 *
 	 * This method is primarly helpful for setting the value in an array with
-	 * a variable depth, such as configuration arrays.
-	 *
-	 * If the specified item doesn't exist, it will be created. If the item's
-	 * parents do no exist, they will also be created as arrays.
-	 *
-	 * Like the Arr::get method, JavaScript "dot" syntax is supported.
+	 * a variable depth, such as configuration arrays. Like the Arr::get
+	 * method, JavaScript "dot" syntax is supported.
 	 *
 	 * @param  array   $array
 	 * @param  string  $key

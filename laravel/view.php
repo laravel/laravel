@@ -144,7 +144,7 @@ class View_Composer {
 	 */
 	public function compose(View $view)
 	{
-		if (isset($this->composers['global'])) call_user_func($this->composers['global'], $view, $this->container);
+		if (isset($this->composers['shared'])) call_user_func($this->composers['shared'], $view, $this->container);
 
 		if (isset($this->composers[$view->view]))
 		{

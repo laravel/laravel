@@ -20,6 +20,7 @@ abstract class Facade {
 
 }
 
+class Asset extends Facade { public static $resolve = 'asset'; }
 class Auth extends Facade { public static $resolve = 'auth'; }
 class Cache extends Facade { public static $resolve = 'cache'; }
 class Config extends Facade { public static $resolve = 'config'; }

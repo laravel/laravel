@@ -46,7 +46,7 @@ class Route {
 		$this->key = $key;
 		$this->callback = $callback;
 		$this->parameters = $parameters;
-		$this->uris = $this->parse($key);
+		$this->uris = $this->parse_uris($key);
 	}
 
 	/**
@@ -120,13 +120,13 @@ class Route {
 	 * @param  string  $key
 	 * @return array
 	 */
-	protected function parse($key)
+	protected function parse_uris($key)
 	{
-		if (strpos($key, ', ') === false) return array($this->extract($key));
+		if (strpos($key, ', ') === false) return array($this->extract_uri($key));
 
 		foreach (explode(', ', $key) as $segment)
 		{
-			$uris[] = $this->extract($segment);
+			$uris[] = $this->extract_uri($segment);
 		}
 
 		return $uris;
@@ -142,7 +142,7 @@ class Route {
 	 * @param  string  $segment
 	 * @return string
 	 */
-	protected function extract($segment)
+	protected function extract_uri($segment)
 	{
 		$segment = substr($segment, strpos($segment, ' ') + 1);
 

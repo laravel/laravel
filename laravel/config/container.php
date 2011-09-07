@@ -8,6 +8,12 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
+	'laravel.asset' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Asset($container->resolve('laravel.html'));
+	}),
+
+
 	'laravel.auth' => array('resolver' => function($container)
 	{
 		return new Security\Authenticator($container->resolve('laravel.session'), $container->resolve('laravel.hasher'));

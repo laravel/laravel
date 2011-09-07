@@ -183,10 +183,7 @@ class Lang {
 			}
 		}
 
-		if (count($language) > 0)
-		{
-			static::$lines[$this->language.$file] = $language;
-		}
+		if (count($language) > 0) static::$lines[$this->language.$file] = $language;
 		
 		return isset(static::$lines[$this->language.$file]);		
 	}

@@ -9,7 +9,25 @@ class Asset {
 	 *
 	 * @var array
 	 */
-	public static $containers = array();
+	public $containers = array();
+
+	/**
+	 * The HTML writer instance.
+	 *
+	 * @var HTML
+	 */
+	protected $html;
+
+	/**
+	 * Create a new asset manager instance.
+	 *
+	 * @param  HTML  $html
+	 * @return void
+	 */
+	public function __construct(HTML $html)
+	{
+		$this->html = $html;
+	}
 
 	/**
 	 * Get an asset container instance.
@@ -21,14 +39,14 @@ class Asset {
 	 * @param  string            $container
 	 * @return Asset_Container
 	 */
-	public static function container($container = 'default')
+	public function container($container = 'default')
 	{
-		if ( ! isset(static::$containers[$container]))
+		if ( ! isset($this->containers[$container]))
 		{
-			static::$containers[$container] = new Asset_Container($container);
+			$this->containers[$container] = new Asset_Container($container, $this->html);
 		}
 
-		return static::$containers[$container];
+		return $this->containers[$container];
 	}
 
 	/**
@@ -37,9 +55,9 @@ class Asset {
 	 * This provides a convenient API, allowing the develop to skip the "container"
 	 * method when using the default container.
 	 */
-	public static function __callStatic($method, $parameters)
+	public function __call($method, $parameters)
 	{
-		return call_user_func_array(array(static::container(), $method), $parameters);
+		return call_user_func_array(array($this->container(), $method), $parameters);
 	}
 
 }
@@ -63,15 +81,23 @@ class Asset_Container {
 	public $assets = array();
 
 	/**
+	 * The HTML writer instance.
+	 *
+	 * @var HTML
+	 */
+	protected $html;
+
+	/**
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
-	 * @param  File    $file
+	 * @param  HTML    $html
 	 * @return void
 	 */
-	public function __construct($name)
+	public function __construct($name, HTML $html)
 	{
 		$this->name = $name;
+		$this->html = $html;
 	}
 
 	/**
@@ -225,7 +251,7 @@ class Asset_Container {
 
 		$asset = $this->assets[$group][$name];
 
-		return HTML::$group($asset['source'], $asset['attributes']);
+		return $this->html->$group($asset['source'], $asset['attributes']);
 	}
 
 	/**

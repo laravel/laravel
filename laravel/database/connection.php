@@ -87,7 +87,7 @@ class Connection {
 	{
 		$result = (array) $this->first($sql, $bindings);
 
-		return (strpos(strtolower($sql), 'select count') === 0) ? (int) reset($result) : (float) reset($result);
+		return (strpos(strtolower(trim($sql)), 'select count') === 0) ? (int) reset($result) : (float) reset($result);
 	}
 
 	/**
