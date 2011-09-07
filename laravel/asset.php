@@ -197,7 +197,7 @@ class Asset_Container {
 	 */
 	public function styles()
 	{
-		return $this->get_group('style');
+		return $this->group('style');
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Asset_Container {
 	 */
 	public function scripts()
 	{
-		return $this->get_group('script');
+		return $this->group('script');
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Asset_Container {
 	 * @param  string  $group
 	 * @return string
 	 */
-	protected function get_group($group)
+	protected function group($group)
 	{
 		if ( ! isset($this->assets[$group]) or count($this->assets[$group]) == 0) return '';
 
@@ -224,32 +224,10 @@ class Asset_Container {
 
 		foreach ($this->arrange($this->assets[$group]) as $name => $data)
 		{
-			$assets .= $this->get_asset($group, $name);
+			$assets .= $this->asset($group, $name);
 		}
 		
 		return $assets;
-	}
-
-	/**
-	 * Get the link to a single registered CSS asset.
-	 *
-	 * @param  string  $name
-	 * @return string
-	 */
-	public function get_style($name)
-	{
-		return $this->get_asset('style', $name);
-	}
-
-	/**
-	 * Get the link to a single registered JavaScript asset.
-	 *
-	 * @param  string  $name
-	 * @return string
-	 */
-	public function get_script($name)
-	{
-		return $this->get_asset('script', $name);
 	}
 
 	/**
@@ -259,7 +237,7 @@ class Asset_Container {
 	 * @param  string  $name
 	 * @return string
 	 */
-	protected function get_asset($group, $name)
+	protected function asset($group, $name)
 	{
 		if ( ! isset($this->assets[$group][$name])) return '';
 

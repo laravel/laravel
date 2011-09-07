@@ -70,7 +70,6 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 		$container->style('reset', 'css/reset.css');
 		$container->style('jquery', 'css/jquery.css');
 
-		$this->assertEquals($container->get_style('reset'), 'css/reset.css media:all');
 		$this->assertEquals($container->styles(), 'css/reset.css media:allcss/jquery.css media:all');
 	}
 
@@ -81,7 +80,6 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 		$container->script('jquery-ui', 'js/jquery-ui.js');
 		$container->script('jquery', 'js/jquery.js', array(), array('test' => 'value'));
 
-		$this->assertEquals($container->get_script('jquery-ui'), 'js/jquery-ui.js ');
 		$this->assertEquals($container->scripts(), 'js/jquery-ui.js js/jquery.js test:value');
 	}
 
