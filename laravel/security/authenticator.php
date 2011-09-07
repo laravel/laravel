@@ -54,7 +54,6 @@ class Authenticator {
 	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
-	 * @see    login()
 	 * @return bool
 	 */
 	public function check()
@@ -68,10 +67,6 @@ class Authenticator {
 	 * To retrieve the user, the user ID stored in the session will be passed to
 	 * the "by_id" closure in the authentication configuration file. The result
 	 * of the closure will be cached and returned.
-	 *
-	 * <code>
-	 *		$email = Auth::user()->email;
-	 * </code>
 	 *
 	 * @return object
 	 */
@@ -93,13 +88,6 @@ class Authenticator {
 	 *
 	 * The password passed to the method should be plain text, as it will be hashed
 	 * by the Hash class when authenticating.
-	 *
-	 * <code>
-	 *		if (Auth::login('email@example.com', 'password'))
-	 *		{
-	 *			// The credentials are valid and the user is now logged in.
-	 *		}
-	 * </code>
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
