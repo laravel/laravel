@@ -52,17 +52,15 @@ class Route {
 	/**
 	 * Call the route closure.
 	 *
-	 * If no closure is defined for the route, null will be returned. The IoC container instance will be
-	 * passed to the route closure so it has access to all of the framework components.
+	 * If no closure is defined for the route, null will be returned.
 	 *
-	 * @param  Container  $container
 	 * @return mixed
 	 */
-	public function call(Container $container)
+	public function call()
 	{
 		if (is_null($closure = $this->find_closure())) return;
 
-		return call_user_func_array($closure, array_merge($this->parameters, array($container)));
+		return call_user_func_array($closure, $this->parameters);
 	}
 
 	/**

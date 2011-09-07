@@ -2,7 +2,12 @@
 
 class ConfigTest extends PHPUnit_Framework_TestCase {
 
-	public function setUp()
+	public static function setUpBeforeClass()
+	{
+		IoC::container()->singletons = array();
+	}
+
+	public function tearDown()
 	{
 		IoC::container()->singletons = array();
 	}

@@ -60,7 +60,7 @@ class Caller {
 			return $this->finish($route, $response);
 		}
 
-		if ( ! is_null($response = $route->call($this->container)))
+		if ( ! is_null($response = $route->call()))
 		{
 			if (is_array($response)) $response = $this->delegator->delegate($route, $response);
 
@@ -83,7 +83,7 @@ class Caller {
 	{
 		$before = array_merge(array('before'), $route->filters('before'));
 
-		return $this->filterer->filter($before, array($this->container), true);
+		return $this->filterer->filter($before, array(), true);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Caller {
 	{
 		if ( ! $response instanceof Response) $response = new Response($response);
 
-		$this->filterer->filter(array_merge($route->filters('after'), array('after')), array($this->container, $response));
+		$this->filterer->filter(array_merge($route->filters('after'), array('after')), array($response));
 
 		return $response;
 	}

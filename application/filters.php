@@ -42,13 +42,13 @@ return array(
 	|
 	*/
 
-	'before' => function($laravel)
+	'before' => function()
 	{
 		// Do stuff before every request to your application.
 	},
 
 
-	'after' => function($laravel, $response)
+	'after' => function($response)
 	{
 		// Do stuff after every request to your application.
 	},

@@ -5,8 +5,6 @@ class Asset {
 	/**
 	 * All of the instantiated asset containers.
 	 *
-	 * Asset containers are created through the container method, and are singletons.
-	 *
 	 * @var array
 	 */
 	public $containers = array();
@@ -36,6 +34,14 @@ class Asset {
 	 * Containers provide a convenient method of grouping assets while maintaining
 	 * expressive code and a clean API.
 	 *
+	 * <code>
+	 *		// Get the default asset container
+	 *		$container = Asset::container();
+	 *
+	 *		// Get the "footer" asset container
+	 *		$container = Asset::container('footer');
+	 * </code>
+	 *
 	 * @param  string            $container
 	 * @return Asset_Container
 	 */
@@ -54,6 +60,14 @@ class Asset {
 	 *
 	 * This provides a convenient API, allowing the develop to skip the "container"
 	 * method when using the default container.
+	 *
+	 * <code>
+	 *		// Add a JavaScript file to the default container
+	 *		Asset::script('jquery', 'js/jquery.js');
+	 *
+	 *		// Get all of the styles from the default container
+	 *		echo Asset::styles();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
@@ -169,7 +183,7 @@ class Asset_Container {
 	 * @param  array   $attributes
 	 * @return void
 	 */
-	private function register($type, $name, $source, $dependencies, $attributes)
+	protected function register($type, $name, $source, $dependencies, $attributes)
 	{
 		$dependencies = (array) $dependencies;
 
@@ -202,7 +216,7 @@ class Asset_Container {
 	 * @param  string  $group
 	 * @return string
 	 */
-	private function get_group($group)
+	protected function get_group($group)
 	{
 		if ( ! isset($this->assets[$group]) or count($this->assets[$group]) == 0) return '';
 
@@ -245,7 +259,7 @@ class Asset_Container {
 	 * @param  string  $name
 	 * @return string
 	 */
-	private function get_asset($group, $name)
+	protected function get_asset($group, $name)
 	{
 		if ( ! isset($this->assets[$group][$name])) return '';
 
@@ -260,7 +274,7 @@ class Asset_Container {
 	 * @param   array  $assets
 	 * @return  array
 	 */
-	private function arrange($assets)
+	protected function arrange($assets)
 	{
 		list($original, $sorted) = array($assets, array());
 
@@ -285,7 +299,7 @@ class Asset_Container {
 	 * @param  array   $assets
 	 * @return void
 	 */
-	private function evaluate_asset($asset, $value, $original, &$sorted, &$assets)
+	protected function evaluate_asset($asset, $value, $original, &$sorted, &$assets)
 	{
 		// If the asset has no more dependencies, we can add it to the sorted list
 		// and remove it from the array of assets. Otherwise, we will not verify
@@ -327,7 +341,7 @@ class Asset_Container {
 	 * @param  array   $assets
 	 * @return bool
 	 */
-	private function dependency_is_valid($asset, $dependency, $original, $assets)
+	protected function dependency_is_valid($asset, $dependency, $original, $assets)
 	{
 		if ( ! isset($original[$dependency])) return false;
 

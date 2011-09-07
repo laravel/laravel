@@ -9,6 +9,14 @@ class Arr {
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
 	 * in multiple arrays is supported.
 	 *
+	 * <code>
+	 *		// Get the "name" item from the array
+	 *		$name = Arr::get(array('name' => 'Fred'), 'name');
+	 *
+	 *		// Get the "age" item from the array, or return 25 if it doesn't exist
+	 *		$name = Arr::get(array('name' => 'Fred'), 'age', 25);
+	 * </code>
+	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -37,6 +45,11 @@ class Arr {
 	 * This method is primarly helpful for setting the value in an array with
 	 * a variable depth, such as configuration arrays. Like the Arr::get
 	 * method, JavaScript "dot" syntax is supported.
+	 *
+	 * <code>
+	 *		// Set the "name" item to "Fred" in the array
+	 *		Arr::set($array, 'name', 'Fred');
+	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key

@@ -2,7 +2,6 @@
 
 class ArrTest extends PHPUnit_Framework_TestCase {
 
-
 	/**
 	 * @dataProvider getArray
 	 */
