@@ -20,7 +20,7 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 		$mock = $this->getMockBuilder('Laravel\\Asset_Container')->disableOriginalConstructor()->getMock();
 
 		$mock->expects($this->any())->method('styles')->will($this->returnValue('styles'));
-
+		
 		$asset->containers['default'] = $mock;
 
 		$this->assertEquals($asset->styles(), 'styles');
@@ -63,7 +63,7 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testStylesCanBeRetrieved()
+	public function testAllStylesCanBeRetrievedViaStylesMethod()
 	{
 		$container = new Laravel\Asset_Container('default', new HTMLAssetStub);
 
@@ -74,7 +74,7 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($container->styles(), 'css/reset.css media:allcss/jquery.css media:all');
 	}
 
-	public function testScriptsCanBeRetrieved()
+	public function testAllScriptsCanBeRetrievedViaScriptsMethod()
 	{
 		$container = new Laravel\Asset_Container('default', new HTMLAssetStub);
 
@@ -83,6 +83,43 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($container->get_script('jquery-ui'), 'js/jquery-ui.js ');
 		$this->assertEquals($container->scripts(), 'js/jquery-ui.js js/jquery.js test:value');
+	}
+
+	public function testAssetsAreSortedBasedOnDependencies()
+	{
+		$container = $this->getContainer();
+
+		$container->script('jquery', 'js/jquery.js', array('jquery-ui'));
+		$container->script('jquery-ui', 'js/jquery-ui.js');
+
+		$scripts = $container->scripts();
+
+		$this->assertTrue(strpos($scripts, 'js/jquery-ui.js') < strpos($scripts, 'js/jquery.js'));
+	}
+
+	/**
+	 * @expectedException Exception
+	 */
+	public function testAssetsCannotBeDependentOnSelf()
+	{
+		$container = $this->getContainer();
+
+		$container->script('jquery', 'js/jquery.js', array('jquery'));
+
+		$container->scripts();
+	}
+
+	/**
+	 * @expectedException Exception
+	 */
+	public function testAssetDependenciesCannotBeCircular()
+	{
+		$container = $this->getContainer();
+
+		$container->script('jquery', 'js/jquery.js', array('jquery-ui'));
+		$container->script('jquery-ui', 'js/jquery-ui.js', array('jquery'));
+		
+		$container->scripts();
 	}
 
 	private function getContainer()
