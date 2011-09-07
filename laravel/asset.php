@@ -125,6 +125,14 @@ class Asset_Container {
 	 * only link to the registered asset after its dependencies have been linked.
 	 * For example, you may wish to make jQuery UI dependent on jQuery.
 	 *
+	 * <code>
+	 *		// Add an asset to the container
+	 *		Asset::container()->add('jquery', 'js/jquery.js');
+	 *
+	 *		// Add an asset that has dependencies
+	 *		Asset::container()->add('jquery', 'js/jquery.js', array('jquery-ui'));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $source
 	 * @param  array   $dependencies
