@@ -21,7 +21,7 @@ class Config {
 	}
 
 	/**
-	 * Get a configuration item.
+	 * Determine if a configuration item or file exists.
 	 *
 	 * Configuration items are retrieved using "dot" notation. So, asking for the
 	 * "application.timezone" configuration item would return the "timezone" option
