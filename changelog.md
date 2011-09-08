@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 1.5.8
+
+- Fixed bug in form class that prevent name attributes from being set properly.
+
+### Upgrading from 1.5.7
+
+- Replace **system** directory.
+
 ## Version 1.5.7
 
 - Fixed bug that prevented view composers from being called for module named views.
