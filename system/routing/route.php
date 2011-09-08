@@ -52,10 +52,9 @@ class Route {
 	{
 		$response = null;
 
-		// The callback may be in array form, meaning it has attached filters or is named.
-		// However, the callback may also simply be a closure. If it is just a closure,
-		// we can execute it here. Otherwise, we will need to evaluate the route for any
-		// filters that need to be called.
+		// The callback may be in array form, meaning it has attached filters or is named and we
+		// will need to evaluate it further to determine what to do. If the callback is just a
+		// closure, we can execute it now and return the result.
 		if (is_callable($this->callback))
 		{
 			$response = call_user_func_array($this->callback, $this->parameters);

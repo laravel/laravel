@@ -50,6 +50,23 @@ class Loader {
 	 */
 	private function load_nested_routes($segments)
 	{
+		// If the request URI only more than one segment, and the last segment contains a dot, we will
+		// assume the request is for a specific format (users.json or users.xml) and strip off
+		// everything after the dot so we can load the appropriate file.
+		if (count($segments) > 0 and strpos(end($segments), '.') !== false)
+		{
+			$segment = array_pop($segments);
+
+			array_push($segments, substr($segment, 0, strpos($segment, '.')));
+		}
+
+		// Since it is no part of the route directory structure, shift the module name off of the
+		// beginning of the array so we can locate the appropriate route file.
+		if (count($segments) > 0 and ACTIVE_MODULE !== 'application')
+		{
+			array_shift($segments);
+		}
+
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)

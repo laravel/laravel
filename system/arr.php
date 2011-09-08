@@ -9,14 +9,6 @@ class Arr {
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
 	 * in multiple arrays is also supported.
 	 *
-	 * <code>
-	 * // Returns "taylor"
-	 * $item = Arr::get(array('name' => 'taylor'), 'name', $default);
-	 *
-	 * // Returns "taylor"
-	 * $item = Arr::get(array('name' => array('is' => 'taylor')), 'name.is');
-	 * </code>
-	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -28,7 +20,7 @@ class Arr {
 
 		foreach (explode('.', $key) as $segment)
 		{
-			if ( ! array_key_exists($segment, $array))
+			if ( ! is_array($array) or ! array_key_exists($segment, $array))
 			{
 				return is_callable($default) ? call_user_func($default) : $default;
 			}
@@ -37,6 +29,40 @@ class Arr {
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Set an array item to a given value.
+	 *
+	 * This method is primarly helpful for setting the value in an array with
+	 * a variable depth, such as configuration arrays.
+	 *
+	 * Like the Arr::get method, JavaScript "dot" syntax is supported.
+	 *
+	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public static function set(&$array, $key, $value)
+	{
+		if (is_null($key)) return $array = $value;
+
+		$keys = explode('.', $key);
+
+		while (count($keys) > 1)
+		{
+			$key = array_shift($keys);
+
+			if ( ! isset($array[$key]) or ! is_array($array[$key]))
+			{
+				$array[$key] = array();
+			}
+
+			$array =& $array[$key];
+		}
+
+		$array[array_shift($keys)] = $value;
 	}
 
 }

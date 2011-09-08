@@ -418,7 +418,7 @@ class Query {
 	 * @param  string  $direction
 	 * @return Query
 	 */
-	public function order_by($column, $direction)
+	public function order_by($column, $direction = 'asc')
 	{
 		$this->orderings[] = $this->wrap($column).' '.strtoupper($direction);
 		return $this;

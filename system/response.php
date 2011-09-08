@@ -121,10 +121,7 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		if ($response instanceof Redirect)
-		{
-			$response = $response->response;
-		}
+		if ($response instanceof Redirect) $response = $response->response;
 
 		return ( ! $response instanceof Response) ? new static($response) : $response;
 	}
@@ -141,10 +138,7 @@ class Response {
 			$this->header('Content-Type', 'text/html; charset=utf-8');
 		}
 
-		if ( ! headers_sent())
-		{
-			$this->send_headers();
-		}
+		if ( ! headers_sent()) $this->send_headers();
 
 		echo (string) $this->content;
 	}

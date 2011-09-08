@@ -1,7 +1,6 @@
 <?php namespace System\Session;
 
 use System\Config;
-use System\DB\Manager;
 
 class DB implements Driver, Sweeper {
 
@@ -71,7 +70,7 @@ class DB implements Driver, Sweeper {
 	 */
 	private function table()
 	{
-		return Manager::connection()->table(Config::get('session.table'));		
+		return \System\DB::connection()->table(Config::get('session.table'));		
 	}
 	
 }
