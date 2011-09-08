@@ -7,17 +7,26 @@ class Response_Factory {
 	 *
 	 * @var View_Factory
 	 */
-	private $view;
+	protected $view;
+
+	/**
+	 * The file manager instance.
+	 *
+	 * @var File
+	 */
+	protected $file;
 
 	/**
 	 * Create a new response factory instance.
 	 *
-	 * @param  File  $file
+	 * @param  View_Factory  $view
+	 * @param  File          $file
 	 * @return void
 	 */
-	public function __construct(View_Factory $view)
+	public function __construct(View_Factory $view, File $file)
 	{
 		$this->view = $view;
+		$this->file = $file;
 	}
 
 	/**
@@ -54,11 +63,37 @@ class Response_Factory {
 	 *
 	 * @param  int       $code
 	 * @param  array     $data
-	 * @return void
+	 * @return Response
 	 */
 	public function error($code, $data = array())
 	{
 		return new Response($this->view->make('error/'.$code, $data), $code);
+	}
+
+	/**
+	 * Create a new download response instance.
+	 *
+	 * @param  string    $path
+	 * @param  string    $name
+	 * @param  array     $headers
+	 * @return Response
+	 */
+	public function download($path, $name = null, $headers = array())
+	{
+		if (is_null($name)) $name = basename($path);
+
+		$headers = array_merge(array(
+			'Content-Description'       => 'File Transfer',
+			'Content-Type'              => $this->file->mime($this->file->extension($path)),
+			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
+			'Content-Transfer-Encoding' => 'binary',
+			'Expires'                   => 0,
+			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+			'Pragma'                    => 'public',
+			'Content-Length'            => $this->file-size($path),
+		), $headers);
+
+		return new Response($this->file->get($path), 200, $headers);
 	}
 
 }
@@ -222,14 +257,6 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
-	}
-
-	/**
-	 * Magic Method for calling methods on the response factory instance.
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		return call_user_func_array(array(IoC::container()->resolve('laravel.response'), $method), $parameters);
 	}
 
 }

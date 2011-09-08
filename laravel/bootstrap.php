@@ -25,9 +25,7 @@ define('CONFIG_PATH',     APP_PATH.'config/');
 define('CONTROLLER_PATH', APP_PATH.'controllers/');
 define('DATABASE_PATH',   STORAGE_PATH.'database/');
 define('LANG_PATH',       APP_PATH.'language/');
-define('SCRIPT_PATH',     PUBLIC_PATH.'js/');
 define('SESSION_PATH',    STORAGE_PATH.'sessions/');
-define('STYLE_PATH',      PUBLIC_PATH.'css/');
 define('SYS_CONFIG_PATH', SYS_PATH.'config/');
 define('SYS_LANG_PATH',   SYS_PATH.'language/');
 define('VIEW_PATH',       APP_PATH.'views/');
@@ -36,7 +34,6 @@ define('VIEW_PATH',       APP_PATH.'views/');
 // Load the configuration manager and its dependencies.
 // --------------------------------------------------------------
 require SYS_PATH.'facades'.EXT;
-require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'arr'.EXT;
 
@@ -62,6 +59,6 @@ $container = new Container($dependencies);
 IoC::$container = $container;
 
 // --------------------------------------------------------------
-// Register the auto-loader on the stack.
+// Register the auto-loader on the auto-loader stack.
 // --------------------------------------------------------------
-spl_autoload_register(array($container->loader, 'load'));
+spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));

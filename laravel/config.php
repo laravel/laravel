@@ -5,14 +5,14 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
-	 * The configuration arrays are keyed by file names.
+	 * The configuration arrays are keyed by their owning file name.
 	 *
 	 * @var array
 	 */
 	protected $items = array();
 
 	/**
-	 * The paths containing the configuration files.
+	 * The paths to the configuration files.
 	 *
 	 * @var array
 	 */
@@ -46,6 +46,17 @@ class Config {
 	 * If the name of a configuration file is passed without specifying an item, the
 	 * entire configuration array will be returned.
 	 *
+	 * <code>
+	 *		// Get the "timezone" option from the "application" file
+	 *		$timezone = Config::get('application.timezone');
+	 *
+	 *		// Get the SQLite connection configuration from the "database" file
+	 *		$sqlite = Config::get('database.connections.sqlite');
+	 *
+	 *		// Get a configuration option and return "Fred" if it doesn't exist
+	 *		$option = Config::get('config.option', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $default
 	 * @return array
@@ -70,6 +81,14 @@ class Config {
 	 * If a specific configuration item is not specified, the entire configuration
 	 * array will be replaced with the given value.
 	 *
+	 * <code>
+	 *		// Set the "timezone" option in the "application" file
+	 *		Config::set('application.timezone', 'America/Chicago');
+	 *
+	 *		// Set the entire "session" array to an empty array
+	 *		Config::set('session', array());
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return void
@@ -91,11 +110,13 @@ class Config {
 	 * @param  string  $key
 	 * @return array
 	 */
-	private function parse($key)
+	protected function parse($key)
 	{
 		$segments = explode('.', $key);
 
-		return array($segments[0], (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null);
+		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
+
+		return array($segments[0], $key);
 	}
 
 	/**

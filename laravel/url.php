@@ -3,12 +3,40 @@
 class URL {
 
 	/**
+	 * The application router instance.
+	 *
+	 * @var Routing\Router
+	 */
+	protected $router;
+
+	/**
+	 * The base URL of the application.
+	 *
+	 * @var string
+	 */
+	protected $base;
+
+	/**
+	 * The application index file.
+	 *
+	 * @var string
+	 */
+	protected $index;
+
+	/**
+	 * Indicates if the current request is using HTTPS.
+	 *
+	 * @var bool
+	 */
+	protected $https;
+
+	/**
 	 * Create a new URL writer instance.
 	 *
-	 * @param  Router  $router
-	 * @param  string  $base
-	 * @param  string  $index
-	 * @param  bool    $https
+	 * @param  Routing\Router  $router
+	 * @param  string          $base
+	 * @param  string          $index
+	 * @param  bool            $https
 	 * @return void
 	 */
 	public function __construct(Routing\Router $router, $base, $index, $https)
@@ -24,6 +52,14 @@ class URL {
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
 	 *
+	 * <code>
+	 *		// Generate an application URL from a given URI
+	 *		echo URL::to('user/profile');
+	 *
+	 *		// Generate an application URL with HTTPS
+	 *		echo URL::to('user/profile', true);
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
@@ -36,11 +72,16 @@ class URL {
 
 		if ($https) $base = preg_replace('~http://~', 'https://', $base, 1);
 
-		return rtrim($base, '/').'/'.trim($url, '/');
+		return rtrim($base, '/').'/'.ltrim($url, '/');
 	}
 
 	/**
 	 * Generate an application URL with HTTPS.
+	 *
+	 * <code>
+	 *		// Generate an application URL with HTTPS
+	 *		echo URL::to_secure('user/profile');
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @return string
@@ -55,6 +96,14 @@ class URL {
 	 *
 	 * The index file will not be added to asset URLs. If the HTTPS option is not
 	 * specified, HTTPS will be used when the active request is also using HTTPS.
+	 *
+	 * <code>
+	 *		// Generate a URL to an asset
+	 *		echo URL::to_asset('img/picture.jpg');
+	 *
+	 *		// Generate a URL to a an asset with HTTPS
+	 *		echo URL::to_asset('img/picture.jpg', true);
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  bool    $https
@@ -75,6 +124,14 @@ class URL {
 	 * wildcard segments of the route URI.
 	 *
 	 * Optional parameters will be convereted to spaces if no parameter values are specified.
+	 *
+	 * <code>
+	 *		// Generate the URL for a given route
+	 *		echo URL::to_route('profile');
+	 *
+	 *		// Generate the URL for a given route with wildcard segments
+	 *		echo URL::to_route('profile', array($username));
+	 * </code>
 	 *
 	 * @param  string          $name
 	 * @param  array           $parameters
@@ -102,6 +159,14 @@ class URL {
 
 	/**
 	 * Generate a HTTPS URL from a route name.
+	 *
+	 * <code>
+	 *		// Generate the URL for a route with HTTPS
+	 *		echo URL::to_secure_route('profile');
+	 *
+	 *		// Generate the URL for a route with HTTPS and wildcard segments
+	 *		echo URL::to_secure_route('profile', array($username));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
@@ -134,6 +199,17 @@ class URL {
 
 	/**
 	 * Magic Method for dynamically creating URLs to named routes.
+	 *
+	 * <code>
+	 *		// Generate the URL for the "profile" named route
+	 *		echo URL::to_profile();
+	 *
+	 *		// Generate the URL for the "profile" named route with wildcard segments
+	 *		echo URL::to_profile(array($username));
+	 *
+	 *		// Generate the URL for the "profile" named route with HTTPS
+	 *		echo URL::to_secure_profile();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

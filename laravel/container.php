@@ -46,26 +46,31 @@ class Container {
 	 *
 	 * @var array
 	 */
-	protected $resolvers = array();
+	protected $registry = array();
 
 	/**
 	 * Create a new IoC container instance.
 	 *
-	 * @param  array  $dependencies
+	 * @param  array  $registry
 	 * @return void
 	 */
-	public function __construct($dependencies = array())
+	public function __construct($registry = array())
 	{
-		foreach ($dependencies as $key => $value)
-		{
-			$this->register($key, $value['resolver'], (isset($value['singleton'])) ? $value['singleton'] : false);
-		}
+		$this->registry = $registry;
 	}
 
 	/**
 	 * Register a dependency and its resolver.
 	 *
-	 * The resolver function when the registered dependency is requested.
+	 * The resolver function is called when the registered dependency is requested.
+	 *
+	 * <code>
+	 *		// Register a dependency in the container
+	 *		IoC::register('something', function($container) {return new Something;});
+	 *
+	 *		// Register a dependency in the container as a singleton
+	 *		IoC::register('something', function($container) {return new Something;}, true);
+	 * </code>
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
@@ -73,7 +78,7 @@ class Container {
 	 */
 	public function register($name, $resolver, $singleton = false)
 	{
-		$this->resolvers[$name] = array('resolver' => $resolver, 'singleton' => $singleton);
+		$this->registry[$name] = array('resolver' => $resolver, 'singleton' => $singleton);
 	}
 
 	/**
@@ -84,7 +89,7 @@ class Container {
 	 */
 	public function registered($name)
 	{
-		return array_key_exists($name, $this->resolvers);
+		return array_key_exists($name, $this->registry);
 	}
 
 	/**
@@ -92,6 +97,11 @@ class Container {
 	 *
 	 * Singletons will only be instantiated the first time they are resolved. On subsequent
 	 * requests for the object, the original instance will be returned.
+	 *
+	 * <code>
+	 *		// Register a dependency in the container as a singleton
+	 *		IoC::singleton('something', function($container) {return new Something;});
+	 * </code>
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
@@ -108,6 +118,13 @@ class Container {
 	 * This method allows you to register an already existing object instance with the
 	 * container as a singleton instance.
 	 *
+	 * <code>
+	 *		// Register an instance with the IoC container
+	 *		$something = new Something;
+	 *		
+	 *		IoC::instance('something', $something);
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  mixed   $instance
 	 * @return void
@@ -122,6 +139,11 @@ class Container {
 	 *
 	 * The dependency's resolver will be called and its result will be returned.
 	 *
+	 * <code>
+	 *		// Get the "something" dependency out of the IoC container
+	 *		$something = IoC::resolve('something');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @return mixed
 	 */
@@ -134,26 +156,25 @@ class Container {
 			throw new \Exception("Error resolving [$name]. No resolver has been registered in the container.");
 		}
 
-		$object = call_user_func($this->resolvers[$name]['resolver'], $this);
+		$object = call_user_func($this->registry[$name]['resolver'], $this);
 
-		if ($this->resolvers[$name]['singleton']) $this->singletons[$name] = $object;
-
-		return $object;
+		return (isset($this->registry[$name]['singleton'])) ? $this->singletons[$name] = $object : $object;
 	}
 
 	/**
 	 * Magic Method for resolving classes out of the IoC container.
+	 *
+	 * <code>
+	 *		// Get the "something" instance out of the IoC container
+	 *		$something = IoC::container()->something;
+	 *
+	 *		// Equivalent method of retrieving the instance using the resolve method
+	 *		$something = IoC::container()->resolve('something');
+	 * </code>
 	 */
 	public function __get($key)
 	{
-		if ($this->registered('laravel.'.$key))
-		{
-			return $this->resolve('laravel.'.$key);
-		}
-		elseif ($this->registered($key))
-		{
-			return $this->resolve($key);
-		}
+		if ($this->registered($key)) return $this->resolve($key);
 
 		throw new \Exception("Attempting to resolve undefined class [$key].");
 	}

@@ -110,7 +110,7 @@ return array(
 			($request->spoofed()) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
 		}
 
-		return new Input($input, $_FILES, $container->resolve('laravel.cookie'));
+		return new Input($container->resolve('laravel.file'), $container->resolve('laravel.cookie'), $input, $_FILES);
 	}),
 
 
@@ -124,9 +124,11 @@ return array(
 
 	'laravel.loader' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/');
+		require_once SYS_PATH.'loader'.EXT;
 
-		return new Loader($container->resolve('laravel.config')->get('aliases'), $paths);
+		$aliases = $container->resolve('laravel.config')->get('aliases');
+
+		return new Loader(array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/'), $aliases);
 	}),
 
 
@@ -152,7 +154,7 @@ return array(
 	{
 		require_once SYS_PATH.'response'.EXT;
 
-		return new Response_Factory($container->resolve('laravel.view'));
+		return new Response_Factory($container->resolve('laravel.view'), $container->resolve('laravel.file'));
 	}),
 
 
@@ -220,7 +222,7 @@ return array(
 
 	'laravel.view.composer' => array('resolver' => function($container)
 	{
-		return new View_Composer($container, require APP_PATH.'composers'.EXT);
+		return new View_Composer(require APP_PATH.'composers'.EXT);
 	}),
 
 	/*

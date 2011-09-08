@@ -12,7 +12,7 @@ class Redirect extends Response {
 	/**
 	 * Create a new redirect generator instance.
 	 *
-	 * @param  URL             $url
+	 * @param  URL   $url
 	 * @return void
 	 */
 	public function __construct(URL $url)
@@ -23,39 +23,41 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response.
 	 *
+	 * <code>
+	 *		// Create a redirect response to a given URL
+	 *		return Redirect::to('user/profile');
+	 *
+	 *		// Create a redirect with a given status code
+	 *		return Redirect::to('user/profile', 301);
+	 * </code>
+	 *
 	 * @param  string    $url
 	 * @param  int       $status
-	 * @param  string    $method
 	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public function to($url, $status = 302, $method = 'location', $https = false)
+	public function to($url, $status = 302, $https = false)
 	{
-		$url = $this->url->to($url, $https);
-
 		parent::__construct('', $status);
 
-		if ($method == 'location')
-		{
-			return $this->header('Refresh', '0;url='.$url);
-		}
-		else
-		{
-			return $this->header('Location', $url);
-		}
+		return $this->header('Location', $this->url->to($url, $https));
 	}
 
 	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
+	 * <code>
+	 *		// Create a redirect response to a HTTPS URL
+	 *		return Redirect::to_secure('user/profile');
+	 * </code>
+	 *
 	 * @param  string    $url
 	 * @param  int       $status
-	 * @param  string    $method
 	 * @return Response
 	 */
-	public function to_secure($url, $status = 302, $method = 'location')
+	public function to_secure($url, $status = 302)
 	{
-		return $this->to($url, $status, $method, true);
+		return $this->to($url, $status, true);
 	}
 
 	/**
@@ -69,6 +71,11 @@ class Redirect extends Response {
 	 */
 	public function with($key, $value)
 	{
+		if (IoC::container()->resolve('laravel.config')->get('session.driver') == '')
+		{
+			throw new \Exception('A session driver must be set before setting flash data.');
+		}
+
 		IoC::container()->resolve('laravel.session')->flash($key, $value);
 
 		return $this;

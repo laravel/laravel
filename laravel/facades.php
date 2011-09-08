@@ -15,28 +15,31 @@ abstract class Facade {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array(IoC::container()->resolve('laravel.'.static::$resolve), $method), $parameters);
+		return call_user_func_array(array(IoC::container()->resolve(static::$resolve), $method), $parameters);
 	}
 
 }
 
-class Asset extends Facade { public static $resolve = 'asset'; }
-class Auth extends Facade { public static $resolve = 'auth'; }
-class Cache extends Facade { public static $resolve = 'cache'; }
-class Config extends Facade { public static $resolve = 'config'; }
-class Cookie extends Facade { public static $resolve = 'cookie'; }
-class Crypter extends Facade { public static $resolve = 'crypter'; }
-class DB extends Facade { public static $resolve = 'database'; }
-class Download extends Facade { public static $resolve = 'download'; }
-class File extends Facade { public static $resolve = 'file'; }
-class Form extends Facade { public static $resolve = 'form'; }
-class Hasher extends Facade { public static $resolve = 'hasher'; }
-class HTML extends Facade { public static $resolve = 'html'; }
-class Input extends Facade { public static $resolve = 'input'; }
-class Loader extends Facade { public static $resolve = 'loader'; }
-class Package extends Facade { public static $resolve = 'package'; }
-class Redirect extends Facade { public static $resolve = 'redirect'; }
-class Request extends Facade { public static $resolve = 'request'; }
-class Session extends Facade { public static $resolve = 'session'; }
-class URL extends Facade { public static $resolve = 'url'; }
-class Validator extends Facade { public static $resolve = 'validator'; }
+class Asset extends Facade { public static $resolve = 'laravel.asset'; }
+class Auth extends Facade { public static $resolve = 'laravel.auth'; }
+class Cache extends Facade { public static $resolve = 'laravel.cache'; }
+class Config extends Facade { public static $resolve = 'laravel.config'; }
+class Cookie extends Facade { public static $resolve = 'laravel.cookie'; }
+class Crypter extends Facade { public static $resolve = 'laravel.crypter'; }
+class DB extends Facade { public static $resolve = 'laravel.database'; }
+class Download extends Facade { public static $resolve = 'laravel.download'; }
+class File extends Facade { public static $resolve = 'laravel.file'; }
+class Form extends Facade { public static $resolve = 'laravel.form'; }
+class Hasher extends Facade { public static $resolve = 'laravel.hasher'; }
+class HTML extends Facade { public static $resolve = 'laravel.html'; }
+class Input extends Facade { public static $resolve = 'laravel.input'; }
+class Lang extends Facade { public static $resolve = 'laravel.lang'; }
+class Loader extends Facade { public static $resolve = 'laravel.loader'; }
+class Package extends Facade { public static $resolve = 'laravel.package'; }
+class Redirect extends Facade { public static $resolve = 'laravel.redirect'; }
+class Request extends Facade { public static $resolve = 'laravel.request'; }
+class Response extends Facade { public static $resolve = 'laravel.response'; }
+class Session extends Facade { public static $resolve = 'laravel.session'; }
+class URL extends Facade { public static $resolve = 'laravel.url'; }
+class Validator extends Facade { public static $resolve = 'laravel.validator'; }
+class View extends Facade { public static $resolve = 'laravel.view'; }

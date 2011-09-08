@@ -10,18 +10,18 @@ class Input {
 	protected $input;
 
 	/**
-	 * The $_GET array for the request.
+	 * The $_FILES array for the request.
 	 *
 	 * @var array
 	 */
-	public $get;
+	protected $files;
 
 	/**
-	 * The $_POST array for the request.
+	 * The file manager instance.
 	 *
-	 * @var array
+	 * @var File
 	 */
-	public $post;
+	protected $file;
 
 	/**
 	 * The cookie engine instance.
@@ -31,22 +31,16 @@ class Input {
 	public $cookies;
 
 	/**
-	 * The $_FILES array for the request.
-	 *
-	 * @var array
-	 */
-	public $files;
-
-	/**
 	 * Create a new Input instance.
 	 *
+	 * @param  Cookie  $cookies
 	 * @param  array   $input
 	 * @param  array   $files
-	 * @param  Cookie  $cookies
 	 * @return void
 	 */
-	public function __construct($input, $files, Cookie $cookies)
+	public function __construct(File $file, Cookie $cookies, $input, $files)
 	{
+		$this->file = $file;
 		$this->input = $input;
 		$this->files = $files;
 		$this->cookies = $cookies;
@@ -80,6 +74,14 @@ class Input {
 	 *
 	 * This method should be used for all request methods (GET, POST, PUT, and DELETE).
 	 *
+	 * <code>
+	 *		// Get an item from the input to the application
+	 *		$value = Input::get('name');
+	 *
+	 * 		// Get an item from the input and return "Fred" if the item doesn't exist
+	 *		$value = Input::get('name', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return mixed
@@ -103,12 +105,25 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
+	 * <code>
+	 *		// Get an item from the previous request's input
+	 *		$value = Input::old('name');
+	 *
+	 * 		// Get an item from the previous request's input and return "Fred" if it doesn't exist.
+	 *		$value = Input::old('name', 'Fred');
+	 * </code>
+	 *
 	 * @param  string          $key
 	 * @param  mixed           $default
 	 * @return string
 	 */
 	public function old($key = null, $default = null)
 	{
+		if (IoC::container()->resolve('laravel.config')->get('session.driver') == '')
+		{
+			throw new \Exception('A session driver must be specified in order to access old input.');
+		}
+
 		$driver = IoC::container()->resolve('laravel.session');
 
 		return Arr::get($driver->get('laravel_old_input', array()), $key, $default);
@@ -118,6 +133,14 @@ class Input {
 	 * Get an item from the uploaded file data.
 	 *
 	 * "Dot" syntax may be used to get a specific item from the file array.
+	 *
+	 * <code>
+	 *		// Get the array of information regarding an uploaded file
+	 *		$file = Input::file('picture');
+	 *
+	 *		// Get an element from the array of information regarding an uploaded file
+	 *		$size = Input::file('picture.size');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -133,13 +156,18 @@ class Input {
 	 *
 	 * This method is simply a convenient wrapper around move_uploaded_file.
 	 *
+	 * <code>
+	 *		// Move the "picture" file to a permament location on disk
+	 *		Input::upload('picture', PUBLIC_PATH.'img/picture.jpg');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $path
 	 * @return bool
 	 */
 	public function upload($key, $path)
 	{
-		return array_key_exists($key, $this->files) ? move_uploaded_file($this->files[$key]['tmp_name'], $path) : false;
+		return array_key_exists($key, $this->files) ? $this->file->upload($key, $path, $this->files) : false;
 	}
 
 	/**

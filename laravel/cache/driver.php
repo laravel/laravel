@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache;
 
+use Closure;
+
 abstract class Driver {
 
 	/**
@@ -25,7 +27,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->retrieve($key))) return $item;
 
-		return ($default instanceof \Closure) ? call_user_func($default) : $default;
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
@@ -59,7 +61,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$default = ($default instanceof \Closure) ? call_user_func($default) : $default;
+		$default = ($default instanceof Closure) ? call_user_func($default) : $default;
 
 		$this->put($key, $default, $minutes);
 

@@ -7,21 +7,21 @@ class Form {
 	 *
 	 * @var Request
 	 */
-	private $request;
+	protected $request;
 
 	/**
 	 * The HTML writer instance.
 	 *
 	 * @var HTML
 	 */
-	private $html;
+	protected $html;
 
 	/**
 	 * The URL generator instance.
 	 *
 	 * @var URL
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * All of the label names that have been created.
@@ -31,7 +31,7 @@ class Form {
 	 *
 	 * @var array
 	 */
-	private $labels = array();
+	protected $labels = array();
 
 	/**
 	 * Create a new form writer instance.
@@ -54,6 +54,17 @@ class Form {
 	 * Note: If PUT or DELETE is specified as the form method, a hidden input field will be generated
 	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
 	 *       hidden field will allow us to "spoof" PUT and DELETE requests.
+	 *
+	 * <code>
+	 *		// Open a POST form to the current URI
+	 *		echo Form::open();
+	 *
+	 *		// Open a POST form to a given URI
+	 *		echo Form::open('user/profile');
+	 *
+	 *		// Open a PUT form to a given URI and add form attributes
+	 *		echo Form::open('user/profile', 'put', array('class' => 'profile'));
+	 * </code>
 	 *
 	 * @param  string   $action
 	 * @param  string   $method
@@ -84,7 +95,7 @@ class Form {
 	 * @param  string  $method
 	 * @return string
 	 */
-	private function method($method)
+	protected function method($method)
 	{
 		return strtoupper(($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method);
 	}
@@ -98,7 +109,7 @@ class Form {
 	 * @param  bool     $https
 	 * @return string
 	 */
-	private function action($action, $https)
+	protected function action($action, $https)
 	{
 		return $this->html->entities($this->url->to(((is_null($action)) ? $this->request->uri() : $action), $https));
 	}
@@ -172,11 +183,24 @@ class Form {
 	 */
 	public function raw_token()
 	{
+		if (IoC::container()->resolve('laravel.config')->get('session.driver') == '')
+		{
+			throw new \Exception("A session driver must be specified before using CSRF tokens.");			
+		}
+
 		return IoC::container()->resolve('laravel.session')->get('csrf_token');
 	}
 
 	/**
 	 * Create a HTML label element.
+	 *
+	 * <code>
+	 *		// Create a form label
+	 *		echo Form::label('email', 'E-Mail Address');
+	 *
+	 *		// Create a form label with attributes
+	 *		echo Form::label('email', 'E-Mail Address', array('class' => 'login'));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -196,6 +220,17 @@ class Form {
 	 * If an ID attribute is not specified and a label has been generated matching the input
 	 * element name, the label name will be used as the element ID.
 	 *
+	 * <code>
+	 *		// Create a "text" type input element
+	 *		echo Form::input('text', 'email');
+	 *
+	 *		// Create an input element with a specified value
+	 *		echo Form::input('text', 'email', 'example@gmail.com');
+	 *
+	 *		// Create an input element with attributes
+	 *		echo Form::input('text', 'email', 'example@gmail.com', array('class' => 'login'));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  array   $attributes
@@ -203,6 +238,8 @@ class Form {
 	 */		
 	public function input($type, $name, $value = null, $attributes = array())
 	{
+		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
+
 		$id = $this->id($name, $attributes);
 
 		return '<input'.$this->html->attributes(array_merge($attributes, compact('type', 'name', 'value', 'id'))).'>'.PHP_EOL;
@@ -326,6 +363,14 @@ class Form {
 	/**
 	 * Create a HTML textarea element.
 	 *
+	 * <code>
+	 *		// Create a textarea element
+	 *		echo Form::textarea('comment');
+	 *
+	 *		// Create a textarea with specified rows and columns
+	 *		echo Form::textarea('comment', '', array('rows' => 10, 'columns' => 50));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
@@ -344,6 +389,14 @@ class Form {
 
 	/**
 	 * Create a HTML select element.
+	 *
+	 * <code>
+	 *		// Create a selection element
+	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'));
+	 *
+	 *		// Create a selection element with a given option pre-selected
+	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), 'L');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $options
@@ -370,19 +423,35 @@ class Form {
 	/**
 	 * Create a HTML checkbox input element.
 	 *
+	 * <code>
+	 *		// Create a checkbox element
+	 *		echo Form::checkbox('terms');
+	 *
+	 *		// Create a checkbox element that is checked by default
+	 *		echo Form::checkbox('terms', 'yes', true);
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  bool    $checked
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function checkbox($name, $value = null, $checked = false, $attributes = array())
+	public function checkbox($name, $value = 1, $checked = false, $attributes = array())
 	{
 		return $this->checkable('checkbox', $name, $value, $checked, $attributes);
 	}
 
 	/**
 	 * Create a HTML radio button input element.
+	 *
+	 * <code>
+	 *		// Create a radio button element
+	 *		echo Form::radio('apple');
+	 *
+	 *		// Create a radio button element that is selected by default
+	 *		echo Form::radio('microsoft', 'pc', true);
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -392,6 +461,8 @@ class Form {
 	 */
 	public function radio($name, $value = null, $checked = false, $attributes = array())
 	{
+		if (is_null($value)) $value = $name;
+
 		return $this->checkable('radio', $name, $value, $checked, $attributes);
 	}
 
@@ -405,7 +476,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private function checkable($type, $name, $value, $checked, $attributes)
+	protected function checkable($type, $name, $value, $checked, $attributes)
 	{
 		$attributes = array_merge($attributes, array('id' => $this->id($name, $attributes), 'checked' => ($checked) ? 'checked' : null));
 
@@ -414,6 +485,14 @@ class Form {
 
 	/**
 	 * Create a HTML submit input element.
+	 *
+	 * <code>
+	 *		// Create a submit input element
+	 *		echo Form::submit('Login!');
+	 *
+	 *		// Create a submit input element with attributes
+	 *		echo Form::submit('Login!', array('class' => 'login'));
+	 * </code>
 	 *
 	 * @param  string  $value
 	 * @param  array   $attributes
@@ -439,6 +518,11 @@ class Form {
 	/**
 	 * Create a HTML image input element.
 	 *
+	 * <code>
+	 *		// Create an image input element
+	 *		echo Form::image('img/login.jpg');
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
 	 * @return string
@@ -452,6 +536,14 @@ class Form {
 
 	/**
 	 * Create a HTML button element.
+	 *
+	 * <code>
+	 *		// Create a button input element
+	 *		echo Form::button('Login!');
+	 *
+	 *		// Create a button input element with attributes
+	 *		echo Form::button('Login!', array('class' => 'login'));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -473,7 +565,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return mixed
 	 */
-	private function id($name, $attributes)
+	protected function id($name, $attributes)
 	{
 		if (array_key_exists('id', $attributes)) return $attributes['id'];
 

@@ -7,7 +7,7 @@ class Cookie {
 	 *
 	 * @var array
 	 */
-	private $cookies;
+	protected $cookies;
 
 	/**
 	 * Create a new cookie manager instance.
@@ -33,6 +33,14 @@ class Cookie {
 
 	/**
 	 * Get the value of a cookie.
+	 *
+	 * <code>
+	 *		// Get the value of a cookie
+	 *		$value = Cookie::get('color');
+	 *
+	 *		// Get the value of a cookie and return "blue" if the cookie doesn't exist
+	 *		$value = Cookie::get('color', 'blue');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $default
@@ -60,8 +68,9 @@ class Cookie {
 	}
 
 	/**
-	 * Set the value of a cookie. If a negative number of minutes is
-	 * specified, the cookie will be deleted.
+	 * Set the value of a cookie. 
+	 *
+	 * If a negative number of minutes is specified, the cookie will be deleted.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -74,9 +83,11 @@ class Cookie {
 	 */
 	public function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		if ($minutes < 0) unset($_COOKIE[$name]);
+		if ($minutes < 0) unset($this->cookies[$name]);
 
-		return setcookie($name, $value, ($minutes != 0) ? time() + ($minutes * 60) : 0, $path, $domain, $secure, $http_only);
+		$time = ($minutes != 0) ? time() + ($minutes * 60) : 0;
+
+		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
 	}
 
 	/**

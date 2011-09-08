@@ -47,7 +47,7 @@ class Arr {
 	 * method, JavaScript "dot" syntax is supported.
 	 *
 	 * <code>
-	 *		// Set the "name" item to "Fred" in the array
+	 *		// Set an array's "name" item to "Fred"
 	 *		Arr::set($array, 'name', 'Fred');
 	 * </code>
 	 *

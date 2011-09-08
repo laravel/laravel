@@ -10,7 +10,12 @@ class Str {
 	 */
 	public static function lower($value)
 	{
-		return function_exists('mb_strtolower') ? mb_strtolower($value, static::encoding()) : strtolower($value);
+		if (function_exists('mb_strtolower'))
+		{
+			return mb_strtolower($value, static::encoding());
+		}
+
+		return strtolower($value);
 	}
 
 	/**
@@ -21,7 +26,12 @@ class Str {
 	 */
 	public static function upper($value)
 	{
-		return function_exists('mb_strtoupper') ? mb_strtoupper($value, static::encoding()) : strtoupper($value);
+		if (function_exists('mb_strtoupper'))
+		{
+			return mb_strtoupper($value, static::encoding());
+		}
+
+		return strtoupper($value);
 	}
 
 	/**
@@ -32,7 +42,12 @@ class Str {
 	 */
 	public static function title($value)
 	{
-		return (function_exists('mb_convert_case')) ? mb_convert_case($value, MB_CASE_TITLE, static::encoding()) : ucwords(strtolower($value));
+		if (function_exists('mb_convert_case'))
+		{
+			return mb_convert_case($value, MB_CASE_TITLE, static::encoding());
+		}
+
+		return ucwords(strtolower($value));
 	}
 
 	/**
@@ -43,7 +58,12 @@ class Str {
 	 */
 	public static function length($value)
 	{
-		return function_exists('mb_strlen') ? mb_strlen($value, static::encoding()) : strlen($value);
+		if (function_exists('mb_strlen'))
+		{
+			return mb_strlen($value, static::encoding());
+		}
+
+		return strlen($value);
 	}
 
 	/**
@@ -72,34 +92,11 @@ class Str {
 	 */
 	public static function random($length = 16, $type = 'alpha_num')
 	{
-		$value = '';
+		$alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-		$pool_length = strlen($pool = static::pool($type)) - 1;
+		$pool = ($type == 'alpha_num') ? '0123456789'.$alpha : $alpha;
 
-		for ($i = 0; $i < $length; $i++)
-		{
-			$value .= $pool[mt_rand(0, $pool_length)];
-		}
-
-		return $value;
-	}
-
-	/**
-	 * Get a chracter pool.
-	 *
-	 * @param  string  $type
-	 * @return string
-	 */
-	private static function pool($type = 'alpha_num')
-	{
-		switch ($type)
-		{
-			case 'alpha_num':
-				return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-			
-			default:
-				return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		}
+		return implode('', array_map(function() use ($pool) { return $pool[mt_rand(0, strlen($pool) - 1)]; }, range(0, $length)));
 	}
 
 	/**
@@ -107,7 +104,7 @@ class Str {
 	 *
 	 * @return string
 	 */
-	public static function encoding()
+	protected static function encoding()
 	{
 		return IoC::container()->resolve('laravel.config')->get('application.encoding');
 	}

@@ -14,6 +14,13 @@ abstract class Driver {
 	public $session = array();
 
 	/**
+	 * The application session configuration.
+	 *
+	 * @var array
+	 */
+	public $config = array();
+
+	/**
 	 * Load the session for a given session ID.
 	 *
 	 * The session will be checked for validity and necessary data. For example, if the session
@@ -22,14 +29,16 @@ abstract class Driver {
 	 * If the session has expired, a new, empty session will be generated.
 	 *
 	 * @param  string  $id
-	 * @param  int     $lifetime
+	 * @param  array   $config
 	 * @return void
 	 */
-	public function start($id, $lifetime)
+	public function start($id, $config)
 	{
+		$this->config = $config;
+
 		$this->session = ( ! is_null($id)) ? $this->load($id) : null;
 
-		if (is_null($this->session) or (time() - $this->session['last_activity']) > ($lifetime * 60))
+		if (is_null($this->session) or (time() - $this->session['last_activity']) > ($this->config['lifetime'] * 60))
 		{
 			$this->session = array('id' => Str::random(40), 'data' => array());
 		}
@@ -169,20 +178,19 @@ abstract class Driver {
 	 * available for the next request via the "old" method on the input class.
 	 *
 	 * @param  Laravel\Input  $input
-	 * @param  array          $config
 	 * @return void
 	 */
-	public function close(Input $input, $config)
+	public function close(Input $input)
 	{
 		$this->flash('laravel_old_input', $input->get())->age();
 
 		$this->save();
 
-		$this->write_cookie($input->cookies, $config);
+		$this->write_cookie($input->cookies, $this->config);
 
 		if ($this instanceof Sweeper and mt_rand(1, 100) <= 2)
 		{
-			$this->sweep(time() - ($config['lifetime'] * 60));
+			$this->sweep(time() - ($this->config['lifetime'] * 60));
 		}
 	}
 
@@ -214,7 +222,7 @@ abstract class Driver {
 	 * already been sent to the browser.
 	 *
 	 * @param  Laravel\Cookie  $cookie
-	 * @param  array                  $config
+	 * @param  array           $config
 	 * @return void
 	 */
 	protected function write_cookie(Cookie $cookies, $config)

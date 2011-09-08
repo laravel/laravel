@@ -44,6 +44,14 @@ class HTML {
 	/**
 	 * Generate a JavaScript reference.
 	 *
+	 * <code>
+	 *		// Generate a link to a JavaScript file
+	 *		echo HTML::script('js/jquery.js');
+	 *
+	 *		// Generate a link to a JavaScript file with attributes
+	 *		echo HTML::script('js/jquery.js', array('defer'));
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
 	 * @return string
@@ -57,6 +65,16 @@ class HTML {
 
 	/**
 	 * Generate a CSS reference.
+	 *
+	 * If no media type is selected, "all" will be used.
+	 *
+	 * <code>
+	 *		// Generate a link to a CSS file
+	 *		echo HTML::style('css/common.css');
+	 *
+	 *		// Generate a link to a CSS file with attributes
+	 *		echo HTML::style('css/common.css', array('media' => 'print'));
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
@@ -74,6 +92,14 @@ class HTML {
 	/**
 	 * Generate a HTML span.
 	 *
+	 * <code>
+	 *		// Generate a HTML span element
+	 *		echo HTML::span('This is inside a span element.');
+	 *
+	 *		// Generate a HTML span element with attributes
+	 *		echo HTML::span('This is inside a span.', array('class' => 'text'));
+	 * </code>
+	 *
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
@@ -85,6 +111,14 @@ class HTML {
 
 	/**
 	 * Generate a HTML link.
+	 *
+	 * <code>
+	 *		// Generate a HTML link element
+	 *		echo HTML::link('user/profile', 'User Profile');
+	 *
+	 *		// Generate a HTML link element with attributes
+	 *		echo HTML::link('user/profile', 'User Profile', array('class' => 'profile'));
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  string  $title
@@ -116,6 +150,8 @@ class HTML {
 	/**
 	 * Generate an HTML link to an asset.
 	 *
+	 * The application index page will not be added to asset links.
+	 *
 	 * @param  string  $url
 	 * @param  string  $title
 	 * @param  array   $attributes
@@ -143,6 +179,15 @@ class HTML {
 	 * Generate an HTML link to a route.
 	 *
 	 * An array of parameters may be specified to fill in URI segment wildcards.
+	 *
+	 * <code>
+	 *		// Generate a link to the "profile" route
+	 *		echo HTML::link_to_route('profile', 'User Profile');
+	 *
+	 *		// Generate a link to a route that has wildcard segments
+	 *		// Example: /user/profile/(:any)
+	 *		echo HTML::link_to_route('profile', 'User Profile', array($username));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $title
@@ -174,6 +219,17 @@ class HTML {
 	 *
 	 * The E-Mail address will be obfuscated to protect it from spam bots.
 	 *
+	 * <code>
+	 *		// Generate a HTML mailto link
+	 *		echo HTML::mailto('example@gmail.com');
+	 *
+	 *		// Generate a HTML mailto link with a title
+	 *		echo HTML::mailto('example@gmail.com', 'E-Mail Me!');
+	 *
+	 *		// Generate a HTML mailto link with attributes
+	 *		echo HTML::mailto('example@gmail.com', 'E-Mail Me', array('class' => 'email'));
+	 * </code>
+	 *
 	 * @param  string  $email
 	 * @param  string  $title
 	 * @param  array   $attributes
@@ -202,7 +258,18 @@ class HTML {
 	}
 
 	/**
-	 * Generate an HTML image.
+	 * Generate an HTML image element.
+	 *
+	 * <code>
+	 *		// Generate a HTML image element
+	 *		echo HTML::image('img/profile.jpg');
+	 *
+	 *		// Generate a HTML image element with Alt text
+	 *		echo HTML::image('img/profile.jpg', 'Profile Photo');
+	 *
+	 *		// Generate a HTML image element with attributes
+	 *		echo HTML::image('img/profile.jpg', 'Profile Photo', array('class' => 'profile'));
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  string  $alt
@@ -217,7 +284,15 @@ class HTML {
 	}
 
 	/**
-	 * Generate an ordered list.
+	 * Generate an ordered list of items.
+	 *
+	 * <code>
+	 *		// Generate an ordered list of items
+	 *		echo HTML::ol(array('Small', 'Medium', 'Large'));
+	 *
+	 *		// Generate an ordered list of items with attributes
+	 *		echo HTML::ol(array('Small', 'Medium', 'Large'), array('class' => 'sizes'));
+	 * </code>
 	 *
 	 * @param  array   $list
 	 * @param  array   $attributes
@@ -229,7 +304,15 @@ class HTML {
 	}
 
 	/**
-	 * Generate an un-ordered list.
+	 * Generate an un-ordered list of items.
+	 *
+	 * <code>
+	 *		// Generate an un-ordered list of items
+	 *		echo HTML::ul(array('Small', 'Medium', 'Large'));
+	 *
+	 *		// Generate an un-ordered list of items with attributes
+	 *		echo HTML::ul(array('Small', 'Medium', 'Large'), array('class' => 'sizes'));
+	 * </code>
 	 *
 	 * @param  array   $list
 	 * @param  array   $attributes
@@ -261,7 +344,12 @@ class HTML {
 	}
 
 	/**
-	 * Build a list of HTML attributes.
+	 * Build a list of HTML attributes from an array.
+	 *
+	 * <code>
+	 *		// Returns: class="profile" id="picture"
+	 *		echo HTML::attributes(array('class' => 'profile', 'id' => 'picture'));
+	 * </code>
 	 *
 	 * @param  array   $attributes
 	 * @return string

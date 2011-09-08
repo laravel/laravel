@@ -122,7 +122,27 @@ class File {
 	}
 
 	/**
+	 * Move an uploaded file to permanenet storage.
+	 *
+	 * @param  string  $key
+	 * @param  string  $path
+	 * @param  array   $files
+	 * @return bool
+	 */
+	public function upload($key, $path, $files)
+	{
+		return move_uploaded_file($files[$key]['tmp_name'], $path);
+	}
+
+	/**
 	 * Get a file MIME type by extension.
+	 *
+	 * If the MIME type can't be determined, "application/octet-stream" will be returned.
+	 *
+	 * <code>
+	 *		// Returns 'application/x-tar'
+	 *		$mime = File::mime('path/to/file.tar');
+	 * </code>
 	 *
 	 * @param  string  $extension
 	 * @param  string  $default
@@ -140,20 +160,28 @@ class File {
 	 *
 	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
 	 *
-	 * @param  string  $extension
-	 * @param  string  $path
+	 * <code>
+	 *		// Determine if a file is a JPG image
+	 *		$image = File::is('jpg', 'path/to/image.jpg');
+	 *
+	 *		// Determine if a file is any one of an array of types
+	 *		$image = File::is(array('jpg', 'png', 'gif'), 'path/to/image.jpg');
+	 * </code>
+	 *
+	 * @param  array|string  $extension
+	 * @param  string        $path
 	 * @return bool
 	 */
-	public function is($extension, $path)
+	public function is($extensions, $path)
 	{
-		if ( ! array_key_exists($extension, $this->mimes))
+		foreach ((array) $extensions as $extension)
 		{
-			throw new \Exception("File extension [$extension] is unknown. Cannot determine file type.");
+			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+
+			if (isset($this->mimes[$extension]) and in_array((array) $this->mimes[$extension])) return true;
 		}
 
-		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-
-		return (is_array($this->mimes[$extension])) ? in_array($mime, $this->mimes[$extension]) : $mime === $this->mimes[$extension];
+		return false;
 	}
 
 }

@@ -10,9 +10,14 @@ class Benchmark {
 	protected static $marks = array();
 
 	/**
-	 * Start a benchmark.
+	 * Start a benchmark starting time.
 	 *
-	 * After starting a benchmark, the elapsed time in milliseconds may be retrieved via the "check" method.
+	 * The elapsed time since setting a benchmark may checked via the "check" method.
+	 *
+	 * <code>
+	 *		// Set a benchmark starting time
+	 *		Benchmark::start('database');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return void
@@ -24,6 +29,11 @@ class Benchmark {
 
 	/**
 	 * Get the elapsed time in milliseconds since starting a benchmark.
+	 *
+	 * <code>
+	 *		// Get the elapsed time since starting a benchmark
+	 *		$time = Benchmark::check('database');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return float
@@ -45,7 +55,7 @@ class Benchmark {
 	 */
 	public static function memory()
 	{
-		return number_format(memory_get_usage() / 1024 / 1024, 2);
+		return (float) number_format(memory_get_usage() / 1024 / 1024, 2);
 	}
 
 }

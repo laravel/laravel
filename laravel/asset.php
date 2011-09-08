@@ -58,8 +58,8 @@ class Asset {
 	/**
 	 * Magic Method for calling methods on the default Asset container.
 	 *
-	 * This provides a convenient API, allowing the develop to skip the "container"
-	 * method when using the default container.
+	 * This provides a convenient API, allowing the developer to skip the
+	 * "container" method when using the default container.
 	 *
 	 * <code>
 	 *		// Add a JavaScript file to the default container
@@ -80,8 +80,6 @@ class Asset_Container {
 
 	/**
 	 * The asset container name.
-	 *
-	 * This name may be used to access the container instance via the Asset::container method.
 	 *
 	 * @var string
 	 */
@@ -127,10 +125,10 @@ class Asset_Container {
 	 *
 	 * <code>
 	 *		// Add an asset to the container
-	 *		Asset::container()->add('jquery', 'js/jquery.js');
+	 *		Asset::add('jquery', 'js/jquery.js');
 	 *
 	 *		// Add an asset that has dependencies
-	 *		Asset::container()->add('jquery', 'js/jquery.js', array('jquery-ui'));
+	 *		Asset::add('jquery', 'js/jquery.js', array('jquery-ui'));
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -147,13 +145,13 @@ class Asset_Container {
 	}
 
 	/**
-	 * Add CSS to the registered assets.
+	 * Add a CSS file to the registered assets.
 	 *
-	 * @param  string  $name
-	 * @param  string  $source
-	 * @param  array   $dependencies
-	 * @param  array   $attributes
-	 * @return void
+	 * @param  string           $name
+	 * @param  string           $source
+	 * @param  array            $dependencies
+	 * @param  array            $attributes
+	 * @return Asset_Container
 	 */
 	public function style($name, $source, $dependencies = array(), $attributes = array())
 	{
@@ -163,20 +161,24 @@ class Asset_Container {
 		}
 
 		$this->register('style', $name, $source, $dependencies, $attributes);
+
+		return $this;
 	}
 
 	/**
-	 * Add JavaScript to the registered assets.
+	 * Add a JavaScript file to the registered assets.
 	 *
-	 * @param  string  $name
-	 * @param  string  $source
-	 * @param  array   $dependencies
-	 * @param  array   $attributes
-	 * @return void
+	 * @param  string           $name
+	 * @param  string           $source
+	 * @param  array            $dependencies
+	 * @param  array            $attributes
+	 * @return Asset_Container
 	 */
 	public function script($name, $source, $dependencies = array(), $attributes = array())
 	{
 		$this->register('script', $name, $source, $dependencies, $attributes);
+
+		return $this;
 	}
 
 	/**

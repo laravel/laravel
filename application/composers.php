@@ -39,12 +39,12 @@ return array(
 	|
 	*/
 
-	'shared' => function($view, $laravel)
+	'shared' => function($view)
 	{
 		//
 	},
 
-	'home.index' => array('name' => 'home', function($view, $laravel)
+	'home.index' => array('name' => 'home', function($view)
 	{
 		//
 	}),

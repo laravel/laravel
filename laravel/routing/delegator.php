@@ -49,7 +49,7 @@ class Delegator {
 		// an underscore are not publicly available.
 		if (is_null($controller) or ($method == 'before' or strncmp($method, '_', 1) === 0))
 		{
-			return $this->container->response->error('404');
+			return $this->container->resolve('laravel.response')->error('404');
 		}
 
 		$controller->container = $this->container;

@@ -3,13 +3,6 @@
 abstract class Controller {
 
 	/**
-	 * The IoC container instance.
-	 *
-	 * @var Container
-	 */
-	public $container;
-
-	/**
 	 * A stub method that will be called before every request to the controller.
 	 *
 	 * If a value is returned by the method, it will be halt the request cycle
@@ -28,15 +21,26 @@ abstract class Controller {
 	 */
 	public function __call($method, $parameters)
 	{
-		return $this->container->resolve('laravel.response')->error('404');
+		return IoC::container()->resolve('laravel.response')->error('404');
 	}
 
 	/**
-	 * Magic Method for retrieving items out of the IoC container.
+	 * Dynamically resolve items from the application IoC container.
 	 */
 	public function __get($key)
 	{
-		return $this->container->$key;
+		$container = IoC::container();
+
+		if ($container->registered('laravel.'.$key))
+		{
+			return $container->resolve('laravel.'.$key);
+		}
+		elseif ($container->registered($key))
+		{
+			return $container->resolve($key);
+		}
+
+		throw new \Exception("Attempting to access undefined property [$key] on controller.");
 	}
 
 }

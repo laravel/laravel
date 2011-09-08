@@ -67,7 +67,7 @@ class Caller {
 			return $this->finish($route, $response);
 		}
 
-		return $this->finish($route, $this->container->response->error('404'));
+		return $this->finish($route, $this->container->resolve('laravel.response')->error('404'));
 	}
 
 	/**

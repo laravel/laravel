@@ -37,6 +37,18 @@ class View_Factory {
 	/**
 	 * Create a new view instance.
 	 *
+	 * The name of the view given to this method should correspond to a view
+	 * within your application views directory. Dots or slashes may used to
+	 * reference views within sub-directories.
+	 *
+	 * <code>
+	 *		// Create a new view instance
+	 *		$view = View::make('home.index');
+	 *
+	 *		// Create a new view instance with bound data
+	 *		$view = View::make('home.index', array('name' => 'Fred'));
+	 * </code>
+	 *
 	 * @param  string  $view
 	 * @param  array   $data
 	 * @return View
@@ -48,6 +60,16 @@ class View_Factory {
 
 	/**
 	 * Create a new view instance from a view name.
+	 *
+	 * View names are defined in the application composers file.
+	 *
+	 * <code>
+	 *		// Create a new named view instance
+	 *		$view = View::of('layout');
+	 *
+	 *		// Create a new named view instance with bound data
+	 *		$view = View::of('layout', array('name' => 'Fred'));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $data
@@ -71,11 +93,30 @@ class View_Factory {
 	 */
 	protected function path($view)
 	{
-		return $this->path.str_replace('.', '/', $view).EXT;
+		$view = str_replace('.', '/', $view);
+
+		if (file_exists($path = $this->path.$view.'.blade'.EXT))
+		{
+			return $path;
+		}
+		elseif (file_exists($path = $this->path.$view.EXT))
+		{
+			return $path;
+		}
+
+		throw new \Exception('View ['.$view.'] does not exist.');
 	}
 
 	/**
 	 * Magic Method for handling the dynamic creation of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of_layout();
+	 *
+	 *		// Create an instance of the "layout" named view with bound data
+	 *		$view = View::of_layout(array('name' => 'Fred'));
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
@@ -96,13 +137,6 @@ class View_Factory {
 class View_Composer {
 
 	/**
-	 * The IoC container instance.
-	 *
-	 * @var Container
-	 */
-	protected $container;
-
-	/**
 	 * The view composers.
 	 *
 	 * @var array
@@ -112,13 +146,11 @@ class View_Composer {
 	/**
 	 * Create a new view composer instance.
 	 *
-	 * @param  Container  $container
 	 * @param  array      $composers
 	 * @return void
 	 */
-	public function __construct(Container $container, $composers)
+	public function __construct($composers)
 	{
-		$this->container = $container;
 		$this->composers = $composers;
 	}
 
@@ -144,13 +176,13 @@ class View_Composer {
 	 */
 	public function compose(View $view)
 	{
-		if (isset($this->composers['shared'])) call_user_func($this->composers['shared'], $view, $this->container);
+		if (isset($this->composers['shared'])) call_user_func($this->composers['shared'], $view);
 
 		if (isset($this->composers[$view->view]))
 		{
 			foreach ((array) $this->composers[$view->view] as $key => $value)
 			{
-				if ($value instanceof \Closure) return call_user_func($value, $view, $this->container);
+				if ($value instanceof \Closure) return call_user_func($value, $view);
 			}
 		}
 	}
@@ -216,23 +248,6 @@ class View {
 		$this->path = $path;
 		$this->factory = $factory;
 		$this->composer = $composer;
-
-		if ( ! file_exists($this->path))
-		{
-			throw new \Exception('View ['.$this->path.'] does not exist.');
-		}
-	}
-
-	/**
-	 * Create a new view instance.
-	 *
-	 * @param  string         $view
-	 * @param  array          $data
-	 * @return View
-	 */
-	public static function make($view, $data = array())
-	{
-		return IoC::container()->resolve('laravel.view')->make($view, $data);
 	}
 
 	/**
@@ -254,13 +269,33 @@ class View {
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		try { include $this->path; } catch (\Exception $e) { ob_get_clean(); throw $e; }
+		$content = ($this->bladed()) ? Blade::parse($this->path) : file_get_contents($this->path);
+
+		eval('?>'.$content);
 
 		return ob_get_clean();
 	}
 
 	/**
+	 * Determine if the view is using the blade view engine.
+	 *
+	 * @return bool
+	 */
+	protected function bladed()
+	{
+		return (strpos($this->path, '.blade'.EXT) !== false);
+	}
+
+	/**
 	 * Add a view instance to the view data.
+	 *
+	 * <code>
+	 *		// Bind a partial view to the view data
+	 *		$view->partial('footer', 'partials/footer');
+	 *
+	 *		// Bind a partial view to the view data with it's own bound data
+	 *		$view->partial('footer', 'partials/footer', array('name' => 'Fred'));
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $view
@@ -276,6 +311,11 @@ class View {
 	 * Add a key / value pair to the view data.
 	 *
 	 * Bound data will be available to the view as variables.
+	 *
+	 * <code>
+	 *		// Bind a piece of data to a view instance
+	 *		$view->with('name', 'Fred');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value

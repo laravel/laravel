@@ -86,14 +86,14 @@ class Inflector {
 	 * @var array
 	 */
 	private static $irregular = array(
-		'move' => 'moves',
+		'child' => 'children',
 		'foot' => 'feet',
 		'goose' => 'geese',
-		'sex' => 'sexes',
-		'child' => 'children',
 		'man' => 'men',
-		'tooth' => 'teeth',
+		'move' => 'moves',
 		'person' => 'people',
+		'sex' => 'sexes',
+		'tooth' => 'teeth',
 	);
 
 	/**
@@ -102,19 +102,28 @@ class Inflector {
 	 * @var array
 	 */
 	private static $uncountable = array(
-		'sheep',
-		'fish',
+		'equipment',
+		'data',
 		'deer',
-		'series',
-		'species',
+		'fish',
+		'information',
 		'money',
 		'rice',
-		'information',
-		'equipment',
+		'series',
+		'sheep',
+		'species',
 	);
 
 	/**
 	 * Get the plural form of a word if the specified count is greater than one.
+	 *
+	 * <code>
+	 *		// Returns "friend"
+	 *		echo Inflector::plural_if('friend', 1);
+	 *
+	 *		// Returns "friends"
+	 *		echo Inflector::plural_if('friend', 2);
+	 * </code>
 	 *
 	 * @param  string  $value
 	 * @param  int	   $count

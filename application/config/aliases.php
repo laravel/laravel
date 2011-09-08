@@ -19,7 +19,7 @@ return array(
 	*/
 
 	'Arr'        => 'Laravel\\Arr',
-	'Asset'      => 'Laravel\\Asset',
+	'Asset'      => 'Laravel\\Facades\\Asset',
 	'Auth'       => 'Laravel\\Facades\\Auth',
 	'Benchmark'  => 'Laravel\\Benchmark',
 	'Cache'      => 'Laravel\\Facades\\Cache',
@@ -37,16 +37,16 @@ return array(
 	'Inflector'  => 'Laravel\\Inflector',
 	'Input'      => 'Laravel\\Facades\\Input',
 	'IoC'        => 'Laravel\\IoC',
-	'Lang'       => 'Laravel\\Lang',
+	'Lang'       => 'Laravel\\Facades\\Lang',
 	'Loader'     => 'Laravel\\Facades\\Loader',
 	'Package'    => 'Laravel\\Facades\\Package',
 	'URL'        => 'Laravel\\Facades\\URL',
 	'Redirect'   => 'Laravel\\Facades\\Redirect',
 	'Request'    => 'Laravel\\Facades\\Request',
-	'Response'   => 'Laravel\\Response',
+	'Response'   => 'Laravel\\Facades\\Response',
 	'Session'    => 'Laravel\\Facades\\Session',
 	'Str'        => 'Laravel\\Str',
 	'Validator'  => 'Laravel\\Facades\\Validator',
-	'View'       => 'Laravel\\View',
+	'View'       => 'Laravel\\Facades\\View',
 
 );

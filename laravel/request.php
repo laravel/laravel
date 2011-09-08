@@ -21,14 +21,14 @@ class Request {
 	 *
 	 * @var array
 	 */
-	private $post;
+	protected $post;
 
 	/**
 	 * The base URL of the application.
 	 *
 	 * @var string
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * The request URI.
@@ -38,7 +38,7 @@ class Request {
 	 *
 	 * @var string
 	 */
-	private $uri;
+	protected $uri;
 
 	/**
 	 * Create a new request instance.

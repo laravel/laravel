@@ -35,6 +35,14 @@ class Lang_Factory {
 	/**
 	 * Begin retrieving a language line.
 	 *
+	 * <code>
+	 *		// Begin retrieving a language line
+	 *		$lang = Lang::line('messages.welcome');
+	 *
+	 *		// Begin retrieving a language line with replacements
+	 *		$lang = Lang::line('validation.required', array('attribute' => 'email'));
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @return Lang
@@ -55,35 +63,35 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	private static $lines = array();
+	protected static $lines = array();
 
 	/**
 	 * The key of the language line being retrieved.
 	 *
 	 * @var string
 	 */
-	private $key;
+	protected $key;
 
 	/**
 	 * The replacements that should be made on the language line.
 	 *
 	 * @var array
 	 */
-	private $replacements;
+	protected $replacements;
 
 	/**
-	 * The default language being used by the application.
+	 * The language in which the line should be retrieved.
 	 *
 	 * @var string
 	 */
-	private $language;
+	protected $language;
 
 	/**
 	 * The paths containing the language files.
 	 *
 	 * @var array
 	 */
-	private $paths;
+	protected $paths;
 
 	/**
 	 * Create a new Lang instance.
@@ -103,27 +111,29 @@ class Lang {
 	}
 
 	/**
-	 * Create a new Lang instance.
-	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
-	 * @return Lang
-	 */
-	public static function line($key, $replacements = array())
-	{
-		return IoC::container()->resolve('laravel.lang')->line($key, $replacements);
-	}
-
-	/**
 	 * Get the language line.
 	 *
 	 * A default value may also be specified, which will be returned in the language line doesn't exist.
 	 *
+	 * <code>
+	 *		// Retrieve a language line in the default language
+	 *		echo Lang::line('validation.required')->get();
+	 *
+	 *		// Retrieve a language line for a given language
+	 *		echo Lang::line('validation.required')->get('sp');
+	 *
+	 *		// Retrieve a language line and return "Fred" if it doesn't exist
+	 *		echo Lang::line('validation.required')->get('en', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $language
+	 * @param  string  $default
 	 * @return string
 	 */
-	public function get($default = null)
+	public function get($language = null, $default = null)
 	{
+		if ( ! is_null($language)) $this->language = $language;
+
 		list($file, $line) = $this->parse($this->key);
 
 		if ( ! $this->load($file))
@@ -151,7 +161,7 @@ class Lang {
 	 * @param  string  $key
 	 * @return array
 	 */
-	private function parse($key)
+	protected function parse($key)
 	{
 		if (count($segments = explode('.', $key)) > 1)
 		{
@@ -169,7 +179,7 @@ class Lang {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	private function load($file)
+	protected function load($file)
 	{
 		if (isset(static::$lines[$this->language.$file])) return;
 
@@ -186,20 +196,6 @@ class Lang {
 		if (count($language) > 0) static::$lines[$this->language.$file] = $language;
 		
 		return isset(static::$lines[$this->language.$file]);		
-	}
-
-	/**
-	 * Set the language the line should be returned in.
-	 *
-	 * The language specified in this method should correspond to a language directory in your application.
-	 *
-	 * @param  string  $language
-	 * @return Lang
-	 */
-	public function in($language)
-	{
-		$this->language = $language;
-		return $this;
 	}
 
 	/**
