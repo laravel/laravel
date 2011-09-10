@@ -15,9 +15,14 @@
 */
 define('START_TIME', microtime(true));
 
+function elapsed()
+{
+	return number_format((microtime(true) - START_TIME) * 1000, 2);
+}
+
 /*
 |--------------------------------------------------------------------------
-| Where Am I?
+| Laravel Installation Paths
 |--------------------------------------------------------------------------
 |
 | Here you may specify the location of the various Laravel framework
@@ -44,5 +49,3 @@ $public      = __DIR__;
 |--------------------------------------------------------------------------
 */
 require $laravel.'/laravel.php';
-
-echo (microtime(true) - START_TIME) * 1000;
