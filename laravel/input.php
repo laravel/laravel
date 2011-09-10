@@ -31,7 +31,7 @@ class Input {
 	public $cookies;
 
 	/**
-	 * Create a new Input instance.
+	 * Create a new Input manager instance.
 	 *
 	 * @param  Cookie  $cookies
 	 * @param  array   $input
@@ -172,6 +172,14 @@ class Input {
 
 	/**
 	 * Magic Method for retrieving items from the request input.
+	 *
+	 * This method is particularly helpful in controllers where access to the IoC container
+	 * is provided through the controller's magic __get method.
+	 *
+	 * <code>
+	 *		// Retrieve the "name" input item from a controller method
+	 *		$name = $this->input->name;
+	 * </code>
 	 */
 	public function __get($key)
 	{

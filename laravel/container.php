@@ -15,6 +15,11 @@ class IoC {
 	 * The container is set early in the request cycle and can be access here for
 	 * use as a service locator if dependency injection is not practical.
 	 *
+	 * <code>
+	 *		// Get the active container instance and call the resolve method
+	 *		$instance = IoC::container()->resolve('instance');
+	 * </code>
+	 *
 	 * @return Container
 	 */
 	public static function container()
@@ -24,6 +29,14 @@ class IoC {
 
 	/**
 	 * Magic Method for calling methods on the active container instance.
+	 *
+	 * <code>
+	 *		// Call the "resolve" method on the active container instance
+	 *		$instance = IoC::resolve('instance');
+	 *
+	 *		// Equivalent operation using the "container" method
+	 *		$instance = IoC::container()->resolve('instance');
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

@@ -3,7 +3,7 @@
 class Messages {
 
 	/**
-	 * All of the messages.
+	 * All of the registered messages.
 	 *
 	 * @var array
 	 */
@@ -12,7 +12,7 @@ class Messages {
 	/**
 	 * Create a new Messages instance.
 	 *
-	 * The Messages class provides a convenient wrapper around an array of generic messages.
+	 * The Messages class provides a convenient wrapper around an array of strings.
 	 *
 	 * @return void
 	 */
@@ -25,6 +25,11 @@ class Messages {
 	 * Add a message to the collector.
 	 *
 	 * Duplicate messages will not be added.
+	 *
+	 * <code>
+	 *		// Add a message to the message collector
+	 *		$messages->add('email', 'The e-mail address is invalid.');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $message
@@ -54,6 +59,14 @@ class Messages {
 	 *
 	 * Optionally, a format may be specified for the returned message.
 	 *
+	 * <code>
+	 *		// Get the first message for the e-mail attribute
+	 *		echo $messages->first('email');
+	 *
+	 *		// Get the first message for the e-mail attribute using a format
+	 *		echo $messages->first('email', '<p>:message</p>');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $format
 	 * @return string
@@ -65,6 +78,16 @@ class Messages {
 
 	/**
 	 * Get all of the messages for a key.
+	 *
+	 * Optionally, a format may be specified for the returned messages.
+	 *
+	 * <code>
+	 *		// Get all of the messages for the e-mail attribute
+	 *		$messages = $messages->get('email');
+	 *
+	 *		// Get all of the messages for the e-mail attribute using a format
+	 *		$messages = $messages->get('email', '<p>:message</p>');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $format
@@ -79,6 +102,11 @@ class Messages {
 
 	/**
 	 * Get all of the messages for every key.
+	 *
+	 * <code>
+	 *		// Get all of the error messages using a format
+	 *		$messages = $messages->all('<p>:message</p>');
+	 * </code>
 	 *
 	 * @param  string  $format
 	 * @return array
@@ -102,7 +130,7 @@ class Messages {
 	 * @param  string  $format
 	 * @return array
 	 */
-	private function format($messages, $format)
+	protected function format($messages, $format)
 	{
 		foreach ($messages as $key => &$message)
 		{

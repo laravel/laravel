@@ -160,25 +160,13 @@ return array(
 
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Routing\Router($container->resolve('laravel.request'), require APP_PATH.'routes'.EXT, CONTROLLER_PATH);
+		return new Routing\Router(require APP_PATH.'routes'.EXT, CONTROLLER_PATH);
 	}),
 
 
 	'laravel.routing.caller' => array('resolver' => function($container)
 	{
-		return new Routing\Caller($container, $container->resolve('laravel.routing.filterer'), $container->resolve('laravel.routing.delegator'));
-	}),
-
-
-	'laravel.routing.filterer' => array('resolver' => function($container)
-	{
-		return new Routing\Filterer(require APP_PATH.'filters'.EXT);		
-	}),
-
-
-	'laravel.routing.delegator' => array('resolver' => function($container)
-	{
-		return new Routing\Delegator($container, CONTROLLER_PATH);
+		return new Routing\Caller($container, require APP_PATH.'filters'.EXT, CONTROLLER_PATH);
 	}),
 
 
@@ -206,8 +194,10 @@ return array(
 	}),
 
 
-	'laravel.validator' => array('resolver' => function($container)
+	'laravel.validator' => array('singleton' => true, 'resolver' => function($container)
 	{
+		require_once SYS_PATH.'validation/validator'.EXT;
+
 		return new Validation\Validator_Factory($container->resolve('laravel.lang'));
 	}),
 
@@ -289,7 +279,7 @@ return array(
 
 	'laravel.cache.apc' => array('resolver' => function($container)
 	{
-		return new Cache\APC(new Cache\APC_Engine, $container->resolve('laravel.config')->get('cache.key'));
+		return new Cache\APC(new Proxy, $container->resolve('laravel.config')->get('cache.key'));
 	}),
 
 

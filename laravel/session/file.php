@@ -32,9 +32,6 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Load a session by ID.
 	 *
-	 * The session will be retrieved from persistant storage and returned as an array.
-	 * The array contains the session ID, last activity UNIX timestamp, and session data.
-	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -73,7 +70,10 @@ class File extends Driver implements Sweeper {
 	{
 		foreach (glob($this->path.'*') as $file)
 		{
-			if ($this->file->type($file) == 'file' and $this->file->modified($file) < $expiration) $this->file->delete($file);
+			if ($this->file->type($file) == 'file' and $this->file->modified($file) < $expiration)
+			{
+				$this->file->delete($file);
+			}
 		}
 	}
 	

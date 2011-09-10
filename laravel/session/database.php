@@ -9,14 +9,14 @@ class Database extends Driver implements Sweeper {
 	 *
 	 * @var Connection
 	 */
-	private $connection;
+	protected $connection;
 
 	/**
 	 * The database table to which the sessions should be written.
 	 *
 	 * @var string
 	 */
-	private $table;
+	protected $table;
 
 	/**
 	 * Create a new database session driver.
@@ -33,9 +33,6 @@ class Database extends Driver implements Sweeper {
 
 	/**
 	 * Load a session by ID.
-	 *
-	 * The session will be retrieved from persistant storage and returned as an array.
-	 * The array contains the session ID, last activity UNIX timestamp, and session data.
 	 *
 	 * @param  string  $id
 	 * @return array
@@ -96,7 +93,7 @@ class Database extends Driver implements Sweeper {
 	 *
 	 * @return Query
 	 */
-	private function table()
+	protected function table()
 	{
 		return $this->connection->table($this->table);		
 	}

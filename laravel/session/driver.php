@@ -7,7 +7,7 @@ use Laravel\Cookie;
 abstract class Driver {
 
 	/**
-	 * The session payload, which contains the session ID, data and last activity timestamp.
+	 * The session payload, containing the session ID, data and last activity timestamp.
 	 *
 	 * @var array
 	 */
@@ -51,9 +51,6 @@ abstract class Driver {
 	/**
 	 * Load a session by ID.
 	 *
-	 * The session will be retrieved from persistant storage and returned as an array.
-	 * The array contains the session ID, last activity UNIX timestamp, and session data.
-	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -87,8 +84,15 @@ abstract class Driver {
 	/**
 	 * Get an item from the session.
 	 *
-	 * A default value may also be specified, and will be returned in the requested
-	 * item does not exist in the session.
+	 * A default value may also be specified, and will be returned in the item doesn't exist.
+	 *
+	 * <code>
+	 *		// Get an item from the session
+	 *		$name = Session::get('name');
+	 *
+	 *		// Get an item from the session and return a default value if it doesn't exist
+	 *		$name = Session::get('name', 'Fred');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -107,6 +111,11 @@ abstract class Driver {
 	/**
 	 * Write an item to the session.
 	 *
+	 * <code>
+	 *		// Store an item in the session
+	 *		Session::put('name', 'Fred');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return Driver
@@ -123,6 +132,11 @@ abstract class Driver {
 	 *
 	 * Flash data only exists for the next request. After that, it will be removed from
 	 * the session. Flash data is useful for temporary status or welcome messages.
+	 *
+	 * <code>
+	 *		// Store an item in the session flash data
+	 *		Session::flash('name', 'Fred');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -239,6 +253,14 @@ abstract class Driver {
 
 	/**
 	 * Magic Method for retrieving items from the session.
+	 *
+	 * This method is particularly helpful in controllers where access to the IoC container
+	 * is provided through the controller's magic __get method.
+	 *
+	 * <code>
+	 *		// Retrieve an item from the session from a controller method
+	 *		$name = $this->session->name;
+	 * </code>
 	 */
 	public function __get($key)
 	{
@@ -247,6 +269,14 @@ abstract class Driver {
 
 	/**
 	 * Magic Method for writings items to the session.
+	 *
+	 * This method is particularly helpful in controllers where access to the IoC container
+	 * is provided through the controller's magic __get method.
+	 *
+	 * <code>
+	 *		// Set an item in the session from a controller method
+	 *		$this->session->name = 'Fred';
+	 * </code>
 	 */
 	public function __set($key, $value)
 	{

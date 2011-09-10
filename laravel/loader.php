@@ -39,10 +39,7 @@ class Loader {
 	{
 		$file = strtolower(str_replace('\\', '/', $class));
 
-		if (array_key_exists($class, $this->aliases))
-		{
-			return class_alias($this->aliases[$class], $class);
-		}
+		if (array_key_exists($class, $this->aliases)) return class_alias($this->aliases[$class], $class);
 
 		foreach ($this->paths as $path)
 		{

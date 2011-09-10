@@ -72,6 +72,18 @@ class Cookie {
 	 *
 	 * If a negative number of minutes is specified, the cookie will be deleted.
 	 *
+	 * Note: This method's signature is very similar to the PHP setcookie method.
+	 *       However, you simply need to pass the number of minutes for which you
+	 *       wish the cookie to be valid. No funky time calculation is required.
+	 *
+	 * <code>
+	 *		// Create a cookie that exists until the user closes their browser
+	 *		Cookie::put('color', 'blue');
+	 *
+	 *		// Create a cookie that exists for 5 minutes
+	 *		Cookie::put('name', 'blue', 5);
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  int     $minutes

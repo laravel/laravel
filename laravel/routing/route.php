@@ -1,7 +1,6 @@
 <?php namespace Laravel\Routing;
 
 use Closure;
-use Laravel\Container;
 
 class Route {
 
@@ -27,7 +26,7 @@ class Route {
 	public $callback;
 
 	/**
-	 * The parameters that will passed to the route function.
+	 * The parameters that will passed to the route callback.
 	 *
 	 * @var array
 	 */
@@ -50,6 +49,29 @@ class Route {
 	}
 
 	/**
+	 * Parse the route key and return an array of URIs the route responds to.
+	 *
+	 * @param  string  $key
+	 * @return array
+	 */
+	protected function parse_uris($key)
+	{
+		if (strpos($key, ', ') === false) return array($this->extract_uri($key));
+
+		// The extractor closure will retrieve the URI from a given route destination.
+		// If the request is to the root of the application, a single forward slash
+		// will be returned, otherwise the leading slash will be removed.
+		$extractor = function($segment)
+		{
+			$segment = substr($segment, strpos($segment, ' ') + 1);
+
+			return ($segment !== '/') ? trim($segment, '/') : $segment;
+		};
+
+		return array_map(function($segment) use ($extractor) { return $extractor($segment); }, explode(', ', $key));
+	}
+
+	/**
 	 * Call the route closure.
 	 *
 	 * If no closure is defined for the route, null will be returned.
@@ -58,9 +80,7 @@ class Route {
 	 */
 	public function call()
 	{
-		if (is_null($closure = $this->find_closure())) return;
-
-		return call_user_func_array($closure, $this->parameters);
+		return ( ! is_null($closure = $this->closure())) ? call_user_func_array($closure, $this->parameters) : null;
 	}
 
 	/**
@@ -68,17 +88,15 @@ class Route {
 	 *
 	 * @return Closure|null
 	 */
-	protected function find_closure()
+	protected function closure()
 	{
 		if ($this->callback instanceof Closure) return $this->callback;
-
-		if (isset($this->callback['do'])) return $this->callback['do'];
 
 		foreach ($this->callback as $value) { if ($value instanceof Closure) return $value; }
 	}
 
 	/**
-	 * Get an array of filter names defined for a route.
+	 * Get an array of filter names defined for the route.
 	 *
 	 * @param  string  $name
 	 * @return array
@@ -89,16 +107,14 @@ class Route {
 	}
 
 	/**
-	 * Determine if the route handling has a given name.
+	 * Determine if the route has a given name.
 	 *
 	 * @param  string  $name
 	 * @return bool
 	 */
 	public function is($name)
 	{
-		if ( ! is_array($this->callback) or ! isset($this->callback['name'])) return false;
-
-		return $this->callback['name'] === $name;
+		return (is_array($this->callback) and isset($this->callback['name'])) ? $this->callback['name'] === $name : false;
 	}
 
 	/**
@@ -110,41 +126,6 @@ class Route {
 	public function handles($uri)
 	{
 		return in_array($uri, $this->uris);
-	}
-
-	/**
-	 * Parse the route key and return an array of URIs the route responds to.
-	 *
-	 * @param  string  $key
-	 * @return array
-	 */
-	protected function parse_uris($key)
-	{
-		if (strpos($key, ', ') === false) return array($this->extract_uri($key));
-
-		foreach (explode(', ', $key) as $segment)
-		{
-			$uris[] = $this->extract_uri($segment);
-		}
-
-		return $uris;
-	}
-
-	/**
-	 * Extract the URI from a route destination.
-	 *
-	 * Route destinations include the request method the route responds to, so this method
-	 * will only remove it from the string. Unless the URI is root, the forward slash will
-	 * be removed to make searching the URIs more convenient.
-	 *
-	 * @param  string  $segment
-	 * @return string
-	 */
-	protected function extract_uri($segment)
-	{
-		$segment = substr($segment, strpos($segment, ' ') + 1);
-
-		return ($segment !== '/') ? trim($segment, '/') : $segment;
 	}
 
 	/**

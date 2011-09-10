@@ -32,6 +32,14 @@ class Response_Factory {
 	/**
 	 * Create a new response instance.
 	 *
+	 * <code>
+	 *		// Create a response instance
+	 *		return Response::make('Hello World');
+	 *
+	 *		// Create a response instance with a given status code
+	 *		return Response::make('Hello World', 200);
+	 * </code>
+	 *
 	 * @param  mixed     $content
 	 * @param  int       $status
 	 * @param  array     $headers
@@ -45,6 +53,14 @@ class Response_Factory {
 	/**
 	 * Create a new response instance containing a view.
 	 *
+	 * <code>
+	 *		// Create a new response instance with view content
+	 *		return Response::view('home.index');
+	 *
+	 *		// Create a new response instance with a view and bound data
+	 *		return Response::view('home.index', array('name' => 'Fred'));
+	 * </code>
+	 *
 	 * @param  string    $view
 	 * @param  array     $data
 	 * @return Response
@@ -55,11 +71,36 @@ class Response_Factory {
 	}
 
 	/**
+	 * Create a new response instance containing a named view.
+	 *
+	 * <code>
+	 *		// Create a new response instance with a named view
+	 *		return Response::with('layout');
+	 *
+	 *		// Create a new response instance with a named view and bound data
+	 *		return Response::with('layout', array('name' => 'Fred'));
+	 * </code>
+	 *
+	 * @param  string    $name
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public function with($name, $data = array())
+	{
+		return new Response($this->view->of($name, $data));
+	}
+
+	/**
 	 * Create a new error response instance.
 	 *
 	 * The response status code will be set using the specified code.
 	 *
 	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 *
+	 * <code>
+	 *		// Create an error response for status 500
+	 *		return Response::error('500');
+	 * </code>
 	 *
 	 * @param  int       $code
 	 * @param  array     $data
@@ -94,6 +135,25 @@ class Response_Factory {
 		), $headers);
 
 		return new Response($this->file->get($path), 200, $headers);
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of Responses containing named views.
+	 *
+	 * <code>
+	 *		// Create a Response instance with the "layout" named view
+	 *		$response = Response::with_layout();
+	 *
+	 *		// Create a Response instance with the "layout" named view and bound data
+	 *		$response = Response::with_layout(array('name' => 'Fred'));
+	 * </code>
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos($method, 'with_') === 0)
+		{
+			return $this->with(substr($method, 5), Arr::get($parameters, 0, array()));
+		}
 	}
 
 }

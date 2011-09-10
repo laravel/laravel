@@ -65,6 +65,11 @@ class Redirect extends Response {
 	 *
 	 * This is useful for passing status messages or other temporary data to the next request.
 	 *
+	 * <code>
+	 *		// Create a redirect and flash a messages to the session
+	 *		return Redirect::to_profile()->with('message', 'Welcome Back!');
+	 * </code>
+	 *
 	 * @param  string          $key
 	 * @param  mixed           $value
 	 * @return Response
@@ -83,6 +88,17 @@ class Redirect extends Response {
 
 	/**
 	 * Magic Method to handle creation of redirects to named routes.
+	 *
+	 * <code>
+	 *		// Create a redirect to the "profile" route
+	 *		return Redirect::to_profile();
+	 *
+	 *		// Create a redirect to the "profile" route with wildcard segments
+	 *		return Redirect::to_profile(array($username));
+	 *
+	 *		// Create a redirect to the "profile" route using HTTPS
+	 *		return Redirect::to_secure_profile();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

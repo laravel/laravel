@@ -1,55 +1,13 @@
 <?php namespace Laravel\Cache;
 
-/**
- * Wrap the APC functions in a class that can be injected into driver.
- * Since the APC functions are global, the driver is untestable without
- * injecting a wrapper around them.
- */
-class APC_Engine {
-
-	/**
-	 * Get an item from the APC cache.
-	 *
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public function get($key)
-	{
-		return apc_fetch($key);
-	}
-
-	/**
-	 * Store an item in the APC cache.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
-	 * @return void
-	 */
-	public function put($key, $value, $seconds)
-	{
-		apc_store($key, $value, $seconds);
-	}
-
-	/**
-	 * Delete an item from the APC cache.
-	 *
-	 * @param  string  $key
-	 * @return void
-	 */
-	public function forget($key)
-	{
-		apc_delete($key);
-	}
-
-}
+use Laravel\Proxy;
 
 class APC extends Driver {
 
 	/**
-	 * The APC Engine instance.
+	 * The proxy class instance.
 	 *
-	 * @var APC_Engine
+	 * @var Proxy
 	 */
 	private $apc;
 
@@ -63,13 +21,14 @@ class APC extends Driver {
 	/**
 	 * Create a new APC cache driver instance.
 	 *
-	 * @param  APC_Engine  $apc
+	 * @param  Proxy   $proxy
+	 * @param  string  $key
 	 * @return void
 	 */
-	public function __construct(APC_Engine $apc, $key)
+	public function __construct(Proxy $apc, $key)
 	{
-		$this->apc = $apc;
 		$this->key = $key;
+		$this->proxy = $proxy;
 	}
 
 	/**
@@ -91,7 +50,7 @@ class APC extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return ( ! is_null($cache = $this->apc->get($this->key.$key))) ? $cache : null;
+		return ( ! is_null($cache = $this->proxy->apc_fetch($this->key.$key))) ? $cache : null;
 	}
 
 	/**
@@ -104,7 +63,7 @@ class APC extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->apc->put($this->key.$key, $value, $minutes * 60);
+		$this->proxy->apc_store($this->key.$key, $value, $minutes * 60);
 	}
 
 	/**
@@ -115,7 +74,7 @@ class APC extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->apc->forget($this->key.$key);
+		$this->proxy->apc_delete($this->key.$key);
 	}
 
 }

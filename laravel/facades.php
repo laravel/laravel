@@ -2,6 +2,18 @@
 
 use Laravel\IoC;
 
+/**
+ * The Laravel framework makes thorough use of dependency injection assisted by an application
+ * inversion of control container. This allows for great flexibility, easy testing, and better
+ * architecture. However, most PHP framework users may be used to accessing classes through
+ * a variety of static methods. Laravel provides "facades" to simulate this behavior while
+ * still using heavy dependency injection.
+ *
+ * Each class that is commonly used by the developer has a corresponding facade defined in
+ * this file. All of the various facades inherit from the abstract Facade class, which only
+ * has a single __callStatic magic method. The facade simply resolves the requested class
+ * out of the IoC container and calls the appropriate method.
+ */
 abstract class Facade {
 
 	/**

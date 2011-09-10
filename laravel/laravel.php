@@ -57,7 +57,7 @@ if ($config->get('session.driver') !== '')
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-$route = $container->resolve('laravel.routing.router')->route();
+$route = $container->resolve('laravel.routing.router')->route($container->resolve('laravel.request'));
 
 if ( ! is_null($route))
 {

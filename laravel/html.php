@@ -7,14 +7,14 @@ class HTML {
 	 *
 	 * @var string
 	 */
-	public $encoding;
+	protected $encoding;
 
 	/**
 	 * The URL generator instance.
 	 *
 	 * @var URL
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * Create a new HTML writer instance.
@@ -278,7 +278,7 @@ class HTML {
 	 */
 	public function image($url, $alt = '', $attributes = array())
 	{
-		$attributes['alt'] = $this->entities($alt);
+		$attributes['alt'] = $alt;
 
 		return '<img src="'.$this->entities($this->url->to_asset($url)).'"'.$this->attributes($attributes).'>';
 	}

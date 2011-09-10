@@ -12,13 +12,6 @@ class Router {
 	public $routes;
 
 	/**
-	 * The current request instance.
-	 *
-	 * @var Request
-	 */
-	protected $request;
-
-	/**
 	 * The named routes that have been found so far.
 	 *
 	 * @var array
@@ -35,14 +28,13 @@ class Router {
 	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  Request  $request
-	 * @param  array    $routes
+	 * @param  array   $routes
+	 * @param  string  $controller_path
 	 * @return void
 	 */
-	public function __construct(Request $request, $routes, $controller_path)
+	public function __construct($routes, $controller_path)
 	{
 		$this->routes = $routes;
-		$this->request = $request;
 		$this->controller_path = $controller_path;
 	}
 
@@ -74,23 +66,24 @@ class Router {
 	}
 
 	/**
-	 * Search the routes for the route matching a method and URI.
+	 * Search the routes for the route matching a request method and URI.
 	 *
 	 * If no route can be found, the application controllers will be searched.
 	 *
+	 * @param  Request  $request
 	 * @return Route
 	 */
-	public function route()
+	public function route(Request $request)
 	{
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$destination = $this->request->method().' /'.trim($this->request->uri(), '/');
+		$destination = $request->method().' /'.trim($request->uri(), '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
 		if (isset($this->routes[$destination]))
 		{
-			return $this->request->route = new Route($destination, $this->routes[$destination], array());
+			return $request->route = new Route($destination, $this->routes[$destination], array());
 		}
 
 		foreach ($this->routes as $keys => $callback)
@@ -101,17 +94,18 @@ class Router {
 			{
 				foreach (explode(', ', $keys) as $key)
 				{
+					// Append the provided formats to the route as an optional regular expression.
 					if ( ! is_null($formats = $this->provides($callback))) $key .= '(\.('.implode('|', $formats).'))?';
 
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return $this->request->route = new Route($keys, $callback, $this->parameters($destination, $key));
+						return $request->route = new Route($keys, $callback, $this->parameters($destination, $key));
 					}
 				}				
 			}
 		}
 
-		return $this->request->route = $this->route_to_controller();
+		return $request->route = $this->route_to_controller($request, $destination);
 	}
 
 	/**
@@ -119,13 +113,17 @@ class Router {
 	 *
 	 * If no corresponding controller can be found, NULL will be returned.
 	 *
+	 * @param  Request  $request
+	 * @param  string   $destination
 	 * @return Route
 	 */
-	protected function route_to_controller()
+	protected function route_to_controller(Request $request, $destination)
 	{
-		if ($this->request->uri() === '/') return new Route($this->request->method().' /', function() { return array('home', 'index'); });
+		// If the request is to the root of the application, an ad-hoc route will be generated
+		// to the home controller's "index" method, making it the default controller method.
+		if ($request->uri() === '/') return new Route($request->method().' /', function() { return array('home', 'index'); });
 
-		$segments = explode('/', trim($this->request->uri(), '/'));
+		$segments = explode('/', trim($request->uri(), '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{
@@ -149,7 +147,7 @@ class Router {
 			// were they to code the controller delegation manually.
 			$callback = function() use ($controller, $method) { return array($controller, $method); };
 
-			return new Route($this->request->method().' /'.$this->request->uri(), $callback, $segments);
+			return new Route($destination, $callback, $segments);
 		}
 	}
 
@@ -159,14 +157,14 @@ class Router {
 	 *
 	 * If a controller is found, the array key for the controller name in the URI
 	 * segments will be returned by the method, otherwise NULL will be returned.
+	 * The deepest possible matching controller will be considered the controller
+	 * that should handle the request.
 	 *
 	 * @param  array  $segments
 	 * @return int
 	 */
 	protected function controller_key($segments)
 	{
-		// Work backwards through the URI segments until we find the deepest possible
-		// matching controller. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
 			if (file_exists($path = $this->controller_path.implode('/', array_slice($segments, 0, $key + 1)).EXT))

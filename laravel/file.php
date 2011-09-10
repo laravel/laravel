@@ -1,5 +1,10 @@
 <?php namespace Laravel;
 
+/**
+ * While this class may appear totally useless. It is actually quite helpful for dealing with
+ * the global scope of the PHP file functions. Injecting this class into the classes that need
+ * access to these functions allows us to test the classes without hitting the actual file system.
+ */
 class File {
 
 	/**

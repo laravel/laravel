@@ -200,6 +200,15 @@ class Lang {
 
 	/**
 	 * Get the string content of the language line.
+	 *
+	 * This provides a convenient mechanism for displaying language line in views without
+	 * using the "get" method on the language instance.
+	 *
+	 * <code>
+	 *		// Display a language line by casting it to a string
+	 *		echo Lang::line('messages.welcome');
+	 * </code>
+	 *
 	 */
 	public function __toString()
 	{

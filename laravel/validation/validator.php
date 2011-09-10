@@ -1,5 +1,6 @@
 <?php namespace Laravel\Validation;
 
+use Closure;
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Lang_Factory;
@@ -12,6 +13,13 @@ class Validator_Factory {
 	 * @var Lang_Factory
 	 */
 	protected $lang;
+
+	/**
+	 * The registered custom validators.
+	 *
+	 * @var array
+	 */
+	protected $validators = array();
 
 	/**
 	 * Create a new validator factory instance.
@@ -34,7 +42,22 @@ class Validator_Factory {
 	 */
 	public function make($attributes, $rules, $messages = array())
 	{
-		return new Validator($this->lang, $attributes, $rules, $messages);
+		return new Validator($this->lang, $this->validators, $attributes, $rules, $messages);
+	}
+
+	/**
+	 * Register a custom validation callback.
+	 *
+	 * @param  string     $name
+	 * @param  string     $message
+	 * @param  Closure    $closure
+	 * @return Validator
+	 */
+	public function register($name, $message, Closure $closure)
+	{
+		$this->validators[$name] = compact('message', 'closure');
+
+		return $this;
 	}
 
 }
@@ -42,46 +65,32 @@ class Validator_Factory {
 class Validator {
 
 	/**
-	 * The array being validated.
+	 * The registered custom validators.
 	 *
 	 * @var array
 	 */
-	public $attributes;
+	protected $validators = array();
 
 	/**
 	 * The validation rules.
 	 *
 	 * @var array
 	 */
-	public $rules;
+	protected $rules = array();
 
 	/**
 	 * The validation messages.
 	 *
 	 * @var array
 	 */
-	public $messages;
-
-	/**
-	 * The post-validation error messages.
-	 *
-	 * @var Messages
-	 */
-	public $errors;
+	protected $messages = array();
 
 	/**
 	 * The language that should be used when retrieving error messages.
 	 *
 	 * @var string
 	 */
-	public $language;
-
-	/**
-	 * The database connection that should be used by the validator.
-	 *
-	 * @var DB\Connection
-	 */
-	public $connection;
+	protected $language;
 
 	/**
 	 * The size related validation rules.
@@ -98,33 +107,57 @@ class Validator {
 	protected $numeric_rules = array('numeric', 'integer');
 
 	/**
+	 * The database connection that should be used by the validator.
+	 *
+	 * @var DB\Connection
+	 */
+	public $connection;
+
+	/**
+	 * The array being validated.
+	 *
+	 * @var array
+	 */
+	public $attributes;
+
+	/**
+	 * The post-validation error messages.
+	 *
+	 * @var Messages
+	 */
+	public $errors;
+
+	/**
 	 * Create a new validator instance.
 	 *
 	 * @param  Lang_Factory  $lang
+	 * @param  array         $validators
 	 * @param  array         $attributes
 	 * @param  array         $rules
 	 * @param  array         $messages
 	 * @return void
 	 */
-	public function __construct(Lang_Factory $lang, $attributes, $rules, $messages = array())
+	public function __construct(Lang_Factory $lang, $validators, $attributes, $rules, $messages = array())
 	{
+		foreach ($rules as $key => &$rule)
+		{
+			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
+		}
+
+		// Register all of the custom validators and their corresponding error messages.
+		// The validators are executed via the magic __call method. The validator names
+		// are prefixed with "validate_" to match the built-in validators.
+		foreach ($validators as $key => $value)
+		{
+			$this->messages[$key] = $value['message'];
+
+			$this->validators['validate_'.$key] = $value['closure'];
+		}
+
 		$this->lang = $lang;
 		$this->rules = $rules;
-		$this->messages = $messages;
 		$this->attributes = $attributes;
-	}
-
-	/**
-	 * Create a new validator instance.
-	 *
-	 * @param  array      $attributes
-	 * @param  array      $rules
-	 * @param  array      $messages
-	 * @return Validator
-	 */
-	public static function make($attributes, $rules, $messages = array())
-	{
-		return IoC::container()->resolve('laravel.validator')->make($attributes, $rules, $messages);
+		$this->messages = array_merge($this->messages, $messages);
 	}
 
 	/**
@@ -168,18 +201,18 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		if ( ! method_exists($this, $validator = 'validate_'.$rule))
+		if ( ! method_exists($this, $validator = 'validate_'.$rule) and ! isset($this->validators[$validator]))
 		{
 			throw new \Exception("Validation rule [$rule] doesn't exist.");
 		}
 
 		// No validation will be run for attributes that do not exist unless the rule being validated
 		// is "required" or "accepted". No other rules have implicit "required" checks.
-		if ( ! static::validate_required($attribute) and ! in_array($rule, array('required', 'accepted'))) return;
+		if ( ! $this->validate_required($attribute) and ! in_array($rule, array('required', 'accepted'))) return;
 
-		if ( ! $this->$validator($attribute, $parameters))
+		if ( ! $this->$validator($attribute, $parameters, $this))
 		{
-			$message = $this->format_message($this->get_message($attribute, $rule));
+			$message = $this->format_message($this->get_message($attribute, $rule), $attribute, $rule, $parameters);
 
 			$this->errors->add($attribute, $message, $attribute, $rule, $parameters);
 		}
@@ -227,7 +260,7 @@ class Validator {
 	{
 		$value = $this->attributes[$attribute];
 
-		return static::validate_required($attribute) and ($value == 'yes' or $value == '1');
+		return $this->validate_required($attribute) and ($value == 'yes' or $value == '1');
 	}
 
 	/**
@@ -403,7 +436,7 @@ class Validator {
 	 */
 	protected function validate_image($attribute)
 	{
-		return static::validate_mimes($attribute, array('jpg', 'png', 'gif', 'bmp'));
+		return $this->validate_mimes($attribute, array('jpg', 'png', 'gif', 'bmp'));
 	}
 
 	/**
@@ -486,10 +519,10 @@ class Validator {
 			$message = $this->lang->line('validation.'.$rule)->get($this->language);
 
 			// For "size" rules that are validating strings or files, we need to adjust
-			// the default error message for the appropriate type.
+			// the default error message for the appropriate units.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
-				return (array_key_exists($attribute, $_FILES))
+				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->files()))
                                    ? rtrim($message, '.').' '.$this->lang->line('validation.kilobytes')->get($this->language).'.'
                                    : rtrim($message, '.').' '.$this->lang->line('validation.characters')->get($this->language).'.';
 			}
@@ -581,6 +614,14 @@ class Validator {
 	{
 		$this->connection = $connection;
 		return $this;
+	}
+
+	/**
+	 * Magic Method for calling custom registered validators.
+	 */
+	public function __call($method, $parameters)
+	{
+		return call_user_func_array($this->validators[$method], $parameters);
 	}
 
 }
