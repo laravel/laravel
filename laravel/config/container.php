@@ -81,7 +81,7 @@ return array(
 
 	'laravel.hasher' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Security\Hashing\BCrypt(10, false);
+		return new Security\Hashing\Bcrypt(8);
 	}),
 
 
