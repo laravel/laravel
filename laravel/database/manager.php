@@ -7,7 +7,7 @@ class Manager {
 	 *
 	 * @var array
 	 */
-	public $connections = array();
+	protected $connections = array();
 
 	/**
 	 * The connector factory instance.
@@ -51,6 +51,14 @@ class Manager {
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
+	 * <code>
+	 *		// Get the default database connection
+	 *		$connection = DB::connection();
+	 *
+	 *		// Get a database connection by name
+	 *		$connection = DB::connection('slave');
+	 * </code>
+	 *
 	 * @param  string               $connection
 	 * @return Database\Connection
 	 */
@@ -76,7 +84,13 @@ class Manager {
 	/**
 	 * Begin a fluent query against a table.
 	 *
-	 * This method primarily serves as a short-cut to the $connection->table() method.
+	 * <code>
+	 *		// Begin a fluent query against the "users" table using the default connection
+	 *		$query = DB::table('users');
+	 *
+	 *		// Begin a fluent query against the "users" table using a specified connection
+	 *		$query = DB::table('users', 'slave');
+	 * </code>
 	 *
 	 * @param  string          $table
 	 * @param  string          $connection
@@ -91,6 +105,14 @@ class Manager {
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.
+	 *
+	 * <code>
+	 *		// Perform a query against the default connection
+	 *		$results = DB::query('select * from users');
+	 *
+	 *		// Get the name of the PDO driver being used by the default connection
+	 *		$driver = DB::driver();
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
