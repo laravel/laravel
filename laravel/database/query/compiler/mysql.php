@@ -1,7 +1,5 @@
 <?php namespace Laravel\Database\Query\Compiler;
 
-use Laravel\Database\Query\Compiler;
-
 class MySQL extends Compiler {
 
 	/**

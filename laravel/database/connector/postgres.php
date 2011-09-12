@@ -1,6 +1,6 @@
 <?php namespace Laravel\Database\Connector;
 
-use Laravel\Database\Connector;
+use PDO;
 
 class Postgres extends Connector {
 
@@ -19,7 +19,7 @@ class Postgres extends Connector {
 			$dsn .= ';port='.$config['port'];
 		}
 
-		$connection = new \PDO($dsn, $config['username'], $config['password'], $this->options);
+		$connection = new PDO($dsn, $config['username'], $config['password'], $this->options);
 
 		if (isset($config['charset']))
 		{

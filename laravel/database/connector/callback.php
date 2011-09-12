@@ -1,7 +1,5 @@
 <?php namespace Laravel\Database\Connector;
 
-use Laravel\Database\Connector;
-
 class Callback extends Connector {
 
 	/**

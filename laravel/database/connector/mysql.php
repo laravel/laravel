@@ -1,6 +1,6 @@
 <?php namespace Laravel\Database\Connector;
 
-use Laravel\Database\Connector;
+use PDO;
 
 class MySQL extends Connector {
 
@@ -24,7 +24,7 @@ class MySQL extends Connector {
 			$dsn .= ';unix_socket='.$config['socket'];
 		}
 
-		$connection = new \PDO($dsn, $config['username'], $config['password'], $this->options);
+		$connection = new PDO($dsn, $config['username'], $config['password'], $this->options);
 
 		if (isset($config['charset']))
 		{

@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Query;
+<?php namespace Laravel\Database\Query\Compiler;
 
 use Laravel\Database\Query;
 

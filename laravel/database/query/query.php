@@ -1,4 +1,6 @@
-<?php namespace Laravel\Database;
+<?php namespace Laravel\Database\Query;
+
+use Laravel\Database\Connection;
 
 class Query {
 
@@ -90,12 +92,12 @@ class Query {
 	/**
 	 * Create a new query instance.
 	 *
-	 * @param  Connection  $connection
-	 * @param  Compiler    $compiler
-	 * @param  string      $table
+	 * @param  Database\Connection  $connection
+	 * @param  Compiler             $compiler
+	 * @param  string               $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Query\Compiler $compiler, $table)
+	public function __construct(Connection $connection, Compiler\Compiler $compiler, $table)
 	{
 		$this->table = $table;
 		$this->compiler = $compiler;

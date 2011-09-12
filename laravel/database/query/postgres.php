@@ -1,6 +1,6 @@
 <?php namespace Laravel\Database\Query;
 
-use Laravel\Database\Query;
+use PDO;
 
 class Postgres extends Query {
 
@@ -16,7 +16,7 @@ class Postgres extends Query {
 
 		$query->execute(array_values($values));
 
-		return (int) $query->fetch(\PDO::FETCH_CLASS, 'stdClass')->id;
+		return (int) $query->fetch(PDO::FETCH_CLASS, 'stdClass')->id;
 	}
 
 }

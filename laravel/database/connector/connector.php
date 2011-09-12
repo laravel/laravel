@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database;
+<?php namespace Laravel\Database\Connector;
 
 use PDO;
 

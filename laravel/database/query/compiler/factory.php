@@ -1,7 +1,6 @@
 <?php namespace Laravel\Database\Query\Compiler;
 
 use Laravel\Database\Connection;
-use Laravel\Database\Query\Compiler;
 
 class Factory {
 
