@@ -16,7 +16,7 @@ return array(
 
 	'laravel.auth' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Security\Authenticator($container->resolve('laravel.config'), $container->resolve('laravel.session'));
+		return new Security\Auth($container->resolve('laravel.config'), $container->resolve('laravel.session'));
 	}),
 
 

@@ -2,7 +2,7 @@
 
 use Laravel\Session\Driver;
 
-class Authenticator {
+class Auth {
 
 	/**
 	 * The current user of the application.
@@ -12,18 +12,18 @@ class Authenticator {
 	protected $user;
 
 	/**
-	 * The session driver being used by the Auth instance.
-	 *
-	 * @var Session\Driver
-	 */
-	protected $session;
-
-	/**
 	 * The configuration manager instance.
 	 *
 	 * @var Config
 	 */
-	protected $engine;
+	protected $config;
+
+	/**
+	 * The session driver instance.
+	 *
+	 * @var Session\Driver
+	 */
+	protected $session;
 
 	/**
 	 * Create a new authenticator instance.
@@ -68,8 +68,8 @@ class Authenticator {
 	 * If the given credentials are valid, the user will be considered logged into the
 	 * application and their user ID will be stored in the session data.
 	 *
-	 * @param  string       $username
-	 * @param  string       $password
+	 * @param  string  $username
+	 * @param  string  $password
 	 * @return bool
 	 */
 	public function attempt($username, $password = null)
