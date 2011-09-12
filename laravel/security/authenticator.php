@@ -1,6 +1,5 @@
 <?php namespace Laravel\Security;
 
-use Laravel\IoC;
 use Laravel\Session\Driver;
 
 class Authenticator {
@@ -8,14 +7,9 @@ class Authenticator {
 	/**
 	 * The current user of the application.
 	 *
-	 * If no user is logged in, this will be NULL. Otherwise, it will contain the result
-	 * of the "by_id" closure in the authentication configuration file.
-	 *
-	 * Typically, the user should be accessed via the "user" method.
-	 *
 	 * @var object
 	 */
-	public $user;
+	protected $user;
 
 	/**
 	 * The session driver being used by the Auth instance.
@@ -25,30 +19,23 @@ class Authenticator {
 	protected $session;
 
 	/**
-	 * The hashing engine that should be used to perform hashing.
+	 * The configuration manager instance.
 	 *
-	 * @var Hashing\Engine
+	 * @var Config
 	 */
-	protected $hasher;
+	protected $engine;
 
 	/**
-	 * The key used to store the user ID in the session.
+	 * Create a new authenticator instance.
 	 *
-	 * @var string
-	 */
-	protected static $key = 'laravel_user_id';
-
-	/**
-	 * Create a new Auth class instance.
-	 *
-	 * @param  Session\Driver  $driver
-	 * @param  Hashing\Engine  $hasher
+	 * @param  Config          $config
+	 * @param  Session\Driver  $session
 	 * @return void
 	 */
-	public function __construct(Driver $driver, Hashing\Engine $hasher)
+	public function __construct(Config $config, Driver $session)
 	{
-		$this->hasher = $hasher;
-		$this->session = $driver;
+		$this->config = $config;
+		$this->session = $session;
 	}
 
 	/**
@@ -64,58 +51,43 @@ class Authenticator {
 	/**
 	 * Get the current user of the application.
 	 *
-	 * To retrieve the user, the user ID stored in the session will be passed to
-	 * the "by_id" closure in the authentication configuration file. The result
-	 * of the closure will be cached and returned.
+	 * If the current user is not authenticated, NULL will be returned.
 	 *
 	 * @return object
 	 */
 	public function user()
 	{
-		if (is_null($this->user) and $this->session->has(static::$key))
-		{
-			$this->user = call_user_func(Config::get('auth.by_id'), $this->session->get(static::$key));
-		}
+		if ( ! is_null($this->user)) return $this->user;
 
-		return $this->user;
+		return $this->user = call_user_func($this->config->get('auth.user'), $this->session->get('laravel_user_id'));
 	}
 
 	/**
-	 * Attempt to log a user into your application.
+	 * Attempt to log a user into the application.
 	 *
-	 * If the user credentials are valid. The user's ID will be stored in the session and the
-	 * user will be considered "logged in" on subsequent requests to the application.
+	 * If the given credentials are valid, the user will be considered logged into the
+	 * application and their user ID will be stored in the session data.
 	 *
-	 * The password passed to the method should be plain text, as it will be hashed
-	 * by the Hash class when authenticating.
-	 *
-	 * @param  string  $username
-	 * @param  string  $password
+	 * @param  string       $username
+	 * @param  string       $password
 	 * @return bool
 	 */
-	public function login($username, $password)
+	public function attempt($username, $password = null)
 	{
-		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
+		if ( ! is_null($user = call_user_func($this->config->get('auth.attempt'), $username, $password)))
 		{
-			if ($this->hasher->check($password, $user->password))
-			{
-				$this->remember($user);
+			$this->remember($user);
 
-				return true;
-			}
+			return true;
 		}
 
 		return false;
 	}
 
 	/**
-	 * Log a user into your application.
+	 * Log a user into the application.
 	 *
-	 * The user's ID will be stored in the session and the user will be considered
-	 * "logged in" on subsequent requests to your application. This method is called
-	 * by the login method after determining a user's credentials are valid.
-	 *
-	 * Note: The user given to this method should be an object having an "id" property.
+	 * The user ID will be stored in the session so it is available on subsequent requests.
 	 *
 	 * @param  object  $user
 	 * @return void
@@ -124,22 +96,21 @@ class Authenticator {
 	{
 		$this->user = $user;
 
-		$this->session->put(static::$key, $user->id);
+		$this->session->put('laravel_user_id', $user->id);
 	}
 
 	/**
-	 * Log the user out of your application.
-	 *
-	 * The user ID will be removed from the session and the user will no longer
-	 * be considered logged in on subsequent requests to your application.
+	 * Log the current user out of the application.
 	 *
 	 * @return void
 	 */
 	public function logout()
 	{
+		call_user_func($this->config->get('auth.logout'), $this->user()->id);
+
 		$this->user = null;
 
-		$this->session->forget(static::$key);
+		$this->session->forget('laravel_user_id');
 	}
 
 }
