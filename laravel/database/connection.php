@@ -25,10 +25,7 @@ class Connection {
 	 * @param  PDO   $pdo
 	 * @return void
 	 */
-	public function __construct(PDO $pdo)
-	{
-		$this->pdo = $pdo;
-	}
+	public function __construct(PDO $pdo) { $this->pdo = $pdo; }
 
 	/**
 	 * Execute a SQL query against the connection and return a scalar result.
