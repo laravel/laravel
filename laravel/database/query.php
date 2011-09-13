@@ -165,9 +165,7 @@ class Query {
 	 */
 	public function reset_where()
 	{
-		$this->wheres = array();
-
-		$this->bindings = array();
+		list($this->wheres, $this->bindings) = array(array(), array());
 	}
 
 	/**
