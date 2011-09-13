@@ -1,8 +1,8 @@
-<?php namespace Laravel\Database\Query\Compiler;
+<?php namespace Laravel\Database\Query\Grammars;
 
-use Laravel\Database\Query;
+use Laravel\Database\Queries\Query;
 
-class Compiler {
+class Grammar {
 
 	/**
 	 * Compile a SQL SELECT statment from a Query instance.

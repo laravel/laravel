@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Query;
+<?php namespace Laravel\Database\Queries;
 
 use Laravel\Database\Connection;
 
@@ -12,11 +12,11 @@ class Query {
 	public $connection;
 
 	/**
-	 * The query compiler instance.
+	 * The query grammar instance.
 	 *
-	 * @var Compiler\Compiler
+	 * @var Grammars\Grammar
 	 */
-	public $compiler;
+	public $grammar;
 
 	/**
 	 * The SELECT clause.
@@ -93,14 +93,14 @@ class Query {
 	 * Create a new query instance.
 	 *
 	 * @param  Database\Connection  $connection
-	 * @param  Compiler\Compiler    $compiler
+	 * @param  Grammars\Grammar     $grammar
 	 * @param  string               $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Compiler\Compiler $compiler, $table)
+	public function __construct(Connection $connection, Grammars\Grammar $grammar, $table)
 	{
 		$this->table = $table;
-		$this->compiler = $compiler;
+		$this->grammar = $grammar;
 		$this->connection = $connection;
 	}
 
@@ -551,7 +551,7 @@ class Query {
 	{
 		$this->aggregate = compact('aggregator', 'column');
 
-		$result = $this->connection->scalar($this->compiler->select($this), $this->bindings);
+		$result = $this->connection->scalar($this->grammar->select($this), $this->bindings);
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
@@ -581,7 +581,7 @@ class Query {
 	{
 		if (is_null($this->select)) $this->select($columns);
 
-		$results = $this->connection->query($this->compiler->select($this), $this->bindings);
+		$results = $this->connection->query($this->grammar->select($this), $this->bindings);
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
@@ -603,7 +603,7 @@ class Query {
 	 */
 	public function insert($values)
 	{
-		return $this->connection->query($this->compiler->insert($this, $values), array_values($values));
+		return $this->connection->query($this->grammar->insert($this, $values), array_values($values));
 	}
 
 	/**
@@ -619,7 +619,7 @@ class Query {
 	 */
 	public function insert_get_id($values)
 	{
-		$this->connection->query($this->compiler->insert($this, $values), array_values($values));
+		$this->connection->query($this->grammar->insert($this, $values), array_values($values));
 
 		return (int) $this->connection->pdo->lastInsertId();
 	}
@@ -637,7 +637,7 @@ class Query {
 	 */
 	public function update($values)
 	{
-		return $this->connection->query($this->compiler->update($this, $values), array_merge(array_values($values), $this->bindings));
+		return $this->connection->query($this->grammar->update($this, $values), array_merge(array_values($values), $this->bindings));
 	}
 
 	/**
@@ -663,7 +663,7 @@ class Query {
 	{
 		if ( ! is_null($id)) $this->where('id', '=', $id);
 
-		return $this->connection->query($this->compiler->delete($this), $this->bindings);		
+		return $this->connection->query($this->grammar->delete($this), $this->bindings);		
 	}
 
 	/**

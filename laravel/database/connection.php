@@ -6,27 +6,6 @@ use PDOStatement;
 class Connection {
 
 	/**
-	 * The database connector instance.
-	 *
-	 * @var Connector\Connector
-	 */
-	protected $connector;
-
-	/**
-	 * The connection name.
-	 *
-	 * @var string
-	 */
-	protected $name;
-
-	/**
-	 * The connection configuration.
-	 *
-	 * @var array
-	 */
-	protected $config;
-
-	/**
 	 * The PDO connection.
 	 *
 	 * @var PDO
@@ -41,38 +20,14 @@ class Connection {
 	public $queries = array();
 
 	/**
-	 * Create a new Connection instance.
+	 * Create a new database connection instance.
 	 *
-	 * @param  Connector\Connector $connector
-	 * @param  string              $name
-	 * @param  array               $config
+	 * @param  PDO   $pdo
 	 * @return void
 	 */
-	public function __construct(Connector\Connector $connector, $name, $config)
+	public function __construct(PDO $pdo)
 	{
-		$this->name = $name;
-		$this->config = $config;
-		$this->connector = $connector;
-	}
-
-	/**
-	 * Establish the PDO connection for the connection instance.
-	 *
-	 * @return void
-	 */
-	public function connect()
-	{
-		$this->pdo = $this->connector->connect($this->config);
-	}
-
-	/**
-	 * Determine if a PDO connection has been established for the connection.
-	 *
-	 * @return bool
-	 */
-	public function connected()
-	{
-		return ! is_null($this->pdo);
+		$this->pdo = $pdo;
 	}
 
 	/**
@@ -141,8 +96,6 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
-		if ( ! $this->connected()) $this->connect();
-
 		$this->queries[] = compact('sql', 'bindings');
 
 		return $this->execute($this->pdo->prepare(trim($sql)), $bindings);
@@ -190,32 +143,30 @@ class Connection {
 		switch ($this->driver())
 		{
 			case 'pgsql':
-				return new Query\Postgres($this, $this->compiler(), $table);
+				return new Queries\Postgres($this, $this->grammar(), $table);
 
 			default:
-				return new Query\Query($this, $this->compiler(), $table);
+				return new Queries\Query($this, $this->grammar(), $table);
 		}
 	}
 
 	/**
-	 * Create a new query compiler for the connection.
+	 * Create a new query grammar for the connection.
 	 *
-	 * @return Query\Compiler
+	 * @return Queries\Grammars\Grammar
 	 */
-	protected function compiler()
+	protected function grammar()
 	{
-		$compiler = (isset($this->config['compiler'])) ? $this->config['compiler'] : $this->driver();
-
-		switch ($compiler)
+		switch ($this->driver())
 		{
 			case 'mysql':
-				return new Query\Compiler\MySQL;
+				return new Queries\Grammars\MySQL;
 
 			case 'pgsql':
-				return new Query\Compiler\Postgres;
+				return new Queries\Grammars\Postgres;
 
 			default:
-				return new Query\Compiler\Compiler;
+				return new Queries\Grammars\Grammar;
 		}
 	}
 
@@ -226,8 +177,6 @@ class Connection {
 	 */
 	public function driver()
 	{
-		if ( ! $this->connected()) $this->connect();
-
 		return $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 

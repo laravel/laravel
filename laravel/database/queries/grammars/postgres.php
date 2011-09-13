@@ -1,6 +1,8 @@
-<?php namespace Laravel\Database\Query\Compiler;
+<?php namespace Laravel\Database\Query\Grammars;
 
-class Postgres extends Compiler {
+use Laravel\Database\Queries\Query;
+
+class Postgres extends Grammar {
 
 	/**
 	 * Compile a SQL INSERT statment that returns an auto-incrementing ID from a Query instance.

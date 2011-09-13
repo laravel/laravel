@@ -1,6 +1,6 @@
-<?php namespace Laravel\Database\Query\Compiler;
+<?php namespace Laravel\Database\Query\Grammars;
 
-class MySQL extends Compiler {
+class MySQL extends Grammar {
 
 	/**
 	 * Get the keyword identifier wrapper for the connection.

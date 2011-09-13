@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Query;
+<?php namespace Laravel\Database\Queries;
 
 use PDO;
 
@@ -12,7 +12,7 @@ class Postgres extends Query {
 	 */
 	public function insert_get_id($values)
 	{
-		$query = $this->connection->pdo->prepare($this->compiler->insert_get_id($this, $values));
+		$query = $this->connection->pdo->prepare($this->grammar->insert_get_id($this, $values));
 
 		$query->execute(array_values($values));
 

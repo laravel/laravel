@@ -49,9 +49,7 @@ return array(
 
 	'laravel.database' => array('singleton' => true, 'resolver' => function($container)
 	{
-		$config = $container->resolve('laravel.config');
-
-		return new Database\Manager(new Database\Connector\Factory, $config->get('database.connections'), $config->get('database.default'));
+		return new Database\Manager($container->resolve('laravel.config')->get('database'));
 	}),
 
 

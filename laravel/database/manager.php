@@ -10,44 +10,21 @@ class Manager {
 	protected $connections = array();
 
 	/**
-	 * The connector factory instance.
-	 *
-	 * @var Connector\Factory
-	 */
-	protected $connector;
-
-	/**
-	 * The database connection configurations.
-	 *
-	 * @var array
-	 */
-	protected $config;
-
-	/**
-	 * The default database connection name.
-	 *
-	 * @var string
-	 */
-	protected $default;
-
-	/**
 	 * Create a new database manager instance.
 	 *
-	 * @param  Connector\Factory  $connector
-	 * @param  array              $config
-	 * @param  string             $default
+	 * @param  array  $config
 	 * @return void
 	 */
-	public function __construct(Connector\Factory $connector, $config, $default)
+	public function __construct($config)
 	{
 		$this->config = $config;
-		$this->default = $default;
-		$this->connector = $connector;
 	}
 
 	/**
-	 * Get a database connection. If no database name is specified, the default
-	 * connection will be returned as defined in the database configuration file.
+	 * Get a database connection. 
+	 *
+	 * If no database name is specified, the default connection will be returned as
+	 * defined in the database configuration file.
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
@@ -64,46 +41,23 @@ class Manager {
 	 */
 	public function connection($connection = null)
 	{
-		if (is_null($connection)) $connection = $this->default;
+		if (is_null($connection)) $connection = $this->config['default'];
 
 		if ( ! array_key_exists($connection, $this->connections))
 		{
-			if ( ! isset($this->config[$connection]))
+			if ( ! isset($this->config['connectors'][$connection]))
 			{
-				throw new \Exception("Database connection [$connection] is not defined.");
+				throw new \Exception("Database connection configuration is not defined for connection [$connection].");
 			}
 
-			$config = $this->config[$connection];
-
-			$this->connections[$connection] = new Connection($this->connector($config), $connection, $config);
+			// Database connections are established by developer configurable connector closures.
+			// This provides the developer the maximum amount of freedom in establishing their
+			// database connections, and allows the framework to remain agonstic to ugly database
+			// specific PDO connection details. Less code. Less bugs.
+			$this->connections[$connection] = new Connection(call_user_func($this->config['connectors'][$connection], $this->config));
 		}
 
 		return $this->connections[$connection];
-	}
-
-	/**
-	 * Create a new database connector instance base on a connection configuration.
-	 *
-	 * @param  array                $config
-	 * @return Connector\Connector
-	 */
-	protected function connector($config)
-	{
-		if (isset($config['connector'])) return new Connector\Callback;
-
-		switch ($config['driver'])
-		{
-			case 'sqlite':
-				return new Connector\SQLite;
-
-			case 'mysql':
-				return new Connector\MySQL;
-
-			case 'pgsql':
-				return new Connector\Postgres;
-		}
-
-		throw new \Exception("Database configuration is invalid. Please verify your configuration.");
 	}
 
 	/**
@@ -119,7 +73,7 @@ class Manager {
 	 *
 	 * @param  string          $table
 	 * @param  string          $connection
-	 * @return Database\Query
+	 * @return Queries\Query
 	 */
 	public function table($table, $connection = null)
 	{
