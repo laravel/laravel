@@ -135,8 +135,8 @@ class Connection {
 	 *		$users = DB::connection()->table('users')->get();
 	 * </code>
 	 *
-	 * @param  string       $table
-	 * @return Query\Query
+	 * @param  string  $table
+	 * @return Query
 	 */
 	public function table($table)
 	{
