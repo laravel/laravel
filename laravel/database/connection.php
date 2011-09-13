@@ -140,14 +140,7 @@ class Connection {
 	 */
 	public function table($table)
 	{
-		switch ($this->driver())
-		{
-			case 'pgsql':
-				return new Queries\Postgres($this, $this->grammar(), $table);
-
-			default:
-				return new Queries\Query($this, $this->grammar(), $table);
-		}
+		return new Query($this, $this->grammer(), $table);
 	}
 
 	/**

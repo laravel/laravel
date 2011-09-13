@@ -1,13 +1,11 @@
-<?php namespace Laravel\Database\Queries;
-
-use Laravel\Database\Connection;
+<?php namespace Laravel\Database;
 
 class Query {
 
 	/**
 	 * The database connection.
 	 *
-	 * @var Database\Connection
+	 * @var Connection
 	 */
 	public $connection;
 
@@ -92,7 +90,7 @@ class Query {
 	/**
 	 * Create a new query instance.
 	 *
-	 * @param  Database\Connection  $connection
+	 * @param  Connection           $connection
 	 * @param  Grammars\Grammar     $grammar
 	 * @param  string               $table
 	 * @return void
@@ -119,10 +117,6 @@ class Query {
 	/**
 	 * Add an array of columns to the SELECT clause.
 	 *
-	 * <code>
-	 *		$query->select(array('id', 'email'));
-	 * </code>
-	 *
 	 * @param  array  $columns
 	 * @return Query
 	 */
@@ -135,10 +129,6 @@ class Query {
 
 	/**
 	 * Add a join clause to the query.
-	 *
-	 * <code>
-	 *		$query->join('users', 'users.id', '=', 'posts.user_id');
-	 * </code>
 	 *
 	 * @param  string  $table
 	 * @param  string  $column1
@@ -156,10 +146,6 @@ class Query {
 
 	/**
 	 * Add a left join to the query.
-	 *
-	 * <code>
-	 *		$query->left_join('users', 'users.id', '=', 'posts.user_id');
-	 * </code>
 	 *
 	 * @param  string  $table
 	 * @param  string  $column1
@@ -187,10 +173,6 @@ class Query {
 	/**
 	 * Add a raw where condition to the query.
 	 *
-	 * <code>
-	 *		$query->raw_where('user_id = ? and password = ?', array(1, 'secret'));
-	 * </code>
-	 *
 	 * @param  string  $where
 	 * @param  array   $bindings
 	 * @param  string  $connector
@@ -208,10 +190,6 @@ class Query {
 	/**
 	 * Add a raw or where condition to the query.
 	 *
-	 * <code>
-	 *		$query->raw_or_where('user_id = ? and password = ?', array(1, 'secret'));
-	 * </code>
-	 *
 	 * @param  string  $where
 	 * @param  array   $bindings
 	 * @return Query
@@ -223,10 +201,6 @@ class Query {
 
 	/**
 	 * Add a where condition to the query.
-	 *
-	 * <code>
-	 *		$query->where('id', '=', 1);
-	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  string  $operator
@@ -246,10 +220,6 @@ class Query {
 	/**
 	 * Add an or where condition to the query.
 	 *
-	 * <code>
-	 *		$query->or_where('id', '=', 1);
-	 * </code>
-	 *
 	 * @param  string  $column
 	 * @param  string  $operator
 	 * @param  mixed   $value
@@ -261,26 +231,7 @@ class Query {
 	}
 
 	/**
-	 * Add a where condition for the primary key to the query.
-	 *
-	 * <code>
-	 *		$query->where_id(1);
-	 * </code>
-	 *
-	 * @param  mixed  $value
-	 * @return Query
-	 */
-	public function where_id($value)
-	{
-		return $this->where('id', '=', $value);
-	}
-
-	/**
 	 * Add an or where condition for the primary key to the query.
-	 *
-	 * <code>
-	 *		$query->or_where_id(1);
-	 * </code>
 	 *
 	 * @param  mixed  $value
 	 * @return Query
@@ -292,10 +243,6 @@ class Query {
 
 	/**
 	 * Add a where in condition to the query.
-	 *
-	 * <code>
-	 *		$query->where_in('id', array(1, 2, 3));
-	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  array   $values
@@ -315,10 +262,6 @@ class Query {
 	/**
 	 * Add an or where in condition to the query.
 	 *
-	 * <code>
-	 *		$query->or_where_in('id', array(1, 2, 3));
-	 * </code>
-	 *
 	 * @param  string  $column
 	 * @param  array   $values
 	 * @return Query
@@ -330,10 +273,6 @@ class Query {
 
 	/**
 	 * Add a where not in condition to the query.
-	 *
-	 * <code>
-	 *		$query->where_not_in('id', array(1, 2, 3));
-	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  array   $values
@@ -347,10 +286,6 @@ class Query {
 
 	/**
 	 * Add an or where not in condition to the query.
-	 *
-	 * <code>
-	 *		$query->or_where_not_in('id', array(1, 2, 3));
-	 * </code>
 	 *
 	 * @param  string  $column
 	 * @param  array   $values
@@ -457,14 +392,6 @@ class Query {
 	/**
 	 * Add an ordering to the query.
 	 *
-	 * <code>
-	 *		// Set an ascending sort on the query
-	 *		$query->order_by('votes', 'asc');
-	 *
-	 *		// Set a descending sort on the query
-	 *		$query->order_by('votes', 'desc');	 
-	 * </code>
-	 *
 	 * @param  string  $column
 	 * @param  string  $direction
 	 * @return Query
@@ -507,11 +434,6 @@ class Query {
 	 *
 	 * If the given page is not an integer or is less than zero, one will be used.
 	 *
-	 * <code>
-	 *		// Get the the 15 users that should be displayed for page 1
-	 *		$results = DB::table('users')->for_page(1, 15);
-	 * </code>
-	 *
 	 * @param  int    $page
 	 * @param  int    $per_page
 	 * @return Query
@@ -525,11 +447,6 @@ class Query {
 
 	/**
 	 * Find a record by the primary key.
-	 *
-	 * <code>
-	 *		// Get the user having an ID of 1
-	 *		$user = DB::table('users')->find(1);
-	 * </code>
 	 *
 	 * @param  int     $id
 	 * @param  array   $columns
@@ -593,11 +510,6 @@ class Query {
 	/**
 	 * Insert an array of values into the database table.
 	 *
-	 * <code>
-	 *		// Insert into the "users" table
-	 *		$success = DB::table('users')->insert(array('id' => 1, 'email' => 'example@gmail.com'));
-	 * </code>
-	 *
 	 * @param  array  $values
 	 * @return bool
 	 */
@@ -609,28 +521,19 @@ class Query {
 	/**
 	 * Insert an array of values into the database table and return the value of the ID column.
 	 *
-	 * <code>
-	 *		// Insert into the "users" table and get the auto-incrementing ID
-	 *		$id = DB::table('users')->insert_get_id(array('email' => 'example@gmail.com'));
-	 * </code>
-	 *
-	 * @param  array  $values
+	 * @param  array   $values
+	 * @param  string  $sequence
 	 * @return int
 	 */
-	public function insert_get_id($values)
+	public function insert_get_id($values, $sequence = null)
 	{
 		$this->connection->query($this->grammar->insert($this, $values), array_values($values));
 
-		return (int) $this->connection->pdo->lastInsertId();
+		return (int) $this->connection->pdo->lastInsertId($sequence);
 	}
 
 	/**
 	 * Update an array of values in the database table.
-	 *
-	 * <code>
-	 *		// Update a user's e-mail address
-	 *		$affected = DB::table('users')->where_id(1)->update(array('email' => 'new_email@example.com'));
-	 * </code>
 	 *
 	 * @param  array  $values
 	 * @return int
@@ -645,17 +548,6 @@ class Query {
 	 *
 	 * Optionally, an ID may be passed to the method do delete a specific row.
 	 *
-	 * <code>
-	 *		// Delete everything from the "users" table
-	 *		$affected = DB::table('users')->delete();
-	 *
-	 *		// Delete a specific user from the table
-	 *		$affected = DB::table('users')->delete(1);
-	 *
-	 *		// Execute a delete statement with where conditions
-	 *		$affected = DB::table('users')->where_email($email)->delete();
-	 * </code>
-	 *
 	 * @param  int   $id
 	 * @return int
 	 */
@@ -669,15 +561,8 @@ class Query {
 	/**
 	 * Magic Method for handling dynamic functions.
 	 *
-	 * This method handles all calls to aggregate functions as well as the construction of dynamic where clauses.
-	 *
-	 * <code>
-	 *		// Get the total number of rows on the "users" table
-	 *		$count = DB::table('users')->count();
-	 *
-	 *		// Get a user using a dynamic where clause
-	 *		$user = DB::table('users')->where_email('example@gmail.com')->first();
-	 * </code>
+	 * This method handles all calls to aggregate functions as well as the construction
+	 * of dynamic where clauses via the "dynamic_where" method.
 	 */
 	public function __call($method, $parameters)
 	{
