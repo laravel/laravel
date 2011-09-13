@@ -7,14 +7,14 @@ class Query {
 	/**
 	 * The database connection.
 	 *
-	 * @var Connection
+	 * @var Database\Connection
 	 */
 	public $connection;
 
 	/**
 	 * The query compiler instance.
 	 *
-	 * @var Compiler
+	 * @var Compiler\Compiler
 	 */
 	public $compiler;
 
@@ -93,7 +93,7 @@ class Query {
 	 * Create a new query instance.
 	 *
 	 * @param  Database\Connection  $connection
-	 * @param  Compiler             $compiler
+	 * @param  Compiler\Compiler    $compiler
 	 * @param  string               $table
 	 * @return void
 	 */

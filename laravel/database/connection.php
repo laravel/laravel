@@ -6,6 +6,13 @@ use PDOStatement;
 class Connection {
 
 	/**
+	 * The database connector instance.
+	 *
+	 * @var Connector\Connector
+	 */
+	protected $connector;
+
+	/**
 	 * The connection name.
 	 *
 	 * @var string
@@ -18,13 +25,6 @@ class Connection {
 	 * @var array
 	 */
 	protected $config;
-
-	/**
-	 * The database connector instance.
-	 *
-	 * @var Connector\Connector
-	 */
-	protected $connector;
 
 	/**
 	 * The PDO connection.
@@ -44,18 +44,14 @@ class Connection {
 	 * Create a new Connection instance.
 	 *
 	 * @param  Connector\Connector $connector
-	 * @param  Query\Factory       $factory
-	 * @param  Compiler\Factory    $compiler
 	 * @param  string              $name
 	 * @param  array               $config
 	 * @return void
 	 */
-	public function __construct(Connector\Connector $connector, Query\Factory $query, Query\Compiler\Factory $compiler, $name, $config)
+	public function __construct(Connector\Connector $connector, $name, $config)
 	{
 		$this->name = $name;
-		$this->query = $query;
 		$this->config = $config;
-		$this->compiler = $compiler;
 		$this->connector = $connector;
 	}
 
@@ -181,14 +177,46 @@ class Connection {
 	 * <code>
 	 *		// Begin a fluent query against the "users" table
 	 *		$query = DB::connection()->table('users');
+	 *
+	 *		// Retrieve an entire table using a fluent query
+	 *		$users = DB::connection()->table('users')->get();
 	 * </code>
 	 *
-	 * @param  string  $table
-	 * @return Query
+	 * @param  string       $table
+	 * @return Query\Query
 	 */
 	public function table($table)
 	{
-		return $this->query->make($this, $this->compiler->make($this), $table);
+		switch ($this->driver())
+		{
+			case 'pgsql':
+				return new Query\Postgres($this, $this->compiler(), $table);
+
+			default:
+				return new Query\Query($this, $this->compiler(), $table);
+		}
+	}
+
+	/**
+	 * Create a new query compiler for the connection.
+	 *
+	 * @return Query\Compiler
+	 */
+	protected function compiler()
+	{
+		$compiler = (isset($this->config['compiler'])) ? $this->config['compiler'] : $this->driver();
+
+		switch ($compiler)
+		{
+			case 'mysql':
+				return new Query\Compiler\MySQL;
+
+			case 'pgsql':
+				return new Query\Compiler\Postgres;
+
+			default:
+				return new Query\Compiler\Compiler;
+		}
 	}
 
 	/**

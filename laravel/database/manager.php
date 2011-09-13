@@ -73,12 +73,37 @@ class Manager {
 				throw new \Exception("Database connection [$connection] is not defined.");
 			}
 
-			list($connector, $query, $compiler) = array($this->connector->make($this->config[$connection]), new Query\Factory, new Query\Compiler\Factory);
+			$config = $this->config[$connection];
 
-			$this->connections[$connection] = new Connection($connector, $query, $compiler, $connection, $this->config[$connection]);
+			$this->connections[$connection] = new Connection($this->connector($config), $connection, $config);
 		}
 
 		return $this->connections[$connection];
+	}
+
+	/**
+	 * Create a new database connector instance base on a connection configuration.
+	 *
+	 * @param  array                $config
+	 * @return Connector\Connector
+	 */
+	protected function connector($config)
+	{
+		if (isset($config['connector'])) return new Connector\Callback;
+
+		switch ($config['driver'])
+		{
+			case 'sqlite':
+				return new Connector\SQLite;
+
+			case 'mysql':
+				return new Connector\MySQL;
+
+			case 'pgsql':
+				return new Connector\Postgres;
+		}
+
+		throw new \Exception("Database configuration is invalid. Please verify your configuration.");
 	}
 
 	/**
