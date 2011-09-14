@@ -47,13 +47,27 @@ class Route {
 		$this->callback = $callback;
 		$this->parameters = $parameters;
 
+		// The extractor closure will retrieve the URI from a given route destination.
+		// If the request is to the root of the application, a single forward slash
+		// will be returned, otherwise the leading slash will be removed.
+		$extractor = function($segment)
+		{
+			$segment = substr($segment, strpos($segment, ' ') + 1);
+
+			return ($segment !== '/') ? trim($segment, '/') : $segment;
+		};
+
 		// Extract each URI out of the route key. Since the route key has the request
 		// method, we will extract the method off of the string. If the URI points to
 		// the root of the application, a single forward slash will be returned.
 		// Otherwise, the leading slash will be removed.
-		foreach (explode(', ', $key) as $segment)
+		if (strpos($key, ', ') === false)
 		{
-			$this->uris[] = ($segment = (substr($segment, strpos($segment, ' ') + 1)) !== '/') ? trim($segment, '/') : $segment;
+			$this->uris = array($extractor($this->key));
+		}
+		else
+		{
+			$this->uris = array_map(function($segment) use ($extractor) { return $extractor($segment); }, explode(', ', $key));
 		}
 
 		// The route callback must be either a Closure, an array, or a string. Closures
