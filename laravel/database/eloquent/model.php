@@ -14,6 +14,20 @@ abstract class Model {
 	public static $connection;
 
 	/**
+	 * Indicates if the model has creation and update timestamps.
+	 *
+	 * @var bool
+	 */
+	public static $timestamps = false;
+
+	/**
+	 * The name of the auto-incrementing sequence associated with the model.
+	 *
+	 * @var string
+	 */
+	public static $sequence = null;
+
+	/**
 	 * The model query instance.
 	 *
 	 * @var Query
@@ -362,7 +376,7 @@ abstract class Model {
 		}
 		else
 		{
-			$success = is_numeric($this->attributes['id'] = $this->query->insert_get_id($this->attributes));
+			$success = is_numeric($this->attributes['id'] = $this->query->insert_get_id($this->attributes, static::$sequence));
 		}
 
 		($this->exists = true) and $this->dirty = array();
