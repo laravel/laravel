@@ -23,19 +23,19 @@ class Router {
 	 *
 	 * @var string
 	 */
-	protected $controller_path;
+	protected $controllers;
 
 	/**
 	 * Create a new router for a request method and URI.
 	 *
 	 * @param  array   $routes
-	 * @param  string  $controller_path
+	 * @param  string  $controllers
 	 * @return void
 	 */
-	public function __construct($routes, $controller_path)
+	public function __construct($routes, $controllers)
 	{
 		$this->routes = $routes;
-		$this->controller_path = $controller_path;
+		$this->controllers = $controllers;
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Router {
 	{
 		// If the request is to the root of the application, an ad-hoc route will be generated
 		// to the home controller's "index" method, making it the default controller method.
-		if ($request->uri() === '/') return new Route($request->method().' /', function() { return array('home', 'index'); });
+		if ($request->uri() === '/') return new Route($request->method().' /', 'home@index');
 
 		$segments = explode('/', trim($request->uri(), '/'));
 
@@ -142,12 +142,7 @@ class Router {
 			// be used as the default controller method.
 			$method = (count($segments) > 0) ? array_shift($segments) : 'index';
 
-			// Now we're ready to dummy up a controller delegating route callback. This
-			// callback will look exactly like the callback the developer would create
-			// were they to code the controller delegation manually.
-			$callback = function() use ($controller, $method) { return array($controller, $method); };
-
-			return new Route($destination, $callback, $segments);
+			return new Route($destination, $controller.'@'.$method, $segments);
 		}
 	}
 
@@ -167,7 +162,7 @@ class Router {
 	{
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = $this->controller_path.implode('/', array_slice($segments, 0, $key + 1)).EXT))
+			if (file_exists($path = $this->controllers.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
 				return $key + 1;
 			}

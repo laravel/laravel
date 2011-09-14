@@ -67,7 +67,7 @@ class Route {
 	}
 
 	/**
-	 * Call the route closure.
+	 * Call the closure defined for the route, or get the route delegator.
 	 *
 	 * @return mixed
 	 */

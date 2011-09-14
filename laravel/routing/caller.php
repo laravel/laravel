@@ -62,8 +62,8 @@ class Caller {
 		{
 			// If a route returns a string, it also means the route is delegating the
 			// handling of the request to a controller method. So, we will pass the
-			// string to the route delegator, exploding on "::".
-			if (is_string($response)) $response = $this->delegate($route, explode('::', $response));
+			// string to the route delegator, exploding on "@".
+			if (is_string($response)) $response = $this->delegate($route, $response);
 
 			return $this->finish($route, $response);
 		}
@@ -92,13 +92,13 @@ class Caller {
 	/**
 	 * Handle the delegation of a route to a controller method.
 	 *
-	 * @param  Route  $route
-	 * @param  array  $delegate
+	 * @param  Route   $route
+	 * @param  string  $delegate
 	 * @return mixed
 	 */
 	protected function delegate(Route $route, $delegate)
 	{
-		list($controller, $method) = array($delegate[0], $delegate[1]);
+		list($controller, $method) = explode('@', $delegate);
 
 		$controller = $this->resolve($controller);
 
