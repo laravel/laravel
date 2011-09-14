@@ -15,10 +15,7 @@ class Manager {
 	 * @param  array  $config
 	 * @return void
 	 */
-	public function __construct($config)
-	{
-		$this->config = $config;
-	}
+	public function __construct($config) { $this->config = $config; }
 
 	/**
 	 * Get a database connection. 
@@ -27,14 +24,6 @@ class Manager {
 	 * defined in the database configuration file.
 	 *
 	 * Note: Database connections are managed as singletons.
-	 *
-	 * <code>
-	 *		// Get the default database connection
-	 *		$connection = DB::connection();
-	 *
-	 *		// Get a database connection by name
-	 *		$connection = DB::connection('slave');
-	 * </code>
 	 *
 	 * @param  string               $connection
 	 * @return Database\Connection
@@ -63,14 +52,6 @@ class Manager {
 	/**
 	 * Begin a fluent query against a table.
 	 *
-	 * <code>
-	 *		// Begin a fluent query against the "users" table using the default connection
-	 *		$query = DB::table('users');
-	 *
-	 *		// Begin a fluent query against the "users" table using a specified connection
-	 *		$query = DB::table('users', 'slave');
-	 * </code>
-	 *
 	 * @param  string          $table
 	 * @param  string          $connection
 	 * @return Queries\Query
@@ -84,14 +65,6 @@ class Manager {
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.
-	 *
-	 * <code>
-	 *		// Perform a query against the default connection
-	 *		$results = DB::query('select * from users');
-	 *
-	 *		// Get the name of the PDO driver being used by the default connection
-	 *		$driver = DB::driver();
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

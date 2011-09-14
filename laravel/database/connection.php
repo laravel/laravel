@@ -30,14 +30,6 @@ class Connection {
 	/**
 	 * Execute a SQL query against the connection and return a scalar result.
 	 *
-	 * <code>
-	 *		// Get the number of rows in the "users" table
-	 *		$count = DB::connection()->scalar('select count(*) from users');
-	 *
-	 *		// Get the sum of payments from the "bank" table
-	 *		$sum = DB::connection()->scalar('select sum(payment) from banks where bank_id = ?', array(1));
-	 * </code>
-	 *
 	 * @param  string     $sql
 	 * @param  array      $bindings
 	 * @return int|float
@@ -51,14 +43,6 @@ class Connection {
 
 	/**
 	 * Execute a SQL query against the connection and return the first result.
-	 *
-	 * <code>
-	 *		// Get the first result from the "users" table
-	 *		$user = DB::connection()->first('select * from users limit 1');
-	 *
-	 *		// Get the first result from a specified group of users
-	 *		$user = DB::connection()->first('select * from users where group_id = ?', array(1));
-	 * </code>
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
@@ -78,14 +62,6 @@ class Connection {
 	 *     UPDATE -> Number of rows affected.
 	 *     DELETE -> Number of Rows affected.
 	 *     ELSE   -> Boolean true / false depending on success.
-	 *
-	 * <code>
-	 *		// Execute a query against the connection
-	 *		$users = DB::connection()->query('select * from users');
-	 *
-	 *		// Execute a query against the connection using bindings
-	 *		$users = DB::connection()->query('select * from users where group_id = ?', array(1));
-	 * </code>
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
@@ -123,14 +99,6 @@ class Connection {
 
 	/**
 	 * Begin a fluent query against a table.
-	 *
-	 * <code>
-	 *		// Begin a fluent query against the "users" table
-	 *		$query = DB::connection()->table('users');
-	 *
-	 *		// Retrieve an entire table using a fluent query
-	 *		$users = DB::connection()->table('users')->get();
-	 * </code>
 	 *
 	 * @param  string  $table
 	 * @return Query
@@ -172,11 +140,6 @@ class Connection {
 
 	/**
 	 * Magic Method for dynamically beginning queries on database tables.
-	 *
-	 * <code>
-	 *		// Begin a query against the "users" table
-	 *		$query = DB::connection()->users();
-	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

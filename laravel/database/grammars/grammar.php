@@ -1,6 +1,6 @@
-<?php namespace Laravel\Database\Query\Grammars;
+<?php namespace Laravel\Database\Grammars;
 
-use Laravel\Database\Queries\Query;
+use Laravel\Database\Query;
 
 class Grammar {
 

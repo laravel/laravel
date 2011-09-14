@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Query\Grammars;
+<?php namespace Laravel\Database\Grammars;
 
 class MySQL extends Grammar {
 
