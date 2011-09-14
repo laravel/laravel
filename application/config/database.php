@@ -43,16 +43,17 @@ return array(
 		'sqlite' => function($config)
 		{
 			return new PDO('sqlite:'.DATABASE_PATH.'application.sqlite', null, null, $config['options']);
-		}
+		},
 
 		'mysql' => function($config)
 		{
 			return new PDO('mysql:host=localhost;dbname=database', 'username', 'password', $config['options']);
-		}
+		},
 
-		'pgsql' => array(
+		'pgsql' => function($config)
+		{
 			return new PDO('pgsql:host=localhost;dbname=database', 'username', 'password', $config['options']);
-		),
+		},
 
 	),
 

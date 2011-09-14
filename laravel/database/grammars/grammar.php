@@ -7,9 +7,6 @@ class Grammar {
 	/**
 	 * Compile a SQL SELECT statment from a Query instance.
 	 *
-	 * This query instance will be examined and the proper SQL syntax will be returned as a string.
-	 * This class may be overridden to accommodate syntax differences between various database systems.
-	 *
 	 * @param  Query   $query
 	 * @return string
 	 */
@@ -37,26 +34,12 @@ class Grammar {
 	/**
 	 * Compile the query SELECT clause.
 	 *
-	 * For convenience, the entire query object is passed to the method. This to account for
-	 * database systems who put the LIMIT amount in the SELECT clause.
-	 *
 	 * @param  Query   $query
 	 * @return string
 	 */
-	public function compile_select(Query $query)
+	protected function compile_select(Query $query)
 	{
-		return (($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ').$this->wrap_columns($query->select);
-	}
-
-	/**
-	 * Wrap and comma-delimit a set of SELECT columns.
-	 *
-	 * @param  array   $columns
-	 * @return string
-	 */
-	public function wrap_columns($columns)
-	{
-		return implode(', ', array_map(array($this, 'wrap'), $columns));
+		return (($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ').implode(', ', array_map(array($this, 'wrap'), $query->select));
 	}
 
 	/**
@@ -66,7 +49,7 @@ class Grammar {
 	 * @param  string  $column
 	 * @return string
 	 */
-	public function compile_aggregate($aggregator, $column)
+	protected function compile_aggregate($aggregator, $column)
 	{
 		return 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
 	}
@@ -79,7 +62,7 @@ class Grammar {
 	 * @param  string  $table
 	 * @return string
 	 */
-	public function compile_from($table)
+	protected function compile_from($table)
 	{
 		return 'FROM '.$this->wrap($table);
 	}
@@ -90,7 +73,7 @@ class Grammar {
 	 * @param  array   $joins
 	 * @return string
 	 */
-	public function compile_joins($joins)
+	protected function compile_joins($joins)
 	{
 		foreach ($joins as $join)
 		{
@@ -108,28 +91,13 @@ class Grammar {
 	 * @param  array   $wheres
 	 * @return string
 	 */
-	public function compile_wheres($wheres)
+	protected function compile_wheres($wheres)
 	{
 		$sql = array('WHERE 1 = 1');
 
 		foreach ($wheres as $where)
 		{
-			if (is_string($where))
-			{
-				$sql[] = $where;
-			}
-			elseif ($where['type'] === 'where')
-			{
-				$sql[] = $where['connector'].' '.$this->compile_where($where);
-			}
-			elseif ($where['type'] === 'where_in')
-			{
-				$sql[] = $where['connector'].' '.$this->compile_where_in($where);
-			}
-			elseif ($where['type'] === 'where_null')
-			{
-				$sql[] = $where['connector'].' '.$this->compile_where_null($where);
-			}
+			$sql[] = (is_string($where)) ? $where : $where['connector'].' '.$this->{'compile_'.$where['type']}($where);
 		}
 
 		return implode(' ', $sql);
@@ -141,7 +109,7 @@ class Grammar {
 	 * @param  array   $where
 	 * @return string
 	 */
-	public function compile_where($where)
+	protected function compile_where($where)
 	{
 		return $this->wrap($where['column']).' '.$where['operator'].' ?';
 	}
@@ -152,7 +120,7 @@ class Grammar {
 	 * @param  array   $where
 	 * @return string
 	 */
-	public function compile_where_in($where)
+	protected function compile_where_in($where)
 	{
 		$operator = ($where['not']) ? 'NOT IN' : 'IN';
 
@@ -165,7 +133,7 @@ class Grammar {
 	 * @param  array   $where
 	 * @return string
 	 */
-	public function compile_where_null($where)
+	protected function compile_where_null($where)
 	{
 		$operator = ($where['not']) ? 'NOT NULL' : 'NULL';
 
@@ -178,7 +146,7 @@ class Grammar {
 	 * @param  array   $orderings
 	 * @return string
 	 */
-	public function compile_orderings($orderings)
+	protected function compile_orderings($orderings)
 	{
 		foreach ($orderings as $ordering)
 		{
@@ -194,7 +162,7 @@ class Grammar {
 	 * @param  int     $limit
 	 * @return string
 	 */
-	public function compile_limit($limit)
+	protected function compile_limit($limit)
 	{
 		return 'LIMIT '.$limit;
 	}
@@ -205,7 +173,7 @@ class Grammar {
 	 * @param  int     $offset
 	 * @return string
 	 */
-	public function compile_offset($offset)
+	protected function compile_offset($offset)
 	{
 		return 'OFFSET '.$offset;
 	}

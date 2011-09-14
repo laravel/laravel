@@ -105,7 +105,7 @@ class Connection {
 	 */
 	public function table($table)
 	{
-		return new Query($this, $this->grammer(), $table);
+		return new Query($this, $this->grammar(), $table);
 	}
 
 	/**
@@ -118,13 +118,13 @@ class Connection {
 		switch ($this->driver())
 		{
 			case 'mysql':
-				return new Queries\Grammars\MySQL;
+				return new Grammars\MySQL;
 
 			case 'pgsql':
-				return new Queries\Grammars\Postgres;
+				return new Grammars\Postgres;
 
 			default:
-				return new Queries\Grammars\Grammar;
+				return new Grammars\Grammar;
 		}
 	}
 
