@@ -41,4 +41,31 @@ return array(
 		return User::where_email($username)->first();
 	},
 
+	/*
+	|--------------------------------------------------------------------------
+	| Authenticates a user.
+	|--------------------------------------------------------------------------
+	|
+	| This method is called by the Auth::login() method.
+	|
+	| With the default closure, the password passed to the method should be plain text, 
+	| as it will be hashed by the Hash class when authenticating.
+	|
+	| Note: This method must return the User object of the authenticated user 
+	|       or false
+	*/
+
+	'login' => function($username, $password)
+	{
+		if ( ! is_null($user = call_user_func(Config::get('auth.by_username'), $username)))
+		{
+			if (Hash::check($password, $user->password))
+			{
+				return $user;
+			}
+		}
+
+		return false;
+	},
+
 );
