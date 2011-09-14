@@ -77,4 +77,24 @@ class Arr {
 		$array[array_shift($keys)] = $value;
 	}
 
+	/**
+	 * Return the first element in an array which passes a given truth test.
+	 *
+	 * <code>
+	 *		// Get the first element in an array that is less than 2
+	 *		$value = Arr::first(array(4, 3, 2, 1), function($key, $value) {return $value < 2;});
+	 * </code>
+	 *
+	 * @param  array    $array
+	 * @param  Closure  $callback
+	 * @return mixed
+	 */
+	public static function first($array, $callback)
+	{
+		foreach ($array as $key => $value)
+		{
+			if (call_user_func($callback, $key, $value)) return $value;
+		}
+	}
+
 }

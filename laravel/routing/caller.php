@@ -50,11 +50,6 @@ class Caller {
 	 */
 	public function call(Route $route)
 	{
-		if ( ! $route->callback instanceof \Closure and ! is_array($route->callback))
-		{
-			throw new \Exception('Invalid route defined for URI ['.$route->key.']');
-		}
-
 		// Since "before" filters can halt the request cycle, we will return any response
 		// from the before filters. Allowing the filters to halt the request cycle makes
 		// common tasks like authorization convenient to implement.
@@ -65,10 +60,10 @@ class Caller {
 
 		if ( ! is_null($response = $route->call()))
 		{
-			// If a route returns an array, it means that the route is delegating the
+			// If a route returns a string, it also means the route is delegating the
 			// handling of the request to a controller method. So, we will pass the
-			// array to the route delegator and let it resolve the controller.
-			if (is_array($response)) $response = $this->delegate($route, $response);
+			// string to the route delegator, exploding on "::".
+			if (is_string($response)) $response = $this->delegate($route, explode('::', $response));
 
 			return $this->finish($route, $response);
 		}
@@ -101,14 +96,9 @@ class Caller {
 	 * @param  array  $delegate
 	 * @return mixed
 	 */
-	public function delegate(Route $route, $delegate)
+	protected function delegate(Route $route, $delegate)
 	{
 		list($controller, $method) = array($delegate[0], $delegate[1]);
-
-		// A route delegate may contain an array of parameters that should be passed to
-		// the controller method. If it does, we will merge those parameters in with
-		// the other route parameters that were detected by the router.
-		$parameters = (isset($delegate[2])) ? array_merge((array) $delegate[2], $route->parameters) : $route->parameters;
 
 		$controller = $this->resolve($controller);
 
@@ -127,7 +117,7 @@ class Caller {
 		// will not be used to handle the request to the application.
 		$response = $controller->before();
 
-		return (is_null($response)) ? call_user_func_array(array($controller, $method), $parameters) : $response;
+		return (is_null($response)) ? call_user_func_array(array($controller, $method), $route->parameters) : $response;
 	}
 
 	/**
