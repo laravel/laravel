@@ -202,16 +202,6 @@ abstract class Model {
 	}
 
 	/**
-	 * Get the first model result
-	 *
-	 * @return mixed
-	 */
-	private function _first()
-	{
-		return (count($results = $this->take(1)->_get()) > 0) ? reset($results) : null;
-	}
-
-	/**
 	 * Get an array of models from the database.
 	 *
 	 * @return array
@@ -219,6 +209,16 @@ abstract class Model {
 	private function _get()
 	{
 		return Hydrator::hydrate($this);
+	}
+
+	/**
+	 * Get the first model result
+	 *
+	 * @return mixed
+	 */
+	private function _first()
+	{
+		return (count($results = $this->take(1)->_get()) > 0) ? reset($results) : null;
 	}
 
 	/**
