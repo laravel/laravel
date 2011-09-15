@@ -149,6 +149,31 @@ class Session {
 	}
 
 	/**
+	 * Keep flash data for another request. Passing no key results in all flash
+	 * data being refreshed.
+	 *
+	 * @param  mixed $key
+	 * @return void
+	 */
+	public static function keep($key = null)
+	{
+		if(is_null($key))
+		{
+			foreach(static::$session['data'] as $name => $value)
+			{
+				if(strpos($name, ':old:') === 0) static::flash(substr($name, 5), $value);
+			}
+		}
+		else
+		{
+			foreach((array) $key as $name)
+			{
+				if(isset(static::$session['data'][':old:' . $name])) static::flash($name, static::$session['data'][':old:' . $name]);
+			}
+		}
+	}
+
+	/**
 	 * Remove all items from the session.
 	 *
 	 * @return void
