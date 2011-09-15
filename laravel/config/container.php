@@ -221,11 +221,11 @@ return array(
 
 	'laravel.session.cookie' => array('resolver' => function($container)
 	{
-		$cookies = $container->resolve('laravel.request')->input->cookies;
+		$cookies = $container->resolve('laravel.cookie');
 
 		$config = $container->resolve('laravel.config')->get('session');
 
-		return new Session\Drivers\Cookie(Security\Crypter::make(), $cookies);
+		return new Session\Drivers\Cookie($container->resolve('laravel.crypter'), $cookies);
 	}),
 
 	/*
@@ -238,7 +238,7 @@ return array(
 	{
 		$table = $container->resolve('laravel.config')->get('session.table');
 
-		return new Session\Drivers\Database($container->resolve('laravel.database.manager')->connection());
+		return new Session\Drivers\Database($container->resolve('laravel.database')->connection());
 	}),
 
 	/*
