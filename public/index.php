@@ -3,7 +3,7 @@
  * Laravel - A clean and classy framework for PHP web development.
  *
  * @package  Laravel
- * @version  1.5.8
+ * @version  1.5.9
  * @author   Taylor Otwell
  * @link     http://laravel.com
  */
