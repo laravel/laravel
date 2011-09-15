@@ -41,7 +41,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
 	public function testConfigClassCanRetrieveItems()
 	{
-		$config = IoC::container()->config;
+		$config = IoC::container()->resolve('laravel.config');
 
 		$this->assertTrue(is_array($config->get('application')));
 		$this->assertEquals($config->get('application.url'), 'http://localhost');
@@ -49,7 +49,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetMethodReturnsDefaultWhenItemDoesntExist()
 	{
-		$config = IoC::container()->config;
+		$config = IoC::container()->resolve('laravel.config');
 
 		$this->assertNull($config->get('config.item'));
 		$this->assertEquals($config->get('config.item', 'test'), 'test');
@@ -58,7 +58,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
 	public function testConfigClassCanSetItems()
 	{
-		$config = IoC::container()->config;
+		$config = IoC::container()->resolve('laravel.config');
 
 		$config->set('application.names.test', 'test');
 		$config->set('application.url', 'test');

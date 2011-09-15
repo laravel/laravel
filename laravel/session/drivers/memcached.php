@@ -23,6 +23,10 @@ class Memcached extends Driver {
 	/**
 	 * Load a session by ID.
 	 *
+	 * This method is responsible for retrieving the session from persistant storage. If the
+	 * session does not exist in storage, nothing should be returned from the method, in which
+	 * case a new session will be created by the base driver.
+	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -34,21 +38,23 @@ class Memcached extends Driver {
 	/**
 	 * Save the session to persistant storage.
 	 *
+	 * @param  array  $session
 	 * @return void
 	 */
-	protected function save()
+	protected function save($session)
 	{
-		$this->memcached->put($this->session['id'], $this->session, $this->config->get('session.lifetime'));
+		$this->memcached->put($session['id'], $session, $this->config->get('session.lifetime'));
 	}
 
 	/**
 	 * Delete the session from persistant storage.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete()
+	protected function delete($id)
 	{
-		$this->memcached->forget($this->session['id']);
+		$this->memcached->forget($id);
 	}
 
 }

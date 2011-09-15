@@ -9,7 +9,7 @@ class APC extends Driver {
 	 *
 	 * @var Proxy
 	 */
-	private $apc;
+	private $proxy;
 
 	/**
 	 * The cache key from the cache configuration file.
@@ -25,7 +25,7 @@ class APC extends Driver {
 	 * @param  string  $key
 	 * @return void
 	 */
-	public function __construct(Proxy $apc, $key)
+	public function __construct(Proxy $proxy, $key)
 	{
 		$this->key = $key;
 		$this->proxy = $proxy;

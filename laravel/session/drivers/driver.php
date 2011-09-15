@@ -42,7 +42,7 @@ abstract class Driver {
 		// string ID to uniquely identify it among the application's current users.
 		if (is_null($this->session) or $this->expired())
 		{
-			$this->session = array('id' => Str::random(40), 'data' => array());
+			$this->session = array('id' => Str::random(40), 'last_activity' => time(), 'data' => array());
 		}
 
 		// If a CSRF token is not present in the session, we will generate one. These tokens
@@ -69,6 +69,10 @@ abstract class Driver {
 	/**
 	 * Load a session by ID.
 	 *
+	 * This method is responsible for retrieving the session from persistant storage. If the
+	 * session does not exist in storage, nothing should be returned from the method, in which
+	 * case a new session will be created by the base driver.
+	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -77,16 +81,18 @@ abstract class Driver {
 	/**
 	 * Delete the session from persistant storage.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	abstract protected function delete();
+	abstract protected function delete($id);
 
 	/**
 	 * Save the session to persistant storage.
 	 *
+	 * @param  array  $session
 	 * @return void
 	 */
-	abstract protected function save();
+	abstract protected function save($session);
 
 	/**
 	 * Determine if the session or flash data contains an item.
@@ -205,7 +211,7 @@ abstract class Driver {
 	 */
 	public final function regenerate()
 	{
-		$this->delete();
+		$this->delete($this->session['id']);
 
 		$this->session['id'] = Str::random(40);
 	}
@@ -227,20 +233,19 @@ abstract class Driver {
 	 * Close the session and store the session payload in persistant storage.
 	 *
 	 * @param  Laravel\Input  $input
+	 * @param  int            $time
 	 * @return void
 	 */
-	public function close(Input $input)
+	public final function close(Input $input, $time)
 	{
 		// The input for the current request will be flashed to the session for
 		// convenient access through the "old" method of the input class. This
 		// allows the easy repopulation of forms.
 		$this->flash('laravel_old_input', $input->get())->age();
 
-		$this->session['last_activity'] = time();
+		$this->session['last_activity'] = $time;
 
-		$this->save();
-
-		$this->cookie($input->cookies);
+		$this->save($this->session);
 
 		// Some session drivers implement the "Sweeper" interface, which specifies
 		// that the driver needs to manually clean up its expired sessions. If the
@@ -248,7 +253,28 @@ abstract class Driver {
 		// sweep method on the driver.
 		if ($this instanceof Sweeper and mt_rand(1, 100) <= 2)
 		{
-			$this->sweep(time() - ($this->config['lifetime'] * 60));
+			$this->sweep($time - ($this->config->get('session.lifetime') * 60));
+		}
+	}
+
+	/**
+	 * Write the session cookie.
+	 *
+	 * @param  Laravel\Cookie  $cookie
+	 * @param  array           $config
+	 * @return void
+	 */
+	public final function cookie(Cookie $cookies)
+	{
+		if ( ! headers_sent())
+		{
+			$config = $this->config->get('session');
+
+			extract($config);
+
+			$minutes = ($expire_on_close) ? 0 : $lifetime;
+
+			$cookies->put('laravel_session', $this->session['id'], $minutes, $path, $domain);
 		}
 	}
 
@@ -267,27 +293,6 @@ abstract class Driver {
 		}
 
 		$this->readdress(':new:', ':old:', array_keys($this->session['data']));
-	}
-
-	/**
-	 * Write the session cookie.
-	 *
-	 * @param  Laravel\Cookie  $cookie
-	 * @param  array           $config
-	 * @return void
-	 */
-	private function cookie(Cookie $cookies)
-	{
-		if ( ! headers_sent())
-		{
-			$config = $this->config->get('session');
-
-			extract($config);
-
-			$minutes = ($expire_on_close) ? 0 : $lifetime;
-
-			$cookies->put('laravel_session', $this->session['id'], $minutes, $path, $domain);
-		}
 	}
 
 	/**

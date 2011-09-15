@@ -96,7 +96,7 @@ class Str {
 
 		$pool = ($type == 'alpha_num') ? '0123456789'.$alpha : $alpha;
 
-		return implode('', array_map(function() use ($pool) { return $pool[mt_rand(0, strlen($pool) - 1)]; }, range(0, $length)));
+		return implode('', array_map(function() use ($pool) { return $pool[mt_rand(0, strlen($pool) - 1)]; }, range(0, $length - 1)));
 	}
 
 	/**

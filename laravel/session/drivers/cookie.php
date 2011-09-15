@@ -14,6 +14,10 @@ class Cookie extends Driver {
 	/**
 	 * The crypter instance.
 	 *
+	 * All session cookies have an encrypted payload. Since the session contains sensitive
+	 * data that cannot be compromised, it is important that the payload be encrypted using
+	 * the strong encryption provided by the Crypter class.
+	 *
 	 * @var Crypter
 	 */
 	private $crypter;
@@ -34,6 +38,10 @@ class Cookie extends Driver {
 	/**
 	 * Load a session by ID.
 	 *
+	 * This method is responsible for retrieving the session from persistant storage. If the
+	 * session does not exist in storage, nothing should be returned from the method, in which
+	 * case a new session will be created by the base driver.
+	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -48,9 +56,10 @@ class Cookie extends Driver {
 	/**
 	 * Save the session to persistant storage.
 	 *
+	 * @param  array  $session
 	 * @return void
 	 */
-	protected function save()
+	protected function save($session)
 	{
 		if ( ! headers_sent())
 		{
@@ -58,7 +67,7 @@ class Cookie extends Driver {
 
 			extract($config);
 
-			$payload = $this->crypter->encrypt(serialize($this->session));
+			$payload = $this->crypter->encrypt(serialize($session));
 
 			$this->cookie->put('session_payload', $payload, $lifetime, $path, $domain);
 		}
@@ -67,9 +76,10 @@ class Cookie extends Driver {
 	/**
 	 * Delete the session from persistant storage.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete()
+	protected function delete($id)
 	{
 		$this->cookie->forget('session_payload');
 	}

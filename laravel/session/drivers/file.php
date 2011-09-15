@@ -32,6 +32,10 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Load a session by ID.
 	 *
+	 * This method is responsible for retrieving the session from persistant storage. If the
+	 * session does not exist in storage, nothing should be returned from the method, in which
+	 * case a new session will be created by the base driver.
+	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -43,21 +47,23 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Save the session to persistant storage.
 	 *
+	 * @param  array  $session
 	 * @return void
 	 */
-	protected function save()
+	protected function save($session)
 	{
-		$this->file->put($this->path.$this->session['id'], serialize($this->session), LOCK_EX);
+		$this->file->put($this->path.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
 	 * Delete the session from persistant storage.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete()
+	protected function delete($id)
 	{
-		$this->file->delete($this->path.$this->session['id']);
+		$this->file->delete($this->path.$id);
 	}
 
 	/**

@@ -25,6 +25,10 @@ class Database extends Driver implements Sweeper {
 	/**
 	 * Load a session by ID.
 	 *
+	 * This method is responsible for retrieving the session from persistant storage. If the
+	 * session does not exist in storage, nothing should be returned from the method, in which
+	 * case a new session will be created by the base driver.
+	 *
 	 * @param  string  $id
 	 * @return array
 	 */
@@ -45,27 +49,29 @@ class Database extends Driver implements Sweeper {
 	/**
 	 * Save the session to persistant storage.
 	 *
+	 * @param  array  $session
 	 * @return void
 	 */
-	protected function save()
+	protected function save($session)
 	{
-		$this->delete($this->session['id']);
+		$this->delete($session['id']);
 
 		$this->table()->insert(array(
-			'id'            => $this->session['id'], 
-			'last_activity' => $this->session['last_activity'], 
-			'data'          => serialize($this->session['data'])
+			'id'            => $session['id'], 
+			'last_activity' => $session['last_activity'], 
+			'data'          => serialize($session['data'])
 		));
 	}
 
 	/**
 	 * Delete the session from persistant storage.
 	 *
+	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete()
+	protected function delete($id)
 	{
-		$this->table()->delete($this->session['id']);
+		$this->table()->delete($id);
 	}
 
 	/**

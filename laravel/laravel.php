@@ -74,11 +74,15 @@ else
 $response->content = $response->render();
 
 // --------------------------------------------------------------
-// Close the session.
+// Close the session and write the session cookie.
 // --------------------------------------------------------------
 if ($config->get('session.driver') !== '')
 {
-	$container->resolve('laravel.session')->close($container->resolve('laravel.input'));
+	$session = $container->resolve('laravel.session');
+
+	$session->close($container->resolve('laravel.input'), time());
+
+	$session->cookie($container->resolve('laravel.cookie'));
 }
 
 // --------------------------------------------------------------
