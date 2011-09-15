@@ -1,5 +1,6 @@
-<?php namespace Laravel\Cache;
+<?php namespace Laravel\Cache\Drivers;
 
+use Memcache;
 use Laravel\Config;
 
 class Memcached extends Driver {
@@ -24,7 +25,7 @@ class Memcached extends Driver {
 	 * @param  Memcache  $memcache
 	 * @return void
 	 */
-	public function __construct(\Memcache $memcache, $key)
+	public function __construct(Memcache $memcache, $key)
 	{
 		$this->key = $key;
 		$this->memcache = $memcache;
@@ -49,7 +50,7 @@ class Memcached extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return (($cache = $this->memcache->get($this->key.$key)) !== false) ? $cache : null;
+		if (($cache = $this->memcache->get($this->key.$key)) !== false) return $cache;
 	}
 
 	/**

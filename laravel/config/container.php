@@ -225,7 +225,7 @@ return array(
 
 		$config = $container->resolve('laravel.config')->get('session');
 
-		return new Session\Cookie(Security\Crypter::make(), $cookies, $config);
+		return new Session\Drivers\Cookie(Security\Crypter::make(), $cookies);
 	}),
 
 	/*
@@ -238,7 +238,7 @@ return array(
 	{
 		$table = $container->resolve('laravel.config')->get('session.table');
 
-		return new Session\Database($container->resolve('laravel.database.manager')->connection(), $table);
+		return new Session\Drivers\Database($container->resolve('laravel.database.manager')->connection());
 	}),
 
 	/*
@@ -260,13 +260,13 @@ return array(
 
 	'laravel.cache.file' => array('resolver' => function($container)
 	{
-		return new Cache\File($container->resolve('laravel.file'), CACHE_PATH);
+		return new Cache\Drivers\File($container->resolve('laravel.file'), CACHE_PATH);
 	}),
 
 
 	'laravel.session.file' => array('resolver' => function($container)
 	{
-		return new Session\File($container->resolve('laravel.file'), SESSION_PATH);
+		return new Session\Drivers\File($container->resolve('laravel.file'), SESSION_PATH);
 	}),
 
 	/*
@@ -277,7 +277,13 @@ return array(
 
 	'laravel.cache.apc' => array('resolver' => function($container)
 	{
-		return new Cache\APC(new Proxy, $container->resolve('laravel.config')->get('cache.key'));
+		return new Cache\Drivers\APC(new Proxy, $container->resolve('laravel.config')->get('cache.key'));
+	}),
+
+
+	'laravel.session.id' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return $container->resolve('laravel.cookie')->get('laravel_session');
 	}),
 
 
@@ -285,7 +291,7 @@ return array(
 	{
 		$lifetime = $container->resolve('laravel.config')->get('session.lifetime');
 
-		return new Session\APC($container->resolve('laravel.cache.apc'), $lifetime);
+		return new Session\Drivers\APC($container->resolve('laravel.cache.apc'));
 	}),
 
 	/*
@@ -300,7 +306,7 @@ return array(
 
 		$key = $container->resolve('laravel.config')->get('cache.key');
 
-		return new Cache\Memcached($connection, $key);
+		return new Cache\Drivers\Memcached($connection, $key);
 	}),
 
 
@@ -308,7 +314,7 @@ return array(
 	{
 		$lifetime = $container->resolve('laravel.config')->get('session.lifetime');
 
-		return new Session\Memcached($container->resolve('laravel.cache.memcached'), $lifetime);
+		return new Session\Drivers\Memcached($container->resolve('laravel.cache.memcached'));
 	}),
 
 

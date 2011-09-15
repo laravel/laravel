@@ -1,4 +1,4 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel\Session\Drivers;
 
 class File extends Driver implements Sweeper {
 

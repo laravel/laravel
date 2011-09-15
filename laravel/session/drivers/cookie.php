@@ -1,42 +1,33 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel\Session\Drivers;
 
 use Laravel\Security\Crypter;
 
 class Cookie extends Driver {
 
 	/**
-	 * The cookie engine instance.
+	 * The cookie manager instance.
 	 *
 	 * @var Cookie
 	 */
 	private $cookie;
 
 	/**
-	 * The Crypter instance.
+	 * The crypter instance.
 	 *
 	 * @var Crypter
 	 */
 	private $crypter;
 
 	/**
-	 * The session configuration array.
-	 *
-	 * @var array
-	 */
-	private $config;
-
-	/**
 	 * Create a new Cookie session driver instance.
 	 *
 	 * @param  Crypter         $crypter
 	 * @param  Laravel\Cookie  $cookie
-	 * @param  array           $config
 	 * @return void
 	 */
-	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie, $config)
+	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie)
 	{
 		$this->cookie = $cookie;
-		$this->config = $config;
 		$this->crypter = $crypter;
 	}
 
@@ -63,11 +54,13 @@ class Cookie extends Driver {
 	{
 		if ( ! headers_sent())
 		{
-			extract($this->config);
+			$config = $this->config->get('session');
+
+			extract($config);
 
 			$payload = $this->crypter->encrypt(serialize($this->session));
 
-			$this->cookie->put('session_payload', $payload, $lifetime, $path, $domain, $https, $http_only);
+			$this->cookie->put('session_payload', $payload, $lifetime, $path, $domain);
 		}
 	}
 

@@ -1,4 +1,4 @@
-<?php namespace Laravel\Cache;
+<?php namespace Laravel\Cache\Drivers;
 
 class File extends Driver {
 

@@ -1,4 +1,4 @@
-<?php namespace Laravel\Cache;
+<?php namespace Laravel\Cache\Drivers;
 
 use Laravel\Proxy;
 
@@ -50,7 +50,7 @@ class APC extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		return ( ! is_null($cache = $this->proxy->apc_fetch($this->key.$key))) ? $cache : null;
+		if ( ! is_null($cache = $this->proxy->apc_fetch($this->key.$key))) return $cache;
 	}
 
 	/**

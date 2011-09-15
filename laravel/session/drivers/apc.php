@@ -1,32 +1,23 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel\Session\Drivers;
 
 class APC extends Driver {
 
 	/**
 	 * The APC cache driver instance.
 	 *
-	 * @var Cache\APC
+	 * @var Cache\Drivers\APC
 	 */
-	private $apc;
-
-	/**
-	 * The session lifetime.
-	 *
-	 * @var int
-	 */
-	private $lifetime;
+	protected $apc;
 
 	/**
 	 * Create a new APC session driver instance.
 	 *
-	 * @param  Cache\APC  $apc
-	 * @param  int        $lifetime
+	 * @param  Cache\Drivers\APC  $apc
 	 * @return void
 	 */
-	public function __construct(\Laravel\Cache\APC $apc, $lifetime)
+	public function __construct(\Laravel\Cache\Drivers\APC $apc)
 	{
 		$this->apc = $apc;
-		$this->lifetime = $lifetime;
 	}
 
 	/**
@@ -47,7 +38,7 @@ class APC extends Driver {
 	 */
 	protected function save()
 	{
-		$this->apc->put($this->session['id'], $this->session, $this->lifetime);
+		$this->apc->put($this->session['id'], $this->session, $this->config->get('session.lifetime'));
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel\Session\Drivers;
 
 class Memcached extends Driver {
 
@@ -10,21 +10,13 @@ class Memcached extends Driver {
 	private $memcached;
 
 	/**
-	 * The session lifetime.
-	 *
-	 * @var int
-	 */
-	private $lifetime;
-
-	/**
 	 * Create a new Memcached session driver instance.
 	 *
 	 * @param  Memcached  $memcached
 	 * @return void
 	 */
-	public function __construct(\Laravel\Cache\Memcached $memcached, $lifetime)
+	public function __construct(\Laravel\Cache\Drivers\Memcached $memcached)
 	{
-		$this->lifetime = $lifetime;
 		$this->memcached = $memcached;
 	}
 
@@ -46,7 +38,7 @@ class Memcached extends Driver {
 	 */
 	protected function save()
 	{
-		$this->memcached->put($this->session['id'], $this->session, $this->lifetime);
+		$this->memcached->put($this->session['id'], $this->session, $this->config->get('session.lifetime'));
 	}
 
 	/**

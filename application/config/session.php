@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => '',
+	'driver' => 'file',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -74,31 +74,5 @@ return array(
 	*/
 
 	'domain' => null,
-
-	/*
-	|--------------------------------------------------------------------------
-	| Session Cookie HTTPS
-	|--------------------------------------------------------------------------
-	|
-	| Determines if the session cookie should only be transported over HTTPS.
-	|
-	*/
-
-	'https' => false,
-
-	/*
-	|--------------------------------------------------------------------------
-	| HTTP Only Session Cookie
-	|--------------------------------------------------------------------------
-	|
-	| Determines if the session cookie should only be accessible over HTTP.
-	|
-	| Note: The intention of the "HTTP Only" option is to keep cookies from
-	|       being accessed by client-side scripting languages. However, this
-	|       setting should not be viewed as providing total XSS protection.
-	|
-	*/
-
-	'http_only' => false,
 
 );

@@ -1,4 +1,4 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel\Session\Drivers;
 
 use Laravel\Database\Connection;
 
@@ -12,22 +12,13 @@ class Database extends Driver implements Sweeper {
 	protected $connection;
 
 	/**
-	 * The database table to which the sessions should be written.
-	 *
-	 * @var string
-	 */
-	protected $table;
-
-	/**
 	 * Create a new database session driver.
 	 *
 	 * @param  Connection  $connection
-	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, $table)
+	public function __construct(Connection $connection)
 	{
-		$this->table = $table;
 		$this->connection = $connection;
 	}
 
@@ -95,7 +86,7 @@ class Database extends Driver implements Sweeper {
 	 */
 	protected function table()
 	{
-		return $this->connection->table($this->table);		
+		return $this->connection->table($this->config->get('session.table'));		
 	}
 	
 }

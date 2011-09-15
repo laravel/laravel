@@ -49,9 +49,9 @@ date_default_timezone_set($config->get('application.timezone'));
 // --------------------------------------------------------------
 if ($config->get('session.driver') !== '')
 {
-	$cookie = $container->resolve('laravel.input')->cookies->get('laravel_session');
+	$id = $container->resolve('laravel.session.id');
 
-	$container->resolve('laravel.session')->start($cookie, $config->get('session'));
+	$container->resolve('laravel.session')->start($container->resolve('laravel.config'), $id);
 }
 
 // --------------------------------------------------------------
