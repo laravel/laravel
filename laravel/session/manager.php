@@ -34,12 +34,12 @@ class Manager {
 	 */
 	public function driver($driver)
 	{
-		if ( ! $this->container->registered('laravel.session.'.$driver))
+		if ($this->container->registered('laravel.session.'.$driver))
 		{
-			throw new \Exception("Session driver [$driver] is not supported.");
+			return $this->container->resolve('laravel.session.'.$driver);
 		}
 
-		return $this->container->resolve('laravel.session.'.$driver);
+		throw new \Exception("Session driver [$driver] is not supported.");
 	}
 
 }

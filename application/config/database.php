@@ -47,12 +47,12 @@ return array(
 
 		'mysql' => function($config)
 		{
-			return new PDO('mysql:host=localhost;dbname=database', 'username', 'password', $config['options']);
+			return new PDO('mysql:host=localhost;dbname=database', 'root', 'password', $config['options']);
 		},
 
 		'pgsql' => function($config)
 		{
-			return new PDO('pgsql:host=localhost;dbname=database', 'username', 'password', $config['options']);
+			return new PDO('pgsql:host=localhost;dbname=database', 'root', 'password', $config['options']);
 		},
 
 	),

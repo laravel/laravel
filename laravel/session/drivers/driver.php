@@ -211,6 +211,19 @@ abstract class Driver {
 	}
 
 	/**
+	 * Readdress the session data by performing a string replacement on the keys.
+	 *
+	 * @param  string  $search
+	 * @param  string  $replace
+	 * @param  array   $keys
+	 * @return void
+	 */
+	private function readdress($search, $replace, $keys)
+	{
+		$this->session['data'] = array_combine(str_replace($search, $replace, $keys), array_values($this->session['data']));
+	}
+
+	/**
 	 * Close the session and store the session payload in persistant storage.
 	 *
 	 * @param  Laravel\Input  $input
@@ -254,19 +267,6 @@ abstract class Driver {
 		}
 
 		$this->readdress(':new:', ':old:', array_keys($this->session['data']));
-	}
-
-	/**
-	 * Readdress the session data by performing a string replacement on the keys.
-	 *
-	 * @param  string  $search
-	 * @param  string  $replace
-	 * @param  array   $keys
-	 * @return void
-	 */
-	private function readdress($search, $replace, $keys)
-	{
-		$this->session['data'] = array_combine(str_replace($search, $replace, $keys), array_values($this->session['data']));
 	}
 
 	/**
