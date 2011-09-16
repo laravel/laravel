@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+use Closure;
+
 class Arr {
 
 	/**
@@ -8,14 +10,6 @@ class Arr {
 	 * If the specified key is null, the entire array will be returned. The array may
 	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
 	 * in multiple arrays is supported.
-	 *
-	 * <code>
-	 *		// Get the "name" item from the array
-	 *		$name = Arr::get(array('name' => 'Fred'), 'name');
-	 *
-	 *		// Get the "age" item from the array, or return 25 if it doesn't exist
-	 *		$name = Arr::get(array('name' => 'Fred'), 'age', 25);
-	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -30,7 +24,7 @@ class Arr {
 		{
 			if ( ! is_array($array) or ! array_key_exists($segment, $array))
 			{
-				return ($default instanceof \Closure) ? call_user_func($default) : $default;
+				return ($default instanceof Closure) ? call_user_func($default) : $default;
 			}
 
 			$array = $array[$segment];
@@ -45,11 +39,6 @@ class Arr {
 	 * This method is primarly helpful for setting the value in an array with
 	 * a variable depth, such as configuration arrays. Like the Arr::get
 	 * method, JavaScript "dot" syntax is supported.
-	 *
-	 * <code>
-	 *		// Set an array's "name" item to "Fred"
-	 *		Arr::set($array, 'name', 'Fred');
-	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -80,21 +69,18 @@ class Arr {
 	/**
 	 * Return the first element in an array which passes a given truth test.
 	 *
-	 * <code>
-	 *		// Get the first element in an array that is less than 2
-	 *		$value = Arr::first(array(4, 3, 2, 1), function($key, $value) {return $value < 2;});
-	 * </code>
-	 *
 	 * @param  array    $array
 	 * @param  Closure  $callback
 	 * @return mixed
 	 */
-	public static function first($array, $callback)
+	public static function first($array, $callback, $default = null)
 	{
 		foreach ($array as $key => $value)
 		{
 			if (call_user_func($callback, $key, $value)) return $value;
 		}
+
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 }

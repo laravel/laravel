@@ -36,6 +36,26 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @dataProvider getArray
+	 */
+	public function testFirstMethodReturnsFirstItemPassingTruthTest($array)
+	{
+		$array['email2'] = 'taylor@hotmail.com';
+
+		$this->assertEquals('taylorotwell@gmail.com', Arr::first($array, function($k, $v) {return substr($v, 0, 3) == 'tay';}));
+	}
+
+	/**
+	 * @dataProvider getArray
+	 */
+	public function testFirstMethodReturnsDefaultWhenNoItemExists($array)
+	{
+		$this->assertNull(Arr::first($array, function($k, $v) {return $v === 'something';}));
+		$this->assertEquals('default', Arr::first($array, function($k, $v) {return $v === 'something';}, 'default'));
+		$this->assertEquals('default', Arr::first($array, function($k, $v) {return $v === 'something';}, function() {return 'default';}));
+	}
+
 	public function getArray()
 	{
 		return array(array(
