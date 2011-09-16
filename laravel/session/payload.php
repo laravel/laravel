@@ -1,7 +1,7 @@
 <?php namespace Laravel\Session;
 
+use Closure;
 use Laravel\Str;
-use Laravel\Closure;
 
 class Payload {
 
