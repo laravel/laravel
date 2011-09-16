@@ -51,7 +51,7 @@ if ($config->get('session.driver') !== '')
 {
 	$session = $container->resolve('laravel.session.manager');
 
-	$container->instance('laravel.session', $session->payload());
+	$container->instance('laravel.session', $session->payload($config->get('session')));
 }
 
 // --------------------------------------------------------------
@@ -78,7 +78,7 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 if (isset($session))
 {
-	$session->close($container->resolve('laravel.session'));
+	$session->close($container->resolve('laravel.session'), $config->get('session'));
 }
 
 // --------------------------------------------------------------

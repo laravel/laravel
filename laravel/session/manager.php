@@ -22,13 +22,6 @@ class Manager {
 	private $transporter;
 
 	/**
-	 * The configuration manager instance.
-	 *
-	 * @var Config
-	 */
-	private $config;
-
-	/**
 	 * The session payload instance.
 	 *
 	 * @var Payload
@@ -40,29 +33,28 @@ class Manager {
 	 *
 	 * @param  Driver       $driver
 	 * @param  Transporter  $transporter
-	 * @param  Config       $config
 	 * @return void
 	 */
-	public function __construct(Driver $driver, Transporter $transporter, Config $config)
+	public function __construct(Driver $driver, Transporter $transporter)
 	{
 		$this->driver = $driver;
-		$this->config = $config;
 		$this->transporter = $transporter;
 	}
 
 	/**
 	 * Get the session payload for the request.
 	 *
+	 * @param  array    $config
 	 * @return Payload
 	 */
-	public function payload()
+	public function payload($config)
 	{
-		$session = $this->driver->load($this->transporter->get());
+		$session = $this->driver->load($this->transporter->get($config));
 
 		// If the session is expired, a new session will be generated and all of the data from
 		// the previous session will be lost. The new session will be assigned a random, long
 		// string ID to uniquely identify it among the application's current users.
-		if (is_null($session) or $this->expired($session))
+		if (is_null($session) or $this->expired($session, $config))
 		{
 			$session = array('id' => Str::random(40), 'data' => array());
 		}
@@ -82,24 +74,24 @@ class Manager {
 	 * Deteremine if the session is expired based on the last activity timestamp
 	 * and the session lifetime set in the configuration file.
 	 *
-	 * @param  array  $payload
+	 * @param  array  $session
+	 * @param  array  $config
 	 * @return bool
 	 */
-	private function expired($payload)
+	private function expired($session, $config)
 	{
-		return (time() - $payload['last_activity']) > ($this->config->get('session.lifetime') * 60);
+		return (time() - $session['last_activity']) > ($config['lifetime'] * 60);
 	}
 
 	/**
 	 * Close the session handling for the request.
 	 *
 	 * @param  Payload  $payload
+	 * @param  array    $config
 	 * @return void
 	 */
-	public function close(Payload $payload)
+	public function close(Payload $payload, $config)
 	{
-		$config = $this->config->get('session');
-
 		$this->driver->save($payload->age(), $config);
 
 		$this->transporter->put($payload->session['id'], $config);
@@ -107,23 +99,10 @@ class Manager {
 		// Some session drivers implement the Sweeper interface, which specified that the driver
 		// must do its garbage collection manually. Alternatively, some drivers such as APC and
 		// Memcached are not required to manually clean up their sessions.
-		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and $this->driver instanceof Sweeper)
+		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and $this->driver instanceof Drivers\Sweeper)
 		{
 			$this->driver->sweep(time() - ($config['lifetime'] * 60));
 		}
-	}
-
-	/**
-	 * Magic Method for calling methods on the session payload instance.
-	 */
-	public function __call($method, $parameters)
-	{
-		if (method_exists($this->payload, $method))
-		{
-			return call_user_func_array(array($this->payload, $method), $parameters);
-		}
-
-		throw new \Exception("Attempting to call undefined method [$method] on session manager.");
 	}
 
 }

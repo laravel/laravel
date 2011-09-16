@@ -5,9 +5,10 @@ interface Transporter {
 	/**
 	 * Get the session identifier for the request.
 	 *
+	 * @param  array   $config
 	 * @return string
 	 */
-	public function get();
+	public function get($config);
 
 	/**
 	 * Store the session identifier for the request.

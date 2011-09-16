@@ -16,9 +16,10 @@ class Cookie implements Transporter {
 	/**
 	 * Get the session identifier for the request.
 	 *
+	 * @param  array   $config
 	 * @return string
 	 */
-	public function get()
+	public function get($config)
 	{
 		return $this->cookie->get('laravel_session');
 	}
