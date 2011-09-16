@@ -49,9 +49,9 @@ date_default_timezone_set($config->get('application.timezone'));
 // --------------------------------------------------------------
 if ($config->get('session.driver') !== '')
 {
-	$id = $container->resolve('laravel.session.id');
+	$session = $container->resolve('laravel.session.manager');
 
-	$container->resolve('laravel.session')->start($container->resolve('laravel.config'), $id);
+	$container->instance('laravel.session', $session->payload());
 }
 
 // --------------------------------------------------------------
@@ -76,13 +76,9 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 // Close the session and write the session cookie.
 // --------------------------------------------------------------
-if ($config->get('session.driver') !== '')
+if (isset($session))
 {
-	$session = $container->resolve('laravel.session');
-
-	$session->close($container->resolve('laravel.input'), time());
-
-	$session->cookie($container->resolve('laravel.cookie'));
+	$session->close($container->resolve('laravel.session'));
 }
 
 // --------------------------------------------------------------

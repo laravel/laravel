@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class Memcached extends Driver {
+class Memcached implements Driver {
 
 	/**
 	 * The Memcache cache driver instance.
@@ -21,38 +21,37 @@ class Memcached extends Driver {
 	}
 
 	/**
-	 * Load a session by ID.
+	 * Load a session from storage by a given ID.
 	 *
-	 * This method is responsible for retrieving the session from persistant storage. If the
-	 * session does not exist in storage, nothing should be returned from the method, in which
-	 * case a new session will be created by the base driver.
+	 * If no session is found for the ID, null will be returned.
 	 *
 	 * @param  string  $id
 	 * @return array
 	 */
-	protected function load($id)
+	public function load($id)
 	{
 		return $this->memcached->get($id);
 	}
 
 	/**
-	 * Save the session to persistant storage.
+	 * Save a given session to storage.
 	 *
 	 * @param  array  $session
+	 * @param  array  $config
 	 * @return void
 	 */
-	protected function save($session)
+	public function save($session, $config)
 	{
-		$this->memcached->put($session['id'], $session, $this->config->get('session.lifetime'));
+		$this->memcached->put($session['id'], $session, $config['lifetime']);
 	}
 
 	/**
-	 * Delete the session from persistant storage.
+	 * Delete a session from storage by a given ID.
 	 *
 	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete($id)
+	public function delete($id)
 	{
 		$this->memcached->forget($id);
 	}

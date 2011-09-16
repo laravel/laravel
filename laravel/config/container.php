@@ -168,15 +168,19 @@ return array(
 	}),
 
 
-	'laravel.session' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return $container->resolve('laravel.session.manager')->driver($container->resolve('laravel.config')->get('session.driver'));
+		$config = $c->resolve('laravel.config');
+
+		$driver = $c->resolve('laravel.session.'.$config->get('session.driver'));
+
+		return new Session\Manager($driver, $c->resolve('laravel.session.transporter'), $config);
 	}),
 
 
-	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.session.transporter' => array('resolver' => function($c)
 	{
-		return new Session\Manager($container);
+		return new Session\Transporters\Cookie($c->resolve('laravel.cookie'));
 	}),
 
 

@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class File extends Driver implements Sweeper {
+class File implements Driver, Sweeper {
 
 	/**
 	 * The file engine instance.
@@ -30,38 +30,37 @@ class File extends Driver implements Sweeper {
 	}
 
 	/**
-	 * Load a session by ID.
+	 * Load a session from storage by a given ID.
 	 *
-	 * This method is responsible for retrieving the session from persistant storage. If the
-	 * session does not exist in storage, nothing should be returned from the method, in which
-	 * case a new session will be created by the base driver.
+	 * If no session is found for the ID, null will be returned.
 	 *
 	 * @param  string  $id
 	 * @return array
 	 */
-	protected function load($id)
+	public function load($id)
 	{
 		if ($this->file->exists($path = $this->path.$id)) return unserialize($this->file->get($path));
 	}
 
 	/**
-	 * Save the session to persistant storage.
+	 * Save a given session to storage.
 	 *
 	 * @param  array  $session
+	 * @param  array  $config
 	 * @return void
 	 */
-	protected function save($session)
+	public function save($session, $config)
 	{
 		$this->file->put($this->path.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
-	 * Delete the session from persistant storage.
+	 * Delete a session from storage by a given ID.
 	 *
 	 * @param  string  $id
 	 * @return void
 	 */
-	protected function delete($id)
+	public function delete($id)
 	{
 		$this->file->delete($this->path.$id);
 	}

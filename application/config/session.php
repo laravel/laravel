@@ -33,6 +33,22 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Session Garbage Collection Probability
+	|--------------------------------------------------------------------------
+	|
+	| Some session drivers require the manual clean-up of expired sessions.
+	| This option specifies the probability of session garbage collection
+	| occuring for any given request. 
+	|
+	| For example, the default value states that garbage collection has about
+	| a 2% (2 / 100) chance of occuring for any given request.
+	|
+	*/
+
+	'sweepage' => array(2, 100),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Session Lifetime
 	|--------------------------------------------------------------------------
 	|

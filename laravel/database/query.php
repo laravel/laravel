@@ -430,7 +430,7 @@ class Query {
 	/**
 	 * Set the query limit and offset for a given page and item per page count.
 	 *
-	 * If the given page is not an integer or is less than zero, one will be used.
+	 * If the given page is not an integer or is less than one, one will be used.
 	 *
 	 * @param  int    $page
 	 * @param  int    $per_page
