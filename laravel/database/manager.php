@@ -15,7 +15,10 @@ class Manager {
 	 * @param  array  $config
 	 * @return void
 	 */
-	public function __construct($config) { $this->config = $config; }
+	public function __construct($config)
+	{
+		$this->config = $config;
+	}
 
 	/**
 	 * Get a database connection. 
@@ -25,8 +28,8 @@ class Manager {
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
-	 * @param  string               $connection
-	 * @return Database\Connection
+	 * @param  string      $connection
+	 * @return Connection
 	 */
 	public function connection($connection = null)
 	{
