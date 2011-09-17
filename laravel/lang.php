@@ -41,15 +41,21 @@ class Lang_Factory {
 	 *
 	 *		// Begin retrieving a language line with replacements
 	 *		$lang = Lang::line('validation.required', array('attribute' => 'email'));
+	 *
+	 *		// Begin retrieving a language line in a given language
+	 *		$lang = Lang::line('messages.welcome', null, 'sp');
 	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
+	 * @param  string  $language
 	 * @return Lang
 	 */
-	public function line($key, $replacements = array())
+	public function line($key, $replacements = array(), $language = null)
 	{
-		return new Lang($key, $replacements, $this->config->get('application.language'), $this->paths);
+		$language = ( ! is_null($language)) $this->config->get('application.language') : $language;
+
+		return new Lang($key, (array) $replacements, $language, $this->paths);
 	}
 
 }

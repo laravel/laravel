@@ -10,6 +10,13 @@ class Cookie {
 	protected $cookies;
 
 	/**
+	 * The cookies that will be sent to the browser at the end of the request.
+	 *
+	 * @var array
+	 */
+	protected $queue = array();
+
+	/**
 	 * Create a new cookie manager instance.
 	 *
 	 * @param  array  $cookies
@@ -38,7 +45,7 @@ class Cookie {
 	 *		// Get the value of a cookie
 	 *		$value = Cookie::get('color');
 	 *
-	 *		// Get the value of a cookie and return "blue" if the cookie doesn't exist
+	 *		// Get the value of a cookie or return a default value
 	 *		$value = Cookie::get('color', 'blue');
 	 * </code>
 	 *
@@ -99,7 +106,22 @@ class Cookie {
 
 		$time = ($minutes != 0) ? time() + ($minutes * 60) : 0;
 
-		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
+		$this->queue[] = compact('name', 'value', 'time', 'path', 'domain', 'secure', 'http_only');
+	}
+
+	/**
+	 * Send all of the cookies in the queue to the browser.
+	 *
+	 * This method is called automatically at the end of every request.
+	 *
+	 * @return void
+	 */
+	public function send()
+	{
+		foreach ($this->queue as $cookie)
+		{
+			call_user_func_array('setcookie', $cookie);
+		}
 	}
 
 	/**

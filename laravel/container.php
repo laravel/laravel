@@ -13,11 +13,14 @@ class IoC {
 	 * Get the active container instance.
 	 *
 	 * The container is set early in the request cycle and can be access here for
-	 * use as a service locator if dependency injection is not practical.
+	 * use as a service locator if object injection is not practical.
 	 *
 	 * <code>
+	 *		// Get the active container instance
+	 *		$container = IoC::container();
+	 *
 	 *		// Get the active container instance and call the resolve method
-	 *		$instance = IoC::container()->resolve('instance');
+	 *		$container = IoC::container()->resolve('instance');
 	 * </code>
 	 *
 	 * @return Container
@@ -73,15 +76,15 @@ class Container {
 	}
 
 	/**
-	 * Register a dependency and its resolver.
+	 * Register an object and its resolver.
 	 *
-	 * The resolver function is called when the registered dependency is requested.
+	 * The resolver function is called when the registered object is requested.
 	 *
 	 * <code>
-	 *		// Register a dependency in the container
+	 *		// Register an object in the container
 	 *		IoC::register('something', function($container) {return new Something;});
 	 *
-	 *		// Register a dependency in the container as a singleton
+	 *		// Register an object in the container as a singleton
 	 *		IoC::register('something', function($container) {return new Something;}, true);
 	 * </code>
 	 *
@@ -95,7 +98,7 @@ class Container {
 	}
 
 	/**
-	 * Determine if a dependency has been registered in the container.
+	 * Determine if an object has been registered in the container.
 	 *
 	 * @param  string  $name
 	 * @return bool
@@ -106,13 +109,13 @@ class Container {
 	}
 
 	/**
-	 * Register a dependency as a singleton.
+	 * Register an object as a singleton.
 	 *
 	 * Singletons will only be instantiated the first time they are resolved. On subsequent
 	 * requests for the object, the original instance will be returned.
 	 *
 	 * <code>
-	 *		// Register a dependency in the container as a singleton
+	 *		// Register an object in the container as a singleton
 	 *		IoC::singleton('something', function($container) {return new Something;});
 	 * </code>
 	 *
@@ -129,13 +132,11 @@ class Container {
 	 * Register an instance as a singleton.
 	 *
 	 * This method allows you to register an already existing object instance with the
-	 * container as a singleton instance.
+	 * container to be managed as a singleton instance.
 	 *
 	 * <code>
 	 *		// Register an instance with the IoC container
-	 *		$something = new Something;
-	 *		
-	 *		IoC::instance('something', $something);
+	 *		IoC::instance('something', new Something);
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -148,12 +149,14 @@ class Container {
 	}
 
 	/**
-	 * Resolve a dependency.
+	 * Resolve an object.
 	 *
-	 * The dependency's resolver will be called and its result will be returned.
+	 * The object's resolver will be called and its result will be returned. If the
+	 * object is registered as a singleton and has already been resolved, the instance
+	 * that has already been instantiated will be returned.
 	 *
 	 * <code>
-	 *		// Get the "something" dependency out of the IoC container
+	 *		// Get the "something" object out of the IoC container
 	 *		$something = IoC::resolve('something');
 	 * </code>
 	 *

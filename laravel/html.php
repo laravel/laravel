@@ -346,14 +346,9 @@ class HTML {
 	/**
 	 * Build a list of HTML attributes from an array.
 	 *
-	 * <code>
-	 *		// Returns: class="profile" id="picture"
-	 *		echo HTML::attributes(array('class' => 'profile', 'id' => 'picture'));
-	 * </code>
-	 *
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public function attributes($attributes)
 	{
 		$html = array();
@@ -410,6 +405,20 @@ class HTML {
 	 * Magic Method for handling dynamic static methods.
 	 *
 	 * This method primarily handles dynamic calls to create links to named routes.
+	 *
+	 * <code>
+	 *		// Create a link to the "profile" named route
+	 *		echo HTML::link_to_profile('Profile');
+	 *
+	 *		// Create a link to a named route with URI wildcard parameters
+	 *		echo HTML::link_to_posts('Posts', array($year, $month));
+	 *
+	 *		// Create a HTTPS link to the "profile" named route
+	 *		echo HTML::link_to_secure_profile('Profile');
+	 *
+	 *		// Create a HTTPS link to a named route URI wildcard parameters
+	 *		echo HTML::link_to_secure_posts('Posts', array($year, $month));
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{

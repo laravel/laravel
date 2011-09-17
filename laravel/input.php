@@ -3,6 +3,13 @@
 class Input {
 
 	/**
+	 * The file manager instance.
+	 *
+	 * @var File
+	 */
+	protected $file;
+
+	/**
 	 * The applicable input for the request.
 	 *
 	 * @var array
@@ -17,13 +24,6 @@ class Input {
 	protected $files;
 
 	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	protected $file;
-
-	/**
 	 * The cookie engine instance.
 	 *
 	 * @var Cookie
@@ -33,6 +33,7 @@ class Input {
 	/**
 	 * Create a new Input manager instance.
 	 *
+	 * @param  File    $file
 	 * @param  Cookie  $cookies
 	 * @param  array   $input
 	 * @param  array   $files
