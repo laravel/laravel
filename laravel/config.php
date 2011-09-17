@@ -5,19 +5,28 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
+	 * The configuration arrays are keyed by their owning file name.
+	 *
 	 * @var array
 	 */
-	protected $config = array();
+	protected $items = array();
+
+	/**
+	 * The paths to the configuration files.
+	 *
+	 * @var array
+	 */
+	protected $paths = array();
 
 	/**
 	 * Create a new configuration manager instance.
 	 *
-	 * @param  array  $config
+	 * @param  array  $paths
 	 * @return void
 	 */
-	public function __construct($config)
+	public function __construct($paths)
 	{
-		$this->config = $config;
+		$this->paths = $paths;
 	}
 
 	/**
@@ -67,7 +76,19 @@ class Config {
 	 */
 	public function get($key, $default = null)
 	{
-		return Arr::get($this->items, $key, $default);
+		list($file, $key) = $this->parse($key);
+
+		if ( ! $this->load($file))
+		{
+			return ($default instanceof \Closure) ? call_user_func($default) : $default;
+		}
+
+		if (is_null($key))
+		{
+			return $this->items[$file];
+		}
+
+		return Arr::get($this->items[$file], $key, $default);
 	}
 
 	/**
@@ -94,7 +115,75 @@ class Config {
 	 */
 	public function set($key, $value)
 	{
-		Arr::set($this->items, $key, $value);
+		list($file, $key) = $this->parse($key);
+
+		$this->load($file);
+
+		if (is_null($key))
+		{
+			Arr::set($this->items, $file, $value);
+		}
+		else
+		{
+			Arr::set($this->items[$file], $key, $value);
+		}
+	}
+
+	/**
+	 * Parse a configuration key and return its file and key segments.
+	 *
+	 * Configuration keys follow a {file}.{key} convention. So, for example, the
+	 * "session.driver" option refers to the "driver" option within the "session"
+	 * configuration file.
+	 *
+	 * If no specific item is specified, such as when requested "session", null will
+	 * be returned as the value of the key since the entire file is being requested.
+	 *
+	 * @param  string  $key
+	 * @return array
+	 */
+	protected function parse($key)
+	{
+		$segments = explode('.', $key);
+
+		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
+
+		return array($segments[0], $key);
+	}
+
+	/**
+	 * Load all of the configuration items from a module configuration file.
+	 *
+	 * If the configuration file has already been loaded into the items array, there
+	 * is no need to load it again, so "true" will be returned immediately.
+	 *
+	 * Configuration files cascade across directories. So, for example, if a configuration
+	 * file is in the system directory, its options will be overriden by a matching file
+	 * in the application directory.
+	 *
+	 * @param  string  $file
+	 * @return bool
+	 */
+	protected function load($file)
+	{
+		if (isset($this->items[$file])) return true;
+
+		$config = array();
+
+		foreach ($this->paths as $directory)
+		{
+			if (file_exists($path = $directory.$file.EXT))
+			{
+				$config = array_merge($config, require $path);
+			}
+		}
+
+		if (count($config) > 0)
+		{
+			$this->items[$file] = $config;
+		}
+
+		return isset($this->items[$file]);
 	}
 
 }
