@@ -45,9 +45,9 @@ class Manager {
 			// This provides the developer the maximum amount of freedom in establishing their
 			// database connections, and allows the framework to remain agonstic to ugly database
 			// specific PDO connection details. Less code. Less bugs.
-			$pdo = call_user_func($this->config['connectors'][$connection]);
+			$pdo = call_user_func($this->config['connectors'][$connection], $this->config);
 
-			$this->connections[$connection] = new Connection($pdo, $this->config));
+			$this->connections[$connection] = new Connection($pdo, $this->config);
 		}
 
 		return $this->connections[$connection];
