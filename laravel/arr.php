@@ -1,15 +1,21 @@
 <?php namespace Laravel;
 
-use Closure;
-
 class Arr {
 
 	/**
 	 * Get an item from an array.
 	 *
-	 * If the specified key is null, the entire array will be returned. The array may
-	 * also be accessed using JavaScript "dot" style notation. Retrieving items nested
-	 * in multiple arrays is supported.
+	 * This method supports accessing arrays through JavaScript "dot" style syntax
+	 * for conveniently digging deep into nested arrays. Like most other Laravel
+	 * "get" methods, a default value may be provided.
+	 *
+	 * <code>
+	 *		// Get the value of $array['user']['name']
+	 *		$value = Arr::get($array, 'user.name');
+	 *
+	 *		// Get a value from the array, but return a default if it doesn't exist
+	 *		$value = Arr::get($array, 'user.name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -24,7 +30,7 @@ class Arr {
 		{
 			if ( ! is_array($array) or ! array_key_exists($segment, $array))
 			{
-				return ($default instanceof Closure) ? call_user_func($default) : $default;
+				return ($default instanceof \Closure) ? call_user_func($default) : $default;
 			}
 
 			$array = $array[$segment];
@@ -36,9 +42,16 @@ class Arr {
 	/**
 	 * Set an array item to a given value.
 	 *
-	 * This method is primarly helpful for setting the value in an array with
-	 * a variable depth, such as configuration arrays. Like the Arr::get
-	 * method, JavaScript "dot" syntax is supported.
+	 * This method supports accessing arrays through JavaScript "dot" style syntax
+	 * for conveniently digging deep into nested arrays.
+	 *
+	 * <code>
+	 *		// Set the $array['user']['name'] value in the array
+	 *		Arr::set($array, 'user.name', 'Taylor');
+	 *
+	 *		// Set the $array['db']['driver']['name'] value in the array
+	 *		Arr::set($array, 'db.driver.name', 'SQLite');
+	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -69,6 +82,20 @@ class Arr {
 	/**
 	 * Return the first element in an array which passes a given truth test.
 	 *
+	 * The truth test is passed as a closure, and simply returns true or false.
+	 * The array key and value will be passed to the closure on each iteration.
+	 *
+	 * Like the "get" method, a default value may be specified, and will be
+	 * returned if no matching array elements are found by the method.
+	 *
+	 * <code>
+	 *		// Get the first string from an array with a length of 3
+	 *		$value = Arr::first($array, function($k, $v) {return strlen($v) == 3;});
+	 *
+	 *		// Return a default value if no matching array elements are found
+	 *		$value = Arr::first($array, function($k, $v) {return;}, 'Default');
+	 * </code>
+	 *
 	 * @param  array    $array
 	 * @param  Closure  $callback
 	 * @return mixed
@@ -80,7 +107,7 @@ class Arr {
 			if (call_user_func($callback, $key, $value)) return $value;
 		}
 
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return ($default instanceof \Closure) ? call_user_func($default) : $default;
 	}
 
 }

@@ -35,10 +35,10 @@ class Asset {
 	 * expressive code and a clean API.
 	 *
 	 * <code>
-	 *		// Get the default asset container
+	 *		// Get an instance of the default asset container
 	 *		$container = Asset::container();
 	 *
-	 *		// Get the "footer" asset container
+	 *		// Get an instance of the "footer" container
 	 *		$container = Asset::container('footer');
 	 * </code>
 	 *
@@ -58,12 +58,9 @@ class Asset {
 	/**
 	 * Magic Method for calling methods on the default Asset container.
 	 *
-	 * This provides a convenient API, allowing the developer to skip the
-	 * "container" method when using the default container.
-	 *
 	 * <code>
-	 *		// Add a JavaScript file to the default container
-	 *		Asset::script('jquery', 'js/jquery.js');
+	 *		// Call the "add" method on the default asset container
+	 *		Asset::add('jquery', 'js/jquery.js');
 	 *
 	 *		// Get all of the styles from the default container
 	 *		echo Asset::styles();
@@ -125,10 +122,13 @@ class Asset_Container {
 	 *
 	 * <code>
 	 *		// Add an asset to the container
-	 *		Asset::add('jquery', 'js/jquery.js');
+	 *		Asset::container()->add('style', 'style.css');
 	 *
-	 *		// Add an asset that has dependencies
-	 *		Asset::add('jquery', 'js/jquery.js', array('jquery-ui'));
+	 *		// Add an asset to the container with attributes
+	 *		Asset::container()->add('style', 'style.css', array(), array('media' => 'print'));
+	 *
+	 *		// Add an asset to the container with dependencies
+	 *		Asset::container()->add('jquery', 'jquery.js', array('jquery-ui'));
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -146,6 +146,17 @@ class Asset_Container {
 
 	/**
 	 * Add a CSS file to the registered assets.
+	 *
+	 * <code>
+	 *		// Add a CSS file to the registered assets
+	 *		Asset::container()->style('common', 'common.css');
+	 *
+	 *		// Add a CSS file with dependencies to the registered assets
+	 *		Asset::container()->style('common', 'common.css', array('reset'));
+	 *
+	 *		// Add a CSS file with attributes to the registered assets
+	 *		Asset::container()->style('common', 'common.css', array(), array('media' => 'print'));
+	 * </code>
 	 *
 	 * @param  string           $name
 	 * @param  string           $source
@@ -167,6 +178,17 @@ class Asset_Container {
 
 	/**
 	 * Add a JavaScript file to the registered assets.
+	 *
+	 * <code>
+	 *		// Add a CSS file to the registered assets
+	 *		Asset::container()->script('jquery', 'jquery.js');
+	 *
+	 *		// Add a CSS file with dependencies to the registered assets
+	 *		Asset::container()->script('jquery', 'jquery.js', array('jquery-ui'));
+	 *
+	 *		// Add a CSS file with attributes to the registered assets
+	 *		Asset::container()->script('loader', 'loader.js', array(), array('defer'));
+	 * </code>
 	 *
 	 * @param  string           $name
 	 * @param  string           $source

@@ -108,6 +108,8 @@ return array(
 			($request->spoofed()) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
 		}
 
+		unset($input['_REQUEST_METHOD_']);
+
 		return new Input($container->resolve('laravel.file'), $container->resolve('laravel.cookie'), $input, $_FILES);
 	}),
 

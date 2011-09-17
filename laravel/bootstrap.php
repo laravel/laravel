@@ -49,7 +49,9 @@ if (file_exists($path = CONFIG_PATH.'container'.EXT))
 	$dependencies = array_merge($dependencies, require $path);
 }
 
-if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/container'.EXT))
+$env = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : null;
+
+if ( ! is_null($env) and file_exists($path = CONFIG_PATH.$env.'/container'.EXT))
 {
 	$dependencies = array_merge($dependencies, require $path);
 }
@@ -62,3 +64,8 @@ IoC::$container = $container;
 // Register the auto-loader on the auto-loader stack.
 // --------------------------------------------------------------
 spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
+
+// --------------------------------------------------------------
+// Set the application environment configuration option.
+// --------------------------------------------------------------
+$container->resolve('laravel.config')->set('application.env', $env);

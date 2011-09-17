@@ -263,8 +263,9 @@ class Response {
 	/**
 	 * Send the response to the browser.
 	 *
-	 * All of the response header will be sent to the browser first, followed by the content
-	 * of the response instance, which will be evaluated and rendered by the render method.
+	 * All of the response header will be sent to the browser first, followed by
+	 * the content of the response instance, which will be evaluated and rendered
+	 * by the render method.
 	 *
 	 * @return void
 	 */

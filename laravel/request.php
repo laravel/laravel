@@ -10,13 +10,6 @@ class Request {
 	public $server;
 
 	/**
-	 * The route handling the current request.
-	 *
-	 * @var Routing\Route
-	 */
-	public $route;
-
-	/**
 	 * The $_POST array for the request.
 	 *
 	 * @var array
@@ -39,6 +32,13 @@ class Request {
 	 * @var string
 	 */
 	protected $uri;
+
+	/**
+	 * The route handling the current request.
+	 *
+	 * @var Routing\Route
+	 */
+	public $route;
 
 	/**
 	 * Create a new request instance.
@@ -84,7 +84,10 @@ class Request {
 			throw new \Exception('Unable to determine the request URI.');
 		}
 
-		if ($uri === false) throw new \Exception('Malformed request URI. Request terminated.');
+		if ($uri === false)
+		{
+			throw new \Exception('Malformed request URI. Request terminated.');
+		}
 
 		foreach (array(parse_url($this->url, PHP_URL_PATH), '/index.php') as $value)
 		{
@@ -117,7 +120,7 @@ class Request {
 	 */
 	public function method()
 	{
-		return ($this->spoofed()) ? $this->post['REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
+		return ($this->spoofed()) ? $this->post['_REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
 	}
 
 	/**

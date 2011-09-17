@@ -5,32 +5,31 @@ class Config {
 	/**
 	 * All of the loaded configuration items.
 	 *
-	 * The configuration arrays are keyed by their owning file name.
-	 *
 	 * @var array
 	 */
-	protected $items = array();
-
-	/**
-	 * The paths to the configuration files.
-	 *
-	 * @var array
-	 */
-	protected $paths = array();
+	protected $config = array();
 
 	/**
 	 * Create a new configuration manager instance.
 	 *
-	 * @param  array  $paths
+	 * @param  array  $config
 	 * @return void
 	 */
-	public function __construct($paths)
+	public function __construct($config)
 	{
-		$this->paths = $paths;
+		$this->config = $config;
 	}
 
 	/**
 	 * Determine if a configuration item or file exists.
+	 *
+	 * <code>
+	 *		// Determine if the "options" configuration file exists
+	 *		$options = Config::has('options');
+	 *
+	 *		// Determine if a specific configuration item exists
+	 *		$timezone = Config::has('application.timezone');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -43,18 +42,23 @@ class Config {
 	/**
 	 * Get a configuration item.
 	 *
-	 * If the name of a configuration file is passed without specifying an item, the
-	 * entire configuration array will be returned.
+	 * Configuration items are stored in the application/config directory, and provide
+	 * general configuration options for a wide range of Laravel facilities.
+	 *
+	 * The arrays may be accessed using JavaScript style "dot" notation to drill deep
+	 * intot he configuration files. For example, asking for "database.connectors.sqlite"
+	 * would return the connector closure for SQLite stored in the database configuration
+	 * file. If no specific item is specfied, the entire configuration array is returned.
+	 *
+	 * Like most Laravel "get" functions, a default value may be provided, and it will
+	 * be returned if the requested file or item doesn't exist.
 	 *
 	 * <code>
-	 *		// Get the "timezone" option from the "application" file
+	 *		// Get the "timezone" option from the application config file
 	 *		$timezone = Config::get('application.timezone');
 	 *
-	 *		// Get the SQLite connection configuration from the "database" file
-	 *		$sqlite = Config::get('database.connections.sqlite');
-	 *
-	 *		// Get a configuration option and return "Fred" if it doesn't exist
-	 *		$option = Config::get('config.option', 'Fred');
+	 *		// Get an option, but return a default value if it doesn't exist
+	 *		$value = Config::get('some.option', 'Default');
 	 * </code>
 	 *
 	 * @param  string  $key
@@ -63,30 +67,25 @@ class Config {
 	 */
 	public function get($key, $default = null)
 	{
-		list($file, $key) = $this->parse($key);
-
-		if ( ! $this->load($file))
-		{
-			return ($default instanceof \Closure) ? call_user_func($default) : $default;
-		}
-
-		if (is_null($key)) return $this->items[$file];
-
-		return Arr::get($this->items[$file], $key, $default);
+		return Arr::get($this->items, $key, $default);
 	}
 
 	/**
 	 * Set a configuration item.
 	 *
-	 * If a specific configuration item is not specified, the entire configuration
-	 * array will be replaced with the given value.
+	 * Configuration items are stored in the application/config directory, and provide
+	 * general configuration options for a wide range of Laravel facilities.
+	 *
+	 * Like the "get" method, this method uses JavaScript style "dot" notation to access
+	 * and manipulate the arrays in the configuration files. Also, like the "get" method,
+	 * if no specific item is specified, the entire configuration array will be set.
 	 *
 	 * <code>
-	 *		// Set the "timezone" option in the "application" file
+	 *		// Set the "timezone" option in the "application" array
 	 *		Config::set('application.timezone', 'America/Chicago');
 	 *
-	 *		// Set the entire "session" array to an empty array
-	 *		Config::set('session', array());
+	 *		// Set the entire "session" configuration array
+	 *		Config::set('session', $array);
 	 * </code>
 	 *
 	 * @param  string  $key
@@ -95,52 +94,7 @@ class Config {
 	 */
 	public function set($key, $value)
 	{
-		list($file, $key) = $this->parse($key);
-
-		$this->load($file);
-
-		(is_null($key)) ? Arr::set($this->items, $file, $value) : Arr::set($this->items[$file], $key, $value);
-	}
-
-	/**
-	 * Parse a configuration key and return its file and key segments.
-	 *
-	 * Configuration keys follow a {file}.{key} convention.
-	 *
-	 * @param  string  $key
-	 * @return array
-	 */
-	protected function parse($key)
-	{
-		$segments = explode('.', $key);
-
-		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
-
-		return array($segments[0], $key);
-	}
-
-	/**
-	 * Load all of the configuration items from a module configuration file.
-	 *
-	 * If the configuration file has already been loaded, it will not be loaded again.
-	 *
-	 * @param  string  $file
-	 * @return bool
-	 */
-	protected function load($file)
-	{
-		if (isset($this->items[$file])) return true;
-
-		$config = array();
-
-		foreach ($this->paths as $directory)
-		{
-			$config = (file_exists($path = $directory.$file.EXT)) ? array_merge($config, require $path) : $config;
-		}
-
-		if (count($config) > 0) $this->items[$file] = $config;
-
-		return isset($this->items[$file]);
+		Arr::set($this->items, $key, $value);
 	}
 
 }

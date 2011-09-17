@@ -21,10 +21,9 @@ class Manager {
 	}
 
 	/**
-	 * Get a database connection. 
+	 * Get a database connection.
 	 *
-	 * If no database name is specified, the default connection will be returned as
-	 * defined in the database configuration file.
+	 * If no database name is specified, the default connection will be returned.
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
@@ -46,7 +45,9 @@ class Manager {
 			// This provides the developer the maximum amount of freedom in establishing their
 			// database connections, and allows the framework to remain agonstic to ugly database
 			// specific PDO connection details. Less code. Less bugs.
-			$this->connections[$connection] = new Connection(call_user_func($this->config['connectors'][$connection], $this->config));
+			$pdo = call_user_func($this->config['connectors'][$connection]);
+
+			$this->connections[$connection] = new Connection($pdo, $this->config));
 		}
 
 		return $this->connections[$connection];
