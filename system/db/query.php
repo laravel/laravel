@@ -260,7 +260,7 @@ class Query {
 	 */
 	public function or_where_id($value)
 	{
-		return $this->or_where('id', '=', $value);		
+		return $this->or_where('id', '=', $value);
 	}
 
 	/**
@@ -512,6 +512,17 @@ class Query {
 	}
 
 	/**
+	 * Execute the query as a SELECT statement and return the last result.
+	 *
+	 * @param  array   $columns
+	 * @return object
+	 */
+	public function last($columns = array('*'))
+	{
+		return (count($results = $this->take(1)->order_by('id', 'desc')->get($columns)) > 0) ? $results[0] : null;
+	}
+
+	/**
 	 * Execute the query as a SELECT statement.
 	 *
 	 * @param  array  $columns
@@ -638,7 +649,7 @@ class Query {
 	{
 		if ( ! is_null($id)) $this->where('id', '=', $id);
 
-		return $this->connection->query('DELETE FROM '.$this->wrap($this->table).' '.$this->where, $this->bindings);		
+		return $this->connection->query('DELETE FROM '.$this->wrap($this->table).' '.$this->where, $this->bindings);
 	}
 
 	/**
