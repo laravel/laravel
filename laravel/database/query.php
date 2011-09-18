@@ -122,7 +122,7 @@ class Query {
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->select = $columns;
+		$this->select = (array) $columns;
 
 		return $this;
 	}
@@ -478,12 +478,25 @@ class Query {
 	/**
 	 * Execute the query as a SELECT statement and return the first result.
 	 *
-	 * @param  array     $columns
-	 * @return stdClass
+	 * If a single column is selected from the database, only the value of that column will be returned.
+	 *
+	 * @param  array  $columns
+	 * @return mixed
 	 */
 	public function first($columns = array('*'))
 	{
-		return (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
+		$columns = (array) $columns;
+
+		$results = (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
+
+		// If we have results and only a single column was selected from the database,
+		// we will simply return the value of that column for convenience.
+		if ( ! is_null($results) and count($columns) == 1 and $columns[0] !== '*')
+		{
+			return $results->{$columns[0]};
+		}
+
+		return $results;
 	}
 
 	/**

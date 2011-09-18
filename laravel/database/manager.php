@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database;
 
+use Laravel\Config;
+
 class Manager {
 
 	/**
@@ -10,12 +12,19 @@ class Manager {
 	protected $connections = array();
 
 	/**
+	 * The configuration manager instance.
+	 *
+	 * @var Config
+	 */
+	protected $config;
+
+	/**
 	 * Create a new database manager instance.
 	 *
-	 * @param  array  $config
+	 * @param  Connector  $connector
 	 * @return void
 	 */
-	public function __construct($config)
+	public function __construct(Config $config)
 	{
 		$this->config = $config;
 	}
@@ -32,25 +41,52 @@ class Manager {
 	 */
 	public function connection($connection = null)
 	{
-		if (is_null($connection)) $connection = $this->config['default'];
+		if (is_null($connection)) $connection = $this->config->get('database.default');
 
 		if ( ! array_key_exists($connection, $this->connections))
 		{
-			if ( ! isset($this->config['connectors'][$connection]))
+			$config = $this->config->get("database.connections.{$connection}");
+
+			if (is_null($config))
 			{
 				throw new \Exception("Database connection configuration is not defined for connection [$connection].");
 			}
 
-			// Database connections are established by developer configurable connector closures.
-			// This provides the developer the maximum amount of freedom in establishing their
-			// database connections, and allows the framework to remain agonstic to ugly database
-			// specific PDO connection details. Less code. Less bugs.
-			$pdo = call_user_func($this->config['connectors'][$connection], $this->config);
-
-			$this->connections[$connection] = new Connection($pdo, $this->config);
+			$this->connections[$connection] = new Connection($this->connect($config), $config);
 		}
 
 		return $this->connections[$connection];
+	}
+
+	/**
+	 * Get a PDO database connection for a given database configuration.
+	 *
+	 * @param  array  $config
+	 * @return PDO
+	 */
+	protected function connect($config)
+	{
+		if (isset($config['connector'])) { return call_user_func($config['connector'], $config); }
+
+		switch ($config['driver'])
+		{
+			case 'sqlite':
+				$connector = new Connectors\SQLite;
+				break;
+
+			case 'mysql':
+				$connector = new Connectors\MySQL;
+				break;
+
+			case 'pgsql':
+				$connector = new Connectors\Postgres;
+				break;
+
+			default:
+				throw new \Exception("Database driver [{$config['driver']}] is not supported.");
+		}
+
+		return $connector->connect($config);
 	}
 
 	/**

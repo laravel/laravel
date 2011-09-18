@@ -6,6 +6,13 @@ use PDOStatement;
 class Connection {
 
 	/**
+	 * The connection configuration array.
+	 *
+	 * @var array
+	 */
+	protected $config;
+
+	/**
 	 * The PDO connection.
 	 *
 	 * @var PDO
@@ -22,12 +29,14 @@ class Connection {
 	/**
 	 * Create a new database connection instance.
 	 *
-	 * @param  PDO   $pdo
+	 * @param  PDO    $pdo
+	 * @param  array  $config
 	 * @return void
 	 */
-	public function __construct(PDO $pdo)
+	public function __construct(PDO $pdo, $config)
 	{
 		$this->pdo = $pdo;
+		$this->config = $config;
 	}
 
 	/**
@@ -114,17 +123,14 @@ class Connection {
 	/**
 	 * Create a new query grammar for the connection.
 	 *
-	 * @return Queries\Grammars\Grammar
+	 * @return Grammars\Grammar
 	 */
 	protected function grammar()
 	{
-		switch ($this->driver())
+		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
 				return new Grammars\MySQL;
-
-			case 'pgsql':
-				return new Grammars\Postgres;
 
 			default:
 				return new Grammars\Grammar;
