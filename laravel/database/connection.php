@@ -13,7 +13,14 @@ class Connection {
 	protected $config;
 
 	/**
-	 * The PDO connection.
+	 * The query grammar instance for the connection.
+	 *
+	 * @var Grammars\Grammar
+	 */
+	protected $grammar;
+
+	/**
+	 * The raw PDO connection instance.
 	 *
 	 * @var PDO
 	 */
@@ -127,13 +134,15 @@ class Connection {
 	 */
 	protected function grammar()
 	{
+		if (isset($this->grammar)) return $this->grammar;
+
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
-				return new Grammars\MySQL;
+				return $this->grammar = new Grammars\MySQL;
 
 			default:
-				return new Grammars\Grammar;
+				return $this->grammar = new Grammars\Grammar;
 		}
 	}
 
