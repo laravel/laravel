@@ -10,9 +10,7 @@ return array(
 	| The name of your default database connection.
 	|
 	| This connection will be the default for all database operations unless a
-	| different connection is specified when performing the operation. The name
-	| of the default connection should correspond to the name of a connector
-	| defined below.
+	| different connection is specified when performing the operation.
 	|
 	*/
 
@@ -20,63 +18,56 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Database Connectors
+	| Database Connections
 	|--------------------------------------------------------------------------
 	|
-	| All of the database connectors used by your application.
+	| All of the database connections used by your application.
 	|
-	| Each connector should return a PDO connection. You may connect to any
-	| database system you wish. Of course, default configurations for the
-	| systems supported by Laravel are provided for you.
+	| Supported Drivers: 'mysql', 'pgsql', 'sqlite'.
 	|
-	| The entire database configuration array is passed to the connector
-	| closure, so you may convenient use it when connecting to your database.
+	| Note: When using the SQLite driver, the path and "sqlite" extention will
+	|       be added automatically. You only need to specify the database name.
 	|
-	| Note: When using an unsupported database, Eloquent and the fluent query
-	|       builder may not work as expected. Currently, MySQL, Postgres, and
-	|       SQLite are fully supported by Laravel.
+	| Using a driver that isn't supported? You can still establish a PDO
+	| connection. Simply specify a driver and DSN option:
+	|
+	|		'odbc' => array(
+	|			'driver'   => 'odbc',
+	|			'dsn'      => 'your-dsn',
+	|			'username' => 'username',
+	|			'password' => 'password',
+	|		)
+	|
+	| Note: When using an unsupported driver, Eloquent and the fluent query
+	|       builder may not work as expected.
 	|
 	*/
 
-	'connectors' => array(
+	'connections' => array(
 
-		'sqlite' => function($config)
-		{
-			return new PDO('sqlite:'.DATABASE_PATH.'application.sqlite', null, null, $config['options']);
-		},
+		'sqlite' => array(
+			'driver'   => 'sqlite',
+			'database' => 'application',
+		),
 
-		'mysql' => function($config)
-		{
-			return new PDO('mysql:host=localhost;dbname=database', 'root', 'password', $config['options']);
-		},
+		'mysql' => array(
+			'driver'   => 'mysql',
+			'host'     => 'localhost',
+			'database' => 'database',
+			'username' => 'root',
+			'password' => 'password',
+			'charset'  => 'utf8',
+		),
 
-		'pgsql' => function($config)
-		{
-			return new PDO('pgsql:host=localhost;dbname=database', 'root', 'password', $config['options']);
-		},
+		'pgsql' => array(
+			'driver'   => 'pgsql',
+			'host'     => 'localhost',
+			'database' => 'database',
+			'username' => 'root',
+			'password' => 'password',
+			'charset'  => 'utf8',
+		),
 
-	),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Database PDO Options
-	|--------------------------------------------------------------------------
-	|
-	| Here you may specify the PDO options that should be used when connecting
-	| to a database. The entire database configuration array is passed to the
-	| database connector closures, so may convenient access these options from
-	| your connectors.
-	|
-	| For a list of options, visit: http://php.net/manual/en/pdo.setattribute.php
-	|
-	*/
-
-	'options' => array(
-		PDO::ATTR_CASE              => PDO::CASE_LOWER,
-		PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION,
-		PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
-		PDO::ATTR_STRINGIFY_FETCHES => false,
-		PDO::ATTR_EMULATE_PREPARES  => false,
 	),
 
 );
