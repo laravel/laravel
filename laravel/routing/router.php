@@ -48,19 +48,18 @@ class Router {
 	 */
 	public function find($name)
 	{
+		// First we will check the cache of route names. If we have already found the given route,
+		// we will simply return that route from the cache to improve performance.
 		if (array_key_exists($name, $this->names)) return $this->names[$name];
 
-		$arrayIterator = new \RecursiveArrayIterator($this->loader->everything());
-
-		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
-
-		foreach ($recursiveIterator as $iterator)
+		// Spin through every route defined for the application searching for a route that has
+		// a name matching the name passed to the method. If the route is found, it will be
+		// cached in the array of named routes and returned.
+		foreach ($this->loader->everything() as $key => $value)
 		{
-			$route = $recursiveIterator->getSubIterator();
-
-			if (isset($route['name']) and $route['name'] === $name)
+			if (is_array($value) and isset($value['name']) and $value['name'] === $name)
 			{
-				return $this->names[$name] = array($arrayIterator->key() => iterator_to_array($route));
+				return $this->names[$name] = array($key => $value);
 			}
 		}
 	}

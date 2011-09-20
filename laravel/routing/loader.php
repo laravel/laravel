@@ -64,31 +64,25 @@ class Loader {
 	 */
 	protected function nested($segments)
 	{
-		$routes = array();
-
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			// First we check to determine if there is a route file matching the segment
-			// of the URI. If there is, its routes will be merged into the route array.
 			if (file_exists($path = $this->nest.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
-				$routes = array_merge($routes, require $path);
+				return require $path;
 			}
 
-			// Even if we have already loaded routes for the URI, we still want to check
-			// for a "routes.php" file which could handle the root route and any routes
-			// that are impossible to handle in an explicitly named file.
+			// Even if we didn't find a matching file for the segment, we still want to
+			// check for a "routes.php" file which could handle the root route and any
+			// routes that are impossible to handle in an explicitly named file.
 			if (file_exists($path = str_replace('.php', '/routes.php', $path)))
 			{
-				$routes = array_merge($routes, require $path);
+				return require $path;
 			}
-
-			if (count($routes) > 0) return $routes;
 		}
 
-		return $routes;
+		return array();
 	}
 
 	/**
@@ -105,9 +99,15 @@ class Loader {
 
 		$routes = array();
 
+		// First we will check for the base routes file in the application directory.
+		if (file_exists($path = $this->base.'routes'.EXT))
+		{
+			$routes = array_merge($routes, require $path);
+		}
+
 		// Since route files can be nested deep within the route directory, we need to
 		// recursively spin through each directory to find every file.
-		$recursiveIterator = new Iterator(new DirectoryIterator($this->nest), Iterator::SELF_FIRST);
+		$iterator = new Iterator(new DirectoryIterator($this->nest), Iterator::SELF_FIRST);
 
 		foreach ($iterator as $file)
 		{

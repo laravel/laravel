@@ -15,11 +15,6 @@
 */
 define('START_TIME', microtime(true));
 
-function elapsed()
-{
-	return number_format((microtime(true) - START_TIME) * 1000, 2);
-}
-
 /*
 |--------------------------------------------------------------------------
 | Laravel Installation Paths
@@ -49,5 +44,3 @@ $public      = __DIR__;
 |--------------------------------------------------------------------------
 */
 require $laravel.'/laravel.php';
-
-echo elapsed();
