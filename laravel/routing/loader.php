@@ -1,6 +1,8 @@
 <?php namespace Laravel\Routing;
 
 use Laravel\Arr;
+use RecursiveIteratorIterator as Iterator;
+use RecursiveDirectoryIterator as DirectoryIterator;
 
 class Loader {
 
@@ -41,6 +43,9 @@ class Loader {
 	/**
 	 * Load the applicable routes for a given URI.
 	 *
+	 * The application route directory will be checked for nested route files and an
+	 * array of all applicable routes will be returned based on the URI segments.
+	 *
 	 * @param  string  $uri
 	 * @return array
 	 */
@@ -59,25 +64,38 @@ class Loader {
 	 */
 	protected function nested($segments)
 	{
+		$routes = array();
+
 		// Work backwards through the URI segments until we find the deepest possible
 		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
+			// First we check to determine if there is a route file matching the segment
+			// of the URI. If there is, its routes will be merged into the route array.
 			if (file_exists($path = $this->nest.implode('/', array_slice($segments, 0, $key + 1)).EXT))
 			{
-				return require $path;
+				$routes = array_merge($routes, require $path);
 			}
-			elseif (file_exists($path = str_replace('.php', '/routes.php', $path)))
+
+			// Even if we have already loaded routes for the URI, we still want to check
+			// for a "routes.php" file which could handle the root route and any routes
+			// that are impossible to handle in an explicitly named file.
+			if (file_exists($path = str_replace('.php', '/routes.php', $path)))
 			{
-				return require $path;
+				$routes = array_merge($routes, require $path);
 			}
+
+			if (count($routes) > 0) return $routes;
 		}
 
-		return array();
+		return $routes;
 	}
 
 	/**
 	 * Get every route defined for the application.
+	 *
+	 * For fast performance, if the routes have already been loaded once, they will not
+	 * be loaded again, and the same routes will be returned on subsequent calls.
 	 *
 	 * @return array
 	 */
@@ -88,14 +106,15 @@ class Loader {
 		$routes = array();
 
 		// Since route files can be nested deep within the route directory, we need to
-		// recursively spin through the directory to find every file.
-		$directoryIterator = new \RecursiveDirectoryIterator($this->nest);
+		// recursively spin through each directory to find every file.
+		$recursiveIterator = new Iterator(new DirectoryIterator($this->nest), Iterator::SELF_FIRST);
 
-		$recursiveIterator = new \RecursiveIteratorIterator($directoryIterator, \RecursiveIteratorIterator::SELF_FIRST);
-
-		foreach ($recursiveIterator as $file)
+		foreach ($iterator as $file)
 		{
-			if (filetype($file) === 'file')
+			// Since some Laravel developers may place HTML files in the route directories, we will
+			// check for the PHP extension before merging the file. Typically, the HTML files are
+			// present in installations that are not using mod_rewrite and the public directory.
+			if (filetype($file) === 'file' and strpos($file, EXT) !== false)
 			{
 				$routes = array_merge(require $file, $routes);
 			}
