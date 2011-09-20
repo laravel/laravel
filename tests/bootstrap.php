@@ -23,4 +23,4 @@ $storage     = 'storage';
 
 $public      = 'public';
 
-require realpath($laravel).'/bootstrap.php';
+require realpath($laravel).'/core.php';

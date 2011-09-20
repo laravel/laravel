@@ -39,6 +39,7 @@ return array(
 	'IoC'        => 'Laravel\\IoC',
 	'Lang'       => 'Laravel\\Facades\\Lang',
 	'Loader'     => 'Laravel\\Facades\\Loader',
+	'Messages'   => 'Laravel\\Validation\\Messages',
 	'Package'    => 'Laravel\\Facades\\Package',
 	'URL'        => 'Laravel\\Facades\\URL',
 	'Redirect'   => 'Laravel\\Facades\\Redirect',

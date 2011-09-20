@@ -95,11 +95,13 @@ class Route {
 		}
 
 		// Otherwise, we will assume the route is an array and will return the first value with
-		// a key of "do", or the first instance of a Closure. If the value is a string, the route
-		// is delegating the responsibility for handling the request to a controller.
+		// a key of "delegate", or the first instance of a Closure. If the value is a string, the
+		// route is delegating the responsibility for handling the request to a controller.
 		elseif (is_array($this->callback))
 		{
-			return Arr::first($this->callback, function($key, $value) {return $key == 'do' or $value instanceof Closure;});
+			$callback = Arr::first($this->callback, function($key, $value) {return $key == 'delegate' or $value instanceof Closure;});
+
+			return ($callback instanceof Closure) ? call_user_func_array($callback, $this->parameters) : new Delegate($callback);
 		}
 
 		// If a value defined for a route is a string, it means the route is delegating control
@@ -107,7 +109,7 @@ class Route {
 		// for the route caller to parse and delegate.
 		elseif (is_string($this->callback))
 		{
-			return $this->callback;
+			return new Delegate($this->callback);
 		}
 	}
 

@@ -5,11 +5,11 @@ use Laravel\Request;
 class Router {
 
 	/**
-	 * All of the routes available to the router.
+	 * The route loader instance.
 	 *
-	 * @var array
+	 * @var Loader
 	 */
-	public $routes;
+	public $loader;
 
 	/**
 	 * The named routes that have been found so far.
@@ -28,13 +28,13 @@ class Router {
 	/**
 	 * Create a new router for a request method and URI.
 	 *
-	 * @param  array   $routes
+	 * @param  Loader  $loader
 	 * @param  string  $controllers
 	 * @return void
 	 */
-	public function __construct($routes, $controllers)
+	public function __construct(Loader $loader, $controllers)
 	{
-		$this->routes = $routes;
+		$this->loader = $loader;
 		$this->controllers = $controllers;
 	}
 
@@ -50,7 +50,7 @@ class Router {
 	{
 		if (array_key_exists($name, $this->names)) return $this->names[$name];
 
-		$arrayIterator = new \RecursiveArrayIterator($this->routes);
+		$arrayIterator = new \RecursiveArrayIterator($this->loader->everything());
 
 		$recursiveIterator = new \RecursiveIteratorIterator($arrayIterator);
 
@@ -75,18 +75,20 @@ class Router {
 	 */
 	public function route(Request $request)
 	{
+		$routes = $this->loader->load($request->uri());
+
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
 		$destination = $request->method().' /'.trim($request->uri(), '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
-		if (isset($this->routes[$destination]))
+		if (isset($routes[$destination]))
 		{
-			return $request->route = new Route($destination, $this->routes[$destination], array());
+			return $request->route = new Route($destination, $routes[$destination], array());
 		}
 
-		foreach ($this->routes as $keys => $callback)
+		foreach ($routes as $keys => $callback)
 		{
 			// Only check routes that have multiple URIs or wildcards.
 			// Other routes would have been caught by the check for literal matches.

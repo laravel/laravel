@@ -3,7 +3,7 @@
 // --------------------------------------------------------------
 // Bootstrap the core framework components.
 // --------------------------------------------------------------
-require 'bootstrap.php';
+require 'core.php';
 
 // --------------------------------------------------------------
 // Get an instance of the configuration manager.

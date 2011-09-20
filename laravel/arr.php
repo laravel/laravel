@@ -110,4 +110,29 @@ class Arr {
 		return ($default instanceof \Closure) ? call_user_func($default) : $default;
 	}
 
+	/**
+	 * Remove all values in the array that are contained within a given array of values.
+	 *
+	 * <code>
+	 *		// Remove all empty string values from an array
+	 *		$array = Arr::without($array, array(''));
+	 *
+	 *		// Remove all array values that are "3", "2", or "1"
+	 *		$array = Arr::without($array, array(3, 2, 1));
+	 * </code>
+	 *
+	 * @param  array  $array
+	 * @param  array  $without
+	 * @return array
+	 */
+	public static function without($array, $without = array())
+	{
+		foreach ($array as $key => $value)
+		{
+			if (in_array($value, $without)) unset($array[$key]);
+		}
+
+		return $array;
+	}
+
 }

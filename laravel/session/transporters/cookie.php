@@ -33,12 +33,9 @@ class Cookie implements Transporter {
 	 */
 	public function put($id, $config)
 	{
-		if ( ! headers_sent())
-		{
-			$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
+		$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
 
-			$this->cookie->put('laravel_session', $id, $minutes, $config['path'], $config['domain']);
-		}
+		$this->cookie->put('laravel_session', $id, $minutes, $config['path'], $config['domain']);
 	}
 
 }

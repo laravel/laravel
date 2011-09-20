@@ -62,7 +62,7 @@ return array(
 
 	'csrf' => function()
 	{
-		return (Input::get('csrf_token') !== Form::raw_token()) ? new Error('500') : null;
+		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::error('500') : null;
 	},
 
 );

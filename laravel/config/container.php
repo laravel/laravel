@@ -79,7 +79,7 @@ return array(
 
 	'laravel.hasher' => array('singleton' => true, 'resolver' => function($container)
 	{
-		return new Security\Hashing\Bcrypt(8);
+		return new Security\Hashing\Bcrypt(8, false);
 	}),
 
 
@@ -158,9 +158,15 @@ return array(
 	}),
 
 
-	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Routing\Router(require APP_PATH.'routes'.EXT, CONTROLLER_PATH);
+		return new Routing\Router($c->resolve('laravel.routing.loader'), CONTROLLER_PATH);
+	}),
+
+
+	'laravel.routing.loader' => array('singleton' => true, 'resolver' => function($container)
+	{
+		return new Routing\Loader(APP_PATH, ROUTE_PATH);
 	}),
 
 

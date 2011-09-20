@@ -4,6 +4,28 @@ use Closure;
 use Laravel\Response;
 use Laravel\Container;
 
+class Delegate {
+
+	/**
+	 * The destination of the route delegate.
+	 *
+	 * @var string
+	 */
+	public $destination;
+
+	/**
+	 * Create a new route delegate instance.
+	 *
+	 * @param  string  $destination
+	 * @return void
+	 */
+	public function __construct($destination)
+	{
+		$this->destination = $destination;
+	}
+
+}
+
 class Caller {
 
 	/**
@@ -60,10 +82,10 @@ class Caller {
 
 		if ( ! is_null($response = $route->call()))
 		{
-			// If a route returns a string, it also means the route is delegating the
-			// handling of the request to a controller method. So, we will pass the
-			// string to the route delegator, exploding on "@".
-			if (is_string($response)) $response = $this->delegate($route, $response);
+			// If a route returns a Delegate, it also means the route is delegating the
+			// handling of the request to a controller method. So, we will pass the string
+			// to the route delegator, exploding on "@".
+			if ($response instanceof Delegate) $response = $this->delegate($route, $response->destination);
 
 			return $this->finish($route, $response);
 		}
@@ -98,6 +120,11 @@ class Caller {
 	 */
 	protected function delegate(Route $route, $delegate)
 	{
+		if (strpos($delegate, '@') === false)
+		{
+			throw new \Exception("Route delegate [$delegate] has an invalid format.");
+		}
+
 		list($controller, $method) = explode('@', $delegate);
 
 		$controller = $this->resolve($controller);
