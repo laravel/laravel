@@ -146,11 +146,15 @@ class URL {
 
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
+			// Spin through each route parameter and replace the route wildcard segment
+			// with the corresponding parameter passed to the method.
 			foreach ($parameters as $parameter)
 			{
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
+			// Before generating the route URL, we will replace all remaining optional
+			// wildcard segments that were not replaced by parameters with spaces.
 			return $this->to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
