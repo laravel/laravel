@@ -3,13 +3,6 @@
 class Cookie {
 
 	/**
-	 * The cookies that will be sent to the browser at the end of the request.
-	 *
-	 * @var array
-	 */
-	protected static $queue = array();
-
-	/**
 	 * Determine if a cookie exists.
 	 *
 	 * @param  string  $name
@@ -84,26 +77,13 @@ class Cookie {
 	 */
 	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
+		if (headers_sent()) return false;
+
 		if ($minutes < 0) unset($_COOKIE[$name]);
 
 		$time = ($minutes != 0) ? time() + ($minutes * 60) : 0;
 
-		static::$queue[] = compact('name', 'value', 'time', 'path', 'domain', 'secure', 'http_only');
-	}
-
-	/**
-	 * Send all of the cookies in the queue to the browser.
-	 *
-	 * This method is called automatically at the end of every request.
-	 *
-	 * @return void
-	 */
-	public static function send()
-	{
-		foreach (static::$queue as $cookie)
-		{
-			call_user_func_array('setcookie', $cookie);
-		}
+		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
 	}
 
 	/**

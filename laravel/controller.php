@@ -42,15 +42,9 @@ abstract class Controller {
 	 */
 	public function __get($key)
 	{
-		$container = IoC::container();
-
-		if ($container->registered('laravel.'.$key))
+		if (IoC::container()->registered($key))
 		{
-			return $container->resolve('laravel.'.$key);
-		}
-		elseif ($container->registered($key))
-		{
-			return $container->resolve($key);
+			return IoC::container()->resolve($key);
 		}
 
 		throw new \Exception("Attempting to access undefined property [$key] on controller.");

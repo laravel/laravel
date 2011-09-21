@@ -1,31 +1,5 @@
 <?php namespace Laravel;
 
-class Paginator_Factory {
-
-	protected $request;
-
-	protected $html;
-
-	protected $lang;
-
-	public function __construct(Request $request, HTML $html, Lang_Factory $lang)
-	{
-		$this->html = $html;
-		$this->lang = $lang;
-		$this->request = $request;
-	}
-
-	public function make($results, $total, $per_page)
-	{
-		$page = Paginator::page($total, $per_page);
-
-		$last_page = ceil($total / $per_page);
-
-		return new Paginator($this->request, $this->html, $this->lang, $results, $page, $total, $per_page, $last_page);
-	}
-
-}
-
 class Paginator {
 
 	/**
@@ -87,13 +61,10 @@ class Paginator {
 	 * @param  int    $last_page
 	 * @return void
 	 */
-	protected function __construct(Request $request, HTML $html, Lang_Factory $lang, $results, $page, $total, $per_page, $last_page)
+	protected function __construct($results, $page, $total, $per_page, $last_page)
 	{
-		$this->html = $html;
-		$this->lang = $lang;
 		$this->page = $page;
 		$this->total = $total;
-		$this->request = $request;
 		$this->results = $results;
 		$this->per_page = $per_page;
 		$this->last_page = $last_page;
@@ -125,7 +96,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$page = IoC::container()->resolve('laravel.input')->get('page', 1);
+		$page = Input::get('page', 1);
 
 		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
 		{
@@ -273,7 +244,7 @@ class Paginator {
 			$append .= '&'.$key.'='.$value;
 		}
 
-		return HTML::link(Request::uri().'?page='.$page.$append, $text, compact('class'), Request::is_secure());
+		return HTML::link(Request::uri().'?page='.$page.$append, $text, compact('class'), Request::secure());
 	}
 
 	/**

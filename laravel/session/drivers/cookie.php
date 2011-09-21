@@ -1,15 +1,9 @@
 <?php namespace Laravel\Session\Drivers;
 
+use Laravel\Cookie as C;
 use Laravel\Security\Crypter;
 
 class Cookie implements Driver {
-
-	/**
-	 * The cookie manager instance.
-	 *
-	 * @var Cookie
-	 */
-	private $cookie;
 
 	/**
 	 * The crypter instance.
@@ -25,13 +19,11 @@ class Cookie implements Driver {
 	/**
 	 * Create a new Cookie session driver instance.
 	 *
-	 * @param  Crypter         $crypter
-	 * @param  Laravel\Cookie  $cookie
+	 * @param  Crypter  $crypter
 	 * @return void
 	 */
-	public function __construct(Crypter $crypter, \Laravel\Cookie $cookie)
+	public function __construct(Crypter $crypter)
 	{
-		$this->cookie = $cookie;
 		$this->crypter = $crypter;
 	}
 
@@ -45,9 +37,9 @@ class Cookie implements Driver {
 	 */
 	public function load($id)
 	{
-		if ($this->cookie->has('session_payload'))
+		if (C::has('session_payload'))
 		{
-			return unserialize($this->crypter->decrypt($this->cookie->get('session_payload')));
+			return unserialize($this->crypter->decrypt(C::get('session_payload')));
 		}
 	}
 
@@ -60,14 +52,11 @@ class Cookie implements Driver {
 	 */
 	public function save($session, $config)
 	{
-		if ( ! headers_sent())
-		{
-			extract($config);
+		extract($config);
 
-			$payload = $this->crypter->encrypt(serialize($session));
+		$payload = $this->crypter->encrypt(serialize($session));
 
-			$this->cookie->put('session_payload', $payload, $lifetime, $path, $domain);
-		}
+		C::put('session_payload', $payload, $lifetime, $path, $domain);
 	}
 
 	/**
@@ -78,7 +67,7 @@ class Cookie implements Driver {
 	 */
 	public function delete($id)
 	{
-		$this->cookie->forget('session_payload');
+		C::forget('session_payload');
 	}
 
 }

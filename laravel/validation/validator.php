@@ -4,6 +4,7 @@ use Closure;
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Lang;
+use Laravel\Database\Manager as Database;
 
 class Validator {
 
@@ -45,7 +46,7 @@ class Validator {
 	/**
 	 * The database connection that should be used by the validator.
 	 *
-	 * @var DB\Connection
+	 * @var Database\Connection
 	 */
 	public $connection;
 
@@ -324,7 +325,7 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (is_null($this->connection)) $this->connection = IoC::resolve('laravel.database')->connection();
+		if (is_null($this->connection)) $this->connection = Database::connection();
 
 		return $this->connection->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
@@ -417,11 +418,9 @@ class Validator {
 	 */
 	protected function validate_mimes($attribute, $parameters)
 	{
-		$file = IoC::container()->resolve('laravel.file');
-
 		foreach ($parameters as $extension)
 		{
-			if ($file->is($extension, $this->attributes[$attribute]['tmp_name'])) return true;
+			if (File::is($extension, $this->attributes[$attribute]['tmp_name'])) return true;
 		}
 
 		return false;
@@ -458,7 +457,7 @@ class Validator {
 			// the default error message for the appropriate units.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
-				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->files()))
+				return (array_key_exists($attribute, Input::files()))
                                    ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
                                    : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
 			}
@@ -546,7 +545,7 @@ class Validator {
 	 * @param  Database\Connection  $connection
 	 * @return Validator
 	 */
-	public function connection(Database\Connection $connection)
+	public function connection(\Laravel\Database\Connection $connection)
 	{
 		$this->connection = $connection;
 		return $this;

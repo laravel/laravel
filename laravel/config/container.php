@@ -54,12 +54,6 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	'laravel.cache' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Cache\Manager($c, Config::get('cache.driver'));
-	}),
-
-
 	'laravel.cache.apc' => array('resolver' => function($c)
 	{
 		return new Cache\Drivers\APC(Config::get('cache.key'));
@@ -129,9 +123,7 @@ return array(
 
 	'laravel.session.cookie' => array('resolver' => function($c)
 	{
-		$cookies = $c->resolve('laravel.cookie');
-
-		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'), $cookies);
+		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'));
 	}),
 
 

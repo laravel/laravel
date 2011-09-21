@@ -22,7 +22,7 @@ return array(
 	'Asset'      => 'Laravel\\Asset',
 	'Auth'       => 'Laravel\\Facades\\Auth',
 	'Benchmark'  => 'Laravel\\Benchmark',
-	'Cache'      => 'Laravel\\Facades\\Cache',
+	'Cache'      => 'Laravel\\Cache',
 	'Config'     => 'Laravel\\Config',
 	'Controller' => 'Laravel\\Controller',
 	'Cookie'     => 'Laravel\\Cookie',
