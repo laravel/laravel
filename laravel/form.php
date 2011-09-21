@@ -81,7 +81,7 @@ class Form {
 			$attributes['accept-charset'] = $this->html->encoding;			
 		}
 
-		$append = ($method == 'PUT' or $method == 'DELETE') ? $this->hidden('_REQUEST_METHOD', $method) : '';
+		$append = ($method == 'PUT' or $method == 'DELETE') ? $this->hidden(Request::spoofer, $method) : '';
 
 		return '<form'.$this->html->attributes($attributes).'>'.$append.PHP_EOL;
 	}

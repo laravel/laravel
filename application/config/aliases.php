@@ -41,6 +41,7 @@ return array(
 	'Loader'     => 'Laravel\\Facades\\Loader',
 	'Messages'   => 'Laravel\\Validation\\Messages',
 	'Package'    => 'Laravel\\Facades\\Package',
+	'URI'        => 'Laravel\\Facades\\URI',
 	'URL'        => 'Laravel\\Facades\\URL',
 	'Redirect'   => 'Laravel\\Facades\\Redirect',
 	'Request'    => 'Laravel\\Facades\\Request',

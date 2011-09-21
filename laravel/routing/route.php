@@ -99,7 +99,10 @@ class Route {
 		// route is delegating the responsibility for handling the request to a controller.
 		elseif (is_array($this->callback))
 		{
-			$callback = Arr::first($this->callback, function($key, $value) {return $key == 'delegate' or $value instanceof Closure;});
+			$callback = Arr::first($this->callback, function($key, $value)
+			{
+				return $key == 'delegate' or $value instanceof Closure;
+			});
 
 			return ($callback instanceof Closure) ? call_user_func_array($callback, $this->parameters) : new Delegate($callback);
 		}
@@ -121,7 +124,12 @@ class Route {
 	 */
 	public function filters($name)
 	{
-		return (is_array($this->callback) and isset($this->callback[$name])) ? explode(', ', $this->callback[$name]) : array();
+		if (is_array($this->callback) and isset($this->callback[$name]))
+		{
+			return explode(', ', $this->callback[$name]);
+		}
+
+		return array();
 	}
 
 	/**

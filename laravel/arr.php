@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+use Closure;
+
 class Arr {
 
 	/**
@@ -30,7 +32,7 @@ class Arr {
 		{
 			if ( ! is_array($array) or ! array_key_exists($segment, $array))
 			{
-				return ($default instanceof \Closure) ? call_user_func($default) : $default;
+				return ($default instanceof Closure) ? call_user_func($default) : $default;
 			}
 
 			$array = $array[$segment];
@@ -107,7 +109,7 @@ class Arr {
 			if (call_user_func($callback, $key, $value)) return $value;
 		}
 
-		return ($default instanceof \Closure) ? call_user_func($default) : $default;
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**

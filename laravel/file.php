@@ -79,7 +79,7 @@ class File {
 	 */
 	public function delete($path)
 	{
-		@unlink($path);
+		if ($this->exists($path)) @unlink($path);
 	}
 
 	/**

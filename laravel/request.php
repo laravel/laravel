@@ -3,11 +3,18 @@
 class Request {
 
 	/**
+	 * The URI for the current request.
+	 *
+	 * @var string
+	 */
+	protected $uri;
+
+	/**
 	 * The $_SERVER array for the request.
 	 *
 	 * @var array
 	 */
-	public $server;
+	protected $server;
 
 	/**
 	 * The $_POST array for the request.
@@ -17,23 +24,6 @@ class Request {
 	protected $post;
 
 	/**
-	 * The base URL of the application.
-	 *
-	 * @var string
-	 */
-	protected $url;
-
-	/**
-	 * The request URI.
-	 *
-	 * After determining the URI once, this property will be set and returned
-	 * on subsequent requests for the URI.
-	 *
-	 * @var string
-	 */
-	protected $uri;
-
-	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
@@ -41,16 +31,23 @@ class Request {
 	public $route;
 
 	/**
+	 * The request data key that is used to indicate the spoofed request method.
+	 *
+	 * @var string
+	 */
+	const spoofer = '__spoofer';
+
+	/**
 	 * Create a new request instance.
 	 *
+	 * @param  string  $uri
 	 * @param  array   $server
 	 * @param  array   $post
-	 * @param  string  $url
 	 * @return void
 	 */
-	public function __construct($server, $post, $url)
+	public function __construct($uri, $server, $post)
 	{
-		$this->url = $url;
+		$this->uri = $uri;
 		$this->post = $post;
 		$this->server = $server;
 	}
@@ -69,38 +66,21 @@ class Request {
 	 */
 	public function uri()
 	{
-		if ( ! is_null($this->uri)) return $this->uri;
-
-		if (isset($this->server['PATH_INFO']))
-		{
-			$uri = $this->server['PATH_INFO'];
-		}
-		elseif (isset($this->server['REQUEST_URI']))
-		{
-			$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
-		}
-		else
-		{
-			throw new \Exception('Unable to determine the request URI.');
-		}
-
-		if ($uri === false)
-		{
-			throw new \Exception('Malformed request URI. Request terminated.');
-		}
-
-		foreach (array(parse_url($this->url, PHP_URL_PATH), '/index.php') as $value)
-		{
-			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
-		}
-
-		return $this->uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
+		return $this->uri;
 	}
 
 	/**
 	 * Get the request format.
 	 *
 	 * The format is determined by essentially taking the "extension" of the URI.
+	 *
+	 * <code>
+	 *		// Returns "html" for a request to "/user/profile"
+	 *		$format = Request::format();
+	 *
+	 *		// Returns "json" for a request to "/user/profile.json"
+	 *		$format = Request::format();
+	 * </code>
 	 *
 	 * @return string
 	 */
@@ -120,27 +100,62 @@ class Request {
 	 */
 	public function method()
 	{
-		return ($this->spoofed()) ? $this->post['_REQUEST_METHOD'] : $this->server['REQUEST_METHOD'];
+		return ($this->spoofed()) ? $this->post[Request::spoofer] : $this->server['REQUEST_METHOD'];
+	}
+
+	/**
+	 * Get an item from the $_SERVER array.
+	 *
+	 * Like most array retrieval methods, a default value may be specified.
+	 *
+	 * <code>
+	 *		// Get an item from the $_SERVER array
+	 *		$value = Request::server('http_x_requested_for');
+	 *
+	 *		// Get an item from the $_SERVER array or return a default value
+	 *		$value = Request::server('http_x_requested_for', '127.0.0.1');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function server($key = null, $default = null)
+	{
+		return Arr::get($this->server, strtoupper($key), $default);
 	}
 
 	/**
 	 * Determine if the request method is being spoofed by a hidden Form element.
 	 *
-	 * Hidden elements are used to spoof PUT and DELETE requests since they are not supported by HTML forms.
+	 * Hidden elements are used to spoof PUT and DELETE requests since they are not supported
+	 * by HTML forms. If the request is being spoofed, Laravel considers the spoofed request
+	 * method the actual request method throughout the framework.
 	 *
 	 * @return bool
 	 */
 	public function spoofed()
 	{
-		return is_array($this->post) and array_key_exists('REQUEST_METHOD', $this->post);
+		return is_array($this->post) and array_key_exists(Request::spoofer, $this->post);
 	}
 
 	/**
 	 * Get the requestor's IP address.
 	 *
+	 * A default may be passed and will be returned in the event the IP can't be determined
+	 *
+	 * <code>
+	 *		// Get the requestor's IP address
+	 *		$ip = Request::ip();
+	 *
+	 *		// Get the requestor's IP address or return a default value
+	 *		$ip = Request::ip('127.0.0.1');
+	 * </code>
+	 *
+	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function ip()
+	public function ip($default = '0.0.0.0')
 	{
 		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
 		{
@@ -154,10 +169,15 @@ class Request {
 		{
 			return $this->server['REMOTE_ADDR'];
 		}
+
+		return ($default instanceof \Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
 	 * Get the HTTP protocol for the request.
+	 *
+	 * This method will return either "https" or "http", depending on whether HTTPS
+	 * is being used for the current request.
 	 *
 	 * @return string
 	 */
@@ -167,17 +187,17 @@ class Request {
 	}
 
 	/**
-	 * Determine if the request is using HTTPS.
+	 * Determine if the current request is using HTTPS.
 	 *
 	 * @return bool
 	 */
 	public function secure()
 	{
-		return ($this->protocol() == 'https');
+		return $this->protocol() == 'https';
 	}
 
 	/**
-	 * Determine if the request is an AJAX request.
+	 * Determine if the current request is an AJAX request.
 	 *
 	 * @return bool
 	 */

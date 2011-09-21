@@ -65,7 +65,10 @@ class Manager {
 		// are generated per session to protect against Cross-Site Request Forgery attacks on
 		// the application. It is up to the developer to take advantage of them using the token
 		// methods on the Form class and the "csrf" route filter.
-		if ( ! $payload->has('csrf_token')) $payload->put('csrf_token', Str::random(16));
+		if ( ! $payload->has('csrf_token'))
+		{
+			$payload->put('csrf_token', Str::random(16));
+		}
 
 		return $payload;
 	}

@@ -52,6 +52,7 @@ class Redirect extends Facade { public static $resolve = 'laravel.redirect'; }
 class Request extends Facade { public static $resolve = 'laravel.request'; }
 class Response extends Facade { public static $resolve = 'laravel.response'; }
 class Session extends Facade { public static $resolve = 'laravel.session'; }
+class URI extends Facade { public static $resolve = 'laravel.uri'; }
 class URL extends Facade { public static $resolve = 'laravel.url'; }
 class Validator extends Facade { public static $resolve = 'laravel.validator'; }
 class View extends Facade { public static $resolve = 'laravel.view'; }

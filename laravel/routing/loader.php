@@ -72,14 +72,6 @@ class Loader {
 			{
 				return require $path;
 			}
-
-			// Even if we didn't find a matching file for the segment, we still want to
-			// check for a "routes.php" file which could handle the root route and any
-			// routes that are impossible to handle in an explicitly named file.
-			if (file_exists($path = str_replace('.php', '/routes.php', $path)))
-			{
-				return require $path;
-			}
 		}
 
 		return array();
@@ -99,7 +91,6 @@ class Loader {
 
 		$routes = array();
 
-		// First we will check for the base routes file in the application directory.
 		if (file_exists($path = $this->base.'routes'.EXT))
 		{
 			$routes = array_merge($routes, require $path);

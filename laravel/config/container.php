@@ -4,23 +4,23 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Laravel Components
+	| Core Laravel Components
 	|--------------------------------------------------------------------------
 	*/
 
-	'laravel.asset' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.asset' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Asset($container->resolve('laravel.html'));
+		return new Asset($c->resolve('laravel.html'));
 	}),
 
 
-	'laravel.auth' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.auth' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Security\Auth($container->resolve('laravel.config'), $container->resolve('laravel.session'));
+		return new Security\Auth($c->resolve('laravel.config'), $c->resolve('laravel.session'));
 	}),
 
 
-	'laravel.config' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.config' => array('singleton' => true, 'resolver' => function($c)
 	{
 		$paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
 
@@ -33,11 +33,9 @@ return array(
 	}),
 
 
-	'laravel.crypter' => array('resolver' => function($container)
+	'laravel.crypter' => array('resolver' => function($c)
 	{
-		$key = $container->resolve('laravel.config')->get('application.key');
-
-		return new Security\Crypter(MCRYPT_RIJNDAEL_256, 'cbc', $key);
+		return new Security\Crypter(MCRYPT_RIJNDAEL_256, 'cbc', $c->resolve('laravel.config')->get('application.key'));
 	}),
 
 
@@ -47,116 +45,164 @@ return array(
 	}),
 
 
-	'laravel.database' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.database' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Database\Manager($container->resolve('laravel.config'));
+		return new Database\Manager($c->resolve('laravel.config'));
 	}),
 
 
-	'laravel.download' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.download' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Download($container->resolve('laravel.file'));		
+		return new Download($c->resolve('laravel.file'));		
 	}),
 
 
-	'laravel.file' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.file' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new File($container->resolve('laravel.config')->get('mimes'));
+		return new File($c->resolve('laravel.config')->get('mimes'));
 	}),
 
 
-	'laravel.form' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.form' => array('singleton' => true, 'resolver' => function($c)
 	{
-		list($request, $html, $url) = array(
-			$container->resolve('laravel.request'),
-			$container->resolve('laravel.html'),
-			$container->resolve('laravel.url'),
-		);
-
-		return new Form($request, $html, $url);
+		return new Form($c->resolve('laravel.request'), $c->resolve('laravel.html'), $c->resolve('laravel.url'));
 	}),
 
 
-	'laravel.hasher' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.hasher' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Security\Hashing\Bcrypt(8, false);
 	}),
 
 
-	'laravel.html' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.html' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new HTML($container->resolve('laravel.url'), $container->resolve('laravel.config')->get('application.encoding'));
+		return new HTML($c->resolve('laravel.url'), $c->resolve('laravel.config')->get('application.encoding'));
 	}),
 
 
-	'laravel.input' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.input' => array('singleton' => true, 'resolver' => function($c)
 	{
-		$request = $container->resolve('laravel.request');
+		list($file, $cookie, $input, $files) = array(
+			$c->resolve('laravel.file'),
+			$c->resolve('laravel.cookie'),
+			$c->resolve('laravel.input.array'),
+			$_FILES,
+		);
 
+		return new Input($file, $cookie, $input, $files);
+	}),
+
+
+	'laravel.input.array' => array('singleton' => true, 'resolver' => function($c)
+	{
 		$input = array();
 
-		if ($request->method() == 'GET')
+		switch ($c->resolve('laravel.request')->method())
 		{
-			$input = $_GET;
-		}
-		elseif ($request->method() == 'POST')
-		{
-			$input = $_POST;
-		}
-		elseif ($request->method() == 'PUT' or $request->method == 'DELETE')
-		{
-			($request->spoofed()) ? $input = $_POST : parse_str(file_get_contents('php://input'), $input);
+			case 'GET':
+				$input = $_GET;
+				break;
+
+			case 'POST':
+				$input = $_POST;
+				break;
+
+			case 'PUT':
+			case 'DELETE':
+				if ($c->resolve('laravel.request')->spoofed())
+				{
+					$input = $_POST;
+				}
+				else
+				{
+					parse_str(file_get_contents('php://input'), $input);
+				}
 		}
 
-		unset($input['_REQUEST_METHOD']);
+		unset($input[Request::spoofer]);
 
-		return new Input($container->resolve('laravel.file'), $container->resolve('laravel.cookie'), $input, $_FILES);
+		return $input;
 	}),
 
 
-	'laravel.lang' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.lang' => array('singleton' => true, 'resolver' => function($c)
 	{
 		require_once SYS_PATH.'lang'.EXT;
 
-		return new Lang_Factory($container->resolve('laravel.config'), array(SYS_LANG_PATH, LANG_PATH));
+		return new Lang_Factory($c->resolve('laravel.config'), array(SYS_LANG_PATH, LANG_PATH));
 	}),
 
 
-	'laravel.loader' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.loader' => array('singleton' => true, 'resolver' => function($c)
 	{
 		require_once SYS_PATH.'loader'.EXT;
 
-		$aliases = $container->resolve('laravel.config')->get('aliases');
+		$aliases = $c->resolve('laravel.config')->get('aliases');
 
-		return new Loader(array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/'), $aliases);
+		return new Loader(array(BASE_PATH, APP_PATH.'models/', APP_PATH), $aliases);
 	}),
 
 
-	'laravel.package' => array('singleton' => true, 'resolver' => function()
+	'laravel.redirect' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Package(PACKAGE_PATH);
+		return new Redirect($c->resolve('laravel.url'));
 	}),
 
 
-	'laravel.redirect' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.request' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Redirect($container->resolve('laravel.url'));
+		return new Request($c->resolve('laravel.uri')->get(), $_SERVER, $_POST);
 	}),
 
 
-	'laravel.request' => array('singleton' => true, 'resolver' => function($container)
-	{
-		return new Request($_SERVER, $_POST, $container->resolve('laravel.config')->get('application.url'));
-	}),
-
-
-	'laravel.response' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.response' => array('singleton' => true, 'resolver' => function($c)
 	{
 		require_once SYS_PATH.'response'.EXT;
 
-		return new Response_Factory($container->resolve('laravel.view'), $container->resolve('laravel.file'));
+		return new Response_Factory($c->resolve('laravel.view'), $c->resolve('laravel.file'));
 	}),
 
+
+	'laravel.uri' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new URI($_SERVER, $c->resolve('laravel.config')->get('application.url'));		
+	}),
+
+
+	'laravel.url' => array('singleton' => true, 'resolver' => function($c)
+	{
+		list($router, $request, $base, $index) = array(
+			$c->resolve('laravel.routing.router'),
+			$c->resolve('laravel.request'),
+			$c->resolve('laravel.config')->get('application.url'),
+			$c->resolve('laravel.config')->get('application.index'),
+		);
+
+		return new URL($router, $base, $index, $request->secure());
+	}),
+
+
+	'laravel.validator' => array('singleton' => true, 'resolver' => function($c)
+	{
+		require_once SYS_PATH.'validation/validator'.EXT;
+
+		return new Validation\Validator_Factory($c->resolve('laravel.lang'));
+	}),
+
+
+	'laravel.view' => array('singleton' => true, 'resolver' => function($c)
+	{
+		require_once SYS_PATH.'view'.EXT;
+
+		return new View_Factory(new View_Composer(require APP_PATH.'composers'.EXT), VIEW_PATH);
+	}),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Laravel Routing Components
+	|--------------------------------------------------------------------------
+	*/
 
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
@@ -164,15 +210,79 @@ return array(
 	}),
 
 
-	'laravel.routing.loader' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.routing.loader' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Routing\Loader(APP_PATH, ROUTE_PATH);
 	}),
 
 
-	'laravel.routing.caller' => array('resolver' => function($container)
+	'laravel.routing.caller' => array('resolver' => function($c)
 	{
-		return new Routing\Caller($container, require APP_PATH.'filters'.EXT, CONTROLLER_PATH);
+		return new Routing\Caller($c, require APP_PATH.'filters'.EXT, CONTROLLER_PATH);
+	}),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Laravel Caching Components
+	|--------------------------------------------------------------------------
+	*/
+
+	'laravel.cache' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new Cache\Manager($c, $c->resolve('laravel.config')->get('cache.driver'));
+	}),
+
+
+	'laravel.cache.apc' => array('resolver' => function($c)
+	{
+		require_once SYS_PATH.'cache/drivers/apc'.EXT;
+
+		$key = $c->resolve('laravel.config')->get('cache.key');
+
+		return new Cache\Drivers\APC(new Cache\Drivers\APC_Engine, $key);
+	}),
+
+
+	'laravel.cache.file' => array('resolver' => function($c)
+	{
+		return new Cache\Drivers\File($c->resolve('laravel.file'), CACHE_PATH);
+	}),
+
+
+	'laravel.cache.memcached' => array('resolver' => function($c)
+	{
+		$key = $c->resolve('laravel.config')->get('cache.key');
+
+		return new Cache\Drivers\Memcached($c->resolve('laravel.cache.memcache.connection'), $key);
+	}),
+
+
+	'laravel.cache.memcache.connection' => array('singleton' => true, 'resolver' => function($c)
+	{
+		$memcache = new \Memcache;
+
+		foreach ($c->resolve('laravel.config')->get('cache.servers') as $server)
+		{
+			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
+		}
+
+		if ($memcache->getVersion() === false)
+		{
+			throw new \Exception('Could not establish memcached connection. Please verify your memcached configuration.');
+		}
+
+		return $memcache;
+	}),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Laravel Session Components
+	|--------------------------------------------------------------------------
+	*/
+
+	'laravel.session.id' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return $c->resolve('laravel.cookie')->get('laravel_session');
 	}),
 
 
@@ -192,164 +302,35 @@ return array(
 	}),
 
 
-	'laravel.url' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.session.apc' => array('resolver' => function($c)
 	{
-		list($request, $base, $index) = array(
-			$container->resolve('laravel.request'),
-			$container->resolve('laravel.config')->get('application.url'),
-			$container->resolve('laravel.config')->get('application.index'),
-		);
-
-		return new URL($container->resolve('laravel.routing.router'), $base, $index, $request->secure());
+		return new Session\Drivers\APC($c->resolve('laravel.cache.apc'));
 	}),
 
 
-	'laravel.validator' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.session.cookie' => array('resolver' => function($c)
 	{
-		require_once SYS_PATH.'validation/validator'.EXT;
+		$cookies = $c->resolve('laravel.cookie');
 
-		return new Validation\Validator_Factory($container->resolve('laravel.lang'));
+		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'), $cookies);
 	}),
 
 
-	'laravel.view' => array('singleton' => true, 'resolver' => function($container)
+	'laravel.session.database' => array('resolver' => function($c)
 	{
-		require_once SYS_PATH.'view'.EXT;
-
-		return new View_Factory($container->resolve('laravel.view.composer'), VIEW_PATH);
+		return new Session\Drivers\Database($c->resolve('laravel.database')->connection());
 	}),
 
 
-	'laravel.view.composer' => array('resolver' => function($container)
+	'laravel.session.file' => array('resolver' => function($c)
 	{
-		return new View_Composer(require APP_PATH.'composers'.EXT);
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Cookie Session Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.session.cookie' => array('resolver' => function($container)
-	{
-		$cookies = $container->resolve('laravel.cookie');
-
-		$config = $container->resolve('laravel.config')->get('session');
-
-		return new Session\Drivers\Cookie($container->resolve('laravel.crypter'), $cookies);
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Database Session Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.session.database' => array('resolver' => function($container)
-	{
-		$table = $container->resolve('laravel.config')->get('session.table');
-
-		return new Session\Drivers\Database($container->resolve('laravel.database')->connection());
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Cache Manager
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.cache' => array('singleton' => true, 'resolver' => function($container)
-	{
-		return new Cache\Manager($container, $container->resolve('laravel.config')->get('cache.driver'));
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel File Cache & Session Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.cache.file' => array('resolver' => function($container)
-	{
-		return new Cache\Drivers\File($container->resolve('laravel.file'), CACHE_PATH);
+		return new Session\Drivers\File($c->resolve('laravel.file'), SESSION_PATH);
 	}),
 
 
-	'laravel.session.file' => array('resolver' => function($container)
+	'laravel.session.memcached' => array('resolver' => function($c)
 	{
-		return new Session\Drivers\File($container->resolve('laravel.file'), SESSION_PATH);
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel APC Cache & Session Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.cache.apc' => array('resolver' => function($container)
-	{
-		return new Cache\Drivers\APC(new Proxy, $container->resolve('laravel.config')->get('cache.key'));
-	}),
-
-
-	'laravel.session.id' => array('singleton' => true, 'resolver' => function($container)
-	{
-		return $container->resolve('laravel.cookie')->get('laravel_session');
-	}),
-
-
-	'laravel.session.apc' => array('resolver' => function($container)
-	{
-		$lifetime = $container->resolve('laravel.config')->get('session.lifetime');
-
-		return new Session\Drivers\APC($container->resolve('laravel.cache.apc'));
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Memcached Cache & Session Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.cache.memcached' => array('resolver' => function($container)
-	{
-		$connection = $container->resolve('laravel.cache.memcache.connection');
-
-		$key = $container->resolve('laravel.config')->get('cache.key');
-
-		return new Cache\Drivers\Memcached($connection, $key);
-	}),
-
-
-	'laravel.session.memcached' => array('resolver' => function($container)
-	{
-		$lifetime = $container->resolve('laravel.config')->get('session.lifetime');
-
-		return new Session\Drivers\Memcached($container->resolve('laravel.cache.memcached'));
-	}),
-
-
-	'laravel.cache.memcache.connection' => array('singleton' => true, 'resolver' => function($container)
-	{
-		if ( ! class_exists('Memcache'))
-		{
-			throw new \Exception('Attempting to use Memcached, but the Memcache PHP extension is not installed on this server.');
-		}
-
-		$memcache = new \Memcache;
-
-		foreach ($container->resolve('laravel.config')->get('cache.servers') as $server)
-		{
-			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
-		}
-
-		if ($memcache->getVersion() === false)
-		{
-			throw new \Exception('Memcached is configured. However, no connections could be made. Please verify your memcached configuration.');
-		}
-
-		return $memcache;
+		return new Session\Drivers\Memcached($c->resolve('laravel.cache.memcached'));
 	}),
 
 );

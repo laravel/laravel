@@ -70,3 +70,16 @@ spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
 // Set the application environment configuration option.
 // --------------------------------------------------------------
 $container->resolve('laravel.config')->set('application.env', $env);
+
+// --------------------------------------------------------------
+// Define some convenient global functions.
+// --------------------------------------------------------------
+function e($value)
+{
+	return IoC::container()->resolve('laravel.html')->entities($value);
+}
+
+function __($key, $replacements = array(), $language = null)
+{
+	return IoC::container()->resolve('laravel.lang')->line($key, $replacements, $language);
+}
