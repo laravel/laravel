@@ -1,163 +1,5 @@
 <?php namespace Laravel;
 
-class Response_Factory {
-
-	/**
-	 * The view factory instance.
-	 *
-	 * @var View_Factory
-	 */
-	protected $view;
-
-	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	protected $file;
-
-	/**
-	 * Create a new response factory instance.
-	 *
-	 * @param  View_Factory  $view
-	 * @param  File          $file
-	 * @return void
-	 */
-	public function __construct(View_Factory $view, File $file)
-	{
-		$this->view = $view;
-		$this->file = $file;
-	}
-
-	/**
-	 * Create a new response instance.
-	 *
-	 * <code>
-	 *		// Create a response instance
-	 *		return Response::make('Hello World');
-	 *
-	 *		// Create a response instance with a given status code
-	 *		return Response::make('Hello World', 200);
-	 * </code>
-	 *
-	 * @param  mixed     $content
-	 * @param  int       $status
-	 * @param  array     $headers
-	 * @return Response
-	 */
-	public function make($content, $status = 200, $headers = array())
-	{
-		return new Response($content, $status, $headers);
-	}
-
-	/**
-	 * Create a new response instance containing a view.
-	 *
-	 * <code>
-	 *		// Create a new response instance with view content
-	 *		return Response::view('home.index');
-	 *
-	 *		// Create a new response instance with a view and bound data
-	 *		return Response::view('home.index', array('name' => 'Fred'));
-	 * </code>
-	 *
-	 * @param  string    $view
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public function view($view, $data = array())
-	{
-		return new Response($this->view->make($view, $data));
-	}
-
-	/**
-	 * Create a new response instance containing a named view.
-	 *
-	 * <code>
-	 *		// Create a new response instance with a named view
-	 *		return Response::with('layout');
-	 *
-	 *		// Create a new response instance with a named view and bound data
-	 *		return Response::with('layout', array('name' => 'Fred'));
-	 * </code>
-	 *
-	 * @param  string    $name
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public function with($name, $data = array())
-	{
-		return new Response($this->view->of($name, $data));
-	}
-
-	/**
-	 * Create a new error response instance.
-	 *
-	 * The response status code will be set using the specified code.
-	 *
-	 * Note: The specified error code should correspond to a view in your views/error directory.
-	 *
-	 * <code>
-	 *		// Create an error response for status 500
-	 *		return Response::error('500');
-	 * </code>
-	 *
-	 * @param  int       $code
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public function error($code, $data = array())
-	{
-		return new Response($this->view->make('error/'.$code, $data), $code);
-	}
-
-	/**
-	 * Create a new download response instance.
-	 *
-	 * @param  string    $path
-	 * @param  string    $name
-	 * @param  array     $headers
-	 * @return Response
-	 */
-	public function download($path, $name = null, $headers = array())
-	{
-		if (is_null($name)) $name = basename($path);
-
-		$headers = array_merge(array(
-			'Content-Description'       => 'File Transfer',
-			'Content-Type'              => $this->file->mime($this->file->extension($path)),
-			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
-			'Content-Transfer-Encoding' => 'binary',
-			'Expires'                   => 0,
-			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-			'Pragma'                    => 'public',
-			'Content-Length'            => $this->file-size($path),
-		), $headers);
-
-		return new Response($this->file->get($path), 200, $headers);
-	}
-
-	/**
-	 * Magic Method for handling the dynamic creation of Responses containing named views.
-	 *
-	 * <code>
-	 *		// Create a Response instance with the "layout" named view
-	 *		$response = Response::with_layout();
-	 *
-	 *		// Create a Response instance with the "layout" named view and bound data
-	 *		$response = Response::with_layout(array('name' => 'Fred'));
-	 * </code>
-	 */
-	public function __call($method, $parameters)
-	{
-		if (strpos($method, 'with_') === 0)
-		{
-			return $this->with(substr($method, 5), Arr::get($parameters, 0, array()));
-		}
-	}
-
-}
-
 class Response {
 
 	/**
@@ -245,10 +87,118 @@ class Response {
 	 */
 	public function __construct($content, $status = 200, $headers = array())
 	{
+		$this->status = $status;
 		$this->content = $content;
 		$this->headers = $headers;
-		$this->status = $status;
-	}	
+	}
+
+	/**
+	 * Create a new response instance.
+	 *
+	 * <code>
+	 *		// Create a response instance
+	 *		return Response::make('Hello World');
+	 *
+	 *		// Create a response instance with a given status code
+	 *		return Response::make('Hello World', 200);
+	 * </code>
+	 *
+	 * @param  mixed     $content
+	 * @param  int       $status
+	 * @param  array     $headers
+	 * @return Response
+	 */
+	public static function make($content, $status = 200, $headers = array())
+	{
+		return new static($content, $status, $headers);
+	}
+
+	/**
+	 * Create a new response instance containing a view.
+	 *
+	 * <code>
+	 *		// Create a new response instance with view content
+	 *		return Response::view('home.index');
+	 *
+	 *		// Create a new response instance with a view and bound data
+	 *		return Response::view('home.index', array('name' => 'Fred'));
+	 * </code>
+	 *
+	 * @param  string    $view
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function view($view, $data = array())
+	{
+		return new static(View::make($view, $data));
+	}
+
+	/**
+	 * Create a new response instance containing a named view.
+	 *
+	 * <code>
+	 *		// Create a new response instance with a named view
+	 *		return Response::with('layout');
+	 *
+	 *		// Create a new response instance with a named view and bound data
+	 *		return Response::with('layout', array('name' => 'Fred'));
+	 * </code>
+	 *
+	 * @param  string    $name
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function with($name, $data = array())
+	{
+		return new static(View::of($name, $data));
+	}
+
+	/**
+	 * Create a new error response instance.
+	 *
+	 * The response status code will be set using the specified code.
+	 *
+	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 *
+	 * <code>
+	 *		// Create an error response for status 500
+	 *		return Response::error('500');
+	 * </code>
+	 *
+	 * @param  int       $code
+	 * @param  array     $data
+	 * @return Response
+	 */
+	public static function error($code, $data = array())
+	{
+		return new static(View::make('error/'.$code, $data), $code);
+	}
+
+	/**
+	 * Create a new download response instance.
+	 *
+	 * @param  string    $path
+	 * @param  string    $name
+	 * @param  array     $headers
+	 * @return Response
+	 */
+	public static function download($path, $name = null, $headers = array())
+	{
+		if (is_null($name)) $name = basename($path);
+
+		$headers = array_merge(array(
+			'Content-Description'       => 'File Transfer',
+			'Content-Type'              => File::mime(File::extension($path)),
+			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
+			'Content-Transfer-Encoding' => 'binary',
+			'Expires'                   => 0,
+			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+			'Pragma'                    => 'public',
+			'Content-Length'            => File::size($path),
+		), $headers);
+
+		return new static(File::get($path), 200, $headers);
+	}
 
 	/**
 	 * Get the evaluated string contents of the response.
@@ -318,6 +268,25 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of Responses containing named views.
+	 *
+	 * <code>
+	 *		// Create a Response instance with the "layout" named view
+	 *		$response = Response::with_layout();
+	 *
+	 *		// Create a Response instance with the "layout" named view and bound data
+	 *		$response = Response::with_layout(array('name' => 'Fred'));
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (strpos($method, 'with_') === 0)
+		{
+			return static::with(substr($method, 5), Arr::get($parameters, 0, array()));
+		}
 	}
 
 }

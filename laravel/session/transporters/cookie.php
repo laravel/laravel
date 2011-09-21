@@ -1,17 +1,8 @@
 <?php namespace Laravel\Session\Transporters;
 
-class Cookie implements Transporter {
+use Laravel\Cookie as C;
 
-	/**
-	 * Create a new cookie session transporter instance.
-	 *
-	 * @param  Cookie  $cookie
-	 * @return void
-	 */
-	public function __construct(\Laravel\Cookie $cookie)
-	{
-		$this->cookie = $cookie;
-	}
+class Cookie implements Transporter {
 
 	/**
 	 * Get the session identifier for the request.
@@ -21,7 +12,7 @@ class Cookie implements Transporter {
 	 */
 	public function get($config)
 	{
-		return $this->cookie->get('laravel_session');
+		return C::get('laravel_session');
 	}
 
 	/**
@@ -35,7 +26,7 @@ class Cookie implements Transporter {
 	{
 		$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
 
-		$this->cookie->put('laravel_session', $id, $minutes, $config['path'], $config['domain']);
+		C::put('laravel_session', $id, $minutes, $config['path'], $config['domain']);
 	}
 
 }

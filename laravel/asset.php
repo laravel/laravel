@@ -7,25 +7,7 @@ class Asset {
 	 *
 	 * @var array
 	 */
-	public $containers = array();
-
-	/**
-	 * The HTML writer instance.
-	 *
-	 * @var HTML
-	 */
-	protected $html;
-
-	/**
-	 * Create a new asset manager instance.
-	 *
-	 * @param  HTML  $html
-	 * @return void
-	 */
-	public function __construct(HTML $html)
-	{
-		$this->html = $html;
-	}
+	protected static $containers = array();
 
 	/**
 	 * Get an asset container instance.
@@ -45,14 +27,14 @@ class Asset {
 	 * @param  string            $container
 	 * @return Asset_Container
 	 */
-	public function container($container = 'default')
+	public static function container($container = 'default')
 	{
-		if ( ! isset($this->containers[$container]))
+		if ( ! isset(static::$containers[$container]))
 		{
-			$this->containers[$container] = new Asset_Container($container, $this->html);
+			static::$containers[$container] = new Asset_Container($container);
 		}
 
-		return $this->containers[$container];
+		return static::$containers[$container];
 	}
 
 	/**
@@ -66,9 +48,9 @@ class Asset {
 	 *		echo Asset::styles();
 	 * </code>
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array($this->container(), $method), $parameters);
+		return call_user_func_array(array(static::container(), $method), $parameters);
 	}
 
 }
@@ -90,23 +72,15 @@ class Asset_Container {
 	public $assets = array();
 
 	/**
-	 * The HTML writer instance.
-	 *
-	 * @var HTML
-	 */
-	protected $html;
-
-	/**
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
 	 * @param  HTML    $html
 	 * @return void
 	 */
-	public function __construct($name, HTML $html)
+	public function __construct($name)
 	{
 		$this->name = $name;
-		$this->html = $html;
 	}
 
 	/**
@@ -275,7 +249,7 @@ class Asset_Container {
 
 		$asset = $this->assets[$group][$name];
 
-		return $this->html->$group($asset['source'], $asset['attributes']);
+		return HTML::$group($asset['source'], $asset['attributes']);
 	}
 
 	/**

@@ -69,22 +69,23 @@ class Router {
 	 *
 	 * If no route can be found, the application controllers will be searched.
 	 *
-	 * @param  Request  $request
+	 * @param  string  $method
+	 * @param  string  $uri
 	 * @return Route
 	 */
-	public function route(Request $request)
+	public function route($method, $uri)
 	{
-		$routes = $this->loader->load($request->uri());
+		$routes = $this->loader->load($uri);
 
 		// Put the request method and URI in route form. Routes begin with
 		// the request method and a forward slash.
-		$destination = $request->method().' /'.trim($request->uri(), '/');
+		$destination = $method.' /'.trim($uri, '/');
 
 		// Check for a literal route match first. If we find one, there is
 		// no need to spin through all of the routes.
 		if (isset($routes[$destination]))
 		{
-			return $request->route = new Route($destination, $routes[$destination], array());
+			return Request::$route = new Route($destination, $routes[$destination], array());
 		}
 
 		foreach ($routes as $keys => $callback)
@@ -100,13 +101,13 @@ class Router {
 
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return $request->route = new Route($keys, $callback, $this->parameters($destination, $key));
+						return Request::$route = new Route($keys, $callback, $this->parameters($destination, $key));
 					}
 				}				
 			}
 		}
 
-		return $request->route = $this->route_to_controller($request, $destination);
+		return Request::$route = $this->route_to_controller($method, $uri, $destination);
 	}
 
 	/**
@@ -114,17 +115,18 @@ class Router {
 	 *
 	 * If no corresponding controller can be found, NULL will be returned.
 	 *
-	 * @param  Request  $request
-	 * @param  string   $destination
+	 * @param  string  $method
+	 * @param  string  $uri
+	 * @param  string  $destination
 	 * @return Route
 	 */
-	protected function route_to_controller(Request $request, $destination)
+	protected function route_to_controller($method, $uri, $destination)
 	{
 		// If the request is to the root of the application, an ad-hoc route will be generated
 		// to the home controller's "index" method, making it the default controller method.
-		if ($request->uri() === '/') return new Route($request->method().' /', 'home@index');
+		if ($uri === '/') return new Route($method.' /', 'home@index');
 
-		$segments = explode('/', trim($request->uri(), '/'));
+		$segments = explode('/', trim($uri, '/'));
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{

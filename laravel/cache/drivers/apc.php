@@ -1,52 +1,6 @@
 <?php namespace Laravel\Cache\Drivers;
 
-class APC_Engine {
-
-	/**
-	 * Retrieve an item from the APC cache.
-	 *
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public function fetch($key)
-	{
-		return apc_fetch($key);
-	}
-
-	/**
-	 * Store an item in the APC cache.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $seconds
-	 * @return void
-	 */
-	public function store($key, $value, $seconds)
-	{
-		apc_store($key, $value, $seconds);
-	}
-
-	/**
-	 * Delete an item from the APC cache.
-	 *
-	 * @param  string  $key
-	 * @return void
-	 */
-	public function delete($key)
-	{
-		apc_delete($key);
-	}
-
-}
-
 class APC extends Driver {
-
-	/**
-	 * The APC engine instance.
-	 *
-	 * @var APC_Engine
-	 */
-	private $apc;
 
 	/**
 	 * The cache key from the cache configuration file.
@@ -58,13 +12,11 @@ class APC extends Driver {
 	/**
 	 * Create a new APC cache driver instance.
 	 *
-	 * @param  APC_Engine  $apc
-	 * @param  string      $key
+	 * @param  string  $key
 	 * @return void
 	 */
-	public function __construct(APC_Engine $apc, $key)
+	public function __construct($key)
 	{
-		$this->apc = $apc;
 		$this->key = $key;
 	}
 
@@ -87,7 +39,7 @@ class APC extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! is_null($cache = $this->apc->fetch($this->key.$key))) return $cache;
+		if ( ! is_null($cache = apc_fetch($this->key.$key))) return $cache;
 	}
 
 	/**
@@ -100,7 +52,7 @@ class APC extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->apc->store($this->key.$key, $value, $minutes * 60);
+		apc_store($this->key.$key, $value, $minutes * 60);
 	}
 
 	/**
@@ -111,7 +63,7 @@ class APC extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->apc->delete($this->key.$key);
+		apc_delete($this->key.$key);
 	}
 
 }

@@ -3,73 +3,9 @@
 use Closure;
 use Laravel\IoC;
 use Laravel\Str;
-use Laravel\Lang_Factory;
-
-class Validator_Factory {
-
-	/**
-	 * The language factory instance.
-	 *
-	 * @var Lang_Factory
-	 */
-	protected $lang;
-
-	/**
-	 * The registered custom validators.
-	 *
-	 * @var array
-	 */
-	protected $validators = array();
-
-	/**
-	 * Create a new validator factory instance.
-	 *
-	 * @param  Lang_Factory  $lang
-	 * @return void
-	 */
-	public function __construct(Lang_Factory $lang)
-	{
-		$this->lang = $lang;
-	}
-
-	/**
-	 * Create a new validator instance.
-	 *
-	 * @param  array      $attributes
-	 * @param  array      $rules
-	 * @param  array      $messages
-	 * @return Validator
-	 */
-	public function make($attributes, $rules, $messages = array())
-	{
-		return new Validator($this->lang, $this->validators, $attributes, $rules, $messages);
-	}
-
-	/**
-	 * Register a custom validation callback.
-	 *
-	 * @param  string     $name
-	 * @param  string     $message
-	 * @param  Closure    $closure
-	 * @return Validator
-	 */
-	public function register($name, $message, Closure $closure)
-	{
-		$this->validators[$name] = compact('message', 'closure');
-
-		return $this;
-	}
-
-}
+use Laravel\Lang;
 
 class Validator {
-
-	/**
-	 * The registered custom validators.
-	 *
-	 * @var array
-	 */
-	protected $validators = array();
 
 	/**
 	 * The validation rules.
@@ -130,34 +66,34 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  Lang_Factory  $lang
-	 * @param  array         $validators
-	 * @param  array         $attributes
-	 * @param  array         $rules
-	 * @param  array         $messages
+	 * @param  array  $attributes
+	 * @param  array  $rules
+	 * @param  array  $messages
 	 * @return void
 	 */
-	public function __construct(Lang_Factory $lang, $validators, $attributes, $rules, $messages = array())
+	public function __construct($attributes, $rules, $messages = array())
 	{
 		foreach ($rules as $key => &$rule)
 		{
 			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
 		}
 
-		// Register all of the custom validators and their corresponding error messages.
-		// The validators are executed via the magic __call method. The validator names
-		// are prefixed with "validate_" to match the built-in validators.
-		foreach ($validators as $key => $value)
-		{
-			$this->messages[$key] = $value['message'];
-
-			$this->validators['validate_'.$key] = $value['closure'];
-		}
-
-		$this->lang = $lang;
 		$this->rules = $rules;
 		$this->attributes = $attributes;
 		$this->messages = array_merge($this->messages, $messages);
+	}
+
+	/**
+	 * Create a new validator instance.
+	 *
+	 * @param  array         $attributes
+	 * @param  array         $rules
+	 * @param  array         $messages
+	 * @return Validator
+	 */
+	public static function make($attributes, $rules, $messages = array())
+	{
+		return new static($attributes, $rules, $messages);
 	}
 
 	/**
@@ -201,7 +137,7 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		if ( ! method_exists($this, $validator = 'validate_'.$rule) and ! isset($this->validators[$validator]))
+		if ( ! method_exists($this, $validator = 'validate_'.$rule))
 		{
 			throw new \Exception("Validation rule [$rule] doesn't exist.");
 		}
@@ -516,15 +452,15 @@ class Validator {
 		}
 		else
 		{
-			$message = $this->lang->line('validation.'.$rule)->get($this->language);
+			$message = Lang::line('validation.'.$rule)->get($this->language);
 
 			// For "size" rules that are validating strings or files, we need to adjust
 			// the default error message for the appropriate units.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
 				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->files()))
-                                   ? rtrim($message, '.').' '.$this->lang->line('validation.kilobytes')->get($this->language).'.'
-                                   : rtrim($message, '.').' '.$this->lang->line('validation.characters')->get($this->language).'.';
+                                   ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
+                                   : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
 			}
 
 			return $message;
@@ -542,7 +478,7 @@ class Validator {
 	 */
 	protected function format_message($message, $attribute, $rule, $parameters)
 	{
-		$display = $this->lang->line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
+		$display = Lang::line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
 
 		$message = str_replace(':attribute', $display, $message);
 
@@ -614,14 +550,6 @@ class Validator {
 	{
 		$this->connection = $connection;
 		return $this;
-	}
-
-	/**
-	 * Magic Method for calling custom registered validators.
-	 */
-	public function __call($method, $parameters)
-	{
-		return call_user_func_array($this->validators[$method], $parameters);
 	}
 
 }

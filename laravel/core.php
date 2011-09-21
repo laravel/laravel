@@ -36,50 +36,50 @@ define('VIEW_PATH',       APP_PATH.'views/');
 // --------------------------------------------------------------
 require SYS_PATH.'facades'.EXT;
 require SYS_PATH.'config'.EXT;
+require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'arr'.EXT;
+
+// --------------------------------------------------------------
+// Determine the application environment.
+// --------------------------------------------------------------
+$environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : null;
+
+// --------------------------------------------------------------
+// Register the configuration file paths.
+// --------------------------------------------------------------
+$config = array(SYS_CONFIG_PATH, CONFIG_PATH);
+
+if ( ! is_null($environment)) $config[] = CONFIG_PATH.$environment.'/';
+
+Config::paths($config);
 
 // --------------------------------------------------------------
 // Bootstrap the IoC container.
 // --------------------------------------------------------------
 require SYS_PATH.'container'.EXT;
 
-$dependencies = require SYS_CONFIG_PATH.'container'.EXT;
-
-if (file_exists($path = CONFIG_PATH.'container'.EXT))
-{
-	$dependencies = array_merge($dependencies, require $path);
-}
-
-$env = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : null;
-
-if ( ! is_null($env) and file_exists($path = CONFIG_PATH.$env.'/container'.EXT))
-{
-	$dependencies = array_merge($dependencies, require $path);
-}
-
-$container = new Container($dependencies);
+$container = new Container(Config::get('container'));
 
 IoC::$container = $container;
 
 // --------------------------------------------------------------
 // Register the auto-loader on the auto-loader stack.
 // --------------------------------------------------------------
-spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
+spl_autoload_register(array('Laravel\\Loader', 'load'));
 
-// --------------------------------------------------------------
-// Set the application environment configuration option.
-// --------------------------------------------------------------
-$container->resolve('laravel.config')->set('application.env', $env);
+Loader::$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH);
+
+Loader::$aliases = Config::get('aliases');
 
 // --------------------------------------------------------------
 // Define some convenient global functions.
 // --------------------------------------------------------------
 function e($value)
 {
-	return IoC::container()->resolve('laravel.html')->entities($value);
+	return HTML::entities($value);
 }
 
 function __($key, $replacements = array(), $language = null)
 {
-	return IoC::container()->resolve('laravel.lang')->line($key, $replacements, $language);
+	return Lang::line($key, $replacements, $language);
 }

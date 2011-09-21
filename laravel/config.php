@@ -9,24 +9,24 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected $items = array();
+	protected static $items = array();
 
 	/**
 	 * The paths to the configuration files.
 	 *
 	 * @var array
 	 */
-	protected $paths = array();
+	protected static $paths = array();
 
 	/**
-	 * Create a new configuration manager instance.
+	 * Set the paths in which the configuration files are located.
 	 *
 	 * @param  array  $paths
 	 * @return void
 	 */
-	public function __construct($paths)
+	public static function paths($paths)
 	{
-		$this->paths = $paths;
+		static::$paths = $paths;
 	}
 
 	/**
@@ -43,9 +43,9 @@ class Config {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public function has($key)
+	public static function has($key)
 	{
-		return ! is_null($this->get($key));
+		return ! is_null(static::get($key));
 	}
 
 	/**
@@ -74,21 +74,21 @@ class Config {
 	 * @param  string  $default
 	 * @return array
 	 */
-	public function get($key, $default = null)
+	public static function get($key, $default = null)
 	{
-		list($file, $key) = $this->parse($key);
+		list($file, $key) = static::parse($key);
 
-		if ( ! $this->load($file))
+		if ( ! static::load($file))
 		{
 			return ($default instanceof \Closure) ? call_user_func($default) : $default;
 		}
 
 		if (is_null($key))
 		{
-			return $this->items[$file];
+			return static::$items[$file];
 		}
 
-		return Arr::get($this->items[$file], $key, $default);
+		return Arr::get(static::$items[$file], $key, $default);
 	}
 
 	/**
@@ -113,19 +113,19 @@ class Config {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public function set($key, $value)
+	public static function set($key, $value)
 	{
-		list($file, $key) = $this->parse($key);
+		list($file, $key) = static::parse($key);
 
-		$this->load($file);
+		static::load($file);
 
 		if (is_null($key))
 		{
-			Arr::set($this->items, $file, $value);
+			Arr::set(static::$items, $file, $value);
 		}
 		else
 		{
-			Arr::set($this->items[$file], $key, $value);
+			Arr::set(static::$items[$file], $key, $value);
 		}
 	}
 
@@ -142,7 +142,7 @@ class Config {
 	 * @param  string  $key
 	 * @return array
 	 */
-	protected function parse($key)
+	protected static function parse($key)
 	{
 		$segments = explode('.', $key);
 
@@ -164,13 +164,13 @@ class Config {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	protected function load($file)
+	protected static function load($file)
 	{
-		if (isset($this->items[$file])) return true;
+		if (isset(static::$items[$file])) return true;
 
 		$config = array();
 
-		foreach ($this->paths as $directory)
+		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))
 			{
@@ -180,10 +180,10 @@ class Config {
 
 		if (count($config) > 0)
 		{
-			$this->items[$file] = $config;
+			static::$items[$file] = $config;
 		}
 
-		return isset($this->items[$file]);
+		return isset(static::$items[$file]);
 	}
 
 }

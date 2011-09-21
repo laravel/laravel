@@ -3,24 +3,6 @@
 class Redirect extends Response {
 
 	/**
-	 * The URL generator instance.
-	 *
-	 * @var URL
-	 */
-	private $url;
-
-	/**
-	 * Create a new redirect generator instance.
-	 *
-	 * @param  URL   $url
-	 * @return void
-	 */
-	public function __construct(URL $url)
-	{
-		$this->url = $url;
-	}
-
-	/**
 	 * Create a redirect response.
 	 *
 	 * <code>
@@ -36,11 +18,11 @@ class Redirect extends Response {
 	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public function to($url, $status = 302, $https = false)
+	public static function to($url, $status = 302, $https = false)
 	{
-		parent::__construct('', $status);
+		$response = new static('', $status);
 
-		return $this->header('Location', $this->url->to($url, $https));
+		return $response->header('Location', URL::to($url, $https));
 	}
 
 	/**
@@ -55,9 +37,9 @@ class Redirect extends Response {
 	 * @param  int       $status
 	 * @return Response
 	 */
-	public function to_secure($url, $status = 302)
+	public static function to_secure($url, $status = 302)
 	{
-		return $this->to($url, $status, true);
+		return static::to($url, $status, true);
 	}
 
 	/**
@@ -76,7 +58,7 @@ class Redirect extends Response {
 	 */
 	public function with($key, $value)
 	{
-		if (IoC::container()->resolve('laravel.config')->get('session.driver') == '')
+		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception('A session driver must be set before setting flash data.');
 		}
@@ -100,18 +82,18 @@ class Redirect extends Response {
 	 *		return Redirect::to_secure_profile();
 	 * </code>
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return $this->to($this->url->to_route(substr($method, 10), $parameters, true));
+			return static::to(URL::to_route(substr($method, 10), $parameters, true));
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return $this->to($this->url->to_route(substr($method, 3), $parameters));
+			return static::to(URL::to_route(substr($method, 3), $parameters));
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Redirect class.");

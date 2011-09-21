@@ -74,7 +74,7 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		$foreign = IoC::container()->resolve('laravel.config')->get('ascii');
+		$foreign = Config::get('ascii');
 
 		$value = preg_replace(array_keys($foreign), array_values($foreign), $value);
 
@@ -106,7 +106,7 @@ class Str {
 	 */
 	protected static function encoding()
 	{
-		return IoC::container()->resolve('laravel.config')->get('application.encoding');
+		return Config::get('application.encoding');
 	}
 
 }

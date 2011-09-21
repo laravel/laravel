@@ -21,7 +21,7 @@ abstract class Controller {
 	 */
 	public function __call($method, $parameters)
 	{
-		return IoC::container()->resolve('laravel.response')->error('404');
+		return Response::error('404');
 	}
 
 	/**

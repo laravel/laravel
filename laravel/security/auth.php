@@ -1,5 +1,6 @@
 <?php namespace Laravel\Security;
 
+use Laravel\Config;
 use Laravel\Session\Driver;
 
 class Auth {
@@ -12,13 +13,6 @@ class Auth {
 	protected $user;
 
 	/**
-	 * The configuration manager instance.
-	 *
-	 * @var Config
-	 */
-	protected $config;
-
-	/**
 	 * The session driver instance.
 	 *
 	 * @var Session\Driver
@@ -28,13 +22,11 @@ class Auth {
 	/**
 	 * Create a new authenticator instance.
 	 *
-	 * @param  Config          $config
 	 * @param  Session\Driver  $session
 	 * @return void
 	 */
-	public function __construct(Config $config, Driver $session)
+	public function __construct(Driver $session)
 	{
-		$this->config = $config;
 		$this->session = $session;
 	}
 
@@ -59,7 +51,7 @@ class Auth {
 	{
 		if ( ! is_null($this->user)) return $this->user;
 
-		return $this->user = call_user_func($this->config->get('auth.user'), $this->session->get('laravel_user_id'));
+		return $this->user = call_user_func(Config::get('auth.user'), $this->session->get('laravel_user_id'));
 	}
 
 	/**
@@ -74,7 +66,7 @@ class Auth {
 	 */
 	public function attempt($username, $password = null)
 	{
-		if ( ! is_null($user = call_user_func($this->config->get('auth.attempt'), $username, $password)))
+		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
 		{
 			$this->remember($user);
 
@@ -106,7 +98,7 @@ class Auth {
 	 */
 	public function logout()
 	{
-		call_user_func($this->config->get('auth.logout'), $this->user()->id);
+		call_user_func(Config::get('auth.logout'), $this->user()->id);
 
 		$this->user = null;
 

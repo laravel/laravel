@@ -1,13 +1,8 @@
 <?php namespace Laravel\Session\Drivers;
 
-class File implements Driver, Sweeper {
+use Laravel\File as F;
 
-	/**
-	 * The file engine instance.
-	 *
-	 * @var Laravel\File
-	 */
-	private $file;
+class File implements Driver, Sweeper {
 
 	/**
 	 * The path to which the session files should be written.
@@ -19,13 +14,11 @@ class File implements Driver, Sweeper {
 	/**
 	 * Create a new File session driver instance.
 	 *
-	 * @param  Laravel\File  $file
 	 * @param  string        $path
 	 * @return void
 	 */
-	public function __construct(\Laravel\File $file, $path)
+	public function __construct($path)
 	{
-		$this->file = $file;
 		$this->path = $path;
 	}
 
@@ -39,7 +32,7 @@ class File implements Driver, Sweeper {
 	 */
 	public function load($id)
 	{
-		if ($this->file->exists($path = $this->path.$id)) return unserialize($this->file->get($path));
+		if (F::exists($path = $this->path.$id)) return unserialize(F::get($path));
 	}
 
 	/**
@@ -51,7 +44,7 @@ class File implements Driver, Sweeper {
 	 */
 	public function save($session, $config)
 	{
-		$this->file->put($this->path.$session['id'], serialize($session), LOCK_EX);
+		F::put($this->path.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
@@ -62,7 +55,7 @@ class File implements Driver, Sweeper {
 	 */
 	public function delete($id)
 	{
-		$this->file->delete($this->path.$id);
+		F::delete($this->path.$id);
 	}
 
 	/**
@@ -75,9 +68,9 @@ class File implements Driver, Sweeper {
 	{
 		foreach (glob($this->path.'*') as $file)
 		{
-			if ($this->file->type($file) == 'file' and $this->file->modified($file) < $expiration)
+			if (F::type($file) == 'file' and F::modified($file) < $expiration)
 			{
-				$this->file->delete($file);
+				F::delete($file);
 			}
 		}
 	}

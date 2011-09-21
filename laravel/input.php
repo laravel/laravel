@@ -3,49 +3,11 @@
 class Input {
 
 	/**
-	 * The file manager instance.
-	 *
-	 * @var File
-	 */
-	protected $file;
-
-	/**
 	 * The applicable input for the request.
 	 *
 	 * @var array
 	 */
-	protected $input;
-
-	/**
-	 * The $_FILES array for the request.
-	 *
-	 * @var array
-	 */
-	protected $files;
-
-	/**
-	 * The cookie engine instance.
-	 *
-	 * @var Cookie
-	 */
-	public $cookies;
-
-	/**
-	 * Create a new Input manager instance.
-	 *
-	 * @param  File    $file
-	 * @param  Cookie  $cookies
-	 * @param  array   $input
-	 * @param  array   $files
-	 * @return void
-	 */
-	public function __construct(File $file, Cookie $cookies, $input, $files)
-	{
-		$this->file = $file;
-		$this->input = $input;
-		$this->files = $files;
-		$this->cookies = $cookies;
-	}
+	public static $input;
 
 	/**
 	 * Get all of the input data for the request.
@@ -54,9 +16,9 @@ class Input {
 	 *
 	 * @return array
 	 */
-	public function all()
+	public static function all()
 	{
-		return array_merge($this->get(), $this->file());
+		return array_merge(static::get(), static::file());
 	}
 
 	/**
@@ -65,9 +27,9 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public function has($key)
+	public static function has($key)
 	{
-		return ( ! is_null($this->get($key)) and trim((string) $this->get($key)) !== '');
+		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) !== '');
 	}
 
 	/**
@@ -87,9 +49,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get($key = null, $default = null)
+	public static function get($key = null, $default = null)
 	{
-		return Arr::get($this->input, $key, $default);
+		return Arr::get(static::$input, $key, $default);
 	}
 
 	/**
@@ -98,9 +60,9 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public function had($key)
+	public static function had($key)
 	{
-		return ( ! is_null($this->old($key)) and trim((string) $this->old($key)) !== '');
+		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) !== '');
 	}
 
 	/**
@@ -118,9 +80,9 @@ class Input {
 	 * @param  mixed           $default
 	 * @return string
 	 */
-	public function old($key = null, $default = null)
+	public static function old($key = null, $default = null)
 	{
-		if (IoC::container()->resolve('laravel.config')->get('session.driver') == '')
+		if (Config::get('session.driver') == '')
 		{
 			throw new \Exception('A session driver must be specified in order to access old input.');
 		}
@@ -147,9 +109,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return array
 	 */
-	public function file($key = null, $default = null)
+	public static function file($key = null, $default = null)
 	{
-		return Arr::get($this->files, $key, $default);
+		return Arr::get($_FILES, $key, $default);
 	}
 
 	/**
@@ -166,25 +128,40 @@ class Input {
 	 * @param  string  $path
 	 * @return bool
 	 */
-	public function upload($key, $path)
+	public static function upload($key, $path)
 	{
-		return array_key_exists($key, $this->files) ? $this->file->upload($key, $path, $this->files) : false;
-	}
-
-	/**
-	 * Magic Method for retrieving items from the request input.
-	 *
-	 * This method is particularly helpful in controllers where access to the IoC container
-	 * is provided through the controller's magic __get method.
-	 *
-	 * <code>
-	 *		// Retrieve the "name" input item from a controller method
-	 *		$name = $this->input->name;
-	 * </code>
-	 */
-	public function __get($key)
-	{
-		return $this->get($key);
+		return array_key_exists($key, $_FILES) ? File::upload($key, $path, $_FILES) : false;
 	}
 
 }
+
+/**
+ * Set the input values for the current request.
+ */
+$input = array();
+
+switch (Request::method())
+{
+	case 'GET':
+		$input = $_GET;
+		break;
+
+	case 'POST':
+		$input = $_POST;
+		break;
+
+	case 'PUT':
+	case 'DELETE':
+		if (Request::spoofed())
+		{
+			$input = $_POST;
+		}
+		else
+		{
+			parse_str(file_get_contents('php://input'), $input);
+		}
+}
+
+unset($input[Request::spoofer]);
+
+Input::$input = $input;

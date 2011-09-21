@@ -3,56 +3,36 @@
 class URI {
 
 	/**
-	 * The $_SERVER array for the current request.
-	 *
-	 * @var array
-	 */
-	protected $server;
-
-	/**
-	 * The application URL as specified in the application configuration file.
-	 *
-	 * @var string
-	 */
-	protected $url;
-
-	/**
 	 * The URI for the current request.
 	 *
 	 * This property will be set after the URI is detected for the first time.
 	 *
 	 * @var string
 	 */
-	protected $uri;
+	protected static $uri;
 
 	/**
-	 * Create a new URI instance.
+	 * Determine the request URI.
 	 *
-	 * @param  array   $server
-	 * @param  string  $url
-	 * @return void
-	 */
-	public function __construct($server, $url)
-	{
-		$this->url = $url;
-		$this->server = $server;
-	}
-
-	/**
-	 * Get the URI for the current request.
+	 * The request URI will be trimmed to remove to the application URL and application index file.
+	 * If the request is to the root of the application, the URI will be set to a forward slash.
+	 *
+	 * If the $_SERVER "PATH_INFO" variable is available, it will be used; otherwise, we will try
+	 * to determine the URI using the REQUEST_URI variable. If neither are available,  an exception
+	 * will be thrown by the method.
 	 *
 	 * @return string
 	 */
-	public function get()
+	public static function get()
 	{
-		if ( ! is_null($this->uri)) return $this->uri;
+		if ( ! is_null(static::$uri)) return static::$uri;
 
-		if (($uri = $this->from_server()) === false)
+		if (($uri = static::from_server()) === false)
 		{
 			throw new \Exception('Malformed request URI. Request terminated.');
 		}
 
-		return $this->uri = $this->format($this->clean($uri));
+		return static::$uri = static::format(static::clean($uri));
 	}
 
 	/**
@@ -73,9 +53,9 @@ class URI {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function segment($segment = null, $default = null)
+	public static function segment($segment = null, $default = null)
 	{
-		$segments = Arr::without(explode('/', $this->detect()), array(''));
+		$segments = Arr::without(explode('/', static::get()), array(''));
 
 		if ( ! is_null($segment)) $segment = $segment - 1;
 
@@ -87,20 +67,20 @@ class URI {
 	 *
 	 * @return string
 	 */
-	protected function from_server()
+	protected static function from_server()
 	{
 		// If the PATH_INFO $_SERVER element is set, we will use since it contains
 		// the request URI formatted perfectly for Laravel's routing engine.
-		if (isset($this->server['PATH_INFO']))
+		if (isset($_SERVER['PATH_INFO']))
 		{
-			return $this->server['PATH_INFO'];
+			return $_SERVER['PATH_INFO'];
 		}
 
 		// If the REQUEST_URI is set, we need to extract the URL path since this
 		// should return the URI formatted in a manner similar to PATH_INFO.
-		elseif (isset($this->server['REQUEST_URI']))
+		elseif (isset($_SERVER['REQUEST_URI']))
 		{
-			return parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
+			return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		}
 
 		throw new \Exception('Unable to determine the request URI.');
@@ -115,9 +95,9 @@ class URI {
 	 * @param  string  $uri
 	 * @return string
 	 */
-	protected function clean($uri)
+	protected static function clean($uri)
 	{
-		foreach (array(parse_url($this->url, PHP_URL_PATH), '/index.php') as $value)
+		foreach (array(parse_url(Config::get('application.url'), PHP_URL_PATH), '/index.php') as $value)
 		{
 			$uri = (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 		}
@@ -133,7 +113,7 @@ class URI {
 	 * @param  string  $uri
 	 * @return string
 	 */
-	protected function format($uri)
+	protected static function format($uri)
 	{
 		return (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}

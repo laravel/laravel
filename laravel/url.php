@@ -3,51 +3,6 @@
 class URL {
 
 	/**
-	 * The application router instance.
-	 *
-	 * @var Routing\Router
-	 */
-	protected $router;
-
-	/**
-	 * The base URL of the application.
-	 *
-	 * @var string
-	 */
-	protected $base;
-
-	/**
-	 * The application index file.
-	 *
-	 * @var string
-	 */
-	protected $index;
-
-	/**
-	 * Indicates if the current request is using HTTPS.
-	 *
-	 * @var bool
-	 */
-	protected $https;
-
-	/**
-	 * Create a new URL writer instance.
-	 *
-	 * @param  Routing\Router  $router
-	 * @param  string          $base
-	 * @param  string          $index
-	 * @param  bool            $https
-	 * @return void
-	 */
-	public function __construct(Routing\Router $router, $base, $index, $https)
-	{
-		$this->base = $base;
-		$this->https = $https;
-		$this->index = $index;
-		$this->router = $router;
-	}
-
-	/**
 	 * Generate an application URL.
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
@@ -64,11 +19,11 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public function to($url = '', $https = false)
+	public static function to($url = '', $https = false)
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		$base = $this->base.'/'.$this->index;
+		$base = Config::get('application.url').'/'.Config::get('application.index');
 
 		if ($https) $base = preg_replace('~http://~', 'https://', $base, 1);
 
@@ -86,9 +41,9 @@ class URL {
 	 * @param  string  $url
 	 * @return string
 	 */
-	public function to_secure($url = '')
+	public static function to_secure($url = '')
 	{
-		return $this->to($url, true);
+		return static::to($url, true);
 	}
 
 	/**
@@ -109,11 +64,11 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public function to_asset($url, $https = null)
+	public static function to_asset($url, $https = null)
 	{
-		if (is_null($https)) $https = $this->https;
+		if (is_null($https)) $https = Request::secure();
 
-		return str_replace('index.php/', '', $this->to($url, $https));
+		return str_replace('index.php/', '', static::to($url, $https));
 	}
 
 	/**
@@ -133,14 +88,14 @@ class URL {
 	 *		echo URL::to_route('profile', array($username));
 	 * </code>
 	 *
-	 * @param  string          $name
-	 * @param  array           $parameters
-	 * @param  bool            $https
+	 * @param  string  $name
+	 * @param  array   $parameters
+	 * @param  bool    $https
 	 * @return string
 	 */
-	public function to_route($name, $parameters = array(), $https = false)
+	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = $this->router->find($name)))
+		if ( ! is_null($route = IoC::container()->resolve('laravel.routing.router')->find($name)))
 		{
 			$uris = explode(', ', key($route));
 
@@ -155,7 +110,7 @@ class URL {
 
 			// Before generating the route URL, we will replace all remaining optional
 			// wildcard segments that were not replaced by parameters with spaces.
-			return $this->to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
+			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
 		throw new \Exception("Error generating named route for route [$name]. Route is not defined.");
@@ -176,9 +131,9 @@ class URL {
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	public function to_secure_route($name, $parameters = array())
+	public static function to_secure_route($name, $parameters = array())
 	{
-		return $this->to_route($name, $parameters, true);
+		return static::to_route($name, $parameters, true);
 	}
 
 	/**
@@ -188,7 +143,7 @@ class URL {
 	 * @param  string  $separator
 	 * @return string
 	 */
-	public function slug($title, $separator = '-')
+	public static function slug($title, $separator = '-')
 	{
 		$title = Str::ascii($title);
 
@@ -215,18 +170,18 @@ class URL {
 	 *		echo URL::to_secure_profile();
 	 * </code>
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return $this->to_route(substr($method, 10), $parameters, true);
+			return static::to_route(substr($method, 10), $parameters, true);
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return $this->to_route(substr($method, 3), $parameters);
+			return static::to_route(substr($method, 3), $parameters);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the URL class.");

@@ -3,32 +3,6 @@
 class HTML {
 
 	/**
-	 * The encoding being used by the application.
-	 *
-	 * @var string
-	 */
-	protected $encoding;
-
-	/**
-	 * The URL generator instance.
-	 *
-	 * @var URL
-	 */
-	protected $url;
-
-	/**
-	 * Create a new HTML writer instance.
-	 *
-	 * @param  string  $encoding
-	 * @return void
-	 */
-	public function __construct(URL $url, $encoding)
-	{
-		$this->url = $url;
-		$this->encoding = $encoding;
-	}
-
-	/**
 	 * Convert HTML characters to entities.
 	 *
 	 * The encoding specified in the application configuration file will be used.
@@ -36,9 +10,9 @@ class HTML {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public function entities($value)
+	public static function entities($value)
 	{
-		return htmlentities($value, ENT_QUOTES, $this->encoding, false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
@@ -56,11 +30,11 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function script($url, $attributes = array())
+	public static function script($url, $attributes = array())
 	{
-		$url = $this->entities($this->url->to_asset($url));
+		$url = static::entities(URL::to_asset($url));
 
-		return '<script type="text/javascript" src="'.$url.'"'.$this->attributes($attributes).'></script>'.PHP_EOL;
+		return '<script type="text/javascript" src="'.$url.'"'.static::attributes($attributes).'></script>'.PHP_EOL;
 	}
 
 	/**
@@ -80,13 +54,13 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function style($url, $attributes = array())
+	public static function style($url, $attributes = array())
 	{
 		if ( ! array_key_exists('media', $attributes)) $attributes['media'] = 'all';
 
 		$attributes = array_merge($attributes, array('rel' => 'stylesheet', 'type' => 'text/css'));
 
-		return '<link href="'.$this->entities($this->url->to_asset($url)).'"'.$this->attributes($attributes).'>'.PHP_EOL;
+		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
@@ -104,9 +78,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function span($value, $attributes = array())
+	public static function span($value, $attributes = array())
 	{
-		return '<span'.$this->attributes($attributes).'>'.$this->entities($value).'</span>';
+		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
 	}
 
 	/**
@@ -127,11 +101,11 @@ class HTML {
 	 * @param  bool    $asset
 	 * @return string
 	 */
-	public function link($url, $title, $attributes = array(), $https = false, $asset = false)
+	public static function link($url, $title, $attributes = array(), $https = false, $asset = false)
 	{
-		$url = $this->entities($this->url->to($url, $https, $asset));
+		$url = static::entities(URL::to($url, $https, $asset));
 
-		return '<a href="'.$url.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>';
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -142,9 +116,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function link_to_secure($url, $title, $attributes = array())
+	public static function link_to_secure($url, $title, $attributes = array())
 	{
-		return $this->link($url, $title, $attributes, true);
+		return static::link($url, $title, $attributes, true);
 	}
 
 	/**
@@ -157,9 +131,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function link_to_asset($url, $title, $attributes = array(), $https = false)
+	public static function link_to_asset($url, $title, $attributes = array(), $https = false)
 	{
-		return $this->link($url, $title, $attributes, $https, true);
+		return static::link($url, $title, $attributes, $https, true);
 	}
 
 	/**
@@ -170,9 +144,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function link_to_secure_asset($url, $title, $attributes = array())
+	public static function link_to_secure_asset($url, $title, $attributes = array())
 	{
-		return $this->link_to_asset($url, $title, $attributes, true);
+		return static::link_to_asset($url, $title, $attributes, true);
 	}
 
 	/**
@@ -195,9 +169,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
 	{
-		return $this->link($this->url->to_route($name, $parameters, $https), $title, $attributes);
+		return static::link(URL::to_route($name, $parameters, $https), $title, $attributes);
 	}
 
 	/**
@@ -209,9 +183,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function link_to_secure_route($name, $title, $parameters = array(), $attributes = array())
+	public static function link_to_secure_route($name, $title, $parameters = array(), $attributes = array())
 	{
-		return $this->link_to_route($name, $title, $parameters, $attributes, true);
+		return static::link_to_route($name, $title, $parameters, $attributes, true);
 	}
 
 	/**
@@ -235,15 +209,15 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function mailto($email, $title = null, $attributes = array())
+	public static function mailto($email, $title = null, $attributes = array())
 	{
-		$email = $this->email($email);
+		$email = static::email($email);
 
 		if (is_null($title)) $title = $email;
 
 		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
 
-		return '<a href="'.$email.'"'.$this->attributes($attributes).'>'.$this->entities($title).'</a>';
+		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**
@@ -252,9 +226,9 @@ class HTML {
 	 * @param  string  $email
 	 * @return string
 	 */
-	public function email($email)
+	public static function email($email)
 	{
-		return str_replace('@', '&#64;', $this->obfuscate($email));
+		return str_replace('@', '&#64;', static::obfuscate($email));
 	}
 
 	/**
@@ -276,11 +250,11 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function image($url, $alt = '', $attributes = array())
+	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = $alt;
 
-		return '<img src="'.$this->entities($this->url->to_asset($url)).'"'.$this->attributes($attributes).'>';
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
 	}
 
 	/**
@@ -298,9 +272,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function ol($list, $attributes = array())
+	public static function ol($list, $attributes = array())
 	{
-		return $this->list_elements('ol', $list, $attributes);
+		return static::list_elements('ol', $list, $attributes);
 	}
 
 	/**
@@ -318,9 +292,9 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function ul($list, $attributes = array())
+	public static function ul($list, $attributes = array())
 	{
-		return $this->list_elements('ul', $list, $attributes);
+		return static::list_elements('ul', $list, $attributes);
 	}
 
 	/**
@@ -331,16 +305,16 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private function list_elements($type, $list, $attributes = array())
+	private static function list_elements($type, $list, $attributes = array())
 	{
 		$html = '';
 
 		foreach ($list as $key => $value)
 		{
-			$html .= (is_array($value)) ? $this->list_elements($type, $value) : '<li>'.$this->entities($value).'</li>';
+			$html .= (is_array($value)) ? static::list_elements($type, $value) : '<li>'.static::entities($value).'</li>';
 		}
 
-		return '<'.$type.$this->attributes($attributes).'>'.$html.'</'.$type.'>';
+		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
 	}
 
 	/**
@@ -349,7 +323,7 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public function attributes($attributes)
+	public static function attributes($attributes)
 	{
 		$html = array();
 
@@ -361,7 +335,7 @@ class HTML {
 
 			if ( ! is_null($value))
 			{
-				$html[] = $key.'="'.$this->entities($value).'"';
+				$html[] = $key.'="'.static::entities($value).'"';
 			}
 		}
 
@@ -374,7 +348,7 @@ class HTML {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public function obfuscate($value)
+	public static function obfuscate($value)
 	{
 		$safe = '';
 
@@ -420,20 +394,20 @@ class HTML {
 	 *		echo HTML::link_to_secure_posts('Posts', array($year, $month));
 	 * </code>
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
 		if (strpos($method, 'link_to_secure_') === 0)
 		{
 			array_unshift($parameters, substr($method, 15));
 
-			return call_user_func_array(array($this, 'link_to_secure_route'), $parameters);
+			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
 		}
 
 		if (strpos($method, 'link_to_') === 0)
 		{
 			array_unshift($parameters, substr($method, 8));
 
-			return call_user_func_array(array($this, 'link_to_route'), $parameters);
+			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the HTML class.");

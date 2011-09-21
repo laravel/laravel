@@ -1,29 +1,6 @@
 <?php namespace Laravel;
 
-/**
- * While this class may appear totally useless. It is actually quite helpful for dealing with
- * the global scope of the PHP file functions. Injecting this class into the classes that need
- * access to these functions allows us to test the classes without hitting the actual file system.
- */
 class File {
-
-	/**
-	 * All of the MIME types understood by the manager.
-	 *
-	 * @var array
-	 */
-	private $mimes;
-
-	/**
-	 * Create a new file engine instance.
-	 *
-	 * @param  array  $mimes
-	 * @return void
-	 */
-	public function __construct($mimes)
-	{
-		$this->mimes = $mimes;
-	}
 
 	/**
 	 * Determine if a file exists.
@@ -31,7 +8,7 @@ class File {
 	 * @param  string  $path
 	 * @return bool
 	 */
-	public function exists($path)
+	public static function exists($path)
 	{
 		return file_exists($path);
 	}
@@ -42,7 +19,7 @@ class File {
 	 * @param  string  $path
 	 * @return string
 	 */
-	public function get($path)
+	public static function get($path)
 	{
 		return file_get_contents($path);
 	}
@@ -54,7 +31,7 @@ class File {
 	 * @param  string  $data
 	 * @return int
 	 */
-	public function put($path, $data)
+	public static function put($path, $data)
 	{
 		return file_put_contents($path, $data, LOCK_EX);
 	}
@@ -66,7 +43,7 @@ class File {
 	 * @param  string  $data
 	 * @return int
 	 */
-	public function append($path, $data)
+	public static function append($path, $data)
 	{
 		return file_put_contents($path, $data, LOCK_EX | FILE_APPEND);
 	}
@@ -77,9 +54,9 @@ class File {
 	 * @param  string  $path
 	 * @return void
 	 */
-	public function delete($path)
+	public static function delete($path)
 	{
-		if ($this->exists($path)) @unlink($path);
+		if (static::exists($path)) @unlink($path);
 	}
 
 	/**
@@ -88,7 +65,7 @@ class File {
 	 * @param  string  $path
 	 * @return string
 	 */
-	public function extension($path)
+	public static function extension($path)
 	{
 		return pathinfo($path, PATHINFO_EXTENSION);
 	}
@@ -99,7 +76,7 @@ class File {
 	 * @param  string  $path
 	 * @return string
 	 */
-	public function type($path)
+	public static function type($path)
 	{
 		return filetype($path);
 	}
@@ -110,7 +87,7 @@ class File {
 	 * @param  string  $file
 	 * @return int
 	 */
-	public function size($path)
+	public static function size($path)
 	{
 		return filesize($path);
 	}
@@ -121,7 +98,7 @@ class File {
 	 * @param  string  $path
 	 * @return int
 	 */
-	public function modified($path)
+	public static function modified($path)
 	{
 		return filemtime($path);
 	}
@@ -134,7 +111,7 @@ class File {
 	 * @param  array   $files
 	 * @return bool
 	 */
-	public function upload($key, $path, $files)
+	public static function upload($key, $path, $files)
 	{
 		return move_uploaded_file($files[$key]['tmp_name'], $path);
 	}
@@ -153,11 +130,13 @@ class File {
 	 * @param  string  $default
 	 * @return string
 	 */
-	public function mime($extension, $default = 'application/octet-stream')
+	public static function mime($extension, $default = 'application/octet-stream')
 	{
-		if ( ! array_key_exists($extension, $this->mimes)) return $default;
+		$mimes = Config::get('mimes');
 
-		return (is_array($this->mimes[$extension])) ? $this->mimes[$extension][0] : $this->mimes[$extension];
+		if ( ! array_key_exists($extension, $mimes)) return $default;
+
+		return (is_array($mimes[$extension])) ? $mimes[$extension][0] : $mimes[$extension];
 	}
 
 	/**
@@ -177,13 +156,15 @@ class File {
 	 * @param  string        $path
 	 * @return bool
 	 */
-	public function is($extensions, $path)
+	public static function is($extensions, $path)
 	{
+		$mimes = Config::get('mimes');
+
 		foreach ((array) $extensions as $extension)
 		{
 			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 
-			if (isset($this->mimes[$extension]) and in_array((array) $this->mimes[$extension])) return true;
+			if (isset($mimes[$extension]) and in_array((array) $mimes[$extension])) return true;
 		}
 
 		return false;

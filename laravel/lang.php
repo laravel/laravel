@@ -1,65 +1,5 @@
 <?php namespace Laravel;
 
-class Lang_Factory {
-
-	/**
-	 * The configuration manager instance.
-	 *
-	 * @var Config
-	 */
-	protected $config;
-
-	/**
-	 * The paths containing the language files.
-	 *
-	 * @var array
-	 */
-	protected $paths;
-
-	/**
-	 * Create a new language factory instance.
-	 *
-	 * Note: The entire configuration manager is used in case the default language
-	 *       is changed during the course of a request to the application.
-	 *
-	 * @param  Config  $config
-	 * @param  array   $paths
-	 * @return void
-	 */
-	public function __construct(Config $config, $paths)
-	{
-		$this->paths = $paths;
-		$this->config = $config;
-	}
-
-	/**
-	 * Begin retrieving a language line.
-	 *
-	 * <code>
-	 *		// Begin retrieving a language line
-	 *		$lang = Lang::line('messages.welcome');
-	 *
-	 *		// Begin retrieving a language line with replacements
-	 *		$lang = Lang::line('validation.required', array('attribute' => 'email'));
-	 *
-	 *		// Begin retrieving a language line in a given language
-	 *		$lang = Lang::line('messages.welcome', null, 'sp');
-	 * </code>
-	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
-	 * @param  string  $language
-	 * @return Lang
-	 */
-	public function line($key, $replacements = array(), $language = null)
-	{
-		$language = ( ! is_null($language)) $this->config->get('application.language') : $language;
-
-		return new Lang($key, (array) $replacements, $language, $this->paths);
-	}
-
-}
-
 class Lang {
 
 	/**
@@ -105,15 +45,26 @@ class Lang {
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
-	 * @param  array   $paths
 	 * @return void
 	 */
-	public function __construct($key, $replacements, $language, $paths)
+	protected function __construct($key, $replacements = array(), $language = null)
 	{
 		$this->key = $key;
-		$this->paths = $paths;
 		$this->language = $language;
 		$this->replacements = $replacements;
+	}
+
+	/**
+	 * Create a new language line instance.
+	 *
+	 * @param  string  $key
+	 * @param  array   $replacements
+	 * @param  string  $language
+	 * @return Lang
+	 */
+	public static function line($key, $replacements = array(), $language = null)
+	{
+		return new static($key, $replacements, $language);
 	}
 
 	/**
@@ -191,7 +142,7 @@ class Lang {
 
 		$language = array();
 
-		foreach ($this->paths as $directory)
+		foreach (array(SYS_LANG_PATH, LANG_PATH) as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
 			{

@@ -9,25 +9,7 @@ class Manager {
 	 *
 	 * @var array
 	 */
-	protected $connections = array();
-
-	/**
-	 * The configuration manager instance.
-	 *
-	 * @var Config
-	 */
-	protected $config;
-
-	/**
-	 * Create a new database manager instance.
-	 *
-	 * @param  Connector  $connector
-	 * @return void
-	 */
-	public function __construct(Config $config)
-	{
-		$this->config = $config;
-	}
+	protected static $connections = array();
 
 	/**
 	 * Get a database connection.
@@ -39,23 +21,23 @@ class Manager {
 	 * @param  string      $connection
 	 * @return Connection
 	 */
-	public function connection($connection = null)
+	public static function connection($connection = null)
 	{
-		if (is_null($connection)) $connection = $this->config->get('database.default');
+		if (is_null($connection)) $connection = Config::get('database.default');
 
-		if ( ! array_key_exists($connection, $this->connections))
+		if ( ! array_key_exists($connection, static::$connections))
 		{
-			$config = $this->config->get("database.connections.{$connection}");
+			$config = Config::get("database.connections.{$connection}");
 
 			if (is_null($config))
 			{
 				throw new \Exception("Database connection configuration is not defined for connection [$connection].");
 			}
 
-			$this->connections[$connection] = new Connection($this->connect($config), $config);
+			static::$connections[$connection] = new Connection(static::connect($config), $config);
 		}
 
-		return $this->connections[$connection];
+		return static::$connections[$connection];
 	}
 
 	/**
@@ -64,7 +46,7 @@ class Manager {
 	 * @param  array  $config
 	 * @return PDO
 	 */
-	protected function connect($config)
+	protected static function connect($config)
 	{
 		if (isset($config['connector'])) { return call_user_func($config['connector'], $config); }
 
@@ -96,9 +78,9 @@ class Manager {
 	 * @param  string          $connection
 	 * @return Queries\Query
 	 */
-	public function table($table, $connection = null)
+	public static function table($table, $connection = null)
 	{
-		return $this->connection($connection)->table($table);
+		return static::connection($connection)->table($table);
 	}
 
 	/**
@@ -106,9 +88,9 @@ class Manager {
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.
 	 */
-	public function __call($method, $parameters)
+	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array($this->connection(), $method), $parameters);
+		return call_user_func_array(array(static::connection(), $method), $parameters);
 	}
 
 }

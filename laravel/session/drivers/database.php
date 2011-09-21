@@ -1,5 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
+use Laravel\Config;
 use Laravel\Database\Connection;
 
 class Database implements Driver, Sweeper {
@@ -91,7 +92,7 @@ class Database implements Driver, Sweeper {
 	 */
 	private function table()
 	{
-		return $this->connection->table($this->config->get('session.table'));		
+		return $this->connection->table(Config::get('session.table'));		
 	}
 	
 }
