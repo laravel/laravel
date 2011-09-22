@@ -5,6 +5,17 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response.
 	 *
+	 * <code>
+	 *		// Create a redirect response to a location within the application
+	 *		return Redirect::to('user/profile');
+	 *
+	 *		// Create a redirect with a 301 status code
+	 *		return Redirect::to('user/profile', 301);
+	 *
+	 *		// Create a redirect response to a location outside of the application
+	 *		return Redirect::to('http://google.com');
+	 * </code>
+	 *
 	 * @param  string    $url
 	 * @param  int       $status
 	 * @param  bool      $https
@@ -34,6 +45,11 @@ class Redirect extends Response {
 	 *
 	 * This is useful for passing status messages or other temporary data to the next request.
 	 *
+	 * <code>
+	 *		// Create a redirect response and flash something to the session
+	 *		return Redirect::to('user/profile')->with('message', 'Welcome Back!');
+	 * </code>
+	 *
 	 * @param  string          $key
 	 * @param  mixed           $value
 	 * @return Response
@@ -52,6 +68,14 @@ class Redirect extends Response {
 
 	/**
 	 * Magic Method to handle creation of redirects to named routes.
+	 *
+	 * <code>
+	 *		// Create a redirect response to the "profile" named route
+	 *		return Redirect::to_profile();
+	 *
+	 *		// Create a redirect response to a named route using HTTPS
+	 *		return Redirect::to_secure_profile();
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
