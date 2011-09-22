@@ -1,23 +1,28 @@
 <?php namespace Laravel;
 
-// --------------------------------------------------------------
-// Bootstrap the core framework components.
-// --------------------------------------------------------------
+/**
+ * Bootstrap the core framework components like the IoC container, configuration
+ * class, and the class auto-loader. Once this file has run, the framework is
+ * essentially ready for use.
+ */
 require 'bootstrap/core.php';
 
-// --------------------------------------------------------------
-// Register the framework error handlers.
-// --------------------------------------------------------------
+/**
+ * Register the framework error handling methods and set the error_reporting levels.
+ * This file will register handlers for exceptions, errors, and shutdown.
+ */
 require SYS_PATH.'bootstrap/errors'.EXT;
 
-// --------------------------------------------------------------
-// Set the default timezone.
-// --------------------------------------------------------------
+/**
+ * Set the application's default timezone.
+ */
 date_default_timezone_set(Config::get('application.timezone'));
 
-// --------------------------------------------------------------
-// Load the session and session manager.
-// --------------------------------------------------------------
+/**
+ * Load the session and session manager instance. The session payload will be
+ * registered in the IoC container as an instance so it can be retrieved easily
+ * throughout the application.
+ */
 if (Config::get('session.driver') !== '')
 {
 	$session = $container->resolve('laravel.session.manager');
@@ -25,9 +30,12 @@ if (Config::get('session.driver') !== '')
 	$container->instance('laravel.session', $session->payload(Config::get('session')));
 }
 
-// --------------------------------------------------------------
-// Route the request and get the response from the route.
-// --------------------------------------------------------------
+/**
+ * Resolve the incoming request instance from the IoC container and route the
+ * request to the proper route in the application. If a route is found, the route
+ * will be called with the current requst instance. If no route is found, the 404
+ * response will be returned to the browser.
+ */
 $request = $container->resolve('laravel.request');
 
 list($method, $uri) = array($request->method(), $request->uri());
@@ -43,14 +51,18 @@ else
 	$response = Response::error('404');
 }
 
-// --------------------------------------------------------------
-// Stringify the response.
-// --------------------------------------------------------------
+/**
+ * Stringify the response. We need to force the response to be stringed before
+ * closing the session, since the developer may be using the session within their
+ * views, so we cannot age the session data until the view is rendered.
+ */
 $response->content = $response->render();
 
-// --------------------------------------------------------------
-// Close the session and write the session cookie.
-// --------------------------------------------------------------
+/**
+ * Close the session and write the active payload to persistent storage. The input
+ * for the current request is also flashed to the session so it will be available
+ * for the next request via the Input::old method.
+ */
 if (isset($session))
 {
 	$flash = array(Input::old_input => $container->resolve('laravel.input')->get());
@@ -58,7 +70,7 @@ if (isset($session))
 	$session->close($container->resolve('laravel.session'), Config::get('session'), $flash);
 }
 
-// --------------------------------------------------------------
-// Send the response to the browser.
-// --------------------------------------------------------------
+/**
+ * Finally, we can send the response to the browser.
+ */
 $response->send();
