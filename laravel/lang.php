@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class Lang {
 
@@ -103,13 +103,14 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
+		// If a language was passed to the method, we will let it override the default
 		if ( ! is_null($language)) $this->language = $language;
 
 		list($file, $line) = $this->parse($this->key);
 
 		if ( ! $this->load($file))
 		{
-			return ($default instanceof \Closure) ? call_user_func($default) : $default;
+			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
 		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);
@@ -123,7 +124,7 @@ class Lang {
 	}
 
 	/**
-	 * Parse a language key.
+	 * Parse a language key into its file and line segments.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -139,7 +140,7 @@ class Lang {
 	}
 
 	/**
-	 * Load a language file.
+	 * Load all of the language lines from a language file.
 	 *
 	 * @param  string  $file
 	 * @return bool
@@ -150,6 +151,9 @@ class Lang {
 
 		$language = array();
 
+		// Language files cascade. Typically, the system language array is loaded first,
+		// followed by the application array. This allows the convenient overriding of the
+		// system language files (like validation) by the application developer.
 		foreach ($this->paths as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
@@ -158,6 +162,9 @@ class Lang {
 			}
 		}
 
+		// If language lines were actually found, they will be loaded into the array
+		// containing all of the lines for all languages and files. The array is
+		// keyed by the language and the file name.
 		if (count($language) > 0) static::$lines[$this->language.$file] = $language;
 		
 		return isset(static::$lines[$this->language.$file]);		
@@ -166,9 +173,6 @@ class Lang {
 	/**
 	 * Get the string content of the language line.
 	 */
-	public function __toString()
-	{
-		return $this->get();
-	}
+	public function __toString() { return $this->get(); }
 
 }
