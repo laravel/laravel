@@ -21,6 +21,14 @@ class IoC {
 
 	/**
 	 * Magic Method for calling methods on the active container instance.
+	 *
+	 * <code>
+	 *		// Call the "resolve" method on the active container
+	 *		$instance = IoC::resolve('laravel.routing.router');
+	 *
+	 *		// Call the "instance" method on the active container
+	 *		IoC::instance('mailer', new Mailer);
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -58,6 +66,14 @@ class Container {
 
 	/**
 	 * Register an object and its resolver.
+	 *
+	 * The IoC container instance is always passed to the resolver, allowing the
+	 * nested resolution of other objects from the container.
+	 *
+	 * <code>
+	 *		// Register an object and its resolver
+	 *		IoC::container()->register('mailer', function($c) {return new Mailer;});
+	 * </code>
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
@@ -100,6 +116,11 @@ class Container {
 	 * This method allows you to register an already existing object instance
 	 * with the container to be managed as a singleton instance.
 	 *
+	 * <code>
+	 *		// Register an instance as a singleton in the container
+	 *		IoC::container()->instance('mailer', new Mailer);
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  mixed   $instance
 	 * @return void
@@ -110,7 +131,12 @@ class Container {
 	}
 
 	/**
-	 * Resolve an object.
+	 * Resolve an object instance from the container.
+	 *
+	 * <code>
+	 *		// Get an instance of the "mailer" object registered in the container
+	 *		$mailer = IoC::container()->resolve('mailer');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @return mixed
@@ -127,16 +153,6 @@ class Container {
 		$object = call_user_func($this->registry[$name]['resolver'], $this);
 
 		return (isset($this->registry[$name]['singleton'])) ? $this->singletons[$name] = $object : $object;
-	}
-
-	/**
-	 * Magic Method for resolving classes out of the IoC container.
-	 */
-	public function __get($key)
-	{
-		if ($this->registered($key)) return $this->resolve($key);
-
-		throw new \Exception("Attempting to resolve undefined class [$key].");
 	}
 
 }
