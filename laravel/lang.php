@@ -59,6 +59,14 @@ class Lang {
 	/**
 	 * Create a new language line instance.
 	 *
+	 * <code>
+	 *		// Create a new language line instance for a given line
+	 *		$line = Lang::line('validation.required');
+	 *
+	 *		// Specify some replacements for the language line
+	 *		$line = Lang::line('validation.required', array('attribute' => 'email'));
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
@@ -73,7 +81,21 @@ class Lang {
 	}
 
 	/**
-	 * Get the language line.
+	 * Get the language line as a string.
+	 *
+	 * If a language is specified, it should correspond to a directory within
+	 * your application language directory.
+	 *
+	 * <code>
+	 *		// Get a language line
+	 *		$line = Lang::line('validation.required')->get();
+	 *
+	 *		// Get a language line in a specified language
+	 *		$line = Lang::line('validation.required')->get('sp');
+	 *
+	 *		// Return a default value if the line doesn't exist
+	 *		$line = Lang::line('validation.required', null, 'Default');
+	 * </code>
 	 *
 	 * @param  string  $language
 	 * @param  string  $default

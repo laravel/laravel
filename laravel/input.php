@@ -39,7 +39,7 @@ class Input {
 	/**
 	 * Get all of the input data for the request.
 	 *
-	 * This method returns a merged array containing $input->get() and $input->files().
+	 * This method returns a merged array containing Input::get() and Input::files().
 	 *
 	 * @return array
 	 */
@@ -50,6 +50,8 @@ class Input {
 
 	/**
 	 * Determine if the input data contains an item.
+	 *
+	 * If the item is in the input array, but is an empty string, false will be returned.
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -63,6 +65,14 @@ class Input {
 	 * Get an item from the input data.
 	 *
 	 * This method should be used for all request methods (GET, POST, PUT, and DELETE).
+	 *
+	 * <code>
+	 *		// Get the "email" item from the input array
+	 *		$email = Input::get('email');
+	 *
+	 *		// Return a default value if the specified item doesn't exist
+	 *		$email = Input::get('name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -87,6 +97,14 @@ class Input {
 	/**
 	 * Get input data from the previous request.
 	 *
+	 * <code>
+	 *		// Get the "email" item from the old input
+	 *		$email = Input::old('email');
+	 *
+	 *		// Return a default value if the specified item doesn't exist
+	 *		$email = Input::old('name', 'Taylor');
+	 * </code>
+	 *
 	 * @param  string          $key
 	 * @param  mixed           $default
 	 * @return string
@@ -106,6 +124,14 @@ class Input {
 	/**
 	 * Get an item from the uploaded file data.
 	 *
+	 * <code>
+	 *		// Get the array of information for the "picture" upload
+	 *		$picture = Input::file('picture');
+	 *
+	 *		// Get a specific element from the file array
+	 *		$size = Input::file('picture.size');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return array
@@ -119,6 +145,11 @@ class Input {
 	 * Move an uploaded file to permanent storage.
 	 *
 	 * This method is simply a convenient wrapper around move_uploaded_file.
+	 *
+	 * <code>
+	 *		// Move the "picture" item from the $_FILES array to a permanent location
+	 *		Input::upload('picture', 'path/to/storage/picture.jpg');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $path
