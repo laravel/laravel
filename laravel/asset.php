@@ -12,6 +12,14 @@ class Asset {
 	/**
 	 * Get an asset container instance.
 	 *
+	 * <code>
+	 *		// Get the default asset container
+	 *		$container = Asset::container();
+	 *
+	 *		// Get a named asset container
+	 *		$container = Asset::container('footer');
+	 * </code>
+	 *
 	 * @param  string            $container
 	 * @return Asset_Container
 	 */
@@ -27,6 +35,14 @@ class Asset {
 
 	/**
 	 * Magic Method for calling methods on the default Asset container.
+	 *
+	 * <code>
+	 *		// Call the "styles" method on the default container
+	 *		echo Asset::styles();
+	 *
+	 *		// Call the "add" method on the default container
+	 *		Asset::add('jquery', 'js/jquery.js');
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -69,6 +85,17 @@ class Asset_Container {
 	 * The extension of the asset source will be used to determine the type of
 	 * asset being registered (CSS or JavaScript). If you are using a non-standard
 	 * extension, you may use the style or script methods to register assets.
+	 *
+	 * <code>
+	 *		// Add an asset to the container
+	 *		Asset::container()->add('jquery', 'js/jquery.js');
+	 *
+	 *		// Add an asset that has dependencies on other assets
+	 *		Asset::add('jquery', 'js/jquery.js', 'jquery-ui');
+	 *
+	 *		// Add an asset that should have attributes applied to its tags
+	 *		Asset::add('jquery', 'js/jquery.js', null, array('defer'));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $source
@@ -133,6 +160,8 @@ class Asset_Container {
 	protected function register($type, $name, $source, $dependencies, $attributes)
 	{
 		$dependencies = (array) $dependencies;
+
+		$attributes = (array) $attributes;
 
 		$this->assets[$type][$name] = compact('source', 'dependencies', 'attributes');
 	}
