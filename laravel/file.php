@@ -104,20 +104,30 @@ class File {
 	}
 
 	/**
-	 * Move an uploaded file to permanenet storage.
+	 * Move an uploaded file to permanent storage.
 	 *
 	 * @param  string  $key
 	 * @param  string  $path
 	 * @param  array   $files
 	 * @return bool
 	 */
-	public static function upload($key, $path, $files)
+	public static function upload($key, $path, $files = null)
 	{
+		if (is_null($files)) $files = $_FILES;
+
 		return move_uploaded_file($files[$key]['tmp_name'], $path);
 	}
 
 	/**
 	 * Get a file MIME type by extension.
+	 *
+	 * <code>
+	 *		// Determine the MIME type for the .tar extension
+	 *		$mime = File::mime('tar');
+	 *
+	 *		// Return a default value if the MIME can't be determined
+	 *		$mime = File::mime('ext', 'application/octet-stream');
+	 * </code>
 	 *
 	 * @param  string  $extension
 	 * @param  string  $default
@@ -137,6 +147,14 @@ class File {
 	 *
 	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
 	 *
+	 * <code>
+	 *		// Determine if a file is a JPG image
+	 *		$jpg = File::is('jpg', 'path/to/file.jpg');
+	 *
+	 *		// Determine if a file is one of a given list of types
+	 *		$image = File::is(array('jpg', 'png', 'gif'), 'path/to/file');
+	 * </code>
+	 *
 	 * @param  array|string  $extension
 	 * @param  string        $path
 	 * @return bool
@@ -153,29 +171,6 @@ class File {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Get the lines surrounding a given line in a file.
-	 *
-	 * @param  string  $path
-	 * @param  int     $line
-	 * @param  int     $padding
-	 * @return array
-	 */
-	public static function snapshot($path, $line, $padding = 5)
-	{
-		if ( ! file_exists($path)) return array();
-
-		$file = file($path, FILE_IGNORE_NEW_LINES);
-
-		array_unshift($file, '');
-
-		if (($start = $line - $padding) < 0) $start = 0;
-
-		if (($length = ($line - $start) + $padding + 1) < 0) $length = 0;
-
-		return array_slice($file, $start, $length, true);
 	}
 
 }

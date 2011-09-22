@@ -83,7 +83,9 @@ class Cookie {
 
 		if ($minutes < 0) unset($_COOKIE[$name]);
 
-		$time = ($minutes != 0) ? time() + ($minutes * 60) : 0;
+		// Since PHP needs the cookie lifetime in seconds, we will calculate it here.
+		// A "0" lifetime means the cookie expires when the browser closes.
+		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
 		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
 	}

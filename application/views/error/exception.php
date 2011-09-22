@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Laravel - Uncaught Exception</title>
+		<title>Laravel - <?php echo $severity; ?></title>
 
 		<style>
 			@import url(http://fonts.googleapis.com/css?family=Ubuntu);
@@ -48,16 +48,6 @@
 				line-height: 25px;
 				margin: 10px 0;
 			}
-
-			#main pre {
-				font-size: 12px;
-				background-color: #f0f0f0;
-				border-left: 1px solid #d8d8d8;
-				border-top: 1px solid #d8d8d8;
-				border-radius: 5px;
-				padding: 10px;
-				white-space: pre-wrap;
-			}
 		</style>
 	</head>
 	<body>
@@ -71,19 +61,6 @@
 			<h3>Stack Trace</h3>
 
 			<pre><?php echo $exception->getTraceAsString(); ?></pre>
-
-			<h3>Snapshot</h3>
-
-			<?php
-				$lines = array();
-
-				foreach (File::snapshot($exception->getFile(), $exception->getLine()) as $num => $context)
-				{
-					$lines[] = $num.': '.$context;
-				}
-			?>
-
-			<pre><?php echo htmlentities(implode("\n", $lines)); ?></pre>
 		</div>
 	</body>
 </html>
