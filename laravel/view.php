@@ -54,7 +54,7 @@ class View_Factory {
 	 * @param  array   $data
 	 * @return View
 	 */
-	protected function of($name, $data = array())
+	public function of($name, $data = array())
 	{
 		if ( ! is_null($view = $this->composer->name($name)))
 		{
@@ -74,13 +74,9 @@ class View_Factory {
 	{
 		$view = str_replace('.', '/', $view);
 
-		if (file_exists($path = $this->path.$view.BLADE_EXT))
+		foreach (array(BLADE_EXT, EXT) as $extension)
 		{
-			return $path;
-		}
-		elseif (file_exists($path = $this->path.$view.EXT))
-		{
-			return $path;
+			if (file_exists($path = $this->path.$view.$extension)) return $path;
 		}
 
 		throw new \Exception('View ['.$view.'] does not exist.');
@@ -219,6 +215,14 @@ class View {
 	 * within your application views directory. Dots or slashes may used to
 	 * reference views within sub-directories.
 	 *
+	 * <code>
+	 *		// Create a new view instance
+	 *		$view = View::make('home.index');
+	 *
+	 *		// Create a new view instance with bound data
+	 *		$view = View::make('home.index', array('name' => 'Taylor'));
+	 * </code>
+	 *
 	 * @param  string  $view
 	 * @param  array   $data
 	 * @return View
@@ -233,11 +237,19 @@ class View {
 	 *
 	 * View names are defined in the application composers file.
 	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of('layout');
+	 *
+	 *		// Create an instance of the "layout" view with bound data
+	 *		$view = View::of('layout', array('name' => 'Taylor'));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  array   $data
 	 * @return View
 	 */
-	protected function of($name, $data = array())
+	public static function of($name, $data = array())
 	{
 		return IoC::container()->resolve('laravel.view')->of($name, $data);
 	}

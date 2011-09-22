@@ -12,7 +12,7 @@ class Str {
 	{
 		if (function_exists('mb_strtolower'))
 		{
-			return mb_strtolower($value, static::encoding());
+			return mb_strtolower($value, Config::get('application.encoding'));
 		}
 
 		return strtolower($value);
@@ -44,7 +44,7 @@ class Str {
 	{
 		if (function_exists('mb_convert_case'))
 		{
-			return mb_convert_case($value, MB_CASE_TITLE, static::encoding());
+			return mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding'));
 		}
 
 		return ucwords(strtolower($value));
@@ -60,7 +60,7 @@ class Str {
 	{
 		if (function_exists('mb_strlen'))
 		{
-			return mb_strlen($value, static::encoding());
+			return mb_strlen($value, Config::get('application.encoding'));
 		}
 
 		return strlen($value);
@@ -97,16 +97,6 @@ class Str {
 		$pool = ($type == 'alpha_num') ? '0123456789'.$alpha : $alpha;
 
 		return implode('', array_map(function() use ($pool) { return $pool[mt_rand(0, strlen($pool) - 1)]; }, range(0, $length - 1)));
-	}
-
-	/**
-	 * Get the application encoding from the configuration class.
-	 *
-	 * @return string
-	 */
-	protected static function encoding()
-	{
-		return Config::get('application.encoding');
 	}
 
 }

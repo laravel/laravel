@@ -7,6 +7,11 @@ class URL {
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
 	 *
+	 * <code>
+	 *		// Create a URL to a location within the application
+	 *		$url = URL::to('user/profile');
+	 * </code>
+	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
@@ -57,6 +62,14 @@ class URL {
 	 * parameter to the method. The values of this array will be used to fill the
 	 * wildcard segments of the route URI.
 	 *
+	 * <code>
+	 *		// Create a URL to the "profile" named route
+	 *		$url = URL::to_route('profile');
+	 *
+	 *		// Create a URL to the "profile" named route with wildcard parameters
+	 *		$url = URL::to_route('profile', array($username));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @param  bool    $https
@@ -70,9 +83,9 @@ class URL {
 
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
-			// Spin through each route parameter and replace the route wildcard segment
-			// with the corresponding parameter passed to the method.
-			foreach ($parameters as $parameter)
+			// Spin through each route parameter and replace the route wildcard
+			// segment with the corresponding parameter passed to the method.
+			foreach ((array) $parameters as $parameter)
 			{
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
@@ -100,6 +113,14 @@ class URL {
 	/**
 	 * Generate a URL friendly "slug".
 	 *
+	 * <code>
+	 *		// Returns "this-is-my-blog-post"
+	 *		$slug = URL::slug('This is my blog post!');
+	 *
+	 *		// Returns "this_is_my_blog_post"
+	 *		$slug = URL::slug('This is my blog post!', '_');
+	 * </code>
+	 *
 	 * @param  string  $title
 	 * @param  string  $separator
 	 * @return string
@@ -119,6 +140,17 @@ class URL {
 
 	/**
 	 * Magic Method for dynamically creating URLs to named routes.
+	 *
+	 * <code>
+	 *		// Create a URL to the "profile" named route
+	 *		$url = URL::to_profile();
+	 *
+	 *		// Create a URL to the "profile" named route with wildcard segments
+	 *		$url = URL::to_profile(array($username));
+	 *
+	 *		// Create a URL to the "profile" named route using HTTPS
+	 *		$url = URL::to_secure_profile();
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

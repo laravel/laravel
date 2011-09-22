@@ -56,6 +56,14 @@ class URI {
 	/**
 	 * Get a given URI segment from the URI for the current request.
 	 *
+	 * <code>
+	 *		// Get the first URI segment for the request
+	 *		$first = URI::segment(1);
+	 *
+	 *		// Return a default value if the URI segment doesn't exist
+	 *		$segment = URI::segment(3, 'Default');
+	 * </code>
+	 *
 	 * @param  int     $segment
 	 * @param  mixed   $default
 	 * @return string
