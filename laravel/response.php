@@ -7,28 +7,28 @@ class Response {
 	 *
 	 * @var mixed
 	 */
-	public $content;
+	protected $content;
 
 	/**
 	 * The HTTP status code of the response.
 	 *
 	 * @var int
 	 */
-	public $status;
+	protected $status;
 
 	/**
 	 * The response headers.
 	 *
 	 * @var array
 	 */
-	public $headers = array();
+	protected $headers = array();
 
 	/**
 	 * HTTP status codes.
 	 *
 	 * @var array
 	 */
-	private $statuses = array(
+	protected $statuses = array(
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		200 => 'OK',
@@ -95,6 +95,17 @@ class Response {
 	/**
 	 * Create a new response instance.
 	 *
+	 * <code>
+	 *		// Create a response instance with string content
+	 *		return Response::make(json_encode($user));
+	 *
+	 *		// Create a response instance with a given status
+	 *		return Response::make('Not Found', 404);
+	 *
+	 *		// Create a response with some custom headers
+	 *		return Respone::make(json_encode($user), 200, array('content-type' => 'application/json'));
+	 * </code>
+	 *
 	 * @param  mixed     $content
 	 * @param  int       $status
 	 * @param  array     $headers
@@ -108,6 +119,14 @@ class Response {
 	/**
 	 * Create a new response instance containing a view.
 	 *
+	 * <code>
+	 *		// Create a response instance with a view
+	 *		return Response::view('home.index');
+	 *
+	 *		// Create a response instance with a view and data
+	 *		return Response::view('home.index', array('name' => 'Taylor'));
+	 * </code>
+	 *
 	 * @param  string    $view
 	 * @param  array     $data
 	 * @return Response
@@ -119,6 +138,14 @@ class Response {
 
 	/**
 	 * Create a new response instance containing a named view.
+	 *
+	 * <code>
+	 *		// Create a response with the "layout" named view
+	 *		return Response::with('layout');
+	 *
+	 *		// Create a response with the "layout" named view and data
+	 *		return Response::with('layout', array('name' => 'Taylor'));
+	 * </code>
 	 *
 	 * @param  string    $name
 	 * @param  array     $data
@@ -136,6 +163,14 @@ class Response {
 	 *
 	 * Note: The specified error code should correspond to a view in your views/error directory.
 	 *
+	 * <code>
+	 *		// Create a 404 response
+	 *		return Response::error('404');
+	 *
+	 *		// Create a 404 response with data
+	 *		return Response::error('404', array('message' => 'Not Found'));
+	 * </code>
+	 *
 	 * @param  int       $code
 	 * @param  array     $data
 	 * @return Response
@@ -147,6 +182,14 @@ class Response {
 
 	/**
 	 * Create a new download response instance.
+	 *
+	 * <code>
+	 *		// Create a download response to a given file
+	 *		return Response::download('path/to/file.jpg');
+	 *
+	 *		// Create a download response with a given file name
+	 *		return Response::download('path/to/file.jpg', 'your_file.jpg');
+	 * </code>
 	 *
 	 * @param  string    $path
 	 * @param  string    $name
@@ -219,6 +262,11 @@ class Response {
 	/**
 	 * Add a header to the response.
 	 *
+	 * <code>
+	 *		// Add a header to a response instance
+	 *		return Response::make('foo')->header('content-type', 'application/json');
+	 * </code>
+	 *
 	 * @param  string    $name
 	 * @param  string    $value
 	 * @return Response
@@ -243,6 +291,14 @@ class Response {
 
 	/**
 	 * Magic Method for handling the dynamic creation of Responses containing named views.
+	 *
+	 * <code>
+	 *		// Create a response instance with the "layout" named view
+	 *		return Response::with_layout();
+	 *
+	 *		// Create a response instance with a named view and data
+	 *		return Response::with_layout(array('name' => 'Taylor'));
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
