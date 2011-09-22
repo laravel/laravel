@@ -16,7 +16,15 @@ class HTML {
 	}
 
 	/**
-	 * Generate a JavaScript reference.
+	 * Generate a link to a JavaScript file.
+	 *
+	 * <code>
+	 *		// Generate a link to a JavaScript file
+	 *		echo HTML::script('js/jquery.js');
+	 *
+	 *		// Generate a link to a JavaScript file and add some attributes
+	 *		echo HTML::script('js/jquery.js', array('defer'));
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
@@ -30,9 +38,17 @@ class HTML {
 	}
 
 	/**
-	 * Generate a CSS reference.
+	 * Generate a link to a CSS file.
 	 *
 	 * If no media type is selected, "all" will be used.
+	 *
+	 * <code>
+	 *		// Generate a link to a CSS file
+	 *		echo HTML::style('css/common.css');
+	 *
+	 *		// Generate a link to a CSS file and add some attributes
+	 *		echo HTML::style('css/common.css', array('media' => 'print'));
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
@@ -61,6 +77,14 @@ class HTML {
 
 	/**
 	 * Generate a HTML link.
+	 *
+	 * <code>
+	 *		// Generate a link to a location within the application
+	 *		echo HTML::link('user/profile', 'User Profile');
+	 *
+	 *		// Generate a link to a location outside of the application
+	 *		echo HTML::link('http://google.com', 'Google');
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  string  $title
@@ -121,6 +145,14 @@ class HTML {
 	 * Generate an HTML link to a route.
 	 *
 	 * An array of parameters may be specified to fill in URI segment wildcards.
+	 *
+	 * <code>
+	 *		// Generate a link to the "profile" named route
+	 *		echo HTML::link_to_route('profile', 'Profile');
+	 *
+	 *		// Generate a link to the "profile" route and add some parameters
+	 *		echo HTML::link_to_route('profile', 'Profile', array('taylor'));
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $title
@@ -248,7 +280,7 @@ class HTML {
 	{
 		$html = array();
 
-		foreach ($attributes as $key => $value)
+		foreach ((array) $attributes as $key => $value)
 		{
 			// Assume numeric-keyed attributes to have the same key and value.
 			// Example: required="required", autofocus="autofocus", etc.
@@ -269,7 +301,7 @@ class HTML {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function obfuscate($value)
+	protected static function obfuscate($value)
 	{
 		$safe = '';
 
@@ -300,6 +332,17 @@ class HTML {
 	 * Magic Method for handling dynamic static methods.
 	 *
 	 * This method primarily handles dynamic calls to create links to named routes.
+	 *
+	 * <code>
+	 *		// Generate a link to the "profile" named route
+	 *		echo HTML::link_to_profile('Profile');
+	 *
+	 *		// Generate a link to the "profile" route and add some parameters
+	 *		echo HTML::link_to_profile('Profile', array('taylor'));
+	 *
+	 *		// Generate a link to the "profile" named route using HTTPS
+	 *		echo HTML::link_to_secure_profile('Profile');
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
