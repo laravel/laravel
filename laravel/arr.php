@@ -1,11 +1,19 @@
-<?php namespace Laravel;
-
-use Closure;
+<?php namespace Laravel; use Closure;
 
 class Arr {
 
 	/**
 	 * Get an item from an array.
+	 *
+	 * "Dot" notation may be used to dig deep into the array.
+	 *
+	 * <code>
+	 *		// Get the $array['user']['name'] value from the array
+	 *		$name = Arr::get($array, 'user.name');
+	 *
+	 *		// Return a default from if the specified item doesn't exist
+	 *		$name = Arr::get($array, 'user.name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  array   $array
 	 * @param  string  $key

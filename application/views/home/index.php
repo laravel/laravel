@@ -73,7 +73,7 @@
 
 			<p>
 				You have successfully installed the Laravel framework. Laravel is a simple framework
-				to help web artisans create beautiful, creative applications using elegant, expressive
+				that helps web artisans create beautiful, creative applications using elegant, expressive
 				syntax. You'll love using it.
 			</p>
 
