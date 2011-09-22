@@ -15,9 +15,25 @@ class Form {
 	/**
 	 * Open a HTML form.
 	 *
-	 * Note: If PUT or DELETE is specified as the form method, a hidden input field will be generated
-	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
-	 *       hidden field will allow us to "spoof" PUT and DELETE requests.
+	 * If PUT or DELETE is specified as the form method, a hidden input field will be generated
+	 * containing the request method. PUT and DELETE are not supported by HTML forms, so the
+	 * hidden field will allow us to "spoof" PUT and DELETE requests.
+	 *
+	 * Unless specified, the "accept-charset" attribute will be set to the application encoding.
+	 *
+	 * <code>
+	 *		// Open a "POST" form to the current request URI
+	 *		echo Form::open();
+	 *
+	 *		// Open a "POST" form to a given URI
+	 *		echo Form::open('user/profile');
+	 *
+	 *		// Open a "PUT" form to a given URI
+	 *		echo Form::open('user/profile', 'put');
+	 *
+	 *		// Open a form that has HTML attributes
+	 *		echo Form::open('user/profile', 'post', array('class' => 'profile'));
+	 * </code>
 	 *
 	 * @param  string   $action
 	 * @param  string   $method
@@ -149,6 +165,11 @@ class Form {
 	/**
 	 * Create a HTML label element.
 	 *
+	 * <code>
+	 *		// Create a label for the "email" input element
+	 *		echo Form::label('email', 'E-Mail Address');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
@@ -166,6 +187,14 @@ class Form {
 	 *
 	 * If an ID attribute is not specified and a label has been generated matching the input
 	 * element name, the label name will be used as the element ID.
+	 *
+	 * <code>
+	 *		// Create a "text" input element named "email"
+	 *		echo Form::input('text', 'email');
+	 *
+	 *		// Create an input element with a specified default value
+	 *		echo Form::input('text', 'email', 'example@gmail.com');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $value
@@ -318,6 +347,14 @@ class Form {
 	/**
 	 * Create a HTML select element.
 	 *
+	 * <code>
+	 *		// Create a HTML select element filled with options
+	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'));
+	 *
+	 *		// Create a select element with a default selected value
+	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), 'L');
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  array   $options
 	 * @param  string  $selected
@@ -343,6 +380,14 @@ class Form {
 	/**
 	 * Create a HTML checkbox input element.
 	 *
+	 * <code>
+	 *		// Create a checkbox element
+	 *		echo Form::checkbox('terms', 'yes');
+	 *
+	 *		// Create a checkbox that is selected by default
+	 *		echo Form::checkbox('terms', 'yes', true);
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  bool    $checked
@@ -356,6 +401,14 @@ class Form {
 
 	/**
 	 * Create a HTML radio button input element.
+	 *
+	 * <code>
+	 *		// Create a radio button element
+	 *		echo Form::radio('drinks', 'Milk');
+	 *
+	 *		// Create a radio button that is selected by default
+	 *		echo Form::radio('drinks', 'Milk', true);
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -413,6 +466,13 @@ class Form {
 
 	/**
 	 * Create a HTML image input element.
+	 *
+	 * The URL::to_asset method will be called on the given URL.
+	 *
+	 * <code>
+	 *		// Create an image input element
+	 *		echo Form::image('img/submit.png');
+	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  array   $attributes

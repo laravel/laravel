@@ -52,6 +52,11 @@ return array(
 
 	'handler' => function($exception, $severity, $message, $config)
 	{
+		if ($config['log'])
+		{
+			call_user_func($config['logger'], $severity, $message);
+		}
+
 		if ($config['detail'])
 		{
 			$data = compact('exception', 'severity', 'message');
@@ -61,11 +66,6 @@ return array(
 		else
 		{
 			$response = Response::error('500');
-		}
-
-		if ($config['log'])
-		{
-			call_user_func($config['logger'], $severity, $message);
 		}
 
 		$response->send();
