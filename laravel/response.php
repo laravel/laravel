@@ -7,7 +7,7 @@ class Response {
 	 *
 	 * @var mixed
 	 */
-	protected $content;
+	public $content;
 
 	/**
 	 * The HTTP status code of the response.
