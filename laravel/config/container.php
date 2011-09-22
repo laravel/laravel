@@ -14,6 +14,12 @@ return array(
 	}),
 
 
+	'laravel.cookie' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new Cookie($_COOKIE);
+	}),
+
+
 	'laravel.crypter' => array('resolver' => function($c)
 	{
 		return new Security\Crypter(MCRYPT_RIJNDAEL_256, 'cbc', Config::get('application.key'));
@@ -23,6 +29,64 @@ return array(
 	'laravel.hasher' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Security\Hashing\Bcrypt(8, false);
+	}),
+
+
+	'laravel.input' => array('singleton' => true, 'resolver' => function($c)
+	{
+		$input = array();
+
+		switch ($c->resolve('laravel.request')->method())
+		{
+			case 'GET':
+				$input = $_GET;
+				break;
+
+			case 'POST':
+				$input = $_POST;
+				break;
+
+			case 'PUT':
+			case 'DELETE':
+				if ($c->resolve('laravel.request')->spoofed())
+				{
+					$input = $_POST;
+				}
+				else
+				{
+					parse_str(file_get_contents('php://input'), $input);
+				}
+		}
+
+		unset($input[Request::spoofer]);
+
+		return new Input($input, $_FILES);
+	}),
+
+
+	'laravel.request' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new Request($c->resolve('laravel.uri'), $_SERVER, $_POST);		
+	}),
+
+
+	'laravel.uri' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new URI($_SERVER);
+	}),
+
+
+	'laravel.view' => array('singleton' => true, 'resolver' => function($c)
+	{
+		require_once SYS_PATH.'view'.EXT;
+
+		return new View_Factory($c->resolve('laravel.composer'), VIEW_PATH);
+	}),
+
+
+	'laravel.composer' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new View_Composer(require APP_PATH.'composers'.EXT);
 	}),
 
 	/*
@@ -97,7 +161,7 @@ return array(
 
 	'laravel.session.id' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return Cookie::get('laravel_session');
+		return $c->resolve('laravel.cookie')->get('laravel_session');
 	}),
 
 
@@ -111,7 +175,7 @@ return array(
 
 	'laravel.session.transporter' => array('resolver' => function($c)
 	{
-		return new Session\Transporters\Cookie;
+		return new Session\Transporters\Cookie($c->resolve('laravel.cookie'));
 	}),
 
 
@@ -123,7 +187,7 @@ return array(
 
 	'laravel.session.cookie' => array('resolver' => function($c)
 	{
-		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'));
+		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'), $c->resolve('laravel.cookie'));
 	}),
 
 

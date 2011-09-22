@@ -33,6 +33,10 @@ abstract class Facade {
 }
 
 class Auth extends Facade { public static $resolve = 'laravel.auth'; }
+class Cookie extends Facade { public static $resolve = 'laravel.cookie'; }
 class Crypter extends Facade { public static $resolve = 'laravel.crypter'; }
 class Hasher extends Facade { public static $resolve = 'laravel.hasher'; }
+class Input extends Facade { public static $resolve = 'laravel.input'; }
+class Request extends Facade { public static $resolve = 'laravel.request'; }
 class Session extends Facade { public static $resolve = 'laravel.session'; }
+class URI extends Facade { public static $resolve = 'laravel.uri'; }

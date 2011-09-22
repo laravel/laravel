@@ -457,7 +457,7 @@ class Validator {
 			// the default error message for the appropriate units.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
-				return (array_key_exists($attribute, Input::files()))
+				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->files()))
                                    ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
                                    : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
 			}

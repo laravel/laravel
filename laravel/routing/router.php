@@ -67,13 +67,12 @@ class Router {
 	/**
 	 * Search the routes for the route matching a request method and URI.
 	 *
-	 * If no route can be found, the application controllers will be searched.
-	 *
-	 * @param  string  $method
-	 * @param  string  $uri
+	 * @param  Request  $request
+	 * @param  string   $method
+	 * @param  string   $uri
 	 * @return Route
 	 */
-	public function route($method, $uri)
+	public function route(Request $request, $method, $uri)
 	{
 		$routes = $this->loader->load($uri);
 
@@ -85,7 +84,7 @@ class Router {
 		// no need to spin through all of the routes.
 		if (isset($routes[$destination]))
 		{
-			return Request::$route = new Route($destination, $routes[$destination], array());
+			return $request->route = new Route($destination, $routes[$destination], array());
 		}
 
 		foreach ($routes as $keys => $callback)
@@ -101,19 +100,17 @@ class Router {
 
 					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
 					{
-						return Request::$route = new Route($keys, $callback, $this->parameters($destination, $key));
+						return $request->route = new Route($keys, $callback, $this->parameters($destination, $key));
 					}
 				}				
 			}
 		}
 
-		return Request::$route = $this->route_to_controller($method, $uri, $destination);
+		return $request->route = $this->route_to_controller($method, $uri, $destination);
 	}
 
 	/**
 	 * Attempt to find a controller for the incoming request.
-	 *
-	 * If no corresponding controller can be found, NULL will be returned.
 	 *
 	 * @param  string  $method
 	 * @param  string  $uri

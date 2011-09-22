@@ -45,11 +45,13 @@ class Lang {
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
+	 * @param  array   $paths
 	 * @return void
 	 */
-	protected function __construct($key, $replacements = array(), $language = null)
+	protected function __construct($key, $replacements = array(), $language = null, $paths = array())
 	{
 		$this->key = $key;
+		$this->paths = $paths;
 		$this->language = $language;
 		$this->replacements = $replacements;
 	}
@@ -60,28 +62,18 @@ class Lang {
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
+	 * @param  array   $paths
 	 * @return Lang
 	 */
-	public static function line($key, $replacements = array(), $language = null)
+	public static function line($key, $replacements = array(), $language = null, $paths = array())
 	{
-		return new static($key, $replacements, $language);
+		if (count($paths) == 0) $paths = array(SYS_LANG_PATH, LANG_PATH);
+
+		return new static($key, $replacements, $language, $paths);
 	}
 
 	/**
 	 * Get the language line.
-	 *
-	 * A default value may also be specified, which will be returned in the language line doesn't exist.
-	 *
-	 * <code>
-	 *		// Retrieve a language line in the default language
-	 *		echo Lang::line('validation.required')->get();
-	 *
-	 *		// Retrieve a language line for a given language
-	 *		echo Lang::line('validation.required')->get('sp');
-	 *
-	 *		// Retrieve a language line and return "Fred" if it doesn't exist
-	 *		echo Lang::line('validation.required')->get('en', 'Fred');
-	 * </code>
 	 *
 	 * @param  string  $language
 	 * @param  string  $default
@@ -111,10 +103,6 @@ class Lang {
 	/**
 	 * Parse a language key.
 	 *
-	 * Language keys follow a {file}.{key} convention. If a specific language key is not
-	 * specified, an exception will be thrown. Setting entire language files at run-time
-	 * is not currently supported.
-	 *
 	 * @param  string  $key
 	 * @return array
 	 */
@@ -131,8 +119,6 @@ class Lang {
 	/**
 	 * Load a language file.
 	 *
-	 * If the language file has already been loaded, it will not be loaded again.
-	 *
 	 * @param  string  $file
 	 * @return bool
 	 */
@@ -142,7 +128,7 @@ class Lang {
 
 		$language = array();
 
-		foreach (array(SYS_LANG_PATH, LANG_PATH) as $directory)
+		foreach ($this->paths as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
 			{
@@ -157,15 +143,6 @@ class Lang {
 
 	/**
 	 * Get the string content of the language line.
-	 *
-	 * This provides a convenient mechanism for displaying language line in views without
-	 * using the "get" method on the language instance.
-	 *
-	 * <code>
-	 *		// Display a language line by casting it to a string
-	 *		echo Lang::line('messages.welcome');
-	 * </code>
-	 *
 	 */
 	public function __toString()
 	{

@@ -91,10 +91,16 @@ class Manager {
 	 *
 	 * @param  Payload  $payload
 	 * @param  array    $config
+	 * @param  array    $flash
 	 * @return void
 	 */
-	public function close(Payload $payload, $config)
+	public function close(Payload $payload, $config, $flash = array())
 	{
+		foreach ($flash as $key => $value)
+		{
+			$this->driver->flash($key, $value);
+		}
+
 		$this->driver->save($payload->age(), $config);
 
 		$this->transporter->put($payload->session['id'], $config);

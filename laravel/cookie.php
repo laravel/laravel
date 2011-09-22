@@ -3,32 +3,42 @@
 class Cookie {
 
 	/**
+	 * The cookies for the current request.
+	 *
+	 * @var array
+	 */
+	protected $cookies;
+
+	/**
+	 * Create a new cookie manager instance.
+	 *
+	 * @param  array  $cookies
+	 * @return void
+	 */
+	public function __construct(&$cookies)
+	{
+		$this->cookies =& $cookies;
+	}
+
+	/**
 	 * Determine if a cookie exists.
 	 *
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function has($name)
+	public function has($name)
 	{
-		return ! is_null(static::get($name));
+		return ! is_null($this->get($name));
 	}
 
 	/**
 	 * Get the value of a cookie.
 	 *
-	 * <code>
-	 *		// Get the value of a cookie
-	 *		$value = Cookie::get('color');
-	 *
-	 *		// Get the value of a cookie or return a default value
-	 *		$value = Cookie::get('color', 'blue');
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public static function get($name, $default = null)
+	public function get($name, $default = null)
 	{
 		return Arr::get($_COOKIE, $name, $default);
 	}
@@ -44,9 +54,9 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, $value, 2628000, $path, $domain, $secure, $http_only);
+		return $this->put($name, $value, 2628000, $path, $domain, $secure, $http_only);
 	}
 
 	/**
@@ -58,14 +68,6 @@ class Cookie {
 	 *       However, you simply need to pass the number of minutes for which you
 	 *       wish the cookie to be valid. No funky time calculation is required.
 	 *
-	 * <code>
-	 *		// Create a cookie that exists until the user closes their browser
-	 *		Cookie::put('color', 'blue');
-	 *
-	 *		// Create a cookie that exists for 5 minutes
-	 *		Cookie::put('name', 'blue', 5);
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  int     $minutes
@@ -75,7 +77,7 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
 		if (headers_sent()) return false;
 
@@ -92,9 +94,9 @@ class Cookie {
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function forget($name)
+	public function forget($name)
 	{
-		return static::put($name, null, -60);
+		return $this->put($name, null, -60);
 	}
 
 }

@@ -117,14 +117,6 @@ class Inflector {
 	/**
 	 * Get the plural form of a word if the specified count is greater than one.
 	 *
-	 * <code>
-	 *		// Returns "friend"
-	 *		echo Inflector::plural_if('friend', 1);
-	 *
-	 *		// Returns "friends"
-	 *		echo Inflector::plural_if('friend', 2);
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @param  int	   $count
 	 * @return string

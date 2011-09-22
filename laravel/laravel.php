@@ -3,39 +3,12 @@
 // --------------------------------------------------------------
 // Bootstrap the core framework components.
 // --------------------------------------------------------------
-require 'core.php';
+require 'bootstrap/core.php';
 
 // --------------------------------------------------------------
-// Get an instance of the configuration manager.
+// Register the framework error handlers.
 // --------------------------------------------------------------
-set_exception_handler(function($e)
-{
-	call_user_func(Config::get('error.handler'), $e);
-});
-
-set_error_handler(function($number, $error, $file, $line)
-{
-	$exception = new \ErrorException($error, $number, 0, $file, $line);
-
-	call_user_func(Config::get('error.handler'), $exception);
-});
-
-register_shutdown_function(function()
-{
-	if ( ! is_null($error = error_get_last()))
-	{
-		$exception = new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']);
-
-		call_user_func(Config::get('error.handler'), $exception);
-	}	
-});
-
-// --------------------------------------------------------------
-// Set the error reporting and display levels.
-// --------------------------------------------------------------
-error_reporting(-1);
-
-ini_set('display_errors', 'Off');
+require SYS_PATH.'bootstrap/errors'.EXT;
 
 // --------------------------------------------------------------
 // Set the default timezone.
@@ -55,7 +28,11 @@ if (Config::get('session.driver') !== '')
 // --------------------------------------------------------------
 // Route the request and get the response from the route.
 // --------------------------------------------------------------
-$route = $container->resolve('laravel.routing.router')->route(Request::method(), Request::uri());
+$request = $container->resolve('laravel.request');
+
+list($method, $uri) = array($request->method(), $request->uri());
+
+$route = $container->resolve('laravel.routing.router')->route($request, $method, $uri);
 
 if ( ! is_null($route))
 {
@@ -76,7 +53,9 @@ $response->content = $response->render();
 // --------------------------------------------------------------
 if (isset($session))
 {
-	$session->close($container->resolve('laravel.session'), Config::get('session'));
+	$flash = array(Input::old_input => $container->resolve('laravel.input')->get());
+
+	$session->close($container->resolve('laravel.session'), Config::get('session'), $flash);
 }
 
 // --------------------------------------------------------------

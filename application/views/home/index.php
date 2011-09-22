@@ -1,79 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<meta charset="utf-8"> 
-	<title>Welcome To Laravel!</title> 
- 
-	<link href="http://fonts.googleapis.com/css?family=Quattrocento&amp;v1" rel="stylesheet" type="text/css" media="all" />
-	<link href="http://fonts.googleapis.com/css?family=Ubuntu&amp;v1" rel="stylesheet" type="text/css" media="all" />
-	<link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
+	<head>
+		<meta charset="utf-8">
 
-	<style type="text/css">
-		body {
-			background-color: #eee;
-			color: #6d6d6d;
-			font-family: 'Ubuntu';
-			font-size: 15px;
-		}
+		<title>Laravel - A Framework For Web Artisans</title>
 
-		a {
-			color: #7089b3;
-			font-weight: bold;
-			text-decoration: none;
-		}
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 
-		h1.laravel {
-			font-family: 'Lobster Two', Helvetica, serif;				
-			font-size: 60px;
-			margin: 0 0 15px -10px;
-			padding: 0;
-			text-shadow: -1px 1px 1px #fff;
-		}
+			body {
+				background:#eee;
+				color: #6d6d6d;
+				font: normal normal normal 14px/1.253 Ubuntu, sans-serif;
+				margin:0;
+				min-width:800px;
+				padding:0;
+			}
 
-		h2 {
-			font-family: 'Quattrocento', serif;
-			font-size: 30px;
-			margin: 30px 0 0 0;
-			padding: 0;
-			text-shadow: -1px 1px 1px #fff;
-		}
+			#main {
+				background-clip: padding-box;
+				background-color: #fff;
+				border:1px solid #ccc;
+				border-radius: 5px;
+				box-shadow: 0 0 10px #cdcdcd;
+				margin: 50px auto 0;
+				padding: 30px;
+				width: 700px;
+			}
 
-		p {
-			margin: 10px 0 0 0;
-			line-height: 25px;
-		}
+			#main h1 {
+				font-family: 'Ubuntu';
+				font-size: 34px;
+				margin: 0 0 20px 0;
+				padding: 0;
+			}
 
-		#header {
-			margin: 0 auto;
-			margin-bottom: 15px;
-			margin-top: 20px;
-			width: 80%;
-		}
+			#main h2,h3 {
+				margin-top: 25px;
+				padding: 0 0 0 0;
+			}
 
-		.wrapper {
-			background-color: #fff;
-			border-radius: 10px;
-			margin: 0 auto;
-			padding: 10px;
-			width: 80%;
-		}
+			#main h3 {
+				font-size: 18px;
+			}
 
-		.wrapper h2:first-of-type {
-			margin-top: 0;
-		}
-	</style>
-</head> 
-<body>
-	<div id="header">
-		<h1 class="laravel">Laravel</h1>
-	</div>
+			#main p {
+				line-height: 25px;
+				margin: 10px 0;
+			}
 
-	<div class="wrapper">
-		<h2>Installation Complete!</h2>
+			#main pre {
+				background-color: #f0f0f0;
+				border-left: 1px solid #d8d8d8;
+				border-top: 1px solid #d8d8d8;
+				border-radius: 5px;
+				padding: 10px;
+			}
 
-		<p>Ready to dig in? Start building your application in the <strong>application/routes.php</strong> file.</p>
+			#main ul {
+				margin: 10px 0;
+				padding: 0 30px;
+			}
 
-		<p>Need to learn more? Peruse our <a href="http://laravel.com">wonderful documentation</a>.</p>
-	</div>
-</body> 
+			#main li {
+				margin: 5px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<h1>Welcome to Laravel</h1>
+
+			<p>
+				You have successfully installed the Laravel framework. Laravel is a simple framework
+				to help web artisans create beautiful, creative applications using elegant, expressive
+				syntax. You'll love using it.
+			</p>
+
+			<h3>Learn the terrain.</h3>
+
+			<p>
+				You've landed yourself on our default home page. The route that
+				is generating this page lives at:
+			</p>
+
+			<pre><code>APP_PATH/routes.php</code></pre>
+
+			<p>And the view sitting before you can be found at:</p>
+
+			<pre><code>APP_PATH/views/home/index.php</code></pre>
+
+			<h3>Create something beautiful.</h3>
+
+			<p>
+				Now that you're up and running, it's time to start creating!
+				Here are some links to help you get started:
+			</p>
+
+			<ul>
+				<li><a href="http://laravel.com">Official Website</a></li>
+				<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
+				<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
+			</ul>
+
+		</div>
+	</body>
 </html>

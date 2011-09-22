@@ -12,8 +12,6 @@ class Benchmark {
 	/**
 	 * Start a benchmark starting time.
 	 *
-	 * The elapsed time since setting a benchmark may checked via the "check" method.
-	 *
 	 * @param  string  $name
 	 * @return void
 	 */

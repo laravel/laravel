@@ -1,102 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Laravel - <?php echo $severity; ?></title>
- 
-	<link href="http://fonts.googleapis.com/css?family=Quattrocento&amp;v1" rel="stylesheet" type="text/css" media="all" />
-	<link href="http://fonts.googleapis.com/css?family=Ubuntu&amp;v1" rel="stylesheet" type="text/css" media="all" />
-	<link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
+	<head>
+		<meta charset="utf-8">
 
-	<style type="text/css">
-		body {
-			background-color: #eee;
-			color: #6d6d6d;
-			font-family: 'Ubuntu';
-			font-size: 15px;
-		}
+		<title>Laravel - Uncaught Exception</title>
 
-		h1.laravel {
-			font-family: 'Lobster Two', Helvetica, serif;				
-			font-size: 60px;
-			margin: 0 0 15px -10px;
-			padding: 0;
-			text-shadow: -1px 1px 1px #fff;
-		}
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 
-		h2 {
-			font-family: 'Quattrocento', serif;
-			font-size: 30px;
-			margin: 30px 0 0 0;
-			padding: 0;
-			text-shadow: -1px 1px 1px #fff;
-		}
+			body {
+				background:#eee;
+				color: #6d6d6d;
+				font: normal normal normal 14px/1.253 Ubuntu, sans-serif;
+				margin:0;
+				min-width:1000px;
+				padding:0;
+			}
 
-		p {
-			margin: 10px 0 0 0;
-			line-height: 25px;
-		}
+			#main {
+				background-clip: padding-box;
+				background-color: #fff;
+				border:1px solid #ccc;
+				border-radius: 5px;
+				box-shadow: 0 0 10px #cdcdcd;
+				margin: 50px auto 0;
+				padding: 30px;
+				width: 900px;
+			}
 
-		pre {
-			font-size: 12px;
-		}
+			#main h1 {
+				font-family: 'Ubuntu';
+				font-size: 34px;
+				margin: 0 0 20px 0;
+				padding: 0;
+			}
 
-		pre.context {
-			margin: 0; padding: 0;
-		}
+			#main h2,h3 {
+				margin-top: 25px;
+				padding: 0 0 0 0;
+			}
 
-		pre.highlight {
-			font-weight: bold;
-			color: #990000;
-		}
+			#main h3 {
+				font-size: 18px;
+			}
 
-		#header {
-			margin: 0 auto;
-			margin-bottom: 15px;
-			margin-top: 20px;
-			width: 80%;
-		}
+			#main p {
+				line-height: 25px;
+				margin: 10px 0;
+			}
 
-		#wrapper {
-			background-color: #fff;
-			border-radius: 10px;
-			margin: 0 auto;
-			padding: 10px;
-			width: 80%;
-		}
+			#main pre {
+				font-size: 12px;
+				background-color: #f0f0f0;
+				border-left: 1px solid #d8d8d8;
+				border-top: 1px solid #d8d8d8;
+				border-radius: 5px;
+				padding: 10px;
+				white-space: pre-wrap;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<h1><?php echo $severity; ?></h1>
 
-		#wrapper h2:first-of-type {
-			margin-top: 0;
-		}
-	</style>
-</head> 
-<body>
-	<div id="header">
-		<h1 class="laravel"><?php echo $severity; ?></h1>
-	</div>
+			<h3>Message</h3>
 
-	<div id="wrapper"> 
-		<h2>Message:</h2>
+			<pre><?php echo $message; ?></pre>
 
-		<p><?php echo $message; ?></p>
+			<h3>Stack Trace</h3>
 
-		<h2>Stack Trace:</h2>
+			<pre><?php echo $exception->getTraceAsString(); ?></pre>
 
-		<pre><?php echo $trace; ?></pre>
+			<h3>Snapshot</h3>
 
-		<h2>Snapshot:</h2>
+			<?php
+				$lines = array();
 
-		<p>
-		<?php if (count($contexts) > 0): ?>
+				foreach (File::snapshot($exception->getFile(), $exception->getLine()) as $num => $context)
+				{
+					$lines[] = $num.': '.$context;
+				}
+			?>
 
-			<?php foreach($contexts as $num => $context): ?>
-				<pre class="context <?php echo ($line == $num) ? 'highlight' : ''; ?>"><?php echo htmlentities($num.': '.$context); ?></pre>
-			<?php endforeach; ?>
-
-		<?php else: ?>
-			Snapshot Unavailable.
-		<?php endif; ?>
-		</p>
-	</div> 
-</body> 
+			<pre><?php echo htmlentities(implode("\n", $lines)); ?></pre>
+		</div>
+	</body>
 </html>

@@ -19,17 +19,6 @@ class Form {
 	 *       containing the request method. PUT and DELETE are not supported by HTML forms, so the
 	 *       hidden field will allow us to "spoof" PUT and DELETE requests.
 	 *
-	 * <code>
-	 *		// Open a POST form to the current URI
-	 *		echo Form::open();
-	 *
-	 *		// Open a POST form to a given URI
-	 *		echo Form::open('user/profile');
-	 *
-	 *		// Open a PUT form to a given URI and add form attributes
-	 *		echo Form::open('user/profile', 'put', array('class' => 'profile'));
-	 * </code>
-	 *
 	 * @param  string   $action
 	 * @param  string   $method
 	 * @param  array    $attributes
@@ -75,7 +64,9 @@ class Form {
 	 */
 	protected static function action($action, $https)
 	{
-		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
+		$uri = IoC::container()->resolve('laravel.uri')->get();
+
+		return HTML::entities(URL::to(((is_null($action)) ? $uri : $action), $https));
 	}
 
 	/**
@@ -158,14 +149,6 @@ class Form {
 	/**
 	 * Create a HTML label element.
 	 *
-	 * <code>
-	 *		// Create a form label
-	 *		echo Form::label('email', 'E-Mail Address');
-	 *
-	 *		// Create a form label with attributes
-	 *		echo Form::label('email', 'E-Mail Address', array('class' => 'login'));
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
@@ -183,17 +166,6 @@ class Form {
 	 *
 	 * If an ID attribute is not specified and a label has been generated matching the input
 	 * element name, the label name will be used as the element ID.
-	 *
-	 * <code>
-	 *		// Create a "text" type input element
-	 *		echo Form::input('text', 'email');
-	 *
-	 *		// Create an input element with a specified value
-	 *		echo Form::input('text', 'email', 'example@gmail.com');
-	 *
-	 *		// Create an input element with attributes
-	 *		echo Form::input('text', 'email', 'example@gmail.com', array('class' => 'login'));
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $value
@@ -327,14 +299,6 @@ class Form {
 	/**
 	 * Create a HTML textarea element.
 	 *
-	 * <code>
-	 *		// Create a textarea element
-	 *		echo Form::textarea('comment');
-	 *
-	 *		// Create a textarea with specified rows and columns
-	 *		echo Form::textarea('comment', '', array('rows' => 10, 'columns' => 50));
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
@@ -353,14 +317,6 @@ class Form {
 
 	/**
 	 * Create a HTML select element.
-	 *
-	 * <code>
-	 *		// Create a selection element
-	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'));
-	 *
-	 *		// Create a selection element with a given option pre-selected
-	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), 'L');
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $options
@@ -387,14 +343,6 @@ class Form {
 	/**
 	 * Create a HTML checkbox input element.
 	 *
-	 * <code>
-	 *		// Create a checkbox element
-	 *		echo Form::checkbox('terms');
-	 *
-	 *		// Create a checkbox element that is checked by default
-	 *		echo Form::checkbox('terms', 'yes', true);
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  bool    $checked
@@ -408,14 +356,6 @@ class Form {
 
 	/**
 	 * Create a HTML radio button input element.
-	 *
-	 * <code>
-	 *		// Create a radio button element
-	 *		echo Form::radio('apple');
-	 *
-	 *		// Create a radio button element that is selected by default
-	 *		echo Form::radio('microsoft', 'pc', true);
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -450,14 +390,6 @@ class Form {
 	/**
 	 * Create a HTML submit input element.
 	 *
-	 * <code>
-	 *		// Create a submit input element
-	 *		echo Form::submit('Login!');
-	 *
-	 *		// Create a submit input element with attributes
-	 *		echo Form::submit('Login!', array('class' => 'login'));
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
@@ -482,11 +414,6 @@ class Form {
 	/**
 	 * Create a HTML image input element.
 	 *
-	 * <code>
-	 *		// Create an image input element
-	 *		echo Form::image('img/login.jpg');
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
 	 * @return string
@@ -500,14 +427,6 @@ class Form {
 
 	/**
 	 * Create a HTML button element.
-	 *
-	 * <code>
-	 *		// Create a button input element
-	 *		echo Form::button('Login!');
-	 *
-	 *		// Create a button input element with attributes
-	 *		echo Form::button('Login!', array('class' => 'login'));
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value

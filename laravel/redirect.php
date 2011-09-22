@@ -5,14 +5,6 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response.
 	 *
-	 * <code>
-	 *		// Create a redirect response to a given URL
-	 *		return Redirect::to('user/profile');
-	 *
-	 *		// Create a redirect with a given status code
-	 *		return Redirect::to('user/profile', 301);
-	 * </code>
-	 *
 	 * @param  string    $url
 	 * @param  int       $status
 	 * @param  bool      $https
@@ -28,11 +20,6 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
-	 * <code>
-	 *		// Create a redirect response to a HTTPS URL
-	 *		return Redirect::to_secure('user/profile');
-	 * </code>
-	 *
 	 * @param  string    $url
 	 * @param  int       $status
 	 * @return Response
@@ -46,11 +33,6 @@ class Redirect extends Response {
 	 * Add an item to the session flash data.
 	 *
 	 * This is useful for passing status messages or other temporary data to the next request.
-	 *
-	 * <code>
-	 *		// Create a redirect and flash a messages to the session
-	 *		return Redirect::to_profile()->with('message', 'Welcome Back!');
-	 * </code>
 	 *
 	 * @param  string          $key
 	 * @param  mixed           $value
@@ -70,17 +52,6 @@ class Redirect extends Response {
 
 	/**
 	 * Magic Method to handle creation of redirects to named routes.
-	 *
-	 * <code>
-	 *		// Create a redirect to the "profile" route
-	 *		return Redirect::to_profile();
-	 *
-	 *		// Create a redirect to the "profile" route with wildcard segments
-	 *		return Redirect::to_profile(array($username));
-	 *
-	 *		// Create a redirect to the "profile" route using HTTPS
-	 *		return Redirect::to_secure_profile();
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

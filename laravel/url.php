@@ -7,14 +7,6 @@ class URL {
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.
 	 *
-	 * <code>
-	 *		// Generate an application URL from a given URI
-	 *		echo URL::to('user/profile');
-	 *
-	 *		// Generate an application URL with HTTPS
-	 *		echo URL::to('user/profile', true);
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
@@ -33,11 +25,6 @@ class URL {
 	/**
 	 * Generate an application URL with HTTPS.
 	 *
-	 * <code>
-	 *		// Generate an application URL with HTTPS
-	 *		echo URL::to_secure('user/profile');
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @return string
 	 */
@@ -52,21 +39,13 @@ class URL {
 	 * The index file will not be added to asset URLs. If the HTTPS option is not
 	 * specified, HTTPS will be used when the active request is also using HTTPS.
 	 *
-	 * <code>
-	 *		// Generate a URL to an asset
-	 *		echo URL::to_asset('img/picture.jpg');
-	 *
-	 *		// Generate a URL to a an asset with HTTPS
-	 *		echo URL::to_asset('img/picture.jpg', true);
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (is_null($https)) $https = Request::secure();
+		if (is_null($https)) $https = IoC::container()->resolve('laravel.request')->secure();
 
 		return str_replace('index.php/', '', static::to($url, $https));
 	}
@@ -77,16 +56,6 @@ class URL {
 	 * For routes that have wildcard parameters, an array may be passed as the second
 	 * parameter to the method. The values of this array will be used to fill the
 	 * wildcard segments of the route URI.
-	 *
-	 * Optional parameters will be convereted to spaces if no parameter values are specified.
-	 *
-	 * <code>
-	 *		// Generate the URL for a given route
-	 *		echo URL::to_route('profile');
-	 *
-	 *		// Generate the URL for a given route with wildcard segments
-	 *		echo URL::to_route('profile', array($username));
-	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
@@ -119,14 +88,6 @@ class URL {
 	/**
 	 * Generate a HTTPS URL from a route name.
 	 *
-	 * <code>
-	 *		// Generate the URL for a route with HTTPS
-	 *		echo URL::to_secure_route('profile');
-	 *
-	 *		// Generate the URL for a route with HTTPS and wildcard segments
-	 *		echo URL::to_secure_route('profile', array($username));
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @return string
@@ -158,17 +119,6 @@ class URL {
 
 	/**
 	 * Magic Method for dynamically creating URLs to named routes.
-	 *
-	 * <code>
-	 *		// Generate the URL for the "profile" named route
-	 *		echo URL::to_profile();
-	 *
-	 *		// Generate the URL for the "profile" named route with wildcard segments
-	 *		echo URL::to_profile(array($username));
-	 *
-	 *		// Generate the URL for the "profile" named route with HTTPS
-	 *		echo URL::to_secure_profile();
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

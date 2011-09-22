@@ -119,13 +119,6 @@ class File {
 	/**
 	 * Get a file MIME type by extension.
 	 *
-	 * If the MIME type can't be determined, "application/octet-stream" will be returned.
-	 *
-	 * <code>
-	 *		// Returns 'application/x-tar'
-	 *		$mime = File::mime('path/to/file.tar');
-	 * </code>
-	 *
 	 * @param  string  $extension
 	 * @param  string  $default
 	 * @return string
@@ -144,14 +137,6 @@ class File {
 	 *
 	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
 	 *
-	 * <code>
-	 *		// Determine if a file is a JPG image
-	 *		$image = File::is('jpg', 'path/to/image.jpg');
-	 *
-	 *		// Determine if a file is any one of an array of types
-	 *		$image = File::is(array('jpg', 'png', 'gif'), 'path/to/image.jpg');
-	 * </code>
-	 *
 	 * @param  array|string  $extension
 	 * @param  string        $path
 	 * @return bool
@@ -168,6 +153,29 @@ class File {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the lines surrounding a given line in a file.
+	 *
+	 * @param  string  $path
+	 * @param  int     $line
+	 * @param  int     $padding
+	 * @return array
+	 */
+	public static function snapshot($path, $line, $padding = 5)
+	{
+		if ( ! file_exists($path)) return array();
+
+		$file = file($path, FILE_IGNORE_NEW_LINES);
+
+		array_unshift($file, '');
+
+		if (($start = $line - $padding) < 0) $start = 0;
+
+		if (($length = ($line - $start) + $padding + 1) < 0) $length = 0;
+
+		return array_slice($file, $start, $length, true);
 	}
 
 }

@@ -7,18 +7,6 @@ class Arr {
 	/**
 	 * Get an item from an array.
 	 *
-	 * This method supports accessing arrays through JavaScript "dot" style syntax
-	 * for conveniently digging deep into nested arrays. Like most other Laravel
-	 * "get" methods, a default value may be provided.
-	 *
-	 * <code>
-	 *		// Get the value of $array['user']['name']
-	 *		$value = Arr::get($array, 'user.name');
-	 *
-	 *		// Get a value from the array, but return a default if it doesn't exist
-	 *		$value = Arr::get($array, 'user.name', 'Taylor');
-	 * </code>
-	 *
 	 * @param  array   $array
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -44,16 +32,7 @@ class Arr {
 	/**
 	 * Set an array item to a given value.
 	 *
-	 * This method supports accessing arrays through JavaScript "dot" style syntax
-	 * for conveniently digging deep into nested arrays.
-	 *
-	 * <code>
-	 *		// Set the $array['user']['name'] value in the array
-	 *		Arr::set($array, 'user.name', 'Taylor');
-	 *
-	 *		// Set the $array['db']['driver']['name'] value in the array
-	 *		Arr::set($array, 'db.driver.name', 'SQLite');
-	 * </code>
+	 * The same "dot" syntax used by the "get" method may be used here.
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
@@ -84,20 +63,6 @@ class Arr {
 	/**
 	 * Return the first element in an array which passes a given truth test.
 	 *
-	 * The truth test is passed as a closure, and simply returns true or false.
-	 * The array key and value will be passed to the closure on each iteration.
-	 *
-	 * Like the "get" method, a default value may be specified, and will be
-	 * returned if no matching array elements are found by the method.
-	 *
-	 * <code>
-	 *		// Get the first string from an array with a length of 3
-	 *		$value = Arr::first($array, function($k, $v) {return strlen($v) == 3;});
-	 *
-	 *		// Return a default value if no matching array elements are found
-	 *		$value = Arr::first($array, function($k, $v) {return;}, 'Default');
-	 * </code>
-	 *
 	 * @param  array    $array
 	 * @param  Closure  $callback
 	 * @return mixed
@@ -113,15 +78,7 @@ class Arr {
 	}
 
 	/**
-	 * Remove all values in the array that are contained within a given array of values.
-	 *
-	 * <code>
-	 *		// Remove all empty string values from an array
-	 *		$array = Arr::without($array, array(''));
-	 *
-	 *		// Remove all array values that are "3", "2", or "1"
-	 *		$array = Arr::without($array, array(3, 2, 1));
-	 * </code>
+	 * Remove all array values that are contained within a given array of values.
 	 *
 	 * @param  array  $array
 	 * @param  array  $without

@@ -44,5 +44,3 @@ $public      = __DIR__;
 |--------------------------------------------------------------------------
 */
 require $laravel.'/laravel.php';
-
-echo number_format((microtime(true) - START_TIME) * 1000, 2);

@@ -30,19 +30,14 @@ abstract class Controller {
 	 * First, "laravel." will be prefixed to the requested item to see if there is
 	 * a matching Laravel core class in the IoC container. If there is not, we will
 	 * check for the item in the container using the name as-is.
-	 *
-	 * <code>
-	 *		// Resolve the "laravel.input" instance from the IoC container
-	 *		$input = $this->input;
-	 *
-	 *		// Resolve the "mailer" instance from the IoC container
-	 *		$mongo = $this->mailer;
-	 * </code>
-	 *
 	 */
 	public function __get($key)
 	{
-		if (IoC::container()->registered($key))
+		if (IoC::container()->registered("laravel.{$key}"))
+		{
+			return IoC::container()->resolve("laravel.{$key}");
+		}
+		elseif (IoC::container()->registered($key))
 		{
 			return IoC::container()->resolve($key);
 		}

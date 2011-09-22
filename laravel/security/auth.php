@@ -20,6 +20,13 @@ class Auth {
 	protected $session;
 
 	/**
+	 * The key used when storing the user ID in the session.
+	 *
+	 * @var string
+	 */
+	const user_key = 'laravel_user_id';
+
+	/**
 	 * Create a new authenticator instance.
 	 *
 	 * @param  Session\Driver  $session
@@ -51,7 +58,7 @@ class Auth {
 	{
 		if ( ! is_null($this->user)) return $this->user;
 
-		return $this->user = call_user_func(Config::get('auth.user'), $this->session->get('laravel_user_id'));
+		return $this->user = call_user_func(Config::get('auth.user'), $this->session->get(Auth::user_key));
 	}
 
 	/**
@@ -88,7 +95,7 @@ class Auth {
 	{
 		$this->user = $user;
 
-		$this->session->put('laravel_user_id', $user->id);
+		$this->session->put(Auth::user_key, $user->id);
 	}
 
 	/**
@@ -102,7 +109,7 @@ class Auth {
 
 		$this->user = null;
 
-		$this->session->forget('laravel_user_id');
+		$this->session->forget(Auth::user_key);
 	}
 
 }

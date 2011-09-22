@@ -56,7 +56,7 @@ return array(
 
 	'auth' => function()
 	{
-		return ( ! Auth::make()->check()) ? Redirect::to_login() : null;
+		return ( ! Auth::check()) ? Redirect::to('login') : null;
 	},
 
 

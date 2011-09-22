@@ -43,9 +43,6 @@ class Loader {
 	/**
 	 * Load the applicable routes for a given URI.
 	 *
-	 * The application route directory will be checked for nested route files and an
-	 * array of all applicable routes will be returned based on the URI segments.
-	 *
 	 * @param  string  $uri
 	 * @return array
 	 */
@@ -79,9 +76,6 @@ class Loader {
 
 	/**
 	 * Get every route defined for the application.
-	 *
-	 * For fast performance, if the routes have already been loaded once, they will not
-	 * be loaded again, and the same routes will be returned on subsequent calls.
 	 *
 	 * @return array
 	 */

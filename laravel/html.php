@@ -18,14 +18,6 @@ class HTML {
 	/**
 	 * Generate a JavaScript reference.
 	 *
-	 * <code>
-	 *		// Generate a link to a JavaScript file
-	 *		echo HTML::script('js/jquery.js');
-	 *
-	 *		// Generate a link to a JavaScript file with attributes
-	 *		echo HTML::script('js/jquery.js', array('defer'));
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
 	 * @return string
@@ -41,14 +33,6 @@ class HTML {
 	 * Generate a CSS reference.
 	 *
 	 * If no media type is selected, "all" will be used.
-	 *
-	 * <code>
-	 *		// Generate a link to a CSS file
-	 *		echo HTML::style('css/common.css');
-	 *
-	 *		// Generate a link to a CSS file with attributes
-	 *		echo HTML::style('css/common.css', array('media' => 'print'));
-	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  array   $attributes
@@ -66,14 +50,6 @@ class HTML {
 	/**
 	 * Generate a HTML span.
 	 *
-	 * <code>
-	 *		// Generate a HTML span element
-	 *		echo HTML::span('This is inside a span element.');
-	 *
-	 *		// Generate a HTML span element with attributes
-	 *		echo HTML::span('This is inside a span.', array('class' => 'text'));
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
@@ -85,14 +61,6 @@ class HTML {
 
 	/**
 	 * Generate a HTML link.
-	 *
-	 * <code>
-	 *		// Generate a HTML link element
-	 *		echo HTML::link('user/profile', 'User Profile');
-	 *
-	 *		// Generate a HTML link element with attributes
-	 *		echo HTML::link('user/profile', 'User Profile', array('class' => 'profile'));
-	 * </code>
 	 *
 	 * @param  string  $url
 	 * @param  string  $title
@@ -154,15 +122,6 @@ class HTML {
 	 *
 	 * An array of parameters may be specified to fill in URI segment wildcards.
 	 *
-	 * <code>
-	 *		// Generate a link to the "profile" route
-	 *		echo HTML::link_to_route('profile', 'User Profile');
-	 *
-	 *		// Generate a link to a route that has wildcard segments
-	 *		// Example: /user/profile/(:any)
-	 *		echo HTML::link_to_route('profile', 'User Profile', array($username));
-	 * </code>
-	 *
 	 * @param  string  $name
 	 * @param  string  $title
 	 * @param  array   $parameters
@@ -192,17 +151,6 @@ class HTML {
 	 * Generate an HTML mailto link.
 	 *
 	 * The E-Mail address will be obfuscated to protect it from spam bots.
-	 *
-	 * <code>
-	 *		// Generate a HTML mailto link
-	 *		echo HTML::mailto('example@gmail.com');
-	 *
-	 *		// Generate a HTML mailto link with a title
-	 *		echo HTML::mailto('example@gmail.com', 'E-Mail Me!');
-	 *
-	 *		// Generate a HTML mailto link with attributes
-	 *		echo HTML::mailto('example@gmail.com', 'E-Mail Me', array('class' => 'email'));
-	 * </code>
 	 *
 	 * @param  string  $email
 	 * @param  string  $title
@@ -234,17 +182,6 @@ class HTML {
 	/**
 	 * Generate an HTML image element.
 	 *
-	 * <code>
-	 *		// Generate a HTML image element
-	 *		echo HTML::image('img/profile.jpg');
-	 *
-	 *		// Generate a HTML image element with Alt text
-	 *		echo HTML::image('img/profile.jpg', 'Profile Photo');
-	 *
-	 *		// Generate a HTML image element with attributes
-	 *		echo HTML::image('img/profile.jpg', 'Profile Photo', array('class' => 'profile'));
-	 * </code>
-	 *
 	 * @param  string  $url
 	 * @param  string  $alt
 	 * @param  array   $attributes
@@ -260,14 +197,6 @@ class HTML {
 	/**
 	 * Generate an ordered list of items.
 	 *
-	 * <code>
-	 *		// Generate an ordered list of items
-	 *		echo HTML::ol(array('Small', 'Medium', 'Large'));
-	 *
-	 *		// Generate an ordered list of items with attributes
-	 *		echo HTML::ol(array('Small', 'Medium', 'Large'), array('class' => 'sizes'));
-	 * </code>
-	 *
 	 * @param  array   $list
 	 * @param  array   $attributes
 	 * @return string
@@ -279,14 +208,6 @@ class HTML {
 
 	/**
 	 * Generate an un-ordered list of items.
-	 *
-	 * <code>
-	 *		// Generate an un-ordered list of items
-	 *		echo HTML::ul(array('Small', 'Medium', 'Large'));
-	 *
-	 *		// Generate an un-ordered list of items with attributes
-	 *		echo HTML::ul(array('Small', 'Medium', 'Large'), array('class' => 'sizes'));
-	 * </code>
 	 *
 	 * @param  array   $list
 	 * @param  array   $attributes
@@ -379,20 +300,6 @@ class HTML {
 	 * Magic Method for handling dynamic static methods.
 	 *
 	 * This method primarily handles dynamic calls to create links to named routes.
-	 *
-	 * <code>
-	 *		// Create a link to the "profile" named route
-	 *		echo HTML::link_to_profile('Profile');
-	 *
-	 *		// Create a link to a named route with URI wildcard parameters
-	 *		echo HTML::link_to_posts('Posts', array($year, $month));
-	 *
-	 *		// Create a HTTPS link to the "profile" named route
-	 *		echo HTML::link_to_secure_profile('Profile');
-	 *
-	 *		// Create a HTTPS link to a named route URI wildcard parameters
-	 *		echo HTML::link_to_secure_posts('Posts', array($year, $month));
-	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

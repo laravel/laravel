@@ -48,11 +48,6 @@ class Loader {
 	 *
 	 * Note: Aliases are lazy-loaded, so the aliased class will not be included until it is needed.
 	 *
-	 * <code>
-	 *		// Register an alias for the "SwiftMailer\Transport" class
-	 *		Loader::alias('Transport', 'SwiftMailer\\Transport');
-	 * </code>
-	 *
 	 * @param  string  $alias
 	 * @param  string  $class
 	 * @return void
@@ -65,13 +60,6 @@ class Loader {
 	/**
 	 * Register a path with the auto-loader.
 	 *
-	 * The registered path will be searched when auto-loading classes.
-	 *
-	 * <code>
-	 *		// Register a path to be searched by the auto-loader
-	 *		Loader::path('path/to/files');
-	 * </code>
-	 *
 	 * @param  string  $path
 	 * @return void
 	 */
@@ -82,11 +70,6 @@ class Loader {
 
 	/**
 	 * Remove an alias from the auto-loader's alias registrations.
-	 *
-	 * <code>
-	 *		// Remove the "Transport" alias from the registered aliases
-	 *		Loader::forget_alias('Transport');
-	 * </code>
 	 *
 	 * @param  string  $alias
 	 * @return void

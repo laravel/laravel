@@ -1,9 +1,10 @@
 <?php namespace Laravel;
 
 // --------------------------------------------------------------
-// Define the PHP file extension.
+// Define the PHP file extensions.
 // --------------------------------------------------------------
-define('EXT', '.php');
+define('EXT',       '.php');
+define('BLADE_EXT', '.blade.php');
 
 // --------------------------------------------------------------
 // Define the core framework paths.
@@ -52,6 +53,11 @@ $config = array(SYS_CONFIG_PATH, CONFIG_PATH);
 if ( ! is_null($environment)) $config[] = CONFIG_PATH.$environment.'/';
 
 Config::paths($config);
+
+// --------------------------------------------------------------
+// Set a few core configuration options.
+// --------------------------------------------------------------
+Config::set('view.path', VIEW_PATH);
 
 // --------------------------------------------------------------
 // Bootstrap the IoC container.
