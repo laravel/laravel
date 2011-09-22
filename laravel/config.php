@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class Config {
 
@@ -32,6 +32,14 @@ class Config {
 	/**
 	 * Determine if a configuration item or file exists.
 	 *
+	 * <code>
+	 *		// Determine if the "session" configuration file exists
+	 *		$exists = Config::has('session');
+	 *
+	 *		// Determine if the "timezone" option exists in the "application" configuration array
+	 *		$exists = Config::has('application.timezone');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
@@ -43,6 +51,16 @@ class Config {
 	/**
 	 * Get a configuration item.
 	 *
+	 * If no item is requested, the entire configuration array will be returned.
+	 *
+	 * <code>
+	 *		// Get the "session" configuration array
+	 *		$session = Config::get('session');
+	 *
+	 *		// Get the "timezone" option from the "application" configuration file
+	 *		$timezone = Config::get('application.timezone');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $default
 	 * @return array
@@ -53,7 +71,7 @@ class Config {
 
 		if ( ! static::load($file))
 		{
-			return ($default instanceof \Closure) ? call_user_func($default) : $default;
+			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
 		if (is_null($key)) return static::$items[$file];
@@ -62,7 +80,15 @@ class Config {
 	}
 
 	/**
-	 * Set a configuration item.
+	 * Set a configuration item's value.
+	 *
+	 * <code>
+	 *		// Set the "session" configuration array
+	 *		Config::set('session', $array);
+	 *
+	 *		// Set the "timezone" option in the "application" configuration file
+	 *		Config::set('application.timezone', 'UTC');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -87,13 +113,15 @@ class Config {
 	{
 		$segments = explode('.', $key);
 
+		// If there is only one segment after exploding on dots, we will return NULL
+		// as the key value, causing the entire configuration array to be returned.
 		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
 
 		return array($segments[0], $key);
 	}
 
 	/**
-	 * Load all of the configuration items from a module configuration file.
+	 * Load all of the configuration items from a configuration file.
 	 *
 	 * @param  string  $file
 	 * @return bool
@@ -104,6 +132,9 @@ class Config {
 
 		$config = array();
 
+		// Configuration files cascade. Typically, the system configuration array is loaded
+		// first, followed by the application array, followed by the environment array.
+		// This allows the convenient overriding of configuration options.
 		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))
@@ -112,10 +143,10 @@ class Config {
 			}
 		}
 
-		if (count($config) > 0)
-		{
-			static::$items[$file] = $config;
-		}
+		// If configuration options were actually found, they will be loaded into the
+		// array containing all of the options for all files. The array is keyed by the
+		// configuration file name.
+		if (count($config) > 0) static::$items[$file] = $config;
 
 		return isset(static::$items[$file]);
 	}
