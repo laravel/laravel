@@ -54,7 +54,7 @@ class Redirect extends Response {
 	 * @param  mixed           $value
 	 * @return Response
 	 */
-	public function with($key, $value)
+	public static function with($key, $value)
 	{
 		if (Config::get('session.driver') == '')
 		{

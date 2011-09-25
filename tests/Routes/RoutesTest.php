@@ -3,7 +3,11 @@
 define('TEST_BASE_PATH', dirname(realpath(__FILE__)) . '/');
 
 class RoutesTest extends PHPUnit_Framework_TestCase {
-	public static function setUpBeforeClass() {
+	private $route;
+	private $request;
+	
+	public static function setUpBeforeClass()
+	{
 		// changing paths
 		IoC::container()->register('laravel.routing.caller', function($c)
 		{
@@ -18,6 +22,9 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	
 	protected function setUp()
 	{
+		$this->route = null;
+		$this->request = null;
+		
 		$_POST = array();
 		
 		unset($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
@@ -29,7 +36,7 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	 * GET /test/optwildcard/(:any+)
 	 */
 	public function testWildCards()
-	{		
+	{
 		$response = $this->processRoute('/test/wildcard/123456/joe');
 		$this->assertEquals($response->content, '123456/joe');
 		
@@ -55,6 +62,20 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($response->content, 'direct');
 		
 		$response = $this->processRoute('/test/doesnt/exist');
+		$this->assertEquals($response->content->view, 'error/404');
+	}
+	
+	/**
+	 * tests bad routes
+	 */
+	public function testBad()
+	{
+		$response = $this->processRoute('/test/bad');
+		$this->assertEquals($response->content->view, 'error/404');
+		
+		$this->setExpectedException('Exception');
+		
+		$response = $this->processRoute('/test/bad2');
 		$this->assertEquals($response->content->view, 'error/404');
 	}
 	
@@ -91,6 +112,15 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
+	 * tests nested routes (in the routes folder)
+	 */
+	public function testNested()
+	{		
+		$response = $this->processRoute('/nested/test');	
+		$this->assertEquals($response->content, 'nested test');
+	}
+	
+	/**
 	 * tests filters
 	 */
 	public function testFilters()
@@ -105,21 +135,65 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($response->content, 'filtered after filtered after2');
 	}
 	
+	/**
+	 * named routes
+	 */
+	public function testNamed()
+	{
+		$response = $this->processRoute('/test/named');
+		$this->assertEquals($this->route, $this->request->route());
+		
+		$this->assertTrue($this->route->is_named_route());
+		$this->assertTrue($this->route->handles('test/named'));
+		$this->assertFalse($this->route->handles('test/direct'));
+		$this->assertEquals($this->route->not_exist(), null);
+	}
+	
+	/**
+	 * creating urls for named routes
+	 */
+	public function testNamedURL()
+	{
+		$url = URL::to_named_route_params(array('var'));
+		$this->assertStringEndsWith('/test/named/var', $url);
+		
+		$url = URL::to_secure_named_route_params(array('var'));
+		$this->assertStringStartsWith('https', $url);
+		
+		$this->setExpectedException('Exception', 'Error generating named route for route [not_exist]. Route is not defined.');
+		URL::to_not_exist();
+	}
+	
+	/**
+	 * redirect to named route
+	 */
+	public function testNamedRedirect()
+	{
+		$redirect = Redirect::to_named_route();
+		$this->assertObjectHasAttribute('headers', $redirect);
+		/* these don't work since Response::headers is protected
+		$this->assertArrayHasKey('Location', $redirect->headers);
+		$this->assertStringEndsWith('/test/named', $redirect->headers['Location']);
+		*/
+	
+		$this->markTestIncomplete('Response::headers is protected so can\'t check to see if redirect worked correctly');
+	}
+	
 	private function processRoute($uri, $method = 'GET')
 	{
 		$_SERVER['REQUEST_URI'] = $uri;
 		$_SERVER['REQUEST_METHOD'] = $method;
 	
 		// not using container resolve because it is a singleton and that makes it so we can't change $_SERVER
-		$request = new \Laravel\Request(new \Laravel\URI($_SERVER), $_SERVER, $_POST);
+		$this->request = new \Laravel\Request(new \Laravel\URI($_SERVER), $_SERVER, $_POST);
 		$router = IoC::container()->resolve('laravel.routing.router');
 	
-		list($method, $uri) = array($request->method(), $request->uri());
-		$route = $router->route($request, $method, $uri);
+		list($method, $uri) = array($this->request->method(), $this->request->uri());
+		$this->route = $router->route($this->request, $method, $uri);
 
-		if ( ! is_null($route))
+		if ( ! is_null($this->route))
 		{
-			$response = IoC::container()->resolve('laravel.routing.caller')->call($route);
+			$response = IoC::container()->resolve('laravel.routing.caller')->call($this->route);
 		}
 		else
 		{
