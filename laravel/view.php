@@ -10,7 +10,7 @@ class View_Factory {
 	public $path;
 
 	/**
-	 * The path to the application storage directory.
+	 * The path to the directory containing compiled views.
 	 *
 	 * @var string
 	 */
