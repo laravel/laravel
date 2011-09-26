@@ -16,18 +16,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected static $paths = array();
-
-	/**
-	 * Set the paths in which the configuration files are located.
-	 *
-	 * @param  array  $paths
-	 * @return void
-	 */
-	public static function paths($paths)
-	{
-		static::$paths = $paths;
-	}
+	public static $paths = array();
 
 	/**
 	 * Determine if a configuration item or file exists.
