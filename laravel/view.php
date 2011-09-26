@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class View_Factory {
 
@@ -36,6 +36,14 @@ class View_Factory {
 	 * within your application views directory. Dots or slashes may used to
 	 * reference views within sub-directories.
 	 *
+	 * <code>
+	 *		// Create a new view instance
+	 *		$view = View::make('home.index');
+	 *
+	 *		// Create a new view instance with bound data
+	 *		$view = View::make('home.index', array('name' => 'Taylor'));
+	 * </code>
+	 *
 	 * @param  string  $view
 	 * @param  array   $data
 	 * @return View
@@ -50,16 +58,21 @@ class View_Factory {
 	 *
 	 * View names are defined in the application composers file.
 	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of('layout');
+	 *
+	 *		// Create an instance of the "layout" view with bound data
+	 *		$view = View::of('layout', array('name' => 'Taylor'));
+	 * </code>
+	 *
 	 * @param  string  $name
 	 * @param  array   $data
 	 * @return View
 	 */
 	public function of($name, $data = array())
 	{
-		if ( ! is_null($view = $this->composer->name($name)))
-		{
-			return $this->make($view, $data);
-		}
+		if ( ! is_null($view = $this->composer->name($name))) return $this->make($view, $data);
 
 		throw new \Exception("Named view [$name] is not defined.");
 	}
@@ -74,16 +87,26 @@ class View_Factory {
 	{
 		$view = str_replace('.', '/', $view);
 
-		foreach (array(BLADE_EXT, EXT) as $extension)
+		// A view may have a regular extension or a blade extension. We will need to
+		// check for both extensions when determining the path to the view.
+		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = $this->path.$view.$extension)) return $path;
 		}
 
-		throw new \Exception('View ['.$view.'] does not exist.');
+		throw new \Exception("View [$view] does not exist.");
 	}
 
 	/**
 	 * Magic Method for handling the dynamic creation of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of_layout();
+	 *
+	 *		// Create an instance of a named view with data
+	 *		$view = View::of_layout(array('name' => 'Taylor'));
+	 * </code>
 	 */
 	public function __call($method, $parameters)
 	{
@@ -119,11 +142,17 @@ class View_Composer {
 	/**
 	 * Find the key for a view by name.
 	 *
+	 * The view's key can be used to create instances of the view through the typical
+	 * methods available on the view factory.
+	 *
 	 * @param  string  $name
 	 * @return string
 	 */
 	public function name($name)
 	{
+		// The view's name may specified in several different ways in the composers file.
+		// The composer may simple have a string value, which is the name. Or, the composer
+		// could have an array value in which a "name" key exists.
 		foreach ($this->composers as $key => $value)
 		{
 			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
@@ -138,13 +167,15 @@ class View_Composer {
 	 */
 	public function compose(View $view)
 	{
+		// The shared composer is called for every view instance. This allows the
+		// convenient binding of global view data or partials within a single method.
 		if (isset($this->composers['shared'])) call_user_func($this->composers['shared'], $view);
 
 		if (isset($this->composers[$view->view]))
 		{
 			foreach ((array) $this->composers[$view->view] as $key => $value)
 			{
-				if ($value instanceof \Closure) return call_user_func($value, $view);
+				if ($value instanceof Closure) return call_user_func($value, $view);
 			}
 		}
 	}
@@ -209,56 +240,7 @@ class View {
 	}
 
 	/**
-	 * Create a new view instance.
-	 *
-	 * The name of the view given to this method should correspond to a view
-	 * within your application views directory. Dots or slashes may used to
-	 * reference views within sub-directories.
-	 *
-	 * <code>
-	 *		// Create a new view instance
-	 *		$view = View::make('home.index');
-	 *
-	 *		// Create a new view instance with bound data
-	 *		$view = View::make('home.index', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @return View
-	 */
-	public static function make($view, $data = array())
-	{
-		return IoC::container()->resolve('laravel.view')->make($view, $data);
-	}
-
-	/**
-	 * Create a new view instance from a view name.
-	 *
-	 * View names are defined in the application composers file.
-	 *
-	 * <code>
-	 *		// Create an instance of the "layout" named view
-	 *		$view = View::of('layout');
-	 *
-	 *		// Create an instance of the "layout" view with bound data
-	 *		$view = View::of('layout', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string  $name
-	 * @param  array   $data
-	 * @return View
-	 */
-	public static function of($name, $data = array())
-	{
-		return IoC::container()->resolve('laravel.view')->of($name, $data);
-	}
-
-	/**
 	 * Get the evaluated string content of the view.
-	 *
-	 * If the view has a composer, it will be executed. All sub-views and responses will
-	 * also be evaluated and converted to their string values.
 	 *
 	 * @return string
 	 */
@@ -266,53 +248,65 @@ class View {
 	{
 		$this->composer->compose($this);
 
+		// All nested views and responses are evaluated before the main view. This allows
+		// the assets used by these views to be added to the asset container before the
+		// main view is evaluated and dumps the links to the assets.
 		foreach ($this->data as &$data) 
 		{
 			if ($data instanceof View or $data instanceof Response) $data = $data->render();
 		}
 
+		// We don't want the view's contents to be rendered immediately, so we will fire
+		// up an output buffer to catch the view output. The output of the view will be
+		// rendered automatically later in the request lifecycle.
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		$file = ($this->bladed()) ? $this->compile() : $this->path;
+		// If the view is a "Blade" view, we need to check the view for modifications
+		// and get the path to the compiled view file. Otherwise, we'll just use the
+		// regular path to the view.
+		$view = (strpos($this->path, BLADE_EXT) !== false) ? $this->compile() : $this->path;
 
-		try { include $file; } catch (Exception $e) { ob_get_clean(); throw $e; }
+		try { include $view; } catch (Exception $e) { ob_get_clean(); throw $e; }
 
 		return ob_get_clean();
 	}
 
 	/**
-	 * Determine if the view is using the blade view engine.
-	 *
-	 * @return bool
-	 */
-	protected function bladed()
-	{
-		return (strpos($this->path, '.blade'.EXT) !== false);
-	}
-
-	/**
 	 * Compile the Bladed view and return the path to the compiled view.
-	 *
-	 * If view will only be re-compiled if the view has been modified since the last compiled
-	 * version of the view was created or no compiled view exists. Otherwise, the path will
-	 * be returned without re-compiling.
 	 *
 	 * @return string
 	 */
 	protected function compile()
 	{
+		// For simplicity, compiled views are stored in a single directory by the MD5 hash of
+		// their name. This allows us to avoid recreating the entire view directory structure
+		// within the compiled views directory.
 		$compiled = $this->factory->path.'compiled/'.md5($this->view);
 
+		// The view will only be re-compiled if the view has been modified since the last compiled
+	 	// version of the view was created or no compiled view exists. Otherwise, the path will
+	 	// be returned without re-compiling.
 		if ((file_exists($compiled) and filemtime($this->path) > filemtime($compiled)) or ! file_exists($compiled))
 		{
 			file_put_contents($compiled, Blade::parse($this->path));
 		}
 
-		return $path;
+		return $compiled;
 	}
 
 	/**
 	 * Add a view instance to the view data.
+	 *
+	 * <code>
+	 *		// Add a view instance to a view's data
+	 *		$view = View::make('foo')->partial('footer', 'partials.footer');
+	 *
+	 *		// Equivalent functionality using the "with" method
+	 *		$view = View::make('foo')->with('footer', View::make('partials.footer'));
+	 *
+	 *		// Bind a view instance with data
+	 *		$view = View::make('foo')->partial('footer', 'partials.footer', array('name' => 'Taylor'));
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $view

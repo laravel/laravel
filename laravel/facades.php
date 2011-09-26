@@ -40,3 +40,4 @@ class Input extends Facade { public static $resolve = 'laravel.input'; }
 class Request extends Facade { public static $resolve = 'laravel.request'; }
 class Session extends Facade { public static $resolve = 'laravel.session'; }
 class URI extends Facade { public static $resolve = 'laravel.uri'; }
+class View extends Facade { public static $resolve = 'laravel.view'; }

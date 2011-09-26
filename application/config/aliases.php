@@ -48,6 +48,6 @@ return array(
 	'Session'    => 'Laravel\\Facades\\Session',
 	'Str'        => 'Laravel\\Str',
 	'Validator'  => 'Laravel\\Validation\\Validator',
-	'View'       => 'Laravel\\View',
+	'View'       => 'Laravel\\Facades\\View',
 
 );
