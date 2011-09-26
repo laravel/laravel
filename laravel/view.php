@@ -87,8 +87,6 @@ class View_Factory {
 	{
 		$view = str_replace('.', '/', $view);
 
-		// A view may have a regular extension or a blade extension. We will need to
-		// check for both extensions when determining the path to the view.
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = $this->path.$view.$extension)) return $path;
