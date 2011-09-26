@@ -8,15 +8,20 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	
 	public static function setUpBeforeClass()
 	{
+		IoC::container()->register('laravel.routing.router', function($c)
+		{
+			return new \Laravel\Routing\Router($c->resolve('laravel.routing.loader'), TEST_BASE_PATH.'controllers/');
+		}, true);
+
 		// changing paths
 		IoC::container()->register('laravel.routing.caller', function($c)
 		{
-			return new \Laravel\Routing\Caller($c, require TEST_BASE_PATH.'filters'.EXT, CONTROLLER_PATH);
+			return new \Laravel\Routing\Caller($c, require TEST_BASE_PATH.'filters'.EXT, TEST_BASE_PATH.'controllers/');
 		});
 		
 		IoC::container()->register('laravel.routing.loader', function($c)
 		{
-			return new \Laravel\Routing\Loader(TEST_BASE_PATH,TEST_BASE_PATH . 'routes/');
+			return new \Laravel\Routing\Loader(TEST_BASE_PATH,TEST_BASE_PATH.'routes/');
 		}, true);
 	}
 	
@@ -72,11 +77,14 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	{
 		$response = $this->processRoute('/test/bad');
 		$this->assertEquals($response->content->view, 'error/404');
-		
+	}
+
+	/**
+	 * tests bad routes exceptions
+	 */
+	public function testBadException() {
 		$this->setExpectedException('Exception');
-		
 		$response = $this->processRoute('/test/bad2');
-		$this->assertEquals($response->content->view, 'error/404');
 	}
 	
 	/**
@@ -159,7 +167,12 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 		
 		$url = URL::to_secure_named_route_params(array('var'));
 		$this->assertStringStartsWith('https', $url);
-		
+	}
+
+	/**
+	 * tests url exception
+	 */
+	public function testURLException() {
 		$this->setExpectedException('Exception', 'Error generating named route for route [not_exist]. Route is not defined.');
 		URL::to_not_exist();
 	}
@@ -178,7 +191,48 @@ class RoutesTest extends PHPUnit_Framework_TestCase {
 	
 		$this->markTestIncomplete('Response::headers is protected so can\'t check to see if redirect worked correctly');
 	}
-	
+
+	/**
+	 * tests controllers
+	 */
+	public function testControllers() {
+		$response = $this->processRoute('/controller');
+		$this->assertEquals($response->content, 'controller/index');
+
+		$response = $this->processRoute('/controller/action');
+		$this->assertEquals($response->content, 'controller/action');
+
+		$response = $this->processRoute('/controller/action/param');
+		$this->assertEquals($response->content, 'controller/action/param');
+
+		$response = $this->processRoute('/controller/action/param/param2');
+		$this->assertEquals($response->content, 'controller/action/param/param2');
+
+		$response = $this->processRoute('/controller/view');
+		$this->assertTrue($response->content instanceof \Laravel\View);
+		$this->assertEquals($response->content->view, 'home.index');
+
+		$response = $this->processRoute('/controller/custom');
+		$this->assertEquals($response->content, 'custom');
+
+		$response = $this->processRoute('/controller/notexists');
+		$this->assertEquals($response->content->view, 'error/404');
+
+		$response = $this->processRoute('/resolve');
+		$this->assertEquals($response->content, 'resolve/index/variable');
+
+		$response = $this->processRoute('/bad');
+		$this->assertEquals($response->content->view, 'error/404');
+	}
+
+	/**
+	 * tests controllers exception
+	 */
+	public function testControllersException() {
+		$this->setExpectedException('Exception', 'Attempting to access undefined property [notvar] on controller.');
+		$response = $this->processRoute('/controller/notvar');
+	}
+
 	private function processRoute($uri, $method = 'GET')
 	{
 		$_SERVER['REQUEST_URI'] = $uri;
