@@ -80,7 +80,7 @@ return array(
 	{
 		require_once SYS_PATH.'view'.EXT;
 
-		return new View_Factory($c->resolve('laravel.composer'), VIEW_PATH);
+		return new View_Factory($c->resolve('laravel.composer'), VIEW_PATH, STORAGE_PATH.'views/');
 	}),
 
 

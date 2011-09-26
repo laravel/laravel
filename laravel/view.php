@@ -10,6 +10,13 @@ class View_Factory {
 	public $path;
 
 	/**
+	 * The path to the application storage directory.
+	 *
+	 * @var string
+	 */
+	public $compiled;
+
+	/**
 	 * The view composer instance.
 	 *
 	 * @var View_Composer
@@ -21,12 +28,14 @@ class View_Factory {
 	 *
 	 * @param  View_Composer  $composer
 	 * @param  string         $path
+	 * @param  string         $compiled
 	 * @return void
 	 */
-	public function __construct(View_Composer $composer, $path)
+	public function __construct(View_Composer $composer, $path, $compiled)
 	{
 		$this->path = $path;
 		$this->composer = $composer;
+		$this->compiled = $compiled;
 	}
 
 	/**
@@ -279,7 +288,7 @@ class View {
 		// For simplicity, compiled views are stored in a single directory by the MD5 hash of
 		// their name. This allows us to avoid recreating the entire view directory structure
 		// within the compiled views directory.
-		$compiled = $this->factory->path.'compiled/'.md5($this->view);
+		$compiled = $this->factory->compiled.md5($this->view);
 
 		// The view will only be re-compiled if the view has been modified since the last compiled
 	 	// version of the view was created or no compiled view exists. Otherwise, the path will
