@@ -1,7 +1,4 @@
-<?php namespace Laravel\Database;
-
-use PDO;
-use PDOStatement;
+<?php namespace Laravel\Database; use PDO, PDOStatement;
 
 class Connection {
 
@@ -49,6 +46,14 @@ class Connection {
 	/**
 	 * Execute a SQL query against the connection and return a scalar result.
 	 *
+	 * <code>
+	 *		// Get the total number of rows on a table
+	 *		$count = DB::connection()->scalar('select count(*) from users');
+	 *
+	 *		// Get the sum of payment amounts from a table
+	 *		$sum = DB::connection()->scalar('select sum(amount) from payments')
+	 * </code>
+	 *
 	 * @param  string     $sql
 	 * @param  array      $bindings
 	 * @return int|float
@@ -63,13 +68,21 @@ class Connection {
 	/**
 	 * Execute a SQL query against the connection and return the first result.
 	 *
+	 * <code>
+	 *		// Execute a query against the database connection
+	 *		$user = DB::connection()->first('select * from users');
+	 *
+	 *		// Execute a query with bound parameters
+	 *		$user = DB::connection()->first('select * from users where id = ?', array($id));
+	 * </code>
+	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
 	 * @return object
 	 */
 	public function first($sql, $bindings = array())
 	{
-		return (count($results = $this->query($sql, $bindings)) > 0) ? $results[0] : null;
+		if (count($results = $this->query($sql, $bindings)) > 0) return $results[0];
 	}
 
 	/**
@@ -81,6 +94,14 @@ class Connection {
 	 *     UPDATE -> Number of rows affected.
 	 *     DELETE -> Number of Rows affected.
 	 *     ELSE   -> Boolean true / false depending on success.
+	 *
+	 * <code>
+	 *		// Execute a query against the database connection
+	 *		$users = DB::connection()->query('select * from users');
+	 *
+	 *		// Execute a query with bound parameters
+	 *		$user = DB::connection()->query('select * from users where id = ?', array($id));
+	 * </code>
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings

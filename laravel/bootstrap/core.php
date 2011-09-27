@@ -17,6 +17,8 @@ define('CONFIG_PATH',     APP_PATH.'config/');
 define('CONTROLLER_PATH', APP_PATH.'controllers/');
 define('DATABASE_PATH',   STORAGE_PATH.'database/');
 define('LANG_PATH',       APP_PATH.'language/');
+define('LIBRARY_PATH',    APP_PATH.'libraries/');
+define('MODEL_PATH',      APP_PATH.'models/');
 define('ROUTE_PATH',      APP_PATH.'routes/');
 define('SESSION_PATH',    STORAGE_PATH.'sessions/');
 define('SYS_CONFIG_PATH', SYS_PATH.'config/');
@@ -68,11 +70,7 @@ IoC::$container = $container;
  * Register the application auto-loader. The auto-loader is responsible for the lazy-loading
  * of all of the Laravel core classes, as well as the developer created libraries and models.
  */
-spl_autoload_register(array('Laravel\\Loader', 'load'));
-
-Loader::$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/', APP_PATH);
-
-Loader::$aliases = Config::get('aliases');
+spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
 
 /**
  * Define a few convenient global functions.

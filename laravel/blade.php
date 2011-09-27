@@ -21,11 +21,7 @@ class Blade {
 	 */
 	public static function parse_string($value)
 	{
-		$value = static::rewrite_echos($value);
-		$value = static::rewrite_openings($value);
-		$value = static::rewrite_closings($value);
-
-		return $value;
+		return static::closings(static::openings(static::echos($value)));
 	}
 
 	/**
@@ -34,7 +30,7 @@ class Blade {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function rewrite_echos($value)
+	protected static function echos($value)
 	{
 		return preg_replace('/\{\{(.+)\}\}/', '<?php echo $1; ?>', $value);
 	}
@@ -45,7 +41,7 @@ class Blade {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function rewrite_openings($value)
+	protected static function openings($value)
 	{
 		return preg_replace('/@(if|elseif|foreach|for|while)(\s*\(.*?\))\:/', '<?php $1$2: ?>', $value);
 	}
@@ -56,7 +52,7 @@ class Blade {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function rewrite_closings($value)
+	protected static function closings($value)
 	{
 		$value = preg_replace('/(\s*)@(else)(.*?)\:/', '$1<?php $2$3: ?>', $value);
 		$value = preg_replace('/(\s*)@(endif|endforeach|endfor|endwhile)(\s*)/', '$1<?php $2; ?> $3', $value);

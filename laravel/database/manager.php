@@ -18,6 +18,14 @@ class Manager {
 	 *
 	 * Note: Database connections are managed as singletons.
 	 *
+	 * <code>
+	 *		// Get the default database connection for the application
+	 *		$connection = DB::connection();
+	 *
+	 *		// Get a specific connection by passing the connection name
+	 *		$connection = DB::connection('mysql');
+	 * </code>
+	 *
 	 * @param  string      $connection
 	 * @return Connection
 	 */
