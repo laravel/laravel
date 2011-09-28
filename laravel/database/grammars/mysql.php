@@ -3,10 +3,10 @@
 class MySQL extends Grammar {
 
 	/**
-	 * Get the keyword identifier wrapper for the connection.
+	 * The keyword identifier for the database system.
 	 *
-	 * @return string
+	 * @var string
 	 */
-	public function wrapper() { return '`'; }
+	protected $wrapper = '`';
 
 }

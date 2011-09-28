@@ -1,81 +1,94 @@
-<?php namespace Laravel\Database\Grammars;
-
-use Laravel\Database\Query;
+<?php namespace Laravel\Database\Grammars; use Laravel\Arr, Laravel\Database\Query;
 
 class Grammar {
 
 	/**
-	 * Compile a SQL SELECT statment from a Query instance.
+	 * All of the query componenets in the order they should be built.
+	 *
+	 * @var array
+	 */
+	protected $components = array('selects', 'from', 'joins', 'wheres', 'orderings', 'limit', 'offset');
+
+	/**
+	 * The keyword identifier for the database system.
+	 *
+	 * @var string
+	 */
+	protected $wrapper = '"';
+
+	/**
+	 * Compile a SQL SELECT statement from a Query instance.
+	 *
+	 * The query will be compiled according to the order of the elements specified
+	 * in the "components" property. The entire query is pased into each component
+	 * compiler for convenience.
 	 *
 	 * @param  Query   $query
 	 * @return string
 	 */
 	public function select(Query $query)
 	{
-		if ( ! is_null($query->aggregate))
-		{
-			$sql[] = $this->compile_aggregate($query->aggregate['aggregator'], $query->aggregate['column']);
-		}
-		else
-		{
-			$sql[] = $this->compile_select($query);
-		}
+		$sql = array();
 
-		$sql[] = $this->compile_from($query->table);
-
-		foreach (array('joins', 'wheres', 'orderings', 'limit', 'offset') as $clause)
+		// Iterate through each query component, calling the compiler for that
+		// component, and passing the query instance into the compiler.
+		foreach ($this->components as $component)
 		{
-			if ( ! is_null($query->$clause)) $sql[] = call_user_func(array($this, 'compile_'.$clause), $query->$clause);
+			if ( ! is_null($query->$component)) $sql[] = call_user_func(array($this, $component), $query);
 		}
 
-		return implode(' ', array_filter($sql, function($value) { return ! is_null($value) and (string) $value !== ''; }));
+		return implode(' ', Arr::without($sql, array(null, '')));
 	}
 
 	/**
-	 * Compile the query SELECT clause.
+	 * Compile the SELECT clause for a query.
 	 *
 	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_select(Query $query)
+	protected function selects(Query $query)
 	{
-		return (($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ').implode(', ', array_map(array($this, 'wrap'), $query->select));
+		if ( ! is_null($query->aggregate)) return $this->aggregate($query);
+
+		return (($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ').$this->columnize($query->selects);
 	}
 
 	/**
-	 * Compile the query SELECT clause with an aggregate function.
+	 * Compile an aggregating SELECT clause for a query.
 	 *
-	 * @param  string  $aggregator
-	 * @param  string  $column
+	 * This method compiled the SELECT clauses for queries built using the
+	 * count, max, min, abs, and sum methods on the fluent query builder.
+	 *
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_aggregate($aggregator, $column)
+	protected function aggregate(Query $query)
 	{
-		return 'SELECT '.$aggregator.'('.$this->wrap($column).') AS '.$this->wrap('aggregate');
+		list($aggregator, $column) = array($query->aggregate['aggregator'], $query->aggregate['column']);
+
+		return 'SELECT '.$aggregator.'('.$this->wrap($column).')';
 	}
 
 	/**
-	 * Compile the query FROM clause.
+	 * Compile the FROM clause for a query.
 	 *
-	 * Note: This method does not compile any JOIN clauses. Joins are compiled by the compile_joins method.
-	 *
-	 * @param  string  $table
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_from($table)
+	protected function from(Query $query)
 	{
-		return 'FROM '.$this->wrap($table);
+		return 'FROM '.$this->wrap($query->from);
 	}
 
 	/**
-	 * Compile the query JOIN clauses.
+	 * Compile the JOIN clauses for a query.
 	 *
-	 * @param  array   $joins
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_joins($joins)
+	protected function joins(Query $query)
 	{
-		foreach ($joins as $join)
+		foreach ($query->joins as $join)
 		{
 			extract($join);
 
@@ -86,30 +99,36 @@ class Grammar {
 	}
 
 	/**
-	 * Compile the query WHERE clauses.
+	 * Compile the WHERE clause for a query.
 	 *
-	 * @param  array   $wheres
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_wheres($wheres)
+	protected function wheres(Query $query)
 	{
-		$sql = array('WHERE 1 = 1');
-
+		// Each WHERE clause array has a "type" that is assigned by the query builder, and
+		// each type has its own compiler function. For example, "where in" queries are
+		// compiled by the "where_in" function.
+		//
+		// The only exception to this rule are "raw" where clauses, which are simply
+		// appended to the query as-is, without any further compiling.
 		foreach ($wheres as $where)
 		{
-			$sql[] = (is_string($where)) ? $where : $where['connector'].' '.$this->{'compile_'.$where['type']}($where);
+			$sql[] = ($where['type'] == 'raw') ? $where['sql'] : $where['connector'].' '.$this->{$where['type']}($where);
 		}
 
-		return implode(' ', $sql);
+		return implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
 	}
 
 	/**
 	 * Compile a simple WHERE clause.
 	 *
+	 * This method compiles the SQL for the "where" and "or_where" query functions.
+	 *
 	 * @param  array   $where
 	 * @return string
 	 */
-	protected function compile_where($where)
+	protected function where($where)
 	{
 		return $this->wrap($where['column']).' '.$where['operator'].' ?';
 	}
@@ -117,10 +136,12 @@ class Grammar {
 	/**
 	 * Compile a WHERE IN clause.
 	 *
+	 * This method compiled the SQL for all of the "where_in" style query functions.
+	 *
 	 * @param  array   $where
 	 * @return string
 	 */
-	protected function compile_where_in($where)
+	protected function where_in($where)
 	{
 		$operator = ($where['not']) ? 'NOT IN' : 'IN';
 
@@ -130,10 +151,12 @@ class Grammar {
 	/**
 	 * Compile a WHERE NULL clause.
 	 *
+	 * This method compiles the SQL for all of the "where_null" style query functions.
+	 *
 	 * @param  array   $where
 	 * @return string
 	 */
-	protected function compile_where_null($where)
+	protected function where_null($where)
 	{
 		$operator = ($where['not']) ? 'NOT NULL' : 'NULL';
 
@@ -141,14 +164,14 @@ class Grammar {
 	}
 
 	/**
-	 * Compile the query ORDER BY clause.
+	 * Compile ORDER BY clause for a query.
 	 *
-	 * @param  array   $orderings
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_orderings($orderings)
+	protected function orderings(Query $query)
 	{
-		foreach ($orderings as $ordering)
+		foreach ($query->orderings as $ordering)
 		{
 			$sql[] = $this->wrap($ordering['column']).' '.strtoupper($ordering['direction']);
 		}
@@ -157,25 +180,25 @@ class Grammar {
 	}
 
 	/**
-	 * Compile the query LIMIT.
+	 * Compile the LIMIT clause for a query.
 	 *
-	 * @param  int     $limit
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_limit($limit)
+	protected function limit(Query $query)
 	{
-		return 'LIMIT '.$limit;
+		return 'LIMIT '.$query->limit;
 	}
 
 	/**
-	 * Compile the query OFFSET.
+	 * Compile the OFFSET clause for a query.
 	 *
-	 * @param  int     $offset
+	 * @param  Query   $query
 	 * @return string
 	 */
-	protected function compile_offset($offset)
+	protected function offset(Query $query)
 	{
-		return 'OFFSET '.$offset;
+		return 'OFFSET '.$query->offset;
 	}
 
 	/**
@@ -187,21 +210,9 @@ class Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		$columns = array_map(array($this, 'wrap'), array_keys($values));
+		$columns = implode(', ', $this->columnize(array_keys($values)));
 
-		return 'INSERT INTO '.$this->wrap($query->table).' ('.implode(', ', $columns).') VALUES ('.$this->parameterize($values).')';
-	}
-
-	/**
-	 * Compile a SQL INSERT statment that returns an auto-incrementing ID from a Query instance.
-	 *
-	 * @param  Query   $query
-	 * @param  array   $values
-	 * @return string
-	 */
-	public function insert_get_id(Query $query, $values)
-	{
-		return $this->insert($query, $values);
+		return 'INSERT INTO '.$this->wrap($query->from).' ('.$columns.') VALUES ('.$this->parameterize($values).')';
 	}
 
 	/**
@@ -213,11 +224,14 @@ class Grammar {
 	 */
 	public function update(Query $query, $values)
 	{
-		foreach (array_keys($values) as $column) { $sets[] = $this->wrap($column).' = ?'; }
+		foreach (array_keys($values) as $column)
+		{
+			$sets[] = $this->wrap($column).' = ?';
+		}
 
-		$sql = 'UPDATE '.$this->wrap($query->table).' SET '.implode(', ', $sets);
+		$sql = 'UPDATE '.$this->wrap($query->from).' SET '.implode(', ', $sets);
 
-		return (count($query->wheres) > 0) ? $sql.' '.$this->compile_wheres($query->wheres) : $sql;
+		return (count($query->wheres) > 0) ? $sql.' '.$this->wheres($query->wheres) : $sql;
 	}
 
 	/**
@@ -228,15 +242,26 @@ class Grammar {
 	 */
 	public function delete(Query $query)
 	{
-		$sql = 'DELETE FROM '.$this->wrap($query->table);
+		$sql = 'DELETE FROM '.$this->wrap($query->from);
 
-		return (count($query->wheres) > 0) ? $sql.' '.$this->compile_wheres($query->wheres) : $sql;
+		return (count($query->wheres) > 0) ? $sql.' '.$this->wheres($query->wheres) : $sql;
+	}
+
+	/**
+	 * Create a comma-delimited list of wrapped column names.
+	 *
+	 * @param  array   $columns
+	 * @return string
+	 */
+	protected function columnize($columns)
+	{
+		return implode(', ', array_map(array($this, 'wrap'), $columns));
 	}
 
 	/**
 	 * Wrap a value in keyword identifiers.
 	 *
-	 * @param  string      $value
+	 * @param  string  $value
 	 * @return string
 	 */
 	public function wrap($value)
@@ -245,7 +270,7 @@ class Grammar {
 
 		foreach (explode('.', $value) as $segment)
 		{
-			$wrapped[] = ($segment != '*') ? $this->wrapper().$segment.$this->wrapper() : $segment;
+			$wrapped[] = ($segment != '*') ? $this->wrapper.$segment.$this->wrapper : $segment;
 		}
 
 		return implode('.', $wrapped);
@@ -254,7 +279,7 @@ class Grammar {
 	/**
 	 * Wrap an alias in keyword identifiers.
 	 *
-	 * @param  string      $value
+	 * @param  string  $value
 	 * @return string
 	 */
 	public function wrap_alias($value)
@@ -265,18 +290,14 @@ class Grammar {
 	}
 
 	/**
-	 * Get the keyword identifier wrapper for the connection.
-	 *
-	 * @return string
-	 */
-	public function wrapper() { return '"'; }
-
-	/**
 	 * Create query parameters from an array of values.
 	 *
-	 * @param  array  $values
+	 * @param  array   $values
 	 * @return string
 	 */
-	public function parameterize($values) { return implode(', ', array_fill(0, count($values), '?')); }
+	public function parameterize($values)
+	{
+		return implode(', ', array_fill(0, count($values), '?'));
+	}
 
 }

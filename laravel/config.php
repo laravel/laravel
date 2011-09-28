@@ -3,6 +3,13 @@
 class Config {
 
 	/**
+	 * The paths to the configuration files.
+	 *
+	 * @var array
+	 */
+	public static $paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
+
+	/**
 	 * All of the loaded configuration items.
 	 *
 	 * The configuration arrays are keyed by their owning file name.
@@ -10,13 +17,6 @@ class Config {
 	 * @var array
 	 */
 	protected static $items = array();
-
-	/**
-	 * The paths to the configuration files.
-	 *
-	 * @var array
-	 */
-	public static $paths = array();
 
 	/**
 	 * Determine if a configuration item or file exists.
@@ -122,8 +122,8 @@ class Config {
 		$config = array();
 
 		// Configuration files cascade. Typically, the system configuration array is loaded
-		// first, followed by the application array, followed by the environment array.
-		// This allows the convenient overriding of configuration options.
+		// first, followed by the application array, providing the convenient cascading
+		// of configuration options from system to application.
 		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))

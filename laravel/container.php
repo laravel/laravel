@@ -131,6 +131,25 @@ class Container {
 	}
 
 	/**
+	 * Resolve a core Laravel class from the container.
+	 *
+	 * <code>
+	 *		// Resolve the "laravel.input" class from the container
+	 *		$input = IoC::container()->core('input');
+	 *
+	 *		// Equivalent resolution using the "resolve" method
+	 *		$input = IoC::container()->resolve('laravel.input');
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @return mixed
+	 */
+	public function core($name)
+	{
+		return $this->resolve("laravel.{$name}");
+	}
+
+	/**
 	 * Resolve an object instance from the container.
 	 *
 	 * <code>

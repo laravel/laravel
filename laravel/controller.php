@@ -35,7 +35,7 @@ abstract class Controller {
 	{
 		if (IoC::container()->registered("laravel.{$key}"))
 		{
-			return IoC::container()->resolve("laravel.{$key}");
+			return IoC::container()->core($key);
 		}
 		elseif (IoC::container()->registered($key))
 		{

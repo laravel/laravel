@@ -17,13 +17,15 @@ define('CONFIG_PATH',     APP_PATH.'config/');
 define('CONTROLLER_PATH', APP_PATH.'controllers/');
 define('DATABASE_PATH',   STORAGE_PATH.'database/');
 define('LANG_PATH',       APP_PATH.'language/');
+define('LIBRARY_PATH',    APP_PATH.'libraries/');
+define('MODEL_PATH',      APP_PATH.'models/');
 define('ROUTE_PATH',      APP_PATH.'routes/');
 define('SESSION_PATH',    STORAGE_PATH.'sessions/');
 define('SYS_CONFIG_PATH', SYS_PATH.'config/');
 define('SYS_LANG_PATH',   SYS_PATH.'language/');
 define('VIEW_PATH',       APP_PATH.'views/');
 
-define('EXT',       '.php');
+define('EXT', '.php');
 define('BLADE_EXT', '.blade.php');
 
 /**
@@ -34,24 +36,6 @@ require SYS_PATH.'facades'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'arr'.EXT;
-
-/**
- * Determine the application environment. The environment is typically set by an environment
- * variable on the server, as this provides the most accident-proof method of handling
- * application environments. However, the environment could be manually set by the developer
- * in the front controller if access to the environment variables is not available.
- * set by an environment variable on the server.
- */
-$environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : null;
-
-/**
- * Register the path to the configuration files.
- */
-$configs = array(SYS_CONFIG_PATH, CONFIG_PATH);
-
-if ( ! is_null($environment)) $configs[] = CONFIG_PATH.$environment.'/';
-
-Config::$paths = $configs;
 
 /**
  * Bootstrap the application inversion of control (IoC) container. The container provides the
@@ -68,11 +52,7 @@ IoC::$container = $container;
  * Register the application auto-loader. The auto-loader is responsible for the lazy-loading
  * of all of the Laravel core classes, as well as the developer created libraries and models.
  */
-spl_autoload_register(array('Laravel\\Loader', 'load'));
-
-Loader::$paths = array(BASE_PATH, APP_PATH.'models/', APP_PATH.'libraries/', APP_PATH);
-
-Loader::$aliases = Config::get('aliases');
+spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
 
 /**
  * Define a few convenient global functions.

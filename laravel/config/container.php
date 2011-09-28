@@ -64,6 +64,12 @@ return array(
 	}),
 
 
+	'laravel.loader' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new Loader(array(BASE_PATH, MODEL_PATH, LIBRARY_PATH, BASE_PATH), Config::get('aliases'));
+	}),
+
+
 	'laravel.request' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Request($c->resolve('laravel.uri'), $_SERVER, $_POST);		

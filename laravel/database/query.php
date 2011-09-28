@@ -21,7 +21,7 @@ class Query {
 	 *
 	 * @var array
 	 */
-	public $select;
+	public $selects;
 
 	/**
 	 * If the query is performing an aggregate function, this will contain the column
@@ -43,7 +43,7 @@ class Query {
 	 *
 	 * @var string
 	 */
-	public $table;
+	public $from;
 
 	/**
 	 * The table joins.
@@ -90,14 +90,14 @@ class Query {
 	/**
 	 * Create a new query instance.
 	 *
-	 * @param  Connection           $connection
-	 * @param  Grammars\Grammar     $grammar
-	 * @param  string               $table
+	 * @param  Connection        $connection
+	 * @param  Grammars\Grammar  $grammar
+	 * @param  string            $table
 	 * @return void
 	 */
 	public function __construct(Connection $connection, Grammars\Grammar $grammar, $table)
 	{
-		$this->table = $table;
+		$this->from = $table;
 		$this->grammar = $grammar;
 		$this->connection = $connection;
 	}
@@ -122,7 +122,7 @@ class Query {
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->select = (array) $columns;
+		$this->selects = (array) $columns;
 
 		return $this;
 	}
@@ -139,7 +139,7 @@ class Query {
 	 */
 	public function join($table, $column1, $operator, $column2, $type = 'INNER')
 	{
-		$this->joins[] = compact('table', 'column1', 'operator', 'column2', 'type');
+		$this->joins[] = compact('type', 'table', 'column1', 'operator', 'column2');
 
 		return $this;
 	}
@@ -178,7 +178,7 @@ class Query {
 	 */
 	public function raw_where($where, $bindings = array(), $connector = 'AND')
 	{
-		$this->wheres[] = ' '.$connector.' '.$where;
+		$this->wheres[] = array('type' => 'raw', 'connector' => $connector, 'sql' => $where);
 
 		$this->bindings = array_merge($this->bindings, $bindings);
 
@@ -470,7 +470,7 @@ class Query {
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
-		$this->select = null;
+		$this->selects = null;
 
 		return $result;
 	}
@@ -507,13 +507,13 @@ class Query {
 	 */
 	public function get($columns = array('*'))
 	{
-		if (is_null($this->select)) $this->select($columns);
+		if (is_null($this->selects)) $this->select($columns);
 
 		$results = $this->connection->query($this->grammar->select($this), $this->bindings);
 
 		// Reset the SELECT clause so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
-		$this->select = null;
+		$this->selects = null;
 
 		return $results;
 	}
@@ -582,7 +582,7 @@ class Query {
 			return $this->dynamic_where($method, $parameters, $this);
 		}
 
-		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
+		if (in_array($method, array('abs', 'count', 'min', 'max', 'avg', 'sum')))
 		{
 			return ($method == 'count') ? $this->aggregate(strtoupper($method), '*') : $this->aggregate(strtoupper($method), $parameters[0]);
 		}
