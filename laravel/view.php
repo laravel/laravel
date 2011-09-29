@@ -306,13 +306,13 @@ class View {
 	 *
 	 * <code>
 	 *		// Add a view instance to a view's data
-	 *		$view = View::make('foo')->partial('footer', 'partials.footer');
+	 *		$view = View::make('foo')->nest('footer', 'partials.footer');
 	 *
 	 *		// Equivalent functionality using the "with" method
 	 *		$view = View::make('foo')->with('footer', View::make('partials.footer'));
 	 *
 	 *		// Bind a view instance with data
-	 *		$view = View::make('foo')->partial('footer', 'partials.footer', array('name' => 'Taylor'));
+	 *		$view = View::make('foo')->nest('footer', 'partials.footer', array('name' => 'Taylor'));
 	 * </code>
 	 *
 	 * @param  string  $key
@@ -320,7 +320,7 @@ class View {
 	 * @param  array   $data
 	 * @return View
 	 */
-	public function partial($key, $view, $data = array())
+	public function nest($key, $view, $data = array())
 	{
 		return $this->with($key, $this->factory->make($view, $data));
 	}
