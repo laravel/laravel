@@ -49,13 +49,11 @@ $handler = function($e) use ($formatter)
  */
 set_exception_handler(function($e) use ($handler)
 {
-	//die(var_dump($e));
 	$handler($e); 
 });
 
 set_error_handler(function($number, $error, $file, $line) use ($handler)
 {
-	//die($error);
 	$handler(new \ErrorException($error, $number, 0, $file, $line));
 });
 
@@ -63,7 +61,6 @@ register_shutdown_function(function() use ($handler)
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		//die($error['message']);
 		$handler(new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
 	}	
 });
