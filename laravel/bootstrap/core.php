@@ -1,8 +1,5 @@
 <?php namespace Laravel;
 
-/**
- * Define core framework paths and constants.
- */
 define('APP_PATH',     realpath($application).'/');
 define('BASE_PATH',    realpath(str_replace('laravel', '', $laravel)).'/');
 define('PACKAGE_PATH', realpath($packages).'/');
@@ -25,7 +22,7 @@ define('SYS_CONFIG_PATH', SYS_PATH.'config/');
 define('SYS_LANG_PATH',   SYS_PATH.'language/');
 define('VIEW_PATH',       APP_PATH.'views/');
 
-define('EXT', '.php');
+define('EXT',       '.php');
 define('BLADE_EXT', '.blade.php');
 
 /**
