@@ -147,7 +147,7 @@ abstract class Model {
 
 		// Since this method is only used for instantiating models for querying
 		// purposes, we will go ahead and set the Query instance on the model.
-		$model->query = IoC::core('database')->connection(static::$connection)->table(static::table($class));
+		$model->query = IoC::container()->core('database')->connection(static::$connection)->table(static::table($class));
 
 		return $model;
 	}
@@ -361,7 +361,7 @@ abstract class Model {
 
 		// Since the model was instantiated using "new", a query instance has not been set.
 		// Only models being used for querying have their query instances set by default.
-		$this->query = IoC::core('database')->connection(static::$connection)->table(static::table($model));
+		$this->query = IoC::container()->core('database')->connection(static::$connection)->table(static::table($model));
 
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
@@ -410,7 +410,9 @@ abstract class Model {
 		// delete statement to the query instance.
 		if ( ! $this->exists) return $this->query->delete();
 
-		return IoC::core('database')->connection(static::$connection)->table(static::table(get_class($this)))->delete($this->id);
+		$table = static::table(get_class($this));
+
+		return IoC::container()->core('database')->connection(static::$connection)->table($table)->delete($this->id);
 	}
 
 	/**
@@ -487,7 +489,7 @@ abstract class Model {
 
 		// All of the aggregate and persistance functions can be passed directly to the query
 		// instance. For these functions, we can simply return the response of the query.
-		if (in_array($method, array('insert', 'update', 'count', 'sum', 'min', 'max', 'avg')))
+		if (in_array($method, array('insert', 'update', 'abs', 'count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($this->query, $method), $parameters);
 		}
