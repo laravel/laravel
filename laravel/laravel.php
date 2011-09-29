@@ -25,7 +25,7 @@ date_default_timezone_set(Config::get('application.timezone'));
  */
 if (Config::get('session.driver') !== '')
 {
-	$session = $container->resolve('laravel.session.manager');
+	$session = $container->core('session.manager');
 
 	$container->instance('laravel.session', $session->payload(Config::get('session')));
 }
@@ -36,15 +36,15 @@ if (Config::get('session.driver') !== '')
  * will be called with the current requst instance. If no route is found, the 404
  * response will be returned to the browser.
  */
-$request = $container->resolve('laravel.request');
+$request = $container->core('request');
 
 list($method, $uri) = array($request->method(), $request->uri());
 
-$route = $container->resolve('laravel.routing.router')->route($request, $method, $uri);
+$route = $container->core('routing.router')->route($request, $method, $uri);
 
 if ( ! is_null($route))
 {
-	$response = $container->resolve('laravel.routing.caller')->call($route);
+	$response = $container->core('routing.caller')->call($route);
 }
 else
 {
@@ -65,9 +65,9 @@ $response->content = $response->render();
  */
 if (isset($session))
 {
-	$flash = array(Input::old_input => $container->resolve('laravel.input')->get());
+	$flash = array(Input::old_input => $container->core('input')->get());
 
-	$session->close($container->resolve('laravel.session'), Config::get('session'), $flash);
+	$session->close($container->core('session'), Config::get('session'), $flash);
 }
 
 /**

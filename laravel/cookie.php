@@ -40,7 +40,7 @@ class Cookie {
 	 */
 	public function get($name, $default = null)
 	{
-		return Arr::get($_COOKIE, $name, $default);
+		return Arr::get($this->cookies, $name, $default);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Cookie {
 	{
 		if (headers_sent()) return false;
 
-		if ($minutes < 0) unset($_COOKIE[$name]);
+		if ($minutes < 0) unset($this->cookies[$name]);
 
 		// Since PHP needs the cookie lifetime in seconds, we will calculate it here.
 		// A "0" lifetime means the cookie expires when the browser closes.
