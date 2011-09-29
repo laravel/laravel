@@ -15,8 +15,13 @@ abstract class Driver {
 	/**
 	 * Get an item from the cache.
 	 *
-	 * A default value may also be specified, and will be returned in the requested
-	 * item does not exist in the cache.
+	 * <code>
+	 *		// Get an item from the cache driver
+	 *		$name = Cache::driver('name');
+	 *
+	 *		// Return a default value if the requested item isn't cached
+	 *		$name = Cache::get('name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
@@ -41,6 +46,11 @@ abstract class Driver {
 	/**
 	 * Write an item to the cache for a given number of minutes.
 	 *
+	 * <code>
+	 *		// Put an item in the cache for 15 minutes
+	 *		Cache::put('name', 'Taylor', 15);
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @param  int     $minutes
@@ -51,6 +61,14 @@ abstract class Driver {
 	/**
 	 * Get an item from the cache. If the item doesn't exist in the cache, store
 	 * the default value in the cache and return it.
+	 *
+	 * <code>
+	 *		// Get an item from the cache, or cache a value for 15 minutes if it doesn't exist
+	 *		$name = Cache::remember('name', 'Taylor', 15);
+	 *
+	 *		// Use a closure for deferred execution
+	 *		$count = Cache::remember('count', function() { return User::count(); }, 15);
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default

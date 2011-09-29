@@ -61,6 +61,7 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
+		// The expiration time is stored as a UNIX timestamp at the beginning of the file.
 		F::put($this->path.$key, (time() + ($minutes * 60)).serialize($value));
 	}
 
