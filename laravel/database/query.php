@@ -468,9 +468,9 @@ class Query {
 
 		$result = $this->connection->scalar($this->grammar->select($this), $this->bindings);
 
-		// Reset the SELECT clause so more queries can be performed using the same instance.
+		// Reset the aggregate so more queries can be performed using the same instance.
 		// This is helpful for getting aggregates and then getting actual results.
-		$this->selects = null;
+		$this->aggregate = null;
 
 		return $result;
 	}
@@ -526,7 +526,19 @@ class Query {
 	 */
 	public function insert($values)
 	{
-		return $this->connection->query($this->grammar->insert($this, $values), array_values($values));
+		// Force every insert to be treated like a batch insert. This simply makes creating
+		// the binding array easier. We will simply loop through each inserted row and merge
+		// the values together to get one big binding array.
+		if ( ! is_array(reset($values))) $values = array($values);
+
+		$bindings = array();
+
+		foreach ($values as $value)
+		{
+			$bindings = array_merge($bindings, array_values($value));
+		}
+
+		return $this->connection->query($this->grammar->insert($this, $values), $bindings);
 	}
 
 	/**

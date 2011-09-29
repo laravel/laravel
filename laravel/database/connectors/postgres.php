@@ -36,7 +36,7 @@ class Postgres extends Connector {
 		// Check for any optional Postgres PDO options. These options are not required
 		// to establish a PDO connection; however, may be needed in certain server
 		// or hosting environments used by the developer.
-		foreach (array('port', 'unix_socket') as $key => $value)
+		foreach (array('port') as $key => $value)
 		{
 			if (isset($config[$key])) $dsn .= ";{$key}={$value}";
 		}
