@@ -17,6 +17,14 @@ class Manager {
 	 * If no driver name is specified, the default cache driver will be returned
 	 * as defined in the cache configuration file.
 	 *
+	 * <code>
+	 *		// Get the default cache driver instance
+	 *		$driver = Cache::driver();
+	 *
+	 *		// Get a specific cache driver instance by name
+	 *		$driver = Cache::driver('memcached');
+	 * </code>
+	 *
 	 * @param  string        $driver
 	 * @return Cache\Driver
 	 */
@@ -31,7 +39,7 @@ class Manager {
 				throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 
-			return static::$drivers[$driver] = IoC::container()->resolve('laravel.cache.'.$driver);
+			return static::$drivers[$driver] = IoC::container()->core('cache.'.$driver);
 		}
 
 		return static::$drivers[$driver];
@@ -42,6 +50,14 @@ class Manager {
 	 *
 	 * Passing method calls to the driver instance provides a convenient API for the developer
 	 * when always using the default cache driver.
+	 *
+	 * <code>
+	 *		// Call the "get" method on the default driver
+	 *		$name = Cache::get('name');
+	 *
+	 *		// Call the "put" method on the default driver
+	 *		Cache::put('name', 'Taylor', 15);
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
