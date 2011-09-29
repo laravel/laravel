@@ -63,3 +63,8 @@ function __($key, $replacements = array(), $language = null)
 {
 	return Lang::line($key, $replacements, $language);
 }
+
+function fe($function)
+{
+	return function_exists($function);
+}
