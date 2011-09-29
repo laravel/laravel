@@ -28,7 +28,7 @@ class Str {
 	{
 		if (function_exists('mb_strtoupper'))
 		{
-			return mb_strtoupper($value, static::encoding());
+			return mb_strtoupper($value, Config::get('application.encoding'));
 		}
 
 		return strtoupper($value);
@@ -84,19 +84,17 @@ class Str {
 	/**
 	 * Generate a random alpha or alpha-numeric string.
 	 *
-	 * Supported types: 'alpha_num' and 'alpha'.
+	 * Supported types: 'alnum' and 'alpha'.
 	 *
-	 * @param  int	 $length
+	 * @param  int	   $length
 	 * @param  string  $type
 	 * @return string
 	 */
-	public static function random($length = 16, $type = 'alpha_num')
+	public static function random($length, $type = 'alnum')
 	{
-		$alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-		$pool = ($type == 'alpha_num') ? '0123456789'.$alpha : $alpha;
-
-		return implode('', array_map(function() use ($pool) { return $pool[mt_rand(0, strlen($pool) - 1)]; }, range(0, $length - 1)));
+		return substr(str_shuffle(str_repeat(($type == 'alnum') ? $pool.'0123456789' : $pool, 5)), 0, $length);
 	}
 
 }

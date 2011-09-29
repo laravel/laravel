@@ -119,17 +119,17 @@ class Request {
 	 */
 	public function ip($default = '0.0.0.0')
 	{
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
 		{
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+			return $this->server['HTTP_X_FORWARDED_FOR'];
 		}
-		elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+		elseif (isset($this->server['HTTP_CLIENT_IP']))
 		{
-			return $_SERVER['HTTP_CLIENT_IP'];
+			return $this->server['HTTP_CLIENT_IP'];
 		}
-		elseif (isset($_SERVER['REMOTE_ADDR']))
+		elseif (isset($this->server['REMOTE_ADDR']))
 		{
-			return $_SERVER['REMOTE_ADDR'];
+			return $this->server['REMOTE_ADDR'];
 		}
 
 		return ($default instanceof \Closure) ? call_user_func($default) : $default;

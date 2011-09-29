@@ -50,7 +50,7 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (is_null($https)) $https = IoC::container()->resolve('laravel.request')->secure();
+		if (is_null($https)) $https = IoC::container()->core('request')->secure();
 
 		return str_replace('index.php/', '', static::to($url, $https));
 	}
@@ -77,7 +77,7 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = IoC::container()->resolve('laravel.routing.router')->find($name)))
+		if ( ! is_null($route = IoC::container()->core('routing.router')->find($name)))
 		{
 			$uris = explode(', ', key($route));
 

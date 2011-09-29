@@ -133,7 +133,7 @@ class Response {
 	 */
 	public static function view($view, $data = array())
 	{
-		return new static(IoC::container()->resolve('laravel.view')->make($view, $data));
+		return new static(IoC::container()->core('view')->make($view, $data));
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Response {
 	 */
 	public static function with($name, $data = array())
 	{
-		return new static(IoC::container()->resolve('laravel.view')->of($name, $data));
+		return new static(IoC::container()->core('view')->of($name, $data));
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Response {
 	 */
 	public static function error($code, $data = array())
 	{
-		return new static(IoC::container()->resolve('laravel.view')->make('error/'.$code, $data), $code);
+		return new static(IoC::container()->core('view')->make('error/'.$code, $data), $code);
 	}
 
 	/**
@@ -274,6 +274,7 @@ class Response {
 	public function header($name, $value)
 	{
 		$this->headers[$name] = $value;
+
 		return $this;
 	}
 
@@ -286,6 +287,7 @@ class Response {
 	public function status($status)
 	{
 		$this->status = $status;
+
 		return $this;
 	}
 
