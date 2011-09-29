@@ -52,6 +52,13 @@ class Paginator {
 	public $append = array();
 
 	/**
+	 * The format that will be used to wrap the entire pagination string.
+	 *
+	 * @var string
+	 */
+	protected $wrapper = '<div class="pagination">%s</div>';
+
+	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
@@ -96,7 +103,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$page = Input::get('page', 1);
+		$page = IoC::container()->core('input')->get('page', 1);
 
 		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
 		{
@@ -112,22 +119,17 @@ class Paginator {
 	 * @param  int     $adjacent
 	 * @return string
 	 */
-	public function links($adjacent = 3)
+	public function links($adjacent = 4)
 	{
 		if ($this->last_page <= 1) return '';
 
-		// The hard-coded "7" is to account for all of the constant elements in a sliding range.
-		// Namely: The the current page, the two ellipses, the two beginning pages, and the two ending pages.
-		if ($this->last_page < 7 + ($adjacent * 2))
-		{
-			$numbers = $this->range(1, $this->last_page);
-		}
-		else
-		{
-			$numbers = $this->slider($adjacent);
-		}
+		// If there are two few pages to make showing a slider possible, we will just display a
+		// range of plain number links. The hard-coded "7" is to account for all of the constant
+		// elements in a sliding range, namely the current page, the two ellipses, the two 
+		// beginning and ending pages.
+		$numbers = ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
 
-		return '<div class="pagination">'.$this->previous().$numbers.$this->next().'</div>';
+		return sprintf($this->wrapper, $this->previous().$numbers.$this->next());
 	}
 
 	/**
@@ -244,7 +246,9 @@ class Paginator {
 			$append .= '&'.$key.'='.$value;
 		}
 
-		return HTML::link(Request::uri().'?page='.$page.$append, $text, compact('class'), Request::secure());
+		$request = IoC::container()->core('request');
+
+		return HTML::link($request->uri().'?page='.$page.$append, $text, compact('class'), $request->secure());
 	}
 
 	/**
@@ -256,6 +260,7 @@ class Paginator {
 	public function lang($language)
 	{
 		$this->language = $language;
+
 		return $this;
 	}
 
@@ -268,6 +273,7 @@ class Paginator {
 	public function append($values)
 	{
 		$this->append = $values;
+
 		return $this;
 	}
 
