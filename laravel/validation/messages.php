@@ -26,6 +26,11 @@ class Messages {
 	 *
 	 * Duplicate messages will not be added.
 	 *
+	 * <code>
+	 *		// Add a message to the collector for the "email" attribute
+	 *		$messages->add('email', 'The e-mail address is invalid.');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $message
 	 * @return void
@@ -52,6 +57,14 @@ class Messages {
 	/**
 	 * Get the first message for a given key.
 	 *
+	 * <code>
+	 *		// Get the first message for the e-mail attribute
+	 *		$email = $messages->first('email');
+	 *
+	 *		// Format the first message for the e-mail attribute
+	 *		$email = $messages->first('email', '<p>:message</p>');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $format
 	 * @return string
@@ -63,6 +76,14 @@ class Messages {
 
 	/**
 	 * Get all of the messages for a key.
+	 *
+	 * <code>
+	 *		// Get all of the messages for the e-mail attribute
+	 *		$email = $messages->get('email');
+	 *
+	 *		// Format all of the messages for the e-mail attribute
+	 *		$email = $messages->get('email', '<p>:message</p>');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  string  $format
@@ -77,6 +98,14 @@ class Messages {
 
 	/**
 	 * Get all of the messages for every key.
+	 *
+	 * <code>
+	 *		// Get all of the messages in the collector
+	 *		$all = $messages->all();
+	 *
+	 *		// Format all of the messages in the collector
+	 *		$all = $messages->all('<p>:message</p>');
+	 * </code>
 	 *
 	 * @param  string  $format
 	 * @return array
