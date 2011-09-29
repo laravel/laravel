@@ -132,6 +132,7 @@ abstract class Model {
 	private function _with()
 	{
 		$this->includes = func_get_args();
+
 		return $this;
 	}
 
