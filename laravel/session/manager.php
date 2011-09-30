@@ -29,6 +29,13 @@ class Manager {
 	private $payload;
 
 	/**
+	 * Indicates if the session exists in persistent storage.
+	 *
+	 * @var bool
+	 */
+	private $exists = true;
+
+	/**
 	 * Create a new session manager instance.
 	 *
 	 * @param  Driver       $driver
@@ -56,6 +63,8 @@ class Manager {
 		// string ID to uniquely identify it among the application's current users.
 		if (is_null($session) or $this->expired($session, $config))
 		{
+			$this->exists = false;
+
 			$session = array('id' => Str::random(40), 'data' => array());
 		}
 
@@ -96,12 +105,19 @@ class Manager {
 	 */
 	public function close(Payload $payload, $config, $flash = array())
 	{
-		foreach ($flash as $key => $value)
+		// If the session ID has been regenerated, we will need to inform the session driver
+		// that the session will need to be persisted to the data store as a new session.
+		if ($payload->regenerated)
 		{
-			$this->driver->flash($key, $value);
+			$this->exists = false;
 		}
 
-		$this->driver->save($payload->age(), $config);
+		foreach ($flash as $key => $value)
+		{
+			$payload->flash($key, $value);
+		}
+
+		$this->driver->save($payload->age(), $config, $this->exists);
 
 		$this->transporter->put($payload->session['id'], $config);
 

@@ -113,7 +113,7 @@ class Grammar {
 		//
 		// The only exception to this rule are "raw" where clauses, which are simply
 		// appended to the query as-is, without any further compiling.
-		foreach ($wheres as $where)
+		foreach ($query->wheres as $where)
 		{
 			$sql[] = ($where['type'] == 'raw') ? $where['sql'] : $where['connector'].' '.$this->{$where['type']}($where);
 		}

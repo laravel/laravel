@@ -1,7 +1,7 @@
 <?php namespace Laravel\Security;
 
 use Laravel\Config;
-use Laravel\Session\Driver;
+use Laravel\Session\Payload;
 
 class Auth {
 
@@ -13,9 +13,9 @@ class Auth {
 	protected $user;
 
 	/**
-	 * The session driver instance.
+	 * The session payload instance.
 	 *
-	 * @var Session\Driver
+	 * @var Session\Payload
 	 */
 	protected $session;
 
@@ -29,10 +29,10 @@ class Auth {
 	/**
 	 * Create a new authenticator instance.
 	 *
-	 * @param  Session\Driver  $session
+	 * @param  Session\Payload  $session
 	 * @return void
 	 */
-	public function __construct(Driver $session)
+	public function __construct(Payload $session)
 	{
 		$this->session = $session;
 	}
@@ -105,7 +105,7 @@ class Auth {
 	 */
 	public function logout()
 	{
-		call_user_func(Config::get('auth.logout'), $this->user()->id);
+		call_user_func(Config::get('auth.logout'), $this->user());
 
 		$this->user = null;
 

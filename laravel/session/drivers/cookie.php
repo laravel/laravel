@@ -56,9 +56,10 @@ class Cookie implements Driver {
 	 *
 	 * @param  array  $session
 	 * @param  array  $config
+	 * @param  bool   $exists
 	 * @return void
 	 */
-	public function save($session, $config)
+	public function save($session, $config, $exists)
 	{
 		extract($config);
 

@@ -17,9 +17,10 @@ interface Driver {
 	 *
 	 * @param  array  $session
 	 * @param  array  $config
+	 * @param  bool   $exists
 	 * @return void
 	 */
-	public function save($session, $config);
+	public function save($session, $config, $exists);
 
 	/**
 	 * Delete a session from storage by a given ID.

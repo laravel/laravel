@@ -1,8 +1,9 @@
 <?php namespace Laravel;
 
 /**
- * Create the exception formatter closure. This function will format the exception
- * message and severity for display and return the two formatted strings in an array.
+ * Create the exception formatter closure. This function will format
+ * the exception message and severity for display and return the two
+ * formatted strings in an array.
  */
 $formatter = function($e)
 {
@@ -32,20 +33,30 @@ $formatter = function($e)
 };
 
 /**
- * Create the exception handler function. All of the handlers registered with PHP
- * will call this handler when an error occurs so the code stays D.R.Y.
+ * Create the exception handler function. All of the handlers
+ * registered with PHP will call this handler when an error
+ * occurs so the code stays D.R.Y.
  */
 $handler = function($e) use ($formatter)
 {
 	list($severity, $message) = $formatter($e);
 
-	call_user_func(Config::get('error.handler'), $e, $severity, $message, Config::get('error'));
+	$config = Config::get('error');
+
+	if ($config['log'])
+	{
+		call_user_func($config['logger'], $e, $severity, $message, $config);
+	}
+
+	call_user_func($config['handler'], $e, $severity, $message, $config);
+
+	exit(1);
 };
 
 /**
- * Register the exception, error, and shutdown error handlers. These handlers will
- * catch all PHP exceptions and errors and pass the exceptions into the common
- * Laravel error handler.
+ * Register the exception, error, and shutdown error handlers.
+ * These handlers will catch all PHP exceptions and errors and
+ * pass the exceptions into the common Laravel error handler.
  */
 set_exception_handler(function($e) use ($handler)
 {
@@ -66,8 +77,9 @@ register_shutdown_function(function() use ($handler)
 });
 
 /**
- * Set the error reporting and display levels. Since the framework will be displaying
- * the exception messages, we don't want PHP to display any error information.
+ * Set the error reporting and display levels. Since the framework
+ * will be displaying the exception messages, we don't want PHP to
+ * display any error information.
  */
 error_reporting(-1);
 

@@ -59,6 +59,6 @@ return array(
 	|
 	*/
 
-	'logout' => function($id) {}
+	'logout' => function($user) {}
 
 );

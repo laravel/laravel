@@ -50,17 +50,26 @@ class Database implements Driver, Sweeper {
 	 *
 	 * @param  array  $session
 	 * @param  array  $config
+	 * @param  bool   $exists
 	 * @return void
 	 */
-	public function save($session, $config)
+	public function save($session, $config, $exists)
 	{
-		$this->delete($session['id']);
-
-		$this->table()->insert(array(
-			'id'            => $session['id'], 
-			'last_activity' => $session['last_activity'], 
-			'data'          => serialize($session['data'])
-		));
+		if ($exists)
+		{
+			$this->table()->where('id', '=', $session['id'])->update(array(
+				'last_activity' => $session['last_activity'],
+				'data'          => serialize($session['data']),
+			));
+		}
+		else
+		{
+			$this->table()->insert(array(
+				'id'            => $session['id'], 
+				'last_activity' => $session['last_activity'], 
+				'data'          => serialize($session['data'])
+			));			
+		}
 	}
 
 	/**

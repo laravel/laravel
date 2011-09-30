@@ -42,9 +42,10 @@ class APC implements Driver {
 	 *
 	 * @param  array  $session
 	 * @param  array  $config
+	 * @param  bool   $exists
 	 * @return void
 	 */
-	public function save($session, $config)
+	public function save($session, $config, $exists)
 	{
 		$this->apc->put($session['id'], $session, $config['lifetime']);
 	}

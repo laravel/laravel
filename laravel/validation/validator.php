@@ -535,7 +535,7 @@ class Validator {
 	 * @param  string     $language
 	 * @return Validator
 	 */
-	public function lang($language)
+	public function speaks($language)
 	{
 		$this->language = $language;
 		return $this;

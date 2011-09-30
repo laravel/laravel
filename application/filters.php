@@ -56,13 +56,13 @@ return array(
 
 	'auth' => function()
 	{
-		return ( ! Auth::check()) ? Redirect::to('login') : null;
+		if ( ! Auth::check()) return Redirect::to('login');
 	},
 
 
 	'csrf' => function()
 	{
-		return (Input::get('csrf_token') !== Form::raw_token()) ? Response::error('500') : null;
+		if (Input::get('csrf_token') !== Form::raw_token()) return Response::error('500');
 	},
 
 );

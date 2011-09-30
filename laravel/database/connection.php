@@ -44,25 +44,25 @@ class Connection {
 	}
 
 	/**
-	 * Execute a SQL query against the connection and return a scalar result.
+	 * Execute a SQL query against the connection and return a single column result.
 	 *
 	 * <code>
 	 *		// Get the total number of rows on a table
-	 *		$count = DB::connection()->scalar('select count(*) from users');
+	 *		$count = DB::connection()->only('select count(*) from users');
 	 *
 	 *		// Get the sum of payment amounts from a table
-	 *		$sum = DB::connection()->scalar('select sum(amount) from payments')
+	 *		$sum = DB::connection()->only('select sum(amount) from payments')
 	 * </code>
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
-	 * @return float
+	 * @return mixed
 	 */
-	public function scalar($sql, $bindings = array())
+	public function only($sql, $bindings = array())
 	{
 		$result = (array) $this->first($sql, $bindings);
 
-		return (float) reset($result);
+		return reset($result);
 	}
 
 	/**

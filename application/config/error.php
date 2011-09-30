@@ -40,23 +40,15 @@ return array(
 	| flexibility in Laravel to manage error logging as you see fit.
 	|
 	| This function will be called when an error occurs in your application.
-	| You can log the error however you like.
+	| You are free to handle the exception any way your heart desires.
 	|
 	| The error "severity" passed to the method is a human-readable severity
 	| level such as "Parsing Error" or "Fatal Error".
-	|
-	| A simple logging system has been setup for you. By default, all errors
-	| will be logged to the storage/log.txt file.
 	|
 	*/
 
 	'handler' => function($exception, $severity, $message, $config)
 	{
-		if ($config['log'])
-		{
-			call_user_func($config['logger'], $severity, $message);
-		}
-
 		if ($config['detail'])
 		{
 			$data = compact('exception', 'severity', 'message');
@@ -69,8 +61,6 @@ return array(
 		}
 
 		$response->send();
-
-		exit(1);
 	},
 
 	/*
@@ -81,18 +71,15 @@ return array(
 	| Because of the various ways of managing error logging, you get complete
 	| flexibility to manage error logging as you see fit.
 	|
-	| This function will be called when an error occurs in your application.
-	| You can log the error however you like.
-	|
-	| The error "severity" passed to the method is a human-readable severity
-	| level such as "Parsing Error" or "Fatal Error".
+	| This function will be called when an error occurs in your application
+	| and error loggins is enabled. You can log the error however you like.
 	|
 	| A simple logging system has been setup for you. By default, all errors
 	| will be logged to the storage/log.txt file.
 	|
 	*/
 
-	'logger' => function($severity, $message)
+	'logger' => function($exception, $severity, $message, $config)
 	{
 		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' '.$severity.' - '.$message.PHP_EOL);
 	}

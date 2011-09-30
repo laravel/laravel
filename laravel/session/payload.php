@@ -13,6 +13,13 @@ class Payload {
 	public $session = array();
 
 	/**
+	 * Indicates if the session ID has been regenerated.
+	 *
+	 * @var bool
+	 */
+	public $regenerated = false;
+
+	/**
 	 * Create a new session container instance.
 	 *
 	 * @param  array  $session
@@ -144,6 +151,8 @@ class Payload {
 	public function regenerate()
 	{
 		$this->session['id'] = Str::random(40);
+
+		$this->regenerated = true;
 	}
 
 	/**

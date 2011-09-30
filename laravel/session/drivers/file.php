@@ -40,9 +40,10 @@ class File implements Driver, Sweeper {
 	 *
 	 * @param  array  $session
 	 * @param  array  $config
+	 * @param  bool   $exists
 	 * @return void
 	 */
-	public function save($session, $config)
+	public function save($session, $config, $exists)
 	{
 		F::put($this->path.$session['id'], serialize($session), LOCK_EX);
 	}

@@ -456,23 +456,16 @@ class Query {
 	}
 
 	/**
-	 * Get an aggregate value.
+	 * Execute the query as a SELECT statement and return a single column.
 	 *
-	 * @param  string  $aggregate
 	 * @param  string  $column
 	 * @return mixed
 	 */
-	private function aggregate($aggregator, $column)
+	public function only($column)
 	{
-		$this->aggregate = compact('aggregator', 'column');
+		$this->select(array($column));
 
-		$result = $this->connection->scalar($this->grammar->select($this), $this->bindings);
-
-		// Reset the aggregate so more queries can be performed using the same instance.
-		// This is helpful for getting aggregates and then getting actual results.
-		$this->aggregate = null;
-
-		return $result;
+		return $this->connection->only($this->grammar->select($this), $this->bindings);
 	}
 
 	/**
@@ -487,16 +480,7 @@ class Query {
 	{
 		$columns = (array) $columns;
 
-		$results = (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
-
-		// If we have results and only a single column was selected from the database,
-		// we will simply return the value of that column for convenience.
-		if ( ! is_null($results) and count($columns) == 1 and $columns[0] !== '*')
-		{
-			return $results->{$columns[0]};
-		}
-
-		return $results;
+		return (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
 	}
 
 	/**
@@ -516,6 +500,26 @@ class Query {
 		$this->selects = null;
 
 		return $results;
+	}
+
+	/**
+	 * Get an aggregate value.
+	 *
+	 * @param  string  $aggregate
+	 * @param  string  $column
+	 * @return mixed
+	 */
+	private function aggregate($aggregator, $column)
+	{
+		$this->aggregate = compact('aggregator', 'column');
+
+		$result = $this->connection->only($this->grammar->select($this), $this->bindings);
+
+		// Reset the aggregate so more queries can be performed using the same instance.
+		// This is helpful for getting aggregates and then getting actual results.
+		$this->aggregate = null;
+
+		return $result;
 	}
 
 	/**
