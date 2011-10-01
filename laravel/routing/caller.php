@@ -134,7 +134,7 @@ class Caller {
 		// an underscore are not publicly available.
 		if (is_null($controller) or ($method == 'before' or strncmp($method, '_', 1) === 0))
 		{
-			return $this->container->resolve('laravel.response')->error('404');
+			return Response::error('404');
 		}
 
 		$controller->container = $this->container;
@@ -222,6 +222,16 @@ class Caller {
 	{
 		foreach ((array) $filters as $filter)
 		{
+			// Parameters may be passed into routes by specifying the list of parameters after
+			// a colon. If parameters are present, we will merge them into the parameter array
+			// that was passed to the method and slice the parameters off of the filter string.
+			if (($colon = strpos($filter, ':')) !== false)
+			{
+				$parameters = array_merge($parameters, explode(',', substr($filter, $colon + 1)));
+
+				$filter = substr($filter, 0, $colon);
+			}
+
 			if ( ! isset($this->filters[$filter])) continue;
 
 			$response = call_user_func_array($this->filters[$filter], $parameters);
