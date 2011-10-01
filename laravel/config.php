@@ -140,4 +140,15 @@ class Config {
 		return isset(static::$items[$file]);
 	}
 
+	/**
+	 * Add a directory to the configuration manager's search paths.
+	 *
+	 * @param  string  $path
+	 * @return void
+	 */
+	public static function glance($path)
+	{
+		static::$paths[] = $path;
+	}
+
 }

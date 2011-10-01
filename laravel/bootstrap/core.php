@@ -36,6 +36,15 @@ require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'arr'.EXT;
 
 /**
+ * If a Laravel environment has been specified on the server, we will
+ * add a path to the configuration manager for the environment.
+ */
+if (isset($_SERVER['LARAVEL_ENV']))
+{
+	Config::glance(CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/');
+}
+
+/**
  * Bootstrap the application inversion of control (IoC) container.
  * The container provides the convenient resolution of objects and
  * their dependencies, allowing for flexibility and testability
