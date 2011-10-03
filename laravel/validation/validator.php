@@ -287,7 +287,7 @@ class Validator {
 
 		$files = IoC::container()->resolve('laravel.input')->file();
 
-		return (array_key_exists($attribute, $files) ? $value['size'] / 1024 : Str::length(trim($value));
+		return (array_key_exists($attribute, $files)) ? $value['size'] / 1024 : Str::length(trim($value));
 	}
 
 	/**
