@@ -287,7 +287,7 @@ class Validator {
 
 		$files = IoC::container()->resolve('laravel.input')->file();
 
-		return (array_key_exists($attribute, $files) ? $value['size'] / 1024 : Str::length(trim($value));
+		return (array_key_exists($attribute, $files) ? $value['size'] / 1024 : Str::length(trim($value)));
 	}
 
 	/**
@@ -363,7 +363,7 @@ class Validator {
 	protected function validate_active_url($attribute)
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($this->attributes[$attribute]));
-		
+
 		return checkdnsrr($url);
 	}
 
@@ -408,7 +408,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $this->attributes[$attribute]);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $this->attributes[$attribute]);
 	}
 
 	/**
