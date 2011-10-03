@@ -3,6 +3,7 @@
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Inflector;
+use Laravel\Database\Manager as DB;
 
 abstract class Model {
 
@@ -148,7 +149,7 @@ abstract class Model {
 
 		// Since this method is only used for instantiating models for querying
 		// purposes, we will go ahead and set the Query instance on the model.
-		$model->query = IoC::container()->core('database')->connection(static::$connection)->table(static::table($class));
+		$model->query = DB::connection(static::$connection)->table(static::table($class));
 
 		return $model;
 	}
@@ -362,7 +363,7 @@ abstract class Model {
 
 		// Since the model was instantiated using "new", a query instance has not been set.
 		// Only models being used for querying have their query instances set by default.
-		$this->query = IoC::container()->core('database')->connection(static::$connection)->table(static::table($model));
+		$this->query = DB::connection(static::$connection)->table(static::table($model));
 
 		if (property_exists($model, 'timestamps') and $model::$timestamps)
 		{
@@ -413,7 +414,7 @@ abstract class Model {
 
 		$table = static::table(get_class($this));
 
-		return IoC::container()->core('database')->connection(static::$connection)->table($table)->delete($this->id);
+		return DB::connection(static::$connection)->table($table)->delete($this->id);
 	}
 
 	/**

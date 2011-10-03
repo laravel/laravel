@@ -285,7 +285,7 @@ class Validator {
 
 		$value = $this->attributes[$attribute];
 
-		$files = IoC::container()->resolve('laravel.input')->files();
+		$files = IoC::container()->resolve('laravel.input')->file();
 
 		return (array_key_exists($attribute, $files) ? $value['size'] / 1024 : Str::length(trim($value));
 	}
@@ -459,7 +459,7 @@ class Validator {
 			// the default error message for the appropriate units.
 			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 			{
-				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->files()))
+				return (array_key_exists($attribute, IoC::container()->resolve('laravel.input')->file()))
                                    ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
                                    : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
 			}
