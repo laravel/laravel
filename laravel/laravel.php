@@ -39,8 +39,8 @@ if (Config::get('session.driver') !== '')
  * be returned to the browser.
  */
 require SYS_PATH.'request'.EXT;
-require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
+require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/caller'.EXT;
 

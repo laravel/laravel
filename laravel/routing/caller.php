@@ -4,28 +4,6 @@ use Closure;
 use Laravel\Response;
 use Laravel\Container;
 
-class Delegate {
-
-	/**
-	 * The destination of the route delegate.
-	 *
-	 * @var string
-	 */
-	public $destination;
-
-	/**
-	 * Create a new route delegate instance.
-	 *
-	 * @param  string  $destination
-	 * @return void
-	 */
-	public function __construct($destination)
-	{
-		$this->destination = $destination;
-	}
-
-}
-
 class Caller {
 
 	/**
@@ -85,30 +63,14 @@ class Caller {
 			// If a route returns a Delegate, it also means the route is delegating the
 			// handling of the request to a controller method. So, we will pass the string
 			// to the route delegator, exploding on "@".
-			if ($response instanceof Delegate) $response = $this->delegate($route, $response->destination);
+			if ($response instanceof Delegate) return $this->delegate($route, $response->destination);
 
 			return $this->finish($route, $response);
 		}
 
 		// If we get to this point, no response was returned from the filters or the route.
 		// The 404 response will be returned to the browser instead of a blank screen.
-		return $this->finish($route, $this->container->resolve('laravel.response')->error('404'));
-	}
-
-	/**
-	 * Run the "before" filters for the route.
-	 *
-	 * If a before filter returns a value, that value will be considered the response to the
-	 * request and the route function / controller will not be used to handle the request.
-	 *
-	 * @param  Route  $route
-	 * @return mixed
-	 */
-	protected function before(Route $route)
-	{
-		$before = array_merge(array('before'), $route->filters('before'));
-
-		return $this->filter($before, array(), true);
+		return $this->finish($route, Response::error('404'));
 	}
 
 	/**
@@ -139,12 +101,17 @@ class Caller {
 
 		$controller->container = $this->container;
 
-		// Again, as was the case with route closures, if the controller "before" method returns
+		// Again, as was the case with route closures, if the controller "before" filters return
 		// a response, it will be considered the response to the request and the controller method
 		// will not be used to handle the request to the application.
-		$response = $controller->before();
+		$response = $this->before($controller);
 
-		return (is_null($response)) ? call_user_func_array(array($controller, $method), $route->parameters) : $response;
+		if (is_null($response))
+		{
+			$response = call_user_func_array(array($controller, $method), $route->parameters);
+		}
+
+		return $this->finish($controller, $response);
 	}
 
 	/**
@@ -197,29 +164,47 @@ class Caller {
 	 *
 	 * The route response will be converted to a Response instance and the "after" filters will be run.
 	 *
-	 * @param  Route        $route
+	 * @param  Destination  $route
 	 * @param  mixed        $response
 	 * @return Response
 	 */
-	protected function finish(Route $route, $response)
+	protected function finish(Destination $destination, $response)
 	{
 		if ( ! $response instanceof Response) $response = new Response($response);
 
-		$this->filter(array_merge($route->filters('after'), array('after')), array($response));
+		$this->filter(array_merge($destination->filters('after'), array('after')), array($response));
 
 		return $response;
 	}
 
 	/**
+	 * Run the "before" filters for the routing destination.
+	 *
+	 * If a before filter returns a value, that value will be considered the response to the
+	 * request and the route function / controller will not be used to handle the request.
+	 *
+	 * @param  Route  $route
+	 * @return mixed
+	 */
+	protected function before(Destination $destination)
+	{
+		$before = array_merge(array('before'), $destination->filters('before'));
+
+		return $this->filter($before, array(), true);
+	}
+
+	/**
 	 * Call a filter or set of filters.
 	 *
-	 * @param  array  $filters
-	 * @param  array  $parameters
-	 * @param  bool   $override
+	 * @param  array|string  $filters
+	 * @param  array         $parameters
+	 * @param  bool          $override
 	 * @return mixed
 	 */
 	protected function filter($filters, $parameters = array(), $override = false)
 	{
+		if (is_string($filters)) $filters = explode('|', $filters);
+
 		foreach ((array) $filters as $filter)
 		{
 			// Parameters may be passed into routes by specifying the list of parameters after

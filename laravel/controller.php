@@ -1,16 +1,31 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Laravel\Routing\Destination;
 
-abstract class Controller {
+abstract class Controller implements Destination {
 
 	/**
-	 * A stub method that will be called before every request to the controller.
+	 * The "before" filters defined for the controller.
 	 *
-	 * If a value is returned by the method, it will be halt the request cycle
-	 * and will be considered the response to the request.
-	 *
-	 * @return mixed
+	 * @var array
 	 */
-	public function before() {}
+	public $before = array();
+
+	/**
+	 * The "after" filters defined for the controller.
+	 *
+	 * @var array
+	 */
+	public $after = array();
+
+	/**
+	 * Get an array of filter names defined for the destination.
+	 *
+	 * @param  string  $name
+	 * @return array
+	 */
+	public function filters($name)
+	{
+		return $this->$name;
+	}
 
 	/**
 	 * Magic Method to handle calls to undefined functions on the controller.

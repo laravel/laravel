@@ -3,7 +3,7 @@
 use Closure;
 use Laravel\Arr;
 
-class Route {
+class Route implements Destination {
 
 	/**
 	 * The route key, including request method and URI.
@@ -126,9 +126,7 @@ class Route {
 	{
 		if (is_array($this->callback) and isset($this->callback[$name]))
 		{
-			$filters = $this->callback[$name];
-
-			return (is_string($filters)) ? explode('|', $filters) : $filters;
+			return $this->callback[$name];
 		}
 
 		return array();
