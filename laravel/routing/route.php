@@ -74,7 +74,7 @@ class Route implements Destination {
 		// obviously handle the requests to the route. An array can contain filters, as
 		// well as a Closure to handle requests to the route. A string, delegates control
 		// of the request to a controller method.
-		if ( ! $this->callback instanceof \Closure and ! is_array($this->callback) and ! is_string($this->callback))
+		if ( ! $this->callback instanceof Closure and ! is_array($this->callback) and ! is_string($this->callback))
 		{
 			throw new \Exception('Invalid route defined for URI ['.$this->key.']');
 		}
