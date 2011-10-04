@@ -61,7 +61,7 @@ class Cookie implements Driver {
 	 */
 	public function save($session, $config, $exists)
 	{
-		extract($config);
+		extract($config, EXTR_SKIP);
 
 		$payload = $this->crypter->encrypt(serialize($session));
 
