@@ -10,6 +10,13 @@ class Cookie implements Transporter {
 	protected $cookies;
 
 	/**
+	 * The name of the cookie used to store the session ID.
+	 *
+	 * @var string
+	 */
+	const key = 'laravel_session';
+
+	/**
 	 * Create a new cookie session transporter instance.
 	 *
 	 * @param  Cookie  $cookie
@@ -28,7 +35,7 @@ class Cookie implements Transporter {
 	 */
 	public function get($config)
 	{
-		return $this->cookies->get('laravel_session');
+		return $this->cookies->get(Cookie::key);
 	}
 
 	/**
@@ -40,9 +47,12 @@ class Cookie implements Transporter {
 	 */
 	public function put($id, $config)
 	{
-		$minutes = ($config['expire_on_close']) ? 0 : $config['lifetime'];
+		// Session cookies may be set to expire on close, which means we will need to
+		// pass "0" into the cookie manager. This will cause the cookie to not be
+		// deleted until the user closes their browser.
+		$minutes = ( ! $config['expire_on_close']) ? $config['lifetime'] : 0;
 
-		$this->cookies->put('laravel_session', $id, $minutes, $config['path'], $config['domain']);
+		$this->cookies->put(Cookie::key, $id, $minutes, $config['path'], $config['domain']);
 	}
 
 }

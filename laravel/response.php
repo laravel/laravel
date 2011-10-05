@@ -141,17 +141,17 @@ class Response {
 	 *
 	 * <code>
 	 *		// Create a response with the "layout" named view
-	 *		return Response::with('layout');
+	 *		return Response::of('layout');
 	 *
 	 *		// Create a response with the "layout" named view and data
-	 *		return Response::with('layout', array('name' => 'Taylor'));
+	 *		return Response::of('layout', array('name' => 'Taylor'));
 	 * </code>
 	 *
 	 * @param  string    $name
 	 * @param  array     $data
 	 * @return Response
 	 */
-	public static function with($name, $data = array())
+	public static function of($name, $data = array())
 	{
 		return new static(IoC::container()->core('view')->of($name, $data));
 	}
@@ -296,17 +296,17 @@ class Response {
 	 *
 	 * <code>
 	 *		// Create a response instance with the "layout" named view
-	 *		return Response::with_layout();
+	 *		return Response::of_layout();
 	 *
 	 *		// Create a response instance with a named view and data
-	 *		return Response::with_layout(array('name' => 'Taylor'));
+	 *		return Response::of_layout(array('name' => 'Taylor'));
 	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		if (strpos($method, 'with_') === 0)
+		if (strpos($method, 'of_') === 0)
 		{
-			return static::with(substr($method, 5), Arr::get($parameters, 0, array()));
+			return static::with(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
 	}
 

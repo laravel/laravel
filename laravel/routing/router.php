@@ -1,18 +1,4 @@
-<?php namespace Laravel\Routing;
-
-use Laravel\Request;
-
-interface Destination {
-
-	/**
-	 * Get an array of filter names defined for the destination.
-	 *
-	 * @param  string  $name
-	 * @return array
-	 */
-	public function filters($name);
-
-}
+<?php namespace Laravel\Routing; use Laravel\Request;
 
 class Delegate {
 

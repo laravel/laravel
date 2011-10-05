@@ -46,6 +46,14 @@ class Payload {
 	 *
 	 * A default value may also be specified, and will be returned in the item doesn't exist.
 	 *
+	 * <code>
+	 *		// Get an item from the session
+	 *		$name = Session::get('name');
+	 *
+	 *		// Return a default value if the item doesn't exist
+	 *		$name = Session::get('name', 'Taylor');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @return mixed
@@ -66,6 +74,11 @@ class Payload {
 	/**
 	 * Write an item to the session.
 	 *
+	 * <code>
+	 *		// Write an item to the session
+	 *		Session::put('name', 'Taylor');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
 	 * @return Driver
@@ -82,6 +95,11 @@ class Payload {
 	 *
 	 * Flash data only exists for the next request. After that, it will be removed from
 	 * the session. Flash data is useful for temporary status or welcome messages.
+	 *
+	 * <code>
+	 *		// Flash an item to the session
+	 *		Session::flash('name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -109,6 +127,11 @@ class Payload {
 	 *
 	 * If a string is passed to the method, only that item will be kept. An array may also
 	 * be passed to the method, in which case all items in the array will be kept.
+	 *
+	 * <code>
+	 *		// Keep a session flash item from expiring
+	 *		Session::keep('name');
+	 * </code>
 	 *
 	 * @param  string|array  $key
 	 * @return void

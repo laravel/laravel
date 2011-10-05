@@ -1,9 +1,6 @@
-<?php namespace Laravel\Routing;
+<?php namespace Laravel\Routing; use Closure, Laravel\Arr;
 
-use Closure;
-use Laravel\Arr;
-
-class Route implements Destination {
+class Route {
 
 	/**
 	 * The route key, including request method and URI.
@@ -130,6 +127,16 @@ class Route implements Destination {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Deteremine if the route delegates to a controller.
+	 *
+	 * @return bool
+	 */
+	public function delegates()
+	{
+		return is_array($this->callback) and isset($this->callback['delegate']);
 	}
 
 	/**

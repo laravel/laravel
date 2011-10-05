@@ -4,9 +4,16 @@ use Closure;
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Lang;
-use Laravel\Database\Manager as Database;
+use Laravel\Database\Manager as DB;
 
 class Validator {
+
+	/**
+	 * The registered custom validators.
+	 *
+	 * @var array
+	 */
+	protected static $validators = array();
 
 	/**
 	 * The validation rules.
@@ -80,21 +87,33 @@ class Validator {
 		}
 
 		$this->rules = $rules;
+		$this->messages = $messages;
 		$this->attributes = $attributes;
-		$this->messages = array_merge($this->messages, $messages);
 	}
 
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  array         $attributes
-	 * @param  array         $rules
-	 * @param  array         $messages
+	 * @param  array      $attributes
+	 * @param  array      $rules
+	 * @param  array      $messages
 	 * @return Validator
 	 */
 	public static function make($attributes, $rules, $messages = array())
 	{
 		return new static($attributes, $rules, $messages);
+	}
+
+	/**
+	 * Register a custom validator.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $validator
+	 * @return void
+	 */
+	public static function register($name, $validator)
+	{
+		static::$validators[$name] = $validator;
 	}
 
 	/**
@@ -138,7 +157,7 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		if ( ! method_exists($this, $validator = 'validate_'.$rule))
+		if ( ! method_exists($this, $validator = 'validate_'.$rule) and ! isset(static::$validators[$rule]))
 		{
 			throw new \Exception("Validation rule [$rule] doesn't exist.");
 		}
@@ -327,7 +346,7 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (is_null($this->connection)) $this->connection = Database::connection();
+		if (is_null($this->connection)) $this->connection = DB::connection();
 
 		return $this->connection->table($parameters[0])->where($parameters[1], '=', $this->attributes[$attribute])->count() == 0;
 	}
@@ -434,8 +453,8 @@ class Validator {
 	 * Developer specified attribute specific rules take first priority.
 	 * Developer specified error rules take second priority.
 	 *
-	 * If the message has not been specified by the developer, the default will be used
-	 * from the validation language file.
+	 * If the message has not been specified by the developer, the default
+	 * will be used from the validation language file.
 	 *
 	 * @param  string  $attribute
 	 * @param  string  $rule
@@ -479,16 +498,23 @@ class Validator {
 	 */
 	protected function format_message($message, $attribute, $rule, $parameters)
 	{
-		$display = Lang::line('attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
+		// First we will get the language line for the attribute being validated.
+		// Storing attribute names in a validation file allows the easily replacement
+		// of attribute names (email) with more reader friendly versions (E-Mail).
+		$display = Lang::line('validation.attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
 
 		$message = str_replace(':attribute', $display, $message);
 
+		// The "size" family of rules all have place-holders for the values applicable
+		// to their function. For example, the "max" rule has a ":max" place-holder.
 		if (in_array($rule, $this->size_rules))
 		{
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
 			$message = str_replace(array(':size', ':min', ':max'), array($parameters[0], $parameters[0], $max), $message);
 		}
+		// The "inclusion" rules, which are rules that check if a value is within
+		// a list of values, all have a place-holder to display the allowed values.
 		elseif (in_array($rule, array('in', 'not_in', 'mimes')))
 		{
 			$message = str_replace(':values', implode(', ', $parameters), $message);
@@ -524,6 +550,9 @@ class Validator {
 	 */
 	protected function parse($rule)
 	{
+		// The format for specifying validation rules and parameters follows a {rule}:{parameters}
+		// convention. For instance, "max:3" specifies that the value may only be 3 characters in
+		// length. And "unique:users" specifies that a value must be unique on the "users" table.
 		$parameters = (($colon = strpos($rule, ':')) !== false) ? explode(',', substr($rule, $colon + 1)) : array();
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
@@ -551,6 +580,22 @@ class Validator {
 	{
 		$this->connection = $connection;
 		return $this;
+	}
+
+	/**
+	 * Dynamically handle calls to custom registered validators.
+	 */
+	public function __call($method, $parameters)
+	{
+		// First we will slice the "validate_" prefix off of the validator since custom
+		// validators are not registered with such a prefix. We will then call the validator
+		// and pass it the parameters we received.
+		if (isset(static::$validators[$method = substr($method, 9)]))
+		{
+			return call_user_func_array(static::$validators[$method], $parameters);
+		}
+
+		throw new \Exception("Call to undefined method [$method] on Validator instance.");
 	}
 
 }

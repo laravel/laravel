@@ -20,9 +20,16 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
+		// First, we need to build the base URL for the application, as well as handle
+		// the generation of links using SSL. It is possible for the developer to disable
+		// the generation of SSL links throughout the application, making it more
+		// convenient to create applications without SSL on the development box.
 		$base = Config::get('application.url').'/'.Config::get('application.index');
 
-		if ($https) $base = preg_replace('~http://~', 'https://', $base, 1);
+		if ($https and Config::get('application.ssl'))
+		{
+			$base = preg_replace('~http://~', 'https://', $base, 1);
+		}
 
 		return rtrim($base, '/').'/'.ltrim($url, '/');
 	}

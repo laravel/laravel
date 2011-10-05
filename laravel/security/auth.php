@@ -50,7 +50,16 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
-	 * If the current user is not authenticated, NULL will be returned.
+	 * If the current user is not authenticated, null will be returned. This method
+	 * will call the "user" closure in the authentication configuration file.
+	 *
+	 * <code>
+	 *		// Get the current user of the application
+	 *		$user = Auth::user();
+	 *
+	 *		// Access a property on the current user of the application
+	 *		$email = Auth::user()->email;
+	 * </code>
 	 *
 	 * @return object
 	 */
@@ -64,8 +73,8 @@ class Auth {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * If the given credentials are valid, the user will be considered logged into the
-	 * application and their user ID will be stored in the session data.
+	 * If the given credentials are valid, the user will be considered logged into
+	 * the application and their user ID will be stored in the session data.
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
@@ -100,6 +109,8 @@ class Auth {
 
 	/**
 	 * Log the current user out of the application.
+	 *
+	 * The "logout" closure in the authenciation configuration file will be called.
 	 *
 	 * @return void
 	 */

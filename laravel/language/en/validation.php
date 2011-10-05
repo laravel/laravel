@@ -2,15 +2,19 @@
 
 return array(
 
-	/**
-	 * The validation error messages.
-	 *
-	 * These error messages will be used by the Validator class if no
-	 * other messages are provided by the developer.
-	 */
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Error Messages
+	|--------------------------------------------------------------------------
+	|
+	| These error messages will be used by the Validator class if no other
+	| messages are provided by the developer. They may be overriden by the
+	| developer in the application language directory.
+	|
+	*/
 
 	"accepted"   => "The :attribute must be accepted.",
-	"active_url" => "The :attribute does not exist.",
+	"active_url" => "The :attribute is not an active URL.",
 	"alpha"      => "The :attribute may only contain letters.",
 	"alpha_dash" => "The :attribute may only contain letters, numbers, dashes, and underscores.",
 	"alpha_num"  => "The :attribute may only contain letters and numbers.",
@@ -30,11 +34,15 @@ return array(
 	"unique"     => "The :attribute has already been taken.",
 	"url"        => "The :attribute format is invalid.",	
 
-	/**
-	 * The following words are appended to the "size" messages when
-	 * applicable, such as when validating string lengths or the
-	 * size of file uploads.
-	 */
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Units
+	|--------------------------------------------------------------------------
+	|
+	| The following words are appended to the "size" messages when applicable,
+	| such as when validating string lengths or the size of file uploads.
+	|
+	*/
 
 	"characters" => "characters",
 	"kilobytes"  => "kilobytes",

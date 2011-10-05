@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database;
+<?php namespace Laravel\Database; use Laravel\Paginator;
 
 class Query {
 
@@ -430,16 +430,12 @@ class Query {
 	/**
 	 * Set the query limit and offset for a given page and item per page count.
 	 *
-	 * If the given page is not an integer or is less than one, one will be used.
-	 *
 	 * @param  int    $page
 	 * @param  int    $per_page
 	 * @return Query
 	 */
 	public function for_page($page, $per_page)
 	{
-		if ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) $page = 1;
-
 		return $this->skip(($page - 1) * $per_page)->take($per_page);
 	}
 
@@ -520,6 +516,22 @@ class Query {
 		$this->aggregate = null;
 
 		return $result;
+	}
+
+	/**
+	 * Get the paginated query results as a Paginator instance.
+	 *
+	 * @param  int        $per_page
+	 * @param  array      $columns
+	 * @return Paginator
+	 */
+	public function paginate($per_page, $columns = array('*'))
+	{
+		// Calculate the current page for the request. The page number will be validated
+		// and adjusted by the Paginator class, so we can assume it is valid.
+		$page = Paginator::page($total = $this->count(), $per_page);
+
+		return Paginator::make($this->for_page($page, $per_page)->get($columns), $total, $per_page);
 	}
 
 	/**

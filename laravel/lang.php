@@ -77,6 +77,8 @@ class Lang {
 	{
 		if (count($paths) == 0) $paths = array(SYS_LANG_PATH, LANG_PATH);
 
+		if (is_null($language)) $language = Config::get('application.language');
+
 		return new static($key, $replacements, $language, $paths);
 	}
 
@@ -147,7 +149,7 @@ class Lang {
 	 */
 	protected function load($file)
 	{
-		if (isset(static::$lines[$this->language.$file])) return;
+		if (isset(static::$lines[$this->language.$file])) return true;
 
 		$language = array();
 

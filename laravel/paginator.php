@@ -10,71 +10,84 @@ class Paginator {
 	public $results;
 
 	/**
-	 * The total number of results.
-	 *
-	 * @var int
-	 */
-	public $total;
-
-	/**
 	 * The current page.
 	 *
 	 * @var int
 	 */
-	public $page;
-
-	/**
-	 * The number of items per page.
-	 *
-	 * @var int
-	 */
-	public $per_page;
+	protected $page;
 
 	/**
 	 * The last page available for the result set.
 	 *
 	 * @var int
 	 */
-	public $last_page;
+	protected $last;
 
 	/**
-	 * The language that should be used when generating page links.
+	 * The total number of results.
 	 *
-	 * @var string
+	 * @var int
 	 */
-	public $language;
+	protected $total;
+
+	/**
+	 * The number of items per page.
+	 *
+	 * @var int
+	 */
+	protected $per_page;
 
 	/**
 	 * The values that should be appended to the end of the link query strings.
 	 *
 	 * @var array
 	 */
-	public $append = array();
+	protected $appends;
 
 	/**
-	 * The format that will be used to wrap the entire pagination string.
+	 * The compiled appendage that will be appended to the links.
+	 *
+	 * This consists of a sprintf format  with a page place-holder and query string.
 	 *
 	 * @var string
 	 */
-	protected $wrapper = '<div class="pagination">%s</div>';
+	protected $appendage;
+
+	/**
+	 * The current request instance.
+	 *
+	 * @var Request
+	 */
+	protected $request;
+
+	/**
+	 * The paginatino elements that will be generated.
+	 *
+	 * @var array
+	 */
+	protected $elements = array('first', 'previous', 'status', 'next', 'last');
 
 	/**
 	 * Create a new Paginator instance.
 	 *
 	 * @param  array  $results
+	 * @param  int    $last
 	 * @param  int    $page
 	 * @param  int    $total
 	 * @param  int    $per_page
-	 * @param  int    $last_page
 	 * @return void
 	 */
-	protected function __construct($results, $page, $total, $per_page, $last_page)
+	protected function __construct($results, $page, $total, $per_page, $last)
 	{
 		$this->page = $page;
+		$this->last = $last;
 		$this->total = $total;
 		$this->results = $results;
 		$this->per_page = $per_page;
-		$this->last_page = $last_page;
+
+		// Grab the active request instance. This is used to determine the current URI
+		// and to determine if HTTPS links should be generated.
+		$this->request = IoC::container()->core('request');
 	}
 
 	/**
@@ -93,10 +106,6 @@ class Paginator {
 	/**
 	 * Get the current page from the request query string.
 	 *
-	 * The page will be validated and adjusted if it is less than one or greater than the last page.
-	 * For example, if the current page is not an integer or less than one, one will be returned.
-	 * If the current page is greater than the last page, the last page will be returned.
-	 *
 	 * @param  int  $total
 	 * @param  int  $per_page
 	 * @return int
@@ -105,9 +114,13 @@ class Paginator {
 	{
 		$page = IoC::container()->core('input')->get('page', 1);
 
-		if (is_numeric($page) and $page > $last_page = ceil($total / $per_page))
+		// The page will be validated and adjusted if it is less than one or greater
+		// than the last page. For example, if the current page is not an integer or
+		// less than one, one will be returned. If the current page is greater than
+		// the last page, the last page will be returned.
+		if (is_numeric($page) and $page > $last = ceil($total / $per_page))
 		{
-			return ($last_page > 0) ? $last_page : 1;
+			return ($last > 0) ? $last : 1;
 		}
 
 		return ($page < 1 or filter_var($page, FILTER_VALIDATE_INT) === false) ? 1 : $page;
@@ -116,163 +129,183 @@ class Paginator {
 	/**
 	 * Create the HTML pagination links.
 	 *
-	 * @param  int     $adjacent
 	 * @return string
 	 */
-	public function links($adjacent = 4)
+	public function links()
 	{
-		if ($this->last_page <= 1) return '';
+		if ($this->last <= 1) return '';
 
-		// If there are two few pages to make showing a slider possible, we will just display a
-		// range of plain number links. The hard-coded "7" is to account for all of the constant
-		// elements in a sliding range, namely the current page, the two ellipses, the two 
-		// beginning and ending pages.
-		$numbers = ($this->last_page < 7 + ($adjacent * 2)) ? $this->range(1, $this->last_page) : $this->slider($adjacent);
+		// Each pagination element is created by an element method. This allows
+		// us to keep this class clean and simple, because pagination code can
+		// become a mess. We would rather keep it simple and beautiful.
+		foreach ($this->elements as $element)
+		{
+			$elements[] = $this->$element(Lang::line("pagination.{$element}")->get());
+		}
 
-		return sprintf($this->wrapper, $this->previous().$numbers.$this->next());
+		return '<div class="pagination">'.implode(' ', $elements).'</div>'.PHP_EOL;
 	}
 
 	/**
-	 * Build sliding list of HTML numeric page links.
+	 * Get the "status" pagination element.
 	 *
-	 * @param  int     $adjacent
+	 * @param  string  $text
 	 * @return string
 	 */
-	private function slider($adjacent)
+	protected function status($text)
 	{
-		if ($this->page <= $adjacent * 2)
+		return str_replace(array(':current', ':last'), array($this->page, $this->last), $text);
+	}
+
+	/**
+	 * Create the "first" pagination element.
+	 *
+	 * @param  string  $text
+	 * @return string
+	 */
+	protected function first($text)
+	{
+		return $this->backwards(__FUNCTION__, $text, 1);
+	}
+
+	/**
+	 * Create the "previous" pagination element.
+	 *
+	 * @param  string  $text
+	 * @return string
+	 */
+	protected function previous($text)
+	{
+		return $this->backwards(__FUNCTION__, $text, $this->page - 1);
+	}
+
+	/**
+	 * Create the "next" pagination element.
+	 *
+	 * @param  string  $text
+	 * @return string
+	 */
+	protected function next($text)
+	{
+		return $this->forwards(__FUNCTION__, $text, $this->page + 1);
+	}
+
+	/**
+	 * Create the "last" pagination element.
+	 *
+	 * @param  string  $text
+	 * @return string
+	 */
+	protected function last($text)
+	{
+		return $this->forwards(__FUNCTION__, $text, $this->last);
+	}
+
+	/**
+	 * Create a "backwards" paginatino element.
+	 *
+	 * This function handles the creation of the first and previous elements.
+	 *
+	 * @param  string  $element
+	 * @param  string  $text
+	 * @param  int     $last
+	 * @return string
+	 */
+	protected function backwards($element, $text, $last)
+	{
+		return $this->element($element, $text, $last, function($page) { return $page <= 1; });
+	}
+
+	/**
+	 * Create a "forwards" paginatino element.
+	 *
+	 * This function handles the creation of the next and last elements.
+	 *
+	 * @param  string  $element
+	 * @param  string  $text
+	 * @param  int     $last
+	 * @return string
+	 */
+	protected function forwards($element, $text, $last)
+	{
+		return $this->element($element, $text, $last, function($page, $last) { return $page >= $last; });
+	}
+
+	/**
+	 * Create a chronological pagination element.
+	 *
+	 * @param  string   $element
+	 * @param  string   $text
+	 * @param  int      $page
+	 * @param  Closure  $disabler
+	 * @return string
+	 */
+	protected function element($element, $text, $page, $disabler)
+	{
+		$class = "{$element}_page";
+
+		if ($disabler($this->page, $this->last))
 		{
-			return $this->range(1, 2 + ($adjacent * 2)).$this->ending();
-		}
-		elseif ($this->page >= $this->last_page - ($adjacent * 2))
-		{
-			return $this->beginning().$this->range($this->last_page - 2 - ($adjacent * 2), $this->last_page);
+			return HTML::span($text, array('class' => "disabled {$class}"));
 		}
 		else
 		{
-			return $this->beginning().$this->range($this->page - $adjacent, $this->page + $adjacent).$this->ending();
+			// We will assume the page links should use HTTPS if the current request
+			// is also using HTTPS. Since pagination links automatically point to
+			// the current URI, this makes pretty good sense.
+			list($uri, $secure) = array($this->request->uri(), $this->request->secure());
+
+			return HTML::link($uri.$this->appendage($element, $page), $text, array('class' => $class), $secure);
 		}
 	}
 
 	/**
-	 * Generate the "previous" HTML link.
+	 * Create the pagination link "appendage" for an element.
 	 *
-	 * @return string
-	 */
-	public function previous()
-	{
-		$text = Lang::line('pagination.previous')->get($this->language);
-
-		if ($this->page > 1)
-		{
-			return $this->link($this->page - 1, $text, 'prev_page').' ';
-		}
-
-		return HTML::span($text, array('class' => 'disabled prev_page')).' ';
-	}
-
-	/**
-	 * Generate the "next" HTML link.
-	 *
-	 * @return string
-	 */
-	public function next()
-	{
-		$text = Lang::line('pagination.next')->get($this->language);
-
-		if ($this->page < $this->last_page)
-		{
-			return $this->link($this->page + 1, $text, 'next_page');
-		}
-
-		return HTML::span($text, array('class' => 'disabled next_page'));
-	}
-
-	/**
-	 * Build the first two page links for a sliding page range.
-	 *
-	 * @return string
-	 */
-	private function beginning()
-	{
-		return $this->range(1, 2).'<span class="dots">...</span>';
-	}
-
-	/**
-	 * Build the last two page links for a sliding page range.
-	 *
-	 * @return string
-	 */
-	private function ending()
-	{
-		return '<span class="dots">...</span>'.$this->range($this->last_page - 1, $this->last_page);
-	}
-
-	/**
-	 * Build a range of page links. 
-	 *
-	 * For the current page, an HTML span element will be generated instead of a link.
-	 *
-	 * @param  int     $start
-	 * @param  int     $end
-	 * @return string
-	 */
-	private function range($start, $end)
-	{
-		$pages = '';
-
-		for ($i = $start; $i <= $end; $i++)
-		{
-			$pages .= ($this->page == $i) ? HTML::span($i, array('class' => 'current')).' ' : $this->link($i, $i, null).' ';
-		}
-
-		return $pages;
-	}
-
-	/**
-	 * Create a HTML page link.
-	 *
+	 * @param  string  $element
 	 * @param  int     $page
-	 * @param  string  $text
-	 * @param  string  $attributes
 	 * @return string
 	 */
-	private function link($page, $text, $class)
+	protected function appendage($element, $page)
 	{
-		$append = '';
-
-		foreach ($this->append as $key => $value)
+		// The appendage string contains the query string, but it also contains a
+		// place-holder for the page number. This will be used to insert the
+		// correct page number based on the element being created.
+		if (is_null($this->appendage))
 		{
-			$append .= '&'.$key.'='.$value;
+			$this->appendage = '?page=%s'.http_build_query((array) $this->appends);
 		}
 
-		$request = IoC::container()->core('request');
-
-		return HTML::link($request->uri().'?page='.$page.$append, $text, compact('class'), $request->secure());
-	}
-
-	/**
-	 * Set the language that should be used when generating page links.
-	 *
-	 * @param  string     $language
-	 * @return Paginator
-	 */
-	public function lang($language)
-	{
-		$this->language = $language;
-
-		return $this;
+		return sprintf($this->appendage, $page);
 	}
 
 	/**
 	 * Set the items that should be appended to the link query strings.
 	 *
+	 * This provides a convenient method of maintaining sort or passing other information
+	 * to the route handling pagination.
+	 *
 	 * @param  array      $values
 	 * @return Paginator
 	 */
-	public function append($values)
+	public function appends($values)
 	{
-		$this->append = $values;
+		$this->appends = $values;
+
+		return $this;
+	}
+
+	/**
+	 * Set the elements that should be included when creating the pagination links.
+	 *
+	 * The available elements are "first", "previous", "status", "next", and "last".
+	 *
+	 * @param  array   $elements
+	 * @return string
+	 */
+	public function elements($elements)
+	{
+		$this->elements = $elements;
 
 		return $this;
 	}

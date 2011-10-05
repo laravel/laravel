@@ -1,6 +1,6 @@
-<?php namespace Laravel; use Laravel\Routing\Destination;
+<?php namespace Laravel;
 
-abstract class Controller implements Destination {
+abstract class Controller {
 
 	/**
 	 * The "before" filters defined for the controller.
@@ -25,6 +25,54 @@ abstract class Controller implements Destination {
 	public function filters($name)
 	{
 		return $this->$name;
+	}
+
+	/**
+	 * Resolve a controller name to a controller instance.
+	 *
+	 * @param  Container   $container
+	 * @param  string      $controller
+	 * @param  string      $path
+	 * @return Controller
+	 */
+	public static function resolve(Container $container, $controller, $path)
+	{
+		if ( ! static::load($controller, $path)) return;
+
+		// If the controller is registered in the IoC container, we will resolve it out
+		// of the container. Using constructor injection on controllers via the container
+		// allows more flexible and testable development of applications.
+		if ($container->registered('controllers.'.$controller))
+		{
+			return $container->resolve('controllers.'.$controller);
+		}
+
+		// If the controller was not registered in the container, we will instantiate
+		// an instance of the controller manually. All controllers are suffixed with
+		// "_Controller" to avoid namespacing. Allowing controllers to exist in the
+		// global namespace gives the developer a convenient API for using the framework.
+		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
+
+		return new $controller;
+	}
+
+	/**
+	 * Load the file for a given controller.
+	 *
+	 * @param  string  $controller
+	 * @param  string  $path
+	 * @return bool
+	 */
+	protected static function load($controller, $path)
+	{
+		if (file_exists($path = $path.strtolower(str_replace('.', '/', $controller)).EXT))
+		{
+			require $path;
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

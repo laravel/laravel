@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class Request {
 
@@ -132,7 +132,7 @@ class Request {
 			return $this->server['REMOTE_ADDR'];
 		}
 
-		return ($default instanceof \Closure) ? call_user_func($default) : $default;
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**

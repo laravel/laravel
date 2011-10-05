@@ -1,5 +1,9 @@
 <?php namespace Laravel\Session\Transporters;
 
+/**
+ * Session transporters are responsible for getting the session identifier
+ * to the client. This can be done via cookies or some other means.
+ */
 interface Transporter {
 
 	/**

@@ -3,6 +3,7 @@
 use Closure;
 use Laravel\Response;
 use Laravel\Container;
+use Laravel\Controller;
 
 class Caller {
 
@@ -45,7 +46,7 @@ class Caller {
 	/**
 	 * Call a given route and return the route's response.
 	 *
-	 * @param  Route        $route
+	 * @param  Route     $route
 	 * @return Response
 	 */
 	public function call(Route $route)
@@ -53,58 +54,70 @@ class Caller {
 		// Since "before" filters can halt the request cycle, we will return any response
 		// from the before filters. Allowing the filters to halt the request cycle makes
 		// common tasks like authorization convenient to implement.
-		if ( ! is_null($response = $this->before($route)))
+		$before = array_merge(array('before'), $route->filters('before'));
+
+		if ( ! is_null($response = $this->filter($before, array(), true)))
 		{
 			return $this->finish($route, $response);
 		}
 
-		if ( ! is_null($response = $route->call()))
+		// If a route returns a Delegate, it means the route is delegating the handling
+		// of the request to a controller method. We will pass the Delegate instance
+		// to the "delegate" method which will call the controller.
+		if ($route->delegates())
 		{
-			// If a route returns a Delegate, it also means the route is delegating the
-			// handling of the request to a controller method. So, we will pass the string
-			// to the route delegator, exploding on "@".
-			if ($response instanceof Delegate) return $this->delegate($route, $response->destination);
-
+			return $this->delegate($route, $route->call());
+		}
+		// If no before filters returned a response and the route is not delegating
+		// execution to a controller, we will call the route like normal and return
+		// the response. If the no response is given by the route, we will return
+		// the 404 error view.
+		elseif ( ! is_null($response = $route->call()))
+		{
 			return $this->finish($route, $response);
 		}
-
-		// If we get to this point, no response was returned from the filters or the route.
-		// The 404 response will be returned to the browser instead of a blank screen.
-		return $this->finish($route, Response::error('404'));
+		else
+		{
+			return $this->finish($route, Response::error('404'));
+		}
 	}
 
 	/**
 	 * Handle the delegation of a route to a controller method.
 	 *
-	 * @param  Route   $route
-	 * @param  string  $delegate
+	 * @param  Route     $route
+	 * @param  Delegate  $delegate
 	 * @return mixed
 	 */
-	protected function delegate(Route $route, $delegate)
+	protected function delegate(Route $route, Delegate $delegate)
 	{
-		if (strpos($delegate, '@') === false)
+		// Route delegates follow a {controller}@{method} naming convention. For example,
+		// to delegate to the "home" controller's "index" method, the delegate should be
+		// formatted like "home@index". Nested controllers may be delegated to using dot
+		// syntax, like so: "user.profile@show".
+		if (strpos($delegate->destination, '@') === false)
 		{
-			throw new \Exception("Route delegate [$delegate] has an invalid format.");
+			throw new \Exception("Route delegate [{$delegate->destination}] has an invalid format.");
 		}
 
-		list($controller, $method) = explode('@', $delegate);
+		list($controller, $method) = explode('@', $delegate->destination);
 
-		$controller = $this->resolve($controller);
+		$controller = Controller::resolve($this->container, $controller, $this->path);
 
 		// If the controller doesn't exist or the request is to an invalid method, we will
 		// return the 404 error response. The "before" method and any method beginning with
 		// an underscore are not publicly available.
-		if (is_null($controller) or ($method == 'before' or strncmp($method, '_', 1) === 0))
+		if (is_null($controller) or ! $this->callable($method))
 		{
 			return Response::error('404');
 		}
 
 		$controller->container = $this->container;
 
-		// Again, as was the case with route closures, if the controller "before" filters return
-		// a response, it will be considered the response to the request and the controller method
-		// will not be used to handle the request to the application.
-		$response = $this->before($controller);
+		// Again, as was the case with route closures, if the controller "before" filters
+		// return a response, it will be considered the response to the request and the
+		// controller method will not be used to handle the request to the application.
+		$response = $this->filter($controller->filters('before'), array(), true);
 
 		if (is_null($response))
 		{
@@ -115,48 +128,14 @@ class Caller {
 	}
 
 	/**
-	 * Resolve a controller name to a controller instance.
+	 * Determine if a given controller method is callable.
 	 *
-	 * @param  string      $controller
-	 * @return Controller
-	 */
-	protected function resolve($controller)
-	{
-		if ( ! $this->load($controller)) return;
-
-		// If the controller is registered in the IoC container, we will resolve it out
-		// of the container. Using constructor injection on controllers via the container
-		// allows more flexible and testable development of applications.
-		if ($this->container->registered('controllers.'.$controller))
-		{
-			return $this->container->resolve('controllers.'.$controller);
-		}
-
-		// If the controller was not registered in the container, we will instantiate
-		// an instance of the controller manually. All controllers are suffixed with
-		// "_Controller" to avoid namespacing. Allowing controllers to exist in the
-		// global namespace gives the developer a convenient API for using the framework.
-		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
-
-		return new $controller;
-	}
-
-	/**
-	 * Load the file for a given controller.
-	 *
-	 * @param  string  $controller
+	 * @param  string  $method
 	 * @return bool
 	 */
-	protected function load($controller)
+	protected function callable($method)
 	{
-		if (file_exists($path = $this->path.strtolower(str_replace('.', '/', $controller)).EXT))
-		{
-			require $path;
-
-			return true;
-		}
-
-		return false;
+		return $method == 'before' or $method == 'after' or strncmp($method, '_', 1) === 0;
 	}
 
 	/**
@@ -164,33 +143,17 @@ class Caller {
 	 *
 	 * The route response will be converted to a Response instance and the "after" filters will be run.
 	 *
-	 * @param  Destination  $route
-	 * @param  mixed        $response
+	 * @param  Route|Controller  $destination
+	 * @param  mixed             $response
 	 * @return Response
 	 */
-	protected function finish(Destination $destination, $response)
+	protected function finish($destination, $response)
 	{
 		if ( ! $response instanceof Response) $response = new Response($response);
 
 		$this->filter(array_merge($destination->filters('after'), array('after')), array($response));
 
 		return $response;
-	}
-
-	/**
-	 * Run the "before" filters for the routing destination.
-	 *
-	 * If a before filter returns a value, that value will be considered the response to the
-	 * request and the route function / controller will not be used to handle the request.
-	 *
-	 * @param  Route  $route
-	 * @return mixed
-	 */
-	protected function before(Destination $destination)
-	{
-		$before = array_merge(array('before'), $destination->filters('before'));
-
-		return $this->filter($before, array(), true);
 	}
 
 	/**
