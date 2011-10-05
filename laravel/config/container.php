@@ -2,108 +2,34 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Core Laravel Components
-	|--------------------------------------------------------------------------
-	*/
-
-	'laravel.auth' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Security\Auth($c->resolve('laravel.session'));
-	}),
-
-
-	'laravel.cookie' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Cookie($_COOKIE);
-	}),
-
-
-	'laravel.crypter' => array('resolver' => function($c)
-	{
-		return new Security\Crypter(MCRYPT_RIJNDAEL_256, 'cbc', Config::get('application.key'));
-	}),
-
-
 	'laravel.hasher' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Security\Hashing\Bcrypt(8, false);
-	}),
-
-
-	'laravel.input' => array('singleton' => true, 'resolver' => function($c)
-	{
-		$input = array();
-
-		switch ($c->resolve('laravel.request')->method())
-		{
-			case 'GET':
-				$input = $_GET;
-				break;
-
-			case 'POST':
-				$input = $_POST;
-				break;
-
-			case 'PUT':
-			case 'DELETE':
-				if ($c->resolve('laravel.request')->spoofed())
-				{
-					$input = $_POST;
-				}
-				else
-				{
-					parse_str(file_get_contents('php://input'), $input);
-				}
-		}
-
-		unset($input[Request::spoofer]);
-
-		return new Input($input, $_FILES);
-	}),
-
-
-	'laravel.loader' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Loader(array(BASE_PATH, MODEL_PATH, LIBRARY_PATH, BASE_PATH), Config::get('aliases'));
-	}),
-
-
-	'laravel.request' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Request($c->resolve('laravel.uri'), $_SERVER, $_POST);		
-	}),
-
-
-	'laravel.uri' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new URI($_SERVER);
-	}),
-
-
-	'laravel.view' => array('singleton' => true, 'resolver' => function($c)
-	{
-		require_once SYS_PATH.'view'.EXT;
-
-		return new View_Factory($c->resolve('laravel.composer'), VIEW_PATH, STORAGE_PATH.'views/');
-	}),
-
-
-	'laravel.composer' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new View_Composer(require APP_PATH.'composers'.EXT);
 	}),
 
 	/*
 	|--------------------------------------------------------------------------
 	| Laravel Routing Components
 	|--------------------------------------------------------------------------
+	|
+	| The following components are used by the Laravel routing system.
+	|
+	| The router is used to map a given method and URI to a route intance.
+	|
+	| The route loader is responsible for loading the appropriates routes file
+	| for a given request URI, as well as loading all routes when the framework
+	| needs to find a named route wtihin the application.
+	|
+	| The route caller is responsible for receiving a route and taking the
+	| appropriate action to execute that route. Some routes delegate execution
+	| to a controller, so this class will also resolve controllers out of the
+	| container and call the appropriate methods on those controllers.
+	|
 	*/
 
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return new Routing\Router($c->resolve('laravel.routing.loader'), CONTROLLER_PATH);
+		return new Routing\Router($c->core('routing.loader'), CONTROLLER_PATH);
 	}),
 
 
@@ -122,6 +48,13 @@ return array(
 	|--------------------------------------------------------------------------
 	| Laravel Caching Components
 	|--------------------------------------------------------------------------
+	|
+	| The following components are used by the wonderfully, simple Laravel
+	| caching system. Each driver is resolved through the container.
+	|
+	| New cache drivers may be added to the framework by simply registering
+	| them into the container.
+	|
 	*/
 
 	'laravel.cache.apc' => array('resolver' => function($c)
@@ -138,7 +71,7 @@ return array(
 
 	'laravel.cache.memcached' => array('resolver' => function($c)
 	{
-		return new Cache\Drivers\Memcached($c->resolve('laravel.cache.memcache.connection'), Config::get('cache.key'));
+		return new Cache\Drivers\Memcached($c->core('cache.memcache.connection'), Config::get('cache.key'));
 	}),
 
 
@@ -163,37 +96,53 @@ return array(
 	|--------------------------------------------------------------------------
 	| Laravel Session Components
 	|--------------------------------------------------------------------------
+	|
+	| The following components are used by the Laravel session system.
+	|
+	| The framework allows the session ID to be transported via a variety
+	| of different mechanisms by resolve the ID itself and the session
+	| transporter instance out of the container. This allows sessions
+	| to be used by clients who cannot receive cookies.
+	|
+	| The session manager is responsible for loading the session payload
+	| from the session driver, as well as examining the payload validitiy
+	| and things like the CSRF token.
+	|
+	| Like the caching components, each session driver is resolved via the
+	| container and new drivers may be added by registering them into the
+	| container. Several session drivers are "driven" by the cache drivers.
+	|
 	*/
 
 	'laravel.session.id' => array('singleton' => true, 'resolver' => function($c)
 	{
-		return $c->resolve('laravel.cookie')->get('laravel_session');
+		return Cookie::get('laravel_session');
 	}),
 
 
 	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($c)
 	{
-		$driver = $c->resolve('laravel.session.'.Config::get('session.driver'));
+		$driver = $c->core('session.'.Config::get('session.driver'));
 
-		return new Session\Manager($driver, $c->resolve('laravel.session.transporter'));
+		return new Session\Manager($driver, $c->core('session.transporter'));
 	}),
 
 
 	'laravel.session.transporter' => array('resolver' => function($c)
 	{
-		return new Session\Transporters\Cookie($c->resolve('laravel.cookie'));
+		return new Session\Transporters\Cookie;
 	}),
 
 
 	'laravel.session.apc' => array('resolver' => function($c)
 	{
-		return new Session\Drivers\APC($c->resolve('laravel.cache.apc'));
+		return new Session\Drivers\APC($c->core('cache.apc'));
 	}),
 
 
 	'laravel.session.cookie' => array('resolver' => function($c)
 	{
-		return new Session\Drivers\Cookie($c->resolve('laravel.crypter'), $c->resolve('laravel.cookie'));
+		return new Session\Drivers\Cookie;
 	}),
 
 
@@ -211,7 +160,7 @@ return array(
 
 	'laravel.session.memcached' => array('resolver' => function($c)
 	{
-		return new Session\Drivers\Memcached($c->resolve('laravel.cache.memcached'));
+		return new Session\Drivers\Memcached($c->core('cache.memcached'));
 	}),
 
 );

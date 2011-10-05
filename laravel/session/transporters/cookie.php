@@ -3,29 +3,11 @@
 class Cookie implements Transporter {
 
 	/**
-	 * The cookie manager instance.
-	 *
-	 * @var Cookie
-	 */
-	protected $cookies;
-
-	/**
 	 * The name of the cookie used to store the session ID.
 	 *
 	 * @var string
 	 */
 	const key = 'laravel_session';
-
-	/**
-	 * Create a new cookie session transporter instance.
-	 *
-	 * @param  Cookie  $cookie
-	 * @return void
-	 */
-	public function __construct(\Laravel\Cookie $cookies)
-	{
-		$this->cookies = $cookies;
-	}
 
 	/**
 	 * Get the session identifier for the request.
@@ -35,7 +17,7 @@ class Cookie implements Transporter {
 	 */
 	public function get($config)
 	{
-		return $this->cookies->get(Cookie::key);
+		return \Laravel\Cookie::get(Cookie::key);
 	}
 
 	/**
@@ -52,7 +34,7 @@ class Cookie implements Transporter {
 		// deleted until the user closes their browser.
 		$minutes = ( ! $config['expire_on_close']) ? $config['lifetime'] : 0;
 
-		$this->cookies->put(Cookie::key, $id, $minutes, $config['path'], $config['domain']);
+		\Laravel\Cookie::put(Cookie::key, $id, $minutes, $config['path'], $config['domain']);
 	}
 
 }

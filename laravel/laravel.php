@@ -32,23 +32,58 @@ if (Config::get('session.driver') !== '')
 }
 
 /**
- * Resolve the incoming request instance from the IoC container
- * and route the request to the proper route in the application.
- * If a route is found, the route will be called with the current
- * requst instance. If no route is found, the 404 response will
- * be returned to the browser.
+ * Manually load some core classes that are used on every request
+ * This allows to avoid using the loader for these classes.
  */
+require SYS_PATH.'uri'.EXT;
 require SYS_PATH.'request'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/caller'.EXT;
 
-$request = $container->core('request');
+/**
+ * Gather the input to the application for the current request.
+ * The input will be gathered based on the current request method
+ * and will be set on the Input manager.
+ */
+$input = array();
 
-list($method, $uri) = array($request->method(), $request->uri());
+switch (Request::method())
+{
+	case 'GET':
+		$input = $_GET;
+		break;
 
-$route = $container->core('routing.router')->route($request, $method, $uri);
+	case 'POST':
+		$input = $_POST;
+		break;
+
+	case 'PUT':
+	case 'DELETE':
+		if (Request::spoofed())
+		{
+			$input = $_POST;
+		}
+		else
+		{
+			parse_str(file_get_contents('php://input'), $input);
+		}
+}
+
+unset($input[Request::spoofer]);
+
+Input::set($input);
+
+/**
+ * Route the request to the proper route in the application. If a
+ * route is found, the route will be called with the current request
+ * instance. If no route is found, the 404 response will be returned
+ * to the browser.
+ */
+list($method, $uri) = array(Request::method(), URI::get());
+
+$route = $container->core('routing.router')->route($method, $uri);
 
 if ( ! is_null($route))
 {
@@ -75,7 +110,7 @@ $response->content = $response->render();
  */
 if (isset($session))
 {
-	$flash = array(Input::old_input => $container->core('input')->get());
+	$flash = array(Input::old_input => Input::get());
 
 	$session->close($container->core('session'), Config::get('session'), $flash);
 }

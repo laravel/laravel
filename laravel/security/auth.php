@@ -1,5 +1,6 @@
 <?php namespace Laravel\Security;
 
+use Laravel\IoC;
 use Laravel\Config;
 use Laravel\Session\Payload;
 
@@ -10,14 +11,7 @@ class Auth {
 	 *
 	 * @var object
 	 */
-	protected $user;
-
-	/**
-	 * The session payload instance.
-	 *
-	 * @var Session\Payload
-	 */
-	protected $session;
+	protected static $user;
 
 	/**
 	 * The key used when storing the user ID in the session.
@@ -27,24 +21,13 @@ class Auth {
 	const user_key = 'laravel_user_id';
 
 	/**
-	 * Create a new authenticator instance.
-	 *
-	 * @param  Session\Payload  $session
-	 * @return void
-	 */
-	public function __construct(Payload $session)
-	{
-		$this->session = $session;
-	}
-
-	/**
 	 * Determine if the current user of the application is authenticated.
 	 *
 	 * @return bool
 	 */
-	public function check()
+	public static function check()
 	{
-		return ! is_null($this->user());
+		return ! is_null(static::user());
 	}
 
 	/**
@@ -63,11 +46,13 @@ class Auth {
 	 *
 	 * @return object
 	 */
-	public function user()
+	public static function user()
 	{
-		if ( ! is_null($this->user)) return $this->user;
+		if ( ! is_null(static::$user)) return static::$user;
 
-		return $this->user = call_user_func(Config::get('auth.user'), $this->session->get(Auth::user_key));
+		$id = IoC::container()->core('session')->get(Auth::user_key);
+
+		return static::$user = call_user_func(Config::get('auth.user'), $id);
 	}
 
 	/**
@@ -80,11 +65,11 @@ class Auth {
 	 * @param  string  $password
 	 * @return bool
 	 */
-	public function attempt($username, $password = null)
+	public static function attempt($username, $password = null)
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
 		{
-			$this->remember($user);
+			static::remember($user);
 
 			return true;
 		}
@@ -100,11 +85,11 @@ class Auth {
 	 * @param  object  $user
 	 * @return void
 	 */
-	public function remember($user)
+	public static function remember($user)
 	{
-		$this->user = $user;
+		static::$user = $user;
 
-		$this->session->put(Auth::user_key, $user->id);
+		IoC::container()->core('session')->put(Auth::user_key, $user->id);
 	}
 
 	/**
@@ -114,13 +99,13 @@ class Auth {
 	 *
 	 * @return void
 	 */
-	public function logout()
+	public static function logout()
 	{
-		call_user_func(Config::get('auth.logout'), $this->user());
+		call_user_func(Config::get('auth.logout'), static::user());
 
-		$this->user = null;
+		static::$user = null;
 
-		$this->session->forget(Auth::user_key);
+		IoC::container()->core('session')->forget(Auth::user_key);
 	}
 
 }

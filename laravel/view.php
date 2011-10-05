@@ -1,195 +1,5 @@
 <?php namespace Laravel; use Closure;
 
-class View_Factory {
-
-	/**
-	 * The directory containing the views.
-	 *
-	 * @var string
-	 */
-	public $path;
-
-	/**
-	 * The path to the directory containing compiled views.
-	 *
-	 * @var string
-	 */
-	public $compiled;
-
-	/**
-	 * The view composer instance.
-	 *
-	 * @var View_Composer
-	 */
-	protected $composer;
-
-	/**
-	 * Create a new view factory instance.
-	 *
-	 * @param  View_Composer  $composer
-	 * @param  string         $path
-	 * @param  string         $compiled
-	 * @return void
-	 */
-	public function __construct(View_Composer $composer, $path, $compiled)
-	{
-		$this->path = $path;
-		$this->composer = $composer;
-		$this->compiled = $compiled;
-	}
-
-	/**
-	 * Create a new view instance.
-	 *
-	 * The name of the view given to this method should correspond to a view
-	 * within your application views directory. Dots or slashes may used to
-	 * reference views within sub-directories.
-	 *
-	 * <code>
-	 *		// Create a new view instance
-	 *		$view = View::make('home.index');
-	 *
-	 *		// Create a new view instance with bound data
-	 *		$view = View::make('home.index', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @return View
-	 */
-	public function make($view, $data = array())
-	{
-		return new View($this, $this->composer, $view, $data, $this->path($view));
-	}
-
-	/**
-	 * Create a new view instance from a view name.
-	 *
-	 * View names are defined in the application composers file.
-	 *
-	 * <code>
-	 *		// Create an instance of the "layout" named view
-	 *		$view = View::of('layout');
-	 *
-	 *		// Create an instance of the "layout" view with bound data
-	 *		$view = View::of('layout', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string  $name
-	 * @param  array   $data
-	 * @return View
-	 */
-	public function of($name, $data = array())
-	{
-		if ( ! is_null($view = $this->composer->name($name))) return $this->make($view, $data);
-
-		throw new \Exception("Named view [$name] is not defined.");
-	}
-
-	/**
-	 * Get the path to a given view on disk.
-	 *
-	 * @param  string  $view
-	 * @return string
-	 */
-	protected function path($view)
-	{
-		$view = str_replace('.', '/', $view);
-
-		foreach (array(EXT, BLADE_EXT) as $extension)
-		{
-			if (file_exists($path = $this->path.$view.$extension)) return $path;
-		}
-
-		throw new \Exception("View [$view] does not exist.");
-	}
-
-	/**
-	 * Magic Method for handling the dynamic creation of named views.
-	 *
-	 * <code>
-	 *		// Create an instance of the "layout" named view
-	 *		$view = View::of_layout();
-	 *
-	 *		// Create an instance of a named view with data
-	 *		$view = View::of_layout(array('name' => 'Taylor'));
-	 * </code>
-	 */
-	public function __call($method, $parameters)
-	{
-		if (strpos($method, 'of_') === 0)
-		{
-			return $this->of(substr($method, 3), Arr::get($parameters, 0, array()));
-		}
-	}
-
-}
-
-
-class View_Composer {
-
-	/**
-	 * The view composers.
-	 *
-	 * @var array
-	 */
-	protected $composers;
-
-	/**
-	 * Create a new view composer instance.
-	 *
-	 * @param  array      $composers
-	 * @return void
-	 */
-	public function __construct($composers)
-	{
-		$this->composers = $composers;
-	}
-
-	/**
-	 * Find the key for a view by name.
-	 *
-	 * The view's key can be used to create instances of the view through the typical
-	 * methods available on the view factory.
-	 *
-	 * @param  string  $name
-	 * @return string
-	 */
-	public function name($name)
-	{
-		// The view's name may specified in several different ways in the composers file.
-		// The composer may simple have a string value, which is the name. Or, the composer
-		// could have an array value in which a "name" key exists.
-		foreach ($this->composers as $key => $value)
-		{
-			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
-		}
-	}
-
-	/**
-	 * Call the composer for the view instance.
-	 *
-	 * @param  View  $view
-	 * @return void
-	 */
-	public function compose(View $view)
-	{
-		// The shared composer is called for every view instance. This allows the
-		// convenient binding of global view data or partials within a single method.
-		if (isset($this->composers['shared'])) call_user_func($this->composers['shared'], $view);
-
-		if (isset($this->composers[$view->view]))
-		{
-			foreach ((array) $this->composers[$view->view] as $key => $value)
-			{
-				if ($value instanceof Closure) return call_user_func($value, $view);
-			}
-		}
-	}
-
-}
-
-
 class View {
 
 	/**
@@ -214,36 +24,138 @@ class View {
 	protected $path;
 
 	/**
-	 * The view composer instance.
+	 * All of the view composers for the application.
 	 *
-	 * @var View_Composer
+	 * @var array
 	 */
-	protected $composer;
-
-	/**
-	 * The view factory instance, which is used to create sub-views.
-	 *
-	 * @var View_Factory
-	 */
-	protected $factory;
+	protected static $composers;
 
 	/**
 	 * Create a new view instance.
 	 *
-	 * @param  View_Factory   $factory
-	 * @param  View_Composer  $composer
-	 * @param  string         $view
-	 * @param  array          $data
-	 * @param  string         $path
+	 * @param  string  $view
+	 * @param  array   $data
 	 * @return void
 	 */
-	public function __construct(View_Factory $factory, View_Composer $composer, $view, $data, $path)
+	public function __construct($view, $data = array())
 	{
 		$this->view = $view;
 		$this->data = $data;
-		$this->path = $path;
-		$this->factory = $factory;
-		$this->composer = $composer;
+		$this->path = $this->path($view);
+	}
+
+	/**
+	 * Get the path to a given view on disk.
+	 *
+	 * The view may be either a "normal" view or a "Blade" view, so we will
+	 * need to check the view directory for either extension.
+	 *
+	 * @param  string  $view
+	 * @return string
+	 */
+	protected function path($view)
+	{
+		$view = str_replace('.', '/', $view);
+
+		foreach (array(EXT, BLADE_EXT) as $extension)
+		{
+			if (file_exists($path = VIEW_PATH.$view.$extension)) return $path;
+		}
+
+		throw new \Exception("View [$view] does not exist.");
+	}
+
+	/**
+	 * Create a new view instance.
+	 *
+	 * The name of the view given to this method should correspond to a view
+	 * within your application views directory. Dots or slashes may used to
+	 * reference views within sub-directories.
+	 *
+	 * <code>
+	 *		// Create a new view instance
+	 *		$view = View::make('home.index');
+	 *
+	 *		// Create a new view instance with bound data
+	 *		$view = View::make('home.index', array('name' => 'Taylor'));
+	 * </code>
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function make($view, $data = array())
+	{
+		return new static($view, $data);
+	}
+
+	/**
+	 * Create a new view instance from a view name.
+	 *
+	 * View names are defined in the application composers file.
+	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of('layout');
+	 *
+	 *		// Create an instance of the "layout" view with bound data
+	 *		$view = View::of('layout', array('name' => 'Taylor'));
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function of($name, $data = array())
+	{
+		if ( ! is_null($view = static::name($name))) return static::make($view, $data);
+
+		throw new \Exception("Named view [$name] is not defined.");
+	}
+
+	/**
+	 * Find the key for a view by name.
+	 *
+	 * The view's key can be used to create instances of the view through the typical
+	 * methods available on the view factory.
+	 *
+	 * @param  string  $name
+	 * @return string
+	 */
+	protected static function name($name)
+	{
+		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+
+		// The view's name may specified in several different ways in the composers file.
+		// The composer may simple have a string value, which is the name. Or, the composer
+		// could have an array value in which a "name" key exists.
+		foreach (static::$composers as $key => $value)
+		{
+			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
+		}
+	}
+
+	/**
+	 * Call the composer for the view instance.
+	 *
+	 * @param  View  $view
+	 * @return void
+	 */
+	protected static function compose(View $view)
+	{
+		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+
+		// The shared composer is called for every view instance. This allows the
+		// convenient binding of global view data or partials within a single method.
+		if (isset(static::$composers['shared'])) call_user_func(static::$composers['shared'], $view);
+
+		if (isset(static::$composers[$view->view]))
+		{
+			foreach ((array) static::$composers[$view->view] as $key => $value)
+			{
+				if ($value instanceof Closure) return call_user_func($value, $view);
+			}
+		}
 	}
 
 	/**
@@ -253,7 +165,7 @@ class View {
 	 */
 	public function render()
 	{
-		$this->composer->compose($this);
+		static::compose($this);
 
 		// All nested views and responses are evaluated before the main view. This allows
 		// the assets used by these views to be added to the asset container before the
@@ -288,7 +200,7 @@ class View {
 		// For simplicity, compiled views are stored in a single directory by the MD5 hash of
 		// their name. This allows us to avoid recreating the entire view directory structure
 		// within the compiled views directory.
-		$compiled = $this->factory->compiled.md5($this->view);
+		$compiled = STORAGE_PATH.'views/'.md5($this->view);
 
 		// The view will only be re-compiled if the view has been modified since the last compiled
 	 	// version of the view was created or no compiled view exists. Otherwise, the path will
@@ -322,7 +234,7 @@ class View {
 	 */
 	public function nest($key, $view, $data = array())
 	{
-		return $this->with($key, $this->factory->make($view, $data));
+		return $this->with($key, static::make($view, $data));
 	}
 
 	/**
@@ -371,6 +283,25 @@ class View {
 	public function __unset($key)
 	{
 		unset($this->data[$key]);
+	}
+
+	/**
+	 * Magic Method for handling the dynamic creation of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "layout" named view
+	 *		$view = View::of_layout();
+	 *
+	 *		// Create an instance of a named view with data
+	 *		$view = View::of_layout(array('name' => 'Taylor'));
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (strpos($method, 'of_') === 0)
+		{
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
+		}
 	}
 
 }

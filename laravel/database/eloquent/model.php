@@ -3,6 +3,7 @@
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Inflector;
+use Laravel\Paginator;
 use Laravel\Database\Manager as DB;
 
 abstract class Model {
@@ -221,6 +222,28 @@ abstract class Model {
 	private function _first()
 	{
 		return (count($results = $this->take(1)->_get()) > 0) ? reset($results) : null;
+	}
+
+	/**
+	 * Get paginated model results as a Paginator instance.
+	 *
+	 * @param  int        $per_page
+	 * @return Paginator
+	 */
+	private function _paginate($per_page = null)
+	{
+		$total = $this->query->count();
+
+		// The number of models to show per page may be specified as a static property
+		// on the model. The models shown per page may also be overriden for the model
+		// by passing the number into this method. If the models to show per page is
+		// not available via either of these avenues, a default number will be shown.
+		if (is_null($per_page))
+		{
+			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 20;
+		}
+
+		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
 	}
 
 	/**
@@ -484,7 +507,7 @@ abstract class Model {
 		// To allow the "with", "get", "first", and "paginate" methods to be called both
 		// staticly and on an instance, we need to have private, underscored versions
 		// of the methods and handle them dynamically.
-		if (in_array($method, array('with', 'get', 'first')))
+		if (in_array($method, array('with', 'get', 'first', 'paginate')))
 		{
 			return call_user_func_array(array($this, '_'.$method), $parameters);
 		}

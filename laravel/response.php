@@ -133,7 +133,7 @@ class Response {
 	 */
 	public static function view($view, $data = array())
 	{
-		return new static(IoC::container()->core('view')->make($view, $data));
+		return new static(View::make($view, $data));
 	}
 
 	/**
@@ -153,7 +153,7 @@ class Response {
 	 */
 	public static function of($name, $data = array())
 	{
-		return new static(IoC::container()->core('view')->of($name, $data));
+		return new static(View::of($name, $data));
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Response {
 	 */
 	public static function error($code, $data = array())
 	{
-		return new static(IoC::container()->core('view')->make('error/'.$code, $data), $code);
+		return new static(View::make('error/'.$code, $data), $code);
 	}
 
 	/**

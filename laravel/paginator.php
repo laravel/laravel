@@ -54,14 +54,7 @@ class Paginator {
 	protected $appendage;
 
 	/**
-	 * The current request instance.
-	 *
-	 * @var Request
-	 */
-	protected $request;
-
-	/**
-	 * The paginatino elements that will be generated.
+	 * The pagination elements that will be generated.
 	 *
 	 * @var array
 	 */
@@ -84,10 +77,6 @@ class Paginator {
 		$this->total = $total;
 		$this->results = $results;
 		$this->per_page = $per_page;
-
-		// Grab the active request instance. This is used to determine the current URI
-		// and to determine if HTTPS links should be generated.
-		$this->request = IoC::container()->core('request');
 	}
 
 	/**
@@ -112,7 +101,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$page = IoC::container()->core('input')->get('page', 1);
+		$page = Input::get('page', 1);
 
 		// The page will be validated and adjusted if it is less than one or greater
 		// than the last page. For example, if the current page is not an integer or
@@ -253,7 +242,7 @@ class Paginator {
 			// We will assume the page links should use HTTPS if the current request
 			// is also using HTTPS. Since pagination links automatically point to
 			// the current URI, this makes pretty good sense.
-			list($uri, $secure) = array($this->request->uri(), $this->request->secure());
+			list($uri, $secure) = array(URI::get(), Request::secure());
 
 			return HTML::link($uri.$this->appendage($element, $page), $text, array('class' => $class), $secure);
 		}

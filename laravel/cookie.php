@@ -3,32 +3,14 @@
 class Cookie {
 
 	/**
-	 * The cookies for the current request.
-	 *
-	 * @var array
-	 */
-	protected $cookies;
-
-	/**
-	 * Create a new cookie manager instance.
-	 *
-	 * @param  array  $cookies
-	 * @return void
-	 */
-	public function __construct(&$cookies)
-	{
-		$this->cookies =& $cookies;
-	}
-
-	/**
 	 * Determine if a cookie exists.
 	 *
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public function has($name)
+	public static function has($name)
 	{
-		return ! is_null($this->get($name));
+		return ! is_null(static::get($name));
 	}
 
 	/**
@@ -38,9 +20,9 @@ class Cookie {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function get($name, $default = null)
+	public static function get($name, $default = null)
 	{
-		return Arr::get($this->cookies, $name, $default);
+		return Arr::get($_COOKIE, $name, $default);
 	}
 
 	/**
@@ -54,9 +36,9 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return $this->put($name, $value, 2628000, $path, $domain, $secure, $http_only);
+		return static::put($name, $value, 2628000, $path, $domain, $secure, $http_only);
 	}
 
 	/**
@@ -77,11 +59,11 @@ class Cookie {
 	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
 		if (headers_sent()) return false;
 
-		if ($minutes < 0) unset($this->cookies[$name]);
+		if ($minutes < 0) unset($_COOKIE[$name]);
 
 		// Since PHP needs the cookie lifetime in seconds, we will calculate it here.
 		// A "0" lifetime means the cookie expires when the browser closes.
@@ -96,9 +78,9 @@ class Cookie {
 	 * @param  string  $name
 	 * @return bool
 	 */
-	public function forget($name)
+	public static function forget($name)
 	{
-		return $this->put($name, null, -60);
+		return static::put($name, null, -60);
 	}
 
 }

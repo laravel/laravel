@@ -57,7 +57,7 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (is_null($https)) $https = IoC::container()->core('request')->secure();
+		if (is_null($https)) $https = Request::secure();
 
 		return str_replace('index.php/', '', static::to($url, $https));
 	}

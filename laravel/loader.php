@@ -7,27 +7,14 @@ class Loader {
 	 *
 	 * @var array
 	 */
-	protected $paths = array();
+	public static $paths = array(BASE_PATH, MODEL_PATH, LIBRARY_PATH, APP_PATH);
 
 	/**
 	 * The class aliases defined for the application.
 	 *
 	 * @var array
 	 */
-	protected $aliases = array();
-
-	/**
-	 * Create a new class loader instance.
-	 *
-	 * @param  array  $paths
-	 * @param  array  $aliases
-	 * @return void
-	 */
-	public function __construct($paths, $aliases = array())
-	{
-		$this->paths = $paths;
-		$this->aliases = $aliases;
-	}
+	public static $aliases = array();
 
 	/**
 	 * Load the file for a given class.
@@ -43,7 +30,7 @@ class Loader {
 	 * @param  string  $class
 	 * @return void
 	 */
-	public function load($class)
+	public static function load($class)
 	{
 		// All Laravel core classes follow a namespace to directory convention.
 		// We will replace all of the namespace slashes with directory slashes.
@@ -51,12 +38,12 @@ class Loader {
 
 		// Check to determine if an alias exists. If it does, we will define the
 		// alias and bail out. Aliases are defined for most used core classes.
-		if (array_key_exists($class, $this->aliases))
+		if (array_key_exists($class, static::$aliases))
 		{
-			return class_alias($this->aliases[$class], $class);
+			return class_alias(static::$aliases[$class], $class);
 		}
 
-		foreach ($this->paths as $path)
+		foreach (static::$paths as $path)
 		{
 			if (file_exists($path = $path.$file.EXT))
 			{
@@ -74,9 +61,9 @@ class Loader {
 	 * @param  string  $class
 	 * @return void
 	 */
-	public function alias($alias, $class)
+	public static function alias($alias, $class)
 	{
-		$this->aliases[$alias] = $class;
+		static::$aliases[$alias] = $class;
 	}
 
 	/**
@@ -85,9 +72,9 @@ class Loader {
 	 * @param  string  $path
 	 * @return void
 	 */
-	public function path($path)
+	public static function path($path)
 	{
-		$this->paths[] = rtrim($path, '/').'/';
+		static::$paths[] = rtrim($path, '/').'/';
 	}
 
 	/**
@@ -96,9 +83,9 @@ class Loader {
 	 * @param  string  $alias
 	 * @return void
 	 */
-	public function forget_alias($alias)
+	public static function forget_alias($alias)
 	{
-		unset($this->aliases[$alias]);
+		unset(static::$aliases[$alias]);
 	}
 
 }

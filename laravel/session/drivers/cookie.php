@@ -5,37 +5,6 @@ use Laravel\Security\Crypter;
 class Cookie implements Driver {
 
 	/**
-	 * The crypter instance.
-	 *
-	 * All session cookies have an encrypted payload. Since the session contains sensitive
-	 * data that cannot be compromised, it is important that the payload be encrypted using
-	 * the strong encryption provided by the Crypter class.
-	 *
-	 * @var Crypter
-	 */
-	private $crypter;
-
-	/**
-	 * The cookie manager instance.
-	 *
-	 * @var Cookie
-	 */
-	private $cookies;
-
-	/**
-	 * Create a new Cookie session driver instance.
-	 *
-	 * @param  Crypter  $crypter
-	 * @param  Cookie   $cookies
-	 * @return void
-	 */
-	public function __construct(Crypter $crypter, \Laravel\Cookie $cookies)
-	{
-		$this->crypter = $crypter;
-		$this->cookies = $cookies;
-	}
-
-	/**
 	 * Load a session from storage by a given ID.
 	 *
 	 * If no session is found for the ID, null will be returned.
@@ -45,9 +14,9 @@ class Cookie implements Driver {
 	 */
 	public function load($id)
 	{
-		if ($this->cookies->has('session_payload'))
+		if (\Laravel\Cookie::has('session_payload'))
 		{
-			return unserialize($this->crypter->decrypt($this->cookies->get('session_payload')));
+			return unserialize(Crypter::decrypt(\Laravel\Cookie::get('session_payload')));
 		}
 	}
 
@@ -63,9 +32,9 @@ class Cookie implements Driver {
 	{
 		extract($config);
 
-		$payload = $this->crypter->encrypt(serialize($session));
+		$payload = Crypter::encrypt(serialize($session));
 
-		$this->cookies->put('session_payload', $payload, $lifetime, $path, $domain);
+		\Laravel\Cookie::put('session_payload', $payload, $lifetime, $path, $domain);
 	}
 
 	/**
@@ -76,7 +45,7 @@ class Cookie implements Driver {
 	 */
 	public function delete($id)
 	{
-		$this->cookies->forget('session_payload');
+		\Laravel\Cookie::forget('session_payload');
 	}
 
 }

@@ -525,7 +525,7 @@ class Query {
 	 * @param  array      $columns
 	 * @return Paginator
 	 */
-	public function paginate($per_page, $columns = array('*'))
+	public function paginate($per_page = 20, $columns = array('*'))
 	{
 		// Calculate the current page for the request. The page number will be validated
 		// and adjusted by the Paginator class, so we can assume it is valid.

@@ -134,19 +134,23 @@ class Container {
 	 * Resolve a core Laravel class from the container.
 	 *
 	 * <code>
-	 *		// Resolve the "laravel.input" class from the container
+	 *		// Resolve the "laravel.router" class from the container
 	 *		$input = IoC::container()->core('input');
 	 *
 	 *		// Equivalent resolution using the "resolve" method
-	 *		$input = IoC::container()->resolve('laravel.input');
+	 *		$input = IoC::container()->resolve('laravel.router');
+	 *
+	 *		// Pass an array of parameters to the resolver
+	 *		$input = IoC::container()->core('input', array('test'));
 	 * </code>
 	 *
 	 * @param  string  $name
+	 * @param  array   $parameters
 	 * @return mixed
 	 */
-	public function core($name)
+	public function core($name, $parameters = array())
 	{
-		return $this->resolve("laravel.{$name}");
+		return $this->resolve("laravel.{$name}", $parameters);
 	}
 
 	/**
@@ -155,12 +159,16 @@ class Container {
 	 * <code>
 	 *		// Get an instance of the "mailer" object registered in the container
 	 *		$mailer = IoC::container()->resolve('mailer');
+	 *
+	 *		// Pass an array of parameters to the resolver
+	 *		$mailer = IoC::container()->resolve('mailer', array('test'));
 	 * </code>
 	 *
 	 * @param  string  $name
+	 * @param  array   $parameters
 	 * @return mixed
 	 */
-	public function resolve($name)
+	public function resolve($name, $parameters = array())
 	{
 		if (array_key_exists($name, $this->singletons)) return $this->singletons[$name];
 
@@ -169,7 +177,7 @@ class Container {
 			throw new \Exception("Error resolving [$name]. No resolver has been registered in the container.");
 		}
 
-		$object = call_user_func($this->registry[$name]['resolver'], $this);
+		$object = call_user_func($this->registry[$name]['resolver'], $this, $parameters);
 
 		return (isset($this->registry[$name]['singleton'])) ? $this->singletons[$name] = $object : $object;
 	}

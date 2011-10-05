@@ -61,7 +61,9 @@ IoC::$container = $container;
  * for the lazy-loading of all of the Laravel core classes, as well as
  * the developer created libraries and models.
  */
-spl_autoload_register(array($container->resolve('laravel.loader'), 'load'));
+spl_autoload_register(array('Laravel\\Loader', 'load'));
+
+Loader::$aliases = Config::get('aliases');
 
 /**
  * Define a few convenient global functions.
