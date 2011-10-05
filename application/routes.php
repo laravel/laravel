@@ -37,7 +37,7 @@ return array(
 	|
 	*/
 
-	'GET /' => function($application)
+	'GET /' => function()
 	{
 		return View::make('home.index');
 	},
