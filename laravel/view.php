@@ -131,7 +131,7 @@ class View {
 		// could have an array value in which a "name" key exists.
 		foreach (static::$composers as $key => $value)
 		{
-			if ($name === $value or (isset($value['name']) and $name === $value['name'])) { return $key; }
+			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name'))) return $key;
 		}
 	}
 

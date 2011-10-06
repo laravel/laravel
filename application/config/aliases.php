@@ -26,7 +26,7 @@ return array(
 	'Config'     => 'Laravel\\Config',
 	'Controller' => 'Laravel\\Controller',
 	'Cookie'     => 'Laravel\\Cookie',
-	'Crypter'    => 'Laravel\\Crypter',
+	'Crypter'    => 'Laravel\\Security\\Crypter',
 	'DB'         => 'Laravel\\Database\\Manager',
 	'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
 	'File'       => 'Laravel\\File',
