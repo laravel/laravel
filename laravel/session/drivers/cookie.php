@@ -30,7 +30,7 @@ class Cookie implements Driver {
 	 */
 	public function save($session, $config, $exists)
 	{
-		extract($config);
+		extract($config, EXTR_SKIP);
 
 		$payload = Crypter::encrypt(serialize($session));
 
