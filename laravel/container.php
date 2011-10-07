@@ -179,7 +179,12 @@ class Container {
 
 		$object = call_user_func($this->registry[$name]['resolver'], $this, $parameters);
 
-		return (isset($this->registry[$name]['singleton'])) ? $this->singletons[$name] = $object : $object;
+		if (isset($this->registry[$name]['singleton']) and $this->registry[$name]['singleton'])
+		{
+			return $this->singletons[$name] = $object;
+		}
+
+		return $object;
 	}
 
 }
