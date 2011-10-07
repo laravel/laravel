@@ -41,7 +41,26 @@ require SYS_PATH.'arr'.EXT;
  */
 if (isset($_SERVER['LARAVEL_ENV']))
 {
-	Config::glance(CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/');
+	define('ENV_CONFIG_PATH', CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/');
+
+	Config::glance(ENV_CONFIG_PATH);
+}
+
+/**
+ * Load some core configuration files by default so we don't have to
+ * let them fall through the Config loader. This will allow us to
+ * load these files faster for each request.
+ */
+foreach (array('application', 'session', 'aliases') as $file)
+{
+	$config = require CONFIG_PATH.$file.EXT;
+
+	if (isset($_SERVER['LARAVEL_ENV']))
+	{
+		$config = array_merge($config, require ENV_CONFIG_PATH.$file.EXT);
+	}
+
+	Config::$items[$file] = $config;
 }
 
 /**
