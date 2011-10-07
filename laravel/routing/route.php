@@ -136,7 +136,7 @@ class Route {
 	 */
 	public function delegates()
 	{
-		return is_array($this->callback) and isset($this->callback['delegate']);
+		return is_string($this->callback) or (is_array($this->callback) and isset($this->callback['delegate']));
 	}
 
 	/**

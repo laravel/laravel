@@ -135,7 +135,7 @@ class Caller {
 	 */
 	protected function callable($method)
 	{
-		return $method == 'before' or $method == 'after' or strncmp($method, '_', 1) === 0;
+		return $method !== 'before' and $method !== 'after' and strncmp($method, '_', 1) !== 0;
 	}
 
 	/**
