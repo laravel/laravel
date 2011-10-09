@@ -60,7 +60,8 @@ class Auth {
 				$id = $cookie[0];
 			}
 
-			if ( ! is_null(static::$user = call_user_func(Config::get('auth.user'), $id)))
+			// Attempt to find the user and set the login session.
+			if ( ! is_null($user = call_user_func(Config::get('auth.user'), $id)))
 			{
 				static::login($user);
 				return static::$user;
@@ -137,7 +138,7 @@ class Auth {
 	public static function remember($user, $ttl = 10080)
 	{
 		static::$user = $user;
-		$cookie = Crypter::encrypt($user->id.'|'.\Request::ip().'|'.md5(\Request::server('HTTP_USER_AGENT')).'|'.time());
+		$cookie = Crypter::encrypt(implode('|', array($user->id, \Request::ip(), md5(\Request::server('HTTP_USER_AGENT')), time()));
 		\Cookie::put('remember', $cookie, $ttl);
 	}
 }
