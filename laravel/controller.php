@@ -90,20 +90,17 @@ abstract class Controller {
 	/**
 	 * Dynamically resolve items from the application IoC container.
 	 *
-	 * First, "laravel." will be prefixed to the requested item to see if there is
-	 * a matching Laravel core class in the IoC container. If there is not, we will
-	 * check for the item in the container using the name as-is.
+	 * <code>
+	 *		// Retrieve an object registered in the container as "mailer"
+	 *		$mailer = $this->mailer;
+	 *
+	 *		// Equivalent call using the IoC container instance
+	 *		$mailer = IoC::container()->resolve('mailer');
+	 * </code>
 	 */
 	public function __get($key)
 	{
-		if (IoC::container()->registered("laravel.{$key}"))
-		{
-			return IoC::container()->core($key);
-		}
-		elseif (IoC::container()->registered($key))
-		{
-			return IoC::container()->resolve($key);
-		}
+		if (IoC::container()->registered($key)) return IoC::container()->resolve($key);
 
 		throw new \Exception("Attempting to access undefined property [$key] on controller.");
 	}
