@@ -56,9 +56,12 @@ class HTML {
 	 */
 	public static function style($url, $attributes = array())
 	{
-		if ( ! array_key_exists('media', $attributes)) $attributes['media'] = 'all';
+		$defaults = array('media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet');
 
-		$attributes = array_merge($attributes, array('rel' => 'stylesheet', 'type' => 'text/css'));
+		foreach ($defaults as $attribute => $default)
+		{
+			if ( ! array_key_exists($attribute, $attributes)) $attributes[$attribute] = $default;
+		}
 
 		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
