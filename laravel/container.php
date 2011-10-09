@@ -135,13 +135,13 @@ class Container {
 	 *
 	 * <code>
 	 *		// Resolve the "laravel.router" class from the container
-	 *		$input = IoC::container()->core('input');
+	 *		$input = IoC::container()->core('router');
 	 *
 	 *		// Equivalent resolution using the "resolve" method
 	 *		$input = IoC::container()->resolve('laravel.router');
 	 *
 	 *		// Pass an array of parameters to the resolver
-	 *		$input = IoC::container()->core('input', array('test'));
+	 *		$input = IoC::container()->core('router', array('test'));
 	 * </code>
 	 *
 	 * @param  string  $name

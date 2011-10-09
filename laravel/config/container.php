@@ -2,11 +2,6 @@
 
 return array(
 
-	'laravel.hasher' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Security\Hashing\Bcrypt(8, false);
-	}),
-
 	/*
 	|--------------------------------------------------------------------------
 	| Laravel Routing Components

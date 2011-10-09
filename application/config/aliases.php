@@ -31,7 +31,7 @@ return array(
 	'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
 	'File'       => 'Laravel\\File',
 	'Form'       => 'Laravel\\Form',
-	'Hasher'     => 'Laravel\\Facades\\Hasher',
+	'Hasher'     => 'Laravel\\Security\\Hasher',
 	'HTML'       => 'Laravel\\HTML',
 	'Inflector'  => 'Laravel\\Inflector',
 	'Input'      => 'Laravel\\Input',

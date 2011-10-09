@@ -87,4 +87,12 @@ Loader::$aliases = Config::get('aliases');
 /**
  * Define a few convenient global functions.
  */
-require 'functions'.EXT;
+function e($value)
+{
+	return HTML::entities($value);
+}
+
+function __($key, $replacements = array(), $language = null)
+{
+	return Lang::line($key, $replacements, $language);
+}
