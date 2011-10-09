@@ -52,12 +52,18 @@ class Auth {
 
 		$id = IoC::container()->core('session')->get(Auth::user_key);
 
-		if (is_null($id) AND ! is_null($cookie = strrev(Crypter::decrypt(\Cookie::get('remember')))))
+		if (is_null($id) AND ! is_null($cookie = Crypter::decrypt(\Cookie::get('remember'))))
 		{
 			$cookie = explode('|', $cookie);
 			if ($cookie[2] == md5(\Request::server('HTTP_USER_AGENT')))
 			{
 				$id = $cookie[0];
+			}
+
+			if ( ! is_null(static::$user = call_user_func(Config::get('auth.user'), $id)))
+			{
+				static::login($user);
+				return static::$user;
 			}
 		}
 
@@ -72,9 +78,11 @@ class Auth {
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
+	 * @param  bool    $remember
+	 * @param  int     $ttl - Default is one week.
 	 * @return bool
 	 */
-	public static function attempt($username, $password = null, $remember = false)
+	public static function attempt($username, $password = null, $remember = false, $ttl = 10080)
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
 		{
@@ -122,12 +130,14 @@ class Auth {
 	/**
 	 * Set a cookie so that users are remembered.
 	 *
+	 * @param  object  $user
+	 * @param  int     $ttl - Default is one week.
 	 * @return bool
 	 */
-	public static function remember($user)
+	public static function remember($user, $ttl = 10080)
 	{
 		static::$user = $user;
-		$cookie = Crypter::encrypt(strrev($user->id.'|'.\Request::ip().'|'.md5(\Request::server('HTTP_USER_AGENT')).'|'.time()));
-		\Cookie::put('remember', $cookie, 60);
+		$cookie = Crypter::encrypt($user->id.'|'.\Request::ip().'|'.md5(\Request::server('HTTP_USER_AGENT')).'|'.time());
+		\Cookie::put('remember', $cookie, $ttl);
 	}
 }
