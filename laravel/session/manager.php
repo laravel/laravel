@@ -22,13 +22,6 @@ class Manager {
 	private $transporter;
 
 	/**
-	 * The session payload instance.
-	 *
-	 * @var Payload
-	 */
-	private $payload;
-
-	/**
 	 * Indicates if the session exists in persistent storage.
 	 *
 	 * @var bool
@@ -61,7 +54,7 @@ class Manager {
 		// If the session is expired, a new session will be generated and all of the data from
 		// the previous session will be lost. The new session will be assigned a random, long
 		// string ID to uniquely identify it among the application's current users.
-		if (is_null($session) or $this->expired($session, $config))
+		if (is_null($session) or (time() - $session['last_activity']) > ($config['lifetime'] * 60))
 		{
 			$this->exists = false;
 
@@ -83,19 +76,6 @@ class Manager {
 	}
 
 	/**
-	 * Deteremine if the session is expired based on the last activity timestamp
-	 * and the session lifetime set in the configuration file.
-	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @return bool
-	 */
-	private function expired($session, $config)
-	{
-		return (time() - $session['last_activity']) > ($config['lifetime'] * 60);
-	}
-
-	/**
 	 * Close the session handling for the request.
 	 *
 	 * @param  Payload  $payload
@@ -107,10 +87,7 @@ class Manager {
 	{
 		// If the session ID has been regenerated, we will need to inform the session driver
 		// that the session will need to be persisted to the data store as a new session.
-		if ($payload->regenerated)
-		{
-			$this->exists = false;
-		}
+		if ($payload->regenerated) $this->exists = false;
 
 		foreach ($flash as $key => $value)
 		{
