@@ -37,16 +37,19 @@ return array(
 	|			//
 	|		})	
 	|
+	| The "shared" composer is called for every view. This allows the
+	| convenient binding of global data or assets.
+	|
 	*/
 
 	'shared' => function($view)
 	{
-		//
+		// This composer is called for every view.
 	},
 
 	'home.index' => array('name' => 'home', function($view)
 	{
-		//
+		// This composer is called for the "home.index" view.
 	}),
 
 );
