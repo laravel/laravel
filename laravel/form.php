@@ -80,9 +80,7 @@ class Form {
 	 */
 	protected static function action($action, $https)
 	{
-		$uri = IoC::container()->core('uri')->get();
-
-		return HTML::entities(URL::to(((is_null($action)) ? $uri : $action), $https));
+		return HTML::entities(URL::to(((is_null($action)) ? URI::get() : $action), $https));
 	}
 
 	/**
