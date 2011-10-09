@@ -69,7 +69,7 @@ class Auth {
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
 		{
-			static::remember($user);
+			static::login($user);
 
 			return true;
 		}
@@ -85,7 +85,7 @@ class Auth {
 	 * @param  object  $user
 	 * @return void
 	 */
-	public static function remember($user)
+	public static function login($user)
 	{
 		static::$user = $user;
 
