@@ -65,16 +65,36 @@ class Auth {
 		// cookie value by the "remember" method.
 		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
-			// The decrypted value of the remember cookie should look like {id}|{random}.
-			// We will extract out the ID and pass it to the "user" closure to attempt
-			// to login the user. If a user is returned, their ID will be stored in
-			// the session like normal and they will be considered logged in.
-			$id = substr(Crypter::decrypt($cookie), 0, strpos($cookie, '|'));
-
-			if ( ! is_null($user = call_user_func(Config::get('auth.user'), $id))) static::login($user);
+			static::$user = static::recall($cookie);
 		}
 
 		return static::$user;
+	}
+
+	/**
+	 * Attempt to login a user based on a long-lived "remember me" cookie.
+	 *
+	 * @param  string  $cookie
+	 * @return mixed
+	 */
+	protected static function recall($cookie)
+	{
+		// The decrypted value of the remember cookie contains the ID and username.
+		// We will extract them out and pass the ID to the "user" closure to attempt
+		// to login the user. If a user is returned, their ID will be stored in
+		// the session like normal and the user will be considered logged in.
+		$cookie = explode('|', $cookie);
+
+		if (count($cookie) < 2) return;
+
+		list($id, $username) = array($cookie[0], $cookie[1]);
+
+		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $id)) and $user->{Config::get('auth.username')} === $username)
+		{
+			static::login($user);
+		}
+
+		return $user;
 	}
 
 	/**
@@ -95,7 +115,9 @@ class Auth {
 	 */
 	public static function attempt($username, $password = null, $remember = false)
 	{
-		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
+		$config = Config::get('auth');
+
+		if ( ! is_null($user = call_user_func($config['attempt'], $username, $password, $config)))
 		{
 			static::login($user, $remember);
 

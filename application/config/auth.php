@@ -4,6 +4,23 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Authentication Username
+	|--------------------------------------------------------------------------
+	|
+	} This option should be set to the "username" property of your users.
+	| Typically, this will be set to "email" or "username".
+	|
+	| The value of this property will be used by the "attempt" closure when
+	| searching for users by their username. It will also be used when the
+	| user is set to be "remembered", as the username is embedded into the
+	| encrypted cookie and is used to verify the user's identity.
+	|
+	*/
+
+	'username' => 'email',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Retrieve The Current User
 	|--------------------------------------------------------------------------
 	|
@@ -43,9 +60,9 @@ return array(
 	|
 	*/
 
-	'attempt' => function($username, $password)
+	'attempt' => function($username, $password, $config)
 	{
-		if ( ! is_null($user = User::where('email', '=', $username)->first()))
+		if ( ! is_null($user = User::where($config['username'], '=', $username)->first()))
 		{
 			if (Hasher::check($password, $user->password)) return $user;
 		}
