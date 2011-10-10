@@ -87,9 +87,9 @@ class Auth {
 
 		if (count($cookie) < 2) return;
 
-		list($id, $username) = array($cookie[0], $cookie[1]);
+		list($id, $username, $config) = array($cookie[0], $cookie[1], Config::get('auth'));
 
-		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $id)) and $user->{Config::get('auth.username')} === $username)
+		if ( ! is_null($user = call_user_func($config['user'], $id)) and $user->{$config['username']} === $username)
 		{
 			static::login($user);
 		}
