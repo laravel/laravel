@@ -21,7 +21,10 @@ return array(
 
 	'user' => function($id)
 	{
-		if ( ! is_null($id)) return User::find($id);
+		if ( ! is_null($id) and filter_var($id, FILTER_VALIDATE_INT) !== false)
+		{
+			return User::find($id);
+		} 
 	},
 
 	/*
