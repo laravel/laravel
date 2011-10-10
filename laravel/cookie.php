@@ -26,7 +26,7 @@ class Cookie {
 	}
 
 	/**
-	 * Set a "permanent" cookie. The cookie will last 5 years.
+	 * Set a "permanent" cookie. The cookie will last for one year.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -38,7 +38,7 @@ class Cookie {
 	 */
 	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, $value, 2628000, $path, $domain, $secure, $http_only);
+		return static::put($name, $value, 525600, $path, $domain, $secure, $http_only);
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 use Laravel\IoC;
 use Laravel\Config;
+use Laravel\Cookie;
 use Laravel\Session\Payload;
 
 class Auth {
@@ -19,6 +20,13 @@ class Auth {
 	 * @var string
 	 */
 	const user_key = 'laravel_user_id';
+
+	/**
+	 * The key used when setting the "remember me" cookie.
+	 *
+	 * @var string
+	 */
+	const remember_key = 'laravel_remember';
 
 	/**
 	 * Determine if the current user of the application is authenticated.
@@ -50,18 +58,20 @@ class Auth {
 	{
 		if ( ! is_null(static::$user)) return static::$user;
 
-		$id = IoC::container()->core('session')->get(Auth::user_key);
+		static::$user = call_user_func(Config::get('auth.user'), IoC::container()->core('session')->get(Auth::user_key));
 
-		static::$user = call_user_func(Config::get('auth.user'), $id);
-
-		if (is_null(static::$user) AND ! is_null($cookie = Crypter::decrypt(\Cookie::get('remember'))))
+		// If no user was returned by the closure, and a "remember me" cookie exists,
+		// we will attempt to login the user using the ID that is encrypted into the
+		// cookie value by the "remember" method.
+		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
-			$cookie = explode('|', $cookie);
-			if ($cookie[2] == md5(\Request::server('HTTP_USER_AGENT'))
-				AND ! is_null(static::$user = call_user_func(Config::get('auth.user'), $cookie[0])))
-			{
-				static::login(static::$user);
-			}
+			// The decrypted value of the remember cookie should look like {id}|{random}.
+			// We will extract out the ID and pass it to the "user" closure to attempt
+			// to login the user. If a user is returned, their ID will be stored in
+			// the session like normal and they will be considered logged in.
+			$id = substr(Crypter::decrypt($cookie), 0, strpos($cookie, '|'));
+
+			if ( ! is_null($user = call_user_func(Config::get('auth.user'), $id))) static::login($user);
 		}
 
 		return static::$user;
@@ -70,22 +80,24 @@ class Auth {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * If the given credentials are valid, the user will be considered logged into
-	 * the application and their user ID will be stored in the session data.
+	 * If the given credentials are valid, the user will be logged into the application
+	 * and their user ID will be stored in the session data.
+	 *
+	 * The user may also be "remembered". When this option is set, the user will be
+	 * automatically logged into the application for one year via an encrypted cookie
+	 * containing their ID. Of course, if the user logs out of the application,
+	 * they will no longer be remembered.
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
 	 * @param  bool    $remember
-	 * @param  int     $ttl - Default is one week.
 	 * @return bool
 	 */
-	public static function attempt($username, $password = null, $remember = false, $ttl = 10080)
+	public static function attempt($username, $password = null, $remember = false)
 	{
 		if ( ! is_null($user = call_user_func(Config::get('auth.attempt'), $username, $password)))
 		{
-			static::login($user);
-
-			if ($remember) static::remember($user);
+			static::login($user, $remember);
 
 			return true;
 		}
@@ -99,13 +111,34 @@ class Auth {
 	 * The user ID will be stored in the session so it is available on subsequent requests.
 	 *
 	 * @param  object  $user
+	 * @param  bool    $remember
 	 * @return void
 	 */
-	public static function login($user)
+	public static function login($user, $remember = false)
 	{
 		static::$user = $user;
 
+		if ($remember) static::remember($user->id);
+
 		IoC::container()->core('session')->put(Auth::user_key, $user->id);
+	}
+
+	/**
+	 * Set a cookie so that users are "remembered" and don't need to login.
+	 *
+	 * @param  string  $id
+	 * @return void
+	 */
+	protected static function remember($id)
+	{
+		$cookie = Crypter::encrypt($id.'|'.Str::random(40));
+
+		// This method assumes the "remember me" cookie should have the same configuration
+		// as the session cookie. Since this cookie, like the session cookie, should be
+		// kept very secure, it's probably safe to assume the settings are the same.
+		$config = Config::get('session');
+
+		Cookie::forever(Auth::remember_key, $cookie, $config['path'], $config['domain'], $config['secure']);
 	}
 
 	/**
@@ -121,20 +154,11 @@ class Auth {
 
 		static::$user = null;
 
+		Cookie::forget(Auth::user_key);
+
+		Cookie::forget(Auth::remember_key);
+
 		IoC::container()->core('session')->forget(Auth::user_key);
 	}
 
-	/**
-	 * Set a cookie so that users are remembered.
-	 *
-	 * @param  object  $user
-	 * @param  int     $ttl - Default is one week.
-	 * @return bool
-	 */
-	public static function remember($user, $ttl = 10080)
-	{
-		static::$user = $user;
-		$cookie = Crypter::encrypt(implode('|', array($user->id, \Request::ip(), md5(\Request::server('HTTP_USER_AGENT')), time())));
-		\Cookie::put('remember', $cookie, $ttl);
-	}
 }

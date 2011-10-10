@@ -34,7 +34,7 @@ class Cookie implements Transporter {
 		// deleted until the user closes their browser.
 		$minutes = ( ! $config['expire_on_close']) ? $config['lifetime'] : 0;
 
-		\Laravel\Cookie::put(Cookie::key, $id, $minutes, $config['path'], $config['domain']);
+		\Laravel\Cookie::put(Cookie::key, $id, $minutes, $config['path'], $config['domain'], $config['secure']);
 	}
 
 }
