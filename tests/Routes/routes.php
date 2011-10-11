@@ -38,6 +38,19 @@ return array(
 	},
 	
 	/**
+	 * bad response
+	 */
+	'GET /test/bad' => function()
+	{
+		
+	},
+	
+	/**
+	 * bad route
+	 */
+	'GET /test/bad2' => 'string',
+	
+	/**
 	 * multiple routes in one
 	 */
 	'GET /test/multi, GET /test/altmulti' => function()
@@ -83,5 +96,18 @@ return array(
 	'GET /test/filter/multi' => array('after' => 'after_filter, after_filter2', function()
 	{
 		return 'not filtered';
+	}),
+	
+	/**
+	 * named routes
+	 */
+	'GET /test/named' => array('name' => 'named_route', function()
+	{
+		return 'named route';
+	}),
+	
+	'GET /test/named/(:any)' => array('name' => 'named_route_params', function($var = '')
+	{
+		return 'named route';
 	}),
 );
