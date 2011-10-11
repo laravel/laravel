@@ -65,6 +65,7 @@ class SessionPayloadTest extends PHPUnit_Framework_TestCase {
 		$payload->keep('name');
 		$this->assertTrue(isset($payload->session['data'][':new:name']));
 		$this->assertFalse(isset($payload->session['data'][':old:name']));
+		
 		$payload = new Payload(array('data' => array(':old:name' => 'Taylor', ':old:age' => 25)));
 		$payload->keep(array('name', 'age'));
 		$this->assertTrue(isset($payload->session['data'][':new:name']));

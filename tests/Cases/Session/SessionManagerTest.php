@@ -11,7 +11,9 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_session_manager_calls_transporter_get($driver, $transporter)
 	{
 		$transporter->expects($this->once())->method('get');
+
 		$manager = new Manager($driver, $transporter);
+
 		$manager->payload($this->getConfig());
 	}
 
@@ -20,9 +22,16 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_session_manager_calls_driver_load_with_session_id($driver, $transporter)
 	{
-		$transporter->expects($this->any())->method('get')->will($this->returnValue('something'));
-		$driver->expects($this->once())->method('load')->with($this->equalTo('something'));
+		$transporter->expects($this->any())
+                                    ->method('get')
+                                    ->will($this->returnValue('something'));
+
+		$driver->expects($this->once())
+                                    ->method('load')
+                                    ->with($this->equalTo('something'));
+
 		$manager = new Manager($driver, $transporter);
+
 		$manager->payload($this->getConfig());
 	}
 
@@ -32,8 +41,10 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_session_manager_returns_payload_when_found($driver, $transporter)
 	{
 		$this->setDriverExpectation($driver, 'load', $this->getDummySession());
+
 		$manager = new Manager($driver, $transporter);
 		$payload = $manager->payload($this->getConfig());
+
 		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
 		$this->assertEquals($payload->session, $this->getDummySession());
 	}
@@ -44,8 +55,10 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_session_manager_creates_new_session_when_session_is_null($driver, $transporter)
 	{
 		$this->setDriverExpectation($driver, 'load', null);
+
 		$manager = new Manager($driver, $transporter);
 		$payload = $manager->payload($this->getConfig());
+
 		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
 		$this->assertEquals(strlen($payload->session['id']), 40);
 		$this->assertTrue(is_array($payload->session['data']));
@@ -58,8 +71,10 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$dateTime = new DateTime('1970-01-01');
 		$this->setDriverExpectation($driver, 'load', array('last_activity' => $dateTime->getTimestamp()));
+
 		$manager = new Manager($driver, $transporter);
 		$payload = $manager->payload($this->getConfig());
+
 		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
 		$this->assertEquals(strlen($payload->session['id']), 40);
 	}
@@ -72,8 +87,10 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 		$session = $this->getDummySession();
 		unset($session['data']['csrf_token']);
 		$this->setDriverExpectation($driver, 'load', $session);
+
 		$manager = new Manager($driver, $transporter);
 		$payload = $manager->payload($this->getConfig());
+
 		$this->assertTrue(isset($payload->session['data']['csrf_token']));
 		$this->assertEquals(strlen($payload->session['data']['csrf_token']), 16);
 	}
@@ -83,12 +100,30 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_close_method_calls_driver_and_transporter($driver, $transporter)
 	{
-		$driver->expects($this->any())->method('load')->will($this->returnValue($this->getDummySession()));
+		$driver->expects($this->any())
+                                 ->method('load')
+                                 ->will($this->returnValue($this->getDummySession()));
+
 		$manager = new Manager($driver, $transporter);
-		$payload = $this->getMock('Laravel\\Session\\Payload', array('age'), array(array('id' => 'something')));
-		$payload->expects($this->any())->method('age')->will($this->returnValue('something'));
-		$driver->expects($this->once())->method('save')->with('something', $this->getConfig());
-		$transporter->expects($this->once())->method('put')->with('something', $this->getConfig());
+
+		$payload = $this->getMock(
+			'Laravel\\Session\\Payload',
+			array('age'),
+			array(array('id' => 'something'))
+		);
+
+		$payload->expects($this->any())
+                                 ->method('age')
+                                 ->will($this->returnValue('something'));
+
+		$driver->expects($this->once())
+                                 ->method('save')
+                                 ->with('something', $this->getConfig());
+
+		$transporter->expects($this->once())
+                                 ->method('put')
+                                 ->with('something', $this->getConfig());
+
 		$manager->close($payload, $this->getConfig());
 	}
 
@@ -99,9 +134,12 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$driver = $this->getMock('SweeperStub', array('sweep'));
 		$driver->expects($this->once())->method('sweep');
+
 		$manager = new Manager($driver, $transporter);
+
 		$config = $this->getConfig();
 		$config['sweepage'] = array(100, 100);
+
 		$manager->close(new Laravel\Session\Payload($this->getDummySession()), $config);
 	}
 
@@ -112,9 +150,12 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$driver = $this->getMock('Laravel\\Session\\Drivers\\Driver', array('sweep', 'load', 'save', 'delete'));
 		$driver->expects($this->never())->method('sweep');
+
 		$manager = new Manager($driver, $transporter);
+
 		$config = $this->getConfig();
 		$config['sweepage'] = array(100, 100);
+
 		$manager->close(new Laravel\Session\Payload($this->getDummySession()), $config);
 	}
 
