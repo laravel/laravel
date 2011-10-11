@@ -118,7 +118,7 @@ class Str {
 
 		if (function_exists('mb_substr'))
 		{
-			return mb_substr($value, 0, $length).$end;
+			return mb_substr($value, 0, $length, Config::get('application.encoding')).$end;
 		}
 
 		return substr($value, 0, $length).$end;
