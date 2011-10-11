@@ -35,4 +35,17 @@ class StrTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->assertEquals(5, strlen(Laravel\Str::random(5)));
 	}
+
+	public function test_limit()
+	{
+		$this->assertEquals('Thi...', Laravel\Str::limit('This is a string of text', 3, '...'));
+		$this->assertEquals('This is&nbsp;', Laravel\Str::limit('This is a string of text', 7, '&nbsp;'));
+		$this->assertEquals('τάχ', Laravel\Str::limit('τάχιστη', 3, ''));
+	}
+
+	public function test_limit_words()
+	{
+		$this->assertEquals('This is a...', Laravel\Str::limit_words('This is a string of text', 3, '...'));
+		$this->assertEquals('This is a string&nbsp;', Laravel\Str::limit_words('This is a string of text', 4, '&nbsp;'));
+	}
 }
