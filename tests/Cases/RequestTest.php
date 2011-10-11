@@ -4,7 +4,9 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp()
 	{
+		$_POST = array();
 		$_SERVER = array();
+
 		Laravel\Request::$uri = null;
 	}
 
@@ -28,8 +30,90 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function test_correct_uri_is_returned_when_request_uri_is_used($uri, $expectation)
 	{
 		$_SERVER['REQUEST_URI'] = $uri;
-
 		$this->assertEquals($expectation, Laravel\Request::uri());
+	}
+
+	public function test_format_returns_the_extension_of_the_request_uri()
+	{
+		$_SERVER['PATH_INFO'] = 'profile.json';
+		$this->assertEquals('json', Laravel\Request::format());
+	}
+
+	public function test_format_returns_html_if_no_format_is_available()
+	{
+		$_SERVER['PATH_INFO'] = 'profile';
+		$this->assertEquals('html', Laravel\Request::format());
+	}
+
+	public function test_request_method_returns_spoofed_method_if_uri_is_spoofed()
+	{
+		$_POST = array(Laravel\Request::spoofer => 'something');
+		$this->assertEquals('something', Laravel\Request::method());
+	}
+
+	public function test_request_method_returns_request_method_from_server_array()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		$this->assertEquals('PUT', Laravel\Request::method());
+	}
+
+	public function test_server_method_returns_from_the_server_array()
+	{
+		$_SERVER = array('TEST' => 'something', 'USER' => array('NAME' => 'taylor'));
+		$this->assertEquals('something', Laravel\Request::server('test'));
+		$this->assertEquals('taylor', Laravel\Request::server('user.name'));
+	}
+
+	public function test_spoofed_returns_true_when_request_is_spoofed()
+	{
+		$_POST[Laravel\Request::spoofer] = 'something';
+		$this->assertTrue(Laravel\Request::spoofed());
+	}
+
+	public function test_spoofed_returns_false_when_request_isnt_spoofed()
+	{
+		$this->assertFalse(Laravel\Request::spoofed());
+	}
+
+	public function test_ip_method_returns_client_ip_address()
+	{
+		$_SERVER['REMOTE_ADDR'] = 'something';
+		$this->assertEquals('something', Laravel\Request::ip());
+
+		$_SERVER['HTTP_CLIENT_IP'] = 'something';
+		$this->assertEquals('something', Laravel\Request::ip());
+
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = 'something';
+		$this->assertEquals('something', Laravel\Request::ip());
+
+		$_SERVER = array();
+		$this->assertEquals('0.0.0.0', Laravel\Request::ip());
+	}
+
+	public function test_protocol_returns_http_when_not_https()
+	{
+		$this->assertEquals('http', Laravel\Request::protocol());
+
+		$_SERVER['HTTPS'] = 'off';
+
+		$this->assertEquals('http', Laravel\Request::protocol());
+	}
+
+	public function test_protocol_returns_https_when_https()
+	{
+		$_SERVER['HTTPS'] = 'on';
+		$this->assertEquals('https', Laravel\Request::protocol());
+	}
+
+	public function test_ajax_method_returns_false_when_not_ajax()
+	{
+		$this->assertFalse(Laravel\Request::ajax());
+	}
+
+	public function test_ajax_method_returns_true_when_ajax()
+	{
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
+		$this->assertTrue(Laravel\Request::ajax());
 	}
 
 	public function requestUriProvider()

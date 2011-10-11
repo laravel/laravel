@@ -165,7 +165,7 @@ class Request {
 	 */
 	public static function protocol()
 	{
-		return (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+		return (isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
 	}
 
 	/**
