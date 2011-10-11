@@ -29,11 +29,9 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 		Arr::set($array, 'name', 'Taylor');
 		Arr::set($array, 'names.aunt', 'Tammy');
 		Arr::set($array, 'names.friends.best', 'Abigail');
-
 		$this->assertEquals($array['name'], 'Taylor');
 		$this->assertEquals($array['names']['aunt'], 'Tammy');
 		$this->assertEquals($array['names']['friends']['best'], 'Abigail');
-
 	}
 
 	/**
@@ -42,7 +40,6 @@ class ArrTest extends PHPUnit_Framework_TestCase {
 	public function testFirstMethodReturnsFirstItemPassingTruthTest($array)
 	{
 		$array['email2'] = 'taylor@hotmail.com';
-
 		$this->assertEquals('taylorotwell@gmail.com', Arr::first($array, function($k, $v) {return substr($v, 0, 3) == 'tay';}));
 	}
 

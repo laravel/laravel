@@ -1,0 +1,7 @@
+<phpunit colors="true" bootstrap="bootstrap.php">
+	<testsuites>
+		<testsuite name="Laravel Framework Tests">
+			<directory>Cases</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

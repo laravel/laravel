@@ -26,7 +26,7 @@ date_default_timezone_set(Config::$items['application']['timezone']);
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	$session = $container->core('session.manager');
+	$session = IoC::container()->core('session.manager');
 
 	Session\Manager::$payload = $session->payload(Config::$items['session']);
 }
@@ -82,11 +82,11 @@ Input::set($input);
  */
 list($method, $uri) = array(Request::method(), Request::uri());
 
-$route = $container->core('routing.router')->route($method, $uri);
+$route = IoC::container()->core('routing.router')->route($method, $uri);
 
 if ( ! is_null($route))
 {
-	$response = $container->core('routing.caller')->call($route);
+	$response = IoC::container()->core('routing.caller')->call($route);
 }
 else
 {

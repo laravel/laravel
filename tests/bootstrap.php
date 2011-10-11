@@ -13,14 +13,14 @@
 |
 */
 
-$application = 'application';
+$application = '../application';
 
-$laravel     = 'laravel';
+$laravel     = '../laravel';
 
-$packages    = 'packages';
+$packages    = '../packages';
 
-$storage     = 'storage';
+$storage     = '../storage';
 
-$public      = 'public';
+$public      = '../public';
 
 require realpath($laravel).'/bootstrap/core.php';

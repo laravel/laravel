@@ -91,6 +91,8 @@ $container = new Container(Config::$items['container']);
 
 IoC::$container = $container;
 
+unset($config, $container);
+
 /**
  * Register the application auto-loader. The auto-loader is responsible
  * for the lazy-loading of all of the Laravel core classes, as well as
