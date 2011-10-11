@@ -10,6 +10,13 @@ class Request {
 	public static $route;
 
 	/**
+	 * The request URI for the current request.
+	 *
+	 * @var string
+	 */
+	protected static $uri;
+
+	/**
 	 * The request data key that is used to indicate a spoofed request method.
 	 *
 	 * @var string
@@ -25,7 +32,49 @@ class Request {
 	 */
 	public static function uri()
 	{
-		return URI::get();
+		if ( ! is_null(static::$uri)) return static::$uri;
+
+		// Sniff the request URI out of the $_SERVER array. The PATH_IFNO
+		// variable contains the URI without the base URL or index page,
+		// so we will use that if possible, otherwise we will parse the
+		// URI out of the REQUEST_URI element.
+		if (isset($_SERVER['PATH_INFO']))
+		{
+			$uri = $_SERVER['PATH_INFO'];
+		}
+		if (isset($_SERVER['REQUEST_URI']))
+		{
+			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+			if ($uri === false)
+			{
+				throw new \Exception("Invalid request URI. Request terminated.");
+			}
+		}
+		else
+		{
+			throw new \Exception("Unable to determine the request URI.");
+		}
+
+		// Remove the application URL and the application index page from
+		// the request URI. Both of these elements will interfere with the
+		// routing engine and are extraneous, so they will be removed.
+		$base = parse_url(Config::$items['application']['url'], PHP_URL_PATH);
+
+		if (strpos($uri, $base) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
+
+		if (strpos($uri, '/index.php') === 0)
+		{
+			$uri = substr($uri, 10);
+		}
+
+		// Request URIs to the root of the application will be returned
+		// as a single forward slash. Otherwise, the request URI will be
+		// returned without leading or trailing slashes.
+		return static::$uri = (($uri = trim($uri, '/')) == '') ? '/' : $uri;
 	}
 
 	/**
@@ -37,7 +86,7 @@ class Request {
 	 */
 	public static function format()
 	{
-		return (($extension = pathinfo(URI::get(), PATHINFO_EXTENSION)) !== '') ? $extension : 'html';
+		return (($extension = pathinfo(static::uri(), PATHINFO_EXTENSION)) !== '') ? $extension : 'html';
 	}
 
 	/**

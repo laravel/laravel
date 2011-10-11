@@ -196,7 +196,10 @@ class Router {
 	 */
 	protected function provides($callback)
 	{
-		return (is_array($callback) and isset($callback['provides'])) ? explode(', ', $callback['provides']) : null;
+		if (is_array($callback) and isset($callback['provides']))
+		{
+			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
+		}
 	}
 
 	/**

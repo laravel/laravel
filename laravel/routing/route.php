@@ -123,7 +123,7 @@ class Route {
 	{
 		if (is_array($this->callback) and isset($this->callback[$name]))
 		{
-			return $this->callback[$name];
+			return (array) $this->callback[$name];
 		}
 
 		return array();

@@ -80,7 +80,7 @@ class Form {
 	 */
 	protected static function action($action, $https)
 	{
-		return HTML::entities(URL::to(((is_null($action)) ? URI::get() : $action), $https));
+		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Form {
 			throw new \Exception("A session driver must be specified before using CSRF tokens.");			
 		}
 
-		return IoC::container()->core('session')->get('csrf_token');
+		return Session\Manager::$payload->get('csrf_token');
 	}
 
 	/**

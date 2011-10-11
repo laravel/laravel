@@ -30,7 +30,7 @@ define('BLADE_EXT', '.blade.php');
  * These are typically classes that are used by the auto-loader or
  * configuration classes, and therefore cannot be auto-loaded.
  */
-require SYS_PATH.'facades'.EXT;
+//require SYS_PATH.'facades'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'loader'.EXT;
 require SYS_PATH.'arr'.EXT;
@@ -51,16 +51,32 @@ if (isset($_SERVER['LARAVEL_ENV']))
  * let them fall through the Config loader. This will allow us to
  * load these files faster for each request.
  */
-foreach (array('application', 'session', 'aliases') as $file)
+foreach (array('application', 'session') as $file)
 {
 	$config = require CONFIG_PATH.$file.EXT;
 
-	if (isset($_SERVER['LARAVEL_ENV']))
+	if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = ENV_CONFIG_PATH.$file.EXT))
 	{
-		$config = array_merge($config, require ENV_CONFIG_PATH.$file.EXT);
+		$config = array_merge($config, require $path);
 	}
 
 	Config::$items[$file] = $config;
+}
+
+/**
+ * Load the container configuration into the Config class. We load
+ * this file manually to avoid the overhead of Config::load.
+ */
+Config::$items['container'] = require SYS_CONFIG_PATH.'container'.EXT;
+
+if (file_exists($path = CONFIG_PATH.'container'.EXT))
+{
+	Config::$items['container'] = array_merge(Config::$items['container'], require $path);
+}
+
+if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = ENV_CONFIG_PATH.'container'.EXT))
+{
+	Config::$items['container'] = array_merge(Config::$items['container'], require $path);
 }
 
 /**
@@ -71,7 +87,7 @@ foreach (array('application', 'session', 'aliases') as $file)
  */
 require SYS_PATH.'container'.EXT;
 
-$container = new Container(Config::get('container'));
+$container = new Container(Config::$items['container']);
 
 IoC::$container = $container;
 
@@ -82,7 +98,7 @@ IoC::$container = $container;
  */
 spl_autoload_register(array('Laravel\\Loader', 'load'));
 
-Loader::$aliases = Config::get('aliases');
+Loader::$aliases = Config::$items['application']['aliases'];
 
 /**
  * Define a few convenient global functions.

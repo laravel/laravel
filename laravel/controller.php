@@ -24,7 +24,7 @@ abstract class Controller {
 	 */
 	public function filters($name)
 	{
-		return $this->$name;
+		return (array) $this->$name;
 	}
 
 	/**
@@ -47,10 +47,6 @@ abstract class Controller {
 			return $container->resolve('controllers.'.$controller);
 		}
 
-		// If the controller was not registered in the container, we will instantiate
-		// an instance of the controller manually. All controllers are suffixed with
-		// "_Controller" to avoid namespacing. Allowing controllers to exist in the
-		// global namespace gives the developer a convenient API for using the framework.
 		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
 
 		return new $controller;

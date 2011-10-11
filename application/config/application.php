@@ -29,27 +29,18 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Application Language
+	| Application Key
 	|--------------------------------------------------------------------------
 	|
-	| The default language of your application. This language will be used by
-	| Lang library as the default language when doing string localization.
+	| The application key should be a random, 32 character string.
+	|
+	| This key is used by the encryption and cookie classes to generate secure
+	| encrypted strings and hashes. It is extremely important that this key
+	| remain secret and should not be shared with anyone.
 	|
 	*/
 
-	'language' => 'en',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Application Timezone
-	|--------------------------------------------------------------------------
-	|
-	| The default timezone of your application. This timezone will be used when
-	| Laravel needs a date, such as when writing to a log file.
-	|
-	*/
-
-	'timezone' => 'UTC',
+	'key' => '',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -62,6 +53,18 @@ return array(
 	*/
 
 	'encoding' => 'UTF-8',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Application Language
+	|--------------------------------------------------------------------------
+	|
+	| The default language of your application. This language will be used by
+	| Lang library as the default language when doing string localization.
+	|
+	*/
+
+	'language' => 'en',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -84,19 +87,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Application Key
-	|--------------------------------------------------------------------------
-	|
-	| Your application key should be a 32 character string that is totally
-	| random and secret. This key is used by the encryption class to generate
-	| secure, encrypted strings.
-	|
-	*/
-
-	'key' => '',
-
-	/*
-	|--------------------------------------------------------------------------
 	| SSL Link Generation
 	|--------------------------------------------------------------------------
 	|
@@ -111,5 +101,67 @@ return array(
 	*/
 
 	'ssl' => true,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Application Timezone
+	|--------------------------------------------------------------------------
+	|
+	| The default timezone of your application. This timezone will be used when
+	| Laravel needs a date, such as when writing to a log file.
+	|
+	*/
+
+	'timezone' => 'UTC',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Class Aliases
+	|--------------------------------------------------------------------------
+	|
+	| Here, you can specify any class aliases that you would like registered
+	| when Laravel loads. Aliases are lazy-loaded, so add as many as you want.
+	|
+	| Aliases make it more convenient to use namespaced classes. Instead of
+	| referring to the class using its full namespace, you may simply use
+	| the alias defined here.
+	|
+	| We have already aliased common Laravel classes to make your life easier.
+	|
+	*/
+
+	'aliases' => array(
+		'Arr'        => 'Laravel\\Arr',
+		'Asset'      => 'Laravel\\Asset',
+		'Auth'       => 'Laravel\\Security\\Auth',
+		'Benchmark'  => 'Laravel\\Benchmark',
+		'Cache'      => 'Laravel\\Cache',
+		'Config'     => 'Laravel\\Config',
+		'Controller' => 'Laravel\\Controller',
+		'Cookie'     => 'Laravel\\Cookie',
+		'Crypter'    => 'Laravel\\Security\\Crypter',
+		'DB'         => 'Laravel\\Database\\Manager',
+		'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
+		'File'       => 'Laravel\\File',
+		'Form'       => 'Laravel\\Form',
+		'Hasher'     => 'Laravel\\Security\\Hasher',
+		'HTML'       => 'Laravel\\HTML',
+		'Inflector'  => 'Laravel\\Inflector',
+		'Input'      => 'Laravel\\Input',
+		'IoC'        => 'Laravel\\IoC',
+		'Lang'       => 'Laravel\\Lang',
+		'Loader'     => 'Laravel\\Loader',
+		'Messages'   => 'Laravel\\Validation\\Messages',
+		'Package'    => 'Laravel\\Facades\\Package',
+		'URI'        => 'Laravel\\URI',
+		'URL'        => 'Laravel\\URL',
+		'Redirect'   => 'Laravel\\Redirect',
+		'Request'    => 'Laravel\\Request',
+		'Response'   => 'Laravel\\Response',
+		'Session'    => 'Laravel\\Session\\Manager',
+		'Str'        => 'Laravel\\Str',
+		'Validator'  => 'Laravel\\Validation\\Validator',
+		'View'       => 'Laravel\\View',
+	),
 
 );

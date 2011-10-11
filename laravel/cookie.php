@@ -1,4 +1,9 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
+
+if (trim(Config::get('application.key')) === '')
+{
+	throw new \Exception('The cookie class may not be used without an application key.');
+}
 
 class Cookie {
 
@@ -22,7 +27,27 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		return Arr::get($_COOKIE, $name, $default);
+		$value = Arr::get($_COOKIE, $name);
+
+		if ( ! is_null($value))
+		{
+			// All Laravel managed cookies are prefixed with a fingerprint hash.
+			// The hash serves to verify that the contents of the cookie have not
+			// been modified by the user. We can verify the integrity of the cookie
+			// by extracting the value and re-hashing it, then comparing that hash
+			// against the hash stored in the cookie.
+			if (isset($value[40]) and $value[40] === '~')
+			{
+				list($hash, $value) = explode('~', $value, 2);
+
+				if (static::hash($name, $value) === $hash)
+				{
+					return $value;
+				}
+			}
+		}
+
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
@@ -65,11 +90,25 @@ class Cookie {
 
 		if ($minutes < 0) unset($_COOKIE[$name]);
 
-		// Since PHP needs the cookie lifetime in seconds, we will calculate it here.
-		// A "0" lifetime means the cookie expires when the browser closes.
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
-		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
+		return setcookie($name, static::hash($name, $value).'~'.$value, $time, $path, $domain, $secure, $http_only);
+	}
+
+	/**
+	 * Generate a cookie hash.
+	 *
+	 * Cookie salts are used to verify that the contents of the cookie have not
+	 * been modified by the user, since they serve as a fingerprint of the cookie
+	 * contents. The application key is used to salt the salts.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function hash($name, $value)
+	{
+		return sha1($name.$value.Config::get('application.key'));
 	}
 
 	/**

@@ -132,9 +132,6 @@ class Config {
 			}
 		}
 
-		// If configuration options were actually found, they will be loaded into the
-		// array containing all of the options for all files. The array is keyed by the
-		// configuration file name.
 		if (count($config) > 0) static::$items[$file] = $config;
 
 		return isset(static::$items[$file]);

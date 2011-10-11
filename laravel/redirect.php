@@ -61,7 +61,7 @@ class Redirect extends Response {
 			throw new \Exception('A session driver must be set before setting flash data.');
 		}
 
-		IoC::container()->core('session')->flash($key, $value);
+		Session\Manager::$payload->flash($key, $value);
 
 		return $this;
 	}

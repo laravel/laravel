@@ -1,10 +1,8 @@
-<?php namespace Laravel\Security;
-
-use Laravel\Config;
+<?php namespace Laravel\Security; use Laravel\Config;
 
 if (trim(Config::get('application.key')) === '')
 {
-	throw new \Exception('The encryption class may not be used without an encryption key.');
+	throw new \Exception('The encryption class may not be used without an application key.');
 }
 
 class Crypter {

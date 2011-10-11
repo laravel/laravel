@@ -29,6 +29,13 @@ class Manager {
 	private $exists = true;
 
 	/**
+	 * The current session payload.
+	 *
+	 * @var Payload
+	 */
+	public static $payload;
+
+	/**
 	 * Create a new session manager instance.
 	 *
 	 * @param  Driver       $driver
@@ -105,6 +112,27 @@ class Manager {
 		{
 			$this->driver->sweep(time() - ($config['lifetime'] * 60));
 		}
+	}
+
+	/**
+	 * Dynamically pass methods to the current session payload.
+	 *
+	 * <code>
+	 *		// Retrieve an item from the session payload
+	 *		$name = Session::get('name');
+	 *
+	 *		// Write an item to the sessin payload
+	 *		Session::put('name', 'Taylor');
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if ( ! is_null(static::$payload))
+		{
+			return call_user_func_array(array(static::$payload, $method), $parameters);
+		}
+
+		throw new \Exception("Call to undefined method [$method] on Session class.");
 	}
 
 }

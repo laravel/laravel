@@ -17,25 +17,24 @@ require SYS_PATH.'bootstrap/errors'.EXT;
 /**
  * Set the application's default timezone.
  */
-date_default_timezone_set(Config::get('application.timezone'));
+date_default_timezone_set(Config::$items['application']['timezone']);
 
 /**
  * Load the session and session manager instance. The session
  * payload will be registered in the IoC container as an instance
  * so it can be retrieved easily throughout the application.
  */
-if (Config::get('session.driver') !== '')
+if (Config::$items['session']['driver'] !== '')
 {
 	$session = $container->core('session.manager');
 
-	$container->instance('laravel.session', $session->payload(Config::get('session')));
+	Session\Manager::$payload = $session->payload(Config::$items['session']);
 }
 
 /**
  * Manually load some core classes that are used on every request
  * This allows to avoid using the loader for these classes.
  */
-require SYS_PATH.'uri'.EXT;
 require SYS_PATH.'request'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
@@ -81,7 +80,7 @@ Input::set($input);
  * instance. If no route is found, the 404 response will be returned
  * to the browser.
  */
-list($method, $uri) = array(Request::method(), URI::get());
+list($method, $uri) = array(Request::method(), Request::uri());
 
 $route = $container->core('routing.router')->route($method, $uri);
 
@@ -112,7 +111,7 @@ if (isset($session))
 {
 	$flash = array(Input::old_input => Input::get());
 
-	$session->close($container->core('session'), Config::get('session'), $flash);
+	$session->close(Session\Manager::$payload, Config::$items['session'], $flash);
 }
 
 /**
