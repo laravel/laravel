@@ -273,7 +273,10 @@ class Grammar {
 	 */
 	protected function columnize($columns, $append = '')
 	{
-		foreach ($columns as $column) { $sql[] = $this->wrap($column).$append; }
+		foreach ($columns as $column)
+		{
+			$sql[] = $this->wrap($column).$append;
+		}
 
 		return implode(', ', $sql);
 	}
