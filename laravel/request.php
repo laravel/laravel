@@ -42,7 +42,7 @@ class Request {
 		{
 			$uri = $_SERVER['PATH_INFO'];
 		}
-		if (isset($_SERVER['REQUEST_URI']))
+		elseif (isset($_SERVER['REQUEST_URI']))
 		{
 			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
