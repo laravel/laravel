@@ -14,7 +14,7 @@ class Request {
 	 *
 	 * @var string
 	 */
-	protected static $uri;
+	public static $uri;
 
 	/**
 	 * The request data key that is used to indicate a spoofed request method.
