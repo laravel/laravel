@@ -59,7 +59,14 @@ class View {
 
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
-			if (file_exists($path = VIEW_PATH.$view.$extension)) return $path;
+			if (file_exists($path = VIEW_PATH.$view.$extension))
+			{
+				return $path;
+			}
+			elseif (file_exists($path = SYS_VIEW_PATH.$view.$extension))
+			{
+				return $path;
+			}
 		}
 
 		throw new \Exception("View [$view] does not exist.");
@@ -144,10 +151,6 @@ class View {
 	protected static function compose(View $view)
 	{
 		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
-
-		// The shared composer is called for every view instance. This allows the
-		// convenient binding of global view data or partials within a single method.
-		if (isset(static::$composers['shared'])) call_user_func(static::$composers['shared'], $view);
 
 		if (isset(static::$composers[$view->view]))
 		{

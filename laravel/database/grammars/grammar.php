@@ -19,9 +19,9 @@ class Grammar {
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
 	 *
-	 * The query will be compiled according to the order of the elements specified
-	 * in the "components" property. The entire query is pased into each component
-	 * compiler for convenience.
+	 * The query will be compiled according to the order of the elements
+	 * specified in the "components" property. The entire query is passed
+	 * into each component compiler for convenience.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -30,11 +30,15 @@ class Grammar {
 	{
 		$sql = array();
 
-		// Iterate through each query component, calling the compiler for that
-		// component, and passing the query instance into the compiler.
+		// Iterate through each query component, calling the compiler
+		// for that component, and passing the query instance into
+		// the compiler.
 		foreach ($this->components as $component)
 		{
-			if ( ! is_null($query->$component)) $sql[] = call_user_func(array($this, $component), $query);
+			if ( ! is_null($query->$component))
+			{
+				$sql[] = call_user_func(array($this, $component), $query);
+			}
 		}
 
 		return implode(' ', Arr::without($sql, array(null, '')));
@@ -59,9 +63,7 @@ class Grammar {
 	 */
 	protected function aggregate(Query $query)
 	{
-		list($aggregator, $column) = array($query->aggregate['aggregator'], $query->aggregate['column']);
-
-		return 'SELECT '.$aggregator.'('.$this->wrap($column).')';
+		return 'SELECT '.$query->aggregate['aggregator'].'('.$this->wrap($query->aggregate['column']).')';
 	}
 
 	/**
@@ -83,15 +85,18 @@ class Grammar {
 	 */
 	protected function joins(Query $query)
 	{
-		// Since creating a JOIN clause using string concatenation is a little cumbersome,
-		// we will create a format we can pass to "sprintf" to make things cleaner.
+		// Since creating a JOIN clause using string concatenation is a
+		// little cumbersome, we will create a format we can pass to
+		// "sprintf" to make things cleaner.
 		$format = '%s JOIN %s ON %s %s %s';
 
 		foreach ($query->joins as $join)
 		{
 			extract($join, EXTR_SKIP);
 
-			list($column1, $column2) = array($this->wrap($column1), $this->wrap($column2));
+			$column1 = $this->wrap($column1);
+
+			$column2 = $this->wrap($column2);
 
 			$sql[] = sprintf($format, $type, $this->wrap($table), $column1, $operator, $column2);
 		}
@@ -107,15 +112,16 @@ class Grammar {
 	 */
 	final protected function wheres(Query $query)
 	{
-		// Each WHERE clause array has a "type" that is assigned by the query builder, and
-		// each type has its own compiler function. For example, "where in" queries are
-		// compiled by the "where_in" function.
-		//
-		// The only exception to this rule are "raw" where clauses, which are simply
-		// appended to the query as-is, without any further compiling.
+		// Each WHERE clause array has a "type" that is assigned by the
+		// query builder, and each type has its own compiler function.
+		// The only exception to this rule are "raw" where clauses,
+		// which are simply appended to the query as-is, without
+		// any further compiling.
 		foreach ($query->wheres as $where)
 		{
-			$sql[] = ($where['type'] == 'raw') ? $where['sql'] : $where['connector'].' '.$this->{$where['type']}($where);
+			$sql[] = ($where['type'] !== 'raw') 
+                                    ? $where['connector'].' '.$this->{$where['type']}($where)
+                                    : $where['sql'];
 		}
 
 		if (isset($sql)) return implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
@@ -207,20 +213,20 @@ class Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		// Force every insert to be treated like a batch insert. This simply makes creating
-		// the SQL syntax a little easier on us since we can always treat the values as if
-		// is an array containing multiple inserts.
+		// Force every insert to be treated like a batch insert.
+		// This simply makes creating the SQL syntax a little
+		// easier on us since we can always treat the values
+		// as if is an array containing multiple inserts.
 		if ( ! is_array(reset($values))) $values = array($values);
 
-		// Since we only care about the column names, we can pass any of the insert arrays
-		// into the "columnize" method. The names should be the same for every insert.
+		// Since we only care about the column names, we can pass
+		// any of the insert arrays into the "columnize" method.
+		// The names should be the same for every insert.
 		$columns = $this->columnize(array_keys(reset($values)));
 
-		// We need to create a string of comma-delimited insert segments. Each segment contains
-		// PDO place-holders for each value being inserted into the table. So, if we are inserting
-		// into three columns, the string should look like this:
-		//
-		// (?, ?, ?), (?, ?, ?), (?, ?, ?)
+		// We need to create a string of comma-delimited insert
+		// segments. Each segment contains PDO place-holders for
+		// each value being inserted into the table.
 		$parameters = implode(', ', array_fill(0, count($values), '('.$this->parameterize(reset($values)).')'));
 
 		return 'INSERT INTO '.$this->wrap($query->from).' ('.$columns.') VALUES '.$parameters;
@@ -229,8 +235,9 @@ class Grammar {
 	/**
 	 * Compile a SQL UPDATE statment from a Query instance.
 	 *
-	 * Note: Since UPDATE statements can be limited by a WHERE clause, this method will
-	 *       use the same WHERE clause compilation functions as the "select" method.
+	 * Note: Since UPDATE statements can be limited by a WHERE clause,
+	 *       this method will use the same WHERE clause compilation
+	 *       functions as the "select" method.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
@@ -255,17 +262,16 @@ class Grammar {
 	}
 
 	/**
-	 * The following functions primarily serve as utility functions for the grammar.
-	 * They perform tasks such as wrapping values in keyword identifiers or creating
-	 * variable lists of bindings. Most likely, they will not need to change across
-	 * various database systems.
+	 * The following functions primarily serve as utility functions
+	 * for the grammar. They perform tasks such as wrapping values
+	 * in keyword identifiers or creating variable lists of bindings.
 	 */
 
 	/**
 	 * Create a comma-delimited list of wrapped column names.
 	 *
-	 * Optionally, an "append" value may be passed to the method. This value will be
-	 * appended to every wrapped column name.
+	 * Optionally, an "append" value may be passed to the method.
+	 * This value will be appended to every wrapped column name.
 	 *
 	 * @param  array   $columns
 	 * @param  string  $append
@@ -284,9 +290,9 @@ class Grammar {
 	/**
 	 * Wrap a value in keyword identifiers.
 	 *
-	 * They keyword identifier used by the method is specified as a property on
-	 * the grammar class so it can be conveniently overriden without changing
-	 * the wrapping logic itself.
+	 * They keyword identifier used by the method is specified as
+	 * a property on the grammar class so it can be conveniently
+	 * overriden without changing the wrapping logic itself.
 	 *
 	 * @param  string  $value
 	 * @return string

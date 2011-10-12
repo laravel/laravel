@@ -49,18 +49,11 @@ return array(
 
 	'handler' => function($exception, $severity, $message, $config)
 	{
-		if ($config['detail'])
-		{
-			$data = compact('exception', 'severity', 'message');
+		$data = compact('exception', 'severity', 'message');
 
-			$response = Response::view('error.exception', $data)->status(500);
-		}
-		else
-		{
-			$response = Response::error('500');
-		}
+		$data['detailed'] = $config['detail'];
 
-		$response->send();
+		Response::error('500', $data)->send();
 	},
 
 	/*
