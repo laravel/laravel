@@ -68,7 +68,7 @@ class Request {
 
 		$index = '/'.Config::$items['application']['index'];
 
-		if (trim($index) !== '' and strpos($uri, $index) === 0)
+		if (trim($index) !== '/' and strpos($uri, $index) === 0)
 		{
 			$uri = substr($uri, strlen($index));
 		}
