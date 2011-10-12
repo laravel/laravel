@@ -66,9 +66,11 @@ class Request {
 			$uri = substr($uri, strlen($base));
 		}
 
-		if (strpos($uri, '/index.php') === 0)
+		$index = '/'.Config::$items['application']['index'];
+
+		if (trim($index) !== '' and strpos($uri, $index) === 0)
 		{
-			$uri = substr($uri, 10);
+			$uri = substr($uri, strlen($index));
 		}
 
 		// Request URIs to the root of the application will be returned
