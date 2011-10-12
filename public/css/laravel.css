@@ -24,6 +24,7 @@ body {
 #main h1 {
 	font-family: 'Ubuntu';
 	font-size: 38px;
+	letter-spacing: 2px;
 	margin: 0 0 10px 0;
 	padding: 0;
 }
