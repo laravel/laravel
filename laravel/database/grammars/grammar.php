@@ -12,6 +12,10 @@ class Grammar {
 	/**
 	 * All of the query componenets in the order they should be built.
 	 *
+	 * Each derived compiler may adjust these components and place them in the
+	 * order needed for its particular database system, providing greater
+	 * control over how the query is structured.
+	 *
 	 * @var array
 	 */
 	protected $components = array('aggregate', 'selects', 'from', 'joins', 'wheres', 'orderings', 'limit', 'offset');
@@ -19,9 +23,9 @@ class Grammar {
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
 	 *
-	 * The query will be compiled according to the order of the elements
-	 * specified in the "components" property. The entire query is passed
-	 * into each component compiler for convenience.
+	 * The query will be compiled according to the order of the elements specified
+	 * in the "components" property. The entire query is passed into each component
+	 * compiler for convenience.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -30,9 +34,8 @@ class Grammar {
 	{
 		$sql = array();
 
-		// Iterate through each query component, calling the compiler
-		// for that component, and passing the query instance into
-		// the compiler.
+		// Iterate through each query component, calling the compiler for that
+		// component and passing the query instance into the compiler.
 		foreach ($this->components as $component)
 		{
 			if ( ! is_null($query->$component))
@@ -52,11 +55,18 @@ class Grammar {
 	 */
 	protected function selects(Query $query)
 	{
-		return (($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ').$this->columnize($query->selects);
+		$select = ($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
+
+		return $select.$this->columnize($query->selects);
 	}
 
 	/**
 	 * Compile an aggregating SELECT clause for a query.
+	 *
+	 * If an aggregate function is called on the query instance, no select
+	 * columns will be set, so it is safe to assume that the "selects"
+	 * compiler function will not be called. We can simply build the
+	 * aggregating select clause within this function.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -68,6 +78,9 @@ class Grammar {
 
 	/**
 	 * Compile the FROM clause for a query.
+	 *
+	 * This method should not handle the construction of "join" clauses.
+	 * The join clauses will be constructured by their own compiler.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -85,20 +98,24 @@ class Grammar {
 	 */
 	protected function joins(Query $query)
 	{
-		// Since creating a JOIN clause using string concatenation is a
-		// little cumbersome, we will create a format we can pass to
-		// "sprintf" to make things cleaner.
+		// Since creating a JOIN clause using string concatenation is a little
+		// cumbersome, we will create a format we can pass to "sprintf" to
+		// make things cleaner.
 		$format = '%s JOIN %s ON %s %s %s';
 
 		foreach ($query->joins as $join)
 		{
-			extract($join, EXTR_SKIP);
+			// To save some space, we'll go ahead and wrap all of the elements
+			// that should wrapped in keyword identifiers. Each join clause will
+			// be added to an array of clauses and will be imploded after all
+			// of the clauses have been processed and compiled.
+			$table = $this->wrap($join['table']);
 
-			$column1 = $this->wrap($column1);
+			$column1 = $this->wrap($join['column1']);
 
-			$column2 = $this->wrap($column2);
+			$column2 = $this->wrap($join['column2']);
 
-			$sql[] = sprintf($format, $type, $this->wrap($table), $column1, $operator, $column2);
+			$sql[] = sprintf($format, $join['type'], $table, $column1, $join['operator'], $column2);
 		}
 
 		return implode(' ', $sql);
@@ -112,16 +129,13 @@ class Grammar {
 	 */
 	final protected function wheres(Query $query)
 	{
-		// Each WHERE clause array has a "type" that is assigned by the
-		// query builder, and each type has its own compiler function.
-		// The only exception to this rule are "raw" where clauses,
-		// which are simply appended to the query as-is, without
-		// any further compiling.
+		// Each WHERE clause array has a "type" that is assigned by the query
+		// builder, and each type has its own compiler function. We will simply
+		// iterate through the where clauses and call the appropriate compiler
+		// for each clause.
 		foreach ($query->wheres as $where)
 		{
-			$sql[] = ($where['type'] !== 'raw') 
-                                    ? $where['connector'].' '.$this->{$where['type']}($where)
-                                    : $where['sql'];
+			$sql[] = $where['connector'].' '.$this->{$where['type']}($where);
 		}
 
 		if (isset($sql)) return implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
@@ -129,6 +143,9 @@ class Grammar {
 
 	/**
 	 * Compile a simple WHERE clause.
+	 *
+	 * This method handles the compilation of the structures created by the
+	 * "where" and "or_where" methods on the query builder.
 	 *
 	 * @param  array   $where
 	 * @return string
@@ -146,9 +163,18 @@ class Grammar {
 	 */
 	protected function where_in($where)
 	{
-		$operator = ($where['not']) ? 'NOT IN' : 'IN';
+		return $this->wrap($where['column']).' IN ('.$this->parameterize($where['values']).')';
+	}
 
-		return $this->wrap($where['column']).' '.$operator.' ('.$this->parameterize($where['values']).')';
+	/**
+	 * Compile a WHERE NOT IN clause.
+	 *
+	 * @param  array   $where
+	 * @return string
+	 */
+	protected function where_not_in($where)
+	{
+		return $this->wrap($where['column']).' NOT IN ('.$this->parameterize($where['values']).')';
 	}
 
 	/**
@@ -159,13 +185,33 @@ class Grammar {
 	 */
 	protected function where_null($where)
 	{
-		$operator = ($where['not']) ? 'NOT NULL' : 'NULL';
-
-		return $this->wrap($where['column']).' IS '.$operator;
+		return $this->wrap($where['column']).' IS NULL';
 	}
 
 	/**
-	 * Compile ORDER BY clause for a query.
+	 * Compile a WHERE NULL clause.
+	 *
+	 * @param  array   $where
+	 * @return string
+	 */
+	protected function where_not_null($where)
+	{
+		return $this->wrap($where['column']).' IS NOT NULL';
+	}
+
+	/**
+	 * Compile a raw WHERE clause.
+	 *
+	 * @param  string  $where
+	 * @return string
+	 */
+	protected function where_raw($where)
+	{
+		return $where;
+	}
+
+	/**
+	 * Compile the ORDER BY clause for a query.
 	 *
 	 * @param  Query   $query
 	 * @return string

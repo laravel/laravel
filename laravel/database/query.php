@@ -250,7 +250,12 @@ class Query {
 	 */
 	public function where_in($column, $values, $connector = 'AND', $not = false)
 	{
-		$this->wheres[] = array_merge(array('type' => 'where_in'), compact('column', 'values', 'connector', 'not'));
+		// The type set in this method will be used by the query grammar to call the
+		// appropriate compiler function for the where clause. For cleanliness, the
+		// compiler for "not in" and "in" statements is broken into two functions.
+		$type = ($not) ? 'where_not_in' : 'where_in';
+
+		$this->wheres[] = compact('type', 'column', 'values', 'connector');
 
 		$this->bindings = array_merge($this->bindings, $values);
 
@@ -304,7 +309,12 @@ class Query {
 	 */
 	public function where_null($column, $connector = 'AND', $not = false)
 	{
-		$this->wheres[] = array_merge(array('type' => 'where_null'), compact('column', 'connector', 'not'));
+		// The type set in this method will be used by the query grammar to call the
+		// appropriate compiler function for the where clause. For cleanliness, the
+		// compiler for "not null" and "null" statements is broken into two functions.
+		$type = ($not) ? 'where_not_null' : 'where_null';
+
+		$this->wheres[] = compact('type', 'column', 'connector');
 
 		return $this;
 	}
