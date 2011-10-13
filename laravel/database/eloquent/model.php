@@ -514,7 +514,7 @@ abstract class Model {
 
 		// All of the aggregate and persistance functions can be passed directly to the query
 		// instance. For these functions, we can simply return the response of the query.
-		if (in_array($method, array('insert', 'update', 'abs', 'count', 'sum', 'min', 'max', 'avg')))
+		if (in_array($method, array('insert', 'update', 'increment', 'decrement', 'abs', 'count', 'sum', 'min', 'max', 'avg')))
 		{
 			return call_user_func_array(array($this->query, $method), $parameters);
 		}
