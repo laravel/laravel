@@ -582,6 +582,18 @@ class Query {
 	}
 
 	/**
+	 * Increment the value of a column by a given amount.
+	 *
+	 * @param  string  $column
+	 * @param  int     $amount
+	 * @return int
+	 */
+	public function increment($column, $amount = 1)
+	{
+		return $this->update(array($column => Manager::raw($this->grammar->wrap($column).' + '.$amount)));
+	}
+
+	/**
 	 * Update an array of values in the database table.
 	 *
 	 * @param  array  $values

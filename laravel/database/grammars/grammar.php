@@ -325,7 +325,7 @@ class Grammar {
 	 * @param  array   $columns
 	 * @return string
 	 */
-	protected function columnize($columns)
+	public function columnize($columns)
 	{
 		return implode(', ', array_map(array($this, 'wrap'), $columns));
 	}
@@ -340,7 +340,7 @@ class Grammar {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected function wrap($value)
+	public function wrap($value)
 	{
 		if (strpos(strtolower($value), ' as ') !== false) return $this->alias($value);
 
@@ -376,7 +376,7 @@ class Grammar {
 	 * @param  array   $values
 	 * @return string
 	 */
-	protected function parameterize($values)
+	public function parameterize($values)
 	{
 		return implode(', ', array_map(array($this, 'parameter'), $values));
 	}
@@ -391,7 +391,7 @@ class Grammar {
 	 * @param  mixed   $value
 	 * @return string
 	 */
-	protected function parameter($value)
+	public function parameter($value)
 	{
 		return ($value instanceof Expression) ? $value->get() : '?';
 	}
