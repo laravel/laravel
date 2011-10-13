@@ -590,7 +590,32 @@ class Query {
 	 */
 	public function increment($column, $amount = 1)
 	{
-		return $this->update(array($column => Manager::raw($this->grammar->wrap($column).' + '.$amount)));
+		return $this->adjust($column, $amount, ' + ');
+	}
+
+	/**
+	 * Decrement the value of a column by a given amount.
+	 *
+	 * @param  string  $column
+	 * @param  int     $amount
+	 * @return int
+	 */
+	public function decrement($column, $amount = 1)
+	{
+		return $this->adjust($column, $amount, ' - ');
+	}
+
+	/**
+	 * Adjust the value of a column up or down by a given amount.
+	 *
+	 * @param  string  $column
+	 * @param  int     $amount
+	 * @param  string  $operator
+	 * @return int
+	 */
+	protected function adjust($column, $amount, $operator)
+	{
+		return $this->update(array($column => Manager::raw($this->grammar->wrap($column).$operator.$amount)));
 	}
 
 	/**
