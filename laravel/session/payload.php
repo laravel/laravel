@@ -1,7 +1,4 @@
-<?php namespace Laravel\Session;
-
-use Closure;
-use Laravel\Str;
+<?php namespace Laravel\Session; use Closure, Laravel\Str;
 
 class Payload {
 
@@ -119,7 +116,7 @@ class Payload {
 	 */
 	public function reflash()
 	{
-		$this->readdress(':old:', ':new:', array_keys($this->session['data']));
+		$this->replace(':old:', ':new:', array_keys($this->session['data']));
 	}
 
 	/**
@@ -197,7 +194,7 @@ class Payload {
 			if (strpos($key, ':old:') === 0) $this->forget($key);
 		}
 
-		$this->readdress(':new:', ':old:', array_keys($this->session['data']));
+		$this->replace(':new:', ':old:', array_keys($this->session['data']));
 
 		return $this->session;
 	}
@@ -210,7 +207,7 @@ class Payload {
 	 * @param  array   $keys
 	 * @return void
 	 */
-	private function readdress($search, $replace, $keys)
+	private function replace($search, $replace, $keys)
 	{
 		$this->session['data'] = array_combine(str_replace($search, $replace, $keys), array_values($this->session['data']));
 	}

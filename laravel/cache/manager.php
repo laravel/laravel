@@ -1,6 +1,4 @@
-<?php namespace Laravel\Cache;
-
-use Laravel\IoC;
+<?php namespace Laravel\Cache; use Laravel\IoC;
 
 class Manager {
 

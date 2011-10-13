@@ -58,9 +58,10 @@ class Manager {
 	{
 		$session = $this->driver->load($this->transporter->get($config));
 
-		// If the session is expired, a new session will be generated and all of the data from
-		// the previous session will be lost. The new session will be assigned a random, long
-		// string ID to uniquely identify it among the application's current users.
+		// If the session is expired, a new session will be generated and all of
+		// the data from the previous session will be lost. The new session will
+		// be assigned a random, long string ID to uniquely identify it among
+		// the application's current users.
 		if (is_null($session) or (time() - $session['last_activity']) > ($config['lifetime'] * 60))
 		{
 			$this->exists = false;
@@ -70,10 +71,11 @@ class Manager {
 
 		$payload = new Payload($session);
 
-		// If a CSRF token is not present in the session, we will generate one. These tokens
-		// are generated per session to protect against Cross-Site Request Forgery attacks on
-		// the application. It is up to the developer to take advantage of them using the token
-		// methods on the Form class and the "csrf" route filter.
+		// If a CSRF token is not present in the session, we will generate one.
+		// These tokens are generated per session to protect against Cross-Site
+		// Request Forgery attacks on the application. It is up to the developer
+		// to take advantage of them using the token methods on the Form class
+		// and the "csrf" route filter.
 		if ( ! $payload->has('csrf_token'))
 		{
 			$payload->put('csrf_token', Str::random(16));
@@ -92,8 +94,9 @@ class Manager {
 	 */
 	public function close(Payload $payload, $config, $flash = array())
 	{
-		// If the session ID has been regenerated, we will need to inform the session driver
-		// that the session will need to be persisted to the data store as a new session.
+		// If the session ID has been regenerated, we will need to inform the
+		// session driver that the session will need to be persisted to the
+		// data store as a new session.
 		if ($payload->regenerated) $this->exists = false;
 
 		foreach ($flash as $key => $value)
@@ -105,9 +108,10 @@ class Manager {
 
 		$this->transporter->put($payload->session['id'], $config);
 
-		// Some session drivers implement the Sweeper interface, which specified that the driver
-		// must do its garbage collection manually. Alternatively, some drivers such as APC and
-		// Memcached are not required to manually clean up their sessions.
+		// Some session drivers may implement the Sweeper interface, meaning the
+		// driver must do its garbage collection manually. Alternatively, some
+		// drivers such as APC and Memcached are not required to manually
+		// clean up their sessions.
 		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and $this->driver instanceof Drivers\Sweeper)
 		{
 			$this->driver->sweep(time() - ($config['lifetime'] * 60));

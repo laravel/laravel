@@ -7,14 +7,14 @@ class Memcached extends Driver {
 	 *
 	 * @var Memcache
 	 */
-	private $memcache;
+	protected $memcache;
 
 	/**
 	 * The cache key from the cache configuration file.
 	 *
 	 * @var string
 	 */
-	private $key;
+	protected $key;
 
 	/**
 	 * Create a new Memcached cache driver instance.
@@ -52,6 +52,11 @@ class Memcached extends Driver {
 
 	/**
 	 * Write an item to the cache for a given number of minutes.
+	 *
+	 * <code>
+	 *		// Put an item in the cache for 15 minutes
+	 *		Cache::put('name', 'Taylor', 15);
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
