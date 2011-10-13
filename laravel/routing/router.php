@@ -46,6 +46,26 @@ class Router {
 	protected $controllers;
 
 	/**
+	 * The wildcard patterns supported by the router.
+	 *
+	 * @var array
+	 */
+	protected $patterns = array(
+		'(:num)' => '[0-9]+',
+		'(:any)' => '[a-zA-Z0-9\.\-_]+',
+	);
+
+	/**
+	 * The optional wildcard patterns supported by the router.
+	 *
+	 * @var array
+	 */
+	protected $optional = array(
+		'/(:num?)' => '(?:/([0-9]+)',
+		'/(:any?)' => '(?:/([a-zA-Z0-9\.\-_]+)',
+	);
+
+	/**
 	 * Create a new router for a request method and URI.
 	 *
 	 * @param  Loader  $loader
@@ -215,11 +235,13 @@ class Router {
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We will add the endings
 		// back on after we know how many replacements we made.
-		$key = str_replace(array('/(:num?)', '/(:any?)'), array('(?:/([0-9]+)', '(?:/([a-zA-Z0-9\.\-_]+)'), $key, $replacements);
+		$key = str_replace(array_keys($this->optional), array_values($this->optional), $key, $replacements);
 
 		$key .= ($replacements > 0) ? str_repeat(')?', $replacements) : '';
 
-		return str_replace(array(':num', ':any'), array('[0-9]+', '[a-zA-Z0-9\.\-_]+'), $key);
+		// After replacing all of the optional wildcards, we can replace all
+		// of the "regular" wildcards and return the fully regexed string.
+		return str_replace(array_keys($this->patterns), array_values($this->patterns), $key);
 	}
 
 	/**

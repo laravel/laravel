@@ -92,6 +92,19 @@ class Manager {
 	}
 
 	/**
+	 * Create a new database expression instance.
+	 *
+	 * Database expressions are used to inject raw SQL into a fluent query.
+	 *
+	 * @param  string      $value
+	 * @return Expression
+	 */
+	public static function raw($value)
+	{
+		return new Expression($value);
+	}
+
+	/**
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.

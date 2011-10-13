@@ -1,4 +1,8 @@
-<?php namespace Laravel\Database\Grammars; use Laravel\Arr, Laravel\Database\Query;
+<?php namespace Laravel\Database\Grammars;
+
+use Laravel\Arr;
+use Laravel\Database\Query;
+use Laravel\Database\Expression;
 
 class Grammar {
 
@@ -105,10 +109,6 @@ class Grammar {
 
 		foreach ($query->joins as $join)
 		{
-			// To save some space, we'll go ahead and wrap all of the elements
-			// that should wrapped in keyword identifiers. Each join clause will
-			// be added to an array of clauses and will be imploded after all
-			// of the clauses have been processed and compiled.
 			$table = $this->wrap($join['table']);
 
 			$column1 = $this->wrap($join['column1']);
@@ -147,12 +147,15 @@ class Grammar {
 	 * This method handles the compilation of the structures created by the
 	 * "where" and "or_where" methods on the query builder.
 	 *
+	 * This method also handles database expressions, so care must be taken
+	 * to implement this functionality in any derived database grammars.
+	 *
 	 * @param  array   $where
 	 * @return string
 	 */
 	protected function where($where)
 	{
-		return $this->wrap($where['column']).' '.$where['operator'].' ?';
+		return $this->wrap($where['column']).' '.$where['operator'].' '.$this->parameter($where['value']);
 	}
 
 	/**
@@ -291,7 +294,10 @@ class Grammar {
 	 */
 	public function update(Query $query, $values)
 	{
-		$columns = $this->columnize(array_keys($values), ' = ?');
+		foreach ($values as $column => $value)
+		{
+			$columns = $this->wrap($column).' = '.$this->parameter($value);
+		}
 
 		return trim('UPDATE '.$this->wrap($query->from).' SET '.$columns.' '.$this->wheres($query));
 	}
@@ -316,21 +322,12 @@ class Grammar {
 	/**
 	 * Create a comma-delimited list of wrapped column names.
 	 *
-	 * Optionally, an "append" value may be passed to the method.
-	 * This value will be appended to every wrapped column name.
-	 *
 	 * @param  array   $columns
-	 * @param  string  $append
 	 * @return string
 	 */
-	protected function columnize($columns, $append = '')
+	protected function columnize($columns)
 	{
-		foreach ($columns as $column)
-		{
-			$sql[] = $this->wrap($column).$append;
-		}
-
-		return implode(', ', $sql);
+		return implode(', ', array_map(array($this, 'wrap'), $columns));
 	}
 
 	/**
@@ -346,6 +343,11 @@ class Grammar {
 	protected function wrap($value)
 	{
 		if (strpos(strtolower($value), ' as ') !== false) return $this->alias($value);
+
+		// Expressions should be injected into the query as raw strings, so we
+		// do not want to wrap them in any way. We will just return the string
+		// value from the expression.
+		if ($value instanceof Expression) return $value->get();
 
 		foreach (explode('.', $value) as $segment)
 		{
@@ -376,7 +378,22 @@ class Grammar {
 	 */
 	protected function parameterize($values)
 	{
-		return implode(', ', array_fill(0, count($values), '?'));
+		return implode(', ', array_map(array($this, 'parameter'), $values));
+	}
+
+	/**
+	 * Get the appropriate query parameter string for a value.
+	 *
+	 * If the value is an expression, the raw expression string should
+	 * will be returned, otherwise, the parameter place-holder will be
+	 * returned by the method.
+	 *
+	 * @param  mixed   $value
+	 * @return string
+	 */
+	protected function parameter($value)
+	{
+		return ($value instanceof Expression) ? $value->get() : '?';
 	}
 
 }
