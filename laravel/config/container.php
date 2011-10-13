@@ -109,12 +109,6 @@ return array(
 	|
 	*/
 
-	'laravel.session.id' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return Cookie::get('laravel_session');
-	}),
-
-
 	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($c)
 	{
 		$driver = $c->core('session.'.Config::get('session.driver'));

@@ -26,9 +26,11 @@ date_default_timezone_set(Config::$items['application']['timezone']);
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	$session = IoC::container()->core('session.manager');
+	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
 
-	Session\Manager::$payload = $session->payload(Config::$items['session']);
+	$transporter = IoC::container()->core('session.transporter');
+
+	Session\Manager::start($driver, $transporter);
 }
 
 /**
@@ -107,11 +109,11 @@ $response->content = $response->render();
  * to the session so it will be available for the next request
  * via the Input::old method.
  */
-if (isset($session))
+if (Config::$items['session']['driver'] !== '')
 {
 	$flash = array(Input::old_input => Input::get());
 
-	$session->close(Session\Manager::$payload, Config::$items['session'], $flash);
+	Session\Manager::close($driver, $transporter, $flash);
 }
 
 /**

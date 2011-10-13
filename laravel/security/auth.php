@@ -62,7 +62,7 @@ class Auth {
 	{
 		if ( ! is_null(static::$user)) return static::$user;
 
-		static::$user = call_user_func(Config::get('auth.user'), Session::$payload->get(Auth::user_key));
+		static::$user = call_user_func(Config::get('auth.user'), Session::get(Auth::user_key));
 
 		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
@@ -142,7 +142,7 @@ class Auth {
 
 		if ($remember) static::remember($user->id, $user->{Config::get('auth.username')});
 
-		Session::$payload->put(Auth::user_key, $user->id);
+		Session::put(Auth::user_key, $user->id);
 	}
 
 	/**
@@ -183,7 +183,7 @@ class Auth {
 
 		Cookie::forget(Auth::remember_key);
 
-		Session::$payload->forget(Auth::user_key);
+		Session::forget(Auth::user_key);
 	}
 
 }
