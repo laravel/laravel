@@ -1,5 +1,6 @@
 <?php namespace Laravel\Session;
 
+use Closure;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Session\Drivers\Driver;
@@ -12,21 +13,21 @@ class Manager {
 	 *
 	 * @var array
 	 */
-	protected static $session = array();
+	public static $session = array();
 
 	/**
 	 * Indicates if the session exists in persistent storage.
 	 *
 	 * @var bool
 	 */
-	protected static $exists = true;
+	public static $exists = true;
 
 	/**
 	 * Indicates if the session ID has been regenerated.
 	 *
 	 * @var bool
 	 */
-	protected static $regenerated = false;
+	public static $regenerated = false;
 
 	/**
 	 * Start the session handling for the current request.
@@ -167,7 +168,7 @@ class Manager {
 	 */
 	public static function keep($key)
 	{
-		if (is_array($key)) return array_map(array($this, 'keep'), $key);
+		if (is_array($key)) return array_map(array('Laravel\\Session\\Manager', 'keep'), $key);
 
 		static::flash($key, static::get($key));
 
@@ -214,7 +215,7 @@ class Manager {
 	 *
 	 * @return array
 	 */
-	protected static function age()
+	public static function age()
 	{
 		static::$session['last_activity'] = time();
 

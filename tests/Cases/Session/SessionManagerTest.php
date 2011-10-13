@@ -1,9 +1,15 @@
 <?php
 
 use Laravel\IoC;
+use Laravel\Config;
 use Laravel\Session\Manager;
 
 class SessionManagerTest extends PHPUnit_Framework_TestCase {
+
+	public function setUp()
+	{
+		Manager::$session = array();
+	}
 
 	/**
 	 * @dataProvider mockProvider
@@ -12,9 +18,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$transporter->expects($this->once())->method('get');
 
-		$manager = new Manager($driver, $transporter);
-
-		$manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 	}
 
 	/**
@@ -30,9 +34,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
                                     ->method('load')
                                     ->with($this->equalTo('something'));
 
-		$manager = new Manager($driver, $transporter);
-
-		$manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 	}
 
 	/**
@@ -42,11 +44,9 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->setDriverExpectation($driver, 'load', $this->getDummySession());
 
-		$manager = new Manager($driver, $transporter);
-		$payload = $manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 
-		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
-		$this->assertEquals($payload->session, $this->getDummySession());
+		$this->assertEquals(Manager::$session, $this->getDummySession());
 	}
 
 	/**
@@ -56,12 +56,10 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->setDriverExpectation($driver, 'load', null);
 
-		$manager = new Manager($driver, $transporter);
-		$payload = $manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 
-		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
-		$this->assertEquals(strlen($payload->session['id']), 40);
-		$this->assertTrue(is_array($payload->session['data']));
+		$this->assertTrue(is_array(Manager::$session['data']));
+		$this->assertEquals(strlen(Manager::$session['id']), 40);
 	}
 
 	/**
@@ -70,13 +68,12 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_session_manager_creates_new_session_when_session_is_expired($driver, $transporter)
 	{
 		$dateTime = new DateTime('1970-01-01');
+
 		$this->setDriverExpectation($driver, 'load', array('last_activity' => $dateTime->getTimestamp()));
 
-		$manager = new Manager($driver, $transporter);
-		$payload = $manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 
-		$this->assertInstanceOf('Laravel\\Session\\Payload', $payload);
-		$this->assertEquals(strlen($payload->session['id']), 40);
+		$this->assertEquals(strlen(Manager::$session['id']), 40);
 	}
 
 	/**
@@ -86,13 +83,13 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	{
 		$session = $this->getDummySession();
 		unset($session['data']['csrf_token']);
+
 		$this->setDriverExpectation($driver, 'load', $session);
 
-		$manager = new Manager($driver, $transporter);
-		$payload = $manager->payload($this->getConfig());
+		Manager::start($driver, $transporter);
 
-		$this->assertTrue(isset($payload->session['data']['csrf_token']));
-		$this->assertEquals(strlen($payload->session['data']['csrf_token']), 16);
+		$this->assertTrue(isset(Manager::$session['data']['csrf_token']));
+		$this->assertEquals(strlen(Manager::$session['data']['csrf_token']), 16);
 	}
 
 	/**
@@ -104,27 +101,15 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
                                  ->method('load')
                                  ->will($this->returnValue($this->getDummySession()));
 
-		$manager = new Manager($driver, $transporter);
-
-		$payload = $this->getMock(
-			'Laravel\\Session\\Payload',
-			array('age'),
-			array(array('id' => 'something'))
-		);
-
-		$payload->expects($this->any())
-                                 ->method('age')
-                                 ->will($this->returnValue('something'));
+		Manager::start($driver, $transporter);
 
 		$driver->expects($this->once())
-                                 ->method('save')
-                                 ->with('something', $this->getConfig());
+                                 ->method('save');
 
 		$transporter->expects($this->once())
-                                 ->method('put')
-                                 ->with('something', $this->getConfig());
+                                 ->method('put');
 
-		$manager->close($payload, $this->getConfig());
+		Manager::close($driver, $transporter);
 	}
 
 	/**
@@ -133,14 +118,14 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_close_method_calls_sweep_when_driver_is_sweeper($driver, $transporter)
 	{
 		$driver = $this->getMock('SweeperStub', array('sweep'));
+
 		$driver->expects($this->once())->method('sweep');
 
-		$manager = new Manager($driver, $transporter);
+		Manager::start($driver, $transporter);
 
-		$config = $this->getConfig();
-		$config['sweepage'] = array(100, 100);
+		Config::$items['session']['sweepage'] = array(100, 100);
 
-		$manager->close(new Laravel\Session\Payload($this->getDummySession()), $config);
+		Manager::close($driver, $transporter);
 	}
 
 	/**
@@ -149,14 +134,158 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 	public function test_close_method_doesnt_call_sweep_when_driver_isnt_sweeper($driver, $transporter)
 	{
 		$driver = $this->getMock('Laravel\\Session\\Drivers\\Driver', array('sweep', 'load', 'save', 'delete'));
+
 		$driver->expects($this->never())->method('sweep');
 
-		$manager = new Manager($driver, $transporter);
+		Manager::start($driver, $transporter);
 
-		$config = $this->getConfig();
-		$config['sweepage'] = array(100, 100);
+		Config::$items['session']['sweepage'] = array(100, 100);
 
-		$manager->close(new Laravel\Session\Payload($this->getDummySession()), $config);
+		Manager::close($driver, $transporter);
+	}
+
+	public function test_has_method_indicates_if_item_exists_in_payload()
+	{
+		Manager::$session = $this->getDummyData();
+
+		$this->assertTrue(Manager::has('name'));
+		$this->assertTrue(Manager::has('age'));
+		$this->assertTrue(Manager::has('gender'));
+		$this->assertFalse(Manager::has('something'));
+		$this->assertFalse(Manager::has('id'));
+		$this->assertFalse(Manager::has('last_activity'));
+	}
+
+	public function test_get_method_returns_item_from_payload()
+	{
+		Manager::$session = $this->getDummyData();
+
+		$this->assertEquals(Manager::get('name'), 'Taylor');
+		$this->assertEquals(Manager::get('age'), 25);
+		$this->assertEquals(Manager::get('gender'), 'male');
+	}
+
+	public function test_get_method_returns_default_when_item_doesnt_exist()
+	{
+		Manager::$session = $this->getDummyData();
+
+		$this->assertNull(Manager::get('something'));
+		$this->assertEquals('Taylor', Manager::get('something', 'Taylor'));
+		$this->assertEquals('Taylor', Manager::get('something', function() {return 'Taylor';}));
+	}
+
+	public function test_put_method_adds_to_payload()
+	{
+		Manager::$session = $this->getDummyData();
+
+		Manager::put('name', 'Weldon');
+		Manager::put('workmate', 'Joe');
+
+		$this->assertEquals(Manager::$session['data']['name'], 'Weldon');
+		$this->assertEquals(Manager::$session['data']['workmate'], 'Joe');
+	}
+
+	public function test_flash_method_puts_item_in_flash_data()
+	{
+		Manager::$session = array();
+
+		Manager::flash('name', 'Taylor');
+
+		$this->assertEquals(Manager::$session['data'][':new:name'], 'Taylor');
+	}
+
+	public function test_reflash_keeps_all_session_data()
+	{
+		Manager::$session = array('data' => array(':old:name' => 'Taylor', ':old:age' => 25));
+
+		Manager::reflash();
+
+		$this->assertTrue(isset(Manager::$session['data'][':new:name']));
+		$this->assertTrue(isset(Manager::$session['data'][':new:age']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:name']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:age']));
+	}
+
+	public function test_keep_method_keeps_specified_session_data()
+	{
+		Manager::$session = array('data' => array(':old:name' => 'Taylor', ':old:age' => 25));
+
+		Manager::keep('name');
+
+		$this->assertTrue(isset(Manager::$session['data'][':new:name']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:name']));
+		
+		Manager::$session = array('data' => array(':old:name' => 'Taylor', ':old:age' => 25));
+
+		Manager::keep(array('name', 'age'));
+
+		$this->assertTrue(isset(Manager::$session['data'][':new:name']));
+		$this->assertTrue(isset(Manager::$session['data'][':new:age']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:name']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:age']));
+	}
+
+	public function test_flush_method_clears_payload_data()
+	{
+		Manager::$session = array('data' => array('name' => 'Taylor'));
+
+		Manager::flush();
+
+		$this->assertEquals(count(Manager::$session['data']), 0);
+	}
+
+	public function test_regenerate_session_sets_new_session_id()
+	{
+		Manager::$session = array('id' => 'something');
+
+		Manager::regenerate();
+
+		$this->assertTrue(Manager::$regenerated);
+		$this->assertEquals(strlen(Manager::$session['id']), 40);
+	}
+
+	public function test_age_method_sets_last_activity_time()
+	{
+		$data = $this->getDummyData();
+		unset($data['last_activity']);
+
+		Manager::$session = $data;
+		Manager::age();
+
+		$this->assertTrue(isset(Manager::$session['last_activity']));
+	}
+
+	public function test_age_method_ages_all_flash_data()
+	{
+		Manager::$session = $this->getDummyData();
+
+		Manager::age();
+
+		$this->assertTrue(isset(Manager::$session['data'][':old:age']));
+		$this->assertFalse(isset(Manager::$session['data'][':old:gender']));
+	}
+
+	public function test_age_method_returns_session_array()
+	{
+		Manager::$session = $this->getDummyData();
+
+		$age = Manager::age();
+
+		$this->assertEquals($age['id'], 'something');
+	}
+
+	// ---------------------------------------------------------------------
+	// Support Functions
+	// ---------------------------------------------------------------------
+
+	public function getDummyData()
+	{
+		return array('id' => 'something', 'last_activity' => time(), 'data' => array(
+				'name'        => 'Taylor',
+				':new:age'    => 25,
+				':old:gender' => 'male',
+				'state'       => 'Oregon',
+		));
 	}
 
 	// ---------------------------------------------------------------------
@@ -202,7 +331,7 @@ class SessionManagerTest extends PHPUnit_Framework_TestCase {
 
 	private function getConfig()
 	{
-		return Laravel\Config::get('session');
+		return Config::$items['session'];
 	}
 
 }
