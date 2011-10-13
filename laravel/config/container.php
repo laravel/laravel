@@ -109,14 +109,6 @@ return array(
 	|
 	*/
 
-	'laravel.session.manager' => array('singleton' => true, 'resolver' => function($c)
-	{
-		$driver = $c->core('session.'.Config::get('session.driver'));
-
-		return new Session\Manager($driver, $c->core('session.transporter'));
-	}),
-
-
 	'laravel.session.transporter' => array('resolver' => function($c)
 	{
 		return new Session\Transporters\Cookie;
