@@ -280,7 +280,6 @@ class Paginator {
 	public function appends($values)
 	{
 		$this->appends = $values;
-
 		return $this;
 	}
 
@@ -295,7 +294,6 @@ class Paginator {
 	public function elements($elements)
 	{
 		$this->elements = $elements;
-
 		return $this;
 	}
 

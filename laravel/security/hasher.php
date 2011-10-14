@@ -5,10 +5,10 @@ class Hasher {
 	/**
 	 * Hash a password using the Bcrypt hashing scheme.
 	 *
-	 * Bcrypt provides a future-proof hashing algorithm by allowing the number of "rounds"
-	 * to be increased, thus increasing the time is takes to generate the hashed value.
-	 * The longer is takes to generate the hash, the more impractical a rainbow table
-	 * attack against the hashes becomes.
+	 * Bcrypt provides a future-proof hashing algorithm by allowing the number
+	 * of "rounds" to be increased, thus increasing the time is takes to generate
+	 * the hashed value. The longer is takes to generate the hash, the more
+	 * impractical a rainbow table attack against the hashes becomes.
 	 *
 	 * <code>
 	 *		// Create a Bcrypt hash of a value
@@ -29,9 +29,6 @@ class Hasher {
 
 	/**
 	 * Determine if an unhashed value matches a given Bcrypt hash.
-	 *
-	 * Since the number of rounds is included in the Bcrypt hash, it is not
-	 * necessary to specify the rounds when calling this method.
 	 *
 	 * @param  string  $value
 	 * @param  string  $hash

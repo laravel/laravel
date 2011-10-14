@@ -197,6 +197,9 @@ class Request {
 	 *
 	 * @return Route
 	 */
-	public static function route() { return static::$route; }
+	public static function route()
+	{
+		return static::$route;
+	}
 
 }

@@ -61,7 +61,7 @@ class Redirect extends Response {
 			throw new \Exception('A session driver must be set before setting flash data.');
 		}
 
-		Session\Manager::$payload->flash($key, $value);
+		Session\Manager::flash($key, $value);
 
 		return $this;
 	}

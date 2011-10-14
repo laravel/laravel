@@ -157,7 +157,7 @@ class Form {
 			throw new \Exception("A session driver must be specified before using CSRF tokens.");			
 		}
 
-		return Session\Manager::$payload->get('csrf_token');
+		return Session\Manager::get('csrf_token');
 	}
 
 	/**

@@ -41,7 +41,7 @@ require SYS_PATH.'request'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
-require SYS_PATH.'routing/caller'.EXT;
+require SYS_PATH.'routing/filter'.EXT;
 
 /**
  * Gather the input to the application for the current request.
@@ -72,6 +72,10 @@ switch (Request::method())
 		}
 }
 
+/**
+ * The spoofed request method is removed from the input so it is
+ * not unexpectedly included in Input::all() or Input::get().s
+ */
 unset($input[Request::spoofer]);
 
 Input::set($input);
@@ -82,17 +86,29 @@ Input::set($input);
  * instance. If no route is found, the 404 response will be returned
  * to the browser.
  */
+Routing\Filter::register(require APP_PATH.'filters'.EXT);
+
 list($method, $uri) = array(Request::method(), Request::uri());
 
 $route = IoC::container()->core('routing.router')->route($method, $uri);
 
 if ( ! is_null($route))
 {
-	$response = IoC::container()->core('routing.caller')->call($route);
+	$response = $route->call();
 }
 else
 {
 	$response = Response::error('404');
+}
+
+if ($response instanceof Routing\Delegate)
+{
+	$response = Routing\Controller::call($response, $route->parameters);
+}
+
+if ( ! $response instanceof Response)
+{
+	$response = new Response($response);
 }
 
 /**

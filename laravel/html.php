@@ -12,7 +12,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		return htmlentities($value, ENT_QUOTES, Config::$items['application']['encoding'], false);
 	}
 
 	/**
@@ -60,7 +60,10 @@ class HTML {
 
 		foreach ($defaults as $attribute => $default)
 		{
-			if ( ! array_key_exists($attribute, $attributes)) $attributes[$attribute] = $default;
+			if ( ! array_key_exists($attribute, $attributes))
+			{
+				$attributes[$attribute] = $default;
+			}
 		}
 
 		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;

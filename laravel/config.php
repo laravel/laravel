@@ -89,11 +89,23 @@ class Config {
 
 		static::load($file);
 
-		(is_null($key)) ? Arr::set(static::$items, $file, $value) : Arr::set(static::$items[$file], $key, $value);
+		if (is_null($key))
+		{
+			Arr::set(static::$items, $file, $value);
+		}
+		else
+		{
+			Arr::set(static::$items[$file], $key, $value);
+		}
 	}
 
 	/**
 	 * Parse a configuration key and return its file and key segments.
+	 *
+	 * The first segment of a configuration key represents the configuration
+	 * file, while the remaining segments represent an item within that file.
+	 * If no item segment is present, null will be returned for the item value
+	 * indicating that the entire configuration array should be returned.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -102,8 +114,6 @@ class Config {
 	{
 		$segments = explode('.', $key);
 
-		// If there is only one segment after exploding on dots, we will return NULL
-		// as the key value, causing the entire configuration array to be returned.
 		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
 
 		return array($segments[0], $key);
@@ -121,9 +131,9 @@ class Config {
 
 		$config = array();
 
-		// Configuration files cascade. Typically, the system configuration array is loaded
-		// first, followed by the application array, providing the convenient cascading
-		// of configuration options from system to application.
+		// Configuration files cascade. Typically, the system configuration array is
+		// loaded first, followed by the application array, providing the convenient
+		// cascading of configuration options from system to application.
 		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$file.EXT))

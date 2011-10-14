@@ -40,7 +40,7 @@ return array(
 	|
 	*/
 
-	'key' => 'some_secret_key',
+	'key' => '',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ return array(
 		'Benchmark'  => 'Laravel\\Benchmark',
 		'Cache'      => 'Laravel\\Cache',
 		'Config'     => 'Laravel\\Config',
-		'Controller' => 'Laravel\\Controller',
+		'Controller' => 'Laravel\\Routing\\Controller',
 		'Cookie'     => 'Laravel\\Cookie',
 		'Crypter'    => 'Laravel\\Security\\Crypter',
 		'DB'         => 'Laravel\\Database\\Manager',

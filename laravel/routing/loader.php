@@ -90,15 +90,16 @@ class Loader {
 			$routes = array_merge($routes, require $path);
 		}
 
-		// Since route files can be nested deep within the route directory, we need to
-		// recursively spin through each directory to find every file.
+		// Since route files can be nested deep within the route directory,
+		// we need to recursively spin through each directory
 		$iterator = new Iterator(new DirectoryIterator($this->nest), Iterator::SELF_FIRST);
 
 		foreach ($iterator as $file)
 		{
-			// Since some Laravel developers may place HTML files in the route directories, we will
-			// check for the PHP extension before merging the file. Typically, the HTML files are
-			// present in installations that are not using mod_rewrite and the public directory.
+			// Since some Laravel developers may place HTML files in the route
+			// directories, we will check for the PHP extension before merging
+			// the file. Typically, the HTML files are present in installations
+			// that are not using mod_rewrite and the public directory.
 			if (filetype($file) === 'file' and strpos($file, EXT) !== false)
 			{
 				$routes = array_merge(require $file, $routes);

@@ -39,9 +39,13 @@ class File extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! \Laravel\File::exists($this->path.$key)) return null;
+		if ( ! file_exists($this->path.$key)) return null;
 
-		if (time() >= substr($cache = \Laravel\File::get($this->path.$key), 0, 10))
+		// File based caches store have the expiration timestamp stored in
+		// UNIX format prepended to their contents. This timestamp is then
+		// extracted and removed when the cache is read to determine if
+		// the file is still valid.
+		if (time() >= substr($cache = file_get_contents($this->path.$key), 0, 10))
 		{
 			return $this->forget($key);
 		}
@@ -64,7 +68,7 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		\Laravel\File::put($this->path.$key, (time() + ($minutes * 60)).serialize($value));
+		file_put_contents($this->path.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
 	}
 
 	/**
@@ -75,7 +79,10 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		\Laravel\File::delete($this->path.$key);
+		if (file_exists($this->path.$key))
+		{
+			@unlink($this->path.$key);
+		}
 	}
 
 }

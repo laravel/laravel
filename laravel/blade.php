@@ -21,7 +21,11 @@ class Blade {
 	 */
 	public static function parse_string($value)
 	{
-		return static::closings(static::openings(static::echos($value)));
+		$value = static::echos($value);
+		$value = static::openings($value);
+		$value = static::closings($value);
+
+		return $value;
 	}
 
 	/**

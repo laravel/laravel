@@ -235,7 +235,10 @@ class Response {
 	 */
 	public function send()
 	{
-		if ( ! isset($this->headers['Content-Type'])) $this->header('Content-Type', 'text/html; charset=utf-8');
+		if ( ! isset($this->headers['Content-Type']))
+		{
+			$this->header('Content-Type', 'text/html; charset=utf-8');
+		}
 
 		if ( ! headers_sent()) $this->send_headers();
 
@@ -274,7 +277,6 @@ class Response {
 	public function header($name, $value)
 	{
 		$this->headers[$name] = $value;
-
 		return $this;
 	}
 
@@ -287,7 +289,6 @@ class Response {
 	public function status($status)
 	{
 		$this->status = $status;
-
 		return $this;
 	}
 

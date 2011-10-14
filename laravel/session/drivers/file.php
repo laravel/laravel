@@ -1,7 +1,5 @@
 <?php namespace Laravel\Session\Drivers;
 
-use Laravel\File as F;
-
 class File implements Driver, Sweeper {
 
 	/**
@@ -32,7 +30,10 @@ class File implements Driver, Sweeper {
 	 */
 	public function load($id)
 	{
-		if (F::exists($path = $this->path.$id)) return unserialize(F::get($path));
+		if (file_exists($path = $this->path.$id))
+		{
+			return unserialize(file_get_contents($path));
+		}
 	}
 
 	/**
@@ -45,7 +46,7 @@ class File implements Driver, Sweeper {
 	 */
 	public function save($session, $config, $exists)
 	{
-		F::put($this->path.$session['id'], serialize($session), LOCK_EX);
+		file_put_contents($this->path.$session['id'], serialize($session), LOCK_EX);
 	}
 
 	/**
@@ -56,7 +57,7 @@ class File implements Driver, Sweeper {
 	 */
 	public function delete($id)
 	{
-		F::delete($this->path.$id);
+		if (file_exists($this->path.$id)) @unlink($this->path.$id);
 	}
 
 	/**
@@ -69,9 +70,9 @@ class File implements Driver, Sweeper {
 	{
 		foreach (glob($this->path.'*') as $file)
 		{
-			if (F::type($file) == 'file' and F::modified($file) < $expiration)
+			if (filetype($file) == 'file' and filemtime($file) < $expiration)
 			{
-				F::delete($file);
+				@unlink($file);
 			}
 		}
 	}

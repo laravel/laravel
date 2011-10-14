@@ -168,7 +168,10 @@ class Manager {
 	 */
 	public static function keep($key)
 	{
-		if (is_array($key)) return array_map(array('Laravel\\Session\\Manager', 'keep'), $key);
+		if (is_array($key))
+		{
+			return array_map(array('Laravel\\Session\\Manager', 'keep'), $key);
+		}
 
 		static::flash($key, static::get($key));
 
@@ -242,7 +245,9 @@ class Manager {
 	 */
 	protected static function replace($search, $replace, $keys)
 	{
-		static::$session['data'] = array_combine(str_replace($search, $replace, $keys), array_values(static::$session['data']));
+		$keys = str_replace($search, $replace, $keys);
+
+		static::$session['data'] = array_combine($keys, array_values(static::$session['data']));
 	}
 
 	/**

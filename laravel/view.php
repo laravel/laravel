@@ -252,7 +252,6 @@ class View {
 	public function with($key, $value)
 	{
 		$this->data[$key] = $value;
-
 		return $this;
 	}
 

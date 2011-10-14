@@ -37,7 +37,7 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	protected $paths;
+	protected $paths = array(SYS_LANG_PATH, LANG_PATH);
 
 	/**
 	 * Create a new Lang instance.
@@ -45,13 +45,11 @@ class Lang {
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
-	 * @param  array   $paths
 	 * @return void
 	 */
-	protected function __construct($key, $replacements = array(), $language = null, $paths = array())
+	protected function __construct($key, $replacements = array(), $language = null)
 	{
 		$this->key = $key;
-		$this->paths = $paths;
 		$this->language = $language;
 		$this->replacements = $replacements;
 	}
@@ -70,23 +68,20 @@ class Lang {
 	 * @param  string  $key
 	 * @param  array   $replacements
 	 * @param  string  $language
-	 * @param  array   $paths
 	 * @return Lang
 	 */
-	public static function line($key, $replacements = array(), $language = null, $paths = array())
+	public static function line($key, $replacements = array(), $language = null)
 	{
-		if (count($paths) == 0) $paths = array(SYS_LANG_PATH, LANG_PATH);
-
 		if (is_null($language)) $language = Config::get('application.language');
 
-		return new static($key, $replacements, $language, $paths);
+		return new static($key, $replacements, $language);
 	}
 
 	/**
 	 * Get the language line as a string.
 	 *
-	 * If a language is specified, it should correspond to a directory within
-	 * your application language directory.
+	 * If a language is specified, it should correspond to a directory
+	 * within your application language directory.
 	 *
 	 * <code>
 	 *		// Get a language line
@@ -105,7 +100,6 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
-		// If a language was passed to the method, we will let it override the default
 		if ( ! is_null($language)) $this->language = $language;
 
 		list($file, $line) = $this->parse($this->key);
@@ -115,8 +109,21 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		$line = Arr::get(static::$lines[$this->language.$file], $line, $default);
+		return $this->replace(Arr::get(static::$lines[$this->language.$file], $line, $default));
+	}
 
+	/**
+	 * Make all necessary replacements on a language line.
+	 *
+	 * Replacements place-holder are prefixed with a colon, and are replaced
+	 * with the appropriate value based on the replacement array set for the
+	 * language line instance.
+	 *
+	 * @param  string  $line
+	 * @return string
+	 */
+	protected function replace($line)
+	{
 		foreach ($this->replacements as $key => $value)
 		{
 			$line = str_replace(':'.$key, $value, $line);
@@ -127,6 +134,10 @@ class Lang {
 
 	/**
 	 * Parse a language key into its file and line segments.
+	 *
+	 * Language keys are formatted similarly to configuration keys. The first
+	 * segment represents the language file, while the second segment
+	 * represents a language line within that file.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -153,9 +164,9 @@ class Lang {
 
 		$language = array();
 
-		// Language files cascade. Typically, the system language array is loaded first,
-		// followed by the application array. This allows the convenient overriding of the
-		// system language files (like validation) by the application developer.
+		// Language files cascade. Typically, the system language array is
+		// loaded first, followed by the application array. This allows the
+		// convenient overriding of the system language files.
 		foreach ($this->paths as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
@@ -164,9 +175,9 @@ class Lang {
 			}
 		}
 
-		// If language lines were actually found, they will be loaded into the array
-		// containing all of the lines for all languages and files. The array is
-		// keyed by the language and the file name.
+		// If language lines were actually found, they will be loaded into
+		// the array containing all of the lines for all languages and files.
+		// The array is keyed by the language and the file name.
 		if (count($language) > 0) static::$lines[$this->language.$file] = $language;
 		
 		return isset(static::$lines[$this->language.$file]);		
@@ -175,6 +186,9 @@ class Lang {
 	/**
 	 * Get the string content of the language line.
 	 */
-	public function __toString() { return $this->get(); }
+	public function __toString()
+	{
+		return $this->get();
+	}
 
 }

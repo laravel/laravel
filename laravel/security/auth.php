@@ -100,13 +100,14 @@ class Auth {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * If the given credentials are valid, the user will be logged into the application
-	 * and their user ID will be stored in the session via the "login" method.
+	 * If the given credentials are valid, the user will be logged into
+	 * the application and their user ID will be stored in the session
+	 * via the "login" method.
 	 *
-	 * The user may also be "remembered". When this option is set, the user will be
-	 * automatically logged into the application for one year via an encrypted cookie
-	 * containing their ID. Of course, if the user logs out of the application,
-	 * they will no longer be remembered.
+	 * The user may also be "remembered". When this option is set, the user
+	 * will be automatically logged into the application for one year via
+	 * an encrypted cookie containing their ID. Of course, if the user logs
+	 * out of the application, they will no longer be remembered.
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
@@ -129,8 +130,6 @@ class Auth {
 
 	/**
 	 * Log a user into the application.
-	 *
-	 * The user ID will be stored in the session so it is available on subsequent requests.
 	 *
 	 * @param  object  $user
 	 * @param  bool    $remember
@@ -156,9 +155,10 @@ class Auth {
 	{
 		$cookie = Crypter::encrypt($id.'|'.$username.'|'.Str::random(40));
 
-		// This method assumes the "remember me" cookie should have the same configuration
-		// as the session cookie. Since this cookie, like the session cookie, should be
-		// kept very secure, it's probably safe to assume the settings are the same.
+		// This method assumes the "remember me" cookie should have the
+		// same configuration as the session cookie. Since this cookie,
+		// like the session cookie, should be kept very secure, it's
+		// probably safe to assume the settings are the same.
 		$config = Config::get('session');
 
 		Cookie::forever(Auth::remember_key, $cookie, $config['path'], $config['domain'], $config['secure']);
@@ -167,9 +167,9 @@ class Auth {
 	/**
 	 * Log the current user out of the application.
 	 *
-	 * The "logout" closure in the authenciation configuration file will be called.
-	 * All authentication cookies will be deleted and the user ID will be removed
-	 * from the session.
+	 * The "logout" closure in the authenciation configuration file
+	 * will be called. All authentication cookies will be deleted
+	 * and the user ID will be removed from the session.
 	 *
 	 * @return void
 	 */

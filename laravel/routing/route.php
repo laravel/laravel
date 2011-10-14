@@ -1,4 +1,8 @@
-<?php namespace Laravel\Routing; use Closure, Laravel\Arr;
+<?php namespace Laravel\Routing;
+
+use Closure;
+use Laravel\Arr;
+use Laravel\Response;
 
 class Route {
 
@@ -44,56 +48,96 @@ class Route {
 		$this->callback = $callback;
 		$this->parameters = $parameters;
 
-		// The extractor closure will retrieve the URI from a given route destination.
-		// If the request is to the root of the application, a single forward slash
-		// will be returned, otherwise the leading slash will be removed.
-		$extractor = function($segment)
-		{
-			$segment = substr($segment, strpos($segment, ' ') + 1);
-
-			return ($segment !== '/') ? trim($segment, '/') : $segment;
-		};
-
-		// Extract each URI out of the route key. Since the route key has the request
-		// method, we will extract the method off of the string. If the URI points to
-		// the root of the application, a single forward slash will be returned.
-		// Otherwise, the leading slash will be removed.
+		// Extract each URI from the route key. Since the route key has the
+		// request method, we will extract that from the string. If the URI
+		// points to the root of the application, a single forward slash
+		// will be returned.
 		if (strpos($key, ', ') === false)
 		{
-			$this->uris = array($extractor($this->key));
+			$this->uris = array($this->extract($this->key));
 		}
 		else
 		{
-			$this->uris = array_map(function($segment) use ($extractor) { return $extractor($segment); }, explode(', ', $key));
+			$this->uris = array_map(array($this, 'extract'), explode(', ', $key));
 		}
 
-		// The route callback must be either a Closure, an array, or a string. Closures
-		// obviously handle the requests to the route. An array can contain filters, as
-		// well as a Closure to handle requests to the route. A string, delegates control
-		// of the request to a controller method.
-		if ( ! $this->callback instanceof Closure and ! is_array($this->callback) and ! is_string($this->callback))
+		if ( ! $callback instanceof Closure and ! is_array($callback) and ! is_string($callback))
 		{
 			throw new \Exception('Invalid route defined for URI ['.$this->key.']');
 		}
 	}
 
 	/**
-	 * Call the closure defined for the route, or get the route delegator.
+	 * Retrieve the URI from a given route destination.
 	 *
-	 * @return mixed
+	 * If the request is to the root of the application, a single slash
+	 * will be returned, otherwise the leading slash will be removed.
+	 *
+	 * @param  string  $segment
+	 * @return string
+	 */
+	protected function extract($segment)
+	{
+		$segment = substr($segment, strpos($segment, ' ') + 1);
+
+		return ($segment !== '/') ? trim($segment, '/') : $segment;
+	}
+
+	/**
+	 * Call a given route and return the route's response.
+	 *
+	 * @return Response
 	 */
 	public function call()
 	{
-		// If the value defined for a route is a Closure, we simply call the closure with the
-		// route's parameters and return the response.
+		// Since "before" filters can halt the request cycle, we will return
+		// any response from the before filters. Allowing filters to halt the
+		// request cycle makes tasks like authorization convenient.
+		$before = array_merge(array('before'), $this->filters('before'));
+
+		if ( ! is_null($response = $this->filter($before, array(), true)))
+		{
+			return $response;
+		}
+
+		if ( ! is_null($response = $this->response()))
+		{
+			if ($response instanceof Delegate)
+			{
+				return $response;
+			}
+
+			$filters = array_merge($this->filters('after'), array('after'));
+
+			Filter::run($filters, array($response));
+
+			return $response;
+		}
+		else
+		{
+			return Response::error('404');
+		}
+	}
+
+	/**
+	 * Call the closure defined for the route, or get the route delegator.
+	 *
+	 * Note that this method differs from the "call" method in that it does
+	 * not resolve the controller or prepare the response. Delegating to
+	 * controller's is handled by the "call" method.
+	 *
+	 * @return mixed
+	 */
+	protected function response()
+	{
 		if ($this->callback instanceof Closure)
 		{
 			return call_user_func_array($this->callback, $this->parameters);
 		}
-
-		// Otherwise, we will assume the route is an array and will return the first value with
-		// a key of "delegate", or the first instance of a Closure. If the value is a string, the
-		// route is delegating the responsibility for handling the request to a controller.
+		// If the route is an array we will return the first value with a
+		// key of "delegate", or the first instance of a Closure. If the
+		// value is a string, the route is delegating the responsibility
+		// for handling the request to a controller.
 		elseif (is_array($this->callback))
 		{
 			$callback = Arr::first($this->callback, function($key, $value)
@@ -101,12 +145,15 @@ class Route {
 				return $key == 'delegate' or $value instanceof Closure;
 			});
 
-			return ($callback instanceof Closure) ? call_user_func_array($callback, $this->parameters) : new Delegate($callback);
+			if ($callback instanceof Closure)
+			{
+				return call_user_func_array($callback, $this->parameters);
+			}
+			else
+			{
+				return new Delegate($callback);
+			}
 		}
-
-		// If a value defined for a route is a string, it means the route is delegating control
-		// of the request to a controller. If that is the case, we will simply return the string
-		// for the route caller to parse and delegate.
 		elseif (is_string($this->callback))
 		{
 			return new Delegate($this->callback);
@@ -130,16 +177,6 @@ class Route {
 	}
 
 	/**
-	 * Deteremine if the route delegates to a controller.
-	 *
-	 * @return bool
-	 */
-	public function delegates()
-	{
-		return is_string($this->callback) or (is_array($this->callback) and isset($this->callback['delegate']));
-	}
-
-	/**
 	 * Determine if the route has a given name.
 	 *
 	 * @param  string  $name
@@ -147,7 +184,7 @@ class Route {
 	 */
 	public function is($name)
 	{
-		return (is_array($this->callback) and isset($this->callback['name'])) ? $this->callback['name'] === $name : false;
+		return is_array($this->callback) and Arr::get($this->callback, 'name') === $name;
 	}
 
 	/**
@@ -166,7 +203,7 @@ class Route {
 	 */
 	public function __call($method, $parameters)
 	{
-		if (strpos($method, 'is_') === 0) { return $this->is(substr($method, 3)); }
+		if (strpos($method, 'is_') === 0) return $this->is(substr($method, 3));
 	}
 
 }
