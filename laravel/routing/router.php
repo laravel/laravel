@@ -128,8 +128,8 @@ class Router {
 
 		foreach ($routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs or wildcards.
-			// Other routes would have been caught by the check for literal matches.
+			// Only check routes that have multiple URIs or wildcards since other
+			// routes would have been caught by the check for literal matches.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
 			{
 				foreach (explode(', ', $keys) as $key)
