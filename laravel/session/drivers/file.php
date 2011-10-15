@@ -57,7 +57,10 @@ class File implements Driver, Sweeper {
 	 */
 	public function delete($id)
 	{
-		if (file_exists($this->path.$id)) @unlink($this->path.$id);
+		if (file_exists($this->path.$id))
+		{
+			@unlink($this->path.$id);
+		}
 	}
 
 	/**

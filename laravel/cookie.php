@@ -92,7 +92,9 @@ class Cookie {
 
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
-		return setcookie($name, static::hash($name, $value).'~'.$value, $time, $path, $domain, $secure, $http_only);
+		$value = static::hash($name, $value).'~'.$value;
+
+		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
 	}
 
 	/**

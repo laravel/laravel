@@ -32,7 +32,7 @@ abstract class Controller {
 	 * @param  array   $parameters
 	 * @return mixed
 	 */
-	public static function call($destination, $parameters)
+	public static function call($destination, $parameters = array())
 	{
 		if (strpos($destination, '@') === false)
 		{

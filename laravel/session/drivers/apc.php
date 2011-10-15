@@ -5,10 +5,6 @@ class APC implements Driver {
 	/**
 	 * The APC cache driver instance.
 	 *
-	 * This session driver relies on the APC cache driver to provide an interface for
-	 * working with an APC equipped server. The cache driver will provide all of the
-	 * functionality for retrieving and storing items in APC.
-	 *
 	 * @var Cache\Drivers\APC
 	 */
 	private $apc;

@@ -101,16 +101,6 @@ else
 	$response = Response::error('404');
 }
 
-if ($response instanceof Routing\Delegate)
-{
-	$response = Routing\Controller::call($response, $route->parameters);
-}
-
-if ( ! $response instanceof Response)
-{
-	$response = new Response($response);
-}
-
 /**
  * Stringify the response. We need to force the response to be
  * stringed before closing the session, since the developer may
@@ -127,9 +117,7 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	$flash = array(Input::old_input => Input::get());
-
-	Session\Manager::close($flash);
+	Session\Manager::close(array(Input::old_input => Input::get()));
 }
 
 /**
