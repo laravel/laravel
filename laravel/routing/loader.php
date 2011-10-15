@@ -50,25 +50,28 @@ class Loader {
 	{
 		$routes = (file_exists($path = $this->base.'routes'.EXT)) ? require $path : array();
 
-		return array_merge($this->nested(Arr::without(explode('/', $uri), array(''))), $routes);
+		$segments = Arr::without(explode('/', $uri), '');
+
+		return array_merge($this->nested($segments), $routes);
 	}
 
 	/**
 	 * Get the appropriate routes from the routes directory for a given URI.
+	 *
+	 * This method works backwards through the URI segments until we find the
+	 * deepest possible matching route directory. Once the deepest directory
+	 * is found, all of the applicable routes will be returend.
 	 *
 	 * @param  array  $segments
 	 * @return array
 	 */
 	protected function nested($segments)
 	{
-		// Work backwards through the URI segments until we find the deepest possible
-		// matching route directory. Once we find it, we will return those routes.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
-			if (file_exists($path = $this->nest.implode('/', array_slice($segments, 0, $key + 1)).EXT))
-			{
-				return require $path;
-			}
+			$path = $this->nest.implode('/', array_slice($segments, 0, $key + 1)).EXT;
+
+			if (file_exists($path)) return require $path;
 		}
 
 		return array();
@@ -76,6 +79,10 @@ class Loader {
 
 	/**
 	 * Get every route defined for the application.
+	 *
+	 * The entire routes directory will be searched recursively to gather
+	 * every route for the application. Of course, the routes in the root
+	 * routes file will be returned as well.
 	 *
 	 * @return array
 	 */
@@ -90,8 +97,8 @@ class Loader {
 			$routes = array_merge($routes, require $path);
 		}
 
-		// Since route files can be nested deep within the route directory,
-		// we need to recursively spin through each directory
+		if ( ! is_dir($this->nest)) return $routes;
+
 		$iterator = new Iterator(new DirectoryIterator($this->nest), Iterator::SELF_FIRST);
 
 		foreach ($iterator as $file)

@@ -129,7 +129,7 @@ if (Config::$items['session']['driver'] !== '')
 {
 	$flash = array(Input::old_input => Input::get());
 
-	Session\Manager::close($driver, $transporter, $flash);
+	Session\Manager::close($flash);
 }
 
 /**

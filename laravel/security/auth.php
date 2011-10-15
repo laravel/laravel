@@ -43,7 +43,7 @@ class Auth {
 	 * Get the current user of the application.
 	 *
 	 * This method will call the "user" closure in the authentication configuration file.
-	 * If the user is not authenticated, null will be returned.
+	 * If the user is not authenticated, null will be returned by the methd.
 	 *
 	 * If no user exists in the session, the method will check for a "remember me"
 	 * cookie and attempt to login the user based on the value of that cookie.
@@ -75,6 +75,10 @@ class Auth {
 	/**
 	 * Attempt to login a user based on a long-lived "remember me" cookie.
 	 *
+	 * We should be able to trust the cookie is valid, since all cookies
+	 * set by Laravel include a fingerprint hash. So, the cookie should
+	 * be safe to use within this method.
+	 *
 	 * @param  string  $cookie
 	 * @return mixed
 	 */
@@ -82,14 +86,7 @@ class Auth {
 	{
 		$cookie = explode('|', Crypter::decrypt($cookie));
 
-		// If there are not at least two elements in the array, the decrypted value
-		// is not valid and we wil just bail out of the method since the cookie may
-		// have been tampered with and should not be considered trustworthy.
-		if (count($cookie) < 2) return;
-
-		list($id, $username, $config) = array($cookie[0], $cookie[1], Config::get('auth'));
-
-		if ( ! is_null($user = call_user_func($config['user'], $id)) and $user->{$config['username']} === $username)
+		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $cookie[0])))
 		{
 			static::login($user);
 
@@ -100,14 +97,12 @@ class Auth {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * If the given credentials are valid, the user will be logged into
-	 * the application and their user ID will be stored in the session
-	 * via the "login" method.
+	 * If the credentials are valid, the user will be logged into the application
+	 * and their user ID will be stored in the session via the "login" method.
 	 *
-	 * The user may also be "remembered". When this option is set, the user
-	 * will be automatically logged into the application for one year via
-	 * an encrypted cookie containing their ID. Of course, if the user logs
-	 * out of the application, they will no longer be remembered.
+	 * The user may also be "remembered", which will keep the user logged into the
+	 * application for one year or until they logout. The user is rememberd via
+	 * an encrypted cookie.
 	 *
 	 * @param  string  $username
 	 * @param  string  $password
@@ -139,7 +134,7 @@ class Auth {
 	{
 		static::$user = $user;
 
-		if ($remember) static::remember($user->id, $user->{Config::get('auth.username')});
+		if ($remember) static::remember($user->id);
 
 		Session::put(Auth::user_key, $user->id);
 	}
@@ -148,17 +143,16 @@ class Auth {
 	 * Set a cookie so that users are "remembered" and don't need to login.
 	 *
 	 * @param  string  $id
-	 * @param  string  $username
 	 * @return void
 	 */
-	protected static function remember($id, $username)
+	protected static function remember($id)
 	{
-		$cookie = Crypter::encrypt($id.'|'.$username.'|'.Str::random(40));
+		$cookie = Crypter::encrypt($id.'|'.Str::random(40));
 
-		// This method assumes the "remember me" cookie should have the
-		// same configuration as the session cookie. Since this cookie,
-		// like the session cookie, should be kept very secure, it's
-		// probably safe to assume the settings are the same.
+		// This method assumes the "remember me" cookie should have the same
+		// configuration as the session cookie. Since this cookie, like the
+		// session cookie, should be kept very secure, it's probably safe
+		// to assume the settings are the same.
 		$config = Config::get('session');
 
 		Cookie::forever(Auth::remember_key, $cookie, $config['path'], $config['domain'], $config['secure']);
@@ -167,9 +161,9 @@ class Auth {
 	/**
 	 * Log the current user out of the application.
 	 *
-	 * The "logout" closure in the authenciation configuration file
-	 * will be called. All authentication cookies will be deleted
-	 * and the user ID will be removed from the session.
+	 * The "logout" closure in the authenciation configuration file will be
+	 * called. All authentication cookies will be deleted and the user ID
+	 * will be removed from the session.
 	 *
 	 * @return void
 	 */

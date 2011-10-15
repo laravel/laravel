@@ -30,6 +30,20 @@ class Manager {
 	public static $regenerated = false;
 
 	/**
+	 * The driver being used by the session.
+	 *
+	 * @var Drivers\Driver
+	 */
+	protected static $driver;
+
+	/**
+	 * The session ID transporter used by the session.
+	 *
+	 * @var Transporters\Transpoter
+	 */
+	protected static $transporter;
+
+	/**
 	 * Start the session handling for the current request.
 	 *
 	 * @param  Drivers\Driver            $driver
@@ -40,28 +54,30 @@ class Manager {
 	{
 		$config = Config::$items['session'];
 
-		static::$session = $driver->load($transporter->get($config));
+		$session = $driver->load($transporter->get($config));
 
 		// If the session is expired, a new session will be generated and all of
 		// the data from the previous session will be lost. The new session will
 		// be assigned a random, long string ID to uniquely identify it among
 		// the application's current users.
-		if (is_null(static::$session) or (time() - static::$session['last_activity']) > ($config['lifetime'] * 60))
+		if (is_null($session) or (time() - $session['last_activity']) > ($config['lifetime'] * 60))
 		{
 			static::$exists = false;
 
-			static::$session = array('id' => Str::random(40), 'data' => array());
+			$session = array('id' => Str::random(40), 'data' => array());
 		}
+
+		static::$session = $session;
 
 		// If a CSRF token is not present in the session, we will generate one.
 		// These tokens are generated per session to protect against Cross-Site
-		// Request Forgery attacks on the application. It is up to the developer
-		// to take advantage of them using the token methods on the Form class
-		// and the "csrf" route filter.
+		// Request Forgery attacks on the application.
 		if ( ! static::has('csrf_token'))
 		{
 			static::put('csrf_token', Str::random(16));
 		}
+
+		list(static::$driver, static::$transporter) = array($driver, $transporter);
 	}
 
 	/**
@@ -253,12 +269,10 @@ class Manager {
 	/**
 	 * Close the session handling for the request.
 	 *
-	 * @param  Drivers\Driver            $driver
-	 * @param  Transporters\Transporter  $transporter
-	 * @param  array                     $flash
+	 * @param  array  $flash
 	 * @return void
 	 */
-	public static function close(Driver $driver, Transporter $transporter, $flash = array())
+	public static function close($flash = array())
 	{
 		$config = Config::$items['session'];
 
@@ -267,17 +281,17 @@ class Manager {
 			static::flash($key, $value);
 		}
 
-		$driver->save(static::age(), $config, static::$exists);
+		static::$driver->save(static::age(), $config, static::$exists);
 
-		$transporter->put(static::$session['id'], $config);
+		static::$transporter->put(static::$session['id'], $config);
 
 		// Some session drivers may implement the Sweeper interface, meaning the
 		// driver must do its garbage collection manually. Alternatively, some
 		// drivers such as APC and Memcached are not required to manually
 		// clean up their sessions.
-		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and $driver instanceof Drivers\Sweeper)
+		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and static::$driver instanceof Drivers\Sweeper)
 		{
-			$driver->sweep(time() - ($config['lifetime'] * 60));
+			static::$driver->sweep(time() - ($config['lifetime'] * 60));
 		}
 	}
 

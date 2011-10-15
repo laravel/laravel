@@ -88,13 +88,8 @@ class Router {
 	 */
 	public function find($name)
 	{
-		// First we will check the cache of route names. If we have already found the given route,
-		// we will simply return that route from the cache to improve performance.
 		if (array_key_exists($name, $this->names)) return $this->names[$name];
 
-		// Spin through every route defined for the application searching for a route that has
-		// a name matching the name passed to the method. If the route is found, it will be
-		// cached in the array of named routes and returned.
 		foreach ($this->loader->everything() as $key => $value)
 		{
 			if (is_array($value) and isset($value['name']) and $value['name'] === $name)
@@ -116,11 +111,10 @@ class Router {
 		$routes = $this->loader->load($uri);
 
 		// Put the request method and URI in route form. Routes begin with
-		// the request method and a forward slash.
+		// the request method and a forward slash followed by the URI.
 		$destination = $method.' /'.trim($uri, '/');
 
-		// Check for a literal route match first. If we find one, there is
-		// no need to spin through all of the routes.
+		// Check for a literal route match first...
 		if (isset($routes[$destination]))
 		{
 			return Request::$route = new Route($destination, $routes[$destination], array());
@@ -130,22 +124,42 @@ class Router {
 		{
 			// Only check routes that have multiple URIs or wildcards since other
 			// routes would have been caught by the check for literal matches.
-			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false )
+			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
 			{
-				foreach (explode(', ', $keys) as $key)
+				if ( ! is_null($route = $this->match($destination, $keys, $callback)))
 				{
-					// Append the provided formats to the route as an optional regular expression.
-					if ( ! is_null($formats = $this->provides($callback))) $key .= '(\.('.implode('|', $formats).'))?';
-
-					if (preg_match('#^'.$this->translate_wildcards($key).'$#', $destination))
-					{
-						return Request::$route = new Route($keys, $callback, $this->parameters($destination, $key));
-					}
-				}				
+					return Request::$route = $route;
+				}	
 			}
 		}
 
-		return Request::$route = $this->route_to_controller($method, $uri, $destination);
+		return Request::$route = $this->controller($method, $uri, $destination);
+	}
+
+	/**
+	 * Attempt to match a given route destination to a given route.
+	 *
+	 * The destination's methods and URIs will be compared against the route's.
+	 * If there is a match, the Route instance will be returned, otherwise null
+	 * will be returned by the method.
+	 *
+	 * @param  string  $destination
+	 * @param  array   $keys
+	 * @param  mixed   $callback
+	 * @return mixed
+	 */
+	protected function match($destination, $keys, $callback)
+	{
+		foreach (explode(', ', $keys) as $key)
+		{
+			// Append the provided formats to the route as an optional regular expression.
+			if ( ! is_null($formats = $this->provides($callback))) $key .= '(\.('.implode('|', $formats).'))?';
+
+			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
+			{
+				return new Route($keys, $callback, $this->parameters($destination, $key));
+			}
+		}
 	}
 
 	/**
@@ -156,10 +170,11 @@ class Router {
 	 * @param  string  $destination
 	 * @return Route
 	 */
-	protected function route_to_controller($method, $uri, $destination)
+	protected function controller($method, $uri, $destination)
 	{
-		// If the request is to the root of the application, an ad-hoc route will be generated
-		// to the home controller's "index" method, making it the default controller method.
+		// If the request is to the root of the application, an ad-hoc route
+		// will be generated to the home controller's "index" method, making
+		// it the default controller method.
 		if ($uri === '/') return new Route($method.' /', 'home@index');
 
 		$segments = explode('/', trim($uri, '/'));
@@ -228,7 +243,7 @@ class Router {
 	 * @param  string  $key
 	 * @return string
 	 */
-	protected function translate_wildcards($key)
+	protected function wildcards($key)
 	{
 		$replacements = 0;
 

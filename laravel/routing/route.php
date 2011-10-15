@@ -104,19 +104,24 @@ class Route {
 		{
 			if ($response instanceof Delegate)
 			{
-				return $response;
+				return Controller::call($response, $this->parameters);
 			}
+			else
+			{
+				// The after filter and the framework expects all responses to
+				// be instances of the Response class. If the route did not
+				// return an instsance of Response, we will make on now.
+				if ( ! $response instanceof Response) $response = new Response($response);
 
-			$filters = array_merge($this->filters('after'), array('after'));
+				$filters = array_merge($this->filters('after'), array('after'));
 
-			Filter::run($filters, array($response));
+				Filter::run($filters, array($response));
 
-			return $response;
+				return $response;				
+			}
 		}
-		else
-		{
-			return Response::error('404');
-		}
+
+		return Response::error('404');
 	}
 
 	/**

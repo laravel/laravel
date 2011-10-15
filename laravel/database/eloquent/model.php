@@ -339,12 +339,12 @@ abstract class Model {
 
 		$this->relating_table = (is_null($table)) ? $this->intermediate_table($model) : $table;
 
-		// Allowing the overriding of the foreign and associated keys provides the flexibility for
-		// self-referential many-to-many relationships, such as a "buddy list".
+		// Allowing the overriding of the foreign and associated keys provides
+		// the flexibility for self-referential many-to-many relationships.
 		$this->relating_key = (is_null($foreign_key)) ? strtolower(static::model_name($this)).'_id' : $foreign_key;
 
-		// The associated key is the foreign key name of the related model. So, if the related model
-		// is "Role", the associated key on the intermediate table would be "role_id".
+		// The associated key is the foreign key name of the related model. 
+		// If the related model is "Role", the key would be "role_id".
 		$associated_key = (is_null($associated_key)) ? strtolower(static::model_name($model)).'_id' : $associated_key;
 
 		return static::query($model)

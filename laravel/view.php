@@ -133,9 +133,10 @@ class View {
 	{
 		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
 
-		// The view's name may specified in several different ways in the composers file.
-		// The composer may simple have a string value, which is the name. Or, the composer
-		// could have an array value in which a "name" key exists.
+		// The view's name may specified in several different ways in the
+		// composers file. The composer may simple have a string value,
+		// which is the name. Or, the composer could have an array
+		// value in which a "name" key exists.
 		foreach (static::$composers as $key => $value)
 		{
 			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name'))) return $key;
@@ -170,17 +171,15 @@ class View {
 	{
 		static::compose($this);
 
-		// All nested views and responses are evaluated before the main view. This allows
-		// the assets used by these views to be added to the asset container before the
+		// All nested views and responses are evaluated before the main view.
+		// This allows the assets used by these views to be added to the asset
+		// container before the
 		// main view is evaluated and dumps the links to the assets.
 		foreach ($this->data as &$data) 
 		{
 			if ($data instanceof View or $data instanceof Response) $data = $data->render();
 		}
 
-		// We don't want the view's contents to be rendered immediately, so we will fire
-		// up an output buffer to catch the view output. The output of the view will be
-		// rendered automatically later in the request lifecycle.
 		ob_start() and extract($this->data, EXTR_SKIP);
 
 		// If the view is a "Blade" view, we need to check the view for modifications
@@ -200,14 +199,15 @@ class View {
 	 */
 	protected function compile()
 	{
-		// For simplicity, compiled views are stored in a single directory by the MD5 hash of
-		// their name. This allows us to avoid recreating the entire view directory structure
-		// within the compiled views directory.
+		// For simplicity, compiled views are stored in a single directory by
+		// the MD5 hash of their name. This allows us to avoid recreating the
+		// entire view directory structure within the compiled views directory.
 		$compiled = STORAGE_PATH.'views/'.md5($this->view);
 
-		// The view will only be re-compiled if the view has been modified since the last compiled
-	 	// version of the view was created or no compiled view exists. Otherwise, the path will
-	 	// be returned without re-compiling.
+		// The view will only be re-compiled if the view has been modified
+		// since the last compiled version of the view was created or no
+		// compiled view exists. Otherwise, the path will be returned
+		// without re-compiling.
 		if ((file_exists($compiled) and filemtime($this->path) > filemtime($compiled)) or ! file_exists($compiled))
 		{
 			file_put_contents($compiled, Blade::parse($this->path));

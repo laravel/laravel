@@ -5,10 +5,11 @@ class Hasher {
 	/**
 	 * Hash a password using the Bcrypt hashing scheme.
 	 *
-	 * Bcrypt provides a future-proof hashing algorithm by allowing the number
-	 * of "rounds" to be increased, thus increasing the time is takes to generate
-	 * the hashed value. The longer is takes to generate the hash, the more
-	 * impractical a rainbow table attack against the hashes becomes.
+	 * Bcrypt provides a future-proof hashing algorithm by allowing the
+	 * number of "rounds" to be increased, thus increasing the time it
+	 * takes to generate the hashed value. The longer it takes takes
+	 * to generate the hash, the more impractical a rainbow table
+	 * attack against the hashes becomes.
 	 *
 	 * <code>
 	 *		// Create a Bcrypt hash of a value
@@ -42,14 +43,14 @@ class Hasher {
 	/**
 	 * Get a salt for use during Bcrypt hashing.
 	 *
+	 * Bcrypt expects salts to be 22 alpha-numeric characters including
+	 * dots and forward slashes. OpenSSL will be used if available and
+	 * the Str::random method will be used if it isn't.
+	 *
 	 * @return string
 	 */
 	protected static function salt()
 	{
-		// If OpenSSL is installed, we will use it to gather random bytes for generating
-		// the salt value. Otherwise, we will use the Str::random method. Bcrypt expects
-		// the salt to be a 22 character alpha-numeric string. The salt may also contain
-		// dots, plus signs, and forward slashes.
 		if (function_exists('openssl_random_pseudo_bytes'))
 		{
 			return substr(strtr(base64_encode(openssl_random_pseudo_bytes(16)), '+', '.'), 0 , 22);

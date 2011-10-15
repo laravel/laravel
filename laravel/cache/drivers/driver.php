@@ -57,8 +57,8 @@ abstract class Driver {
 	abstract public function put($key, $value, $minutes);
 
 	/**
-	 * Get an item from the cache. If the item doesn't exist in the cache, store
-	 * the default value in the cache and return it.
+	 * Get an item from the cache. If the item doesn't exist in the
+	 * cache, store the default value in the cache and return it.
 	 *
 	 * <code>
 	 *		// Get an item from the cache, or cache a value for 15 minutes if it doesn't exist

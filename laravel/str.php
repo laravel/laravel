@@ -99,12 +99,17 @@ class Str {
 	}
 
 	/**
-	 * Limit the number of chars in a string
+	 * Limit the number of characters in a string.
+	 *
+	 * Word integrity is preserved, so the number of characters in the
+	 * truncated string will be rounded to the nearest word ending.
 	 *
 	 * <code>
-	 *		// Limit the characters
-	 *		echo Str::limit_chars('taylor otwell', 3);
-	 * 		results in 'tay...'
+	 *		// Returns "Taylor..."
+	 *		echo Str::limit('Taylor Otwell', 3);
+	 *
+	 *		// Limit the number of characters and append a custom ending
+	 *		echo Str::limit('Taylor Otwell', 3, '---');
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -112,25 +117,24 @@ class Str {
 	 * @param  string  $end
 	 * @return string
 	 */
-	public static function limit($value, $length = 100, $end = '...')
+	public static function limit($value, $limit = 100, $end = '...')
 	{
-		if (static::length($value) <= $length) return $value;
+		if (static::length($value) < $limit) return $value;
 
-		if (function_exists('mb_substr'))
-		{
-			return mb_substr($value, 0, $length, Config::get('application.encoding')).$end;
-		}
+		$limit = preg_replace('/\s+?(\S+)?$/', '', substr($value, 0, $limit));
 
-		return substr($value, 0, $length).$end;
+		return (static::length($limit) == static::length($value)) ? $value : $limit.$end;
 	}
 
 	/**
 	 * Limit the number of words in a string
 	 *
 	 * <code>
-	 *		// Limit the words
-	 *		echo Str::limit_chars('This is a sentence.', 3);
-	 * 		results in 'This is a...'
+	 *		// Returns "This is a..."
+	 *		echo Str::words('This is a sentence.', 3);
+	 *
+	 *		// Limit the number of words and append a custom ending
+	 *		echo Str::words('This is a sentence.', 3, '---');
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -138,13 +142,13 @@ class Str {
 	 * @param  string  $end
 	 * @return string
 	 */
-	public static function limit_words($value, $length = 100, $end = '...')
+	public static function words($value, $words = 100, $end = '...')
 	{
-		$count = str_word_count($value,1);
+		$count = str_word_count($value, 1);
 
-		if ($count <= $length) return $value;
+		if ($count <= $words) return $value;
 
-		return implode(' ',array_slice($count,0,$length)).$end;
+		return implode(' ', array_slice($count, 0, $words)).$end;
 	}
 
 	/**

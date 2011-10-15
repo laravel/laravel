@@ -59,23 +59,16 @@ abstract class Controller {
 			$response = call_user_func_array(array($controller, $method), $parameters);
 		}
 
-		$filters = array_merge($controller->filters('after'), array('after'));
+		// The after filter and the framework expects all responses to
+		// be instances of the Response class. If the route did not
+		// return an instsance of Response, we will make on now.
+		if ( ! $response instanceof Response) $response = new Response($response);
+
+		$filters = array_merge($this->filters('after'), array('after'));
 
 		Filter::run($filters, array($response));
 
 		return $response;
-	}
-
-
-	/**
-	 * Determine if a given controller method is callable.
-	 *
-	 * @param  string  $method
-	 * @return bool
-	 */
-	protected static function hidden($method)
-	{
-		return $method == 'before' or $method == 'after' or strncmp($method, '_', 1) == 0;
 	}
 
 	/**
@@ -121,6 +114,17 @@ abstract class Controller {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Determine if a given controller method is callable.
+	 *
+	 * @param  string  $method
+	 * @return bool
+	 */
+	protected static function hidden($method)
+	{
+		return $method == 'before' or $method == 'after' or strncmp($method, '_', 1) == 0;
 	}
 
 	/**

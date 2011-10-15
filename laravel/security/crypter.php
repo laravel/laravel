@@ -1,6 +1,6 @@
 <?php namespace Laravel\Security; use Laravel\Config;
 
-if (trim(Config::get('application.key')) === '')
+if (trim(Config::$items['application']['key']) === '')
 {
 	throw new \Exception('The encryption class may not be used without an application key.');
 }
@@ -24,9 +24,8 @@ class Crypter {
 	/**
 	 * Encrypt a string using Mcrypt.
 	 *
-	 * The string will be encrypted using the cipher and mode specified 
-	 * when the crypter instance was created, and the final result will
-	 * be base64 encoded.
+	 * The string will be encrypted using the cipher and mode specified when the
+	 * crypter instance was created, and the final result will be base64 encoded.
 	 *
 	 * <code>
 	 *		// Encrypt a string using the Mcrypt PHP extension
@@ -55,7 +54,9 @@ class Crypter {
 
 		$iv = mcrypt_create_iv(static::iv_size(), $randomizer);
 
-		return base64_encode($iv.mcrypt_encrypt(static::$cipher, Config::get('application.key'), $value, static::$mode, $iv));
+		$key = Config::$items['application']['key'];
+
+		return base64_encode($iv.mcrypt_encrypt(static::$cipher, $key, $value, static::$mode, $iv));
 	}
 
 	/**
@@ -85,7 +86,9 @@ class Crypter {
 
 		$value = substr($value, static::iv_size());
 
-		return rtrim(mcrypt_decrypt(static::$cipher, Config::get('application.key'), $value, static::$mode, $iv), "\0");
+		$key = Config::$items['application']['key'];
+
+		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
 	}
 
 	/**

@@ -24,8 +24,8 @@ class Query {
 	public $selects;
 
 	/**
-	 * If the query is performing an aggregate function, this will contain the column
-	 * and and function to use when aggregating.
+	 * If the query is performing an aggregate function, this will contain
+	 * the column and and function to use when aggregating.
 	 *
 	 * @var array
 	 */
@@ -250,9 +250,6 @@ class Query {
 	 */
 	public function where_in($column, $values, $connector = 'AND', $not = false)
 	{
-		// The type set in this method will be used by the query grammar to call the
-		// appropriate compiler function for the where clause. For cleanliness, the
-		// compiler for "not in" and "in" statements is broken into two functions.
 		$type = ($not) ? 'where_not_in' : 'where_in';
 
 		$this->wheres[] = compact('type', 'column', 'values', 'connector');
@@ -309,9 +306,6 @@ class Query {
 	 */
 	public function where_null($column, $connector = 'AND', $not = false)
 	{
-		// The type set in this method will be used by the query grammar to call the
-		// appropriate compiler function for the where clause. For cleanliness, the
-		// compiler for "not null" and "null" statements is broken into two functions.
 		$type = ($not) ? 'where_not_null' : 'where_null';
 
 		$this->wheres[] = compact('type', 'column', 'connector');
@@ -371,11 +365,13 @@ class Query {
 		// Split the column names from the connectors.
 		$segments = preg_split('/(_and_|_or_)/i', $finder, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-		// The connector variable will determine which connector will be used for the condition.
-		// We'll change it as we come across new connectors in the dynamic method string.
+		// The connector variable will determine which connector will be
+		// used for the condition. We'll change it as we come across new
+		// connectors in the dynamic method string.
 		//
-		// The index variable helps us get the correct parameter value for the where condition.
-		// We increment it each time we add a condition.
+		// The index variable helps us get the correct parameter value
+		// for the where condition. We increment it each time we add
+		// a condition to the query.
 		$connector = 'AND';
 
 		$index = 0;
@@ -501,8 +497,9 @@ class Query {
 
 		$results = $this->connection->query($this->grammar->select($this), $this->bindings);
 
-		// Reset the SELECT clause so more queries can be performed using the same instance.
-		// This is helpful for getting aggregates and then getting actual results.
+		// Reset the SELECT clause so more queries can be performed using
+		// the same instance. This is helpful for getting aggregates and
+		// then getting actual results.
 		$this->selects = null;
 
 		return $results;
@@ -521,8 +518,9 @@ class Query {
 
 		$result = $this->connection->only($this->grammar->select($this), $this->bindings);
 
-		// Reset the aggregate so more queries can be performed using the same instance.
-		// This is helpful for getting aggregates and then getting actual results.
+		// Reset the aggregate so more queries can be performed using
+		// the same instance. This is helpful for getting aggregates
+		// and then getting actual results.
 		$this->aggregate = null;
 
 		return $result;
@@ -537,8 +535,9 @@ class Query {
 	 */
 	public function paginate($per_page = 20, $columns = array('*'))
 	{
-		// Calculate the current page for the request. The page number will be validated
-		// and adjusted by the Paginator class, so we can assume it is valid.
+		// Calculate the current page for the request. The page number
+		// will be validated and adjusted by the Paginator class,
+		// so we can assume it is valid.
 		$page = Paginator::page($total = $this->count(), $per_page);
 
 		return Paginator::make($this->for_page($page, $per_page)->get($columns), $total, $per_page);
@@ -552,9 +551,9 @@ class Query {
 	 */
 	public function insert($values)
 	{
-		// Force every insert to be treated like a batch insert. This simply makes creating
-		// the binding array easier. We will simply loop through each inserted row and merge
-		// the values together to get one big binding array.
+		// Force every insert to be treated like a batch insert to make creating
+		// the binding array simpler since we can just spin through the inserted
+		// rows as if there/ was more than one every time.
 		if ( ! is_array(reset($values))) $values = array($values);
 
 		$bindings = array();
@@ -568,7 +567,8 @@ class Query {
 	}
 
 	/**
-	 * Insert an array of values into the database table and return the value of the ID column.
+	 * Insert an array of values into the database table and
+	 * return the value of the ID column.
 	 *
 	 * @param  array   $values
 	 * @param  string  $sequence
@@ -626,7 +626,9 @@ class Query {
 	 */
 	public function update($values)
 	{
-		return $this->connection->query($this->grammar->update($this, $values), array_merge(array_values($values), $this->bindings));
+		$bindings =  array_merge(array_values($values), $this->bindings);
+
+		return $this->connection->query($this->grammar->update($this, $values), $bindings);
 	}
 
 	/**
@@ -647,8 +649,8 @@ class Query {
 	/**
 	 * Magic Method for handling dynamic functions.
 	 *
-	 * This method handles all calls to aggregate functions as well as the construction
-	 * of dynamic where clauses via the "dynamic_where" method.
+	 * This method handles all calls to aggregate functions as well
+	 * as the construction of dynamic where clauses.
 	 */
 	public function __call($method, $parameters)
 	{
@@ -659,7 +661,14 @@ class Query {
 
 		if (in_array($method, array('abs', 'count', 'min', 'max', 'avg', 'sum')))
 		{
-			return ($method == 'count') ? $this->aggregate(strtoupper($method), '*') : $this->aggregate(strtoupper($method), $parameters[0]);
+			if ($method == 'count')
+			{
+				return $this->aggregate(strtoupper($method), '*');
+			}
+			else
+			{
+				return $this->aggregate(strtoupper($method), $parameters[0]);
+			}
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Query class.");

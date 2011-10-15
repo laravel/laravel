@@ -117,6 +117,8 @@ class Arr {
 	 */
 	public static function without($array, $without = array())
 	{
+		$without = (array) $without;
+
 		foreach ((array) $array as $key => $value)
 		{
 			if (in_array($value, $without)) unset($array[$key]);

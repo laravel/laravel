@@ -262,20 +262,18 @@ class Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		// Force every insert to be treated like a batch insert.
-		// This simply makes creating the SQL syntax a little
-		// easier on us since we can always treat the values
-		// as if is an array containing multiple inserts.
+		// Force every insert to be treated like a batch insert. This simple makes
+		// creating the SQL syntax a little easier on us since we can always treat
+		// the values as if it is an array containing multiple inserts.
 		if ( ! is_array(reset($values))) $values = array($values);
 
-		// Since we only care about the column names, we can pass
-		// any of the insert arrays into the "columnize" method.
-		// The names should be the same for every insert.
+		// Since we only care about the column names, we can pass any of the insert
+		// arrays into the "columnize" method. The names should be the same for
+		// every insert to the table.
 		$columns = $this->columnize(array_keys(reset($values)));
 
-		// We need to create a string of comma-delimited insert
-		// segments. Each segment contains PDO place-holders for
-		// each value being inserted into the table.
+		// We need to create a string of comma-delimited insert segments. Each segment
+		// contains PDO place-holders for each value being inserted into the table.
 		$parameters = implode(', ', array_fill(0, count($values), '('.$this->parameterize(reset($values)).')'));
 
 		return 'INSERT INTO '.$this->wrap($query->from).' ('.$columns.') VALUES '.$parameters;
@@ -314,9 +312,9 @@ class Grammar {
 	}
 
 	/**
-	 * The following functions primarily serve as utility functions
-	 * for the grammar. They perform tasks such as wrapping values
-	 * in keyword identifiers or creating variable lists of bindings.
+	 * The following functions primarily serve as utility functions for
+	 * the grammar. They perform tasks such as wrapping values in keyword
+	 * identifiers or creating variable lists of bindings.
 	 */
 
 	/**
@@ -385,7 +383,7 @@ class Grammar {
 	 * Get the appropriate query parameter string for a value.
 	 *
 	 * If the value is an expression, the raw expression string should
-	 * will be returned, otherwise, the parameter place-holder will be
+	 * be returned, otherwise, the parameter place-holder will be
 	 * returned by the method.
 	 *
 	 * @param  mixed   $value
