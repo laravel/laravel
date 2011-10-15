@@ -39,6 +39,7 @@ return array(
 
 	'GET /' => function()
 	{
+		return Laravel\Str::limit('This is a string of text', 3, '...');
 		return View::make('home.index');
 	},
 

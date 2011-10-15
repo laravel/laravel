@@ -45,7 +45,7 @@ class StrTest extends PHPUnit_Framework_TestCase {
 
 	public function test_limit_words()
 	{
-		$this->assertEquals('This is a...', Laravel\Str::limit_words('This is a string of text', 3, '...'));
-		$this->assertEquals('This is a string&nbsp;', Laravel\Str::limit_words('This is a string of text', 4, '&nbsp;'));
+		$this->assertEquals('This is a...', Laravel\Str::words('This is a string of text', 3, '...'));
+		$this->assertEquals('This is a string&nbsp;', Laravel\Str::words('This is a string of text', 4, '&nbsp;'));
 	}
 }

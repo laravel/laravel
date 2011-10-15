@@ -101,11 +101,8 @@ class Str {
 	/**
 	 * Limit the number of characters in a string.
 	 *
-	 * Word integrity is preserved, so the number of characters in the
-	 * truncated string will be rounded to the nearest word ending.
-	 *
 	 * <code>
-	 *		// Returns "Taylor..."
+	 *		// Returns "Tay..."
 	 *		echo Str::limit('Taylor Otwell', 3);
 	 *
 	 *		// Limit the number of characters and append a custom ending
@@ -113,17 +110,20 @@ class Str {
 	 * </code>
 	 *
 	 * @param  string  $value
-	 * @param  int     $length
+	 * @param  int     $limit
 	 * @param  string  $end
 	 * @return string
 	 */
 	public static function limit($value, $limit = 100, $end = '...')
 	{
-		if (static::length($value) < $limit) return $value;
+		if (static::length($value) <= $limit) return $value;
 
-		$limit = preg_replace('/\s+?(\S+)?$/', '', substr($value, 0, $limit));
+		if (function_exists('mb_substr'))
+		{
+			return mb_substr($value, 0, $limit, Config::get('application.encoding')).$end;
+		}
 
-		return (static::length($limit) == static::length($value)) ? $value : $limit.$end;
+		return substr($value, 0, $limit).$end;
 	}
 
 	/**
