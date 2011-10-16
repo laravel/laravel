@@ -20,13 +20,13 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		// First, we need to build the base URL for the application, as well as handle
-		// the generation of links using SSL. It is possible for the developer to disable
-		// the generation of SSL links throughout the application, making it more
-		// convenient to create applications without SSL on the development box.
-		$base = Config::get('application.url').'/'.Config::get('application.index');
+		// First, we build the base URL for the application, as well as handle the generation
+		// of links using SSL. It is possible for the developer to disable the generation
+		// of SSL links throughout the application, making it more convenient to create
+		// applications without SSL on the development box.
+		$base = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
 
-		if ($https and Config::get('application.ssl'))
+		if ($https and Config::$items['application']['ssl'])
 		{
 			$base = preg_replace('~http://~', 'https://', $base, 1);
 		}
@@ -88,6 +88,8 @@ class URL {
 		{
 			$uris = explode(', ', key($route));
 
+			// Grab the first URI assigned to the route, removing the request URI
+			// and leading slash from the destination defined on the route.
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// Spin through each route parameter and replace the route wildcard
