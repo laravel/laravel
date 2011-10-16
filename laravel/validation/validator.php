@@ -208,7 +208,7 @@ class Validator {
 	 */
 	protected function validate_required($attribute, $value)
 	{
-		return (is_null($value) or (is_string($value) and trim($value) === ''));
+		return ! (is_null($value) or (is_string($value) and trim($value) === ''));
 	}
 
 	/**
