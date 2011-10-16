@@ -64,7 +64,7 @@ abstract class Controller {
 		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response) $response = new Response($response);
 
-		$filters = array_merge($this->filters('after'), array('after'));
+		$filters = array_merge($controller->filters('after'), array('after'));
 
 		Filter::run($filters, array($response));
 
