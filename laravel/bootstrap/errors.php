@@ -53,9 +53,9 @@ $handler = function($e) use ($formatter)
 };
 
 /**
- * Register the exception, error, and shutdown error handlers.
- * These handlers will catch all PHP exceptions and errors and
- * pass the exceptions into the common Laravel error handler.
+ * Register the PHP exception, error, and shutdown error handlers.
+ * These handlers will catch all PHP exceptions and errors and pass
+ * the exceptions into the common Laravel error handler.
  */
 set_exception_handler(function($e) use ($handler)
 {
