@@ -496,10 +496,9 @@ class Validator {
 	 * Get the proper error message for an attribute and rule.
 	 *
 	 * Developer specified attribute specific rules take first priority.
-	 * Developer specified error rules take second priority.
-	 *
-	 * If the message has not been specified by the developer, the default
-	 * will be used from the validation language file.
+	 * Developer specified error rules take second priority. If the error
+	 * message has not been specified by the developer, the default will
+	 * be used from the validation language file.
 	 *
 	 * @param  string  $attribute
 	 * @param  string  $rule
@@ -507,14 +506,21 @@ class Validator {
 	 */
 	protected function message($attribute, $rule)
 	{
+		// First we'll check for developer specified, attribute specific messages. These messages
+		// take first priority if they have been specified. They allow the fine-grained tuning
+		// of error messages for each rule.
 		if (array_key_exists($attribute.'_'.$rule, $this->messages))
 		{
 			return $this->messages[$attribute.'_'.$rule];
 		}
+		// Next we'll check for developer specified, rule specific messages. These allow the
+		// developer to override the error message for an entire rule, regardless of the
+		// attribute being validated by that rule.
 		elseif (array_key_exists($rule, $this->messages))
 		{
 			return $this->messages[$rule];
 		}
+		// If the 
 		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 		{
 			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
