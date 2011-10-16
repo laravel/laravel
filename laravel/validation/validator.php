@@ -139,10 +139,7 @@ class Validator {
 
 		foreach ($this->rules as $attribute => $rules)
 		{
-			foreach ($rules as $rule)
-			{
-				$this->check($attribute, $rule);
-			}
+			foreach ($rules as $rule) $this->check($attribute, $rule);
 		}
 
 		return count($this->errors->messages) == 0;
@@ -159,27 +156,33 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		if ( ! method_exists($this, $validator = 'validate_'.$rule) and ! isset(static::$validators[$rule]))
-		{
-			throw new \Exception("Validation rule [$rule] doesn't exist.");
-		}
+		// Verify that the attribute and rule combination is actually validatable before
+		// attempting to call the validation rule. Unless the rule implicitly requires
+		// the attribute to exist, we will not call any rules for attributes that are
+		// not in the validator's attribute array.
+		if ( ! $this->validatable($rule, $attribute, $value = Arr::get($this->attributes, $attribute))) return;
 
-		// Extract the actual value for the attribute. We don't want every rule
-		// to worry about obtaining the value from the array of attributes.
-		$value = Arr::get($this->attributes, $attribute);
-
-		// No validation will be run for attributes that do not exist unless the
-		// rule being validated is "required" or "accepted". No other rules have
-		// implicit "required" checks for validation.
-		if ( ! $this->validate_required($attribute, $value) and ! in_array($rule, array('required', 'accepted')))
-		{
-			return;
-		}
-
-		if ( ! $this->$validator($attribute, $value, $parameters, $this))
+		if ( ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
 		{
 			$this->error($attribute, $rule, $parameters);
 		}
+	}
+
+	/**
+	 * Determine if an attribute is validatable.
+	 *
+	 * To be considered validatable, the attribute must either exist, or the rule being
+	 * checked must implicitly validate "required", such as the "required" rule or the
+	 * "accepted" rule. No other rules have implicit "required" validation.
+	 *
+	 * @param  string  $rule
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validatable($rule, $attribute, $value)
+	{
+		return ($this->validate_required($attribute, $value) or in_array($rule, array('required', 'accepted')));
 	}
 
 	/**
