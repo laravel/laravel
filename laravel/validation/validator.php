@@ -1,6 +1,7 @@
 <?php namespace Laravel\Validation;
 
 use Closure;
+use Laravel\Arr;
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Lang;
@@ -52,13 +53,6 @@ class Validator {
 	protected $language;
 
 	/**
-	 * The registered custom validators.
-	 *
-	 * @var array
-	 */
-	protected static $validators = array();
-
-	/**
 	 * The size related validation rules.
 	 *
 	 * @var array
@@ -71,6 +65,13 @@ class Validator {
 	 * @var array
 	 */
 	protected $numeric_rules = array('numeric', 'integer');
+
+	/**
+	 * The registered custom validators.
+	 *
+	 * @var array
+	 */
+	protected static $validators = array();
 
 	/**
 	 * Create a new validator instance.
@@ -165,12 +166,15 @@ class Validator {
 
 		// Extract the actual value for the attribute. We don't want every rule
 		// to worry about obtaining the value from the array of attributes.
-		$value = (isset($this->attributes[$attribute])) ? $this->attributes[$attribute] : null;
+		$value = Arr::get($this->attributes, $attribute);
 
 		// No validation will be run for attributes that do not exist unless the
 		// rule being validated is "required" or "accepted". No other rules have
 		// implicit "required" checks for validation.
-		if ( ! $this->validate_required($attribute) and ! in_array($rule, array('required', 'accepted'))) return;
+		if ( ! $this->validate_required($attribute, $value) and ! in_array($rule, array('required', 'accepted')))
+		{
+			return;
+		}
 
 		if ( ! $this->$validator($attribute, $value, $parameters, $this))
 		{
@@ -204,11 +208,7 @@ class Validator {
 	 */
 	protected function validate_required($attribute, $value)
 	{
-		if (is_null($value)) return false;
-
-		if (is_string($value) and trim($value) === '') return false;
-
-		return true;
+		return (is_null($value) or (is_string($value) and trim($value) === ''));
 	}
 
 	/**
