@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database;
 
+use Laravel\IoC;
 use Laravel\Config;
 
 class Manager {
@@ -56,27 +57,12 @@ class Manager {
 	 */
 	protected static function connect($config)
 	{
-		if (isset($config['connector'])) { return call_user_func($config['connector'], $config); }
-
-		switch ($config['driver'])
+		if (isset($config['connector']))
 		{
-			case 'sqlite':
-				$connector = new Connectors\SQLite;
-				break;
-
-			case 'mysql':
-				$connector = new Connectors\MySQL;
-				break;
-
-			case 'pgsql':
-				$connector = new Connectors\Postgres;
-				break;
-
-			default:
-				throw new \Exception("Database driver [{$config['driver']}] is not supported.");
+			return call_user_func($config['connector'], $config);
 		}
 
-		return $connector->connect($config);
+		return IoC::container()->core("database.connectors.{$config['driver']}")->connect($config);
 	}
 
 	/**

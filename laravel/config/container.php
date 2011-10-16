@@ -41,6 +41,33 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Laravel Database Connectors
+	|--------------------------------------------------------------------------
+	|
+	| The following components are used to establish PDO database connections
+	| to the various database systems supported by Laravel. By resolving these
+	| connectors out of the IoC container, new database systems may be added
+	| by simply registering a connector.
+	|
+	*/
+
+	'laravel.database.connectors.sqlite' => function($c)
+	{
+		return new Database\Connectors\SQLite;
+	},
+
+	'laravel.database.connectors.mysql' => function($c)
+	{
+		return new Database\Connectors\MySQL;
+	},
+
+	'laravel.database.connectors.pgsql' => function($c)
+	{
+		return new Database\Connectors\Postgres;
+	},
+
+	/*
+	|--------------------------------------------------------------------------
 	| Laravel Caching Components
 	|--------------------------------------------------------------------------
 	|
