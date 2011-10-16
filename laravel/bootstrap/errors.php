@@ -78,9 +78,9 @@ register_shutdown_function(function() use ($handler)
 });
 
 /**
- * Set the error reporting and display levels. Since the framework
+ * Turn off all PHP error reporting and display. Since the framework
  * will be displaying the exception messages, we don't want PHP to
- * display any error information.
+ * display any ugly error information.
  */
 error_reporting(-1);
 
