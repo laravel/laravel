@@ -104,7 +104,7 @@ class Route {
 		{
 			if ($response instanceof Delegate)
 			{
-				return Controller::call($response, $this->parameters);
+				return Controller::call($response->destination, $this->parameters);
 			}
 			else
 			{
