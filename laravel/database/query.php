@@ -110,7 +110,6 @@ class Query {
 	public function distinct()
 	{
 		$this->distinct = true;
-
 		return $this;
 	}
 
@@ -123,7 +122,6 @@ class Query {
 	public function select($columns = array('*'))
 	{
 		$this->selects = (array) $columns;
-
 		return $this;
 	}
 
@@ -405,7 +403,6 @@ class Query {
 	public function order_by($column, $direction = 'asc')
 	{
 		$this->orderings[] = compact('column', 'direction');
-
 		return $this;
 	}
 
@@ -418,7 +415,6 @@ class Query {
 	public function skip($value)
 	{
 		$this->offset = $value;
-
 		return $this;
 	}
 
@@ -431,7 +427,6 @@ class Query {
 	public function take($value)
 	{
 		$this->limit = $value;
-
 		return $this;
 	}
 
