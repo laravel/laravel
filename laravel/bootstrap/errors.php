@@ -33,9 +33,8 @@ $formatter = function($e)
 };
 
 /**
- * Create the exception handler function. All of the handlers
- * registered with PHP will call this handler when an error
- * occurs so the code stays D.R.Y.
+ * Create the exception handler function. All of the error handlers
+ * registered with PHP call this closure to keep the code D.R.Y.
  */
 $handler = function($e) use ($formatter)
 {
@@ -72,7 +71,9 @@ register_shutdown_function(function() use ($handler)
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		$handler(new \ErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']));
+		extract($error, EXTR_SKIP);
+
+		$handler(new \ErrorException($message, $type, 0, $file, $line));
 	}	
 });
 
