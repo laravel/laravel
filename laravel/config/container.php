@@ -47,7 +47,7 @@ return array(
 	| The following components are used to establish PDO database connections
 	| to the various database systems supported by Laravel. By resolving these
 	| connectors out of the IoC container, new database systems may be added
-	| by simply registering a connector.
+	| by simply registering a connector in the container.
 	|
 	*/
 
