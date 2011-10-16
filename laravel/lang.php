@@ -72,7 +72,7 @@ class Lang {
 	 */
 	public static function line($key, $replacements = array(), $language = null)
 	{
-		if (is_null($language)) $language = Config::get('application.language');
+		if (is_null($language)) $language = Config::$items['application']['language'];
 
 		return new static($key, $replacements, $language);
 	}

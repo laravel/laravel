@@ -78,7 +78,7 @@ switch (Request::method())
  */
 unset($input[Request::spoofer]);
 
-Input::set($input);
+Input::$input = $input;
 
 /**
  * Route the request to the proper route in the application. If a
@@ -88,7 +88,7 @@ Input::set($input);
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-list($method, $uri) = array(Request::method(), Request::uri());
+list($uri, $method) = array(Request::uri(), Request::method());
 
 $route = IoC::container()->core('routing.router')->route($method, $uri);
 

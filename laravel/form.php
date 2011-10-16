@@ -43,7 +43,9 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
-		list($attributes['action'], $attributes['method']) = array(static::action($action, $https), static::method($method));
+		$attributes['action'] = static::action($action, $https);
+
+		$attributes['method'] =  static::method($method);
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
@@ -433,7 +435,9 @@ class Form {
 	 */
 	protected static function checkable($type, $name, $value, $checked, $attributes)
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'checked' => ($checked) ? 'checked' : null));
+		if ($checked) $attributes['checked'] = 'checked';
+
+		$attributes['id'] = static::id($name, $attributes);
 
 		return static::input($type, $name, $value, $attributes);
 	}
@@ -508,9 +512,15 @@ class Form {
 	 */
 	protected static function id($name, $attributes)
 	{
-		if (array_key_exists('id', $attributes)) return $attributes['id'];
+		if (array_key_exists('id', $attributes))
+		{
+			return $attributes['id'];
+		}
 
-		if (in_array($name, static::$labels)) return $name;
+		if (in_array($name, static::$labels))
+		{
+			return $name;
+		}
 	}
 
 }

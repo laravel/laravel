@@ -7,7 +7,7 @@ class Input {
 	 *
 	 * @var array
 	 */
-	protected static $input;
+	public static $input;
 
 	/**
 	 * The key used to store old input in the session.
@@ -15,17 +15,6 @@ class Input {
 	 * @var string
 	 */
 	const old_input = 'laravel_old_input';
-
-	/**
-	 * Set the input for the current request.
-	 *
-	 * @param  array  $input
-	 * @return void
-	 */
-	public static function set($input)
-	{
-		static::$input = $input;
-	}
 
 	/**
 	 * Get all of the input data for the request.

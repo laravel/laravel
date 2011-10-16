@@ -71,9 +71,9 @@ class Cookie {
 	 *
 	 * If a negative number of minutes is specified, the cookie will be deleted.
 	 *
-	 * Note: This method's signature is very similar to the PHP setcookie method.
-	 *       However, you simply need to pass the number of minutes for which you
-	 *       wish the cookie to be valid. No funky time calculation is required.
+	 * This method's signature is very similar to the PHP setcookie method.
+	 * However, you simply need to pass the number of minutes for which you
+	 * wish the cookie to be valid. No funky time calculation is required.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value

@@ -188,9 +188,28 @@ class Str {
 	 */
 	public static function random($length, $type = 'alnum')
 	{
-		$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		return substr(str_shuffle(str_repeat(static::pool($type), 5)), 0, $length);
+	}
 
-		return substr(str_shuffle(str_repeat(($type == 'alnum') ? $pool.'0123456789' : $pool, 5)), 0, $length);
+	/**
+	 * Get the character pool for a given type of random string.
+	 *
+	 * @param  string  $type
+	 * @return string
+	 */
+	protected static function pool($type)
+	{
+		switch ($type)
+		{
+			case 'alpha':
+				return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+			case 'alnum':
+				return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+			default:
+				throw new \Exception("Invalid random string type [$type].");
+		}
 	}
 
 }

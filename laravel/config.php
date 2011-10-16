@@ -3,13 +3,6 @@
 class Config {
 
 	/**
-	 * The paths to the configuration files.
-	 *
-	 * @var array
-	 */
-	public static $paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
-
-	/**
 	 * All of the loaded configuration items.
 	 *
 	 * The configuration arrays are keyed by their owning file name.
@@ -17,6 +10,13 @@ class Config {
 	 * @var array
 	 */
 	public static $items = array();
+
+	/**
+	 * The paths to the configuration files.
+	 *
+	 * @var array
+	 */
+	public static $paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
 
 	/**
 	 * Determine if a configuration item or file exists.
@@ -114,9 +114,14 @@ class Config {
 	{
 		$segments = explode('.', $key);
 
-		$key = (count($segments) > 1) ? implode('.', array_slice($segments, 1)) : null;
-
-		return array($segments[0], $key);
+		if (count($segments) >= 2)
+		{
+			return array($segments[0], implode('.', array_slice($segments, 1)));
+		}
+		else
+		{
+			return array($segments[0], null);
+		}
 	}
 
 	/**
