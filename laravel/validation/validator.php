@@ -515,20 +515,15 @@ class Validator {
 		{
 			return $this->messages[$rule];
 		}
+		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
+		{
+			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
+
+			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
+		}
 		else
 		{
-			$message = Lang::line('validation.'.$rule)->get($this->language);
-
-			// For "size" rules that are validating strings or files, we need to adjust
-			// the default error message for the appropriate units.
-			if (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
-			{
-				return (array_key_exists($attribute, Input::file()))
-                                   ? rtrim($message, '.').' '.Lang::line('validation.kilobytes')->get($this->language).'.'
-                                   : rtrim($message, '.').' '.Lang::line('validation.characters')->get($this->language).'.';
-			}
-
-			return $message;
+			return Lang::line("validation.{$rule}")->get($this->language);
 		}
 	}
 
