@@ -192,9 +192,7 @@ class Validator {
 	 */
 	protected function error($attribute, $rule, $parameters)
 	{
-		$message = $this->get_message($attribute, $rule);
-
-		$message = $this->format_message($message, $attribute, $rule, $parameters);
+		$message = $this->format($this->message($attribute, $rule), $attribute, $rule, $parameters);
 
 		$this->errors->add($attribute, $message);
 	}
@@ -273,7 +271,7 @@ class Validator {
 	 */
 	protected function validate_size($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute) == $parameters[0];
+		return $this->get_size($attribute, $value) == $parameters[0];
 	}
 
 	/**
@@ -286,7 +284,7 @@ class Validator {
 	 */
 	protected function validate_between($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute) >= $parameters[0] and $this->get_size($attribute) <= $parameters[1];
+		return $this->get_size($attribute, $value) >= $parameters[0] and $this->get_size($attribute, $value) <= $parameters[1];
 	}
 
 	/**
@@ -299,7 +297,7 @@ class Validator {
 	 */
 	protected function validate_min($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute) >= $parameters[0];
+		return $this->get_size($attribute, $value) >= $parameters[0];
 	}
 
 	/**
@@ -312,25 +310,28 @@ class Validator {
 	 */
 	protected function validate_max($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute) <= $parameters[0];
+		return $this->get_size($attribute, $value) <= $parameters[0];
 	}
 
 	/**
 	 * Get the size of an attribute.
 	 *
+	 * This method will determine if the attribute is a number, string, or file and
+	 * return the proper size accordingly. If it is a number, then number itself is
+	 * the size; if it is a file, the size is kilobytes in the size; if it is a
+	 * string, the length is the size.
+	 *
 	 * @param  string  $attribute
+	 * @param  mixed   $value
 	 * @return mixed
 	 */
-	protected function get_size($attribute)
+	protected function get_size($attribute, $value)
 	{
-		if (is_numeric($this->attributes[$attribute]) and $this->has_rule($attribute, $this->numeric_rules))
+		if (is_numeric($value) and $this->has_rule($attribute, $this->numeric_rules))
 		{
 			return $this->attributes[$attribute];
 		}
-
-		$value = $this->attributes[$attribute];
-
-		if (array_key_exists($attribute, Input::file()))
+		elseif (array_key_exists($attribute, Input::file()))
 		{
 			return $value['size'] / 1024;
 		}
@@ -501,7 +502,7 @@ class Validator {
 	 * @param  string  $rule
 	 * @return string
 	 */
-	protected function get_message($attribute, $rule)
+	protected function message($attribute, $rule)
 	{
 		if (array_key_exists($attribute.'_'.$rule, $this->messages))
 		{
@@ -537,7 +538,7 @@ class Validator {
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	protected function format_message($message, $attribute, $rule, $parameters)
+	protected function format($message, $attribute, $rule, $parameters)
 	{
 		// First we will get the language line for the attribute being validated.
 		// Storing attribute names in a validation file allows the easily replacement
