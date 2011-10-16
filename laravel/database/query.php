@@ -208,7 +208,9 @@ class Query {
 	 */
 	public function where($column, $operator, $value, $connector = 'AND')
 	{
-		$this->wheres[] = array_merge(array('type' => 'where'), compact('column', 'operator', 'value', 'connector'));
+		$type = 'where';
+
+		$this->wheres[] = compact('type', 'column', 'operator', 'value', 'connector');
 
 		$this->bindings[] = $value;
 
