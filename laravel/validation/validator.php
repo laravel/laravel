@@ -508,6 +508,7 @@ class Validator {
 		{
 			return $this->messages[$attribute.'_'.$rule];
 		}
+
 		// Next we'll check for developer specified, rule specific messages. These allow the
 		// developer to override the error message for an entire rule, regardless of the
 		// attribute being validated by that rule.
@@ -515,12 +516,20 @@ class Validator {
 		{
 			return $this->messages[$rule];
 		}
+
+		// If the rule being validated is a "size" rule and the attribute is not a number,
+		// we will need to gather the specific size message for the type of attribute
+		// being validated, either a file or a string.
 		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 		{
 			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
 
 			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
 		}
+
+		// If no developer specified messages have been set, and no other special messages
+		// apply to the rule, we will just pull the default validation message from the
+		// validation language file.
 		else
 		{
 			return Lang::line("validation.{$rule}")->get($this->language);
@@ -628,8 +637,7 @@ class Validator {
 	public function __call($method, $parameters)
 	{
 		// First we will slice the "validate_" prefix off of the validator
-		// since custom validators are not registered with such a prefix.
-		// Then, if a custom validator exists, we will call it.
+		// since customvalidators aren't registered with such a prefix.
 		if (isset(static::$validators[$method = substr($method, 9)]))
 		{
 			return call_user_func_array(static::$validators[$method], $parameters);
