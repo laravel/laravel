@@ -51,20 +51,20 @@ return array(
 	|
 	*/
 
-	'laravel.database.connectors.sqlite' => function($c)
+	'laravel.database.connectors.sqlite' => array('resolver' => function($c)
 	{
 		return new Database\Connectors\SQLite;
-	},
+	}),
 
-	'laravel.database.connectors.mysql' => function($c)
+	'laravel.database.connectors.mysql' => array('resolver' => function($c)
 	{
 		return new Database\Connectors\MySQL;
-	},
+	}),
 
-	'laravel.database.connectors.pgsql' => function($c)
+	'laravel.database.connectors.pgsql' => array('resolver' => function($c)
 	{
 		return new Database\Connectors\Postgres;
-	},
+	}),
 
 	/*
 	|--------------------------------------------------------------------------
