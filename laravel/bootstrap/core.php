@@ -9,7 +9,7 @@ define('EXT', '.php');
 define('BLADE_EXT', '.blade.php');
 
 define('APP_PATH',        realpath($application).'/');
-define('BASE_PATH',       realpath(str_replace('laravel', '', $laravel)).'/');
+define('BASE_PATH',       realpath("$laravel/..").'/');
 define('PACKAGE_PATH',    realpath($packages).'/');
 define('PUBLIC_PATH',     realpath($public).'/');
 define('STORAGE_PATH',    realpath($storage).'/');
