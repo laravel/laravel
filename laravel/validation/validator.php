@@ -60,6 +60,13 @@ class Validator {
 	protected $size_rules = array('size', 'between', 'min', 'max');
 
 	/**
+	 * The inclusion related validation rules.
+	 *
+	 * @var array
+	 */
+	protected $inclusion_rules = array('in', 'not_in', 'mimes');
+
+	/**
 	 * The numeric related validation rules.
 	 *
 	 * @var array
@@ -195,7 +202,7 @@ class Validator {
 	 */
 	protected function error($attribute, $rule, $parameters)
 	{
-		$message = $this->format($this->message($attribute, $rule), $attribute, $rule, $parameters);
+		$message = $this->replace($this->message($attribute, $rule), $attribute, $rule, $parameters);
 
 		$this->errors->add($attribute, $message);
 	}
@@ -545,31 +552,44 @@ class Validator {
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	protected function format($message, $attribute, $rule, $parameters)
+	protected function replace($message, $attribute, $rule, $parameters)
 	{
-		// First we will get the language line for the attribute being validated.
-		// Storing attribute names in a validation file allows the easily replacement
-		// of attribute names (email) with more reader friendly versions (E-Mail).
-		$display = Lang::line('validation.attributes.'.$attribute)->get($this->language, str_replace('_', ' ', $attribute));
+		$message = str_replace(':attribute', $this->attribute($attribute), $message);
 
-		$message = str_replace(':attribute', $display, $message);
-
-		// The "size" family of rules all have place-holders for the values applicable
-		// to their function. For example, the "max" rule has a ":max" place-holder.
 		if (in_array($rule, $this->size_rules))
 		{
+			// Even though every size rule will not have a place-holder for min, max, and size,
+			// we will go ahead and make replacements for all of them just for convenience.
+			// Except for "between" every replacement should be the first parameter.
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
 			$message = str_replace(array(':size', ':min', ':max'), array($parameters[0], $parameters[0], $max), $message);
 		}
-		// The "inclusion" rules, which are rules that check if a value is within
-		// a list of values, all have a place-holder to display the allowed values.
-		elseif (in_array($rule, array('in', 'not_in', 'mimes')))
+		elseif (in_array($rule, $this->inclusion_rules))
 		{
 			$message = str_replace(':values', implode(', ', $parameters), $message);
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Get the displayable name for a given attribute.
+	 *
+	 * Storing attribute names in the language file allows a more reader friendly
+	 * version of the attribute name to be place in the :attribute place-holder.
+	 *
+	 * If no language line is specified for the attribute, a default formatting
+	 * will be used for the attribute.
+	 *
+	 * @param  string  $attribute
+	 * @return string
+	 */
+	protected function attribute($attribute)
+	{
+		$display = Lang::line('validation.attributes.'.$attribute)->get($this->language);
+
+		return (is_null($display)) ? str_replace('_', ' ', $attribute) : $display;
 	}
 
 	/**
