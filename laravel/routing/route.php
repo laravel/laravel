@@ -95,7 +95,7 @@ class Route {
 		// request cycle makes tasks like authorization convenient.
 		$before = array_merge(array('before'), $this->filters('before'));
 
-		if ( ! is_null($response = $this->filter($before, array(), true)))
+		if ( ! is_null($response = Filter::run($before, array(), true)))
 		{
 			return $response;
 		}
@@ -117,7 +117,7 @@ class Route {
 
 				Filter::run($filters, array($response));
 
-				return $response;				
+				return $response;
 			}
 		}
 
@@ -209,6 +209,7 @@ class Route {
 	public function __call($method, $parameters)
 	{
 		if (strpos($method, 'is_') === 0) return $this->is(substr($method, 3));
+		throw new \Exception('Method "'.$method.'" not found', E_NOTICE);
 	}
 
 }
