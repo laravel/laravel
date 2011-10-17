@@ -209,7 +209,8 @@ class Route {
 	public function __call($method, $parameters)
 	{
 		if (strpos($method, 'is_') === 0) return $this->is(substr($method, 3));
-		throw new \Exception('Method "'.$method.'" not found', E_NOTICE);
+
+		throw new \Exception("Call to undefined method [$method] on Route class.");
 	}
 
 }
