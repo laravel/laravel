@@ -1,11 +1,23 @@
 <?php namespace Laravel;
 
 /**
- * Create the exception formatter closure. This function will format
- * the exception message and severity for display and return the two
- * formatted strings in an array.
+ * Define a closure that will return a formatted error message
+ * when given an exception. This function will be used by the
+ * error handler to create a more readable message.
  */
-$formatter = function($e)
+$message = function($e)
+{	
+	$file = str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile());
+	
+	return rtrim($e->getMessage(), '.').' in '.$file.' on line '.$e->getLine().'.';	
+};
+
+/**
+ * Define a clousre that will return a more readable version
+ * of the severity of an exception. This function will be used
+ * by the error handler when parsing exceptions.
+ */
+$severity = function($e)
 {
 	$levels = array(
 		0                  => 'Error',
@@ -23,31 +35,25 @@ $formatter = function($e)
 		E_STRICT           => 'Runtime Notice',
 	);
 
-	$file = str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile());
-
-	$message = rtrim($e->getMessage(), '.').' in '.$file.' on line '.$e->getLine().'.';
-
-	$severity = (array_key_exists($e->getCode(), $levels)) ? $levels[$e->getCode()] : $e->getCode();
-
-	return array($severity, $message);
+	return (array_key_exists($e->getCode(), $levels)) ? $levels[$e->getCode()] : $e->getCode();
 };
 
 /**
  * Create the exception handler function. All of the error handlers
  * registered with PHP call this closure to keep the code D.R.Y.
+ * Each of the formatting closures defined above will be passed
+ * into the handler for convenient use.
  */
-$handler = function($e) use ($formatter)
+$handler = function($e) use ($message, $severity)
 {
-	list($severity, $message) = $formatter($e);
-
 	$config = Config::get('error');
 
 	if ($config['log'])
 	{
-		call_user_func($config['logger'], $e, $severity, $message, $config);
+		call_user_func($config['logger'], $e, $severity($e), $message($e), $config);
 	}
 
-	call_user_func($config['handler'], $e, $severity, $message, $config);
+	call_user_func($config['handler'], $e, $severity($e), $message($e), $config);
 
 	exit(1);
 };

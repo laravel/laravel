@@ -12,48 +12,13 @@ require SYS_PATH.'config'.EXT;
 require SYS_PATH.'loader'.EXT;
 
 /**
- * If a Laravel environment has been specified on the server, we will
- * add a path to the configuration manager for the environment.
- */
-if (isset($_SERVER['LARAVEL_ENV']))
-{
-	define('ENV_CONFIG_PATH', CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/');
-
-	Config::glance(ENV_CONFIG_PATH);
-}
-
-/**
  * Load some core configuration files by default so we don't have to
- * let them fall through the Config loader. This will allow us to
+ * let them fall through the Config parser. This will allow us to
  * load these files faster for each request.
  */
-foreach (array('application', 'session') as $file)
-{
-	$config = require CONFIG_PATH.$file.EXT;
-
-	if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = ENV_CONFIG_PATH.$file.EXT))
-	{
-		$config = array_merge($config, require $path);
-	}
-
-	Config::$items[$file] = $config;
-}
-
-/**
- * Load the container configuration into the Config class. We load
- * this file manually to avoid the overhead of Config::load.
- */
-Config::$items['container'] = require SYS_CONFIG_PATH.'container'.EXT;
-
-if (file_exists($path = CONFIG_PATH.'container'.EXT))
-{
-	Config::$items['container'] = array_merge(Config::$items['container'], require $path);
-}
-
-if (isset($_SERVER['LARAVEL_ENV']) and file_exists($path = ENV_CONFIG_PATH.'container'.EXT))
-{
-	Config::$items['container'] = array_merge(Config::$items['container'], require $path);
-}
+Config::load('application');
+Config::load('container');
+Config::load('session');
 
 /**
  * Bootstrap the application inversion of control (IoC) container.
@@ -67,7 +32,7 @@ $container = new Container(Config::$items['container']);
 
 IoC::$container = $container;
 
-unset($config, $container);
+unset($container);
 
 /**
  * Register the application auto-loader. The auto-loader is responsible
@@ -79,7 +44,9 @@ spl_autoload_register(array('Laravel\\Loader', 'load'));
 Loader::$aliases = Config::$items['application']['aliases'];
 
 /**
- * Define a few convenient global functions.
+ * Define a few convenient global functions. These functions primarily
+ * exists to provide a short way of accessing functions commonly used
+ * in views, allowing the reduction of code noise.
  */
 function e($value)
 {

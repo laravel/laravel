@@ -16,7 +16,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	public static $paths = array(SYS_CONFIG_PATH, CONFIG_PATH);
+	public static $paths = array(SYS_CONFIG_PATH, CONFIG_PATH, ENV_CONFIG_PATH);
 
 	/**
 	 * Determine if a configuration item or file exists.
@@ -130,7 +130,7 @@ class Config {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	protected static function load($file)
+	public static function load($file)
 	{
 		if (isset(static::$items[$file])) return true;
 
@@ -141,7 +141,7 @@ class Config {
 		// cascading of configuration options from system to application.
 		foreach (static::$paths as $directory)
 		{
-			if (file_exists($path = $directory.$file.EXT))
+			if ($directory !== '' and file_exists($path = $directory.$file.EXT))
 			{
 				$config = array_merge($config, require $path);
 			}
