@@ -90,19 +90,13 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('0.0.0.0', Laravel\Request::ip());
 	}
 
-	public function test_protocol_returns_http_when_not_https()
+	public function test_protocol_returns_server_protocol()
 	{
-		$this->assertEquals('http', Laravel\Request::protocol());
+		$_SERVER['SERVER_PROTOCOL'] = 'taylor';
+		$this->assertEquals('taylor', Laravel\Request::protocol());
 
-		$_SERVER['HTTPS'] = 'off';
-
-		$this->assertEquals('http', Laravel\Request::protocol());
-	}
-
-	public function test_protocol_returns_https_when_https()
-	{
-		$_SERVER['HTTPS'] = 'on';
-		$this->assertEquals('https', Laravel\Request::protocol());
+		unset($_SERVER['SERVER_PROTOCOL']);
+		$this->assertEquals('HTTP/1.1', Laravel\Request::protocol());
 	}
 
 	public function test_ajax_method_returns_false_when_not_ajax()
