@@ -269,17 +269,11 @@ class Manager {
 	/**
 	 * Close the session handling for the request.
 	 *
-	 * @param  array  $flash
 	 * @return void
 	 */
-	public static function close($flash = array())
+	public static function close()
 	{
 		$config = Config::$items['session'];
-
-		foreach ($flash as $key => $value)
-		{
-			static::flash($key, $value);
-		}
 
 		static::$driver->save(static::age(), $config, static::$exists);
 

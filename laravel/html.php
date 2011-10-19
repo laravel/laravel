@@ -34,7 +34,7 @@ class HTML {
 	{
 		$url = static::entities(URL::to_asset($url));
 
-		return '<script type="text/javascript" src="'.$url.'"'.static::attributes($attributes).'></script>'.PHP_EOL;
+		return '<script src="'.$url.'"'.static::attributes($attributes).'></script>'.PHP_EOL;
 	}
 
 	/**
@@ -241,7 +241,7 @@ class HTML {
 	 */
 	public static function ol($list, $attributes = array())
 	{
-		return static::list_elements('ol', $list, $attributes);
+		return static::listing('ol', $list, $attributes);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class HTML {
 	 */
 	public static function ul($list, $attributes = array())
 	{
-		return static::list_elements('ul', $list, $attributes);
+		return static::listing('ul', $list, $attributes);
 	}
 
 	/**
@@ -264,13 +264,13 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	private static function list_elements($type, $list, $attributes = array())
+	private static function listing($type, $list, $attributes = array())
 	{
 		$html = '';
 
 		foreach ($list as $key => $value)
 		{
-			$html .= (is_array($value)) ? static::list_elements($type, $value) : '<li>'.static::entities($value).'</li>';
+			$html .= (is_array($value)) ? static::elements($type, $value) : '<li>'.static::entities($value).'</li>';
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
@@ -278,6 +278,9 @@ class HTML {
 
 	/**
 	 * Build a list of HTML attributes from an array.
+	 *
+	 * Numeric-keyed attributes will be assigned the same key and value to handle
+	 * attributes such as "autofocus" and "required".
 	 *
 	 * @param  array   $attributes
 	 * @return string
@@ -288,8 +291,6 @@ class HTML {
 
 		foreach ((array) $attributes as $key => $value)
 		{
-			// Assume numeric-keyed attributes to have the same key and value.
-			// Example: required="required", autofocus="autofocus", etc.
 			if (is_numeric($key)) $key = $value;
 
 			if ( ! is_null($value))

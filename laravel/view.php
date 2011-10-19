@@ -133,12 +133,16 @@ class View {
 	{
 		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
 
-		// The view's name may specified in several different ways in the composers file.
-		// The composer may simple have a string value, which is the name. Or, it may
-		// an array value in which a "name" key exists.
+		// The view's name may specified in several different ways in the
+		// composers file. The composer may simple have a string value,
+		// which is the name. Or, it may an array value in which a
+		// "name" key exists.
 		foreach (static::$composers as $key => $value)
 		{
-			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name'))) return $key;
+			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name')))
+			{
+				return $key;
+			}
 		}
 	}
 
@@ -170,10 +174,10 @@ class View {
 	{
 		static::compose($this);
 
-		// All nested views and responses are evaluated before the main view.
-		// This allows the assets used by these views to be added to the asset
-		// container before the
-		// main view is evaluated and dumps the links to the assets.
+		// All nested views and responses are evaluated before the
+		// main view. This allows the assets used by these views to
+		// be added to the asset container before the main view is
+		// evaluated and dumps the links to the assets.
 		foreach ($this->data as &$data) 
 		{
 			if ($data instanceof View or $data instanceof Response)
@@ -184,9 +188,9 @@ class View {
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
-		// If the view is a "Blade" view, we need to check the view for modifications
-		// and get the path to the compiled view file. Otherwise, we'll just use the
-		// regular path to the view.
+		// If the view is a "Blade" view, we need to check the view for
+		// modifications and get the path to the compiled view file.
+		// Otherwise, we'll just use the regular path to the view.
 		$view = (strpos($this->path, BLADE_EXT) !== false) ? $this->compile() : $this->path;
 
 		try { include $view; } catch (Exception $e) { ob_get_clean(); throw $e; }

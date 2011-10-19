@@ -92,6 +92,9 @@ class Loader {
 
 		$routes = array();
 
+		// First, we'll grab the base routes from the application directory.
+		// Once we have these, we'll merge all of the nested routes in the
+		// routes directory into this array of routes.
 		if (file_exists($path = $this->base.'routes'.EXT))
 		{
 			$routes = array_merge($routes, require $path);

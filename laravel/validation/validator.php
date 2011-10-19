@@ -563,7 +563,9 @@ class Validator {
 			// Except for "between" every replacement should be the first parameter.
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
-			$message = str_replace(array(':size', ':min', ':max'), array($parameters[0], $parameters[0], $max), $message);
+			$replace =  array($parameters[0], $parameters[0], $max);
+
+			$message = str_replace(array(':size', ':min', ':max'), $replace, $message);
 		}
 		elseif (in_array($rule, $this->inclusion_rules))
 		{

@@ -37,7 +37,9 @@ if (Config::$items['session']['driver'] !== '')
  * Manually load some core classes that are used on every request
  * This allows to avoid using the loader for these classes.
  */
+require SYS_PATH.'input'.EXT;
 require SYS_PATH.'request'.EXT;
+require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
@@ -117,7 +119,7 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	Session\Manager::close(array(Input::old_input => Input::get()));
+	Session\Manager::close();
 }
 
 /**

@@ -50,13 +50,16 @@ return array(
 
 	'after' => function($response)
 	{
-		// Do stuff after every request to your application.
+		if (Config::get('session.driver') !== '')
+		{
+			Session::flash(Input::old_input, Input::old());
+		}
 	},
 
 
 	'auth' => function()
 	{
-		if ( ! Auth::check()) return Redirect::to('login');
+		if ( ! Auth::check()) return Redirect::to_login();
 	},
 
 

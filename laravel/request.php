@@ -160,14 +160,11 @@ class Request {
 	/**
 	 * Get the HTTP protocol for the request.
 	 *
-	 * This method will return either "https" or "http", depending on whether HTTPS
-	 * is being used for the current request.
-	 *
 	 * @return string
 	 */
 	public static function protocol()
 	{
-		return (isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+		return Arr::get($_SERVER, 'SERVER_PROTOCOL', 'HTTP/1.1');
 	}
 
 	/**
@@ -177,7 +174,7 @@ class Request {
 	 */
 	public static function secure()
 	{
-		return static::protocol() == 'https';
+		return isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off';
 	}
 
 	/**

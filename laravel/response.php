@@ -227,7 +227,7 @@ class Response {
 	/**
 	 * Send the response to the browser.
 	 *
-	 * All of the response header will be sent to the browser first, followed by
+	 * All of the response headers will be sent to the browser first, followed by
 	 * the content of the response instance, which will be evaluated and rendered
 	 * by the render method.
 	 *
@@ -235,26 +235,33 @@ class Response {
 	 */
 	public function send()
 	{
-		if ( ! isset($this->headers['Content-Type']))
-		{
-			$this->header('Content-Type', 'text/html; charset=utf-8');
-		}
-
-		if ( ! headers_sent()) $this->send_headers();
+		if ( ! headers_sent()) $this->headers();
 
 		echo $this->render();
 	}
 
 	/**
-	 * Send the response headers to the browser.
+	 * Send all of the response headers to the browser.
+	 *
+	 * The develop may set any response headers they wish using the "header" method.
+	 * All of the headers set by the developer will be automatically sent to the
+	 * browser when the response is sent via the "send" method. There is no need
+	 * to call this method before calling the "send" method.
+	 *
+	 * The protocol and status header will be set automatically, as well as the
+	 * content-type and charset, unless those headers have been set explicitly.
+	 * The content-type charset used will be the application encoding.
 	 *
 	 * @return void
 	 */
-	public function send_headers()
+	public function headers()
 	{
-		$protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+		if ( ! isset($this->headers['Content-Type']))
+		{
+			$this->header('Content-Type', 'text/html; charset='.Config::$items['application']['encoding']);
+		}
 
-		header($protocol.' '.$this->status.' '.$this->statuses[$this->status]);
+		header(Request::protocol().' '.$this->status.' '.$this->statuses[$this->status]);
 
 		foreach ($this->headers as $name => $value)
 		{	

@@ -13,6 +13,7 @@
 | Tick... Tock... Tick... Tock
 |--------------------------------------------------------------------------
 */
+
 define('START_TIME', microtime(true));
 
 /*
@@ -43,6 +44,7 @@ $public      = __DIR__;
 | 3... 2... 1... Lift-off!
 |--------------------------------------------------------------------------
 */
+
 require $laravel.'/laravel.php';
 
-//echo number_format((microtime(true) - START_TIME) * 1000, 2);
+echo number_format((microtime(true) - START_TIME) * 1000, 2);

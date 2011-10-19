@@ -43,9 +43,9 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
-		$attributes['action'] = static::action($action, $https);
-
 		$attributes['method'] =  static::method($method);
+		
+		$attributes['action'] = static::action($action, $https);
 
 		if ( ! array_key_exists('accept-charset', $attributes))
 		{
@@ -207,7 +207,9 @@ class Form {
 
 		$id = static::id($name, $attributes);
 
-		return '<input'.HTML::attributes(array_merge($attributes, compact('type', 'name', 'value', 'id'))).'>'.PHP_EOL;
+		$attributes = array_merge($attributes, compact('type', 'name', 'value', 'id'));
+
+		return '<input'.HTML::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
@@ -363,18 +365,35 @@ class Form {
 	 */	
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+		$attributes['id'] = static::id($name, $attributes);
+		
+		$attributes['name'] = $name;
 
 		$html = array();
 
 		foreach ($options as $value => $display)
 		{
-			$option_attributes = array('value' => HTML::entities($value), 'selected' => ($value == $selected) ? 'selected' : null);
-
-			$html[] = '<option'.HTML::attributes($option_attributes).'>'.HTML::entities($display).'</option>';
+			$html[] = static::option($value, $display, $selected);
 		}
 
 		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
+	}
+
+	/**
+	 * Create a HTML select element option.
+	 *
+	 * @param  string  $value
+	 * @param  string  $display
+	 * @return string  $selected
+	 * @return string
+	 */
+	protected static function option($value, $display, $selected)
+	{
+		$selected = ($value === $selected) ? 'selected' : null;
+
+		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
+
+		return '<option'.HTML::attributes($attributes).'>'.HTML::entities($display).'</option>';
 	}
 
 	/**

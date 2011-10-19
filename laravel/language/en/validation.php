@@ -2,6 +2,38 @@
 
 return array(
 
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Attribute Language Lines
+	|--------------------------------------------------------------------------
+	|
+	| The following language lines are used to swap attribute place-holders
+	| with something more reader friendly, such as "E-Mail Address" instead
+	| of "email".
+	|
+	| The Validator class will automatically search this array of lines when
+	| attempting to replace the :attribute place-holder in error messages.
+	|
+	*/
+
+	'attributes' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Language Lines
+	|--------------------------------------------------------------------------
+	|
+	| The following language lines contain the default error messages used
+	| by the validator class. Some of the rules contain multiple versions,
+	| such as the size (max, min, between) rules. These versions are used
+	| for different input types such as strings and files.
+	|
+	| These language lines may be easily changed by the developer to provide
+	| custom error messages in their application. Error messages for custom
+	| validation rules may also be added to this file.
+	|
+	*/
+
 	"accepted"       => "The :attribute must be accepted.",
 	"active_url"     => "The :attribute is not a valid URL.",
 	"alpha"          => "The :attribute may only contain letters.",

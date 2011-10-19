@@ -1,43 +1,15 @@
 <?php namespace Laravel;
 
-/**
- * Define a multitude of framework constants. Mainly, we define
- * various file paths to core locations of the framework, as well
- * as a couple of file extensions.
- */
-define('EXT', '.php');
-define('BLADE_EXT', '.blade.php');
-
-define('APP_PATH',        realpath($application).'/');
-define('BASE_PATH',       realpath("$laravel/..").'/');
-define('PACKAGE_PATH',    realpath($packages).'/');
-define('PUBLIC_PATH',     realpath($public).'/');
-define('STORAGE_PATH',    realpath($storage).'/');
-define('SYS_PATH',        realpath($laravel).'/');
-define('CACHE_PATH',      STORAGE_PATH.'cache/');
-define('CONFIG_PATH',     APP_PATH.'config/');
-define('CONTROLLER_PATH', APP_PATH.'controllers/');
-define('DATABASE_PATH',   STORAGE_PATH.'database/');
-define('LANG_PATH',       APP_PATH.'language/');
-define('LIBRARY_PATH',    APP_PATH.'libraries/');
-define('MODEL_PATH',      APP_PATH.'models/');
-define('ROUTE_PATH',      APP_PATH.'routes/');
-define('SESSION_PATH',    STORAGE_PATH.'sessions/');
-define('SYS_CONFIG_PATH', SYS_PATH.'config/');
-define('SYS_LANG_PATH',   SYS_PATH.'language/');
-define('SYS_VIEW_PATH',   SYS_PATH.'views/');
-define('VIEW_PATH',       APP_PATH.'views/');
-
-unset($laravel, $application, $config, $packages, $public, $storage);
+require 'constants.php';
 
 /**
  * Load the classes that can't be resolved through the auto-loader.
  * These are typically classes that are used by the auto-loader or
  * configuration classes, and therefore cannot be auto-loaded.
  */
+require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'loader'.EXT;
-require SYS_PATH.'arr'.EXT;
 
 /**
  * If a Laravel environment has been specified on the server, we will
