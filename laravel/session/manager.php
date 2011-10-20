@@ -67,15 +67,13 @@ class Manager {
 			$session = array('id' => Str::random(40), 'data' => array());
 		}
 
+		// Now that we should have a valid session, we can set the static session
+		// property and check for session data such as the CSRF token. We will
+		// also set the static driver and transporter properties, since they
+		// will be used to close the session at the end of the request.
 		static::$session = $session;
 
-		// If a CSRF token is not present in the session, we will generate one.
-		// These tokens are generated per session to protect against Cross-Site
-		// Request Forgery attacks on the application.
-		if ( ! static::has('csrf_token'))
-		{
-			static::put('csrf_token', Str::random(16));
-		}
+		if ( ! static::has('csrf_token')) static::put('csrf_token', Str::random(16));
 
 		list(static::$driver, static::$transporter) = array($driver, $transporter);
 	}

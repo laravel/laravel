@@ -54,57 +54,58 @@ class Crypter {
 
 		$iv = mcrypt_create_iv(static::iv_size(), $randomizer);
 
-		$key = Config::$items['application']['key'];
-
-		return base64_encode($iv.mcrypt_encrypt(static::$cipher, $key, $value, static::$mode, $iv));
+		return base64_encode($iv.mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv));
 	}
 
 	/**
 	 * Decrypt a string using Mcrypt.
-	 *
-	 * <code>
-	 *		// Decrypt a string using the Mcrypt PHP extension
-	 *		$decrypted = Crypter::decrypt($secret);
-	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	public static function decrypt($value)
 	{
-		if ( ! is_string($value = base64_decode($value, true)))
-		{
-			throw new \Exception('Decryption error. Input value is not valid base64 data.');
-		}
+		list($iv, $value) = static::parse(base64_decode($value, true));
 
-		list($iv, $value) = static::parse($value);
-
-		$key = Config::$items['application']['key'];
-
-		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
+		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
 	}
 
 	/**
 	 * Parse an encrypted value into the input vector and the actual value.
+	 *
+	 * If the given value is not valid base64 data, an exception will be thrown.
 	 *
 	 * @param  string  $value
 	 * @return array
 	 */
 	protected static function parse($value)
 	{
+		if ( ! is_string($value))
+		{
+			throw new \Exception('Decryption error. Input value is not valid base64 data.');
+		}
+
 		return array(substr($value, 0, static::iv_size()), substr($value, static::iv_size()));
 	}
 
 	/**
 	 * Get the input vector size for the cipher and mode.
 	 *
-	 * Different ciphers and modes use varying lengths of input vectors.
-	 *
 	 * @return int
 	 */
 	protected static function iv_size()
 	{
 		return mcrypt_get_iv_size(static::$cipher, static::$mode);
+	}
+
+	/**
+	 * Get the encryption key from the application configuration.
+	 *
+	 * @return string
+	 */
+	protected static function key()
+	{
+		return Config::$items['application']['key'];
 	}
 
 }

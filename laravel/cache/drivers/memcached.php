@@ -1,4 +1,4 @@
-<?php namespace Laravel\Cache\Drivers; use Memcache, Laravel\Config;
+<?php namespace Laravel\Cache\Drivers; use Memcache;
 
 class Memcached extends Driver {
 

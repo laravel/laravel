@@ -22,7 +22,16 @@ class Grammar {
 	 *
 	 * @var array
 	 */
-	protected $components = array('aggregate', 'selects', 'from', 'joins', 'wheres', 'orderings', 'limit', 'offset');
+	protected $components = array(
+		'aggregate',
+		'selects',
+		'from',
+		'joins',
+		'wheres',
+		'orderings',
+		'limit',
+		'offset'
+	);
 
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
@@ -272,9 +281,12 @@ class Grammar {
 		// every insert to the table.
 		$columns = $this->columnize(array_keys(reset($values)));
 
-		// We need to create a string of comma-delimited insert segments. Each segment
-		// contains PDO place-holders for each value being inserted into the table.
-		$parameters = implode(', ', array_fill(0, count($values), '('.$this->parameterize(reset($values)).')'));
+		// Build the list of parameter place-holders for the array of values bound
+		// to the query. Each insert statement should have the same number of bound
+		// parameters, so we can just use the first array of values.
+		$parameters = $this->parameterize(reset($values));
+
+		$parameters = implode(', ', array_fill(0, count($values), '('.$parameters.')'));
 
 		return 'INSERT INTO '.$this->wrap($query->from).' ('.$columns.') VALUES '.$parameters;
 	}

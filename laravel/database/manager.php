@@ -40,7 +40,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new \Exception("Database connection configuration is not defined for connection [$connection].");
+				throw new \Exception("Database connection is not defined for connection [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);

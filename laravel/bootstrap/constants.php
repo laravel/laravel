@@ -1,16 +1,13 @@
 <?php
 
-/**
- * Define the extensions used by the framework.
- */
-define('EXT',       '.php');
 define('BLADE_EXT', '.blade.php');
+define('CRLF', chr(13).chr(10));
+define('EXT', '.php');
 
 /**
- * Define a function that registers an array of constants
- * if they haven't already been registered. This allows the
- * constants to be changed from their default values when
- * unit testing the framework.
+ * Define a function that registers an array of constants if they
+ * haven't already been registered. This allows the constants to
+ * be changed from their default values when unit testing.
  */
 function constants($constants)
 {
@@ -21,9 +18,9 @@ function constants($constants)
 }
 
 /**
- * Register the core framework paths. All other paths are
- * built on top of these core paths. All of these paths are
- * changable by the developer in the front controller.
+ * Register the core framework paths. All other paths are built on
+ * top of these core paths. All of these paths are changable by
+ * the developer in the front controller.
  */
 $constants = array(
 	'APP_PATH'     => realpath($application).'/',
@@ -37,8 +34,9 @@ $constants = array(
 constants($constants);
 
 /**
- * Register all of the other framework paths. All of these
- * paths are built on top of the core paths above.
+ * Register all of the other framework paths. All of these paths
+ * are built on top of the core paths above. We still allow the
+ * developer to override these for easy unit testing.
  */
 $constants = array(
 	'CACHE_PATH'      => STORAGE_PATH.'cache/',
@@ -63,7 +61,7 @@ unset($constants);
 
 /**
  * Set the Laravel environment configuration path constant.
- * The environment is controller by setting an environment
+ * The environment is controlled by setting an environment
  * variable on the server running Laravel.
  */
 $environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : '';

@@ -59,20 +59,31 @@ $handler = function($e) use ($message, $severity)
 };
 
 /**
- * Register the PHP exception, error, and shutdown error handlers.
- * These handlers will catch all PHP exceptions and errors and pass
- * the exceptions into the common Laravel error handler.
+ * Register the PHP exception handler. The framework throws exceptions
+ * on every error that cannot be handled. All of those exceptions will
+ * fall into this closure for processing.
  */
 set_exception_handler(function($e) use ($handler)
 {
 	$handler($e); 
 });
 
+/**
+ * Register the PHP error handler. All PHP errors will fall into this
+ * handler, which will convert the error into an ErrorException object
+ * and pass the exception into the common exception handler.
+ */
 set_error_handler(function($number, $error, $file, $line) use ($handler)
 {
 	$handler(new \ErrorException($error, $number, 0, $file, $line));
 });
 
+/**
+ * Register the PHP shutdown handler. This function will be called at
+ * the end of the PHP script or on a fatal PHP error. If an error has
+ * occurred, we will convert it to an ErrorException and pass it to
+ * the common exception handler.
+ */
 register_shutdown_function(function() use ($handler)
 {
 	if ( ! is_null($error = error_get_last()))
