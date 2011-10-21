@@ -12,6 +12,13 @@ class Lang {
 	protected static $lines = array();
 
 	/**
+	 * The paths containing the language files.
+	 *
+	 * @var array
+	 */
+	protected static $paths = array(LANG_PATH);
+
+	/**
 	 * The key of the language line being retrieved.
 	 *
 	 * @var string
@@ -31,13 +38,6 @@ class Lang {
 	 * @var string
 	 */
 	protected $language;
-
-	/**
-	 * The paths containing the language files.
-	 *
-	 * @var array
-	 */
-	protected $paths = array(LANG_PATH);
 
 	/**
 	 * Create a new Lang instance.
@@ -164,7 +164,7 @@ class Lang {
 
 		$language = array();
 
-		foreach ($this->paths as $directory)
+		foreach (static::$paths as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
 			{
