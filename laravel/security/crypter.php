@@ -54,7 +54,9 @@ class Crypter {
 
 		$iv = mcrypt_create_iv(static::iv_size(), $randomizer);
 
-		return base64_encode($iv.mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv));
+		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+
+		return base64_encode($iv.$value);
 	}
 
 	/**
@@ -67,20 +69,20 @@ class Crypter {
 	{
 		list($iv, $value) = static::parse(base64_decode($value, true));
 
-		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
+		$value = mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+
+		return rtrim($value, "\0");
 	}
 
 	/**
 	 * Parse an encrypted value into the input vector and the actual value.
-	 *
-	 * If the given value is not valid base64 data, an exception will be thrown.
 	 *
 	 * @param  string  $value
 	 * @return array
 	 */
 	protected static function parse($value)
 	{
-		if ( ! is_string($value))
+		if ($value === false)
 		{
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}

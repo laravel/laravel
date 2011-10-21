@@ -93,6 +93,12 @@ class Route {
 		// Since "before" filters can halt the request cycle, we will return
 		// any response from the before filters. Allowing filters to halt the
 		// request cycle makes tasks like authorization convenient.
+		//
+		// The route is responsible for running the global filters, and any
+		// filters defined on the route itself. Since all incoming requests
+		// come through a route (either defined or ad-hoc), it makes sense
+		// to let the route handle the global filters. If the route uses
+		// a controller, the controller will only call its own filters.
 		$before = array_merge(array('before'), $this->filters('before'));
 
 		if ( ! is_null($response = Filter::run($before, array(), true)))
@@ -104,21 +110,22 @@ class Route {
 		{
 			if ($response instanceof Delegate)
 			{
-				return Controller::call($response->destination, $this->parameters);
+				$response = Controller::call($response->destination, $this->parameters);
 			}
-			else
+
+			// The after filter and the framework expects all responses to
+			// be instances of the Response class. If the route did not
+			// return an instsance of Response, we will make on now.
+			if ( ! $response instanceof Response)
 			{
-				// The after filter and the framework expects all responses to
-				// be instances of the Response class. If the route did not
-				// return an instsance of Response, we will make on now.
-				if ( ! $response instanceof Response) $response = new Response($response);
-
-				$filters = array_merge($this->filters('after'), array('after'));
-
-				Filter::run($filters, array($response));
-
-				return $response;
+				$response = new Response($response);
 			}
+
+			$filters = array_merge($this->filters('after'), array('after'));
+
+			Filter::run($filters, array($response));
+
+			return $response;
 		}
 
 		return Response::error('404');

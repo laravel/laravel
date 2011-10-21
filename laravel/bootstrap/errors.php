@@ -6,8 +6,12 @@
  * error handler to create a more readable message.
  */
 $message = function($e)
-{	
-	$file = str_replace(array(APP_PATH, SYS_PATH), array('APP_PATH/', 'SYS_PATH/'), $e->getFile());
+{
+	$search = array(APP_PATH, SYS_PATH);
+
+	$replace = array('APP_PATH/', 'SYS_PATH/');
+
+	$file = str_replace($search, $replace, $e->getFile());
 	
 	return rtrim($e->getMessage(), '.').' in '.$file.' on line '.$e->getLine().'.';	
 };
@@ -35,14 +39,23 @@ $severity = function($e)
 		E_STRICT           => 'Runtime Notice',
 	);
 
-	return (array_key_exists($e->getCode(), $levels)) ? $levels[$e->getCode()] : $e->getCode();
+	if (array_key_exists($e->getCode(), $levels))
+	{
+		$level = $levels[$e->getCode()];
+	}
+	else
+	{
+		$level = $e->getCode();
+	}
+
+	return $level;
 };
 
 /**
  * Create the exception handler function. All of the error handlers
- * registered with PHP call this closure to keep the code D.R.Y.
- * Each of the formatting closures defined above will be passed
- * into the handler for convenient use.
+ * registered by the framework call this closure to avoid duplicate
+ * code. Each of the formatting closures defined above will be
+ * passed into the handler for convenient use.
  */
 $handler = function($e) use ($message, $severity)
 {

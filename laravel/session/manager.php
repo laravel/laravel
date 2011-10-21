@@ -137,9 +137,9 @@ class Manager {
 	/**
 	 * Write an item to the session flash data.
 	 *
-	 * Flash data only exists for the next request. After that, it will
-	 * be removed from the session. Flash data is useful for temporary
-	 * status or welcome messages.
+	 * Flash data only exists for the next request. After that, it will be
+	 * removed from the session. Flash data is useful for temporary status
+	 * or welcome messages.
 	 *
 	 * <code>
 	 *		// Flash an item to the session
@@ -236,9 +236,6 @@ class Manager {
 	{
 		static::$session['last_activity'] = time();
 
-		// To age the data, we will forget all of the old keys and then
-		// rewrite the newly flashed items to have old keys, which will
-		// be available for the next request.
 		foreach (static::$session['data'] as $key => $value)
 		{
 			if (strpos($key, ':old:') === 0) static::forget($key);

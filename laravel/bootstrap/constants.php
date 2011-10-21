@@ -49,7 +49,6 @@ $constants = array(
 	'ROUTE_PATH'      => APP_PATH.'routes/',
 	'SESSION_PATH'    => STORAGE_PATH.'sessions/',
 	'SYS_CONFIG_PATH' => SYS_PATH.'config/',
-	'SYS_LANG_PATH'   => SYS_PATH.'language/',
 	'SYS_VIEW_PATH'   => SYS_PATH.'views/',
 	'VIEW_PATH'       => APP_PATH.'views/',
 );

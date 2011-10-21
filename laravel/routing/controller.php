@@ -60,13 +60,11 @@ abstract class Controller {
 		}
 
 		// The after filter and the framework expects all responses to
-		// be instances of the Response class. If the route did not
+		// be instances of the Response class. If the method did not
 		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response) $response = new Response($response);
 
-		$filters = array_merge($controller->filters('after'), array('after'));
-
-		Filter::run($filters, array($response));
+		Filter::run($controller->filters('after'), array($response));
 
 		return $response;
 	}

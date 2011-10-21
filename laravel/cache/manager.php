@@ -12,8 +12,8 @@ class Manager {
 	/**
 	 * Get a cache driver instance.
 	 *
-	 * If no driver name is specified, the default cache driver will be
-	 * returned as defined in the cache configuration file.
+	 * If no driver name is specified, the default cache driver will
+	 * be returned as defined in the cache configuration file.
 	 *
 	 * <code>
 	 *		// Get the default cache driver instance

@@ -44,6 +44,36 @@ class Connection {
 	}
 
 	/**
+	 * Begin a fluent query against a table.
+	 *
+	 * @param  string  $table
+	 * @return Query
+	 */
+	public function table($table)
+	{
+		return new Query($this, $this->grammar(), $table);
+	}
+
+	/**
+	 * Create a new query grammar for the connection.
+	 *
+	 * @return Grammars\Grammar
+	 */
+	protected function grammar()
+	{
+		if (isset($this->grammar)) return $this->grammar;
+
+		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
+		{
+			case 'mysql':
+				return $this->grammar = new Grammars\MySQL;
+
+			default:
+				return $this->grammar = new Grammars\Grammar;
+		}
+	}
+
+	/**
 	 * Execute a SQL query against the connection and return a single column result.
 	 *
 	 * <code>
@@ -109,18 +139,18 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
-		// First we need to remove all expressions from the bindings
-		// since they will be placed into the query as raw strings.
+		// Remove expressions from the bindings since they injected into
+		// the query as raw strings and are not bound parameters.
 		foreach ($bindings as $key => $value)
 		{
 			if ($value instanceof Expression) unset($bindings[$key]);
 		}
 
-		$sql = $this->transform($sql, $bindings);
+		$sql = $this->transform(trim($sql), $bindings);
 
 		$this->queries[] = compact('sql', 'bindings');
 
-		return $this->execute($this->pdo->prepare(trim($sql)), $bindings);
+		return $this->execute($this->pdo->prepare($sql), $bindings);
 	}
 
 	/**
@@ -176,36 +206,6 @@ class Connection {
 		}
 
 		return $statement->rowCount();
-	}
-
-	/**
-	 * Begin a fluent query against a table.
-	 *
-	 * @param  string  $table
-	 * @return Query
-	 */
-	public function table($table)
-	{
-		return new Query($this, $this->grammar(), $table);
-	}
-
-	/**
-	 * Create a new query grammar for the connection.
-	 *
-	 * @return Grammars\Grammar
-	 */
-	protected function grammar()
-	{
-		if (isset($this->grammar)) return $this->grammar;
-
-		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
-		{
-			case 'mysql':
-				return $this->grammar = new Grammars\MySQL;
-
-			default:
-				return $this->grammar = new Grammars\Grammar;
-		}
 	}
 
 	/**

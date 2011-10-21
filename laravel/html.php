@@ -270,7 +270,14 @@ class HTML {
 
 		foreach ($list as $key => $value)
 		{
-			$html .= (is_array($value)) ? static::elements($type, $value) : '<li>'.static::entities($value).'</li>';
+			if (is_array($value))
+			{
+				$html .= static::elements($type, $value);
+			}
+			else
+			{
+				$html .= '<li>'.static::entities($value).'</li>';
+			}
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';

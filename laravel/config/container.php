@@ -101,7 +101,7 @@ return array(
 	{
 		$memcache = new \Memcache;
 
-		foreach (Config::get('cache.servers') as $server)
+		foreach (Config::get('cache.memcached') as $server)
 		{
 			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
 		}

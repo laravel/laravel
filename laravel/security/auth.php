@@ -1,6 +1,5 @@
 <?php namespace Laravel\Security;
 
-use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
@@ -42,7 +41,7 @@ class Auth {
 	/**
 	 * Get the current user of the application.
 	 *
-	 * This method will call the "user" closure in the authentication configuration file.
+	 * This method will call the "user" closure in the auth configuration file.
 	 * If the user is not authenticated, null will be returned by the methd.
 	 *
 	 * If no user exists in the session, the method will check for a "remember me"
@@ -64,7 +63,9 @@ class Auth {
 
 		static::$user = call_user_func(Config::get('auth.user'), Session::get(Auth::user_key));
 
-		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
+		$cookie = Cookie::get(Auth::remember_key);
+
+		if (is_null(static::$user) and ! is_null($cookie))
 		{
 			static::$user = static::recall($cookie);
 		}
@@ -113,7 +114,9 @@ class Auth {
 	{
 		$config = Config::get('auth');
 
-		if ( ! is_null($user = call_user_func($config['attempt'], $username, $password, $config)))
+		$user = call_user_func($config['attempt'], $username, $password, $config);
+
+		if ( ! is_null($user))
 		{
 			static::login($user, $config, $remember);
 

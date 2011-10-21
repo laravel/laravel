@@ -47,8 +47,6 @@ class Grammar {
 	{
 		$sql = array();
 
-		// Iterate through each query component, calling the compiler for that
-		// component and passing the query instance into the compiler.
 		foreach ($this->components as $component)
 		{
 			if ( ! is_null($query->$component))
@@ -111,9 +109,6 @@ class Grammar {
 	 */
 	protected function joins(Query $query)
 	{
-		// Since creating a JOIN clause using string concatenation is a little
-		// cumbersome, we will create a format we can pass to "sprintf" to
-		// make things cleaner.
 		$format = '%s JOIN %s ON %s %s %s';
 
 		foreach ($query->joins as $join)
@@ -281,9 +276,9 @@ class Grammar {
 		// every insert to the table.
 		$columns = $this->columnize(array_keys(reset($values)));
 
-		// Build the list of parameter place-holders for the array of values bound
-		// to the query. Each insert statement should have the same number of bound
-		// parameters, so we can just use the first array of values.
+		// Build the list of parameter place-holders of values bound to the query.
+		// Each insert should have the same number of bound paramters, so we can
+		// just use the first array of values.
 		$parameters = $this->parameterize(reset($values));
 
 		$parameters = implode(', ', array_fill(0, count($values), '('.$parameters.')'));

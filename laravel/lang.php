@@ -37,7 +37,7 @@ class Lang {
 	 *
 	 * @var array
 	 */
-	protected $paths = array(SYS_LANG_PATH, LANG_PATH);
+	protected $paths = array(LANG_PATH);
 
 	/**
 	 * Create a new Lang instance.
@@ -164,9 +164,6 @@ class Lang {
 
 		$language = array();
 
-		// Language files cascade. Typically, the system language array is
-		// loaded first, followed by the application array. This allows the
-		// convenient overriding of the system language files.
 		foreach ($this->paths as $directory)
 		{
 			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))

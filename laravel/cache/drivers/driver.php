@@ -61,7 +61,7 @@ abstract class Driver {
 	 * cache, store the default value in the cache and return it.
 	 *
 	 * <code>
-	 *		// Get an item from the cache, or cache a value for 15 minutes if it doesn't exist
+	 *		// Get an item from the cache, or cache a value for 15 minutes
 	 *		$name = Cache::remember('name', 'Taylor', 15);
 	 *
 	 *		// Use a closure for deferred execution

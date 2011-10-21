@@ -281,7 +281,7 @@ class Validator {
 	 */
 	protected function validate_size($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute, $value) == $parameters[0];
+		return $this->size($attribute, $value) == $parameters[0];
 	}
 
 	/**
@@ -294,7 +294,7 @@ class Validator {
 	 */
 	protected function validate_between($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute, $value) >= $parameters[0] and $this->get_size($attribute, $value) <= $parameters[1];
+		return $this->size($attribute, $value) >= $parameters[0] and $this->size($attribute, $value) <= $parameters[1];
 	}
 
 	/**
@@ -307,7 +307,7 @@ class Validator {
 	 */
 	protected function validate_min($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute, $value) >= $parameters[0];
+		return $this->size($attribute, $value) >= $parameters[0];
 	}
 
 	/**
@@ -320,7 +320,7 @@ class Validator {
 	 */
 	protected function validate_max($attribute, $value, $parameters)
 	{
-		return $this->get_size($attribute, $value) <= $parameters[0];
+		return $this->size($attribute, $value) <= $parameters[0];
 	}
 
 	/**
@@ -335,7 +335,7 @@ class Validator {
 	 * @param  mixed   $value
 	 * @return mixed
 	 */
-	protected function get_size($attribute, $value)
+	protected function size($attribute, $value)
 	{
 		if (is_numeric($value) and $this->has_rule($attribute, $this->numeric_rules))
 		{
