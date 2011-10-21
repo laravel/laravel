@@ -37,26 +37,34 @@ class Crypter {
 	 */
 	public static function encrypt($value)
 	{
-		// Determine the most appropriate random number generator for the
-		// OS and system and environment the application is running on.
-		if (defined('MCRYPT_DEV_URANDOM'))
-		{
-			$randomizer = MCRYPT_DEV_URANDOM;
-		}
-		elseif (defined('MCRYPT_DEV_RANDOM'))
-		{
-			$randomizer = MCRYPT_DEV_RANDOM;
-		}
-		else
-		{
-			$randomizer = MCRYPT_RAND;			
-		}
-
-		$iv = mcrypt_create_iv(static::iv_size(), $randomizer);
+		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
 
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
 		return base64_encode($iv.$value);
+	}
+
+	/**
+	 * Get the random number generator appropriate for the server.
+	 *
+	 * There are a variety of sources to get a random number; however, not all
+	 * of them will be available on every server. We will attempt to use the
+	 * most secure random number generator available.
+	 *
+	 * @return int
+	 */
+	protected static function randomizer()
+	{
+		if (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return MCRYPT_DEV_URANDOM;
+		}
+		elseif (defined('MCRYPT_DEV_RANDOM'))
+		{
+			return MCRYPT_DEV_RANDOM;
+		}
+
+		return MCRYPT_RAND;			
 	}
 
 	/**
