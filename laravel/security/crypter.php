@@ -19,7 +19,7 @@ class Crypter {
 	 *
 	 * @var string
 	 */
-	protected static $mode = 'cbc';
+	protected static $mode = MCRYPT_MODE_CBC;
 
 	/**
 	 * Encrypt a string using Mcrypt.
@@ -37,28 +37,11 @@ class Crypter {
 	 */
 	public static function encrypt($value)
 	{
-		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
+		$iv = mcrypt_create_iv(static::iv_size(), MCRYPT_RAND);
 
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
 		return base64_encode($iv.$value);
-	}
-
-	/**
-	 * Get the random number generator appropriate for the server.
-	 *
-	 * There are a variety of sources to get a random number; however, not all
-	 * of them will be available on every server. We will attempt to use the
-	 * most secure random number generator available.
-	 *
-	 * @return int
-	 */
-	protected static function randomizer()
-	{
-		foreach (array('MCRYPT_DEV_URANDOM', 'MCRYPT_DEV_RANDOM', 'MCRYPT_RAND') as $generator)
-		{
-			if (defined($generator)) return constant($generator);
-		}
 	}
 
 	/**
