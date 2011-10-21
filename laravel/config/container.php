@@ -53,7 +53,7 @@ return array(
 
 	'laravel.database.connectors.sqlite' => array('resolver' => function($c)
 	{
-		return new Database\Connectors\SQLite;
+		return new Database\Connectors\SQLite(DATABASE_PATH);
 	}),
 
 	'laravel.database.connectors.mysql' => array('resolver' => function($c)

@@ -3,6 +3,24 @@
 class SQLite extends Connector {
 
 	/**
+	 * The path to the SQLite databases for the application.
+	 *
+	 * @var string
+	 */
+	protected $path;
+
+	/**
+	 * Create a new SQLite database connector instance.
+	 *
+	 * @param  string  $path
+	 * @return void
+	 */
+	public function __construct($path)
+	{
+		$this->path = $path;
+	}
+
+	/**
 	 * Establish a PDO database connection for a given database configuration.
 	 *
 	 * @param  array  $config
@@ -21,7 +39,7 @@ class SQLite extends Connector {
 		// application. If we don't find the database there, we will assume the database
 		// name is actually a full qualified path to the database on disk and attempt
 		// to load it. If we still can't find it, we'll bail out.
-		elseif (file_exists($path = DATABASE_PATH.$config['database'].'.sqlite'))
+		elseif (file_exists($path = $this->path.$config['database'].'.sqlite'))
 		{
 			return new PDO('sqlite:'.$path, null, null, $options);
 		}
