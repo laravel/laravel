@@ -55,16 +55,10 @@ class Crypter {
 	 */
 	protected static function randomizer()
 	{
-		if (defined('MCRYPT_DEV_URANDOM'))
+		foreach (array('MCRYPT_DEV_URANDOM', 'MCRYPT_DEV_RANDOM', 'MCRYPT_RAND') as $generator)
 		{
-			return MCRYPT_DEV_URANDOM;
+			if (defined($generator)) return constant($generator);
 		}
-		elseif (defined('MCRYPT_DEV_RANDOM'))
-		{
-			return MCRYPT_DEV_RANDOM;
-		}
-
-		return MCRYPT_RAND;			
 	}
 
 	/**
