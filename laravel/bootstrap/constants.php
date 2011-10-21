@@ -56,8 +56,6 @@ $constants = array(
 
 constants($constants);
 
-unset($constants);
-
 /**
  * Set the Laravel environment configuration path constant.
  * The environment is controlled by setting an environment
@@ -65,6 +63,6 @@ unset($constants);
  */
 $environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : '';
 
-define('ENV_CONFIG_PATH', $environment);
+constants(array('ENV_CONFIG_PATH' => $environment));
 
-unset($environment);
+unset($constants, $environment);
