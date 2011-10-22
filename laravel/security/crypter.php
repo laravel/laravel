@@ -24,8 +24,11 @@ class Crypter {
 	/**
 	 * Encrypt a string using Mcrypt.
 	 *
-	 * The string will be encrypted using the cipher and mode specified when the
-	 * crypter instance was created, and the final result will be base64 encoded.
+	 * The given string will be encrypted using AES-256 encryption for a high
+	 * degree of security. The returned string will also be base64 encoded.
+	 *
+	 * Mcrypt must be installed on your machine before using this method, and
+	 * an application key must be specified in the application configuration.
 	 *
 	 * <code>
 	 *		// Encrypt a string using the Mcrypt PHP extension
@@ -47,31 +50,34 @@ class Crypter {
 	/**
 	 * Decrypt a string using Mcrypt.
 	 *
+	 * The given encrypted value must have been encrypted using Laravel and
+	 * the application key specified in the application configuration file.
+	 *
+	 * Mcrypt must be installed on your machine before using this method.
+	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	public static function decrypt($value)
 	{
-		list($iv, $value) = static::parse(base64_decode($value, true));
+		if (($value = base64_decode($value)) === false)
+		{
+			throw new \Exception('Decryption error. Input value is not valid base64 data.');
+		}
 
-		$value = mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+		list($iv, $value) = static::parse($value);
 
-		return rtrim($value, "\0");
+		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
 	}
 
 	/**
-	 * Parse an encrypted value into the input vector and the actual value.
+	 * Parse an encrypted string into its input vector and value segments.
 	 *
 	 * @param  string  $value
 	 * @return array
 	 */
 	protected static function parse($value)
 	{
-		if ($value === false)
-		{
-			throw new \Exception('Decryption error. Input value is not valid base64 data.');
-		}
-
 		return array(substr($value, 0, static::iv_size()), substr($value, static::iv_size()));
 	}
 

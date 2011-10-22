@@ -104,6 +104,10 @@ class Cookie {
 	 * been modified by the user, since they serve as a fingerprint of the cookie
 	 * contents. The application key is used to salt the salts.
 	 *
+	 * When the cookie is read using the "get" method, the value will be extracted
+	 * from the cookie and hashed, if the hash in the cookie and the hashed value
+	 * do not match, we know the cookie has been changed on the client.
+	 *
 	 * @param  string  $name
 	 * @param  string  $value
 	 * @return string

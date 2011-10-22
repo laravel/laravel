@@ -89,7 +89,11 @@ class Paginator {
 	 */
 	public static function make($results, $total, $per_page)
 	{
-		return new static($results, static::page($total, $per_page), $total, $per_page, ceil($total / $per_page));
+		$page = static::page($total, $per_page);
+
+		$last_page = ceil($total / $per_page);
+
+		return new static($results, $page, $total, $per_page, $last_page);
 	}
 
 	/**
@@ -202,7 +206,9 @@ class Paginator {
 	 */
 	protected function backwards($element, $text, $last)
 	{
-		return $this->element($element, $text, $last, function($page) { return $page <= 1; });
+		$disabler = function($page) { return $page <= 1; };
+
+		return $this->element($element, $text, $last, $disabler);
 	}
 
 	/**
@@ -217,7 +223,9 @@ class Paginator {
 	 */
 	protected function forwards($element, $text, $last)
 	{
-		return $this->element($element, $text, $last, function($page, $last) { return $page >= $last; });
+		$disabler = function($page, $last) { return $page >= $last; };
+
+		return $this->element($element, $text, $last, $disabler);
 	}
 
 	/**
@@ -257,9 +265,6 @@ class Paginator {
 	 */
 	protected function appendage($element, $page)
 	{
-		// The appendage string contains the query string, but it also contains a
-		// place-holder for the page number. This will be used to insert the
-		// correct page number based on the element being created.
 		if (is_null($this->appendage))
 		{
 			$this->appendage = '?page=%s'.http_build_query((array) $this->appends);

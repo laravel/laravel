@@ -24,8 +24,7 @@ class Query {
 	public $selects;
 
 	/**
-	 * If the query is performing an aggregate function, this will contain
-	 * the column and and function to use when aggregating.
+	 * The aggregating column and function.
 	 *
 	 * @var array
 	 */

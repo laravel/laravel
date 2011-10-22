@@ -139,8 +139,6 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
-		// Remove expressions from the bindings since they injected into
-		// the query as raw strings and are not bound parameters.
 		foreach ($bindings as $key => $value)
 		{
 			if ($value instanceof Expression) unset($bindings[$key]);

@@ -163,11 +163,11 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		// Verify that the attribute and rule combination is actually validatable before
-		// attempting to call the validation rule. Unless the rule implicitly requires
-		// the attribute to exist, we will not call any rules for attributes that are
-		// not in the validator's attribute array.
-		if ( ! $this->validatable($rule, $attribute, $value = Arr::get($this->attributes, $attribute))) return;
+		// Verify that the attribute and rule combination is actually
+		// validatable before attempting to call the validation rule.
+		$value = Arr::get($this->attributes, $attribute);
+
+		if ( ! $this->validatable($rule, $attribute, $value)) return;
 
 		if ( ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
 		{
@@ -178,9 +178,9 @@ class Validator {
 	/**
 	 * Determine if an attribute is validatable.
 	 *
-	 * To be considered validatable, the attribute must either exist, or the rule being
-	 * checked must implicitly validate "required", such as the "required" rule or the
-	 * "accepted" rule. No other rules have implicit "required" validation.
+	 * To be considered validatable, the attribute must either exist, or the
+	 * rule being checked must implicitly validate "required", such as the
+	 * "required" rule or the "accepted" rule.
 	 *
 	 * @param  string  $rule
 	 * @param  string  $attribute
@@ -508,25 +508,25 @@ class Validator {
 	 */
 	protected function message($attribute, $rule)
 	{
-		// First we'll check for developer specified, attribute specific messages. These messages
-		// take first priority if they have been specified. They allow the fine-grained tuning
+		// First we'll check for developer specified, attribute specific messages.
+		// These messages take first priority. They allow the fine-grained tuning
 		// of error messages for each rule.
 		if (array_key_exists($attribute.'_'.$rule, $this->messages))
 		{
 			return $this->messages[$attribute.'_'.$rule];
 		}
 
-		// Next we'll check for developer specified, rule specific messages. These allow the
-		// developer to override the error message for an entire rule, regardless of the
-		// attribute being validated by that rule.
+		// Next we'll check for developer specified, rule specific error messages.
+		// These allow the developer to override the error message for an entire
+		// rule, regardless of the attribute being validated by that rule.
 		elseif (array_key_exists($rule, $this->messages))
 		{
 			return $this->messages[$rule];
 		}
 
-		// If the rule being validated is a "size" rule and the attribute is not a number,
-		// we will need to gather the specific size message for the type of attribute
-		// being validated, either a file or a string.
+		// If the rule being validated is a "size" rule and the attribute is not
+		// a number, we will need to gather the specific size message for the
+		// type of attribute being validated, either a file or a string.
 		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 		{
 			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
@@ -534,9 +534,9 @@ class Validator {
 			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
 		}
 
-		// If no developer specified messages have been set, and no other special messages
-		// apply to the rule, we will just pull the default validation message from the
-		// validation language file.
+		// If no developer specified messages have been set, and no other special
+		// messages apply to the rule, we will just pull the default validation
+		// message from the validation language file.
 		else
 		{
 			return Lang::line("validation.{$rule}")->get($this->language);
@@ -558,9 +558,10 @@ class Validator {
 
 		if (in_array($rule, $this->size_rules))
 		{
-			// Even though every size rule will not have a place-holder for min, max, and size,
-			// we will go ahead and make replacements for all of them just for convenience.
-			// Except for "between" every replacement should be the first parameter.
+			// Even though every size rule will not have a place-holder for min,
+			// max, and size, we will go ahead and make replacements for all of
+			// them just for convenience. Except for "between" every replacement
+			// should be the first parameter.
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
 			$replace =  array($parameters[0], $parameters[0], $max);
@@ -621,10 +622,15 @@ class Validator {
 	 */
 	protected function parse($rule)
 	{
+		$parameters = array();
+
 		// The format for specifying validation rules and parameters follows
 		// a {rule}:{parameters} convention. For instance, "max:3" specifies
 		// that the value may only be 3 characters in length.
-		$parameters = (($colon = strpos($rule, ':')) !== false) ? explode(',', substr($rule, $colon + 1)) : array();
+		if (($colon = strpos($rule, ':')) !== false)
+		{
+			$parameters = explode(',', substr($rule, $colon + 1));
+		}
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
 	}

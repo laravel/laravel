@@ -20,10 +20,6 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		// First, we build the base URL for the application, as well as handle the generation
-		// of links using SSL. It is possible for the developer to disable the generation
-		// of SSL links throughout the application, making it more convenient to create
-		// applications without SSL on the development box.
 		$base = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
 
 		if ($https and Config::$items['application']['ssl'])
@@ -99,8 +95,9 @@ class URL {
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
-			// Before generating the route URL, we will replace all remaining optional
-			// wildcard segments that were not replaced by parameters with spaces.
+			// Replace all remaining optional segments with spaces. Since the
+			// segments are, obviously, optional, some of them may not have
+			// been assigned values from the parameter array.
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 

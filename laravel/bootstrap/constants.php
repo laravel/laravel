@@ -25,13 +25,14 @@ function constants($constants)
 $constants = array(
 	'APP_PATH'     => realpath($application).'/',
 	'BASE_PATH'    => realpath("$laravel/..").'/',
-	'PACKAGE_PATH' => realpath($packages).'/',
 	'PUBLIC_PATH'  => realpath($public).'/',
 	'STORAGE_PATH' => realpath($storage).'/',
 	'SYS_PATH'     => realpath($laravel).'/',
 );
 
 constants($constants);
+
+unset($application, $public, $storage, $laravel);
 
 /**
  * Register all of the other framework paths. All of these paths

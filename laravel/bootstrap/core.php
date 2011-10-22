@@ -9,7 +9,6 @@ require 'constants.php';
  */
 require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'loader'.EXT;
 
 /**
  * Load some core configuration files by default so we don't have to
@@ -35,18 +34,36 @@ IoC::$container = $container;
 unset($container);
 
 /**
- * Register the application auto-loader. The auto-loader is responsible
- * for the lazy-loading of all of the Laravel core classes, as well as
- * the developer created libraries and models.
+ * Register the application auto-loader. The auto-loader closure
+ * is responsible for the lazy-loading of all of the Laravel core
+ * classes, as well as the developer created libraries and models.
  */
-spl_autoload_register(array('Laravel\\Loader', 'load'));
+$aliases = Config::$items['application']['aliases'];
 
-Loader::$aliases = Config::$items['application']['aliases'];
+spl_autoload_register(function($class) use ($aliases)
+{
+	if (array_key_exists($class, $aliases))
+	{
+		return class_alias($aliases[$class], $class);
+	}
+
+	$file = strtolower(str_replace('\\', '/', $class));
+
+	foreach (array(BASE_PATH, MODEL_PATH, LIBRARY_PATH) as $path)
+	{
+		if (file_exists($path = $path.$file.EXT))
+		{
+			require_once $path;
+
+			return;
+		}
+	}
+});
+
+unset($aliases);
 
 /**
- * Define a few convenient global functions. These functions primarily
- * exists to provide a short way of accessing functions commonly used
- * in views, allowing the reduction of code noise.
+ * Define a few convenient global functions.
  */
 function e($value)
 {

@@ -33,8 +33,6 @@ $application = '../application';
 
 $laravel     = '../laravel';
 
-$packages    = '../packages';
-
 $storage     = '../storage';
 
 $public      = __DIR__;

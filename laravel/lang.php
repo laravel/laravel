@@ -3,22 +3,6 @@
 class Lang {
 
 	/**
-	 * All of the loaded language lines.
-	 *
-	 * The array is keyed by [$language.$file].
-	 *
-	 * @var array
-	 */
-	protected static $lines = array();
-
-	/**
-	 * The paths containing the language files.
-	 *
-	 * @var array
-	 */
-	protected static $paths = array(LANG_PATH);
-
-	/**
 	 * The key of the language line being retrieved.
 	 *
 	 * @var string
@@ -38,6 +22,22 @@ class Lang {
 	 * @var string
 	 */
 	protected $language;
+
+	/**
+	 * All of the loaded language lines.
+	 *
+	 * The array is keyed by [$language.$file].
+	 *
+	 * @var array
+	 */
+	protected static $lines = array();
+
+	/**
+	 * The paths containing the language files.
+	 *
+	 * @var array
+	 */
+	protected static $paths = array(LANG_PATH);
 
 	/**
 	 * Create a new Lang instance.
