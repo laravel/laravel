@@ -62,7 +62,7 @@ constants($constants);
  * The environment is controlled by setting an environment
  * variable on the server running Laravel.
  */
-$environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : '';
+$environment = (isset($_SERVER['LARAVEL_ENV'])) ? CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/' : '';
 
 constants(array('ENV_CONFIG_PATH' => $environment));
 
