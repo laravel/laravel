@@ -122,9 +122,9 @@ class Router {
 
 		foreach ($routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs or wildcards since other
+			// Only check routes that have multiple URIs, wildcards or provides since other
 			// routes would have been caught by the check for literal matches.
-			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
+			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false or ! is_null($this->provides($callback)))
 			{
 				if ( ! is_null($route = $this->match($destination, $keys, $callback)))
 				{
@@ -276,7 +276,7 @@ class Router {
 	 */
 	protected function parameters($uri, $route)
 	{
-		return array_values(array_intersect_key(explode('/', $uri), preg_grep('/\(.+\)/', explode('/', $route))));	
-	}	
+		return array_values(array_intersect_key(preg_split('?[/.]?', $uri), preg_grep('/\(.+\)/', preg_split('?[/.]?', $route))));
+	}
 
 }
