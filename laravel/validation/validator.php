@@ -163,8 +163,6 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		// Verify that the attribute and rule combination is actually
-		// validatable before attempting to call the validation rule.
 		$value = Arr::get($this->attributes, $attribute);
 
 		if ( ! $this->validatable($rule, $attribute, $value)) return;

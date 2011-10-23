@@ -123,8 +123,7 @@ class View {
 	/**
 	 * Find the key for a view by name.
 	 *
-	 * The view's key can be used to create instances of the view through the typical
-	 * methods available on the view factory.
+	 * The view "key" is the string that should be passed into the "make" method.
 	 *
 	 * @param  string  $name
 	 * @return string
@@ -133,9 +132,6 @@ class View {
 	{
 		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
 
-		// The view's name may specified in several different ways in the composers
-		// file. The composer may simple have a string value, which is the name.
-		// Or, it may an array value in which a "name" key exists.
 		foreach (static::$composers as $key => $value)
 		{
 			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name')))
@@ -215,7 +211,7 @@ class View {
 		// without re-compiling.
 		if ((file_exists($compiled) and filemtime($this->path) > filemtime($compiled)) or ! file_exists($compiled))
 		{
-			file_put_contents($compiled, Blade::parse($this->path));
+			file_put_contents($compiled, Blade::compile($this->path));
 		}
 
 		return $compiled;

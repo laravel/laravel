@@ -278,7 +278,9 @@ class Manager {
 		// driver must do its garbage collection manually. Alternatively, some
 		// drivers such as APC and Memcached are not required to manually
 		// clean up their sessions.
-		if (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0] and static::$driver instanceof Drivers\Sweeper)
+		$sweep = (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0]);
+
+		if ($sweep and static::$driver instanceof Drivers\Sweeper)
 		{
 			static::$driver->sweep(time() - ($config['lifetime'] * 60));
 		}

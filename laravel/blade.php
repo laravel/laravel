@@ -3,29 +3,16 @@
 class Blade {
 
 	/**
-	 * Rewrites the specified file containing Blade pseudo-code into valid PHP.
+	 * Compiles the specified file containing Blade pseudo-code into valid PHP.
 	 *
 	 * @param  string  $path
 	 * @return string
 	 */
-	public static function parse($path)
+	public static function compile($path)
 	{
-		return static::parse_string(file_get_contents($path));
-	}
+		$value = file_get_contents($path);
 
-	/**
-	 * Rewrites the specified string containing Blade pseudo-code into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function parse_string($value)
-	{
-		$value = static::echos($value);
-		$value = static::openings($value);
-		$value = static::closings($value);
-
-		return $value;
+		return static::closings(static::openings(static::echos($value)));
 	}
 
 	/**

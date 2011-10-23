@@ -153,6 +153,7 @@ class Router {
 		foreach (explode(', ', $keys) as $key)
 		{
 			// Append the provided formats to the route as an optional regular expression.
+			// This should make the route look something like: "user(\.(json|xml|html))?"
 			if ( ! is_null($formats = $this->provides($callback)))
 			{
 				$key .= '(\.('.implode('|', $formats).'))?';

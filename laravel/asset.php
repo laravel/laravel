@@ -261,6 +261,7 @@ class Asset_Container {
 		if (count($assets[$asset]['dependencies']) == 0)
 		{
 			$sorted[$asset] = $value;
+
 			unset($assets[$asset]);
 		}
 		else
@@ -270,6 +271,7 @@ class Asset_Container {
 				if ( ! $this->dependency_is_valid($asset, $dependency, $original, $assets))
 				{
 					unset($assets[$asset]['dependencies'][$key]);
+
 					continue;
 				}
 

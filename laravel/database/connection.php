@@ -194,16 +194,18 @@ class Connection {
 	{
 		$result = $statement->execute($bindings);
 
-		if (strpos(strtoupper($statement->queryString), 'SELECT') === 0)
+		$sql = strtoupper($statement->queryString);
+
+		if (strpos($sql, 'SELECT') === 0)
 		{
 			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
 		}
-		elseif (strpos(strtoupper($statement->queryString), 'INSERT') === 0)
+		elseif (strpos($sql, 'UPDATE') === 0 or strpos($sql, 'DELETE') === 0)
 		{
-			return $result;
+			return $statement->rowCount();
 		}
 
-		return $statement->rowCount();
+		return $result;
 	}
 
 	/**

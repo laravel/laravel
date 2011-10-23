@@ -252,7 +252,9 @@ class Paginator {
 			// the current URI, this makes pretty good sense.
 			list($uri, $secure) = array(Request::uri(), Request::secure());
 
-			return HTML::link($uri.$this->appendage($element, $page), $text, array('class' => $class), $secure);
+			$appendage = $this->appendage($element, $page);
+
+			return HTML::link($uri.$appendage, $text, array('class' => $class), $secure);
 		}
 	}
 
