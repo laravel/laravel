@@ -34,14 +34,9 @@ class URI {
 	 */
 	public function get()
 	{
-		if (is_null($this->uri))
-		{
-			$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
+		if ( ! is_null($this->uri)) return $this->uri;
 
-			$this->uri = $this->format($this->clean($uri));
-		}
-		
-		return $this->uri;
+		return $this->uri = $this->format($this->clean(parse_url($this->server['REQUEST_URI'], PHP_URL_PATH)));
 	}
 
 	/**
