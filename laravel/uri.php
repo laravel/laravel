@@ -30,6 +30,10 @@ class URI {
 	/**
 	 * Get the request URI for the current request.
 	 *
+	 * If the request is to the root of the application, a single forward slash
+	 * will be returned. Otherwise, the URI will be returned with all leading
+	 * and trailing slashes removed.
+	 *
 	 * @return string
 	 */
 	public function get()
@@ -75,10 +79,6 @@ class URI {
 
 	/**
 	 * Format the URI for use throughout the framework.
-	 *
-	 * If the request is to the root of the application, a single forward slash
-	 * will be returned. Otherwise, the URI will be returned with all leading
-	 * and trailing slashes removed.
 	 *
 	 * @param  string  $uri
 	 * @return string
