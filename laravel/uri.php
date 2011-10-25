@@ -41,7 +41,9 @@ class URI {
 	{
 		if ( ! is_null($this->uri)) return $this->uri;
 
-		return $this->uri = $this->format($this->clean(parse_url($this->server['REQUEST_URI'], PHP_URL_PATH)));
+		$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
+
+		return $this->uri = $this->format($this->clean($uri));
 	}
 
 	/**
