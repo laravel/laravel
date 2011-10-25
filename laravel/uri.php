@@ -32,7 +32,8 @@ class URI {
 	 *
 	 * If the request is to the root of the application, a single forward slash
 	 * will be returned. Otherwise, the URI will be returned with all leading
-	 * and trailing slashes removed.
+	 * and trailing slashes removed. The application URL and index file will
+	 * also be removed since they are not used when routing the request.
 	 *
 	 * @return string
 	 */
@@ -40,17 +41,11 @@ class URI {
 	{
 		if ( ! is_null($this->uri)) return $this->uri;
 
-		$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
-
-		return $this->uri = $this->format($this->clean($uri));
+		return $this->uri = $this->format($this->clean(parse_url($this->server['REQUEST_URI'], PHP_URL_PATH)));
 	}
 
 	/**
 	 * Remove extraneous information from the given request URI.
-	 *
-	 * The application URL will be removed, as well as the application index file
-	 * and the request format. None of these things are used when routing the
-	 * request to a closure or controller, so they can be safely removed.
 	 *
 	 * @param  string  $uri
 	 * @return string
