@@ -3,13 +3,6 @@
 class Redis {
 
 	/**
-	 * The active Redis connections.
-	 *
-	 * @var array
-	 */
-	protected static $connections = array();
-
-	/**
 	 * The name of the Redis connection.
 	 *
 	 * @var string
@@ -28,7 +21,7 @@ class Redis {
 	 *
 	 * @var resource
 	 */
-	protected $connection;
+	protected static $connection;
 
 	/**
 	 * Create a new Redis connection instance.
@@ -58,28 +51,21 @@ class Redis {
 	/**
 	 * Create a new Redis connection instance.
 	 *
-	 * Redis connections are managed as singletons, so if the connection has
+	 * The Redis connection is managed as a singleton, so if the connection has
 	 * already been established, that same connection instance will be returned
 	 * on subsequent requests for the connection.
 	 *
 	 * @param  string  $connection
 	 * @return Redis
 	 */
-	public static function connection($name)
+	public static function connection()
 	{
-		if ( ! array_key_exists($name, static::$connections))
+		if (is_null(static::$connection))
 		{
-			$config = Config::get("database.redis.{$name}");
-
-			if (is_null($config))
-			{
-				throw new \Exception("Redis connection [$name] has not been configured.");
-			}
-
-			static::$connections[$name] = static::make($name, $config)->connect();
+			static::$connection = static::make($name, Config::get('database.redis'))->connect();
 		}
 
-		return static::$connections[$name];
+		return static::$connection;
 	}
 
 	/**
@@ -91,9 +77,9 @@ class Redis {
 	 */
 	public function connect()
 	{
-		$this->connection = @fsockopen($this->config['host'], $this->config['port'], $error, $message);		
+		static::$connection = @fsockopen($this->config['host'], $this->config['port'], $error, $message);		
 
-		if ($this->connection === false)
+		if (static::$connection === false)
 		{
 			throw new \Exception("Error establishing Redis connection [{$this->name}]: {$error} - {$message}");
 		}
@@ -110,9 +96,9 @@ class Redis {
 	 */
 	public function run($method, $parameters)
 	{
-		fwrite($this->connection, $this->command($method, $parameters));
+		fwrite(static::$connection, $this->command($method, $parameters));
 
-		$reply = trim(fgets($this->connection, 512));
+		$reply = trim(fgets(static::$connection, 512));
 	}
 
 	/**
@@ -149,7 +135,7 @@ class Redis {
 	 */
 	public function __destruct()
 	{
-		fclose($this->connection);
+		fclose(static::$connection);
 	}
 
 }
