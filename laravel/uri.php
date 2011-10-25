@@ -47,27 +47,22 @@ class URI {
 	/**
 	 * Remove extraneous information from the given request URI.
 	 *
+	 * The application URL will be removed, as well as the application index file
+	 * and the request format. None of these things are used when routing the
+	 * request to a closure or controller, so they can be safely removed.
+	 *
 	 * @param  string  $uri
 	 * @return string
 	 */
 	protected function clean($uri)
 	{
-		// The base application URL is removed first. If the application is being
-		// served out of a sub-directory of the web document root, we need to get
-		// rid of the folders that are included in the URI.
 		$uri = $this->remove($uri, parse_url(Config::$items['application']['url'], PHP_URL_PATH));
 
-		// Next, the application index file is removed. The index file has nothing
-		// to do with how the request is routed to a closure or controller, so it
-		// can be safely removed from the URI.
 		if (($index = '/'.Config::$items['application']['index']) !== '/')
 		{
 			$uri = $this->remove($uri, $index);
 		}
 
-		// We don't consider the request format to be a part of the request URI.
-		// The format merely determines in which format the requested resource
-		// should be returned to the client.
 		return rtrim($uri, '.'.Request::format($uri));
 	}
 

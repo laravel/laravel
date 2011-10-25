@@ -108,7 +108,7 @@ class Redis {
 	 * @param  array   $parameters
 	 * @return mixed
 	 */
-	public function do($method, $parameters)
+	public function run($method, $parameters)
 	{
 		fwrite($this->connection, $this->command($method, $parameters));
 
@@ -139,7 +139,7 @@ class Redis {
 	 */
 	public function __call($method, $parameters)
 	{
-		return $this->do($method, $parameters);
+		return $this->run($method, $parameters);
 	}
 
 	/**
