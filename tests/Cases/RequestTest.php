@@ -31,6 +31,12 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('PUT', Laravel\Request::method());
 	}
 
+	public function test_format_method_returns_extension()
+	{
+		$this->assertEquals('html', Laravel\Request::format('user'));
+		$this->assertEquals('json', Laravel\Request::format('user.json'));
+	}
+
 	public function test_server_method_returns_from_the_server_array()
 	{
 		$_SERVER = array('TEST' => 'something', 'USER' => array('NAME' => 'taylor'));
