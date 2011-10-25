@@ -37,6 +37,7 @@ if (Config::$items['session']['driver'] !== '')
  * Manually load some core classes that are used on every request
  * This allows to avoid using the loader for these classes.
  */
+require SYS_PATH.'uri'.EXT;
 require SYS_PATH.'input'.EXT;
 require SYS_PATH.'request'.EXT;
 require SYS_PATH.'response'.EXT;
@@ -90,7 +91,7 @@ Input::$input = $input;
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-list($uri, $method) = array(Request::uri(), Request::method());
+list($uri, $method) = array(Request::uri()->get(), Request::method());
 
 $route = IoC::container()->core('routing.router')->route($method, $uri);
 

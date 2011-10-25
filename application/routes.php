@@ -10,11 +10,11 @@ return array(
 	| Here is the public API of your application. To add functionality to your
 	| application, you just add to the array located in this file.
 	|
-	| Simply tell Laravel the HTTP verbs and request URIs it should respond to.
-	| You may respond to the GET, POST, PUT, or DELETE verbs. Enjoy the simplicity
-	| and elegance of RESTful routing.
+	| Simply tell Laravel the HTTP verbs and URIs it should respond to. It is a
+	| breeze to create beautiful applications using the simplicity and elegance
+	| of Laravel's RESTful routing.
 	|
-	| Here is how to respond to a simple GET request to http://example.com/hello:
+	| Let's respond to a simple GET request to http://example.com/hello:
 	|
 	|		'GET /hello' => function()
 	|		{
@@ -28,7 +28,7 @@ return array(
 	|			return 'Hello World!';
 	|		}
 	|
-	| It's easy to allow URI wildcards using the (:num) or (:any) place-holders:
+	| It's easy to allow URI wildcards using (:num) or (:any):
 	|
 	|		'GET /hello/(:any)' => function($name)
 	|		{
