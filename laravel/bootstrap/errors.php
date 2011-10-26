@@ -17,38 +17,49 @@ $message = function($e)
 };
 
 /**
- * Define a clousre that will return a more readable version
+ * Define a closure that will return a more readable version
  * of the severity of an exception. This function will be used
  * by the error handler when parsing exceptions.
  */
 $severity = function($e)
 {
-	$levels = array(
-		0                  => 'Error',
-		E_ERROR            => 'Error',
-		E_WARNING          => 'Warning',
-		E_PARSE            => 'Parsing Error',
-		E_NOTICE           => 'Notice',
-		E_CORE_ERROR       => 'Core Error',
-		E_CORE_WARNING     => 'Core Warning',
-		E_COMPILE_ERROR    => 'Compile Error',
-		E_COMPILE_WARNING  => 'Compile Warning',
-		E_USER_ERROR       => 'User Error',
-		E_USER_WARNING     => 'User Warning',
-		E_USER_NOTICE      => 'User Notice',
-		E_STRICT           => 'Runtime Notice',
-	);
-
-	if (array_key_exists($e->getCode(), $levels))
+	if ($e instanceof \ErrorException)
 	{
-		$level = $levels[$e->getCode()];
+		switch ($e->getSeverity())
+		{
+			default:
+			case E_ERROR:
+			case E_RECOVERABLE_ERROR:
+				return 'Error';
+			case E_WARNING:
+				return 'Warning';
+			case E_PARSE:
+				return 'Parsing Error';
+			case E_NOTICE
+				return 'Notice';
+			case E_CORE_ERROR:
+				return 'Core Error';
+			case E_CORE_WARNING:
+				return 'Core Warning';
+			case E_COMPILE_ERROR:
+				return 'Compile Error';
+			case E_COMPILE_WARNING:
+				return 'Compile Warning';
+			case E_USER_ERROR:
+				return 'User Error';
+			case E_USER_WARNING:
+				return 'User Warning';
+			case E_USER_NOTICE:
+				return 'User Notice';
+			case E_STRICT:
+				return 'Runtime Notice';
+			case E_DEPRECATED:
+				return 'Deprecated';
+			case E_USER_DEPRECATED:
+				return 'User Deprecated';
+		}
 	}
-	else
-	{
-		$level = $e->getCode();
-	}
-
-	return $level;
+	return 'Uncaught Exception';
 };
 
 /**
@@ -78,7 +89,7 @@ $handler = function($e) use ($message, $severity)
  */
 set_exception_handler(function($e) use ($handler)
 {
-	$handler($e); 
+	$handler($e);
 });
 
 /**
@@ -88,7 +99,19 @@ set_exception_handler(function($e) use ($handler)
  */
 set_error_handler(function($number, $error, $file, $line) use ($handler)
 {
-	$handler(new \ErrorException($error, $number, 0, $file, $line));
+	// Ignore errors from @func(...) calls
+	if (error_reporting() === 0)
+	{
+		return false;
+	}
+	
+	// Check the severity to see whether this error should be reported
+	if ( ! (error_reporting() & $number))
+	{
+		return true;
+	}
+	
+	$handler(new \ErrorException($error, 0, $number, $file, $line));
 });
 
 /**
@@ -101,11 +124,10 @@ register_shutdown_function(function() use ($handler)
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		die('here');
 		extract($error, EXTR_SKIP);
 
-		$handler(new \ErrorException($message, $type, 0, $file, $line));
-	}	
+		$handler(new \ErrorException($message, 0, $type, $file, $line));
+	}
 });
 
 /**
@@ -113,6 +135,10 @@ register_shutdown_function(function() use ($handler)
  * will be displaying the exception messages, we don't want PHP to
  * display any ugly error information.
  */
-error_reporting(-1);
-
 ini_set('display_errors', 'Off');
+
+/**
+ * Set the error reporting level from the user's configuration.
+ * -1 is used to report absolutely every error, warning and notice.
+ */
+error_reporting(Config::get('error.level', -1));

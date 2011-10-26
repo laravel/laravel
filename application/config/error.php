@@ -4,6 +4,20 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Error Level
+	|--------------------------------------------------------------------------
+	|
+	| The level of PHP errors to catch.  For more information see
+	| http://php.net/error-reporting
+	|
+	| If your application is in development, consider using -1 to catch every
+	| error, warning and notice.
+	|
+	*/
+	'level' => E_ALL ^ E_NOTICE ^ E_USER_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Error Detail
 	|--------------------------------------------------------------------------
 	|
