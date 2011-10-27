@@ -123,14 +123,13 @@ class Router {
 
 		foreach ($routes as $keys => $callback)
 		{
-			// We need to make sure that the requested format is provided by the
-			// route. If it isn't, there is no need to continue evaluating it.
-			if ( ! in_array($format, $this->provides($callback))) continue;
+			$formats = $this->formats($callback);
 
-			// Only check routes having multiple URIs or wildcards since other
-			// routes would have been caught by the check for literal matches.
-			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
+			// Only check the routes that couldn't be matched literally...
+			if (($format_count = count($formats)) > 0 or $this->fuzzy($keys))
 			{
+				if ($format_count > 0 and ! in_array($format, $formats)) continue;
+
 				if ( ! is_null($route = $this->match($destination, $keys, $callback, $format)))
 				{
 					return Request::$route = $route;
@@ -147,14 +146,29 @@ class Router {
 	 * @param  mixed  $callback
 	 * @return array
 	 */
-	protected function provides($callback)
+	protected function formats($callback)
 	{
 		if (is_array($callback) and isset($callback['provides']))
 		{
 			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
 		}
 
-		return array('html');
+		return array();
+	}
+
+	/**
+	 * Determine if a route needs to be examined using a regular expression.
+	 *
+	 * Routes that contain wildcards or multiple URIs cannot be matched using
+	 * a literal key check on the array. The wildcards will have to be turned
+	 * into real regular expressions and the multiple URIs have to be split.
+	 *
+	 * @param  string  $keys
+	 * @return bool
+	 */
+	protected function fuzzy($keys)
+	{
+		return strpos($keys, '(') !== false or strpos($keys, ',') !== false;
 	}
 
 	/**
