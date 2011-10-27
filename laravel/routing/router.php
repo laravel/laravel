@@ -115,10 +115,19 @@ class Router {
 		// the request method and a forward slash followed by the URI.
 		$destination = $method.' /'.trim($uri, '/');
 
+		// We need to remove the format from the route since formats are
+		// not specified in the route URI directly, but rather through
+		// the "provides" keyword on the route array.
+		$destination = str_replace('.'.$format, '', $destination);
+
 		// Check for a literal route match first...
 		if (isset($routes[$destination]))
 		{
-			return Request::$route = new Route($destination, $routes[$destination], array());
+			// And check it provides the requested format...
+			if (in_array($format, $this->provides($routes[$destination])))
+			{
+				return Request::$route = new Route($destination, $routes[$destination], array());
+			}
 		}
 
 		foreach ($routes as $keys => $callback)
@@ -131,7 +140,7 @@ class Router {
 			// routes would have been caught by the check for literal matches.
 			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
 			{
-				if ( ! is_null($route = $this->match($destination, $keys, $callback, $format)))
+				if ( ! is_null($route = $this->match($destination, $keys, $callback)))
 				{
 					return Request::$route = $route;
 				}
@@ -151,10 +160,11 @@ class Router {
 	{
 		if (is_array($callback) and isset($callback['provides']))
 		{
-			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
+			return (is_string($callback['provides'])) ? explode('|', $callback['provides']) : $callback['provides'];
 		}
 
-		return array();
+		// If no provides are set then we provide the default format
+		return array(Request::format(''));
 	}
 
 	/**
@@ -167,16 +177,10 @@ class Router {
 	 * @param  string  $destination
 	 * @param  array   $keys
 	 * @param  mixed   $callback
-	 * @param  string  $format
 	 * @return mixed
 	 */
-	protected function match($destination, $keys, $callback, $format)
+	protected function match($destination, $keys, $callback)
 	{
-		// We need to remove the format from the route since formats are
-		// not specified in the route URI directly, but rather through
-		// the "provides" keyword on the route array.
-		$destination = str_replace('.'.$format, '', $destination);
-
 		foreach (explode(', ', $keys) as $key)
 		{
 			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
@@ -294,6 +298,6 @@ class Router {
 		}
 
 		return $parameters;
-	}	
+	}
 
 }
