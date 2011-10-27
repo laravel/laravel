@@ -61,7 +61,7 @@ class Redis {
 	 */
 	public static function db($name = 'default')
 	{
-		if (is_null(static::$databases[$name]))
+		if ( ! isset(static::$databases[$name]))
 		{
 			if (is_null($config = Config::get("database.redis.{$name}")))
 			{
