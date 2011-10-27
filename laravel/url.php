@@ -55,7 +55,14 @@ class URL {
 	{
 		if (is_null($https)) $https = Request::secure();
 
-		return str_replace(Config::$items['application']['index'].'/', '', static::to($url, $https));
+		$url = static::to($url, $https);
+
+		if (($index = Config::$items['application']['index']) !== '')
+		{
+			$url = str_replace($index.'/', '', $url);
+		}
+
+		return $url;
 	}
 
 	/**

@@ -71,11 +71,9 @@ return array(
 	| Laravel Caching Components
 	|--------------------------------------------------------------------------
 	|
-	| The following components are used by the wonderfully, simple Laravel
-	| caching system. Each driver is resolved through the container.
-	|
-	| New cache drivers may be added to the framework by simply registering
-	| them into the container.
+	| The following components are used by the wonderfully simple Laravel cache
+	| system. Each driver is resolved through the container, so new drivers may
+	| be added by simply registering them in the container.
 	|
 	*/
 
@@ -88,6 +86,12 @@ return array(
 	'laravel.cache.file' => array('resolver' => function($c)
 	{
 		return new Cache\Drivers\File(CACHE_PATH);
+	}),
+
+
+	'laravel.cache.redis' => array('resolver' => function()
+	{
+		return new Cache\Drivers\Redis(Redis::db());		
 	}),
 
 
@@ -130,10 +134,6 @@ return array(
 	| from the session driver, as well as examining the payload validitiy
 	| and things like the CSRF token.
 	|
-	| Like the caching components, each session driver is resolved via the
-	| container and new drivers may be added by registering them into the
-	| container. Several session drivers are "driven" by the cache drivers.
-	|
 	*/
 
 	'laravel.session.transporter' => array('resolver' => function($c)
@@ -163,6 +163,12 @@ return array(
 	'laravel.session.file' => array('resolver' => function($c)
 	{
 		return new Session\Drivers\File(SESSION_PATH);
+	}),
+
+
+	'laravel.session.redis' => array('resolver' => function($c)
+	{
+		return new Session\Drivers\Redis($c->core('cache.redis'));
 	}),
 
 

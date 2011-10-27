@@ -5,7 +5,7 @@ define('CRLF', chr(13).chr(10));
 define('EXT', '.php');
 
 /**
- * Define a function that registers an array of constants if they
+ * Define a function that registers an array of constants if they haven't
  * haven't already been registered. This allows the constants to
  * be changed from their default values when unit testing.
  */
@@ -62,7 +62,7 @@ constants($constants);
  * The environment is controlled by setting an environment
  * variable on the server running Laravel.
  */
-$environment = (isset($_SERVER['LARAVEL_ENV'])) ? $_SERVER['LARAVEL_ENV'] : '';
+$environment = (isset($_SERVER['LARAVEL_ENV'])) ? CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/' : '';
 
 constants(array('ENV_CONFIG_PATH' => $environment));
 

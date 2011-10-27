@@ -611,7 +611,9 @@ class Query {
 	 */
 	protected function adjust($column, $amount, $operator)
 	{
-		return $this->update(array($column => Manager::raw($this->grammar->wrap($column).$operator.$amount)));
+		$value = Manager::raw($this->grammar->wrap($column).$operator.$amount);
+
+		return $this->update(array($column => $value));
 	}
 
 	/**

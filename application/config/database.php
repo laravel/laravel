@@ -70,4 +70,25 @@ return array(
 
 	),
 
+	/*
+	|--------------------------------------------------------------------------
+	| Redis Databases
+	|--------------------------------------------------------------------------
+	|
+	| Redis is an open source, fast, and advanced key-value store. However, it
+	| provides a richer set of commands than a typical key-value store such as
+	| APC or memcached.
+	|
+	| Here you may specify the hosts and ports for your Redis databases.
+	|
+	| For more information regarding Redis, check out: http://redis.io
+	|
+	*/
+
+	'redis' => array(
+
+		'default' => array('host' => '127.0.0.1', 'port' => 6379),
+
+	),
+
 );

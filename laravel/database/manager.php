@@ -17,8 +17,6 @@ class Manager {
 	 *
 	 * If no database name is specified, the default connection will be returned.
 	 *
-	 * Note: Database connections are managed as singletons.
-	 *
 	 * <code>
 	 *		// Get the default database connection for the application
 	 *		$connection = DB::connection();

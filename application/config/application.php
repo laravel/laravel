@@ -131,7 +131,6 @@ return array(
 	*/
 
 	'aliases' => array(
-		'Arr'        => 'Laravel\\Arr',
 		'Asset'      => 'Laravel\\Asset',
 		'Auth'       => 'Laravel\\Security\\Auth',
 		'Benchmark'  => 'Laravel\\Benchmark',
@@ -150,12 +149,9 @@ return array(
 		'Input'      => 'Laravel\\Input',
 		'IoC'        => 'Laravel\\IoC',
 		'Lang'       => 'Laravel\\Lang',
-		'Loader'     => 'Laravel\\Loader',
-		'Messages'   => 'Laravel\\Validation\\Messages',
-		'Package'    => 'Laravel\\Facades\\Package',
-		'URI'        => 'Laravel\\URI',
 		'URL'        => 'Laravel\\URL',
 		'Redirect'   => 'Laravel\\Redirect',
+		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
 		'Session'    => 'Laravel\\Session\\Manager',

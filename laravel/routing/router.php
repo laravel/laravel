@@ -51,8 +51,8 @@ class Router {
 	 * @var array
 	 */
 	protected $patterns = array(
-		'(:num)' => '[0-9]+',
-		'(:any)' => '[a-zA-Z0-9\.\-_]+',
+		'(:num)' => '([0-9]+)',
+		'(:any)' => '([a-zA-Z0-9\.\-_]+)',
 	);
 
 	/**
@@ -104,9 +104,10 @@ class Router {
 	 *
 	 * @param  string   $method
 	 * @param  string   $uri
+	 * @param  string   $format
 	 * @return Route
 	 */
-	public function route($method, $uri)
+	public function route($method, $uri, $format)
 	{
 		$routes = $this->loader->load($uri);
 
@@ -122,18 +123,38 @@ class Router {
 
 		foreach ($routes as $keys => $callback)
 		{
-			// Only check routes that have multiple URIs, wildcards or provides since other
+			// We need to make sure that the requested format is provided by the
+			// route. If it isn't, there is no need to continue evaluating it.
+			if ( ! in_array($format, $this->provides($callback))) continue;
+
+			// Only check routes having multiple URIs or wildcards since other
 			// routes would have been caught by the check for literal matches.
-			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false or ! is_null($this->provides($callback)))
+			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
 			{
-				if ( ! is_null($route = $this->match($destination, $keys, $callback)))
+				if ( ! is_null($route = $this->match($destination, $keys, $callback, $format)))
 				{
 					return Request::$route = $route;
-				}	
+				}
 			}
 		}
 
 		return Request::$route = $this->controller($method, $uri, $destination);
+	}
+
+	/**
+	 * Get the request formats for which the route provides responses.
+	 *
+	 * @param  mixed  $callback
+	 * @return array
+	 */
+	protected function provides($callback)
+	{
+		if (is_array($callback) and isset($callback['provides']))
+		{
+			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
+		}
+
+		return array();
 	}
 
 	/**
@@ -146,19 +167,18 @@ class Router {
 	 * @param  string  $destination
 	 * @param  array   $keys
 	 * @param  mixed   $callback
+	 * @param  string  $format
 	 * @return mixed
 	 */
-	protected function match($destination, $keys, $callback)
+	protected function match($destination, $keys, $callback, $format)
 	{
+		// We need to remove the format from the route since formats are
+		// not specified in the route URI directly, but rather through
+		// the "provides" keyword on the route array.
+		$destination = str_replace('.'.$format, '', $destination);
+
 		foreach (explode(', ', $keys) as $key)
 		{
-			// Append the provided formats to the route as an optional regular expression.
-			// This should make the route look something like: "user(\.(json|xml|html))?"
-			if ( ! is_null($formats = $this->provides($callback)))
-			{
-				$key .= '(\.('.implode('|', $formats).'))?';
-			}
-
 			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
 			{
 				return new Route($keys, $callback, $this->parameters($destination, $key));
@@ -185,19 +205,13 @@ class Router {
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{
-			// Create the controller name for the current request. This controller
-			// name will be returned by the anonymous route we will create. Instead
-			// of using directory slashes, dots will be used to specify the controller
-			// location with the controllers directory.
+			// Extract the controller name from the URI segments.
 			$controller = implode('.', array_slice($segments, 0, $key));
 
-			// Now that we have the controller path and name, we can slice the controller
-			// section of the URI from the array of segments.
+			// Remove the controller name from the URI.
 			$segments = array_slice($segments, $key);
 
-			// Extract the controller method from the URI segments. If no more segments
-			// are remaining after slicing off the controller, the "index" method will
-			// be used as the default controller method.
+			// Extract the controller method from the remaining segments.
 			$method = (count($segments) > 0) ? array_shift($segments) : 'index';
 
 			return new Route($destination, $controller.'@'.$method, $segments);
@@ -206,12 +220,12 @@ class Router {
 
 	/**
 	 * Search the controllers for the application and determine if an applicable
-	 * controller exists for the current request.
+	 * controller exists for the current request to the application.
 	 *
 	 * If a controller is found, the array key for the controller name in the URI
 	 * segments will be returned by the method, otherwise NULL will be returned.
-	 * The deepest possible matching controller will be considered the controller
-	 * that should handle the request.
+	 * The deepest possible controller will be considered the controller that
+	 * should handle the request.
 	 *
 	 * @param  array  $segments
 	 * @return int
@@ -226,20 +240,6 @@ class Router {
 			{
 				return $key + 1;
 			}
-		}
-	}
-
-	/**
-	 * Get the request formats for which the route provides responses.
-	 *
-	 * @param  mixed  $callback
-	 * @return array
-	 */
-	protected function provides($callback)
-	{
-		if (is_array($callback) and isset($callback['provides']))
-		{
-			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
 		}
 	}
 
@@ -260,8 +260,6 @@ class Router {
 
 		$key .= ($replacements > 0) ? str_repeat(')?', $replacements) : '';
 
-		// After replacing all of the optional wildcards, we can replace all
-		// of the "regular" wildcards and return the fully regexed string.
 		return str_replace(array_keys($this->patterns), array_values($this->patterns), $key);
 	}
 
@@ -276,7 +274,26 @@ class Router {
 	 */
 	protected function parameters($uri, $route)
 	{
-		return array_values(array_intersect_key(preg_split('?[/.]?', $uri), preg_grep('/\(.+\)/', preg_split('?[/.]?', $route))));
-	}
+		// When gathering the parameters, we need to get the request format out
+		// of the destination, otherwise it could be passed in as a parameter
+		// to the route closure or controller, which we don't want.
+		$uri = str_replace('.'.Request::format(), '', $uri);
+
+		list($uri, $route) = array(explode('/', $uri), explode('/', $route));
+
+		$count = count($route);
+
+		$parameters = array();
+
+		for ($i = 0; $i < $count; $i++)
+		{
+			if (preg_match('/\(.+\)/', $route[$i]))
+			{
+				$parameters[] = $uri[$i];
+			}
+		}
+
+		return $parameters;
+	}	
 
 }
