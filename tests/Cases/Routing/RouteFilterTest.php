@@ -10,16 +10,17 @@ class RouteFilterTest extends PHPUnit_Framework_TestCase {
 				return 'simple';
 			},
 
-			'parameters' => function($one, $two)
+			'parameters' => function($one, $two, $three = null)
 			{
-				return $one.'|'.$two;
+				return $one.'|'.$two.'|'.$three;
 			},
 		);
 
 		Filter::register($filters);
 
 		$this->assertEquals(Filter::run(array('simple'), array(), true), 'simple');
-		$this->assertEquals(Filter::run(array('parameters:1,2'), array(), true), '1|2');
+		$this->assertEquals(Filter::run(array('parameters:1,2'), array(), true), '1|2|');
+		$this->assertEquals(Filter::run(array('parameters:1,2'), array(3), true), '3|1|2');
 	}
 
 }
