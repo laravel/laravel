@@ -134,7 +134,7 @@ return array(
 		'Asset'      => 'Laravel\\Asset',
 		'Auth'       => 'Laravel\\Security\\Auth',
 		'Benchmark'  => 'Laravel\\Benchmark',
-		'Cache'      => 'Laravel\\Cache',
+		'Cache'      => 'Laravel\\Cache\\Manager',
 		'Config'     => 'Laravel\\Config',
 		'Controller' => 'Laravel\\Routing\\Controller',
 		'Cookie'     => 'Laravel\\Cookie',
