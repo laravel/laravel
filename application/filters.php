@@ -52,7 +52,7 @@ return array(
 	{
 		if (Config::get('session.driver') !== '')
 		{
-			Session::flash(Input::old_input, Input::old());
+			Session::flash(Input::old_input, Input::get());
 		}
 	},
 
