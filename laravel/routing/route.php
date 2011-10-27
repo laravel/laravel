@@ -150,15 +150,15 @@ class Route {
 		{
 			return call_user_func_array($this->callback, $this->parameters);
 		}
-		// If the route is an array we will return the first value with a
-		// key of "delegate", or the first instance of a Closure. If the
-		// value is a string, the route is delegating the responsibility
+		// If the route is an array, we will return the first value with a
+		// key of "uses", or the first instance of a Closure. If the value
+		// is a string, the route is delegating the responsibility for
 		// for handling the request to a controller.
 		elseif (is_array($this->callback))
 		{
 			$callback = Arr::first($this->callback, function($key, $value)
 			{
-				return $key == 'delegate' or $value instanceof Closure;
+				return $key == 'uses' or $value instanceof Closure;
 			});
 
 			if ($callback instanceof Closure)

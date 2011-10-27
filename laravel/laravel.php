@@ -91,9 +91,9 @@ Input::$input = $input;
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-list($uri, $method) = array(Request::uri()->get(), Request::method());
+list($uri, $method, $format) = array(Request::uri()->get(), Request::method(), Request::format());
 
-$route = IoC::container()->core('routing.router')->route($method, $uri);
+$route = IoC::container()->core('routing.router')->route($method, $uri, $format);
 
 if ( ! is_null($route))
 {

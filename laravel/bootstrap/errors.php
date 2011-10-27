@@ -101,7 +101,6 @@ register_shutdown_function(function() use ($handler)
 {
 	if ( ! is_null($error = error_get_last()))
 	{
-		die('here');
 		extract($error, EXTR_SKIP);
 
 		$handler(new \ErrorException($message, $type, 0, $file, $line));

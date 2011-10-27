@@ -41,9 +41,7 @@ class URI {
 	{
 		if ( ! is_null($this->uri)) return $this->uri;
 
-		$uri = parse_url($this->server['REQUEST_URI'], PHP_URL_PATH);
-
-		return $this->uri = $this->format($this->clean($uri));
+		return $this->uri = $this->format($this->clean($this->parse($this->server['REQUEST_URI'])));
 	}
 
 	/**
@@ -54,14 +52,24 @@ class URI {
 	 */
 	protected function clean($uri)
 	{
-		$uri = $this->remove($uri, parse_url(Config::$items['application']['url'], PHP_URL_PATH));
+		$uri = $this->remove($uri, $this->parse(Config::$items['application']['url']));
 
 		if (($index = '/'.Config::$items['application']['index']) !== '/')
 		{
 			$uri = $this->remove($uri, $index);
 		}
 
-		return rtrim($uri, '.'.Request::format($uri));
+		return $uri;
+	}
+
+	/**
+	 * Parse a given string URI using PHP_URL_PATH to remove the domain.
+	 *
+	 * @return string
+	 */
+	protected function parse($uri)
+	{
+		return parse_url($uri, PHP_URL_PATH);
 	}
 
 	/**

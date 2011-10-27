@@ -68,7 +68,9 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		file_put_contents($this->path.$key, (time() + ($minutes * 60)).serialize($value), LOCK_EX);
+		$value = (time() + ($minutes * 60)).serialize($value);
+
+		file_put_contents($this->path.$key, $value, LOCK_EX);
 	}
 
 	/**

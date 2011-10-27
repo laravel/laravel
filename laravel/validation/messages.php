@@ -37,10 +37,19 @@ class Messages {
 	 */
 	public function add($key, $message)
 	{
-		if ( ! isset($this->messages[$key]) or array_search($message, $this->messages[$key]) === false)
-		{
-			$this->messages[$key][] = $message;
-		}
+		if ($this->unique($key, $message)) $this->messages[$key][] = $message;
+	}
+
+	/**
+	 * Determine if a key and message combination already exists.
+	 *
+	 * @param  string  $key
+	 * @param  string  $message
+	 * @return bool
+	 */
+	protected function unique($key, $message)
+	{
+		return ! isset($this->messages[$key]) or array_search($message, $this->messages[$key]) === false;
 	}
 
 	/**

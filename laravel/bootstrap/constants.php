@@ -5,7 +5,7 @@ define('CRLF', chr(13).chr(10));
 define('EXT', '.php');
 
 /**
- * Define a function that registers an array of constants if they
+ * Define a function that registers an array of constants if they haven't
  * haven't already been registered. This allows the constants to
  * be changed from their default values when unit testing.
  */

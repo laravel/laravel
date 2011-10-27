@@ -51,8 +51,8 @@ class Router {
 	 * @var array
 	 */
 	protected $patterns = array(
-		'(:num)' => '[0-9]+',
-		'(:any)' => '[a-zA-Z0-9\.\-_]+',
+		'(:num)' => '([0-9]+)',
+		'(:any)' => '([a-zA-Z0-9\.\-_]+)',
 	);
 
 	/**
@@ -104,9 +104,10 @@ class Router {
 	 *
 	 * @param  string   $method
 	 * @param  string   $uri
+	 * @param  string   $format
 	 * @return Route
 	 */
-	public function route($method, $uri)
+	public function route($method, $uri, $format)
 	{
 		$routes = $this->loader->load($uri);
 
@@ -122,19 +123,18 @@ class Router {
 
 		foreach ($routes as $keys => $callback)
 		{
-			// Formats are appended to the route key as a regular expression.
-			// It will look something like: "(\.(json|xml|html))?"
-			$formats = $this->provides($callback);
+			// We need to make sure that the requested format is provided by the
+			// route. If it isn't, there is no need to continue evaluating it.
+			if ( ! in_array($format, $this->provides($callback))) continue;
 
-			// Only check routes that have multiple URIs or wildcards since other
+			// Only check routes having multiple URIs or wildcards since other
 			// routes would have been caught by the check for literal matches.
-			// We also need to check routes with "provides" clauses.
-			if ($this->fuzzy($keys) or ! is_null($formats))
+			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
 			{
-				if ( ! is_null($route = $this->match($destination, $keys, $callback, $formats)))
+				if ( ! is_null($route = $this->match($destination, $keys, $callback, $format)))
 				{
 					return Request::$route = $route;
-				}	
+				}
 			}
 		}
 
@@ -142,18 +142,19 @@ class Router {
 	}
 
 	/**
-	 * Determine if the route contains elements that forbid literal matches.
+	 * Get the request formats for which the route provides responses.
 	 *
-	 * Any route key containing a regular expression, wildcard, or multiple
-	 * URIs cannot be matched using a literal string check, but must be
-	 * checked using regular expressions.
-	 *
-	 * @param  string  $keys
-	 * @return bool
+	 * @param  mixed  $callback
+	 * @return array
 	 */
-	protected function fuzzy($keys)
+	protected function provides($callback)
 	{
-		return strpos($keys, '(') !== false or strpos($keys, ',') !== false;
+		if (is_array($callback) and isset($callback['provides']))
+		{
+			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
+		}
+
+		return array();
 	}
 
 	/**
@@ -166,18 +167,19 @@ class Router {
 	 * @param  string  $destination
 	 * @param  array   $keys
 	 * @param  mixed   $callback
-	 * @param  array   $formats
+	 * @param  string  $format
 	 * @return mixed
 	 */
-	protected function match($destination, $keys, $callback, $formats)
+	protected function match($destination, $keys, $callback, $format)
 	{
-		// Append the provided formats to the route as an optional regular expression.
-		// This should make the route look something like: "user(\.(json|xml|html))?"
-		$formats = ( ! is_null($formats)) ? '(\.('.implode('|', $formats).'))?' : '';
+		// We need to remove the format from the route since formats are
+		// not specified in the route URI directly, but rather through
+		// the "provides" keyword on the route array.
+		$destination = str_replace('.'.$format, '', $destination);
 
 		foreach (explode(', ', $keys) as $key)
 		{
-			if (preg_match('#^'.$this->wildcards($key).$formats.'$#', $destination))
+			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
 			{
 				return new Route($keys, $callback, $this->parameters($destination, $key));
 			}
@@ -242,20 +244,6 @@ class Router {
 	}
 
 	/**
-	 * Get the request formats for which the route provides responses.
-	 *
-	 * @param  mixed  $callback
-	 * @return array
-	 */
-	protected function provides($callback)
-	{
-		if (is_array($callback) and isset($callback['provides']))
-		{
-			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
-		}
-	}
-
-	/**
 	 * Translate route URI wildcards into actual regular expressions.
 	 *
 	 * @param  string  $key
@@ -272,8 +260,6 @@ class Router {
 
 		$key .= ($replacements > 0) ? str_repeat(')?', $replacements) : '';
 
-		// After replacing all of the optional wildcards, we can replace all
-		// of the "regular" wildcards and return the fully regexed string.
 		return str_replace(array_keys($this->patterns), array_values($this->patterns), $key);
 	}
 
@@ -288,6 +274,11 @@ class Router {
 	 */
 	protected function parameters($uri, $route)
 	{
+		// When gathering the parameters, we need to get the request format out
+		// of the destination, otherwise it could be passed in as a parameter
+		// to the route closure or controller, which we don't want.
+		$uri = str_replace('.'.Request::format(), '', $uri);
+
 		list($uri, $route) = array(explode('/', $uri), explode('/', $route));
 
 		$count = count($route);
