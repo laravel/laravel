@@ -19,7 +19,7 @@ class RouteFilterTest extends PHPUnit_Framework_TestCase {
 		Filter::register($filters);
 
 		$this->assertEquals(Filter::run(array('simple'), array(), true), 'simple');
-		$this->assertEquals(Filter::run(array('parameters'), array(1, 2), true), '1|2');
+		$this->assertEquals(Filter::run(array('parameters:1,2'), array(), true), '1|2');
 	}
 
 }
