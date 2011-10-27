@@ -154,7 +154,7 @@ class Router {
 			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
 		}
 
-		return array();
+		return array('html');
 	}
 
 	/**
