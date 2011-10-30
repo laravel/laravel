@@ -34,21 +34,6 @@ class Request {
 	}
 
 	/**
-	 * Get the request format.
-	 *
-	 * The format is determined by taking the "extension" of the URI.
-	 *
-	 * @param  string  $uri
-	 * @return string
-	 */
-	public static function format($uri = null)
-	{
-		if (is_null($uri)) $uri = static::uri()->get();
-
-		return (($extension = pathinfo($uri, PATHINFO_EXTENSION)) !== '') ? $extension : 'html';
-	}
-
-	/**
 	 * Get the request method.
 	 *
 	 * This will usually be the value of the REQUEST_METHOD $_SERVER variable

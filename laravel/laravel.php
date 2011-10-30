@@ -91,13 +91,13 @@ Input::$input = $input;
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-list($uri, $method, $format) = array(Request::uri()->get(), Request::method(), Request::format());
+list($uri, $method) = array(Request::uri()->get(), Request::method());
 
-$route = IoC::container()->core('routing.router')->route($method, $uri, $format);
+Request::$route = IoC::container()->core('routing.router')->route($method, $uri);
 
-if ( ! is_null($route))
+if ( ! is_null(Request::$route))
 {
-	$response = $route->call();
+	$response = Request::$route->call();
 }
 else
 {

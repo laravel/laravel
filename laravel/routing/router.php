@@ -104,71 +104,38 @@ class Router {
 	 *
 	 * @param  string   $method
 	 * @param  string   $uri
-	 * @param  string   $format
 	 * @return Route
 	 */
-	public function route($method, $uri, $format)
+	public function route($method, $uri)
 	{
 		$routes = $this->loader->load($uri);
 
-		// Put the request method and URI in route form. Routes begin with
-		// the request method and a forward slash followed by the URI.
+		// All route URIs begin with the request method and have a leading
+		// slash before the URI. We'll put the request method and URI into
+		// that format so we can easily check for literal matches.
 		$destination = $method.' /'.trim($uri, '/');
 
-		// Check for a literal route match first...
 		if (isset($routes[$destination]))
 		{
-			return Request::$route = new Route($destination, $routes[$destination], array());
+			return new Route($destination, $routes[$destination], array());
 		}
 
+		// If no literal route match was found, we will iterate through all
+		// of the routes and check each of them one at a time, translating
+		// any wildcards in the route into actual regular expressions.
 		foreach ($routes as $keys => $callback)
 		{
-			$formats = $this->formats($callback);
-
 			// Only check the routes that couldn't be matched literally...
-			if (($format_count = count($formats)) > 0 or $this->fuzzy($keys))
+			if (strpos($keys, '(') !== false or strpos($keys, ',') !== false)
 			{
-				if ($format_count > 0 and ! in_array($format, $formats)) continue;
-
-				if ( ! is_null($route = $this->match($destination, $keys, $callback, $format)))
+				if ( ! is_null($route = $this->match($destination, $keys, $callback)))
 				{
-					return Request::$route = $route;
+					return $route;
 				}
 			}
 		}
 
-		return Request::$route = $this->controller($method, $uri, $destination);
-	}
-
-	/**
-	 * Get the request formats for which the route provides responses.
-	 *
-	 * @param  mixed  $callback
-	 * @return array
-	 */
-	protected function formats($callback)
-	{
-		if (is_array($callback) and isset($callback['provides']))
-		{
-			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
-		}
-
-		return array();
-	}
-
-	/**
-	 * Determine if a route needs to be examined using a regular expression.
-	 *
-	 * Routes that contain wildcards or multiple URIs cannot be matched using
-	 * a literal key check on the array. The wildcards will have to be turned
-	 * into real regular expressions and the multiple URIs have to be split.
-	 *
-	 * @param  string  $keys
-	 * @return bool
-	 */
-	protected function fuzzy($keys)
-	{
-		return strpos($keys, '(') !== false or strpos($keys, ',') !== false;
+		return $this->controller($method, $uri, $destination);
 	}
 
 	/**
@@ -181,16 +148,10 @@ class Router {
 	 * @param  string  $destination
 	 * @param  array   $keys
 	 * @param  mixed   $callback
-	 * @param  string  $format
 	 * @return mixed
 	 */
-	protected function match($destination, $keys, $callback, $format)
+	protected function match($destination, $keys, $callback)
 	{
-		// We need to remove the format from the route since formats are
-		// not specified in the route URI directly, but rather through
-		// the "provides" keyword on the route array.
-		$destination = str_replace('.'.$format, '', $destination);
-
 		foreach (explode(', ', $keys) as $key)
 		{
 			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
@@ -258,6 +219,22 @@ class Router {
 	}
 
 	/**
+	 * Get the request formats for which the route provides responses.
+	 *
+	 * @param  mixed  $callback
+	 * @return array
+	 */
+	protected function formats($callback)
+	{
+		if (is_array($callback) and isset($callback['provides']))
+		{
+			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
+		}
+
+		return array('html');
+	}
+
+	/**
 	 * Translate route URI wildcards into actual regular expressions.
 	 *
 	 * @param  string  $key
@@ -288,11 +265,6 @@ class Router {
 	 */
 	protected function parameters($uri, $route)
 	{
-		// When gathering the parameters, we need to get the request format out
-		// of the destination, otherwise it could be passed in as a parameter
-		// to the route closure or controller, which we don't want.
-		$uri = str_replace('.'.Request::format(), '', $uri);
-
 		list($uri, $route) = array(explode('/', $uri), explode('/', $route));
 
 		$count = count($route);
