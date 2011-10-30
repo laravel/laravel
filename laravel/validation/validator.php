@@ -292,7 +292,9 @@ class Validator {
 	 */
 	protected function validate_between($attribute, $value, $parameters)
 	{
-		return $this->size($attribute, $value) >= $parameters[0] and $this->size($attribute, $value) <= $parameters[1];
+		$size = $this->size($attribute, $value);
+
+		return $size >= $parameters[0] and $size <= $parameters[1];
 	}
 
 	/**
