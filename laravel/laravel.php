@@ -37,11 +37,51 @@ if (Config::$items['session']['driver'] !== '')
  * Manually load some core classes that are used on every request
  * This allows to avoid using the loader for these classes.
  */
+require SYS_PATH.'uri'.EXT;
+require SYS_PATH.'input'.EXT;
+require SYS_PATH.'request'.EXT;
 require SYS_PATH.'response'.EXT;
 require SYS_PATH.'routing/route'.EXT;
 require SYS_PATH.'routing/router'.EXT;
 require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
+
+/**
+ * Gather the input to the application for the current request.
+ * The input will be gathered based on the current request method
+ * and will be set on the Input manager.
+ */
+$input = array();
+
+switch (Request::method())
+{
+	case 'GET':
+		$input = $_GET;
+		break;
+
+	case 'POST':
+		$input = $_POST;
+		break;
+
+	case 'PUT':
+	case 'DELETE':
+		if (Request::spoofed())
+		{
+			$input = $_POST;
+		}
+		else
+		{
+			parse_str(file_get_contents('php://input'), $input);
+		}
+}
+
+/**
+ * The spoofed request method is removed from the input so it is
+ * not unexpectedly included in Input::all() or Input::get().s
+ */
+unset($input[Request::spoofer]);
+
+Input::$input = $input;
 
 /**
  * Route the request to the proper route in the application. If a
@@ -51,13 +91,13 @@ require SYS_PATH.'routing/filter'.EXT;
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-$request = IoC::container()->core('request');
+list($uri, $method) = array(Request::uri()->get(), Request::method());
 
-$request->route = IoC::container()->core('routing.router')->route($request);
+Request::$route = IoC::container()->core('routing.router')->route($method, $uri);
 
-if ( ! is_null($request->route))
+if ( ! is_null(Request::$route))
 {
-	$response = $request->route->call();
+	$response = Request::$route->call();
 }
 else
 {

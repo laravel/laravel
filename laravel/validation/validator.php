@@ -341,7 +341,7 @@ class Validator {
 		{
 			return $this->attributes[$attribute];
 		}
-		elseif (array_key_exists($attribute, IoC::container()->core('input')->file()))
+		elseif (array_key_exists($attribute, Input::file()))
 		{
 			return $value['size'] / 1024;
 		}
@@ -529,9 +529,7 @@ class Validator {
 		// type of attribute being validated, either a file or a string.
 		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
 		{
-			$files = IoC::container()->core('input')->file();
-
-			$line = (array_key_exists($attribute, $files)) ? "file" : "string";
+			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
 
 			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
 		}

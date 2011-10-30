@@ -3,32 +3,18 @@
 class Request {
 
 	/**
-	 * The route handling the current request.
-	 *
-	 * @var Routing\Route
-	 */
-	public $route;
-
-	/**
 	 * The request URI for the current request.
 	 *
 	 * @var URI
 	 */
-	protected $uri;
+	public static $uri;
 
 	/**
-	 * The $_POST array for the request.
+	 * The route handling the current request.
 	 *
-	 * @var array
+	 * @var Routing\Route
 	 */
-	protected $post;
-
-	/**
-	 * The $_SERVER array for the request.
-	 *
-	 * @var array
-	 */
-	protected $server;
+	public static $route;
 
 	/**
 	 * The request data key that is used to indicate a spoofed request method.
@@ -38,28 +24,13 @@ class Request {
 	const spoofer = '__spoofer';
 
 	/**
-	 * Create a new Request instance.
+	 * Get the URI instance for the current request.
 	 *
-	 * @param  URI    $uri
-	 * @param  array  $post
-	 * @param  array  $server
-	 * @return void
+	 * @return URI
 	 */
-	public function __construct($uri, $post, $server)
+	public static function uri()
 	{
-		$this->uri = $uri;
-		$this->post = $post;
-		$this->server = $server;
-	}
-
-	/**
-	 * Get the current request's URI.
-	 *
-	 * @return string
-	 */
-	public function uri()
-	{
-		return $this->uri->get();
+		return (is_null(static::$uri)) ? static::$uri = new URI($_SERVER) : static::$uri;
 	}
 
 	/**
@@ -71,9 +42,9 @@ class Request {
 	 *
 	 * @return string
 	 */
-	public function method()
+	public static function method()
 	{
-		return ($this->spoofed()) ? $this->post[Request::spoofer] : $this->server['REQUEST_METHOD'];
+		return (static::spoofed()) ? $_POST[Request::spoofer] : $_SERVER['REQUEST_METHOD'];
 	}
 
 	/**
@@ -85,9 +56,9 @@ class Request {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function server($key = null, $default = null)
+	public static function server($key = null, $default = null)
 	{
-		return Arr::get($this->server, strtoupper($key), $default);
+		return Arr::get($_SERVER, strtoupper($key), $default);
 	}
 
 	/**
@@ -95,9 +66,9 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function spoofed()
+	public static function spoofed()
 	{
-		return is_array($this->post) and array_key_exists(Request::spoofer, $this->post);
+		return is_array($_POST) and array_key_exists(Request::spoofer, $_POST);
 	}
 
 	/**
@@ -106,19 +77,19 @@ class Request {
 	 * @param  mixed   $default
 	 * @return string
 	 */
-	public function ip($default = '0.0.0.0')
+	public static function ip($default = '0.0.0.0')
 	{
-		if (isset($this->server['HTTP_X_FORWARDED_FOR']))
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 		{
-			return $this->server['HTTP_X_FORWARDED_FOR'];
+			return $_SERVER['HTTP_X_FORWARDED_FOR'];
 		}
-		elseif (isset($this->server['HTTP_CLIENT_IP']))
+		elseif (isset($_SERVER['HTTP_CLIENT_IP']))
 		{
-			return $this->server['HTTP_CLIENT_IP'];
+			return $_SERVER['HTTP_CLIENT_IP'];
 		}
-		elseif (isset($this->server['REMOTE_ADDR']))
+		elseif (isset($_SERVER['REMOTE_ADDR']))
 		{
-			return $this->server['REMOTE_ADDR'];
+			return $_SERVER['REMOTE_ADDR'];
 		}
 
 		return ($default instanceof Closure) ? call_user_func($default) : $default;
@@ -129,9 +100,9 @@ class Request {
 	 *
 	 * @return string
 	 */
-	public function protocol()
+	public static function protocol()
 	{
-		return Arr::get($this->server, 'SERVER_PROTOCOL', 'HTTP/1.1');
+		return Arr::get($_SERVER, 'SERVER_PROTOCOL', 'HTTP/1.1');
 	}
 
 	/**
@@ -139,9 +110,9 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function secure()
+	public static function secure()
 	{
-		return isset($this->server['HTTPS']) and strtolower($this->server['HTTPS']) !== 'off';
+		return isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off';
 	}
 
 	/**
@@ -149,11 +120,11 @@ class Request {
 	 *
 	 * @return bool
 	 */
-	public function ajax()
+	public static function ajax()
 	{
-		if ( ! isset($this->server['HTTP_X_REQUESTED_WITH'])) return false;
+		if ( ! isset($_SERVER['HTTP_X_REQUESTED_WITH'])) return false;
 
-		return strtolower($this->server['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+		return strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 	}
 
 	/**
@@ -161,9 +132,9 @@ class Request {
 	 *
 	 * @return Route
 	 */
-	public function route()
+	public static function route()
 	{
-		return $this->route;
+		return static::$route;
 	}
 
 }

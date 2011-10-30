@@ -4,69 +4,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Various Laravel Components
-	|--------------------------------------------------------------------------
-	|
-	| Many of the Laravel classes are resolved through the inversion of control
-	| container to maintain a high level of testability and flexibility.
-	|
-	| Most of them are also accessible through a "Facade", which simulates the
-	| class being usable via static methods for convenience. Facades allow the
-	| framework to keep a convenient API, while still having a testable core.
-	|
-	*/
-
-	'laravel.input' => array('singleton' => true, 'resolver' => function($c)
-	{
-		require SYS_PATH.'input'.EXT;
-
-		$input = array();
-
-		$request = $c->core('request');
-
-		switch ($request->method())
-		{
-			case 'GET':
-				$input = $_GET;
-				break;
-
-			case 'POST':
-				$input = $_POST;
-				break;
-
-			case 'PUT':
-			case 'DELETE':
-				if ($request->spoofed())
-				{
-					$input = $_POST;
-				}
-				else
-				{
-					parse_str(file_get_contents('php://input'), $input);
-				}
-		}
-
-		return new Input($input, $_FILES);
-	}),
-
-
-	'laravel.request' => array('singleton' => true, 'resolver' => function($c)
-	{
-		require_once SYS_PATH.'request'.EXT;
-
-		return new Request($c->core('uri'), $_POST, $_SERVER);
-	}),
-
-
-	'laravel.uri' => array('singleton' => true, 'resolver' => function($c)
-	{
-		require_once SYS_PATH.'uri'.EXT;
-
-		return new URI($_SERVER);
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Laravel Routing Components
 	|--------------------------------------------------------------------------
 	|
