@@ -24,7 +24,7 @@ class Request {
 	const spoofer = '__spoofer';
 
 	/**
-	 * Get the current request's URI.
+	 * Get the URI for the current request.
 	 *
 	 * @return string
 	 */
