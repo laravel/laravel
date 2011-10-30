@@ -261,7 +261,9 @@ class Response {
 			$this->header('Content-Type', 'text/html; charset='.Config::$items['application']['encoding']);
 		}
 
-		header(Request::protocol().' '.$this->status.' '.$this->statuses[$this->status]);
+		$request = IoC::container()->core('request');
+
+		header($request->protocol().' '.$this->status.' '.$this->statuses[$this->status]);
 
 		foreach ($this->headers as $name => $value)
 		{	

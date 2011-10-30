@@ -102,12 +102,13 @@ class Router {
 	/**
 	 * Search the routes for the route matching a request method and URI.
 	 *
-	 * @param  string   $method
-	 * @param  string   $uri
+	 * @param  Request  $request
 	 * @return Route
 	 */
-	public function route($method, $uri)
+	public function route(Request $request)
 	{
+		list($method, $uri) = array($request->method(), $request->uri());
+
 		$routes = $this->loader->load($uri);
 
 		// All route URIs begin with the request method and have a leading

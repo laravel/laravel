@@ -105,7 +105,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$page = Input::get('page', 1);
+		$page = IoC::container()->core('input')->get('page', 1);
 
 		// The page will be validated and adjusted if it is less than one or greater
 		// than the last page. For example, if the current page is not an integer or
@@ -250,11 +250,11 @@ class Paginator {
 			// We will assume the page links should use HTTPS if the current request
 			// is also using HTTPS. Since pagination links automatically point to
 			// the current URI, this makes pretty good sense.
-			list($uri, $secure) = array(Request::uri()->get(), Request::secure());
+			$request = IoC::container()->core('request');
 
 			$appendage = $this->appendage($element, $page);
 
-			return HTML::link($uri.$appendage, $text, array('class' => $class), $secure);
+			return HTML::link($request->uri().$appendage, $text, array('class' => $class), $requst->secure());
 		}
 	}
 

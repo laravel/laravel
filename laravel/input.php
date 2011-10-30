@@ -7,7 +7,14 @@ class Input {
 	 *
 	 * @var array
 	 */
-	public static $input;
+	protected $input;
+
+	/**
+	 * The $_FILES array for the request.
+	 *
+	 * @var array
+	 */
+	protected $files;
 
 	/**
 	 * The key used to store old input in the session.
@@ -17,15 +24,28 @@ class Input {
 	const old_input = 'laravel_old_input';
 
 	/**
+	 * Create a new instance of the Input manager.
+	 *
+	 * @param  array  $input
+	 * @param  array  $files
+	 * @return void
+	 */
+	public function __construct($input, $files)
+	{
+		$this->input = $input;
+		$this->files = $files;
+	}
+
+	/**
 	 * Get all of the input data for the request.
 	 *
 	 * This method returns a merged array containing Input::get() and Input::files().
 	 *
 	 * @return array
 	 */
-	public static function all()
+	public function all()
 	{
-		return array_merge(static::get(), static::file());
+		return array_merge($this->get(), $this->file());
 	}
 
 	/**
@@ -36,9 +56,9 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public function has($key)
 	{
-		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) !== '');
+		return ( ! is_null($this->get($key)) and trim((string) $this->get($key)) !== '');
 	}
 
 	/**
@@ -58,9 +78,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public static function get($key = null, $default = null)
+	public function get($key = null, $default = null)
 	{
-		return Arr::get(static::$input, $key, $default);
+		return Arr::get($this->input, $key, $default);
 	}
 
 	/**
@@ -69,9 +89,9 @@ class Input {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function had($key)
+	public function had($key)
 	{
-		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) !== '');
+		return ( ! is_null($this->old($key)) and trim((string) $this->old($key)) !== '');
 	}
 
 	/**
@@ -89,7 +109,7 @@ class Input {
 	 * @param  mixed           $default
 	 * @return string
 	 */
-	public static function old($key = null, $default = null)
+	public function old($key = null, $default = null)
 	{
 		if (Config::get('session.driver') == '')
 		{
@@ -114,9 +134,9 @@ class Input {
 	 * @param  mixed   $default
 	 * @return array
 	 */
-	public static function file($key = null, $default = null)
+	public function file($key = null, $default = null)
 	{
-		return Arr::get($_FILES, $key, $default);
+		return Arr::get($this->files, $key, $default);
 	}
 
 	/**
@@ -133,9 +153,9 @@ class Input {
 	 * @param  string  $path
 	 * @return bool
 	 */
-	public static function upload($key, $path)
+	public function upload($key, $path)
 	{
-		return array_key_exists($key, $_FILES) ? File::upload($key, $path, $_FILES) : false;
+		return array_key_exists($key, $this->files) ? File::upload($key, $path, $this->files) : false;
 	}
 
 }

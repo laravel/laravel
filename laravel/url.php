@@ -53,7 +53,7 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (is_null($https)) $https = Request::secure();
+		if (is_null($https)) $https = IoC::container()->core('request')->secure();
 
 		$url = static::to($url, $https);
 

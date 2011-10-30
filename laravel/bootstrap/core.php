@@ -9,6 +9,7 @@ require 'constants.php';
  */
 require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
+require SYS_PATH.'facades'.EXT;
 
 /**
  * Load some core configuration files by default so we don't have to
