@@ -31,7 +31,7 @@ class Cookie {
 
 		if ( ! is_null($value))
 		{
-			// All Laravel managed cookies are prefixed with a fingerprint hash.
+			// All Laravel managed cookies are "signed" with a fingerprint hash.
 			// The hash serves to verify that the contents of the cookie have not
 			// been modified by the user. We can verify the integrity of the cookie
 			// by extracting the value and re-hashing it, then comparing that hash
