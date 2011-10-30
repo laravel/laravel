@@ -158,7 +158,9 @@ class Auth {
 		// to assume the settings are the same.
 		$config = Config::get('session');
 
-		Cookie::forever(Auth::remember_key, $cookie, $config['path'], $config['domain'], $config['secure']);
+		extract($config, EXTR_SKIP);
+
+		Cookie::forever(Auth::remember_key, $cookie, $path, $domain, $secure);
 	}
 
 	/**
