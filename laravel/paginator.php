@@ -250,7 +250,7 @@ class Paginator {
 			// We will assume the page links should use HTTPS if the current request
 			// is also using HTTPS. Since pagination links automatically point to
 			// the current URI, this makes pretty good sense.
-			list($uri, $secure) = array(Request::uri()->get(), Request::secure());
+			list($uri, $secure) = array(Request::uri(), Request::secure());
 
 			$appendage = $this->appendage($element, $page);
 

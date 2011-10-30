@@ -16,7 +16,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function test_correct_uri_is_returned_when_request_uri_is_used($uri, $expectation)
 	{
 		$_SERVER['REQUEST_URI'] = $uri;
-		$this->assertEquals($expectation, Laravel\Request::uri()->get());
+		$this->assertEquals($expectation, Laravel\Request::uri());
 	}
 
 	public function test_request_method_returns_spoofed_method_if_uri_is_spoofed()

@@ -5,7 +5,7 @@ class Request {
 	/**
 	 * The request URI for the current request.
 	 *
-	 * @var URI
+	 * @var string
 	 */
 	public static $uri;
 
@@ -24,13 +24,37 @@ class Request {
 	const spoofer = '__spoofer';
 
 	/**
-	 * Get the URI instance for the current request.
+	 * Get the current request's URI.
 	 *
-	 * @return URI
+	 * @return string
 	 */
 	public static function uri()
 	{
-		return (is_null(static::$uri)) ? static::$uri = new URI($_SERVER) : static::$uri;
+		if ( ! is_null(static::$uri)) return static::$uri;
+
+		$uri = $_SERVER['REQUEST_URI'];
+
+		// Remove the root application URL from the request URI. If the application
+		// is nested within a sub-directory of the web document root, this will get
+		// rid of the sub-directories from the request URI.
+		$base = parse_url(Config::$items['application']['url'], PHP_URL_PATH);
+
+		if (strpos($uri, $base) === 0)
+		{
+			$uri = substr($uri, strlen($base));
+		}
+
+		$index = '/'.Config::$items['application']['index'];
+
+		if ($index !== '/' and strpos($uri, $index) === 0)
+		{
+			$uri = substr($uri, strlen($index));
+		}
+
+		// If all we are left with is an empty string, we will return a single forward
+		// slash indicating the request is to the root of the application. If we have
+		// something left, we will its remove the leading and trailing slashes.
+		return static::$uri = (($uri = trim($uri, '/')) !== '') ? $uri : '/';
 	}
 
 	/**
