@@ -51,9 +51,6 @@ class Request {
 			$uri = substr($uri, strlen($index));
 		}
 
-		// If all we are left with is an empty string, we will return a single forward
-		// slash indicating the request is to the root of the application. If we have
-		// something left, we will its remove the leading and trailing slashes.
 		return static::$uri = (($uri = trim($uri, '/')) !== '') ? $uri : '/';
 	}
 
