@@ -274,10 +274,10 @@ class Manager {
 
 		static::$transporter->put(static::$session['id'], $config);
 
-		// Some session drivers may implement the Sweeper interface, meaning the
-		// driver must do its garbage collection manually. Alternatively, some
-		// drivers such as APC and Memcached are not required to manually
-		// clean up their sessions.
+		// Some session drivers clean-up expired sessions manually; however, since
+		// this can be an expensive process, it is only performed once in a while.
+		// The probability of session garbage collection occuring for any given
+		// request is controlled by the "sweepage" configuration option.
 		$sweep = (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0]);
 
 		if ($sweep and static::$driver instanceof Drivers\Sweeper)
