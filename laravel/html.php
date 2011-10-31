@@ -272,7 +272,7 @@ class HTML {
 		{
 			if (is_array($value))
 			{
-				$html .= static::elements($type, $value);
+				$html .= static::listing($type, $value);
 			}
 			else
 			{
