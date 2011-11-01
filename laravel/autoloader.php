@@ -67,14 +67,14 @@ class Autoloader {
 			}
 		}
 
-		// If the namespace exists in the libraries directory, we will assume the
+		// If the file exists as-is in the libraries directory, we will assume the
 		// library is PSR-0 compliant, and will add the namespace to the array of
 		// libraries and load the class accordingly.
-		if (is_dir(LIBRARY_PATH.$namespace))
+		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file)))
 		{
 			static::$libraries[] = $namespace;
 
-			return LIBRARY_PATH.str_replace('_', '/', $file);
+			return $path;
 		}
 	}
 
