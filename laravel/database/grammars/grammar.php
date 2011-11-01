@@ -301,8 +301,10 @@ class Grammar {
 	{
 		foreach ($values as $column => $value)
 		{
-			$columns = $this->wrap($column).' = '.$this->parameter($value);
+			$columns[] = $this->wrap($column).' = '.$this->parameter($value);
 		}
+
+		$columns = implode(', ', $columns);
 
 		return trim('UPDATE '.$this->wrap($query->from).' SET '.$columns.' '.$this->wheres($query));
 	}
