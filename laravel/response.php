@@ -243,10 +243,10 @@ class Response {
 	/**
 	 * Send all of the response headers to the browser.
 	 *
-	 * The develop may set any response headers they wish using the "header" method.
-	 * All of the headers set by the developer will be automatically sent to the
-	 * browser when the response is sent via the "send" method. There is no need
-	 * to call this method before calling the "send" method.
+	 * The developer may set response headers using the "header" method. All of
+	 * the headers set by the developer will be automatically sent to the browser
+	 * when the response is sent via the "send" method. There is no need to call
+	 * this method before calling the "send" method.
 	 *
 	 * The protocol and status header will be set automatically, as well as the
 	 * content-type and charset, unless those headers have been set explicitly.
