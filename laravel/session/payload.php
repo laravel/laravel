@@ -240,7 +240,7 @@ class Payload {
 		// we can re-address all of the newly flashed keys to have old addresses.
 		// The array_combine method uses the first array for keys, and the second
 		// array for values to construct a single array from both.
-		$keys = str_replace(':new', ':old:', array_keys($this->session['data']));
+		$keys = str_replace(':new:', ':old:', array_keys($this->session['data']));
 
 		$this->session['data'] = array_combine($keys, array_values($this->session['data']));
 	}
