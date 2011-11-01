@@ -26,6 +26,10 @@ class Request {
 	/**
 	 * Get the URI for the current request.
 	 *
+	 * If the request is to the root of the application, a single forward slash
+	 * will be returned. Otherwise, the URI will be returned without any leading
+	 * or trailing slashes.
+	 *
 	 * @return string
 	 */
 	public static function uri()
@@ -44,6 +48,8 @@ class Request {
 			$uri = substr($uri, strlen($base));
 		}
 
+		// Remove the application index file. It is not used for anything as far
+		// as the framework and routing is concerned, so it's worthless.
 		$index = '/'.Config::$items['application']['index'];
 
 		if ($index !== '/' and strpos($uri, $index) === 0)
@@ -51,6 +57,9 @@ class Request {
 			$uri = substr($uri, strlen($index));
 		}
 
+		// Format the final request URI. If there is nothing left, we will just
+		// return a single forward slash. Otherwise, we'll remove all of the
+		// leading and trailing spaces from the URI.
 		return static::$uri = (($uri = trim($uri, '/')) !== '') ? $uri : '/';
 	}
 
