@@ -2,25 +2,11 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Routing Components
-	|--------------------------------------------------------------------------
-	|
-	| The following components are used by the Laravel routing system.
-	|
-	| The router is used to map a given method and URI to a route intance.
-	|
-	| The route loader is responsible for loading the appropriates routes file
-	| for a given request URI, as well as loading all routes when the framework
-	| needs to find a named route wtihin the application.
-	|
-	| The route caller is responsible for receiving a route and taking the
-	| appropriate action to execute that route. Some routes delegate execution
-	| to a controller, so this class will also resolve controllers out of the
-	| container and call the appropriate methods on those controllers.
-	|
-	*/
+	'laravel.autoloader' => array('singleton' => true, 'resolver' => function($c)
+	{
+		return new Autoloader(Config::$items['application']['aliases']);		
+	}),
+
 
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
@@ -39,17 +25,6 @@ return array(
 		return new Routing\Caller($c, require APP_PATH.'filters'.EXT, CONTROLLER_PATH);
 	}),
 
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Database Connectors
-	|--------------------------------------------------------------------------
-	|
-	| The following components are used to establish PDO database connections
-	| to the various database systems supported by Laravel. By resolving these
-	| connectors out of the IoC container, new database systems may be added
-	| by simply registering a connector in the container.
-	|
-	*/
 
 	'laravel.database.connectors.sqlite' => array('resolver' => function($c)
 	{
@@ -66,16 +41,6 @@ return array(
 		return new Database\Connectors\Postgres;
 	}),
 
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Caching Components
-	|--------------------------------------------------------------------------
-	|
-	| The following components are used by the wonderfully simple Laravel cache
-	| system. Each driver is resolved through the container, so new drivers may
-	| be added by simply registering them in the container.
-	|
-	*/
 
 	'laravel.cache.apc' => array('resolver' => function($c)
 	{
@@ -116,29 +81,6 @@ return array(
 		}
 
 		return $memcache;
-	}),
-
-	/*
-	|--------------------------------------------------------------------------
-	| Laravel Session Components
-	|--------------------------------------------------------------------------
-	|
-	| The following components are used by the Laravel session system.
-	|
-	| The framework allows the session ID to be transported via a variety
-	| of different mechanisms by resolve the ID itself and the session
-	| transporter instance out of the container. This allows sessions
-	| to be used by clients who cannot receive cookies.
-	|
-	| The session manager is responsible for loading the session payload
-	| from the session driver, as well as examining the payload validitiy
-	| and things like the CSRF token.
-	|
-	*/
-
-	'laravel.session.transporter' => array('resolver' => function($c)
-	{
-		return new Session\Transporters\Cookie;
 	}),
 
 

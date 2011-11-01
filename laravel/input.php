@@ -96,7 +96,9 @@ class Input {
 			throw new \Exception('A session driver must be specified in order to access old input.');
 		}
 
-		return Arr::get(Session\Manager::get(Input::old_input, array()), $key, $default);
+		$session = IoC::container()->core('session');
+
+		return Arr::get($session->get(Input::old_input, array()), $key, $default);
 	}
 
 	/**

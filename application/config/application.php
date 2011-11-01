@@ -154,7 +154,7 @@ return array(
 		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
-		'Session'    => 'Laravel\\Session\\Manager',
+		'Session'    => 'Laravel\\Facades\\Session',
 		'Str'        => 'Laravel\\Str',
 		'Validator'  => 'Laravel\\Validation\\Validator',
 		'View'       => 'Laravel\\View',

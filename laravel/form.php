@@ -159,7 +159,7 @@ class Form {
 			throw new \Exception("A session driver must be specified before using CSRF tokens.");			
 		}
 
-		return Session\Manager::get('csrf_token');
+		return IoC::container()->core('session')->get('csrf_token');
 	}
 
 	/**

@@ -10,6 +10,16 @@ class IoC {
 	public static $container;
 
 	/**
+	 * Bootstrap the global IoC instance.
+	 *
+	 * @return void
+	 */
+	public static function bootstrap()
+	{
+		static::$container = new Container(Config::$items['container']);
+	}
+
+	/**
 	 * Get the active container instance.
 	 *
 	 * @return Container

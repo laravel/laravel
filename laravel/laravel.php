@@ -26,11 +26,21 @@ date_default_timezone_set(Config::$items['application']['timezone']);
  */
 if (Config::$items['session']['driver'] !== '')
 {
+	require SYS_PATH.'cookie'.EXT;
+	require SYS_PATH.'session/payload'.EXT;
+
 	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
 
-	$transporter = IoC::container()->core('session.transporter');
+	if ( ! is_null($id = Cookie::get(Session\Payload::cookie)))
+	{
+		$payload = new Session\Payload($driver->load($id));
+	}
+	else
+	{
+		$payload = new Session\Payload;
+	}
 
-	Session\Manager::start($driver, $transporter);
+	IoC::container()->instance('laravel.session', $payload);
 }
 
 /**
@@ -113,13 +123,13 @@ $response->content = $response->render();
 
 /**
  * Close the session and write the active payload to persistent
- * storage. The input for the current request is also flashed
- * to the session so it will be available for the next request
- * via the Input::old method.
+ * storage. The session cookie will also be written and if the
+ * driver is a sweeper, session garbage collection might be
+ * performed depending on the "sweepage" probability.
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	Session\Manager::close();
+	IoC::container()->core('session')->save($driver);
 }
 
 /**
