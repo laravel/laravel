@@ -1,4 +1,4 @@
-<?php namespace Laravel\Cache; use Laravel\IoC;
+<?php namespace Laravel\Cache; use Laravel\IoC, Laravel\Config;
 
 class Manager {
 
@@ -28,7 +28,7 @@ class Manager {
 	 */
 	public static function driver($driver = null)
 	{
-		if (is_null($driver)) $driver = Config::get('cache.default');
+		if (is_null($driver)) $driver = Config::get('cache.driver');
 
 		if ( ! array_key_exists($driver, static::$drivers))
 		{

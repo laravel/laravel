@@ -14,7 +14,9 @@ Config::load('session');
 
 IoC::bootstrap();
 
-spl_autoload_register(array('Laravel\\Autoloader', 'load'));
+$loader = new Autoloader;
+
+spl_autoload_register(array($loader, 'load'));
 
 function e($value)
 {
