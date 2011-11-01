@@ -236,20 +236,11 @@ class Payload {
 			if (strpos($key, ':old:') === 0) $this->forget($key);
 		}
 
-		$this->replace(':new:', ':old:', array_keys($this->session['data']));
-	}
-
-	/**
-	 * Re-address the session data by performing a string replacement on the keys.
-	 *
-	 * @param  string  $search
-	 * @param  string  $replace
-	 * @param  array   $keys
-	 * @return void
-	 */
-	protected function replace($search, $replace, $keys)
-	{
-		$keys = str_replace($search, $replace, $keys);
+		// Now that all of the "old" keys have been removed from the session data,
+		// we can re-address all of the newly flashed keys to have old addresses.
+		// The array_combine method uses the first array for keys, and the second
+		// array for values to construct a single array from both.
+		$keys = str_replace(':new', ':old:', array_keys($this->session['data']));
 
 		$this->session['data'] = array_combine($keys, array_values($this->session['data']));
 	}
