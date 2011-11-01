@@ -26,11 +26,12 @@ unset($application, $public, $storage, $laravel);
 
 $constants = array(
 	'CACHE_PATH'      => STORAGE_PATH.'cache/',
-	'CLASS_PATH'      => APP_PATH.'classes/',
 	'CONFIG_PATH'     => APP_PATH.'config/',
 	'CONTROLLER_PATH' => APP_PATH.'controllers/',
 	'DATABASE_PATH'   => STORAGE_PATH.'database/',
 	'LANG_PATH'       => APP_PATH.'language/',
+	'LIBRARY_PATH'    => APP_PATH.'libraries/',
+	'MODEL_PATH'      => APP_PATH.'models/',
 	'ROUTE_PATH'      => APP_PATH.'routes/',
 	'SESSION_PATH'    => STORAGE_PATH.'sessions/',
 	'SYS_CONFIG_PATH' => SYS_PATH.'config/',
