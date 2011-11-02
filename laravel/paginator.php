@@ -145,7 +145,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	protected function status($text)
+	public function status($text)
 	{
 		return str_replace(array(':current', ':last'), array($this->page, $this->last), $text);
 	}
@@ -156,7 +156,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	protected function first($text)
+	public function first($text)
 	{
 		return $this->backwards(__FUNCTION__, $text, 1);
 	}
@@ -167,7 +167,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	protected function previous($text)
+	public function previous($text)
 	{
 		return $this->backwards(__FUNCTION__, $text, $this->page - 1);
 	}
@@ -178,7 +178,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	protected function next($text)
+	public function next($text)
 	{
 		return $this->forwards(__FUNCTION__, $text, $this->page + 1);
 	}
@@ -189,7 +189,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	protected function last($text)
+	public function last($text)
 	{
 		return $this->forwards(__FUNCTION__, $text, $this->last);
 	}

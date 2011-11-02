@@ -1,8 +1,7 @@
 <?php
 
+define('EXT',       '.php');
 define('BLADE_EXT', '.blade.php');
-define('CRLF', chr(13).chr(10));
-define('EXT', '.php');
 
 function constants($constants)
 {
@@ -12,6 +11,11 @@ function constants($constants)
 	}
 }
 
+/**
+ * Register the core framework paths and all of the paths that
+ * derive from them. If any constant has already been defined,
+ * we will not attempt to define it again.
+ */
 $constants = array(
 	'APP_PATH'     => realpath($application).'/',
 	'BASE_PATH'    => realpath("$laravel/..").'/',
@@ -42,6 +46,11 @@ $constants = array(
 
 constants($constants);
 
+/**
+ * Register the core framework paths and all of the paths that
+ * derive from them. If any constant has already been defined,
+ * we will not attempt to define it again.
+ */
 $environment = (isset($_SERVER['LARAVEL_ENV'])) ? CONFIG_PATH.$_SERVER['LARAVEL_ENV'].'/' : '';
 
 constants(array('ENV_CONFIG_PATH' => $environment));

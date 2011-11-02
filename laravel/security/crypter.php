@@ -65,20 +65,11 @@ class Crypter {
 			throw new \Exception('Decryption error. Input value is not valid base64 data.');
 		}
 
-		list($iv, $value) = static::parse($value);
+		$iv = substr($value, 0, static::iv_size());
+
+		$value = substr($value, static::iv_size());
 
 		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
-	}
-
-	/**
-	 * Parse an encrypted string into its input vector and value segments.
-	 *
-	 * @param  string  $value
-	 * @return array
-	 */
-	protected static function parse($value)
-	{
-		return array(substr($value, 0, static::iv_size()), substr($value, static::iv_size()));
 	}
 
 	/**

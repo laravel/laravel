@@ -194,8 +194,7 @@ class Router {
 	}
 
 	/**
-	 * Search the controllers for the application and determine if an applicable
-	 * controller exists for the current request to the application.
+	 * Search for a controller that can handle the current request.
 	 *
 	 * If a controller is found, the array key for the controller name in the URI
 	 * segments will be returned by the method, otherwise NULL will be returned.

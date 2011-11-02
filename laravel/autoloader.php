@@ -19,14 +19,20 @@ class Autoloader {
 	/**
 	 * Load the file corresponding to a given class.
 	 *
+	 * Laravel loads classes out of three directorys: the core "laravel" directory,
+	 * and the application "models" and "libraires" directories. All of the file
+	 * names are lower cased and the directory structure corresponds with the
+	 * class namespaces.
+	 *
+	 * The application "libraries" directory also supports the inclusion of PSR-0
+	 * compliant libraries. These libraries will be detected automatically and
+	 * will be loaded according to the PSR-0 naming conventions.
+	 *
 	 * @param  string  $class
 	 * @return void
 	 */
 	public static function load($class)
 	{
-		// Most of the core classes are aliases for convenient access in spite of
-		// the namespace. If an alias is defined for the class, we will load the
-		// alias and bail out of the auto-load method.
 		if (array_key_exists($class, Config::$items['application']['aliases']))
 		{
 			return class_alias(Config::$items['application']['aliases'][$class], $class);
@@ -39,7 +45,7 @@ class Autoloader {
 	}
 
 	/**
-	 * Find the file associated with a given class name.
+	 * Determine the file path associated with a given class name.
 	 *
 	 * @param  string  $class
 	 * @return string
@@ -50,13 +56,11 @@ class Autoloader {
 
 		$namespace = substr($class, 0, strpos($class, '\\'));
 
-		// If the class namespace exists in the libraries array, it means that the
-		// library is PSR-0 compliant, and we will load it following those standards.
-		// This allows us to add many third-party libraries to an application and be
-		// able to auto-load them automatically.
+		// If the namespace has been detected as a PSR-0 compliant library,
+		// we will load the library according to those naming conventions.
 		if (array_key_exists($namespace, static::$libraries))
 		{
-			return LIBRARY_PATH.str_replace('_', '/', $file);
+			return str_replace('_', '/', $file).EXT;
 		}
 
 		foreach (static::$paths as $path)
@@ -67,10 +71,10 @@ class Autoloader {
 			}
 		}
 
-		// If the file exists as-is in the libraries directory, we will assume the
-		// library is PSR-0 compliant, and will add the namespace to the array of
-		// libraries and load the class accordingly.
-		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file)))
+		// If the file exists according to the PSR-0 naming conventions,
+		// we will add the namespace to the array of libraries and load
+		// the class according to the PSR-0 conventions.
+		if (file_exists($path = str_replace('_', '/', $file).EXT))
 		{
 			static::$libraries[] = $namespace;
 

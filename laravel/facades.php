@@ -59,5 +59,4 @@ abstract class Facade {
 
 }
 
-class Autoloader extends Facade { public static $resolve = 'laravel.autoloader'; }
-class Session    extends Facade { public static $resolve = 'laravel.session'; }
+class Session extends Facade { public static $resolve = 'laravel.session'; }

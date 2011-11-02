@@ -75,6 +75,16 @@ class Input {
 	}
 
 	/**
+	 * Flash the input for the current request to the session.
+	 *
+	 * @return void
+	 */
+	public static function flash()
+	{
+		IoC::container()->core('session')->flash(Input::old_input, static::get());
+	}
+
+	/**
 	 * Get input data from the previous request.
 	 *
 	 * <code>
