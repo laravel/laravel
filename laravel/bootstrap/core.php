@@ -12,9 +12,9 @@ define('BLADE_EXT', '.blade.php');
 define('APP_PATH', realpath($application).'/');
 define('BASE_PATH', realpath("$laravel/..").'/');
 define('PUBLIC_PATH', realpath($public).'/');
-define('STORAGE_PATH', realpath($storage).'/');
 define('SYS_PATH', realpath($laravel).'/');
 
+define('STORAGE_PATH', APP_PATH.'storage/');
 define('CACHE_PATH', STORAGE_PATH.'cache/');
 define('CONFIG_PATH', APP_PATH.'config/');
 define('CONTROLLER_PATH', APP_PATH.'controllers/');
@@ -42,7 +42,7 @@ if (isset($_SERVER['LARAVEL_ENV']))
 
 define('ENV_CONFIG_PATH', $environment);
 
-unset($application, $public, $storage, $laravel, $environment);
+unset($application, $public, $laravel, $environment);
 
 /**
  * Require all of the classes that can't be loaded by the auto-loader.
