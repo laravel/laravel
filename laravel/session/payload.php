@@ -23,13 +23,6 @@ class Payload {
 	protected $exists = true;
 
 	/**
-	 * The name of the session cookie used to store the session ID.
-	 *
-	 * @var string
-	 */
-	const cookie = 'laravel_session';
-
-	/**
 	 * Create a new session payload instance.
 	 *
 	 * @param  array  $session
@@ -256,7 +249,7 @@ class Payload {
 
 		$minutes = ( ! $config['expire_on_close']) ? $config['lifetime'] : 0;
 		
-		Cookie::put(Payload::cookie, $this->id, $minutes, $config['path'], $config['domain'], $config['secure']);	
+		Cookie::put($cookie, $this->id, $minutes, $config['path'], $config['domain'], $config['secure']);	
 	}
 
 	/**

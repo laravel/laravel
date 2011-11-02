@@ -31,7 +31,7 @@ if (Config::$items['session']['driver'] !== '')
 
 	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
 
-	if ( ! is_null($id = Cookie::get(Session\Payload::cookie)))
+	if ( ! is_null($id = Cookie::get(Config::$items['session']['cookie'])))
 	{
 		$payload = new Session\Payload($driver->load($id));
 	}
