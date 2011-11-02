@@ -19,8 +19,8 @@ class Autoloader {
 	/**
 	 * Load the file corresponding to a given class.
 	 *
-	 * Laravel loads classes out of three directorys: the core "laravel" directory,
-	 * and the application "models" and "libraires" directories. All of the file
+	 * Laravel loads classes out of three directories: the core "laravel" directory,
+	 * and the application "models" and "libraries" directories. All of the file
 	 * names are lower cased and the directory structure corresponds with the
 	 * class namespaces.
 	 *
