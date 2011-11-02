@@ -125,7 +125,7 @@ class Cookie {
 	 */
 	public static function forget($name)
 	{
-		return static::put($name, null, -1500);
+		return static::put($name, null, -2000);
 	}
 
 }

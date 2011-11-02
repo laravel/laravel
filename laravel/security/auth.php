@@ -63,9 +63,7 @@ class Auth {
 
 		static::$user = call_user_func(Config::get('auth.user'), Session::get(Auth::user_key));
 
-		$cookie = Cookie::get(Auth::remember_key);
-
-		if (is_null(static::$user) and ! is_null($cookie))
+		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
 			static::$user = static::recall($cookie);
 		}
