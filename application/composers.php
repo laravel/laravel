@@ -16,7 +16,7 @@ return array(
 	| Now, you can create an instance of that view using the expressive View::of
 	| dynamic method. Take a look at this example:
 	|
-	|		return View::of_layout();
+	|		return View::of_home();
 	|
 	| View composers provide a convenient way to add common elements to a view
 	| each time it is created. For example, you may wish to bind a header and
