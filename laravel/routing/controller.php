@@ -131,7 +131,7 @@ abstract class Controller {
 	 * @param  string  $name
 	 * @return array
 	 */
-	public function filters($name)
+	protected function filters($name)
 	{
 		return (array) $this->$name;
 	}
