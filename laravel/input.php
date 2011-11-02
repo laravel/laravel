@@ -64,6 +64,16 @@ class Input {
 	}
 
 	/**
+	 * Flash the input for the current request to the session.
+	 *
+	 * @return void
+	 */
+	public static function flash()
+	{
+		IoC::container()->core('session')->flash(Input::old_input, static::get());
+	}
+
+	/**
 	 * Determine if the old input data contains an item.
 	 *
 	 * @param  string  $key
@@ -72,16 +82,6 @@ class Input {
 	public static function had($key)
 	{
 		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) !== '');
-	}
-
-	/**
-	 * Flash the input for the current request to the session.
-	 *
-	 * @return void
-	 */
-	public static function flash()
-	{
-		IoC::container()->core('session')->flash(Input::old_input, static::get());
 	}
 
 	/**

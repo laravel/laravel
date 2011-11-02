@@ -17,9 +17,9 @@ $message = function($e)
 };
 
 /**
- * Define a clousre that will return a more readable version
- * of the severity of an exception. This function will be used
- * by the error handler when parsing exceptions.
+ * Define a closure that will return a more readable version of
+ * the severity of an exception. This function will be used by
+ * the error handler when parsing exceptions.
  */
 $severity = function($e)
 {

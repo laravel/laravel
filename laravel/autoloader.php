@@ -56,9 +56,13 @@ class Autoloader {
 
 		$namespace = substr($class, 0, strpos($class, '\\'));
 
-		// If the namespace has been detected as a PSR-0 compliant library,
-		// we will load the library according to those naming conventions.
-		if (array_key_exists($namespace, static::$libraries))
+		// If the namespace has been registered as a PSR-0 compliant library, we will
+		// load the library according to the PSR-0 naming standards, which state that
+		// namespaces and underscores indicate the directory hierarchy of the class.
+		// The PSR-0 standard is exactly like the typical Laravel standard, the only
+		// difference being that Laravel files are all lowercase, while PSR-0 states
+		// that the file name should match the class name.
+		if (isset(static::$libraries[$namespace]))
 		{
 			return str_replace('_', '/', $file).EXT;
 		}
@@ -71,10 +75,12 @@ class Autoloader {
 			}
 		}
 
-		// If the file exists according to the PSR-0 naming conventions,
-		// we will add the namespace to the array of libraries and load
-		// the class according to the PSR-0 conventions.
-		if (file_exists($path = str_replace('_', '/', $file).EXT))
+		// If we could not find the class file in any of the auto-loaded locations
+		// according to the Laravel naming standard, we will search the libraries
+		// directory for the class according to the PSR-0 naming standard. If the
+		// file exists, we will add the class namespace to the array of registered
+		// libraries that are loaded following the PSR-0 standard.
+		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file).EXT))
 		{
 			static::$libraries[] = $namespace;
 

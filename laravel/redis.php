@@ -1,7 +1,5 @@
 <?php namespace Laravel;
 
-define('CRLF', chr(13).chr(10));
-
 class Redis {
 
 	/**

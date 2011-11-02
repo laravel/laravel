@@ -47,9 +47,6 @@ class View {
 	/**
 	 * Get the path to a given view on disk.
 	 *
-	 * The view may be either a "normal" view or a "Blade" view, so we will
-	 * need to check the view directory for either extension.
-	 *
 	 * @param  string  $view
 	 * @return string
 	 */
@@ -57,6 +54,11 @@ class View {
 	{
 		$view = str_replace('.', '/', $view);
 
+		// Application views take priority over system views, so we will return the
+		// application version of the view if both exists. Also, we need to check
+		// for Blade views using the Blade extension. The Blade extension gives
+		// an easy method of determining if the view should be compiled using
+		// the Blade compiler or if the view is plain PHP.
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = VIEW_PATH.$view.$extension))
@@ -123,7 +125,9 @@ class View {
 	/**
 	 * Find the key for a view by name.
 	 *
-	 * The view "key" is the string that should be passed into the "make" method.
+	 * The view "key" is the string that should be passed into the "make" method and
+	 * should correspond with the location of the view within the application views
+	 * directory, such as "home.index" or "home/index".
 	 *
 	 * @param  string  $name
 	 * @return string
@@ -209,7 +213,7 @@ class View {
 		// since the last compiled version of the view was created or no
 		// compiled view exists. Otherwise, the path will be returned
 		// without re-compiling.
-		if ((file_exists($compiled) and filemtime($this->path) > filemtime($compiled)) or ! file_exists($compiled))
+		if ( ! file_exists($compiled) or (filemtime($this->path) > filemtime($compiled)))
 		{
 			file_put_contents($compiled, Blade::compile($this->path));
 		}
