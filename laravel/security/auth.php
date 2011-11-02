@@ -3,7 +3,7 @@
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
-use Laravel\Session\Manager as Session;
+use Laravel\Session;
 
 class Auth {
 

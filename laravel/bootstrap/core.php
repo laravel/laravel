@@ -51,7 +51,6 @@ unset($application, $public, $storage, $laravel, $environment);
  */
 require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
-require SYS_PATH.'facades'.EXT;
 require SYS_PATH.'container'.EXT;
 require SYS_PATH.'autoloader'.EXT;
 

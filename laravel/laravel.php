@@ -26,21 +26,9 @@ date_default_timezone_set(Config::$items['application']['timezone']);
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	require SYS_PATH.'cookie'.EXT;
-	require SYS_PATH.'session/payload'.EXT;
-
 	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
 
-	if ( ! is_null($id = Cookie::get(Config::$items['session']['cookie'])))
-	{
-		$payload = new Session\Payload($driver->load($id));
-	}
-	else
-	{
-		$payload = new Session\Payload;
-	}
-
-	IoC::container()->instance('laravel.session', $payload);
+	Session::start($driver);
 }
 
 /**
@@ -129,7 +117,7 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	IoC::container()->core('session')->save($driver);
+	Session::save($driver);
 }
 
 /**

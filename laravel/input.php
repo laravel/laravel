@@ -70,7 +70,7 @@ class Input {
 	 */
 	public static function flash()
 	{
-		IoC::container()->core('session')->flash(Input::old_input, static::get());
+		Session::flash(Input::old_input, static::get());
 	}
 
 	/**
@@ -106,9 +106,7 @@ class Input {
 			throw new \Exception('A session driver must be specified in order to access old input.');
 		}
 
-		$session = IoC::container()->core('session');
-
-		return Arr::get($session->get(Input::old_input, array()), $key, $default);
+		return Arr::get(Session::get(Input::old_input, array()), $key, $default);
 	}
 
 	/**

@@ -1,8 +1,6 @@
-<?php namespace Laravel\Session;
+<?php namespace Laravel;
 
-use Laravel\Str;
-use Laravel\Config;
-use Laravel\Cookie;
+use Closure;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
@@ -250,9 +248,11 @@ class Session {
 	{
 		$config = Config::$items['session'];
 
-		$minutes = ( ! $config['expire_on_close']) ? $config['lifetime'] : 0;
-		
-		Cookie::put($cookie, static::$session['id'], $minutes, $config['path'], $config['domain'], $config['secure']);	
+		extract($config, EXTR_SKIP);
+
+		$minutes = ( ! $expire_on_close) ? $lifetime : 0;
+
+		Cookie::put($cookie, static::$session['id'], $minutes, $path, $domain, $secure);	
 	}
 
 }

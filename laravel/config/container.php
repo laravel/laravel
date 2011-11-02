@@ -2,12 +2,6 @@
 
 return array(
 
-	'laravel.autoloader' => array('singleton' => true, 'resolver' => function($c)
-	{
-		return new Autoloader(Config::$items['application']['aliases']);		
-	}),
-
-
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Routing\Router($c->core('routing.loader'), CONTROLLER_PATH);
