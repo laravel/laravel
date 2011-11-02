@@ -66,7 +66,9 @@ class HTML {
 			}
 		}
 
-		return '<link href="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>'.PHP_EOL;
+		$url = static::entities(URL::to_asset($url));
+
+		return '<link href="'.$url.'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
 
 	/**
