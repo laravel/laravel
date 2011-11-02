@@ -36,7 +36,7 @@ class Request {
 	{
 		if ( ! is_null(static::$uri)) return static::$uri;
 
-		$uri = $_SERVER['REQUEST_URI'];
+		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 		// Remove the root application URL from the request URI. If the application
 		// is nested within a sub-directory of the web document root, this will get
