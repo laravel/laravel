@@ -37,13 +37,16 @@ class Session {
 		{
 			static::$exists = false;
 
+			static::$session = array('id' => Str::random(40), 'data' => array());
+		}
+
+		if ( ! static::has('csrf_token'))
+		{
 			// A CSRF token is stored in every session. The token is used by the
 			// Form class and the "csrf" filter to protect the application from
 			// cross-site request forgery attacks. The token is simply a long,
 			// random string which should be posted with each request.
-			$csrf_token = Str::random(40);
-
-			static::$session = array('id' => Str::random(40), 'data' => compact('csrf_token'));
+			static::put('csrf_token', Str::random(40));
 		}
 	}
 
