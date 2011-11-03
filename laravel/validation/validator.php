@@ -534,9 +534,16 @@ class Validator {
 		// If the rule being validated is a "size" rule and the attribute is not
 		// a number, we will need to gather the specific size message for the
 		// type of attribute being validated, either a file or a string.
-		elseif (isset($this->size_rules[$rule]) and ! $this->has_rule($attribute, $this->numeric_rules))
+		elseif (in_array($rule, $this->size_rules))
 		{
-			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
+			if ($this->has_rule($attribute, $this->numeric_rules))
+			{
+				$line = 'numeric';
+			}
+			else
+			{
+				$line = (array_key_exists($attribute, Input::file())) ? 'file' : 'string';
+			}
 
 			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
 		}
