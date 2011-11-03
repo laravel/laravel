@@ -186,7 +186,9 @@ class Route {
 	{
 		if (is_array($this->callback) and isset($this->callback[$name]))
 		{
-			return (array) $this->callback[$name];
+			$filters = $this->callback[$name];
+
+			return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
 		}
 
 		return array();

@@ -14,14 +14,14 @@ class Response {
 	 *
 	 * @var int
 	 */
-	protected $status;
+	public $status;
 
 	/**
 	 * The response headers.
 	 *
 	 * @var array
 	 */
-	protected $headers = array();
+	public $headers = array();
 
 	/**
 	 * HTTP status codes.

@@ -272,7 +272,7 @@ class Router {
 
 		for ($i = 0; $i < $count; $i++)
 		{
-			if (preg_match('/\(.+\)/', $route[$i]))
+			if (preg_match('/\(.+\)/', $route[$i]) and isset($uri[$i]))
 			{
 				$parameters[] = $uri[$i];
 			}

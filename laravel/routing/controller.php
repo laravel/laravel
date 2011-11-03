@@ -28,9 +28,9 @@ abstract class Controller {
 	 * For example, a destination of "user.profile@show" would call the User_Profile
 	 * controller's show method with the given parameters.
 	 *
-	 * @param  string  $destination
-	 * @param  array   $parameters
-	 * @return mixed
+	 * @param  string    $destination
+	 * @param  array     $parameters
+	 * @return Response
 	 */
 	public static function call($destination, $parameters = array())
 	{
@@ -43,30 +43,12 @@ abstract class Controller {
 
 		$controller = static::resolve($controller);
 
-		if (is_null($controller) or static::hidden($method))
+		if (is_null($controller))
 		{
 			return Response::error('404');
 		}
 
-		// Again, as was the case with route closures, if the controller
-		// "before" filters return a response, it will be considered the
-		// response to the request and the controller method will not be
-		// used to handle the request to the application.
-		$response = Filter::run($controller->filters('before'), array(), true);
-
-		if (is_null($response))
-		{
-			$response = call_user_func_array(array($controller, $method), $parameters);
-		}
-
-		// The after filter and the framework expects all responses to
-		// be instances of the Response class. If the method did not
-		// return an instsance of Response, we will make on now.
-		if ( ! $response instanceof Response) $response = new Response($response);
-
-		Filter::run($controller->filters('after'), array($response));
-
-		return $response;
+		return $controller->execute($method, $parameters);
 	}
 
 	/**
@@ -106,12 +88,47 @@ abstract class Controller {
 
 		if (file_exists($path = CONTROLLER_PATH.$controller.EXT))
 		{
-			require $path;
+			require_once $path;
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Execute a controller method with the given parameters.
+	 *
+	 * @param  string    $method
+	 * @param  array     $parameters
+	 * @return Response
+	 */
+	public function execute($method, $parameters = array())
+	{
+		if (static::hidden($method))
+		{
+			return Response::error('404');
+		}
+
+		// Again, as was the case with route closures, if the controller
+		// "before" filters return a response, it will be considered the
+		// response to the request and the controller method will not be
+		// used to handle the request to the application.
+		$response = Filter::run($this->filters('before'), array(), true);
+
+		if (is_null($response))
+		{
+			$response = call_user_func_array(array($this, $method), $parameters);
+		}
+
+		// The after filter and the framework expects all responses to
+		// be instances of the Response class. If the method did not
+		// return an instsance of Response, we will make on now.
+		if ( ! $response instanceof Response) $response = new Response($response);
+
+		Filter::run($this->filters('after'), array($response));
+
+		return $response;
 	}
 
 	/**
