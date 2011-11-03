@@ -70,7 +70,10 @@ class Input {
 	 */
 	public static function flash()
 	{
-		Session::flash(Input::old_input, static::get());
+		if (Config::$items['session']['driver'] !== '')
+		{
+			Session::flash(Input::old_input, static::get());			
+		}
 	}
 
 	/**

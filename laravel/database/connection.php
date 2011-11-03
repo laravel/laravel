@@ -3,20 +3,6 @@
 class Connection {
 
 	/**
-	 * The connection configuration array.
-	 *
-	 * @var array
-	 */
-	protected $config;
-
-	/**
-	 * The query grammar instance for the connection.
-	 *
-	 * @var Grammars\Grammar
-	 */
-	protected $grammar;
-
-	/**
 	 * The raw PDO connection instance.
 	 *
 	 * @var PDO
@@ -29,6 +15,20 @@ class Connection {
 	 * @var array
 	 */
 	public $queries = array();
+
+	/**
+	 * The connection configuration array.
+	 *
+	 * @var array
+	 */
+	protected $config;
+
+	/**
+	 * The query grammar instance for the connection.
+	 *
+	 * @var Grammars\Grammar
+	 */
+	protected $grammar;
 
 	/**
 	 * Create a new database connection instance.
@@ -112,7 +112,10 @@ class Connection {
 	 */
 	public function first($sql, $bindings = array())
 	{
-		if (count($results = $this->query($sql, $bindings)) > 0) return $results[0];
+		if (count($results = $this->query($sql, $bindings)) > 0)
+		{
+			return $results[0];
+		}
 	}
 
 	/**
@@ -144,7 +147,7 @@ class Connection {
 			if ($value instanceof Expression) unset($bindings[$key]);
 		}
 
-		$sql = $this->transform(trim($sql), $bindings);
+		$sql = $this->transform($sql, $bindings);
 
 		$this->queries[] = compact('sql', 'bindings');
 
@@ -164,23 +167,24 @@ class Connection {
 	 */
 	protected function transform($sql, $bindings)
 	{
-		if (strpos($sql, '(...)') === false) return $sql;
-
-		for ($i = 0; $i < count($bindings); $i++)
+		if (strpos($sql, '(...)') !== false)
 		{
-			// If the binding is an array, we can assume it is being used to fill
-			// a "where in" condition, so we will replace the next place-holder
-			// in the query with the correct number of parameters based on the
-			// number of elements in this binding.
-			if (is_array($bindings[$i]))
+			for ($i = 0; $i < count($bindings); $i++)
 			{
-				$parameters = implode(', ', array_fill(0, count($bindings[$i]), '?'));
+				// If the binding is an array, we can assume it is being used to fill
+				// a "where in" condition, so we will replace the next place-holder
+				// in the query with the correct number of parameters based on the
+				// number of elements in this binding.
+				if (is_array($bindings[$i]))
+				{
+					$parameters = implode(', ', array_fill(0, count($bindings[$i]), '?'));
 
-				$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
-			}
+					$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
+				}
+			}			
 		}
 
-		return $sql;
+		return trim($sql);
 	}
 
 	/**
@@ -204,8 +208,10 @@ class Connection {
 		{
 			return $statement->rowCount();
 		}
-
-		return $result;
+		else
+		{
+			return $result;
+		}
 	}
 
 	/**

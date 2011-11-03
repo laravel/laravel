@@ -144,22 +144,7 @@ class Form {
 	 */
 	public static function token()
 	{
-		return static::input('hidden', 'csrf_token', static::raw_token());
-	}
-
-	/**
-	 * Get the CSRF token for the current session.
-	 *
-	 * @return string
-	 */
-	public static function raw_token()
-	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \Exception("A session driver must be specified before using CSRF tokens.");			
-		}
-
-		return Session::get('csrf_token');
+		return static::input('hidden', 'csrf_token', Session::token());
 	}
 
 	/**

@@ -24,13 +24,6 @@ class Messages {
 	/**
 	 * Add a message to the collector.
 	 *
-	 * Duplicate messages will not be added.
-	 *
-	 * <code>
-	 *		// Add a message to the collector for the "email" attribute
-	 *		$messages->add('email', 'The e-mail address is invalid.');
-	 * </code>
-	 *
 	 * @param  string  $key
 	 * @param  string  $message
 	 * @return void

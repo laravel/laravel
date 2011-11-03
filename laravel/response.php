@@ -258,7 +258,9 @@ class Response {
 	{
 		if ( ! isset($this->headers['Content-Type']))
 		{
-			$this->header('Content-Type', 'text/html; charset='.Config::$items['application']['encoding']);
+			$encoding = Config::$items['application']['encoding'];
+
+			$this->header('Content-Type', "text/html; charset={$encoding}");
 		}
 
 		header(Request::protocol().' '.$this->status.' '.$this->statuses[$this->status]);

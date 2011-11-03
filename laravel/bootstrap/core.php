@@ -78,8 +78,8 @@ IoC::bootstrap();
 spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 
 /**
- * Define a few convenient functions to make our lives as
- * developers a little more easy and enjoyable.
+ * Define a few global convenience functions to make our lives
+ * as Laravel PHP developers a little more easy and enjoyable.
  */
 function e($value)
 {

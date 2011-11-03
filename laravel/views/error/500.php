@@ -30,24 +30,6 @@
 			<p>
 				Perhaps you would like to go to our <?php echo HTML::link('/', 'home page'); ?>?
 			</p>
-
-			<?php if (isset($detailed) and $detailed): ?>
-				<h3>Error Message:</h3>
-
-				<pre style="word-wrap: break-word;"><?php echo $message; ?></pre>
-
-				<h3>Stack Trace:</h3>
-
-				<?php
-					$search = array(APP_PATH, SYS_PATH);
-
-					$replace = array('APP_PATH/', 'SYS_PATH/');
-
-					$trace = str_replace($search, $replace, $exception->getTraceAsString()); 
-				?>
-
-				<pre style="word-wrap: break-word;"><?php echo $trace; ?></pre>
-			<?php endif; ?>
 		</div>
 	</body>
 </html>

@@ -146,6 +146,18 @@ class Request {
 	}
 
 	/**
+	 * Determine if the request has been forged.
+	 *
+	 * The session CSRF token will be compared to the CSRF token in the request input.
+	 *
+	 * @return bool
+	 */
+	public static function forged()
+	{
+		return Input::get('csrf_token') !== Session::token();
+	}
+
+	/**
 	 * Determine if the current request is an AJAX request.
 	 *
 	 * @return bool

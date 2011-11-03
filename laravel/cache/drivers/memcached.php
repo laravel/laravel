@@ -47,7 +47,10 @@ class Memcached extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if (($cache = $this->memcache->get($this->key.$key)) !== false) return $cache;
+		if (($cache = $this->memcache->get($this->key.$key)) !== false)
+		{
+			return $cache;
+		}
 	}
 
 	/**

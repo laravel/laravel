@@ -1,4 +1,7 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel;
+
+use Closure;
+use Laravel\Validation\Messages;
 
 class View {
 
@@ -42,6 +45,20 @@ class View {
 		$this->view = $view;
 		$this->data = $data;
 		$this->path = $this->path($view);
+
+		// If a session driver has been specified, we will bind an instance of
+		// the validation error message container to every view. If an errors
+		// instance exists in the session, we will use that instance.
+		//
+		// This makes the implementation of the Post/Redirect/Get pattern very
+		// convenient since each view can assume it has a message container.
+		if (Config::$items['session']['driver'] !== '')
+		{
+			$this->data['errors'] = Session::get('errors', function()
+			{
+				return new Messages;
+			});
+		}
 	}
 
 	/**
@@ -117,7 +134,10 @@ class View {
 	 */
 	public static function of($name, $data = array())
 	{
-		if ( ! is_null($view = static::name($name))) return static::make($view, $data);
+		if ( ! is_null($view = static::name($name)))
+		{
+			return static::make($view, $data);
+		}
 
 		throw new \Exception("Named view [$name] is not defined.");
 	}
@@ -134,11 +154,11 @@ class View {
 	 */
 	protected static function name($name)
 	{
-		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+		static::composers();
 
 		foreach (static::$composers as $key => $value)
 		{
-			if ($name === $value or (is_array($value) and $name === Arr::get($value, 'name')))
+			if ($name === $value or $name === Arr::get((array) $value, 'name'))
 			{
 				return $key;
 			}
@@ -153,7 +173,7 @@ class View {
 	 */
 	protected static function compose(View $view)
 	{
-		if (is_null(static::$composers)) static::$composers = require APP_PATH.'composers'.EXT;
+		static::composers();
 
 		if (isset(static::$composers[$view->view]))
 		{
@@ -162,6 +182,18 @@ class View {
 				if ($value instanceof Closure) return call_user_func($value, $view);
 			}
 		}
+	}
+
+	/**
+	 * Load the view composers for the application.
+	 *
+	 * For better testing flexiblity, we load the composers from the IoC container.
+	 *
+	 * @return void
+	 */
+	protected static function composers()
+	{
+		static::$composers = IoC::container()->core('view.composers');
 	}
 
 	/**

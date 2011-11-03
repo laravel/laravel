@@ -29,7 +29,19 @@ class Auth {
 	const remember_key = 'laravel_remember';
 
 	/**
-	 * Determine if the current user of the application is authenticated.
+	 * Determine if the user of the application is not logged in.
+	 *
+	 * This method is the inverse of the "check" method.
+	 *
+	 * @return bool
+	 */
+	public static function guest()
+	{
+		return ! static::check();
+	}
+
+	/**
+	 * Determine if the user of the application is logged in.
 	 *
 	 * @return bool
 	 */

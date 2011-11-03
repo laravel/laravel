@@ -2,8 +2,8 @@
 
 use Closure;
 use Laravel\Arr;
-use Laravel\IoC;
 use Laravel\Str;
+use Laravel\File;
 use Laravel\Lang;
 use Laravel\Input;
 use Laravel\Database\Manager as DB;
@@ -200,7 +200,9 @@ class Validator {
 	 */
 	protected function error($attribute, $rule, $parameters)
 	{
-		$message = $this->replace($this->message($attribute, $rule), $attribute, $rule, $parameters);
+		$message = $this->message($attribute, $rule);
+
+		$message = $this->replace($message, $attribute, $rule, $parameters);
 
 		$this->errors->add($attribute, $message);
 	}
@@ -226,9 +228,11 @@ class Validator {
 	 */
 	protected function validate_confirmed($attribute, $value)
 	{
-		$confirmation = $this->attributes[$attribute.'_confirmation'];
+		$confirmed = $attribute.'_confirmation';
 
-		return array_key_exists($attribute.'_confirmation', $this->attributes) and $value == $confirmation;
+		$confirmation = $this->attributes[$confirmed];
+
+		return array_key_exists($confirmed, $this->attributes) and $value == $confirmation;
 	}
 
 	/**
@@ -493,7 +497,10 @@ class Validator {
 	{
 		foreach ($parameters as $extension)
 		{
-			if (File::is($extension, $this->attributes[$attribute]['tmp_name'])) return true;
+			if (File::is($extension, $this->attributes[$attribute]['tmp_name']))
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -527,7 +534,7 @@ class Validator {
 		// If the rule being validated is a "size" rule and the attribute is not
 		// a number, we will need to gather the specific size message for the
 		// type of attribute being validated, either a file or a string.
-		elseif (in_array($rule, $this->size_rules) and ! $this->has_rule($attribute, $this->numeric_rules))
+		elseif (isset($this->size_rules[$rule]) and ! $this->has_rule($attribute, $this->numeric_rules))
 		{
 			$line = (array_key_exists($attribute, Input::file())) ? "file" : "string";
 
@@ -560,7 +567,7 @@ class Validator {
 		{
 			// Even though every size rule will not have a place-holder for min,
 			// max, and size, we will go ahead and make replacements for all of
-			// them just for convenience. Except for "between" every replacement
+			// them just for convenience. Except for "between", every replacement
 			// should be the first parameter.
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 

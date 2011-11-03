@@ -50,19 +50,19 @@ return array(
 
 	'after' => function($response)
 	{
-		if (Config::get('session.driver') !== '') Input::flash();
+		Input::flash();
 	},
 
 
 	'auth' => function()
 	{
-		if ( ! Auth::check()) return Redirect::to_login();
+		if (Auth::guest()) return Redirect::to_login();
 	},
 
 
 	'csrf' => function()
 	{
-		if (Input::get('csrf_token') !== Form::raw_token()) return Response::error('500');
+		if (Request::forged()) return Response::error('500');
 	},
 
 );

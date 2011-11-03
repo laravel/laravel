@@ -13,8 +13,8 @@ return array(
 	|
 	|		'home.index' => array('name' => 'home')
 	|
-	| Now, you can create an instance of that view using the expressive View::of
-	| dynamic method. Take a look at this example:
+	| Now, you can create an instance of that view using the very expressive
+	| View::of dynamic method. Take a look at this example:
 	|
 	|		return View::of_home();
 	|

@@ -55,6 +55,11 @@ class Manager {
 	 */
 	protected static function connect($config)
 	{
+		// We allow the developer to place a "connector" option in the database
+		// configuration, which should have a Closure value. If the connector
+		// is present, we will use the Closure to retrieve the PDO connection
+		// to the database. This allows the flexiblity to connect to database
+		// systems that are not officially supported by the the framework.
 		if (isset($config['connector']))
 		{
 			return call_user_func($config['connector'], $config);

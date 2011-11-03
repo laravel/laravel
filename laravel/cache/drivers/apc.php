@@ -39,7 +39,10 @@ class APC extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! is_null($cache = apc_fetch($this->key.$key))) return $cache;
+		if ( ! is_null($cache = apc_fetch($this->key.$key)))
+		{
+			return $cache;
+		}
 	}
 
 	/**

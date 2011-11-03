@@ -84,7 +84,9 @@ class Grammar {
 	 */
 	protected function aggregate(Query $query)
 	{
-		return 'SELECT '.$query->aggregate['aggregator'].'('.$this->wrap($query->aggregate['column']).')';
+		$column = $this->wrap($query->aggregate['column']);
+
+		return 'SELECT '.$query->aggregate['aggregator'].'('.$column.')';
 	}
 
 	/**
@@ -332,7 +334,7 @@ class Grammar {
 	 * @param  array   $columns
 	 * @return string
 	 */
-	public function columnize($columns)
+	final public function columnize($columns)
 	{
 		return implode(', ', array_map(array($this, 'wrap'), $columns));
 	}
@@ -349,16 +351,29 @@ class Grammar {
 	 */
 	public function wrap($value)
 	{
-		if (strpos(strtolower($value), ' as ') !== false) return $this->alias($value);
+		// If the value being wrapped contains a column alias, we need to wrap
+		// it a little differently since each segment must be wrapped and not
+		// the entire string.
+		if (strpos(strtolower($value), ' as ') !== false)
+		{
+			return $this->alias($value);
+		}
 
 		// Expressions should be injected into the query as raw strings, so we
 		// do not want to wrap them in any way. We will just return the string
-		// value from the expression.
+		// value from the expression to be included in the query.
 		if ($value instanceof Expression) return $value->get();
 
 		foreach (explode('.', $value) as $segment)
 		{
-			$wrapped[] = ($segment !== '*') ? $this->wrapper.$segment.$this->wrapper : $segment;
+			if ($segment === '*')
+			{
+				$wrapped[] = $segment;
+			}
+			else
+			{
+				$wrapped[] = $this->wrapper.$segment.$this->wrapper;
+			}
 		}
 
 		return implode('.', $wrapped);

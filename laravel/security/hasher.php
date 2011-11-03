@@ -43,17 +43,19 @@ class Hasher {
 	/**
 	 * Get a salt for use during Bcrypt hashing.
 	 *
-	 * Bcrypt expects salts to be 22 alpha-numeric characters including
-	 * dots and forward slashes. OpenSSL will be used if available and
-	 * the Str::random method will be used if it isn't.
-	 *
 	 * @return string
 	 */
 	protected static function salt()
 	{
+		// Bcrypt expects the salt to be 22 base64 encoded characters, including dots
+		// and slashes. We will get rid of the plus signs included in the base64 data
+		// and replace them with dots. OpenSSL will be used if available, since it is
+		// more random, otherwise we will fallback on Str::random.
 		if (function_exists('openssl_random_pseudo_bytes'))
 		{
-			return substr(strtr(base64_encode(openssl_random_pseudo_bytes(16)), '+', '.'), 0 , 22);
+			$bytes = openssl_random_pseudo_bytes(16);
+
+			return substr(strtr(base64_encode($bytes), '+', '.'), 0 , 22);
 		}
 
 		return substr(str_replace('+', '.', base64_encode(Str::random(40))), 0, 22);

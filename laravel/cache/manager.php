@@ -32,12 +32,12 @@ class Manager {
 
 		if ( ! array_key_exists($driver, static::$drivers))
 		{
-			if ( ! IoC::container()->registered('laravel.cache.'.$driver))
+			if ( ! IoC::container()->registered("laravel.cache.{$driver}"))
 			{
 				throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 
-			return static::$drivers[$driver] = IoC::container()->core('cache.'.$driver);
+			return static::$drivers[$driver] = IoC::container()->core("cache.{$driver}");
 		}
 
 		return static::$drivers[$driver];

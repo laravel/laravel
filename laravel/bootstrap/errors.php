@@ -39,16 +39,9 @@ $severity = function($e)
 		E_STRICT           => 'Runtime Notice',
 	);
 
-	if (array_key_exists($e->getCode(), $levels))
-	{
-		$level = $levels[$e->getCode()];
-	}
-	else
-	{
-		$level = $e->getCode();
-	}
+	$code = $e->getCode();
 
-	return $level;
+	return (array_key_exists($code, $levels)) ? $levels[$code] : $code;
 };
 
 /**

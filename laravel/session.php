@@ -183,6 +183,16 @@ class Session {
 	}
 
 	/**
+	 * Get the CSRF token that is stored in the session data.
+	 *
+	 * @return string
+	 */
+	public static function token()
+	{
+		return static::get('csrf_token');
+	}
+
+	/**
 	 * Store the session payload in storage.
 	 *
 	 * @param  Driver  $driver
@@ -196,9 +206,6 @@ class Session {
 
 		$config = Config::$items['session'];
 
-		// To keep the session persistence code clean, session drivers are
-		// responsible for the storage of the session array to the various
-		// available persistent storage mechanisms.
 		$driver->save(static::$session, $config, static::$exists);
 
 		static::cookie();

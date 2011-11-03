@@ -7,12 +7,12 @@ return array(
 	| Error Detail
 	|--------------------------------------------------------------------------
 	|
-	| Detailed error messages contain information about the file in which
-	| an error occurs, a stack trace, and a snapshot of the source code
-	| in which the error occured.
+	| Detailed error messages contain information about the file in which an
+	| error occurs, as well as a PHP stack trace containing the call stack.
 	|
 	| If your application is in production, consider turning off error details
-	| for enhanced security and user experience.
+	| for enhanced security and user experience. The error stack trace could
+	| contain sensitive information that should not be publicly visible.
 	|
 	*/
 
@@ -23,9 +23,9 @@ return array(
 	| Error Logging
 	|--------------------------------------------------------------------------
 	|
-	| Error Logging will use the "logger" function defined below to log error
-	| messages, which gives you complete freedom to determine how error
-	| messages are logged. Enjoy the flexibility.
+	| When error logging is enabled, the "logger" Closure defined below will
+	| be called for every error in your application. You are free to log the
+	| errors however you want. Enjoy the flexibility.
 	|
 	*/
 
@@ -37,23 +37,28 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Because of the various ways of managing error logging, you get complete
-	| flexibility in Laravel to manage error logging as you see fit.
+	| flexibility in Laravel to manage all error logging as you see fit.
 	|
 	| This function will be called when an error occurs in your application.
-	| You are free to handle the exception any way your heart desires.
-	|
-	| The error "severity" passed to the method is a human-readable severity
-	| level such as "Parsing Error" or "Fatal Error".
+	| You are free to handle the exception any way you want. The severity
+	| will be a human-readable severity level such as "Parsing Error".
 	|
 	*/
 
 	'handler' => function($exception, $severity, $message, $config)
 	{
-		$data = compact('exception', 'severity', 'message');
+		if ($config['detail'])
+		{
+			$data = compact('exception', 'severity', 'message');
 
-		$data['detailed'] = $config['detail'];
+			$response = Response::view('error.exception', $data)->status(500);
+		}
+		else
+		{
+			$response = Response::error('500');
+		}
 
-		Response::error('500', $data)->send();
+		$response->send();
 	},
 
 	/*
@@ -62,19 +67,21 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Because of the various ways of managing error logging, you get complete
-	| flexibility to manage error logging as you see fit.
+	| flexibility to manage error logging as you see fit. This function will
+	| be called anytime an error occurs within your application and error
+	| logging is enabled. 
 	|
-	| This function will be called when an error occurs in your application
-	| and error loggins is enabled. You can log the error however you like.
-	|
-	| A simple logging system has been setup for you. By default, all errors
-	| will be logged to the storage/log.txt file.
+	| You may log the error message however you like; however, a simple logging
+	| solution has been setup for you which will log all error messages to a
+	| single text file within the application storage directory.
 	|
 	*/
 
 	'logger' => function($exception, $severity, $message, $config)
 	{
-		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' '.$severity.' - '.$message.PHP_EOL);
+		$message = date('Y-m-d H:i:s').' '.$severity.' - '.$message.PHP_EOL;
+
+		File::append(STORAGE_PATH.'log.txt', $message);
 	}
 
 );

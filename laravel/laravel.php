@@ -74,7 +74,7 @@ switch (Request::method())
 
 /**
  * The spoofed request method is removed from the input so it is
- * not unexpectedly included in Input::all() or Input::get().s
+ * not unexpectedly included in Input::all() or Input::get().
  */
 unset($input[Request::spoofer]);
 
