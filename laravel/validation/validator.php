@@ -531,9 +531,9 @@ class Validator {
 			return $this->messages[$rule];
 		}
 
-		// If the rule being validated is a "size" rule and the attribute is not
-		// a number, we will need to gather the specific size message for the
-		// type of attribute being validated, either a file or a string.
+		// If the rule being validated is a "size" rule, we will need to gather
+		// the specific size message for the type of attribute being validated,
+		// either a number, file, or string.
 		elseif (in_array($rule, $this->size_rules))
 		{
 			if ($this->has_rule($attribute, $this->numeric_rules))
