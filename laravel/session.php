@@ -41,9 +41,9 @@ class Session {
 			// Form class and the "csrf" filter to protect the application from
 			// cross-site request forgery attacks. The token is simply a long,
 			// random string which should be posted with each request.
-			$token = Str::random(40);
+			$csrf_token = Str::random(40);
 
-			static::$session = array('id' => Str::random(40), 'data' => compact('token'));
+			static::$session = array('id' => Str::random(40), 'data' => compact('csrf_token'));
 		}
 	}
 
