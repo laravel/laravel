@@ -62,9 +62,11 @@ return array(
 
 	'attempt' => function($username, $password, $config)
 	{
-		if ( ! is_null($user = User::where($config['username'], '=', $username)->first()))
+		$user = User::where($config['username'], '=', $username)->first();
+
+		if ( ! is_null($user) and Hasher::check($password, $user->password))
 		{
-			if (Hasher::check($password, $user->password)) return $user;
+			return $user;
 		}
 	},
 
