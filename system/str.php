@@ -96,7 +96,7 @@ class Str {
 	}
 
 	/**
-	 * Get a chracter pool.
+	 * Get a character pool.
 	 *
 	 * @param  string  $type
 	 * @return string
