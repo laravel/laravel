@@ -7,9 +7,6 @@ return array(
 	| Application Routes
 	|--------------------------------------------------------------------------
 	|
-	| Here is the public API of your application. To add functionality to your
-	| application, you just add to the array of routes located in this file.
-	|
 	| Simply tell Laravel the HTTP verbs and URIs it should respond to. It's a
 	| piece of cake to create beautiful applications using the elegant RESTful
 	| routing available in Laravel.
