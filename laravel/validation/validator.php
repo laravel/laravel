@@ -447,7 +447,7 @@ class Validator {
 	 */
 	protected function validate_image($attribute, $value)
 	{
-		return $this->validate_mimes($attribute, array('jpg', 'png', 'gif', 'bmp'));
+		return $this->validate_mimes($attribute, $value, array('jpg', 'png', 'gif', 'bmp'));
 	}
 
 	/**
@@ -490,14 +490,17 @@ class Validator {
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
 	 * @param  string  $attribute
+	 * @param  array   $value
 	 * @param  array   $parameters
 	 * @return bool
 	 */
-	protected function validate_mimes($attribute, $parameters)
+	protected function validate_mimes($attribute, $value, $parameters)
 	{
+		if (is_array($value) and ! isset($value['tmp_name'])) return true;
+
 		foreach ($parameters as $extension)
 		{
-			if (File::is($extension, $this->attributes[$attribute]['tmp_name']))
+			if (File::is($extension, $value['tmp_name']))
 			{
 				return true;
 			}
