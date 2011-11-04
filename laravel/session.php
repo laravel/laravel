@@ -4,6 +4,11 @@ use Closure;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
+if (Config::$items['application']['key'] === '')
+{
+	throw new \Exception("An application key is required to use sessions.");
+}
+
 class Session {
 
 	/**
