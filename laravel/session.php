@@ -66,7 +66,9 @@ class Session {
 	{
 		$lifetime = Config::$items['session']['lifetime'];
 
-		return is_null(static::$session) or (time() - static::$session['last_activity'] > ($lifetime * 60));
+		$idle = time() - static::$session['last_activity'];
+
+		return is_null(static::$session) or ($idle > ($lifetime * 60));
 	}
 
 	/**
