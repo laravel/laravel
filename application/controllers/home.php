@@ -14,7 +14,7 @@ class Home_Controller extends Controller {
 	| application "routes.php" file. Laravel is smart enough to find this
 	| controller and call the default method, which is "get_index".
 	|
-	| Just like routes, controllers are also RESTful by default. Each function
+	| Just like routes, controllers are also RESTful by default. Each method
 	| is prefixed with the HTTP verb it responds to, allowing you to quickly
 	| build beautiful RESTful applications.
 	|
