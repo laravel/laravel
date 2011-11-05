@@ -1,6 +1,7 @@
 <?php namespace Laravel\Routing;
 
 use Laravel\IoC;
+use Laravel\Request;
 use Laravel\Response;
 
 abstract class Controller {
@@ -118,7 +119,9 @@ abstract class Controller {
 
 		if (is_null($response))
 		{
-			$response = call_user_func_array(array($this, $method), $parameters);
+			$verb = strtolower(Request::method());
+
+			$response = call_user_func_array(array($this, "{$verb}_{$method}"), $parameters);
 		}
 
 		// The after filter and the framework expects all responses to
