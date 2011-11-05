@@ -1,9 +1,9 @@
 <?php namespace Laravel;
 
 /**
- * Define all of the constants used by the framework. All of the
- * core paths will be defined, as well as all of the paths which
- * derive from those core paths.
+ * Define all of the constants used by the framework. All of the core
+ * paths will be defined, as well as all of the paths which derive
+ * from these core paths.
  */
 define('EXT', '.php');
 define('CRLF', chr(13).chr(10));
@@ -29,9 +29,9 @@ define('SYS_VIEW_PATH', SYS_PATH.'views/');
 define('VIEW_PATH', APP_PATH.'views/');
 
 /**
- * Define the Laravel environment configuration path. This path is
- * used by the configuration class to load configuration options
- * specific for the server environment.
+ * Define the Laravel environment configuration path. This path is used
+ * by the configuration class to load configuration options specific
+ * for the server environment.
  */
 $environment = '';
 
@@ -55,18 +55,18 @@ require SYS_PATH.'container'.EXT;
 require SYS_PATH.'autoloader'.EXT;
 
 /**
- * Load a few of the core configuration files that are loaded for
- * every request to the application. It is quicker to load them
- * manually rather than parse the keys for every request.
+ * Load a few of the core configuration files that are loaded for every
+ * request to the application. It is quicker to load them manually each
+ * request rather than parse the keys for every request.
  */
 Config::load('application');
 Config::load('container');
 Config::load('session');
 
 /**
- * Bootstrap the application inversion of control container.
- * The IoC container is responsible for resolving classes and
- * their dependencies, and helps keep the framework flexible.
+ * Bootstrap the application inversion of control container. The IoC
+ * container is responsible for resolving classes, and helps keep the
+ * framework flexible.
  */
 IoC::bootstrap();
 
@@ -78,15 +78,7 @@ IoC::bootstrap();
 spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 
 /**
- * Define a few global convenience functions to make our lives
- * as Laravel PHP developers a little more easy and enjoyable.
+ * Define a few global convenience functions to make our lives as
+ * Laravel PHP developers a little more easy and enjoyable.
  */
-function e($value)
-{
-	return HTML::entities($value);
-}
-
-function __($key, $replacements = array(), $language = null)
-{
-	return Lang::line($key, $replacements, $language);
-}
+require 'functions'.EXT;

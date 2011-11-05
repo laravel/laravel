@@ -1,9 +1,9 @@
 <?php namespace Laravel;
 
 /**
- * Define a closure that will return a formatted error message
- * when given an exception. This function will be used by the
- * error handler to create a more readable message.
+ * Define a closure that will return the formatted error message when
+ * when given an exception. This function will be used by all of error
+ * handlers to create a more readable message.
  */
 $message = function($e)
 {
@@ -17,9 +17,9 @@ $message = function($e)
 };
 
 /**
- * Define a closure that will return a more readable version of
- * the severity of an exception. This function will be used by
- * the error handler when parsing exceptions.
+ * Define a closure that will return a more readable version of the
+ * severity of an exception. This function will be used by the error
+ * handler when parsing exceptions.
  */
 $severity = function($e)
 {
