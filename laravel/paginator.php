@@ -14,28 +14,28 @@ class Paginator {
 	 *
 	 * @var int
 	 */
-	protected $page;
+	public $page;
 
 	/**
 	 * The last page available for the result set.
 	 *
 	 * @var int
 	 */
-	protected $last;
+	public $last;
 
 	/**
 	 * The total number of results.
 	 *
 	 * @var int
 	 */
-	protected $total;
+	public $total;
 
 	/**
 	 * The number of items per page.
 	 *
 	 * @var int
 	 */
-	protected $per_page;
+	public $per_page;
 
 	/**
 	 * The values that should be appended to the end of the link query strings.
