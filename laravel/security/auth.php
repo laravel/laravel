@@ -112,7 +112,7 @@ class Auth {
 	 * and their user ID will be stored in the session via the "login" method.
 	 *
 	 * The user may also be "remembered", which will keep the user logged into the
-	 * application for one year or until they logout. The user is rememberd via
+	 * application for one year or until they logout. The user is remembered via
 	 * an encrypted cookie.
 	 *
 	 * @param  string  $username
@@ -128,7 +128,7 @@ class Auth {
 
 		if ( ! is_null($user))
 		{
-			static::login($user, $config, $remember);
+			static::login($user, $remember);
 
 			return true;
 		}
