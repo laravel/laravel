@@ -155,7 +155,17 @@ class Session {
 	 */
 	public static function reflash()
 	{
-		static::keep(array_keys(static::$session['data']));
+		$flash = array();
+
+		foreach (static::$session['data'] as $key => $value)
+		{
+			if (strpos($key, ':old:') === 0)
+			{
+				$flash[] = str_replace(':old:', '', $key);
+			}
+		}
+
+		static::keep($flash);
 	}
 
 	/**
@@ -168,8 +178,6 @@ class Session {
 	{
 		foreach ((array) $keys as $key)
 		{
-			$key = str_replace(array(':old:', ':new:'), '', $key);
-
 			static::flash($key, static::get($key));
 		}
 	}
