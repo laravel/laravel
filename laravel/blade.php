@@ -23,7 +23,7 @@ class Blade {
 	 */
 	protected static function echos($value)
 	{
-		return preg_replace('/\{\{(.+)\}\}/', '<?php echo $1; ?>', $value);
+		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
 	}
 
 	/**
