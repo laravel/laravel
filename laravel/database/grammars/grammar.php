@@ -161,7 +161,9 @@ class Grammar {
 	 */
 	protected function where($where)
 	{
-		return $this->wrap($where['column']).' '.$where['operator'].' '.$this->parameter($where['value']);
+		$parameter = $this->parameter($where['value']);
+
+		return $this->wrap($where['column']).' '.$where['operator'].' '.$parameter;
 	}
 
 	/**
@@ -172,7 +174,9 @@ class Grammar {
 	 */
 	protected function where_in($where)
 	{
-		return $this->wrap($where['column']).' IN ('.$this->parameterize($where['values']).')';
+		$parameters = $this->parameterize($where['values']);
+
+		return $this->wrap($where['column']).' IN ('.$parameters.')';
 	}
 
 	/**
@@ -183,7 +187,9 @@ class Grammar {
 	 */
 	protected function where_not_in($where)
 	{
-		return $this->wrap($where['column']).' NOT IN ('.$this->parameterize($where['values']).')';
+		$parameters = $this->parameterize($where['values']);
+
+		return $this->wrap($where['column']).' NOT IN ('.$parameters.')';
 	}
 
 	/**
