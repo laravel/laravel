@@ -52,7 +52,7 @@ class View {
 		//
 		// This makes the implementation of the Post/Redirect/Get pattern very
 		// convenient since each view can assume it has a message container.
-		if (Config::$items['session']['driver'] !== '')
+		if (Config::$items['session']['driver'] !== '' and Session::started())
 		{
 			$this->data['errors'] = Session::get('errors', function()
 			{
