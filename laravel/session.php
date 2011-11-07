@@ -72,6 +72,16 @@ class Session {
 	}
 
 	/**
+	 * Determine if session handling has been started for the request.
+	 *
+	 * @return bool
+	 */
+	public static function started()
+	{
+		return is_array(static::$session);
+	}
+
+	/**
 	 * Determine if the session or flash data contains an item.
 	 *
 	 * @param  string  $key
@@ -156,7 +166,12 @@ class Session {
 	 */
 	public static function keep($keys)
 	{
-		foreach ((array) $keys as $key) static::flash($key, static::get($key));
+		foreach ((array) $keys as $key)
+		{
+			$key = str_replace(array(':old:', ':new:'), '', $key);
+
+			static::flash($key, static::get($key));
+		}
 	}
 
 	/**
