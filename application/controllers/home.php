@@ -12,11 +12,7 @@ class Home_Controller extends Controller {
 	|
 	| To start using this controller, simply remove the default route from the
 	| application "routes.php" file. Laravel is smart enough to find this
-	| controller and call the default method, which is "get_index".
-	|
-	| Just like routes, controllers are also RESTful by default. Each method
-	| is prefixed with the HTTP verb it responds to, allowing you to quickly
-	| build beautiful RESTful applications.
+	| controller and call the default method, which is "action_index".
 	|
 	| This controller responds to URIs beginning with "home", and it also
 	| serves as the default controller for the application, meaning it
@@ -24,14 +20,14 @@ class Home_Controller extends Controller {
 	|
 	| You can respond to GET requests to "/home/profile" like so:
 	|
-	|		public function get_profile()
+	|		public function action_profile()
 	|		{
 	|			return "This is your profile!";
 	|		}
 	|
 	| Any extra segments are passed to the method as parameters:
 	|
-	|		public function get_profile($id)
+	|		public function action_profile($id)
 	|		{
 	|			return "This is the profile for user {$id}.";
 	|		}
