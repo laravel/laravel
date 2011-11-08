@@ -137,55 +137,23 @@ abstract class Controller {
 	}
 
 	/**
-	 * Set "after" filters on the controller's methods.
+	 * Set filters on the controller's methods.
 	 *
 	 * Generally, this method will be used in the controller's constructor.
 	 *
 	 * <code>
 	 *		// Set a "foo" before filter on the controller
-	 *		$this->before_filter('foo');
+	 *		$this->filter('before', 'foo');
 	 *
 	 *		// Set several filters on an explicit group of methods
-	 *		$this->before_filter('foo|bar')->only(array('user', 'profile'));
+	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
-	 *
-	 * @param  string|array       $filters
-	 * @return Filter_Collection
-	 */
-	public function before_filter($filters)
-	{
-		return $this->filter('before', $filters);
-	}
-
-	/**
-	 * Set "after" filters on the controller's methods.
-	 *
-	 * Generally, this method will be used in the controller's constructor.
-	 *
-	 * <code>
-	 *		// Set a "foo" after filter on the controller
-	 *		$this->after_filter('foo');
-	 *
-	 *		// Set several filters on an explicit group of methods
-	 *		$this->after_filter('foo|bar')->only(array('user', 'profile'));
-	 * </code>
-	 *
-	 * @param  string|array       $filters
-	 * @return Filter_Collection
-	 */
-	public function after_filter($filters)
-	{
-		return $this->filter('after', $filters);
-	}
-
-	/**
-	 * Set filters on the controller's methods.
 	 *
 	 * @param  string             $name
 	 * @param  string|array       $filters
 	 * @return Filter_Collection
 	 */
-	protected function filter($name, $filters)
+	public function filter($name, $filters)
 	{
 		$this->filters[] = new Filter_Collection($name, $filters);
 
