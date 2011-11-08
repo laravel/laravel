@@ -124,7 +124,7 @@ return array(
 		'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
 		'File'       => 'Laravel\\File',
 		'Form'       => 'Laravel\\Form',
-		'Hasher'     => 'Laravel\\Security\\Hasher',
+		'Hasher'     => 'Laravel\\Security\\Hash',
 		'HTML'       => 'Laravel\\HTML',
 		'Inflector'  => 'Laravel\\Inflector',
 		'Input'      => 'Laravel\\Input',

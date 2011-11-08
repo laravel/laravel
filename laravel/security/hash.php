@@ -1,6 +1,6 @@
 <?php namespace Laravel\Security; use Laravel\Str;
 
-class Hasher {
+class Hash {
 
 	/**
 	 * Hash a password using the Bcrypt hashing scheme.
@@ -13,17 +13,17 @@ class Hasher {
 	 *
 	 * <code>
 	 *		// Create a Bcrypt hash of a value
-	 *		$hash = Hasher::hash('secret');
+	 *		$hash = Hash::make('secret');
 	 *
 	 *		// Use a specified number of iterations when creating the hash
-	 *		$hash = Hasher::hash('secret', 12);
+	 *		$hash = Hash::make('secret', 12);
 	 * </code>
 	 *
 	 * @param  string  $value
 	 * @param  int     $rounds
 	 * @return string
 	 */
-	public static function hash($value, $rounds = 8)
+	public static function make($value, $rounds = 8)
 	{
 		return crypt($value, '$2a$'.str_pad($rounds, 2, '0', STR_PAD_LEFT).'$'.static::salt());
 	}

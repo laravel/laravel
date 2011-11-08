@@ -64,7 +64,7 @@ return array(
 	{
 		$user = User::where($config['username'], '=', $username)->first();
 
-		if ( ! is_null($user) and Hasher::check($password, $user->password))
+		if ( ! is_null($user) and Hash::check($password, $user->password))
 		{
 			return $user;
 		}
