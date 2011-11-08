@@ -115,25 +115,31 @@ class Inflector {
 	);
 
 	/**
-	 * Get the plural form of a word if the specified count is greater than one.
-	 *
-	 * @param  string  $value
-	 * @param  int	   $count
-	 * @return string
-	 */
-	public static function plural_if($value, $count)
-	{
-		return ($count > 1) ? static::plural($value) : $value;
-	}
-
-	/**
 	 * Convert a word to its plural form.
 	 *
+	 * Optionally, a count argument may be provided. If the count is greater than
+	 * one, the word will be pluralized, otherwise the word will be returned from
+	 * the method unchanged.
+	 *
+	 * <code>
+	 *		// Get the plural form of the word "child"
+	 *		$children = Inflector::plural('child');
+	 *
+	 *		// Returns "comments"
+	 *		$comments = Inflector::plural('comment', 10);
+	 *
+	 *		// Returns "comment"
+	 *		$comment = Inflector::plural('comment', 1);
+	 * </code>
+	 *
 	 * @param  string  $value
+	 * @param  int     $count
 	 * @return string
 	 */
-	public static function plural($value)
+	public static function plural($value, $count = null)
 	{
+		if ( ! is_null($count) and $count <= 1) return $value;
+
 		$irregular = array_flip(static::$irregular);
 
 		$plural = static::inflect($value, static::$plural_cache, $irregular, static::$plural);
