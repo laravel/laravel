@@ -38,7 +38,7 @@ class Session {
 			static::$session = $driver->load($id);
 		}
 
-		if (static::invalid())
+		if (is_null(static::$session) or static::invalid())
 		{
 			static::$exists = false;
 
@@ -66,9 +66,7 @@ class Session {
 	{
 		$lifetime = Config::$items['session']['lifetime'];
 
-		$idle = time() - static::$session['last_activity'];
-
-		return is_null(static::$session) or ($idle > ($lifetime * 60));
+		return (time() - static::$session['last_activity']) > ($lifetime * 60);
 	}
 
 	/**
