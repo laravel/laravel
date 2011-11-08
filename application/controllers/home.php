@@ -38,7 +38,7 @@ class Home_Controller extends Controller {
 	|
 	*/
 
-	public function get_index()
+	public function action_index()
 	{
 		return View::make('home.index');
 	}
