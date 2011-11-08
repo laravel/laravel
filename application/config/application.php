@@ -47,8 +47,8 @@ return array(
 	| Application Character Encoding
 	|--------------------------------------------------------------------------
 	|
-	| The default character encoding used by your application. This is the
-	| character encoding that will be used by the Str, Text, and Form classes.
+	| The default character encoding used by your application. This encoding
+	| will be used by the Str, Text, and Form classes.
 	|
 	*/
 
