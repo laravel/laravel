@@ -30,9 +30,7 @@ class Filter {
 	 */
 	public static function run($filters, $parameters = array(), $override = false)
 	{
-		if (is_string($filters)) $filters = explode('|', $filters);
-
-		foreach ((array) $filters as $filter)
+		foreach (static::parse($filters) as $filter)
 		{
 			// Parameters may be passed into routes by specifying the list of
 			// parameters after a colon. If parameters are present, we will
@@ -55,6 +53,129 @@ class Filter {
 			// the first filter response if overriding is enabled.
 			if ( ! is_null($response) and $override) return $response;
 		}
+	}
+
+	/**
+	 * Parse a string of filters into an array.
+	 *
+	 * @param  string|array  $filters
+	 * @return array
+	 */
+	public static function parse($filters)
+	{
+		return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
+	}
+
+}
+
+class Filter_Collection {
+
+	/**
+	 * The event being filtered.
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * The included controller methods.
+	 *
+	 * @var array
+	 */
+	public $only = array();
+
+	/**
+	 * The excluded controller methods.
+	 *
+	 * @var array
+	 */
+	public $except = array();
+
+	/**
+	 * The filters contained by the collection.
+	 *
+	 * @var string|array
+	 */
+	public $filters = array();
+
+	/**
+	 * Create a new filter collection instance.
+	 *
+	 * @param  string        $name
+	 * @param  string|array  $filters
+	 */
+	public function __construct($name, $filters)
+	{
+		$this->name = $name;
+		$this->filters = Filter::parse($filters);
+	}
+
+	/**
+	 * Determine if this collection's filters apply to a given method.
+	 *
+	 * @param  string  $method
+	 * @return bool
+	 */
+	public function applies($method)
+	{
+		if (count($this->only) > 0 and ! in_array($method, $this->only))
+		{
+			return false;
+		}
+
+		if (count($this->except) > 0 and in_array($method, $this->except))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Set the excluded controller methods.
+	 *
+	 * When methods are excluded, the collection's filters will be run for each
+	 * controller method except those explicitly specified via this method.
+	 *
+	 * <code>
+	 *		// Specify a filter for all methods except "index"
+	 *		$this->filter('before', 'auth')->except('index');
+	 *
+	 *		// Specify a filter for all methods except "index" and "home"
+	 *		$this->filter('before', 'auth')->except(array('index', 'home'));
+	 * </code>
+	 *
+	 * @param  array              $methods
+	 * @return Filter_Collection
+	 */
+	public function except($methods)
+	{
+		$this->except = (array) $methods;
+		return $this;
+	}
+
+	/**
+	 * Set the included controller methods.
+	 *
+	 * This method is the inverse of the "except" methods. The methods specified
+	 * via this method are the only controller methods on which the collection's
+	 * filters will be run.
+	 *
+	 * <code>
+	 *		// Specify a filter for only the "index" method
+	 *		$this->filter('before', 'auth')->only('index');
+	 *
+	 *		// Specify a filter for only the "index" and "home" methods
+	 *		$this->filter('before', 'auth')->only(array('index', 'home'));
+	 * </code>
+	 *
+	 * @param  array              $methods
+	 * @return Filter_Collection
+	 */
+	public function only($methods)
+	{
+		$this->only = (array) $methods;
+		return $this;
 	}
 
 }

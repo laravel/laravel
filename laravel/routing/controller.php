@@ -7,18 +7,11 @@ use Laravel\Response;
 abstract class Controller {
 
 	/**
-	 * The "before" filters defined for the controller.
+	 * The filters assigned to the controller.
 	 *
 	 * @var array
 	 */
-	public $before = array();
-
-	/**
-	 * The "after" filters defined for the controller.
-	 *
-	 * @var array
-	 */
-	public $after = array();
+	protected $filters = array();
 
 	/**
 	 * Handle the delegation of a route to a controller method.
@@ -115,13 +108,11 @@ abstract class Controller {
 		// "before" filters return a response, it will be considered the
 		// response to the request and the controller method will not be
 		// used to handle the request to the application.
-		$response = Filter::run($this->filters('before'), array(), true);
+		$response = Filter::run($this->filters('before', $method), array(), true);
 
 		if (is_null($response))
 		{
-			$verb = strtolower(Request::method());
-
-			$response = call_user_func_array(array($this, "{$verb}_{$method}"), $parameters);
+			$response = call_user_func_array(array($this, "action_{$method}"), $parameters);
 		}
 
 		// The after filter and the framework expects all responses to
@@ -129,7 +120,7 @@ abstract class Controller {
 		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response) $response = new Response($response);
 
-		Filter::run($this->filters('after'), array($response));
+		Filter::run($this->filters('after', $method), array($response));
 
 		return $response;
 	}
@@ -146,14 +137,49 @@ abstract class Controller {
 	}
 
 	/**
+	 * Set filters on the controller's methods.
+	 *
+	 * Generally, this method will be used in the controller's constructor.
+	 *
+	 * <code>
+	 *		// Set an "auth" before filter on the controller
+	 *		$this->filter('before', 'auth');
+	 *
+	 *		// Set several filters on an explicit group of methods
+	 *		$this->filter('before', 'auth|csrf')->only(array('user', 'profile'));
+	 * </code>
+	 *
+	 * @param  string             $name
+	 * @param  string|array       $filters
+	 * @return Filter_Collection
+	 */
+	public function filter($name, $filters)
+	{
+		$this->filters[] = new Filter_Collection($name, $filters);
+
+		return $this->filters[count($this->filters) - 1];
+	}
+
+	/**
 	 * Get an array of filter names defined for the destination.
 	 *
 	 * @param  string  $name
+	 * @param  string  $method
 	 * @return array
 	 */
-	protected function filters($name)
+	protected function filters($name, $method)
 	{
-		return (array) $this->$name;
+		$filters = array();
+
+		foreach ($this->filters as $filter)
+		{
+			if ($filter->name === $name and $filter->applies($method))
+			{
+				$filters = array_merge($filters, $filter->filters);
+			}
+		}
+
+		return array_unique($filters);
 	}
 
 	/**
