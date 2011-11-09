@@ -65,4 +65,17 @@ return array(
 		if (Request::forged()) return Response::error('500');
 	},
 
+    'has_permission' => function()
+    {
+        if (Auth::guest()) return Redirect::to_login();
+
+        $user_id = Session::get(Auth::user_key);
+
+        if (!is_null($user_id) && is_numeric($user_id)) {
+            if (!Acl::has_permission($user_id, Request::route()->key)) {
+                Redirect::to_login();
+            }
+        }
+    },
+
 );
