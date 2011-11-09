@@ -2,6 +2,7 @@
 
 namespace Laravel\Security;
 
+use Exception;
 use Laravel\Config;
 use Laravel\Lang;
 use Laravel\Request;
@@ -19,6 +20,7 @@ use Laravel\Database\Manager;
 class Acl
 {
     /**
+     * Determine if a User is in a role.
      * @static
      * @throws \Exception
      * @param string $role
@@ -30,19 +32,19 @@ class Acl
         $acl_conf = Config::get('acl');
 
         if (is_null($acl_conf)) {
-            throw new \Exception(Lang::line('acl.config_file_missing')->get());
+            throw new Exception(Lang::line('acl.config_file_missing')->get());
         }
 
         $role = Manager::table($acl_conf['table_role'])
-                ->join($acl_conf['table_user_role'],
-                       $acl_conf['table_user_role'] . '.role_id', '=',
-                       $acl_conf['table_role'] . '.id')
-                ->join($acl_conf['table_user'],
-                       $acl_conf['table_user'] . '.id', '=',
-                       $acl_conf['table_user_role'] . '.user_id')
-                ->where($acl_conf['table_role'] . '.name', '=', $role)
-                ->where($acl_conf['table_user'] . '.id', '=', $user_id)
-                ->count();
+            ->join($acl_conf['table_user_role'],
+                   $acl_conf['table_user_role'] . '.role_id', '=',
+                   $acl_conf['table_role'] . '.id')
+            ->join($acl_conf['table_user'],
+                   $acl_conf['table_user'] . '.id', '=',
+                   $acl_conf['table_user_role'] . '.user_id')
+            ->where($acl_conf['table_role'] . '.name', '=', $role)
+            ->where($acl_conf['table_user'] . '.id', '=', $user_id)
+            ->count();
 
         return (!is_null($role) && $role > 0);
     }
@@ -60,7 +62,7 @@ class Acl
         $acl_conf = Config::get('acl');
 
         if (is_null($acl_conf)) {
-            throw new \Exception(Lang::line('acl.config_file_missing')->get());
+            throw new Exception(Lang::line('acl.config_file_missing')->get());
         }
 
         if (is_null($resource)) {
@@ -68,25 +70,25 @@ class Acl
         }
 
         if (is_null($user_id) || !is_numeric($user_id)) {
-            throw new \Exception(Lang::line('user_id_missing'));
+            throw new Exception(Lang::line('acl.user_id_missing')->get());
         }
 
         $perm = Manager::table($acl_conf['table_role'])
-                ->join($acl_conf['table_role_resource'],
-                       $acl_conf['table_role_resource'] . '.role_id', '=',
-                       $acl_conf['table_role'] . '.id')
-                ->join($acl_conf['table_resource'],
-                       $acl_conf['table_resource'] . '.id', '=',
-                       $acl_conf['table_role_resource'] . '.resource_id')
-                ->join($acl_conf['table_user_role'],
-                       $acl_conf['table_user_role'] . '.role_id', '=',
-                       $acl_conf['table_role'] . '.id')
-                ->join($acl_conf['table_user'],
-                       $acl_conf['table_user'] . '.id', '=',
-                       $acl_conf['table_user_role'] . '.user_id')
-                ->where($acl_conf['table_user'] . '.id', '=', $user_id)
-                ->where($acl_conf['table_resource'] . '.uri', '=', $resource)
-                ->count();
+            ->join($acl_conf['table_role_resource'],
+                   $acl_conf['table_role_resource'] . '.role_id', '=',
+                   $acl_conf['table_role'] . '.id')
+            ->join($acl_conf['table_resource'],
+                   $acl_conf['table_resource'] . '.id', '=',
+                   $acl_conf['table_role_resource'] . '.resource_id')
+            ->join($acl_conf['table_user_role'],
+                   $acl_conf['table_user_role'] . '.role_id', '=',
+                   $acl_conf['table_role'] . '.id')
+            ->join($acl_conf['table_user'],
+                   $acl_conf['table_user'] . '.id', '=',
+                   $acl_conf['table_user_role'] . '.user_id')
+            ->where($acl_conf['table_user'] . '.id', '=', $user_id)
+            ->where($acl_conf['table_resource'] . '.uri', '=', $resource)
+            ->count();
 
         return (!is_null($perm) && $perm > 0);
     }
@@ -103,22 +105,22 @@ class Acl
         $acl_conf = Config::get('acl');
 
         if (is_null($acl_conf)) {
-            throw new \Exception(Lang::line('acl.config_file_missing')->get());
+            throw new Exception(Lang::line('acl.config_file_missing')->get());
         }
 
         if (is_null($user_id) || !is_numeric($user_id)) {
-            throw new \Exception(Lang::line('acl.user_id_missing')->get());
+            throw new Exception(Lang::line('acl.user_id_missing')->get());
         }
 
         $roles = Manager::table($acl_conf['table_role'])
-                ->join($acl_conf['table_user_role'],
-                       $acl_conf['table_user_role'] . '.role_id', '=',
-                       $acl_conf['table_role'] . '.id')
-                ->join($acl_conf['table_user'],
-                       $acl_conf['table_user'] . '.id', '=',
-                       $acl_conf['table_user_role'] . '.user_id')
-                ->where($acl_conf['table_user'] . '.id', '=', $user_id)
-                ->get();
+            ->join($acl_conf['table_user_role'],
+                   $acl_conf['table_user_role'] . '.role_id', '=',
+                   $acl_conf['table_role'] . '.id')
+            ->join($acl_conf['table_user'],
+                   $acl_conf['table_user'] . '.id', '=',
+                   $acl_conf['table_user_role'] . '.user_id')
+            ->where($acl_conf['table_user'] . '.id', '=', $user_id)
+            ->get();
 
         return is_null($roles) ? null : $roles;
     }
