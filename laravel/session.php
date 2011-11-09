@@ -16,7 +16,7 @@ class Session {
 	 *
 	 * @var array
 	 */
-	protected $session;
+	public $session;
 
 	/**
 	 * Indicates if the session already exists in storage.

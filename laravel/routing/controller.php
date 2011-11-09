@@ -35,7 +35,7 @@ abstract class Controller {
 	 * @param  array     $parameters
 	 * @return Response
 	 */
-	public static function _call($destination, $parameters = array())
+	public static function call($destination, $parameters = array())
 	{
 		if (strpos($destination, '@') === false)
 		{
@@ -44,14 +44,14 @@ abstract class Controller {
 
 		list($controller, $method) = explode('@', $destination);
 
-		$controller = static::_resolve($controller);
+		$controller = static::resolve($controller);
 
 		if (is_null($controller))
 		{
 			return Response::error('404');
 		}
 
-		return $controller->_execute($method, $parameters);
+		return $controller->execute($method, $parameters);
 	}
 
 	/**
@@ -61,9 +61,9 @@ abstract class Controller {
 	 * @param  string      $controller
 	 * @return Controller
 	 */
-	public static function _resolve($controller)
+	public static function resolve($controller)
 	{
-		if ( ! static::_load($controller)) return;
+		if ( ! static::load($controller)) return;
 
 		// If the controller is registered in the IoC container, we will resolve
 		// it out of the container. Using constructor injection on controllers
@@ -94,7 +94,7 @@ abstract class Controller {
 	 * @param  string  $controller
 	 * @return bool
 	 */
-	protected static function _load($controller)
+	protected static function load($controller)
 	{
 		$controller = strtolower(str_replace('.', '/', $controller));
 
@@ -115,18 +115,13 @@ abstract class Controller {
 	 * @param  array     $parameters
 	 * @return Response
 	 */
-	public function _execute($method, $parameters = array())
+	public function execute($method, $parameters = array())
 	{
-		if (static::_hidden($method))
-		{
-			return Response::error('404');
-		}
-
 		// Again, as was the case with route closures, if the controller
 		// "before" filters return a response, it will be considered the
 		// response to the request and the controller method will not be
 		// used to handle the request to the application.
-		$response = Filter::run($this->gather_filters('before', $method), array(), true);
+		$response = Filter::run($this->filters('before', $method), array(), true);
 
 		if (is_null($response))
 		{
@@ -135,7 +130,7 @@ abstract class Controller {
 			// If the controller has specified a layout view. The response
 			// returned by the controller method will be bound to that view
 			// and the layout will be considered the response.
-			if ( ! is_null($this->layout) and $this->_viewable($response))
+			if ( ! is_null($this->layout) and $this->viewable($response))
 			{
 				$response = $this->layout->with('content', $response);
 			}
@@ -149,22 +144,9 @@ abstract class Controller {
 			$response = new Response($response);
 		}
 
-		Filter::run($this->gather_filters('after', $method), array($response));
+		Filter::run($this->filters('after', $method), array($response));
 
 		return $response;
-	}
-
-	/**
-	 * Determine if a given controller method is callable.
-	 *
-	 * @param  string  $method
-	 * @return bool
-	 */
-	protected static function _hidden($method)
-	{
-		$hidden = array('before', 'after', 'register_filters', 'gather_filters');
-
-		return strncmp($method, '_', 1) == 0 or in_array($method, $hidden);
 	}
 
 	/**
@@ -178,7 +160,7 @@ abstract class Controller {
 	 * @param  mixed  $response
 	 * @return bool
 	 */
-	protected function _viewable($response)
+	protected function viewable($response)
 	{
 		if ($response instanceof Response)
 		{
@@ -196,55 +178,22 @@ abstract class Controller {
 	}
 
 	/**
-	 * Register "before" filters on the controller's methods.
-	 *
-	 * Generally, this method will be used in the controller's constructor.
-	 *
-	 * <code>
-	 *		// Set a "foo" before filter on the controller
-	 *		$this->before_filter('foo');
-	 *
-	 *		// Set several filters on an explicit group of methods
-	 *		$this->before_filter('foo|bar')->only(array('user', 'profile'));
-	 * </code>
-	 *
-	 * @param  string|array       $filters
-	 * @return Filter_Collection
-	 */
-	public function before($filters)
-	{
-		return $this->register_filters('before', $filters);
-	}
-
-	/**
-	 * Register "after" filters on the controller's methods.
+	 * Register filters on the controller's methods.
 	 *
 	 * Generally, this method will be used in the controller's constructor.
 	 *
 	 * <code>
 	 *		// Set a "foo" after filter on the controller
-	 *		$this->after_filter('foo');
+	 *		$this->filter('before', 'foo');
 	 *
 	 *		// Set several filters on an explicit group of methods
-	 *		$this->after_filter('foo|bar')->only(array('user', 'profile'));
+	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
 	 *
 	 * @param  string|array       $filters
 	 * @return Filter_Collection
 	 */
-	public function after($filters)
-	{
-		return $this->register_filters('after', $filters);
-	}
-
-	/**
-	 * Set filters on the controller's methods.
-	 *
-	 * @param  string             $name
-	 * @param  string|array       $filters
-	 * @return Filter_Collection
-	 */
-	protected function register_filters($name, $filters)
+	protected function filter($name, $filters)
 	{
 		$this->filters[] = new Filter_Collection($name, $filters);
 
@@ -258,7 +207,7 @@ abstract class Controller {
 	 * @param  string  $method
 	 * @return array
 	 */
-	protected function gather_filters($name, $method)
+	protected function filters($name, $method)
 	{
 		$filters = array();
 
