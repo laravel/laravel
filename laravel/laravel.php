@@ -28,7 +28,9 @@ if (Config::$items['session']['driver'] !== '')
 {
 	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
 
-	Session::start($driver);
+	$id = Cookie::get(Config::$items['session']['cookie']);
+
+	IoC::container()->instance('laravel.session', new Session($driver, $id));
 }
 
 /**
@@ -117,7 +119,7 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	Session::save($driver);
+	IoC::container()->core('session')->save($driver);
 }
 
 /**

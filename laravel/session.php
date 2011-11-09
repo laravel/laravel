@@ -16,42 +16,43 @@ class Session {
 	 *
 	 * @var array
 	 */
-	protected static $session;
+	protected $session;
 
 	/**
 	 * Indicates if the session already exists in storage.
 	 *
 	 * @var bool
 	 */
-	protected static $exists = true;
+	protected $exists = true;
 
 	/**
 	 * Start the session handling for the current request.
 	 *
 	 * @param  Driver  $driver
+	 * @param  string  $id
 	 * @return void
 	 */
-	public static function start(Driver $driver)
+	public function __construct(Driver $driver, $id)
 	{
-		if ( ! is_null($id = Cookie::get(Config::$items['session']['cookie'])))
+		if ( ! is_null($id))
 		{
-			static::$session = $driver->load($id);
+			$this->session = $driver->load($id);
 		}
 
-		if (is_null(static::$session) or static::invalid())
+		if (is_null($this->session) or $this->invalid())
 		{
-			static::$exists = false;
+			$this->exists = false;
 
-			static::$session = array('id' => Str::random(40), 'data' => array());
+			$this->session = array('id' => Str::random(40), 'data' => array());
 		}
 
-		if ( ! static::has('csrf_token'))
+		if ( ! $this->has('csrf_token'))
 		{
 			// A CSRF token is stored in every session. The token is used by the
 			// Form class and the "csrf" filter to protect the application from
 			// cross-site request forgery attacks. The token is simply a long,
 			// random string which should be posted with each request.
-			static::put('csrf_token', Str::random(40));
+			$this->put('csrf_token', Str::random(40));
 		}
 	}
 
@@ -62,11 +63,11 @@ class Session {
 	 *
 	 * @return bool
 	 */
-	protected static function invalid()
+	protected function invalid()
 	{
 		$lifetime = Config::$items['session']['lifetime'];
 
-		return (time() - static::$session['last_activity']) > ($lifetime * 60);
+		return (time() - $this->session['last_activity']) > ($lifetime * 60);
 	}
 
 	/**
@@ -74,9 +75,9 @@ class Session {
 	 *
 	 * @return bool
 	 */
-	public static function started()
+	public function started()
 	{
-		return is_array(static::$session);
+		return is_array($this->session);
 	}
 
 	/**
@@ -85,9 +86,9 @@ class Session {
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public static function has($key)
+	public function has($key)
 	{
-		return ( ! is_null(static::get($key)));
+		return ( ! is_null($this->get($key)));
 	}
 
 	/**
@@ -107,13 +108,13 @@ class Session {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public static function get($key, $default = null)
+	public function get($key, $default = null)
 	{
 		foreach (array($key, ':old:'.$key, ':new:'.$key) as $possibility)
 		{
-			if (array_key_exists($possibility, static::$session['data']))
+			if (array_key_exists($possibility, $this->session['data']))
 			{
-				return static::$session['data'][$possibility];
+				return $this->session['data'][$possibility];
 			}
 		}
 
@@ -127,9 +128,9 @@ class Session {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public static function put($key, $value)
+	public function put($key, $value)
 	{
-		static::$session['data'][$key] = $value;
+		$this->session['data'][$key] = $value;
 	}
 
 	/**
@@ -141,9 +142,9 @@ class Session {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public static function flash($key, $value)
+	public function flash($key, $value)
 	{
-		static::put(':new:'.$key, $value);
+		$this->put(':new:'.$key, $value);
 	}
 
 	/**
@@ -151,11 +152,11 @@ class Session {
 	 *
 	 * @return void
 	 */
-	public static function reflash()
+	public function reflash()
 	{
 		$flash = array();
 
-		foreach (static::$session['data'] as $key => $value)
+		foreach ($this->session['data'] as $key => $value)
 		{
 			if (strpos($key, ':old:') === 0)
 			{
@@ -163,7 +164,7 @@ class Session {
 			}
 		}
 
-		static::keep($flash);
+		$this->keep($flash);
 	}
 
 	/**
@@ -172,11 +173,11 @@ class Session {
 	 * @param  string|array  $key
 	 * @return void
 	 */
-	public static function keep($keys)
+	public function keep($keys)
 	{
 		foreach ((array) $keys as $key)
 		{
-			static::flash($key, static::get($key));
+			$this->flash($key, $this->get($key));
 		}
 	}
 
@@ -186,9 +187,9 @@ class Session {
 	 * @param  string  $key
 	 * @return Driver
 	 */
-	public static function forget($key)
+	public function forget($key)
 	{
-		unset(static::$session['data'][$key]);
+		unset($this->session['data'][$key]);
 	}
 
 	/**
@@ -196,9 +197,9 @@ class Session {
 	 *
 	 * @return void
 	 */
-	public static function flush()
+	public function flush()
 	{
-		static::$session['data'] = array();
+		$this->session['data'] = array();
 	}
 
 	/**
@@ -206,11 +207,11 @@ class Session {
 	 *
 	 * @return void
 	 */
-	public static function regenerate()
+	public function regenerate()
 	{
-		static::$session['id'] = Str::random(40);
+		$this->session['id'] = Str::random(40);
 
-		static::$exists = false;
+		$this->exists = false;
 	}
 
 	/**
@@ -218,9 +219,9 @@ class Session {
 	 *
 	 * @return string
 	 */
-	public static function token()
+	public function token()
 	{
-		return static::get('csrf_token');
+		return $this->get('csrf_token');
 	}
 
 	/**
@@ -229,17 +230,17 @@ class Session {
 	 * @param  Driver  $driver
 	 * @return void
 	 */
-	public static function save(Driver $driver)
+	public function save(Driver $driver)
 	{
-		static::$session['last_activity'] = time();
+		$this->session['last_activity'] = time();
 
-		static::age();
+		$this->age();
 
 		$config = Config::$items['session'];
 
-		$driver->save(static::$session, $config, static::$exists);
+		$driver->save($this->session, $config, $this->exists);
 
-		static::cookie();
+		$this->cookie();
 
 		// Some session drivers implement the Sweeper interface, meaning that they
 		// must clean up expired sessions manually. If the driver is a sweeper, we
@@ -261,20 +262,20 @@ class Session {
 	 *
 	 * @return void
 	 */
-	protected static function age()
+	protected function age()
 	{
-		foreach (static::$session['data'] as $key => $value)
+		foreach ($this->session['data'] as $key => $value)
 		{
-			if (strpos($key, ':old:') === 0) static::forget($key);
+			if (strpos($key, ':old:') === 0) $this->forget($key);
 		}
 
 		// Now that all of the "old" keys have been removed from the session data,
 		// we can re-address all of the newly flashed keys to have old addresses.
 		// The array_combine method uses the first array for keys, and the second
 		// array for values to construct a single array from both.
-		$keys = str_replace(':new:', ':old:', array_keys(static::$session['data']));
+		$keys = str_replace(':new:', ':old:', array_keys($this->session['data']));
 
-		static::$session['data'] = array_combine($keys, array_values(static::$session['data']));
+		$this->session['data'] = array_combine($keys, array_values($this->session['data']));
 	}
 
 	/**
@@ -282,7 +283,7 @@ class Session {
 	 *
 	 * @return void
 	 */
-	protected static function cookie()
+	protected function cookie()
 	{
 		$config = Config::$items['session'];
 
@@ -290,7 +291,7 @@ class Session {
 
 		$minutes = ( ! $expire_on_close) ? $lifetime : 0;
 
-		Cookie::put($cookie, static::$session['id'], $minutes, $path, $domain, $secure);	
+		Cookie::put($cookie, $this->session['id'], $minutes, $path, $domain, $secure);	
 	}
 
 }

@@ -1,5 +1,6 @@
 <?php namespace Laravel\Security;
 
+use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
@@ -73,7 +74,9 @@ class Auth {
 	{
 		if ( ! is_null(static::$user)) return static::$user;
 
-		static::$user = call_user_func(Config::get('auth.user'), Session::get(Auth::user_key));
+		$id = IoC::container()->core('session')->get(Auth::user_key);
+
+		static::$user = call_user_func(Config::get('auth.user'), $id);
 
 		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
@@ -149,7 +152,7 @@ class Auth {
 
 		if ($remember) static::remember($user->id);
 
-		Session::put(Auth::user_key, $user->id);
+		IoC::container()->core('session')->put(Auth::user_key, $user->id);
 	}
 
 	/**
@@ -192,7 +195,7 @@ class Auth {
 
 		Cookie::forget(Auth::remember_key);
 
-		Session::forget(Auth::user_key);
+		IoC::container()->core('session')->forget(Auth::user_key);
 	}
 
 }
