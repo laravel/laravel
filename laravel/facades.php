@@ -58,3 +58,5 @@ abstract class Facade {
 	}
 
 }
+
+class Session extends Facade { public static $resolve = 'laravel.session'; }

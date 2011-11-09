@@ -113,7 +113,7 @@ return array(
 
 	'aliases' => array(
 		'Asset'      => 'Laravel\\Asset',
-		'Acl'       => 'Laravel\\Security\\Acl',
+		'Acl'        => 'Laravel\\Security\\Acl',
 		'Auth'       => 'Laravel\\Security\\Auth',
 		'Benchmark'  => 'Laravel\\Benchmark',
 		'Cache'      => 'Laravel\\Cache\\Manager',
@@ -136,7 +136,8 @@ return array(
 		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
-		'Session'    => 'Laravel\\Session',
+        'Section'    => 'Laravel\\Section',
+		'Session'    => 'Laravel\\Facades\\Session',
 		'Str'        => 'Laravel\\Str',
 		'Validator'  => 'Laravel\\Validation\\Validator',
 		'View'       => 'Laravel\\View',

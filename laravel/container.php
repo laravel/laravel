@@ -30,6 +30,29 @@ class IoC {
 	}
 
 	/**
+	 * Resolve a core Laravel class from the container.
+	 *
+	 * <code>
+	 *		// Resolve the "laravel.router" class from the container
+	 *		$input = IoC::core('router');
+	 *
+	 *		// Equivalent resolution using the "resolve" method
+	 *		$input = IoC::resolve('laravel.router');
+	 *
+	 *		// Pass an array of parameters to the resolver
+	 *		$input = IoC::core('router', array('test'));
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public static function core($name, $parameters = array())
+	{
+		return static::$container->core($name, $parameters);
+	}
+
+	/**
 	 * Magic Method for calling methods on the active container instance.
 	 *
 	 * <code>

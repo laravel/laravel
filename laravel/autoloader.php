@@ -52,9 +52,19 @@ class Autoloader {
 	 */
 	protected static function find($class)
 	{
-		$file = str_replace('\\', '/', $class);
+		// After PHP namespaces were introduced, most libaries ditched underscores for
+		// for namespaces to indicate the class directory hierarchy. We will chec for
+		// the present of namespace slashes to determine the directory separator.
+		if (strpos($class, '\\') !== false)
+		{
+			$library = substr($class, 0, strpos($class, '\\'));
+		}
+		else
+		{
+			$library = substr($class, 0, strpos($class, '_'));
+		}
 
-		$namespace = substr($class, 0, strpos($class, '\\'));
+		$file = str_replace('\\', '/', $class);
 
 		// If the namespace has been registered as a PSR-0 compliant library, we will
 		// load the library according to the PSR-0 naming standards, which state that
@@ -63,7 +73,7 @@ class Autoloader {
 		// The PSR-0 standard is exactly like the typical Laravel standard, the only
 		// difference being that Laravel files are all lowercase, while PSR-0 states
 		// that the file name should match the class name.
-		if (isset(static::$libraries[$namespace]))
+		if (isset(static::$libraries[$library]))
 		{
 			return str_replace('_', '/', $file).EXT;
 		}
@@ -81,7 +91,7 @@ class Autoloader {
 		// directory for the class according to the PSR-0 naming standard.
 		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file).EXT))
 		{
-			static::$libraries[] = $namespace;
+			static::$libraries[] = $library;
 
 			return $path;
 		}
