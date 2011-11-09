@@ -113,6 +113,7 @@ return array(
 
 	'aliases' => array(
 		'Asset'      => 'Laravel\\Asset',
+		'Acl'       => 'Laravel\\Security\\Acl',
 		'Auth'       => 'Laravel\\Security\\Auth',
 		'Benchmark'  => 'Laravel\\Benchmark',
 		'Cache'      => 'Laravel\\Cache\\Manager',
