@@ -154,7 +154,7 @@ class Request {
 	 */
 	public static function forged()
 	{
-		return Input::get('csrf_token') !== Session::token();
+		return Input::get('csrf_token') !== IoC::container()->core('session')->token();
 	}
 
 	/**

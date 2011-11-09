@@ -1,10 +1,19 @@
 <?php namespace Laravel\Routing;
 
 use Laravel\IoC;
+use Laravel\View;
 use Laravel\Request;
+use Laravel\Redirect;
 use Laravel\Response;
 
 abstract class Controller {
+
+	/**
+	 * The layout being used by the controller.
+	 *
+	 * @var string
+	 */
+	public $layout;
 
 	/**
 	 * The filters assigned to the controller.
@@ -56,10 +65,9 @@ abstract class Controller {
 	{
 		if ( ! static::load($controller)) return;
 
-		// If the controller is registered in the IoC container, we will
-		// resolve it out of the container. Using constructor injection
-		// on controllers via the container allows more flexible and
-		// testable development of applications.
+		// If the controller is registered in the IoC container, we will resolve
+		// it out of the container. Using constructor injection on controllers
+		// via the container allows more flexible and testable applications.
 		if (IoC::container()->registered('controllers.'.$controller))
 		{
 			return IoC::container()->resolve('controllers.'.$controller);
@@ -67,7 +75,17 @@ abstract class Controller {
 
 		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
 
-		return new $controller;
+		$controller = new $controller;
+
+		// If the controller has specified a layout to be used when rendering
+		// views, we will instantiate the layout instance and set it to the
+		// layout property, replacing the string layout name.
+		if ( ! is_null($controller->layout))
+		{
+			$controller->layout = View::make($controller->layout);
+		}
+
+		return $controller;
 	}
 
 	/**
@@ -99,11 +117,6 @@ abstract class Controller {
 	 */
 	public function execute($method, $parameters = array())
 	{
-		if (static::hidden($method))
-		{
-			return Response::error('404');
-		}
-
 		// Again, as was the case with route closures, if the controller
 		// "before" filters return a response, it will be considered the
 		// response to the request and the controller method will not be
@@ -113,12 +126,23 @@ abstract class Controller {
 		if (is_null($response))
 		{
 			$response = call_user_func_array(array($this, "action_{$method}"), $parameters);
+
+			// If the controller has specified a layout view. The response
+			// returned by the controller method will be bound to that view
+			// and the layout will be considered the response.
+			if ( ! is_null($this->layout) and $this->viewable($response))
+			{
+				$response = $this->layout->with('content', $response);
+			}
 		}
 
 		// The after filter and the framework expects all responses to
 		// be instances of the Response class. If the method did not
 		// return an instsance of Response, we will make on now.
-		if ( ! $response instanceof Response) $response = new Response($response);
+		if ( ! $response instanceof Response)
+		{
+			$response = new Response($response);
+		}
 
 		Filter::run($this->filters('after', $method), array($response));
 
@@ -126,34 +150,50 @@ abstract class Controller {
 	}
 
 	/**
-	 * Determine if a given controller method is callable.
+	 * Deteremine if a given response is considered "viewable".
 	 *
-	 * @param  string  $method
+	 * This is primarily used to determine which types of responses should be
+	 * bound to the controller's layout and which should not. We do not want
+	 * to bind redirects and file downloads to the layout, as this obviously
+	 * would not make any sense.
+	 *
+	 * @param  mixed  $response
 	 * @return bool
 	 */
-	protected static function hidden($method)
+	protected function viewable($response)
 	{
-		return $method == 'before' or $method == 'after' or strncmp($method, '_', 1) == 0;
+		if ($response instanceof Response)
+		{
+			if ($response instanceof Redirect)
+			{
+				return false;
+			}
+			elseif ($response->headers['Content-Description'] == 'File Transfer')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
-	 * Set filters on the controller's methods.
+	 * Register filters on the controller's methods.
 	 *
 	 * Generally, this method will be used in the controller's constructor.
 	 *
 	 * <code>
-	 *		// Set a "foo" before filter on the controller
+	 *		// Set a "foo" after filter on the controller
 	 *		$this->filter('before', 'foo');
 	 *
 	 *		// Set several filters on an explicit group of methods
 	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
 	 *
-	 * @param  string             $name
 	 * @param  string|array       $filters
 	 * @return Filter_Collection
 	 */
-	public function filter($name, $filters)
+	protected function filter($name, $filters)
 	{
 		$this->filters[] = new Filter_Collection($name, $filters);
 
