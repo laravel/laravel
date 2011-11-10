@@ -65,7 +65,7 @@ class Manager {
 			return call_user_func($config['connector'], $config);
 		}
 
-		return IoC::container()->core("database.connectors.{$config['driver']}")->connect($config);
+		return IoC::core("database.connectors.{$config['driver']}")->connect($config);
 	}
 
 	/**

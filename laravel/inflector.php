@@ -102,13 +102,15 @@ class Inflector {
 	 * @var array
 	 */
 	private static $uncountable = array(
+		'audio',
 		'equipment',
-		'data',
 		'deer',
 		'fish',
+		'gold',
 		'information',
 		'money',
 		'rice',
+		'police',
 		'series',
 		'sheep',
 		'species',
@@ -138,7 +140,7 @@ class Inflector {
 	 */
 	public static function plural($value, $count = null)
 	{
-		if ( ! is_null($count) and $count <= 1) return $value;
+		if ( ! is_null($count) and $count == 1) return $value;
 
 		$irregular = array_flip(static::$irregular);
 

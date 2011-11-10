@@ -8,9 +8,6 @@ class Str {
 	 * <code>
 	 *		// Convert a string to lowercase
 	 *		echo Str::lower('STOP YELLING');
-	 *
-	 *		// Convert a UTF-8 string to lowercase
-	 *		echo Str::lower('Τάχιστη');
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -32,9 +29,6 @@ class Str {
 	 * <code>
 	 *		// Convert a string to uppercase
 	 *		echo Str::upper('speak louder');
-	 *
-	 *		// Convert a UTF-8 string to uppercase
-	 *		echo Str::upper('Τάχιστη');
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -56,9 +50,6 @@ class Str {
 	 * <code>
 	 *		// Convert a string to title case
 	 *		echo Str::title('taylor otwell');
-	 *
-	 *		// Convert a UTF-8 string to title case
-	 *		echo Str::title('Τάχιστη αλώπηξ');
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -80,9 +71,6 @@ class Str {
 	 * <code>
 	 *		// Get the length of a string
 	 *		echo Str::length('taylor otwell');
-	 *
-	 *		// Get the length of a UTF-8 string
-	 *		echo Str::length('Τάχιστη αλώπηξ');
 	 * </code>
 	 *
 	 * @param  string  $value

@@ -193,7 +193,7 @@ class View {
 	 */
 	protected static function composers()
 	{
-		static::$composers = IoC::container()->core('view.composers');
+		static::$composers = require APP_PATH.'composers'.EXT;
 	}
 
 	/**
