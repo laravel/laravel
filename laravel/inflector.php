@@ -104,7 +104,6 @@ class Inflector {
 	private static $uncountable = array(
 		'audio',
 		'equipment',
-		'data',
 		'deer',
 		'fish',
 		'gold',
