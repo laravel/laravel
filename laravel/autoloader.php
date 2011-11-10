@@ -53,16 +53,11 @@ class Autoloader {
 	protected static function find($class)
 	{
 		// After PHP namespaces were introduced, most libaries ditched underscores for
-		// for namespaces to indicate the class directory hierarchy. We will chec for
+		// for namespaces to indicate the class directory hierarchy. We will check for
 		// the present of namespace slashes to determine the directory separator.
-		if (strpos($class, '\\') !== false)
-		{
-			$library = substr($class, 0, strpos($class, '\\'));
-		}
-		else
-		{
-			$library = substr($class, 0, strpos($class, '_'));
-		}
+		$separator = (strpos($class, '\\') !== false) ? '\\' : '_';
+
+		$library = substr($class, 0, strpos($class, $separator));
 
 		$file = str_replace('\\', '/', $class);
 
@@ -94,6 +89,20 @@ class Autoloader {
 			static::$libraries[] = $library;
 
 			return $path;
+		}
+
+		// Since not all controllers will be resolved by the controller resolver,
+		// we will do a quick check in the controller directory for the class.
+		// For instance, since base controllers would not be resolved by the
+		// controller class, we will need to resolve them here.
+		if (strpos($class, '_Controller') !== false)
+		{
+			$controller = str_replace(array('_Controller', '_'), array('', '/'), $class);
+
+			if (file_exists($path = strtolower(CONTROLLER_PATH.$controller.EXT)))
+			{
+				return $path;
+			}
 		}
 	}
 

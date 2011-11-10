@@ -130,9 +130,9 @@ abstract class Controller {
 			// If the controller has specified a layout view. The response
 			// returned by the controller method will be bound to that view
 			// and the layout will be considered the response.
-			if ( ! is_null($this->layout) and $this->viewable($response))
+			if (is_null($response) and ! is_null($this->layout))
 			{
-				$response = $this->layout->with('content', $response);
+				$response = $this->layout;
 			}
 		}
 
@@ -147,34 +147,6 @@ abstract class Controller {
 		Filter::run($this->filters('after', $method), array($response));
 
 		return $response;
-	}
-
-	/**
-	 * Deteremine if a given response is considered "viewable".
-	 *
-	 * This is primarily used to determine which types of responses should be
-	 * bound to the controller's layout and which should not. We do not want
-	 * to bind redirects and file downloads to the layout, as this obviously
-	 * would not make any sense.
-	 *
-	 * @param  mixed  $response
-	 * @return bool
-	 */
-	protected function viewable($response)
-	{
-		if ($response instanceof Response)
-		{
-			if ($response instanceof Redirect)
-			{
-				return false;
-			}
-			elseif ($response->headers['Content-Description'] == 'File Transfer')
-			{
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -195,9 +167,9 @@ abstract class Controller {
 	 */
 	protected function filter($name, $filters)
 	{
-		$this->filters[] = new Filter_Collection($name, $filters);
+		$this->filters[$name][] = new Filter_Collection($name, $filters);
 
-		return $this->filters[count($this->filters) - 1];
+		return $this->filters[$name][count($this->filters) - 1];
 	}
 
 	/**
@@ -209,11 +181,13 @@ abstract class Controller {
 	 */
 	protected function filters($name, $method)
 	{
+		if ( ! isset($this->filters[$name])) return array();
+
 		$filters = array();
 
-		foreach ($this->filters as $filter)
+		foreach ($this->filters[$name] as $filter)
 		{
-			if ($filter->name === $name and $filter->applies($method))
+			if ($filter->applies($method))
 			{
 				$filters = array_merge($filters, $filter->filters);
 			}

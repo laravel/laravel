@@ -29,3 +29,5 @@ $public = __DIR__;
 // Launch Laravel.
 // --------------------------------------------------------------
 require $laravel.'/laravel.php';
+
+echo number_format((microtime(true) - LARAVEL_START) * 1000, 2);

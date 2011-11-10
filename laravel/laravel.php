@@ -30,7 +30,7 @@ if (Config::$items['session']['driver'] !== '')
 
 	$id = Cookie::get(Config::$items['session']['cookie']);
 
-	IoC::container()->instance('laravel.session', new Session($driver, $id));
+	IoC::container()->instance('laravel.session', new Session\Manager($driver, $id));
 }
 
 /**

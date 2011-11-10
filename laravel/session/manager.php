@@ -1,6 +1,9 @@
-<?php namespace Laravel;
+<?php namespace Laravel\Session;
 
 use Closure;
+use Laravel\Str;
+use Laravel\Config;
+use Laravel\Cookie;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
@@ -9,7 +12,7 @@ if (Config::$items['application']['key'] === '')
 	throw new \Exception("An application key is required to use sessions.");
 }
 
-class Session {
+class Manager {
 
 	/**
 	 * The session array that is stored by the driver.
@@ -266,7 +269,10 @@ class Session {
 	{
 		foreach ($this->session['data'] as $key => $value)
 		{
-			if (strpos($key, ':old:') === 0) $this->forget($key);
+			if (strpos($key, ':old:') === 0)
+			{
+				$this->forget($key);
+			}
 		}
 
 		// Now that all of the "old" keys have been removed from the session data,

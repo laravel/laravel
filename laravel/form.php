@@ -52,7 +52,12 @@ class Form {
 			$attributes['accept-charset'] = Config::get('application.encoding');
 		}
 
-		$append = ($method == 'PUT' or $method == 'DELETE') ? static::hidden(Request::spoofer, $method) : '';
+		$append = '';
+
+		if ($method == 'PUT' or $method == 'DELETE')
+		{
+			$append = static::hidden(Request::spoofer, $method);
+		}
 
 		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
 	}
@@ -166,7 +171,11 @@ class Form {
 	{
 		static::$labels[] = $name;
 
-		return '<label for="'.$name.'"'.HTML::attributes($attributes).'>'.HTML::entities($value).'</label>'.PHP_EOL;
+		$attributes = HTML::attributes($attributes);
+
+		$value = HTML::entities($value);
+
+		return '<label for="'.$name.'"'.$attributes.'>'.$value.'</label>'.PHP_EOL;
 	}
 
 	/**
@@ -324,7 +333,9 @@ class Form {
 	 */
 	public static function textarea($name, $value = '', $attributes = array())
 	{
-		$attributes = array_merge($attributes, array('id' => static::id($name, $attributes), 'name' => $name));
+		$attributes['name'] = $name;
+
+		$attributes['id'] = static::id($name, $attributes);
 
 		if ( ! isset($attributes['rows'])) $attributes['rows'] = 10;
 

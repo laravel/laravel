@@ -10,6 +10,9 @@ class URL {
 	 * <code>
 	 *		// Create a URL to a location within the application
 	 *		$url = URL::to('user/profile');
+	 *
+	 *		// Create a HTTPS URL to a location within the application
+	 *		$url = URL::to('user/profile', true);
 	 * </code>
 	 *
 	 * @param  string  $url
@@ -20,29 +23,14 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		return rtrim(static::root($https), '/').'/'.ltrim($url, '/');
-	}
+		$root = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
 
-	/**
-	 * Get the URL to the root of the application.
-	 *
-	 * @param  bool   $https
-	 * @return string
-	 */
-	protected static function root($https = false)
-	{
-		$base = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
-
-		// It is possible for the developer to totally disable the generation of links
-		// that use HTTPS. This is primarily to create a convenient test environment
-		// when using SSL is not an option. We will only replace the first occurence
-		// of "http" with "https" since URLs are sometimes passed in query strings.
 		if ($https and Config::$items['application']['ssl'])
 		{
-			$base = preg_replace('~http://~', 'https://', $base, 1);
+			$root = preg_replace('~http://~', 'https://', $root, 1);
 		}
 
-		return $base;
+		return rtrim($root, '/').'/'.ltrim($url, '/');
 	}
 
 	/**
