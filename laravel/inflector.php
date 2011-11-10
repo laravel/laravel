@@ -138,7 +138,7 @@ class Inflector {
 	 */
 	public static function plural($value, $count = null)
 	{
-		if ( ! is_null($count) and $count <= 1) return $value;
+		if ( ! is_null($count) and $count == 1) return $value;
 
 		$irregular = array_flip(static::$irregular);
 
