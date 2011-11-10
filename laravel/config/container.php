@@ -2,12 +2,6 @@
 
 return array(
 
-	'laravel.view.composers' => array('singleton' => true, 'resolver' => function()
-	{
-		return require APP_PATH.'composers'.EXT;
-	}),
-
-
 	'laravel.routing.router' => array('singleton' => true, 'resolver' => function($c)
 	{
 		return new Routing\Router($c->core('routing.loader'), CONTROLLER_PATH);

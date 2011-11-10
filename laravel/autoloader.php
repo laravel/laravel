@@ -64,10 +64,6 @@ class Autoloader {
 		// If the namespace has been registered as a PSR-0 compliant library, we will
 		// load the library according to the PSR-0 naming standards, which state that
 		// namespaces and underscores indicate the directory hierarchy of the class.
-		//
-		// The PSR-0 standard is exactly like the typical Laravel standard, the only
-		// difference being that Laravel files are all lowercase, while PSR-0 states
-		// that the file name should match the class name.
 		if (isset(static::$libraries[$library]))
 		{
 			return str_replace('_', '/', $file).EXT;
