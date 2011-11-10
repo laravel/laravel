@@ -69,20 +69,6 @@ class Autoloader {
 			return LIBRARY_PATH.str_replace('_', '/', $file).EXT;
 		}
 
-		// Since not all controllers will be resolved by the controller resolver,
-		// we will do a quick check in the controller directory for the class.
-		// For instance, since base controllers would not be resolved by the
-		// controller class, we will need to resolve them here.
-		if (strpos($class, '_Controller') !== false)
-		{
-			$controller = str_replace(array('_Controller', '_'), array('', '/'), $class);
-
-			if (file_exists($path = strtolower(CONTROLLER_PATH.$controller.EXT)))
-			{
-				return $path;
-			}
-		}
-
 		// Next we will search through the common Laravel paths for the class file.
 		// The Laravel framework path, along with the libraries and models paths
 		// will be searched according to the Laravel class naming standard.
@@ -104,6 +90,20 @@ class Autoloader {
 			static::$libraries[] = $library;
 
 			return $path;
+		}
+
+		// Since not all controllers will be resolved by the controller resolver,
+		// we will do a quick check in the controller directory for the class.
+		// For instance, since base controllers would not be resolved by the
+		// controller class, we will need to resolve them here.
+		if (strpos($class, '_Controller') !== false)
+		{
+			$controller = str_replace(array('_Controller', '_'), array('', '/'), $class);
+
+			if (file_exists($path = strtolower(CONTROLLER_PATH.$controller.EXT)))
+			{
+				return $path;
+			}
 		}
 	}
 
