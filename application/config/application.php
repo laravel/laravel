@@ -130,6 +130,7 @@ return array(
 		'Input'      => 'Laravel\\Input',
 		'IoC'        => 'Laravel\\IoC',
 		'Lang'       => 'Laravel\\Lang',
+		'Paginator'  => 'Laravel\\Paginator',
 		'URL'        => 'Laravel\\URL',
 		'Redirect'   => 'Laravel\\Redirect',
 		'Redis'      => 'Laravel\\Redis',
