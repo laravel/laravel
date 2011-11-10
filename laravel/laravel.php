@@ -8,15 +8,12 @@
 require 'bootstrap/core.php';
 
 /**
- * Register the framework error handling methods and set the
- * error_reporting levels. This file will register handlers
- * for exceptions, errors, and shutdown.
+ * Register the framework error handling methods and set the error
+ * reporting levels. This file will register handlers for exceptions,
+ * errors, and the shutdown event.
  */
 require SYS_PATH.'bootstrap/errors'.EXT;
 
-/**
- * Set the application's default timezone.
- */
 date_default_timezone_set(Config::$items['application']['timezone']);
 
 /**
@@ -34,8 +31,9 @@ if (Config::$items['session']['driver'] !== '')
 }
 
 /**
- * Manually load some core classes that are used on every request
- * This allows to avoid using the loader for these classes.
+ * Manually load some core classes that are used on every request so
+ * we can avoid using the loader for these classes. This saves us
+ * some overhead on each request.
  */
 require SYS_PATH.'input'.EXT;
 require SYS_PATH.'request'.EXT;
@@ -46,9 +44,9 @@ require SYS_PATH.'routing/loader'.EXT;
 require SYS_PATH.'routing/filter'.EXT;
 
 /**
- * Gather the input to the application for the current request.
- * The input will be gathered based on the current request method
- * and will be set on the Input manager.
+ * Gather the input to the application based on the current request.
+ * The input will be gathered based on the current request method and
+ * will be set on the Input manager.
  */
 $input = array();
 
@@ -75,8 +73,10 @@ switch (Request::method())
 }
 
 /**
- * The spoofed request method is removed from the input so it is
- * not unexpectedly included in Input::all() or Input::get().
+ * The spoofed request method is removed from the input so it is not
+ * unexpectedly included in Input::all() or Input::get(). Leaving it
+ * in the input array could cause unexpected results if the developer
+ * fills an Eloquent model with the input.
  */
 unset($input[Request::spoofer]);
 
@@ -122,7 +122,4 @@ if (Config::$items['session']['driver'] !== '')
 	IoC::container()->core('session')->save($driver);
 }
 
-/**
- * Finally, we can send the response to the browser.
- */
 $response->send();

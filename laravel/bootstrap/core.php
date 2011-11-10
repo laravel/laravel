@@ -1,10 +1,5 @@
 <?php namespace Laravel;
 
-/**
- * Define all of the constants used by the framework. All of the core
- * paths will be defined, as well as all of the paths which derive
- * from these core paths.
- */
 define('EXT', '.php');
 define('CRLF', chr(13).chr(10));
 define('BLADE_EXT', '.blade.php');
@@ -30,8 +25,10 @@ define('VIEW_PATH', APP_PATH.'views/');
 
 /**
  * Define the Laravel environment configuration path. This path is used
- * by the configuration class to load configuration options specific
- * for the server environment.
+ * by the configuration class to load configuration options specific for
+ * the server environment, allowing the developer to conveniently change
+ * configuration options based on the application environment.
+ * 
  */
 $environment = '';
 
