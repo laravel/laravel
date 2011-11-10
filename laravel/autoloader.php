@@ -54,7 +54,7 @@ class Autoloader {
 	{
 		// After PHP namespaces were introduced, most libaries ditched underscores for
 		// for namespaces to indicate the class directory hierarchy. We will check for
-		// the present of namespace slashes to determine the directory separator.
+		// the presence of namespace slashes to determine the directory separator.
 		$separator = (strpos($class, '\\') !== false) ? '\\' : '_';
 
 		$library = substr($class, 0, strpos($class, $separator));
@@ -66,25 +66,7 @@ class Autoloader {
 		// namespaces and underscores indicate the directory hierarchy of the class.
 		if (isset(static::$libraries[$library]))
 		{
-			return str_replace('_', '/', $file).EXT;
-		}
-
-		foreach (static::$paths as $path)
-		{
-			if (file_exists($path = $path.strtolower($file).EXT))
-			{
-				return $path;
-			}
-		}
-
-		// If we could not find the class file in any of the auto-loaded locations
-		// according to the Laravel naming standard, we will search the libraries
-		// directory for the class according to the PSR-0 naming standard.
-		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file).EXT))
-		{
-			static::$libraries[] = $library;
-
-			return $path;
+			return LIBRARY_PATH.str_replace('_', '/', $file).EXT;
 		}
 
 		// Since not all controllers will be resolved by the controller resolver,
@@ -99,6 +81,29 @@ class Autoloader {
 			{
 				return $path;
 			}
+		}
+
+		// Next we will search through the common Laravel paths for the class file.
+		// The Laravel framework path, along with the libraries and models paths
+		// will be searched according to the Laravel class naming standard.
+		$lower = strtolower($file);
+
+		foreach (static::$paths as $path)
+		{
+			if (file_exists($path = $path.$lower.EXT))
+			{
+				return $path;
+			}
+		}
+
+		// If we could not find the class file in any of the auto-loaded locations
+		// according to the Laravel naming standard, we will search the libraries
+		// directory for the class according to the PSR-0 naming standard.
+		if (file_exists($path = LIBRARY_PATH.str_replace('_', '/', $file).EXT))
+		{
+			static::$libraries[] = $library;
+
+			return $path;
 		}
 	}
 
