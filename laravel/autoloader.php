@@ -86,6 +86,20 @@ class Autoloader {
 
 			return $path;
 		}
+
+		// Since not all controllers will be resolved by the controller resolver,
+		// we will do a quick check in the controller directory for the class.
+		// For instance, since base controllers would not be resolved by the
+		// controller class, we will need to resolve them here.
+		if (strpos($class, '_Controller') !== false)
+		{
+			$controller = str_replace(array('_Controller', '_'), array('', '/'), $class);
+
+			if (file_exists($path = strtolower(CONTROLLER_PATH.$controller.EXT)))
+			{
+				return $path;
+			}
+		}
 	}
 
 }

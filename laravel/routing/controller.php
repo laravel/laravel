@@ -6,24 +6,6 @@ use Laravel\Request;
 use Laravel\Redirect;
 use Laravel\Response;
 
-/**
- * Register a function on the autoload stack to lazy-load controller files.
- * We register this function here to keep the primary autoloader smaller
- * since this logic is not needed for every Laravel application.
- */
-spl_autoload_register(function($controller)
-{
-	if (strpos($controller, '_Controller') !== false)
-	{
-		$controller = str_replace(array('_Controller', '_'), array('', '/'), $controller);
-
-		if (file_exists($path = strtolower(CONTROLLER_PATH.$controller.EXT)))
-		{
-			return $path;
-		}
-	}
-});
-
 abstract class Controller {
 
 	/**
