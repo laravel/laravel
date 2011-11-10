@@ -169,7 +169,7 @@ abstract class Controller {
 	{
 		$this->filters[$name][] = new Filter_Collection($name, $filters);
 
-		return $this->filters[$name][count($this->filters) - 1];
+		return $this->filters[$name][count($this->filters[$name]) - 1];
 	}
 
 	/**
