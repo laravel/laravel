@@ -102,13 +102,16 @@ class Inflector {
 	 * @var array
 	 */
 	private static $uncountable = array(
+		'audio',
 		'equipment',
 		'data',
 		'deer',
 		'fish',
+		'gold',
 		'information',
 		'money',
 		'rice',
+		'police',
 		'series',
 		'sheep',
 		'species',
