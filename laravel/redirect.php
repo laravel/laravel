@@ -79,9 +79,9 @@ class Redirect extends Response {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
-
 		$status = (isset($parameters[1])) ? $parameters[1] : 302;
+		
+		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
 		if (strpos($method, 'to_secure_') === 0)
 		{
