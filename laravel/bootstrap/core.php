@@ -59,6 +59,7 @@ require SYS_PATH.'autoloader'.EXT;
  */
 Config::load('application');
 Config::load('session');
+Config::load('error');
 
 /**
  * Bootstrap the application inversion of control container. The IoC
