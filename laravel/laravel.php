@@ -99,7 +99,7 @@ if ( ! Config::$items['error']['detail'])
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	$driver = IoC::container()->core('session.'.Config::$items['session']['driver']);
+	$driver = IoC::core('session.'.Config::$items['session']['driver']);
 
 	$id = Cookie::get(Config::$items['session']['cookie']);
 
@@ -168,7 +168,7 @@ Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
 list($uri, $method) = array(Request::uri(), Request::method());
 
-Request::$route = IoC::container()->core('routing.router')->route($method, $uri);
+Request::$route = IoC::core('routing.router')->route($method, $uri);
 
 if ( ! is_null(Request::$route))
 {
@@ -195,7 +195,7 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	IoC::container()->core('session')->save($driver);
+	IoC::core('session')->save($driver);
 }
 
 $response->send();
