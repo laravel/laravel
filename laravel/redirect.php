@@ -81,14 +81,16 @@ class Redirect extends Response {
 	{
 		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
+		$status = (isset($parameters[1])) ? $parameters[1] : 302;
+
 		if (strpos($method, 'to_secure_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 10), $parameters, true));
+			return static::to(URL::to_route(substr($method, 10), $parameters, true), $status);
 		}
 
 		if (strpos($method, 'to_') === 0)
 		{
-			return static::to(URL::to_route(substr($method, 3), $parameters));
+			return static::to(URL::to_route(substr($method, 3), $parameters), $status);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Redirect class.");
