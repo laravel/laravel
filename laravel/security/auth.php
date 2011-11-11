@@ -90,8 +90,8 @@ class Auth {
 	 * Attempt to login a user based on a long-lived "remember me" cookie.
 	 *
 	 * We should be able to trust the cookie is valid, since all cookies
-	 * set by Laravel include a fingerprint hash. So, the cookie should
-	 * be safe to use within this method.
+	 * set by Laravel include a fingerprint hash to ensure the cookie
+	 * value is not changed on the client.
 	 *
 	 * @param  string  $cookie
 	 * @return mixed
