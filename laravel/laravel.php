@@ -89,7 +89,7 @@ error_reporting(-1);
  */
 if ( ! Config::$items['error']['detail'])
 {
-	//ini_set('display_errors', 'Off');	
+	ini_set('display_errors', 'Off');	
 }
 
 /**
