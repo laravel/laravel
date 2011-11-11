@@ -16,6 +16,8 @@ class IoC {
 	 */
 	public static function bootstrap()
 	{
+		Config::load('container');
+
 		static::$container = new Container(Config::$items['container']);
 	}
 

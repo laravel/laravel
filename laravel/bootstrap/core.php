@@ -58,8 +58,8 @@ require SYS_PATH.'autoloader'.EXT;
  * request rather than parse the keys for every request.
  */
 Config::load('application');
-Config::load('container');
 Config::load('session');
+Config::load('error');
 
 /**
  * Bootstrap the application inversion of control container. The IoC
@@ -79,4 +79,4 @@ spl_autoload_register(array('Laravel\\Autoloader', 'load'));
  * Define a few global convenience functions to make our lives as
  * Laravel PHP developers a little more easy and enjoyable.
  */
-require 'functions'.EXT;
+require SYS_PATH.'helpers'.EXT;

@@ -90,7 +90,7 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = IoC::container()->core('routing.router')->find($name)))
+		if ( ! is_null($route = IoC::core('routing.router')->find($name)))
 		{
 			$uris = explode(', ', key($route));
 
