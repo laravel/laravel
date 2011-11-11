@@ -78,4 +78,4 @@ spl_autoload_register(array('Laravel\\Autoloader', 'load'));
  * Define a few global convenience functions to make our lives as
  * Laravel PHP developers a little more easy and enjoyable.
  */
-require 'functions'.EXT;
+require SYS_PATH.'helpers'.EXT;
