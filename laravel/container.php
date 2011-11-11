@@ -107,7 +107,7 @@ class Container {
 	 *
 	 * <code>
 	 *		// Register an object and its resolver
-	 *		IoC::container()->register('mailer', function($c) {return new Mailer;});
+	 *		IoC::register('mailer', function($c) {return new Mailer;});
 	 * </code>
 	 *
 	 * @param  string   $name
@@ -153,7 +153,7 @@ class Container {
 	 *
 	 * <code>
 	 *		// Register an instance as a singleton in the container
-	 *		IoC::container()->instance('mailer', new Mailer);
+	 *		IoC::instance('mailer', new Mailer);
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -170,13 +170,13 @@ class Container {
 	 *
 	 * <code>
 	 *		// Resolve the "laravel.router" class from the container
-	 *		$input = IoC::container()->core('router');
+	 *		$input = IoC::core('router');
 	 *
 	 *		// Equivalent resolution using the "resolve" method
-	 *		$input = IoC::container()->resolve('laravel.router');
+	 *		$input = IoC::resolve('laravel.router');
 	 *
 	 *		// Pass an array of parameters to the resolver
-	 *		$input = IoC::container()->core('router', array('test'));
+	 *		$input = IoC::core('router', array('test'));
 	 * </code>
 	 *
 	 * @param  string  $name
@@ -193,10 +193,10 @@ class Container {
 	 *
 	 * <code>
 	 *		// Get an instance of the "mailer" object registered in the container
-	 *		$mailer = IoC::container()->resolve('mailer');
+	 *		$mailer = IoC::resolve('mailer');
 	 *
 	 *		// Pass an array of parameters to the resolver
-	 *		$mailer = IoC::container()->resolve('mailer', array('test'));
+	 *		$mailer = IoC::resolve('mailer', array('test'));
 	 * </code>
 	 *
 	 * @param  string  $name

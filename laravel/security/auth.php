@@ -74,7 +74,7 @@ class Auth {
 	{
 		if ( ! is_null(static::$user)) return static::$user;
 
-		$id = IoC::container()->core('session')->get(Auth::user_key);
+		$id = IoC::core('session')->get(Auth::user_key);
 
 		static::$user = call_user_func(Config::get('auth.user'), $id);
 
@@ -152,7 +152,7 @@ class Auth {
 
 		if ($remember) static::remember($user->id);
 
-		IoC::container()->core('session')->put(Auth::user_key, $user->id);
+		IoC::core('session')->put(Auth::user_key, $user->id);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Auth {
 
 		Cookie::forget(Auth::remember_key);
 
-		IoC::container()->core('session')->forget(Auth::user_key);
+		IoC::core('session')->forget(Auth::user_key);
 	}
 
 }

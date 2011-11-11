@@ -27,7 +27,7 @@ abstract class Facade {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		$class = IoC::container()->resolve(static::$resolve);
+		$class = IoC::resolve(static::$resolve);
 
 		$count = count($parameters);
 
