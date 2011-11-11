@@ -58,7 +58,6 @@ require SYS_PATH.'autoloader'.EXT;
  * request rather than parse the keys for every request.
  */
 Config::load('application');
-Config::load('container');
 Config::load('session');
 
 /**
