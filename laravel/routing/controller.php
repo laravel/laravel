@@ -68,9 +68,9 @@ abstract class Controller {
 		// If the controller is registered in the IoC container, we will resolve
 		// it out of the container. Using constructor injection on controllers
 		// via the container allows more flexible and testable applications.
-		if (IoC::container()->registered('controllers.'.$controller))
+		if (IoC::registered('controllers.'.$controller))
 		{
-			return IoC::container()->resolve('controllers.'.$controller);
+			return IoC::resolve('controllers.'.$controller);
 		}
 
 		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
@@ -216,14 +216,14 @@ abstract class Controller {
 	 *		$mailer = $this->mailer;
 	 *
 	 *		// Equivalent call using the IoC container instance
-	 *		$mailer = IoC::container()->resolve('mailer');
+	 *		$mailer = IoC::resolve('mailer');
 	 * </code>
 	 */
 	public function __get($key)
 	{
-		if (IoC::container()->registered($key))
+		if (IoC::registered($key))
 		{
-			return IoC::container()->resolve($key);
+			return IoC::resolve($key);
 		}
 
 		throw new \Exception("Attempting to access undefined property [$key] on controller.");

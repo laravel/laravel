@@ -149,7 +149,7 @@ class Form {
 	 */
 	public static function token()
 	{
-		$token = IoC::container()->core('session')->token();
+		$token = IoC::core('session')->token();
 
 		return static::input('hidden', 'csrf_token', $token);
 	}
