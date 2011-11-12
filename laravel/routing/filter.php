@@ -1,5 +1,7 @@
 <?php namespace Laravel\Routing;
 
+use Laravel\Request;
+
 class Filter {
 
 	/**
@@ -99,6 +101,13 @@ class Filter_Collection {
 	public $filters = array();
 
 	/**
+	 * The HTTP methods for which the filter applies.
+	 *
+	 * @var array
+	 */
+	public $methods = array();
+
+	/**
 	 * Create a new filter collection instance.
 	 *
 	 * @param  string        $name
@@ -124,6 +133,11 @@ class Filter_Collection {
 		}
 
 		if (count($this->except) > 0 and in_array($method, $this->except))
+		{
+			return false;
+		}
+
+		if (count($this->methods) > 0 and ! in_array(strtolower(Request::method()), $this->methods))
 		{
 			return false;
 		}
@@ -175,6 +189,30 @@ class Filter_Collection {
 	public function only($methods)
 	{
 		$this->only = (array) $methods;
+		return $this;
+	}
+
+	/**
+	 * Set the HTTP methods for which the filter applies.
+	 *
+	 * Since some filters, such as the CSRF filter, only make sense in a POST
+	 * request context, this method allows you to limit which HTTP methods
+	 * the filter will apply to.
+	 *
+	 * <code>
+	 *		// Specify that a filter only applies on POST requests
+	 *		$this->filter('before', 'csrf')->on('post');
+	 *
+	 *		// Specify that a filter applies for multiple HTTP request methods
+	 *		$this->filter('before', 'csrf')->on(array('post', 'put'));
+	 * </code>
+	 *
+	 * @param  array              $methods
+	 * @return Filter_Collection
+	 */
+	public function on($methods)
+	{
+		$this->methods = array_map('strtolower', (array) $methods);
 		return $this;
 	}
 

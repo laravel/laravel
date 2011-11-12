@@ -177,6 +177,8 @@ $loader = new Routing\Loader(APP_PATH, ROUTE_PATH);
 
 $router = new Routing\Router($loader, CONTROLLER_PATH);
 
+IoC::instance('laravel.routing.router', $router);
+
 Request::$route = $router->route($method, $uri);
 
 if ( ! is_null(Request::$route))
