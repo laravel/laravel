@@ -40,7 +40,7 @@ class Request {
 
 		// Remove the root application URL from the request URI. If the application
 		// is nested within a sub-directory of the web document root, this will get
-		// rid of the sub-directories from the request URI.
+		// rid of all of the the sub-directories from the request URI.
 		$base = parse_url(Config::$items['application']['url'], PHP_URL_PATH);
 
 		if (strpos($uri, $base) === 0)
@@ -48,8 +48,6 @@ class Request {
 			$uri = substr($uri, strlen($base));
 		}
 
-		// Remove the application index file. It is not used for anything as far
-		// as the framework and routing is concerned, so it's worthless.
 		$index = '/'.Config::$items['application']['index'];
 
 		if ($index !== '/' and strpos($uri, $index) === 0)
@@ -57,10 +55,12 @@ class Request {
 			$uri = substr($uri, strlen($index));
 		}
 
+		$uri = trim($uri, '/');
+
 		// Format the final request URI. If there is nothing left, we will just
 		// return a single forward slash. Otherwise, we'll remove all of the
-		// leading and trailing spaces from the URI.
-		return static::$uri = (($uri = trim($uri, '/')) !== '') ? $uri : '/';
+		// leading and trailing spaces from the URI before returning it.
+		return static::$uri = ($uri !== '') ? $uri : '/';
 	}
 
 	/**
