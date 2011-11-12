@@ -77,6 +77,23 @@ class Input {
 	}
 
 	/**
+	 * Flush the old input from the session.
+	 *
+	 * On a successful form submission, the application may redirect to another
+	 * form. If this is the case, it may be necessary to flush the old input
+	 * so that the new form does not have the previous form's data.
+	 *
+	 * @return void
+	 */
+	public static function flush()
+	{
+		if (Config::$items['session']['driver'] !== '')
+		{
+			IoC::core('session')->flash(Input::old_input, array());
+		}
+	}
+
+	/**
 	 * Determine if the old input data contains an item.
 	 *
 	 * @param  string  $key

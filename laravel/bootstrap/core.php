@@ -49,7 +49,6 @@ unset($application, $public, $laravel, $environment);
 require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'facades'.EXT;
-require SYS_PATH.'container'.EXT;
 require SYS_PATH.'autoloader'.EXT;
 
 /**
@@ -60,13 +59,6 @@ require SYS_PATH.'autoloader'.EXT;
 Config::load('application');
 Config::load('session');
 Config::load('error');
-
-/**
- * Bootstrap the application inversion of control container. The IoC
- * container is responsible for resolving classes, and helps keep the
- * framework flexible.
- */
-IoC::bootstrap();
 
 /**
  * Register the Autoloader's "load" method on the auto-loader stack.

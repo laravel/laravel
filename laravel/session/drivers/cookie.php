@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-use Laravel\Security\Crypter;
+use Laravel\Crypter;
 
 class Cookie implements Driver {
 

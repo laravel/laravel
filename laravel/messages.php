@@ -1,4 +1,4 @@
-<?php namespace Laravel\Validation;
+<?php namespace Laravel;
 
 class Messages {
 

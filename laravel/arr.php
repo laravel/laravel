@@ -76,6 +76,42 @@ class Arr {
 	}
 
 	/**
+	 * Remove an array item from a given array.
+	 *
+	 * The same "dot" syntax used by the "get" method may be used here.
+	 *
+	 * <code>
+	 *		// Remove the $array['user']['name'] item from the array
+	 *		Arr::forget($array, 'user.name');
+	 * </code>
+	 *
+	 * @param  array   $array
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public static function forget(&$array, $key)
+	{
+		if (is_null($key)) return;
+
+		$keys = explode('.', $key);
+
+		while (count($keys) > 1)
+		{
+			$key = array_shift($keys);
+
+			if ( ! isset($array[$key]) or ! is_array($array[$key]))
+			{
+				return;
+			}
+
+			$array =& $array[$key];
+		}
+
+		unset($array[array_shift($keys)]);
+	}
+
+	/**
 	 * Return the first element in an array which passes a given truth test.
 	 *
 	 * <code>

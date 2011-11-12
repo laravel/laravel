@@ -1,4 +1,8 @@
-<?php namespace Laravel\Cache; use Laravel\IoC, Laravel\Config;
+<?php namespace Laravel\Cache;
+
+use Laravel\Redis;
+use Laravel\Config;
+use Laravel\Memcached;
 
 class Manager {
 
@@ -37,7 +41,7 @@ class Manager {
 				throw new \Exception("Cache driver [$driver] is not supported.");
 			}
 
-			return static::$drivers[$driver] = IoC::core("cache.{$driver}");
+			return static::$drivers[$driver] = Drivers\Factory::make($driver);
 		}
 
 		return static::$drivers[$driver];

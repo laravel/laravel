@@ -325,6 +325,16 @@ class View {
 	}
 
 	/**
+	 * Get the evaluated string content of the view.
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->render();
+	}
+
+	/**
 	 * Magic Method for handling the dynamic creation of named views.
 	 *
 	 * <code>

@@ -32,7 +32,7 @@ class Manager {
 	{
 		if (is_null($connection)) $connection = Config::get('database.default');
 
-		if ( ! array_key_exists($connection, static::$connections))
+		if ( ! isset(static::$connections[$connection]))
 		{
 			$config = Config::get("database.connections.{$connection}");
 
@@ -65,7 +65,7 @@ class Manager {
 			return call_user_func($config['connector'], $config);
 		}
 
-		return IoC::core("database.connectors.{$config['driver']}")->connect($config);
+		return Connectors\Factory::make($config['driver'])->connect($config);
 	}
 
 	/**

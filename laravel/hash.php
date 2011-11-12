@@ -1,4 +1,4 @@
-<?php namespace Laravel\Security; use Laravel\Str;
+<?php namespace Laravel;
 
 class Hash {
 

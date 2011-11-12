@@ -99,11 +99,16 @@ if ( ! Config::$items['error']['detail'])
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	$driver = IoC::core('session.'.Config::$items['session']['driver']);
+	require SYS_PATH.'ioc'.EXT;
+	require SYS_PATH.'session/payload'.EXT;
+	require SYS_PATH.'session/drivers/driver'.EXT;
+	require SYS_PATH.'session/drivers/factory'.EXT;
 
 	$id = Cookie::get(Config::$items['session']['cookie']);
 
-	IoC::instance('laravel.session', new Session\Manager($driver, $id));
+	$driver = Session\Drivers\Factory::make(Config::$items['session']['driver']);
+
+	IoC::instance('laravel.session', new Session\Payload($driver, $id));
 }
 
 /**
@@ -168,7 +173,11 @@ Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
 list($uri, $method) = array(Request::uri(), Request::method());
 
-Request::$route = IoC::core('routing.router')->route($method, $uri);
+$loader = new Routing\Loader(APP_PATH, ROUTE_PATH);
+
+$router = new Routing\Router($loader, CONTROLLER_PATH);
+
+Request::$route = $router->route($method, $uri);
 
 if ( ! is_null(Request::$route))
 {

@@ -1,10 +1,4 @@
-<?php namespace Laravel\Security;
-
-use Laravel\IoC;
-use Laravel\Str;
-use Laravel\Config;
-use Laravel\Cookie;
-use Laravel\Session;
+<?php namespace Laravel;
 
 class Auth {
 

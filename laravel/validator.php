@@ -1,11 +1,6 @@
-<?php namespace Laravel\Validation;
+<?php namespace Laravel;
 
 use Closure;
-use Laravel\Arr;
-use Laravel\Str;
-use Laravel\File;
-use Laravel\Lang;
-use Laravel\Input;
 use Laravel\Database\Manager as DB;
 
 class Validator {

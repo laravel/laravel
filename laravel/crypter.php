@@ -1,4 +1,4 @@
-<?php namespace Laravel\Security; use Laravel\Config;
+<?php namespace Laravel;
 
 if (trim(Config::$items['application']['key']) === '')
 {

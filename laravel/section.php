@@ -38,7 +38,7 @@ class Section {
 	 */
 	public static function start($section, $content = '')
 	{
-		if ($content !== '')
+		if ($content == '')
 		{
 			ob_start();
 

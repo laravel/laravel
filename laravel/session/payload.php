@@ -1,6 +1,7 @@
 <?php namespace Laravel\Session;
 
 use Closure;
+use Laravel\Arr;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
@@ -12,7 +13,7 @@ if (Config::$items['application']['key'] === '')
 	throw new \Exception("An application key is required to use sessions.");
 }
 
-class Manager {
+class Payload {
 
 	/**
 	 * The session array that is stored by the driver.
@@ -42,19 +43,26 @@ class Manager {
 			$this->session = $driver->load($id);
 		}
 
+		// If the session doesn't exist or is invalid, we will create a new session
+		// array and mark the session as being non-existent. Some drivers, such as
+		// the database driver, need to know whether the session exists in storage
+		// so they can know whether to "insert" or "update" the session.
 		if (is_null($this->session) or $this->invalid())
 		{
 			$this->exists = false;
 
-			$this->session = array('id' => Str::random(40), 'data' => array());
+			$this->session = array('id' => Str::random(40), 'data' => array(
+				':new:' => array(),
+				':old:' => array(),
+			));
 		}
 
+		// A CSRF token is stored in every session. The token is used by the Form
+		// class and the "csrf" filter to protect the application from cross-site
+		// request forgery attacks. The token is simply a long, random string
+		// which should be posted with each request.
 		if ( ! $this->has('csrf_token'))
 		{
-			// A CSRF token is stored in every session. The token is used by the
-			// Form class and the "csrf" filter to protect the application from
-			// cross-site request forgery attacks. The token is simply a long,
-			// random string which should be posted with each request.
 			$this->put('csrf_token', Str::random(40));
 		}
 	}
@@ -113,12 +121,17 @@ class Manager {
 	 */
 	public function get($key, $default = null)
 	{
-		foreach (array($key, ':old:'.$key, ':new:'.$key) as $possibility)
+		if (isset($this->session['data'][$key]))
 		{
-			if (array_key_exists($possibility, $this->session['data']))
-			{
-				return $this->session['data'][$possibility];
-			}
+			return $this->session['data'][$key];
+		}
+		elseif (isset($this->session['data'][':new:'][$key]))
+		{
+			return $this->session['data'][':new:'][$key];
+		}
+		elseif (isset($this->session['data'][':old:'][$key]))
+		{
+			return $this->session['data'][':old:'][$key];
 		}
 
 		return ($default instanceof Closure) ? call_user_func($default) : $default;
@@ -133,13 +146,14 @@ class Manager {
 	 */
 	public function put($key, $value)
 	{
-		$this->session['data'][$key] = $value;
+		Arr::set($this->session['data'], $key, $value);
 	}
 
 	/**
 	 * Write an item to the session flash data.
 	 *
-	 * Flash data only exists for the next request to the application.
+	 * Flash data only exists for the next request to the application, and is
+	 * useful for storing temporary data such as error or status messages.
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -147,27 +161,17 @@ class Manager {
 	 */
 	public function flash($key, $value)
 	{
-		$this->put(':new:'.$key, $value);
+		Arr::set($this->session['data'][':new:'], $key, $value);
 	}
 
 	/**
-	 * Keep all of the session flash data from expiring at the end of the request.
+	 * Keep the session flash data from expiring at the end of the request.
 	 *
 	 * @return void
 	 */
 	public function reflash()
 	{
-		$flash = array();
-
-		foreach ($this->session['data'] as $key => $value)
-		{
-			if (strpos($key, ':old:') === 0)
-			{
-				$flash[] = str_replace(':old:', '', $key);
-			}
-		}
-
-		$this->keep($flash);
+		$this->session['data'][':new:'] += $this->session['data'][':old:'];
 	}
 
 	/**
@@ -188,11 +192,11 @@ class Manager {
 	 * Remove an item from the session data.
 	 *
 	 * @param  string  $key
-	 * @return Driver
+	 * @return void
 	 */
 	public function forget($key)
 	{
-		unset($this->session['data'][$key]);
+		Arr::forget($this->session['data'], $key);
 	}
 
 	/**
@@ -250,7 +254,9 @@ class Manager {
 		// need to determine if garbage collection should be run for the request.
 		// Since garbage collection can be expensive, the probability of it
 		// occuring is controlled by the "sweepage" configuration option.
-		if ($driver instanceof Sweeper and (mt_rand(1, $config['sweepage'][1]) <= $config['sweepage'][0]))
+		$sweepage = $config['sweepage'];
+
+		if ($driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
 		{
 			$driver->sweep(time() - ($config['lifetime'] * 60));
 		}
@@ -267,21 +273,9 @@ class Manager {
 	 */
 	protected function age()
 	{
-		foreach ($this->session['data'] as $key => $value)
-		{
-			if (strpos($key, ':old:') === 0)
-			{
-				$this->forget($key);
-			}
-		}
+		$this->session['data'][':old:'] = $this->session['data'][':new:'];
 
-		// Now that all of the "old" keys have been removed from the session data,
-		// we can re-address all of the newly flashed keys to have old addresses.
-		// The array_combine method uses the first array for keys, and the second
-		// array for values to construct a single array from both.
-		$keys = str_replace(':new:', ':old:', array_keys($this->session['data']));
-
-		$this->session['data'] = array_combine($keys, array_values($this->session['data']));
+		$this->session['data'][':new:'] = array();
 	}
 
 	/**
