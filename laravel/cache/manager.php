@@ -36,15 +36,37 @@ class Manager {
 
 		if ( ! array_key_exists($driver, static::$drivers))
 		{
-			if ( ! IoC::registered("laravel.cache.{$driver}"))
-			{
-				throw new \Exception("Cache driver [$driver] is not supported.");
-			}
-
-			return static::$drivers[$driver] = Drivers\Factory::make($driver);
+			return static::$drivers[$driver] = static::factory($driver);
 		}
 
 		return static::$drivers[$driver];
+	}
+
+	/**
+	 * Create a new cache driver instance.
+	 *
+	 * @param  string  $driver
+	 * @return Driver
+	 */
+	protected static function factory($driver)
+	{
+		switch ($driver)
+		{
+			case 'apc':
+				return new Drivers\APC(Config::get('cache.key'));
+
+			case 'file':
+				return new Drivers\File(CACHE_PATH);
+
+			case 'memcached':
+				return new Drivers\Memcached(Memcached::instance(), Config::get('cache.key'));
+
+			case 'redis':
+				return new Drivers\Redis(Redis::db());
+
+			default:
+				throw new \Exception("Cache driver {$driver} is not supported.");
+		}
 	}
 
 	/**

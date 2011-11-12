@@ -65,7 +65,31 @@ class Manager {
 			return call_user_func($config['connector'], $config);
 		}
 
-		return Connectors\Factory::make($config['driver'])->connect($config);
+		return static::connector($config['driver'])->connect($config);
+	}
+
+	/**
+	 * Create a new database connector instance.
+	 *
+	 * @param  string     $driver
+	 * @return Connector
+	 */
+	protected static function connector($driver)
+	{
+		switch ($driver)
+		{
+			case 'sqlite':
+				return new Connectors\SQLite(DATABASE_PATH);
+
+			case 'mysql':
+				return new Connectors\MySQL;
+
+			case 'pgsql':
+				return new Connectors\Postgres;
+
+			default:
+				throw new \Exception("Database driver [$driver] is not supported.");
+		}
 	}
 
 	/**
