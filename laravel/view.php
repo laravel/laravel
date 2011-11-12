@@ -1,7 +1,6 @@
 <?php namespace Laravel;
 
 use Closure;
-use Laravel\Validation\Messages;
 
 class View {
 
