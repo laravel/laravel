@@ -25,6 +25,10 @@ class URL {
 
 		$root = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
 
+		// Since SSL is often not used while developing the application, we allow the
+		// developer to disable SSL on all framework generated links to make it more
+		// convenient to work with the site while developing. When the "ssl" option
+		// is disabled, all links will use the HTTP protocol instead of HTTPS.
 		if ($https and Config::$items['application']['ssl'])
 		{
 			$root = preg_replace('~http://~', 'https://', $root, 1);
