@@ -171,7 +171,9 @@ class Payload {
 	 */
 	public function reflash()
 	{
-		$this->session['data'][':new:'] += $this->session['data'][':old:'];
+		$old = $this->session['data'][':old:'];
+
+		$this->session['data'][':new:'] = array_merge($this->session['data'][':new:'], $old);
 	}
 
 	/**

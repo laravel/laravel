@@ -24,9 +24,10 @@ class IoC {
 	 */
 	public static function bootstrap($registry = array())
 	{
-		Config::load('container');
-
-		static::$registry = Config::$items['container'];
+		if (Config::load('container'))
+		{
+			static::$registry = Config::$items['container'];
+		}
 	}
 
 	/**
