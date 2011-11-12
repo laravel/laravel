@@ -73,9 +73,9 @@ class Blade {
 	 */
 	protected static function compile_structure_openings($value)
 	{
-		$pattern = '/@(if|elseif|foreach|for|while)(\s*\(.*?\))/';
+		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*?\))/';
 
-		return preg_replace($pattern, '<?php $1$2: ?>', $value);
+		return preg_replace($pattern, '$1<?php $2$3: ?>', $value);
 	}
 
 	/**
@@ -86,9 +86,9 @@ class Blade {
 	 */
 	protected static function compile_structure_closings($value)
 	{
-		$pattern = '/@(endif|endforeach|endfor|endwhile)(\s*)/';
+		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile)(\s*)/';
 
-		return preg_replace($pattern, '<?php $1; ?>$2', $value);
+		return preg_replace($pattern, '$1<?php $2; ?>$3', $value);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Blade {
 	 */
 	protected static function compile_yields($value)
 	{
-		$pattern = '/(\s*)@yield(\s*\(.*?\))/';
+		$pattern = static::matcher('yield');
 
 		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yield$2; ?>', $value);
 	}
@@ -127,7 +127,7 @@ class Blade {
 	 */
 	protected static function compile_section_start($value)
 	{
-		$pattern = '/(\s*)@section(\s*\(.*?\))/';
+		$pattern = static::matcher('section');
 
 		return preg_replace($pattern, '$1<?php \\Laravel\\Section::start$2; ?>', $value);
 	}
@@ -143,6 +143,17 @@ class Blade {
 	protected static function compile_section_end($value)
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
+	}
+
+	/**
+	 * Get the regular expression for a generic Blade function.
+	 *
+	 * @param  string  $function
+	 * @return string
+	 */
+	protected static function matcher($function)
+	{
+		return '/(\s*)@'.$function.'(\s*\(.*?\))/';
 	}
 
 }
