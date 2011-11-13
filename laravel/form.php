@@ -387,7 +387,7 @@ class Form {
 	 */
 	protected static function option($value, $display, $selected)
 	{
-		$selected = ($value === $selected) ? 'selected' : null;
+		$selected = ($value == $selected) ? 'selected' : null;
 
 		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
 
