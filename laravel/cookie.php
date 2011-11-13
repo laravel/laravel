@@ -114,7 +114,7 @@ class Cookie {
 	 */
 	protected static function hash($name, $value)
 	{
-		return sha1($name.$value.Config::get('application.key'));
+		return sha1($name.$value.Config::$items['application']['key']);
 	}
 
 	/**

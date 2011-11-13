@@ -177,15 +177,13 @@ Input::$input = $input;
  */
 Routing\Filter::register(require APP_PATH.'filters'.EXT);
 
-list($uri, $method) = array(Request::uri(), Request::method());
-
 $loader = new Routing\Loader(APP_PATH, ROUTE_PATH);
 
 $router = new Routing\Router($loader, CONTROLLER_PATH);
 
 IoC::instance('laravel.routing.router', $router);
 
-Request::$route = $router->route($method, $uri);
+Request::$route = $router->route(Request::method(), Request::uri());
 
 if ( ! is_null(Request::$route))
 {
