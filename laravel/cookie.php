@@ -1,6 +1,6 @@
 <?php namespace Laravel; use Closure;
 
-if (trim(Config::get('application.key')) === '')
+if (trim(Config::$items['application']['key']) === '')
 {
 	throw new \Exception('The cookie class may not be used without an application key.');
 }

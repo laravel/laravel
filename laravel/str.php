@@ -17,7 +17,7 @@ class Str {
 	{
 		if (function_exists('mb_strtolower'))
 		{
-			return mb_strtolower($value, Config::get('application.encoding'));
+			return mb_strtolower($value, Config::$items['application']['encoding']);
 		}
 
 		return strtolower($value);
@@ -38,7 +38,7 @@ class Str {
 	{
 		if (function_exists('mb_strtoupper'))
 		{
-			return mb_strtoupper($value, Config::get('application.encoding'));
+			return mb_strtoupper($value, Config::$items['application']['encoding']);
 		}
 
 		return strtoupper($value);
@@ -59,7 +59,7 @@ class Str {
 	{
 		if (function_exists('mb_convert_case'))
 		{
-			return mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding'));
+			return mb_convert_case($value, MB_CASE_TITLE, Config::$items['application']['encoding']);
 		}
 
 		return ucwords(strtolower($value));
@@ -80,7 +80,7 @@ class Str {
 	{
 		if (function_exists('mb_strlen'))
 		{
-			return mb_strlen($value, Config::get('application.encoding'));
+			return mb_strlen($value, Config::$items['application']['encoding']);
 		}
 
 		return strlen($value);
@@ -108,7 +108,7 @@ class Str {
 
 		if (function_exists('mb_substr'))
 		{
-			return mb_substr($value, 0, $limit, Config::get('application.encoding')).$end;
+			return mb_substr($value, 0, $limit, Config::$items['application']['encoding']).$end;
 		}
 
 		return substr($value, 0, $limit).$end;

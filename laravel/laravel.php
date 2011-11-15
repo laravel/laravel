@@ -30,8 +30,6 @@ $handler = function($exception)
 		call_user_func($config['logger'], $exception, $config);
 	}
 
-	call_user_func($config['handler'], $exception, $config);
-
 	if ($config['detail'])
 	{
 		echo "<html><h2>Uncaught Exception</h2>
@@ -41,6 +39,10 @@ $handler = function($exception)
 			  <pre>".$exception->getFile()." on line ".$exception->getLine()."</pre>
 			  <h3>Stack Trace:</h3>
 			  <pre>".$exception->getTraceAsString()."</pre></html>";
+	}
+	else
+	{
+		Response::error('500')->send();
 	}
 };
 
@@ -84,19 +86,15 @@ register_shutdown_function(function() use ($handler)
  * Setting the PHP error reporting level to -1 essentially forces
  * PHP to report every error, and is guranteed to show every error
  * on future versions of PHP.
- */
-error_reporting(-1);
-
-/**
+ *
  * If error detail is turned off, we will turn off all PHP error
  * reporting and display since the framework will be displaying a
  * generic message and we don't want any sensitive details about
  * the exception leaking into the views.
  */
-if ( ! Config::$items['error']['detail'])
-{
-	ini_set('display_errors', 'Off');	
-}
+error_reporting(-1);
+
+ini_set('display_errors', 'Off');
 
 /**
  * Load the session and session manager instance. The session
@@ -122,6 +120,7 @@ if (Config::$items['session']['driver'] !== '')
  * we can avoid using the loader for these classes. This saves us
  * some overhead on each request.
  */
+require SYS_PATH.'uri'.EXT;
 require SYS_PATH.'input'.EXT;
 require SYS_PATH.'request'.EXT;
 require SYS_PATH.'response'.EXT;
@@ -183,7 +182,7 @@ $router = new Routing\Router($loader, CONTROLLER_PATH);
 
 IoC::instance('laravel.routing.router', $router);
 
-Request::$route = $router->route(Request::method(), Request::uri());
+Request::$route = $router->route(Request::method(), URI::current());
 
 if ( ! is_null(Request::$route))
 {

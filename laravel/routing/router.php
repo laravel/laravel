@@ -218,22 +218,6 @@ class Router {
 	}
 
 	/**
-	 * Get the request formats for which the route provides responses.
-	 *
-	 * @param  mixed  $callback
-	 * @return array
-	 */
-	protected function formats($callback)
-	{
-		if (is_array($callback) and isset($callback['provides']))
-		{
-			return (is_string($provides = $callback['provides'])) ? explode('|', $provides) : $provides;
-		}
-
-		return array('html');
-	}
-
-	/**
 	 * Translate route URI wildcards into actual regular expressions.
 	 *
 	 * @param  string  $key

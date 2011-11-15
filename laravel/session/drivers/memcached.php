@@ -5,7 +5,7 @@ class Memcached implements Driver {
 	/**
 	 * The Memcache cache driver instance.
 	 *
-	 * @var Memcached
+	 * @var Cache\Drivers\Memcached
 	 */
 	private $memcached;
 

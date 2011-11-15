@@ -33,29 +33,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Error Handler
-	|--------------------------------------------------------------------------
-	|
-	| Because of the various ways of managing errors, you get complete freedom
-	| to manage errors as you desire. Any error that occurs in your application
-	| will be sent to this Closure.
-	|
-	| By default, when error detail is disabled, a generic error page will be
-	| rendered by the handler. After this handler is complete, the framework
-	| will stop processing the request and "exit" will be called.
-	|
-	*/
-
-	'handler' => function($exception, $config)
-	{
-		if ( ! $config['detail'])
-		{
-			Response::error('500')->send();
-		}
-	},
-
-	/*
-	|--------------------------------------------------------------------------
 	| Error Logger
 	|--------------------------------------------------------------------------
 	|
@@ -73,11 +50,13 @@ return array(
 	|
 	*/
 
-	'logger' => function($exception, $config)
+	'logger' => function($e, $config)
 	{
-		$message = date('Y-m-d H:i:s').' - '.$exception->getMessage().PHP_EOL;
+		$format = '%s | Message: %s | File: %s | Line: %s';
 
-		File::append(STORAGE_PATH.'log.txt', $message);
+		$message = sprintf($format, date('Y-m-d H:i:s'), $e->getMessage(), $e->getFile(), $e->getLine());
+
+		File::append(STORAGE_PATH.'log.txt', $message.PHP_EOL);
 	}
 
 );

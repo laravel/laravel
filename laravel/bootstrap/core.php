@@ -58,7 +58,6 @@ require SYS_PATH.'autoloader'.EXT;
  */
 Config::load('application');
 Config::load('session');
-Config::load('error');
 
 /**
  * Register the Autoloader's "load" method on the auto-loader stack.

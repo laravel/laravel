@@ -23,9 +23,7 @@ class Redirect extends Response {
 	 */
 	public static function to($url, $status = 302, $https = false)
 	{
-		$response = new static('', $status);
-
-		return $response->header('Location', URL::to($url, $https));
+		return static::make('', $status)->header('Location', URL::to($url, $https));
 	}
 
 	/**

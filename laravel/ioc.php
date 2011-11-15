@@ -19,6 +19,8 @@ class IoC {
 	/**
 	 * Bootstrap the application IoC container.
 	 *
+	 * This method is called automatically the first time the class is loaded.
+	 *
 	 * @param  array  $registry
 	 * @return void
 	 */
@@ -158,4 +160,9 @@ class IoC {
 
 }
 
+/**
+ * We only bootstrap the IoC container once the class has been
+ * loaded since there isn't any reason to load the container
+ * configuration until the class is first requested.
+ */
 IoC::bootstrap();
