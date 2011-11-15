@@ -53,7 +53,7 @@ class Memcached {
 
 		if ($memcache->getVersion() === false)
 		{
-			throw new \Exception('Could not establish memcached connection. Please verify your configuration.');
+			throw new \RuntimeException('Could not establish memcached connection. Please verify your configuration.');
 		}
 
 		return $memcache;

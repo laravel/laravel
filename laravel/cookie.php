@@ -2,7 +2,7 @@
 
 if (trim(Config::$items['application']['key']) === '')
 {
-	throw new \Exception('The cookie class may not be used without an application key.');
+	throw new \LogicException('The cookie class may not be used without an application key.');
 }
 
 class Cookie {

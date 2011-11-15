@@ -65,7 +65,7 @@ class Manager {
 				return new Drivers\Redis(Redis::db());
 
 			default:
-				throw new \Exception("Cache driver {$driver} is not supported.");
+				throw new \DomainException("Cache driver {$driver} is not supported.");
 		}
 	}
 

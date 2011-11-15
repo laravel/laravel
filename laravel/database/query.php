@@ -669,7 +669,7 @@ class Query {
 			}
 		}
 
-		throw new \Exception("Method [$method] is not defined on the Query class.");
+		throw new \BadMethodCallException("Method [$method] is not defined on the Query class.");
 	}
 
 }
