@@ -44,9 +44,9 @@ class URI {
 		// Format the final request URI. If there is nothing left, we will just
 		// return a single forward slash. Otherwise, we'll remove all of the
 		// leading and trailing spaces from the URI before returning it.
-		static::$uri = $uri = static::format($uri);
+		static::$uri = static::format($uri);
 
-		static::$segments = explode('/', $uri);
+		static::$segments = explode('/', static::$uri);
 
 		return static::$uri;
 	}
