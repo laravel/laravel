@@ -34,7 +34,7 @@ class Request {
 	 */
 	public static function uri()
 	{
-		return URI::get();
+		return URI::current();
 	}
 
 	/**
