@@ -56,7 +56,7 @@ class Redirect extends Response {
 	{
 		if (Config::get('session.driver') == '')
 		{
-			throw new \Exception('A session driver must be set before setting flash data.');
+			throw new \LogicException('A session driver must be set before setting flash data.');
 		}
 
 		IoC::core('session')->flash($key, $value);
@@ -91,7 +91,7 @@ class Redirect extends Response {
 			return static::to(URL::to_route(substr($method, 3), $parameters), $status);
 		}
 
-		throw new \Exception("Method [$method] is not defined on the Redirect class.");
+		throw new \BadMethodCallException("Method [$method] is not defined on the Redirect class.");
 	}
 
 }
