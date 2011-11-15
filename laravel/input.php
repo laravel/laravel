@@ -123,7 +123,7 @@ class Input {
 	{
 		if (Config::get('session.driver') == '')
 		{
-			throw new \Exception('A session driver must be specified in order to access old input.');
+			throw new \UnexpectedValueException('A session driver must be specified in order to access old input.');
 		}
 
 		$old = IoC::core('session')->get(Input::old_input, array());

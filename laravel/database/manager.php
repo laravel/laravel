@@ -38,7 +38,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new \Exception("Database connection is not defined for connection [$connection].");
+				throw new \OutOfBoundsException("Database connection is not defined for connection [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);
@@ -88,7 +88,7 @@ class Manager {
 				return new Connectors\Postgres;
 
 			default:
-				throw new \Exception("Database driver [$driver] is not supported.");
+				throw new \DomainException("Database driver [$driver] is not supported.");
 		}
 	}
 

@@ -376,7 +376,7 @@ class HTML {
 			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
 
-		throw new \Exception("Method [$method] is not defined on the HTML class.");
+		throw new \BadMethodCallException("Method [$method] is not defined on the HTML class.");
 	}
 
 }

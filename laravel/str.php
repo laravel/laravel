@@ -196,7 +196,7 @@ class Str {
 				return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			default:
-				throw new \Exception("Invalid random string type [$type].");
+				throw new \DomainException("Invalid random string type [$type].");
 		}
 	}
 

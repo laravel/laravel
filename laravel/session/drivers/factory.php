@@ -33,7 +33,7 @@ class Factory {
 				return new Redis(Cache::driver('redis'));
 
 			default:
-				throw new \Exception("Session driver [$driver] is not supported.");
+				throw new \DomainException("Session driver [$driver] is not supported.");
 		}
 	}
 

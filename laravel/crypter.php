@@ -2,7 +2,7 @@
 
 if (trim(Config::$items['application']['key']) === '')
 {
-	throw new \Exception('The encryption class may not be used without an application key.');
+	throw new \LogicException('The encryption class may not be used without an application key.');
 }
 
 class Crypter {
@@ -62,7 +62,7 @@ class Crypter {
 	{
 		if (($value = base64_decode($value)) === false)
 		{
-			throw new \Exception('Decryption error. Input value is not valid base64 data.');
+			throw new \InvalidArgumentException('Decryption error. Input value is not valid base64 data.');
 		}
 
 		$iv = substr($value, 0, static::iv_size());

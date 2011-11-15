@@ -303,11 +303,11 @@ class Asset_Container {
 
 		if ($dependency === $asset)
 		{
-			throw new \Exception("Asset [$asset] is dependent on itself.");
+			throw new \LogicException("Asset [$asset] is dependent on itself.");
 		}
 		elseif (isset($assets[$dependency]) and in_array($asset, $assets[$dependency]['dependencies']))
 		{
-			throw new \Exception("Assets [$asset] and [$dependency] have a circular dependency.");
+			throw new \LogicException("Assets [$asset] and [$dependency] have a circular dependency.");
 		}
 	}
 

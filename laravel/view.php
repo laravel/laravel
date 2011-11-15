@@ -87,7 +87,7 @@ class View {
 			}
 		}
 
-		throw new \Exception("View [$view] does not exist.");
+		throw new \RuntimeException("View [$view] does not exist.");
 	}
 
 	/**
@@ -138,7 +138,7 @@ class View {
 			return static::make($view, $data);
 		}
 
-		throw new \Exception("Named view [$name] is not defined.");
+		throw new \OutOfBoundsException("Named view [$name] is not defined.");
 	}
 
 	/**
