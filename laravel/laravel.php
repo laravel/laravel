@@ -216,6 +216,8 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
+	Input::flash();
+
 	IoC::core('session')->save($driver);
 }
 

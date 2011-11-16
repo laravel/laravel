@@ -73,7 +73,7 @@ class Blade {
 	 */
 	protected static function compile_structure_openings($value)
 	{
-		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*?\))/';
+		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*\))/';
 
 		return preg_replace($pattern, '$1<?php $2$3: ?>', $value);
 	}
@@ -153,7 +153,7 @@ class Blade {
 	 */
 	protected static function matcher($function)
 	{
-		return '/(\s*)@'.$function.'(\s*\(.*?\))/';
+		return '/(\s*)@'.$function.'(\s*\(.*\))/';
 	}
 
 }
