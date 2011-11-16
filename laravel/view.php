@@ -350,6 +350,8 @@ class View {
 		{
 			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
+
+		throw new \BadMethodCallException("Method [$method] is not defined on the View class.");
 	}
 
 }
