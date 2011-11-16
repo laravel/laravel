@@ -167,7 +167,10 @@ class File {
 		{
 			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 
-			if (isset($mimes[$extension]) and in_array((array) $mimes[$extension])) return true;
+			if (isset($mimes[$extension]) and in_array($mime, (array) $mimes[$extension]))
+			{
+				return true;
+			}
 		}
 
 		return false;

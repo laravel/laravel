@@ -225,9 +225,7 @@ class Validator {
 	{
 		$confirmed = $attribute.'_confirmation';
 
-		$confirmation = $this->attributes[$confirmed];
-
-		return array_key_exists($confirmed, $this->attributes) and $value == $confirmation;
+		return isset($this->attributes[$confirmed]) and $value == $this->attributes[$confirmed];
 	}
 
 	/**
@@ -241,7 +239,7 @@ class Validator {
 	 */
 	protected function validate_accepted($attribute, $value)
 	{
-		return $this->validate_required($attribute) and ($value == 'yes' or $value == '1');
+		return $this->validate_required($attribute, $value) and ($value == 'yes' or $value == '1');
 	}
 
 	/**
