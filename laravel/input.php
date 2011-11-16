@@ -79,9 +79,9 @@ class Input {
 	/**
 	 * Flush the old input from the session.
 	 *
-	 * On a successful form submission, the application may redirect to another
-	 * form. If this is the case, it may be necessary to flush the old input
-	 * so that the new form does not have the previous form's data.
+	 * On a successful form submission, the application may redirect to another form.
+	 * If this is the case, it may be necessary to flush the old input so that the new
+	 * form does not have the previous form's data.
 	 *
 	 * @return void
 	 */
