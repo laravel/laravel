@@ -98,8 +98,8 @@ class URL {
 		{
 			$uris = explode(', ', key($route));
 
-			// Grab the first URI assigned to the route, removing the request URI
-			// and leading slash from the destination defined on the route.
+			// Grab the first URI assigned to the route and remove the URI and
+			// leading slash from the destination that's defined on the route.
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// Spin through each route parameter and replace the route wildcard
@@ -110,8 +110,8 @@ class URL {
 			}
 
 			// Replace all remaining optional segments with spaces. Since the
-			// segments are, obviously, optional, some of them may not have
-			// been assigned values from the parameter array.
+			// segments are optional, some of them may not have been assigned
+			// values from the parameter array.
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
