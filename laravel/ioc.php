@@ -145,7 +145,7 @@ class IoC {
 
 		if ( ! static::registered($name))
 		{
-			throw new \OutOfBoundsException("Error resolving [$name]. No resolver has been registered in the container.");
+			throw new \OutOfBoundsException("Error resolving [$name]. No resolver has been registered.");
 		}
 
 		$object = call_user_func(static::$registry[$name]['resolver'], $parameters);
