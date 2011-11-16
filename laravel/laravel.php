@@ -15,22 +15,29 @@ require 'bootstrap/core.php';
 date_default_timezone_set(Config::$items['application']['timezone']);
 
 /**
+ * Create the exception logging function. All of the error logging
+ * is routed through here to avoid duplicate code. This Closure
+ * will determine if the actual logging Closure should be called.
+ */
+$logger = function($exception)
+{
+	if (Config::$items['error']['log'])
+	{
+		call_user_func(Config::$items['error']['logger'], $exception);
+	}
+};
+
+/**
  * Create the exception handler function. All of the error handlers
  * registered by the framework call this closure to avoid duplicate
- * code. This Closure will determine if the logging Closure should
- * be called, and will pass the exception to the developer defined
- * handler in the configuration file.
+ * code. This Closure will pass the exception to the developer
+ * defined handler in the configuration file.
  */
-$handler = function($exception)
+$handler = function($exception) use ($logger)
 {
-	$config = Config::$items['error'];
+	$logger($exception);
 
-	if ($config['log'])
-	{
-		call_user_func($config['logger'], $exception);
-	}
-
-	if ($config['detail'])
+	if (Config::$items['error']['detail'])
 	{
 		echo "<html><h2>Unhandled Exception</h2>
 			  <h3>Message:</h3>
@@ -55,22 +62,29 @@ $handler = function($exception)
  */
 set_exception_handler(function($exception) use ($handler)
 {
-	$handler($exception); 
+	$handler($exception);
 });
 
 /**
  * Register the PHP error handler. All PHP errors will fall into this
  * handler, which will convert the error into an ErrorException object
- * and pass the exception into the common exception handler.
+ * and pass the exception into the common exception handler. Suppressed
+ * errors are ignored and errors in the developer configured whitelist
+ * are silently logged.
  */
-set_error_handler(function($number, $error, $file, $line)
+set_error_handler(function($number, $error, $file, $line) use ($logger)
 {
-	if (error_reporting() === 0 or in_array($number, Config::$items['error']['ignore']))
+	if (error_reporting() === 0)
 	{
 		return;
 	}
-
-	throw new \ErrorException($error, $number, 0, $file, $line);
+	$exception =  new \ErrorException($error, $number, 0, $file, $line);
+	if (in_array($number, Config::$items['error']['ignore']))
+	{
+		$logger($exception);
+		return;
+	}
+	throw $exception;
 });
 
 /**
