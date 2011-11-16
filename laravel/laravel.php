@@ -72,18 +72,17 @@ set_exception_handler(function($exception) use ($handler)
  * errors are ignored and errors in the developer configured whitelist
  * are silently logged.
  */
-set_error_handler(function($number, $error, $file, $line) use ($logger)
+set_error_handler(function($code, $error, $file, $line) use ($logger)
 {
-	if (error_reporting() === 0)
+	if (error_reporting() === 0) return;
+
+	$exception = new \ErrorException($error, $code, 0, $file, $line);
+
+	if (in_array($code, Config::$items['error']['ignore']))
 	{
-		return;
+		return $logger($exception);
 	}
-	$exception =  new \ErrorException($error, $number, 0, $file, $line);
-	if (in_array($number, Config::$items['error']['ignore']))
-	{
-		$logger($exception);
-		return;
-	}
+
 	throw $exception;
 });
 
