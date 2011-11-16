@@ -149,7 +149,7 @@ class Lang {
 			return array($segments[0], implode('.', array_slice($segments, 1)));
 		}
 
-		throw new \InvalidArgumentException("Invalid language line [$key]. A specific line must be specified.");
+		throw new \InvalidArgumentException("Invalid language line [$key].");
 	}
 
 	/**
