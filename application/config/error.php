@@ -4,6 +4,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Ignored Error Levels
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the error levels that should be ignored by the
+	| Laravel error handler. These levels will still be logged; however, no
+	| information about about them will be displayed.
+	|
+	*/
+
+	'ignore' => array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Error Detail
 	|--------------------------------------------------------------------------
 	|
@@ -29,7 +42,7 @@ return array(
 	|
 	*/
 
-	'log' => false,
+	'log' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -46,17 +59,15 @@ return array(
 	| a single text file within the application storage directory.
 	|
 	| Of course, you are free to implement more complex solutions including
-	| e-mailing the exceptions details to your team, etc.
+	| emailing the exceptions details to your team, etc.
 	|
 	*/
 
-	'logger' => function($e, $config)
+	'logger' => function($exception)
 	{
-		$format = '%s | Message: %s | File: %s | Line: %s';
+		$message = (string) $exception;
 
-		$message = sprintf($format, date('Y-m-d H:i:s'), $e->getMessage(), $e->getFile(), $e->getLine());
-
-		File::append(STORAGE_PATH.'log.txt', $message.PHP_EOL);
-	}
+		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' - '.$message.PHP_EOL);
+	},
 
 );

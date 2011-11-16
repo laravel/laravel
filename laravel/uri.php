@@ -7,7 +7,7 @@ class URI {
 	 *
 	 * @var string
 	 */
-	protected static $uri;
+	public static $uri;
 
 	/**
 	 * The URI segments for the current request.

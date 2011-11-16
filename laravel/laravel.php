@@ -23,16 +23,16 @@ date_default_timezone_set(Config::$items['application']['timezone']);
  */
 $handler = function($exception)
 {
-	$config = Config::get('error');
+	$config = Config::$items['error'];
 
 	if ($config['log'])
 	{
-		call_user_func($config['logger'], $exception, $config);
+		call_user_func($config['logger'], $exception);
 	}
 
 	if ($config['detail'])
 	{
-		echo "<html><h2>Uncaught Exception</h2>
+		echo "<html><h2>Unhandled Exception</h2>
 			  <h3>Message:</h3>
 			  <pre>".$exception->getMessage()."</pre>
 			  <h3>Location:</h3>
@@ -44,6 +44,8 @@ $handler = function($exception)
 	{
 		Response::error('500')->send();
 	}
+
+	exit(1);
 };
 
 /**
@@ -61,9 +63,14 @@ set_exception_handler(function($exception) use ($handler)
  * handler, which will convert the error into an ErrorException object
  * and pass the exception into the common exception handler.
  */
-set_error_handler(function($number, $error, $file, $line) use ($handler)
+set_error_handler(function($number, $error, $file, $line)
 {
-	$handler(new \ErrorException($error, $number, 0, $file, $line));
+	if (error_reporting() === 0 or in_array($number, Config::$items['error']['ignore']))
+	{
+		return;
+	}
+
+	throw new \ErrorException($error, $number, 0, $file, $line);
 });
 
 /**

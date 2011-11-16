@@ -5,11 +5,10 @@ class Hash {
 	/**
 	 * Hash a password using the Bcrypt hashing scheme.
 	 *
-	 * Bcrypt provides a future-proof hashing algorithm by allowing the
-	 * number of "rounds" to be increased, thus increasing the time it
-	 * takes to generate the hashed value. The longer it takes takes
-	 * to generate the hash, the more impractical a rainbow table
-	 * attack against the hashes becomes.
+	 * Bcrypt provides a future-proof hashing algorithm by allowing the number of
+	 * "rounds" to be increased, thus increasing the time it takes to generate the
+	 * hashed value. The longer it takes takes to generate the hash, the more
+	 * impractical a rainbow table attack against the hashes becomes.
 	 *
 	 * <code>
 	 *		// Create a Bcrypt hash of a value

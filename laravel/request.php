@@ -3,13 +3,6 @@
 class Request {
 
 	/**
-	 * The request URI for the current request.
-	 *
-	 * @var string
-	 */
-	public static $uri;
-
-	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
