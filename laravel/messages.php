@@ -18,7 +18,7 @@ class Messages {
 	 */
 	public function __construct($messages = array())
 	{
-		$this->messages = $messages;
+		$this->messages = (array) $messages;
 	}
 
 	/**
