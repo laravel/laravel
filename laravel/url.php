@@ -64,6 +64,9 @@ class URL {
 
 		$url = static::to($url, $https);
 
+		// Since assets are not served by Laravel, we do not need to come through
+		// the front controller. We'll remove the application index specified in
+		// the application configuration from the generated URL.
 		if (($index = Config::$items['application']['index']) !== '')
 		{
 			$url = str_replace($index.'/', '', $url);
