@@ -121,6 +121,11 @@ class Request {
 	 */
 	public static function forged()
 	{
+		if (Config::$items['session']['driver'] == '')
+		{
+			throw new \LogicException("A session driver must be specified to use the CSRF filter.");
+		}
+
 		return Input::get('csrf_token') !== IoC::core('session')->token();
 	}
 
