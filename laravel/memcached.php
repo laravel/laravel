@@ -59,4 +59,20 @@ class Memcached {
 		return $memcache;
 	}
 
+	/**
+	 * Dynamically pass all other method calls to the Memcache instance.
+	 *
+	 * <code>
+	 *		// Get an item from the Memcache instance
+	 *		$name = Memcached::get('name');
+	 *
+	 *		// Store data on the Memcache server
+	 *		Memcached::set('name', 'Taylor');
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(static::instance(), $method), $parameters);
+	}
+
 }
