@@ -6,13 +6,6 @@ use Laravel\Database\Manager as DB;
 class Validator {
 
 	/**
-	 * The database connection that should be used by the validator.
-	 *
-	 * @var Database\Connection
-	 */
-	public $connection;
-
-	/**
 	 * The array being validated.
 	 *
 	 * @var array
@@ -39,6 +32,13 @@ class Validator {
 	 * @var array
 	 */
 	protected $messages = array();
+
+	/**
+	 * The database connection that should be used by the validator.
+	 *
+	 * @var Database\Connection
+	 */
+	protected $connection;
 
 	/**
 	 * The language that should be used when retrieving error messages.
