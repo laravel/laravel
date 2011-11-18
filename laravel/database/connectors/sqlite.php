@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database\Connectors; use PDO;
 
+use Laravel/OutOfBoundsException;
+
 class SQLite extends Connector {
 
 	/**
@@ -52,7 +54,7 @@ class SQLite extends Connector {
 			return new PDO('sqlite:'.$config['database'], null, null, $options);
 		}
 
-		throw new \OutOfBoundsException("SQLite database [{$config['database']}] could not be found.");
+		throw new OutOfBoundsException("SQLite database [{$config['database']}] could not be found.");
 	}
 
 }

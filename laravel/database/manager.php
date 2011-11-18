@@ -2,6 +2,8 @@
 
 use Laravel\IoC;
 use Laravel\Config;
+use Laravel\OutOfBoundsException;
+use Laravel\DomainException;
 
 class Manager {
 
@@ -38,7 +40,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new \OutOfBoundsException("Database connection is not defined for connection [$connection].");
+				throw new OutOfBoundsException("Database connection is not defined for connection [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);
@@ -88,7 +90,7 @@ class Manager {
 				return new Connectors\Postgres;
 
 			default:
-				throw new \DomainException("Database driver [$driver] is not supported.");
+				throw new DomainException("Database driver [$driver] is not supported.");
 		}
 	}
 

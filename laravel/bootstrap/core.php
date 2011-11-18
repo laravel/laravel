@@ -46,6 +46,7 @@ unset($application, $public, $laravel, $environment);
  * These are typically classes that the auto-loader itself relies upon
  * to load classes, such as the array and configuration classes.
  */
+require SYS_PATH.'exception'.EXT;
 require SYS_PATH.'arr'.EXT;
 require SYS_PATH.'config'.EXT;
 require SYS_PATH.'facades'.EXT;

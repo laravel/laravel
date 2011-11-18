@@ -1,6 +1,7 @@
 <?php namespace Laravel\Session\Drivers;
 
 use Laravel\Cache\Manager as Cache;
+use Laravel\DomainException;
 
 class Factory {
 
@@ -33,7 +34,7 @@ class Factory {
 				return new Redis(Cache::driver('redis'));
 
 			default:
-				throw new \DomainException("Session driver [$driver] is not supported.");
+				throw new DomainException("Session driver [$driver] is not supported.");
 		}
 	}
 

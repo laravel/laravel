@@ -53,7 +53,7 @@ class Memcached {
 
 		if ($memcache->getVersion() === false)
 		{
-			throw new \RuntimeException('Could not establish memcached connection.');
+			throw new RuntimeException('Could not establish memcached connection.');
 		}
 
 		return $memcache;

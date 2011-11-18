@@ -3,6 +3,7 @@
 use Laravel\Redis;
 use Laravel\Config;
 use Laravel\Memcached;
+use Laravel\DomainException;
 
 class Manager {
 
@@ -65,7 +66,7 @@ class Manager {
 				return new Drivers\Redis(Redis::db());
 
 			default:
-				throw new \DomainException("Cache driver {$driver} is not supported.");
+				throw new DomainException("Cache driver {$driver} is not supported.");
 		}
 	}
 

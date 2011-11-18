@@ -3,6 +3,8 @@
 use Closure;
 use Laravel\Arr;
 use Laravel\Response;
+use Laravel\InvalidArgumentException;
+use Laravel\BadMethodCallException;
 
 class Route {
 
@@ -63,7 +65,7 @@ class Route {
 
 		if ( ! $callback instanceof Closure and ! is_array($callback) and ! is_string($callback))
 		{
-			throw new \InvalidArgumentException('Invalid route defined for URI ['.$this->key.']');
+			throw new InvalidArgumentException('Invalid route defined for URI ['.$this->key.']');
 		}
 	}
 
@@ -226,7 +228,7 @@ class Route {
 			return $this->is(substr($method, 3));
 		}
 
-		throw new \BadMethodCallException("Call to undefined method [$method] on Route class.");
+		throw new BadMethodCallException("Call to undefined method [$method] on Route class.");
 	}
 
 }

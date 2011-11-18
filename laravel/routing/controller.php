@@ -5,6 +5,8 @@ use Laravel\View;
 use Laravel\Request;
 use Laravel\Redirect;
 use Laravel\Response;
+use Laravel\InvalidArgumentException;
+use Laravel\OutOfBoundsException;
 
 abstract class Controller {
 
@@ -39,7 +41,7 @@ abstract class Controller {
 	{
 		if (strpos($destination, '@') === false)
 		{
-			throw new \InvalidArgumentException("Route delegate [{$destination}] has an invalid format.");
+			throw new InvalidArgumentException("Route delegate [{$destination}] has an invalid format.");
 		}
 
 		list($controller, $method) = explode('@', $destination);
@@ -226,7 +228,7 @@ abstract class Controller {
 			return IoC::resolve($key);
 		}
 
-		throw new \OutOfBoundsException("Attempting to access undefined property [$key] on controller.");
+		throw new OutOfBoundsException("Attempting to access undefined property [$key] on controller.");
 	}
 
 }

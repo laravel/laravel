@@ -87,7 +87,7 @@ class View {
 			}
 		}
 
-		throw new \RuntimeException("View [$view] does not exist.");
+		throw new RuntimeException("View [$view] does not exist.");
 	}
 
 	/**
@@ -138,7 +138,7 @@ class View {
 			return static::make($view, $data);
 		}
 
-		throw new \OutOfBoundsException("Named view [$name] is not defined.");
+		throw new OutOfBoundsException("Named view [$name] is not defined.");
 	}
 
 	/**
@@ -351,7 +351,7 @@ class View {
 			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
 
-		throw new \BadMethodCallException("Method [$method] is not defined on the View class.");
+		throw new BadMethodCallException("Method [$method] is not defined on the View class.");
 	}
 
 }

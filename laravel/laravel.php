@@ -39,7 +39,8 @@ $handler = function($exception) use ($logger)
 
 	if (Config::$items['error']['detail'])
 	{
-		echo "<html><h2>Unhandled Exception</h2>
+		$exception_label = ($exception instanceof \ErrorException) ? 'Error' : get_class($exception);
+		echo "<html><h2>Unhandled ".$exception_label."</h2>
 			  <h3>Message:</h3>
 			  <pre>".$exception->getMessage()."</pre>
 			  <h3>Location:</h3>

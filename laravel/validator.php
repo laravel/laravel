@@ -681,7 +681,7 @@ class Validator {
 			return call_user_func_array(static::$validators[$method], $parameters);
 		}
 
-		throw new \BadMethodCallException("Call to undefined method [$method] on Validator instance.");
+		throw new BadMethodCallException("Call to undefined method [$method] on Validator instance.");
 	}
 
 }
