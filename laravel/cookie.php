@@ -88,7 +88,14 @@ class Cookie {
 	{
 		if (headers_sent()) return false;
 
-		if ($minutes < 0) unset($_COOKIE[$name]);
+		if ($minutes < 0)
+		{
+			unset($_COOKIE[$name]);
+		}
+		else
+		{
+			$_COOKIE[$name] = $value;
+		}
 
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
