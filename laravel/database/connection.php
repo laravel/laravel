@@ -142,6 +142,9 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
+		// Since expressions are injected into the query as raw strings, we need
+		// to remove them from the array of bindings. They are not truly bound
+		// to the PDO statement as named parameters.
 		foreach ($bindings as $key => $value)
 		{
 			if ($value instanceof Expression) unset($bindings[$key]);
