@@ -72,7 +72,7 @@ class Input {
 	{
 		if (Config::$items['session']['driver'] !== '')
 		{
-			IoC::core('session')->flash(Input::old_input, static::get());
+			if(count($input = static::get()) > 0) IoC::core('session')->flash(Input::old_input, static::get());
 		}
 	}
 
