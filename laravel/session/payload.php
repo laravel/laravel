@@ -10,7 +10,7 @@ use Laravel\Session\Drivers\Sweeper;
 
 if (Config::$items['application']['key'] === '')
 {
-	throw new \Exception("An application key is required to use sessions.");
+	throw new \LogicException("An application key is required to use sessions.");
 }
 
 class Payload {

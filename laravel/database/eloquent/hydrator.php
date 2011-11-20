@@ -18,7 +18,7 @@ class Hydrator {
 			{
 				if ( ! method_exists($eloquent, $include))
 				{
-					throw new \Exception("Attempting to eager load [$include], but the relationship is not defined.");
+					throw new \LogicException("Attempting to eager load [$include], but the relationship is not defined.");
 				}
 
 				static::eagerly($eloquent, $results, $include);

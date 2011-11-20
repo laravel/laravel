@@ -4,6 +4,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Ignored Error Levels
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the error levels that should be ignored by the
+	| Laravel error handler. These levels will still be logged; however, no
+	| information about about them will be displayed.
+	|
+	*/
+
+	'ignore' => array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Error Detail
 	|--------------------------------------------------------------------------
 	|
@@ -33,29 +46,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Error Handler
-	|--------------------------------------------------------------------------
-	|
-	| Because of the various ways of managing errors, you get complete freedom
-	| to manage errors as you desire. Any error that occurs in your application
-	| will be sent to this Closure.
-	|
-	| By default, when error detail is disabled, a generic error page will be
-	| rendered by the handler. After this handler is complete, the framework
-	| will stop processing the request and "exit" will be called.
-	|
-	*/
-
-	'handler' => function($exception, $config)
-	{
-		if ( ! $config['detail'])
-		{
-			Response::error('500')->send();
-		}
-	},
-
-	/*
-	|--------------------------------------------------------------------------
 	| Error Logger
 	|--------------------------------------------------------------------------
 	|
@@ -69,15 +59,15 @@ return array(
 	| a single text file within the application storage directory.
 	|
 	| Of course, you are free to implement more complex solutions including
-	| e-mailing the exceptions details to your team, etc.
+	| emailing the exceptions details to your team, etc.
 	|
 	*/
 
-	'logger' => function($exception, $config)
+	'logger' => function($exception)
 	{
-		$message = date('Y-m-d H:i:s').' - '.$exception->getMessage().PHP_EOL;
+		$message = (string) $exception;
 
-		File::append(STORAGE_PATH.'log.txt', $message);
-	}
+		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' - '.$message.PHP_EOL);
+	},
 
 );

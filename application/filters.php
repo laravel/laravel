@@ -50,7 +50,7 @@ return array(
 
 	'after' => function($response)
 	{
-		Input::flash();
+		// Do stuff after every request to your application.
 	},
 
 

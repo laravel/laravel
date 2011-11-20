@@ -73,7 +73,7 @@ abstract class Driver {
 	 * @param  int     $minutes
 	 * @return mixed
 	 */
-	public function remember($key, $value, $minutes)
+	public function remember($key, $default, $minutes)
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 

@@ -18,7 +18,7 @@ class Messages {
 	 */
 	public function __construct($messages = array())
 	{
-		$this->messages = $messages;
+		$this->messages = (array) $messages;
 	}
 
 	/**
@@ -138,6 +138,8 @@ class Messages {
 	 */
 	protected function format($messages, $format)
 	{
+		$messages = (array) $messages;
+
 		foreach ($messages as $key => &$message)
 		{
 			$message = str_replace(':message', $message, $format);

@@ -72,6 +72,8 @@ class Auth {
 
 		static::$user = call_user_func(Config::get('auth.user'), $id);
 
+		// If the user was not found in the database, but a "remember me" cookie
+		// exists, we will attempt to recall the user based on the cookie value.
 		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
 		{
 			static::$user = static::recall($cookie);
@@ -136,17 +138,32 @@ class Auth {
 	/**
 	 * Log a user into the application.
 	 *
-	 * @param  object  $user
-	 * @param  bool    $remember
+	 * An object representing the user or an integer user ID may be given to the method.
+	 * If an object is given, the object must have an "id" property containing the user
+	 * ID as it is stored in the database.
+	 *
+	 * <code>
+	 *		// Login a user by passing a user object
+	 *		Auth::login($user);
+	 *
+	 *		// Login the user with an ID of 15
+	 *		Auth::login(15);
+	 *
+	 *		// Login a user and set a "remember me" cookie
+	 *		Auth::login($user, true);
+	 * </code>
+	 *
+	 * @param  object|int  $user
+	 * @param  bool        $remember
 	 * @return void
 	 */
 	public static function login($user, $remember = false)
 	{
-		static::$user = $user;
+		$id = (is_object($user)) ? $user->id : (int) $user;
 
-		if ($remember) static::remember($user->id);
+		if ($remember) static::remember($id);
 
-		IoC::core('session')->put(Auth::user_key, $user->id);
+		IoC::core('session')->put(Auth::user_key, $id);
 	}
 
 	/**

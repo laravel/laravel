@@ -6,13 +6,6 @@ use Laravel\Database\Manager as DB;
 class Validator {
 
 	/**
-	 * The database connection that should be used by the validator.
-	 *
-	 * @var Database\Connection
-	 */
-	public $connection;
-
-	/**
 	 * The array being validated.
 	 *
 	 * @var array
@@ -39,6 +32,13 @@ class Validator {
 	 * @var array
 	 */
 	protected $messages = array();
+
+	/**
+	 * The database connection that should be used by the validator.
+	 *
+	 * @var Database\Connection
+	 */
+	protected $connection;
 
 	/**
 	 * The language that should be used when retrieving error messages.
@@ -225,9 +225,7 @@ class Validator {
 	{
 		$confirmed = $attribute.'_confirmation';
 
-		$confirmation = $this->attributes[$confirmed];
-
-		return array_key_exists($confirmed, $this->attributes) and $value == $confirmation;
+		return isset($this->attributes[$confirmed]) and $value == $this->attributes[$confirmed];
 	}
 
 	/**
@@ -241,7 +239,7 @@ class Validator {
 	 */
 	protected function validate_accepted($attribute, $value)
 	{
-		return $this->validate_required($attribute) and ($value == 'yes' or $value == '1');
+		return $this->validate_required($attribute, $value) and ($value == 'yes' or $value == '1');
 	}
 
 	/**
@@ -683,7 +681,7 @@ class Validator {
 			return call_user_func_array(static::$validators[$method], $parameters);
 		}
 
-		throw new \Exception("Call to undefined method [$method] on Validator instance.");
+		throw new \BadMethodCallException("Call to undefined method [$method] on Validator instance.");
 	}
 
 }

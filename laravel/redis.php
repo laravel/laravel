@@ -65,7 +65,7 @@ class Redis {
 		{
 			if (is_null($config = Config::get("database.redis.{$name}")))
 			{
-				throw new \Exception("Redis database [$name] is not defined.");
+				throw new \DomainException("Redis database [$name] is not defined.");
 			}
 
 			static::$databases[$name] = new static($config['host'], $config['port']);
@@ -93,25 +93,25 @@ class Redis {
 	{
 		fwrite($this->connect(), $this->command($method, (array) $parameters));
 
-		$ersponse = trim(fgets($this->connection, 512));
+		$response = trim(fgets($this->connection, 512));
 
-		switch (substr($ersponse, 0, 1))
+		switch (substr($response, 0, 1))
 		{
 			case '-':
-				throw new \Exception('Redis error: '.substr(trim($ersponse), 4));
+				throw new \RuntimeException('Redis error: '.substr(trim($response), 4));
 			
 			case '+':
 			case ':':
-				return $this->inline($ersponse);
+				return $this->inline($response);
 			
 			case '$':
-				return $this->bulk($ersponse);
+				return $this->bulk($response);
 			
 			case '*':
-				return $this->multibulk($ersponse);
+				return $this->multibulk($response);
 			
 			default:
-				throw new \Exception("Unknown response from Redis server: ".substr($ersponse, 0, 1));
+				throw new \UnexpectedValueException("Unknown Redis response: ".substr($response, 0, 1));
 		}
 	}
 
@@ -128,7 +128,7 @@ class Redis {
 
 		if ($this->connection === false)
 		{
-			throw new \Exception("Error making Redis connection: {$error} - {$message}");
+			throw new \RuntimeException("Error making Redis connection: {$error} - {$message}");
 		}
 
 		return $this->connection;
@@ -258,7 +258,10 @@ class Redis {
 	 */
 	public function __destruct()
 	{
-		fclose($this->connection);
+		if ($this->connection)
+		{
+			fclose($this->connection);
+		}
 	}
 
 }

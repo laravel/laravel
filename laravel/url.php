@@ -64,6 +64,9 @@ class URL {
 
 		$url = static::to($url, $https);
 
+		// Since assets are not served by Laravel, we do not need to come through
+		// the front controller. We'll remove the application index specified in
+		// the application configuration from the generated URL.
 		if (($index = Config::$items['application']['index']) !== '')
 		{
 			$url = str_replace($index.'/', '', $url);
@@ -98,8 +101,8 @@ class URL {
 		{
 			$uris = explode(', ', key($route));
 
-			// Grab the first URI assigned to the route, removing the request URI
-			// and leading slash from the destination defined on the route.
+			// Grab the first URI assigned to the route and remove the URI and
+			// leading slash from the destination that's defined on the route.
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// Spin through each route parameter and replace the route wildcard
@@ -110,12 +113,12 @@ class URL {
 			}
 
 			// Replace all remaining optional segments with spaces. Since the
-			// segments are, obviously, optional, some of them may not have
-			// been assigned values from the parameter array.
+			// segments are optional, some of them may not have been assigned
+			// values from the parameter array.
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
-		throw new \Exception("Error generating named route for route [$name]. Route is not defined.");
+		throw new \OutOfBoundsException("Error generating named route for route [$name]. Route is not defined.");
 	}
 
 	/**
@@ -186,7 +189,7 @@ class URL {
 			return static::to_route(substr($method, 3), $parameters);
 		}
 
-		throw new \Exception("Method [$method] is not defined on the URL class.");
+		throw new \BadMethodCallException("Method [$method] is not defined on the URL class.");
 	}
 
 }

@@ -79,9 +79,9 @@ class Input {
 	/**
 	 * Flush the old input from the session.
 	 *
-	 * On a successful form submission, the application may redirect to another
-	 * form. If this is the case, it may be necessary to flush the old input
-	 * so that the new form does not have the previous form's data.
+	 * On a successful form submission, the application may redirect to another form.
+	 * If this is the case, it may be necessary to flush the old input so that the new
+	 * form does not have the previous form's data.
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class Input {
 	{
 		if (Config::get('session.driver') == '')
 		{
-			throw new \Exception('A session driver must be specified in order to access old input.');
+			throw new \UnexpectedValueException('A session driver must be specified to access old input.');
 		}
 
 		$old = IoC::core('session')->get(Input::old_input, array());

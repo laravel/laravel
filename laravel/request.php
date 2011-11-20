@@ -3,13 +3,6 @@
 class Request {
 
 	/**
-	 * The request URI for the current request.
-	 *
-	 * @var string
-	 */
-	public static $uri;
-
-	/**
 	 * The route handling the current request.
 	 *
 	 * @var Routing\Route
@@ -27,40 +20,14 @@ class Request {
 	 * Get the URI for the current request.
 	 *
 	 * If the request is to the root of the application, a single forward slash
-	 * will be returned. Otherwise, the URI will be returned without any leading
-	 * or trailing slashes.
+	 * will be returned. Otherwise, the URI will be returned with all of the
+	 * leading and trailing slashes removed.
 	 *
 	 * @return string
 	 */
 	public static function uri()
 	{
-		if ( ! is_null(static::$uri)) return static::$uri;
-
-		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-		// Remove the root application URL from the request URI. If the application
-		// is nested within a sub-directory of the web document root, this will get
-		// rid of all of the the sub-directories from the request URI.
-		$base = parse_url(Config::$items['application']['url'], PHP_URL_PATH);
-
-		if (strpos($uri, $base) === 0)
-		{
-			$uri = substr($uri, strlen($base));
-		}
-
-		$index = '/'.Config::$items['application']['index'];
-
-		if ($index !== '/' and strpos($uri, $index) === 0)
-		{
-			$uri = substr($uri, strlen($index));
-		}
-
-		$uri = trim($uri, '/');
-
-		// Format the final request URI. If there is nothing left, we will just
-		// return a single forward slash. Otherwise, we'll remove all of the
-		// leading and trailing spaces from the URI before returning it.
-		return static::$uri = ($uri !== '') ? $uri : '/';
+		return URI::current();
 	}
 
 	/**
@@ -154,6 +121,11 @@ class Request {
 	 */
 	public static function forged()
 	{
+		if (Config::$items['session']['driver'] == '')
+		{
+			throw new \LogicException("A session driver must be specified to use the CSRF filter.");
+		}
+
 		return Input::get('csrf_token') !== IoC::core('session')->token();
 	}
 

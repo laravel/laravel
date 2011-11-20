@@ -53,10 +53,26 @@ class Memcached {
 
 		if ($memcache->getVersion() === false)
 		{
-			throw new \Exception('Could not establish memcached connection. Please verify your configuration.');
+			throw new \RuntimeException('Could not establish memcached connection.');
 		}
 
 		return $memcache;
+	}
+
+	/**
+	 * Dynamically pass all other method calls to the Memcache instance.
+	 *
+	 * <code>
+	 *		// Get an item from the Memcache instance
+	 *		$name = Memcached::get('name');
+	 *
+	 *		// Store data on the Memcache server
+	 *		Memcached::set('name', 'Taylor');
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(static::instance(), $method), $parameters);
 	}
 
 }
