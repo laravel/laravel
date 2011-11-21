@@ -267,9 +267,11 @@ class Paginator {
 	 */
 	protected function appendage($element, $page)
 	{
-		if (is_null($this->appendage))
+		$this->appendage = '?page=%s';
+
+		if (count($this->appends) > 0)
 		{
-			$this->appendage = '?page=%s'.http_build_query((array) $this->appends);
+			$this->appendage = '&'.http_build_query($this->appends);
 		}
 
 		return sprintf($this->appendage, $page);
