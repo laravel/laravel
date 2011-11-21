@@ -214,14 +214,6 @@ else
 }
 
 /**
- * Stringify the response. We need to force the response to be
- * stringed before closing the session, since the developer may
- * be using the session within their views, so we cannot age
- * the session data until the view is rendered.
- */
-$response->content = $response->render();
-
-/**
  * Close the session and write the active payload to persistent
  * storage. The session cookie will also be written and if the
  * driver is a sweeper, session garbage collection might be
@@ -229,8 +221,6 @@ $response->content = $response->render();
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	Input::flash();
-
 	IoC::core('session')->save($driver);
 }
 

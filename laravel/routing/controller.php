@@ -136,13 +136,16 @@ abstract class Controller {
 			}
 		}
 
-		// The after filter and the framework expects all responses to
-		// be instances of the Response class. If the method did not
-		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response)
 		{
 			$response = new Response($response);
 		}
+
+		// Stringify the response. We need to force the response to be
+		// stringed before closing the session, since the developer may
+		// be using the session within their views, so we cannot age
+		// the session data until the view is rendered.
+		$response->content = $response->render();
 
 		Filter::run($this->filters('after', $method), array($response));
 
