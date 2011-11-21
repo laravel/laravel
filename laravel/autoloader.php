@@ -53,8 +53,8 @@ class Autoloader {
 	protected static function find($class)
 	{
 		// After PHP namespaces were introduced, most libaries ditched underscores for
-		// for namespaces to indicate the class directory hierarchy. We will check for
-		// the presence of namespace slashes to determine the directory separator.
+		// namespaces to indicate the class directory hierarchy. We will check for the
+		// presence of namespace slashes to determine the directory separator.
 		$separator = (strpos($class, '\\') !== false) ? '\\' : '_';
 
 		$library = substr($class, 0, strpos($class, $separator));
