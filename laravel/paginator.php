@@ -271,7 +271,7 @@ class Paginator {
 
 		if (count($this->appends) > 0)
 		{
-			$this->appendage = '&'.http_build_query($this->appends);
+			$this->appendage .= '&'.http_build_query($this->appends);
 		}
 
 		return sprintf($this->appendage, $page);
