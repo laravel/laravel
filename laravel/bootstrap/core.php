@@ -20,7 +20,6 @@ define('MODEL_PATH', APP_PATH.'models/');
 define('ROUTE_PATH', APP_PATH.'routes/');
 define('SESSION_PATH', STORAGE_PATH.'sessions/');
 define('SYS_CONFIG_PATH', SYS_PATH.'config/');
-define('SYS_VIEW_PATH', SYS_PATH.'views/');
 define('VIEW_PATH', APP_PATH.'views/');
 
 /**

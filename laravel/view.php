@@ -70,18 +70,9 @@ class View {
 	{
 		$view = str_replace('.', '/', $view);
 
-		// Application views take priority over system views, so we will return the
-		// application version of the view if both exists. Also, we need to check
-		// for Blade views using the Blade extension. The Blade extension gives
-		// an easy method of determining if the view should be compiled using
-		// the Blade compiler or if the view is plain PHP.
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = VIEW_PATH.$view.$extension))
-			{
-				return $path;
-			}
-			elseif (file_exists($path = SYS_VIEW_PATH.$view.$extension))
 			{
 				return $path;
 			}
