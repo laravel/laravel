@@ -111,15 +111,6 @@ class Route {
 			}
 		}
 
-		// If we still don't have a response, we're out of options and
-		// will use the 404 response. We will still let the response
-		// hit the after filter in case the developer is doing any
-		// logging or other work where every response is needed.
-		if (is_null($response))
-		{
-			$response = Response::error('404');
-		}
-
 		// The after filter and the framework expects all responses to
 		// be instances of the Response class. If the route did not
 		// return an instsance of Response, we will make on now.
