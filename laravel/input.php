@@ -38,7 +38,7 @@ class Input {
 	 */
 	public static function has($key)
 	{
-		return ( ! is_null(static::get($key)) and trim((string) static::get($key)) !== '');
+		return trim((string) static::get($key)) !== '';
 	}
 
 	/**
