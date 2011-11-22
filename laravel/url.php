@@ -118,7 +118,7 @@ class URL {
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
-		throw new \OutOfBoundsException("Error generating named route for route [$name]. Route is not defined.");
+		throw new \OutOfBoundsException("Error getting URL for route [$name]. Route is not defined.");
 	}
 
 	/**
