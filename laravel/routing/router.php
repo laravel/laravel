@@ -234,8 +234,6 @@ class Router {
 	 */
 	protected function wildcards($key)
 	{
-		$count = 0;
-
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We will add the endings
 		// back on after we know how many replacements we made.
