@@ -394,7 +394,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate that an attribute is a valid e-mail address.
+	 * Validate than an attribute is a valid e-mail address.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -406,7 +406,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate that an attribute is a valid URL.
+	 * Validate than an attribute is a valid URL.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -444,7 +444,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate that an attribute contains only alphabetic characters.
+	 * Validate than an attribute contains only alphabetic characters.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -456,7 +456,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate that an attribute contains only alpha-numeric characters.
+	 * Validate than an attribute contains only alpha-numeric characters.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -468,7 +468,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate that an attribute contains only alpha-numeric characters, dashes, and underscores.
+	 * Validate than an attribute contains only alpha-numeric characters, dashes, and underscores.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value

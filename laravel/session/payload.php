@@ -30,18 +30,32 @@ class Payload {
 	protected $exists = true;
 
 	/**
-	 * Start the session handling for the current request.
+	 * The session driver used to retrieve and store the session payload.
+	 *
+	 * @var Driver
+	 */
+	protected $driver;
+
+	/**
+	 * Create a new session payload instance.
 	 *
 	 * @param  Driver  $driver
+	 * @return void
+	 */
+	public function __construct(Driver $driver)
+	{
+		$this->driver = $driver;
+	}
+
+	/**
+	 * Load the session for the current request.
+	 *
 	 * @param  string  $id
 	 * @return void
 	 */
-	public function __construct(Driver $driver, $id)
+	public function load($id)
 	{
-		if ( ! is_null($id))
-		{
-			$this->session = $driver->load($id);
-		}
+		if ( ! is_null($id)) $this->session = $this->driver->load($id);
 
 		// If the session doesn't exist or is invalid, we will create a new session
 		// array and mark the session as being non-existent. Some drivers, such as
@@ -64,7 +78,7 @@ class Payload {
 		if ( ! $this->has('csrf_token'))
 		{
 			$this->put('csrf_token', Str::random(40));
-		}
+		}		
 	}
 
 	/**
@@ -236,10 +250,9 @@ class Payload {
 	/**
 	 * Store the session payload in storage.
 	 *
-	 * @param  Driver  $driver
 	 * @return void
 	 */
-	public function save(Driver $driver)
+	public function save()
 	{
 		$this->session['last_activity'] = time();
 
@@ -247,7 +260,7 @@ class Payload {
 
 		$config = Config::$items['session'];
 
-		$driver->save($this->session, $config, $this->exists);
+		$this->driver->save($this->session, $config, $this->exists);
 
 		$this->cookie();
 
@@ -258,9 +271,9 @@ class Payload {
 		// occuring is controlled by the "sweepage" configuration option.
 		$sweepage = $config['sweepage'];
 
-		if ($driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
+		if ($this->driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
 		{
-			$driver->sweep(time() - ($config['lifetime'] * 60));
+			$this->driver->sweep(time() - ($config['lifetime'] * 60));
 		}
 	}
 

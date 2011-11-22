@@ -221,7 +221,7 @@ else
  */
 if (Config::$items['session']['driver'] !== '')
 {
-	IoC::core('session')->save($driver);
+	IoC::core('session')->save();
 }
 
 $response->send();

@@ -90,6 +90,9 @@ class Router {
 	{
 		if (array_key_exists($name, $this->names)) return $this->names[$name];
 
+		// To find a named route, we need to iterate through every route defined
+		// for the application. We will cache the routes by name so we can load
+		// them very quickly if we need to find them a second time.
 		foreach ($this->loader->everything() as $key => $value)
 		{
 			if (is_array($value) and isset($value['name']) and $value['name'] === $name)
@@ -180,13 +183,16 @@ class Router {
 
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{
-			// Extract the controller name from the URI segments.
+			// Extract the various parts of the controller call from the URI.
+			// First, we'll extract the controller name, then, since we need
+			// to extract the method and parameters, we will remove the name
+			// of the controller from the URI. Then we can shift the method
+			// off of the array of segments. Any remaining segments are the
+			// parameters that should be passed to the controller method.
 			$controller = implode('.', array_slice($segments, 0, $key));
 
-			// Remove the controller name from the URI.
 			$segments = array_slice($segments, $key);
 
-			// Extract the controller method from the remaining segments.
 			$method = (count($segments) > 0) ? array_shift($segments) : 'index';
 
 			return new Route($destination, $controller.'@'.$method, $segments);
@@ -206,6 +212,9 @@ class Router {
 	 */
 	protected function controller_key($segments)
 	{
+		// To find the proper controller, we need to iterate backwards through
+		// the URI segments and take the first file that matches. That file
+		// should be the deepest controller matched by the URI.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
@@ -225,14 +234,14 @@ class Router {
 	 */
 	protected function wildcards($key)
 	{
-		$replacements = 0;
+		$count = 0;
 
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We will add the endings
 		// back on after we know how many replacements we made.
-		$key = str_replace(array_keys($this->optional), array_values($this->optional), $key, $replacements);
+		$key = str_replace(array_keys($this->optional), array_values($this->optional), $key, $count);
 
-		$key .= ($replacements > 0) ? str_repeat(')?', $replacements) : '';
+		$key .= ($count > 0) ? str_repeat(')?', $count) : '';
 
 		return str_replace(array_keys($this->patterns), array_values($this->patterns), $key);
 	}
@@ -254,6 +263,10 @@ class Router {
 
 		$parameters = array();
 
+		// To find the parameters that should be passed to the route, we will
+		// iterate through the route segments, and if the segment is enclosed
+		// in parentheses, we will take the matching segment from the request
+		// URI and add it to the array of parameters.
 		for ($i = 0; $i < $count; $i++)
 		{
 			if (preg_match('/\(.+\)/', $route[$i]) and isset($uri[$i]))
