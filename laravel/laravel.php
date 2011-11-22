@@ -132,7 +132,9 @@ if (Config::$items['session']['driver'] !== '')
 
 	$driver = Session\Drivers\Factory::make(Config::$items['session']['driver']);
 
-	IoC::instance('laravel.session', new Session\Payload($driver, $id));
+	IoC::instance('laravel.session', new Session\Payload($driver));
+	
+	IoC::core('session')->load($id);
 }
 
 /**
