@@ -128,11 +128,13 @@ if (Config::$items['session']['driver'] !== '')
 	require SYS_PATH.'session/drivers/driver'.EXT;
 	require SYS_PATH.'session/drivers/factory'.EXT;
 
-	$id = Cookie::get(Config::$items['session']['cookie']);
-
 	$driver = Session\Drivers\Factory::make(Config::$items['session']['driver']);
 
-	IoC::instance('laravel.session', new Session\Payload($driver, $id));
+	$session = new Session\Payload($driver);
+
+	$session->load(Cookie::get(Config::$items['session']['cookie']));
+
+	IoC::instance('laravel.session', $session);
 }
 
 /**
