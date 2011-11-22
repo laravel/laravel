@@ -42,9 +42,11 @@ class Payload {
 	 * @param  Driver  $driver
 	 * @return void
 	 */
-	public function __construct(Driver $driver)
+	public function __construct(Driver $driver, $id)
 	{
 		$this->driver = $driver;
+		
+		$this->load($id);
 	}
 
 	/**
