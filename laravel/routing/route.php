@@ -140,6 +140,9 @@ class Route {
 	 */
 	protected function response()
 	{
+		// If the route callback is an instance of a Closure, we can call the
+		// route function directly. There are no before or after filters to
+		// parse out of the route.
 		if ($this->callback instanceof Closure)
 		{
 			return call_user_func_array($this->callback, $this->parameters);

@@ -57,12 +57,20 @@ class Connection {
 	/**
 	 * Create a new query grammar for the connection.
 	 *
+	 * Query grammars allow support for new database systems to be added quickly
+	 * and easily. Since the responsibility of the query generation is delegated
+	 * to the grammar classes, it is simple to override only the methods with
+	 * SQL syntax that differs from the default implementation.
+	 *
 	 * @return Grammars\Grammar
 	 */
 	protected function grammar()
 	{
 		if (isset($this->grammar)) return $this->grammar;
 
+		// We allow the developer to hard-code a grammar for the connection. This really
+		// has no use yet; however, if database systems that can use multiple grammars
+		// like ODBC are added in the future, this will be needed.
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':

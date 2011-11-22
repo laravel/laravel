@@ -122,6 +122,10 @@ class Filter_Collection {
 	/**
 	 * Determine if this collection's filters apply to a given method.
 	 *
+	 * Methods may be included / excluded using the "only" and "except" methods on the
+	 * filter collection. Also, the "on" method may be used to set certain filters to
+	 * only run when the request uses a given HTTP verb.
+	 *
 	 * @param  string  $method
 	 * @return bool
 	 */

@@ -71,6 +71,10 @@ class Manager {
 	/**
 	 * Create a new database connector instance.
 	 *
+	 * The database connectors are responsible for simply establishing a PDO
+	 * database connection given a configuration. This allows us to easily
+	 * drop in support for new database systems by writing a connector.
+	 *
 	 * @param  string     $driver
 	 * @return Connector
 	 */
