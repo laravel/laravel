@@ -8,13 +8,6 @@
 require 'core.php';
 
 /**
- * Register the default timezone for the application. This will be
- * the default timezone used by all date / timezone functions in
- * the entire application.
- */
-date_default_timezone_set(Config::$items['application']['timezone']);
-
-/**
  * Create the exception logging function. All of the error logging
  * is routed through here to avoid duplicate code. This Closure
  * will determine if the actual logging Closure should be called.
