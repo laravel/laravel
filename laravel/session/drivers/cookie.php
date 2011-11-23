@@ -5,6 +5,13 @@ use Laravel\Crypter;
 class Cookie implements Driver {
 
 	/**
+	 * The name of the cookie used to store the session payload.
+	 *
+	 * @var string
+	 */
+	const payload = 'session_payload';
+
+	/**
 	 * Load a session from storage by a given ID.
 	 *
 	 * If no session is found for the ID, null will be returned.
@@ -14,9 +21,11 @@ class Cookie implements Driver {
 	 */
 	public function load($id)
 	{
-		if (\Laravel\Cookie::has('session_payload'))
+		if (\Laravel\Cookie::has(Cookie::payload))
 		{
-			return unserialize(Crypter::decrypt(\Laravel\Cookie::get('session_payload')));
+			$cookie = Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload));
+
+			return unserialize($cookie);
 		}
 	}
 
@@ -34,7 +43,7 @@ class Cookie implements Driver {
 
 		$payload = Crypter::encrypt(serialize($session));
 
-		\Laravel\Cookie::put('session_payload', $payload, $lifetime, $path, $domain);
+		\Laravel\Cookie::put(Cookie::payload, $payload, $lifetime, $path, $domain);
 	}
 
 	/**
@@ -45,7 +54,7 @@ class Cookie implements Driver {
 	 */
 	public function delete($id)
 	{
-		\Laravel\Cookie::forget('session_payload');
+		\Laravel\Cookie::forget(Cookie::payload);
 	}
 
 }
