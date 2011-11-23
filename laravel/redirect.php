@@ -67,8 +67,6 @@ class Redirect extends Response {
 	/**
 	 * Flash the old input to the session and return the Redirect instance.
 	 *
-	 * This method has the same signature as the Input::flash method, it just provides
-	 * a convenient method of flashing the input and return the Redirect in one line.
 	 * Once the input has been flashed, it can be retrieved via the Input::old method.
 	 *
 	 * <code>
