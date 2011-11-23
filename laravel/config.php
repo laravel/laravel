@@ -25,7 +25,7 @@ class Config {
 	 *		// Determine if the "session" configuration file exists
 	 *		$exists = Config::has('session');
 	 *
-	 *		// Determine if the "timezone" option exists in the "application" configuration array
+	 *		// Determine if the "timezone" option exists in the "application" configuration
 	 *		$exists = Config::has('application.timezone');
 	 * </code>
 	 *
