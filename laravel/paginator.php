@@ -170,14 +170,14 @@ class Paginator {
 		// window of pages based on the current page.
 		if ($this->last < 7 + ($adjacent * 2))
 		{
-			$numbers = $this->range(1, $this->last);
+			$links = $this->range(1, $this->last);
 		}
 		else
 		{
-			$numbers = $this->slider($adjacent);
+			$links = $this->slider($adjacent);
 		}
 
-		$content = $this->previous().' '.$numbers.' '.$this->next();
+		$content = $this->previous().' '.$links.' '.$this->next();
 
 		return '<div class="pagination">'.$content.'</div>';
 	}
