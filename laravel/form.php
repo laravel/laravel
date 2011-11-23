@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+use Laravel\Session\Payload as Session;
+
 class Form {
 
 	/**
@@ -153,7 +155,7 @@ class Form {
 	{
 		$token = IoC::core('session')->token();
 
-		return static::input('hidden', 'csrf_token', $token);
+		return static::input('hidden', Session::token, $token);
 	}
 
 	/**
