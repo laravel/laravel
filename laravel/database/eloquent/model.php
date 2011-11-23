@@ -190,9 +190,11 @@ abstract class Model {
 	 */
 	public static function all($columns = array('*'))
 	{
-		if (is_null($this->selects)) $this->select($columns);
+		$model = static::query(get_called_class());
+
+		$model->query->select($columns);
 		
-		return Hydrator::hydrate(static::query(get_called_class()));
+		return Hydrator::hydrate($model);
 	}
 
 	/**
@@ -204,7 +206,7 @@ abstract class Model {
 	 */
 	public static function find($id, $columns = array('*'))
 	{
-		return static::query(get_called_class())->where('id', '=', $id)->first();
+		return static::query(get_called_class())->where('id', '=', $id)->first($columns);
 	}
 
 	/**
@@ -230,7 +232,7 @@ abstract class Model {
 	{
 		$columns = (array) $columns;
 		
-		return (count($results = $this->take(1)->_get()) > 0) ? reset($results) : null;
+		return (count($results = $this->take(1)->_get($columns)) > 0) ? reset($results) : null;
 	}
 
 	/**
