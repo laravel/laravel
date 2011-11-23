@@ -330,6 +330,10 @@ class Paginator {
 	{
 		$pages = array();
 
+		// To generate the range of page links, we will iterate through each page
+		// and, if the current page matches the page, we will generate a span,
+		// otherwise we will generate a link for the page. The span elements
+		// will be assigned the "current" CSS class for convenient styling.
 		for ($page = $start; $page <= $end; $page++)
 		{
 			if ($this->page == $page)
@@ -355,6 +359,9 @@ class Paginator {
 	 */
 	protected function link($page, $text, $class)
 	{
+		// First we need to construct the link's query string. This consists
+		// of the page number and any developer specified items that should
+		// be appended to the query string.
 		$query = '?page='.$page.$this->appendage($this->appends);
 
 		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
