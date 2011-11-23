@@ -124,7 +124,7 @@ class Request {
 	 */
 	public static function forged()
 	{
-		return Input::get(Session::token) !== IoC::core('session')->token();
+		return Input::get(Session::csrf_token) !== IoC::core('session')->token();
 	}
 
 	/**
