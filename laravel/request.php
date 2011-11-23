@@ -1,4 +1,7 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel;
+
+use Closure;
+use Laravel\Session\Payload as Session;
 
 class Request {
 
@@ -121,12 +124,7 @@ class Request {
 	 */
 	public static function forged()
 	{
-		if (Config::$items['session']['driver'] == '')
-		{
-			throw new \LogicException("A session driver must be specified to use the CSRF filter.");
-		}
-
-		return Input::get('csrf_token') !== IoC::core('session')->token();
+		return Input::get(Session::token) !== IoC::core('session')->token();
 	}
 
 	/**
