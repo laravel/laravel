@@ -16,6 +16,13 @@ abstract class Controller {
 	public $layout;
 
 	/**
+	 * Indicates if the controller uses RESTful routing.
+	 *
+	 * @var bool
+	 */
+	public $restful = false;
+
+	/**
 	 * The filters assigned to the controller.
 	 *
 	 * @var array
@@ -125,7 +132,19 @@ abstract class Controller {
 
 		if (is_null($response))
 		{
-			$response = call_user_func_array(array($this, "action_{$method}"), $parameters);
+			// The developer may mark the controller as being "RESTful" which
+			// indicates that the controller actions are prefixed with the
+			// HTTP verb they respond to rather than the word "action".
+			if ($this->restful)
+			{
+				$action = strtolower(Request::method()).'_'.$method;
+			}
+			else
+			{
+				$action = "action_{$method}";
+			}
+
+			$response = call_user_func_array(array($this, $action), $parameters);
 
 			// If the controller has specified a layout view. The response
 			// returned by the controller method will be bound to that view

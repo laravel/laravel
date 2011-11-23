@@ -68,29 +68,19 @@ class Input {
 	 *
 	 * @return void
 	 */
-	public static function flash()
+	public static function flash($filter = null, $items = array())
 	{
-		if (Config::$items['session']['driver'] !== '')
-		{
-			IoC::core('session')->flash(Input::old_input, static::get());
-		}
+		IoC::core('session')->flash(Input::old_input, static::get());
 	}
 
 	/**
 	 * Flush the old input from the session.
 	 *
-	 * On a successful form submission, the application may redirect to another form.
-	 * If this is the case, it may be necessary to flush the old input so that the new
-	 * form does not have the previous form's data.
-	 *
 	 * @return void
 	 */
 	public static function flush()
 	{
-		if (Config::$items['session']['driver'] !== '')
-		{
-			IoC::core('session')->flash(Input::old_input, array());
-		}
+		IoC::core('session')->flash(Input::old_input, array());
 	}
 
 	/**
@@ -101,7 +91,7 @@ class Input {
 	 */
 	public static function had($key)
 	{
-		return ( ! is_null(static::old($key)) and trim((string) static::old($key)) !== '');
+		return trim((string) static::old($key)) !== '';
 	}
 
 	/**
@@ -121,11 +111,6 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
-		if (Config::get('session.driver') == '')
-		{
-			throw new \UnexpectedValueException('A session driver must be specified to access old input.');
-		}
-
 		$old = IoC::core('session')->get(Input::old_input, array());
 
 		return Arr::get($old, $key, $default);

@@ -160,7 +160,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->except('index');
 	 *
 	 *		// Specify a filter for all methods except "index" and "home"
-	 *		$this->filter('before', 'auth')->except(array('index', 'home'));
+	 *		$this->filter('before', 'auth')->except('index', 'home');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -168,7 +168,7 @@ class Filter_Collection {
 	 */
 	public function except($methods)
 	{
-		$this->except = (array) $methods;
+		$this->except = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
 		return $this;
 	}
 
@@ -184,7 +184,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->only('index');
 	 *
 	 *		// Specify a filter for only the "index" and "home" methods
-	 *		$this->filter('before', 'auth')->only(array('index', 'home'));
+	 *		$this->filter('before', 'auth')->only('index', 'home');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -192,7 +192,7 @@ class Filter_Collection {
 	 */
 	public function only($methods)
 	{
-		$this->only = (array) $methods;
+		$this->only = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
 		return $this;
 	}
 
@@ -208,7 +208,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'csrf')->on('post');
 	 *
 	 *		// Specify that a filter applies for multiple HTTP request methods
-	 *		$this->filter('before', 'csrf')->on(array('post', 'put'));
+	 *		$this->filter('before', 'csrf')->on('post', 'put');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -216,7 +216,13 @@ class Filter_Collection {
 	 */
 	public function on($methods)
 	{
-		$this->methods = array_map('strtolower', (array) $methods);
+		$methos = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
+
+		foreach ($methods as $method)
+		{
+			$this->methods[] = strtolower($method);
+		}
+	
 		return $this;
 	}
 

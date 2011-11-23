@@ -26,18 +26,11 @@ class Lang {
 	/**
 	 * All of the loaded language lines.
 	 *
-	 * The array is keyed by [$language.$file].
+	 * The array is keyed by [$language][$file].
 	 *
 	 * @var array
 	 */
 	protected static $lines = array();
-
-	/**
-	 * The paths containing the language files.
-	 *
-	 * @var array
-	 */
-	protected static $paths = array(LANG_PATH);
 
 	/**
 	 * Create a new Lang instance.
@@ -109,7 +102,7 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		return $this->replace(Arr::get(static::$lines[$this->language.$file], $line, $default));
+		return $this->replace(Arr::get(static::$lines[$this->language][$file], $line, $default));
 	}
 
 	/**
@@ -155,29 +148,31 @@ class Lang {
 	/**
 	 * Load all of the language lines from a language file.
 	 *
+	 * If the language file is successfully loaded, true will be returned.
+	 *
 	 * @param  string  $file
 	 * @return bool
 	 */
 	protected function load($file)
 	{
-		if (isset(static::$lines[$this->language.$file])) return true;
+		if (isset(static::$lines[$this->language][$file])) return true;
 
 		$language = array();
 
-		foreach (static::$paths as $directory)
+		if (file_exists($path = LANG_PATH.$this->language.'/'.$file.EXT))
 		{
-			if (file_exists($path = $directory.$this->language.'/'.$file.EXT))
-			{
-				$language = array_merge($language, require $path);
-			}
+			$language = array_merge($language, require $path);
 		}
 
 		// If language lines were actually found, they will be loaded into
 		// the array containing all of the lines for all languages and files.
 		// The array is keyed by the language and the file name.
-		if (count($language) > 0) static::$lines[$this->language.$file] = $language;
+		if (count($language) > 0)
+		{
+			static::$lines[$this->language][$file] = $language;
+		}
 		
-		return isset(static::$lines[$this->language.$file]);		
+		return isset(static::$lines[$this->language][$file]);		
 	}
 
 	/**

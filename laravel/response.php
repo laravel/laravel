@@ -235,7 +235,7 @@ class Response {
 	 */
 	public function send()
 	{
-		if ( ! headers_sent()) $this->headers();
+		if ( ! headers_sent()) $this->send_headers();
 
 		echo $this->render();
 	}
@@ -254,7 +254,7 @@ class Response {
 	 *
 	 * @return void
 	 */
-	public function headers()
+	public function send_headers()
 	{
 		if ( ! isset($this->headers['Content-Type']))
 		{
