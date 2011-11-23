@@ -108,14 +108,13 @@ class File {
 	 *
 	 * @param  string  $key
 	 * @param  string  $path
-	 * @param  array   $files
 	 * @return bool
 	 */
-	public static function upload($key, $path, $files = null)
+	public static function upload($key, $path)
 	{
-		if (is_null($files)) $files = $_FILES;
+		if ( ! isset($_FILES[$key])) return false;
 
-		return move_uploaded_file($files[$key]['tmp_name'], $path);
+		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
 	}
 
 	/**
