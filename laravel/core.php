@@ -140,6 +140,13 @@ Autoloader::$mappings = array(
 );
 
 /**
+ * Register the default timezone for the application. This will be
+ * the default timezone used by all date / timezone functions in
+ * the entire application.
+ */
+date_default_timezone_set(Config::$items['application']['timezone']);
+
+/**
  * Define a few global, convenient functions. These functions
  * provide short-cuts for things like the retrieval of language
  * lines and HTML::entities. They just make our lives as devs a
