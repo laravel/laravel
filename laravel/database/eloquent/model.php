@@ -185,20 +185,24 @@ abstract class Model {
 	/**
 	 * Get all of the models from the database.
 	 *
+	 * @param  array  $columns
 	 * @return array
 	 */
-	public static function all()
+	public static function all($columns = array('*'))
 	{
+		if (is_null($this->selects)) $this->select($columns);
+		
 		return Hydrator::hydrate(static::query(get_called_class()));
 	}
 
 	/**
 	 * Get a model by the primary key.
 	 *
-	 * @param  int  $id
+	 * @param  int    $id
+	 * @param  array  $columns
 	 * @return mixed
 	 */
-	public static function find($id)
+	public static function find($id, $columns = array('*'))
 	{
 		return static::query(get_called_class())->where('id', '=', $id)->first();
 	}
@@ -206,20 +210,26 @@ abstract class Model {
 	/**
 	 * Get an array of models from the database.
 	 *
+	 * @param  array  $columns
 	 * @return array
 	 */
-	private function _get()
+	private function _get($columns = array('*'))
 	{
+		if (is_null($this->selects)) $this->select($columns);
+		
 		return Hydrator::hydrate($this);
 	}
 
 	/**
 	 * Get the first model result
 	 *
+	 * @param  array  $columns
 	 * @return mixed
 	 */
-	private function _first()
+	private function _first($columns = array('*'))
 	{
+		$columns = (array) $columns;
+		
 		return (count($results = $this->take(1)->_get()) > 0) ? reset($results) : null;
 	}
 
@@ -227,9 +237,10 @@ abstract class Model {
 	 * Get paginated model results as a Paginator instance.
 	 *
 	 * @param  int        $per_page
+	 * @param  array      $columns
 	 * @return Paginator
 	 */
-	private function _paginate($per_page = null)
+	private function _paginate($per_page = null, $columns = array('*'))
 	{
 		$total = $this->query->count();
 
@@ -242,7 +253,7 @@ abstract class Model {
 			$per_page = (property_exists(get_class($this), 'per_page')) ? static::$per_page : 20;
 		}
 
-		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get(), $total, $per_page);
+		return Paginator::make($this->for_page(Paginator::page($total, $per_page), $per_page)->get($columns), $total, $per_page);
 	}
 
 	/**
