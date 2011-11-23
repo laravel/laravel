@@ -38,7 +38,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new \OutOfBoundsException("Database connection is not defined for connection [$connection].");
+				throw new \OutOfBoundsException("Connection is not defined for [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);
