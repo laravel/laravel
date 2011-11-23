@@ -181,7 +181,7 @@ class Input {
 	 */
 	public static function upload($key, $path)
 	{
-		return array_key_exists($key, $_FILES) ? File::upload($key, $path, $_FILES) : false;
+		return File::upload($key, $path);
 	}
 
 }
