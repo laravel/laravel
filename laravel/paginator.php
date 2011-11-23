@@ -210,6 +210,14 @@ class Paginator {
 	{
 		$window = $adjacent * 2;
 
+		// If the current page is so close to the beginning that we do not have
+		// room to create a full sliding window, we will only show the first
+		// several pages, followed by the ending section of the slider.
+		//
+		// Likewise, if the page is very close to the end, we will create the
+		// beginning of the slider, but just show the last several pages at
+		// the end of the slider.
+		//
 		// Example: 1 [2] 3 4 5 6 ... 23 24
 		if ($this->page <= $window)
 		{
