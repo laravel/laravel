@@ -223,7 +223,6 @@ class Paginator {
 		{
 			return $this->range(1, $window + 2).' '.$this->ending();
 		}
-
 		// Example: 1 2 ... 32 33 34 35 [36] 37
 		elseif ($this->page >= $this->last - $window)
 		{
@@ -367,9 +366,6 @@ class Paginator {
 	 */
 	protected function link($page, $text, $class)
 	{
-		// First we need to construct the link's query string. This consists
-		// of the page number and any developer specified items that should
-		// be appended to the query string.
 		$query = '?page='.$page.$this->appendage($this->appends);
 
 		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
