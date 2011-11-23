@@ -10,7 +10,14 @@ class Autoloader {
 	public static $mappings = array();
 
 	/**
-	 * The paths to be searched by the auto-loader.
+	 * The PSR-0 compliant libraries registered with the loader.
+	 *
+	 * @var array
+	 */
+	public static $libraries = array();
+
+	/**
+	 * The paths to be searched by the loader.
 	 *
 	 * @var array
 	 */
@@ -68,7 +75,7 @@ class Autoloader {
 
 		foreach (static::$paths as $path)
 		{
-			if (file_exists($path = $path.$lower.EXT))
+			if (file_exists($path = $path.$file.EXT))
 			{
 				return $path;
 			}
