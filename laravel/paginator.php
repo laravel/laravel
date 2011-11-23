@@ -131,9 +131,28 @@ class Paginator {
 		// Each pagination element is created by an element method. This allows
 		// us to keep this class clean and simple, because pagination code can
 		// become a mess. We would rather keep it simple and beautiful.
-		foreach ($this->elements as $element)
+		//
+		// If the page is greater the one, we will render the first and previous
+		// links, otherwise we skip them since we are already on the first page.
+		if ($this->page > 1)
 		{
-			$elements[] = $this->$element(Lang::line("pagination.{$element}")->get());
+			$elements[] = $this->first();
+
+			$elements[] = $this->previous();
+		}
+
+		// The status is always rendered regardless of the current page. So we
+		// can simply add it to the array of pagination elements.
+		$elements[] = $this->status();
+
+		// If the current page is not the last page, we will render the next
+		// and last links. Otherwise we will skip them since we are already
+		// on the last page and can't go any further.
+		if ($this->page < $this->last)
+		{
+			$elements[] = $this->next();
+
+			$elements[] = $this->last();
 		}
 
 		return '<div class="pagination">'.implode(' ', $elements).'</div>'.PHP_EOL;
@@ -145,8 +164,10 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function status($text)
+	public function status($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.status')->get();
+
 		return str_replace(array(':current', ':last'), array($this->page, $this->last), $text);
 	}
 
@@ -156,7 +177,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function first($text)
+	public function first($text = null)
 	{
 		return $this->backwards(__FUNCTION__, $text, 1);
 	}
@@ -167,7 +188,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function previous($text)
+	public function previous($text = null)
 	{
 		return $this->backwards(__FUNCTION__, $text, $this->page - 1);
 	}
@@ -178,7 +199,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function next($text)
+	public function next($text = null)
 	{
 		return $this->forwards(__FUNCTION__, $text, $this->page + 1);
 	}
@@ -189,7 +210,7 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function last($text)
+	public function last($text = null)
 	{
 		return $this->forwards(__FUNCTION__, $text, $this->last);
 	}
@@ -241,6 +262,8 @@ class Paginator {
 	{
 		$class = "{$element}_page";
 
+		if (is_null($text)) $text = Lang::line("pagination.{$element}")->get();
+
 		if ($disabler($this->page, $this->last))
 		{
 			return HTML::span($text, array('class' => "disabled {$class}"));
@@ -252,7 +275,7 @@ class Paginator {
 			// the current URI, this makes pretty good sense.
 			list($uri, $secure) = array(Request::uri(), Request::secure());
 
-			$appendage = $this->appendage($element, $page);
+			$appendage = '?page='.$page.$this->appendage($element, $page);
 
 			return HTML::link($uri.$appendage, $text, array('class' => $class), $secure);
 		}
@@ -267,21 +290,23 @@ class Paginator {
 	 */
 	protected function appendage($element, $page)
 	{
-		$this->appendage = '?page=%s';
+		if ( ! is_null($this->appendage)) return $this->appendage;
+
+		$appendage = '';
 
 		if (count($this->appends) > 0)
 		{
-			$this->appendage .= '&'.http_build_query($this->appends);
+			$appendage .= '&'.http_build_query($this->appends);
 		}
 
-		return sprintf($this->appendage, $page);
+		return $this->appendage = $appendage;
 	}
 
 	/**
 	 * Set the items that should be appended to the link query strings.
 	 *
-	 * This provides a convenient method of maintaining sort or passing other information
-	 * to the route handling pagination.
+	 * This provides a convenient method of maintaining sort or passing other
+	 * information to the route handling pagination.
 	 *
 	 * @param  array      $values
 	 * @return Paginator

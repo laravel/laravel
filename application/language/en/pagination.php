@@ -17,9 +17,9 @@ return array(
 	*/
 
 	'first'    => 'First',
-	'previous' => '&larr; Previous',
+	'previous' => '&laquo; Previous',
 	'status'   => 'Page :current of :last',
-	'next'     => 'Next &rarr;',
+	'next'     => 'Next &raquo;',
 	'last'     => 'Last',
 
 );
