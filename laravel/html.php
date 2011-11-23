@@ -129,9 +129,10 @@ class HTML {
 	 * @param  string  $url
 	 * @param  string  $title
 	 * @param  array   $attributes
+	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function link_to_asset($url, $title, $attributes = array(), $https = false)
+	public static function link_to_asset($url, $title, $attributes = array(), $https = null)
 	{
 		return static::link($url, $title, $attributes, $https, true);
 	}
