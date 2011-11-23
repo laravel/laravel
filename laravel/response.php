@@ -161,7 +161,7 @@ class Response {
 	 *
 	 * The response status code will be set using the specified code.
 	 *
-	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 * Note: The specified error should match a view in your views/error directory.
 	 *
 	 * <code>
 	 *		// Create a 404 response
