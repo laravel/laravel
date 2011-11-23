@@ -54,6 +54,13 @@ class Paginator {
 	protected $appendage;
 
 	/**
+	 * The language that should be used when creating the pagination links.
+	 *
+	 * @var string
+	 */
+	protected $language;
+
+	/**
 	 * The "dots" element used in the pagination slider.
 	 *
 	 * @var string
@@ -274,7 +281,7 @@ class Paginator {
 	{
 		$class = "{$element}_page";
 
-		if (is_null($text)) $text = Lang::line("pagination.{$element}")->get();
+		if (is_null($text)) $text = Lang::line("pagination.{$element}")->get($this->language);
 
 		// Each consumer of this method provides a "disabled" Closure which can
 		// be used to determine if the element should be a span element or an
@@ -348,9 +355,9 @@ class Paginator {
 	 */
 	protected function link($page, $text, $class)
 	{
-		$url = URI::current().'?page='.$page.$this->appendage($this->appends);
+		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return HTML::link($url, $text, compact('class'), Request::secure());
+		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
 	}
 
 	/**
@@ -382,6 +389,18 @@ class Paginator {
 	public function appends($values)
 	{
 		$this->appends = $values;
+		return $this;
+	}
+
+	/**
+	 * Set the language that should be used when creating the pagination links.
+	 *
+	 * @param  string     $language
+	 * @return Paginator
+	 */
+	public function speaks($language)
+	{
+		$this->language = $language;
 		return $this;
 	}
 
