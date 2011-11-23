@@ -87,7 +87,9 @@ class Form {
 	 */
 	protected static function action($action, $https)
 	{
-		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
+		$uri = (is_null($action)) ? URI::current() : $action;
+
+		return HTML::entities(URL::to($uri, $https));
 	}
 
 	/**
