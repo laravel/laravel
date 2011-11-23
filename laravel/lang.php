@@ -65,7 +65,10 @@ class Lang {
 	 */
 	public static function line($key, $replacements = array(), $language = null)
 	{
-		if (is_null($language)) $language = Config::$items['application']['language'];
+		if (is_null($language))
+		{
+			$language = Config::$items['application']['language'];
+		}
 
 		return new static($key, $replacements, $language);
 	}
@@ -93,7 +96,7 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
-		if ( ! is_null($language)) $this->language = $language;
+		if (is_null($language)) $language = $this->language;
 
 		list($file, $line) = $this->parse($this->key);
 
@@ -102,7 +105,7 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		return $this->replace(Arr::get(static::$lines[$this->language][$file], $line, $default));
+		return $this->replace(Arr::get(static::$lines[$language][$file], $line, $default));
 	}
 
 	/**
