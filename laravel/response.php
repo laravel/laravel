@@ -316,8 +316,9 @@ class Response {
 	{
 		if (strpos($method, 'of_') === 0)
 		{
-			return static::with(substr($method, 3), Arr::get($parameters, 0, array()));
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
+		throw new \BadMethodCallException("Method [$method] is not defined on the Response class.");
 	}
 
 }
