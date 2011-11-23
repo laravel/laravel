@@ -66,11 +66,40 @@ class Input {
 	/**
 	 * Flash the input for the current request to the session.
 	 *
+	 * The input data to be flashed may be controlled by using a filter and an array
+	 * of included or excluded input data. This provides a convenient way of keeping
+	 * sensitive information like passwords out of the session.
+	 *
+	 * <code>
+	 *		// Flash all of the input data to the session
+	 *		Input::flash();
+	 *
+	 *		// Flash only a few input items to the session
+	 *		Input::flash('only', array('name', 'email'));
+	 *
+	 *		// Flash all but a few input items to the session
+	 *		Input::flash('except', array('password'));
+	 * </code>
+	 *
 	 * @return void
 	 */
 	public static function flash($filter = null, $items = array())
 	{
-		IoC::core('session')->flash(Input::old_input, static::get());
+		$flash = static::get();
+
+		// Since the items flashed to the session can be filtered, we will iterate
+		// all of the input data and either remove or include the input item based
+		// on the specified filter and array of items to be flashed.
+		if ($filter == 'only')
+		{
+			$flash = array_intersect_key($flash, array_flip($items));
+		}
+		elseif ($filter == 'except')
+		{
+			$flash = array_diff_key($flash, array_flip($items));
+		}
+
+		IoC::core('session')->flash(Input::old_input, $flash);
 	}
 
 	/**
