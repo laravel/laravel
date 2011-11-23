@@ -37,6 +37,13 @@ class Payload {
 	protected $driver;
 
 	/**
+	 * The string name of the CSRF token stored in the session.
+	 *
+	 * @var string
+	 */
+	const token = 'csrf_token';
+
+	/**
 	 * Create a new session payload instance.
 	 *
 	 * @param  Driver  $driver
@@ -75,9 +82,9 @@ class Payload {
 		// class and the "csrf" filter to protect the application from cross-site
 		// request forgery attacks. The token is simply a long, random string
 		// which should be posted with each request.
-		if ( ! $this->has('csrf_token'))
+		if ( ! $this->has(Payload::token))
 		{
-			$this->put('csrf_token', Str::random(40));
+			$this->put(Payload::token, Str::random(40));
 		}		
 	}
 
@@ -244,7 +251,7 @@ class Payload {
 	 */
 	public function token()
 	{
-		return $this->get('csrf_token');
+		return $this->get(Payload::token);
 	}
 
 	/**
