@@ -48,11 +48,9 @@ class Loader {
 	 */
 	public function load($uri)
 	{
-		$routes = (file_exists($path = $this->base.'routes'.EXT)) ? require $path : array();
-
 		$segments = Arr::without(explode('/', $uri), '');
 
-		return array_merge($this->nested($segments), $routes);
+		return array_merge($this->nested($segments), require $this->base.'routes'.EXT);
 	}
 
 	/**
