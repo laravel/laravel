@@ -62,7 +62,7 @@ class Crypter {
 	{
 		if (($value = base64_decode($value)) === false)
 		{
-			throw new \InvalidArgumentException('Decryption error. Input value is not valid base64 data.');
+			throw new \InvalidArgumentException('Input value is not valid base64 data.');
 		}
 
 		$iv = substr($value, 0, static::iv_size());
