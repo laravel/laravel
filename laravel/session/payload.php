@@ -250,6 +250,14 @@ class Payload {
 	/**
 	 * Store the session payload in storage.
 	 *
+	 * The activity timestamp will be set, the flash data will be aged, and the
+	 * session cookie will be written. The driver given when the session payload
+	 * was constructed will be used to persist the session to storage.
+	 *
+	 * If the session's driver is a sweeper implementation, garbage collection
+	 * may be performed based on the probabilities set in the "sweepage" option
+	 * in the session configuration file.
+	 *
 	 * @return void
 	 */
 	public function save()
