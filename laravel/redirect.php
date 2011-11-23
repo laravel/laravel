@@ -91,6 +91,24 @@ class Redirect extends Response {
 	}
 
 	/**
+	 * Flash a Validator's errors to the session data.
+	 *
+	 * This method allows you to conveniently pass validation errors back to views.
+	 *
+	 * <code>
+	 *		// Redirect and flash a validator's errors the session
+	 *		return Redirect::to('register')->with_errors($validator);
+	 * </code>
+	 *
+	 * @param  Validator  $validator
+	 * @return Redirect
+	 */
+	public function with_errors(Validator $validator)
+	{
+		return $this->with('errors', $validator->errors);
+	}
+
+	/**
 	 * Magic Method to handle creation of redirects to named routes.
 	 *
 	 * <code>
