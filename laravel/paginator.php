@@ -145,8 +145,9 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function status($text)
+	public function status($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.status')->get();
 		return str_replace(array(':current', ':last'), array($this->page, $this->last), $text);
 	}
 
@@ -156,8 +157,9 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function first($text)
+	public function first($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.first')->get();
 		return $this->backwards(__FUNCTION__, $text, 1);
 	}
 
@@ -167,8 +169,9 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function previous($text)
+	public function previous($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.previous')->get();
 		return $this->backwards(__FUNCTION__, $text, $this->page - 1);
 	}
 
@@ -178,8 +181,9 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function next($text)
+	public function next($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.next')->get();
 		return $this->forwards(__FUNCTION__, $text, $this->page + 1);
 	}
 
@@ -189,8 +193,9 @@ class Paginator {
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function last($text)
+	public function last($text = null)
 	{
+		if (is_null($text)) $text = Lang::line('pagination.last')->get();
 		return $this->forwards(__FUNCTION__, $text, $this->last);
 	}
 
@@ -307,3 +312,4 @@ class Paginator {
 	}
 
 }
+
