@@ -228,7 +228,7 @@ class View {
 	{
 		// For simplicity, compiled views are stored in a single directory by
 		// the MD5 hash of their name. This allows us to avoid recreating the
-		// entire view directory structure within the compiled views directory.
+		// entire view directory structure within the compiled directory.
 		$compiled = STORAGE_PATH.'views/'.md5($this->view);
 
 		// The view will only be re-compiled if the view has been modified
