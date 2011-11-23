@@ -41,7 +41,7 @@ class Payload {
 	 *
 	 * @var string
 	 */
-	const token = 'csrf_token';
+	const csrf_token = 'csrf_token';
 
 	/**
 	 * Create a new session payload instance.
@@ -82,9 +82,9 @@ class Payload {
 		// class and the "csrf" filter to protect the application from cross-site
 		// request forgery attacks. The token is simply a long, random string
 		// which should be posted with each request.
-		if ( ! $this->has(Payload::token))
+		if ( ! $this->has(Payload::csrf_token))
 		{
-			$this->put(Payload::token, Str::random(40));
+			$this->put(Payload::csrf_token, Str::random(40));
 		}		
 	}
 
@@ -251,7 +251,7 @@ class Payload {
 	 */
 	public function token()
 	{
-		return $this->get(Payload::token);
+		return $this->get(Payload::csrf_token);
 	}
 
 	/**
