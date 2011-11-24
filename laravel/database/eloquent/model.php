@@ -217,7 +217,7 @@ abstract class Model {
 	 */
 	private function _get($columns = array('*'))
 	{
-		if (is_null($this->selects)) $this->select($columns);
+		if (is_null($this->query->selects)) $this->query->select($columns);
 		
 		return Hydrator::hydrate($this);
 	}
