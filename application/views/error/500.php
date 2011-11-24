@@ -14,7 +14,7 @@
 				font: normal normal normal 14px/1.253 Ubuntu, sans-serif;
 				margin: 0 0 25px 0;
 				min-width: 800px;
-				padding:0;
+				padding: 0;
 			}
 
 			#main {
