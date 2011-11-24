@@ -1,5 +1,27 @@
 # Laravel Change Log
 
+## Version 2.0.0
+
+- Added support for controllers.
+- Added Redis support, along with cache and session drivers.
+- Added cookie session driver.
+- Added support for database expressions.
+- Added Blade templating engine.
+- Added view "sections".
+- Added support for filter parameters.
+- Added dependency injection and IoC support.
+- Made authentication system more flexible.
+- Added better PSR-0 library support.
+- Added fingerprint hashing to cookies.
+- Improved view error handling.
+- Made input flashing more developer friendly.
+- Added better Redirect shortcut methods.
+- Added standalone Memcached class.
+- Simplified exception handling.
+- Added ability to ignore certain error levels.
+- Directories re-structured.
+- Improved overall code quality and architecture.
+
 ## Version 1.5.9
 
 - Fixed bug in Eloquent relationship loading.
