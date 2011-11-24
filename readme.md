@@ -11,7 +11,7 @@ Stay true to the web with RESTful routing:
 		return View::make('home.index');
 	}
 
-Laravel serves as a great framework for writing everything from JSON APIs to full web applications. You can use RESTful routes and anonymous functions to quickly build beautiful applications, or use controllers to organize your growing application:
+Laravel serves as a great framework for writing everything from JSON APIs to full web applications. You can use RESTful routes and anonymous functions to quickly build beautiful applications, or use controllers to organize your creation:
 
 	class Home_Controller extends Controller {
 		
@@ -24,7 +24,7 @@ Laravel serves as a great framework for writing everything from JSON APIs to ful
 
 ### Wonderfully Expressive Syntax
 
-Redirect to a named route and flash something to the session:
+Laravel strives to provide intuitive, expressive syntax. Code should be immediately readable and understandable. Need to redirect to a named route and flash something to the session? Here's how:
 
 	return Redirect::to_profile()->with('message', 'Welcome Back!');
 
@@ -68,6 +68,6 @@ Need to cache some data from your database? It couldn't be simpler to use the ca
 
 	$users = Cache::driver('memcached')->get('users');
 
-### Ready To Learn More?
+### There's so much more to learn:
 
 Check out the [official documentation](http://laravel.com).
