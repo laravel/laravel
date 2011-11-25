@@ -1,6 +1,6 @@
 <?php
 /**
- * Laravel - A clean and classy framework for PHP web development.
+ * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
  * @version  2.0.1
