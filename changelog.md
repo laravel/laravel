@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.0.1
+
+- Fixed bug in routing filter class.
+
+### Upgrading from 2.0.0
+
+- Replace **laravel** directory.
+
 ## Version 2.0.0
 
 - Added support for controllers.
