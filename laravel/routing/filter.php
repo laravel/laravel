@@ -216,7 +216,7 @@ class Filter_Collection {
 	 */
 	public function on($methods)
 	{
-		$methos = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
+		$methods = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
 
 		foreach ($methods as $method)
 		{
