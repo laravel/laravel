@@ -89,15 +89,15 @@ class Auth {
 	/**
 	 * Attempt to login a user based on a long-lived "remember me" cookie.
 	 *
-	 * We should be able to trust the cookie is valid, since all cookies
-	 * set by Laravel include a fingerprint hash to ensure the cookie
-	 * value is not changed on the client.
-	 *
 	 * @param  string  $recaller
 	 * @return mixed
 	 */
 	protected static function recall($recaller)
 	{
+		// When the "remember me" cookie is stored, it is encrypted and contains the
+		// user's ID and a long, random string. The ID and string are separated by
+		// a pipe character. Since we exploded the decrypted string, we can just
+		// pass the first item in the array to the user Closure.
 		$recaller = explode('|', Crypter::decrypt($recaller));
 
 		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $recaller[0])))
