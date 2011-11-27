@@ -223,6 +223,10 @@ class Validator {
 		{
 			return false;
 		}
+		elseif ( ! is_null(Input::file($attribute)) and $value['tmp_name'] == '')
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -502,7 +506,7 @@ class Validator {
 	 */
 	protected function validate_mimes($attribute, $value, $parameters)
 	{
-		if (is_array($value) and ! isset($value['tmp_name'])) return true;
+		if ( ! is_array($value) or Arr::get($value, 'tmp_name', '') == '') return true;
 
 		foreach ($parameters as $extension)
 		{
