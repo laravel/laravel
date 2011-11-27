@@ -114,7 +114,7 @@ class File {
 	{
 		if ( ! isset($_FILES[$key])) return false;
 
-		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
+		return move_uploaded_file($_FILES[$key]['tmp_name'], $path . "/" . $_FILES[$key]['name']);
 	}
 
 	/**
