@@ -106,6 +106,11 @@ class File {
 	/**
 	 * Move an uploaded file to permanent storage.
 	 *
+	 * <code>
+	 *		// Upload the $_FILES['photo'] file to a permanent location
+	 *		File::upload('photo', 'path/to/new/home.jpg');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $path
 	 * @return bool
