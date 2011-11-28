@@ -1,6 +1,6 @@
 <?php namespace Laravel\Database\Connectors; use PDO;
 
-use Laravel/OutOfBoundsException;
+use Laravel\OutOfBoundsException;
 
 class SQLite extends Connector {
 

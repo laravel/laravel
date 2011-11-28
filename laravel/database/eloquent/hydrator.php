@@ -1,6 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
-use Laravel/LogicException;
+use Laravel\LogicException;
 
 class Hydrator {
 
