@@ -23,7 +23,7 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		$root = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
+		$root = static::base_url();
 
 		// Since SSL is often not used while developing the application, we allow the
 		// developer to disable SSL on all framework generated links to make it more
@@ -189,6 +189,38 @@ class URL {
 		}
 
 		throw new \BadMethodCallException("Method [$method] is not defined on the URL class.");
+	}
+
+	/**
+	 * Setup the base URL for the application
+	 * 
+	 * @return string
+	 */
+	public static function base_url($full_url = TRUE)
+	{
+		$base_url = Config::$items['application']['url'];
+
+		if ($base_url == '')
+		{
+			if (isset($_SERVER['HTTP_HOST']))
+			{
+				$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+				$base_url .= '://'.$_SERVER['HTTP_HOST'];
+				$base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+				$base_url = rtrim($base_url, '/');
+			}
+			else
+			{
+				$base_url = 'http://localhost/';
+			}
+		}
+
+		if ($full_url)
+		{
+			$base_url .= '/'.Config::$items['application']['index'];
+		}
+
+		return $base_url;
 	}
 
 }

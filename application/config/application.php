@@ -9,9 +9,11 @@ return array(
 	|
 	| The URL used to access your application. No trailing slash.
 	|
+	| Leave empty for Laravel to automatically set the URL for the application
+	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => '',
 
 	/*
 	|--------------------------------------------------------------------------
