@@ -1,5 +1,14 @@
 # Laravel Change Log
 
+## Version 2.0.2
+
+- Fixed bug in validator class that prevented required file uploads from being validated correctly.
+- Added API example to File::upload method.
+
+### Upgrading from 2.0.1
+
+- Replace **laravel** directory.
+
 ## Version 2.0.1
 
 - Fixed bug in routing filter class.
