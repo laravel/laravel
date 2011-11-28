@@ -219,10 +219,6 @@ class Validator {
 		{
 			return false;
 		}
-		elseif (is_array($value) and count($value) == 0)
-		{
-			return false;
-		}
 		elseif ( ! is_null(Input::file($attribute)) and $value['tmp_name'] == '')
 		{
 			return false;
