@@ -5,10 +5,6 @@ class URL {
 	/**
 	 * Get the base URL of the application.
 	 *
-	 * If the application URL is set in the application configuration file, that
-	 * URL will be returned. Otherwise, the URL will be guessed based on the
-	 * server variables available to the script in the $_SERVER array.
-	 *
 	 * @return string
 	 */
 	public static function base()
@@ -79,9 +75,6 @@ class URL {
 	/**
 	 * Generate an application URL to an asset.
 	 *
-	 * The index file will not be added to asset URLs. If the HTTPS option is not
-	 * specified, HTTPS will be used when the active request is also using HTTPS.
-	 *
 	 * @param  string  $url
 	 * @param  bool    $https
 	 * @return string
@@ -106,9 +99,9 @@ class URL {
 	/**
 	 * Generate a URL from a route name.
 	 *
-	 * For routes that have wildcard parameters, an array may be passed as the second
-	 * parameter to the method. The values of this array will be used to fill the
-	 * wildcard segments of the route URI.
+	 * For routes that have wildcard parameters, an array may be passed as the
+	 * second parameter to the method. The values of this array will be used to
+	 * fill the wildcard segments of the route URI.
 	 *
 	 * <code>
 	 *		// Create a URL to the "profile" named route
@@ -146,7 +139,7 @@ class URL {
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
-		throw new \OutOfBoundsException("Error getting URL for route [$name]. Route is not defined.");
+		throw new \OutOfBoundsException("Error creating URL for undefined route [$name].");
 	}
 
 	/**
@@ -159,6 +152,45 @@ class URL {
 	public static function to_secure_route($name, $parameters = array())
 	{
 		return static::to_route($name, $parameters, true);
+	}
+
+	/**
+	 * Generate a URL to a controller action.
+	 *
+	 * <code>
+	 *		// Generate a URL to the "index" method of the "user" controller
+	 *		$url = URL::to_action('user@index');
+	 *
+	 *		// Generate a URL to http://example.com/user/profile/taylor
+	 *		$url = URL::to_action('user@profile', array('taylor'));
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function to_action($action, $parameters = array(), $https = false)
+	{
+		return static::to(str_replace(array('.', '@'), '/', $action).'/'.implode('/', $parameters), $https);
+	}
+
+	/**
+	 * Generate a HTTPS URL to a controller action.
+	 *
+	 * <code>
+	 *		// Generate a HTTPS URL to the "index" method of the "user" controller
+	 *		$url = URL::to_action('user@index');
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function to_secure_action($action, $parameters = array())
+	{
+		return static::to_action($action, $parameters, true);
 	}
 
 	/**
