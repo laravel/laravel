@@ -3,6 +3,35 @@
 class URL {
 
 	/**
+	 * Get the base URL of the application.
+	 *
+	 * If the application URL is set in the application configuration file, that
+	 * URL will be returned. Otherwise, the URL will be guessed based on the
+	 * server variables available to the script in the $_SERVER array.
+	 *
+	 * @return string
+	 */
+	public static function base()
+	{
+		if (($base = Config::$items['application']['url']) !== '') return $base;
+
+		if (isset($_SERVER['HTTP_HOST']))
+		{
+			$protocol = (Request::secure()) ? 'https://' : 'http://';
+
+			// By removing the basename of the script, we should be left with the path
+			// in which the framework is installed. For example, if the framework is
+			// installed to http://localhost/laravel/public, the path we'll get from
+			// from this statement will be "/laravel/public".
+			$path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+
+			return rtrim($protocol.$_SERVER['HTTP_HOST'].$path, '/');
+		}
+
+		return 'http://localhost';
+	}
+
+	/**
 	 * Generate an application URL.
 	 *
 	 * If the given URL is already well-formed, it will be returned unchanged.

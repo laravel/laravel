@@ -34,7 +34,7 @@ class URI {
 		// Remove the root application URL from the request URI. If the application
 		// is nested within a sub-directory of the web document root, this will get
 		// rid of all of the the sub-directories from the request URI.
-		$uri = static::remove($uri, parse_url(Config::$items['application']['url'], PHP_URL_PATH));
+		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
 		if (($index = '/'.Config::$items['application']['index']) !== '/')
 		{
