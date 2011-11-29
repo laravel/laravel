@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.0.3
+
+- The application URL is now auto-detected.
+
+### Upgrading from 2.0.2
+
+- Replace **laravel** directory.
+
 ## Version 2.0.2
 
 - Fixed bug in validator class that prevented required file uploads from being validated correctly.
