@@ -30,8 +30,6 @@ class URL {
 	/**
 	 * Generate an application URL.
 	 *
-	 * If the given URL is already well-formed, it will be returned unchanged.
-	 *
 	 * <code>
 	 *		// Create a URL to a location within the application
 	 *		$url = URL::to('user/profile');
@@ -172,7 +170,9 @@ class URL {
 	 */
 	public static function to_action($action, $parameters = array(), $https = false)
 	{
-		return static::to(str_replace(array('.', '@'), '/', $action).'/'.implode('/', $parameters), $https);
+		$action = str_replace(array('.', '@'), '/', $action);
+
+		return static::to($action.'/'.implode('/', $parameters), $https);
 	}
 
 	/**
