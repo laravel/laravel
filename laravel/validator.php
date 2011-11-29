@@ -38,7 +38,7 @@ class Validator {
 	 *
 	 * @var Database\Connection
 	 */
-	protected $connection;
+	protected $db;
 
 	/**
 	 * The language that should be used when retrieving error messages.
@@ -160,9 +160,9 @@ class Validator {
 
 		$value = Arr::get($this->attributes, $attribute);
 
-		if ( ! $this->validatable($rule, $attribute, $value)) return;
+		$validatable = $this->validatable($rule, $attribute, $value);
 
-		if ( ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
+		if ($validatable and ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
 		{
 			$this->error($attribute, $rule, $parameters);
 		}
@@ -182,7 +182,18 @@ class Validator {
 	 */
 	protected function validatable($rule, $attribute, $value)
 	{
-		return ($this->validate_required($attribute, $value) or in_array($rule, array('required', 'accepted')));
+		return $this->validate_required($attribute, $value) or $this->implicit($rule);
+	}
+
+	/**
+	 * Determine if a given rule implies that the attribute is required.
+	 *
+	 * @param  string  $rule
+	 * @return bool
+	 */
+	protected function implicit($rule)
+	{
+		return $rule == 'required' or $rule == 'accepted';
 	}
 
 	/**
@@ -401,9 +412,9 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (is_null($this->connection)) $this->connection = DB::connection();
+		if (is_null($this->db)) $this->db = DB::connection();
 
-		return $this->connection->table($parameters[0])->where($parameters[1], '=', $value)->count() == 0;
+		return $this->db->table($parameters[0])->where($parameters[1], '=', $value)->count() == 0;
 	}
 
 	/**
@@ -678,7 +689,7 @@ class Validator {
 	 */
 	public function connection(\Laravel\Database\Connection $connection)
 	{
-		$this->connection = $connection;
+		$this->db = $connection;
 		return $this;
 	}
 
