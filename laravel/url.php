@@ -52,7 +52,7 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		$root = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
+		$root = static::base().'/'.Config::$items['application']['index'];
 
 		// Since SSL is often not used while developing the application, we allow the
 		// developer to disable SSL on all framework generated links to make it more
