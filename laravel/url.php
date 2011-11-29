@@ -22,7 +22,7 @@ class URL {
 			// By removing the basename of the script, we should be left with the path
 			// in which the framework is installed. For example, if the framework is
 			// installed to http://localhost/laravel/public, the path we'll get from
-			// from this statement will be "/laravel/public".
+			// this statement will be "/laravel/public".
 			$path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
 			return rtrim($protocol.$_SERVER['HTTP_HOST'].$path, '/');
