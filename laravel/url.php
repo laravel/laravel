@@ -124,20 +124,18 @@ class URL {
 		{
 			$uris = explode(', ', key($route));
 
-			// Grab the first URI assigned to the route and remove the URI and
-			// leading slash from the destination that's defined on the route.
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// Spin through each route parameter and replace the route wildcard
 			// segment with the corresponding parameter passed to the method.
+			// Afterwards, we will replace all of the remaining optional URI
+			// segments with spaces since they may not have been specified
+			// in the array of parameters.
 			foreach ((array) $parameters as $parameter)
 			{
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
-			// Replace all remaining optional segments with spaces. Since the
-			// segments are optional, some of them may not have been assigned
-			// values from the parameter array.
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
