@@ -183,6 +183,8 @@ class View {
 	 */
 	protected static function composers()
 	{
+		if ( ! is_null(static::$composers)) return;
+
 		static::$composers = require APP_PATH.'composers'.EXT;
 	}
 
