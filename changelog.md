@@ -3,6 +3,7 @@
 ## Version 2.0.3
 
 - The application URL is now auto-detected.
+- Added new URL::to_action and URL::to_secure_action methods.
 
 ### Upgrading from 2.0.2
 
