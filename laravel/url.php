@@ -5,6 +5,10 @@ class URL {
 	/**
 	 * Get the base URL of the application.
 	 *
+	 * If the application URL is explicitly defined in the application configuration
+	 * file, that URL will be returned. Otherwise, the URL will be guessed based on
+	 * the host and script name available in the global $_SERVER array.
+	 *
 	 * @return string
 	 */
 	public static function base()
