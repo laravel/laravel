@@ -2,8 +2,9 @@
 
 ## Version 2.0.3
 
-- The application URL is now auto-detected.
-- Added new URL::to_action and URL::to_secure_action methods.
+- Feature: The application URL is now auto-detected.
+- Feature: Added new URL::to_action and URL::to_secure_action methods.
+- Fix: Fixed a bug in the Autoloader's PSR-0 library detection.
 
 ### Upgrading from 2.0.2
 
