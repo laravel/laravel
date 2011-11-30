@@ -63,7 +63,7 @@ class Autoloader {
 		// If the library has been registered as a PSR-0 compliant library, we will
 		// load the library according to the PSR-0 naming standards, which state that
 		// namespaces and underscores indicate the directory hierarchy of the class.
-		if (isset(static::$libraries[static::library($class)]))
+		if (in_array(static::library($class), static::$libraries))
 		{
 			return LIBRARY_PATH.str_replace(array('\\', '_'), '/', $class).EXT;
 		}
