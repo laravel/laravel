@@ -64,7 +64,7 @@ abstract class Controller {
 	/**
 	 * Resolve a controller name to a controller instance.
 	 *
-	 * @param  Container   $container
+	 * @param  string      $container
 	 * @param  string      $controller
 	 * @return Controller
 	 */
