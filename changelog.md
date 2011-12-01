@@ -5,6 +5,7 @@
 - Feature: The application URL is now auto-detected.
 - Feature: Added new URL::to_action and URL::to_secure_action methods.
 - Fix: Fixed a bug in the Autoloader's PSR-0 library detection.
+- Fix: View composers should be cached on the first retrieval.
 
 ### Upgrading from 2.0.2
 
