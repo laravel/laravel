@@ -1,5 +1,9 @@
 # Laravel Change Log
 
+## Version 2.0.4
+
+- Feature: Added default parameter to File::get method.
+
 ## Version 2.0.3
 
 - Feature: The application URL is now auto-detected.
