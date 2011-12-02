@@ -45,6 +45,8 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
+		$method = strtoupper($method);
+
 		$attributes['method'] =  static::method($method);
 		
 		$attributes['action'] = static::action($action, $https);
@@ -75,7 +77,7 @@ class Form {
 	 */
 	protected static function method($method)
 	{
-		return strtoupper(($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method);
+		return ($method !== 'GET') ? 'POST' : $method;
 	}
 
 	/**
