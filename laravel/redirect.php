@@ -98,14 +98,19 @@ class Redirect extends Response {
 	 * <code>
 	 *		// Redirect and flash a validator's errors the session
 	 *		return Redirect::to('register')->with_errors($validator);
+	 *
+	 *		// Redirect and flash a message container to the session
+	 *		return Redirect::to('register')->with_errors($messages);
 	 * </code>
 	 *
-	 * @param  Validator  $validator
+	 * @param  Validator|Messages  $container
 	 * @return Redirect
 	 */
-	public function with_errors(Validator $validator)
+	public function with_errors($container)
 	{
-		return $this->with('errors', $validator->errors);
+		$errors = ($container instanceof Validator) ? $container->errors : $container;
+
+		return $this->with('errors', $errors);
 	}
 
 	/**
