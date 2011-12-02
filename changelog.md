@@ -3,6 +3,8 @@
 ## Version 2.0.4
 
 - Feature: Added default parameter to File::get method.
+- Feature: Allow for message container to be passed to Redirect's "with_errors" method.
+- Fix: Lowercase HTTP verbs may be passed to Form::open method.
 
 ## Version 2.0.3
 
