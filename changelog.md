@@ -1,5 +1,15 @@
 # Laravel Change Log
 
+## Version 2.0.4
+
+- Feature: Added default parameter to File::get method.
+- Feature: Allow for message container to be passed to Redirect's "with_errors" method.
+- Fix: Lowercase HTTP verbs may be passed to Form::open method.
+
+### Upgrading from 2.0.3
+
+- Replace **laravel** directory.
+
 ## Version 2.0.3
 
 - Feature: The application URL is now auto-detected.
