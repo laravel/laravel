@@ -45,6 +45,8 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
+		$method = strtoupper($method);
+		
 		$attributes['method'] =  static::method($method);
 		
 		$attributes['action'] = static::action($action, $https);
