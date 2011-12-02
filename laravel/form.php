@@ -48,7 +48,7 @@ class Form {
 		$method = strtoupper($method);
 
 		$attributes['method'] =  static::method($method);
-		
+
 		$attributes['action'] = static::action($action, $https);
 
 		if ( ! array_key_exists('accept-charset', $attributes))
@@ -67,17 +67,23 @@ class Form {
 	}
 
 	/**
-	 * Determine the appropriate request method to use for a form.
+	 * Form::method()
 	 *
-	 * Since PUT and DELETE requests are spoofed using POST requests, we will substitute
-	 * POST for any PUT or DELETE methods. Otherwise, the specified method will be used.
+	 * Determine the appropriate request method to use for a form. If the method
+	 * isn't valid then it defaults to post i.e. GET or POST are valid values
 	 *
-	 * @param  string  $method
-	 * @return string
+	 * @access protected
+	 * @static
+	 * @param  string $method The method to try and set
+	 * @return string The method to be used in the form definition
 	 */
 	protected static function method($method)
 	{
-		return ($method !== 'GET') ? 'POST' : $method;
+		# add a filter to change anything other than GET to POST
+		if (!is_string($method) || strtoupper($method) !== 'GET') {
+			$method = 'post';
+		}
+		return strtoupper($method);
 	}
 
 	/**
@@ -117,7 +123,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @param  bool    $https
 	 * @return string
-	 */	
+	 */
 	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
@@ -132,7 +138,7 @@ class Form {
 	 * @param  string  $method
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
 	{
 		return static::open_for_files($action, $method, $attributes, true);
@@ -170,7 +176,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
@@ -200,7 +206,7 @@ class Form {
 	 * @param  mixed   $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function input($type, $name, $value = null, $attributes = array())
 	{
 		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
@@ -231,7 +237,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
@@ -257,7 +263,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function search($name, $value = null, $attributes = array())
 	{
 		return static::input('search', $name, $value, $attributes);
@@ -270,7 +276,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function email($name, $value = null, $attributes = array())
 	{
 		return static::input('email', $name, $value, $attributes);
@@ -296,7 +302,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function url($name, $value = null, $attributes = array())
 	{
 		return static::input('url', $name, $value, $attributes);
@@ -309,7 +315,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function number($name, $value = null, $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
@@ -321,7 +327,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function file($name, $attributes = array())
 	{
 		return static::input('file', $name, null, $attributes);
@@ -364,7 +370,7 @@ class Form {
 	 * @param  string  $selected
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
 		$attributes['id'] = static::id($name, $attributes);
