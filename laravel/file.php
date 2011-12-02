@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class File {
 
@@ -16,12 +16,26 @@ class File {
 	/**
 	 * Get the contents of a file.
 	 *
+	 * <code>
+	 *		// Get the contents of a file
+	 *		$contents = File::get(APP_PATH.'routes'.EXT);
+	 *
+	 *		// Get the contents of a file or return a default value if it doesn't exist
+	 *		$contents = File::get(APP_PATH.'routes'.EXT, 'Default Value');
+	 * </code>
+	 *
 	 * @param  string  $path
+	 * @param  mixed   $default
 	 * @return string
 	 */
-	public static function get($path)
+	public static function get($path, $default = null)
 	{
-		return file_get_contents($path);
+		if (file_exists($path))
+		{
+			return file_get_contents($path);
+		}
+
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
