@@ -202,7 +202,7 @@ class Connection {
 	 * Execute a prepared PDO statement and return the appropriate results.
 	 *
 	 * @param  PDOStatement  $statement
-	 * @param  array         $results
+	 * @param  array         $bindings
 	 * @return mixed
 	 */
 	protected function execute(PDOStatement $statement, $bindings)
