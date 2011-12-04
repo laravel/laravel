@@ -38,16 +38,18 @@ class Filter {
 			// parameters after a colon. If parameters are present, we will
 			// merge them into the parameter array that was passed to the
 			// method and slice the parameters off of the filter string.
+			$extender = array();
+
 			if (($colon = strpos($filter, ':')) !== false)
 			{
-				$parameters = array_merge($parameters, explode(',', substr($filter, $colon + 1)));
+				$extender = explode(',', substr($filter, $colon + 1));
 
 				$filter = substr($filter, 0, $colon);
 			}
 
 			if ( ! isset(static::$filters[$filter])) continue;
 
-			$response = call_user_func_array(static::$filters[$filter], $parameters);
+			$response = call_user_func_array(static::$filters[$filter], array_merge($parameters, $extender));
 
 			// "Before" filters may override the request cycle. For example,
 			// an authentication filter may redirect a user to a login view
