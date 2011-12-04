@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.0.5
+
+- Fix: Remove orderings before running pagination queries.
+
+### Upgrading from 2.0.4
+
+- Replace **laravel** directory.
+
 ## Version 2.0.4
 
 - Feature: Added default parameter to File::get method.

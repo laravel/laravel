@@ -531,10 +531,15 @@ class Query {
 	 */
 	public function paginate($per_page = 20, $columns = array('*'))
 	{
-		// Calculate the current page for the request. The page number
-		// will be validated and adjusted by the Paginator class,
-		// so we can assume it is valid.
+		// Because some database engines may throw errors if we leave
+		// orderings on the query when retrieving the total number
+		// of records, we will remove all of the ordreings and put
+		// them back on the query after we have the count.
+		list($orderings, $this->orderings) = array($this->orderings, null);
+
 		$page = Paginator::page($total = $this->count(), $per_page);
+
+		$this->orderings = $orderings;
 
 		return Paginator::make($this->for_page($page, $per_page)->get($columns), $total, $per_page);
 	}
