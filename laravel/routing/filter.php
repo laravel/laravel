@@ -26,26 +26,30 @@ class Filter {
 	 * Call a filter or set of filters.
 	 *
 	 * @param  array|string  $filters
-	 * @param  array         $parameters
+	 * @param  array         $pass
 	 * @param  bool          $override
 	 * @return mixed
 	 */
-	public static function run($filters, $parameters = array(), $override = false)
+	public static function run($filters, $pass = array(), $override = false)
 	{
 		foreach (static::parse($filters) as $filter)
 		{
+			$parameters = array();
+
 			// Parameters may be passed into routes by specifying the list of
 			// parameters after a colon. If parameters are present, we will
 			// merge them into the parameter array that was passed to the
 			// method and slice the parameters off of the filter string.
 			if (($colon = strpos($filter, ':')) !== false)
 			{
-				$parameters = array_merge($parameters, explode(',', substr($filter, $colon + 1)));
+				$parameters = explode(',', substr($filter, $colon + 1));
 
 				$filter = substr($filter, 0, $colon);
 			}
 
 			if ( ! isset(static::$filters[$filter])) continue;
+
+			$parameters = array_merge($pass, $parameters);
 
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
