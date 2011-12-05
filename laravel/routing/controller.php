@@ -18,6 +18,13 @@ abstract class Controller {
 	public $layout;
 
 	/**
+	 * Indicates if the controller uses RESTful routing.
+	 *
+	 * @var bool
+	 */
+	public $restful = false;
+
+	/**
 	 * The filters assigned to the controller.
 	 *
 	 * @var array
@@ -59,7 +66,7 @@ abstract class Controller {
 	/**
 	 * Resolve a controller name to a controller instance.
 	 *
-	 * @param  Container   $container
+	 * @param  string      $container
 	 * @param  string      $controller
 	 * @return Controller
 	 */
@@ -127,7 +134,19 @@ abstract class Controller {
 
 		if (is_null($response))
 		{
-			$response = call_user_func_array(array($this, "action_{$method}"), $parameters);
+			// The developer may mark the controller as being "RESTful" which
+			// indicates that the controller actions are prefixed with the
+			// HTTP verb they respond to rather than the word "action".
+			if ($this->restful)
+			{
+				$action = strtolower(Request::method()).'_'.$method;
+			}
+			else
+			{
+				$action = "action_{$method}";
+			}
+
+			$response = call_user_func_array(array($this, $action), $parameters);
 
 			// If the controller has specified a layout view. The response
 			// returned by the controller method will be bound to that view
@@ -138,13 +157,16 @@ abstract class Controller {
 			}
 		}
 
-		// The after filter and the framework expects all responses to
-		// be instances of the Response class. If the method did not
-		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response)
 		{
 			$response = new Response($response);
 		}
+
+		// Stringify the response. We need to force the response to be
+		// stringed before closing the session, since the developer may
+		// be using the session within their views, so we cannot age
+		// the session data until the view is rendered.
+		$response->content = $response->render();
 
 		Filter::run($this->filters('after', $method), array($response));
 

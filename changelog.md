@@ -1,5 +1,74 @@
 # Laravel Change Log
 
+## Version 2.0.5
+
+- Fix: Remove orderings before running pagination queries.
+
+### Upgrading from 2.0.4
+
+- Replace **laravel** directory.
+
+## Version 2.0.4
+
+- Feature: Added default parameter to File::get method.
+- Feature: Allow for message container to be passed to Redirect's "with_errors" method.
+- Fix: Lowercase HTTP verbs may be passed to Form::open method.
+- Fix: Filter parameters are now merged correctly.
+
+### Upgrading from 2.0.3
+
+- Replace **laravel** directory.
+
+## Version 2.0.3
+
+- Feature: The application URL is now auto-detected.
+- Feature: Added new URL::to_action and URL::to_secure_action methods.
+- Fix: Fixed a bug in the Autoloader's PSR-0 library detection.
+- Fix: View composers should be cached on the first retrieval.
+
+### Upgrading from 2.0.2
+
+- Replace **laravel** directory.
+
+## Version 2.0.2
+
+- Fixed bug in validator class that prevented required file uploads from being validated correctly.
+- Added API example to File::upload method.
+
+### Upgrading from 2.0.1
+
+- Replace **laravel** directory.
+
+## Version 2.0.1
+
+- Fixed bug in routing filter class.
+
+### Upgrading from 2.0.0
+
+- Replace **laravel** directory.
+
+## Version 2.0.0
+
+- Added support for controllers.
+- Added Redis support, along with cache and session drivers.
+- Added cookie session driver.
+- Added support for database expressions.
+- Added Blade templating engine.
+- Added view "sections".
+- Added support for filter parameters.
+- Added dependency injection and IoC support.
+- Made authentication system more flexible.
+- Added better PSR-0 library support.
+- Added fingerprint hashing to cookies.
+- Improved view error handling.
+- Made input flashing more developer friendly.
+- Added better Redirect shortcut methods.
+- Added standalone Memcached class.
+- Simplified exception handling.
+- Added ability to ignore certain error levels.
+- Directories re-structured.
+- Improved overall code quality and architecture.
+
 ## Version 1.5.9
 
 - Fixed bug in Eloquent relationship loading.

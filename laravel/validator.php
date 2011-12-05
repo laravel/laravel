@@ -38,7 +38,7 @@ class Validator {
 	 *
 	 * @var Database\Connection
 	 */
-	protected $connection;
+	protected $db;
 
 	/**
 	 * The language that should be used when retrieving error messages.
@@ -160,9 +160,9 @@ class Validator {
 
 		$value = Arr::get($this->attributes, $attribute);
 
-		if ( ! $this->validatable($rule, $attribute, $value)) return;
+		$validatable = $this->validatable($rule, $attribute, $value);
 
-		if ( ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
+		if ($validatable and ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
 		{
 			$this->error($attribute, $rule, $parameters);
 		}
@@ -182,7 +182,18 @@ class Validator {
 	 */
 	protected function validatable($rule, $attribute, $value)
 	{
-		return ($this->validate_required($attribute, $value) or in_array($rule, array('required', 'accepted')));
+		return $this->validate_required($attribute, $value) or $this->implicit($rule);
+	}
+
+	/**
+	 * Determine if a given rule implies that the attribute is required.
+	 *
+	 * @param  string  $rule
+	 * @return bool
+	 */
+	protected function implicit($rule)
+	{
+		return $rule == 'required' or $rule == 'accepted';
 	}
 
 	/**
@@ -211,7 +222,20 @@ class Validator {
 	 */
 	protected function validate_required($attribute, $value)
 	{
-		return ! (is_null($value) or (is_string($value) and trim($value) === ''));
+		if (is_null($value))
+		{
+			return false;
+		}
+		elseif (is_string($value) and trim($value) === '')
+		{
+			return false;
+		}
+		elseif ( ! is_null(Input::file($attribute)) and $value['tmp_name'] == '')
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -388,13 +412,13 @@ class Validator {
 	{
 		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (is_null($this->connection)) $this->connection = DB::connection();
+		if (is_null($this->db)) $this->db = DB::connection();
 
-		return $this->connection->table($parameters[0])->where($parameters[1], '=', $value)->count() == 0;
+		return $this->db->table($parameters[0])->where($parameters[1], '=', $value)->count() == 0;
 	}
 
 	/**
-	 * Validate than an attribute is a valid e-mail address.
+	 * Validate that an attribute is a valid e-mail address.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -406,7 +430,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate than an attribute is a valid URL.
+	 * Validate that an attribute is a valid URL.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -444,7 +468,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate than an attribute contains only alphabetic characters.
+	 * Validate that an attribute contains only alphabetic characters.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -456,7 +480,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate than an attribute contains only alpha-numeric characters.
+	 * Validate that an attribute contains only alpha-numeric characters.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -468,7 +492,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate than an attribute contains only alpha-numeric characters, dashes, and underscores.
+	 * Validate that an attribute contains only alpha-numeric characters, dashes, and underscores.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -489,7 +513,7 @@ class Validator {
 	 */
 	protected function validate_mimes($attribute, $value, $parameters)
 	{
-		if (is_array($value) and ! isset($value['tmp_name'])) return true;
+		if ( ! is_array($value) or Arr::get($value, 'tmp_name', '') == '') return true;
 
 		foreach ($parameters as $extension)
 		{
@@ -665,7 +689,7 @@ class Validator {
 	 */
 	public function connection(\Laravel\Database\Connection $connection)
 	{
-		$this->connection = $connection;
+		$this->db = $connection;
 		return $this;
 	}
 

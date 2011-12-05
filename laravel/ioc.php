@@ -67,7 +67,7 @@ class IoC {
 	 * Register an object as a singleton.
 	 *
 	 * Singletons will only be instantiated the first time they are resolved.
-	 * On subsequent requests for the object, the original instance will be returned.
+	 * The same instance will be returned on subsequent requests.
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver

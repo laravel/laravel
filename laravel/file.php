@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class File {
 
@@ -16,12 +16,26 @@ class File {
 	/**
 	 * Get the contents of a file.
 	 *
+	 * <code>
+	 *		// Get the contents of a file
+	 *		$contents = File::get(APP_PATH.'routes'.EXT);
+	 *
+	 *		// Get the contents of a file or return a default value if it doesn't exist
+	 *		$contents = File::get(APP_PATH.'routes'.EXT, 'Default Value');
+	 * </code>
+	 *
 	 * @param  string  $path
+	 * @param  mixed   $default
 	 * @return string
 	 */
-	public static function get($path)
+	public static function get($path, $default = null)
 	{
-		return file_get_contents($path);
+		if (file_exists($path))
+		{
+			return file_get_contents($path);
+		}
+
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
@@ -106,16 +120,20 @@ class File {
 	/**
 	 * Move an uploaded file to permanent storage.
 	 *
+	 * <code>
+	 *		// Upload the $_FILES['photo'] file to a permanent location
+	 *		File::upload('photo', 'path/to/new/home.jpg');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $path
-	 * @param  array   $files
 	 * @return bool
 	 */
-	public static function upload($key, $path, $files = null)
+	public static function upload($key, $path)
 	{
-		if (is_null($files)) $files = $_FILES;
+		if ( ! isset($_FILES[$key])) return false;
 
-		return move_uploaded_file($files[$key]['tmp_name'], $path);
+		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
 	}
 
 	/**

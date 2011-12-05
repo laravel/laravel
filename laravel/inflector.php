@@ -7,14 +7,14 @@ class Inflector {
 	 *
 	 * @var array
 	 */
-	private static $singular_cache = array();
+	protected static $singular_cache = array();
 
 	/**
 	 * The words that have been converted to plural.
 	 *
 	 * @var array
 	 */
-	private static $plural_cache = array();
+	protected static $plural_cache = array();
 
 	/**
 	 * Plural word forms.
@@ -171,7 +171,7 @@ class Inflector {
 	 * @param  array   $source
 	 * @return string
 	 */
-	private static function inflect($value, $cache, $irregular, $source)
+	protected static function inflect($value, $cache, $irregular, $source)
 	{
 		if (array_key_exists($value, $cache))
 		{

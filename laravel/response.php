@@ -161,7 +161,7 @@ class Response {
 	 *
 	 * The response status code will be set using the specified code.
 	 *
-	 * Note: The specified error code should correspond to a view in your views/error directory.
+	 * Note: The specified error should match a view in your views/error directory.
 	 *
 	 * <code>
 	 *		// Create a 404 response
@@ -235,7 +235,7 @@ class Response {
 	 */
 	public function send()
 	{
-		if ( ! headers_sent()) $this->headers();
+		if ( ! headers_sent()) $this->send_headers();
 
 		echo $this->render();
 	}
@@ -254,7 +254,7 @@ class Response {
 	 *
 	 * @return void
 	 */
-	public function headers()
+	public function send_headers()
 	{
 		if ( ! isset($this->headers['Content-Type']))
 		{
@@ -316,8 +316,9 @@ class Response {
 	{
 		if (strpos($method, 'of_') === 0)
 		{
-			return static::with(substr($method, 3), Arr::get($parameters, 0, array()));
+			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
 		}
+		throw new \BadMethodCallException("Method [$method] is not defined on the Response class.");
 	}
 
 }

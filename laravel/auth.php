@@ -74,9 +74,13 @@ class Auth {
 
 		// If the user was not found in the database, but a "remember me" cookie
 		// exists, we will attempt to recall the user based on the cookie value.
-		if (is_null(static::$user) and ! is_null($cookie = Cookie::get(Auth::remember_key)))
+		// Since all cookies contain a fingerprint hash verifying that the have
+		// not been modified on the client, we should be able to trust it.
+		$recaller = Cookie::get(Auth::remember_key);
+
+		if (is_null(static::$user) and ! is_null($recaller))
 		{
-			static::$user = static::recall($cookie);
+			static::$user = static::recall($recaller);
 		}
 
 		return static::$user;
@@ -85,18 +89,18 @@ class Auth {
 	/**
 	 * Attempt to login a user based on a long-lived "remember me" cookie.
 	 *
-	 * We should be able to trust the cookie is valid, since all cookies
-	 * set by Laravel include a fingerprint hash to ensure the cookie
-	 * value is not changed on the client.
-	 *
-	 * @param  string  $cookie
+	 * @param  string  $recaller
 	 * @return mixed
 	 */
-	protected static function recall($cookie)
+	protected static function recall($recaller)
 	{
-		$cookie = explode('|', Crypter::decrypt($cookie));
+		// When the "remember me" cookie is stored, it is encrypted and contains the
+		// user's ID and a long, random string. The ID and string are separated by
+		// a pipe character. Since we exploded the decrypted string, we can just
+		// pass the first item in the array to the user Closure.
+		$recaller = explode('|', Crypter::decrypt($recaller));
 
-		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $cookie[0])))
+		if ( ! is_null($user = call_user_func(Config::get('auth.user'), $recaller[0])))
 		{
 			static::login($user);
 
@@ -174,7 +178,7 @@ class Auth {
 	 */
 	protected static function remember($id)
 	{
-		$cookie = Crypter::encrypt($id.'|'.Str::random(40));
+		$recaller = Crypter::encrypt($id.'|'.Str::random(40));
 
 		// This method assumes the "remember me" cookie should have the same
 		// configuration as the session cookie. Since this cookie, like the
@@ -184,7 +188,7 @@ class Auth {
 
 		extract($config, EXTR_SKIP);
 
-		Cookie::forever(Auth::remember_key, $cookie, $path, $domain, $secure);
+		Cookie::forever(Auth::remember_key, $recaller, $path, $domain, $secure);
 	}
 
 	/**

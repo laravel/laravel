@@ -88,11 +88,18 @@ class Cookie {
 	{
 		if (headers_sent()) return false;
 
-		if ($minutes < 0) unset($_COOKIE[$name]);
-
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
 		$value = static::hash($name, $value).'~'.$value;
+
+		if ($minutes < 0)
+		{
+			unset($_COOKIE[$name]);
+		}
+		else
+		{
+			$_COOKIE[$name] = $value;
+		}
 
 		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
 	}

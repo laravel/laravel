@@ -24,6 +24,11 @@ class Messages {
 	/**
 	 * Add a message to the collector.
 	 *
+	 * <code>
+	 *		// Add a message for the e-mail attribute
+	 *		$messages->add('email', 'The e-mail address is invalid.');
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @param  string  $message
 	 * @return void
@@ -42,7 +47,7 @@ class Messages {
 	 */
 	protected function unique($key, $message)
 	{
-		return ! isset($this->messages[$key]) or array_search($message, $this->messages[$key]) === false;
+		return ! isset($this->messages[$key]) or ! in_array($message, $this->messages[$key]);
 	}
 
 	/**
@@ -91,10 +96,8 @@ class Messages {
 	 * @param  string  $format
 	 * @return array
 	 */
-	public function get($key = null, $format = ':message')
+	public function get($key, $format = ':message')
 	{
-		if (is_null($key)) return $this->all($format);
-
 		if (array_key_exists($key, $this->messages))
 		{
 			return $this->format($this->messages[$key], $format);

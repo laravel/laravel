@@ -53,7 +53,7 @@ class Route {
 		// Extract each URI from the route key. Since the route key has the
 		// request method, we will extract that from the string. If the URI
 		// points to the root of the application, a single forward slash
-		// will be returned.
+		// will be returned since that is used for the root route.
 		if (strpos($key, ', ') === false)
 		{
 			$this->uris = array($this->extract($this->key));
@@ -63,10 +63,23 @@ class Route {
 			$this->uris = array_map(array($this, 'extract'), explode(', ', $key));
 		}
 
-		if ( ! $callback instanceof Closure and ! is_array($callback) and ! is_string($callback))
+		if ( ! $this->callable($callback))
 		{
 			throw new InvalidArgumentException('Invalid route defined for URI ['.$this->key.']');
 		}
+	}
+
+	/**
+	 * Determine if the given route callback is callable.
+	 *
+	 * Route callbacks must be either a Closure, array, or string.
+	 *
+	 * @param  mixed  $callback
+	 * @return bool
+	 */
+	protected function callable($callback)
+	{
+		return $callback instanceof Closure or is_array($callback) or is_string($callback);
 	}
 
 	/**
@@ -113,22 +126,16 @@ class Route {
 			}
 		}
 
-		// If we still don't have a response, we're out of options and
-		// will use the 404 response. We will still let the response
-		// hit the after filter in case the developer is doing any
-		// logging or other work where every response is needed.
-		if (is_null($response))
-		{
-			$response = Response::error('404');
-		}
-
-		// The after filter and the framework expects all responses to
-		// be instances of the Response class. If the route did not
-		// return an instsance of Response, we will make on now.
 		if ( ! $response instanceof Response)
 		{
 			$response = new Response($response);
 		}
+
+		// Stringify the response. We need to force the response to be
+		// stringed before closing the session, since the developer may
+		// be using the session within their views, so we cannot age
+		// the session data until the view is rendered.
+		$response->content = $response->render();
 
 		$filters = array_merge($this->filters('after'), array('after'));
 
@@ -148,6 +155,9 @@ class Route {
 	 */
 	protected function response()
 	{
+		// If the route callback is an instance of a Closure, we can call the
+		// route function directly. There are no before or after filters to
+		// parse out of the route.
 		if ($this->callback instanceof Closure)
 		{
 			return call_user_func_array($this->callback, $this->parameters);

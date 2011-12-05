@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Laravel - A Framework For Web Artisans</title>
+		<title>Error 404 - Not Found</title>
 
 		<style>
 			@import url(http://fonts.googleapis.com/css?family=Ubuntu);
@@ -81,42 +81,23 @@
 	</head>
 	<body>
 		<div id="main">
-			<h1>Welcome To Laravel</h1>
+			<?php $messages = array('We need a map.', 'I think we\'re lost.', 'We took a wrong turn.'); ?>
 
-			<h2>A Framework For Web Artisans</h2>
+			<h1><?php echo $messages[mt_rand(0, 2)]; ?></h1>
 
-			<p>
-				You have successfully installed the Laravel framework. Laravel is a simple framework
-				that helps web artisans create beautiful, creative applications using elegant, expressive
-				syntax. You'll love using it.
-			</p>
+			<h2>Server Error: 404 (Not Found)</h2>
 
-			<h3>Learn the terrain.</h3>
+			<h3>What does this mean?</h3>
 
 			<p>
-				You've landed yourself on our default home page. The route that
-				is generating this page lives at:
+				We couldn't find the page you requested on our servers. We're really sorry
+				about that. It's our fault, not yours. We'll work hard to get this page
+				back online as soon as possible.
 			</p>
-
-			<pre><code>APP_PATH/routes.php</code></pre>
-
-			<p>And the view sitting before you can be found at:</p>
-
-			<pre><code>APP_PATH/views/home/index.php</code></pre>
-
-			<h3>Create something beautiful.</h3>
 
 			<p>
-				Now that you're up and running, it's time to start creating!
-				Here are some links to help you get started:
+				Perhaps you would like to go to our <?php echo HTML::link('/', 'home page'); ?>?
 			</p>
-
-			<ul>
-				<li><a href="http://laravel.com">Official Website</a></li>
-				<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
-				<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
-			</ul>
-
 		</div>
 	</body>
 </html>

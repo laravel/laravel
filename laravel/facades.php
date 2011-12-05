@@ -35,6 +35,10 @@ abstract class Facade {
 		{
 			return call_user_func_array(array($class, $method), $parameters);
 		}
+		elseif ($count == 0)
+		{
+			return $class->$method();
+		}
 		elseif ($count == 1)
 		{
 			return $class->$method($parameters[0]);

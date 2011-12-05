@@ -1,9 +1,9 @@
 <?php
 /**
- * Laravel - A clean and classy framework for PHP web development.
+ * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  2.0.0 Beta 2
+ * @version  2.0.5
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */

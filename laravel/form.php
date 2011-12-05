@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+use Laravel\Session\Payload as Session;
+
 class Form {
 
 	/**
@@ -43,6 +45,8 @@ class Form {
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
+		$method = strtoupper($method);
+
 		$attributes['method'] =  static::method($method);
 		
 		$attributes['action'] = static::action($action, $https);
@@ -73,7 +77,7 @@ class Form {
 	 */
 	protected static function method($method)
 	{
-		return strtoupper(($method == 'PUT' or $method == 'DELETE') ? 'POST' : $method);
+		return ($method !== 'GET') ? 'POST' : $method;
 	}
 
 	/**
@@ -87,7 +91,9 @@ class Form {
 	 */
 	protected static function action($action, $https)
 	{
-		return HTML::entities(URL::to(((is_null($action)) ? Request::uri() : $action), $https));
+		$uri = (is_null($action)) ? URI::current() : $action;
+
+		return HTML::entities(URL::to($uri, $https));
 	}
 
 	/**
@@ -149,9 +155,7 @@ class Form {
 	 */
 	public static function token()
 	{
-		$token = IoC::core('session')->token();
-
-		return static::input('hidden', 'csrf_token', $token);
+		return static::input('hidden', Session::csrf_token, IoC::core('session')->token());
 	}
 
 	/**

@@ -40,7 +40,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new OutOfBoundsException("Database connection is not defined for connection [$connection].");
+				throw new OutOfBoundsException("Connection is not defined for [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);
@@ -72,6 +72,10 @@ class Manager {
 
 	/**
 	 * Create a new database connector instance.
+	 *
+	 * The database connectors are responsible for simply establishing a PDO
+	 * database connection given a configuration. This allows us to easily
+	 * drop in support for new database systems by writing a connector.
 	 *
 	 * @param  string     $driver
 	 * @return Connector

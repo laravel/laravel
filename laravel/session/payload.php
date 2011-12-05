@@ -31,18 +31,39 @@ class Payload {
 	protected $exists = true;
 
 	/**
-	 * Start the session handling for the current request.
+	 * The session driver used to retrieve and store the session payload.
+	 *
+	 * @var Driver
+	 */
+	protected $driver;
+
+	/**
+	 * The string name of the CSRF token stored in the session.
+	 *
+	 * @var string
+	 */
+	const csrf_token = 'csrf_token';
+
+	/**
+	 * Create a new session payload instance.
 	 *
 	 * @param  Driver  $driver
+	 * @return void
+	 */
+	public function __construct(Driver $driver)
+	{
+		$this->driver = $driver;
+	}
+
+	/**
+	 * Load the session for the current request.
+	 *
 	 * @param  string  $id
 	 * @return void
 	 */
-	public function __construct(Driver $driver, $id)
+	public function load($id)
 	{
-		if ( ! is_null($id))
-		{
-			$this->session = $driver->load($id);
-		}
+		if ( ! is_null($id)) $this->session = $this->driver->load($id);
 
 		// If the session doesn't exist or is invalid, we will create a new session
 		// array and mark the session as being non-existent. Some drivers, such as
@@ -62,10 +83,10 @@ class Payload {
 		// class and the "csrf" filter to protect the application from cross-site
 		// request forgery attacks. The token is simply a long, random string
 		// which should be posted with each request.
-		if ( ! $this->has('csrf_token'))
+		if ( ! $this->has(Payload::csrf_token))
 		{
-			$this->put('csrf_token', Str::random(40));
-		}
+			$this->put(Payload::csrf_token, Str::random(40));
+		}		
 	}
 
 	/**
@@ -231,16 +252,23 @@ class Payload {
 	 */
 	public function token()
 	{
-		return $this->get('csrf_token');
+		return $this->get(Payload::csrf_token);
 	}
 
 	/**
 	 * Store the session payload in storage.
 	 *
-	 * @param  Driver  $driver
+	 * The activity timestamp will be set, the flash data will be aged, and the
+	 * session cookie will be written. The driver given when the session payload
+	 * was constructed will be used to persist the session to storage.
+	 *
+	 * If the session's driver is a sweeper implementation, garbage collection
+	 * may be performed based on the probabilities set in the "sweepage" option
+	 * in the session configuration file.
+	 *
 	 * @return void
 	 */
-	public function save(Driver $driver)
+	public function save()
 	{
 		$this->session['last_activity'] = time();
 
@@ -248,7 +276,7 @@ class Payload {
 
 		$config = Config::$items['session'];
 
-		$driver->save($this->session, $config, $this->exists);
+		$this->driver->save($this->session, $config, $this->exists);
 
 		$this->cookie();
 
@@ -259,9 +287,9 @@ class Payload {
 		// occuring is controlled by the "sweepage" configuration option.
 		$sweepage = $config['sweepage'];
 
-		if ($driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
+		if ($this->driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
 		{
-			$driver->sweep(time() - ($config['lifetime'] * 60));
+			$this->driver->sweep(time() - ($config['lifetime'] * 60));
 		}
 	}
 

@@ -25,7 +25,7 @@ class Config {
 	 *		// Determine if the "session" configuration file exists
 	 *		$exists = Config::has('session');
 	 *
-	 *		// Determine if the "timezone" option exists in the "application" configuration array
+	 *		// Determine if the "timezone" option exists in the "application" configuration
 	 *		$exists = Config::has('application.timezone');
 	 * </code>
 	 *
@@ -63,9 +63,12 @@ class Config {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		if (is_null($key)) return static::$items[$file];
+		$items = static::$items[$file];
 
-		return Arr::get(static::$items[$file], $key, $default);
+		// If a specific configuration item was not requested, the key will be null,
+		// meaning we need to return the entire array of configuration item from the
+		// requested configuration file. Otherwise we can return the item.
+		return (is_null($key)) ? $items : Arr::get($items, $key, $default);
 	}
 
 	/**
@@ -150,17 +153,6 @@ class Config {
 		if (count($config) > 0) static::$items[$file] = $config;
 
 		return isset(static::$items[$file]);
-	}
-
-	/**
-	 * Add a directory to the configuration manager's search paths.
-	 *
-	 * @param  string  $path
-	 * @return void
-	 */
-	public static function glance($path)
-	{
-		static::$paths[] = $path;
 	}
 
 }

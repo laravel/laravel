@@ -3,9 +3,36 @@
 class URL {
 
 	/**
-	 * Generate an application URL.
+	 * Get the base URL of the application.
 	 *
-	 * If the given URL is already well-formed, it will be returned unchanged.
+	 * If the application URL is explicitly defined in the application configuration
+	 * file, that URL will be returned. Otherwise, the URL will be guessed based on
+	 * the host and script name available in the global $_SERVER array.
+	 *
+	 * @return string
+	 */
+	public static function base()
+	{
+		if (($base = Config::$items['application']['url']) !== '') return $base;
+
+		if (isset($_SERVER['HTTP_HOST']))
+		{
+			$protocol = (Request::secure()) ? 'https://' : 'http://';
+
+			// By removing the basename of the script, we should be left with the path
+			// in which the framework is installed. For example, if the framework is
+			// installed to http://localhost/laravel/public, the path we'll get from
+			// this statement will be "/laravel/public".
+			$path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+
+			return rtrim($protocol.$_SERVER['HTTP_HOST'].$path, '/');
+		}
+
+		return 'http://localhost';
+	}
+
+	/**
+	 * Generate an application URL.
 	 *
 	 * <code>
 	 *		// Create a URL to a location within the application
@@ -23,12 +50,11 @@ class URL {
 	{
 		if (filter_var($url, FILTER_VALIDATE_URL) !== false) return $url;
 
-		$root = Config::$items['application']['url'].'/'.Config::$items['application']['index'];
+		$root = static::base().'/'.Config::$items['application']['index'];
 
 		// Since SSL is often not used while developing the application, we allow the
 		// developer to disable SSL on all framework generated links to make it more
-		// convenient to work with the site while developing. When the "ssl" option
-		// is disabled, all links will use the HTTP protocol instead of HTTPS.
+		// convenient to work with the site while developing.
 		if ($https and Config::$items['application']['ssl'])
 		{
 			$root = preg_replace('~http://~', 'https://', $root, 1);
@@ -50,9 +76,6 @@ class URL {
 
 	/**
 	 * Generate an application URL to an asset.
-	 *
-	 * The index file will not be added to asset URLs. If the HTTPS option is not
-	 * specified, HTTPS will be used when the active request is also using HTTPS.
 	 *
 	 * @param  string  $url
 	 * @param  bool    $https
@@ -78,9 +101,9 @@ class URL {
 	/**
 	 * Generate a URL from a route name.
 	 *
-	 * For routes that have wildcard parameters, an array may be passed as the second
-	 * parameter to the method. The values of this array will be used to fill the
-	 * wildcard segments of the route URI.
+	 * For routes that have wildcard parameters, an array may be passed as the
+	 * second parameter to the method. The values of this array will be used to
+	 * fill the wildcard segments of the route URI.
 	 *
 	 * <code>
 	 *		// Create a URL to the "profile" named route
@@ -101,24 +124,22 @@ class URL {
 		{
 			$uris = explode(', ', key($route));
 
-			// Grab the first URI assigned to the route and remove the URI and
-			// leading slash from the destination that's defined on the route.
 			$uri = substr($uris[0], strpos($uris[0], '/'));
 
 			// Spin through each route parameter and replace the route wildcard
 			// segment with the corresponding parameter passed to the method.
+			// Afterwards, we will replace all of the remaining optional URI
+			// segments with spaces since they may not have been specified
+			// in the array of parameters.
 			foreach ((array) $parameters as $parameter)
 			{
 				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 			}
 
-			// Replace all remaining optional segments with spaces. Since the
-			// segments are optional, some of them may not have been assigned
-			// values from the parameter array.
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
-		throw new OutOfBoundsException("Error generating named route for route [$name]. Route is not defined.");
+		throw new OutOfBoundsException("Error creating URL for undefined route [$name].");
 	}
 
 	/**
@@ -131,6 +152,47 @@ class URL {
 	public static function to_secure_route($name, $parameters = array())
 	{
 		return static::to_route($name, $parameters, true);
+	}
+
+	/**
+	 * Generate a URL to a controller action.
+	 *
+	 * <code>
+	 *		// Generate a URL to the "index" method of the "user" controller
+	 *		$url = URL::to_action('user@index');
+	 *
+	 *		// Generate a URL to http://example.com/user/profile/taylor
+	 *		$url = URL::to_action('user@profile', array('taylor'));
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function to_action($action, $parameters = array(), $https = false)
+	{
+		$action = str_replace(array('.', '@'), '/', $action);
+
+		return static::to($action.'/'.implode('/', $parameters), $https);
+	}
+
+	/**
+	 * Generate a HTTPS URL to a controller action.
+	 *
+	 * <code>
+	 *		// Generate a HTTPS URL to the "index" method of the "user" controller
+	 *		$url = URL::to_action('user@index');
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function to_secure_action($action, $parameters = array())
+	{
+		return static::to_action($action, $parameters, true);
 	}
 
 	/**

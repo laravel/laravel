@@ -98,12 +98,11 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $attributes
 	 * @param  bool    $https
-	 * @param  bool    $asset
 	 * @return string
 	 */
-	public static function link($url, $title, $attributes = array(), $https = false, $asset = false)
+	public static function link($url, $title, $attributes = array(), $https = false)
 	{
-		$url = static::entities(URL::to($url, $https, $asset));
+		$url = static::entities(URL::to($url, $https));
 
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
@@ -129,11 +128,14 @@ class HTML {
 	 * @param  string  $url
 	 * @param  string  $title
 	 * @param  array   $attributes
+	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function link_to_asset($url, $title, $attributes = array(), $https = false)
+	public static function link_to_asset($url, $title, $attributes = array(), $https = null)
 	{
-		return static::link($url, $title, $attributes, $https, true);
+		$url = static::entities(URL::to_asset($url, $https));
+
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
 	/**

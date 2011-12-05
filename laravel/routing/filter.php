@@ -26,26 +26,30 @@ class Filter {
 	 * Call a filter or set of filters.
 	 *
 	 * @param  array|string  $filters
-	 * @param  array         $parameters
+	 * @param  array         $pass
 	 * @param  bool          $override
 	 * @return mixed
 	 */
-	public static function run($filters, $parameters = array(), $override = false)
+	public static function run($filters, $pass = array(), $override = false)
 	{
 		foreach (static::parse($filters) as $filter)
 		{
+			$parameters = array();
+
 			// Parameters may be passed into routes by specifying the list of
 			// parameters after a colon. If parameters are present, we will
 			// merge them into the parameter array that was passed to the
 			// method and slice the parameters off of the filter string.
 			if (($colon = strpos($filter, ':')) !== false)
 			{
-				$parameters = array_merge($parameters, explode(',', substr($filter, $colon + 1)));
+				$parameters = explode(',', substr($filter, $colon + 1));
 
 				$filter = substr($filter, 0, $colon);
 			}
 
 			if ( ! isset(static::$filters[$filter])) continue;
+
+			$parameters = array_merge($pass, $parameters);
 
 			$response = call_user_func_array(static::$filters[$filter], $parameters);
 
@@ -122,6 +126,10 @@ class Filter_Collection {
 	/**
 	 * Determine if this collection's filters apply to a given method.
 	 *
+	 * Methods may be included / excluded using the "only" and "except" methods on the
+	 * filter collection. Also, the "on" method may be used to set certain filters to
+	 * only run when the request uses a given HTTP verb.
+	 *
 	 * @param  string  $method
 	 * @return bool
 	 */
@@ -156,7 +164,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->except('index');
 	 *
 	 *		// Specify a filter for all methods except "index" and "home"
-	 *		$this->filter('before', 'auth')->except(array('index', 'home'));
+	 *		$this->filter('before', 'auth')->except('index', 'home');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -164,7 +172,7 @@ class Filter_Collection {
 	 */
 	public function except($methods)
 	{
-		$this->except = (array) $methods;
+		$this->except = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
 		return $this;
 	}
 
@@ -180,7 +188,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->only('index');
 	 *
 	 *		// Specify a filter for only the "index" and "home" methods
-	 *		$this->filter('before', 'auth')->only(array('index', 'home'));
+	 *		$this->filter('before', 'auth')->only('index', 'home');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -188,7 +196,7 @@ class Filter_Collection {
 	 */
 	public function only($methods)
 	{
-		$this->only = (array) $methods;
+		$this->only = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
 		return $this;
 	}
 
@@ -204,7 +212,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'csrf')->on('post');
 	 *
 	 *		// Specify that a filter applies for multiple HTTP request methods
-	 *		$this->filter('before', 'csrf')->on(array('post', 'put'));
+	 *		$this->filter('before', 'csrf')->on('post', 'put');
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -212,7 +220,13 @@ class Filter_Collection {
 	 */
 	public function on($methods)
 	{
-		$this->methods = array_map('strtolower', (array) $methods);
+		$methods = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
+
+		foreach ($methods as $method)
+		{
+			$this->methods[] = strtolower($method);
+		}
+	
 		return $this;
 	}
 

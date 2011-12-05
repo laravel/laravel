@@ -87,7 +87,6 @@ class Arr {
 	 *
 	 * @param  array   $array
 	 * @param  string  $key
-	 * @param  mixed   $value
 	 * @return void
 	 */
 	public static function forget(&$array, $key)
@@ -124,6 +123,7 @@ class Arr {
 	 *
 	 * @param  array    $array
 	 * @param  Closure  $callback
+	 * @param  mixed    $default
 	 * @return mixed
 	 */
 	public static function first($array, $callback, $default = null)
