@@ -142,17 +142,17 @@ class Payload {
 	 */
 	public function get($key, $default = null)
 	{
-		if (isset($this->session['data'][$key]))
+		if (Arr::has($this->session['data'], $key))
 		{
-			return $this->session['data'][$key];
+			return Arr::get($this->session['data'], $key);
 		}
-		elseif (isset($this->session['data'][':new:'][$key]))
+		elseif (Arr::has($this->session['data'][':new:'], $key))
 		{
-			return $this->session['data'][':new:'][$key];
+			return Arr::get($this->session['data'][':new:'], $key);
 		}
-		elseif (isset($this->session['data'][':old:'][$key]))
+		elseif (Arr::has($this->session['data'][':old:'], $key))
 		{
-			return $this->session['data'][':old:'][$key];
+			return Arr::get($this->session['data'][':old:'], $key);
 		}
 
 		return ($default instanceof Closure) ? call_user_func($default) : $default;

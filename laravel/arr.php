@@ -3,6 +3,27 @@
 class Arr {
 
 	/**
+	 * Test that an item exists in an array.
+	 *
+	 * "Dot" notation may be used to dig deep into the array.
+	 *
+	 * <code>
+	 *   // Test if $array has ['user']['name']
+	 *   Arr::has($array, 'user.name');
+	 * </code>
+	 *
+	 * @param array   $array
+	 * @param string  $string
+	 * @return bool
+	 */
+	public static function has(array $array = null, $key)
+	{
+
+
+		return ! is_null(static::get($array, $key));
+	}
+
+	/**
 	 * Get an item from an array.
 	 *
 	 * "Dot" notation may be used to dig deep into the array.
