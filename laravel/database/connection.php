@@ -205,7 +205,7 @@ class Connection {
 	 * @param  array         $bindings
 	 * @return mixed
 	 */
-	protected function execute(PDOStatement $statement, $bindings)
+	protected function execute(PDOStatement $statement, array $bindings)
 	{
 		$result = $statement->execute($bindings);
 
