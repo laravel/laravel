@@ -65,6 +65,7 @@ class View {
 	 *
 	 * @param  string  $view
 	 * @return string
+	 * @throws \RuntimeException
 	 */
 	protected function path($view)
 	{
@@ -121,6 +122,7 @@ class View {
 	 * @param  string  $name
 	 * @param  array   $data
 	 * @return View
+	 * @throws \OutOfBoundsException
 	 */
 	public static function of($name, $data = array())
 	{
@@ -192,6 +194,7 @@ class View {
 	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function render()
 	{
@@ -286,6 +289,9 @@ class View {
 
 	/**
 	 * Magic Method for getting items from the view data.
+	 *
+	 * @param  string  $key
+	 * @return mixed
 	 */
 	public function __get($key)
 	{
@@ -294,6 +300,9 @@ class View {
 
 	/**
 	 * Magic Method for setting items in the view data.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
 	 */
 	public function __set($key, $value)
 	{
@@ -302,6 +311,9 @@ class View {
 
 	/**
 	 * Magic Method for determining if an item is in the view data.
+	 *
+	 * @param  string  $key
+	 * @return bool
 	 */
 	public function __isset($key)
 	{
@@ -310,6 +322,8 @@ class View {
 
 	/**
 	 * Magic Method for removing an item from the view data.
+	 *
+	 * @param  string  $key
 	 */
 	public function __unset($key)
 	{
@@ -336,6 +350,11 @@ class View {
 	 *		// Create an instance of a named view with data
 	 *		$view = View::of_layout(array('name' => 'Taylor'));
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return View
+	 * @throws \BadMethodCallException
 	 */
 	public static function __callStatic($method, $parameters)
 	{

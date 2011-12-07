@@ -25,6 +25,7 @@ class SQLite extends Connector {
 	 *
 	 * @param  array  $config
 	 * @return PDO
+	 * @throws \OutOfBoundsException
 	 */
 	public function connect($config)
 	{

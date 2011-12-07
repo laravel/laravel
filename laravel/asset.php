@@ -43,6 +43,10 @@ class Asset {
 	 *		// Call the "add" method on the default container
 	 *		Asset::add('jquery', 'js/jquery.js');
 	 * </code>
+	 *
+	 * @param string $method
+	 * @param array  $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{
@@ -71,7 +75,6 @@ class Asset_Container {
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
-	 * @param  HTML    $html
 	 * @return void
 	 */
 	public function __construct($name)
@@ -296,6 +299,7 @@ class Asset_Container {
 	 * @param  array   $original
 	 * @param  array   $assets
 	 * @return bool
+	 * @throws \LogicException
 	 */
 	protected function dependency_is_valid($asset, $dependency, $original, $assets)
 	{

@@ -41,6 +41,7 @@ abstract class Controller {
 	 * @param  string    $destination
 	 * @param  array     $parameters
 	 * @return Response
+	 * @throws \InvalidArgumentException
 	 */
 	public static function call($destination, $parameters = array())
 	{
@@ -64,7 +65,6 @@ abstract class Controller {
 	/**
 	 * Resolve a controller name to a controller instance.
 	 *
-	 * @param  string      $container
 	 * @param  string      $controller
 	 * @return Controller
 	 */
@@ -184,7 +184,8 @@ abstract class Controller {
 	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
 	 *
-	 * @param  string|array       $filters
+	 * @param  string             $name
+	 * @param  mixed              $filters  A string of | separated filters or an array of filters
 	 * @return Filter_Collection
 	 */
 	protected function filter($name, $filters)
@@ -224,6 +225,10 @@ abstract class Controller {
 	 * By default, the 404 response will be returned for an calls to undefined
 	 * methods on the controller. However, this method may also be overridden
 	 * and used as a pseudo-router by the controller.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return Response
 	 */
 	public function __call($method, $parameters)
 	{
@@ -240,6 +245,10 @@ abstract class Controller {
 	 *		// Equivalent call using the IoC container instance
 	 *		$mailer = IoC::resolve('mailer');
 	 * </code>
+	 *
+	 * @param  string  $key
+	 * @return mixed
+	 * @throws \OutOfBoundsException
 	 */
 	public function __get($key)
 	{

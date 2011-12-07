@@ -45,6 +45,7 @@ class IoC {
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
+	 * @param  bool     $singleton
 	 * @return void
 	 */
 	public static function register($name, $resolver, $singleton = false)
@@ -135,6 +136,7 @@ class IoC {
 	 * @param  string  $name
 	 * @param  array   $parameters
 	 * @return mixed
+	 * @throws \OutOfBoundsException
 	 */
 	public static function resolve($name, $parameters = array())
 	{

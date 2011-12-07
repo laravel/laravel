@@ -57,6 +57,7 @@ class Crypter {
 	 *
 	 * @param  string  $value
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
 	public static function decrypt($value)
 	{

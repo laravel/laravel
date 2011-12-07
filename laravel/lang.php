@@ -137,6 +137,7 @@ class Lang {
 	 *
 	 * @param  string  $key
 	 * @return array
+	 * @throws \InvalidArgumentException
 	 */
 	protected function parse($key)
 	{
@@ -180,6 +181,8 @@ class Lang {
 
 	/**
 	 * Get the string content of the language line.
+	 *
+	 * @return string
 	 */
 	public function __toString()
 	{

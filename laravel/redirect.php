@@ -51,6 +51,7 @@ class Redirect extends Response {
 	 * @param  string          $key
 	 * @param  mixed           $value
 	 * @return Response
+	 * @throws \LogicException
 	 */
 	public function with($key, $value)
 	{
@@ -126,6 +127,11 @@ class Redirect extends Response {
 	 *		// Create a redirect response to a named route with wildcard parameters
 	 *		return Redirect::to_profile(array($username));
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 * @throws \BadMethodCallException
 	 */
 	public static function __callStatic($method, $parameters)
 	{

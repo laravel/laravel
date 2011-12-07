@@ -196,6 +196,7 @@ class Form {
 	 *		echo Form::input('text', 'email', 'example@gmail.com');
 	 * </code>
 	 *
+	 * @param  string  $type
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  array   $attributes
@@ -386,7 +387,7 @@ class Form {
 	 *
 	 * @param  string  $value
 	 * @param  string  $display
-	 * @return string  $selected
+	 * @param  string  $selected
 	 * @return string
 	 */
 	protected static function option($value, $display, $selected)
@@ -498,6 +499,7 @@ class Form {
 	 * </code>
 	 *
 	 * @param  string  $url
+	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
 	 */
@@ -511,7 +513,6 @@ class Form {
 	/**
 	 * Create a HTML button element.
 	 *
-	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string

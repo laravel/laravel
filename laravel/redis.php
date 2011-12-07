@@ -58,6 +58,7 @@ class Redis {
 	 *
 	 * @param  string  $name
 	 * @return Redis
+	 * @throws \DomainException
 	 */
 	public static function db($name = 'default')
 	{
@@ -88,6 +89,7 @@ class Redis {
 	 * @param  string  $method
 	 * @param  array   $parameters
 	 * @return mixed
+	 * @throws \RuntimeException
 	 */
 	public function run($method, $parameters)
 	{
@@ -119,6 +121,7 @@ class Redis {
 	 * Establish the connection to the Redis database.
 	 *
 	 * @return resource
+	 * @throws \RuntimeException
 	 */
 	protected function connect()
 	{
@@ -237,6 +240,10 @@ class Redis {
 
 	/**
 	 * Dynamically make calls to the Redis database.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public function __call($method, $parameters)
 	{
@@ -245,6 +252,10 @@ class Redis {
 
 	/**
 	 * Dynamically pass static method calls to the Redis instance.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{

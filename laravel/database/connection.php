@@ -202,7 +202,7 @@ class Connection {
 	 * Execute a prepared PDO statement and return the appropriate results.
 	 *
 	 * @param  PDOStatement  $statement
-	 * @param  array         $results
+	 * @param  array         $bindings
 	 * @return mixed
 	 */
 	protected function execute(PDOStatement $statement, $bindings)
@@ -237,6 +237,10 @@ class Connection {
 
 	/**
 	 * Magic Method for dynamically beginning queries on database tables.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public function __call($method, $parameters)
 	{

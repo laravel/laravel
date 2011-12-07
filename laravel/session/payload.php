@@ -200,7 +200,7 @@ class Payload {
 	/**
 	 * Keep a session flash item from expiring at the end of the request.
 	 *
-	 * @param  string|array  $key
+	 * @param  mixed  $keys  A single string key or array of keys
 	 * @return void
 	 */
 	public function keep($keys)

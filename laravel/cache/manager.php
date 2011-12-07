@@ -47,6 +47,7 @@ class Manager {
 	 *
 	 * @param  string  $driver
 	 * @return Driver
+	 * @throws \DomainException
 	 */
 	protected static function factory($driver)
 	{
@@ -82,6 +83,10 @@ class Manager {
 	 *		// Call the "put" method on the default driver
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{
