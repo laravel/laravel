@@ -229,7 +229,10 @@ class Payload {
 	 */
 	public function flush()
 	{
-		$this->session['data'] = array();
+		$this->session['data'] = array(
+			':new:' => array(),
+			':old:' => array(),
+		);
 	}
 
 	/**
