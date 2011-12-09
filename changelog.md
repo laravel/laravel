@@ -3,6 +3,7 @@
 ## Version 2.0.5
 
 - Fix: Remove orderings before running pagination queries.
+- Fix: Session flush now correctly prepares empty data.
 
 ### Upgrading from 2.0.4
 
