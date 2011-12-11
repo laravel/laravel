@@ -9,6 +9,7 @@ class URL {
 	 * file, that URL will be returned. Otherwise, the URL will be guessed based on
 	 * the host and script name available in the global $_SERVER array.
 	 *
+	 * @version since 2.0.3
 	 * @return string
 	 */
 	public static function base()
@@ -165,6 +166,7 @@ class URL {
 	 *		$url = URL::to_action('user@profile', array('taylor'));
 	 * </code>
 	 *
+	 * @version since 2.0.3
 	 * @param  string  $action
 	 * @param  array   $parameters
 	 * @param  bool    $https
@@ -185,6 +187,7 @@ class URL {
 	 *		$url = URL::to_action('user@index');
 	 * </code>
 	 *
+	 * @version since 2.0.3
 	 * @param  string  $action
 	 * @param  array   $parameters
 	 * @param  bool    $https
