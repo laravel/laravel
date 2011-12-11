@@ -158,6 +158,8 @@ class Connection {
 			if ($value instanceof Expression) unset($bindings[$key]);
 		}
 
+		$bindings = array_values($bindings);
+
 		$sql = $this->transform($sql, $bindings);
 
 		$this->queries[] = compact('sql', 'bindings');
