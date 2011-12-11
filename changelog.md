@@ -4,6 +4,7 @@
 
 - Fix: Remove orderings before running pagination queries.
 - Fix: Session flush now correctly prepares empty data.
+- Fix: DB::raw now works on Eloquent properties.
 
 ### Upgrading from 2.0.4
 
