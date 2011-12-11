@@ -142,17 +142,23 @@ class Payload {
 	 */
 	public function get($key, $default = null)
 	{
-		if (isset($this->session['data'][$key]))
+		$session = $this->session['data'];
+
+		// We check for the item in the general session data first, and if it
+		// does not exist in that data, we will attempt to find it in the new
+		// and old flash data. If none of those arrays contain the requested
+		// item, we will just return the default value.
+		if ( ! is_null($value = Arr::get($session, $key)))
 		{
-			return $this->session['data'][$key];
+			return $value;
 		}
-		elseif (isset($this->session['data'][':new:'][$key]))
+		elseif ( ! is_null($value = Arr::get($session[':new:'], $key)))
 		{
-			return $this->session['data'][':new:'][$key];
+			return $value;
 		}
-		elseif (isset($this->session['data'][':old:'][$key]))
+		elseif ( ! is_null($value = Arr::get($session[':old:'], $key)))
 		{
-			return $this->session['data'][':old:'][$key];
+			return $value;
 		}
 
 		return ($default instanceof Closure) ? call_user_func($default) : $default;

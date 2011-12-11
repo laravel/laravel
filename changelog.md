@@ -2,6 +2,7 @@
 
 ## Version 2.0.5
 
+- Feature: Added array access to session::get.
 - Fix: Remove orderings before running pagination queries.
 - Fix: Session flush now correctly prepares empty data.
 - Fix: DB::raw now works on Eloquent properties.
