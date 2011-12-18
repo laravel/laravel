@@ -1,16 +1,16 @@
-<?php namespace Laravel\Database;
+<?php namespace Laravel;
 
-use Laravel\IoC;
-use Laravel\Config;
+use Laravel\Database\Expression;
+use Laravel\Database\Connection;
 
-class Manager {
+class Database {
 
 	/**
 	 * The established database connections.
 	 *
 	 * @var array
 	 */
-	protected static $connections = array();
+	public static $connections = array();
 
 	/**
 	 * Get a database connection.
@@ -38,7 +38,7 @@ class Manager {
 
 			if (is_null($config))
 			{
-				throw new \OutOfBoundsException("Connection is not defined for [$connection].");
+				throw new \Exception("Database connection is not defined for [$connection].");
 			}
 
 			static::$connections[$connection] = new Connection(static::connect($config), $config);
@@ -55,25 +55,11 @@ class Manager {
 	 */
 	protected static function connect($config)
 	{
-		// We allow the developer to place a "connector" option in the database
-		// configuration, which should have a Closure value. If the connector
-		// is present, we will use the Closure to retrieve the PDO connection
-		// to the database. This allows the flexiblity to connect to database
-		// systems that are not officially supported by the the framework.
-		if (isset($config['connector']))
-		{
-			return call_user_func($config['connector'], $config);
-		}
-
 		return static::connector($config['driver'])->connect($config);
 	}
 
 	/**
 	 * Create a new database connector instance.
-	 *
-	 * The database connectors are responsible for simply establishing a PDO
-	 * database connection given a configuration. This allows us to easily
-	 * drop in support for new database systems by writing a connector.
 	 *
 	 * @param  string     $driver
 	 * @return Connector
@@ -83,16 +69,16 @@ class Manager {
 		switch ($driver)
 		{
 			case 'sqlite':
-				return new Connectors\SQLite(DATABASE_PATH);
+				return new Database\Connectors\SQLite;
 
 			case 'mysql':
-				return new Connectors\MySQL;
+				return new Database\Connectors\MySQL;
 
 			case 'pgsql':
-				return new Connectors\Postgres;
+				return new Database\Connectors\Postgres;
 
 			default:
-				throw new \DomainException("Database driver [$driver] is not supported.");
+				throw new \Exception("Database driver [$driver] is not supported.");
 		}
 	}
 
@@ -124,7 +110,13 @@ class Manager {
 	/**
 	 * Magic Method for calling methods on the default database connection.
 	 *
-	 * This provides a convenient API for querying or examining the default database connection.
+	 * <code>
+	 *		// Get the driver name for the default database connection
+	 *		$driver = DB::driver();
+	 *
+	 *		// Execute a fluent query on the default database connection
+	 *		$users = DB::table('users')->get();
+	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{

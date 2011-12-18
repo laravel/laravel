@@ -1,0 +1,65 @@
+<?php namespace Laravel;
+
+class Event {
+
+	/**
+	 * All of the registered events.
+	 *
+	 * @var array
+	 */
+	public static $events = array();
+
+	/**
+	 * Register a callback for a given event.
+	 *
+	 * <code>
+	 *		// Register a callback for the "start" event
+	 *		Event::on('start', function() { return 'Started!'; });
+	 * </code>
+	 *
+	 * @param  string  $event
+	 * @param  mixed   $callback
+	 * @return void
+	 */
+	public static function on($event, $callback)
+	{
+		if ( ! is_callable($callback))
+		{
+			throw new \Exception("A callback for event [$event] is not callable.");
+		}
+
+		static::$events[$event][] = $callback;
+	}
+
+	/**
+	 * Fire an event so that all listeners are called.
+	 *
+	 * The responses from the events will be returned in an array.
+	 *
+	 * <code>
+	 *		// Fire the "start" event
+	 *		$responses = Event::fire('start');
+	 *
+	 *		// Fire the "start" event passing an array of parameters
+	 *		$responses = Event::fire('start', array('Laravel', 'Framework'));
+	 * </code>
+	 *
+	 * @param  string  $event
+	 * @param  array   $parameters
+	 * @return array
+	 */
+	public static function fire($event, $parameters = array())
+	{
+		if ( ! isset(static::$events[$event])) return;
+
+		$responses = array();
+
+		foreach (static::$events[$event] as $callback)
+		{
+			$responses[] = call_user_func_array($callback, $parameters);
+		}
+
+		return $responses;
+	}
+
+}

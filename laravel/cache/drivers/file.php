@@ -81,10 +81,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		if (file_exists($this->path.$key))
-		{
-			@unlink($this->path.$key);
-		}
+		if (file_exists($this->path.$key)) @unlink($this->path.$key);
 	}
 
 }

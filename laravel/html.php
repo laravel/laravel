@@ -12,7 +12,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-		return htmlentities($value, ENT_QUOTES, Config::$items['application']['encoding'], false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
@@ -58,13 +58,7 @@ class HTML {
 	{
 		$defaults = array('media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet');
 
-		foreach ($defaults as $attribute => $default)
-		{
-			if ( ! array_key_exists($attribute, $attributes))
-			{
-				$attributes[$attribute] = $default;
-			}
-		}
+		$attributes = $attributes + $defaults;
 
 		$url = static::entities(URL::to_asset($url));
 
@@ -378,7 +372,7 @@ class HTML {
 			return forward_static_call_array('HTML::link_to_route', $parameters);
 		}
 
-		throw new \BadMethodCallException("Method [$method] is not defined on the HTML class.");
+		throw new \Exception("Method [$method] is not defined on the HTML class.");
 	}
 
 }

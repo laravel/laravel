@@ -531,10 +531,10 @@ class Query {
 	 */
 	public function paginate($per_page = 20, $columns = array('*'))
 	{
-		// Because some database engines may throw errors if we leave
-		// orderings on the query when retrieving the total number
-		// of records, we will remove all of the ordreings and put
-		// them back on the query after we have the count.
+		// Because some database engines may throw errors if we leave orderings
+		// on the query when retrieving the total number of records, we will
+		// remove all of the ordreings and put them back on the query after
+		// we have the count.
 		list($orderings, $this->orderings) = array($this->orderings, null);
 
 		$page = Paginator::page($total = $this->count(), $per_page);
@@ -652,8 +652,7 @@ class Query {
 	/**
 	 * Magic Method for handling dynamic functions.
 	 *
-	 * This method handles all calls to aggregate functions as well
-	 * as the construction of dynamic where clauses.
+	 * This method handles all calls to aggregate functions as well as dynamic where clauses.
 	 */
 	public function __call($method, $parameters)
 	{
@@ -674,7 +673,7 @@ class Query {
 			}
 		}
 
-		throw new \BadMethodCallException("Method [$method] is not defined on the Query class.");
+		throw new \Exception("Method [$method] is not defined on the Query class.");
 	}
 
 }

@@ -8,15 +8,22 @@
 require 'core.php';
 
 /**
+ * Register the default timezone for the application. This will be
+ * the default timezone used by all date / timezone functions in
+ * the entire application.
+ */
+date_default_timezone_set(Config::get('application.timezone'));
+
+/**
  * Create the exception logging function. All of the error logging
  * is routed through here to avoid duplicate code. This Closure
  * will determine if the actual logging Closure should be called.
  */
 $logger = function($exception)
 {
-	if (Config::$items['error']['log'])
+	if (Config::get('error.log'))
 	{
-		call_user_func(Config::$items['error']['logger'], $exception);
+		call_user_func(Config::get('error.logger'), $exception);
 	}
 };
 
@@ -30,7 +37,7 @@ $handler = function($exception) use ($logger)
 {
 	$logger($exception);
 
-	if (Config::$items['error']['detail'])
+	if (Config::get('error.detail'))
 	{
 		echo "<html><h2>Unhandled Exception</h2>
 			  <h3>Message:</h3>
@@ -71,7 +78,7 @@ set_error_handler(function($code, $error, $file, $line) use ($logger)
 
 	$exception = new \ErrorException($error, $code, 0, $file, $line);
 
-	if (in_array($code, Config::$items['error']['ignore']))
+	if (in_array($code, Config::get('error.ignore')))
 	{
 		return $logger($exception);
 	}
@@ -114,15 +121,11 @@ ini_set('display_errors', 'Off');
  * payload will be registered in the IoC container as an instance
  * so it can be retrieved easily throughout the application.
  */
-if (Config::$items['session']['driver'] !== '')
+if (Config::get('session.driver') !== '')
 {
-	$driver = Session\Drivers\Factory::make(Config::$items['session']['driver']);
+	Session::start(Config::get('session.driver'));
 
-	$session = new Session\Payload($driver);
-
-	$session->load(Cookie::get(Config::$items['session']['cookie']));
-
-	IoC::instance('laravel.session', $session);
+	Session::load(Cookie::get(Config::get('session.cookie')));
 }
 
 /**
@@ -157,12 +160,42 @@ switch (Request::method())
 /**
  * The spoofed request method is removed from the input so it is not
  * unexpectedly included in Input::all() or Input::get(). Leaving it
- * in the input array could cause unexpected results if the developer
- * fills an Eloquent model with the input.
+ * in the input array could cause unexpected results if an Eloquent
+ * model is filled with the input.
  */
 unset($input[Request::spoofer]);
 
 Input::$input = $input;
+
+/**
+ * Start all of the bundles that are specified in the configuration
+ * array of auto-loaded bundles. This gives the developer the ability
+ * to conveniently and automatically load bundles that are used on
+ * every request to their application.
+ */
+foreach (Config::get('application.bundles') as $bundle)
+{
+	Bundle::start($bundle);
+}
+
+/**
+ * Load the "application" bundle. Though the application folder is
+ * not typically considered a bundle, it is started like one and
+ * essentially serves as the "default" bundle.
+ */
+Bundle::start(DEFAULT_BUNDLE);
+
+/**
+ * If the first segment of the request URI corresponds with a bundle,
+ * we will start that bundle. By convention, bundles handle all URIs
+ * which begin with their bundle name.
+ */
+$bundle = URI::segment(1);
+
+if ( ! is_null($bundle) and Bundle::routable($bundle))
+{
+	Bundle::start($bundle);
+}
 
 /**
  * Route the request to the proper route in the application. If a
@@ -170,15 +203,7 @@ Input::$input = $input;
  * instance. If no route is found, the 404 response will be returned
  * to the browser.
  */
-Routing\Filter::register(require APP_PATH.'filters'.EXT);
-
-$loader = new Routing\Loader(APP_PATH, ROUTE_PATH);
-
-$router = new Routing\Router($loader, CONTROLLER_PATH);
-
-IoC::instance('laravel.routing.router', $router);
-
-Request::$route = $router->route(Request::method(), URI::current());
+Request::$route = Routing\Router::route(Request::method(), URI::current());
 
 if ( ! is_null(Request::$route))
 {
@@ -195,9 +220,9 @@ else
  * driver is a sweeper, session garbage collection might be
  * performed depending on the "sweepage" probability.
  */
-if (Config::$items['session']['driver'] !== '')
+if (Config::get('session.driver') !== '')
 {
-	IoC::core('session')->save();
+	Session::save();
 }
 
 $response->send();

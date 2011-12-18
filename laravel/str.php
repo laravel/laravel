@@ -5,11 +5,6 @@ class Str {
 	/**
 	 * Convert a string to lowercase.
 	 *
-	 * <code>
-	 *		// Convert a string to lowercase
-	 *		echo Str::lower('STOP YELLING');
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -17,7 +12,7 @@ class Str {
 	{
 		if (function_exists('mb_strtolower'))
 		{
-			return mb_strtolower($value, Config::$items['application']['encoding']);
+			return mb_strtolower($value, Config::get('application.encoding'));
 		}
 
 		return strtolower($value);
@@ -26,11 +21,6 @@ class Str {
 	/**
 	 * Convert a string to uppercase.
 	 *
-	 * <code>
-	 *		// Convert a string to uppercase
-	 *		echo Str::upper('speak louder');
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -38,7 +28,7 @@ class Str {
 	{
 		if (function_exists('mb_strtoupper'))
 		{
-			return mb_strtoupper($value, Config::$items['application']['encoding']);
+			return mb_strtoupper($value, Config::get('application.encoding'));
 		}
 
 		return strtoupper($value);
@@ -47,11 +37,6 @@ class Str {
 	/**
 	 * Convert a string to title case (ucwords equivalent).
 	 *
-	 * <code>
-	 *		// Convert a string to title case
-	 *		echo Str::title('taylor otwell');
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -59,7 +44,7 @@ class Str {
 	{
 		if (function_exists('mb_convert_case'))
 		{
-			return mb_convert_case($value, MB_CASE_TITLE, Config::$items['application']['encoding']);
+			return mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding'));
 		}
 
 		return ucwords(strtolower($value));
@@ -68,11 +53,6 @@ class Str {
 	/**
 	 * Get the length of a string.
 	 *
-	 * <code>
-	 *		// Get the length of a string
-	 *		echo Str::length('taylor otwell');
-	 * </code>
-	 *
 	 * @param  string  $value
 	 * @return int
 	 */
@@ -80,7 +60,7 @@ class Str {
 	{
 		if (function_exists('mb_strlen'))
 		{
-			return mb_strlen($value, Config::$items['application']['encoding']);
+			return mb_strlen($value, Config::get('application.encoding'));
 		}
 
 		return strlen($value);
@@ -108,14 +88,14 @@ class Str {
 
 		if (function_exists('mb_substr'))
 		{
-			return mb_substr($value, 0, $limit, Config::$items['application']['encoding']).$end;
+			return mb_substr($value, 0, $limit, Config::get('application.encoding')).$end;
 		}
 
 		return substr($value, 0, $limit).$end;
 	}
 
 	/**
-	 * Limit the number of words in a string
+	 * Limit the number of words in a string. Word integrity is preserved.
 	 *
 	 * <code>
 	 *		// Returns "This is a..."
@@ -132,20 +112,22 @@ class Str {
 	 */
 	public static function words($value, $words = 100, $end = '...')
 	{
-		$count = str_word_count($value, 1);
+		if (trim($value) == '') return $value;
 
-		if ($count <= $words) return $value;
+		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
 
-		return implode(' ', array_slice($count, 0, $words)).$end;
+		if (static::length($value) == static::length($matches[0]))
+		{
+			$end = '';
+		}
+
+		return rtrim($matches[0]).$end;
 	}
 
 	/**
 	 * Convert a string to 7-bit ASCII.
 	 *
-	 * <code>
-	 *		// Returns "Deuxieme Article"
-	 *		echo Str::ascii('Deuxième Article');
-	 * </code>
+	 * This is helpful for converting UTF-8 strings for usage in URLs, etc.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -163,10 +145,10 @@ class Str {
 	 * Generate a random alpha or alpha-numeric string.
 	 *
 	 * <code>
-	 *		// Generate a 40 character random, alpha-numeric string
+	 *		// Generate a 40 character random alpha-numeric string
 	 *		echo Str::random(40);
 	 *
-	 *		// Generate a 16 character random, alphabetic string
+	 *		// Generate a 16 character random alphabetic string
 	 *		echo Str::random(16, 'alpha');
 	 * <code>
 	 *
@@ -196,7 +178,7 @@ class Str {
 				return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			default:
-				throw new \DomainException("Invalid random string type [$type].");
+				throw new \Exception("Invalid random string type [$type].");
 		}
 	}
 

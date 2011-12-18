@@ -1,0 +1,28 @@
+Bundles:
+
+- Authentication (!)
+- ORM (!)
+- HTML Generation
+- Form Generation
+- Pagination
+
+HTML Generation is needed for pagination, but if pagination goes it is no longer necessary.
+How do we spoof PUT and DELETE requests without a Form generation library. Also, how do we
+provide CSRF protection.
+
+Extremely simple Form generation has to exist in some form I think.
+
+If pagination is gone, how do we attach methods to the query builder?
+
+Laravel\Database\Query::attach('for_page', function($query, $something, $else)
+{
+	return $query->take()
+});
+
+Laravel 3.0 Outstanding
+
+- Form and HTML helpers need to go pretty much
+- pagination and validation needs to go?
+- work on query grammar
+- Move inflection code into Str class.
+- Some way to map bundles to other directories?

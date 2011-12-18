@@ -1,8 +1,8 @@
-<?php namespace Laravel;
+<?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
 
-if (trim(Config::$items['application']['key']) === '')
+if (trim(Config::get('application.key')) === '')
 {
-	throw new \LogicException('The encryption class may not be used without an application key.');
+	throw new \Exception('The encryption class may not be used without an application key.');
 }
 
 class Crypter {
@@ -12,23 +12,21 @@ class Crypter {
 	 *
 	 * @var string
 	 */
-	protected static $cipher = MCRYPT_RIJNDAEL_256;
+	public static $cipher = MCRYPT_RIJNDAEL_256;
 
 	/**
 	 * The encryption mode.
 	 *
 	 * @var string
 	 */
-	protected static $mode = MCRYPT_MODE_CBC;
+	public static $mode = MCRYPT_MODE_CBC;
 
 	/**
 	 * Encrypt a string using Mcrypt.
 	 *
-	 * The given string will be encrypted using AES-256 encryption for a high
-	 * degree of security. The returned string will also be base64 encoded.
+	 * The string will be encrypted using the AES-256 scheme, and base64 encoded.
 	 *
-	 * Mcrypt must be installed on your machine before using this method, and
-	 * an application key must be specified in the application configuration.
+	 * Mcrypt must be installed on your machine before using this method.
 	 *
 	 * <code>
 	 *		// Encrypt a string using the Mcrypt PHP extension
@@ -50,9 +48,6 @@ class Crypter {
 	/**
 	 * Decrypt a string using Mcrypt.
 	 *
-	 * The given encrypted value must have been encrypted using Laravel and
-	 * the application key specified in the application configuration file.
-	 *
 	 * Mcrypt must be installed on your machine before using this method.
 	 *
 	 * @param  string  $value
@@ -62,7 +57,7 @@ class Crypter {
 	{
 		if (($value = base64_decode($value)) === false)
 		{
-			throw new \InvalidArgumentException('Input value is not valid base64 data.');
+			throw new \Exception('Input value is not valid base64 data.');
 		}
 
 		$iv = substr($value, 0, static::iv_size());
@@ -89,7 +84,7 @@ class Crypter {
 	 */
 	protected static function key()
 	{
-		return Config::$items['application']['key'];
+		return Config::get('application.key');
 	}
 
 }

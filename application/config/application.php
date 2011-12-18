@@ -40,7 +40,7 @@ return array(
 	|
 	*/
 
-	'key' => '',
+	'key' => 'Something',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -97,6 +97,21 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Autoloaded Bundles
+	|--------------------------------------------------------------------------
+	|
+	| Bundles can provide a ton of awesome drop-in functionality for your web
+	| application. Everything from Twitter integration to an admin backend.
+	|
+	| Here you may specify the bundles that should be automatically started
+	| on every request to your application.
+	|
+	*/
+
+	'bundles' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Class Aliases
 	|--------------------------------------------------------------------------
 	|
@@ -114,21 +129,20 @@ return array(
 	'aliases' => array(
 		'Arr'        => 'Laravel\\Arr',
 		'Asset'      => 'Laravel\\Asset',
-		'Auth'       => 'Laravel\\Auth',
 		'Autoloader' => 'Laravel\\Autoloader',
 		'Benchmark'  => 'Laravel\\Benchmark',
-		'Cache'      => 'Laravel\\Cache\\Manager',
+		'Bundle'     => 'Laravel\\Bundle',
+		'Cache'      => 'Laravel\\Cache',
 		'Config'     => 'Laravel\\Config',
 		'Controller' => 'Laravel\\Routing\\Controller',
 		'Cookie'     => 'Laravel\\Cookie',
 		'Crypter'    => 'Laravel\\Crypter',
-		'DB'         => 'Laravel\\Database\\Manager',
-		'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
+		'DB'         => 'Laravel\\Database',
+		'Event'      => 'Laravel\\Event',
 		'File'       => 'Laravel\\File',
+		'Filter'     => 'Laravel\\Routing\\Filter',
 		'Form'       => 'Laravel\\Form',
-		'Hash'       => 'Laravel\\Hash',
 		'HTML'       => 'Laravel\\HTML',
-		'Inflector'  => 'Laravel\\Inflector',
 		'Input'      => 'Laravel\\Input',
 		'IoC'        => 'Laravel\\IoC',
 		'Lang'       => 'Laravel\\Lang',
@@ -139,8 +153,9 @@ return array(
 		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
+		'Router'     => 'Laravel\\Routing\\Router',
 		'Section'    => 'Laravel\\Section',
-		'Session'    => 'Laravel\\Facades\\Session',
+		'Session'    => 'Laravel\\Session',
 		'Str'        => 'Laravel\\Str',
 		'Validator'  => 'Laravel\\Validator',
 		'View'       => 'Laravel\\View',

@@ -19,9 +19,9 @@ class URI {
 	/**
 	 * Get the URI for the current request.
 	 *
-	 * If the request is to the root of the application, a single forward slash
-	 * will be returned. Otherwise, the URI will be returned with all of the
-	 * leading and trailing slashes removed.
+	 * If the request is to the root of the application, a single forward slash will
+	 * be returned. Otherwise, the URI will be returned with all of the leading and
+	 * trailing slashes removed for convenience.
 	 *
 	 * @return string
 	 */
@@ -31,12 +31,15 @@ class URI {
 
 		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-		// Remove the root application URL from the request URI. If the application
-		// is nested within a sub-directory of the web document root, this will get
-		// rid of all of the the sub-directories from the request URI.
+		// Remove the root application URL from the request URI. If the application is
+		// nested within a sub-directory of the web document root, this will get rid 
+		// of all of the the sub-directories from the request URI.
 		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
-		if (($index = '/'.Config::$items['application']['index']) !== '/')
+		// We will also remove the application index page as it isn't used for routing
+		// and is totally unnecessary as far as Laravel is concerned. It is only used
+		// when mod_rewrite is not an option for cleaner URLs.
+		if (($index = '/'.Config::get('application.index')) !== '/')
 		{
 			$uri = static::remove($uri, $index);
 		}
@@ -67,7 +70,7 @@ class URI {
 	{
 		static::current();
 
-		return Arr::get(static::$segments, $index - 1, $default);
+		return array_get(static::$segments, $index - 1, $default);
 	}
 
 	/**
@@ -79,11 +82,7 @@ class URI {
 	 */
 	protected static function remove($uri, $value)
 	{
-		if (strpos($uri, $value) === 0)
-		{
-			return substr($uri, strlen($value));
-		}
-		return $uri;
+		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 	}
 
 	/**

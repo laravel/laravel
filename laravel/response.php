@@ -28,7 +28,7 @@ class Response {
 	 *
 	 * @var array
 	 */
-	protected $statuses = array(
+	public static $statuses = array(
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		200 => 'OK',
@@ -103,7 +103,7 @@ class Response {
 	 *		return Response::make('Not Found', 404);
 	 *
 	 *		// Create a response with some custom headers
-	 *		return Respone::make(json_encode($user), 200, array('content-type' => 'application/json'));
+	 *		return Respone::make(json_encode($user), 200, array('header' => 'value'));
 	 * </code>
 	 *
 	 * @param  mixed     $content
@@ -134,26 +134,6 @@ class Response {
 	public static function view($view, $data = array())
 	{
 		return new static(View::make($view, $data));
-	}
-
-	/**
-	 * Create a new response instance containing a named view.
-	 *
-	 * <code>
-	 *		// Create a response with the "layout" named view
-	 *		return Response::of('layout');
-	 *
-	 *		// Create a response with the "layout" named view and data
-	 *		return Response::of('layout', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string    $name
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public static function of($name, $data = array())
-	{
-		return new static(View::of($name, $data));
 	}
 
 	/**
@@ -243,11 +223,6 @@ class Response {
 	/**
 	 * Send all of the response headers to the browser.
 	 *
-	 * The developer may set response headers using the "header" method. All of
-	 * the headers set by the developer will be automatically sent to the browser
-	 * when the response is sent via the "send" method. There is no need to call
-	 * this method before calling the "send" method.
-	 *
 	 * The protocol and status header will be set automatically, as well as the
 	 * content-type and charset, unless those headers have been set explicitly.
 	 * The content-type charset used will be the application encoding.
@@ -258,12 +233,12 @@ class Response {
 	{
 		if ( ! isset($this->headers['Content-Type']))
 		{
-			$encoding = Config::$items['application']['encoding'];
+			$encoding = Config::get('application.encoding');
 
 			$this->header('Content-Type', "text/html; charset={$encoding}");
 		}
 
-		header(Request::protocol().' '.$this->status.' '.$this->statuses[$this->status]);
+		header(Request::protocol().' '.$this->status.' '.static::$statuses[$this->status]);
 
 		foreach ($this->headers as $name => $value)
 		{	
@@ -299,26 +274,6 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
-	}
-
-	/**
-	 * Magic Method for handling the dynamic creation of Responses containing named views.
-	 *
-	 * <code>
-	 *		// Create a response instance with the "layout" named view
-	 *		return Response::of_layout();
-	 *
-	 *		// Create a response instance with a named view and data
-	 *		return Response::of_layout(array('name' => 'Taylor'));
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (strpos($method, 'of_') === 0)
-		{
-			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
-		}
-		throw new \BadMethodCallException("Method [$method] is not defined on the Response class.");
 	}
 
 }

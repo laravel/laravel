@@ -383,12 +383,14 @@ class Paginator {
 	 */
 	protected function appendage($appends)
 	{
-		if ( ! is_null($this->appendage))
+		if ( ! is_null($this->appendage)) return $this->appendage;
+
+		if (count($appends) <= 0)
 		{
-			return $this->appendage;
+			return $this->appendage = '';
 		}
 
-		return $this->appendage = (count($appends) > 0) ? '&'.http_build_query($appends) : '';
+		return $this->appendage = '&'.http_build_query($appends);
 	}
 
 	/**

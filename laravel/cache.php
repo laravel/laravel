@@ -1,23 +1,18 @@
-<?php namespace Laravel\Cache;
+<?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
 
-use Laravel\Redis;
-use Laravel\Config;
-use Laravel\Memcached;
-
-class Manager {
+class Cache {
 
 	/**
 	 * All of the active cache drivers.
 	 *
 	 * @var array
 	 */
-	protected static $drivers = array();
+	public static $drivers = array();
 
 	/**
 	 * Get a cache driver instance.
 	 *
-	 * If no driver name is specified, the default cache driver will
-	 * be returned as defined in the cache configuration file.
+	 * If no driver name is specified, the default driver will be returned.
 	 *
 	 * <code>
 	 *		// Get the default cache driver instance
@@ -34,9 +29,9 @@ class Manager {
 	{
 		if (is_null($driver)) $driver = Config::get('cache.driver');
 
-		if ( ! array_key_exists($driver, static::$drivers))
+		if ( ! isset(static::$drivers[$driver]))
 		{
-			return static::$drivers[$driver] = static::factory($driver);
+			static::$drivers[$driver] = static::factory($driver);
 		}
 
 		return static::$drivers[$driver];
@@ -53,33 +48,30 @@ class Manager {
 		switch ($driver)
 		{
 			case 'apc':
-				return new Drivers\APC(Config::get('cache.key'));
+				return new Cache\Drivers\APC(Config::get('cache.key'));
 
 			case 'file':
-				return new Drivers\File(CACHE_PATH);
+				return new Cache\Drivers\File(CACHE_PATH);
 
 			case 'memcached':
-				return new Drivers\Memcached(Memcached::instance(), Config::get('cache.key'));
+				return new Cache\Drivers\Memcached(Memcached::instance(), Config::get('cache.key'));
 
 			case 'redis':
-				return new Drivers\Redis(Redis::db());
+				return new Cache\Drivers\Redis(Redis::db());
 
 			default:
-				throw new \DomainException("Cache driver {$driver} is not supported.");
+				throw new \Exception("Cache driver {$driver} is not supported.");
 		}
 	}
 
 	/**
-	 * Pass all other methods to the default cache driver.
-	 *
-	 * Passing method calls to the driver instance provides a convenient API
-	 * for the developer when always using the default cache driver.
+	 * Magic Method for calling the methods on the default cache driver.
 	 *
 	 * <code>
-	 *		// Call the "get" method on the default driver
+	 *		// Call the "get" method on the default cache driver
 	 *		$name = Cache::get('name');
 	 *
-	 *		// Call the "put" method on the default driver
+	 *		// Call the "put" method on the default cache driver
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 */

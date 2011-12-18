@@ -26,7 +26,7 @@ class Lang {
 	/**
 	 * All of the loaded language lines.
 	 *
-	 * The array is keyed by [$language][$file].
+	 * The array is keyed by [$bundle][$language][$file].
 	 *
 	 * @var array
 	 */
@@ -54,6 +54,9 @@ class Lang {
 	 *		// Create a new language line instance for a given line
 	 *		$line = Lang::line('validation.required');
 	 *
+	 *		// Create a new language line for a line belonging to a bundle
+	 *		$line = Lang::line('admin::messages.welcome');
+	 *
 	 *		// Specify some replacements for the language line
 	 *		$line = Lang::line('validation.required', array('attribute' => 'email'));
 	 * </code>
@@ -65,19 +68,13 @@ class Lang {
 	 */
 	public static function line($key, $replacements = array(), $language = null)
 	{
-		if (is_null($language))
-		{
-			$language = Config::$items['application']['language'];
-		}
+		if (is_null($language)) $language = Config::get('application.language');
 
 		return new static($key, $replacements, $language);
 	}
 
 	/**
 	 * Get the language line as a string.
-	 *
-	 * If a language is specified, it should correspond to a directory
-	 * within your application language directory.
 	 *
 	 * <code>
 	 *		// Get a language line
@@ -98,22 +95,15 @@ class Lang {
 	{
 		if (is_null($language)) $language = $this->language;
 
-		list($file, $line) = $this->parse($this->key);
+		list($bundle, $file, $line) = $this->parse($this->key);
 
-		if ( ! $this->load($file))
-		{
-			return ($default instanceof Closure) ? call_user_func($default) : $default;
-		}
+		$this->load($bundle, $language, $file);
 
-		return $this->replace(Arr::get(static::$lines[$language][$file], $line, $default));
+		return $this->replace(array_get(static::$lines[$bundle][$language][$file], $line, $default));
 	}
 
 	/**
-	 * Make all necessary replacements on a language line.
-	 *
-	 * Replacements place-holder are prefixed with a colon, and are replaced
-	 * with the appropriate value based on the replacement array set for the
-	 * language line instance.
+	 * Replace all of the place-holders in a given language line.
 	 *
 	 * @param  string  $line
 	 * @return string
@@ -129,61 +119,55 @@ class Lang {
 	}
 
 	/**
-	 * Parse a language key into its file and line segments.
+	 * Parse a language key into its bundle, file, and line segments.
 	 *
-	 * Language keys are formatted similarly to configuration keys. The first
-	 * segment represents the language file, while the second segment
-	 * represents a language line within that file.
+	 * Language lines follow a {bundle}::{file}{line} naming convention.
 	 *
 	 * @param  string  $key
 	 * @return array
 	 */
 	protected function parse($key)
 	{
-		if (count($segments = explode('.', $key)) > 1)
+		if (count($segments = explode('.', Bundle::element($key))) >= 2)
 		{
-			return array($segments[0], implode('.', array_slice($segments, 1)));
+			$line = implode('.', array_slice($segments, 1));
+
+			return array(Bundle::name($key), $segments[0], $line);
 		}
 
-		throw new \InvalidArgumentException("Invalid language line [$key].");
+		throw new \Exception("Attempting to retrieve invalid language line [$key].");
 	}
 
 	/**
 	 * Load all of the language lines from a language file.
 	 *
-	 * If the language file is successfully loaded, true will be returned.
-	 *
+	 * @param  string  $bundle
+	 * @param  string  $language
 	 * @param  string  $file
-	 * @return bool
+	 * @return void
 	 */
-	protected function load($file)
+	protected function load($bundle, $language, $file)
 	{
-		if (isset(static::$lines[$this->language][$file])) return true;
+		if (isset(static::$lines[$bundle][$language][$file])) return;
 
-		$language = array();
+		$lines = array();
 
-		if (file_exists($path = LANG_PATH.$this->language.'/'.$file.EXT))
+		if (file_exists($path = Bundle::path($bundle).'language/'.$language.'/'.$file.EXT))
 		{
-			$language = array_merge($language, require $path);
+			$lines = require $path;
 		}
 
-		// If language lines were actually found, they will be loaded into
-		// the array containing all of the lines for all languages and files.
-		// The array is keyed by the language and the file name.
-		if (count($language) > 0)
-		{
-			static::$lines[$this->language][$file] = $language;
-		}
-		
-		return isset(static::$lines[$this->language][$file]);		
+		static::$lines[$bundle][$language][$file] = $lines;
 	}
 
 	/**
 	 * Get the string content of the language line.
+	 *
+	 * @return string
 	 */
 	public function __toString()
 	{
-		return $this->get();
+		return (string) $this->get();
 	}
 
 }

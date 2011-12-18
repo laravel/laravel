@@ -1,6 +1,5 @@
 <?php namespace Laravel\Database\Grammars;
 
-use Laravel\Arr;
 use Laravel\Database\Query;
 use Laravel\Database\Expression;
 
@@ -16,29 +15,15 @@ class Grammar {
 	/**
 	 * All of the query componenets in the order they should be built.
 	 *
-	 * Each derived compiler may adjust these components and place them in the
-	 * order needed for its particular database system, providing greater
-	 * control over how the query is structured.
-	 *
 	 * @var array
 	 */
 	protected $components = array(
-		'aggregate',
-		'selects',
-		'from',
-		'joins',
-		'wheres',
-		'orderings',
-		'limit',
-		'offset'
+		'aggregate', 'selects', 'from', 'joins',
+		'wheres', 'orderings', 'limit', 'offset',
 	);
 
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
-	 *
-	 * The query will be compiled according to the order of the elements specified
-	 * in the "components" property. The entire query is passed into each component
-	 * compiler for convenience.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -47,6 +32,14 @@ class Grammar {
 	{
 		$sql = array();
 
+		// Each portion of the statement is compiled by a function corresponding
+		// to an item in the components array. This lets us to keep the creation
+		// of the query very granular, and allows for the flexible customization
+		// of the query building process by each database system's grammar.
+		//
+		// Note that each component also corresponds to a public property on the
+		// query instance, allowing us to pass the appropriate data into each of
+		// the compiler functions.
 		foreach ($this->components as $component)
 		{
 			if ( ! is_null($query->$component))
@@ -55,7 +48,13 @@ class Grammar {
 			}
 		}
 
-		return implode(' ', Arr::without($sql, array(null, '')));
+		// Once all of the clauses have been compiled, we can join them all as
+		// one statement. Any segments that are null or an empty string will
+		// be removed from the array of clauses before they are imploded.
+		return implode(' ', array_filter($sql, function($value)
+		{
+			return (string) $value !== '';
+		}));
 	}
 
 	/**
@@ -74,11 +73,6 @@ class Grammar {
 	/**
 	 * Compile an aggregating SELECT clause for a query.
 	 *
-	 * If an aggregate function is called on the query instance, no select
-	 * columns will be set, so it is safe to assume that the "selects"
-	 * compiler function will not be called. We can simply build the
-	 * aggregating select clause within this function.
-	 *
 	 * @param  Query   $query
 	 * @return string
 	 */
@@ -91,9 +85,6 @@ class Grammar {
 
 	/**
 	 * Compile the FROM clause for a query.
-	 *
-	 * This method should not handle the construction of "join" clauses.
-	 * The join clauses will be constructured by their own compiler.
 	 *
 	 * @param  Query   $query
 	 * @return string
@@ -111,8 +102,13 @@ class Grammar {
 	 */
 	protected function joins(Query $query)
 	{
-		$format = '%s JOIN %s ON %s %s %s';
-
+		// We need to iterate through each JOIN clause that is attached to the
+		// query an translate it into SQL. The table and the columns will be
+		// wrapped in identifiers to avoid naming collisions.
+		//
+		// Once all of the JOINs have been compiled, we can concatenate them
+		// together using a single space, which should give us the complete
+		// set of joins in valid SQL that can appended to the query.
 		foreach ($query->joins as $join)
 		{
 			$table = $this->wrap($join['table']);
@@ -121,7 +117,7 @@ class Grammar {
 
 			$column2 = $this->wrap($join['column2']);
 
-			$sql[] = sprintf($format, $join['type'], $table, $column1, $join['operator'], $column2);
+			$sql[] = "{$join['type']} JOIN {$table} ON {$column1} {$join['operator']} {$column2}";
 		}
 
 		return implode(' ', $sql);
@@ -136,9 +132,12 @@ class Grammar {
 	final protected function wheres(Query $query)
 	{
 		// Each WHERE clause array has a "type" that is assigned by the query
-		// builder, and each type has its own compiler function. We will simply
-		// iterate through the where clauses and call the appropriate compiler
-		// for each clause.
+		// builder, and each type has its own compiler function. We will call
+		// the appropriate compiler for each where clause in the query.
+		//
+		// Keeping each particular where clause in its own "compiler" allows
+		// us to keep the query generation process very granular, making it
+		// easier to customize derived grammars for other databases.
 		foreach ($query->wheres as $where)
 		{
 			$sql[] = $where['connector'].' '.$this->{$where['type']}($where);
@@ -149,12 +148,6 @@ class Grammar {
 
 	/**
 	 * Compile a simple WHERE clause.
-	 *
-	 * This method handles the compilation of the structures created by the
-	 * "where" and "or_where" methods on the query builder.
-	 *
-	 * This method also handles database expressions, so care must be taken
-	 * to implement this functionality in any derived database grammars.
 	 *
 	 * @param  array   $where
 	 * @return string
@@ -220,7 +213,7 @@ class Grammar {
 	 * @param  string  $where
 	 * @return string
 	 */
-	protected function where_raw($where)
+	final protected function where_raw($where)
 	{
 		return $where;
 	}
@@ -233,9 +226,19 @@ class Grammar {
 	 */
 	protected function orderings(Query $query)
 	{
+		// To generate the list of query orderings, we will first make an array
+		// of the columns and directions on which the query should be ordered.
+		// Once we have an array, we can comma-delimit it and append it to
+		// the "ORDER BY" clause to get the valid SQL for the query.
+		//
+		// All of the columns will be wrapped in keyword identifiers to avoid
+		// any naming collisions with the database system. The direction of
+		// the order is upper-cased strictly for syntax consistency.
 		foreach ($query->orderings as $ordering)
 		{
-			$sql[] = $this->wrap($ordering['column']).' '.strtoupper($ordering['direction']);
+			$direction = strtoupper($ordering['direction']);
+
+			$sql[] = $this->wrap($ordering['column']).' '.$direction;
 		}
 
 		return 'ORDER BY '.implode(', ', $sql);
@@ -266,7 +269,7 @@ class Grammar {
 	/**
 	 * Compile a SQL INSERT statment from a Query instance.
 	 *
-	 * Note: This method handles the compilation of single row inserts and batch inserts.
+	 * This method handles the compilation of single row inserts and batch inserts.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
@@ -274,14 +277,16 @@ class Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		// Force every insert to be treated like a batch insert. This simple makes
+		$table = $this->wrap($query->from);
+
+		// Force every insert to be treated like a batch insert. This simply makes
 		// creating the SQL syntax a little easier on us since we can always treat
 		// the values as if it is an array containing multiple inserts.
 		if ( ! is_array(reset($values))) $values = array($values);
 
 		// Since we only care about the column names, we can pass any of the insert
-		// arrays into the "columnize" method. The names should be the same for
-		// every insert to the table.
+		// arrays into the "columnize" method. The columns should be the same for
+		// every insert to the table so we can just use the first record.
 		$columns = $this->columnize(array_keys(reset($values)));
 
 		// Build the list of parameter place-holders of values bound to the query.
@@ -289,17 +294,13 @@ class Grammar {
 		// just use the first array of values.
 		$parameters = $this->parameterize(reset($values));
 
-		$parameters = implode(', ', array_fill(0, count($values), '('.$parameters.')'));
+		$parameters = implode(', ', array_fill(0, count($values), "($parameters)"));
 
-		return 'INSERT INTO '.$this->wrap($query->from).' ('.$columns.') VALUES '.$parameters;
+		return "INSERT INTO {$table} ({$columns}) VALUES {$parameters}";
 	}
 
 	/**
 	 * Compile a SQL UPDATE statment from a Query instance.
-	 *
-	 * Note: Since UPDATE statements can be limited by a WHERE clause,
-	 *       this method will use the same WHERE clause compilation
-	 *       functions as the "select" method.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
@@ -307,6 +308,12 @@ class Grammar {
 	 */
 	public function update(Query $query, $values)
 	{
+		$table = $this->wrap($query->from);
+
+		// Each column in the UPDATE statement needs to be wrapped in keyword
+		// identifiers, and a place-holder needs to be created for each value
+		// in the array of bindings. Of course, if the value of the binding
+		// is an expression, the expression string will be injected.
 		foreach ($values as $column => $value)
 		{
 			$columns[] = $this->wrap($column).' = '.$this->parameter($value);
@@ -314,7 +321,11 @@ class Grammar {
 
 		$columns = implode(', ', $columns);
 
-		return trim('UPDATE '.$this->wrap($query->from).' SET '.$columns.' '.$this->wheres($query));
+		// UPDATE statements may be constrained by a WHERE clause, so we'll
+		// run the entire where compilation process for those contraints.
+		// This is easily achieved by passing the query to the "wheres"
+		// method which will call all of the where compilers.
+		return trim('UPDATE {$table} SET {$columns} '.$this->wheres($query));
 	}
 
 	/**
@@ -325,54 +336,45 @@ class Grammar {
 	 */
 	public function delete(Query $query)
 	{
-		return trim('DELETE FROM '.$this->wrap($query->from).' '.$this->wheres($query));
-	}
+		$table = $this->wrap($query->from);
 
-	/**
-	 * The following functions primarily serve as utility functions for
-	 * the grammar. They perform tasks such as wrapping values in keyword
-	 * identifiers or creating variable lists of bindings.
-	 */
-
-	/**
-	 * Create a comma-delimited list of wrapped column names.
-	 *
-	 * @param  array   $columns
-	 * @return string
-	 */
-	final public function columnize($columns)
-	{
-		return implode(', ', array_map(array($this, 'wrap'), $columns));
+		// Like the UPDATE statement, the DELETE statement is constrained
+		// by WHERE clauses, so we'll need to run the "wheres" method to
+		// make the WHERE clauses for the query. The "wheres" method 
+		// encapsulates the logic to create the full WHERE clause.
+		return trim("DELETE FROM {$table} ".$this->wheres($query);
 	}
 
 	/**
 	 * Wrap a value in keyword identifiers.
-	 *
-	 * They keyword identifier used by the method is specified as
-	 * a property on the grammar class so it can be conveniently
-	 * overriden without changing the wrapping logic itself.
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	public function wrap($value)
 	{
-		// If the value being wrapped contains a column alias, we need to wrap
-		// it a little differently since each segment must be wrapped and not
-		// the entire string.
+		// If the value being wrapped contains a column alias, we need to
+		// wrap it a little differently as each segment must be wrapped
+		// and not the entire string. We'll split the value on the "as"
+		// joiner to extract the column and the alias.
 		if (strpos(strtolower($value), ' as ') !== false)
 		{
-			return $this->alias($value);
+			$segments = explode(' ', $value);
+
+			return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
 		}
 
-		// Expressions should be injected into the query as raw strings, so we
-		// do not want to wrap them in any way. We will just return the string
-		// value from the expression to be included in the query.
+		// Expressions should be injected into the query as raw strings,
+		// so we do not want to wrap them in any way. We'll just return
+		// the string value from the expression to be included.
 		if ($value instanceof Expression) return $value->get();
 
+		// Since columns may be prefixed with their corresponding table
+		// name so as to not make them ambiguous, we will need to wrap
+		// the table and the column in keyword identifiers.
 		foreach (explode('.', $value) as $segment)
 		{
-			if ($segment === '*')
+			if ($segment == '*')
 			{
 				$wrapped[] = $segment;
 			}
@@ -386,25 +388,20 @@ class Grammar {
 	}
 
 	/**
-	 * Wrap an alias in keyword identifiers.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected function alias($value)
-	{
-		$segments = explode(' ', $value);
-
-		return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
-	}
-
-	/**
 	 * Create query parameters from an array of values.
+	 *
+	 * <code>
+	 *		Returns "?, ?, ?", which may be used as PDO place-holders
+	 *		$parameters = $grammar->parameterize(array(1, 2, 3));
+	 *
+	 *		// Returns "?, "Taylor"" since an expression is used
+	 *		$parameters = $grammar->parameterize(array(1, DB::raw('Taylor')));
+	 * </code>
 	 *
 	 * @param  array   $values
 	 * @return string
 	 */
-	public function parameterize($values)
+	final public function parameterize($values)
 	{
 		return implode(', ', array_map(array($this, 'parameter'), $values));
 	}
@@ -412,16 +409,36 @@ class Grammar {
 	/**
 	 * Get the appropriate query parameter string for a value.
 	 *
-	 * If the value is an expression, the raw expression string should
-	 * be returned, otherwise, the parameter place-holder will be
-	 * returned by the method.
+	 * <code>
+	 *		// Returns a "?" PDO place-holder
+	 *		$value = $grammar->parameter('Taylor Otwell');
+	 *
+	 *		// Returns "Taylor Otwell" as the raw value of the expression
+	 *		$value = $grammar->parameter(DB::raw('Taylor Otwell'));
+	 * </code>
 	 *
 	 * @param  mixed   $value
 	 * @return string
 	 */
-	public function parameter($value)
+	final public function parameter($value)
 	{
 		return ($value instanceof Expression) ? $value->get() : '?';
+	}
+
+	/**
+	 * Create a comma-delimited list of wrapped column names.
+	 *
+	 * <code>
+	 *		// Returns ""Taylor", "Otwell"" when the identifier is quotes
+	 *		$columns = $grammar->columnize(array('Taylor', 'Otwell'));
+	 * </code>
+	 *
+	 * @param  array   $columns
+	 * @return string
+	 */
+	final public function columnize($columns)
+	{
+		return implode(', ', array_map(array($this, 'wrap'), $columns));
 	}
 
 }

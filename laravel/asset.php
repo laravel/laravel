@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; defined('APP_PATH') or die('No direct script access.'); 
 
 class Asset {
 
@@ -107,7 +107,7 @@ class Asset_Container {
 	{
 		$type = (pathinfo($source, PATHINFO_EXTENSION) == 'css') ? 'style' : 'script';
 
-		return call_user_func(array($this, $type), $name, $source, $dependencies, $attributes);
+		return $this->$type($name, $source, $dependencies, $attributes);
 	}
 
 	/**
@@ -289,7 +289,8 @@ class Asset_Container {
 	 * Verify that an asset's dependency is valid.
 	 *
 	 * A dependency is considered valid if it exists, is not a circular reference, and is
-	 * not a reference to the owning asset itself.
+	 * not a reference to the owning asset itself. If the dependency doesn't exist, no
+	 * error or warning will be given. For the other cases, an exception is thrown.
 	 *
 	 * @param  string  $asset
 	 * @param  string  $dependency
@@ -299,15 +300,17 @@ class Asset_Container {
 	 */
 	protected function dependency_is_valid($asset, $dependency, $original, $assets)
 	{
-		if ( ! isset($original[$dependency])) return false;
-
-		if ($dependency === $asset)
+		if ( ! isset($original[$dependency]))
 		{
-			throw new \LogicException("Asset [$asset] is dependent on itself.");
+			return false;
+		}
+		elseif ($dependency === $asset)
+		{
+			throw new \Exception("Asset [$asset] is dependent on itself.");
 		}
 		elseif (isset($assets[$dependency]) and in_array($asset, $assets[$dependency]['dependencies']))
 		{
-			throw new \LogicException("Assets [$asset] and [$dependency] have a circular dependency.");
+			throw new \Exception("Assets [$asset] and [$dependency] have a circular dependency.");
 		}
 	}
 

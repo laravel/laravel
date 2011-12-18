@@ -30,10 +30,7 @@ class File {
 	 */
 	public static function get($path, $default = null)
 	{
-		if (file_exists($path))
-		{
-			return file_get_contents($path);
-		}
+		if (file_exists($path)) return file_get_contents($path);
 
 		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
@@ -115,25 +112,6 @@ class File {
 	public static function modified($path)
 	{
 		return filemtime($path);
-	}
-
-	/**
-	 * Move an uploaded file to permanent storage.
-	 *
-	 * <code>
-	 *		// Upload the $_FILES['photo'] file to a permanent location
-	 *		File::upload('photo', 'path/to/new/home.jpg');
-	 * </code>
-	 *
-	 * @param  string  $key
-	 * @param  string  $path
-	 * @return bool
-	 */
-	public static function upload($key, $path)
-	{
-		if ( ! isset($_FILES[$key])) return false;
-
-		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
 	}
 
 	/**

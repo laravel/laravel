@@ -12,8 +12,13 @@ class Memcached {
 	/**
 	 * Get the Memcached connection instance.
 	 *
-	 * This connection will be managed as a singleton instance so that only
-	 * one connection to the Memcached severs will be established.
+	 * <code>
+	 *		// Get the Memcache instance and get an item from the cache
+	 *		$name = Memcached::instance()->get('name');
+	 *
+	 *		// Get the Memcache instance and place an item in the cache
+	 *		Memcached::instance()->set('name', 'Taylor');
+	 * </code>
 	 *
 	 * @return Memcache
 	 */
@@ -30,19 +35,10 @@ class Memcached {
 	/**
 	 * Create a new Memcached connection instance.
 	 *
-	 * The configuration array passed to this method should be an array of
-	 * server hosts / ports, like those defined in the cache configuration
-	 * file.
-	 *
-	 * <code>
-	 *		// Create a new localhost Memcached connection instance.
-	 *		$memcache = Memcached::connect(array('host' => '127.0.0.1', 'port' => 11211));
-	 * </code>
-	 *
 	 * @param  array     $servers
 	 * @return Memcache
 	 */
-	public static function connect($servers)
+	protected static function connect($servers)
 	{
 		$memcache = new \Memcache;
 
@@ -53,7 +49,7 @@ class Memcached {
 
 		if ($memcache->getVersion() === false)
 		{
-			throw new \RuntimeException('Could not establish memcached connection.');
+			throw new \Exception('Could not establish memcached connection.');
 		}
 
 		return $memcache;
