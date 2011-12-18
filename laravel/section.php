@@ -12,9 +12,9 @@ class Section {
 	/**
 	 * The last section on which injection was started.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	protected static $last;
+	protected static $last = array();
 
 	/**
 	 * Start injecting content into a section.
@@ -42,7 +42,7 @@ class Section {
 		{
 			ob_start();
 
-			static::$last = $section;
+			static::$last[] = $section;
 		}
 
 		static::append($section, $content);
@@ -74,7 +74,7 @@ class Section {
 	 */
 	public static function stop()
 	{
-		static::append(static::$last, ob_get_clean());
+		static::append(array_pop(static::$last), ob_get_clean());
 	}
 
 	/**
