@@ -325,7 +325,7 @@ class Grammar {
 		// run the entire where compilation process for those contraints.
 		// This is easily achieved by passing the query to the "wheres"
 		// method which will call all of the where compilers.
-		return trim('UPDATE {$table} SET {$columns} '.$this->wheres($query));
+		return trim("UPDATE {$table} SET {$columns} ".$this->wheres($query));
 	}
 
 	/**

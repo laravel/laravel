@@ -49,7 +49,7 @@ class Session {
 				return new Session\Drivers\Cookie;
 
 			case 'database':
-				return new Session\Drivers\Database(Database\Manager::connection());
+				return new Session\Drivers\Database(Database::connection());
 
 			case 'file':
 				return new Session\Drivers\File(SESSION_PATH);
