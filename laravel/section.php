@@ -25,9 +25,6 @@ class Section {
 	 *
 	 *		// Inject a raw string into the "header" section without buffering
 	 *		Section::start('header', '<title>Laravel</title>');
-	 *
-	 *		// Inject a Closure into a section that will be evaluated on yield
-	 *		Section::start('header', function() { echo Cache::get('header'); });
 	 * </code>
 	 *
 	 * @param  string          $section
@@ -79,11 +76,6 @@ class Section {
 	 */
 	protected static function append($section, $content)
 	{
-		if ($content instanceof Closure)
-		{
-			$content = call_user_func($content);
-		}
-
 		if (isset(static::$sections[$section]))
 		{
 			$content = static::$sections[$section].PHP_EOL.$content;
