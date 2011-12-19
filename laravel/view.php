@@ -136,19 +136,9 @@ class View implements ArrayAccess {
 		// view instance so it can modified by any of the listeners.
 		Event::fire("composing:{$this->view}", array($this));
 
-		// All nested views and responses are evaluated before the main view.
-		// This allows the assets used by the nested views to be added to the
-		// asset container before the main view is evaluated and dumps the
-		// links to the assets.
-		foreach ($this->data as &$data) 
-		{
-			if ($data instanceof View or $data instanceof Response)
-			{
-				$data = $data->render();
-			}
-		}
+		$data = $this->data();
 
-		ob_start() and extract($this->data, EXTR_SKIP);
+		ob_start() and extract($data, EXTR_SKIP);
 
 		// If the view is Bladed, we need to check the view for modifications
 		// and get the path to the compiled view file. Otherwise, we'll just
@@ -165,6 +155,32 @@ class View implements ArrayAccess {
 		try {include $this->path;} catch(\Exception $e) {ob_get_clean(); throw $e;}
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get the array of view data for the view instance.
+	 *
+	 * The shared view data will be combined with the view data for the instance.
+	 *
+	 * @return array
+	 */
+	protected function data()
+	{
+		$data = array_merge($this->data, static::$shared);
+
+		// All nested views and responses are evaluated before the main view.
+		// This allows the assets used by the nested views to be added to the
+		// asset container before the main view is evaluated and dumps the
+		// links to the assets.
+		foreach ($data as &$value) 
+		{
+			if ($value instanceof View or $value instanceof Response)
+			{
+				$value = $value->render();
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -189,20 +205,6 @@ class View implements ArrayAccess {
 	}
 
 	/**
-	 * Add a key / value pair to the shared view data.
-	 *
-	 * Shared view data is accessible to every created by the application.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	public static function share($key, $value)
-	{
-		static::$share[$key] = $value;
-	}
-
-	/**
 	 * Add a view instance to the view data.
 	 *
 	 * <code>
@@ -221,6 +223,20 @@ class View implements ArrayAccess {
 	public function nest($key, $view, $data = array())
 	{
 		return $this->with($key, static::make($view, $data));
+	}
+
+	/**
+	 * Add a key / value pair to the shared view data.
+	 *
+	 * Shared view data is accessible to every view created by the application.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public static function share($key, $value)
+	{
+		static::$shared[$key] = $value;
 	}
 
 	/**
