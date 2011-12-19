@@ -25,15 +25,18 @@ class Section {
 	 *
 	 *		// Inject a raw string into the "header" section without buffering
 	 *		Section::start('header', '<title>Laravel</title>');
+	 *
+	 *		// Inject a Closure into a section that will be evaluated on yield
+	 *		Section::start('header', function() { echo Cache::get('header'); });
 	 * </code>
 	 *
-	 * @param  string  $section
-	 * @param  string  $content
+	 * @param  string          $section
+	 * @param  string|Closure  $content
 	 * @return void
 	 */
 	public static function start($section, $content = '')
 	{
-		if ($content == '') ob_start() and static::$last[] = $section;
+		if ($content === '') ob_start() and static::$last[] = $section;
 
 		static::append($section, $content);
 	}
