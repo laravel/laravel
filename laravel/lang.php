@@ -97,19 +97,15 @@ class Lang {
 
 		list($bundle, $file, $line) = $this->parse($this->key);
 
-		$this->load($bundle, $language, $file);
+		if ( ! $this->load($bundle, $language, $file))
+		{
+			return ($default instanceof Closure) ? call_user_func($default) : $default;
+		}
 
-		return $this->replace(array_get(static::$lines[$bundle][$language][$file], $line, $default));
-	}
+		$key = (is_null($line)) ? $file : "{$file}.{$line}";
 
-	/**
-	 * Replace all of the place-holders in a given language line.
-	 *
-	 * @param  string  $line
-	 * @return string
-	 */
-	protected function replace($line)
-	{
+		$line = array_get(static::$lines[$bundle][$language], $key, $default);
+
 		foreach ($this->replacements as $key => $value)
 		{
 			$line = str_replace(':'.$key, $value, $line);
@@ -144,7 +140,7 @@ class Lang {
 	 * @param  string  $bundle
 	 * @param  string  $language
 	 * @param  string  $file
-	 * @return void
+	 * @return bool
 	 */
 	protected function load($bundle, $language, $file)
 	{
@@ -158,6 +154,8 @@ class Lang {
 		}
 
 		static::$lines[$bundle][$language][$file] = $lines;
+
+		return count($lines) > 0;
 	}
 
 	/**
