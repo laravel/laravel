@@ -76,6 +76,11 @@ class Section {
 	 */
 	protected static function append($section, $content)
 	{
+		if ($content instanceof Closure)
+		{
+			$content = call_user_func($content);
+		}
+
 		if (isset(static::$sections[$section]))
 		{
 			$content = static::$sections[$section].PHP_EOL.$content;
