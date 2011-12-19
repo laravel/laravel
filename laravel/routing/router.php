@@ -17,13 +17,6 @@ class Router {
 	public static $names = array();
 
 	/**
-	 * The array of attributes being applied to a group of routes.
-	 *
-	 * @var array
-	 */
-	protected static $group;
-
-	/**
 	 * The wildcard patterns supported by the router.
 	 *
 	 * @var array
@@ -65,39 +58,10 @@ class Router {
 	 */
 	public static function register($route, $action)
 	{
-		if (is_array(static::$group))
-		{
-			$action = array_merge(static::$group, (array) $action);
-		}
-
 		foreach ((array) $route as $uri)
 		{
 			static::$routes[$uri] = $action;
 		}
-	}
-
-	/**
-	 * Create a group of routes with the same attributes.
-	 *
-	 * <code>
-	 *		// Create a group of routes that use the "csrf" filter
-	 *		Router::group(array('before' => 'csrf'), function()
-	 *		{
-	 *			Router::register('POST /', function() {});
-	 *		});
-	 * </code>
-	 *
-	 * @param  array    $attributes
-	 * @param  Closure  $callback
-	 * @return void
-	 */
-	public static function group($attributes, Closure $callback)
-	{
-		static::$group = $attributes;
-
-		call_user_func($callback);
-
-		static::$group = null;
 	}
 
 	/**

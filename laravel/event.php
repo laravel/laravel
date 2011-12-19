@@ -10,18 +10,29 @@ class Event {
 	public static $events = array();
 
 	/**
+	 * Determine if an event has any registered listeners.
+	 *
+	 * @param  string  $event
+	 * @return bool
+	 */
+	public static function listeners($event)
+	{
+		return isset(static::$events[$event]);
+	}
+
+	/**
 	 * Register a callback for a given event.
 	 *
 	 * <code>
 	 *		// Register a callback for the "start" event
-	 *		Event::on('start', function() { return 'Started!'; });
+	 *		Event::listen('start', function() { return 'Started!'; });
 	 * </code>
 	 *
 	 * @param  string  $event
 	 * @param  mixed   $callback
 	 * @return void
 	 */
-	public static function on($event, $callback)
+	public static function listen($event, $callback)
 	{
 		if ( ! is_callable($callback))
 		{
@@ -50,7 +61,7 @@ class Event {
 	 */
 	public static function fire($event, $parameters = array())
 	{
-		if ( ! isset(static::$events[$event])) return;
+		if ( ! static::listeners($event)) return;
 
 		$responses = array();
 

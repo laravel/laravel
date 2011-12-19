@@ -24,14 +24,9 @@ class Crypter {
 	/**
 	 * Encrypt a string using Mcrypt.
 	 *
-	 * The string will be encrypted using the AES-256 scheme, and base64 encoded.
+	 * The string will be encrypted using the AES-256 scheme and will be base64 encoded.
 	 *
 	 * Mcrypt must be installed on your machine before using this method.
-	 *
-	 * <code>
-	 *		// Encrypt a string using the Mcrypt PHP extension
-	 *		$encrypted = Crypter::encrpt('secret');
-	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string
