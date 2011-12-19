@@ -65,7 +65,10 @@ class Input {
 	 * Get a subset of the items from the input data.
 	 *
 	 * <code>
-	 *		// Get only the username and email from the input data.
+	 *		// Get only the email from the input data
+	 *		$value = Input::only('email');
+	 *
+	 *		// Get only the username and email from the input data
 	 *		$input = Input::only(array('username', 'email'));
 	 * </code>
 	 *
@@ -74,13 +77,16 @@ class Input {
 	 */
 	public static function only($keys)
 	{
- 		return array_intersect_key(static::get(), array_flip($keys));
+ 		return array_intersect_key(static::get(), array_flip((array) $keys));
 	}
 
 	/**
 	 * Get all of the input data except for a specified array of items.
 	 *
 	 * <code>
+	 *		// Get all of the input data except for username
+	 *		$input = Input::except('username');
+	 *
 	 *		// Get all of the input data except for username and email
 	 *		$input = Input::except(array('username', 'email'));
 	 * </code>

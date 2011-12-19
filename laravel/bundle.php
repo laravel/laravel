@@ -258,9 +258,6 @@ class Bundle {
 
 		$bundles = array();
 
-		// To get the names of all bundles, we will simply grab every directory
-		// in the bundle path, taking the basename of each directory. The base
-		// name will give us the bundle name without the path.
 		foreach (array_filter(glob(BUNDLE_PATH.'*'), 'is_dir') as $bundle)
 		{
 			$bundles[] = basename($bundle);
