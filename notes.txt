@@ -23,6 +23,5 @@ Laravel 3.0 Outstanding
 
 - Form and HTML helpers need to go pretty much
 - pagination and validation needs to go?
-- work on query grammar
 - Move inflection code into Str class.
 - Some way to map bundles to other directories?
