@@ -24,6 +24,13 @@ class View implements ArrayAccess {
 	protected $path;
 
 	/**
+	 * All of the shared view data.
+	 *
+	 * @var array
+	 */
+	public static $shared = array();
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -179,6 +186,20 @@ class View implements ArrayAccess {
 		}
 
 		return $compiled;
+	}
+
+	/**
+	 * Add a key / value pair to the shared view data.
+	 *
+	 * Shared view data is accessible to every created by the application.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public static function share($key, $value)
+	{
+		static::$share[$key] = $value;
 	}
 
 	/**
