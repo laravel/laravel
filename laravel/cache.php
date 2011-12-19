@@ -54,7 +54,7 @@ class Cache {
 				return new Cache\Drivers\File(CACHE_PATH);
 
 			case 'memcached':
-				return new Cache\Drivers\Memcached(Memcached::instance(), Config::get('cache.key'));
+				return new Cache\Drivers\Memcached(Memcached::connection(), Config::get('cache.key'));
 
 			case 'redis':
 				return new Cache\Drivers\Redis(Redis::db());

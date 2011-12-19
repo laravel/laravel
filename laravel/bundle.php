@@ -44,7 +44,7 @@ class Bundle {
 		// the bundle for use by the application. The start script may register any
 		// classes the bundle uses with the auto-loader, or perhaps will start any
 		// dependent bundles so that they are available.
-		if (file_exists($path = static::path($bundle).'start'.EXT))
+		if (file_exists($path = static::path($bundle).'bundle'.EXT))
 		{
 			require $path;
 		}
@@ -84,8 +84,6 @@ class Bundle {
 	 */
 	public static function routable($bundle)
 	{
-		if ( ! static::exists($bundle)) return false;
-
 		$path = static::path($bundle);
 
 		return is_dir($path.'controllers/') or file_exists($path.'routes'.EXT);
@@ -258,14 +256,17 @@ class Bundle {
 	{
 		if (is_array(static::$bundles)) return static::$bundles;
 
-		static::$bundles = array_filter(glob(BUNDLE_PATH.'*'), 'is_dir');
+		$bundles = array();
 
-		foreach (static::$bundles as &$bundle)
+		// To get the names of all bundles, we will simply grab every directory
+		// in the bundle path, taking the basename of each directory. The base
+		// name will give us the bundle name without the path.
+		foreach (array_filter(glob(BUNDLE_PATH.'*'), 'is_dir') as $bundle)
 		{
-			$bundle = basename($bundle);
+			$bundles[] = basename($bundle);
 		}
 
-		return static::$bundles;
+		return static::$bundles = $bundles;
 	}
 
 }

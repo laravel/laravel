@@ -7,29 +7,29 @@ class Memcached {
 	 *
 	 * @var Memcache
 	 */
-	protected static $instance;
+	protected static $connection;
 
 	/**
 	 * Get the Memcached connection instance.
 	 *
 	 * <code>
-	 *		// Get the Memcache instance and get an item from the cache
-	 *		$name = Memcached::instance()->get('name');
+	 *		// Get the Memcache connection and get an item from the cache
+	 *		$name = Memcached::connection()->get('name');
 	 *
-	 *		// Get the Memcache instance and place an item in the cache
-	 *		Memcached::instance()->set('name', 'Taylor');
+	 *		// Get the Memcache connection and place an item in the cache
+	 *		Memcached::connection()->set('name', 'Taylor');
 	 * </code>
 	 *
 	 * @return Memcache
 	 */
-	public static function instance()
+	public static function connection()
 	{
-		if (is_null(static::$instance))
+		if (is_null(static::$connection))
 		{
-			static::$instance = static::connect(Config::get('cache.memcached'));
+			static::$connection = static::connect(Config::get('cache.memcached'));
 		}
 
-		return static::$instance;
+		return static::$connection;
 	}
 
 	/**
