@@ -137,9 +137,11 @@ class Inflector {
 
 		$irregular = array_flip(static::$irregular);
 
-		$plural = static::inflect($value, static::$cache['plural'], $irregular, static::$plural);
+		$cache =& static::$cache['plural'];
 
-		return static::$cache['plural'][$value] = $plural;
+		$plural = static::inflect($value, $cache, $irregular, static::$plural);
+
+		return $cache[$value] = $plural;
 	}
 
 	/**
@@ -155,9 +157,11 @@ class Inflector {
 	 */
 	public static function singular($value)
 	{
-		$singular = static::inflect($value, static::$cache['singular'], static::$irregular, static::$singular);
+		$cache =& static::$cache['singular'];
 
-		return static::$cache['singular'][$value] = $singular;
+		$singular = static::inflect($value, $cache, static::$irregular, static::$singular);
+
+		return $cache[$value] = $singular;
 	}
 
 	/**
