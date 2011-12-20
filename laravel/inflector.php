@@ -112,19 +112,15 @@ class Inflector {
 	/**
 	 * Convert a word to its plural form.
 	 *
-	 * Optionally, a count argument may be provided. If the count is greater than
-	 * one, the word will be pluralized, otherwise the word will be returned from
-	 * the method unchanged.
-	 *
 	 * <code>
 	 *		// Get the plural form of the word "child"
 	 *		$children = Inflector::plural('child');
 	 *
-	 *		// Returns "comments"
-	 *		$comments = Inflector::plural('comment', 10);
-	 *
 	 *		// Returns "comment"
 	 *		$comment = Inflector::plural('comment', 1);
+	 *
+	 *		// Returns "comments"
+	 *		$comments = Inflector::plural('comment', 10);
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -135,11 +131,9 @@ class Inflector {
 	{
 		if ( ! is_null($count) and $count == 1) return $value;
 
-		$irregular = array_flip(static::$irregular);
-
 		$cache =& static::$cache['plural'];
 
-		$plural = static::inflect($value, $cache, $irregular, static::$plural);
+		$plural = static::inflect($value, $cache, static::$plural, array_flip(static::$irregular));
 
 		return $cache[$value] = $plural;
 	}
@@ -159,7 +153,7 @@ class Inflector {
 	{
 		$cache =& static::$cache['singular'];
 
-		$singular = static::inflect($value, $cache, static::$irregular, static::$singular);
+		$singular = static::inflect($value, $cache, static::$singular, static::$irregular);
 
 		return $cache[$value] = $singular;
 	}
@@ -169,11 +163,11 @@ class Inflector {
 	 *
 	 * @param  string  $value
 	 * @param  array   $cache
-	 * @param  array   $irregular
 	 * @param  array   $source
+	 * @param  array   $irregular
 	 * @return string
 	 */
-	protected static function inflect($value, $cache, $irregular, $source)
+	protected static function inflect($value, $cache, $source, $irregular)
 	{
 		if (array_key_exists($value, $cache))
 		{
