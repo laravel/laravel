@@ -102,16 +102,11 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		$key = (is_null($line)) ? $file : "{$file}.{$line}";
+		$key = ( ! is_null($line)) ? "{$file}.{$line}" : $file;
 
 		$line = array_get(static::$lines[$bundle][$language], $key, $default);
 
-		foreach ($this->replacements as $key => $value)
-		{
-			$line = str_replace(':'.$key, $value, $line);
-		}
-
-		return $line;
+		return $this->replace($line);
 	}
 
 	/**
@@ -132,6 +127,22 @@ class Lang {
 		}
 
 		throw new \Exception("Attempting to retrieve invalid language line [$key].");
+	}
+
+	/**
+	 * Replace all of the place-holders on the given language line.
+	 *
+	 * @param  string  $line
+	 * @return string
+	 */
+	protected function replace($line)
+	{
+		foreach ($this->replacements as $key => $value)
+		{
+			$line = str_replace(':'.$key, $value, $line);
+		}
+
+		return $line;
 	}
 
 	/**
