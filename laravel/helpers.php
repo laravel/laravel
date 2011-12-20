@@ -44,6 +44,8 @@ function __($key, $replacements = array(), $language = null)
  */
 function array_get($array, $key, $default = null)
 {
+	if (is_null($key)) return $array;
+
 	foreach (explode('.', $key) as $segment)
 	{
 		if ( ! is_array($array) or ! array_key_exists($segment, $array))

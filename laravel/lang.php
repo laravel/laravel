@@ -102,11 +102,13 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		$key = ( ! is_null($line)) ? "{$file}.{$line}" : $file;
+		// Grab the language lines for the requested file. Since we already loaded
+		// the file, we can safely assume the file exists in teh array of lines.
+		// Once we have the lines, we can retrieve the requested lined from the
+		// array and make the requested replacements on it.
+		$lines - static::$lines[$bundle][$language][$file];
 
-		$line = array_get(static::$lines[$bundle][$language], $key, $default);
-
-		return $this->replace($line);
+		return $this->replace(array_get($lines, $line, $default));
 	}
 
 	/**
@@ -119,14 +121,21 @@ class Lang {
 	 */
 	protected function parse($key)
 	{
-		if (count($segments = explode('.', Bundle::element($key))) >= 2)
+		$bundle = Bundle::name($key);
+
+		$segments = explode('.', Bundle::element($key));
+
+		// If there are not at least two segments in the array, it means that the
+		// developer is requesting the entire language line array to be returned.
+		// If that is the case, we'll make the item field of the array "null".
+		if (count($segments) >= 2)
 		{
-			$line = implode('.', array_slice($segments, 1));
-
-			return array(Bundle::name($key), $segments[0], $line);
+			return array($bundle, $segments[0], implode('.', array_slice($segments, 1)));
 		}
-
-		throw new \Exception("Attempting to retrieve invalid language line [$key].");
+		else
+		{
+			return array($bundle, $segments[0], null);
+		}
 	}
 
 	/**
@@ -137,6 +146,13 @@ class Lang {
 	 */
 	protected function replace($line)
 	{
+		// Replacements allow the developer to customize language lines for
+		// different purposes, such as substituing the name of the current
+		// user of the applicatiion for a name place-holder.
+		//
+		// All replacements are prefixed with a colon and should contain
+		// the same name as the keys in the array of replacements given
+		// to the language instance.
 		foreach ($this->replacements as $key => $value)
 		{
 			$line = str_replace(':'.$key, $value, $line);
