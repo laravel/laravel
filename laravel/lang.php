@@ -93,9 +93,6 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
-		// If no language was specified, we'll use the language that was given when
-		// the language line instance was created, which is most likely the default
-		// language for the application.
 		if (is_null($language)) $language = $this->language;
 
 		list($bundle, $file, $line) = $this->parse($this->key);
@@ -108,20 +105,24 @@ class Lang {
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		$line = array_get(static::$lines[$bundle][$language][$file], $line, $default);
+
+		$lines = static::$lines[$bundle][$language][$file];
+
+		$line = array_get($lines, $line, $default);
 
 		// If the requested line is a string, we will replace all of the line's
 		// place-holders with the replacements values that were specified for
-		// the line when it was created.
+		// the line when it was created. Each replacement place-holder is
+		// prefixed with a colon for easy matching.
 		//
 		// If the line is not a string, it probably means the developer asked
 		// for the entire langauge file and the value of the requsted value
-		// would be an array containing all of the lines.
+		// will be an array of all the lines.
 		if (is_string($line))
 		{
 			foreach ($this->replacements as $key => $value)
 			{
-				$line = str_replace(":{$key}", $value, $line);
+				$line = str_replace(':'.$key, $value, $line);
 			}
 		}
 
@@ -142,9 +143,9 @@ class Lang {
 
 		$segments = explode('.', Bundle::element($key));
 
-		// If there are not at least two segments in the array, it means that the
-		// developer is requesting the entire language line array to be returned.
-		// If that is the case, we'll make the item field of the array "null".
+		// If there are not at least two segments in the array, it means that
+		// the developer is requesting the entire language line array to be
+		// returned. If that is the case, we'll make the item "null".
 		if (count($segments) >= 2)
 		{
 			return array($bundle, $segments[0], implode('.', array_slice($segments, 1)));
