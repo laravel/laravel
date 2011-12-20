@@ -93,28 +93,45 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
+		// If no language was specified, we'll use the language that was given when
+		// the language line instance was created, which is most likely the default
+		// language for the application.
 		if (is_null($language)) $language = $this->language;
 
 		list($bundle, $file, $line) = $this->parse($this->key);
 
-		if ( ! $this->load($bundle, $language, $file))
+		// If the file doesn't exist, we'll just return the default value that was
+		// given to the method. The default value is also returned even when the
+		// file exists if the file does not actually contain any lines.
+		if ( ! static::load($bundle, $language, $file))
 		{
 			return ($default instanceof Closure) ? call_user_func($default) : $default;
 		}
 
-		// Grab the language lines for the requested file. Since we already loaded
-		// the file, we can safely assume the file exists in teh array of lines.
-		// Once we have the lines, we can retrieve the requested lined from the
-		// array and make the requested replacements on it.
-		$lines - static::$lines[$bundle][$language][$file];
+		$line = array_get(static::$lines[$bundle][$language][$file], $line, $default);
 
-		return $this->replace(array_get($lines, $line, $default));
+		// If the requested line is a string, we will replace all of the line's
+		// place-holders with the replacements values that were specified for
+		// the line when it was created.
+		//
+		// If the line is not a string, it probably means the developer asked
+		// for the entire langauge file and the value of the requsted value
+		// would be an array containing all of the lines.
+		if (is_string($line))
+		{
+			foreach ($this->replacements as $key => $value)
+			{
+				$line = str_replace(":{$key}", $value, $line);
+			}
+		}
+
+		return $line;
 	}
 
 	/**
 	 * Parse a language key into its bundle, file, and line segments.
 	 *
-	 * Language lines follow a {bundle}::{file}{line} naming convention.
+	 * Language lines follow a {bundle}::{file}.{line} naming convention.
 	 *
 	 * @param  string  $key
 	 * @return array
@@ -139,29 +156,6 @@ class Lang {
 	}
 
 	/**
-	 * Replace all of the place-holders on the given language line.
-	 *
-	 * @param  string  $line
-	 * @return string
-	 */
-	protected function replace($line)
-	{
-		// Replacements allow the developer to customize language lines for
-		// different purposes, such as substituing the name of the current
-		// user of the applicatiion for a name place-holder.
-		//
-		// All replacements are prefixed with a colon and should contain
-		// the same name as the keys in the array of replacements given
-		// to the language instance.
-		foreach ($this->replacements as $key => $value)
-		{
-			$line = str_replace(':'.$key, $value, $line);
-		}
-
-		return $line;
-	}
-
-	/**
 	 * Load all of the language lines from a language file.
 	 *
 	 * @param  string  $bundle
@@ -169,7 +163,7 @@ class Lang {
 	 * @param  string  $file
 	 * @return bool
 	 */
-	protected function load($bundle, $language, $file)
+	public static function load($bundle, $language, $file)
 	{
 		if (isset(static::$lines[$bundle][$language][$file])) return;
 
