@@ -3,7 +3,27 @@
 class Str {
 
 	/**
+	 * Get the default string encoding for the application.
+	 *
+	 * This method is simply a short-cut to Config::get('application.encoding').
+	 *
+	 * @return string
+	 */
+	public static function encoding()
+	{
+		return Config::get('application.encoding');
+	}
+
+	/**
 	 * Get the length of a string.
+	 *
+	 * <code>
+	 *		// Get the length of a string
+	 *		$length = Str::length('Taylor Otwell');
+	 *
+	 *		// Get the length of a multi-byte string
+	 *		$length = Str::length('Τάχιστη')
+	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return int
@@ -16,6 +36,14 @@ class Str {
 	/**
 	 * Convert a string to lowercase.
 	 *
+	 * <code>
+	 *		// Convert a string to lowercase
+	 *		$lower = Str::lower('Taylor Otwell');
+	 *
+	 *		// Convert a multi-byte string to lowercase
+	 *		$lower = Str::lower('Τάχιστη');
+	 * </code>
+	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -27,6 +55,14 @@ class Str {
 	/**
 	 * Convert a string to uppercase.
 	 *
+	 * <code>
+	 *		// Convert a string to uppercase
+	 *		$upper = Str::upper('Taylor Otwell');
+	 *
+	 *		// Convert a multi-byte string to uppercase
+	 *		$upper = Str::upper('Τάχιστη');
+	 * </code>
+	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -37,6 +73,14 @@ class Str {
 
 	/**
 	 * Convert a string to title case (ucwords equivalent).
+	 *
+	 * <code>
+	 *		// Convert a string to title case
+	 *		$title = Str::title('taylor otwell');
+	 *
+	 *		// Convert a multi-byte string to title case
+	 *		$title = Str::title('νωθρού κυνός');
+	 * </code>
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -77,6 +121,42 @@ class Str {
 		}
 
 		return substr($value, 0, $limit).$end;
+	}
+
+	/**
+	 * Get the singular form of the given word.
+	 *
+	 * The word should be defined in the "strings" configuration file.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function singular($value)
+	{
+		return array_get(array_flip(Config::get('strings.inflection')), $value, $value);
+	}
+
+	/**
+	 * Get the plural form of the given word.
+	 *
+	 * The word should be defined in the "strings" configuration file.
+	 *
+	 * <code>
+	 *		// Returns the plural form of "child"
+	 *		$plural = Str::plural('child', 10);
+	 *
+	 *		// Returns the singular form of "child" since count is one
+	 *		$plural = Str::plural('child', 1);
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function plural($value, $count = 2)
+	{
+		if ((int) $count == 1) return $value;
+
+		return array_get(Config::get('strings.inflection'), $value, $value);
 	}
 
 	/**
@@ -122,34 +202,6 @@ class Str {
 	}
 
 	/**
-	 * Get the plural form of the given word.
-	 *
-	 * The word should be defined in the "strings" configuration file.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function plural($value, $count = null)
-	{
-		if ( ! is_null($count) and $count == 1) return $value;
-
-		return array_get(Config::get('strings.inflection'), $value, $value);
-	}
-
-	/**
-	 * Get the singular form of the given word.
-	 *
-	 * The word should be defined in the "strings" configuration file.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function singular($value)
-	{
-		return array_get(array_flip(Config::get('strings.inflection')), $value, $value);
-	}
-
-	/**
 	 * Generate a random alpha or alpha-numeric string.
 	 *
 	 * <code>
@@ -188,16 +240,6 @@ class Str {
 			default:
 				throw new \Exception("Invalid random string type [$type].");
 		}
-	}
-
-	/**
-	 * Get the default string encoding for the application.
-	 *
-	 * @return string
-	 */
-	protected static function encoding()
-	{
-		return Config::get('application.encoding');
 	}
 
 }
