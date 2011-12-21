@@ -99,15 +99,13 @@ class Lang {
 
 		// If the file doesn't exist, we'll just return the default value that was
 		// given to the method. The default value is also returned even when the
-		// file exists if the file does not actually contain any lines.
+		// file exists and the file does not actually contain any lines.
 		if ( ! static::load($bundle, $language, $file))
 		{
 			return value($default);
 		}
 
-		$lines = static::$lines[$bundle][$language][$file];
-
-		$line = array_get($lines, $line, $default);
+		$line = array_get(static::$lines[$bundle][$language][$file], $line, $default);
 
 		// If the line is not a string, it probably means the developer asked for
 		// the entire langauge file and the value of the requested value will be
