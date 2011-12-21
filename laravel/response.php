@@ -231,14 +231,14 @@ class Response {
 	 */
 	public function send_headers()
 	{
+		header(Request::protocol().' '.$this->status.' '.static::$statuses[$this->status]);
+
 		if ( ! isset($this->headers['Content-Type']))
 		{
 			$encoding = Config::get('application.encoding');
 
 			$this->header('Content-Type', "text/html; charset={$encoding}");
 		}
-
-		header(Request::protocol().' '.$this->status.' '.static::$statuses[$this->status]);
 
 		foreach ($this->headers as $name => $value)
 		{	
