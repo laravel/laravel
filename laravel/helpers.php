@@ -50,7 +50,7 @@ function array_get($array, $key, $default = null)
 	{
 		if ( ! is_array($array) or ! array_key_exists($segment, $array))
 		{
-			return ($default instanceof Closure) ? call_user_func($default) : $default;
+			return value($default);
 		}
 
 		$array = $array[$segment];
@@ -170,5 +170,18 @@ function array_first($array, $callback, $default = null)
 		if (call_user_func($callback, $key, $value)) return $value;
 	}
 
-	return ($default instanceof Closure) ? call_user_func($default) : $default;
+	return value($default);
+}
+
+/**
+ * Return the value of the given item.
+ *
+ * If the given item is a Closure the result of the Closure will be returned.
+ *
+ * @param  mixed  $value
+ * @return mixed
+ */
+function value($value)
+{
+	return ($value instanceof Closure) ? call_user_func($value) : $value;
 }

@@ -30,9 +30,7 @@ class File {
 	 */
 	public static function get($path, $default = null)
 	{
-		if (file_exists($path)) return file_get_contents($path);
-
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return (file_exists($path)) ? file_get_contents($path) : value($default);
 	}
 
 	/**

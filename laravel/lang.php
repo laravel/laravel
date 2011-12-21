@@ -102,22 +102,16 @@ class Lang {
 		// file exists if the file does not actually contain any lines.
 		if ( ! static::load($bundle, $language, $file))
 		{
-			return ($default instanceof Closure) ? call_user_func($default) : $default;
+			return value($default);
 		}
-
 
 		$lines = static::$lines[$bundle][$language][$file];
 
 		$line = array_get($lines, $line, $default);
 
-		// If the requested line is a string, we will replace all of the line's
-		// place-holders with the replacements values that were specified for
-		// the line when it was created. Each replacement place-holder is
-		// prefixed with a colon for easy matching.
-		//
 		// If the line is not a string, it probably means the developer asked
-		// for the entire langauge file and the value of the requsted value
-		// will be an array of all the lines.
+		// for the entire langauge file and the value of the requested value
+		// will be an array containing all of the lines in the file.
 		if (is_string($line))
 		{
 			foreach ($this->replacements as $key => $value)

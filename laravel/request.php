@@ -81,7 +81,7 @@ class Request {
 			return $_SERVER['REMOTE_ADDR'];
 		}
 
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return value($default);
 	}
 
 	/**

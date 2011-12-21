@@ -28,9 +28,7 @@ abstract class Driver {
 	 */
 	public function get($key, $default = null)
 	{
-		if ( ! is_null($item = $this->retrieve($key))) return $item;
-
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return ( ! is_null($item = $this->retrieve($key))) ? $item : value($default);
 	}
 
 	/**
@@ -76,9 +74,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$default = ($default instanceof Closure) ? call_user_func($default) : $default;
-
-		$this->put($key, $default, $minutes);
+		$this->put($key, value($default), $minutes);
 
 		return $default;
 	}

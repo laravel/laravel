@@ -145,7 +145,7 @@ class Payload {
 			return $value;
 		}
 
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return value($default);
 	}
 
 	/**
