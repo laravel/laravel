@@ -3,6 +3,17 @@
 class Str {
 
 	/**
+	 * Get the length of a string.
+	 *
+	 * @param  string  $value
+	 * @return int
+	 */
+	public static function length($value)
+	{
+		return (MB_STRING) ? mb_strlen($value, static::encoding()) : strlen($value);
+	}
+
+	/**
 	 * Convert a string to lowercase.
 	 *
 	 * @param  string  $value
@@ -10,12 +21,7 @@ class Str {
 	 */
 	public static function lower($value)
 	{
-		if (function_exists('mb_strtolower'))
-		{
-			return mb_strtolower($value, Config::get('application.encoding'));
-		}
-
-		return strtolower($value);
+		return (MB_STRING) ? mb_strtolower($value, static::encoding()) : strtolower($value);
 	}
 
 	/**
@@ -26,12 +32,7 @@ class Str {
 	 */
 	public static function upper($value)
 	{
-		if (function_exists('mb_strtoupper'))
-		{
-			return mb_strtoupper($value, Config::get('application.encoding'));
-		}
-
-		return strtoupper($value);
+		return (MB_STRING) ? mb_strtoupper($value, static::encoding()) : strtoupper($value);
 	}
 
 	/**
@@ -42,28 +43,12 @@ class Str {
 	 */
 	public static function title($value)
 	{
-		if (function_exists('mb_convert_case'))
+		if (MB_STRING)
 		{
-			return mb_convert_case($value, MB_CASE_TITLE, Config::get('application.encoding'));
+			return mb_convert_case($value, MB_CASE_TITLE, static::encoding());
 		}
 
 		return ucwords(strtolower($value));
-	}
-
-	/**
-	 * Get the length of a string.
-	 *
-	 * @param  string  $value
-	 * @return int
-	 */
-	public static function length($value)
-	{
-		if (function_exists('mb_strlen'))
-		{
-			return mb_strlen($value, Config::get('application.encoding'));
-		}
-
-		return strlen($value);
 	}
 
 	/**
@@ -86,16 +71,16 @@ class Str {
 	{
 		if (static::length($value) <= $limit) return $value;
 
-		if (function_exists('mb_substr'))
+		if (MB_STRING)
 		{
-			return mb_substr($value, 0, $limit, Config::get('application.encoding')).$end;
+			return mb_substr($value, 0, $limit, static::encoding()).$end;
 		}
 
 		return substr($value, 0, $limit).$end;
 	}
 
 	/**
-	 * Limit the number of words in a string. Word integrity is preserved.
+	 * Limit the number of words in a string.
 	 *
 	 * <code>
 	 *		// Returns "This is a..."
@@ -112,14 +97,9 @@ class Str {
 	 */
 	public static function words($value, $words = 100, $end = '...')
 	{
-		if (trim($value) == '') return $value;
-
 		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
 
-		if (static::length($value) == static::length($matches[0]))
-		{
-			$end = '';
-		}
+		if (static::length($value) == static::length($matches[0])) $end = '';
 
 		return rtrim($matches[0]).$end;
 	}
@@ -144,7 +124,7 @@ class Str {
 	/**
 	 * Get the plural form of the given word.
 	 *
-	 * The word must be defined in the "strings" configuration file.
+	 * The word should be defined in the "strings" configuration file.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -159,7 +139,7 @@ class Str {
 	/**
 	 * Get the singular form of the given word.
 	 *
-	 * The word must be defined in the "strings" configuration file.
+	 * The word should be defined in the "strings" configuration file.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -208,6 +188,16 @@ class Str {
 			default:
 				throw new \Exception("Invalid random string type [$type].");
 		}
+	}
+
+	/**
+	 * Get the default string encoding for the application.
+	 *
+	 * @return string
+	 */
+	protected static function encoding()
+	{
+		return Config::get('application.encoding');
 	}
 
 }
