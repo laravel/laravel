@@ -168,7 +168,7 @@ class Lang {
 		// that is installed for the application. So, we'll need to use
 		// the bundle's path when checking for the file.
 		//
-		// This is similar to the loading method for configuration files
+		// This is similar to the loading method for configuration files,
 		// but we do not need to cascade across directories since most
 		// likely language files are static across environments.
 		if (file_exists($path = Bundle::path($bundle).'language/'.$language.'/'.$file.EXT))
