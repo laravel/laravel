@@ -109,9 +109,9 @@ class Lang {
 
 		$line = array_get($lines, $line, $default);
 
-		// If the line is not a string, it probably means the developer asked
-		// for the entire langauge file and the value of the requested value
-		// will be an array containing all of the lines in the file.
+		// If the line is not a string, it probably means the developer asked for
+		// the entire langauge file and the value of the requested value will be
+		// an array containing all of the lines in the file.
 		if (is_string($line))
 		{
 			foreach ($this->replacements as $key => $value)
@@ -164,6 +164,13 @@ class Lang {
 
 		$lines = array();
 
+		// Language files can belongs to the application or to any bundle
+		// that is installed for the application. So, we'll need to use
+		// the bundle's path when checking for the file.
+		//
+		// This is similar to the loading method for configuration files
+		// but we do not need to cascade across directories since most
+		// likely language files are static across environments.
 		if (file_exists($path = Bundle::path($bundle).'language/'.$language.'/'.$file.EXT))
 		{
 			$lines = require $path;

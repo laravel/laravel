@@ -158,6 +158,7 @@ return array(
 		'Section'    => 'Laravel\\Section',
 		'Session'    => 'Laravel\\Session',
 		'Str'        => 'Laravel\\Str',
+		'URI'        => 'Laravel\\URI',
 		'Validator'  => 'Laravel\\Validator',
 		'View'       => 'Laravel\\View',
 	),
