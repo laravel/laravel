@@ -145,8 +145,8 @@ class Str {
 	 *		// Returns the plural form of "child"
 	 *		$plural = Str::plural('child', 10);
 	 *
-	 *		// Returns the singular form of "child" since count is one
-	 *		$plural = Str::plural('child', 1);
+	 *		// Returns the singular form of "octocat" since count is one
+	 *		$plural = Str::plural('octocat', 1);
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -179,7 +179,10 @@ class Str {
 	{
 		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
 
-		if (static::length($value) == static::length($matches[0])) $end = '';
+		if (static::length($value) == static::length($matches[0]))
+		{
+			$end = '';
+		}
 
 		return rtrim($matches[0]).$end;
 	}
