@@ -59,7 +59,6 @@ Autoloader::$mappings = array(
 	'Laravel\\HTML' => SYS_PATH.'html'.EXT,
 	'Laravel\\Input' => SYS_PATH.'input'.EXT,
 	'Laravel\\IoC' => SYS_PATH.'ioc'.EXT,
-	'Laravel\\Inflector' => SYS_PATH.'inflector'.EXT,
 	'Laravel\\Lang' => SYS_PATH.'lang'.EXT,
 	'Laravel\\Memcached' => SYS_PATH.'memcached'.EXT,
 	'Laravel\\Messages' => SYS_PATH.'messages'.EXT,

@@ -134,11 +134,39 @@ class Str {
 	 */
 	public static function ascii($value)
 	{
-		$foreign = Config::get('ascii');
+		$foreign = Config::get('strings.ascii');
 
 		$value = preg_replace(array_keys($foreign), array_values($foreign), $value);
 
 		return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $value);
+	}
+
+	/**
+	 * Get the plural form of the given word.
+	 *
+	 * The word must be defined in the "strings" configuration file.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function plural($value, $count = null)
+	{
+		if ( ! is_null($count) and $count == 1) return $value;
+
+		return array_get(Config::get('strings.inflection'), $value, $value);
+	}
+
+	/**
+	 * Get the singular form of the given word.
+	 *
+	 * The word must be defined in the "strings" configuration file.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function singular($value)
+	{
+		return array_get(array_flip(Config::get('strings.inflection')), $value, $value);
 	}
 
 	/**

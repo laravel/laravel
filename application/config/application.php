@@ -145,7 +145,6 @@ return array(
 		'HTML'       => 'Laravel\\HTML',
 		'Input'      => 'Laravel\\Input',
 		'IoC'        => 'Laravel\\IoC',
-		'Inflector'  => 'Laravel\\Inflector',
 		'Lang'       => 'Laravel\\Lang',
 		'Memcached'  => 'Laravel\\Memcached',
 		'Paginator'  => 'Laravel\\Paginator',
