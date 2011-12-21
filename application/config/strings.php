@@ -7,7 +7,7 @@ return array(
 	| String Inflection
 	|--------------------------------------------------------------------------
 	|
-	| This array contains the singular and plural forms of words. It is used by
+	| This array contains the singular and plural forms of words. It's used by
 	| the "singular" and "plural" methods on the Str class to convert a given
 	| word from singular to plural and vice versa.
 	|
