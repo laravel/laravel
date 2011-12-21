@@ -171,10 +171,9 @@ class Lang {
 		// This is similar to the loading method for configuration files,
 		// but we do not need to cascade across directories since most
 		// likely language files are static across environments.
-		if (file_exists($path = Bundle::path($bundle).'language/'.$language.'/'.$file.EXT))
-		{
-			$lines = require $path;
-		}
+		$path = Bundle::path($bundle)."language/{$language}/{$file}".EXT;
+
+		if (file_exists($path)) $lines = require $path;
 
 		static::$lines[$bundle][$language][$file] = $lines;
 
