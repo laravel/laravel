@@ -7,18 +7,40 @@ return array(
 	| String Inflection
 	|--------------------------------------------------------------------------
 	|
-	| The URL used to access your application. No trailing slash.
+	| This array contains the singular and plural forms of words. It is used by
+	| the "singular" and "plural" methods on the Str class to convert a given
+	| word from singular to plural and vice versa.
+	|
+	| This simple array is in constrast to the complicated regular expression
+	| patterns used by other frameworks. We think you'll enjoy the speed and
+	| simplicity of this solution.
+	|
+	| When adding a word to the array, the key should be the singular form,
+	| while the array value should be the plural form. We've included an
+	| example to get you started!
 	|
 	*/
 
-	'inflection' => array(),
+	'inflection' => array(
+
+		'user'    => 'users',
+		'person'  => 'people',
+		'comment' => 'comments',
+
+	),
 
 	/*
 	|--------------------------------------------------------------------------
 	| ASCII Characters
 	|--------------------------------------------------------------------------
 	|
-	| The URL used to access your application. No trailing slash.
+	| This array contains foreign characters and their 7-bit ASCII equivalents.
+	| The array is used by the "ascii" method on the Str class to get strings
+	| ready for inclusion in a URL slug.
+	|
+	| Of course, the "ascii" method may also be used by you for whatever your
+	| application requires. Feel free to add any characters we missed, and be
+	| sure to let us know about them!
 	|
 	*/
 
