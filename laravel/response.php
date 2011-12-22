@@ -195,21 +195,7 @@ class Response {
 	}
 
 	/**
-	 * Get the evaluated string contents of the response.
-	 *
-	 * @return string
-	 */
-	public function render()
-	{
-		return ($this->content instanceof View) ? $this->content->render() : (string) $this->content;
-	}
-
-	/**
-	 * Send the response to the browser.
-	 *
-	 * All of the response headers will be sent to the browser first, followed by
-	 * the content of the response instance, which will be evaluated and rendered
-	 * by the render method.
+	 * Send the headers and content of the response to the browser.
 	 *
 	 * @return void
 	 */
@@ -217,15 +203,11 @@ class Response {
 	{
 		if ( ! headers_sent()) $this->send_headers();
 
-		echo $this->render();
+		echo (string) $this->content;
 	}
 
 	/**
 	 * Send all of the response headers to the browser.
-	 *
-	 * The protocol and status header will be set automatically, as well as the
-	 * content-type and charset, unless those headers have been set explicitly.
-	 * The content-type charset used will be the application encoding.
 	 *
 	 * @return void
 	 */
@@ -247,12 +229,7 @@ class Response {
 	}
 
 	/**
-	 * Add a header to the response.
-	 *
-	 * <code>
-	 *		// Add a header to a response instance
-	 *		return Response::make('foo')->header('content-type', 'application/json');
-	 * </code>
+	 * Add a header to the response headers that will be sent to the browser.
 	 *
 	 * @param  string    $name
 	 * @param  string    $value

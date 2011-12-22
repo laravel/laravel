@@ -31,6 +31,13 @@ class View implements ArrayAccess {
 	public static $shared = array();
 
 	/**
+	 * All of the assigned view names.
+	 *
+	 * @var array
+	 */
+	public static $names = array();
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -82,10 +89,10 @@ class View implements ArrayAccess {
 
 		$root = Bundle::path(Bundle::name($view)).'views/';
 
-		// Views may have either the normal PHP extension or the Blade PHP extension,
-		// so we need to check if either of them exist in the base views directory
-		// for the bundle. We'll check for the PHP extension first since that is
-		// probably the more common of the two.
+		// Views may have the normal PHP extension or the Blade PHP extension, so
+		// we need to check if either of them exist in the base views directory
+		// for the bundle. We'll check for the PHP extension first since that
+		// is probably the more common of the two.
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = $root.Bundle::element($view).$extension))
@@ -122,6 +129,29 @@ class View implements ArrayAccess {
 	public static function make($view, $data = array())
 	{
 		return new static($view, $data);
+	}
+
+	/**
+	 * Create a new view instance for a named view.
+	 *
+	 * Before creating a named view instance, the name must be assigned to
+	 * the view using the "name" method on the View class.
+	 *
+	 * <code>
+	 *		// Create a new view instance for the "layout" view
+	 *		$view = View::of('layout');
+	 *
+	 *		// Create a new named view instance with bound data
+	 *		$view = View::of('layout', array('title' => 'Homepage'));
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function of($name, $data = array())
+	{
+		return new static(static::$names[$name], $data);
 	}
 
 	/**
@@ -226,6 +256,21 @@ class View implements ArrayAccess {
 	}
 
 	/**
+	 * Add a key / value pair to the view data.
+	 *
+	 * Bound data will be available to the view as variables.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return View
+	 */
+	public function with($key, $value)
+	{
+		$this->data[$key] = $value;
+		return $this;
+	}
+
+	/**
 	 * Add a key / value pair to the shared view data.
 	 *
 	 * Shared view data is accessible to every view created by the application.
@@ -240,18 +285,15 @@ class View implements ArrayAccess {
 	}
 
 	/**
-	 * Add a key / value pair to the view data.
+	 * Assign a name to a view.
 	 *
-	 * Bound data will be available to the view as variables.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return View
+	 * @param  string  $view
+	 * @param  string  $name
+	 * @return void
 	 */
-	public function with($key, $value)
+	public static function name($view, $name)
 	{
-		$this->data[$key] = $value;
-		return $this;
+		static::$names[$name] = $view;
 	}
 
 	/**
@@ -294,6 +336,27 @@ class View implements ArrayAccess {
 	public function __toString()
 	{
 		return $this->render();
+	}
+
+	/**
+	 * Magic Method for creating instances of named views.
+	 *
+	 * <code>
+	 *		// Create an instance of the "profile" named view
+	 *		$view = View::of_profile();
+	 *
+	 *		// Create an instance of a named view and bind data to the view
+	 *		$view = View::of_profile(array('name' => 'Taylor'));
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		if (starts_with($method, 'of_'))
+		{
+			return static::of(substr($method, 3), array_get($parameters, 0, array()));
+		}
+
+		throw new \Exception("Call to undefined static method [$method] on the View class.");
 	}
 
 }

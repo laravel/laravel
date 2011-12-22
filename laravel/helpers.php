@@ -185,3 +185,15 @@ function value($value)
 {
 	return ($value instanceof Closure) ? call_user_func($value) : $value;
 }
+
+/**
+ * Determine if a given string begins with a given value.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return bool
+ */
+function starts_with($haystack, $needle)
+{
+	return strpos($haystack, $needle) === 0;
+}
