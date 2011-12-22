@@ -150,31 +150,34 @@ class URL {
 	}
 
 	/**
-	 * Generate a URL friendly "slug".
+	 * Magic Method for dynamically creating URLs to named routes.
 	 *
 	 * <code>
-	 *		// Returns "this-is-my-blog-post"
-	 *		$slug = URL::slug('This is my blog post!');
+	 *		// Create a URL to the "profile" named route
+	 *		$url = URL::to_profile();
 	 *
-	 *		// Returns "this_is_my_blog_post"
-	 *		$slug = URL::slug('This is my blog post!', '_');
+	 *		// Create a URL to the "profile" named route with wildcard segments
+	 *		$url = URL::to_profile(array($username));
+	 *
+	 *		// Create a URL to the "profile" named route using HTTPS
+	 *		$url = URL::to_secure_profile();
 	 * </code>
-	 *
-	 * @param  string  $title
-	 * @param  string  $separator
-	 * @return string
 	 */
-	public static function slug($title, $separator = '-')
+	public static function __callStatic($method, $parameters)
 	{
-		$title = Str::ascii($title);
+		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
 
-		// Remove all characters that are not the separator, letters, numbers, or whitespace.
-		$title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', Str::lower($title));
+		if (starts_with($method, 'to_secure_'))
+		{
+			return static::to_route(substr($method, 10), $parameters, true);
+		}
 
-		// Replace all separator characters and whitespace by a single separator
-		$title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+		if (starts_with($method, 'to_'))
+		{
+			return static::to_route(substr($method, 3), $parameters);
+		}
 
-		return trim($title, $separator);
+		throw new \Exception("Method [$method] is not defined on the URL class.");
 	}
 
 }

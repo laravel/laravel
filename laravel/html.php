@@ -284,9 +284,6 @@ class HTML {
 	/**
 	 * Build a list of HTML attributes from an array.
 	 *
-	 * Numeric-keyed attributes will be assigned the same key and value to handle
-	 * attributes such as "autofocus" and "required".
-	 *
 	 * @param  array   $attributes
 	 * @return string
 	 */
@@ -358,14 +355,14 @@ class HTML {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		if (strpos($method, 'link_to_secure_') === 0)
+		if (starts_with($method, 'link_to_secure_'))
 		{
 			array_unshift($parameters, substr($method, 15));
 
 			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
 		}
 
-		if (strpos($method, 'link_to_') === 0)
+		if (starts_with($method, 'link_to_'))
 		{
 			array_unshift($parameters, substr($method, 8));
 

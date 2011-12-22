@@ -143,4 +143,37 @@ class Redirect extends Response {
 		return $this->with('errors', $errors);
 	}
 
+	/**
+	 * Magic Method to handle creation of redirects to named routes.
+	 *
+	 * <code>
+	 *		// Create a redirect response to the "profile" named route
+	 *		return Redirect::to_profile();
+	 *
+	 *		// Create a redirect response to a named route using HTTPS
+	 *		return Redirect::to_secure_profile();
+	 *
+	 *		// Create a redirect response to a named route with wildcard parameters
+	 *		return Redirect::to_profile(array($username), 301);
+	 * </code>
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		$wildcards = (isset($parameters[0])) ? $parameters[0] : array();
+
+		$status = (isset($parameters[1])) ? $parameters[1] : 302;
+
+		if (starts_with($method, 'to_secure_'))
+		{
+			return static::to_route(substr($method, 10), $wildcards, $status, true);
+		}
+
+		if (starts_with($method, 'to_'))
+		{
+			return static::to_route(substr($method, 3), $wildcards, $status);
+		}
+
+		throw new \Exception("Method [$method] is not defined on the Redirect class.");
+	}
+
 }

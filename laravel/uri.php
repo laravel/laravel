@@ -19,9 +19,9 @@ class URI {
 	/**
 	 * Get the URI for the current request.
 	 *
-	 * If the request is to the root of the application, a single forward slash will
-	 * be returned. Otherwise, the URI will be returned with all of the leading and
-	 * trailing slashes removed for convenience.
+	 * If the request is to the root of the application, a single forward slash
+	 * will be returned. Otherwise, the URI will be returned with all of the
+	 * leading and trailing slashes removed for convenience.
 	 *
 	 * @return string
 	 */

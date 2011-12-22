@@ -360,7 +360,7 @@ class View implements ArrayAccess {
 			return static::of(substr($method, 3), array_get($parameters, 0, array()));
 		}
 
-		throw new \Exception("Call to undefined static method [$method] on the View class.");
+		throw new \Exception("Method [$method] is not defined on the View class.");
 	}
 
 }
