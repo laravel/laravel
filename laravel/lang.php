@@ -105,7 +105,9 @@ class Lang {
 			return value($default);
 		}
 
-		$line = array_get(static::$lines[$bundle][$language][$file], $line, $default);
+		$lines = static::$lines[$bundle][$language][$file];
+
+		$line = array_get($lines, $line, $default);
 
 		// If the line is not a string, it probably means the developer asked for
 		// the entire langauge file and the value of the requested value will be

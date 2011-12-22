@@ -61,13 +61,14 @@ class Event {
 	 */
 	public static function fire($event, $parameters = array())
 	{
-		if ( ! static::listeners($event)) return;
-
 		$responses = array();
 
-		foreach (static::$events[$event] as $callback)
+		if (static::listeners($event))
 		{
-			$responses[] = call_user_func_array($callback, $parameters);
+			foreach (static::$events[$event] as $callback)
+			{
+				$responses[] = call_user_func_array($callback, $parameters);
+			}
 		}
 
 		return $responses;

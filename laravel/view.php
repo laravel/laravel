@@ -220,6 +220,10 @@ class View implements ArrayAccess {
 	 */
 	protected function compile()
 	{
+		// Compiled views are stored in the storage directory using the MD5
+		// hash of their path. This allows us to easily store the views in
+		// the directory without worrying about re-creating the entire
+		// application view directory structure.
 		$compiled = STORAGE_PATH.'views/'.md5($this->path);
 
 		// The view will only be re-compiled if the view has been modified

@@ -215,16 +215,22 @@ class Response {
 	{
 		header(Request::protocol().' '.$this->status.' '.static::$statuses[$this->status]);
 
+		// If the content type has not been set, we will set the header to a
+		// default of HTML with the character set defined as the application
+		// encoding specified in the application's configuration.
 		if ( ! isset($this->headers['Content-Type']))
 		{
 			$encoding = Config::get('application.encoding');
 
-			$this->header('Content-Type', "text/html; charset={$encoding}");
+			$this->header('Content-Type', 'text/html; charset='.$encoding);
 		}
 
+		// Now that the standard headers have been set, we can simply loop
+		// through the headers that were specified by the developer and
+		// send each one of them to the browser.
 		foreach ($this->headers as $name => $value)
-		{	
-			header($name.': '.$value, true);
+		{
+			header("{$name}: {$value}", true);
 		}
 	}
 
