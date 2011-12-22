@@ -1,4 +1,7 @@
-<?php namespace Laravel\Database; use Laravel\Paginator;
+<?php namespace Laravel\Database;
+
+use Laravel\Database;
+use Laravel\Paginator;
 
 class Query {
 
@@ -616,7 +619,7 @@ class Query {
 	 */
 	protected function adjust($column, $amount, $operator)
 	{
-		$value = Manager::raw($this->grammar->wrap($column).$operator.$amount);
+		$value = Database::raw($this->grammar->wrap($column).$operator.$amount);
 
 		return $this->update(array($column => $value));
 	}

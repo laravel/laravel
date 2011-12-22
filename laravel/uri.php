@@ -31,14 +31,14 @@ class URI {
 
 		$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-		// Remove the root application URL from the request URI. If the application is
-		// nested within a sub-directory of the web document root, this will get rid 
-		// of all of the the sub-directories from the request URI.
+		// Remove the root application URL from the request URI. If the application
+		// is nested within a sub-directory of the web document root, this will get
+		// rid of all of the the sub-directories from the request URI.
 		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
-		// We will also remove the application index page as it isn't used for routing
-		// and is totally unnecessary as far as Laravel is concerned. It is only used
-		// when mod_rewrite is not an option for cleaner URLs.
+		// We'll also remove the application's index page as it is not used for at
+		// all for routing and is totally unnecessary as far as the framework is
+		// concerned. It is only in the URI when mod_rewrite is not available.
 		if (($index = '/'.Config::get('application.index')) !== '/')
 		{
 			$uri = static::remove($uri, $index);
@@ -87,9 +87,6 @@ class URI {
 
 	/**
 	 * Format a given URI.
-	 *
-	 * If the URI is an empty string, a single forward slash will be returned.
-	 * Otherwise, we will trim the URI's leading and trailing slashes.
 	 *
 	 * @param  string  $uri
 	 * @return string
