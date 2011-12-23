@@ -41,6 +41,8 @@ class URI {
 			$uri = static::remove($uri, $index);
 		}
 
+		$uri = urldecode($uri);
+
 		static::$uri = static::format($uri);
 
 		static::$segments = explode('/', static::$uri);
