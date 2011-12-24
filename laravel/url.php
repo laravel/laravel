@@ -102,8 +102,8 @@ class URL {
 	 * Generate a URL from a route name.
 	 *
 	 * For routes that have wildcard parameters, an array may be passed as the
-	 * second parameter to the method. The values of this array will be used to
-	 * fill the wildcard segments of the route URI.
+	 * second parameter to the method. The values of this array will be used
+	 * to fill the wildcard segments of the route URI.
 	 *
 	 * <code>
 	 *		// Create a URL to the "profile" named route
