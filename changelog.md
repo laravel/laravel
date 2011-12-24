@@ -1,5 +1,9 @@
 # Laravel Change Log
 
+## Version 2.0.6
+
+- Fix: Fixed nested sections.
+
 ## Version 2.0.5
 
 - Feature: Added array access to session::get.
