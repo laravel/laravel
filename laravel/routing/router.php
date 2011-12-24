@@ -90,7 +90,10 @@ class Router {
 		// the routes array with every route that has been defined.
 		if (count(static::$names) == 0)
 		{
-			array_map(function($bundle) {Bundle::routes($bundle);}, Bundle::all());
+			foreach (Bundle::all() as $bundle)
+			{
+				Bundle::routes($bundle);
+			}
 		}
 
 		// To find a named route, we need to iterate through every route defined
