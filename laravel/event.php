@@ -25,7 +25,7 @@ class Event {
 	 *
 	 * <code>
 	 *		// Register a callback for the "start" event
-	 *		Event::listen('start', function() { return 'Started!'; });
+	 *		Event::listen('start', function() {return 'Started!';});
 	 *
 	 *		// Register an object instance callback for the given event
 	 *		Event::listen('event', array($object, 'method'));

@@ -563,16 +563,7 @@ class Validator {
 		// either a number, file, or string.
 		elseif (in_array($rule, $this->size_rules))
 		{
-			if ($this->has_rule($attribute, $this->numeric_rules))
-			{
-				$line = 'numeric';
-			}
-			else
-			{
-				$line = (array_key_exists($attribute, Input::file())) ? 'file' : 'string';
-			}
-
-			return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
+			return $this->size_message($bundle, $attribute, $rule);
 		}
 
 		// If no developer specified messages have been set, and no other special
@@ -582,6 +573,37 @@ class Validator {
 		{
 			return Lang::line("{$bundle}validation.{$rule}")->get($this->language);
 		}
+	}
+
+	/**
+	 * Get the proper error message for an attribute and size rule.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @return string
+	 */
+	protected function size_message($bundle, $attribute, $rule)
+	{
+		// There are three different types of size validations. The attribute
+		// may be either a number, file, or a string. If the attribute has a
+		// numeric rule attached to it, we can assume it is a number. If the
+		// attribute is in the file array, it is a file, otherwise we can
+		// assume the attribute is simply a string.
+		if ($this->has_rule($attribute, $this->numeric_rules))
+		{
+			$line = 'numeric';
+		}
+		elseif (array_key_exists($attribute, Input::file()))
+		{
+			$line = 'file';
+		}
+		else
+		{
+			$line = 'string';
+		}
+
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
 	}
 
 	/**
@@ -609,6 +631,10 @@ class Validator {
 
 			$message = str_replace(array(':size', ':min', ':max'), $replace, $message);
 		}
+
+		// The :values place-holder is used for rules that accept a list of
+		// values, such as "in" and "not_in". The place-holder value will
+		// be replaced with a comma delimited list of the values.
 		elseif (in_array($rule, $this->inclusion_rules))
 		{
 			$message = str_replace(':values', implode(', ', $parameters), $message);
@@ -620,12 +646,6 @@ class Validator {
 	/**
 	 * Get the displayable name for a given attribute.
 	 *
-	 * Storing attribute names in the language file allows a more reader friendly
-	 * version of the attribute name to be place in the :attribute place-holder.
-	 *
-	 * If no language line is specified for the attribute, a default formatting
-	 * will be used for the attribute.
-	 *
 	 * @param  string  $attribute
 	 * @return string
 	 */
@@ -633,6 +653,13 @@ class Validator {
 	{
 		$bundle = Bundle::prefix($this->bundle);
 
+		// More reader friendly versions of the attribute names may be stored
+		// in the validation language file, allowing a more readable version
+		// of the attribute name to be used in the validation message.
+		//
+		// If no language line has been specified for the attribute, all of
+		// the underscores will be removed from the attribute name and that
+		// will be used as the attribtue name in the message.
 		$display = Lang::line("{$bundle}validation.attributes.{$attribute}")->get($this->language);
 
 		return (is_null($display)) ? str_replace('_', ' ', $attribute) : $display;

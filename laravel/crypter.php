@@ -1,8 +1,13 @@
 <?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
 
+if ( ! function_exists('mcrypt_encrypt'))
+{
+	throw new \Exception('Mcrypt must be installed before using the Crypter class.');
+}
+
 if (trim(Config::get('application.key')) === '')
 {
-	throw new \Exception('The encryption class may not be used without an application key.');
+	throw new \Exception('The Crypter class may not be used without an application key.');
 }
 
 class Crypter {
@@ -26,8 +31,6 @@ class Crypter {
 	 *
 	 * The string will be encrypted using the AES-256 scheme and will be base64 encoded.
 	 *
-	 * Mcrypt must be installed on your machine before using this method.
-	 *
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -42,8 +45,6 @@ class Crypter {
 
 	/**
 	 * Decrypt a string using Mcrypt.
-	 *
-	 * Mcrypt must be installed on your machine before using this method.
 	 *
 	 * @param  string  $value
 	 * @return string
