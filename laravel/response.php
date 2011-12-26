@@ -213,22 +213,35 @@ class Response {
 	 */
 	public function send_headers()
 	{
-		header(Request::protocol().' '.$this->status.' '.$this->message());
+		// If the server is using FastCGI, we need to send a slightly different
+		// protocol and status header than we normally would. Otherwise it will
+		// not call any custom scripts setup to handle 404 responses.
+		//
+		// The status header will contain both the code and the status message,
+		// such as "OK" or "Not Found". For typical servers, the HTTP protocol
+		// will also be included with the status.
+		if (isset($_SERVER['FCGI_SERVER_VERSION']))
+		{
+			header('Status: '.$this->status.' '.$this->message());
+		}
+		else
+		{
+			header(Request::protocol().' '.$this->status.' '.$this->message());
+		}
 
-		// If the content type was not set by the developer, we'll set the header
-		// to a default value that indicates to the browser that the response
-		// will be HTML and use the default encoding for the application.
-		if ( ! isset($this->headers('Content-Type')))
+		// If the content type was not set by the developer, we will set the
+		// header to a default value that indicates to the browser that the
+		// response is HTML and that it uses the default encoding.
+		if ( ! isset($this->headers['Content-Type']))
 		{
 			$encoding = Config::get('application.encoding');
 
-			$this->header('Content-Type', 'text/html; charset='.$encoding;
+			$this->header('Content-Type', 'text/html; charset='.$encoding);
 		}
 
-		// Once the framework controlled headers have been sent to the browser,
-		// we can simply iterate over the developer's headers and send each
-		// one of them to the browser. We will override any headers of the
-		// same name that have already been sent to the browser.
+		// Once the framework controlled headers have been sentm, we can
+		// simply iterate over the developer's headers and send each one
+		// to the browser. Headers with the same name will be overriden.
 		foreach ($this->headers as $name => $value)
 		{
 			header("{$name}: {$value}", true);
