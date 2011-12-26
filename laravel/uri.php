@@ -14,7 +14,7 @@ class URI {
 	 *
 	 * @var array
 	 */
-	protected static $segments = array();
+	public static $segments = array();
 
 	/**
 	 * Get the URI for the current request.
@@ -42,6 +42,10 @@ class URI {
 
 		static::$uri = static::format($uri);
 
+		// Cache the URI segments. This allows us to avoid having to explode
+		// the segments every time the developer requests one of them. The
+		// extra slashes have already been stripped off of the URI so no
+		// extraneous elements should be present in the segment array.
 		static::$segments = explode('/', static::$uri);
 
 		return static::$uri;
