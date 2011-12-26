@@ -174,6 +174,18 @@ function array_first($array, $callback, $default = null)
 }
 
 /**
+ * Spin through the array, executing a callback with each key and element.
+ *
+ * @param  array  $array
+ * @param  mixed  $callback
+ * @return array
+ */
+function array_spin($array, $callback)
+{
+	return array_map($callback, array_keys($array), array_values($array));
+}
+
+/**
  * Return the value of the given item.
  *
  * If the given item is a Closure the result of the Closure will be returned.

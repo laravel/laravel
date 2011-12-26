@@ -14,7 +14,7 @@ class Response {
 	 *
 	 * @var int
 	 */
-	public $status;
+	public $status = 200;
 
 	/**
 	 * The response headers.
@@ -213,19 +213,36 @@ class Response {
 	 */
 	public function send_headers()
 	{
-		header(Request::protocol().' '.$this->status.' '.static::$statuses[$this->status]);
+		header(Request::protocol().' '.$this->status.' '.$this->message());
 
-		if ( ! isset($this->headers['Content-Type']))
+		// If the content type was not set by the developer, we'll set the header
+		// to a default value that indicates to the browser that the response
+		// will be HTML and use the default encoding for the application.
+		if ( ! isset($this->headers('Content-Type')))
 		{
 			$encoding = Config::get('application.encoding');
 
-			$this->header('Content-Type', 'text/html; charset='.$encoding);
+			$this->header('Content-Type', 'text/html; charset='.$encoding;
 		}
 
+		// Once the framework controlled headers have been sent to the browser,
+		// we can simply iterate over the developer's headers and send each
+		// one of them to the browser. We will override any headers of the
+		// same name that have already been sent to the browser.
 		foreach ($this->headers as $name => $value)
 		{
 			header("{$name}: {$value}", true);
 		}
+	}
+
+	/**
+	 * Get the status code message for the response.
+	 *
+	 * @return string
+	 */
+	public function message()
+	{
+		return static::$statuses[$this->status];
 	}
 
 	/**
