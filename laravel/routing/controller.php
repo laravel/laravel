@@ -173,7 +173,7 @@ abstract class Controller {
 		// stringed before closing the session, since the developer may
 		// be using the session within their views, so we cannot age
 		// the session data until the view is rendered.
-		$response->content = $response->render();
+		$response->content = (string) $response->content;
 
 		Filter::run($this->filters('after', $method), array($response));
 

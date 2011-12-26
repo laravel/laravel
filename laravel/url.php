@@ -149,35 +149,4 @@ class URL {
 		return static::to($uri, $https);
 	}
 
-	/**
-	 * Magic Method for dynamically creating URLs to named routes.
-	 *
-	 * <code>
-	 *		// Create a URL to the "profile" named route
-	 *		$url = URL::to_profile();
-	 *
-	 *		// Create a URL to the "profile" named route with wildcard segments
-	 *		$url = URL::to_profile(array($username));
-	 *
-	 *		// Create a URL to the "profile" named route using HTTPS
-	 *		$url = URL::to_secure_profile();
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		$parameters = (isset($parameters[0])) ? $parameters[0] : array();
-
-		if (starts_with($method, 'to_secure_'))
-		{
-			return static::to_route(substr($method, 10), $parameters, true);
-		}
-
-		if (starts_with($method, 'to_'))
-		{
-			return static::to_route(substr($method, 3), $parameters);
-		}
-
-		throw new \Exception("Method [$method] is not defined on the URL class.");
-	}
-
 }

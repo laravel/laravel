@@ -31,13 +31,6 @@ class View implements ArrayAccess {
 	public static $shared = array();
 
 	/**
-	 * All of the assigned view names.
-	 *
-	 * @var array
-	 */
-	public static $names = array();
-
-	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -107,10 +100,6 @@ class View implements ArrayAccess {
 	/**
 	 * Create a new view instance.
 	 *
-	 * The name of the view given to this method should correspond to a view
-	 * within your application views directory. Dots or slashes may used to
-	 * reference views within sub-directories.
-	 *
 	 * <code>
 	 *		// Create a new view instance
 	 *		$view = View::make('home.index');
@@ -129,29 +118,6 @@ class View implements ArrayAccess {
 	public static function make($view, $data = array())
 	{
 		return new static($view, $data);
-	}
-
-	/**
-	 * Create a new view instance for a named view.
-	 *
-	 * Before creating a named view instance, the name must be assigned to
-	 * the view using the "name" method on the View class.
-	 *
-	 * <code>
-	 *		// Create a new view instance for the "layout" view
-	 *		$view = View::of('layout');
-	 *
-	 *		// Create a new named view instance with bound data
-	 *		$view = View::of('layout', array('title' => 'Homepage'));
-	 * </code>
-	 *
-	 * @param  string  $name
-	 * @param  array   $data
-	 * @return View
-	 */
-	public static function of($name, $data = array())
-	{
-		return new static(static::$names[$name], $data);
 	}
 
 	/**
@@ -289,18 +255,6 @@ class View implements ArrayAccess {
 	}
 
 	/**
-	 * Assign a name to a view.
-	 *
-	 * @param  string  $view
-	 * @param  string  $name
-	 * @return void
-	 */
-	public static function name($view, $name)
-	{
-		static::$names[$name] = $view;
-	}
-
-	/**
 	 * Implementation of the ArrayAccess offsetExists method.
 	 */
 	public function offsetExists($offset)
@@ -340,27 +294,6 @@ class View implements ArrayAccess {
 	public function __toString()
 	{
 		return $this->render();
-	}
-
-	/**
-	 * Magic Method for creating instances of named views.
-	 *
-	 * <code>
-	 *		// Create an instance of the "profile" named view
-	 *		$view = View::of_profile();
-	 *
-	 *		// Create an instance of a named view and bind data to the view
-	 *		$view = View::of_profile(array('name' => 'Taylor'));
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (starts_with($method, 'of_'))
-		{
-			return static::of(substr($method, 3), array_get($parameters, 0, array()));
-		}
-
-		throw new \Exception("Method [$method] is not defined on the View class.");
 	}
 
 }
