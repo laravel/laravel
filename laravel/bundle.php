@@ -201,6 +201,17 @@ class Bundle {
 	}
 
 	/**
+	 * Return the bundle name if it exists, else return the default bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return string
+	 */
+	public static function resolve($bundle)
+	{
+		return (static::exists($bundle)) ? $bundle : DEFAULT_BUNDLE;
+	}
+
+	/**
 	 * Parse a element identifier and return the bundle name and element.
 	 *
 	 * If the identifier does not contain a bundle name, null will be returned

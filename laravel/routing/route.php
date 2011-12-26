@@ -74,7 +74,7 @@ class Route {
 		// assume the route was registered.
 		$segments = explode('/', $this->uris[0]);
 
-		$this->bundle = (Bundle::exists($segments[0])) ? $segments[0] : DEFAULT_BUNDLE;
+		$this->bundle = Bundle::resolve($segments[0]);
 
 		if ( ! static::callable($this->action))
 		{
@@ -138,10 +138,10 @@ class Route {
 			$response = new Response($response);
 		}
 
-		// Stringify the response. We need to force the response to be
-		// stringed before closing the session, since the developer may
-		// be using the session within their views, so we cannot age
-		// the session data until the view is rendered.
+		// Stringify the response. We will need to force the response to be
+		// stringed before closing the session, since the developer may be
+		// using the session within their views, so we cannot age the
+		// session data until the view is rendered.
 		$response->content = (string) $response->content;
 
 		Filter::run($this->filters('after'), array($response));
@@ -183,8 +183,8 @@ class Route {
 		}
 		// Finally, if the action array contains a Closure callback, we will just
 		// execute the call and return its response. This scenarios occurs when
-		// the developer specifies filters on a route, as well as provides an
-		// anonymous function to handle the routes execution.
+		// the developer specifies an anonymous function to handle the route,
+		// as well as route filters or a route name.
 		else
 		{
 			$callback = array_first($this->action, function($key, $value)
@@ -192,10 +192,7 @@ class Route {
 				return $value instanceof Closure;
 			});
 
-			if (is_null($callback))
-			{
-				throw new \Exception("Invalid route defined for URI [{$this->key}]");
-			}
+			if (is_null($callback)) return;
 
 			return call_user_func_array($callback, $this->parameters);
 		}
@@ -204,9 +201,7 @@ class Route {
 	/**
 	 * Get the filters that are attached to the route for a given event.
 	 *
-	 * If the route belongs to a bundle, the bundle's global filters will be
-	 * returned as well. The returned array will contain a single collection
-	 * that can be given to the Filter::run method for execution.
+	 * If the route belongs to a bundle, the bundle's global filters are returned too.
 	 *
 	 * @param  string  $filter
 	 * @return array
