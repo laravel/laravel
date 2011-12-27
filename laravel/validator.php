@@ -571,7 +571,9 @@ class Validator {
 		// message from the validation language file.
 		else
 		{
-			return Lang::line("{$bundle}validation.{$rule}")->get($this->language);
+			$line = "{$bundle}validation.{$rule}";
+
+			return Lang::line($line)->get($this->language);
 		}
 	}
 

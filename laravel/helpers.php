@@ -199,6 +199,18 @@ function head($array)
 }
 
 /**
+ * Determine if a given string begins with a given value.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return bool
+ */
+function starts_with($haystack, $needle)
+{
+	return strpos($haystack, $needle) === 0;
+}
+
+/**
  * Return the value of the given item.
  *
  * If the given item is a Closure the result of the Closure will be returned.
@@ -209,16 +221,4 @@ function head($array)
 function value($value)
 {
 	return ($value instanceof Closure) ? call_user_func($value) : $value;
-}
-
-/**
- * Determine if a given string begins with a given value.
- *
- * @param  string  $haystack
- * @param  string  $needle
- * @return bool
- */
-function starts_with($haystack, $needle)
-{
-	return strpos($haystack, $needle) === 0;
 }

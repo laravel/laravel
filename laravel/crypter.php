@@ -1,10 +1,5 @@
 <?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
 
-if ( ! function_exists('mcrypt_encrypt'))
-{
-	throw new \Exception('Mcrypt must be installed before using the Crypter class.');
-}
-
 if (trim(Config::get('application.key')) === '')
 {
 	throw new \Exception('The Crypter class may not be used without an application key.');

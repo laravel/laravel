@@ -270,9 +270,6 @@ class Filter_Collection {
 	/**
 	 * Set the excluded controller methods.
 	 *
-	 * When methods are excluded, the collection's filters will be run for each
-	 * controller method except those explicitly specified via this method.
-	 *
 	 * <code>
 	 *		// Specify a filter for all methods except "index"
 	 *		$this->filter('before', 'auth')->except('index');
@@ -293,10 +290,6 @@ class Filter_Collection {
 	/**
 	 * Set the included controller methods.
 	 *
-	 * This method is the inverse of the "except" methods. The methods specified
-	 * via this method are the only controller methods on which the collection's
-	 * filters will be run.
-	 *
 	 * <code>
 	 *		// Specify a filter for only the "index" method
 	 *		$this->filter('before', 'auth')->only('index');
@@ -316,10 +309,6 @@ class Filter_Collection {
 
 	/**
 	 * Set the HTTP methods for which the filter applies.
-	 *
-	 * Since some filters, such as the CSRF filter, only make sense in a POST
-	 * request context, this method allows you to limit which HTTP methods
-	 * the filter will apply to.
 	 *
 	 * <code>
 	 *		// Specify that a filter only applies on POST requests
