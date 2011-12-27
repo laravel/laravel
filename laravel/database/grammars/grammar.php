@@ -217,12 +217,12 @@ class Grammar {
 	/**
 	 * Compile a raw WHERE clause.
 	 *
-	 * @param  string  $where
+	 * @param  array   $where
 	 * @return string
 	 */
 	protected function where_raw($where)
 	{
-		return $where;
+		return $where['sql'];
 	}
 
 	/**

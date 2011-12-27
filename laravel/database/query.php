@@ -175,7 +175,7 @@ class Query {
 	 */
 	public function raw_where($where, $bindings = array(), $connector = 'AND')
 	{
-		$this->wheres[] = array('type' => 'raw', 'connector' => $connector, 'sql' => $where);
+		$this->wheres[] = array('type' => 'where_raw', 'connector' => $connector, 'sql' => $where);
 
 		$this->bindings = array_merge($this->bindings, $bindings);
 
