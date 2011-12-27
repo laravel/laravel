@@ -62,7 +62,7 @@ class Cookie {
 	/**
 	 * Set the value of a cookie.
 	 *
-	 * If the HTTP response headers have already been sent, the cookie will not be set.
+	 * If the response headers have already been sent, the cookie will not be set.
 	 *
 	 * <code>
 	 *		// Set the value of the "favorite" cookie

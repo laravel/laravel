@@ -214,10 +214,6 @@ class Bundle {
 	/**
 	 * Parse a element identifier and return the bundle name and element.
 	 *
-	 * If the identifier does not contain a bundle name, null will be returned
-	 * in the array position containing the bundle. The array will contain the
-	 * bundle name in the first position and the element name in the second.
-	 *
 	 * <code>
 	 *		// Returns array(null, 'admin.user')
 	 *		$element = Bundle::parse('admin.user');
