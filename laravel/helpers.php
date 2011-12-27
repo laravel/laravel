@@ -186,6 +186,19 @@ function array_spin($array, $callback)
 }
 
 /**
+ * Return the first element of an array.
+ *
+ * This is simply a convenient wrapper around the "reset" method.
+ *
+ * @param  array  $array
+ * @return mixed
+ */
+function head($array)
+{
+	return reset($array);
+}
+
+/**
  * Return the value of the given item.
  *
  * If the given item is a Closure the result of the Closure will be returned.

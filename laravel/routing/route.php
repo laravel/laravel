@@ -72,9 +72,7 @@ class Route {
 		// know the bundle by the first segment of the route's URI. If it
 		// matches a bundle name, that is the bundle in which we will
 		// assume the route was registered.
-		$segments = explode('/', $this->uris[0]);
-
-		$this->bundle = Bundle::resolve($segments[0]);
+		$this->bundle = Bundle::resolve(head(explode('/', $this->uris[0])));
 
 		if ( ! static::callable($this->action))
 		{
@@ -158,33 +156,36 @@ class Route {
 	 */
 	public function response()
 	{
-		// If the action is a string, it is simply pointing the route to a controller
-		// action, and we can simply call the controller and return its response.
-		// This is the most basic form of route, and is the simplest to handle.
+		// If the action is a string, it is simply pointing the route to a 
+		// controller action, and we can just call the action and return
+		// its response. This is the most basic form of route, and is
+		// the simplest to handle.
 		if (is_string($this->action))
 		{
 			return Controller::call($this->action, $this->parameters);
 		}
-		// If the action is a Closure, the route has provided an anonymous function
-		// to handle the executino of the route. This provides the developer with
-		// an extremely simply way to quickly build APIs or simple applications.
-		// All we need to do is execute the Closure and return the response.
+		// If the action is a Closure, the route has provided an anonymous
+		// function to handle the executino of the route. This provides
+		// the developer with an extremely simply way to quickly build
+		// APIs or simple applications. All we need to do is execute
+		// the Closure and return the response.
 		elseif ($this->action instanceof Closure)
 		{
 			return call_user_func_array($this->action, $this->parameters);
 		}
 
-		// If the action array contains a "uses" key, it means the route is passing
-		// off execution to a controller. The only reason the route is an array at
-		// all is probably because the developer attached filters to the route.
+		// If the action array contains a "uses" key, it means the route
+		// is passing off execution to a controller. The only reason the
+		// route is an array at all is probably because the developer 
+		// attached filters to the route.
 		if (isset($this->action['uses']))
 		{
 			return Controller::call($this->action['uses'], $this->parameters);
 		}
-		// Finally, if the action array contains a Closure callback, we will just
-		// execute the call and return its response. This scenarios occurs when
-		// the developer specifies an anonymous function to handle the route,
-		// as well as route filters or a route name.
+		// If the action array contains a Closure callback, we will just
+		// execute the call and return its response. This occurs when
+		// the developer specifies an anonymous function to handle
+		// the route, as well as route filters or a route name.
 		else
 		{
 			$callback = array_first($this->action, function($key, $value)
@@ -210,9 +211,9 @@ class Route {
 	{
 		$filters = array_unique(array($event, Bundle::prefix($this->bundle).$event));
 
-		// If the route action is an array, we'll check to see if any filters are
-		// attached for the given event. If there are filters attached to the
-		// given event, we will merge all of them in with the global filters.
+		// If the route action is an array, we'll check to see if any filters
+		// are attached for the given event. If there are filters attached to
+		// the given event, we'll merge them in with the global filters.
 		if (is_array($this->action) and isset($this->action[$event]))
 		{
 			$filters = array_merge($filters, Filter_Collection::parse($this->action[$event]));
