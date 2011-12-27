@@ -52,7 +52,7 @@ class Router {
 	 */
 	protected $patterns = array(
 		'(:num)' => '([0-9]+)',
-		'(:any)' => '([åäöa-zA-Z0-9\.\-_\s]+)',
+		'(:any)' => '([^\/]+)',
 	);
 
 	/**
@@ -62,7 +62,7 @@ class Router {
 	 */
 	protected $optional = array(
 		'/(:num?)' => '(?:/([0-9]+)',
-		'/(:any?)' => '(?:/([åäöa-zA-Z0-9\.\-_\s]+)',
+		'/(:any?)' => '(?:/([^\/]+)',
 	);
 
 	/**
