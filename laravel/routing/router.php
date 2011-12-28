@@ -96,9 +96,10 @@ class Router {
 			}
 		}
 
-		// To find a named route, we need to iterate through every route defined
-		// for the application. We will cache the routes by name so we can load
-		// them very quickly if we need to find them a second time.
+		// To find a named route, we need to iterate through every route
+		// defined for the application. We will cache the routes by name
+		// so we can load them very quickly if we need to find them a
+		// second time, which would kill application performance.
 		foreach (static::$routes as $key => $value)
 		{
 			if (is_array($value) and isset($value['name']) and $value['name'] === $name)
@@ -132,8 +133,10 @@ class Router {
 		// any wildcards in the route into actual regular expressions.
 		foreach (static::$routes as $route => $action)
 		{
-			// Only check the routes that couldn't be matched literally...
-			// In this case, only routes with regular expressions.
+			// Only check the routes that couldn't be matched literally,
+			// which should only be routes that contain a wildcard or
+			// regular expression. Checking for a parentheses should
+			// be sufficient to cover both situations.
 			if (strpos($route, '(') !== false)
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
@@ -148,11 +151,9 @@ class Router {
 		// segment of a URI is the controller, the second is the action, and any
 		// remaining segments are the action parameters.
 		//
-		// We will explode the URI to get the segments (without empty segments),
-		// and then pass it off to the controller router for handling.
-		//
-		// If an applicable controller can not be found, null will be returned and
-		// the core Laravel request handler will return the 404 error response.
+		// If an applicable controller can not be found, null will be returned 
+		// and the core Laravel request handler will return the 404 not found
+		// response back to the browser.
 		$segments = explode('/', trim($uri, '/'));
 
 		$segments = array_filter($segments, function($v) {return $v != '';});
@@ -173,7 +174,7 @@ class Router {
 	{
 		// If the request is to the root of the application, an ad-hoc route
 		// will be generated to the home controller's "index" method, making
-		// it the default controller method.
+		// it the default controller method for the application.
 		if (count($segments) == 0)
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
