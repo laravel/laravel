@@ -18,7 +18,7 @@ define('CACHE_PATH', STORAGE_PATH.'cache/');
 define('DATABASE_PATH', STORAGE_PATH.'database/');
 define('SESSION_PATH', STORAGE_PATH.'sessions/');
 define('DEFAULT_BUNDLE', 'application');
-define('MB_STRING', (int) function_exists('mb_strtolower'));
+define('MB_STRING', (int) function_exists('mb_get_info'));
 
 unset($application, $bundles, $storage, $laravel, $public);
 
