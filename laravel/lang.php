@@ -142,7 +142,9 @@ class Lang {
 		// returned. If that is the case, we'll make the item "null".
 		if (count($segments) >= 2)
 		{
-			return array($bundle, $segments[0], implode('.', array_slice($segments, 1)));
+			$line = implode('.', array_slice($segments, 1));
+
+			return array($bundle, $segments[0], $line);
 		}
 		else
 		{
