@@ -121,6 +121,34 @@ class View implements ArrayAccess {
 	}
 
 	/**
+	 * Register a view composer with the Event class.
+	 *
+	 * The composer callback wil be passed an instance of the view before it is
+	 * rendered, allowing additional elements to be bound to the view before
+	 * it is actually evaluated by PHP.
+	 *
+	 * Composers are very useful for building de-coupled, plug-in style systems
+	 * such as content management systems or forums, since bundles are able to
+	 * add composers for views owned by the application.
+	 *
+	 * <code>
+	 *		// Register a composer for the "home.index" view
+	 *		View::composer('home.index', function($view)
+	 *		{
+	 *			$view['title'] = 'Home';
+	 *		});
+	 * </code>
+	 *
+	 * @param  string   $view
+	 * @param  Closure  
+	 * @return void
+	 */
+	public static function composer($view, $composer)
+	{
+		Event::listen("composing:{$view}", $composer);
+	}
+
+	/**
 	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
@@ -136,11 +164,11 @@ class View implements ArrayAccess {
 
 		ob_start() and extract($data, EXTR_SKIP);
 
-		// If the view is Bladed, we need to check the view for modifications
-		// and get the path to the compiled view file. Otherwise, we'll just
+		// If the view is Bladed, we need to check the view for changes and
+		// get the path to the compiled view file. Otherwise, we'll just
 		// use the regular path to the view.
 		//
-		// Also, if the Blade view has expired or doesn't exist, it will be
+		// Also, if the Blade view has expired or doesn't exist it will be
 		// re-compiled and placed in the view storage directory. The Blade
 		// views are re-compiled each time the original view is changed.
 		if (strpos($this->path, BLADE_EXT) !== false)
@@ -165,9 +193,9 @@ class View implements ArrayAccess {
 		$data = array_merge($this->data, static::$shared);
 
 		// All nested views and responses are evaluated before the main view.
-		// This allows the assets used by the nested views to be added to the
-		// asset container before the main view is evaluated and dumps the
-		// links to the assets.
+		// This allows the assets used by nested views to be added to the
+		// asset container before the main view is evaluated and dumps
+		// the links to the assets into the HTML.
 		foreach ($data as &$value) 
 		{
 			if ($value instanceof View or $value instanceof Response)
