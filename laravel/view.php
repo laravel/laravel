@@ -123,14 +123,6 @@ class View implements ArrayAccess {
 	/**
 	 * Register a view composer with the Event class.
 	 *
-	 * The composer callback wil be passed an instance of the view before it is
-	 * rendered, allowing additional elements to be bound to the view before
-	 * it is actually evaluated by PHP.
-	 *
-	 * Composers are very useful for building de-coupled, plug-in style systems
-	 * such as content management systems or forums, since bundles are able to
-	 * add composers for views owned by the application.
-	 *
 	 * <code>
 	 *		// Register a composer for the "home.index" view
 	 *		View::composer('home.index', function($view)
