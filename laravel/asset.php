@@ -257,7 +257,7 @@ class Asset_Container {
 	{
 		// If the asset has no more dependencies, we can add it to the sorted list
 		// and remove it from the array of assets. Otherwise, we will not verify
-		// the asset's dependencies and determine if they have already been sorted.
+		// the asset's dependencies and determine if they've been sorted.
 		if (count($assets[$asset]['dependencies']) == 0)
 		{
 			$sorted[$asset] = $value;
