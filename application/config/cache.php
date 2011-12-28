@@ -12,7 +12,7 @@ return array(
 	| Caching can be used to increase the performance of your application
 	| by storing commonly accessed data in memory or in a file.
 	|
-	| Supported Drivers: 'file', 'memcached', 'apc', 'redis'.
+	| Supported Drivers: 'file', 'memcached', 'mysql', 'apc', 'redis'.
 	|
 	*/
 

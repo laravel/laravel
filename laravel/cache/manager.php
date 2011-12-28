@@ -61,6 +61,9 @@ class Manager {
 			case 'memcached':
 				return new Drivers\Memcached(Memcached::instance(), Config::get('cache.key'));
 
+			case 'mysql':
+				return new Drivers\MySQL(Config::get('cache.key'));
+
 			case 'redis':
 				return new Drivers\Redis(Redis::db());
 
