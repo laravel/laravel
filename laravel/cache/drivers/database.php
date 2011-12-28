@@ -1,6 +1,6 @@
 <?php namespace Laravel\Cache\Drivers; use DB;
 
-class MySQL extends Driver {
+class Database extends Driver {
 
 	/**
 	 * The database table to which the cache should be stored.
@@ -10,14 +10,22 @@ class MySQL extends Driver {
 	protected $table;
 
 	/**
-	 * Create a new MySQL cache driver instance.
+	 * The database connection to which the cache should be stored.
+	 *
+	 * @var string
+	 */
+	protected $connection;
+
+	/**
+	 * Create a new database cache driver instance.
 	 *
 	 * @param  string  $path
 	 * @return void
 	 */
-	public function __construct($table)
+	public function __construct($table, $connection = null)
 	{
 		$this->table = $table;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -39,7 +47,7 @@ class MySQL extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		$cache = DB::table($this->table)->where_key($key)->first();
+		$cache = DB::connection($this->connection)->table($this->table)->where_key($key)->first();
 		if ( is_null($cache) ) return null;
 
 		if (time() >= strtotime($cache->time)) {
@@ -66,7 +74,7 @@ class MySQL extends Driver {
 	{
 		$time = date( 'Y-m-d H:i:s', time() + ($minutes * 60) );
 		$value = serialize($value);
-		DB::table($this->table)->insert( compact('key', 'value', 'time') );
+		DB::connection($this->connection)->table($this->table)->insert( compact('key', 'value', 'time') );
 	}
 
 	/**
@@ -77,7 +85,7 @@ class MySQL extends Driver {
 	 */
 	public function forget($key)
 	{
-		DB::table($this->table)->where_key($key)->delete();
+		DB::connection($this->connection)->table($this->table)->where_key($key)->delete();
 	}
 
 }
