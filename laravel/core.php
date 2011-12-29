@@ -9,18 +9,11 @@
 define('EXT', '.php');
 define('CRLF', "\r\n");
 define('BLADE_EXT', '.blade.php');
-define('APP_PATH', realpath($application).'/');
-define('BUNDLE_PATH', realpath($bundles).'/');
-define('PUBLIC_PATH', realpath($public).'/');
-define('STORAGE_PATH', realpath($storage).'/');
-define('SYS_PATH', realpath($laravel).'/');
 define('CACHE_PATH', STORAGE_PATH.'cache/');
 define('DATABASE_PATH', STORAGE_PATH.'database/');
 define('SESSION_PATH', STORAGE_PATH.'sessions/');
 define('DEFAULT_BUNDLE', 'application');
 define('MB_STRING', (int) function_exists('mb_get_info'));
-
-unset($application, $bundles, $storage, $laravel, $public);
 
 /**
  * Require all of the classes that can't be loaded by the auto-loader.
@@ -80,6 +73,9 @@ Autoloader::$mappings = array(
 	'Laravel\\Cache\\Drivers\\File' => SYS_PATH.'cache/drivers/file'.EXT,
 	'Laravel\\Cache\\Drivers\\Memcached' => SYS_PATH.'cache/drivers/memcached'.EXT,
 	'Laravel\\Cache\\Drivers\\Redis' => SYS_PATH.'cache/drivers/redis'.EXT,
+	'Laravel\\CLI\\Commands\\Factory' => SYS_PATH.'cli/commands/factory'.EXT,
+	'Laravel\\CLI\\Commands\\Command' => SYS_PATH.'cli/commands/command'.EXT,
+	'Laravel\\CLI\\Commands\\Task' => SYS_PATH.'cli/commands/task'.EXT,
 	'Laravel\\Database\\Connection' => SYS_PATH.'database/connection'.EXT,
 	'Laravel\\Database\\Expression' => SYS_PATH.'database/expression'.EXT,
 	'Laravel\\Database\\Query' => SYS_PATH.'database/query'.EXT,
