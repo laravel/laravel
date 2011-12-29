@@ -19,14 +19,14 @@ class Autoloader {
 	/**
 	 * Load the file corresponding to a given class.
 	 *
-	 * This method is registerd in the core bootstrap file as an SPL auto-loader.
+	 * This method is registerd in the bootstrap file as an SPL auto-loader.
 	 *
 	 * @param  string  $class
 	 * @return void
 	 */
 	public static function load($class)
 	{
-		// First, we'll check to see if the class has been aliased. If it has,
+		// First, we will check to see if the class has been aliased. If it has,
 		// we will register the alias, which may cause the auto-loader to be
 		// called again for the "real" class name.
 		if (isset(static::$aliases[$class]))
@@ -45,10 +45,18 @@ class Autoloader {
 		// If the class is namespaced to an existing bundle and the bundle has
 		// not been started, we will start the bundle and attempt to load the
 		// class file again. If that fails, an error will be thrown by PHP.
+		//
+		// This allows bundle classes to be loaded by the auto-loader before
+		// their class mappings have actually been registered; however, it
+		// is up to the bundle developer to namespace their classes to
+		// match the name of their bundle.
 		elseif (($slash = strpos($class, '\\')) !== false)
 		{
 			$bundle = substr($class, 0, $slash);
 
+			// It's very important that we make sure the bundle has not been
+			// started here. If we don't, we'll end up in an infinite loop
+			// attempting to load a bundle's class.
 			if (Bundle::exists($bundle) and ! Bundle::started($bundle))
 			{
 				Bundle::start($bundle);
@@ -61,13 +69,9 @@ class Autoloader {
 	/**
 	 * Register an array of class to path mappings.
 	 *
-	 * The mappings will be used to resolve file paths from class names when
-	 * a class is lazy loaded through the Autoloader, providing a faster way
-	 * of resolving file paths than the typical file_exists searching.
-	 *
 	 * <code>
 	 *		// Register a class mapping with the Autoloader
-	 *		Autoloader::map(array('User' => APP_PATH.'models/user'.EXT));
+	 *		Autoloader::map(array('User' => APP_PATH.'models/user.php'));
 	 * </code>
 	 *
 	 * @param  array  $mappings
@@ -80,8 +84,6 @@ class Autoloader {
 
 	/**
 	 * Register a class alias with the auto-loader.
-	 *
-	 * Aliases are lazy-loaded so registering the alias does not load the class.
 	 *
 	 * @param  string  $class
 	 * @param  string  $alias

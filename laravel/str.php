@@ -233,6 +233,25 @@ class Str {
 	}
 
 	/**
+	 * Convert a string to an underscored, camel-cased class name.
+	 *
+	 * <code>
+	 *		// Returns "Task_Name"
+	 *		$class = Str::classify('task_name');
+	 *
+	 *		// Returns "Taylor_Otwell"
+	 *		$class = Str::classify('taylor otwell')
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function classify($value)
+	{
+		return str_replace(' ', '_', static::title(str_replace('_', ' ', $value)));
+	}
+
+	/**
 	 * Generate a random alpha or alpha-numeric string.
 	 *
 	 * <code>

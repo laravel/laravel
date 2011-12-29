@@ -129,6 +129,16 @@ class Request {
 	}
 
 	/**
+	 * Determine if the current request is via the command line.
+	 *
+	 * @return bool
+	 */
+	public static function cli()
+	{
+		return defined('STDIN');
+	}
+
+	/**
 	 * Get the route handling the current request.
 	 *
 	 * @return Route

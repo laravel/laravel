@@ -1,5 +1,7 @@
-<?php namespace Laravel\CLI\Commands;
+<?php namespace Laravel\CLI\Commands; defined('APP_PATH') or die('No direct script access.');
 
+use Laravel\IoC;
+use Laravel\Str;
 use Laravel\Bundle;
 
 class Task implements Command {
@@ -9,10 +11,10 @@ class Task implements Command {
 	 *
 	 * <code>
 	 *		// Run the "notify" task
-	 *		php laravel task notify
+	 *		php artisan task notify
 	 *
-	 *		// Run the "notify" taks and pass a name into the task
-	 *		php laravel task notify taylor
+	 *		// Run the "notify" taks and pass a name to the task
+	 *		php artisan task notify taylor
 	 * </code>
 	 *
 	 * @param  array  $arguments
@@ -25,24 +27,89 @@ class Task implements Command {
 			throw new \Exception("Whoops! You forgot to provide the task name.");
 		}
 
-		list($bundle, $task) = Bundle::parse($arguments[0]);
+		list($bundle, $task, $method) = $this->parse($arguments[0]);
 
-		if (Bundle::exists($bundle))
-		{
-			Bundle::start($bundle);
-		}
+		// If the task exists within a bundle, we will start the bundle so that
+		// any dependencies can be registered in the application IoC container.
+		// If the task is registered in the container, it will be resolved
+		// via the container instead of by this class, so we need to make
+		// sure to give an opportunity for it to be registered.
+		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
-		if ( ! is_null($task = $this->resolve($bundle, $task)))
+		// Next we can resolve an instance of the task and call the requested
+		// method on the task instance. We will pass in the task arguments,
+		// removing the script name and name of the task.
+		if ( ! is_null($task = static::resolve($bundle, $task)))
 		{
-			$task->run(array_slice($arguments, 1));
+			$task->$method(array_slice($arguments, 1));
 		}
 	}
 
-	protected function resolve($bundle, $task)
+	/**
+	 * Parse the task name to extract the bundle, task, and method.
+	 *
+	 * @param  string  $task
+	 * @return array
+	 */
+	protected function parse($task)
 	{
+		// Tasks may exist within bundles, so we'll first separate the bundle
+		// from the name of the task. Allowing bundles to include tasks makes
+		// it very easy to extend the CLI with more functionality.
+		list($bundle, $task) = Bundle::parse($task);
+
+		// Extract the task method from the task string. Methods are called
+		// on tasks by separating the task and method with a single colon.
+		// If no task is specified, "run" is used as the default method.
+		if (str_contains($task, ':'))
+		{
+			list($task, $method) = explode(':', $task);
+		}
+		else
+		{
+			$method = 'run';
+		}
+
+		return array($bundle, $task, $method);
+	}
+
+	/**
+	 * Resolve an instance of the given task name.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $task
+	 * @return object
+	 */
+	public static function resolve($bundle, $task)
+	{
+		$identifier = Bundle::identifier($bundle, $task);
+
+		// First we'll check to see if the task has been registered in
+		// the application IoC container. This allows dependencies to
+		// be injected into tasks for greater testability.
+		if (IoC::registered("task: {$identifier}"))
+		{
+			return IoC::resolve("task: {$identifier}");
+		}
+
 		if (file_exists($path = Bundle::path($bundle).'tasks/'.$task.EXT))
 		{
 			require $path;
+
+			// Task names are formatted similarly to controllers. "_Task" is
+			// appended to the class name, and the bundle is prefixed to the
+			// class name. The task names are camel-cased using underscores
+			// to separate the words.
+			//
+			// Tasks, like controllers, are not namespaced so we can keep
+			// the convenience of keeping them in the global namespace as
+			// it is a pain to escape out of the namespace everytime you
+			// want to use a Laravel core class.
+			$bundle = ($bundle !== DEFAULT_BUNDLE) ? Str::classify($bundle).'_' : '';
+
+			$task = '\\'.$bundle.Str::classify($task).'_Task';
+
+			return new $task;
 		}
 	}
 

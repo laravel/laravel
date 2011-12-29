@@ -39,21 +39,6 @@ define('PUBLIC_PATH', realpath('public').'/');
 require SYS_PATH.'core.php';
 
 // --------------------------------------------------------------
-// Create a CLI command implementation.
+// Launch the Laravel "Artisan" CLI.
 // --------------------------------------------------------------
-$command = array_get($_SERVER['argv'], 1);
-
-$command = Laravel\CLI\Commands\Factory::make($command);
-
-// --------------------------------------------------------------
-// If a valid command implementation was found, execute it.
-// --------------------------------------------------------------
-if ( ! is_null($command))
-{
-	$command->run(array_slice($_SERVER['argv'], 2));
-}
-
-// --------------------------------------------------------------
-// Throw an extra line feed at the command line.
-// --------------------------------------------------------------
-echo PHP_EOL;
+require SYS_PATH.'cli/artisan'.EXT;

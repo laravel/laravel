@@ -5,7 +5,7 @@ use Laravel\IoC;
 class Factory {
 
 	/**
-	 * Create a CLI command instance.
+	 * Create an implementation of the CLI command interface.
 	 *
 	 * @param  string   $command
 	 * @return Command

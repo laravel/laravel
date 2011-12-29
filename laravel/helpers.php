@@ -211,6 +211,18 @@ function starts_with($haystack, $needle)
 }
 
 /**
+ * Determine if a given string contains a given sub-string.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return bool
+ */
+function str_contains($haystack, $needle)
+{
+	return strpos($haystack, $needle) !== false;
+}
+
+/**
  * Return the value of the given item.
  *
  * If the given item is a Closure the result of the Closure will be returned.
