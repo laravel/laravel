@@ -12,11 +12,6 @@ class Factory {
 	 */
 	public static function make($command)
 	{
-		if (IoC::registered("commands.{$command}"))
-		{
-			return IoC::resolve("commands.{$command}");
-		}
-
 		switch ($command)
 		{
 			case 'task':

@@ -47,7 +47,9 @@ class Autoloader {
 		// class file again. If that fails, an error will be thrown by PHP.
 		elseif (($slash = strpos($class, '\\')) !== false)
 		{
-			if ( ! Bundle::started($bundle = substr($class, 0, $slash)))
+			$bunde = substr($class, 0, $slash);
+
+			if (Bundle::exists($bundle) and ! Bundle::started($bundle))
 			{
 				Bundle::start($bundle);
 
