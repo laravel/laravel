@@ -318,10 +318,6 @@ class Payload {
 	 */
 	protected function age()
 	{
-		// To age the flash data, we want "expire" the flashed items from
-		// the previous request, and move the items flashed during this
-		// request to the array of "old" flash data so they will be
-		// expired after the user's next request.
 		$this->session['data'][':old:'] = $this->session['data'][':new:'];
 
 		$this->session['data'][':new:'] = array();

@@ -270,9 +270,6 @@ abstract class Controller {
 	/**
 	 * Create the layout that is assigned to the controller.
 	 *
-	 * This method may be overridden by the developer, giving them the flexibility
-	 * to bind some data to the view, or register any assets it may need.
-	 *
 	 * @return View
 	 */
 	public function layout()
@@ -282,10 +279,6 @@ abstract class Controller {
 
 	/**
 	 * Magic Method to handle calls to undefined functions on the controller.
-	 *
-	 * By default, the 404 response will be returned for an calls to undefined
-	 * methods on the controller. However, this method may also be overridden
-	 * and used as a pseudo-router by the controller.
 	 */
 	public function __call($method, $parameters)
 	{
