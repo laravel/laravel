@@ -80,7 +80,7 @@ class Router {
 		// load them very quickly if we need to find them a second time.
 		foreach (static::$routes as $key => $value)
 		{
-			if (is_array($value) and array_get($value, 'name') === $name)
+			if (is_array($value) and isset($value['name']) and $value['name'] == $name)
 			{
 				return static::$names[$name] = array($key => $value);
 			}
@@ -104,21 +104,21 @@ class Router {
 		// First we'll check for a literal match on the destination string
 		// as this would be the most efficient way to route the request.
 		// If a match is found, we'll return a Route instance.
-		//
-		// If we can't find a literal match, we'll iterate through all of
-		// the registered routes attempting to find a matching route that
-		// uses wildcards or regular expressions.
 		if (isset(static::$routes[$destination]))
 		{
 			return new Route($destination, static::$routes[$destination], array());
 		}
 
+		// If we can't find a literal match, we'll iterate through all of
+		// the registered routes attempting to find a matching route that
+		// uses wildcards or regular expressions.
+		//
+		// Since routes that don't use wildcards or regular expressions
+		// should have been caught by the literal route check, we'll
+		// only check routes that have a parentheses, indicating
+		// that there are wildcards or regular expressions.
 		foreach (static::$routes as $route => $action)
 		{
-			// We'll only need to check routes that have regular expressions
-			// as any other routes should've been caught by the literal
-			// route check we just did. Checking if the string has a
-			// parentheses should be a sufficient check.
 			if (strpos($route, '(') !== false)
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
@@ -181,7 +181,6 @@ class Router {
 
 		if ( ! is_null($key = static::controller_key($segments, $directory)))
 		{
-			// Extract the various parts of the controller call from the URI.
 			// First, we'll extract the controller name, then, since we need
 			// to extract the method and parameters, we will remove the name
 			// of the controller from the URI. Then we can shift the method
