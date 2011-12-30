@@ -163,12 +163,7 @@ class Filter_Collection {
 	}
 
 	/**
-	 * Parse the given filter and return an array containing the filter name and
-	 * the applicable parameters for that filter.
-	 *
-	 * If the filter parameters are specified in the attachment string, we will
-	 * parse out the filter parameters, and slice the parameters off of the
-	 * filter string before returning it.
+	 * Parse the filter string, returning the filter name and parameters.
 	 *
 	 * @param  string  $filter
 	 * @return array
@@ -193,7 +188,11 @@ class Filter_Collection {
 
 			// If the filter belongs to a bundle, we need to re-calculate the position
 			// of the parameter colon, since we originally calculated it without the
-			// bundle identifier since the identifier uses colons as well.
+			// bundle identifier because the identifier uses colons as well.
+			//
+			// This will allow us to correctly separate the filter name from the list
+			// of filter parameters that are in the string so we can return them
+			// in the array individually.
 			if (($bundle = Bundle::name($filter)) !== DEFAULT_BUNDLE)
 			{
 				$colon = strlen($bundle.'::') + $colon;
