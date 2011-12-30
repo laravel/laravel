@@ -154,7 +154,7 @@ class Router {
 		// and throw an exception. This is primarily to protect against DDoS
 		// attacks which could overwhelm the server by feeding it too many
 		// segments in the URI, causing the loops in this class to bog.
-		if (count($segments > 20))
+		if (count($segments) > 20)
 		{
 			throw new \Exception("Invalid request. There are more than 15 URI segments.");
 		}
