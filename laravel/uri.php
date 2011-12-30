@@ -46,12 +46,9 @@ class URI {
 		// the segments every time the developer requests one of them. The
 		// extra slashes have already been stripped off of the URI so no
 		// extraneous elements should be present in the segment array.
-		static::$segments = explode('/', static::$uri);
+		$segments = explode('/', trim(static::$uri, '/'));
 
-		if (count(static::$segments) > 15)
-		{
-			throw new \Exception("Invalid request. Too many URI segments.");
-		}
+		static::$segments = array_diff($segments, array(''));
 
 		return static::$uri;
 	}

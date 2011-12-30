@@ -39,8 +39,6 @@ class Router {
 	/**
 	 * Register a route with the router.
 	 *
-	 * The specified route may either be a single URI, or an array of URIs.
-	 *
 	 * @param  string|array  $route
 	 * @param  string        $action
 	 * @return void
@@ -123,7 +121,9 @@ class Router {
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
 				{
-					return new Route($route, $action, static::parameters($destination, $key));
+					$parameters = static::parameters($destination, $key);
+
+					return new Route($route, $action, $parameters);
 				}
 			}
 		}
@@ -132,9 +132,7 @@ class Router {
 		// request, we'll use convention to search for a controller to
 		// handle the request. If no controller can be found, the 404
 		// error response will be returned by the application.
-		$segments = explode('/', trim($uri, '/'));
-
-		$segments = array_diff($segments, array(''));
+		$segments = array_diff(explode('/', trim($uri, '/')), array(''));
 
 		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
