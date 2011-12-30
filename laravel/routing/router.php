@@ -156,7 +156,7 @@ class Router {
 		// segments in the URI, causing the loops in this class to bog.
 		if (count($segments) > 20)
 		{
-			throw new \Exception("Invalid request. There are more than 15 URI segments.");
+			throw new \Exception("Invalid request. There are more than 20 URI segments.");
 		}
 
 		$segments = array_filter($segments, function($v) {return $v != '';});
