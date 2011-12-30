@@ -190,6 +190,10 @@ class Router {
 
 			$method = (count($segments) > 0) ? array_shift($segments) : 'index';
 
+			// We need to grab the prefix to the bundle so we can prefix
+			// the route identifier with it. This informs the controller
+			// class out of which bundle the controller instance should
+			// be resolved when it is needed by the application.
 			$prefix = Bundle::prefix($bundle);
 
 			return new Route($destination, $prefix.$controller.'@'.$method, $segments);
@@ -212,10 +216,7 @@ class Router {
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
 
-			if (file_exists($path = $directory.$controller))
-			{
-				return $key + 1;
-			}
+			if (file_exists($path = $directory.$controller)) return $key + 1;
 		}
 	}
 
