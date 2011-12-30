@@ -76,6 +76,7 @@ Autoloader::$mappings = array(
 	'Laravel\\CLI\\Commands\\Factory' => SYS_PATH.'cli/commands/factory'.EXT,
 	'Laravel\\CLI\\Commands\\Command' => SYS_PATH.'cli/commands/command'.EXT,
 	'Laravel\\CLI\\Commands\\Task' => SYS_PATH.'cli/commands/task'.EXT,
+	'Laravel\\CLI\\Commands\\Bundle' => SYS_PATH.'cli/commands/bundle'.EXT,
 	'Laravel\\Database\\Connection' => SYS_PATH.'database/connection'.EXT,
 	'Laravel\\Database\\Expression' => SYS_PATH.'database/expression'.EXT,
 	'Laravel\\Database\\Query' => SYS_PATH.'database/query'.EXT,
