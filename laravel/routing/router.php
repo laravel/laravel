@@ -110,6 +110,24 @@ class Router {
 		// If no literal route match was found, we will iterate through all
 		// of the routes and check each of them one at a time, translating
 		// any wildcards in the route into actual regular expressions.
+		if ( ! is_null($route = static::search($destination)))
+		{
+			return $route;
+		}
+
+		// If no registered routes matched the request, we'll look for a
+		// controller that can handle the request. Typically, the first
+		// segment of a URI is the controller, the second is the action
+		// and any remaining segments are the action parameters.
+		$segments = explode('/', trim($uri, '/'));
+
+		$segments = array_filter($segments, function($v) {return $v != '';});
+
+		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
+	}
+
+	protected static function search($destination)
+	{
 		foreach (static::$routes as $route => $action)
 		{
 			// We'll only need to check routes that have regular expressions
@@ -124,16 +142,6 @@ class Router {
 				}
 			}
 		}
-
-		// If no registered routes matched the request, we'll look for a
-		// controller that can handle the request. Typically, the first
-		// segment of a URI is the controller, the second is the action
-		// and any remaining segments are the action parameters.
-		$segments = explode('/', trim($uri, '/'));
-
-		$segments = array_filter($segments, function($v) {return $v != '';});
-
-		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
 
 	/**
