@@ -153,10 +153,10 @@ abstract class Controller {
 	 */
 	public function execute($method, $parameters = array())
 	{
-		// Again, as was the case with route closures, if the controller
-		// "before" filters return a response, it will be considered the
-		// response to the request and the controller method will not be
-		// used to handle the request to the application.
+		// Again, as was the case with route closures, if the controller "before"
+		// ilters return a response, it will be considered the response to the
+		// request and the controller method will not be used to handle the
+		// request to the application.
 		$response = Filter::run($this->filters('before', $method), array(), true);
 
 		if (is_null($response))
@@ -169,10 +169,10 @@ abstract class Controller {
 			$response = new Response($response);
 		}
 
-		// Stringify the response. We need to force the response to be
-		// stringed before closing the session, since the developer may
-		// be using the session within their views, so we cannot age
-		// the session data until the view is rendered.
+		// Stringify the response. We need to force the response to be a string
+		// before closing the session, since the developer may be using the
+		// session within their views, so we cannot age the session data
+		// until the view is rendered.
 		$response->content = (string) $response->content;
 
 		Filter::run($this->filters('after', $method), array($response));
@@ -193,9 +193,9 @@ abstract class Controller {
 	 */
 	public function response($method, $parameters = array())
 	{
-		// The developer may mark the controller as being "RESTful" which
-		// indicates that the controller actions are prefixed with the
-		// HTTP verb they respond to rather than the word "action".
+		// The developer may mark the controller as being "RESTful" which indicates
+		// that the controller actions are prefixed with the HTTP verb they respond
+		// to rather than the word "action".
 		if ($this->restful)
 		{
 			$action = strtolower(Request::method()).'_'.$method;
@@ -207,9 +207,9 @@ abstract class Controller {
 
 		$response = call_user_func_array(array($this, $action), $parameters);
 
-		// If the controller has specified a layout view. The response
-		// returned by the controller method will be bound to that view
-		// and the layout will be considered the response.
+		// If the controller has specified a layout view. The response returned
+		// by the controller method will be bound to that view and the layout
+		// will be considered the response.
 		if (is_null($response) and ! is_null($this->layout))
 		{
 			$response = $this->layout;
