@@ -16,6 +16,9 @@ class Factory {
 		{
 			case 'task':
 				return new Task;
+
+			case 'bundle':
+				return new Bundle;
 		}
 	}
 
