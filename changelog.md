@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.0.8
+
+- Fix: Limited URI segments to 20 to protect against DDoS.
+
+### Upgrading from 2.0.7
+
+- Replace **laravel** directory.
+
 ## Version 2.0.7
 
 - Fix: Fixed raw_where in query builder.

@@ -181,6 +181,15 @@ class Router {
 
 		$segments = explode('/', trim($uri, '/'));
 
+		// If there are more than 20 request segments, we will halt the request
+		// and throw an exception. This is primarily to protect against DDoS
+		// attacks which could overwhelm the server by feeding it too many
+		// segments in the URI, causing the loops in this class to bog.
+		if (count($segments) > 20)
+		{
+			throw new \Exception("Invalid request. There are more than 20 URI segments.");
+		}
+
 		if ( ! is_null($key = $this->controller_key($segments)))
 		{
 			// Extract the various parts of the controller call from the URI.
