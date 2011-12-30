@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.0.9
+
+- Minor: Made "timestamps" method in Eloquent model protected instead of private.
+
+### Upgrading from 2.0.8
+
+- Replace **laravel** directory.
+
 ## Version 2.0.8
 
 - Fix: Limited URI segments to 20 to protect against DDoS.
