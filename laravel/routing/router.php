@@ -84,10 +84,10 @@ class Router {
 	{
 		if (isset(static::$names[$name])) return static::$names[$name];
 
-		// If no route names have been found at all, we will assume no reverse
-		// routing has been done, and we will load the routes file for all of
-		// the bundle that are installed for the application. This will fill
-		// the routes array with every route that has been defined.
+		// If no route names have been found at all, we will assume no reverse routing
+		// has been done, and we will load the routes file for all of the bundle that
+		// are installed for the application. This will fill the routes array
+		// with every route that has been defined.
 		if (count(static::$names) == 0)
 		{
 			foreach (Bundle::all() as $bundle)
@@ -96,10 +96,9 @@ class Router {
 			}
 		}
 
-		// To find a named route, we need to iterate through every route
-		// defined for the application. We will cache the routes by name
-		// so we can load them very quickly if we need to find them a
-		// second time, which would kill application performance.
+		// To find a named route, we need to iterate through every route defined for
+		// the application. We will cache the routes by name so we can load them
+		// very quickly if we need to find them a second time.
 		foreach (static::$routes as $key => $value)
 		{
 			if (is_array($value) and isset($value['name']) and $value['name'] === $name)
@@ -118,9 +117,9 @@ class Router {
 	 */
 	public static function route($method, $uri)
 	{
-		// All route URIs begin with the request method and have a leading
-		// slash before the URI. We'll put the request method and URI into
-		// that format so we can easily check for literal matches.
+		// All route URIs begin with the request method and have a leading slash
+		// before the URI. We'll put the request method and URI into that format
+		// so we can easily check for literal matches on the route.
 		$destination = $method.' /'.trim($uri, '/');
 
 		if (isset(static::$routes[$destination]))
@@ -128,15 +127,14 @@ class Router {
 			return new Route($destination, static::$routes[$destination], array());
 		}
 
-		// If no literal route match was found, we will iterate through all
-		// of the routes and check each of them one at a time, translating
-		// any wildcards in the route into actual regular expressions.
+		// If no literal route match was found, we will iterate through all of
+		// the routes and check each of them one at a time, translating any
+		// wildcards in the route into actual regular expressions.
 		foreach (static::$routes as $route => $action)
 		{
-			// Only check the routes that couldn't be matched literally,
-			// which should only be routes that contain a wildcard or
-			// regular expression. Checking for a parentheses should
-			// be sufficient to cover both situations.
+			// Only check routes that have a wildcard or a regular expression,
+			// as the rest of the routes should have been able to be matched
+			// literally in the previous check for literal matches.
 			if (strpos($route, '(') !== false)
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
@@ -146,15 +144,20 @@ class Router {
 			}
 		}
 
-		// If no registered routes matched the request, we will use conventions to
-		// look for a controller that can handle the request. Typically, the first
-		// segment of a URI is the controller, the second is the action, and any
-		// remaining segments are the action parameters.
-		//
-		// If an applicable controller can not be found, null will be returned 
-		// and the core Laravel request handler will return the 404 not found
-		// response back to the browser.
+		// If no registered routes matched the request, we will use conventions
+		// to look for a controller that can handle the request. Typically, the
+		// first segment of a URI is the controller, the second is the action,
+		// and any remaining segments are the action parameters.
 		$segments = explode('/', trim($uri, '/'));
+
+		// If there are more than 20 request segments, we will halt the request
+		// and throw an exception. This is primarily to protect against DDoS
+		// attacks which could overwhelm the server by feeding it too many
+		// segments in the URI, causing the loops in this class to bog.
+		if (count($segments > 20))
+		{
+			throw new \Exception("Invalid request. There are more than 15 URI segments.");
+		}
 
 		$segments = array_filter($segments, function($v) {return $v != '';});
 
@@ -172,9 +175,9 @@ class Router {
 	 */
 	protected static function controller($bundle, $method, $segments, $destination)
 	{
-		// If the request is to the root of the application, an ad-hoc route
-		// will be generated to the home controller's "index" method, making
-		// it the default controller method for the application.
+		// If the request is to the root of the application, an ad-hoc route will
+		// be generated to the home controller's "index" method, making it the
+		// default controller method for the application.
 		if (count($segments) == 0)
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
@@ -196,10 +199,6 @@ class Router {
 			// be used to find a controller within the bundle. If we were to leave
 			// it in the segments, every bundle controller would need to be nested
 			// within a sub-directory matching the bundle name.
-			//
-			// Once we have shifted the bundle off of the segments, we can send the
-			// request back through this method and let it be routed again, so we
-			// don't have to re-code very similar routing logic.
 			array_shift($segments);
 
 			return static::controller($bundle, $method, $segments, $destination);
@@ -241,7 +240,7 @@ class Router {
 	{
 		// To find the proper controller, we need to iterate backwards through
 		// the URI segments and take the first file that matches. That file
-		// should be the deepest controller matched by the URI.
+		// should be the deepest possible controller matched by the URI.
 		foreach (array_reverse($segments, true) as $key => $value)
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
