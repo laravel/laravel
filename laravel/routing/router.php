@@ -66,8 +66,7 @@ class Router {
 
 		// If no route names have been found at all, we will assume no reverse
 		// routing has been done, and we will load the routes file for all of
-		// the bundle that are installed for the application. This will fill
-		// the routes array with every route that has been defined.
+		// the bundle that are installed for the application.
 		if (count(static::$names) == 0)
 		{
 			foreach (Bundle::all() as $bundle)
@@ -102,38 +101,24 @@ class Router {
 		// that format so we can easily check for literal matches.
 		$destination = $method.' /'.trim($uri, '/');
 
+		// First we'll check for a literal match on the destination string
+		// as this would be the most efficient way to route the request.
+		// If a match is found, we'll return a Route instance.
+		//
+		// If we can't find a literal match, we'll iterate through all of
+		// the registered routes attempting to find a matching route that
+		// uses wildcards or regular expressions.
 		if (isset(static::$routes[$destination]))
 		{
 			return new Route($destination, static::$routes[$destination], array());
 		}
 
-		// If no literal route match was found, we will iterate through all
-		// of the routes and check each of them one at a time, translating
-		// any wildcards in the route into actual regular expressions.
-		if ( ! is_null($route = static::search($destination)))
-		{
-			return $route;
-		}
-
-		// If no registered routes matched the request, we'll look for a
-		// controller that can handle the request. Typically, the first
-		// segment of a URI is the controller, the second is the action
-		// and any remaining segments are the action parameters.
-		$segments = explode('/', trim($uri, '/'));
-
-		$segments = array_filter($segments, function($v) {return $v != '';});
-
-		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
-	}
-
-	protected static function search($destination)
-	{
 		foreach (static::$routes as $route => $action)
 		{
 			// We'll only need to check routes that have regular expressions
 			// as any other routes should've been caught by the literal
 			// route check we just did. Checking if the string has a
-			// parentheses should be sufficient.
+			// parentheses should be a sufficient check.
 			if (strpos($route, '(') !== false)
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
@@ -142,6 +127,16 @@ class Router {
 				}
 			}
 		}
+
+		// If there are no literal matches and no routes that match the
+		// request, we'll use ocnvention to search for a controller to
+		// handle the request. If no controller can be found, the 404
+		// error response will be returned by the application.
+		$segments = explode('/', trim($uri, '/'));
+
+		$segments = array_filter($segments, function($v) {return $v != '';});
+
+		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
 
 	/**
@@ -155,9 +150,9 @@ class Router {
 	 */
 	protected static function controller($bundle, $method, $destination, $segments)
 	{
-		// If the request is to the root of the application, an ad-hoc route will
-		// be generated to the home controller's "index" method, making it the
-		// default controller method for the application.
+		// If the request is to the root of the application, an ad-hoc route
+		// will be generated to the home controller's "index" method, making
+		// it the default controller method for the application.
 		if (count($segments) == 0)
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
