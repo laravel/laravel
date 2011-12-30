@@ -129,12 +129,12 @@ class Router {
 		}
 
 		// If there are no literal matches and no routes that match the
-		// request, we'll use ocnvention to search for a controller to
+		// request, we'll use convention to search for a controller to
 		// handle the request. If no controller can be found, the 404
 		// error response will be returned by the application.
 		$segments = explode('/', trim($uri, '/'));
 
-		$segments = array_filter($segments, function($v) {return $v != '';});
+		$segments = array_diff($segments, array(''));
 
 		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
@@ -258,7 +258,7 @@ class Router {
 
 		// To find the parameters that should be passed to the route, we will
 		// iterate through the route segments, and if the segment is enclosed
-		// in parentheses, we will take the matching segment from the request
+		// in parentheses, we'll take the matching segment from the request
 		// URI and add it to the array of parameters.
 		for ($i = 0; $i < $count; $i++)
 		{
