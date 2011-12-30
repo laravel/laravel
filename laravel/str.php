@@ -235,6 +235,8 @@ class Str {
 	/**
 	 * Convert a string to an underscored, camel-cased class name.
 	 *
+	 * This method is primarily used to format task and controller names.
+	 *
 	 * <code>
 	 *		// Returns "Task_Name"
 	 *		$class = Str::classify('task_name');
@@ -248,7 +250,7 @@ class Str {
 	 */
 	public static function classify($value)
 	{
-		return str_replace(' ', '_', static::title(str_replace('_', ' ', $value)));
+		return str_replace(' ', '_', static::title(str_replace(array('_', '.'), ' ', $value)));
 	}
 
 	/**

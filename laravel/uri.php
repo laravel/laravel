@@ -48,6 +48,11 @@ class URI {
 		// extraneous elements should be present in the segment array.
 		static::$segments = explode('/', static::$uri);
 
+		if (count(static::$segments) > 15)
+		{
+			throw new \Exception("Invalid request. Too many URI segments.");
+		}
+
 		return static::$uri;
 	}
 

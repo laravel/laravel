@@ -1,6 +1,7 @@
 <?php namespace Laravel\Routing;
 
 use Laravel\IoC;
+use Laravel\Str;
 use Laravel\View;
 use Laravel\Bundle;
 use Laravel\Request;
@@ -80,10 +81,7 @@ abstract class Controller {
 		// If the controller is registered in the IoC container, we will resolve
 		// it out of the container. Using constructor injection on controllers
 		// via the container allows more flexible and testable applications.
-		//
-		// Bundles may also register controllers in the IoC container by adding
-		// the typical bundle double-colon identifier before the resolver name.
-		$resolver = Bundle::prefix($bundle).'controllers.'.$controller;
+		$resolver = 'controller: '.Bundle::identifier($bundle, $controller);
 
 		if (IoC::registered($resolver))
 		{
@@ -135,13 +133,13 @@ abstract class Controller {
 	 */
 	protected static function format($bundle, $controller)
 	{
-		// If the controller's bundle is not the application bundle, we will prepend
-		// the bundle to the identifier so that the bundle is prefixed to the class
-		// name when it is formatted. Bundle controllers are always prefixed with
-		// the bundle's name by convention.
+		// If the controller's bundle is not the application bundle, we will
+		// prepend the bundle to the identifier so the bundle is prefixed to
+		// the class name when it is formatted. Bundle controllers are
+		// always prefixed with the bundle's name by convention.
 		if ($bundle !== DEFAULT_BUNDLE) $controller = $bundle.'.'.$controller;
 
-		return str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
+		return Str::classify($controller).'_Controller';
 	}
 
 	/**
@@ -154,7 +152,7 @@ abstract class Controller {
 	public function execute($method, $parameters = array())
 	{
 		// Again, as was the case with route closures, if the controller "before"
-		// ilters return a response, it will be considered the response to the
+		// filters return a response, it will be considered the response to the
 		// request and the controller method will not be used to handle the
 		// request to the application.
 		$response = Filter::run($this->filters('before', $method), array(), true);
@@ -164,16 +162,7 @@ abstract class Controller {
 			$response = $this->response($method, $parameters);
 		}
 
-		if ( ! $response instanceof Response)
-		{
-			$response = new Response($response);
-		}
-
-		// Stringify the response. We need to force the response to be a string
-		// before closing the session, since the developer may be using the
-		// session within their views, so we cannot age the session data
-		// until the view is rendered.
-		$response->content = (string) $response->content;
+		$response = Response::prepare($response);
 
 		Filter::run($this->filters('after', $method), array($response));
 

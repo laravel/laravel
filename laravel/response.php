@@ -195,6 +195,31 @@ class Response {
 	}
 
 	/**
+	 * Prepare a response from the given value.
+	 *
+	 * If the value is not a response, it will be converted into a response
+	 * instance and the content will be cast to a string.
+	 *
+	 * @param  mixed     $response
+	 * @return Response
+	 */
+	public static function prepare($response)
+	{
+		if ( ! $response instanceof Response) $response = new static($response);
+
+		// We'll need to force the response to be a string before closing the session,
+		// since the developer may be using the session within a view, and we can't
+		// age the flash data until the view is rendered.
+		//
+		// Since this method is used by both the Route and Controller classes, it is
+		// a convenient spot to cast the application response to a string before it
+		// is returned to the main request handler.
+		$response->content = (string) $response->content;
+
+		return $response;
+	}
+
+	/**
 	 * Send the headers and content of the response to the browser.
 	 *
 	 * @return void

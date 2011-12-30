@@ -189,10 +189,6 @@ class Filter_Collection {
 			// If the filter belongs to a bundle, we need to re-calculate the position
 			// of the parameter colon, since we originally calculated it without the
 			// bundle identifier because the identifier uses colons as well.
-			//
-			// This will allow us to correctly separate the filter name from the list
-			// of filter parameters that are in the string so we can return them
-			// in the array individually.
 			if (($bundle = Bundle::name($filter)) !== DEFAULT_BUNDLE)
 			{
 				$colon = strlen($bundle.'::') + $colon;
@@ -201,9 +197,9 @@ class Filter_Collection {
 			return array(substr($filter, 0, $colon), $parameters);
 		}
 
-		// If no parameters were specified when the collection was created or in
-		// the filter string, we will just return the filter name as is and give
-		// back an empty array of parameters.
+		// If no parameters were specified when the collection was created or
+		// in the filter string, we will just return the filter name as is
+		// and give back an empty array of parameters.
 		return array($filter, array());
 	}
 
