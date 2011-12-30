@@ -182,9 +182,9 @@ abstract class Controller {
 	 */
 	public function response($method, $parameters = array())
 	{
-		// The developer may mark the controller as being "RESTful" which indicates
-		// that the controller actions are prefixed with the HTTP verb they respond
-		// to rather than the word "action".
+		// The developer may mark the controller as being "RESTful" which
+		// indicates that the controller actions are prefixed with the
+		// HTTP verb they respond to rather than the word "action".
 		if ($this->restful)
 		{
 			$action = strtolower(Request::method()).'_'.$method;
@@ -196,9 +196,9 @@ abstract class Controller {
 
 		$response = call_user_func_array(array($this, $action), $parameters);
 
-		// If the controller has specified a layout view. The response returned
-		// by the controller method will be bound to that view and the layout
-		// will be considered the response.
+		// If the controller has specified a layout view. The response
+		// returned by the controller method will be bound to that
+		// view and the layout will be considered the response.
 		if (is_null($response) and ! is_null($this->layout))
 		{
 			$response = $this->layout;

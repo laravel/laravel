@@ -110,12 +110,12 @@ class Router {
 		// If no literal route match was found, we will iterate through all
 		// of the routes and check each of them one at a time, translating
 		// any wildcards in the route into actual regular expressions.
-		//
-		// We'll only need to check routes that have regular expressions
-		// as any other routes should've been caught by the literal
-		// route check we just did.
 		foreach (static::$routes as $route => $action)
 		{
+			// We'll only need to check routes that have regular expressions
+			// as any other routes should've been caught by the literal
+			// route check we just did. Checking if the string has a
+			// parentheses should be sufficient.
 			if (strpos($route, '(') !== false)
 			{
 				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
@@ -125,14 +125,14 @@ class Router {
 			}
 		}
 
-		$segments = explode('/', trim($uri, '/'));
-
-		$segments = array_filter($segments, function($v) {return $v != '';});
-
 		// If no registered routes matched the request, we'll look for a
 		// controller that can handle the request. Typically, the first
 		// segment of a URI is the controller, the second is the action
 		// and any remaining segments are the action parameters.
+		$segments = explode('/', trim($uri, '/'));
+
+		$segments = array_filter($segments, function($v) {return $v != '';});
+
 		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
 
@@ -228,7 +228,7 @@ class Router {
 	protected static function wildcards($key)
 	{
 		// For optional parameters, first translate the wildcards to their
-		// regex equivalent, sans the ")?" ending. We will add the endings
+		// regex equivalent, sans the ")?" ending. We'll add the endings
 		// back on after we know how many replacements we made.
 		$key = str_replace(array_keys(static::$optional), array_values(static::$optional), $key, $count);
 
