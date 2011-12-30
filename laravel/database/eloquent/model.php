@@ -413,7 +413,7 @@ abstract class Model {
 	 *
 	 * @return void
 	 */
-	private function timestamp()
+	protected function timestamp()
 	{
 		$this->updated_at = date('Y-m-d H:i:s');
 
