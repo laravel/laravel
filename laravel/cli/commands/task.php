@@ -7,7 +7,7 @@ use Laravel\Bundle;
 class Task implements Command {
 
 	/**
-	 * Run a Laravel CLI task with the given arguments.
+	 * Run a CLI task with the given arguments.
 	 *
 	 * <code>
 	 *		// Run the "notify" task
