@@ -21,7 +21,7 @@ class Router {
 	 *
 	 * @var array
 	 */
-	protected static $patterns = array(
+	public static $patterns = array(
 		'(:num)' => '([0-9]+)',
 		'(:any)' => '([a-zA-Z0-9\.\-_]+)',
 	);
@@ -31,13 +31,21 @@ class Router {
 	 *
 	 * @var array
 	 */
-	protected static $optional = array(
+	public static $optional = array(
 		'/(:num?)' => '(?:/([0-9]+)',
 		'/(:any?)' => '(?:/([a-zA-Z0-9\.\-_]+)',
 	);
 
 	/**
 	 * Register a route with the router.
+	 *
+	 * <code>
+	 *		// Register a route with the router
+	 *		Router::register('GET /', function() {return 'Home!';});
+	 *
+	 *		// Register a route that handles multiple URIs with the router
+	 *		Router::register(array('GET /', 'GET /home'), function() {return 'Home!';});
+	 * </code>
 	 *
 	 * @param  string|array  $route
 	 * @param  string        $action
@@ -148,9 +156,6 @@ class Router {
 	 */
 	protected static function controller($bundle, $method, $destination, $segments)
 	{
-		// If the request is to the root of the application, an ad-hoc route
-		// will be generated to the home controller's "index" method, making
-		// it the default controller method for the application.
 		if (count($segments) == 0)
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
@@ -216,7 +221,7 @@ class Router {
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
 
-			if (file_exists($path = $directory.$controller)) return $key + 1;
+			if (file_exists($directory.$controller)) return $key + 1;
 		}
 	}
 
