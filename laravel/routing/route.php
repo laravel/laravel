@@ -186,7 +186,13 @@ class Route {
 	{
 		if ($this->action instanceof Closure) return $this->action;
 
-		if (is_array($this->action)) return array_get($this->action, 'do');
+		if (is_array($this->action))
+		{
+			return array_first($this->action, function($key, $value)
+			{
+				return $value instanceof Closure;
+			});
+		}
 	}
 
 	/**
