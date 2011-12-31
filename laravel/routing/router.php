@@ -217,7 +217,9 @@ class Router {
 		// To find the proper controller, we need to iterate backwards through
 		// the URI segments and take the first file that matches. That file
 		// should be the deepest possible controller matched by the URI.
-		foreach (array_reverse($segments, true) as $key => $value)
+		$segments = array_reverse($segments, true);
+
+		foreach ($segments as $key => $value)
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
 
@@ -260,7 +262,7 @@ class Router {
 
 		$parameters = array();
 
-		// To find the parameters that should be passed to the route, we will
+		// To find the parameters that should be passed into the route, we will
 		// iterate through the route segments, and if the segment is enclosed
 		// in parentheses, we'll take the matching segment from the request
 		// URI and add it to the array of parameters.
