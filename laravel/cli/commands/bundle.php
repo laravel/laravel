@@ -7,7 +7,7 @@ class Bundle implements Command {
 	 *
 	 * @var array
 	 */
-	protected $methods = array('install', 'upgrade', 'purge');
+	protected $methods = array('install');
 
 	/**
 	 * Execute a bundle command from the CLI.
@@ -33,16 +33,6 @@ class Bundle implements Command {
 		{
 			// Install the bundle...
 		}
-	}
-
-	protected function upgrade($bundles)
-	{
-		//
-	}
-
-	protected function purge($bundles)
-	{
-		//
 	}
 
 }
