@@ -155,7 +155,7 @@ class Route {
 		// we'll merge them in with the global filters.
 		if (is_array($this->action) and isset($this->action[$event]))
 		{
-			$filters = array_merge($filters, Filter_Collection::parse($this->action[$event]));
+			$filters = array_merge($filters, Filter::parse($this->action[$event]));
 		}
 
 		return array(new Filter_Collection($filters));

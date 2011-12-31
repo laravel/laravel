@@ -57,6 +57,17 @@ class Filter {
 	}
 
 	/**
+	 * Parse a filter definition into an array of filters.
+	 *
+	 * @param  string|array  $filters
+	 * @return array
+	 */
+	public static function parse($filters)
+	{
+		return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
+	}
+
+	/**
 	 * Call a filter or set of filters.
 	 *
 	 * @param  array   $collections
@@ -148,18 +159,7 @@ class Filter_Collection {
 	public function __construct($filters, $parameters = null)
 	{
 		$this->parameters = $parameters;
-		$this->filters = static::parse($filters);
-	}
-
-	/**
-	 * Parse a filter definition into an array of filters.
-	 *
-	 * @param  string|array  $filters
-	 * @return array
-	 */
-	public static function parse($filters)
-	{
-		return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
+		$this->filters = Filter::parse($filters);
 	}
 
 	/**
