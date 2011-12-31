@@ -107,9 +107,6 @@ class Router {
 		// that format so we can easily check for literal matches.
 		$destination = $method.' /'.trim($uri, '/');
 
-		// First we'll check for a literal match on the destination string
-		// as this would be the most efficient way to route the request.
-		// If a match is found, we'll return a Route instance.
 		if (isset(static::$routes[$destination]))
 		{
 			return new Route($destination, static::$routes[$destination], array());
