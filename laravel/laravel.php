@@ -208,7 +208,7 @@ if (count(URI::$segments) > 15)
 	throw new \Exception("Invalid request. Too many URI segments.");
 }
 
-Request::$route = Routing\Router::route(Request::method(), $uri);
+Request::$route = Routing\Router::route(Request::method(), URI::current());
 
 if ( ! is_null(Request::$route))
 {
