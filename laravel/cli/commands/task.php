@@ -32,8 +32,7 @@ class Task implements Command {
 		// If the task exists within a bundle, we will start the bundle so that
 		// any dependencies can be registered in the application IoC container.
 		// If the task is registered in the container, it will be resolved
-		// via the container instead of by this class, so we need to make
-		// sure to give an opportunity for it to be registered.
+		// via the container instead of by this class.
 		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
 		// Next we can resolve an instance of the task and call the requested
@@ -53,9 +52,6 @@ class Task implements Command {
 	 */
 	protected function parse($task)
 	{
-		// Tasks may exist within bundles, so we'll first separate the bundle
-		// from the name of the task. Allowing bundles to include tasks makes
-		// it very easy to extend the CLI with more functionality.
 		list($bundle, $task) = Bundle::parse($task);
 
 		// Extract the task method from the task string. Methods are called
@@ -96,15 +92,10 @@ class Task implements Command {
 		{
 			require $path;
 
-			// Task names are formatted similarly to controllers. "_Task" is
-			// appended to the class name, and the bundle is prefixed to the
-			// class name. The task names are camel-cased using underscores
-			// to separate the words.
-			//
-			// Tasks, like controllers, are not namespaced so we can keep
-			// the convenience of keeping them in the global namespace as
-			// it is a pain to escape out of the namespace everytime you
-			// want to use a Laravel core class.
+			// Task names are formatted similarly to controllers. "_Task" is appended
+			// to the class name, and the bundle is prefixed to the class name.
+			// Tasks are not namespaced so we can maintain the convenience of
+			// not having to escape out to the global namespace.
 			$bundle = ($bundle !== DEFAULT_BUNDLE) ? Str::classify($bundle).'_' : '';
 
 			$task = '\\'.$bundle.Str::classify($task).'_Task';
