@@ -117,9 +117,9 @@ class Router {
 		// uses wildcards or regular expressions.
 		//
 		// Since routes that don't use wildcards or regular expressions
-		// should have been caught by the literal route check, we'll
-		// only check routes that have a parentheses, indicating
-		// that there are wildcards or regular expressions.
+		// should have been caught by the literal route check, we will
+		// only check routes that have a parentheses, indicating that
+		// there are wildcards or regular expressions.
 		foreach (static::$routes as $route => $action)
 		{
 			if (strpos($route, '(') !== false)
