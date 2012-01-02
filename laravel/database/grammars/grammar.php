@@ -18,8 +18,8 @@ class Grammar {
 	 * @var array
 	 */
 	protected $components = array(
-		'aggregate', 'selects', 'from', 'joins',
-		'wheres', 'orderings', 'limit', 'offset',
+		'aggregate', 'selects', 'from', 'joins', 'wheres',
+		'groupings', 'orderings', 'limit', 'offset',
 	);
 
 	/**
@@ -219,6 +219,17 @@ class Grammar {
 	}
 
 	/**
+	 * Compile the GROUP BY clause for a query.
+	 *
+	 * @param  Query   $query
+	 * @return string
+	 */
+	protected function groupings(Query $query)
+	{
+		return 'GROUP BY '.$this->columnize($query->groupings);
+	}
+
+	/**
 	 * Compile the ORDER BY clause for a query.
 	 *
 	 * @param  Query   $query
@@ -226,14 +237,6 @@ class Grammar {
 	 */
 	protected function orderings(Query $query)
 	{
-		// To generate the list of query orderings, we will first make an array
-		// of the columns and directions on which the query should be ordered.
-		// Once we have an array, we can comma-delimit it and append it to
-		// the "ORDER BY" clause to get the valid SQL for the query.
-		//
-		// All of the columns will be wrapped in keyword identifiers to avoid
-		// any naming collisions with the database system. The direction of
-		// the order is upper-cased strictly for syntax consistency.
 		foreach ($query->orderings as $ordering)
 		{
 			$direction = strtoupper($ordering['direction']);

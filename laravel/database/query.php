@@ -62,6 +62,13 @@ class Query {
 	public $wheres;
 
 	/**
+	 * The GROUP BY clauses.
+	 *
+	 * @var array
+	 */
+	public $groupings;
+
+	/**
 	 * The ORDER BY clauses.
 	 *
 	 * @var array
@@ -392,6 +399,18 @@ class Query {
 			}
 		}
 
+		return $this;
+	}
+
+	/**
+	 * Add a grouping to the query.
+	 *
+	 * @param  string  $column
+	 * @return Query
+	 */
+	public function group_by($column)
+	{
+		$this->groupings[] = $column;
 		return $this;
 	}
 
