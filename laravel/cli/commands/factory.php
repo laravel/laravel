@@ -18,7 +18,7 @@ class Factory {
 				return new Task;
 
 			case 'bundle':
-				return new Bundle;
+				return new Bundle(new \Laravel\CLI\Bundle\Repository);
 		}
 	}
 
