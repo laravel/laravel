@@ -1,4 +1,4 @@
-<?php namespace Laravel\CLI\Commands; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel\CLI\Commands;
 
 use Laravel\IoC;
 use Laravel\Str;
@@ -27,15 +27,12 @@ class Task implements Command {
 		// via the container instead of by this class.
 		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
-		// Next we can resolve an instance of the task and call the requested
-		// method on the task instance. We will pass in the task arguments,
-		// removing the script name and name of the task.
-		if ( ! is_null($task = static::resolve($bundle, $task)))
+		if (is_null($task = static::resolve($bundle, $task)))
 		{
-			return $task->$method(array_slice($arguments, 1));
+			throw new \Exception("Sorry, I can't find that task.");
 		}
 
-		throw new \Exception("Sorry, I can't find that task.");
+		$task->$method(array_slice($arguments, 1));
 	}
 
 	/**
