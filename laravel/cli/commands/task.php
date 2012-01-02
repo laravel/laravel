@@ -9,14 +9,6 @@ class Task implements Command {
 	/**
 	 * Run a CLI task with the given arguments.
 	 *
-	 * <code>
-	 *		// Run the "notify" task
-	 *		php artisan task notify
-	 *
-	 *		// Run the "notify" taks and pass a name to the task
-	 *		php artisan task notify taylor
-	 * </code>
-	 *
 	 * @param  array  $arguments
 	 * @return void
 	 */
@@ -40,8 +32,10 @@ class Task implements Command {
 		// removing the script name and name of the task.
 		if ( ! is_null($task = static::resolve($bundle, $task)))
 		{
-			$task->$method(array_slice($arguments, 1));
+			return $task->$method(array_slice($arguments, 1));
 		}
+
+		throw new \Exception("Sorry, I can't find that task.");
 	}
 
 	/**
