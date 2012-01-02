@@ -51,7 +51,7 @@ class View {
 		//
 		// This makes the implementation of the Post/Redirect/Get pattern very
 		// convenient since each view can assume it has a message container.
-		if (Config::$items['session']['driver'] !== '' and IoC::core('session')->started())
+		if (Config::$items['session']['driver'] !== '' and IoC::core('session')->started() and ! isset($this->data['errors']))
 		{
 			$this->data['errors'] = IoC::core('session')->get('errors', function()
 			{
