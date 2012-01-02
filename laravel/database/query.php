@@ -491,8 +491,6 @@ class Query {
 	/**
 	 * Execute the query as a SELECT statement and return the first result.
 	 *
-	 * If a single column is selected from the database, only the value of that column will be returned.
-	 *
 	 * @param  array  $columns
 	 * @return mixed
 	 */
