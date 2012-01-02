@@ -74,7 +74,11 @@ class Database extends Driver {
 	{
 		$time = date( 'Y-m-d H:i:s', time() + ($minutes * 60) );
 		$value = serialize($value);
-		DB::connection($this->connection)->table($this->table)->insert( compact('key', 'value', 'time') );
+		if (is_null(DB::connection($this->connection)->table($this->table)->where_key($key)->first())) {
+			DB::connection($this->connection)->table($this->table)->insert( compact('key', 'value', 'time') );
+		} else {
+			DB::connection($this->connection)->table($this->table)->where_key($key)->update( compact('value', 'time') );
+		}
 	}
 
 	/**
