@@ -93,7 +93,7 @@ class Task implements Command {
 			require $path;
 
 			// Task names are formatted similarly to controllers. "_Task" is appended
-			// to the class name, and the bundle is prefixed to the class name.
+			// to the class name, and the bundle is prefixed onto the class name.
 			// Tasks are not namespaced so we can maintain the convenience of
 			// not having to escape out to the global namespace.
 			$bundle = ($bundle !== DEFAULT_BUNDLE) ? Str::classify($bundle).'_' : '';
