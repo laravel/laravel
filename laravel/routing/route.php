@@ -58,7 +58,9 @@ class Route {
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
 		// root of the application, a single forward slash will be returned.
-		$this->uris = array_map(array($this, 'extract'), $action['handles']);
+		$uris = array_get($action, 'handles', array());
+
+		$this->uris = array_map(array($this, 'extract'), $uris);
 
 		// Determine the bundle in which the route was registered. We will know
 		// the bundle by the first segment of the route's URI. We need to know

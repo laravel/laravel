@@ -174,7 +174,9 @@ class Router {
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
 
-			return new Route($method.' '.$uri, Bundle::prefix($bundle).'home@index');
+			$action = array('uses' => Bundle::prefix($bundle).'home@index');
+
+			return new Route($method.' '.$uri, $action);
 		}
 
 		$directory = Bundle::path($bundle).'controllers/';
@@ -215,7 +217,9 @@ class Router {
 			// be resolved when it is needed by the application.
 			$prefix = Bundle::prefix($bundle);
 
-			return new Route($destination, $prefix.$controller.'@'.$method, $segments);
+			$action = array('uses' => $prefix.$controller.'@'.$method);
+
+			return new Route($destination, $action, $segments);
 		}
 	}
 
