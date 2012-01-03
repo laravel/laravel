@@ -10,7 +10,7 @@ class Repository {
 	 */
 	public function get($bundle)
 	{
-		return array('name' => 'mongor', 'repository' => 'mikelbring/mongor', 'provider' => 'github', 'dependencies' => array());
+		return array('name' => 'mongor', 'location' => 'mikelbring/mongor', 'provider' => 'github', 'dependencies' => array());
 	}
 
 }

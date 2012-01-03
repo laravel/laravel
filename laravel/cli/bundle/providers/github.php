@@ -10,7 +10,7 @@ class Github implements Provider {
 	 */
 	public function install($bundle)
 	{
-		$repository = "git://github.com/{$bundle['repository']}.git";
+		$repository = "git://github.com/{$bundle['location']}.git";
 
 		$this->add($bundle['name'], $repository);
 
