@@ -141,9 +141,9 @@ class Router {
 		{
 			if (strpos($route, '(') !== false)
 			{
-				if (preg_match('#^'.static::wildcards($key).'$#', $destination))
+				if (preg_match('#^'.static::wildcards($route).'$#', $destination))
 				{
-					$parameters = static::parameters($destination, $key);
+					$parameters = static::parameters($destination, $route);
 
 					return new Route($route, $action, $parameters);
 				}
