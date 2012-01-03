@@ -12,30 +12,13 @@ class Github implements Provider {
 	{
 		$repository = "git://github.com/{$bundle['location']}.git";
 
-		$this->add($bundle['name'], $repository);
+		// We need to just extract the basename of the bundle path when
+		// adding the submodule. Of course, we can't add a submodule to
+		// a location outside of the Git repository, so we don't need
+		// the full bundle path. We'll just take the basename in case
+		// the bundle directory has been renamed.
+		passthru('git submodule add '.$repository.' '.basename(BUNDLE_PATH).'/'.$name);
 
-		$this->update();
-	}
-
-	/**
-	 * Add the given bundle as a Git submodule.
-	 *
-	 * @param  string  $name
-	 * @param  string  $repository
-	 * @return void
-	 */
-	protected function add($name, $repository)
-	{
-		passthru('git submodule add '.$repository.' bundles/'.$name);
-	}
-
-	/**
-	 * Update the Git submodules for the application.
-	 *
-	 * @return void
-	 */
-	protected function update()
-	{
 		passthru('git submodule update');
 	}
 
