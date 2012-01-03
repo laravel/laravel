@@ -60,23 +60,13 @@ class Bundle implements Command {
 	 */
 	protected function install($bundles)
 	{
-		foreach ($bundles as $bundle)
+		foreach ($this->get($bundles) as $bundle)
 		{
-			if (is_dir(BUNDLE_PATH.$bundle))
+			if (is_dir(BUNDLE_PATH.$bundle['name']))
 			{
 				echo "Bundle {$bundle['name']} is already installed.";
 
 				continue;
-			}
-
-			// First we'll retrieve the bundle information array from the bundle
-			// repository. This array contains information such as the provider
-			// for the bundle, and any dependencies it may have.
-			$bundle = $this->repository->get($bundle);
-
-			if ( ! $bundle)
-			{
-				throw new \Exception("The bundle API is not responding.");
 			}
 
 			// Once we have the bundle information, we can resolve an instance
@@ -89,9 +79,52 @@ class Bundle implements Command {
 			$provider = "bundle.provider: {$bundle['provider']}";
 
 			IoC::resolve($provider)->install($bundle);
-
-			$this->install($bundle['dependencies']);
 		}
+	}
+
+	/**
+	 * Gather all of the bundles from the bundle repository.
+	 *
+	 * @param  array  $bundles
+	 * @return array
+	 */
+	protected function get($bundles)
+	{
+		$responses = array();
+
+		// This method is primarily responsible for gathering the data
+		// for all bundles that need to be installed. This allows us
+		// to verify the existence of the bundle before even getting
+		// started on the actual installation process.
+		foreach ($bundles as $bundle)
+		{
+			// First, we'll call the bundle repository to gather the bundle data
+			// array, which contains all of the information needed to install
+			// the bundle into the application. We'll verify that the bundle
+			// exists and that the bundle API is responding for each bundle.
+			$response = $this->repository->get($bundle);
+
+			if ( ! $response)
+			{
+				throw new \Exception("The bundle API is not responding.");
+			}
+
+			if ($response['status'] == 'not-found')
+			{
+				throw new \Exception("There is not a bundle named [$bundle].");
+			}
+
+			// If the bundle was retrieved successfully, we will add it to
+			// our array of bundles, as well as merge all of the bundle's
+			// dependencies into the array of responses.
+			$bundle = $response['bundle'];
+
+			$responses[] = $bundle;
+
+			$responses = array_merge($responses, $this->get($bundle['dependencies']));
+		}
+
+		return $responses;
 	}
 
 }

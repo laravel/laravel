@@ -3,6 +3,13 @@
 class Repository {
 
 	/**
+	 * The root of the Laravel bundle API.
+	 *
+	 * @var string
+	 */
+	protected $api = 'http://bundles.laravel.com/api/';
+
+	/**
 	 * Get the decoded JSON information for a bundle.
 	 *
 	 * @param  string  $bundle
@@ -10,7 +17,9 @@ class Repository {
 	 */
 	public function get($bundle)
 	{
-		return array('name' => 'mongor', 'location' => 'mikelbring/mongor', 'provider' => 'github', 'dependencies' => array());
+		$bundle = @file_get_contents($this->api.$bundle);
+
+		return json_decode($bundle, true);
 	}
 
 }
