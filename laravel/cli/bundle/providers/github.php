@@ -26,7 +26,7 @@ class Github implements Provider {
 	 */
 	protected function add($name, $repository)
 	{
-		passthru('git submodule add '.$repository.' '.BUNDLE_PATH.$name);
+		passthru('git submodule add '.$repository.' bundles/'.$name);
 	}
 
 	/**
