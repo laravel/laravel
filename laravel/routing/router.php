@@ -59,6 +59,11 @@ class Router {
 			// need to add it to the action array as a "uses" clause, which will
 			// indicate to the route to call the controller when the route is
 			// executed by the application.
+			//
+			// Note that all route actions are converted to arrays. This just
+			// gives us a convenient and consistent way of accessing it since
+			// we can always make an assumption that the action is an array,
+			// and it lets us store the URIs on the action for each route.
 			if (is_string($action))
 			{
 				static::$routes[$uri]['uses'] = $action;
@@ -170,6 +175,9 @@ class Router {
 	 */
 	protected static function controller($bundle, $method, $destination, $segments)
 	{
+		// If there are no more segments in the URI, we will just create a route
+		// for the default controller of the bundle, which is "home". We'll also
+		// use the default method, which is "index".
 		if (count($segments) == 0)
 		{
 			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
