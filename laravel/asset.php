@@ -83,8 +83,8 @@ class Asset_Container {
 	 * Add an asset to the container.
 	 *
 	 * The extension of the asset source will be used to determine the type of
-	 * asset being registered (CSS or JavaScript). If you are using a non-standard
-	 * extension, you may use the style or script methods to register assets.
+	 * asset being registered (CSS or JavaScript). When using a non-standard
+	 * extension, the style/script methods may be used to register assets.
 	 *
 	 * <code>
 	 *		// Add an asset to the container
