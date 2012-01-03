@@ -55,7 +55,24 @@ class Router {
 	{
 		foreach ((array) $route as $uri)
 		{
-			static::$routes[$uri] = $action;
+			// If the action is a string, it is a pointer to a controller, so we
+			// need to add it to the action array as a "uses" clause, which will
+			// indicate to the route to call the controller when the route is
+			// executed by the application.
+			if (is_string($action))
+			{
+				static::$routes[$uri]['uses'] = $action;
+			}
+			// If the action is not a string, we can just simply cast it as an
+			// array, then we will add all of the URIs to the action array as
+			// the "handes" clause so we can easily check which URIs are
+			// handled by the route instance.
+			else
+			{
+				static::$routes[$uri] = (array) $action;
+			}
+
+			static::$routes[$uri]['handles'] = (array) $route;
 		}
 	}
 

@@ -18,7 +18,7 @@ class Route {
 	 *
 	 * @var string
 	 */
-	public $uri;
+	public $uris;
 
 	/**
 	 * The bundle in which the route was registered.
@@ -45,7 +45,7 @@ class Route {
 	 * Create a new Route instance.
 	 *
 	 * @param  string   $key
-	 * @param  string   $action
+	 * @param  array    $action
 	 * @param  array    $parameters
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class Route {
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
 		// root of the application, a single forward slash will be returned.
-		$this->uri = static::extract($this->key);
+		$this->uris = array_map(array($this, 'extract'), $action['handles']);
 
 		// Determine the bundle in which the route was registered. We will know
 		// the bundle by the first segment of the route's URI. We need to know
@@ -150,10 +150,10 @@ class Route {
 		// be the same as the application's global filter.
 		$filters = array_unique(array($event, Bundle::prefix($this->bundle).$event));
 
-		// If the route action is an array, we will check to see if there
-		// are any filters attached for the given event. If there are,
-		// we'll merge them in with the global filters.
-		if (is_array($this->action) and isset($this->action[$event]))
+		// Next wee will check to see if there are any filters attached
+		// for the given event. If there are, we'll merge them in with
+		// the global filters for the application event.
+		if (isset($this->action[$event]))
 		{
 			$filters = array_merge($filters, Filter::parse($this->action[$event]));
 		}
@@ -170,9 +170,7 @@ class Route {
 	 */
 	protected function delegate()
 	{
-		if (is_string($this->action)) return $this->action;
-
-		if (is_array($this->action)) return array_get($this->action, 'uses');
+		return array_get($this->action, 'uses');
 	}
 
 	/**
@@ -184,15 +182,10 @@ class Route {
 	 */
 	protected function handler()
 	{
-		if ($this->action instanceof Closure) return $this->action;
-
-		if (is_array($this->action))
+		return array_first($this->action, function($key, $value)
 		{
-			return array_first($this->action, function($key, $value)
-			{
-				return $value instanceof Closure;
-			});
-		}
+			return $value instanceof Closure;
+		});
 	}
 
 	/**
@@ -219,7 +212,7 @@ class Route {
 	 */
 	public function handles($uri)
 	{
-		return $uri === $this->uri;
+		return in_array($uri, $this->uris);
 	}
 
 }
