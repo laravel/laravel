@@ -49,6 +49,9 @@ class Bundle implements Command {
 			throw new \Exception("I don't recognize that bundle command.");
 		}
 
+		// If the method is a valid method for the command, we'll call the
+		// method and pass in the arguments, slicing off the name of the
+		// method so that only the "real" arguments are remaining.
 		$this->$method(array_slice($arguments, 1));
 	}
 
@@ -116,7 +119,8 @@ class Bundle implements Command {
 
 			// If the bundle was retrieved successfully, we will add it to
 			// our array of bundles, as well as merge all of the bundle's
-			// dependencies into the array of responses.
+			// dependencies into the array of responses so that they are
+			// installed along with the consuming dependency.
 			$bundle = $response['bundle'];
 
 			$responses[] = $bundle;
