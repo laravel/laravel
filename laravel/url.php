@@ -133,7 +133,7 @@ class URL {
 			$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
 		}
 
-		// If there are any remaining optional place-holders, we will just replace
+		// If there are any remaining optional place-holders, we'll just replace
 		// them with empty strings since not every optional parameter has to be
 		// in the array of parameters that were passed into the method.
 		$uri = str_replace(array('/(:any?)', '/(:num?)'), '', $uri);
