@@ -45,16 +45,7 @@ abstract class Column {
 	 */
 	final public function type()
 	{
-		if ($this instanceof Columns\String)
-		{
-			return 'string';
-		}
-		elseif ($this instanceof Columns\Integer)
-		{
-			return 'integer';
-		}
-
-		throw new \Exception("Unable to determine the column type.");
+		return strtolower(basename(get_class($this)));
 	}
 
 }

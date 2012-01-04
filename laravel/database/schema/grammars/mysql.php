@@ -20,7 +20,7 @@ class MySQL extends Grammar {
 	 */
 	public function create(Table $table, $command)
 	{
-		$columns = $this->columns($table);
+		$columns = implode(', ', $this->columns($table));
 
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
@@ -39,10 +39,35 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Geenrate the SQL statements for a table modification command.
+	 *
+	 * @param  Table  $table
+	 * @param  array  $command
+	 * @return array
+	 */
+	public function add(Table $table, $command)
+	{
+		$columns = $this->columns($table);
+
+		// Once we the array of column definitions, we need to add "add"
+		// to the front of each definition, then we'll concatenate the
+		// definitions using commas like normal and generate the SQL.
+		$columns = implode(', ', array_map(function($column)
+		{
+			return 'ADD '.$column;
+
+		}, $columns));
+
+		$sql = 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+
+		return (array) $sql;
+	}
+
+	/**
 	 * Create the individual column definitions for the table.
 	 *
-	 * @param  Table   $table
-	 * @return string
+	 * @param  Table  $table
+	 * @return array
 	 */
 	protected function columns(Table $table)
 	{
@@ -70,7 +95,7 @@ class MySQL extends Grammar {
 			$columns[] = $sql;
 		}
 
-		return implode(', ', $columns);
+		return $columns;
 	}
 
 	/**
@@ -139,7 +164,7 @@ class MySQL extends Grammar {
 	/**
 	 * Generate the data-type definition for a string.
 	 *
-	 * @param  array   $column
+	 * @param  Column  $column
 	 * @return string
 	 */
 	protected function type_string($column)
@@ -156,6 +181,50 @@ class MySQL extends Grammar {
 	protected function type_integer($column)
 	{
 		return 'INT';
+	}
+
+	/**
+	 * Generate the data-type definition for a boolean.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_boolean($column)
+	{
+		return 'TINYINT';
+	}
+
+	/**
+	 * Generate the data-type definition for a date.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_date($column)
+	{
+		return 'DATETIME';
+	}
+
+	/**
+	 * Generate the data-type definition for a text column.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_text($column)
+	{
+		return 'TEXT';
+	}
+
+	/**
+	 * Generate the data-type definition for a blob.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_blob($column)
+	{
+		return 'BLOB';
 	}
 
 }

@@ -97,6 +97,10 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Schema\\Column' => SYS_PATH.'database/schema/column'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\String' => SYS_PATH.'database/schema/columns/string'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Integer' => SYS_PATH.'database/schema/columns/integer'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Boolean' => SYS_PATH.'database/schema/columns/boolean'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Date' => SYS_PATH.'database/schema/columns/date'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Text' => SYS_PATH.'database/schema/columns/text'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Blob' => SYS_PATH.'database/schema/columns/blob'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Grammar' => SYS_PATH.'database/schema/grammars/grammar'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\MySQL' => SYS_PATH.'database/schema/grammars/mysql'.EXT,
 

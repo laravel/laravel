@@ -24,16 +24,17 @@ class Schema {
 	 */
 	public static function execute($schema)
 	{
-		if (count($schema->commands) == 0 and count($schema->columns) > 0)
+		if (count($schema->columns) > 0 and ! $schema->creating())
 		{
-			$schema->commands[] = new Schema\Commands\Alter($schema);
+			array_unshift($schema->commands, array('type' => 'add', 'table' => $schema));
 		}
 
 		foreach ($schema->commands as $command)
 		{
+			//$connection = DB::connection($schema->connection);
+
 			$grammar = static::grammar('mysql');
 
-			//$connection = DB::connection($schema->connection);
 			var_dump($grammar->{$command['type']}($command['table'], $command));
 			echo '<br><br>';
 			//$connection->query($grammar->{$command['type']}($command));

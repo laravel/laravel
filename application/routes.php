@@ -37,10 +37,15 @@ Router::register(array('GET /', 'GET /home'), function()
 {
 	Schema::table('something', function($table)
 	{
-		$table->create();
+		//$table->create();
 		$table->increments('id');
 		$table->string('email')->nullable();
 		$table->integer('votes');
+		$table->date('created_at');
+		$table->boolean('enabled');
+		$table->blob('something');
+		$table->text('description')->nullable();
+
 		$table->primary(array('email', 'firstname'));
 		$table->fulltext('description');
 		$table->unique(array('firstname', 'lastname'));

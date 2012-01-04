@@ -147,11 +147,63 @@ class Table {
 	 *
 	 * @param  string  $column
 	 * @param  bool    $increment
-	 * @return void
+	 * @return Column
 	 */
 	public function integer($column, $increment = false)
 	{
 		$this->columns[] = new Columns\Integer($column, $increment);
+
+		return end($this->columns);
+	}
+
+	/**
+	 * Add a boolean column to the table.
+	 *
+	 * @param  string  $column
+	 * @return Column
+	 */
+	public function boolean($column)
+	{
+		$this->columns[] = new Columns\Boolean($column);
+
+		return end($this->columns);
+	}
+
+	/**
+	 * Add a date column to the table.
+	 *
+	 * @param  string  $column
+	 * @return Column
+	 */
+	public function date($column)
+	{
+		$this->columns[] = new Columns\Date($column);
+
+		return end($this->columns);
+	}
+
+	/**
+	 * Add a text column to the table.
+	 *
+	 * @param  string  $column
+	 * @return Column
+	 */
+	public function text($column)
+	{
+		$this->columns[] = new Columns\Text($column);
+
+		return end($this->columns);
+	}
+
+	/**
+	 * Add a blob column to the table.
+	 *
+	 * @param  string  $column
+	 * @return Column
+	 */
+	public function blob($column)
+	{
+		$this->columns[] = new Columns\Blob($column);
 
 		return end($this->columns);
 	}
@@ -165,6 +217,19 @@ class Table {
 	public function on($connection)
 	{
 		$this->connection = $connection;
+	}
+
+	/**
+	 * Determine if the schema table has a creation command.
+	 *
+	 * @return bool
+	 */
+	public function creating()
+	{
+		return ! is_null(array_first($this->commands, function($key, $value)
+		{
+			return $value['type'] == 'create';
+		}));
 	}
 
 }

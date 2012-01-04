@@ -39,17 +39,14 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function type(Column $column)
 	{
-		switch ($column->type())
+		$type = $column->type();
+
+		if (method_exists($this, 'type_'.$type))
 		{
-			case 'string':
-				return $this->type_string($column);
-
-			case 'integer':
-				return $this->type_integer($column);
-
-			default:
-				throw new \Exception('Unknown column type ['.$column->type().'].');
+			return $this->{'type_'.$type}($column);
 		}
+
+		throw new \Exception('Unknown column type ['.$column->type().'].');
 	}
 
 }
