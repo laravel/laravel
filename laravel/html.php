@@ -201,6 +201,8 @@ class HTML {
 	 */
 	public static function mailto($email, $title = null, $attributes = array())
 	{
+		if($email===null) throw new \InvalidArgumentException('email can\'t be null');
+		
 		$email = static::email($email);
 
 		if (is_null($title)) $title = $email;
