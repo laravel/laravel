@@ -48,7 +48,73 @@ class Table {
 	 */
 	public function create()
 	{
-		$this->commands[] = new Commands\Create($this);
+		$this->commands[] = array('type' => 'create', 'table' => $this);
+	}
+
+	/**
+	 * Create a new primary key on the table.
+	 *
+	 * <code>
+	 *		// Add a new primary key to the table
+	 *		$table->primary('email');
+	 *
+	 *		// Add a composite primary key to the table
+	 *		$table->primary(array('firstname', 'lastname'));
+	 * </code>
+	 *
+	 * @param  string|array  $columns
+	 * @return void
+	 */
+	public function primary($columns)
+	{
+		$this->key(__FUNCTION__, $columns);
+	}
+
+	/**
+	 * Create a new unique index on the table.
+	 *
+	 * @param  string|array  $columns
+	 * @return void
+	 */
+	public function unique($columns)
+	{
+		$this->key(__FUNCTION__, $columns);
+	}
+
+	/**
+	 * Create a new index on the table.
+	 *
+	 * @param  string|array  $columns
+	 * @return void
+	 */
+	public function index($columns)
+	{
+		$this->key(__FUNCTION__, $columns);
+	}
+
+	/**
+	 * Add an indexing command to the table.
+	 *
+	 * @param  string         $type
+	 * @param  string|array   $columns
+	 * @return void
+	 */
+	protected function key($type, $columns)
+	{
+		$columns = (array) $columns;
+
+		$this->commands[] = array('type' => $type, 'table' => $this, 'columns' => $columns);
+	}
+
+	/**
+	 * Add an auto-incrementing integer to the table.
+	 *
+	 * @param  string  $column
+	 * @return void
+	 */
+	public function increments($column)
+	{
+		$this->integer($column, true);
 	}
 
 	/**
@@ -56,12 +122,12 @@ class Table {
 	 *
 	 * @param  string  $column
 	 * @param  int     $length
-	 * @return void
+	 * @return Column
 	 */
 	public function string($column, $length = 200)
 	{
 		$this->columns[] = new Columns\String($column, $length);
-
+		
 		return end($this->columns);
 	}
 
@@ -69,11 +135,14 @@ class Table {
 	 * Add an integer column to the table.
 	 *
 	 * @param  string  $column
+	 * @param  bool    $increment
 	 * @return void
 	 */
-	public function integer($column)
+	public function integer($column, $increment = false)
 	{
-		$this->columns[] = new Columns\Integer($column);
+		$this->columns[] = new Columns\Integer($column, $increment);
+
+		return end($this->columns);
 	}
 
 	/**

@@ -94,10 +94,9 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Query\\Grammars\\MySQL' => SYS_PATH.'database/query/grammars/mysql'.EXT,
 
 	'Laravel\\Database\\Schema\\Table' => SYS_PATH.'database/schema/table'.EXT,
-	'Laravel\\Database\\Schema\\Columns\\Column' => SYS_PATH.'database/schema/columns/column'.EXT,
+	'Laravel\\Database\\Schema\\Column' => SYS_PATH.'database/schema/column'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\String' => SYS_PATH.'database/schema/columns/string'.EXT,
-	'Laravel\\Database\\Schema\\Commands\\Create' => SYS_PATH.'database/schema/commands/create'.EXT,
-	'Laravel\\Database\\Schema\\Grammars\\Factory' => SYS_PATH.'database/schema/grammars/factory'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Integer' => SYS_PATH.'database/schema/columns/integer'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Grammar' => SYS_PATH.'database/schema/grammars/grammar'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\MySQL' => SYS_PATH.'database/schema/grammars/mysql'.EXT,
 

@@ -31,7 +31,31 @@ class Schema {
 
 		foreach ($schema->commands as $command)
 		{
-			$command->execute();
+			$grammar = static::grammar('mysql');
+
+			//$connection = DB::connection($schema->connection);
+			var_dump($grammar->{$command['type']}($command['table'], $command));
+			echo '<br><br>';
+			//$connection->query($grammar->{$command['type']}($command));
+		}
+		die;
+	}
+
+	/**
+	 * Create the appropriate schema grammar for the driver.
+	 *
+	 * @param  string   $driver
+	 * @return Grammar
+	 */
+	public static function grammar($driver)
+	{
+		switch ($driver)
+		{
+			case 'mysql':
+				return new Schema\Grammars\MySQL;
+
+			default:
+				throw new \Exception("Schema operations not supported for [$driver].");
 		}
 	}
 

@@ -1,32 +1,28 @@
 <?php namespace Laravel\Database\Schema\Columns;
 
+use Laravel\Database\Schema\Column;
+
 class String extends Column {
 
 	/**
-	 * The name of the column.
-	 *
-	 * @var string
-	 */
-	public $name;
-
-	/**
-	 * The length of the column.
+	 * The maximum length of the column.
 	 *
 	 * @var int
 	 */
 	public $length;
 
 	/**
-	 * Create a new varchar column instance.
+	 * Create a new instance of the string column.
 	 *
 	 * @param  string  $name
-	 * @param  int     $length
+	 * @param  int     $Length
 	 * @return void
 	 */
 	public function __construct($name, $length = 200)
 	{
-		$this->name = $name;
 		$this->length = $length;
+
+		parent::__construct($name);
 	}
 
 }
