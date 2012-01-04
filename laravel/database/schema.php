@@ -24,6 +24,10 @@ class Schema {
 	 */
 	public static function execute($schema)
 	{
+		// If the developer has specified columns for the table and the
+		// table is not being created, we will assume they simply want
+		// to add the columns to the table, and will generate an add
+		// command for them, adding the columns to the command.
 		if (count($schema->columns) > 0 and ! $schema->creating())
 		{
 			array_unshift($schema->commands, array('type' => 'add', 'table' => $schema));
@@ -31,15 +35,25 @@ class Schema {
 
 		foreach ($schema->commands as $command)
 		{
-			//$connection = DB::connection($schema->connection);
+			$connection = DB::connection($schema->connection);
 
-			$grammar = static::grammar('mysql');
+			$grammar = static::grammar($connection->driver());
 
-			var_dump($grammar->{$command['type']}($command['table'], $command));
-			echo '<br><br>';
-			//$connection->query($grammar->{$command['type']}($command));
+			// Each grammar has a function that corresponds to the command type
+			// and is responsible for building that's commands SQL. This lets
+			// the SQL generation stay very granular and makes it simply to
+			// add new database systems to the schema system.
+			$statements = $grammar->{$command['type']}($command['table'], $command);
+
+			// Once we have the statements, we will cast them to an array even
+			// though not all of the commands return an array. This is just in
+			// case the command needs to run more than one query to do what
+			// it needs to do what is requested by the developer.
+			foreach ((array) $statements as $statement)
+			{
+				$connection->query($statement);
+			}
 		}
-		die;
 	}
 
 	/**
@@ -54,10 +68,9 @@ class Schema {
 		{
 			case 'mysql':
 				return new Schema\Grammars\MySQL;
-
-			default:
-				throw new \Exception("Schema operations not supported for [$driver].");
 		}
+
+		throw new \Exception("Schema operations not supported for [$driver].");
 	}
 
 }
