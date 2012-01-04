@@ -50,10 +50,18 @@ class MySQL extends Grammar {
 
 		foreach ($table->columns as $column)
 		{
+			// Each of the data type's have their own definition creation
+			// method, which is responsible for creating the SQL version
+			// of the data type. This allows us to keep the syntax easy
+			// and fluent, while translating the types to the types
+			// used by the database system.
 			$sql = $this->wrap($column->name).' '.$this->type($column);
 
 			$sql .= ($column->nullable) ? ' NULL' : ' NOT NULL';
 
+			// Auto-incrementing IDs are required to be a primary key,
+			// so we'll go ahead and add the primary key definition
+			// when the column is created.
 			if ($column->type() == 'integer' and $column->increment)
 			{
 				$sql .= ' AUTO_INCREMENT PRIMARY KEY';
