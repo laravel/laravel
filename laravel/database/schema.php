@@ -39,23 +39,27 @@ class Schema {
 		{
 			$connection = DB::connection($schema->connection);
 
-			$grammar = static::grammar($connection->driver());
+			// TESTING TESTING TESTING *******************************
+			$grammar = static::grammar('sqlite');
+			//$grammar = static::grammar($connection->driver());
 
 			// Each grammar has a function that corresponds to the command type
 			// and is responsible for building that's commands SQL. This lets
 			// the SQL generation stay very granular and makes it simply to
 			// add new database systems to the schema system.
 			$statements = $grammar->{$command['type']}($command['table'], $command);
-			die(var_dump($statements));
+			var_dump($statements);
+			echo '<br><br>';
 			// Once we have the statements, we will cast them to an array even
 			// though not all of the commands return an array. This is just in
 			// case the command needs to run more than one query to do what
 			// it needs to do what is requested by the developer.
 			foreach ((array) $statements as $statement)
 			{
-				$connection->query($statement);
+				//$connection->query($statement);
 			}
 		}
+		die;
 	}
 
 	/**
@@ -70,6 +74,9 @@ class Schema {
 		{
 			case 'mysql':
 				return new Schema\Grammars\MySQL;
+
+			case 'sqlite':
+				return new Schema\Grammars\SQLite;
 		}
 
 		throw new \Exception("Schema operations not supported for [$driver].");

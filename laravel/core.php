@@ -103,6 +103,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Schema\\Columns\\Blob' => SYS_PATH.'database/schema/columns/blob'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Grammar' => SYS_PATH.'database/schema/grammars/grammar'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\MySQL' => SYS_PATH.'database/schema/grammars/mysql'.EXT,
+	'Laravel\\Database\\Schema\\Grammars\\SQLite' => SYS_PATH.'database/schema/grammars/sqlite'.EXT,
 
 	'Laravel\\Routing\\Controller' => SYS_PATH.'routing/controller'.EXT,
 	'Laravel\\Routing\\Filter' => SYS_PATH.'routing/filter'.EXT,
