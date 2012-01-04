@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database;
 
+use Laravel\Database as DB;
+
 class Schema {
 
 	/**
@@ -44,7 +46,7 @@ class Schema {
 			// the SQL generation stay very granular and makes it simply to
 			// add new database systems to the schema system.
 			$statements = $grammar->{$command['type']}($command['table'], $command);
-
+			die(var_dump($statements));
 			// Once we have the statements, we will cast them to an array even
 			// though not all of the commands return an array. This is just in
 			// case the command needs to run more than one query to do what
