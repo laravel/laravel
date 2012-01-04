@@ -31,6 +31,13 @@ class View implements ArrayAccess {
 	public static $shared = array();
 
 	/**
+	 * All of the registered view names.
+	 *
+	 * @var array
+	 */
+	public static $names = array();
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -118,6 +125,46 @@ class View implements ArrayAccess {
 	public static function make($view, $data = array())
 	{
 		return new static($view, $data);
+	}
+
+	/**
+	 * Create a new view instance of a named view.
+	 *
+	 * <code>
+	 *		// Create a new named view instance
+	 *		$view = View::of('profile');
+	 *
+	 *		// Create a new named view instance with bound data
+	 *		$view = View::of('profile', array('name' => 'Taylor'));
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @param  array   $data
+	 * @return View
+	 */
+	public static function of($name, $data = array())
+	{
+		return new static(static::$names[$name], $data);
+	}
+
+	/**
+	 * Assign a name to a view.
+	 *
+	 * <code>
+	 *		// Assign a name to a view
+	 *		View::name('partials.profile', 'profile');
+	 *
+	 *		// Resolve an instance of a named view
+	 *		$view = View::of('profile');
+	 * </code>
+	 *
+	 * @param  string  $view
+	 * @param  string  $name
+	 * @return void
+	 */
+	public static function name($view, $name)
+	{
+		static::$names[$name] = $view;
 	}
 
 	/**
