@@ -42,6 +42,8 @@ Router::register(array('GET /', 'GET /home'), function()
 		$table->string('email')->nullable();
 		$table->integer('votes');
 		$table->primary(array('email', 'firstname'));
+		$table->fulltext('description');
+		$table->unique(array('firstname', 'lastname'));
 	});
 	return View::make('home.index');
 });

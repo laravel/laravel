@@ -82,6 +82,17 @@ class Table {
 	}
 
 	/**
+	 * Create a new full-text index on the table.
+	 *
+	 * @param  string|array  $columns
+	 * @return void
+	 */
+	public function fulltext($columns)
+	{
+		$this->key(__FUNCTION__, $columns);
+	}
+
+	/**
 	 * Create a new index on the table.
 	 *
 	 * @param  string|array  $columns

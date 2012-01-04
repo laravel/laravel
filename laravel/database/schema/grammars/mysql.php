@@ -39,6 +39,33 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Create the individual column definitions for the table.
+	 *
+	 * @param  Table   $table
+	 * @return string
+	 */
+	protected function columns(Table $table)
+	{
+		$columns = array();
+
+		foreach ($table->columns as $column)
+		{
+			$sql = $this->wrap($column->name).' '.$this->type($column);
+
+			$sql .= ($column->nullable) ? ' NULL' : ' NOT NULL';
+
+			if ($column->type() == 'integer' and $column->increment)
+			{
+				$sql .= ' AUTO_INCREMENT PRIMARY KEY';
+			}
+
+			$columns[] = $sql;
+		}
+
+		return implode(', ', $columns);
+	}
+
+	/**
 	 * Generate the SQL statement for creating a primary key.
 	 *
 	 * @param  Table   $table
@@ -75,6 +102,18 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Generate the SQL statement for creating a regular index.
+	 *
+	 * @param  Table   $table
+	 * @param  array   $command
+	 * @return string
+	 */
+	public function index(Table $table, $command)
+	{
+		return $this->key($table, $command, 'INDEX');
+	}
+
+	/**
 	 * Generate the SQL statement for creating a new index.
 	 *
 	 * @param  Table   $table
@@ -87,27 +126,6 @@ class MySQL extends Grammar {
 		$keys = $this->columnize($command['columns']);
 
 		return 'ALTER TABLE '.$this->wrap($table->name).' ADD '.$type.' ('.$keys.')';
-	}
-
-	protected function columns(Table $table)
-	{
-		$columns = array();
-
-		foreach ($table->columns as $column)
-		{
-			$sql = $this->wrap($column->name).' '.$this->type($column);
-
-			$sql .= ($column->nullable) ? ' NULL' : ' NOT NULL';
-
-			if ($column->type() == 'integer' and $column->increment)
-			{
-				$sql .= ' AUTO_INCREMENT PRIMARY KEY';
-			}
-
-			$columns[] = $sql;
-		}
-
-		return implode(', ', $columns);
 	}
 
 	/**
