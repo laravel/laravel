@@ -65,7 +65,7 @@ class Connection {
 	/**
 	 * Create a new query grammar for the connection.
 	 *
-	 * @return Grammars\Grammar
+	 * @return Query\Grammars\Grammar
 	 */
 	protected function grammar()
 	{
@@ -74,10 +74,10 @@ class Connection {
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
-				return $this->grammar = new Grammars\MySQL;
+				return $this->grammar = new Query\Grammars\MySQL;
 
 			default:
-				return $this->grammar = new Grammars\Grammar;
+				return $this->grammar = new Query\Grammars\Grammar;
 		}
 	}
 

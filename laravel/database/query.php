@@ -15,7 +15,7 @@ class Query {
 	/**
 	 * The query grammar instance.
 	 *
-	 * @var Grammars\Grammar
+	 * @var Query\Grammars\Grammar
 	 */
 	public $grammar;
 
@@ -99,12 +99,12 @@ class Query {
 	/**
 	 * Create a new query instance.
 	 *
-	 * @param  Connection        $connection
-	 * @param  Grammars\Grammar  $grammar
-	 * @param  string            $table
+	 * @param  Connection  $connection
+	 * @param  Grammar     $grammar
+	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Grammars\Grammar $grammar, $table)
+	public function __construct(Connection $connection, Query\Grammars\Grammar $grammar, $table)
 	{
 		$this->from = $table;
 		$this->grammar = $grammar;

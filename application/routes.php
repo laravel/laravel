@@ -35,6 +35,11 @@
 
 Router::register(array('GET /', 'GET /home'), function()
 {
+	Schema::table('something', function($table)
+	{
+		$table->create();
+		$table->string('email');
+	});
 	return View::make('home.index');
 });
 
