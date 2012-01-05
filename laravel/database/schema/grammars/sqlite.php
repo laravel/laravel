@@ -1,6 +1,7 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Schema\Columns\Column;
 use Laravel\Database\Schema\Commands\Command;
 use Laravel\Database\Schema\Commands\Primary;
 
@@ -44,9 +45,7 @@ class SQLite extends Grammar {
 			$sql .= ", PRIMARY KEY ({$columns})";
 		}
 
-		$sql .= ')';
-
-		return (array) $sql;
+		return $sql .= ')';
 	}
 
 	/**
@@ -60,16 +59,22 @@ class SQLite extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add"
-		// to the front of each definition, then we'll concatenate the
-		// definitions using commas like normal and generate the SQL.
-		$columns = implode(', ', array_map(function($column)
+		// Once we have an array of all of the column definitions, we need to
+		// spin through each one and prepend "ADD COLUMN" to each of them,
+		// which is the syntax used by SQLite when adding columns.
+		$columns = array_map(function($column)
 		{
-			return 'ADD '.$column;
+			return 'ADD COLUMN '.$column;
 
-		}, $columns));
+		}, $columns);
 
-		$sql = 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+		// SQLite only allows one column to be added in an ALTER statement,
+		// so we will create an array of statements and return them all to
+		// the schema manager, which will execute each one.
+		foreach ($columns as $column)
+		{
+			$sql[] = 'ALTER TABLE '.$this->wrap($table->name).' '.$column;
+		}
 
 		return (array) $sql;
 	}
@@ -86,27 +91,65 @@ class SQLite extends Grammar {
 
 		foreach ($table->columns as $column)
 		{
-			// Each of the data type's have their own definition creation
-			// method, which is responsible for creating the SQL version
-			// of the data type. This allows us to keep the syntax easy
-			// and fluent, while translating the types to the types
-			// used by the database system.
+			// Each of the data type's have their own definition creation method
+			// which is responsible for creating the SQL for the type. This lets
+			// us to keep the syntax easy and fluent, while translating the
+			// types to the types used by the database system.
 			$sql = $this->wrap($column->name).' '.$this->type($column);
 
-			$sql .= ($column->nullable) ? ' NULL' : ' NOT NULL';
+			$elements = array('nullable', 'default_value', 'incrementer');
 
-			// Auto-incrementing IDs are required to be a primary key,
-			// so we'll go ahead and add the primary key definition
-			// when the column is created.
-			if ($column->type() == 'integer' and $column->increment)
+			foreach ($elements as $element)
 			{
-				$sql .= ' PRIMARY KEY AUTOINCREMENT';
+				$sql .= $this->$element($table, $column);
 			}
 
 			$columns[] = $sql;
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is nullable.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function nullable(Table $table, Column $column)
+	{
+		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+	}
+
+	/**
+	 * Get the SQL syntax for specifying a default value on a column.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function default_value(Table $table, Column $column)
+	{
+		if ( ! is_null($column->default))
+		{
+			return ' DEFAULT '.$this->wrap($column->default);
+		}
+	}
+
+	/**
+	 * Get the SQL syntax for defining an auto-incrementing column.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function incrementer(Table $table, Column $column)
+	{
+		if ($column->type() == 'integer' and $column->increment)
+		{
+			return ' PRIMARY KEY AUTOINCREMENT';
+		}
 	}
 
 	/**
@@ -162,6 +205,30 @@ class SQLite extends Grammar {
 		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
 
 		return $create." INDEX {$command->name} ON ".$this->wrap($table->name)." ({$columns})";
+	}
+
+	/**
+	 * Generate the SQL statement for a drop table command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop(Table $table, Command $command)
+	{
+		return 'DROP TABLE '.$this->wrap($table->name);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop index command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_index(Table $table, Command $command)
+	{
+		return 'DROP INDEX '.$this->wrap($command->name);
 	}
 
 	/**

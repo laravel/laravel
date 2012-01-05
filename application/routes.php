@@ -37,9 +37,8 @@ Router::register(array('GET /', 'GET /home'), function()
 {
 	Schema::table('something', function($table)
 	{
-		$table->create();
 		$table->string('email')->nullable();
-		$table->integer('votes');
+		$table->integer('votes')->default(1);
 		$table->date('created_at');
 		$table->boolean('enabled');
 		$table->blob('something');
@@ -48,6 +47,10 @@ Router::register(array('GET /', 'GET /home'), function()
 		$table->primary(array('email', 'firstname'), 'primary_key');
 		$table->fulltext('description', 'desc_search');
 		$table->unique(array('firstname', 'lastname'), 'uniq_one');
+
+		$table->drop();
+		$table->drop_column('email');
+		$table->drop_index('blah');
 	});
 	return View::make('home.index');
 });

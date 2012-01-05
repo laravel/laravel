@@ -96,6 +96,38 @@ class Table {
 	}
 
 	/**
+	 * Drop the database table.
+	 *
+	 * @return void
+	 */
+	public function drop()
+	{
+		$this->commands[] = new Commands\Drop;
+	}
+
+	/**
+	 * Drop a column from the table.
+	 *
+	 * @param  string|array  $columns
+	 * @return void
+	 */
+	public function drop_column($columns)
+	{
+		$this->commands[] = new Commands\Drop_Column($columns);
+	}
+
+	/**
+	 * Drop an index from the table.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function drop_index($name)
+	{
+		$this->commands[] = new Commands\Drop_Index($name);
+	}
+
+	/**
 	 * Create a new index on the table.
 	 *
 	 * @param  string|array  $columns

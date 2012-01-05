@@ -10,6 +10,13 @@ abstract class Column {
 	public $name;
 
 	/**
+	 * The default value that should be placed in the column.
+	 *
+	 * @var string
+	 */
+	public $default;
+
+	/**
 	 * Indicates if the column should be nullable.
 	 *
 	 * @var bool
@@ -46,6 +53,14 @@ abstract class Column {
 	final public function type()
 	{
 		return strtolower(basename(get_class($this)));
+	}
+
+	public function __call($method, $parameters)
+	{
+		if ($method == 'default')
+		{
+			$this->default = $parameters[0];
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Schema\Columns\Column;
 use Laravel\Database\Schema\Commands\Command;
 
 class MySQL extends Grammar {
@@ -36,7 +37,7 @@ class MySQL extends Grammar {
 			$sql .= ' ENGINE = '.$table->engine;
 		}
 
-		return (array) $sql;
+		return $sql;
 	}
 
 	/**
@@ -59,9 +60,7 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		$sql = 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
-
-		return (array) $sql;
+		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
 	}
 
 	/**
@@ -76,27 +75,65 @@ class MySQL extends Grammar {
 
 		foreach ($table->columns as $column)
 		{
-			// Each of the data type's have their own definition creation
-			// method, which is responsible for creating the SQL version
-			// of the data type. This allows us to keep the syntax easy
-			// and fluent, while translating the types to the types
-			// used by the database system.
+			// Each of the data type's have their own definition creation method,
+			// which is responsible for creating the SQL for the type. This lets
+			// us to keep the syntax easy and fluent, while translating the
+			// types to the types used by the database system.
 			$sql = $this->wrap($column->name).' '.$this->type($column);
 
-			$sql .= ($column->nullable) ? ' NULL' : ' NOT NULL';
+			$elements = array('nullable', 'default_value', 'incrementer');
 
-			// Auto-incrementing IDs are required to be a primary key,
-			// so we'll go ahead and add the primary key definition
-			// when the column is created.
-			if ($column->type() == 'integer' and $column->increment)
+			foreach ($elements as $element)
 			{
-				$sql .= ' AUTO_INCREMENT PRIMARY KEY';
+				$sql .= $this->$element($table, $column);
 			}
 
 			$columns[] = $sql;
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is nullable.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function nullable(Table $table, Column $column)
+	{
+		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+	}
+
+	/**
+	 * Get the SQL syntax for specifying a default value on a column.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function default_value(Table $table, Column $column)
+	{
+		if ( ! is_null($column->default))
+		{
+			return " DEFAULT '".$column->default."'";
+		}
+	}
+
+	/**
+	 * Get the SQL syntax for defining an auto-incrementing column.
+	 *
+	 * @param  Table   $table
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function incrementer(Table $table, Column $column)
+	{
+		if ($column->type() == 'integer' and $column->incremnet)
+		{
+			return ' AUTO_INCREMENT PRIMARY KEY';
+		}
 	}
 
 	/**
@@ -162,6 +199,55 @@ class MySQL extends Grammar {
 		$name = $command->name;
 
 		return 'ALTER TABLE '.$this->wrap($table->name)." ADD {$type} {$name}({$keys})";
+	}
+
+	/**
+	 * Generate the SQL statement for a drop table command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop(Table $table, Command $command)
+	{
+		return 'DROP TABLE '.$this->wrap($table->name);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop column command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_column(Table $table, Command $command)
+	{
+		$columns = array_map(array($this, 'wrap'), $command->columns);
+
+		// Once we have wrapped all of the columns, we need to add "drop"
+		// to the front of each column name, then we'll concatenate the
+		// columns using commas like normal and generate the SQL.
+		$columns = implode(', ', array_map(function($column)
+		{
+			return 'DROP '.$column;
+
+		}, $columns));
+
+		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+	}
+
+	/**
+	 * Generate the SQL statement for a drop index command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_index(Table $table, Command $command)
+	{
+		$index = $this->wrap($command->name);
+
+		return 'ALTER TABLE '.$this->wrap($table->name)." DROP INDEX {$index}";
 	}
 
 	/**

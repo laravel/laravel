@@ -20,9 +20,18 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 *
 	 * @param  Table    $table
 	 * @param  Command  $command
-	 * @return array
+	 * @return string
 	 */
 	abstract public function add(Table $table, Command $command);
+
+	/**
+	 * Generate the SQL statement for a drop table command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	abstract public function drop(Table $table, Command $command);
 
 	/**
 	 * Generate the data-type definition for a string.
