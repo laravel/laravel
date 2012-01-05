@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Schema;
+<?php namespace Laravel\Database\Schema\Columns;
 
 abstract class Column {
 

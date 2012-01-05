@@ -21,23 +21,23 @@ class Schema {
 	/**
 	 * Execute the given schema operation against the database.
 	 *
-	 * @param  Schema\Table  $schema
+	 * @param  Schema\Table  $table
 	 * @return void
 	 */
-	public static function execute($schema)
+	public static function execute($table)
 	{
 		// If the developer has specified columns for the table and the
 		// table is not being created, we will assume they simply want
 		// to add the columns to the table, and will generate an add
 		// command for them, adding the columns to the command.
-		if (count($schema->columns) > 0 and ! $schema->creating())
+		if (count($table->columns) > 0 and ! $table->creating())
 		{
-			array_unshift($schema->commands, array('type' => 'add', 'table' => $schema));
+			array_unshift($table->commands, new Schema\Commands\Add);
 		}
 
-		foreach ($schema->commands as $command)
+		foreach ($table->commands as $command)
 		{
-			$connection = DB::connection($schema->connection);
+			$connection = DB::connection($table->connection);
 
 			// TESTING TESTING TESTING *******************************
 			$grammar = static::grammar('sqlite');
@@ -47,7 +47,7 @@ class Schema {
 			// and is responsible for building that's commands SQL. This lets
 			// the SQL generation stay very granular and makes it simply to
 			// add new database systems to the schema system.
-			$statements = $grammar->{$command['type']}($command['table'], $command);
+			$statements = $grammar->{$command->type()}($table, $command);
 			var_dump($statements);
 			echo '<br><br>';
 			// Once we have the statements, we will cast them to an array even

@@ -1,19 +1,19 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
 use Laravel\Database\Schema\Table;
-use Laravel\Database\Schema\Column;
-use Laravel\Database\Schema\Columns\String;
+use Laravel\Database\Schema\Columns\Column;
+use Laravel\Database\Schema\Commands\Command;
 
 abstract class Grammar extends \Laravel\Database\Grammar {
 
 	/**
 	 * Generate the SQL for a table creation command.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return string
 	 */
-	abstract public function create(Table $table, $command);
+	abstract public function create(Table $table, Command $command);
 
 	/**
 	 * Generate the data-type definition for a string.

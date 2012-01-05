@@ -48,7 +48,7 @@ class Table {
 	 */
 	public function create()
 	{
-		$this->commands[] = array('type' => 'create', 'table' => $this);
+		$this->commands[] = new Commands\Create;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Table {
 	 */
 	public function primary($columns)
 	{
-		$this->key(__FUNCTION__, $columns);
+		$this->commands[] = new Commands\Primary($columns);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Table {
 	 */
 	public function unique($columns)
 	{
-		$this->key(__FUNCTION__, $columns);
+		$this->commands[] = new Commands\Unique($columns);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Table {
 	 */
 	public function fulltext($columns)
 	{
-		$this->key(__FUNCTION__, $columns);
+		$this->commands[] = new Commands\Fulltext($columns);
 	}
 
 	/**
@@ -100,21 +100,7 @@ class Table {
 	 */
 	public function index($columns)
 	{
-		$this->key(__FUNCTION__, $columns);
-	}
-
-	/**
-	 * Add an indexing command to the table.
-	 *
-	 * @param  string         $type
-	 * @param  string|array   $columns
-	 * @return void
-	 */
-	protected function key($type, $columns)
-	{
-		$columns = (array) $columns;
-
-		$this->commands[] = array('type' => $type, 'table' => $this, 'columns' => $columns);
+		$this->commands[] = new Commands\Index($columns);
 	}
 
 	/**
@@ -228,7 +214,7 @@ class Table {
 	{
 		return ! is_null(array_first($this->commands, function($key, $value)
 		{
-			return $value['type'] == 'create';
+			return $value instanceof Commands\Create;
 		}));
 	}
 

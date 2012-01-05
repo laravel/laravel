@@ -1,17 +1,18 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Schema\Commands\Command;
 
 class SQLite extends Grammar {
 
 	/**
 	 * Generate the SQL statements for a table creation command.
 	 *
-	 * @param  Table  $table
-	 * @param  array  $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return array
 	 */
-	public function create(Table $table, $command)
+	public function create(Table $table, Command $command)
 	{
 		$columns = implode(', ', $this->columns($table));
 
@@ -26,11 +27,11 @@ class SQLite extends Grammar {
 	/**
 	 * Geenrate the SQL statements for a table modification command.
 	 *
-	 * @param  Table  $table
-	 * @param  array  $command
+	 * @param  Table   $table
+	 * @param  Command  $command
 	 * @return array
 	 */
-	public function add(Table $table, $command)
+	public function add(Table $table, Command $command)
 	{
 		$columns = $this->columns($table);
 
@@ -86,11 +87,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a primary key.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return string
 	 */
-	public function primary(Table $table, $command)
+	public function primary(Table $table, Command $command)
 	{
 		return $this->key($table, $command, 'PRIMARY KEY');
 	}
@@ -98,11 +99,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a unique index.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return string
 	 */
-	public function unique(Table $table, $command)
+	public function unique(Table $table, Command $command)
 	{
 		return $this->key($table, $command, 'UNIQUE');
 	}
@@ -110,11 +111,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a full-text index.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return string
 	 */
-	public function fulltext(Table $table, $command)
+	public function fulltext(Table $table, Command $command)
 	{
 		return $this->key($table, $command, 'FULLTEXT');
 	}
@@ -122,11 +123,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a regular index.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
+	 * @param  Table    $table
+	 * @param  Command  $command
 	 * @return string
 	 */
-	public function index(Table $table, $command)
+	public function index(Table $table, Command $command)
 	{
 		return $this->key($table, $command, 'INDEX');
 	}
@@ -134,14 +135,14 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a new index.
 	 *
-	 * @param  Table   $table
-	 * @param  array   $command
-	 * @param  string  $type
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @param  string   $type
 	 * @return string
 	 */
-	protected function key(Table $table, $command, $type)
+	protected function key(Table $table, Command $command, $type)
 	{
-		$keys = $this->columnize($command['columns']);
+		$keys = $this->columnize($command->columns);
 
 		return 'ALTER TABLE '.$this->wrap($table->name).' ADD '.$type.' ('.$keys.')';
 	}
