@@ -196,6 +196,7 @@ class Form {
 	 *		echo Form::input('text', 'email', 'example@gmail.com');
 	 * </code>
 	 *
+    	 * @param  string  $type
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  array   $attributes
