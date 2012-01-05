@@ -114,11 +114,7 @@ class SQLite extends Grammar {
 	 */
 	public function unique(Table $table, Command $command)
 	{
-		$name = "unique_{$table->name}_".implode('_', $command->columns);
-
-		$columns = $this->columnize($command->columns);
-
-		return "CREATE UNIQUE INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
+		return $this->key($table, $command, true);
 	}
 
 	/**
@@ -144,11 +140,29 @@ class SQLite extends Grammar {
 	 */
 	public function index(Table $table, Command $command)
 	{
-		$name = 'unique_'.implode('_', $command->columns);
+		return $this->key($table, $command);
+	}
 
+	/**
+	 * Generate the SQL statement for creating a new index.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @param  bool     $unique
+	 * @return string
+	 */
+	protected function key(Table $table, Command $command, $unique = false)
+	{
 		$columns = $this->columnize($command->columns);
 
-		return "CREATE INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
+		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
+
+		// SQLite indexes are required to have a name, so we'll generate a
+		// unique one by concatenating the table name and the names of all
+		// of the columns being added to the index.
+		$name = $table->name.'_'.implode('_', $command->columns);
+
+		return $create." INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
 	}
 
 	/**
