@@ -7,6 +7,6 @@ class MySQL extends Grammar {
 	 *
 	 * @var string
 	 */
-	protected $wrapper = '`';
+	protected $wrapper = '`%s`';
 
 }

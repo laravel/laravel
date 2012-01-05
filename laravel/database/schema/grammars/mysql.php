@@ -11,7 +11,7 @@ class MySQL extends Grammar {
 	 *
 	 * @var string
 	 */
-	public $wrapper = '`';
+	public $wrapper = '`%s`';
 
 	/**
 	 * Generate the SQL statements for a table creation command.

@@ -93,6 +93,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Connectors\\SQLServer' => SYS_PATH.'database/connectors/sqlserver'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'database/query/grammars/grammar'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\MySQL' => SYS_PATH.'database/query/grammars/mysql'.EXT,
+	'Laravel\\Database\\Query\\Grammars\\SQLServer' => SYS_PATH.'database/query/grammars/sqlserver'.EXT,
 
 	'Laravel\\Database\\Schema\\Table' => SYS_PATH.'database/schema/table'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Column' => SYS_PATH.'database/schema/columns/column'.EXT,

@@ -21,10 +21,19 @@ class Grammar extends \Laravel\Database\Grammar {
 	 * @param  Query   $query
 	 * @return string
 	 */
-	final public function select(Query $query)
+	public function select(Query $query)
 	{
-		$sql = array();
+		$sql = $this->concatenate($this->components($query));
+	}
 
+	/**
+	 * Generate the SQL for every component of the query.
+	 *
+	 * @param  Query  $query
+	 * @return array
+	 */
+	final protected function components($query)
+	{
 		// Each portion of the statement is compiled by a function corresponding
 		// to an item in the components array. This lets us to keep the creation
 		// of the query very granular, and allows for the flexible customization
@@ -37,14 +46,22 @@ class Grammar extends \Laravel\Database\Grammar {
 		{
 			if ( ! is_null($query->$component))
 			{
-				$sql[] = call_user_func(array($this, $component), $query);
+				$sql[$component] = call_user_func(array($this, $component), $query);
 			}
 		}
 
-		// Once all of the clauses have been compiled, we can join them all as
-		// one statement. Any segments that are null or an empty string will
-		// be removed from the array of clauses before they are imploded.
-		return implode(' ', array_filter($sql, function($value)
+		return (array) $sql;
+	}
+
+	/**
+	 * Concatenate an array of SQL segments, removing those that are empty.
+	 *
+	 * @param  array   $components
+	 * @return string
+	 */
+	final protected function concatenate($components)
+	{
+		return implode(' ', array_filter($components, function($value)
 		{
 			return (string) $value !== '';
 		}));

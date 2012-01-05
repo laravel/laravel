@@ -7,7 +7,7 @@ abstract class Grammar {
 	 *
 	 * @var string
 	 */
-	protected $wrapper = '"';
+	protected $wrapper = '"%s"';
 
 	/**
 	 * Wrap a value in keyword identifiers.
@@ -44,7 +44,7 @@ abstract class Grammar {
 			}
 			else
 			{
-				$wrapped[] = $this->wrapper.$segment.$this->wrapper;
+				$wrapped[] = sprintf($this->wrapper, $segment);
 			}
 		}
 
