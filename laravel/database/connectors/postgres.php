@@ -15,7 +15,7 @@ class Postgres extends Connector {
 		// Format the initial Postgres PDO connection string. These options are required
 		// for every Postgres connection that is established. The connection strings
 		// have the following convention: "pgsql:host=hostname;dbname=database"
-		$dsn = sprintf('%s:host=%s;dbname=%s', $driver, $host, $database);
+		$dsn = "pgsql:host={$host};dbname={$database}";
 
 		// Check for any optional Postgres PDO options. These options are not required
 		// to establish a PDO connection; however, may be needed in certain server
