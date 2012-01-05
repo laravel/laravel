@@ -27,7 +27,7 @@ class MySQL extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table->name).' ('.$columns.')';
+		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
 
 		// MySQL supports various "engines" for database tables. If an engine
 		// was specified by the developer, we will set it after adding the
@@ -60,7 +60,7 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class MySQL extends Grammar {
 			// which is responsible for creating the SQL for the type. This lets
 			// us to keep the syntax easy and fluent, while translating the
 			// types to the types used by the database system.
-			$sql = $this->wrap($column->name).' '.$this->type($column);
+			$sql = $this->wrap($column).' '.$this->type($column);
 
 			$elements = array('nullable', 'default_value', 'incrementer');
 
@@ -130,7 +130,7 @@ class MySQL extends Grammar {
 	 */
 	protected function incrementer(Table $table, Column $column)
 	{
-		if ($column->type() == 'integer' and $column->incremnet)
+		if ($column->type() == 'integer' and $column->increment)
 		{
 			return ' AUTO_INCREMENT PRIMARY KEY';
 		}
@@ -198,7 +198,7 @@ class MySQL extends Grammar {
 
 		$name = $command->name;
 
-		return 'ALTER TABLE '.$this->wrap($table->name)." ADD {$type} {$name}({$keys})";
+		return 'ALTER TABLE '.$this->wrap($table)." ADD {$type} {$name}({$keys})";
 	}
 
 	/**
@@ -210,7 +210,7 @@ class MySQL extends Grammar {
 	 */
 	public function drop(Table $table, Command $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table->name);
+		return 'DROP TABLE '.$this->wrap($table);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
@@ -247,7 +247,7 @@ class MySQL extends Grammar {
 	{
 		$index = $this->wrap($command->name);
 
-		return 'ALTER TABLE '.$this->wrap($table->name)." DROP INDEX {$index}";
+		return 'ALTER TABLE '.$this->wrap($table)." DROP INDEX {$index}";
 	}
 
 	/**
@@ -303,6 +303,17 @@ class MySQL extends Grammar {
 	protected function type_date($column)
 	{
 		return 'DATETIME';
+	}
+
+	/**
+	 * Generate the data-type definition for a timestamp.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_timestamp($column)
+	{
+		return 'TIMESTAMP';
 	}
 
 	/**

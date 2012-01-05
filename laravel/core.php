@@ -100,6 +100,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Schema\\Columns\\Float' => SYS_PATH.'database/schema/columns/float'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Boolean' => SYS_PATH.'database/schema/columns/boolean'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Date' => SYS_PATH.'database/schema/columns/date'.EXT,
+	'Laravel\\Database\\Schema\\Columns\\Timestamp' => SYS_PATH.'database/schema/columns/timestamp'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Text' => SYS_PATH.'database/schema/columns/text'.EXT,
 	'Laravel\\Database\\Schema\\Columns\\Blob' => SYS_PATH.'database/schema/columns/blob'.EXT,
 	'Laravel\\Database\\Schema\\Commands\\Command' => SYS_PATH.'database/schema/commands/command'.EXT,
@@ -115,6 +116,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Schema\\Commands\\Drop_Index' => SYS_PATH.'database/schema/commands/drop_index'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Grammar' => SYS_PATH.'database/schema/grammars/grammar'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\MySQL' => SYS_PATH.'database/schema/grammars/mysql'.EXT,
+	'Laravel\\Database\\Schema\\Grammars\\Postgres' => SYS_PATH.'database/schema/grammars/postgres'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\SQLite' => SYS_PATH.'database/schema/grammars/sqlite'.EXT,
 
 	'Laravel\\Routing\\Controller' => SYS_PATH.'routing/controller'.EXT,

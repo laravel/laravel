@@ -40,7 +40,7 @@ class Schema {
 			$connection = DB::connection($table->connection);
 
 			// TESTING TESTING TESTING *******************************
-			$grammar = static::grammar('sqlite');
+			$grammar = static::grammar('pgsql');
 			//$grammar = static::grammar($connection->driver());
 
 			// Each grammar has a function that corresponds to the command type
@@ -79,6 +79,9 @@ class Schema {
 		{
 			case 'mysql':
 				return new Schema\Grammars\MySQL;
+
+			case 'pgsql':
+				return new Schema\Grammars\Postgres;
 
 			case 'sqlite':
 				return new Schema\Grammars\SQLite;

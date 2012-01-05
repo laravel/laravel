@@ -20,15 +20,7 @@ class Postgres extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table->name).' ('.$columns.')';
-
-		// MySQL supports various "engines" for database tables. If an engine
-		// was specified by the developer, we will set it after adding the
-		// columns the table creation statement.
-		if ( ! is_null($table->engine))
-		{
-			$sql .= ' ENGINE = '.$table->engine;
-		}
+		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
 
 		return $sql;
 	}
@@ -44,16 +36,16 @@ class Postgres extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add"
+		// Once we the array of column definitions, we'll add "add column"
 		// to the front of each definition, then we'll concatenate the
 		// definitions using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
-			return 'ADD '.$column;
+			return 'ADD COLUMN '.$column;
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
@@ -72,9 +64,9 @@ class Postgres extends Grammar {
 			// which is responsible for creating the SQL for the type. This lets
 			// us to keep the syntax easy and fluent, while translating the
 			// types to the types used by the database system.
-			$sql = $this->wrap($column->name).' '.$this->type($column);
+			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'default_value', 'incrementer');
+			$elements = array('incrementer', 'nullable', 'default_value');
 
 			foreach ($elements as $element)
 			{
@@ -123,9 +115,13 @@ class Postgres extends Grammar {
 	 */
 	protected function incrementer(Table $table, Column $column)
 	{
-		if ($column->type() == 'integer' and $column->incremnet)
+		// We don't actually need to specify an "auto_increment" keyword since
+		// we handle the auto-increment definition in the type definition for
+		// integers by changing the type to "serial", which is a convenient
+		// notational short-cut provided by Postgres.
+		if ($column->type() == 'integer' and $column->increment)
 		{
-			return ' AUTO_INCREMENT PRIMARY KEY';
+			return ' PRIMARY KEY';
 		}
 	}
 
@@ -138,7 +134,9 @@ class Postgres extends Grammar {
 	 */
 	public function primary(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'PRIMARY KEY');
+		$columns = $this->columnize($command->columns);
+
+		return 'ALTER TABLE '.$this->wrap($table)." ADD PRIMARY KEY ({$columns})";
 	}
 
 	/**
@@ -150,7 +148,11 @@ class Postgres extends Grammar {
 	 */
 	public function unique(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'UNIQUE');
+		$name = $command->name;
+
+		$columns = $this->columnize($command->columns);
+
+		return "CREATE UNIQUE INDEX {$name} ON ".$this->wrap($table)." ({$columns})";
 	}
 
 	/**
@@ -162,7 +164,7 @@ class Postgres extends Grammar {
 	 */
 	public function fulltext(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'FULLTEXT');
+		//return $this->key($table, $command, 'FULLTEXT');
 	}
 
 	/**
@@ -174,24 +176,9 @@ class Postgres extends Grammar {
 	 */
 	public function index(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'INDEX');
-	}
+		$columns = $this->columnize($command->columns);
 
-	/**
-	 * Generate the SQL statement for creating a new index.
-	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
-	 * @param  string   $type
-	 * @return string
-	 */
-	protected function key(Table $table, Command $command, $type)
-	{
-		$keys = $this->columnize($command->columns);
-
-		$name = $command->name;
-
-		return 'ALTER TABLE '.$this->wrap($table->name)." ADD {$type} {$name}({$keys})";
+		return "CREATE INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
 	}
 
 	/**
@@ -203,7 +190,7 @@ class Postgres extends Grammar {
 	 */
 	public function drop(Table $table, Command $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table->name);
+		return 'DROP TABLE '.$this->wrap($table);
 	}
 
 	/**
@@ -217,16 +204,16 @@ class Postgres extends Grammar {
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
-		// Once we have wrapped all of the columns, we need to add "drop"
+		// Once we have wrapped all of the columns, we'll add "drop_column"
 		// to the front of each column name, then we'll concatenate the
 		// columns using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
-			return 'DROP '.$column;
+			return 'DROP COLUMN '.$column.' RESTRICT';
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
@@ -238,9 +225,9 @@ class Postgres extends Grammar {
 	 */
 	public function drop_index(Table $table, Command $command)
 	{
-		$index = $this->wrap($command->name);
+		$name = $this->wrap($command->name);
 
-		return 'ALTER TABLE '.$this->wrap($table->name)." DROP INDEX {$index}";
+		return "DROP INDEX {$name}";
 	}
 
 	/**
@@ -262,7 +249,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_integer($column)
 	{
-		return 'INT';
+		return ($column->increment) ? 'SERIAL' : 'INTEGER';
 	}
 
 	/**
@@ -273,7 +260,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_float($column)
 	{
-		return 'FLOAT';
+		return 'REAL';
 	}
 
 	/**
@@ -284,7 +271,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_boolean($column)
 	{
-		return 'TINYINT';
+		return 'SMALLINT';
 	}
 
 	/**
@@ -295,7 +282,18 @@ class Postgres extends Grammar {
 	 */
 	protected function type_date($column)
 	{
-		return 'DATETIME';
+		return 'TIMESTAMP';
+	}
+
+	/**
+	 * Generate the data-type definition for a timestamp.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_timestamp($column)
+	{
+		return 'TIMESTAMP';
 	}
 
 	/**
@@ -317,7 +315,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_blob($column)
 	{
-		return 'BLOB';
+		return 'BYTEA';
 	}
 
 }

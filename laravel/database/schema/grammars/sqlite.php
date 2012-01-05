@@ -21,7 +21,7 @@ class SQLite extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table->name).' ('.$columns;
+		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns;
 
 		// SQLite does not allow adding a primary key as a command apart from
 		// when the table is initially created, so we'll need to sniff out
@@ -73,7 +73,7 @@ class SQLite extends Grammar {
 		// the schema manager, which will execute each one.
 		foreach ($columns as $column)
 		{
-			$sql[] = 'ALTER TABLE '.$this->wrap($table->name).' '.$column;
+			$sql[] = 'ALTER TABLE '.$this->wrap($table).' '.$column;
 		}
 
 		return (array) $sql;
@@ -95,7 +95,7 @@ class SQLite extends Grammar {
 			// which is responsible for creating the SQL for the type. This lets
 			// us to keep the syntax easy and fluent, while translating the
 			// types to the types used by the database system.
-			$sql = $this->wrap($column->name).' '.$this->type($column);
+			$sql = $this->wrap($column).' '.$this->type($column);
 
 			$elements = array('nullable', 'default_value', 'incrementer');
 
@@ -175,7 +175,7 @@ class SQLite extends Grammar {
 	{
 		$columns = $this->columnize($command->columns);
 
-		return 'CREATE VIRTUAL TABLE '.$this->wrap($table->name)." USING fts4({$columns})";
+		return 'CREATE VIRTUAL TABLE '.$this->wrap($table)." USING fts4({$columns})";
 	}
 
 	/**
@@ -204,7 +204,7 @@ class SQLite extends Grammar {
 
 		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
 
-		return $create." INDEX {$command->name} ON ".$this->wrap($table->name)." ({$columns})";
+		return $create." INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
 	}
 
 	/**
@@ -216,7 +216,7 @@ class SQLite extends Grammar {
 	 */
 	public function drop(Table $table, Command $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table->name);
+		return 'DROP TABLE '.$this->wrap($table);
 	}
 
 	/**
@@ -282,6 +282,17 @@ class SQLite extends Grammar {
 	 * @return string
 	 */
 	protected function type_date($column)
+	{
+		return 'DATETIME';
+	}
+
+	/**
+	 * Generate the data-type definition for a timestamp.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_timestamp($column)
 	{
 		return 'DATETIME';
 	}

@@ -206,7 +206,7 @@ class Table {
 	}
 
 	/**
-	 * Add a date column to the table.
+	 * Add a date-time column to the table.
 	 *
 	 * @param  string  $column
 	 * @return Column
@@ -214,6 +214,19 @@ class Table {
 	public function date($column)
 	{
 		$this->columns[] = new Columns\Date($column);
+
+		return end($this->columns);
+	}
+
+	/**
+	 * Add a timestamp column to the table.
+	 *
+	 * @param  string  $column
+	 * @return Column
+	 */
+	public function timestamp($column)
+	{
+		$this->columns[] = new Columns\Timestamp($column);
 
 		return end($this->columns);
 	}
