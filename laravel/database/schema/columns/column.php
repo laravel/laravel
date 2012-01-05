@@ -55,6 +55,11 @@ abstract class Column {
 		return strtolower(basename(get_class($this)));
 	}
 
+	/**
+	 * Dynamically handle method calls to the "default" method.
+	 *
+	 * We can't make a regular method since it is a reserved word.
+	 */
 	public function __call($method, $parameters)
 	{
 		if ($method == 'default')
