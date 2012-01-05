@@ -106,6 +106,7 @@ Autoloader::$mappings = array(
 	'Laravel\\View' => SYS_PATH.'view'.EXT,
 	'Laravel\\Cache\\Manager' => SYS_PATH.'cache/manager'.EXT,
 	'Laravel\\Cache\\Drivers\\APC' => SYS_PATH.'cache/drivers/apc'.EXT,
+	'Laravel\\Cache\\Drivers\\Database' => SYS_PATH.'cache/drivers/database'.EXT,
 	'Laravel\\Cache\\Drivers\\Driver' => SYS_PATH.'cache/drivers/driver'.EXT,
 	'Laravel\\Cache\\Drivers\\File' => SYS_PATH.'cache/drivers/file'.EXT,
 	'Laravel\\Cache\\Drivers\\Memcached' => SYS_PATH.'cache/drivers/memcached'.EXT,

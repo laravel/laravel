@@ -12,7 +12,7 @@ return array(
 	| Caching can be used to increase the performance of your application
 	| by storing commonly accessed data in memory or in a file.
 	|
-	| Supported Drivers: 'file', 'memcached', 'apc', 'redis'.
+	| Supported Drivers: 'file', 'memcached', 'database', 'apc', 'redis'.
 	|
 	*/
 
@@ -50,5 +50,19 @@ return array(
 		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
 
 	),	
+
+	/*
+	|--------------------------------------------------------------------------
+	| Database options
+	|--------------------------------------------------------------------------
+	|
+	| The table and connection for your database cache driver.  Defaults to:
+	|
+	| 'database' => array(
+	| 	'table' => 'cache',
+	| 	'connection' => null, // default
+	| ),
+	|
+	*/
 
 );
