@@ -176,9 +176,11 @@ class Postgres extends Grammar {
 	 */
 	public function index(Table $table, Command $command)
 	{
+		$name = $command->name;
+
 		$columns = $this->columnize($command->columns);
 
-		return "CREATE INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
+		return "CREATE INDEX {$name} ON ".$this->wrap($table)." ({$columns})";
 	}
 
 	/**
