@@ -16,6 +16,15 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	abstract public function create(Table $table, Command $command);
 
 	/**
+	 * Geenrate the SQL statements for a table modification command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return array
+	 */
+	abstract public function add(Table $table, Command $command);
+
+	/**
 	 * Generate the data-type definition for a string.
 	 *
 	 * @param  Column  $column
@@ -32,6 +41,38 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	abstract protected function type_integer($column);
 
 	/**
+	 * Generate the data-type definition for a boolean.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	abstract protected function type_boolean($column);
+
+	/**
+	 * Generate the data-type definition for a date.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	abstract protected function type_date($column);
+
+	/**
+	 * Generate the data-type definition for a text column.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	abstract protected function type_text($column);
+
+	/**
+	 * Generate the data-type definition for a blob.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	abstract protected function type_blob($column);
+
+	/**
 	 * Get the appropriate data type definition for the column.
 	 *
 	 * @param  Column  $column
@@ -39,14 +80,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function type(Column $column)
 	{
-		$type = $column->type();
-
-		if (method_exists($this, 'type_'.$type))
-		{
-			return $this->{'type_'.$type}($column);
-		}
-
-		throw new \Exception('Unknown column type ['.$column->type().'].');
+		return $this->{'type_'.$column->type()}($column);
 	}
 
 }
