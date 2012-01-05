@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database;
 
+use Closure;
 use Laravel\Database;
 use Laravel\Paginator;
 
@@ -213,8 +214,16 @@ class Query {
 	 * @param  string  $connector
 	 * @return Query
 	 */
-	public function where($column, $operator, $value, $connector = 'AND')
+	public function where($column, $operator = null, $value = null, $connector = 'AND')
 	{
+		// If a CLosure is passed into the method, it means a nested where
+		// clause is being initiated, so we will take a different course
+		// of action than when the statement is just a simple where.
+		if ($column instanceof Closure)
+		{
+			return $this->where_nested($column, $connector);
+		}
+
 		$type = 'where';
 
 		$this->wheres[] = compact('type', 'column', 'operator', 'value', 'connector');
@@ -232,9 +241,39 @@ class Query {
 	 * @param  mixed   $value
 	 * @return Query
 	 */
-	public function or_where($column, $operator, $value)
+	public function or_where($column, $operator = null, $value = null)
 	{
 		return $this->where($column, $operator, $value, 'OR');
+	}
+
+	/**
+	 * Add a nested where condition to the query.
+	 *
+	 * @param  Closure  $callback
+	 * @param  string   $connector
+	 * @return Query
+	 */
+	protected function where_nested($callback, $connector)
+	{
+		$type = 'where_nested';
+
+		// To handle a nested where statement, we will actually instantiate
+		// a new Query instance and run the callback over that instance,
+		// which will allow the developer to have a fresh query to set
+		// where conditions on.
+		$query = new Query($this->connection, $this->grammar, $this->from);
+
+		call_user_func($callback, $query);
+
+		// Once the callback has been run on the query, we will store the
+		// nested query instance on the where clause array so that it is
+		// passed to the query grammar, and the grammar generates the
+		// nested clause using the instance on the array.
+		$this->wheres[] = compact('type', 'query', 'connector');
+
+		$this->bindings = array_merge($this->bindings, $query->bindings);
+
+		return $this;
 	}
 
 	/**

@@ -136,7 +136,31 @@ class Grammar extends \Laravel\Database\Grammar {
 			$sql[] = $where['connector'].' '.$this->{$where['type']}($where);
 		}
 
-		if (isset($sql)) return implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
+		if  (isset($sql))
+		{
+			// We start every WHERE clause with "WHERE 1 = 1" just so we can
+			// always add the boolean connector to each check in the clause.
+			// Once we have generated the statement, we will remove all of
+			// these dummy checks from the SQL.
+			$sql = implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
+
+			return 'WHERE '.str_replace(array('WHERE 1 = 1 AND ', 'WHERE 1 = 1 OR '), '', $sql);
+		}
+	}
+
+	/**
+	 * Compile a nested WHERE clause.
+	 *
+	 * @param  array   $where
+	 * @return string
+	 */
+	protected function where_nested($where)
+	{
+		// To generate a nested WHERE clause, we'll just feed the query
+		// back into the "wheres" method. Once we have the clause, we
+		// will strip off the first six characters to get rid of the
+		// leading WHERE keyword.
+		return '('.substr($this->wheres($where['query']), 6).')';
 	}
 
 	/**

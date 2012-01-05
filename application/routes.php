@@ -35,24 +35,6 @@
 
 Router::register(array('GET /', 'GET /home'), function()
 {
-	Schema::table('something', function($table)
-	{
-		$table->increments('id');
-		$table->string('email')->nullable();
-		$table->float('votes')->default(1);
-		$table->date('created_at');
-		$table->boolean('enabled');
-		$table->blob('something');
-		$table->text('description')->nullable();
-
-		$table->primary(array('email', 'firstname'), 'primary_key');
-		$table->fulltext('description', 'desc_search');
-		$table->unique(array('firstname', 'lastname'), 'uniq_one');
-
-		$table->drop();
-		$table->drop_column(array('email', 'something'));
-		$table->drop_index('blah');
-	});
 	return View::make('home.index');
 });
 
