@@ -68,16 +68,33 @@ class SQLServer extends Grammar {
 	 */
 	protected function ansi_offset(Query $query, $components)
 	{
+		// An ORDER BY clause is required to make this offset query
+		// work, so if one doesn't exist, we'll just create a dummy
+		// clause to satisfy the database.
 		if ( ! isset($components['orderings']))
 		{
 			$components['orderings'] = 'ORDER BY (SELECT 0)';
 		}
 
-		$components['selects'] .= ", ROW_NUMBER() OVER ({$components['orderings']}) AS RowNum";
+		// We need to add the row number to the query results so we
+		// can compare it against the offset and limit values given
+		// for the statement. To do that we'll add an expression to
+		// the select statement for the row number.
+		$orderings = $components['orderings'];
 
-		$sql = $this->concatenate($components);
+		$components['selects'] .= ", ROW_NUMBER() OVER ({$orderings}) AS Laravel_RowNum";
 
-		return ';WITH Results_CTE AS ('.$sql.') SELECT * FROM Results_CTE WHERE RowNum >= '.$query->offset.' AND RowNum < '.$query->offset + $query->limit;
+		$start = $query->offset + 1;
+
+		$finish = $offset + $query->limit;
+
+		// Now, we're finally ready to build the final SQL query.
+		// We'll create a common table expression with the query
+		// and then select all of the results from it where the
+		// row number is between oru given limit and offset.
+		$sql = ';WITH Results_CTE AS ('.$this->concatenate($sql).')';
+
+		return $sql .= "SELECT * FROM Results_CTE WHERE RowNum BETWEEN {$start} AND {$finish}";
 	}
 
 	/**
