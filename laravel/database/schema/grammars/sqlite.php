@@ -157,12 +157,7 @@ class SQLite extends Grammar {
 
 		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
 
-		// SQLite indexes are required to have a name, so we'll generate a
-		// unique one by concatenating the table name and the names of all
-		// of the columns being added to the index.
-		$name = $table->name.'_'.implode('_', $command->columns);
-
-		return $create." INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
+		return $create." INDEX {$command->name} ON ".$this->wrap($table->name)." ({$columns})";
 	}
 
 	/**

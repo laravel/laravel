@@ -63,44 +63,48 @@ class Table {
 	 * </code>
 	 *
 	 * @param  string|array  $columns
+	 * @param  string        $name
 	 * @return void
 	 */
-	public function primary($columns)
+	public function primary($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Primary($columns);
+		$this->commands[] = new Commands\Primary($columns, $name);
 	}
 
 	/**
 	 * Create a new unique index on the table.
 	 *
 	 * @param  string|array  $columns
+	 * @param  string        $name
 	 * @return void
 	 */
-	public function unique($columns)
+	public function unique($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Unique($columns);
+		$this->commands[] = new Commands\Unique($columns, $name);
 	}
 
 	/**
 	 * Create a new full-text index on the table.
 	 *
 	 * @param  string|array  $columns
+	 * @param  string        $name
 	 * @return void
 	 */
-	public function fulltext($columns)
+	public function fulltext($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Fulltext($columns);
+		$this->commands[] = new Commands\Fulltext($columns, $name);
 	}
 
 	/**
 	 * Create a new index on the table.
 	 *
 	 * @param  string|array  $columns
+	 * @param  string        $name
 	 * @return void
 	 */
-	public function index($columns)
+	public function index($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Index($columns);
+		$this->commands[] = new Commands\Index($columns, $name);
 	}
 
 	/**

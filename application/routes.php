@@ -45,9 +45,9 @@ Router::register(array('GET /', 'GET /home'), function()
 		$table->blob('something');
 		$table->text('description')->nullable();
 
-		$table->primary(array('email', 'firstname'));
-		$table->fulltext('description');
-		$table->unique(array('firstname', 'lastname'));
+		$table->primary(array('email', 'firstname'), 'primary_key');
+		$table->fulltext('description', 'desc_search');
+		$table->unique(array('firstname', 'lastname'), 'uniq_one');
 	});
 	return View::make('home.index');
 });

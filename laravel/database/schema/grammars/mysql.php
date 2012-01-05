@@ -159,7 +159,9 @@ class MySQL extends Grammar {
 	{
 		$keys = $this->columnize($command->columns);
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' ADD '.$type.' ('.$keys.')';
+		$name = $command->name;
+
+		return 'ALTER TABLE '.$this->wrap($table->name)." ADD {$type} {$name}({$keys})";
 	}
 
 	/**

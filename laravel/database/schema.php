@@ -40,7 +40,7 @@ class Schema {
 			$connection = DB::connection($table->connection);
 
 			// TESTING TESTING TESTING *******************************
-			$grammar = static::grammar('sqlite');
+			$grammar = static::grammar('mysql');
 			//$grammar = static::grammar($connection->driver());
 
 			// Each grammar has a function that corresponds to the command type
