@@ -164,7 +164,11 @@ class Postgres extends Grammar {
 	 */
 	public function fulltext(Table $table, Command $command)
 	{
-		//return $this->key($table, $command, 'FULLTEXT');
+		$name = $command->name;
+
+		$columns = $this->columnize($command->columns);
+
+		return "CREATE INDEX {$name} ON ".$this->wrap($table)." USING gin({$columns})";
 	}
 
 	/**
