@@ -47,16 +47,21 @@ class Schema {
 			// and is responsible for building that's commands SQL. This lets
 			// the SQL generation stay very granular and makes it simply to
 			// add new database systems to the schema system.
-			$statements = $grammar->{$command->type()}($table, $command);
-			var_dump($statements);
-			echo '<br><br>';
-			// Once we have the statements, we will cast them to an array even
-			// though not all of the commands return an array. This is just in
-			// case the command needs to run more than one query to do what
-			// it needs to do what is requested by the developer.
-			foreach ((array) $statements as $statement)
+			if (method_exists($grammar, $method = $command->type()))
 			{
-				//$connection->query($statement);
+				$statements = $grammar->$method($table, $command);
+
+				// Once we have the statements, we will cast them to an array even
+				// though not all of the commands return an array. This is just in
+				// case the command needs to run more than one query to do what
+				// it needs to do what is requested by the developer.
+				foreach ((array) $statements as $statement)
+				{
+					//$connection->query($statement);
+				}
+
+				var_dump($statements);
+				echo '<br><br>';
 			}
 		}
 		die;

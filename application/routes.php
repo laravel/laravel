@@ -37,8 +37,7 @@ Router::register(array('GET /', 'GET /home'), function()
 {
 	Schema::table('something', function($table)
 	{
-		//$table->create();
-		$table->increments('id');
+		$table->create();
 		$table->string('email')->nullable();
 		$table->integer('votes');
 		$table->date('created_at');

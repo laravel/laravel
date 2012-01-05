@@ -2,6 +2,7 @@
 
 use Laravel\Database\Schema\Table;
 use Laravel\Database\Schema\Commands\Command;
+use Laravel\Database\Schema\Commands\Primary;
 
 class SQLite extends Grammar {
 
@@ -19,7 +20,27 @@ class SQLite extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table->name).' ('.$columns.')';
+		$sql = 'CREATE TABLE '.$this->wrap($table->name).' ('.$columns;
+
+		// SQLite does not allow adding a primary key as a command apart from
+		// when the table is initially created, so we'll need to sniff out
+		// any primary keys here and add them to the table.
+		$primary = array_first($table->commands, function($key, $value)
+		{
+			return $value instanceof Primary;
+		});
+
+		// If we found primary key in the array of commands, we'll create
+		// the SQL for the key addition and append it to the SQL table
+		// creation statement for the schema table.
+		if ( ! is_null($primary))
+		{
+			$columns = $this->columnize($primary->columns);
+
+			$sql .= ", PRIMARY KEY ({$columns})";
+		}
+
+		$sql .= ')';
 
 		return (array) $sql;
 	}
@@ -85,18 +106,6 @@ class SQLite extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for creating a primary key.
-	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
-	 * @return string
-	 */
-	public function primary(Table $table, Command $command)
-	{
-		return $this->key($table, $command, 'PRIMARY KEY');
-	}
-
-	/**
 	 * Generate the SQL statement for creating a unique index.
 	 *
 	 * @param  Table    $table
@@ -105,7 +114,11 @@ class SQLite extends Grammar {
 	 */
 	public function unique(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'UNIQUE');
+		$name = "unique_{$table->name}_".implode('_', $command->columns);
+
+		$columns = $this->columnize($command->columns);
+
+		return "CREATE UNIQUE INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
 	}
 
 	/**
@@ -117,7 +130,9 @@ class SQLite extends Grammar {
 	 */
 	public function fulltext(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'FULLTEXT');
+		$columns = $this->columnize($command->columns);
+
+		return 'CREATE VIRTUAL TABLE '.$this->wrap($table->name)." USING fts4({$columns})";
 	}
 
 	/**
@@ -129,22 +144,11 @@ class SQLite extends Grammar {
 	 */
 	public function index(Table $table, Command $command)
 	{
-		return $this->key($table, $command, 'INDEX');
-	}
+		$name = 'unique_'.implode('_', $command->columns);
 
-	/**
-	 * Generate the SQL statement for creating a new index.
-	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
-	 * @param  string   $type
-	 * @return string
-	 */
-	protected function key(Table $table, Command $command, $type)
-	{
-		$keys = $this->columnize($command->columns);
+		$columns = $this->columnize($command->columns);
 
-		return 'ALTER TABLE '.$this->wrap($table->name).' ADD '.$type.' ('.$keys.')';
+		return "CREATE INDEX {$name} ON ".$this->wrap($table->name)." ({$columns})";
 	}
 
 	/**
