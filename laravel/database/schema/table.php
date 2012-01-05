@@ -179,6 +179,20 @@ class Table {
 	}
 
 	/**
+	 * Add a float column to the table.
+	 *
+	 * @param  string  $column
+	 * @param  bool    $increment
+	 * @return Column
+	 */
+	public function float($column)
+	{
+		$this->columns[] = new Columns\Float($column);
+
+		return end($this->columns);
+	}
+
+	/**
 	 * Add a boolean column to the table.
 	 *
 	 * @param  string  $column

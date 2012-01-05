@@ -254,6 +254,17 @@ class SQLite extends Grammar {
 	}
 
 	/**
+	 * Generate the data-type definition for an integer.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	protected function type_float($column)
+	{
+		return 'FLOAT';
+	}
+
+	/**
 	 * Generate the data-type definition for a boolean.
 	 *
 	 * @param  Column  $column

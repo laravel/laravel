@@ -38,7 +38,7 @@ Router::register(array('GET /', 'GET /home'), function()
 	Schema::table('something', function($table)
 	{
 		$table->string('email')->nullable();
-		$table->integer('votes')->default(1);
+		$table->float('votes')->default(1);
 		$table->date('created_at');
 		$table->boolean('enabled');
 		$table->blob('something');

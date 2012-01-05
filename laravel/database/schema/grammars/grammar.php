@@ -50,6 +50,14 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	abstract protected function type_integer($column);
 
 	/**
+	 * Generate the data-type definition for a float.
+	 *
+	 * @param  Column  $column
+	 * @return string
+	 */
+	abstract protected function type_float($column);
+
+	/**
 	 * Generate the data-type definition for a boolean.
 	 *
 	 * @param  Column  $column
