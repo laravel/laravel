@@ -90,6 +90,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Connectors\\MySQL' => SYS_PATH.'database/connectors/mysql'.EXT,
 	'Laravel\\Database\\Connectors\\Postgres' => SYS_PATH.'database/connectors/postgres'.EXT,
 	'Laravel\\Database\\Connectors\\SQLite' => SYS_PATH.'database/connectors/sqlite'.EXT,
+	'Laravel\\Database\\Connectors\\SQLServer' => SYS_PATH.'database/connectors/sqlserver'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'database/query/grammars/grammar'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\MySQL' => SYS_PATH.'database/query/grammars/mysql'.EXT,
 

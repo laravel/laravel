@@ -77,6 +77,9 @@ class Database {
 			case 'pgsql':
 				return new Database\Connectors\Postgres;
 
+			case 'sqlsrv':
+				return new Database\Connectors\SQLServer;
+
 			default:
 				throw new \Exception("Database driver [$driver] is not supported.");
 		}

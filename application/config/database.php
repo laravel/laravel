@@ -68,6 +68,14 @@ return array(
 			'charset'  => 'utf8',
 		),
 
+		'sqlsrv' => array(
+			'driver'   => 'sqlsrv',
+			'host'     => 'localhost',
+			'database' => 'database',
+			'username' => 'root',
+			'password' => 'password',
+		),
+
 	),
 
 	/*
