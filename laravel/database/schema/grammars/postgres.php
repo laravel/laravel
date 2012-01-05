@@ -240,9 +240,7 @@ class Postgres extends Grammar {
 	 */
 	public function drop_index(Table $table, Command $command)
 	{
-		$name = $this->wrap($command->name);
-
-		return "DROP INDEX {$name}";
+		return 'DROP INDEX '.$this->wrap($commnad->name);
 	}
 
 	/**
