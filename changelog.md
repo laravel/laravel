@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.1.0
+
+- Fix: Authentication cookies are not deleted properly when custom domains or paths are used.
+
+### Upgrading from 2.0.9
+
+- Replace **laravel** directory.
+
 ## Version 2.0.9
 
 - Minor: Made "timestamps" method in Eloquent model protected instead of private.

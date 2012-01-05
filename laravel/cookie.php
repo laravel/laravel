@@ -128,11 +128,15 @@ class Cookie {
 	 * Delete a cookie.
 	 *
 	 * @param  string  $name
+	 * @param  string  $path
+	 * @param  string  $domain
+	 * @param  bool    $secure
+	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function forget($name)
+	public static function forget($name, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, null, -2000);
+		return static::put($name, null, -2000, $path, $domain, $secure, $http_only);
 	}
 
 }

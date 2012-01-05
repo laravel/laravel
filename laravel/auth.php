@@ -206,9 +206,16 @@ class Auth {
 
 		static::$user = null;
 
-		Cookie::forget(Auth::user_key);
+		$config = Config::get('session');
 
-		Cookie::forget(Auth::remember_key);
+		extract($config, EXTR_SKIP);
+
+		// When forgetting the cookie, we need to also pass in the path and
+		// domain that would have been used when the cookie was originally
+		// set by the framework, otherwise it will not be deleted.
+		Cookie::forget(Auth::user_key, $path, $domain, $secure);
+
+		Cookie::forget(Auth::remember_key, $path, $domain, $secure);
 
 		IoC::core('session')->forget(Auth::user_key);
 	}
