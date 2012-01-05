@@ -25,6 +25,10 @@ class SQLite extends Grammar {
 		// SQLite does not allow adding a primary key as a command apart from
 		// when the table is initially created, so we'll need to sniff out
 		// any primary keys here and add them to the table.
+		//
+		// Because of this, this class does not have the typical "primary"
+		// method as it would be pointless since the primary keys can't
+		// be set on anything but the table creation statement.
 		$primary = array_first($table->commands, function($key, $value)
 		{
 			return $value instanceof Primary;
