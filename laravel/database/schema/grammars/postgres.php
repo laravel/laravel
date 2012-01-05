@@ -148,11 +148,7 @@ class Postgres extends Grammar {
 	 */
 	public function unique(Table $table, Command $command)
 	{
-		$name = $command->name;
-
-		$columns = $this->columnize($command->columns);
-
-		return "CREATE UNIQUE INDEX {$name} ON ".$this->wrap($table)." ({$columns})";
+		return $this->key($table, $command, true);
 	}
 
 	/**
@@ -180,11 +176,24 @@ class Postgres extends Grammar {
 	 */
 	public function index(Table $table, Command $command)
 	{
-		$name = $command->name;
+		return $this->key($table, $command);
+	}
 
+	/**
+	 * Generate the SQL statement for creating a new index.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @param  bool     $unique
+	 * @return string
+	 */
+	protected function key(Table $table, Command $command, $unique = false)
+	{
 		$columns = $this->columnize($command->columns);
 
-		return "CREATE INDEX {$name} ON ".$this->wrap($table)." ({$columns})";
+		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
+
+		return $create." INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
 	}
 
 	/**
