@@ -165,7 +165,22 @@ class SQLServer extends Grammar {
 	 */
 	public function fulltext(Table $table, Command $command)
 	{
-		//
+		$columns = $this->columnize($command->columns);
+
+		// SQL Server requires the creation of a full-text "catalog" before
+		// creating a full-text index, so we'll first create the catalog
+		// then add another statement to the array for the index.
+		$sql[] = "CREATE FULLTEXT CATALOG {$command->catalog}";
+
+		$create =  "CREATE FULLTEXT INDEX ON ".$this->wrap($table)." ({$columns}) ";
+
+		// Full-text indexes must specify a unique, non-nullable column as
+		// the index "key". This should have been created by the developer
+		// in a separate column addition command, so we can just specify
+		// the name in this statement.
+		$sql[] = $create .= "KEY INDEX {$command->key} ON {$command->catalog}";
+
+		return $sql;
 	}
 
 	/**
@@ -265,7 +280,11 @@ class SQLServer extends Grammar {
 	 */
 	public function drop_fulltext(Table $table, Command $command)
 	{
-		//
+		$sql[] = "DROP FULLTEXT INDEX ".$command->name;
+
+		$sql[] = "DROP FULLTEXT CATALOG ".$command->catalog;
+
+		return $sql;
 	}
 
 	/**
@@ -289,7 +308,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function drop_key(Table $table, Command $command)
 	{
-		return 'DROP INDEX '.$command->name.' ON '.$this->wrap($table);
+		return "DROP INDEX {$command->name} ON ".$this->wrap($table);
 	}
 
 	/**
