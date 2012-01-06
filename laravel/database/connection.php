@@ -76,6 +76,9 @@ class Connection {
 			case 'mysql':
 				return $this->grammar = new Query\Grammars\MySQL;
 
+			case 'sqlsrv':
+				return $this->grammar = new Query\Grammars\SQLServer;
+
 			default:
 				return $this->grammar = new Query\Grammars\Grammar;
 		}

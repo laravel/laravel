@@ -552,6 +552,15 @@ class Query {
 
 		$results = $this->connection->query($this->grammar->select($this), $this->bindings);
 
+		// If the query has an offset and we are using the SQL Server grammar,
+		// we need to spin through the results and remove the "rownum" from
+		// each of the objects. Unfortunately SQL Server does not have an
+		// offset keyword, so we have to use row numbers.
+		if ($this->offset > 0 and $this->grammar instanceof Query\Grammars\SQLServer)
+		{
+			array_walk($results, function($result) { unset($result->rownum); });
+		}
+
 		// Reset the SELECT clause so more queries can be performed using
 		// the same instance. This is helpful for getting aggregates and
 		// then getting actual results.

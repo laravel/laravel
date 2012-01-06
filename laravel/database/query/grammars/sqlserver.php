@@ -84,21 +84,21 @@ class SQLServer extends Grammar {
 		// the select statement for the row number.
 		$orderings = $components['orderings'];
 
-		$components['selects'] .= ", ROW_NUMBER() OVER ({$orderings}) AS Laravel_RowNum";
+		$components['selects'] .= ", ROW_NUMBER() OVER ({$orderings}) AS RowNum";
 
 		unset($components['orderings']);
 
 		$start = $query->offset + 1;
 
-		$finish = $start + $query->limit;
+		$finish = $query->offset + $query->limit;
 
 		// Now, we're finally ready to build the final SQL query.
 		// We'll create a common table expression with the query
 		// and then select all of the results from it where the
 		// row number is between oru given limit and offset.
-		$sql = ';WITH Results_CTE AS ('.$this->concatenate($components).') ';
+		$sql = $this->concatenate($components);
 
-		return $sql .= "SELECT * FROM Results_CTE WHERE Laravel_RowNum BETWEEN {$start} AND {$finish}";
+		return "SELECT * FROM ($sql) AS TempTable WHERE RowNum BETWEEN $start AND $finish";
 	}
 
 	/**
