@@ -49,6 +49,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Database' => SYS_PATH.'database'.EXT,
 	'Laravel\\Event' => SYS_PATH.'event'.EXT,
 	'Laravel\\File' => SYS_PATH.'file'.EXT,
+	'Laravel\\Fluent' => SYS_PATH.'fluent'.EXT,
 	'Laravel\\Form' => SYS_PATH.'form'.EXT,
 	'Laravel\\HTML' => SYS_PATH.'html'.EXT,
 	'Laravel\\Input' => SYS_PATH.'input'.EXT,
