@@ -14,9 +14,11 @@ class Schema {
 	 */
 	public static function table($table, $callback)
 	{
-		call_user_func($callback, $schema = new Schema\Table($table));
+		call_user_func($callback, $table = new Schema\Table($table));
 
-		return static::execute($schema);
+		static::implications($table);
+
+		return static::execute($table);
 	}
 
 	/**
@@ -27,17 +29,6 @@ class Schema {
 	 */
 	public static function execute($table)
 	{
-		// If the developer has specified columns for the table and the
-		// table is not being created, we will assume they simply want
-		// to add the columns to the table, and will generate an add
-		// command for them, adding the columns to the command.
-		if (count($table->columns) > 0 and ! $table->creating())
-		{
-			$command = new Fluent(array('type' => 'add'));
-
-			array_unshift($table->commands, $command);
-		}
-
 		foreach ($table->commands as $command)
 		{
 			$connection = DB::connection($table->connection);
@@ -59,6 +50,41 @@ class Schema {
 				foreach ((array) $statements as $statement)
 				{
 					$connection->statement($statement);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Add any implicit commands to the schema table operation.
+	 *
+	 * @param   Schema\Table  $table
+	 * @return  void
+	 */
+	protected static function implications($table)
+	{
+		// If the developer has specified columns for the table and the
+		// table is not being created, we will assume they simply want
+		// to add the columns to the table, and will generate an add
+		// command for them, adding the columns to the command.
+		if (count($table->columns) > 0 and ! $table->creating())
+		{
+			$command = new Fluent(array('type' => 'add'));
+
+			array_unshift($table->commands, $command);
+		}
+
+		// For some extra syntax sugar, we'll check for any implicit
+		// indexes on the table. The developer may specify the index
+		// type on the fluent column declaration. Here we'll find
+		// any such implicit index and add the actual command.
+		foreach ($table->columns as $column)
+		{
+			foreach (array('primary', 'unique', 'fulltext', 'index') as $key)
+			{
+				if ($column->$key === true)
+				{
+					$table->$key($column->name);
 				}
 			}
 		}
