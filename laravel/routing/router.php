@@ -74,6 +74,11 @@ class Router {
 			// handled by the route instance.
 			else
 			{
+				// PHP 5.3.2 has a bug that causes closures cast as arrays
+				// to yield an empty array. We will work around this by
+				// manually adding the Closure instance to a new array.
+				if ($action instanceof Closure) $action = array($action);
+
 				static::$routes[$uri] = (array) $action;
 			}
 
