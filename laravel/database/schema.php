@@ -57,7 +57,7 @@ class Schema {
 				// it needs to do what is requested by the developer.
 				foreach ((array) $statements as $statement)
 				{
-					//$connection->query($statement);
+					//$connection->statement($statement);
 				}
 
 				var_dump($statements);

@@ -23,7 +23,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function select(Query $query)
 	{
-		$sql = $this->concatenate($this->components($query));
+		return $this->concatenate($this->components($query));
 	}
 
 	/**
@@ -159,9 +159,7 @@ class Grammar extends \Laravel\Database\Grammar {
 			// always add the boolean connector to each check in the clause.
 			// Once we have generated the statement, we will remove all of
 			// these dummy checks from the SQL.
-			$sql = implode(' ', array_merge(array('WHERE 1 = 1'), $sql));
-
-			return 'WHERE '.str_replace(array('WHERE 1 = 1 AND ', 'WHERE 1 = 1 OR '), '', $sql);
+			return 'WHERE '.preg_replace('/AND |OR /', '', implode(' ', $sql), 1);
 		}
 	}
 

@@ -632,7 +632,7 @@ class Query {
 			$bindings = array_merge($bindings, array_values($value));
 		}
 
-		return $this->connection->query($this->grammar->insert($this, $values), $bindings);
+		return $this->connection->statement($this->grammar->insert($this, $values), $bindings);
 	}
 
 	/**
@@ -645,7 +645,7 @@ class Query {
 	 */
 	public function insert_get_id($values, $sequence = null)
 	{
-		$this->connection->query($this->grammar->insert($this, $values), array_values($values));
+		$this->connection->statement($this->grammar->insert($this, $values), array_values($values));
 
 		return (int) $this->connection->pdo->lastInsertId($sequence);
 	}
@@ -699,7 +699,7 @@ class Query {
 	{
 		$bindings =  array_merge(array_values($values), $this->bindings);
 
-		return $this->connection->query($this->grammar->update($this, $values), $bindings);
+		return $this->connection->update($this->grammar->update($this, $values), $bindings);
 	}
 
 	/**
@@ -714,7 +714,7 @@ class Query {
 	{
 		if ( ! is_null($id)) $this->where('id', '=', $id);
 
-		return $this->connection->query($this->grammar->delete($this), $this->bindings);		
+		return $this->connection->delete($this->grammar->delete($this), $this->bindings);		
 	}
 
 	/**
