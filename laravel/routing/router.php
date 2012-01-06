@@ -129,7 +129,7 @@ class Router {
 		// that format so we can easily check for literal matches.
 		$destination = $method.' /'.trim($uri, '/');
 
-		if (isset(static::$routes[$destination]))
+		if (array_key_exists($destination, static::$routes))
 		{
 			return new Route($destination, static::$routes[$destination], array());
 		}
