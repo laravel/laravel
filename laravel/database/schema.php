@@ -80,11 +80,11 @@ class Schema {
 			case 'pgsql':
 				return new Schema\Grammars\Postgres;
 
-			case 'sqlite':
-				return new Schema\Grammars\SQLite;
-
 			case 'sqlsrv':
 				return new Schema\Grammars\SQLServer;
+
+			case 'sqlite':
+				return new Schema\Grammars\SQLite;
 		}
 
 		throw new \Exception("Schema operations not supported for [$driver].");

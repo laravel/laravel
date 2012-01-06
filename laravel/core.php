@@ -69,11 +69,13 @@ Autoloader::$mappings = array(
 	'Laravel\\URL' => SYS_PATH.'url'.EXT,
 	'Laravel\\Validator' => SYS_PATH.'validator'.EXT,
 	'Laravel\\View' => SYS_PATH.'view'.EXT,
+
 	'Laravel\\Cache\\Drivers\\APC' => SYS_PATH.'cache/drivers/apc'.EXT,
 	'Laravel\\Cache\\Drivers\\Driver' => SYS_PATH.'cache/drivers/driver'.EXT,
 	'Laravel\\Cache\\Drivers\\File' => SYS_PATH.'cache/drivers/file'.EXT,
 	'Laravel\\Cache\\Drivers\\Memcached' => SYS_PATH.'cache/drivers/memcached'.EXT,
 	'Laravel\\Cache\\Drivers\\Redis' => SYS_PATH.'cache/drivers/redis'.EXT,
+
 	'Laravel\\CLI\\Bundle\\Repository' => SYS_PATH.'cli/bundle/repository'.EXT,
 	'Laravel\\CLI\\Bundle\\Providers\\Provider' => SYS_PATH.'cli/bundle/providers/provider'.EXT,
 	'Laravel\\CLI\\Bundle\\Providers\\Github' => SYS_PATH.'cli/bundle/providers/github'.EXT,
@@ -95,19 +97,19 @@ Autoloader::$mappings = array(
 	'Laravel\\Database\\Query\\Grammars\\Grammar' => SYS_PATH.'database/query/grammars/grammar'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\MySQL' => SYS_PATH.'database/query/grammars/mysql'.EXT,
 	'Laravel\\Database\\Query\\Grammars\\SQLServer' => SYS_PATH.'database/query/grammars/sqlserver'.EXT,
-
 	'Laravel\\Database\\Schema\\Table' => SYS_PATH.'database/schema/table'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Grammar' => SYS_PATH.'database/schema/grammars/grammar'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\MySQL' => SYS_PATH.'database/schema/grammars/mysql'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\Postgres' => SYS_PATH.'database/schema/grammars/postgres'.EXT,
-	'Laravel\\Database\\Schema\\Grammars\\SQLite' => SYS_PATH.'database/schema/grammars/sqlite'.EXT,
 	'Laravel\\Database\\Schema\\Grammars\\SQLServer' => SYS_PATH.'database/schema/grammars/sqlserver'.EXT,
+	'Laravel\\Database\\Schema\\Grammars\\SQLite' => SYS_PATH.'database/schema/grammars/sqlite'.EXT,
 
 	'Laravel\\Routing\\Controller' => SYS_PATH.'routing/controller'.EXT,
 	'Laravel\\Routing\\Filter' => SYS_PATH.'routing/filter'.EXT,
 	'Laravel\\Routing\\Filter_Collection' => SYS_PATH.'routing/filter'.EXT,
 	'Laravel\\Routing\\Route' => SYS_PATH.'routing/route'.EXT,
 	'Laravel\\Routing\\Router' => SYS_PATH.'routing/router'.EXT,
+
 	'Laravel\\Session\\Payload' => SYS_PATH.'session/payload'.EXT,
 	'Laravel\\Session\\Drivers\\APC' => SYS_PATH.'session/drivers/apc'.EXT,
 	'Laravel\\Session\\Drivers\\Cookie' => SYS_PATH.'session/drivers/cookie'.EXT,
