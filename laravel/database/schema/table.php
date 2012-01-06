@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database\Schema;
 
+use Laravel\Fluent;
+
 class Table {
 
 	/**
@@ -15,6 +17,13 @@ class Table {
 	 * @var string
 	 */
 	public $connection;
+
+	/**
+	 * The engine that should be used for the table.
+	 *
+	 * @var string
+	 */
+	public $engine;
 
 	/**
 	 * The columns that should be added to the table.
@@ -44,11 +53,11 @@ class Table {
 	/**
 	 * Indicate that the table should be created.
 	 *
-	 * @return void
+	 * @return Fluent
 	 */
 	public function create()
 	{
-		$this->commands[] = new Commands\Create;
+		return $this->command(__FUNCTION__);
 	}
 
 	/**
@@ -64,11 +73,11 @@ class Table {
 	 *
 	 * @param  string|array  $columns
 	 * @param  string        $name
-	 * @return void
+	 * @return Fluent
 	 */
 	public function primary($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Primary($columns, $name);
+		return $this->key(__FUNCTION__, $columns, $name);
 	}
 
 	/**
@@ -76,11 +85,11 @@ class Table {
 	 *
 	 * @param  string|array  $columns
 	 * @param  string        $name
-	 * @return void
+	 * @return Fluent
 	 */
 	public function unique($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Unique($columns, $name);
+		return $this->key(__FUNCTION__, $columns, $name);
 	}
 
 	/**
@@ -88,21 +97,46 @@ class Table {
 	 *
 	 * @param  string|array  $columns
 	 * @param  string        $name
-	 * @return void
+	 * @return Fluent
 	 */
 	public function fulltext($columns, $name = null)
 	{
-		$this->commands[] = new Commands\Fulltext($columns, $name);
+		return $this->key(__FUNCTION__, $columns, $name);
+	}
+
+	/**
+	 * Create a new index on the table.
+	 *
+	 * @param  string|array
+	 */
+	public function index($columns, $name = null)
+	{
+		return $this->key(__FUNCTION__, $columns, $name);
+	}
+
+	/**
+	 * Create a command for creating any index.
+	 *
+	 * @param  string        $type
+	 * @param  string|array  $columns
+	 * @param  string        $name
+	 * @return Fluent
+	 */
+	public function key($type, $columns, $name = null)
+	{
+		$parameters = array('name' => $name, 'columns' => (array) $columns);
+
+		return $this->command($type, $parameters);
 	}
 
 	/**
 	 * Drop the database table.
 	 *
-	 * @return void
+	 * @return Fluent
 	 */
 	public function drop()
 	{
-		$this->commands[] = new Commands\Drop;
+		return $this->command(__FUNCTION__);
 	}
 
 	/**
@@ -113,7 +147,7 @@ class Table {
 	 */
 	public function drop_column($columns)
 	{
-		$this->commands[] = new Commands\Drop_Column($columns);
+		return $this->command(__FUNCTION__, array('columns' => (array) $columns));
 	}
 
 	/**
@@ -124,7 +158,7 @@ class Table {
 	 */
 	public function drop_primary($name)
 	{
-		$this->commands[] = new Commands\Drop_Primary($columns);
+		return $this->drop_key(__FUNCTION, $name);
 	}
 
 	/**
@@ -135,7 +169,7 @@ class Table {
 	 */
 	public function drop_unique($name)
 	{
-		$this->commands[] = new Commands\Drop_Unique($columns);
+		return $this->drop_key(__FUNCTION, $name);
 	}
 
 	/**
@@ -146,7 +180,7 @@ class Table {
 	 */
 	public function drop_fulltext($name)
 	{
-		$this->commands[] = new Commands\Drop_Fulltext($columns);
+		return $this->drop_key(__FUNCTION, $name);
 	}
 
 	/**
@@ -157,137 +191,121 @@ class Table {
 	 */
 	public function drop_index($name)
 	{
-		$this->commands[] = new Commands\Drop_Index($name);
+		return $this->drop_key(__FUNCTION, $name);
 	}
 
 	/**
-	 * Create a new index on the table.
+	 * Create a command to drop any type of index.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
-	 * @return void
+	 * @param  string  $type
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function index($columns, $name = null)
+	protected function drop_key($type, $name)
 	{
-		$this->commands[] = new Commands\Index($columns, $name);
+		return $this->command($type, array('name' => $name));
 	}
 
 	/**
 	 * Add an auto-incrementing integer to the table.
 	 *
-	 * @param  string  $column
-	 * @return void
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function increments($column)
+	public function increments($name)
 	{
-		$this->integer($column, true);
+		return $this->integer($name, true);
 	}
 
 	/**
 	 * Add a string column to the table.
 	 *
-	 * @param  string  $column
+	 * @param  string  $name
 	 * @param  int     $length
-	 * @return Column
+	 * @return Fluent
 	 */
-	public function string($column, $length = 200)
+	public function string($name, $length = 200)
 	{
-		$this->columns[] = new Columns\String($column, $length);
-		
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name', 'length'));
 	}
 
 	/**
 	 * Add an integer column to the table.
 	 *
-	 * @param  string  $column
+	 * @param  string  $name
 	 * @param  bool    $increment
-	 * @return Column
+	 * @return Fluent
 	 */
-	public function integer($column, $increment = false)
+	public function integer($name, $increment = false)
 	{
-		$this->columns[] = new Columns\Integer($column, $increment);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name', 'increment'));
 	}
 
 	/**
 	 * Add a float column to the table.
 	 *
-	 * @param  string  $column
+	 * @param  string  $name
 	 * @param  bool    $increment
-	 * @return Column
+	 * @return Fluent
 	 */
-	public function float($column)
+	public function float($name)
 	{
-		$this->columns[] = new Columns\Float($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
 	 * Add a boolean column to the table.
 	 *
-	 * @param  string  $column
-	 * @return Column
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function boolean($column)
+	public function boolean($name)
 	{
-		$this->columns[] = new Columns\Boolean($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
 	 * Add a date-time column to the table.
 	 *
-	 * @param  string  $column
-	 * @return Column
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function date($column)
+	public function date($name)
 	{
-		$this->columns[] = new Columns\Date($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
 	 * Add a timestamp column to the table.
 	 *
-	 * @param  string  $column
-	 * @return Column
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function timestamp($column)
+	public function timestamp($name)
 	{
-		$this->columns[] = new Columns\Timestamp($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
 	 * Add a text column to the table.
 	 *
-	 * @param  string  $column
-	 * @return Column
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function text($column)
+	public function text($name)
 	{
-		$this->columns[] = new Columns\Text($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
 	 * Add a blob column to the table.
 	 *
-	 * @param  string  $column
-	 * @return Column
+	 * @param  string  $name
+	 * @return Fluent
 	 */
-	public function blob($column)
+	public function blob($name)
 	{
-		$this->columns[] = new Columns\Blob($column);
-
-		return end($this->columns);
+		return $this->column(__FUNCTION__, compact('name'));
 	}
 
 	/**
@@ -310,8 +328,40 @@ class Table {
 	{
 		return ! is_null(array_first($this->commands, function($key, $value)
 		{
-			return $value instanceof Commands\Create;
+			return $value->type == 'create';
 		}));
+	}
+
+	/**
+	 * Create a new fluent command instance.
+	 *
+	 * @param  string  $type
+	 * @param  array   $parameters
+	 * @return Fluent
+	 */
+	protected function command($type, $parameters = array())
+	{
+		$parameters = array_merge(compact('type'), $parameters);
+
+		$this->commands[] = new Fluent($parameters);
+
+		return end($this->commands);
+	}
+
+	/**
+	 * Create a new fluent column instance.
+	 *
+	 * @param  string  $type
+	 * @param  array   $parameters
+	 * @return Fluent
+	 */
+	protected function column($type, $parameters = array())
+	{
+		$parameters = array_merge(compact('type'), $parameters);
+
+		$this->columns[] = new Fluent($parameters);
+
+		return end($this->columns);
 	}
 
 }

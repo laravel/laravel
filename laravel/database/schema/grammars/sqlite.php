@@ -1,20 +1,18 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
+use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
-use Laravel\Database\Schema\Columns\Column;
-use Laravel\Database\Schema\Commands\Command;
-use Laravel\Database\Schema\Commands\Primary;
 
 class SQLite extends Grammar {
 
 	/**
 	 * Generate the SQL statements for a table creation command.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return array
 	 */
-	public function create(Table $table, Command $command)
+	public function create(Table $table, Fluent $command)
 	{
 		$columns = implode(', ', $this->columns($table));
 
@@ -32,7 +30,7 @@ class SQLite extends Grammar {
 		// be set on anything but the table creation statement.
 		$primary = array_first($table->commands, function($key, $value)
 		{
-			return $value instanceof Primary;
+			return $value->type == 'primary';
 		});
 
 		// If we found primary key in the array of commands, we'll create
@@ -52,10 +50,10 @@ class SQLite extends Grammar {
 	 * Geenrate the SQL statements for a table modification command.
 	 *
 	 * @param  Table   $table
-	 * @param  Command  $command
+	 * @param  Fluent  $command
 	 * @return array
 	 */
-	public function add(Table $table, Command $command)
+	public function add(Table $table, Fluent $command)
 	{
 		$columns = $this->columns($table);
 
@@ -114,10 +112,10 @@ class SQLite extends Grammar {
 	 * Get the SQL syntax for indicating if a column is nullable.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function nullable(Table $table, Column $column)
+	protected function nullable(Table $table, Fluent $column)
 	{
 		return ($column->nullable) ? ' NULL' : ' NOT NULL';
 	}
@@ -126,10 +124,10 @@ class SQLite extends Grammar {
 	 * Get the SQL syntax for specifying a default value on a column.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function default_value(Table $table, Column $column)
+	protected function default_value(Table $table, Fluent $column)
 	{
 		if ( ! is_null($column->default))
 		{
@@ -141,12 +139,12 @@ class SQLite extends Grammar {
 	 * Get the SQL syntax for defining an auto-incrementing column.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function incrementer(Table $table, Column $column)
+	protected function incrementer(Table $table, Fluent $column)
 	{
-		if ($column->type() == 'integer' and $column->increment)
+		if ($column->type == 'integer' and $column->increment)
 		{
 			return ' PRIMARY KEY AUTOINCREMENT';
 		}
@@ -155,11 +153,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a unique index.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function unique(Table $table, Command $command)
+	public function unique(Table $table, Fluent $command)
 	{
 		return $this->key($table, $command, true);
 	}
@@ -167,11 +165,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a full-text index.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function fulltext(Table $table, Command $command)
+	public function fulltext(Table $table, Fluent $command)
 	{
 		$columns = $this->columnize($command->columns);
 
@@ -181,11 +179,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a regular index.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function index(Table $table, Command $command)
+	public function index(Table $table, Fluent $command)
 	{
 		return $this->key($table, $command);
 	}
@@ -193,12 +191,12 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for creating a new index.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
-	 * @param  bool     $unique
+	 * @param  Table   $table
+	 * @param  Fluent  $command
+	 * @param  bool    $unique
 	 * @return string
 	 */
-	protected function key(Table $table, Command $command, $unique = false)
+	protected function key(Table $table, Fluent $command, $unique = false)
 	{
 		$columns = $this->columnize($command->columns);
 
@@ -210,11 +208,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for a drop table command.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function drop(Table $table, Command $command)
+	public function drop(Table $table, Fluent $command)
 	{
 		return 'DROP TABLE '.$this->wrap($table);
 	}
@@ -222,11 +220,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for a drop unqique key command.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function drop_unique(Table $table, Command $command)
+	public function drop_unique(Table $table, Fluent $command)
 	{
 		return $this->drop_key($table, $command);
 	}
@@ -234,11 +232,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for a drop unqique key command.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	public function drop_index(Table $table, Command $command)
+	public function drop_index(Table $table, Fluent $command)
 	{
 		return $this->drop_key($table, $command);
 	}
@@ -246,11 +244,11 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the SQL statement for a drop key command.
 	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Table   $table
+	 * @param  Fluent  $command
 	 * @return string
 	 */
-	protected function drop_key(Table $table, Command $command)
+	protected function drop_key(Table $table, Fluent $command)
 	{
 		return 'DROP INDEX '.$this->wrap($command->name);
 	}
@@ -258,10 +256,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a string.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_string($column)
+	protected function type_string(Fluent $column)
 	{
 		return 'VARCHAR';
 	}
@@ -269,10 +267,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for an integer.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_integer($column)
+	protected function type_integer(Fluent $column)
 	{
 		return 'INTEGER';
 	}
@@ -280,10 +278,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for an integer.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_float($column)
+	protected function type_float(Fluent $column)
 	{
 		return 'FLOAT';
 	}
@@ -291,10 +289,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a boolean.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_boolean($column)
+	protected function type_boolean(Fluent $column)
 	{
 		return 'INTEGER';
 	}
@@ -302,10 +300,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a date.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_date($column)
+	protected function type_date(Fluent $column)
 	{
 		return 'DATETIME';
 	}
@@ -313,10 +311,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a timestamp.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_timestamp($column)
+	protected function type_timestamp(Fluent $column)
 	{
 		return 'DATETIME';
 	}
@@ -324,10 +322,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a text column.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_text($column)
+	protected function type_text(Fluent $column)
 	{
 		return 'TEXT';
 	}
@@ -335,10 +333,10 @@ class SQLite extends Grammar {
 	/**
 	 * Generate the data-type definition for a blob.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_blob($column)
+	protected function type_blob(Fluent $column)
 	{
 		return 'BLOB';
 	}

@@ -35,6 +35,15 @@
 
 Router::register(array('GET /', 'GET /home'), function()
 {
+	Schema::table('something', function($table)
+	{
+		$table->create();
+		$table->string('email', 20);
+		$table->integer('votes');
+
+		$table->unique('email')->name('something_unique');
+		$table->fulltext('something')->catalog('ft')->key('ft_key');
+	});
 	return View::make('home.index');
 });
 

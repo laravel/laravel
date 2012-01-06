@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database;
 
+use Laravel\Fluent;
 use Laravel\Database as DB;
 
 class Schema {
@@ -32,7 +33,10 @@ class Schema {
 		// command for them, adding the columns to the command.
 		if (count($table->columns) > 0 and ! $table->creating())
 		{
-			array_unshift($table->commands, new Schema\Commands\Add);
+			die('adding');
+			$command = new Fluent(array('type' => 'add'));
+
+			array_unshift($table->commands, $command);
 		}
 
 		foreach ($table->commands as $command)
@@ -40,14 +44,14 @@ class Schema {
 			$connection = DB::connection($table->connection);
 
 			// TESTING TESTING TESTING *******************************
-			$grammar = static::grammar('pgsql');
+			$grammar = static::grammar('sqlsrv');
 			//$grammar = static::grammar($connection->driver());
 
 			// Each grammar has a function that corresponds to the command type
 			// and is responsible for building that's commands SQL. This lets
 			// the SQL generation stay very granular and makes it simply to
 			// add new database systems to the schema system.
-			if (method_exists($grammar, $method = $command->type()))
+			if (method_exists($grammar, $method = $command->type))
 			{
 				$statements = $grammar->$method($table, $command);
 
@@ -85,6 +89,9 @@ class Schema {
 
 			case 'sqlite':
 				return new Schema\Grammars\SQLite;
+
+			case 'sqlsrv':
+				return new Schema\Grammars\SQLServer;
 		}
 
 		throw new \Exception("Schema operations not supported for [$driver].");

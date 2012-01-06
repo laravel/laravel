@@ -1,8 +1,7 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
+use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
-use Laravel\Database\Schema\Columns\Column;
-use Laravel\Database\Schema\Commands\Command;
 
 class Postgres extends Grammar {
 
@@ -10,10 +9,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statements for a table creation command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return array
 	 */
-	public function create(Table $table, Command $command)
+	public function create(Table $table, Fluent $command)
 	{
 		$columns = implode(', ', $this->columns($table));
 
@@ -29,10 +28,10 @@ class Postgres extends Grammar {
 	 * Geenrate the SQL statements for a table modification command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return array
 	 */
-	public function add(Table $table, Command $command)
+	public function add(Table $table, Fluent $command)
 	{
 		$columns = $this->columns($table);
 
@@ -83,10 +82,10 @@ class Postgres extends Grammar {
 	 * Get the SQL syntax for indicating if a column is nullable.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function nullable(Table $table, Column $column)
+	protected function nullable(Table $table, Fluent $column)
 	{
 		return ($column->nullable) ? ' NULL' : ' NOT NULL';
 	}
@@ -95,10 +94,10 @@ class Postgres extends Grammar {
 	 * Get the SQL syntax for specifying a default value on a column.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function default_value(Table $table, Column $column)
+	protected function default_value(Table $table, Fluent $column)
 	{
 		if ( ! is_null($column->default))
 		{
@@ -110,16 +109,16 @@ class Postgres extends Grammar {
 	 * Get the SQL syntax for defining an auto-incrementing column.
 	 *
 	 * @param  Table   $table
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function incrementer(Table $table, Column $column)
+	protected function incrementer(Table $table, Fluent $column)
 	{
 		// We don't actually need to specify an "auto_increment" keyword since
 		// we handle the auto-increment definition in the type definition for
 		// integers by changing the type to "serial", which is a convenient
 		// notational short-cut provided by Postgres.
-		if ($column->type() == 'integer' and $column->increment)
+		if ($column->type == 'integer' and $column->increment)
 		{
 			return ' PRIMARY KEY';
 		}
@@ -129,10 +128,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for creating a primary key.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function primary(Table $table, Command $command)
+	public function primary(Table $table, Fluent $command)
 	{
 		$columns = $this->columnize($command->columns);
 
@@ -143,10 +142,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for creating a unique index.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function unique(Table $table, Command $command)
+	public function unique(Table $table, Fluent $command)
 	{
 		return $this->key($table, $command, true);
 	}
@@ -155,10 +154,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for creating a full-text index.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function fulltext(Table $table, Command $command)
+	public function fulltext(Table $table, Fluent $command)
 	{
 		$name = $command->name;
 
@@ -171,10 +170,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for creating a regular index.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function index(Table $table, Command $command)
+	public function index(Table $table, Fluent $command)
 	{
 		return $this->key($table, $command);
 	}
@@ -183,11 +182,11 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for creating a new index.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @param  bool     $unique
 	 * @return string
 	 */
-	protected function key(Table $table, Command $command, $unique = false)
+	protected function key(Table $table, Fluent $command, $unique = false)
 	{
 		$columns = $this->columnize($command->columns);
 
@@ -200,10 +199,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop table command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop(Table $table, Command $command)
+	public function drop(Table $table, Fluent $command)
 	{
 		return 'DROP TABLE '.$this->wrap($table);
 	}
@@ -212,10 +211,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop column command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop_column(Table $table, Command $command)
+	public function drop_column(Table $table, Fluent $command)
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
@@ -235,10 +234,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop primary key command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop_primary(Table $table, Command $command)
+	public function drop_primary(Table $table, Fluent $command)
 	{
 		return 'ALTER TABLE '.$this->wrap($table).' DROP CONSTRAINT '.$table->name.'_pkey';
 	}
@@ -247,10 +246,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop unqique key command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop_unique(Table $table, Command $command)
+	public function drop_unique(Table $table, Fluent $command)
 	{
 		return $this->drop_key($table, $command);
 	}
@@ -259,10 +258,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop full-text key command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop_fulltext(Table $table, Command $command)
+	public function drop_fulltext(Table $table, Fluent $command)
 	{
 		return $this->drop_key($table, $command);
 	}
@@ -271,10 +270,10 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop index command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop_index(Table $table, Command $command)
+	public function drop_index(Table $table, Fluent $command)
 	{
 		return $this->drop_key($table, $command);
 	}
@@ -283,21 +282,21 @@ class Postgres extends Grammar {
 	 * Generate the SQL statement for a drop key command.
 	 *
 	 * @param  Table    $table
-	 * @param  Command  $command
+	 * @param  Fluent   $command
 	 * @return string
 	 */
-	protected function drop_key(Table $table, Command $command)
+	protected function drop_key(Table $table, Fluent $command)
 	{
-		return 'DROP INDEX '.$this->wrap($command->name);
+		return 'DROP INDEX '.$command->name;
 	}
 
 	/**
 	 * Generate the data-type definition for a string.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_string($column)
+	protected function type_string(Fluent $column)
 	{
 		return 'VARCHAR('.$column->length.')';
 	}
@@ -305,10 +304,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for an integer.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_integer($column)
+	protected function type_integer(Fluent $column)
 	{
 		return ($column->increment) ? 'SERIAL' : 'INTEGER';
 	}
@@ -316,10 +315,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for an integer.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_float($column)
+	protected function type_float(Fluent $column)
 	{
 		return 'REAL';
 	}
@@ -327,10 +326,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for a boolean.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_boolean($column)
+	protected function type_boolean(Fluent $column)
 	{
 		return 'SMALLINT';
 	}
@@ -338,10 +337,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for a date.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_date($column)
+	protected function type_date(Fluent $column)
 	{
 		return 'TIMESTAMP';
 	}
@@ -349,10 +348,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for a timestamp.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_timestamp($column)
+	protected function type_timestamp(Fluent $column)
 	{
 		return 'TIMESTAMP';
 	}
@@ -360,10 +359,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for a text column.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_text($column)
+	protected function type_text(Fluent $column)
 	{
 		return 'TEXT';
 	}
@@ -371,10 +370,10 @@ class Postgres extends Grammar {
 	/**
 	 * Generate the data-type definition for a blob.
 	 *
-	 * @param  Column  $column
+	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function type_blob($column)
+	protected function type_blob(Fluent $column)
 	{
 		return 'BYTEA';
 	}

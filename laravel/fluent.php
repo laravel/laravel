@@ -24,7 +24,7 @@ class Fluent {
 	{
 		foreach ($attributes as $key => $value)
 		{
-			$this->$attribute = $value;
+			$this->$key = $value;
 		}
 	}
 
@@ -63,7 +63,10 @@ class Fluent {
 	 */
 	public function __get($key)
 	{
-		return $this->attributes[$key];
+		if (array_key_exists($key, $this->attributes))
+		{
+			return $this->attributes[$key];
+		}
 	}
 
 	/**
