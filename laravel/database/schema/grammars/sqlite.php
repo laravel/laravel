@@ -220,13 +220,37 @@ class SQLite extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop index command.
+	 * Generate the SQL statement for a drop unqique key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_unique(Table $table, Command $command)
+	{
+		return $this->drop_key($table, $command);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop unqique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Command  $command
 	 * @return string
 	 */
 	public function drop_index(Table $table, Command $command)
+	{
+		return $this->drop_key($table, $command);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	protected function drop_key(Table $table, Command $command)
 	{
 		return 'DROP INDEX '.$this->wrap($command->name);
 	}

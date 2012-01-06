@@ -237,13 +237,61 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop index command.
+	 * Generate the SQL statement for a drop primary key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_primary(Table $table, Command $command)
+	{
+		return 'ALTER TABLE '.$this->wrap($table).' DROP PRIMARY KEY';
+	}
+
+	/**
+	 * Generate the SQL statement for a drop unqique key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_unique(Table $table, Command $command)
+	{
+		return $this->drop_key($table, $command);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop full-text key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	public function drop_fulltext(Table $table, Command $command)
+	{
+		return $this->drop_key($table, $command);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop unqique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Command  $command
 	 * @return string
 	 */
 	public function drop_index(Table $table, Command $command)
+	{
+		return $this->drop_key($table, $command);
+	}
+
+	/**
+	 * Generate the SQL statement for a drop key command.
+	 *
+	 * @param  Table    $table
+	 * @param  Command  $command
+	 * @return string
+	 */
+	protected function drop_key(Table $table, Command $command)
 	{
 		$index = $this->wrap($command->name);
 

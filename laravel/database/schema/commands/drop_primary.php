@@ -1,3 +1,3 @@
 <?php namespace Laravel\Database\Schema\Commands;
 
-class Drop_Index extends Drop_Key {}
+class Drop_Primary extends Drop_Key {}
