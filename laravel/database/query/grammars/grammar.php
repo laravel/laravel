@@ -155,10 +155,9 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		if  (isset($sql))
 		{
-			// We start every WHERE clause with "WHERE 1 = 1" just so we can
-			// always add the boolean connector to each check in the clause.
-			// Once we have generated the statement, we will remove all of
-			// these dummy checks from the SQL.
+			// We attach the boolean connector to every where segment just
+			// for convenience. Once we have built the entire clause we'll
+			// remove the first instance of a connector from the clause.
 			return 'WHERE '.preg_replace('/AND |OR /', '', implode(' ', $sql), 1);
 		}
 	}
