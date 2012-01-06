@@ -43,9 +43,7 @@ class Schema {
 		{
 			$connection = DB::connection($table->connection);
 
-			// TESTING TESTING TESTING *******************************
-			$grammar = static::grammar('sqlsrv');
-			//$grammar = static::grammar($connection->driver());
+			$grammar = static::grammar($connection->driver());
 
 			// Each grammar has a function that corresponds to the command type
 			// and is responsible for building that's commands SQL. This lets
@@ -61,14 +59,10 @@ class Schema {
 				// it needs to do what is requested by the developer.
 				foreach ((array) $statements as $statement)
 				{
-					//$connection->statement($statement);
+					$connection->statement($statement);
 				}
-
-				var_dump($statements);
-				echo '<br><br>';
 			}
 		}
-		die;
 	}
 
 	/**
