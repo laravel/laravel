@@ -117,6 +117,39 @@ class Table {
 	}
 
 	/**
+	 * Drop a primary key from the table.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function drop_primary($name)
+	{
+		$this->commands[] = new Commands\Drop_Primary($columns);
+	}
+
+	/**
+	 * Drop a unique index from the table.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function drop_unique($name)
+	{
+		$this->commands[] = new Commands\Drop_Unique($columns);
+	}
+
+	/**
+	 * Drop a full-text index from the table.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function drop_fulltext($name)
+	{
+		$this->commands[] = new Commands\Drop_Fulltext($columns);
+	}
+
+	/**
 	 * Drop an index from the table.
 	 *
 	 * @param  string  $name
