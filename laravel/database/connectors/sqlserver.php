@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database\Connectors;
+<?php namespace Laravel\Database\Connectors; use PDO;
 
 class SQLServer extends Connector {
 
