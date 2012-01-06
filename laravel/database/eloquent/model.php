@@ -477,8 +477,10 @@ abstract class Model {
 		}
 		else
 		{
-			$this->attributes[$key] = $value;
-			$this->dirty[$key] = $value;
+			if ($this->exists && $this->attributes[$key] !== $value) {
+				$this->attributes[$key] = $value;
+				$this->dirty[$key] = $value;
+			}
 		}
 	}
 
