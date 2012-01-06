@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database\Query\Grammars;
 
+use Laravel\Database\Query;
+
 class SQLServer extends Grammar {
 
 	/**
@@ -53,7 +55,7 @@ class SQLServer extends Grammar {
 		// and will need to remove the TOP clause in that situation.
 		if ($query->limit > 0 and $query->offset <= 0)
 		{
-			$select .= 'TOP '.$query->limit;
+			$select .= 'TOP '.$query->limit.' ';
 		}
 
 		return $select.$this->columnize($query->selects);
@@ -84,17 +86,19 @@ class SQLServer extends Grammar {
 
 		$components['selects'] .= ", ROW_NUMBER() OVER ({$orderings}) AS Laravel_RowNum";
 
+		unset($components['orderings']);
+
 		$start = $query->offset + 1;
 
-		$finish = $offset + $query->limit;
+		$finish = $start + $query->limit;
 
 		// Now, we're finally ready to build the final SQL query.
 		// We'll create a common table expression with the query
 		// and then select all of the results from it where the
 		// row number is between oru given limit and offset.
-		$sql = ';WITH Results_CTE AS ('.$this->concatenate($sql).')';
+		$sql = ';WITH Results_CTE AS ('.$this->concatenate($components).') ';
 
-		return $sql .= "SELECT * FROM Results_CTE WHERE RowNum BETWEEN {$start} AND {$finish}";
+		return $sql .= "SELECT * FROM Results_CTE WHERE Laravel_RowNum BETWEEN {$start} AND {$finish}";
 	}
 
 	/**
