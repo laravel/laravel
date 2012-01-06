@@ -33,7 +33,6 @@ class Schema {
 		// command for them, adding the columns to the command.
 		if (count($table->columns) > 0 and ! $table->creating())
 		{
-			die('adding');
 			$command = new Fluent(array('type' => 'add'));
 
 			array_unshift($table->commands, $command);

@@ -158,7 +158,7 @@ class Table {
 	 */
 	public function drop_primary($name)
 	{
-		return $this->drop_key(__FUNCTION, $name);
+		return $this->drop_key(__FUNCTION__, $name);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Table {
 	 */
 	public function drop_unique($name)
 	{
-		return $this->drop_key(__FUNCTION, $name);
+		return $this->drop_key(__FUNCTION__, $name);
 	}
 
 	/**
@@ -180,7 +180,7 @@ class Table {
 	 */
 	public function drop_fulltext($name)
 	{
-		return $this->drop_key(__FUNCTION, $name);
+		return $this->drop_key(__FUNCTION__, $name);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Table {
 	 */
 	public function drop_index($name)
 	{
-		return $this->drop_key(__FUNCTION, $name);
+		return $this->drop_key(__FUNCTION__, $name);
 	}
 
 	/**
