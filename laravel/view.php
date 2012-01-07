@@ -184,7 +184,7 @@ class View implements ArrayAccess {
 	 */
 	public static function composer($view, $composer)
 	{
-		Event::listen("composing:{$view}", $composer);
+		Event::listen("composing: {$view}", $composer);
 	}
 
 	/**
