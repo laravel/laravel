@@ -477,10 +477,12 @@ abstract class Model {
 		}
 		else
 		{
-			if (! $this->exists || $this->attributes[$key] !== $value) {
-				$this->attributes[$key] = $value;
-				$this->dirty[$key] = $value;
+			if (isset($this->attributes[$key]) && $this->attributes[$key] === $value) {
+				return;
 			}
+
+			$this->attributes[$key] = $value;
+			$this->dirty[$key] = $value;
 		}
 	}
 
