@@ -35,33 +35,12 @@ class Installer {
 	}
 
 	/**
-	 * Execute a bundle command from the CLI.
-	 *
-	 * @param  array  $arguments
-	 * @return void
-	 */
-	public function run($arguments = array())
-	{
-		$method = array_get($arguments, 0);
-
-		if ( ! in_array($method, $this->methods))
-		{
-			throw new \Exception("I don't recognize that bundle command.");
-		}
-
-		// If the method is a valid method for the command, we'll call the
-		// method and pass in the arguments, slicing off the name of the
-		// method so that only the "real" arguments are remaining.
-		$this->$method(array_slice($arguments, 1));
-	}
-
-	/**
 	 * Install the given bundles into the application.
 	 *
 	 * @param  array  $bundles
 	 * @return void
 	 */
-	protected function install($bundles)
+	public function install($bundles)
 	{
 		foreach ($this->get($bundles) as $bundle)
 		{
