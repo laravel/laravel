@@ -102,18 +102,7 @@ class Config {
 	 */
 	public static function set($key, $value)
 	{
-		list($bundle, $file, $key) = static::parse($key);
-
-		static::load($bundle, $file);
-
-		if (is_null($key))
-		{
-			array_set(static::$items[$bundle], $file, $value);
-		}
-		else
-		{
-			array_set(static::$items[$bundle][$file], $key, $value);
-		}
+		static::$cache[$key] = $value;
 	}
 
 	/**

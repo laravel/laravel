@@ -71,6 +71,41 @@ class URL {
 	}
 
 	/**
+	 * Generate a URL to a controller action.
+	 *
+	 * <code>
+	 *		// Generate a URL to the "index" method of the "user" controller
+	 *		$url = URL::to_action('user@index');
+	 *
+	 *		// Generate a URL to http://example.com/user/profile/taylor
+	 *		$url = URL::to_action('user@profile', array('taylor'));
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function to_action($action, $parameters = array(), $https = false)
+	{
+		$action = str_replace(array('.', '@'), '/', $action);
+
+		return static::to($action.'/'.implode('/', $parameters), $https);
+	}
+
+	/**
+	 * Generate a HTTPS URL to a controller action.
+	 *
+	 * @param  string  $action
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	public static function to_secure_action($action, $parameters = array())
+	{
+		return static::to_action($action, $parameters, true);
+	}
+
+	/**
 	 * Generate an application URL to an asset.
 	 *
 	 * @param  string  $url
