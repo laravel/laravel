@@ -1,5 +1,6 @@
 <?php namespace Laravel\CLI; defined('APP_PATH') or die('No direct script access.');
 
+use Laravel\IoC;
 use Laravel\Bundle;
 
 /**
@@ -10,43 +11,30 @@ use Laravel\Bundle;
 Bundle::start(DEFAULT_BUNDLE);
 
 /**
- * First we need to create an implementation of a Laravel CLI command.
- * All of the CLI commands implement the "Command" interface, and the
- * factory will return an implementation based on the type of command
- * it is given, which should be the second CLI argument.
+ * We will register all of the Laravel provided tasks inside the IoC
+ * container so they can be resolved by the task class. This allows
+ * us to seamlessly add tasks to the CLI so that the Task class
+ * doesn't have to worry about how to resolve core tasks.
  */
-$command = Commands\Factory::make(array_get($_SERVER['argv'], 1));
+IoC::register('task: bundle', function()
+{
+	return new Tasks\Bundle\Installer(new Tasks\Bundle\Repository);
+});
 
 /**
- * If we received a command implementation from the factory, we can
- * go ahead and execute the command, giving it hte parameters, sans
- * the CLI and script name.
- *
  * We will wrap the command execution in a try / catch block and
  * simply write out any exception messages we receive to the CLI
  * for the developer. Note that this only writes out messages
  * for the CLI exceptions. All others will be not be caught
  * and will be totally dumped out to the CLI.
  */
-if ( ! is_null($command))
+try
 {
-	try
-	{
-		$command->run(array_slice($_SERVER['argv'], 2));
-	}
-	catch (\Exception $e)
-	{
-		echo $e->getMessage();
-	}
+	Task::run(array_slice($_SERVER['argv'], 1));
 }
-/**
- * If we didn't receive a command implementation, that command
- * is not currently supported by the CLI so we will just throw
- * out an error message to the developer.
- */
-else
+catch (\Exception $e)
 {
-	echo "Sorry, I don't know how to do that.";
+	echo $e->getMessage();
 }
 
 echo PHP_EOL;

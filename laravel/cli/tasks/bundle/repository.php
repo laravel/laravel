@@ -1,4 +1,4 @@
-<?php namespace Laravel\CLI\Bundle;
+<?php namespace Laravel\CLI\Tasks\Bundle;
 
 class Repository {
 

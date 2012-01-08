@@ -1,4 +1,4 @@
-<?php namespace Laravel\CLI\Bundle\Providers;
+<?php namespace Laravel\CLI\Tasks\Bundle\Providers;
 
 class Github implements Provider {
 

@@ -1,18 +1,18 @@
-<?php namespace Laravel\CLI\Commands; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel\CLI\Tasks\Bundle; defined('APP_PATH') or die('No direct script access.');
 
 use Laravel\IoC;
 
 IoC::register('bundle.provider: github', function()
 {
-	return new \Laravel\CLI\Bundle\Providers\Github;
+	return new \Laravel\CLI\Tasks\Bundle\Providers\Github;
 });
 
-class Bundle implements Command {
+class Installer {
 
 	/**
 	 * An instance of the Bundle API repository.
 	 *
-	 * @var Bundle\API
+	 * @var Repository
 	 */
 	protected $repository;
 
@@ -26,7 +26,7 @@ class Bundle implements Command {
 	/**
 	 * Create a new instance of the Bundle CLI command.
 	 *
-	 * @param  Bundle\Repository
+	 * @param  Repository
 	 * @return void
 	 */
 	public function __construct($repository)

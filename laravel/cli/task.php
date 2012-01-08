@@ -1,10 +1,10 @@
-<?php namespace Laravel\CLI\Commands;
+<?php namespace Laravel\CLI;
 
 use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Bundle;
 
-class Task implements Command {
+class Task {
 
 	/**
 	 * Run a CLI task with the given arguments.
@@ -12,14 +12,14 @@ class Task implements Command {
 	 * @param  array  $arguments
 	 * @return void
 	 */
-	public function run($arguments = array())
+	public static function run($arguments = array())
 	{
 		if ( ! isset($arguments[0]))
 		{
 			throw new \Exception("Whoops! You forgot to provide the task name.");
 		}
 
-		list($bundle, $task, $method) = $this->parse($arguments[0]);
+		list($bundle, $task, $method) = static::parse($arguments[0]);
 
 		// If the task exists within a bundle, we will start the bundle so that
 		// any dependencies can be registered in the application IoC container.
@@ -41,7 +41,7 @@ class Task implements Command {
 	 * @param  string  $task
 	 * @return array
 	 */
-	protected function parse($task)
+	protected static function parse($task)
 	{
 		list($bundle, $task) = Bundle::parse($task);
 
