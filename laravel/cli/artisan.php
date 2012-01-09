@@ -26,6 +26,33 @@ IoC::register('task: migrate', function()
 	return new Tasks\Migrate\Migrator(new Tasks\Migrate\Resolver);
 });
 
+$options = array();
+
+/**
+ * CLI options may be specified using a --option=value syntax.
+ * This allows the passing of options that control peripheral
+ * parts of the task, such as the database connection.
+ */
+foreach ($_SERVER['argv'] as $key => $value)
+{
+	if (starts_with($value, '--'))
+	{
+		$value = substr($value, 2);
+
+		list($option_key, $option_value) = explode('=', $value);
+
+		$options[$option_key] = $option_value;
+
+		// Once we have the option value, we will remove the
+		// option from the array of CLI arguments so that it
+		// is not passed to the task as an argument.
+		//
+		// CLI options may be retrieved by the task via the
+		// options method on the Task base class.
+		unset($_SERVER['argv'][$key]);
+	}
+}
+
 /**
  * We will wrap the command execution in a try / catch block and
  * simply write out any exception messages we receive to the CLI
@@ -35,7 +62,7 @@ IoC::register('task: migrate', function()
  */
 try
 {
-	Task::run(array_slice($_SERVER['argv'], 1));
+	Command::run(array_slice($_SERVER['argv'], 1), $options);
 }
 catch (\Exception $e)
 {

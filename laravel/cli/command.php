@@ -4,15 +4,16 @@ use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Bundle;
 
-class Task {
+class Command {
 
 	/**
 	 * Run a CLI task with the given arguments.
 	 *
 	 * @param  array  $arguments
+	 * @param  array  $options
 	 * @return void
 	 */
-	public static function run($arguments = array())
+	public static function run($arguments = array(), $options = array())
 	{
 		if ( ! isset($arguments[0]))
 		{
@@ -31,6 +32,8 @@ class Task {
 		{
 			throw new \Exception("Sorry, I can't find that task.");
 		}
+
+		$task->options = $options;
 
 		$task->$method(array_slice($arguments, 1));
 	}

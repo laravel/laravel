@@ -1,9 +1,10 @@
 <?php namespace Laravel\CLI\Tasks\Migrate;
 
 use Laravel\Bundle;
+use Laravel\CLI\Tasks\Task;
 use Laravel\Database\Schema;
 
-class Migrator {
+class Migrator extends Task {
 
 	/**
 	 * The migration resolver.

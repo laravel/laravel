@@ -76,7 +76,8 @@ Autoloader::$mappings = array(
 	'Laravel\\Cache\\Drivers\\Memcached' => SYS_PATH.'cache/drivers/memcached'.EXT,
 	'Laravel\\Cache\\Drivers\\Redis' => SYS_PATH.'cache/drivers/redis'.EXT,
 
-	'Laravel\\CLI\\Task' => SYS_PATH.'cli/task'.EXT,
+	'Laravel\\CLI\\Command' => SYS_PATH.'cli/command'.EXT,
+	'Laravel\\CLI\\Tasks\\Task' => SYS_PATH.'cli/tasks/task'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Installer' => SYS_PATH.'cli/tasks/bundle/installer'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Repository' => SYS_PATH.'cli/tasks/bundle/repository'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Providers\\Provider' => SYS_PATH.'cli/tasks/bundle/providers/provider'.EXT,

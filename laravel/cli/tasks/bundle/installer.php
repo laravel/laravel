@@ -1,13 +1,14 @@
 <?php namespace Laravel\CLI\Tasks\Bundle; defined('APP_PATH') or die('No direct script access.');
 
 use Laravel\IoC;
+use Laravel\CLI\Tasks\Task;
 
 IoC::register('bundle.provider: github', function()
 {
 	return new \Laravel\CLI\Tasks\Bundle\Providers\Github;
 });
 
-class Installer {
+class Installer extends Task {
 
 	/**
 	 * An instance of the Bundle API repository.
