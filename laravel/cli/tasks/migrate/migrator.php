@@ -73,7 +73,22 @@ class Migrator {
 	 */
 	public function rollback($arguments = array())
 	{
-		die(var_dump($arguments));
+		$migrations = $this->resolver->last($this->database);
+
+		// The "last" method on the resolver returns an array of migrations,
+		// along with their bundles and names. We will iterate through each
+		// migration and run the "down" method, removing them from the
+		// database as we go.
+		foreach ($migrations as $migration)
+		{
+			$migration['migration']->down();
+
+			// By only removing the migration after it has successfully rolled back,
+			// we can re-run the rollback command in the event of any errors with
+			// the migration. When we re-run, only the migrations that have not
+			// been rolled-back for the batch will still be in the database.
+			$this->database->delete($migration['bundle'], $migration['name']);
+		}
 	}
 
 	/**
@@ -95,10 +110,11 @@ class Migrator {
 
 			$table->string('name');
 
-			// We'll store a UNIX timestamp indicating the time that
-			// the migration command was run. This will allow us to
-			// easily rollback migration commands.
-			$table->integer('ran_at');
+			// When running a migration command, we will store a batch
+			// ID with each of the rows on the table. This will allow
+			// us to grab all of the migrations that were run for the
+			// last command when performing rollbacks.
+			$table->integer('batch');
 
 			$table->primary(array('bundle', 'name'));
 		});
