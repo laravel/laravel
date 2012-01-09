@@ -29,7 +29,7 @@ class Installer {
 	 * @param  Repository
 	 * @return void
 	 */
-	public function __construct($repository)
+	public function __construct(Repository $repository)
 	{
 		$this->repository = $repository;
 	}
