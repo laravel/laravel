@@ -31,6 +31,10 @@ class Migrator {
 	 */
 	public function run($arguments = array())
 	{
+		// If no arguments were passed to the task, we will just migrate
+		// to the latest version across all bundles. Otherwise, we will
+		// parse the arguments to determine the bundle for which the
+		// database migrations should be run.
 		if (count($arguments) == 0)
 		{
 			$this->migrate();
