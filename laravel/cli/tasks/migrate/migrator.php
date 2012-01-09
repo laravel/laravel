@@ -53,7 +53,7 @@ class Migrator extends Task {
 	 * @param  int     $version
 	 * @return void
 	 */
-	protected function migrate($bundle = null, $version = null)
+	public function migrate($bundle = null, $version = null)
 	{
 		$migrations = $this->resolver->outstanding($bundle);
 

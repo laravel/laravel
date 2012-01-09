@@ -31,9 +31,6 @@ foreach ($_SERVER['argv'] as $key => $value)
 		// Once we have the option value, we will remove the
 		// option from the array of CLI arguments so that it
 		// is not passed to the task as an argument.
-		//
-		// CLI options may be retrieved by the task via the
-		// options method on the Task base class.
 		unset($_SERVER['argv'][$key]);
 	}
 }
@@ -44,16 +41,26 @@ foreach ($_SERVER['argv'] as $key => $value)
  * us to seamlessly add tasks to the CLI so that the Task class
  * doesn't have to worry about how to resolve core tasks.
  */
+
+/**
+ * The bundle task is responsible for the installation of bundles
+ * and their dependencies. It utilizes the bundles API to get the
+ * meta-data for the available bundles.
+ */
 IoC::register('task: bundle', function()
 {
 	return new Tasks\Bundle\Installer(new Tasks\Bundle\Repository);
 });
 
+/**
+ * The migrate task is responsible for running database migrations
+ * as well as migration rollbacks. We will resolve a connection to
+ * the database using the "db" CLI option. The connection will be
+ * used by the resolver to interact with the migration table.
+ */
 IoC::register('task: migrate', function() use ($options)
 {
-	$connection = array_get($options, 'db');
-
-	$resolver = new Tasks\Migrate\Resolver(DB::connection($connection));
+	$resolver = new Tasks\Migrate\Resolver($options);
 
 	return new Tasks\Migrate\Migrator($resolver);
 });
