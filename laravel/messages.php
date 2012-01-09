@@ -139,7 +139,9 @@ class Messages {
 	 */
 	protected function format($messages, $format)
 	{
-		foreach ((array) $messages as $key => &$message)
+		$messages = (array) $messages;
+
+		foreach ($messages as $key => &$message)
 		{
 			$message = str_replace(':message', $message, $format);
 		}

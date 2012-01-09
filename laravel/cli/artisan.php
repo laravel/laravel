@@ -2,6 +2,7 @@
 
 use Laravel\IoC;
 use Laravel\Bundle;
+use Laravel\Database as DB;
 
 /**
  * Fire up the default bundle. This will ensure any dependencies that
@@ -11,28 +12,12 @@ use Laravel\Bundle;
 Bundle::start(DEFAULT_BUNDLE);
 
 /**
- * We will register all of the Laravel provided tasks inside the IoC
- * container so they can be resolved by the task class. This allows
- * us to seamlessly add tasks to the CLI so that the Task class
- * doesn't have to worry about how to resolve core tasks.
- */
-IoC::register('task: bundle', function()
-{
-	return new Tasks\Bundle\Installer(new Tasks\Bundle\Repository);
-});
-
-IoC::register('task: migrate', function()
-{
-	return new Tasks\Migrate\Migrator(new Tasks\Migrate\Resolver);
-});
-
-$options = array();
-
-/**
  * CLI options may be specified using a --option=value syntax.
  * This allows the passing of options that control peripheral
  * parts of the task, such as the database connection.
  */
+$options = array();
+
 foreach ($_SERVER['argv'] as $key => $value)
 {
 	if (starts_with($value, '--'))
@@ -52,6 +37,26 @@ foreach ($_SERVER['argv'] as $key => $value)
 		unset($_SERVER['argv'][$key]);
 	}
 }
+
+/**
+ * We will register all of the Laravel provided tasks inside the IoC
+ * container so they can be resolved by the task class. This allows
+ * us to seamlessly add tasks to the CLI so that the Task class
+ * doesn't have to worry about how to resolve core tasks.
+ */
+IoC::register('task: bundle', function()
+{
+	return new Tasks\Bundle\Installer(new Tasks\Bundle\Repository);
+});
+
+IoC::register('task: migrate', function() use ($options)
+{
+	$connection = array_get($options, 'db');
+
+	$resolver = new Tasks\Migrate\Resolver(DB::connection($connection));
+
+	return new Tasks\Migrate\Migrator($resolver);
+});
 
 /**
  * We will wrap the command execution in a try / catch block and

@@ -42,9 +42,7 @@ class Migrator extends Task {
 		}
 		else
 		{
-			list($bundle, $version) = $this->parse($arguments[0]);
-			
-			$this->migrate($bundle, $version);
+			$this->migrate(array_get($arguments, 0));
 		}
 	}
 
@@ -57,7 +55,7 @@ class Migrator extends Task {
 	 */
 	protected function migrate($bundle = null, $version = null)
 	{
-		$migrations = $this->resolver->resolve($bundle, $version);
+		$migrations = $this->resolver->outstanding($bundle);
 
 		foreach ($migrations as $name => $migration)
 		{
@@ -74,11 +72,13 @@ class Migrator extends Task {
 	 * Rollback the latest migration command.
 	 *
 	 * @param  array  $arguments
-	 * @return void
+	 * @return bool
 	 */
 	public function rollback($arguments = array())
 	{
-		$migrations = $this->resolver->last($this->database);
+		$migrations = $this->resolver->last();
+
+		if (count($migrations) == 0) return false;
 
 		// The "last" method on the resolver returns an array of migrations,
 		// along with their bundles and names. We will iterate through each
@@ -94,6 +94,19 @@ class Migrator extends Task {
 			// been rolled-back for the batch will still be in the database.
 			$this->database->delete($migration['bundle'], $migration['name']);
 		}
+
+		return true;
+	}
+
+	/**
+	 * Rollback all of the executed migrations.
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	public function reset($arguments = array())
+	{
+		while ($this->rollback()) {};
 	}
 
 	/**
@@ -123,37 +136,6 @@ class Migrator extends Task {
 
 			$table->primary(array('bundle', 'name'));
 		});
-	}
-
-	/**
-	 * Parse the migration identifier.
-	 *
-	 * @param  string  $identifier
-	 * @return array
-	 */
-	protected function parse($identifier)
-	{
-		$segments = Bundle::parse($identifier);
-
-		// If the identifier has two segments, it includes both a
-		// bundle and a version number, so we will return both of
-		// them. If there is only one segment, only a version has
-		// been specified, and we will run the migration for the
-		// default bundle. When there are no segments, we will
-		// run all outstanding migrations for all bundles.
-		$count = count($segments);
-
-		switch ($count)
-		{
-			case 2:
-				return $segments;
-
-			case 1:
-				return array(DEFAULT_BUNDLE, $segments[0]);
-
-			default:
-				return array(DEFAULT_BUNDLE, null);
-		}
 	}
 
 }
