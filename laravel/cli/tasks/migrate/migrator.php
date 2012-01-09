@@ -7,21 +7,30 @@ use Laravel\Database\Schema;
 class Migrator extends Task {
 
 	/**
-	 * The migration resolver.
+	 * The migration resolver instance.
 	 *
 	 * @var Resolver
 	 */
 	protected $resolver;
 
 	/**
+	 * The migration database instance.
+	 *
+	 * @var Database
+	 */
+	protected $database;
+
+	/**
 	 * Create a new instance of the Migrator CLI task.
 	 *
 	 * @param  Resolver  $resolver
+	 * @param  Database  $database
 	 * @return void
 	 */
-	public function __construct(Resolver $resolver)
+	public function __construct(Resolver $resolver, Database $database)
 	{
 		$this->resolver = $resolver;
+		$this->database = $database;
 	}
 
 	/**
@@ -57,14 +66,14 @@ class Migrator extends Task {
 	{
 		$migrations = $this->resolver->outstanding($bundle);
 
-		foreach ($migrations as $name => $migration)
+		foreach ($migrations as $migration)
 		{
 			$migration->up();
 
-			// After running a migration, we log it's execution in the
+			// After running a migration, we log its execution in the
 			// migration table so that we can easily determine which
 			// migrations we will need to reverse on a rollback.
-			$this->database->log($bundle, $name);
+			$this->database->log($migration['bundle'], $migration['name']);
 		}
 	}
 

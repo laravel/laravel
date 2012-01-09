@@ -54,15 +54,17 @@ IoC::register('task: bundle', function()
 
 /**
  * The migrate task is responsible for running database migrations
- * as well as migration rollbacks. We will resolve a connection to
- * the database using the "db" CLI option. The connection will be
- * used by the resolver to interact with the migration table.
+ * as well as migration rollbacks. We will also create an instance
+ * of the migration resolver and database classes, which are used
+ * to perform various support functions for the migrator.
  */
 IoC::register('task: migrate', function() use ($options)
 {
-	$resolver = new Tasks\Migrate\Resolver($options);
+	$database = new Tasks\Migrate\Database($options);
 
-	return new Tasks\Migrate\Migrator($resolver);
+	$resolver = new Tasks\Migrate\Resolver($database);
+
+	return new Tasks\Migrate\Migrator($resolver, $database);
 });
 
 /**

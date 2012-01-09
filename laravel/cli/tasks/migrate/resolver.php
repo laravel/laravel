@@ -1,26 +1,25 @@
 <?php namespace Laravel\CLI\Tasks\Migrate;
 
 use Laravel\Bundle;
-use Laravel\Database as DB;
 
 class Resolver {
 
 	/**
-	 * The CLI options.
+	 * The migration database instance.
 	 *
-	 * @var array
+	 * @var Database
 	 */
-	protected $options;
+	protected $database;
 
 	/**
-	 * Create a new migration resolver instance.
+	 * Create a new instance of the migration resolver.
 	 *
-	 * @param  array  $options
+	 * @param  Database  $datbase
 	 * @return void
 	 */
-	public function __construct($options)
+	public function __construct(Database $database)
 	{
-		$this->options = $options;
+		$this->database = $database;
 	}
 
 	/**
@@ -51,7 +50,7 @@ class Resolver {
 			// run for this bundle, as well as all of the migration files
 			// for the bundle. Once we have these, we can determine which
 			// migrations are still outstanding.
-			$ran = $this->ran($bundle);
+			$ran = $this->database->ran($bundle);
 
 			$files = $this->migrations($bundle);
 
@@ -77,19 +76,7 @@ class Resolver {
 	 */
 	public function last()
 	{
-		$table = $this->table();
-
-		// First we need to grab the last batch ID from the migration table,
-		// as this will allow us to grab the lastest batch of migrations
-		// that need to be run for a rollback command.
-		$id = $table->max('batch');
-
-		// Once we have the batch ID, we will pull all of the rows for that
-		// batch. Then we can feed the results into the resolve method to
-		// get the migration instances for the command.
-		$migrations = $table->where_batch($id)->order_by('name', 'desc');
-
-		return $this->resolve($migrations->get());
+		return $this->resolve($this->database->last());
 	}
 
 	/**
@@ -109,7 +96,9 @@ class Resolver {
 			// The migration array contains the bundle name, so we will get the
 			// path to the bundle's migrations and resolve an instance of the
 			// migration using the name.
-			$path = Bundle::path($migration['bundle']).'migrations/';
+			$bundle = $migration['bundle'];
+
+			$path = Bundle::path($bundle).'migrations/';
 
 			// Migrations are not resolved through the auto-loader, so we will
 			// manually instantiate the migration class instances for each of
@@ -121,27 +110,24 @@ class Resolver {
 			// Since the migration name will begin with the numeric ID, we'll
 			// slice off the ID so we are left with the migration class name.
 			// The IDs are for sorting when resolving outstanding migrations.
-			$class = substr($name, strpos($name, '_') + 1);
+			//
+			// Migrations that exist within bundles other than the default
+			// will be prefixed with the bundle name to avoid any possible
+			// naming collisions with other bundle's migrations.
+			$prefix = ($bundle !== DEFAULT_BUNDLE) ? $bundle.'_' : '';
 
-			$instances[] = new $class;
+			$class = $prefix.substr($name, strpos($name, '_') + 1);
+
+			$migration = new $class;
+
+			// When adding to the array of instances, we will actually
+			// add the migration instance, the bundle, and the name.
+			// This allows the migrator to log the bundle and name
+			// when the migration is executed.
+			$instances[] = compact('bundle', 'name', 'migration');
 		}
 
 		return $instances;
-	}
-
-	/**
-	 * Get all of the migrations that have run for a bundle.
-	 *
-	 * @param  string  $bundle
-	 * @return array
-	 */
-	protected function ran($bundle)
-	{
-		return array_map(function($migration)
-		{
-			return $migration->name;
-
-		} , $this->table()->where_bundle($bundle)->get());
 	}
 
 	/**
@@ -168,18 +154,6 @@ class Resolver {
 		sort($files);
 
 		return $files;
-	}
-
-	/**
-	 * Get a database query instance for the migration table.
-	 *
-	 * @return Query
-	 */
-	protected function table()
-	{
-		$connection = DB::connection(array_get($this->options, 'db'));
-
-		return $connection->table('laravel_migrations');
 	}
 
 }
