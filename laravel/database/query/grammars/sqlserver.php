@@ -90,7 +90,20 @@ class SQLServer extends Grammar {
 
 		$start = $query->offset + 1;
 
-		$finish = $query->offset + $query->limit;
+		// Next we need to calculate the constraint that should be
+		// placed on the row number to get the correct offset and
+		// limit on the query. If a limit has not been set, we'll
+		// only add a constraint to handle offset.
+		if ($query->limit > 0)
+		{
+			$finish = $query->offset + $query->limit;
+
+			$constraint = "BETWEEN {$start} AND {$finish}";
+		}
+		else
+		{
+			$constraint = ">= {$start}";
+		}
 
 		// Now, we're finally ready to build the final SQL query.
 		// We'll create a common table expression with the query
@@ -98,7 +111,7 @@ class SQLServer extends Grammar {
 		// row number is between oru given limit and offset.
 		$sql = $this->concatenate($components);
 
-		return "SELECT * FROM ($sql) AS TempTable WHERE RowNum BETWEEN $start AND $finish";
+		return "SELECT * FROM ($sql) AS TempTable WHERE RowNum {$constraint}";
 	}
 
 	/**
