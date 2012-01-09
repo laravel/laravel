@@ -21,6 +21,11 @@ IoC::register('task: bundle', function()
 	return new Tasks\Bundle\Installer(new Tasks\Bundle\Repository);
 });
 
+IoC::register('task: migrate', function()
+{
+	return new Tasks\Migrate\Migrator(new Tasks\Migrate\Resolver);
+});
+
 /**
  * We will wrap the command execution in a try / catch block and
  * simply write out any exception messages we receive to the CLI

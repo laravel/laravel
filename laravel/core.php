@@ -76,11 +76,13 @@ Autoloader::$mappings = array(
 	'Laravel\\Cache\\Drivers\\Memcached' => SYS_PATH.'cache/drivers/memcached'.EXT,
 	'Laravel\\Cache\\Drivers\\Redis' => SYS_PATH.'cache/drivers/redis'.EXT,
 
+	'Laravel\\CLI\\Task' => SYS_PATH.'cli/task'.EXT,
+	'Laravel\\CLI\\Tasks\\Bundle\\Installer' => SYS_PATH.'cli/tasks/bundle/installer'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Repository' => SYS_PATH.'cli/tasks/bundle/repository'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Providers\\Provider' => SYS_PATH.'cli/tasks/bundle/providers/provider'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Providers\\Github' => SYS_PATH.'cli/tasks/bundle/providers/github'.EXT,
-	'Laravel\\CLI\\Task' => SYS_PATH.'cli/task'.EXT,
-	'Laravel\\CLI\\Tasks\\Bundle\\Installer' => SYS_PATH.'cli/tasks/bundle/installer'.EXT,
+	'Laravel\\CLI\\Tasks\\Migrate\\Migrator' => SYS_PATH.'cli/tasks/migrate/migrator'.EXT,
+	'Laravel\\CLI\\Tasks\\Migrate\\Resolver' => SYS_PATH.'cli/tasks/migrate/resolver'.EXT,
 
 	'Laravel\\Database\\Connection' => SYS_PATH.'database/connection'.EXT,
 	'Laravel\\Database\\Expression' => SYS_PATH.'database/expression'.EXT,
