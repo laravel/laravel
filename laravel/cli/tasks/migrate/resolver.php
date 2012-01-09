@@ -24,14 +24,50 @@ class Resolver {
 	}
 
 	/**
-	 * Resolve all of the outstanding migrations.
+	 * Resolve all of the outstanding migrations for a bundle.
 	 *
 	 * @param  string  $bundle
 	 * @return array
 	 */
 	public function outstanding($bundle = null)
 	{
-		die(var_dump($bundle));
+		$migrations = array();
+
+		// If no bundle was given to the command, we'll grab every bundle for
+		// the application, including the "application" bundle, which is not
+		// returned by "all" method on the Bundle class.
+		if (is_null($bundle))
+		{
+			$bundles = array_merge(Bundle::all(), array('application'));
+		}
+		else
+		{
+			$bundles = array($bundle);
+		}
+
+		foreach ($bundles as $bundle)
+		{
+			// First we need to grab all of the migrations that have already
+			// run for this bundle, as well as all of the migration files
+			// for the bundle. Once we have these, we can determine which
+			// migrations are still outstanding.
+			$ran = $this->ran($bundle);
+
+			$files = $this->migrations($bundle);
+
+			// To find outstanding migrations, we will simply iterate over
+			// the migration files and add the files that do not exist in
+			// the array of ran migrations to the outstanding array.
+			foreach ($files as $key => $name)
+			{
+				if ( ! in_array($name, $ran))
+				{
+					$migrations[] = compact('bundle', 'name');
+				}
+			}
+		}
+
+		return $this->resolve($migrations);
 	}
 
 	/**
@@ -87,10 +123,51 @@ class Resolver {
 			// The IDs are for sorting when resolving outstanding migrations.
 			$class = substr($name, strpos($name, '_') + 1);
 
-			$instances = new $class;
+			$instances[] = new $class;
 		}
 
 		return $instances;
+	}
+
+	/**
+	 * Get all of the migrations that have run for a bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return array
+	 */
+	protected function ran($bundle)
+	{
+		return array_map(function($migration)
+		{
+			return $migration->name;
+
+		} , $this->table()->where_bundle($bundle)->get());
+	}
+
+	/**
+	 * Grab all of the migration filenames for a bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return array
+	 */
+	protected function migrations($bundle)
+	{
+		$files = glob(Bundle::path($bundle).'migrations/*_*'.EXT);
+
+		// Once we have the array of files in the migration directory,
+		// we'll take the basename of the file and remove the PHP file
+		// extension, which isn't needed.
+		foreach ($files as &$file)
+		{
+			$file = str_replace(EXT, '', basename($file));
+		}
+
+		// We'll also sort the files so that the earlier migrations
+		// will be at the front of the array and will be resolved
+		// first by this class' resolve method.
+		sort($files);
+
+		return $files;
 	}
 
 	/**
