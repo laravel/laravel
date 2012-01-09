@@ -23,6 +23,18 @@ class Database {
 	}
 
 	/**
+	 * Delete a row from the migration table.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function delete($bundle, $name)
+	{
+		//
+	}
+
+	/**
 	 * Return an array of the last batch of migrations.
 	 *
 	 * @return array
