@@ -249,40 +249,6 @@ class Query {
 	}
 
 	/**
-	 * Add a nested where condition to the query.
-	 *
-	 * @param  Closure  $callback
-	 * @param  string   $connector
-	 * @return Query
-	 */
-	protected function where_nested($callback, $connector)
-	{
-		// To handle a nested where statement, we will actually instantiate a
-		// new Query instance and run the callback over that instance, which
-		// will allow the developer to have a fresh query to work with.
-		//
-		// The developer can then add whatever where conditions they need
-		// on the sub-query to the query instance they receive, and the
-		// conditions will be extracted from the sub-query and added
-		// onto this instance to create a nested where.
-		$type = 'where_nested';
-
-		$query = new Query($this->connection, $this->grammar, $this->from);
-
-		// Once the callback has been run on the query, we will store the
-		// nested query instance on the where clause array so that it's
-		// passed to the query grammar, and the grammar generates the
-		// nested clause using the instance on the array.
-		call_user_func($callback, $query);
-
-		$this->wheres[] = compact('type', 'query', 'connector');
-
-		$this->bindings = array_merge($this->bindings, $query->bindings);
-
-		return $this;
-	}
-
-	/**
 	 * Add an or where condition for the primary key to the query.
 	 *
 	 * @param  mixed  $value
@@ -399,6 +365,34 @@ class Query {
 	public function or_where_not_null($column)
 	{
 		return $this->where_not_null($column, 'OR');
+	}
+
+	/**
+	 * Add a nested where condition to the query.
+	 *
+	 * @param  Closure  $callback
+	 * @param  string   $connector
+	 * @return Query
+	 */
+	protected function where_nested($callback, $connector)
+	{
+		$type = 'where_nested';
+
+		// To handle a nested where statement, we will actually instantiate a
+		// new Query instance and run the callback over that instance, which
+		// will allow the developer to have a fresh query to work with.
+		$query = new Query($this->connection, $this->grammar, $this->from);
+
+		// Once the callback has been run on the query, we will store the
+		// nested query instance on the where clause array so that it's
+		// passed to the query grammar.
+		call_user_func($callback, $query);
+
+		$this->wheres[] = compact('type', 'query', 'connector');
+
+		$this->bindings = array_merge($this->bindings, $query->bindings);
+
+		return $this;
 	}
 
 	/**
