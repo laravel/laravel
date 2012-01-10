@@ -68,14 +68,29 @@ class Migrator extends Task {
 	{
 		$migrations = $this->resolver->outstanding($bundle);
 
+		if (count($migrations) == 0)
+		{
+			echo "No outstanding migrations.";
+
+			return;
+		}
+
+		// We need to grab the latest batch ID and increment it
+		// by one. This allows us to group the migrations such
+		// that we can easily determine which migrations need
+		// to be rolled back for a given command.
+		$batch = $this->database->batch() + 1;
+
 		foreach ($migrations as $migration)
 		{
-			$migration->up();
+			$migration['migration']->up();
+
+			echo 'Migrated: '.$this->display($migration).PHP_EOL;
 
 			// After running a migration, we log its execution in the
 			// migration table so that we can easily determine which
 			// migrations we will need to reverse on a rollback.
-			$this->database->log($migration['bundle'], $migration['name']);
+			$this->database->log($migration['bundle'], $migration['name'], $batch);
 		}
 	}
 
@@ -89,7 +104,12 @@ class Migrator extends Task {
 	{
 		$migrations = $this->resolver->last();
 
-		if (count($migrations) == 0) return false;
+		if (count($migrations) == 0)
+		{
+			echo "Nothing to rollback.";
+
+			return false;
+		}
 
 		// The "last" method on the resolver returns an array of migrations,
 		// along with their bundles and names. We will iterate through each
@@ -98,6 +118,8 @@ class Migrator extends Task {
 		foreach ($migrations as $migration)
 		{
 			$migration['migration']->down();
+
+			echo 'Rolled back: '.$this->display($migration).PHP_EOL;
 
 			// By only removing the migration after it has successfully rolled back,
 			// we can re-run the rollback command in the event of any errors with
@@ -147,6 +169,8 @@ class Migrator extends Task {
 
 			$table->primary(array('bundle', 'name'));
 		});
+
+		echo "Migration table created successfully.";
 	}
 
 	/**
@@ -167,8 +191,7 @@ class Migrator extends Task {
 		// The migration path is prefixed with the UNIX timestamp, which
 		// is a better way of ordering migrations than a simple integer
 		// incrementation, since developers may start working on the
-		// next migration at the same time, and would have naming
-		// conflicts when they commit.
+		// next migration at the same time.
 		$path = Bundle::path($bundle).'migrations/'.time().'_'.$migration.EXT;
 
 		File::put($path, $this->stub($bundle, $migration));
@@ -190,11 +213,21 @@ class Migrator extends Task {
 		// The class name is formatted simialrly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in
 		// the default bundle. However, unlike tasks, there is nothing
-		// appended to the class name since we can safely assume the
-		// migration names will already be fairly unique.
+		// appended to the class name since they're already unique.
 		$class = Bundle::class_prefix($bundle).Str::classify($migration);
 
-		$stub = str_replace('{{class}}', $class, $stub);
+		return str_replace('{{class}}', $class, $stub);
+	}
+
+	/**
+	 * Get the migration bundle and name for display.
+	 *
+	 * @param  array   $migration
+	 * @return string
+	 */
+	protected function display($migration)
+	{
+		return $migration['bundle'].'/'.$migration['name'];
 	}
 
 }

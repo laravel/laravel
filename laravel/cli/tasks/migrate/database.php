@@ -23,6 +23,19 @@ class Database {
 	}
 
 	/**
+	 * Log a migration in the migration table.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $name
+	 * @param  int     $batch
+	 * @return void
+	 */
+	public function log($bundle, $name, $batch)
+	{
+		$this->table()->insert(compact('bundle', 'name', 'batch'));
+	}
+
+	/**
 	 * Delete a row from the migration table.
 	 *
 	 * @param  string  $bundle
@@ -46,12 +59,12 @@ class Database {
 		// First we need to grab the last batch ID from the migration table,
 		// as this will allow us to grab the lastest batch of migrations
 		// that need to be run for a rollback command.
-		$id = $table->max('batch');
+		$id = $this->batch();
 
 		// Once we have the batch ID, we will pull all of the rows for that
 		// batch. Then we can feed the results into the resolve method to
 		// get the migration instances for the command.
-		return $table->where_batch($id)->order_by('name', 'desc');
+		return $table->where_batch($id)->order_by('name', 'desc')->get();
 	}
 
 	/**
@@ -67,6 +80,16 @@ class Database {
 			return $migration->name;
 
 		} , $this->table()->where_bundle($bundle)->get());
+	}
+
+	/**
+	 * Get the maximum batch ID from the migration table.
+	 *
+	 * @return int
+	 */
+	public function batch()
+	{
+		return $this->table()->max('batch');
 	}
 
 	/**
