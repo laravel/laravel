@@ -257,12 +257,11 @@ class Query {
 	 */
 	protected function where_nested($callback, $connector)
 	{
+		// To handle a nested where statement, we will actually instantiate a
+		// new Query instance and run the callback over that instance, which
+		// will allow the developer to have a fresh query to work with.
 		$type = 'where_nested';
 
-		// To handle a nested where statement, we will actually instantiate
-		// a new Query instance and run the callback over that instance,
-		// which will allow the developer to have a fresh query to set
-		// where conditions on.
 		$query = new Query($this->connection, $this->grammar, $this->from);
 
 		call_user_func($callback, $query);
@@ -528,9 +527,9 @@ class Query {
 	 */
 	public function only($column)
 	{
-		$this->select(array($column));
+		$sql = $this->grammar->select($this->select(array($column)));
 
-		return $this->connection->only($this->grammar->select($this), $this->bindings);
+		return $this->connection->only($sql, $this->bindings);
 	}
 
 	/**
@@ -719,7 +718,7 @@ class Query {
 	{
 		// To make the adjustment to the column, we'll wrap the expression
 		// in an Expression instance, which forces the adjustment to be
-		// injected into the query as a string.
+		// injected into the query as a string instead of bound.
 		$value = Database::raw($this->grammar->wrap($column).$operator.$amount);
 
 		return $this->update(array($column => $value));
@@ -734,7 +733,7 @@ class Query {
 	public function update($values)
 	{
 		// For update statements, we need to merge the bindings such that
-		// the update values occur before the where bindings in the array,
+		// the update values occur before the where bindings in the array
 		// since the set statements will precede any of the where clauses
 		// in the SQL syntax that is generated.
 		$bindings =  array_merge(array_values($values), $this->bindings);
