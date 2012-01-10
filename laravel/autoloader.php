@@ -17,6 +17,13 @@ class Autoloader {
 	public static $aliases = array();
 
 	/**
+	 * The directories that use the PSR-0 naming convention.
+	 *
+	 * @var array
+	 */
+	public static $psr = array();
+
+	/**
 	 * Load the file corresponding to a given class.
 	 *
 	 * This method is registerd in the bootstrap file as an SPL auto-loader.
@@ -64,6 +71,35 @@ class Autoloader {
 				static::load($class);
 			}
 		}
+
+		static::load_psr($class);
+	}
+
+	/**
+	 * Attempt to resolve a class using the PSR-0 standard.
+	 *
+	 * @param  string  $class
+	 * @return void
+	 */
+	protected static function load_psr($class)
+	{
+		// The PSR-0 standard indicates that class namespace slashes or
+		// underscores should be used to indicate the directory tree in
+		// which the class resides.
+		$file = strtolower(str_replace(array('\\', '_'), '/', $class));
+
+		// Once we have formatted the class name, we will simply spin
+		// through the registered PSR-0 directories and attempt to
+		// locate and load the class into the script.
+		foreach (static::$psr as $directory)
+		{
+			if (file_exists($path = $directory.$file.EXT))
+			{
+				require $path;
+
+				return;
+			}
+		}
 	}
 
 	/**
@@ -92,6 +128,17 @@ class Autoloader {
 	public static function alias($class, $alias)
 	{
 		static::$aliases[$alias] = $class;
+	}
+
+	/**
+	 * Register a directory to be searched as a PSR-0 library.
+	 *
+	 * @param  string  $directory
+	 * @return void
+	 */
+	public static function psr($directory)
+	{
+		static::$psr[] = $directory;
 	}
 
 }
