@@ -168,7 +168,7 @@ class SQLServer extends Grammar {
 
 		// SQL Server requires the creation of a full-text "catalog" before
 		// creating a full-text index, so we'll first create the catalog
-		// then add another statement to the array for the real index.
+		// then add another statement for the index.
 		$sql[] = "CREATE FULLTEXT CATALOG {$command->catalog}";
 
 		$create =  "CREATE FULLTEXT INDEX ON ".$this->wrap($table)." ({$columns}) ";
