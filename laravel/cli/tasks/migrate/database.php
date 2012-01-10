@@ -31,7 +31,7 @@ class Database {
 	 */
 	public function delete($bundle, $name)
 	{
-		//
+		$this->table()->where_bundle_and_name($bundle, $name)->delete();
 	}
 
 	/**
