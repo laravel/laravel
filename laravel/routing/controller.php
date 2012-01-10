@@ -174,7 +174,7 @@ abstract class Controller {
 	 *
 	 * Unlike the "execute" method, no filters will be run and the response
 	 * from the controller action will not be changed in any way before it
-	 * is returned.
+	 * is returned to the consumer.
 	 *
 	 * @param  string  $method
 	 * @param  array   $parameters
