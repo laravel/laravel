@@ -264,12 +264,12 @@ class Query {
 
 		$query = new Query($this->connection, $this->grammar, $this->from);
 
-		call_user_func($callback, $query);
-
 		// Once the callback has been run on the query, we will store the
 		// nested query instance on the where clause array so that it's
 		// passed to the query grammar, and the grammar generates the
 		// nested clause using the instance on the array.
+		call_user_func($callback, $query);
+
 		$this->wheres[] = compact('type', 'query', 'connector');
 
 		$this->bindings = array_merge($this->bindings, $query->bindings);
