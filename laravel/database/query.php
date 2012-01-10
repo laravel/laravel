@@ -3,6 +3,8 @@
 use Closure;
 use Laravel\Database;
 use Laravel\Paginator;
+use Laravel\Database\Query\Grammars\Grammar;
+use Laravel\Database\Query\Grammars\SQLServer;
 
 class Query {
 
@@ -105,7 +107,7 @@ class Query {
 	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Query\Grammars\Grammar $grammar, $table)
+	public function __construct(Connection $connection, Grammar $grammar, $table)
 	{
 		$this->from = $table;
 		$this->grammar = $grammar;
@@ -167,7 +169,7 @@ class Query {
 	}
 
 	/**
-	 * Reset the where clause to its initial state. All bindings will be cleared.
+	 * Reset the where clause to its initial state.
 	 *
 	 * @return void
 	 */
@@ -266,7 +268,7 @@ class Query {
 		call_user_func($callback, $query);
 
 		// Once the callback has been run on the query, we will store the
-		// nested query instance on the where clause array so that it is
+		// nested query instance on the where clause array so that it's
 		// passed to the query grammar, and the grammar generates the
 		// nested clause using the instance on the array.
 		$this->wheres[] = compact('type', 'query', 'connector');
@@ -398,20 +400,17 @@ class Query {
 	/**
 	 * Add dynamic where conditions to the query.
 	 *
-	 * Dynamic queries are caught by the __call magic method and are parsed here.
-	 * They provide a convenient, expressive API for building simple conditions.
-	 *
 	 * @param  string  $method
 	 * @param  array   $parameters
 	 * @return Query
 	 */
 	private function dynamic_where($method, $parameters)
 	{
-		// Strip the "where_" off of the method.
 		$finder = substr($method, 6);
 
-		// Split the column names from the connectors.
-		$segments = preg_split('/(_and_|_or_)/i', $finder, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$flags = PREG_SPLIT_DELIM_CAPTURE;
+
+		$segments = preg_split('/(_and_|_or_)/i', $finder, -1, $flags);
 
 		// The connector variable will determine which connector will be
 		// used for the condition. We'll change it as we come across new
@@ -426,6 +425,13 @@ class Query {
 
 		foreach ($segments as $segment)
 		{
+			// If the segment is not a boolean connector, we can assume it
+			// it is a column name, and we'll add it to the query as a new
+			// where clause.
+			//
+			// Otherwise, we'll store the connector so that we know how to
+			// connection the next where clause we find to the query, as
+			// all connectors should precede a new where clause.
 			if ($segment != '_and_' and $segment != '_or_')
 			{
 				$this->where($segment, '=', $parameters[$index], $connector);
@@ -491,7 +497,7 @@ class Query {
 	}
 
 	/**
-	 * Set the query limit and offset for a given page and item per page count.
+	 * Set the query limit and offset for a given page.
 	 *
 	 * @param  int    $page
 	 * @param  int    $per_page
@@ -537,7 +543,12 @@ class Query {
 	{
 		$columns = (array) $columns;
 
-		return (count($results = $this->take(1)->get($columns)) > 0) ? $results[0] : null;
+		// Since we only need the first result, we'll go ahead and set the
+		// limit clause to 1, since this will be much faster than getting
+		// all of the rows and then only returning the first.
+		$results = $this->take(1)->get($columns);
+
+		return (count($results) > 0) ? $results[0] : null;
 	}
 
 	/**
@@ -550,20 +561,25 @@ class Query {
 	{
 		if (is_null($this->selects)) $this->select($columns);
 
-		$results = $this->connection->query($this->grammar->select($this), $this->bindings);
+		$sql = $this->grammar->select($this);
+
+		$results = $this->connection->query($sql, $this->bindings);
 
 		// If the query has an offset and we are using the SQL Server grammar,
 		// we need to spin through the results and remove the "rownum" from
 		// each of the objects. Unfortunately SQL Server does not have an
-		// offset keyword, so we have to use row numbers.
-		if ($this->offset > 0 and $this->grammar instanceof Query\Grammars\SQLServer)
+		// offset keyword, so we have to use row numbers in the query.
+		if ($this->offset > 0 and $this->grammar instanceof SQLServer)
 		{
-			array_walk($results, function($result) { unset($result->rownum); });
+			array_walk($results, function($result)
+			{
+				unset($result->rownum);
+			});
 		}
 
 		// Reset the SELECT clause so more queries can be performed using
 		// the same instance. This is helpful for getting aggregates and
-		// then getting actual results.
+		// then getting actual results from the query.
 		$this->selects = null;
 
 		return $results;
@@ -580,11 +596,13 @@ class Query {
 	{
 		$this->aggregate = compact('aggregator', 'column');
 
-		$result = $this->connection->only($this->grammar->select($this), $this->bindings);
+		$sql = $this->grammar->select($this);
+
+		$result = $this->connection->only($sql, $this->bindings);
 
 		// Reset the aggregate so more queries can be performed using
 		// the same instance. This is helpful for getting aggregates
-		// and then getting actual results.
+		// and then getting actual results from the query.
 		$this->aggregate = null;
 
 		return $result;
@@ -609,7 +627,13 @@ class Query {
 
 		$this->orderings = $orderings;
 
-		return Paginator::make($this->for_page($page, $per_page)->get($columns), $total, $per_page);
+		// Now we're ready to get the actual pagination results from the
+		// database table. The "for_page" method provides a convenient
+		// way to set the limit and offset so we get the correct span
+		// of results from the table.
+		$results = $this->for_page($page, $per_page)->get($columns);
+
+		return Paginator::make($results, $total, $per_page);
 	}
 
 	/**
@@ -627,17 +651,21 @@ class Query {
 
 		$bindings = array();
 
+		// We need to merge the the insert values into the array of the query
+		// bindings so that they will be bound to the PDO statement when it
+		// is executed by the database connection.
 		foreach ($values as $value)
 		{
 			$bindings = array_merge($bindings, array_values($value));
 		}
 
-		return $this->connection->statement($this->grammar->insert($this, $values), $bindings);
+		$sql = $this->grammar->insert($this, $values);
+
+		return $this->connection->statement($sql, $bindings);
 	}
 
 	/**
-	 * Insert an array of values into the database table and
-	 * return the value of the ID column.
+	 * Insert an array of values into the database table and return the ID.
 	 *
 	 * @param  array   $values
 	 * @param  string  $sequence
@@ -645,8 +673,13 @@ class Query {
 	 */
 	public function insert_get_id($values, $sequence = null)
 	{
-		$this->connection->statement($this->grammar->insert($this, $values), array_values($values));
+		$sql = $this->grammar->insert($this, $values);
 
+		$this->connection->statement($sql, array_values($values));
+
+		// Some database systems (Postgres) require a sequence name to be
+		// given when retrieving the auto-incrementing ID, so we'll pass
+		// the given sequence into the method just in case.
 		return (int) $this->connection->pdo->lastInsertId($sequence);
 	}
 
@@ -684,6 +717,9 @@ class Query {
 	 */
 	protected function adjust($column, $amount, $operator)
 	{
+		// To make the adjustment to the column, we'll wrap the expression
+		// in an Expression instance. This will force the adjustment to be
+		// injected into the query as a string.
 		$value = Database::raw($this->grammar->wrap($column).$operator.$amount);
 
 		return $this->update(array($column => $value));
@@ -697,9 +733,15 @@ class Query {
 	 */
 	public function update($values)
 	{
+		// For update statements, we need to merge the bindings such that
+		// the update values occur before the where bindings in the array,
+		// since the set statements will precede any of the where clauses
+		// in the SQL syntax that is generated.
 		$bindings =  array_merge(array_values($values), $this->bindings);
 
-		return $this->connection->update($this->grammar->update($this, $values), $bindings);
+		$sql = $this->grammar->update($this, $values);
+
+		return $this->connection->update($sql, $bindings);
 	}
 
 	/**
@@ -712,15 +754,23 @@ class Query {
 	 */
 	public function delete($id = null)
 	{
-		if ( ! is_null($id)) $this->where('id', '=', $id);
+		// If an ID is given to the method, we'll set the where clause
+		// to match on the value of the ID. This allows the developer
+		// to quickly delete a row by its primary key value.
+		if ( ! is_null($id))
+		{
+			$this->where('id', '=', $id);
+		}
 
-		return $this->connection->delete($this->grammar->delete($this), $this->bindings);		
+		$sql = $this->grammar->delete($this);
+
+		return $this->connection->delete($sql, $this->bindings);		
 	}
 
 	/**
 	 * Magic Method for handling dynamic functions.
 	 *
-	 * This method handles all calls to aggregate functions as well as dynamic where clauses.
+	 * This method handles calls to aggregates as well as dynamic where clauses.
 	 */
 	public function __call($method, $parameters)
 	{
@@ -729,7 +779,7 @@ class Query {
 			return $this->dynamic_where($method, $parameters, $this);
 		}
 
-		if (in_array($method, array('abs', 'count', 'min', 'max', 'avg', 'sum')))
+		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
 			if ($method == 'count')
 			{
