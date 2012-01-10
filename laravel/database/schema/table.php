@@ -63,14 +63,6 @@ class Table {
 	/**
 	 * Create a new primary key on the table.
 	 *
-	 * <code>
-	 *		// Add a new primary key to the table
-	 *		$table->primary('email');
-	 *
-	 *		// Add a composite primary key to the table
-	 *		$table->primary(array('firstname', 'lastname'));
-	 * </code>
-	 *
 	 * @param  string|array  $columns
 	 * @param  string        $name
 	 * @return Fluent
