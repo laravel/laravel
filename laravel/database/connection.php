@@ -198,7 +198,7 @@ class Connection {
 	{
 		// Since expressions are injected into the query as strings, we need to
 		// remove them from the array of bindings. After we have removed them,
-		// we'll reset the array so there are no gaps in the numeric keys.
+		// we'll reset the array so there aren't gaps in the keys.
 		$bindings = array_values(array_filter($bindings, function($binding)
 		{
 			return ! $binding instanceof Expression;
@@ -221,7 +221,7 @@ class Connection {
 		// Once we have execute the query, we log the SQL, bindings, and
 		// execution time in a static array that is accessed by all of
 		// the connections used by the application. This allows us to
-		// review all of the SQL that is executed by the framework.
+		// review all of the executed SQL.
 		static::$queries[] = compact('sql', 'bindings', 'time');
 
 		return array($statement, $result);

@@ -257,6 +257,18 @@ class Table {
 	}
 
 	/**
+	 * Create date-time columns for creation and update timestamps.
+	 *
+	 * @return void
+	 */
+	public function timestamps()
+	{
+		$this->date('created_at');
+
+		$this->date('updated_at');
+	}
+
+	/**
 	 * Add a date-time column to the table.
 	 *
 	 * @param  string  $name

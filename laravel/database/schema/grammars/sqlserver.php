@@ -315,7 +315,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function type_string(Fluent $column)
 	{
-		return 'VARCHAR('.$column->length.')';
+		return 'NVARCHAR('.$column->length.')';
 	}
 
 	/**
@@ -381,7 +381,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function type_text(Fluent $column)
 	{
-		return 'TEXT';
+		return 'NVARCHAR(MAX)';
 	}
 
 	/**
@@ -392,7 +392,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function type_blob(Fluent $column)
 	{
-		return 'BINARY';
+		return 'VARBINARY(MAX)';
 	}
 
 }
