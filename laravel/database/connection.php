@@ -236,17 +236,18 @@ class Connection {
 	 */
 	protected function transform($sql, $bindings)
 	{
-		// Laravel provides an easy short-cut for writing raw WHERE IN statements.
-		// If "(...)" is in the query, it will be replaced with the correct number
-		// of parameters based on the bindings for the query.
+		// Laravel provides an easy short-cut notation for writing raw
+		// WHERE IN statements. If (...) is in the query, it will be
+		// replaced with the correct number of parameters based on
+		// the bindings for the query.
 		if (strpos($sql, '(...)') !== false)
 		{
 			for ($i = 0; $i < count($bindings); $i++)
 			{
-				// If the binding is an array, we can assume it is being used to fill
-				// a "where in" condition, so we will replace the next place-holder
-				// in the query with the correct number of parameters based on the
-				// number of elements in this binding.
+				// If the binding is an array, we can assume it is being used
+				// to fill a "where in" condition, so we'll replace the next
+				// place-holder in the SQL query with the correct number of
+				// parameters based on the elements in the binding.
 				if (is_array($bindings[$i]))
 				{
 					$parameters = implode(', ', array_fill(0, count($bindings[$i]), '?'));

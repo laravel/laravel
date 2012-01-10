@@ -33,6 +33,10 @@ class Command {
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
+		// Before calling the task method, we need to set the CLI options
+		// on the task. These options are not considered to be arguments
+		// to the task, but rather optional values that control various
+		// peripheral aspects of the task's execution.
 		$task->options = $options;
 
 		$task->$method(array_slice($arguments, 1));
