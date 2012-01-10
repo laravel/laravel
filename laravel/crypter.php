@@ -59,7 +59,9 @@ class Crypter {
 		// Once we have the input vector and the value, we can give them both
 		// to Mcrypt for decryption. The value is sometimes padded with \0,
 		// so we will trim all of the padding characters from the string.
-		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
+		$key = static::key();
+
+		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
 	}
 
 	/**

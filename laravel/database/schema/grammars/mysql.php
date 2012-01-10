@@ -80,7 +80,7 @@ class MySQL extends Grammar {
 			// types to the types used by the database system.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'default_value', 'incrementer');
+			$elements = array('nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
@@ -112,7 +112,7 @@ class MySQL extends Grammar {
 	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function default_value(Table $table, Fluent $column)
+	protected function defaults(Table $table, Fluent $column)
 	{
 		if ( ! is_null($column->default))
 		{
@@ -223,9 +223,6 @@ class MySQL extends Grammar {
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
-		// Once we have wrapped all of the columns, we need to add "drop"
-		// to the front of each column name, then we'll concatenate the
-		// columns using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
 			return 'DROP '.$column;

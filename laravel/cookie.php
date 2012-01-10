@@ -42,7 +42,7 @@ class Cookie {
 		if ( ! is_null($value) and isset($value[40]) and $value[40] == '~')
 		{
 			// The hash signature and the cookie value are separated by a tilde
-			// character for convenience. To separate the hash and the contents,
+			// character for convenience. To separate the hash and the contents
 			// we can simply expode on that character.
 			//
 			// By re-feeding the cookie value into the "sign" method, we should

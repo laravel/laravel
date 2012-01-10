@@ -95,7 +95,7 @@ class SQLite extends Grammar {
 			// types to the types used by the database system.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'default_value', 'incrementer');
+			$elements = array('nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
@@ -127,7 +127,7 @@ class SQLite extends Grammar {
 	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function default_value(Table $table, Fluent $column)
+	protected function defaults(Table $table, Fluent $column)
 	{
 		if ( ! is_null($column->default))
 		{

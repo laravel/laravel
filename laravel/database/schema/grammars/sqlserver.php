@@ -72,7 +72,7 @@ class SQLServer extends Grammar {
 			// types to the types used by the database system.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('incrementer', 'nullable', 'default_value');
+			$elements = array('incrementer', 'nullable', 'defaults');
 
 			foreach ($elements as $element)
 			{
@@ -104,7 +104,7 @@ class SQLServer extends Grammar {
 	 * @param  Fluent  $column
 	 * @return string
 	 */
-	protected function default_value(Table $table, Fluent $column)
+	protected function defaults(Table $table, Fluent $column)
 	{
 		if ( ! is_null($column->default))
 		{
@@ -234,9 +234,6 @@ class SQLServer extends Grammar {
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
-		// Once we have wrapped all of the columns, we need to add "drop"
-		// to the front of each column name, then we'll concatenate the
-		// columns using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
 			return 'DROP '.$column;
