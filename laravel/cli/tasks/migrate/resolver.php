@@ -114,7 +114,7 @@ class Resolver {
 			// Migrations that exist within bundles other than the default
 			// will be prefixed with the bundle name to avoid any possible
 			// naming collisions with other bundle's migrations.
-			$prefix = ($bundle !== DEFAULT_BUNDLE) ? $bundle.'_' : '';
+			$prefix = Bundle::class_prefix($bundle);
 
 			$class = $prefix.substr($name, strpos($name, '_') + 1);
 

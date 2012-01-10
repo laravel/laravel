@@ -1,5 +1,7 @@
 <?php namespace Laravel\CLI\Tasks\Migrate;
 
+use Laravel\Str;
+use Laravel\File;
 use Laravel\Bundle;
 use Laravel\CLI\Tasks\Task;
 use Laravel\Database\Schema;
@@ -145,6 +147,54 @@ class Migrator extends Task {
 
 			$table->primary(array('bundle', 'name'));
 		});
+	}
+
+	/**
+	 * Generate a new migration file.
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	public function make($arguments = array())
+	{
+		if (count($arguments) == 0)
+		{
+			throw new \Exception("I need to know what to name the migration.");
+		}
+
+		list($bundle, $migration) = Bundle::parse($arguments[0]);
+
+		// The migration path is prefixed with the UNIX timestamp, which
+		// is a better way of ordering migrations than a simple integer
+		// incrementation, since developers may start working on the
+		// next migration at the same time, and would have naming
+		// conflicts when they commit.
+		$path = Bundle::path($bundle).'migrations/'.time().'_'.$migration.EXT;
+
+		File::put($path, $this->stub($bundle, $migration));
+
+		echo "Great! New migration created!";
+	}
+
+	/**
+	 * Get the stub migration with the proper class name.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $migration
+	 * @return string
+	 */
+	protected function stub($bundle, $migration)
+	{
+		$stub = File::get(SYS_PATH.'cli/tasks/migrate/stub'.EXT);
+
+		// The class name is formatted simialrly to tasks and controllers,
+		// where the bundle name is prefixed to the class if it is not in
+		// the default bundle. However, unlike tasks, there is nothing
+		// appended to the class name since we can safely assume the
+		// migration names will already be fairly unique.
+		$class = Bundle::class_prefix($bundle).Str::classify($migration);
+
+		$stub = str_replace('{{class}}', $class, $stub);
 	}
 
 }

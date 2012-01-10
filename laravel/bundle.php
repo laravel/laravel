@@ -114,15 +114,23 @@ class Bundle {
 	/**
 	 * Get the identifier prefix for the bundle.
 	 *
-	 * If the bundle is something other than the default bundle, the prefix will be
-	 * returned, otherwise an empty string will be returned.
-	 *
 	 * @param  string  $bundle
 	 * @return string
 	 */
 	public static function prefix($bundle)
 	{
 		return ($bundle !== DEFAULT_BUNDLE) ? "{$bundle}::" : '';
+	}
+
+	/**
+	 * Get the class prefix for a given bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return string
+	 */
+	public static function class_prefix($bundle)
+	{
+		return ($bundle !== DEFAULT_BUNDLE) ? Str::classify($bundle).'_' : '';
 	}
 
 	/**
