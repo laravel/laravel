@@ -750,9 +750,9 @@ class Validator {
 	 */
 	public function __call($method, $parameters)
 	{
-		// First we will slice the "validate_" prefix off of the validator since custom
-		// validators aren't registered with such a prefix, then we can just call the
-		// method, passing the given parameters to it for validation.
+		// First we will slice the "validate_" prefix off of the validator since
+		// custom validators aren't registered with such a prefix, then we can
+		// just call the method with the given parameters.
 		if (isset(static::$validators[$method = substr($method, 9)]))
 		{
 			return call_user_func_array(static::$validators[$method], $parameters);
