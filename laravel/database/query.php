@@ -260,6 +260,11 @@ class Query {
 		// To handle a nested where statement, we will actually instantiate a
 		// new Query instance and run the callback over that instance, which
 		// will allow the developer to have a fresh query to work with.
+		//
+		// The developer can then add whatever where conditions they need
+		// on the sub-query to the query instance they receive, and the
+		// conditions will be extracted from the sub-query and added
+		// onto this instance to create a nested where.
 		$type = 'where_nested';
 
 		$query = new Query($this->connection, $this->grammar, $this->from);
