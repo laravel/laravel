@@ -12,7 +12,7 @@ class Cache {
 	/**
 	 * Get a cache driver instance.
 	 *
-	 * If no driver name is specified, the default driver will be returned.
+	 * If no driver name is specified, the default will be returned.
 	 *
 	 * <code>
 	 *		// Get the default cache driver instance

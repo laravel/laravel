@@ -51,6 +51,7 @@ Autoloader::$mappings = array(
 	'Laravel\\File' => SYS_PATH.'file'.EXT,
 	'Laravel\\Fluent' => SYS_PATH.'fluent'.EXT,
 	'Laravel\\Form' => SYS_PATH.'form'.EXT,
+	'Laravel\\Hash' => SYS_PATH.'hash'.EXT,
 	'Laravel\\HTML' => SYS_PATH.'html'.EXT,
 	'Laravel\\Input' => SYS_PATH.'input'.EXT,
 	'Laravel\\IoC' => SYS_PATH.'ioc'.EXT,

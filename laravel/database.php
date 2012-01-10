@@ -21,7 +21,7 @@ class Database {
 	 *		// Get the default database connection for the application
 	 *		$connection = DB::connection();
 	 *
-	 *		// Get a specific connection by passing the connection name to the method
+	 *		// Get a specific connection by passing the connection name
 	 *		$connection = DB::connection('mysql');
 	 * </code>
 	 *

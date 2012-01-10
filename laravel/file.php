@@ -139,7 +139,7 @@ class File {
 	/**
 	 * Determine if a file is a given type.
 	 *
-	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
+	 * The Fileinfo PHP extension is used to determine the file's MIME type.
 	 *
 	 * <code>
 	 *		// Determine if a file is a JPG image
