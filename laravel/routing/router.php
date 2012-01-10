@@ -248,13 +248,16 @@ class Router {
 		// To find the proper controller, we need to iterate backwards through
 		// the URI segments and take the first file that matches. That file
 		// should be the deepest possible controller matched by the URI.
-		$segments = array_reverse($segments, true);
+		$reverse = array_reverse($segments, true);
 
-		foreach ($segments as $key => $value)
+		foreach ($reverse as $key => $value)
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
 
-			if (file_exists($directory.$controller)) return $key + 1;
+			if (file_exists($directory.$controller))
+			{
+				return $key + 1;
+			}
 		}
 	}
 
