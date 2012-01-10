@@ -718,7 +718,7 @@ class Query {
 	protected function adjust($column, $amount, $operator)
 	{
 		// To make the adjustment to the column, we'll wrap the expression
-		// in an Expression instance. This will force the adjustment to be
+		// in an Expression instance, which forces the adjustment to be
 		// injected into the query as a string.
 		$value = Database::raw($this->grammar->wrap($column).$operator.$amount);
 
