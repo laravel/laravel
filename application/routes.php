@@ -80,3 +80,8 @@ Filter::register('csrf', function()
 {
 	if (Request::forged()) return Response::error('500');
 });
+
+Filter::register('auth', function()
+{
+	if (Auth::guest()) return Redirect::to('login');
+});
