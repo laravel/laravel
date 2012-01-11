@@ -162,7 +162,10 @@ class Lang {
 	 */
 	public static function load($bundle, $language, $file)
 	{
-		if (isset(static::$lines[$bundle][$language][$file])) return;
+		if (isset(static::$lines[$bundle][$language][$file]))
+		{
+			return true;
+		}
 
 		$lines = array();
 

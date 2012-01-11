@@ -288,7 +288,10 @@ class Paginator {
 	{
 		$class = "{$element}_page";
 
-		if (is_null($text)) $text = Lang::line("pagination.{$element}")->get($this->language);
+		if (is_null($text))
+		{
+			$text = Lang::line("pagination.{$element}")->get($this->language);
+		}
 
 		// Each consumer of this method provides a "disabled" Closure which can
 		// be used to determine if the element should be a span element or an
