@@ -14,6 +14,7 @@ return array(
 	|
 	| Of course, a simple and elegant authentication solution has already
 	| been provided for you using the query builder and hashing engine.
+	| We love making your life as easy as possible.
 	|
 	*/
 
