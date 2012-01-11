@@ -8,11 +8,12 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The following language lines are used to swap attribute place-holders
-	| with something more reader friendly, such as "E-Mail Address" instead
-	| of "email".
+	| with something more reader friendly such as "E-Mail Address" instead
+	| of "email". Your users will thank you.
 	|
-	| The Validator class will automatically search this array of lines when
-	| attempting to replace the :attribute place-holder in error messages.
+	| The Validator class will automatically search this array of lines it
+	| is attempting to replace the :attribute place-holder in messages.
+	| It's pretty slick. We think you'll like it.
 	|
 	*/
 
@@ -28,9 +29,9 @@ return array(
 	| such as the size (max, min, between) rules. These versions are used
 	| for different input types such as strings and files.
 	|
-	| These language lines may be easily changed by the developer to provide
-	| custom error messages in their application. Error messages for custom
-	| validation rules may also be added to this file.
+	| These language lines may be easily changed to provide custom error
+	| messages in your application. Error messages for custom validation
+	| rules may also be added to this file.
 	|
 	*/
 
