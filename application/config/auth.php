@@ -19,7 +19,7 @@ return array(
 
 	'user' => function($id)
 	{
-		if ( ! is_null($id) and filter_var($id, FILTER_VALIDATE_INT) !== false)
+		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
 		{
 			return DB::table('users')->find($id);
 		} 
