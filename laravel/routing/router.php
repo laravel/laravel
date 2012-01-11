@@ -113,7 +113,7 @@ class Router {
 		// load them very quickly if we need to find them a second time.
 		foreach (static::$routes as $key => $value)
 		{
-			if (is_array($value) and isset($value['name']) and $value['name'] == $name)
+			if (isset($value['name']) and $value['name'] == $name)
 			{
 				return static::$names[$name] = array($key => $value);
 			}

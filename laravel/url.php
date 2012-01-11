@@ -147,7 +147,7 @@ class URL {
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
-		if ( ! is_null($route = Routing\Router::find($name)))
+		if (is_null($route = Routing\Router::find($name)))
 		{
 			throw new \Exception("Error creating URL for undefined route [$name].");
 		}
