@@ -72,7 +72,7 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Logout
+	| Logout The Current User
 	|--------------------------------------------------------------------------
 	|
 	| Here you may do anything that needs to be done when a user logs out of
