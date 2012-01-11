@@ -139,7 +139,7 @@ class Auth {
 		// All of the password hashing and checking and left totally up to the
 		// developer, as this gives them the freedom to use any hashing scheme
 		// or authentication provider they wish.
-		$user = call_user_func($config['attempt'], $username, $password, $config);
+		$user = call_user_func($config['attempt'], $username, $password);
 
 		// If the user credentials were authenticated by the closure, we will
 		// log the user into the application, which will store their user ID
@@ -179,7 +179,7 @@ class Auth {
 	}
 
 	/**
-	 * Set a cookie so that users are "remembered" and don't need to login.
+	 * Set a cookie so that the user is "remembered".
 	 *
 	 * @param  string  $id
 	 * @return void

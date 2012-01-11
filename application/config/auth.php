@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'attempt' => function($username, $password, $config)
+	'attempt' => function($username, $password)
 	{
 		$user = DB::table('users')->where_username($username)->first();
 
