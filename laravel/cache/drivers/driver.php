@@ -87,4 +87,15 @@ abstract class Driver {
 	 */
 	abstract public function forget($key);
 
+	/**
+	 * Get the expiration time as a UNIX timestamp.
+	 *
+	 * @param  int  $minutes
+	 * @return int
+	 */
+	protected function expiration($minutes)
+	{
+		return time() + ($minutes * 60);
+	}
+
 }

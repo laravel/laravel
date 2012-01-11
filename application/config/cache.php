@@ -32,6 +32,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Cache Database
+	|--------------------------------------------------------------------------
+	|
+	| When using the database cache driver, this database table will be used
+	| to store the cached item. You may also add a "connection" option to
+	| the array to specify which database connection should be used.
+	|
+	*/
+
+	'database' => array('table' => 'laravel_cache'),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Memcached Servers
 	|--------------------------------------------------------------------------
 	|

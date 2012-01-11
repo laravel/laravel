@@ -210,8 +210,6 @@ abstract class Controller {
 	/**
 	 * Register filters on the controller's methods.
 	 *
-	 * Generally, this method will be used in the controller's constructor.
-	 *
 	 * <code>
 	 *		// Set a "foo" after filter on the controller
 	 *		$this->filter('before', 'foo');
