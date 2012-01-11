@@ -133,7 +133,7 @@ class Str {
 	 */
 	public static function singular($value)
 	{
-		return array_get(array_flip(Config::get('strings.inflection')), $value, $value);
+		return array_get(array_flip(Config::get('strings.inflection')), strtolower($value), $value);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Str {
 	{
 		if ((int) $count == 1) return $value;
 
-		return array_get(Config::get('strings.inflection'), $value, $value);
+		return array_get(Config::get('strings.inflection'), strtolower($value), $value);
 	}
 
 	/**
