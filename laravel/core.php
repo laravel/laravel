@@ -38,6 +38,7 @@ spl_autoload_register(array('Laravel\\Autoloader', 'load'));
  * More mappings can also be registered by the developer as needed.
  */
 Autoloader::$mappings = array(
+	'Laravel\\Auth' => SYS_PATH.'auth'.EXT,
 	'Laravel\\Asset' => SYS_PATH.'asset'.EXT,
 	'Laravel\\Benchmark' => SYS_PATH.'benchmark'.EXT,
 	'Laravel\\Blade' => SYS_PATH.'blade'.EXT,

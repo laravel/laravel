@@ -144,25 +144,22 @@ class Auth {
 		// If the user credentials were authenticated by the closure, we will
 		// log the user into the application, which will store their user ID
 		// in the session for subsequent requests.
-		if ( ! is_null($user))
-		{
-			static::login($user, $remember);
+		if (is_null($user)) return false;
 
-			return true;
-		}
-		
-		return false;
+		static::login($user, $remember);
+
+		return true;
 	}
 
 	/**
 	 * Log a user into the application.
 	 *
 	 * <code>
-	 *		// Login a user by passing a user object
-	 *		Auth::login($user);
-	 *
 	 *		// Login the user with an ID of 15
 	 *		Auth::login(15);
+	 *
+	 *		// Login a user by passing a user object
+	 *		Auth::login($user);
 	 *
 	 *		// Login a user and set a "remember me" cookie
 	 *		Auth::login($user, true);
@@ -194,7 +191,7 @@ class Auth {
 		// This method assumes the "remember me" cookie should have the same
 		// configuration as the session cookie. Since this cookie, like the
 		// session cookie, should be kept very secure, it's probably safe
-		// to assume the settings are the same.
+		// to assume the settings are the same for this cookie.
 		$config = Config::get('session');
 
 		extract($config, EXTR_SKIP);
@@ -209,6 +206,9 @@ class Auth {
 	 */
 	public static function logout()
 	{
+		// We will call the "logout" closure first, which gives the developer
+		// the chance to do any clean-up or before the user is logged out of
+		// the application. No action is taken by default.
 		call_user_func(Config::get('auth.logout'), static::user());
 
 		static::$user = null;
