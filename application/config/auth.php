@@ -7,7 +7,7 @@ return array(
 	| Authentication Username
 	|--------------------------------------------------------------------------
 	|
-	| This option should be set to the "username" property of your users, which
+	| This option should be set to the "username" property of your users which
 	| is typically named either "email" or "username". However, you have the
 	| freedom to use whatever you wish.
 	|
@@ -54,9 +54,9 @@ return array(
 	| authenticate a user that is logging into your application.
 	|
 	| If the provided credentials are correct, simply return an object that
-	| represents the user being authenticated. If the credentials are not
-	| valid, don't return anything. If a user object is returned, it must
-	| have an "id" property.
+	| represents the user being authenticated. As long as it has a property
+	| for the "id", any object will work. If the credentials are not valid,
+	| you don't meed to return anything.
 	|
 	*/
 
