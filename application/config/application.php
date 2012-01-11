@@ -127,10 +127,8 @@ return array(
 	*/
 
 	'aliases' => array(
-		'Arr'        => 'Laravel\\Arr',
 		'Asset'      => 'Laravel\\Asset',
 		'Autoloader' => 'Laravel\\Autoloader',
-		'Benchmark'  => 'Laravel\\Benchmark',
 		'Bundle'     => 'Laravel\\Bundle',
 		'Cache'      => 'Laravel\\Cache',
 		'Config'     => 'Laravel\\Config',
@@ -159,6 +157,7 @@ return array(
 		'Section'    => 'Laravel\\Section',
 		'Session'    => 'Laravel\\Session',
 		'Str'        => 'Laravel\\Str',
+		'Task'       => 'Laravel\\CLI\\Tasks\\Task',
 		'URI'        => 'Laravel\\URI',
 		'Validator'  => 'Laravel\\Validator',
 		'View'       => 'Laravel\\View',
