@@ -14,6 +14,19 @@ class HTML {
 	{
 		return htmlentities($value, ENT_QUOTES, Config::$items['application']['encoding'], false);
 	}
+	
+	/**
+	 * Convert entities to HTML characters.
+	 *
+	 * The encoding specified in the application configuration file will be used.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function entities_decode($value)
+	{
+		return html_entity_decode($value, ENT_QUOTES, Config::get('application.encoding'));
+	}
 
 	/**
 	 * Generate a link to a JavaScript file.
