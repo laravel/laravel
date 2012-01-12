@@ -477,6 +477,10 @@ abstract class Model {
 		}
 		else
 		{
+			if (isset($this->attributes[$key]) && $this->attributes[$key] === $value) {
+				return;
+			}
+
 			$this->attributes[$key] = $value;
 			$this->dirty[$key] = $value;
 		}
