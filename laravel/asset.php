@@ -312,6 +312,8 @@ class Asset_Container {
 		{
 			throw new \Exception("Assets [$asset] and [$dependency] have a circular dependency.");
 		}
+
+		return true;
 	}
 
 }
