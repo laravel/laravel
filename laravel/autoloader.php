@@ -138,7 +138,7 @@ class Autoloader {
 	 */
 	public static function psr($directory)
 	{
-		static::$psr[] = $directory;
+		static::$psr[] = rtrim($directory, '/').'/';
 	}
 
 }
