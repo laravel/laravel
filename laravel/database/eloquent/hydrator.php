@@ -7,6 +7,7 @@ class Hydrator {
 	 *
 	 * @param  Model  $eloquent
 	 * @return array
+	 * @throws \LogicException
 	 */
 	public static function hydrate($eloquent)
 	{

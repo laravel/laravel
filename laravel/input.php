@@ -81,9 +81,11 @@ class Input {
 	 *		Input::flash('except', array('password'));
 	 * </code>
 	 *
+	 * @param  string  $filter
+	 * @param  array   $items
 	 * @return void
 	 */
-	public static function flash($filter = null, $items = array())
+	public static function flash($filter = null, array $items = array())
 	{
 		$flash = static::get();
 

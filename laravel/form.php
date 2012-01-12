@@ -43,7 +43,7 @@ class Form {
 	 * @param  bool     $https
 	 * @return string
 	 */
-	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public static function open($action = null, $method = 'POST', array $attributes = array(), $https = false)
 	{
 		$method = strtoupper($method);
 
@@ -104,7 +104,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function open_secure($action = null, $method = 'POST', $attributes = array())
+	public static function open_secure($action = null, $method = 'POST', array $attributes = array())
 	{
 		return static::open($action, $method, $attributes, true);
 	}
@@ -118,7 +118,7 @@ class Form {
 	 * @param  bool    $https
 	 * @return string
 	 */	
-	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public static function open_for_files($action = null, $method = 'POST', array $attributes = array(), $https = false)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
 
@@ -133,7 +133,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
+	public static function open_secure_for_files($action = null, $method = 'POST', array $attributes = array())
 	{
 		return static::open_for_files($action, $method, $attributes, true);
 	}
@@ -171,7 +171,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function label($name, $value, $attributes = array())
+	public static function label($name, $value, array $attributes = array())
 	{
 		static::$labels[] = $name;
 
@@ -196,12 +196,13 @@ class Form {
 	 *		echo Form::input('text', 'email', 'example@gmail.com');
 	 * </code>
 	 *
+	 * @param  string  $type
 	 * @param  string  $name
 	 * @param  mixed   $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
-	public static function input($type, $name, $value = null, $attributes = array())
+	 */
+	public static function input($type, $name, $value = null, array $attributes = array())
 	{
 		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
 
@@ -220,7 +221,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function text($name, $value = null, $attributes = array())
+	public static function text($name, $value = null, array $attributes = array())
 	{
 		return static::input('text', $name, $value, $attributes);
 	}
@@ -232,7 +233,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function password($name, $attributes = array())
+	public static function password($name, array $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
 	}
@@ -245,7 +246,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function hidden($name, $value = null, $attributes = array())
+	public static function hidden($name, $value = null, array $attributes = array())
 	{
 		return static::input('hidden', $name, $value, $attributes);
 	}
@@ -258,7 +259,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function search($name, $value = null, $attributes = array())
+	public static function search($name, $value = null, array $attributes = array())
 	{
 		return static::input('search', $name, $value, $attributes);
 	}
@@ -271,7 +272,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function email($name, $value = null, $attributes = array())
+	public static function email($name, $value = null, array $attributes = array())
 	{
 		return static::input('email', $name, $value, $attributes);
 	}
@@ -284,7 +285,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function telephone($name, $value = null, $attributes = array())
+	public static function telephone($name, $value = null, array $attributes = array())
 	{
 		return static::input('tel', $name, $value, $attributes);
 	}
@@ -297,7 +298,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function url($name, $value = null, $attributes = array())
+	public static function url($name, $value = null, array $attributes = array())
 	{
 		return static::input('url', $name, $value, $attributes);
 	}
@@ -310,7 +311,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */		
-	public static function number($name, $value = null, $attributes = array())
+	public static function number($name, $value = null, array $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
 	}
@@ -322,7 +323,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */			
-	public static function file($name, $attributes = array())
+	public static function file($name, array $attributes = array())
 	{
 		return static::input('file', $name, null, $attributes);
 	}
@@ -335,7 +336,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function textarea($name, $value = '', $attributes = array())
+	public static function textarea($name, $value = '', array $attributes = array())
 	{
 		$attributes['name'] = $name;
 
@@ -365,7 +366,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */	
-	public static function select($name, $options = array(), $selected = null, $attributes = array())
+	public static function select($name, $options = array(), $selected = null, array $attributes = array())
 	{
 		$attributes['id'] = static::id($name, $attributes);
 		
@@ -386,7 +387,7 @@ class Form {
 	 *
 	 * @param  string  $value
 	 * @param  string  $display
-	 * @return string  $selected
+	 * @param  string  $selected
 	 * @return string
 	 */
 	protected static function option($value, $display, $selected)
@@ -415,7 +416,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function checkbox($name, $value = 1, $checked = false, $attributes = array())
+	public static function checkbox($name, $value = 1, $checked = false, array $attributes = array())
 	{
 		return static::checkable('checkbox', $name, $value, $checked, $attributes);
 	}
@@ -437,7 +438,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function radio($name, $value = null, $checked = false, $attributes = array())
+	public static function radio($name, $value = null, $checked = false, array $attributes = array())
 	{
 		if (is_null($value)) $value = $name;
 
@@ -470,7 +471,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function submit($value, $attributes = array())
+	public static function submit($value, array $attributes = array())
 	{
 		return static::input('submit', null, $value, $attributes);
 	}
@@ -482,7 +483,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function reset($value, $attributes = array())
+	public static function reset($value, array $attributes = array())
 	{
 		return static::input('reset', null, $value, $attributes);
 	}
@@ -498,10 +499,11 @@ class Form {
 	 * </code>
 	 *
 	 * @param  string  $url
+	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function image($url, $name = null, $attributes = array())
+	public static function image($url, $name = null, array $attributes = array())
 	{
 		$attributes['src'] = URL::to_asset($url);
 
@@ -511,12 +513,11 @@ class Form {
 	/**
 	 * Create a HTML button element.
 	 *
-	 * @param  string  $name
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function button($value, $attributes = array())
+	public static function button($value, array $attributes = array())
 	{
 		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
 	}

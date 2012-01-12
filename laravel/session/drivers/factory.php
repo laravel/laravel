@@ -9,6 +9,7 @@ class Factory {
 	 *
 	 * @param  string  $driver
 	 * @return Driver
+	 * @throws \DomainException
 	 */
 	public static function make($driver)
 	{

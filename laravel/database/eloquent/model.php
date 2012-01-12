@@ -441,6 +441,9 @@ abstract class Model {
 
 	/**
 	 * Magic method for retrieving model attributes.
+	 *
+	 * @param  string  $key
+	 * @return mixed
 	 */
 	public function __get($key)
 	{
@@ -466,6 +469,9 @@ abstract class Model {
 
 	/**
 	 * Magic Method for setting model attributes.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
 	 */
 	public function __set($key, $value)
 	{
@@ -484,6 +490,9 @@ abstract class Model {
 
 	/**
 	 * Magic Method for determining if a model attribute is set.
+	 *
+	 * @param  string  $key
+	 * @return mixed
 	 */
 	public function __isset($key)
 	{
@@ -492,6 +501,8 @@ abstract class Model {
 
 	/**
 	 * Magic Method for unsetting model attributes.
+	 *
+	 * @param  string  $key
 	 */
 	public function __unset($key)
 	{
@@ -500,6 +511,10 @@ abstract class Model {
 
 	/**
 	 * Magic Method for handling dynamic method calls.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public function __call($method, $parameters)
 	{
@@ -528,6 +543,10 @@ abstract class Model {
 
 	/**
 	 * Magic Method for handling dynamic static method calls.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{

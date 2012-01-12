@@ -207,7 +207,7 @@ class Connection {
 	 * @param  array         $bindings
 	 * @return mixed
 	 */
-	protected function execute(PDOStatement $statement, $bindings)
+	protected function execute(PDOStatement $statement, array $bindings)
 	{
 		$result = $statement->execute($bindings);
 
@@ -239,6 +239,10 @@ class Connection {
 
 	/**
 	 * Magic Method for dynamically beginning queries on database tables.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public function __call($method, $parameters)
 	{

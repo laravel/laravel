@@ -27,6 +27,7 @@ class Manager {
 	 *
 	 * @param  string      $connection
 	 * @return Connection
+	 * @throws \OutOfBoundsException
 	 */
 	public static function connection($connection = null)
 	{
@@ -77,6 +78,7 @@ class Manager {
 	 *
 	 * @param  string     $driver
 	 * @return Connector
+	 * @throws \DomainException
 	 */
 	protected static function connector($driver)
 	{
@@ -125,6 +127,10 @@ class Manager {
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * This provides a convenient API for querying or examining the default database connection.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{

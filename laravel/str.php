@@ -126,7 +126,7 @@ class Str {
 	 * </code>
 	 *
 	 * @param  string  $value
-	 * @param  int     $length
+	 * @param  int     $words
 	 * @param  string  $end
 	 * @return string
 	 */
@@ -182,8 +182,9 @@ class Str {
 	/**
 	 * Get the character pool for a given type of random string.
 	 *
-	 * @param  string  $type
+	 * @param  string  $type  One of "alpha" or "alnum"
 	 * @return string
+	 * @throws \DomainException
 	 */
 	protected static function pool($type)
 	{

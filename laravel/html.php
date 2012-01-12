@@ -168,6 +168,7 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
+	 * @param  bool    $https
 	 * @return string
 	 */
 	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
@@ -361,6 +362,11 @@ class HTML {
 	 *		// Generate a link to the "profile" named route using HTTPS
 	 *		echo HTML::link_to_secure_profile('Profile');
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 * @throws \BadMethodCallException
 	 */
 	public static function __callStatic($method, $parameters)
 	{

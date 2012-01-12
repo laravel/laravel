@@ -654,6 +654,11 @@ class Query {
 	 *
 	 * This method handles all calls to aggregate functions as well
 	 * as the construction of dynamic where clauses.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 * @throws \BadMethodCallException
 	 */
 	public function __call($method, $parameters)
 	{

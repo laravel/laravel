@@ -117,6 +117,7 @@ class URL {
 	 * @param  array   $parameters
 	 * @param  bool    $https
 	 * @return string
+	 * @throws \OutOfBoundsException
 	 */
 	public static function to_route($name, $parameters = array(), $https = false)
 	{
@@ -187,7 +188,6 @@ class URL {
 	 *
 	 * @param  string  $action
 	 * @param  array   $parameters
-	 * @param  bool    $https
 	 * @return string
 	 */
 	public static function to_secure_action($action, $parameters = array())
@@ -236,6 +236,11 @@ class URL {
 	 *		// Create a URL to the "profile" named route using HTTPS
 	 *		$url = URL::to_secure_profile();
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return string
+	 * @throws \BadMethodCallException
 	 */
 	public static function __callStatic($method, $parameters)
 	{

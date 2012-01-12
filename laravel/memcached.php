@@ -41,6 +41,7 @@ class Memcached {
 	 *
 	 * @param  array     $servers
 	 * @return Memcache
+	 * @throws \RuntimeException
 	 */
 	public static function connect($servers)
 	{
@@ -69,6 +70,10 @@ class Memcached {
 	 *		// Store data on the Memcache server
 	 *		Memcached::set('name', 'Taylor');
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{

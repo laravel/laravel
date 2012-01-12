@@ -311,6 +311,11 @@ class Response {
 	 *		// Create a response instance with a named view and data
 	 *		return Response::of_layout(array('name' => 'Taylor'));
 	 * </code>
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 * @throws \BadMethodCallException
 	 */
 	public static function __callStatic($method, $parameters)
 	{

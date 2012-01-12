@@ -14,6 +14,7 @@ class Messages {
 	 *
 	 * The Messages class provides a convenient wrapper around an array of strings.
 	 *
+	 * @param  mixed  $messages  A single message string or array of message strings.
 	 * @return void
 	 */
 	public function __construct($messages = array())

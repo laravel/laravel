@@ -40,6 +40,7 @@ class Route {
 	 * @param  string   $key
 	 * @param  mixed    $callback
 	 * @param  array    $parameters
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function __construct($key, $callback, $parameters = array())
@@ -228,6 +229,11 @@ class Route {
 
 	/**
 	 * Magic Method to handle dynamic method calls to determine the name of the route.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return bool
+	 * @throws \BadMethodCallException
 	 */
 	public function __call($method, $parameters)
 	{

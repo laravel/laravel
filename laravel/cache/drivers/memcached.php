@@ -20,6 +20,7 @@ class Memcached extends Driver {
 	 * Create a new Memcached cache driver instance.
 	 *
 	 * @param  Memcache  $memcache
+	 * @param  string    $key
 	 * @return void
 	 */
 	public function __construct(Memcache $memcache, $key)

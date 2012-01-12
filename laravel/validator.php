@@ -695,6 +695,11 @@ class Validator {
 
 	/**
 	 * Dynamically handle calls to custom registered validators.
+	 *
+	 * @param  string  $method
+	 * @param  arary   $parameters
+	 * @return bool
+	 * @throws \BadMethodCallException
 	 */
 	public function __call($method, $parameters)
 	{
