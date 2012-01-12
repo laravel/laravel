@@ -86,18 +86,20 @@ class Autoloader {
 		// The PSR-0 standard indicates that class namespace slashes or
 		// underscores should be used to indicate the directory tree in
 		// which the class resides.
-		$file = strtolower(str_replace(array('\\', '_'), '/', $class));
+		$file = str_replace(array('\\', '_'), '/', $class);
 
 		// Once we have formatted the class name, we will simply spin
 		// through the registered PSR-0 directories and attempt to
 		// locate and load the class into the script.
 		foreach (static::$psr as $directory)
 		{
-			if (file_exists($path = $directory.$file.EXT))
+			if (file_exists($path = $directory.strtolower($file).EXT))
 			{
-				require $path;
-
-				return;
+				return require $path;
+			}
+			elseif (file_exists($path = $directory.$file.EXT))
+			{
+				return require $path;
 			}
 		}
 	}
