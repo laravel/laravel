@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.1.0
+
+- Fix: Multiple wildcards / regular expressions per segment are now supported.
+
+### Upgrading from 2.0.9
+
+- Replace **laravel** directory.
+
 ## Version 2.0.9
 
 - Minor: Made "timestamps" method in Eloquent model protected instead of private.
