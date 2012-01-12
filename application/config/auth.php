@@ -21,6 +21,17 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| 'remember' cookie name
+	|--------------------------------------------------------------------------
+	|
+	| The key used when setting the "remember me" cookie.
+	|
+	*/
+
+	'cookie_remember_key' => 'laravel_remember',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Retrieve The Current User
 	|--------------------------------------------------------------------------
 	|
@@ -41,7 +52,7 @@ return array(
 		if ( ! is_null($id) and filter_var($id, FILTER_VALIDATE_INT) !== false)
 		{
 			return User::find($id);
-		} 
+		}
 	},
 
 	/*
