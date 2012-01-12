@@ -57,6 +57,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Input' => SYS_PATH.'input'.EXT,
 	'Laravel\\IoC' => SYS_PATH.'ioc'.EXT,
 	'Laravel\\Lang' => SYS_PATH.'lang'.EXT,
+	'Laravel\\Log' => SYS_PATH.'log'.EXT,
 	'Laravel\\Memcached' => SYS_PATH.'memcached'.EXT,
 	'Laravel\\Messages' => SYS_PATH.'messages'.EXT,
 	'Laravel\\Paginator' => SYS_PATH.'paginator'.EXT,

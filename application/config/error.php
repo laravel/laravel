@@ -57,15 +57,13 @@ return array(
 	|
 	| You may log the error message however you like; however, a simple log
 	| solution has been setup for you which will log all error messages to
-	| a single text file within the application storage directory.
+	| text files within the application storage directory.
 	|
 	*/
 
 	'logger' => function($exception)
 	{
-		$message = (string) $exception;
-
-		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' - '.$message.PHP_EOL);
+		Log::exception($exception);
 	},
 
 );
