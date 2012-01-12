@@ -139,7 +139,7 @@ class URL {
 			return static::to(str_replace(array('/(:any?)', '/(:num?)'), '', $uri), $https);
 		}
 
-		throw new \OutOfBoundsException("Error creating URL for undefined route [$name].");
+		throw new OutOfBoundsException("Error creating URL for undefined route [$name].");
 	}
 
 	/**
@@ -251,7 +251,7 @@ class URL {
 			return static::to_route(substr($method, 3), $parameters);
 		}
 
-		throw new \BadMethodCallException("Method [$method] is not defined on the URL class.");
+		throw new BadMethodCallException("Method [$method] is not defined on the URL class.");
 	}
 
 }

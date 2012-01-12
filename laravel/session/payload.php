@@ -7,10 +7,11 @@ use Laravel\Config;
 use Laravel\Cookie;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
+use Laravel\LogicException;
 
 if (Config::$items['application']['key'] === '')
 {
-	throw new \LogicException("An application key is required to use sessions.");
+	throw new LogicException("An application key is required to use sessions.");
 }
 
 class Payload {

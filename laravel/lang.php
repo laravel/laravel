@@ -145,7 +145,7 @@ class Lang {
 			return array($segments[0], implode('.', array_slice($segments, 1)));
 		}
 
-		throw new \InvalidArgumentException("Invalid language line [$key].");
+		throw new InvalidArgumentException("Invalid language line [$key].");
 	}
 
 	/**

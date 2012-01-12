@@ -1,4 +1,7 @@
-<?php namespace Laravel\Database; use Laravel\Paginator;
+<?php namespace Laravel\Database;
+
+use Laravel\Paginator;
+use Laravel\BadMethodCallException;
 
 class Query {
 
@@ -674,7 +677,7 @@ class Query {
 			}
 		}
 
-		throw new \BadMethodCallException("Method [$method] is not defined on the Query class.");
+		throw new BadMethodCallException("Method [$method] is not defined on the Query class.");
 	}
 
 }
