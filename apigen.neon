@@ -1,0 +1,7 @@
+title: Laravel 2.0.4
+source: laravel
+destination: api
+main: Laravel
+php: no
+baseUrl: http://laravel.com/api
+report: checkstyle.xml
