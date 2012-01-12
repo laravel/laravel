@@ -157,9 +157,11 @@ class Router {
 	{
 		foreach (explode(', ', $keys) as $key)
 		{
-			if (preg_match('#^'.$this->wildcards($key).'$#', $destination))
+			if (preg_match('#^'.$this->wildcards($key).'$#', $destination, $parameters))
 			{
-				return new Route($keys, $callback, $this->parameters($destination, $key));
+				array_shift($parameters);
+
+				return new Route($keys, $callback, $parameters);
 			}
 		}
 	}
@@ -252,37 +254,5 @@ class Router {
 
 		return str_replace(array_keys($this->patterns), array_values($this->patterns), $key);
 	}
-
-	/**
-	 * Extract the parameters from a URI based on a route URI.
-	 *
-	 * Any route segment wrapped in parentheses is considered a parameter.
-	 *
-	 * @param  string  $uri
-	 * @param  string  $route
-	 * @return array
-	 */
-	protected function parameters($uri, $route)
-	{
-		list($uri, $route) = array(explode('/', $uri), explode('/', $route));
-
-		$count = count($route);
-
-		$parameters = array();
-
-		// To find the parameters that should be passed to the route, we will
-		// iterate through the route segments, and if the segment is enclosed
-		// in parentheses, we will take the matching segment from the request
-		// URI and add it to the array of parameters.
-		for ($i = 0; $i < $count; $i++)
-		{
-			if (preg_match('/\(.+\)/', $route[$i]) and isset($uri[$i]))
-			{
-				$parameters[] = $uri[$i];
-			}
-		}
-
-		return $parameters;
-	}	
 
 }
