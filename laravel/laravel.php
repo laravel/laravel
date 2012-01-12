@@ -18,6 +18,7 @@ $logger = function($exception)
 	{
 		call_user_func(Config::$items['error']['logger'], $exception);
 	}
+	return true;
 };
 
 /**
@@ -29,6 +30,8 @@ $logger = function($exception)
 $handler = function($exception) use ($logger)
 {
 	$logger($exception);
+
+	while (ob_end_clean());
 
 	if (Config::$items['error']['detail'])
 	{
@@ -75,7 +78,6 @@ set_error_handler(function($code, $error, $file, $line) use ($logger)
 	{
 		return $logger($exception);
 	}
-
 	throw $exception;
 });
 

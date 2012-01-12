@@ -208,6 +208,7 @@ class View {
 				$data = $data->render();
 			}
 		}
+		unset($data);
 
 		ob_start() and extract($this->data, EXTR_SKIP);
 
@@ -216,7 +217,7 @@ class View {
 		// use the regular path to the view.
 		$view = (strpos($this->path, BLADE_EXT) !== false) ? $this->compile() : $this->path;
 
-		try { include $view; } catch (\Exception $e) { ob_get_clean(); throw $e; }
+		include $view;
 
 		return ob_get_clean();
 	}
