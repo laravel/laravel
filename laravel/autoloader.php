@@ -131,14 +131,20 @@ class Autoloader {
 	}
 
 	/**
-	 * Register a directory to be searched as a PSR-0 library.
+	 * Register directories to be searched as a PSR-0 library.
 	 *
-	 * @param  string  $directory
+	 * @param  string|array  $directory
 	 * @return void
 	 */
 	public static function psr($directory)
 	{
-		static::$psr[] = rtrim($directory, '/').'/';
+		$directories = array_map(function($directory)
+		{
+			return rtrim($directory, '/').'/';
+
+		}, (array) $directory);
+
+		static::$psr = array_merge(static::$psr, $directories);
 	}
 
 }
