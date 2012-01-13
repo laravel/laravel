@@ -103,7 +103,7 @@ class Response {
 	 *		return Response::make('Not Found', 404);
 	 *
 	 *		// Create a response with some custom headers
-	 *		return Respone::make(json_encode($user), 200, array('content-type' => 'application/json'));
+	 *		return Response::make(json_encode($user), 200, array('content-type' => 'application/json'));
 	 * </code>
 	 *
 	 * @param  mixed     $content
