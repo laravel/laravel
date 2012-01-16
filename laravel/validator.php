@@ -1,7 +1,4 @@
-<?php namespace Laravel;
-
-use Closure;
-use Laravel\Database\Manager as DB;
+<?php namespace Laravel; use Closure;
 
 class Validator {
 
@@ -39,6 +36,13 @@ class Validator {
 	 * @var Database\Connection
 	 */
 	protected $db;
+
+	/**
+	 * The bundle for which the validation is being run.
+	 *
+	 * @var string
+	 */
+	protected $bundle = DEFAULT_BUNDLE;
 
 	/**
 	 * The language that should be used when retrieving error messages.
@@ -158,8 +162,12 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		$value = Arr::get($this->attributes, $attribute);
+		$value = array_get($this->attributes, $attribute);
 
+		// Before running the validator, we need to verify that the attribute and rule
+		// combination is actually validatable. Only the "accepted" rule implies that
+		// the attribute is "required", so if the attribute does not exist, the other
+		// rules will not be run for the attribute.
 		$validatable = $this->validatable($rule, $attribute, $value);
 
 		if ($validatable and ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
@@ -171,9 +179,9 @@ class Validator {
 	/**
 	 * Determine if an attribute is validatable.
 	 *
-	 * To be considered validatable, the attribute must either exist, or the
-	 * rule being checked must implicitly validate "required", such as the
-	 * "required" rule or the "accepted" rule.
+	 * To be considered validatable, the attribute must either exist, or the rule
+	 * being checked must implicitly validate "required", such as the "required"
+	 * rule or the "accepted" rule.
 	 *
 	 * @param  string  $rule
 	 * @param  string  $attribute
@@ -206,9 +214,7 @@ class Validator {
 	 */
 	protected function error($attribute, $rule, $parameters)
 	{
-		$message = $this->message($attribute, $rule);
-
-		$message = $this->replace($message, $attribute, $rule, $parameters);
+		$message = $this->replace($this->message($attribute, $rule), $attribute, $rule, $parameters);
 
 		$this->errors->add($attribute, $message);
 	}
@@ -347,17 +353,16 @@ class Validator {
 	/**
 	 * Get the size of an attribute.
 	 *
-	 * This method will determine if the attribute is a number, string, or file and
-	 * return the proper size accordingly. If it is a number, then number itself is
-	 * the size; if it is a file, the size is kilobytes in the size; if it is a
-	 * string, the length is the size.
-	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
 	 * @return mixed
 	 */
 	protected function size($attribute, $value)
 	{
+	 	// This method will determine if the attribute is a number, string, or file and
+	 	// return the proper size accordingly. If it is a number, then number itself is
+	 	// the size; if it is a file, the size is kilobytes in the size; if it is a
+	 	// string, the length is the size.
 		if (is_numeric($value) and $this->has_rule($attribute, $this->numeric_rules))
 		{
 			return $this->attributes[$attribute];
@@ -410,11 +415,16 @@ class Validator {
 	 */
 	protected function validate_unique($attribute, $value, $parameters)
 	{
-		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
+		if (is_null($this->db)) $this->db = Database::connection();
 
-		if (is_null($this->db)) $this->db = DB::connection();
+		$query = $this->db->table($parameters[0])->where($attribute, '=', $value);
 
-		return $this->db->table($parameters[0])->where($parameters[1], '=', $value)->count() == 0;
+		if (isset($parameters[1]))
+		{
+			$query->where('id', '<>', $parameters[1]);
+		}
+
+		return $query->count() == 0;
 	}
 
 	/**
@@ -513,7 +523,7 @@ class Validator {
 	 */
 	protected function validate_mimes($attribute, $value, $parameters)
 	{
-		if ( ! is_array($value) or Arr::get($value, 'tmp_name', '') == '') return true;
+		if ( ! is_array($value) or array_get($value, 'tmp_name', '') == '') return true;
 
 		foreach ($parameters as $extension)
 		{
@@ -535,6 +545,8 @@ class Validator {
 	 */
 	protected function message($attribute, $rule)
 	{
+		$bundle = Bundle::prefix($this->bundle);
+
 		// First we'll check for developer specified, attribute specific messages.
 		// These messages take first priority. They allow the fine-grained tuning
 		// of error messages for each rule.
@@ -556,16 +568,7 @@ class Validator {
 		// either a number, file, or string.
 		elseif (in_array($rule, $this->size_rules))
 		{
-			if ($this->has_rule($attribute, $this->numeric_rules))
-			{
-				$line = 'numeric';
-			}
-			else
-			{
-				$line = (array_key_exists($attribute, Input::file())) ? 'file' : 'string';
-			}
-
-			return Lang::line("validation.{$rule}.{$line}")->get($this->language);
+			return $this->size_message($bundle, $attribute, $rule);
 		}
 
 		// If no developer specified messages have been set, and no other special
@@ -573,8 +576,41 @@ class Validator {
 		// message from the validation language file.
 		else
 		{
-			return Lang::line("validation.{$rule}")->get($this->language);
+			$line = "{$bundle}validation.{$rule}";
+
+			return Lang::line($line)->get($this->language);
 		}
+	}
+
+	/**
+	 * Get the proper error message for an attribute and size rule.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @return string
+	 */
+	protected function size_message($bundle, $attribute, $rule)
+	{
+		// There are three different types of size validations. The attribute
+		// may be either a number, file, or a string. If the attribute has a
+		// numeric rule attached to it, we can assume it is a number. If the
+		// attribute is in the file array, it is a file, otherwise we can
+		// assume the attribute is simply a string.
+		if ($this->has_rule($attribute, $this->numeric_rules))
+		{
+			$line = 'numeric';
+		}
+		elseif (array_key_exists($attribute, Input::file()))
+		{
+			$line = 'file';
+		}
+		else
+		{
+			$line = 'string';
+		}
+
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
 	}
 
 	/**
@@ -592,16 +628,20 @@ class Validator {
 
 		if (in_array($rule, $this->size_rules))
 		{
-			// Even though every size rule will not have a place-holder for min,
-			// max, and size, we will go ahead and make replacements for all of
-			// them just for convenience. Except for "between", every replacement
-			// should be the first parameter.
+			// Even though every size rule will not have a place-holder for min, max,
+			// and size, we will go ahead and make replacements for all of them just
+			// for convenience. Except for "between", every replacement should be
+			// the first parameter in the array.
 			$max = ($rule == 'between') ? $parameters[1] : $parameters[0];
 
 			$replace =  array($parameters[0], $parameters[0], $max);
 
 			$message = str_replace(array(':size', ':min', ':max'), $replace, $message);
 		}
+
+		// The :values place-holder is used for rules that accept a list of
+		// values, such as "in" and "not_in". The place-holder value will
+		// be replaced with a comma delimited list of the values.
 		elseif (in_array($rule, $this->inclusion_rules))
 		{
 			$message = str_replace(':values', implode(', ', $parameters), $message);
@@ -613,18 +653,21 @@ class Validator {
 	/**
 	 * Get the displayable name for a given attribute.
 	 *
-	 * Storing attribute names in the language file allows a more reader friendly
-	 * version of the attribute name to be place in the :attribute place-holder.
-	 *
-	 * If no language line is specified for the attribute, a default formatting
-	 * will be used for the attribute.
-	 *
 	 * @param  string  $attribute
 	 * @return string
 	 */
 	protected function attribute($attribute)
 	{
-		$display = Lang::line('validation.attributes.'.$attribute)->get($this->language);
+		$bundle = Bundle::prefix($this->bundle);
+
+		// More reader friendly versions of the attribute names may be stored
+		// in the validation language file, allowing a more readable version
+		// of the attribute name to be used in the validation message.
+		//
+		// If no language line has been specified for the attribute, all of
+		// the underscores will be removed from the attribute name and that
+		// will be used as the attribtue name in the message.
+		$display = Lang::line("{$bundle}validation.attributes.{$attribute}")->get($this->language);
 
 		return (is_null($display)) ? str_replace('_', ' ', $attribute) : $display;
 	}
@@ -658,15 +701,29 @@ class Validator {
 	{
 		$parameters = array();
 
-		// The format for specifying validation rules and parameters follows
-		// a {rule}:{parameters} convention. For instance, "max:3" specifies
-		// that the value may only be 3 characters in length.
+		// The format for specifying validation rules and parameters follows a 
+		// {rule}:{parameters} formatting convention. For instance, the rule
+		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
 		{
 			$parameters = explode(',', substr($rule, $colon + 1));
 		}
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
+	}
+
+	/**
+	 * Set the bundle that the validator is running for.
+	 *
+	 * The bundle determines which bundle the language lines will be loaded from.
+	 *
+	 * @param  string     $bundle
+	 * @return Validator
+	 */
+	public function bundle($bundle)
+	{
+		$this->bundle = $bundle;
+		return $this;
 	}
 
 	/**
@@ -687,7 +744,7 @@ class Validator {
 	 * @param  Database\Connection  $connection
 	 * @return Validator
 	 */
-	public function connection(\Laravel\Database\Connection $connection)
+	public function connection(Database\Connection $connection)
 	{
 		$this->db = $connection;
 		return $this;
@@ -698,14 +755,15 @@ class Validator {
 	 */
 	public function __call($method, $parameters)
 	{
-		// First we will slice the "validate_" prefix off of the validator
-		// since customvalidators aren't registered with such a prefix.
+		// First we will slice the "validate_" prefix off of the validator since
+		// custom validators aren't registered with such a prefix, then we can
+		// just call the method with the given parameters.
 		if (isset(static::$validators[$method = substr($method, 9)]))
 		{
 			return call_user_func_array(static::$validators[$method], $parameters);
 		}
 
-		throw new \BadMethodCallException("Call to undefined method [$method] on Validator instance.");
+		throw new \Exception("Call to undefined method [$method] on Validator instance.");
 	}
 
 }

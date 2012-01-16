@@ -30,12 +30,7 @@ class File {
 	 */
 	public static function get($path, $default = null)
 	{
-		if (file_exists($path))
-		{
-			return file_get_contents($path);
-		}
-
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return (file_exists($path)) ? file_get_contents($path) : value($default);
 	}
 
 	/**
@@ -118,25 +113,6 @@ class File {
 	}
 
 	/**
-	 * Move an uploaded file to permanent storage.
-	 *
-	 * <code>
-	 *		// Upload the $_FILES['photo'] file to a permanent location
-	 *		File::upload('photo', 'path/to/new/home.jpg');
-	 * </code>
-	 *
-	 * @param  string  $key
-	 * @param  string  $path
-	 * @return bool
-	 */
-	public static function upload($key, $path)
-	{
-		if ( ! isset($_FILES[$key])) return false;
-
-		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
-	}
-
-	/**
 	 * Get a file MIME type by extension.
 	 *
 	 * <code>
@@ -163,7 +139,7 @@ class File {
 	/**
 	 * Determine if a file is a given type.
 	 *
-	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
+	 * The Fileinfo PHP extension is used to determine the file's MIME type.
 	 *
 	 * <code>
 	 *		// Determine if a file is a JPG image

@@ -1,5 +1,7 @@
 <?php namespace Laravel\Routing;
 
+use Closure;
+use Laravel\Bundle;
 use Laravel\Request;
 
 class Filter {
@@ -9,60 +11,53 @@ class Filter {
 	 *
 	 * @var array
 	 */
-	protected static $filters = array();
+	public static $filters = array();
 
 	/**
-	 * Register an array of route filters.
+	 * All of the registered filter aliases.
 	 *
-	 * @param  array  $filters
+	 * @var array
+	 */
+	public static $aliases = array();
+
+	/**
+	 * Register a filter for the application.
+	 *
+	 * <code>
+	 *		// Register a closure as a filter
+	 *		Filter::register('before', function() {});
+	 *
+	 *		// Register a class callback as a filter
+	 *		Filter::register('before', array('Class', 'method'));
+	 * </code>
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $callback
 	 * @return void
 	 */
-	public static function register($filters)
+	public static function register($name, Closure $callback)
 	{
-		static::$filters = array_merge(static::$filters, $filters);
+		if (isset(static::$aliases[$name])) $name = static::$aliases[$name];
+
+		static::$filters[$name] = $callback;
 	}
 
 	/**
-	 * Call a filter or set of filters.
+	 * Alias a filter so it can be used by another name.
 	 *
-	 * @param  array|string  $filters
-	 * @param  array         $pass
-	 * @param  bool          $override
-	 * @return mixed
+	 * This is convenient for shortening filters that are registered by bundles.
+	 *
+	 * @param  string  $filter
+	 * @param  string  $alias
+	 * @return void
 	 */
-	public static function run($filters, $pass = array(), $override = false)
+	public static function alias($filter, $alias)
 	{
-		foreach (static::parse($filters) as $filter)
-		{
-			$parameters = array();
-
-			// Parameters may be passed into routes by specifying the list of
-			// parameters after a colon. If parameters are present, we will
-			// merge them into the parameter array that was passed to the
-			// method and slice the parameters off of the filter string.
-			if (($colon = strpos($filter, ':')) !== false)
-			{
-				$parameters = explode(',', substr($filter, $colon + 1));
-
-				$filter = substr($filter, 0, $colon);
-			}
-
-			if ( ! isset(static::$filters[$filter])) continue;
-
-			$parameters = array_merge($pass, $parameters);
-
-			$response = call_user_func_array(static::$filters[$filter], $parameters);
-
-			// "Before" filters may override the request cycle. For example,
-			// an authentication filter may redirect a user to a login view
-			// if they are not logged in. Because of this, we will return
-			// the first filter response if overriding is enabled.
-			if ( ! is_null($response) and $override) return $response;
-		}
+		static::$aliases[$alias] = $filter;
 	}
 
 	/**
-	 * Parse a string of filters into an array.
+	 * Parse a filter definition into an array of filters.
 	 *
 	 * @param  string|array  $filters
 	 * @return array
@@ -72,16 +67,67 @@ class Filter {
 		return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
 	}
 
+	/**
+	 * Call a filter or set of filters.
+	 *
+	 * @param  array   $collections
+	 * @param  array   $pass
+	 * @param  bool    $override
+	 * @return mixed
+	 */
+	public static function run($collections, $pass = array(), $override = false)
+	{
+		foreach ($collections as $collection)
+		{
+			foreach ($collection->filters as $filter)
+			{
+				list($filter, $parameters) = $collection->get($filter);
+
+				// We will also go ahead and start the bundle for the developer. This allows
+				// the developer to specify bundle filters on routes without starting the
+				// bundle manually, and performance is improved since the bundle is only
+				// started when needed.
+				Bundle::start(Bundle::name($filter));
+
+				if ( ! isset(static::$filters[$filter])) continue;
+
+				$callback = static::$filters[$filter];
+
+				// Parameters may be passed into filters by specifying the list of parameters
+				// as an array, or by registering a Closure which will return the array of
+				// parameters. If parameters are present, we will merge them with the
+				// parameters that were given to the method.
+				$response = call_user_func_array($callback, array_merge($pass, $parameters));
+
+				// "Before" filters may override the request cycle. For example, an auth
+				// filter may redirect a user to a login view if they are not logged in.
+				// Because of this, we will return the first filter response if
+				// overriding is enabled for the filter collections
+				if ( ! is_null($response) and $override)
+				{
+					return $response;
+				}				
+			}
+		}
+	}
+
 }
 
 class Filter_Collection {
 
 	/**
-	 * The event being filtered.
+	 * The filters contained by the collection.
 	 *
-	 * @var string
+	 * @var string|array
 	 */
-	public $name;
+	public $filters = array();
+
+	/**
+	 * The parameters specified for the filter.
+	 *
+	 * @var mixed
+	 */
+	public $parameters;
 
 	/**
 	 * The included controller methods.
@@ -98,13 +144,6 @@ class Filter_Collection {
 	public $except = array();
 
 	/**
-	 * The filters contained by the collection.
-	 *
-	 * @var string|array
-	 */
-	public $filters = array();
-
-	/**
 	 * The HTTP methods for which the filter applies.
 	 *
 	 * @var array
@@ -114,21 +153,73 @@ class Filter_Collection {
 	/**
 	 * Create a new filter collection instance.
 	 *
-	 * @param  string        $name
 	 * @param  string|array  $filters
+	 * @param  mixed         $parameters
 	 */
-	public function __construct($name, $filters)
+	public function __construct($filters, $parameters = null)
 	{
-		$this->name = $name;
+		$this->parameters = $parameters;
 		$this->filters = Filter::parse($filters);
 	}
 
 	/**
-	 * Determine if this collection's filters apply to a given method.
+	 * Parse the filter string, returning the filter name and parameters.
 	 *
-	 * Methods may be included / excluded using the "only" and "except" methods on the
-	 * filter collection. Also, the "on" method may be used to set certain filters to
-	 * only run when the request uses a given HTTP verb.
+	 * @param  string  $filter
+	 * @return array
+	 */
+	public function get($filter)
+	{
+		// If the parameters were specified by passing an array into the collection,
+		// then we will simply return those parameters. Combining passed parameters
+		// with parameters specified directly in the filter attachment is not
+		// currently supported by the framework.
+		if ( ! is_null($this->parameters))
+		{
+			return array($filter, $this->parameters());
+		}
+
+		// If no parameters were specified when the collection was created, we will
+		// check the filter string itself to see if the parameters were injected
+		// into the string as raw values, such as "role:admin".
+		if (($colon = strpos(Bundle::element($filter), ':')) !== false)
+		{
+			$parameters = explode(',', substr(Bundle::element($filter), $colon + 1));
+
+			// If the filter belongs to a bundle, we need to re-calculate the position
+			// of the parameter colon, since we originally calculated it without the
+			// bundle identifier because the identifier uses colons as well.
+			if (($bundle = Bundle::name($filter)) !== DEFAULT_BUNDLE)
+			{
+				$colon = strlen($bundle.'::') + $colon;
+			}
+
+			return array(substr($filter, 0, $colon), $parameters);
+		}
+
+		// If no parameters were specified when the collection was created or
+		// in the filter string, we will just return the filter name as is
+		// and give back an empty array of parameters.
+		return array($filter, array());
+	}
+
+	/**
+	 * Evaluate the collection's parameters and return a parameters array.
+	 *
+	 * @return array
+	 */
+	protected function parameters()
+	{
+		if ($this->parameters instanceof Closure)
+		{
+			$this->parameters = call_user_func($this->parameters);
+		}
+
+		return $this->parameters;
+	}
+
+	/**
+	 * Determine if this collection's filters apply to a given method.
 	 *
 	 * @param  string  $method
 	 * @return bool
@@ -145,7 +236,9 @@ class Filter_Collection {
 			return false;
 		}
 
-		if (count($this->methods) > 0 and ! in_array(strtolower(Request::method()), $this->methods))
+		$request = strtolower(Request::method());
+
+		if (count($this->methods) > 0 and ! in_array($request, $this->methods))
 		{
 			return false;
 		}
@@ -156,15 +249,12 @@ class Filter_Collection {
 	/**
 	 * Set the excluded controller methods.
 	 *
-	 * When methods are excluded, the collection's filters will be run for each
-	 * controller method except those explicitly specified via this method.
-	 *
 	 * <code>
 	 *		// Specify a filter for all methods except "index"
 	 *		$this->filter('before', 'auth')->except('index');
 	 *
 	 *		// Specify a filter for all methods except "index" and "home"
-	 *		$this->filter('before', 'auth')->except('index', 'home');
+	 *		$this->filter('before', 'auth')->except(array('index', 'home'));
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -172,23 +262,19 @@ class Filter_Collection {
 	 */
 	public function except($methods)
 	{
-		$this->except = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
+		$this->except = (array) $methods;
 		return $this;
 	}
 
 	/**
 	 * Set the included controller methods.
 	 *
-	 * This method is the inverse of the "except" methods. The methods specified
-	 * via this method are the only controller methods on which the collection's
-	 * filters will be run.
-	 *
 	 * <code>
 	 *		// Specify a filter for only the "index" method
 	 *		$this->filter('before', 'auth')->only('index');
 	 *
 	 *		// Specify a filter for only the "index" and "home" methods
-	 *		$this->filter('before', 'auth')->only('index', 'home');
+	 *		$this->filter('before', 'auth')->only(array('index', 'home'));
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -196,23 +282,19 @@ class Filter_Collection {
 	 */
 	public function only($methods)
 	{
-		$this->only = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
+		$this->only = (array) $methods;
 		return $this;
 	}
 
 	/**
 	 * Set the HTTP methods for which the filter applies.
 	 *
-	 * Since some filters, such as the CSRF filter, only make sense in a POST
-	 * request context, this method allows you to limit which HTTP methods
-	 * the filter will apply to.
-	 *
 	 * <code>
 	 *		// Specify that a filter only applies on POST requests
 	 *		$this->filter('before', 'csrf')->on('post');
 	 *
 	 *		// Specify that a filter applies for multiple HTTP request methods
-	 *		$this->filter('before', 'csrf')->on('post', 'put');
+	 *		$this->filter('before', 'csrf')->on(array('post', 'put'));
 	 * </code>
 	 *
 	 * @param  array              $methods
@@ -220,13 +302,7 @@ class Filter_Collection {
 	 */
 	public function on($methods)
 	{
-		$methods = (count(func_get_args()) > 1) ? func_get_args() : (array) $methods;
-
-		foreach ($methods as $method)
-		{
-			$this->methods[] = strtolower($method);
-		}
-	
+		$method = array_map('strtolower', (array) $methods);
 		return $this;
 	}
 

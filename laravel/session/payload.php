@@ -1,16 +1,16 @@
 <?php namespace Laravel\Session;
 
 use Closure;
-use Laravel\Arr;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
+use Laravel\Session;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
-if (Config::$items['application']['key'] === '')
+if (Config::get('application.key') === '')
 {
-	throw new \LogicException("An application key is required to use sessions.");
+	throw new \Exception("An application key is required to use sessions.");
 }
 
 class Payload {
@@ -37,13 +37,6 @@ class Payload {
 	protected $driver;
 
 	/**
-	 * The string name of the CSRF token stored in the session.
-	 *
-	 * @var string
-	 */
-	const csrf_token = 'csrf_token';
-
-	/**
 	 * Create a new session payload instance.
 	 *
 	 * @param  Driver  $driver
@@ -67,8 +60,8 @@ class Payload {
 		// If the session doesn't exist or is invalid, we will create a new session
 		// array and mark the session as being non-existent. Some drivers, such as
 		// the database driver, need to know whether the session exists in storage
-		// so they can know whether to "insert" or "update" the session.
-		if (is_null($this->session) or $this->invalid())
+		// so they can know whether to insert or update the session.
+		if (is_null($this->session) or static::expired($this->session))
 		{
 			$this->exists = false;
 
@@ -81,10 +74,10 @@ class Payload {
 		// A CSRF token is stored in every session. The token is used by the Form
 		// class and the "csrf" filter to protect the application from cross-site
 		// request forgery attacks. The token is simply a long, random string
-		// which should be posted with each request.
-		if ( ! $this->has(Payload::csrf_token))
+		// which should be posted with each request to the application.
+		if ( ! $this->has(Session::csrf_token))
 		{
-			$this->put(Payload::csrf_token, Str::random(40));
+			$this->put(Session::csrf_token, Str::random(40));
 		}		
 	}
 
@@ -93,23 +86,14 @@ class Payload {
 	 *
 	 * The session is considered valid if it exists and has not expired.
 	 *
+	 * @param  array  $session
 	 * @return bool
 	 */
-	protected function invalid()
+	protected static function expired($session)
 	{
-		$lifetime = Config::$items['session']['lifetime'];
+		$lifetime = Config::get('session.lifetime');
 
-		return (time() - $this->session['last_activity']) > ($lifetime * 60);
-	}
-
-	/**
-	 * Determine if session handling has been started for the request.
-	 *
-	 * @return bool
-	 */
-	public function started()
-	{
-		return is_array($this->session);
+		return (time() - $session['last_activity']) > ($lifetime * 60);
 	}
 
 	/**
@@ -148,24 +132,29 @@ class Payload {
 		// does not exist in that data, we will attempt to find it in the new
 		// and old flash data. If none of those arrays contain the requested
 		// item, we will just return the default value.
-		if ( ! is_null($value = Arr::get($session, $key)))
+		if ( ! is_null($value = array_get($session, $key)))
 		{
 			return $value;
 		}
-		elseif ( ! is_null($value = Arr::get($session[':new:'], $key)))
+		elseif ( ! is_null($value = array_get($session[':new:'], $key)))
 		{
 			return $value;
 		}
-		elseif ( ! is_null($value = Arr::get($session[':old:'], $key)))
+		elseif ( ! is_null($value = array_get($session[':old:'], $key)))
 		{
 			return $value;
 		}
 
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return value($default);
 	}
 
 	/**
 	 * Write an item to the session.
+	 *
+	 * <code>
+	 *		// Write an item to the session payload
+	 *		Session::put('name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -173,14 +162,18 @@ class Payload {
 	 */
 	public function put($key, $value)
 	{
-		Arr::set($this->session['data'], $key, $value);
+		array_set($this->session['data'], $key, $value);
 	}
 
 	/**
 	 * Write an item to the session flash data.
 	 *
-	 * Flash data only exists for the next request to the application, and is
-	 * useful for storing temporary data such as error or status messages.
+	 * Flash data only exists for the current and next request to the application.
+	 *
+	 * <code>
+	 *		// Write an item to the session payload's flash data
+	 *		Session::flash('name', 'Taylor');
+	 * </code>
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
@@ -188,11 +181,11 @@ class Payload {
 	 */
 	public function flash($key, $value)
 	{
-		Arr::set($this->session['data'][':new:'], $key, $value);
+		array_set($this->session['data'][':new:'], $key, $value);
 	}
 
 	/**
-	 * Keep the session flash data from expiring at the end of the request.
+	 * Keep all of the session flash data from expiring after the request.
 	 *
 	 * @return void
 	 */
@@ -205,6 +198,14 @@ class Payload {
 
 	/**
 	 * Keep a session flash item from expiring at the end of the request.
+	 *
+	 * <code>
+	 *		// Keep the "name" item from expiring from the flash data
+	 *		Session::keep('name');
+	 *
+	 *		// Keep the "name" and "email" items from expiring from the flash data
+	 *		Session::keep(array('name', 'email'));
+	 * </code>
 	 *
 	 * @param  string|array  $key
 	 * @return void
@@ -225,20 +226,23 @@ class Payload {
 	 */
 	public function forget($key)
 	{
-		Arr::forget($this->session['data'], $key);
+		array_forget($this->session['data'], $key);
 	}
 
 	/**
 	 * Remove all of the items from the session.
 	 *
+	 * The CSRF token will not be removed from the session.
+	 *
 	 * @return void
 	 */
 	public function flush()
 	{
-		$this->session['data'] = array(
-			':new:' => array(),
-			':old:' => array(),
-		);
+		$token = $this->token();
+
+		$session = array(Session::csrf_token => $token, ':new:' => array(), ':old:' => array());
+
+		$this->session['data'] = $session;
 	}
 
 	/**
@@ -260,19 +264,13 @@ class Payload {
 	 */
 	public function token()
 	{
-		return $this->get(Payload::csrf_token);
+		return $this->get(Session::csrf_token);
 	}
 
 	/**
 	 * Store the session payload in storage.
 	 *
-	 * The activity timestamp will be set, the flash data will be aged, and the
-	 * session cookie will be written. The driver given when the session payload
-	 * was constructed will be used to persist the session to storage.
-	 *
-	 * If the session's driver is a sweeper implementation, garbage collection
-	 * may be performed based on the probabilities set in the "sweepage" option
-	 * in the session configuration file.
+	 * This method will be called automatically at the end of the request.
 	 *
 	 * @return void
 	 */
@@ -280,19 +278,31 @@ class Payload {
 	{
 		$this->session['last_activity'] = time();
 
+		// Session flash data is only available during the request in which it
+		// was flashed and the following request. We will age the data so that
+		// it expires at the end of the user's next request.
 		$this->age();
 
-		$config = Config::$items['session'];
+		$config = Config::get('session');
 
+		// The responsibility of actually storing the session information in
+		// persistent storage is delegated to the driver instance being used
+		// by the session payload.
+		//
+		// This allows us to keep the payload very generic, while moving the
+		// platform or storage mechanism code into the specialized drivers,
+		// keeping our code very dry and organized.
 		$this->driver->save($this->session, $config, $this->exists);
 
-		$this->cookie();
+		// Next we'll write out the session cookie. This cookie contains the
+		// ID of the session, and will be used to determine the owner of the
+		// session on the user's subsequent requests to the application.
+		$this->cookie($config);
 
-		// Some session drivers implement the Sweeper interface, meaning that they
-		// must clean up expired sessions manually. If the driver is a sweeper, we
-		// need to determine if garbage collection should be run for the request.
-		// Since garbage collection can be expensive, the probability of it
-		// occuring is controlled by the "sweepage" configuration option.
+		// Some session drivers implement the Sweeper interface, meaning that
+		// they must clean up expired sessions manually. If the driver is a
+		// sweeper, we need to determine if garbage collection should be
+		// run for the request.
 		$sweepage = $config['sweepage'];
 
 		if ($this->driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
@@ -303,10 +313,6 @@ class Payload {
 
 	/**
 	 * Age the session flash data.
-	 *
-	 * Session flash data is only available during the request in which it
-	 * was flashed, and the request after that. To "age" the data, we will
-	 * remove all of the :old: items and re-address the new items.
 	 *
 	 * @return void
 	 */
@@ -320,12 +326,11 @@ class Payload {
 	/**
 	 * Send the session ID cookie to the browser.
 	 *
+	 * @param  array  $config
 	 * @return void
 	 */
-	protected function cookie()
+	protected function cookie($config)
 	{
-		$config = Config::$items['session'];
-
 		extract($config, EXTR_SKIP);
 
 		$minutes = ( ! $expire_on_close) ? $lifetime : 0;

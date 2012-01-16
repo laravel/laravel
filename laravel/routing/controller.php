@@ -1,7 +1,9 @@
 <?php namespace Laravel\Routing;
 
 use Laravel\IoC;
+use Laravel\Str;
 use Laravel\View;
+use Laravel\Bundle;
 use Laravel\Request;
 use Laravel\Redirect;
 use Laravel\Response;
@@ -30,13 +32,15 @@ abstract class Controller {
 	protected $filters = array();
 
 	/**
-	 * Handle the delegation of a route to a controller method.
+	 * Call an action method on a controller.
 	 *
-	 * The controller destination should follow a {controller}@{method} convention.
-	 * Nested controllers may be delegated to using dot syntax.
+	 * <code>
+	 *		// Call the "show" method on the "user" controller
+	 *		$response = Controller::call('user@show');
 	 *
-	 * For example, a destination of "user.profile@show" would call the User_Profile
-	 * controller's show method with the given parameters.
+	 *		// Call the "profile" method on the "user/admin" controller and pass parameters
+	 *		$response = Controller::call('user.admin@profile', array($username));
+	 * </code>
 	 *
 	 * @param  string    $destination
 	 * @param  array     $parameters
@@ -44,43 +48,47 @@ abstract class Controller {
 	 */
 	public static function call($destination, $parameters = array())
 	{
-		if (strpos($destination, '@') === false)
-		{
-			throw new \InvalidArgumentException("Route delegate [{$destination}] has an invalid format.");
-		}
+		list($bundle, $destination) = Bundle::parse($destination);
+
+		// We will always start the bundle, just in case the developer is pointing
+		// a route to another bundle. This allows us to lazy load the bundle and
+		// improve performance since the bundle is not loaded on every request.
+		Bundle::start($bundle);
 
 		list($controller, $method) = explode('@', $destination);
 
-		$controller = static::resolve($controller);
+		$controller = static::resolve($bundle, $controller);
 
-		if (is_null($controller))
-		{
-			return Response::error('404');
-		}
+		// If the controller could not be resolved, we're out of options and will
+		// return the 404 error response. Of course, if we found the controller,
+		// we can go ahead and execute the requested method on the instance.
+		if (is_null($controller)) return Response::error('404');
 
 		return $controller->execute($method, $parameters);
 	}
 
 	/**
-	 * Resolve a controller name to a controller instance.
+	 * Resolve a bundle and controller name to a controller instance.
 	 *
-	 * @param  string      $container
+	 * @param  string      $bundle
 	 * @param  string      $controller
 	 * @return Controller
 	 */
-	public static function resolve($controller)
+	public static function resolve($bundle, $controller)
 	{
-		if ( ! static::load($controller)) return;
+		if ( ! static::load($bundle, $controller)) return;
 
 		// If the controller is registered in the IoC container, we will resolve
 		// it out of the container. Using constructor injection on controllers
 		// via the container allows more flexible and testable applications.
-		if (IoC::registered('controllers.'.$controller))
+		$resolver = 'controller: '.Bundle::identifier($bundle, $controller);
+
+		if (IoC::registered($resolver))
 		{
-			return IoC::resolve('controllers.'.$controller);
+			return IoC::resolve($resolver);
 		}
 
-		$controller = str_replace(' ', '_', ucwords(str_replace('.', ' ', $controller))).'_Controller';
+		$controller = static::format($bundle, $controller);
 
 		$controller = new $controller;
 
@@ -89,7 +97,7 @@ abstract class Controller {
 		// layout property, replacing the string layout name.
 		if ( ! is_null($controller->layout))
 		{
-			$controller->layout = View::make($controller->layout);
+			$controller->layout = $controller->layout();
 		}
 
 		return $controller;
@@ -98,14 +106,15 @@ abstract class Controller {
 	/**
 	 * Load the file for a given controller.
 	 *
+	 * @param  string  $bundle
 	 * @param  string  $controller
 	 * @return bool
 	 */
-	protected static function load($controller)
+	protected static function load($bundle, $controller)
 	{
 		$controller = strtolower(str_replace('.', '/', $controller));
 
-		if (file_exists($path = CONTROLLER_PATH.$controller.EXT))
+		if (file_exists($path = Bundle::path($bundle).'controllers/'.$controller.EXT))
 		{
 			require_once $path;
 
@@ -113,6 +122,24 @@ abstract class Controller {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Format a bundle and controller identifier into the controller's class name.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $controller
+	 * @return string
+	 */
+	protected static function format($bundle, $controller)
+	{
+		// If the controller's bundle is not the application bundle, we will
+		// prepend the bundle to the identifier so the bundle is prefixed to
+		// the class name when it is formatted. Bundle controllers are
+		// always prefixed with the bundle's name by convention.
+		if ($bundle !== DEFAULT_BUNDLE) $controller = $bundle.'.'.$controller;
+
+		return Str::classify($controller).'_Controller';
 	}
 
 	/**
@@ -124,47 +151,18 @@ abstract class Controller {
 	 */
 	public function execute($method, $parameters = array())
 	{
-		// Again, as was the case with route closures, if the controller
-		// "before" filters return a response, it will be considered the
-		// response to the request and the controller method will not be
-		// used to handle the request to the application.
+		// Again, as was the case with route closures, if the controller "before"
+		// filters return a response, it will be considered the response to the
+		// request and the controller method will not be used to handle the
+		// request to the application.
 		$response = Filter::run($this->filters('before', $method), array(), true);
 
 		if (is_null($response))
 		{
-			// The developer may mark the controller as being "RESTful" which
-			// indicates that the controller actions are prefixed with the
-			// HTTP verb they respond to rather than the word "action".
-			if ($this->restful)
-			{
-				$action = strtolower(Request::method()).'_'.$method;
-			}
-			else
-			{
-				$action = "action_{$method}";
-			}
-
-			$response = call_user_func_array(array($this, $action), $parameters);
-
-			// If the controller has specified a layout view. The response
-			// returned by the controller method will be bound to that view
-			// and the layout will be considered the response.
-			if (is_null($response) and ! is_null($this->layout))
-			{
-				$response = $this->layout;
-			}
+			$response = $this->response($method, $parameters);
 		}
 
-		if ( ! $response instanceof Response)
-		{
-			$response = new Response($response);
-		}
-
-		// Stringify the response. We need to force the response to be
-		// stringed before closing the session, since the developer may
-		// be using the session within their views, so we cannot age
-		// the session data until the view is rendered.
-		$response->content = $response->render();
+		$response = Response::prepare($response);
 
 		Filter::run($this->filters('after', $method), array($response));
 
@@ -172,9 +170,45 @@ abstract class Controller {
 	}
 
 	/**
-	 * Register filters on the controller's methods.
+	 * Execute a controller action and return the response.
 	 *
-	 * Generally, this method will be used in the controller's constructor.
+	 * Unlike the "execute" method, no filters will be run and the response
+	 * from the controller action will not be changed in any way before it
+	 * is returned to the consumer.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public function response($method, $parameters = array())
+	{
+		// The developer may mark the controller as being "RESTful" which
+		// indicates that the controller actions are prefixed with the
+		// HTTP verb they respond to rather than the word "action".
+		if ($this->restful)
+		{
+			$action = strtolower(Request::method()).'_'.$method;
+		}
+		else
+		{
+			$action = "action_{$method}";
+		}
+
+		$response = call_user_func_array(array($this, $action), $parameters);
+
+		// If the controller has specified a layout view. The response
+		// returned by the controller method will be bound to that
+		// view and the layout will be considered the response.
+		if (is_null($response) and ! is_null($this->layout))
+		{
+			$response = $this->layout;
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Register filters on the controller's methods.
 	 *
 	 * <code>
 	 *		// Set a "foo" after filter on the controller
@@ -184,46 +218,54 @@ abstract class Controller {
 	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
 	 *
+	 * @param  string             $event
 	 * @param  string|array       $filters
+	 * @param  mixed              $parameters
 	 * @return Filter_Collection
 	 */
-	protected function filter($name, $filters)
+	protected function filter($event, $filters, $parameters = null)
 	{
-		$this->filters[$name][] = new Filter_Collection($name, $filters);
+		$this->filters[$event][] = new Filter_Collection($filters, $parameters);
 
-		return $this->filters[$name][count($this->filters[$name]) - 1];
+		return $this->filters[$event][count($this->filters[$event]) - 1];
 	}
 
 	/**
 	 * Get an array of filter names defined for the destination.
 	 *
-	 * @param  string  $name
+	 * @param  string  $event
 	 * @param  string  $method
 	 * @return array
 	 */
-	protected function filters($name, $method)
+	protected function filters($event, $method)
 	{
-		if ( ! isset($this->filters[$name])) return array();
+		if ( ! isset($this->filters[$event])) return array();
 
 		$filters = array();
 
-		foreach ($this->filters[$name] as $filter)
+		foreach ($this->filters[$event] as $collection)
 		{
-			if ($filter->applies($method))
+			if ($collection->applies($method))
 			{
-				$filters = array_merge($filters, $filter->filters);
+				$filters[] = $collection;
 			}
 		}
 
-		return array_unique($filters);
+		return $filters;
+	}
+
+	/**
+	 * Create the layout that is assigned to the controller.
+	 *
+	 * @return View
+	 */
+	public function layout()
+	{
+		return View::make($this->layout);
 	}
 
 	/**
 	 * Magic Method to handle calls to undefined functions on the controller.
-	 *
-	 * By default, the 404 response will be returned for an calls to undefined
-	 * methods on the controller. However, this method may also be overridden
-	 * and used as a pseudo-router by the controller.
 	 */
 	public function __call($method, $parameters)
 	{
@@ -243,12 +285,9 @@ abstract class Controller {
 	 */
 	public function __get($key)
 	{
-		if (IoC::registered($key))
-		{
-			return IoC::resolve($key);
-		}
+		if (IoC::registered($key)) return IoC::resolve($key);
 
-		throw new \OutOfBoundsException("Attempting to access undefined property [$key] on controller.");
+		throw new \Exception("Accessing undefined property [$key] on controller.");
 	}
 
 }

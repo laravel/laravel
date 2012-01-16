@@ -7,7 +7,9 @@ return array(
 	| Application URL
 	|--------------------------------------------------------------------------
 	|
-	| The URL used to access your application. No trailing slash.
+	| The URL used to access your application without a trailing slash. The URL
+	| does nto have to be set. If it isn't we'll try our best to guess the URL
+	| of your application.
 	|
 	*/
 
@@ -20,8 +22,8 @@ return array(
 	|
 	| If you are including the "index.php" in your URLs, you can ignore this.
 	|
-	| However, if you are using mod_rewrite or something similar to get
-	| cleaner URLs, set this option to an empty string.
+	| However, if you are using mod_rewrite to get cleaner URLs, just set
+	| this option to an empty string and we'll take care of the rest.
 	|
 	*/
 
@@ -32,11 +34,10 @@ return array(
 	| Application Key
 	|--------------------------------------------------------------------------
 	|
-	| The application key should be a random, 32 character string.
-	|
 	| This key is used by the encryption and cookie classes to generate secure
 	| encrypted strings and hashes. It is extremely important that this key
-	| remain secret and should not be shared with anyone.
+	| remain secret and should not be shared with anyone. Make it about 32
+	| characters of random gibberish.
 	|
 	*/
 
@@ -48,7 +49,8 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The default character encoding used by your application. This encoding
-	| will be used by the Str, Text, and Form classes.
+	| will be used by the Str, Text, Form, and any other classes that need
+	| to know what type of encoding to use for your awesome application.
 	|
 	*/
 
@@ -89,11 +91,27 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The default timezone of your application. This timezone will be used when
-	| Laravel needs a date, such as when writing to a log file.
+	| Laravel needs a date, such as when writing to a log file or travelling
+	| to a distant star at warp speed.
 	|
 	*/
 
 	'timezone' => 'UTC',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Autoloaded Bundles
+	|--------------------------------------------------------------------------
+	|
+	| Bundles can provide a ton of awesome drop-in functionality for your web
+	| application. Everything from Twitter integration to an admin backend.
+	|
+	| Here you may specify the bundles that should be automatically started
+	| on every request to your application.
+	|
+	*/
+
+	'bundles' => array(),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -112,26 +130,26 @@ return array(
 	*/
 
 	'aliases' => array(
-		'Arr'        => 'Laravel\\Arr',
-		'Asset'      => 'Laravel\\Asset',
 		'Auth'       => 'Laravel\\Auth',
+		'Asset'      => 'Laravel\\Asset',
 		'Autoloader' => 'Laravel\\Autoloader',
-		'Benchmark'  => 'Laravel\\Benchmark',
-		'Cache'      => 'Laravel\\Cache\\Manager',
+		'Bundle'     => 'Laravel\\Bundle',
+		'Cache'      => 'Laravel\\Cache',
 		'Config'     => 'Laravel\\Config',
 		'Controller' => 'Laravel\\Routing\\Controller',
 		'Cookie'     => 'Laravel\\Cookie',
 		'Crypter'    => 'Laravel\\Crypter',
-		'DB'         => 'Laravel\\Database\\Manager',
-		'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
+		'DB'         => 'Laravel\\Database',
+		'Event'      => 'Laravel\\Event',
 		'File'       => 'Laravel\\File',
+		'Filter'     => 'Laravel\\Routing\\Filter',
 		'Form'       => 'Laravel\\Form',
 		'Hash'       => 'Laravel\\Hash',
 		'HTML'       => 'Laravel\\HTML',
-		'Inflector'  => 'Laravel\\Inflector',
 		'Input'      => 'Laravel\\Input',
 		'IoC'        => 'Laravel\\IoC',
 		'Lang'       => 'Laravel\\Lang',
+		'Log'        => 'Laravel\\Log',
 		'Memcached'  => 'Laravel\\Memcached',
 		'Paginator'  => 'Laravel\\Paginator',
 		'URL'        => 'Laravel\\URL',
@@ -139,9 +157,13 @@ return array(
 		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
+		'Router'     => 'Laravel\\Routing\\Router',
+		'Schema'     => 'Laravel\\Database\\Schema',
 		'Section'    => 'Laravel\\Section',
-		'Session'    => 'Laravel\\Facades\\Session',
+		'Session'    => 'Laravel\\Session',
 		'Str'        => 'Laravel\\Str',
+		'Task'       => 'Laravel\\CLI\\Tasks\\Task',
+		'URI'        => 'Laravel\\URI',
 		'Validator'  => 'Laravel\\Validator',
 		'View'       => 'Laravel\\View',
 	),

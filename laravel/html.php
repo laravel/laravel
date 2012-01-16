@@ -12,7 +12,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-		return htmlentities($value, ENT_QUOTES, Config::$items['application']['encoding'], false);
+		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
 	/**
@@ -58,13 +58,7 @@ class HTML {
 	{
 		$defaults = array('media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet');
 
-		foreach ($defaults as $attribute => $default)
-		{
-			if ( ! array_key_exists($attribute, $attributes))
-			{
-				$attributes[$attribute] = $default;
-			}
-		}
+		$attributes = $attributes + $defaults;
 
 		$url = static::entities(URL::to_asset($url));
 
@@ -274,6 +268,9 @@ class HTML {
 
 		foreach ($list as $key => $value)
 		{
+			// If the value is an array, we will recurse the function so that we can
+			// produce a nested list within the list being built. Of course, nested
+			// lists may exist within nested lists, etc.
 			if (is_array($value))
 			{
 				$html .= static::listing($type, $value);
@@ -290,9 +287,6 @@ class HTML {
 	/**
 	 * Build a list of HTML attributes from an array.
 	 *
-	 * Numeric-keyed attributes will be assigned the same key and value to handle
-	 * attributes such as "autofocus" and "required".
-	 *
 	 * @param  array   $attributes
 	 * @return string
 	 */
@@ -302,6 +296,9 @@ class HTML {
 
 		foreach ((array) $attributes as $key => $value)
 		{
+			// For numeric keys, we will assume that the key and the value are the
+			// same, as this will conver HTML attributes such as "required" that
+			// may be specified as required="required".
 			if (is_numeric($key)) $key = $value;
 
 			if ( ! is_null($value))
@@ -325,60 +322,26 @@ class HTML {
 
 		foreach (str_split($value) as $letter)
 		{
+			// To properly obfuscate the value, we will randomly convert each
+			// letter to its entity or hexadecimal representation, keeping a
+			// bot from sniffing the randomly obfuscated letters from the
+			// page and guarding against e-mail harvesting.
 			switch (rand(1, 3))
 			{
-				// Convert the letter to its entity representation.
 				case 1:
 					$safe .= '&#'.ord($letter).';';
 					break;
 
-				// Convert the letter to a Hex character code.
 				case 2:
 					$safe .= '&#x'.dechex(ord($letter)).';';
 					break;
 
-				// No encoding.
 				case 3:
 					$safe .= $letter;
 			}
 		}
 
 		return $safe;
-	}
-
-	/**
-	 * Magic Method for handling dynamic static methods.
-	 *
-	 * This method primarily handles dynamic calls to create links to named routes.
-	 *
-	 * <code>
-	 *		// Generate a link to the "profile" named route
-	 *		echo HTML::link_to_profile('Profile');
-	 *
-	 *		// Generate a link to the "profile" route and add some parameters
-	 *		echo HTML::link_to_profile('Profile', array('taylor'));
-	 *
-	 *		// Generate a link to the "profile" named route using HTTPS
-	 *		echo HTML::link_to_secure_profile('Profile');
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (strpos($method, 'link_to_secure_') === 0)
-		{
-			array_unshift($parameters, substr($method, 15));
-
-			return forward_static_call_array('HTML::link_to_secure_route', $parameters);
-		}
-
-		if (strpos($method, 'link_to_') === 0)
-		{
-			array_unshift($parameters, substr($method, 8));
-
-			return forward_static_call_array('HTML::link_to_route', $parameters);
-		}
-
-		throw new \BadMethodCallException("Method [$method] is not defined on the HTML class.");
 	}
 
 }

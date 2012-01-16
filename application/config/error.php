@@ -7,7 +7,7 @@ return array(
 	| Ignored Error Levels
 	|--------------------------------------------------------------------------
 	|
-	| Here you may specify the error levels that should be ignored by the
+	| Here you simply specify the error levels that should be ignored by the
 	| Laravel error handler. These levels will still be logged; however, no
 	| information about about them will be displayed.
 	|
@@ -22,10 +22,11 @@ return array(
 	|
 	| Detailed error messages contain information about the file in which an
 	| error occurs, as well as a PHP stack trace containing the call stack.
+	| You'll want them when you're trying to debug your application.
 	|
-	| If your application is in production, consider turning off error details
-	| for enhanced security and user experience. The error stack trace could
-	| contain sensitive information that should not be publicly visible.
+	| If your application is in production, you'll want to turn off the error
+	| details for enhanced security and user experience since the exception
+	| stack trace could contain sensitive information.
 	|
 	*/
 
@@ -56,18 +57,13 @@ return array(
 	|
 	| You may log the error message however you like; however, a simple log
 	| solution has been setup for you which will log all error messages to
-	| a single text file within the application storage directory.
-	|
-	| Of course, you are free to implement more complex solutions including
-	| emailing the exceptions details to your team, etc.
+	| text files within the application storage directory.
 	|
 	*/
 
 	'logger' => function($exception)
 	{
-		$message = (string) $exception;
-
-		File::append(STORAGE_PATH.'log.txt', date('Y-m-d H:i:s').' - '.$message.PHP_EOL);
+		Log::exception($exception);
 	},
 
 );

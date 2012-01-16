@@ -173,8 +173,8 @@ class Paginator {
 		//
 		// If there are not enough pages to make the creation of a slider possible
 		// based on the adjacent pages, we will simply display all of the pages.
-		// Otherwise, we will create a "truncating" slider which displays a nice
-		// window of pages based on the current page.
+		// Otherwise, we will create a "truncating" slider which displays a 
+		// nice window of pages based on the current page.
 		if ($this->last < 7 + ($adjacent * 2))
 		{
 			$links = $this->range(1, $this->last);
@@ -288,7 +288,10 @@ class Paginator {
 	{
 		$class = "{$element}_page";
 
-		if (is_null($text)) $text = Lang::line("pagination.{$element}")->get($this->language);
+		if (is_null($text))
+		{
+			$text = Lang::line("pagination.{$element}")->get($this->language);
+		}
 
 		// Each consumer of this method provides a "disabled" Closure which can
 		// be used to determine if the element should be a span element or an
@@ -383,12 +386,14 @@ class Paginator {
 	 */
 	protected function appendage($appends)
 	{
-		if ( ! is_null($this->appendage))
+		if ( ! is_null($this->appendage)) return $this->appendage;
+
+		if (count($appends) <= 0)
 		{
-			return $this->appendage;
+			return $this->appendage = '';
 		}
 
-		return $this->appendage = (count($appends) > 0) ? '&'.http_build_query($appends) : '';
+		return $this->appendage = '&'.http_build_query($appends);
 	}
 
 	/**

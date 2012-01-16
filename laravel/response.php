@@ -14,7 +14,7 @@ class Response {
 	 *
 	 * @var int
 	 */
-	public $status;
+	public $status = 200;
 
 	/**
 	 * The response headers.
@@ -28,7 +28,7 @@ class Response {
 	 *
 	 * @var array
 	 */
-	protected $statuses = array(
+	public static $statuses = array(
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		200 => 'OK',
@@ -103,7 +103,7 @@ class Response {
 	 *		return Response::make('Not Found', 404);
 	 *
 	 *		// Create a response with some custom headers
-	 *		return Respone::make(json_encode($user), 200, array('content-type' => 'application/json'));
+	 *		return Response::make(json_encode($user), 200, array('header' => 'value'));
 	 * </code>
 	 *
 	 * @param  mixed     $content
@@ -137,31 +137,11 @@ class Response {
 	}
 
 	/**
-	 * Create a new response instance containing a named view.
-	 *
-	 * <code>
-	 *		// Create a response with the "layout" named view
-	 *		return Response::of('layout');
-	 *
-	 *		// Create a response with the "layout" named view and data
-	 *		return Response::of('layout', array('name' => 'Taylor'));
-	 * </code>
-	 *
-	 * @param  string    $name
-	 * @param  array     $data
-	 * @return Response
-	 */
-	public static function of($name, $data = array())
-	{
-		return new static(View::of($name, $data));
-	}
-
-	/**
 	 * Create a new error response instance.
 	 *
 	 * The response status code will be set using the specified code.
 	 *
-	 * Note: The specified error should match a view in your views/error directory.
+	 * The specified error should match a view in your views/error directory.
 	 *
 	 * <code>
 	 *		// Create a 404 response
@@ -215,21 +195,32 @@ class Response {
 	}
 
 	/**
-	 * Get the evaluated string contents of the response.
+	 * Prepare a response from the given value.
 	 *
-	 * @return string
+	 * If the value is not a response, it will be converted into a response
+	 * instance and the content will be cast to a string.
+	 *
+	 * @param  mixed     $response
+	 * @return Response
 	 */
-	public function render()
+	public static function prepare($response)
 	{
-		return ($this->content instanceof View) ? $this->content->render() : (string) $this->content;
+		if ( ! $response instanceof Response) $response = new static($response);
+
+		// We'll need to force the response to be a string before closing the session,
+		// since the developer may be using the session within a view, and we can't
+		// age the flash data until the view is rendered.
+		//
+		// Since this method is used by both the Route and Controller classes, it is
+		// a convenient spot to cast the application response to a string before it
+		// is returned to the main request handler.
+		$response->content = (string) $response->content;
+
+		return $response;
 	}
 
 	/**
-	 * Send the response to the browser.
-	 *
-	 * All of the response headers will be sent to the browser first, followed by
-	 * the content of the response instance, which will be evaluated and rendered
-	 * by the render method.
+	 * Send the headers and content of the response to the browser.
 	 *
 	 * @return void
 	 */
@@ -237,47 +228,63 @@ class Response {
 	{
 		if ( ! headers_sent()) $this->send_headers();
 
-		echo $this->render();
+		echo (string) $this->content;
 	}
 
 	/**
 	 * Send all of the response headers to the browser.
 	 *
-	 * The developer may set response headers using the "header" method. All of
-	 * the headers set by the developer will be automatically sent to the browser
-	 * when the response is sent via the "send" method. There is no need to call
-	 * this method before calling the "send" method.
-	 *
-	 * The protocol and status header will be set automatically, as well as the
-	 * content-type and charset, unless those headers have been set explicitly.
-	 * The content-type charset used will be the application encoding.
-	 *
 	 * @return void
 	 */
 	public function send_headers()
 	{
-		if ( ! isset($this->headers['Content-Type']))
+		// If the server is using FastCGI, we need to send a slightly different
+		// protocol and status header than we normally would. Otherwise it will
+		// not call any custom scripts setup to handle 404 responses.
+		//
+		// The status header will contain both the code and the status message,
+		// such as "OK" or "Not Found". For typical servers, the HTTP protocol
+		// will also be included with the status.
+		if (isset($_SERVER['FCGI_SERVER_VERSION']))
 		{
-			$encoding = Config::$items['application']['encoding'];
-
-			$this->header('Content-Type', "text/html; charset={$encoding}");
+			header('Status: '.$this->status.' '.$this->message());
+		}
+		else
+		{
+			header(Request::protocol().' '.$this->status.' '.$this->message());
 		}
 
-		header(Request::protocol().' '.$this->status.' '.$this->statuses[$this->status]);
+		// If the content type was not set by the developer, we will set the
+		// header to a default value that indicates to the browser that the
+		// response is HTML and that it uses the default encoding.
+		if ( ! isset($this->headers['Content-Type']))
+		{
+			$encoding = Config::get('application.encoding');
 
+			$this->header('Content-Type', 'text/html; charset='.$encoding);
+		}
+
+		// Once the framework controlled headers have been sentm, we can
+		// simply iterate over the developer's headers and send each one
+		// to the browser. Headers with the same name will be overriden.
 		foreach ($this->headers as $name => $value)
-		{	
-			header($name.': '.$value, true);
+		{
+			header("{$name}: {$value}", true);
 		}
 	}
 
 	/**
-	 * Add a header to the response.
+	 * Get the status code message for the response.
 	 *
-	 * <code>
-	 *		// Add a header to a response instance
-	 *		return Response::make('foo')->header('content-type', 'application/json');
-	 * </code>
+	 * @return string
+	 */
+	public function message()
+	{
+		return static::$statuses[$this->status];
+	}
+
+	/**
+	 * Add a header to the array of response headers.
 	 *
 	 * @param  string    $name
 	 * @param  string    $value
@@ -299,26 +306,6 @@ class Response {
 	{
 		$this->status = $status;
 		return $this;
-	}
-
-	/**
-	 * Magic Method for handling the dynamic creation of Responses containing named views.
-	 *
-	 * <code>
-	 *		// Create a response instance with the "layout" named view
-	 *		return Response::of_layout();
-	 *
-	 *		// Create a response instance with a named view and data
-	 *		return Response::of_layout(array('name' => 'Taylor'));
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		if (strpos($method, 'of_') === 0)
-		{
-			return static::of(substr($method, 3), Arr::get($parameters, 0, array()));
-		}
-		throw new \BadMethodCallException("Method [$method] is not defined on the Response class.");
 	}
 
 }

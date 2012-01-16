@@ -10,13 +10,6 @@ class Connection {
 	public $pdo;
 
 	/**
-	 * All of the queries that have been executed on the connection.
-	 *
-	 * @var array
-	 */
-	public $queries = array();
-
-	/**
 	 * The connection configuration array.
 	 *
 	 * @var array
@@ -29,6 +22,13 @@ class Connection {
 	 * @var Grammars\Grammar
 	 */
 	protected $grammar;
+
+	/**
+	 * All of the queries that have been executed on all connections.
+	 *
+	 * @var array
+	 */
+	public static $queries = array();
 
 	/**
 	 * Create a new database connection instance.
@@ -46,6 +46,14 @@ class Connection {
 	/**
 	 * Begin a fluent query against a table.
 	 *
+	 * <code>
+	 *		// Start a fluent query against the "users" table
+	 *		$query = DB::connection()->table('users');
+	 *
+	 *		// Start a fluent query against the "users" table and get all the users
+	 *		$users = DB::connection()->table('users')->get();
+	 * </code>
+	 *
 	 * @param  string  $table
 	 * @return Query
 	 */
@@ -57,27 +65,22 @@ class Connection {
 	/**
 	 * Create a new query grammar for the connection.
 	 *
-	 * Query grammars allow support for new database systems to be added quickly
-	 * and easily. Since the responsibility of the query generation is delegated
-	 * to the grammar classes, it is simple to override only the methods with
-	 * SQL syntax that differs from the default implementation.
-	 *
-	 * @return Grammars\Grammar
+	 * @return Query\Grammars\Grammar
 	 */
 	protected function grammar()
 	{
 		if (isset($this->grammar)) return $this->grammar;
 
-		// We allow the developer to hard-code a grammar for the connection. This really
-		// has no use yet; however, if database systems that can use multiple grammars
-		// like ODBC are added in the future, this will be needed.
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
-				return $this->grammar = new Grammars\MySQL;
+				return $this->grammar = new Query\Grammars\MySQL;
+
+			case 'sqlsrv':
+				return $this->grammar = new Query\Grammars\SQLServer;
 
 			default:
-				return $this->grammar = new Grammars\Grammar;
+				return $this->grammar = new Query\Grammars\Grammar;
 		}
 	}
 
@@ -98,9 +101,9 @@ class Connection {
 	 */
 	public function only($sql, $bindings = array())
 	{
-		$result = (array) $this->first($sql, $bindings);
+		$results = (array) $this->first($sql, $bindings);
 
-		return reset($result);
+		return reset($results);
 	}
 
 	/**
@@ -127,52 +130,105 @@ class Connection {
 	}
 
 	/**
-	 * Execute a SQL query against the connection.
-	 *
-	 * The method returns the following based on query type:
-	 *
-	 *     SELECT -> Array of stdClasses
-	 *     UPDATE -> Number of rows affected.
-	 *     DELETE -> Number of Rows affected.
-	 *     ELSE   -> Boolean true / false depending on success.
-	 *
-	 * <code>
-	 *		// Execute a query against the database connection
-	 *		$users = DB::connection()->query('select * from users');
-	 *
-	 *		// Execute a query with bound parameters
-	 *		$user = DB::connection()->query('select * from users where id = ?', array($id));
-	 * </code>
+	 * Execute a SQL query and return an array of StdClass objects.
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
-	 * @return mixed
+	 * @return array
 	 */
 	public function query($sql, $bindings = array())
 	{
-		// Since expressions are injected into the query as raw strings, we need
-		// to remove them from the array of bindings. They are not truly bound
-		// to the PDO statement as named parameters.
-		foreach ($bindings as $key => $value)
-		{
-			if ($value instanceof Expression) unset($bindings[$key]);
-		}
+		list($statement, $result) = $this->execute($sql, $bindings);
 
-		$bindings = array_values($bindings);
+		return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
+	}
+
+	/**
+	 * Execute a SQL UPDATE query and return the affected row count.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return int
+	 */
+	public function update($sql, $bindings = array())
+	{
+		list($statement, $result) = $this->execute($sql, $bindings);
+
+		return $statement->rowCount();
+	}
+
+	/**
+	 * Execute a SQL DELETE query and return the affected row count.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return int
+	 */
+	public function delete($sql, $bindings = array())
+	{
+		list($statement, $result) = $this->execute($sql, $bindings);
+
+		return $statement->rowCount();
+	}
+
+	/**
+	 * Execute an SQL query and return the boolean result of the PDO statement.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return bool
+	 */
+	public function statement($sql, $bindings = array())
+	{
+		list($statement, $result) = $this->execute($sql, $bindings);
+
+		return $result;
+	}
+
+	/**
+	 * Execute a SQL query against the connection.
+	 *
+	 * The PDO statement and boolean result will be return in an array.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return array
+	 */
+	protected function execute($sql, $bindings = array())
+	{
+		// Since expressions are injected into the query as strings, we need to
+		// remove them from the array of bindings. After we have removed them,
+		// we'll reset the array so there aren't gaps in the keys.
+		$bindings = array_values(array_filter($bindings, function($binding)
+		{
+			return ! $binding instanceof Expression;
+		}));
 
 		$sql = $this->transform($sql, $bindings);
 
-		$this->queries[] = compact('sql', 'bindings');
+		$statement = $this->pdo->prepare($sql);
 
-		return $this->execute($this->pdo->prepare($sql), $bindings);
+		// Every query is timed so that we can log the executinon time along
+		// with the query SQL and array of bindings. This should be make it
+		// convenient for the developer to profile the application's query
+		// performance to diagnose bottlenecks.
+		$time = microtime(true);
+
+		$result = $statement->execute($bindings);
+
+		$time = number_format((microtime(true) - $time) * 1000, 2);
+
+		// Once we have execute the query, we log the SQL, bindings, and
+		// execution time in a static array that is accessed by all of
+		// the connections used by the application. This allows us to
+		// review all of the executed SQL.
+		static::$queries[] = compact('sql', 'bindings', 'time');
+
+		return array($statement, $result);
 	}
 
 	/**
 	 * Transform an SQL query into an executable query.
-	 *
-	 * Laravel provides a convenient short-cut when writing raw queries for
-	 * handling cumbersome "where in" statements. This method will transform
-	 * those segments into their full SQL counterparts.
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
@@ -180,14 +236,18 @@ class Connection {
 	 */
 	protected function transform($sql, $bindings)
 	{
+		// Laravel provides an easy short-cut notation for writing raw
+		// WHERE IN statements. If (...) is in the query, it will be
+		// replaced with the correct number of parameters based on
+		// the bindings for the query.
 		if (strpos($sql, '(...)') !== false)
 		{
 			for ($i = 0; $i < count($bindings); $i++)
 			{
-				// If the binding is an array, we can assume it is being used to fill
-				// a "where in" condition, so we will replace the next place-holder
-				// in the query with the correct number of parameters based on the
-				// number of elements in this binding.
+				// If the binding is an array, we can assume it is being used
+				// to fill a "where in" condition, so we'll replace the next
+				// place-holder in the SQL query with the correct number of
+				// parameters based on the elements in the binding.
 				if (is_array($bindings[$i]))
 				{
 					$parameters = implode(', ', array_fill(0, count($bindings[$i]), '?'));
@@ -198,33 +258,6 @@ class Connection {
 		}
 
 		return trim($sql);
-	}
-
-	/**
-	 * Execute a prepared PDO statement and return the appropriate results.
-	 *
-	 * @param  PDOStatement  $statement
-	 * @param  array         $bindings
-	 * @return mixed
-	 */
-	protected function execute(PDOStatement $statement, $bindings)
-	{
-		$result = $statement->execute($bindings);
-
-		$sql = strtoupper($statement->queryString);
-
-		if (strpos($sql, 'SELECT') === 0)
-		{
-			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
-		}
-		elseif (strpos($sql, 'UPDATE') === 0 or strpos($sql, 'DELETE') === 0)
-		{
-			return $statement->rowCount();
-		}
-		else
-		{
-			return $result;
-		}
 	}
 
 	/**
