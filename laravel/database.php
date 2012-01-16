@@ -111,6 +111,16 @@ class Database {
 	}
 
 	/**
+	 * Get the profiling data for all queries.
+	 *
+	 * @return array
+	 */
+	public static function profile()
+	{
+		return Database\Connection::$queries;
+	}
+
+	/**
 	 * Magic Method for calling methods on the default database connection.
 	 *
 	 * <code>
