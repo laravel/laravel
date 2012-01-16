@@ -136,7 +136,7 @@ abstract class Controller {
 		// If the controller's bundle is not the application bundle, we will
 		// prepend the bundle to the identifier so the bundle is prefixed to
 		// the class name when it is formatted. Bundle controllers are
-		// always prefixed with the bundle's name by convention.
+		// always prefixed with the bundle name.
 		if ($bundle !== DEFAULT_BUNDLE) $controller = $bundle.'.'.$controller;
 
 		return Str::classify($controller).'_Controller';
@@ -159,10 +159,17 @@ abstract class Controller {
 
 		if (is_null($response))
 		{
+			$this->before();
+
 			$response = $this->response($method, $parameters);
 		}
 
 		$response = Response::prepare($response);
+
+		// The "after" function on the controller is simply a convenient hook
+		// so the developer can work on the response before it's returned to
+		// the browser. This is useful for setting partials on the layout.
+		$this->after($response);
 
 		Filter::run($this->filters('after', $method), array($response));
 
@@ -265,7 +272,22 @@ abstract class Controller {
 	}
 
 	/**
-	 * Magic Method to handle calls to undefined functions on the controller.
+	 * This function is called before the action is executed.
+	 *
+	 * @return void
+	 */
+	public function before() {}
+
+	/**
+	 * This function is called after the action is executed.
+	 *
+	 * @param  Response  $response
+	 * @return void
+	 */
+	public function after($response) {}
+
+	/**
+	 * Magic Method to handle calls to undefined controller functions.
 	 */
 	public function __call($method, $parameters)
 	{
