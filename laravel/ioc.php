@@ -71,6 +71,18 @@ class IoC {
 	}
 
 	/**
+	 * Register a controller with the IoC container.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $resolver
+	 * @return void
+	 */
+	public static function controller($name, $resolver)
+	{
+		static::register("controller: {$name}", $resolver);
+	}
+
+	/**
 	 * Resolve a core Laravel class from the container.
 	 *
 	 * <code>
