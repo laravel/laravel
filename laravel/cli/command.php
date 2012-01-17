@@ -71,17 +71,17 @@ class Command {
 	{
 		$identifier = Bundle::identifier($bundle, $task);
 
-		// First we'll check to see if the task has been registered in
-		// the application IoC container. This allows dependencies to
-		// be injected into tasks for more testability.
+		// First we'll check to see if the task has been registered in the
+		// application IoC container. This allows all dependencies to be
+		// injected into tasks for more testability.
 		if (IoC::registered("task: {$identifier}"))
 		{
 			return IoC::resolve("task: {$identifier}");
 		}
 
-		// If the task file exists, we'll format the bundle and task
-		// name into a task class name and resolve an instance of
-		// the so that the requested method may be executed.
+		// If the task file exists, we'll format the bundle and task name
+		// into a task class name and resolve an instance of the so that
+		// the requested method may be executed.
 		if (file_exists($path = Bundle::path($bundle).'tasks/'.$task.EXT))
 		{
 			require $path;
