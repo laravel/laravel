@@ -140,6 +140,14 @@ class Resolver {
 	{
 		$files = glob(Bundle::path($bundle).'migrations/*_*'.EXT);
 
+		// When open_basedir is enabled, glob will return false on an
+		// empty directory, so we will return an empty array in this
+		// case so the application doesn't bomb out.
+		if ($files === false)
+		{
+			return array();
+		}
+
 		// Once we have the array of files in the migration directory,
 		// we'll take the basename of the file and remove the PHP file
 		// extension, which isn't needed.
