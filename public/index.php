@@ -14,34 +14,19 @@
 define('LARAVEL_START', microtime(true));
 
 // --------------------------------------------------------------
-// Define the directory separator for the environment.
+// Indicate that the request is from the web.
 // --------------------------------------------------------------
-define('DS', DIRECTORY_SEPARATOR);
+$web = true;
 
 // --------------------------------------------------------------
-// The path to the application directory.
+// Set the core Laravel path constants.
 // --------------------------------------------------------------
-define('APP_PATH', realpath('../application').DS);
+require '../paths.php';
 
 // --------------------------------------------------------------
-// The path to the bundles directory.
+// Unset the temporary web variable.
 // --------------------------------------------------------------
-define('BUNDLE_PATH', realpath('../bundles').DS);
-
-// --------------------------------------------------------------
-// The path to the storage directory.
-// --------------------------------------------------------------
-define('STORAGE_PATH', realpath('../storage').DS);
-
-// --------------------------------------------------------------
-// The path to the Laravel directory.
-// --------------------------------------------------------------
-define('SYS_PATH', realpath('../laravel').DS);
-
-// --------------------------------------------------------------
-// The path to the public directory.
-// --------------------------------------------------------------
-define('PUBLIC_PATH', realpath(__DIR__).DS);
+unset($web);
 
 // --------------------------------------------------------------
 // Launch Laravel.
