@@ -21,7 +21,22 @@ class Hash {
 	{
 		$work = str_pad($rounds, 2, '0', STR_PAD_LEFT);
 
-		return crypt($value, '$2a$'.$work.'$'.static::salt());
+		// Bcrypt expects the salt to be 22 base64 encoded characters including
+		// dots and slashes. We will get rid of the plus signs included in the
+		// base64 data and replace them with dots. OpenSSL will be used if it
+		// is available, otherwise we will use the Str::random method.
+		if (function_exists('openssl_random_pseudo_bytes'))
+		{
+			$salt = openssl_random_pseudo_bytes(16);
+		}
+		else
+		{
+			$salt = Str::random(40);
+		}
+
+		$salt = substr(strtr(base64_encode($salt), '+', '.'), 0 , 22);
+
+		return crypt($value, '$2a$'.$work.'$'.$salt);
 	}
 
 	/**
@@ -34,29 +49,6 @@ class Hash {
 	public static function check($value, $hash)
 	{
 		return crypt($value, $hash) === $hash;
-	}
-
-	/**
-	 * Get a salt for use during Bcrypt hashing.
-	 *
-	 * @return string
-	 */
-	protected static function salt()
-	{
-		// Bcrypt expects the salt to be 22 base64 encoded characters including
-		// dots and slashes. We will get rid of the plus signs included in the
-		// base64 data and replace them with dots. OpenSSL will be used if it
-		// is available, otherwise we will use the Str::random method.
-		if (function_exists('openssl_random_pseudo_bytes'))
-		{
-			$bytes = openssl_random_pseudo_bytes(16);
-
-			return substr(strtr(base64_encode($bytes), '+', '.'), 0 , 22);
-		}
-
-		$salt = str_replace('+', '.', base64_encode(Str::random(40)));
-
-		return substr($salt, 0, 22);
 	}
 
 }
