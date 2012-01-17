@@ -354,6 +354,22 @@ class View implements ArrayAccess {
 	}
 
 	/**
+	 * Magic Method for handling dynamic data access.
+	 */
+	public function __get($key)
+	{
+		return $this[$key];
+	}
+
+	/**
+	 * Magic Method for handling the dynamic setting of data.
+	 */
+	public function __set($key, $value)
+	{
+		$this[$key] = $value;
+	}
+
+	/**
 	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
