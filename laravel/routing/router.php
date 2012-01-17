@@ -189,7 +189,7 @@ class Router {
 		// segments in the URI, causing the loops in this class to bog.
 		if (count($segments) > 20)
 		{
-			throw new \Exception("Invalid request. There are more than 20 URI segments.");
+			throw new \LengthException("Invalid request. There are more than 20 URI segments.");
 		}
 
 		if ( ! is_null($key = $this->controller_key($segments)))
