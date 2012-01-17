@@ -159,7 +159,7 @@ class Bundle {
 	 */
 	public static function assets($bundle)
 	{
-		return ($bundle != DEFAULT_BUNDLE) ? PUBLIC_PATH."bundles/{$bundle}/" : PUBLIC_PATH;
+		return ($bundle != DEFAULT_BUNDLE) ? URL::base()."/bundles/{$bundle}/" : URL::base().'/';
 	}
 
 	/**
