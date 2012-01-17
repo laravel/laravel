@@ -1,7 +1,15 @@
 <?php
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @version  2.2.0 (Beta 1)
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
+ * @link     http://laravel.com
+ */
 
 // --------------------------------------------------------------
-// Overrride the application path if testing Laravel.
+// Override the application path if testing Laravel.
 // --------------------------------------------------------------
 foreach ($_SERVER['argv'] as $key => $argument)
 {
