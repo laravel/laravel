@@ -191,7 +191,7 @@ class Auth {
 		// This method assumes the "remember me" cookie should have the same
 		// configuration as the session cookie. Since this cookie, like the
 		// session cookie, should be kept very secure, it's probably safe
-		// to assume the settings are the same for this cookie.
+		// to assume the cookie settings are the same.
 		$config = Config::get('session');
 
 		extract($config, EXTR_SKIP);
