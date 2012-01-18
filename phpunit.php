@@ -28,3 +28,8 @@ require 'paths.php';
 // Bootstrap the Laravel core.
 // --------------------------------------------------------------
 require SYS_PATH.'core.php';
+
+// --------------------------------------------------------------
+// Start the default bundle.
+// --------------------------------------------------------------
+Bundle::start(DEFAULT_BUNDLE);
