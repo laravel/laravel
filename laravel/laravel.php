@@ -70,6 +70,8 @@ if (Config::get('session.driver') !== '')
 	Session::start(Config::get('session.driver'));
 
 	Session::load(Cookie::get(Config::get('session.cookie')));
+
+	IoC::instance('laravel.session', Session::$instance);
 }
 
 /**
