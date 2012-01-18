@@ -79,7 +79,7 @@ class Route {
 	 */
 	protected static function extract($segment)
 	{
-		$uri = substr($segment, strpos($segment, ' ') + 1);
+		$uri = substr($segment, strpos($segment, ' '));
 
 		return ($uri !== '/') ? trim($uri, '/') : $uri;
 	}
