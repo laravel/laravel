@@ -7,7 +7,7 @@ class Asset {
 	 *
 	 * @var array
 	 */
-	protected static $containers = array();
+	public static $containers = array();
 
 	/**
 	 * Get an asset container instance.
