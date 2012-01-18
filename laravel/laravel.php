@@ -25,10 +25,8 @@ set_exception_handler(function($e)
 
 /**
  * Register the PHP error handler. All PHP errors will fall into this
- * handler, which will convert the error into an ErrorException object
- * and pass the exception into the common exception handler. Suppressed
- * errors are ignored and errors in the developer configured whitelist
- * are silently logged.
+ * handler which will convert the error into an ErrorException object
+ * and pass the exception into the exception handler.
  */
 set_error_handler(function($code, $error, $file, $line)
 {
@@ -36,9 +34,9 @@ set_error_handler(function($code, $error, $file, $line)
 });
 
 /**
- * Register the PHP shutdown handler. This function will be called
- * at the end of the PHP script or on a fatal PHP error. If an error
- * has occured, we will convert it to an ErrorException and pass it
+ * Register the shutdown handler. This function will be called at the
+ * end of the PHP script or on a fatal PHP error. If a PHP error has
+ * occured, we will convert it to an ErrorException and pass it
  * to the common exception handler for the framework.
  */
 register_shutdown_function(function()
@@ -48,22 +46,22 @@ register_shutdown_function(function()
 
 /**
  * Setting the PHP error reporting level to -1 essentially forces
- * PHP to report every error, and is guranteed to show every error
- * on future versions of PHP.
+ * PHP to report every error, and it is guranteed to show every
+ * error on future versions of PHP.
  *
  * If error detail is turned off, we will turn off all PHP error
- * reporting and display since the framework will be displaying a
- * generic message and we don't want any sensitive details about
- * the exception leaking into the views.
+ * reporting and display since the framework will be displaying
+ * a generic message and we do not want any sensitive details
+ * about the exception leaking into the views.
  */
 error_reporting(-1);
 
 ini_set('display_errors', 'Off');
 
 /**
- * Load the session and session manager instance. The session
- * payload will be registered in the IoC container as an instance
- * so it can be retrieved easily throughout the application.
+ * Load the session using the session manager. The payload will
+ * be registered in the IoC container as an instance so it can
+ * be easily access throughout the framework.
  */
 if (Config::get('session.driver') !== '')
 {
@@ -75,9 +73,10 @@ if (Config::get('session.driver') !== '')
 }
 
 /**
- * Gather the input to the application based on the current request.
- * The input will be gathered based on the current request method
- * and will be set on the Input manager.
+ * Gather the input to the application based on the global input
+ * variables for the current request. The input will be gathered
+ * based on the current request method and will be set on the
+ * Input manager class' static $input property.
  */
 $input = array();
 
@@ -115,9 +114,8 @@ Input::$input = $input;
 
 /**
  * Start all of the bundles that are specified in the configuration
- * array of auto-loaded bundles. This gives the developer the ability
- * to conveniently and automatically load bundles that are used on
- * every request to their application.
+ * array of auto-loaded bundles. This lets the developer have an
+ * easy way to load bundles for every request.
  */
 foreach (Config::get('application.bundles') as $bundle)
 {
@@ -145,9 +143,9 @@ if ( ! is_null($bundle) and Bundle::routable($bundle))
 
 /**
  * Route the request to the proper route in the application. If a
- * route is found, the route will be called with the current request
- * instance. If no route is found, the 404 response will be returned
- * to the browser.
+ * route is found, the route will be called via the request class
+ * static property. If no route is found, the 404 response will
+ * be returned to the browser.
  */
 if (count(URI::$segments) > 15)
 {
