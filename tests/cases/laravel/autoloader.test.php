@@ -71,4 +71,32 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('Repositories\\User', new Repositories\User);
 	}
 
+	/**
+	 * Test the loading of hard-coded classes.
+	 *
+	 * @group laravel
+	 */
+	public function testHardcodedClassesCanBeLoaded()
+	{
+		Autoloader::map(array(
+			'Autoloader_HardCoded' => APP_PATH.'models'.DS.'autoloader.php',
+		));
+
+		$this->assertInstanceOf('Autoloader_HardCoded', new Autoloader_HardCoded);
+	}
+
+	/**
+	 * Test the loading of classes mapped by namespaces.
+	 *
+	 * @group laravel
+	 */
+	public function testClassesMappedByNamespaceCanBeLoaded()
+	{
+		Autoloader::namespaces(array(
+			'Dashboard' => APP_PATH.'dashboard',
+		));
+
+		$this->assertInstanceOf('Dashboard\\Repository', new Dashboard\Repository);
+	}
+
 }
