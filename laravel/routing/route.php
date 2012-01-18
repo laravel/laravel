@@ -214,11 +214,11 @@ class Route {
 	 */
 	public function handles($uri)
 	{
-		$pattern = '#'.str_replace('*', '(.*)', $uri).'#';
+		$pattern = ($uri !== '/') ? str_replace('*', '(.*)', $uri) : '^/$';
 
 		return ! is_null(array_first($this->uris, function($key, $uri) use ($pattern)
 		{
-			return preg_match($pattern, $uri);
+			return preg_match('#'.$pattern.'#', $uri);
 		}));
 	}
 
