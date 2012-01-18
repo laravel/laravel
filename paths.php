@@ -24,6 +24,11 @@ define('DS', DIRECTORY_SEPARATOR);
 $paths['APP_PATH'] = 'application';
 
 // --------------------------------------------------------------
+// The path to the Laravel directory.
+// --------------------------------------------------------------
+$paths['SYS_PATH'] = 'laravel';
+
+// --------------------------------------------------------------
 // The path to the bundles directory.
 // --------------------------------------------------------------
 $paths['BUNDLE_PATH'] = 'bundles';
@@ -34,9 +39,9 @@ $paths['BUNDLE_PATH'] = 'bundles';
 $paths['STORAGE_PATH'] = 'storage';
 
 // --------------------------------------------------------------
-// The path to the Laravel directory.
+// The path to the tests directory.
 // --------------------------------------------------------------
-$paths['SYS_PATH'] = 'laravel';
+$paths['TESTS_PATH'] = 'tests';
 
 // --------------------------------------------------------------
 // The path to the public directory.

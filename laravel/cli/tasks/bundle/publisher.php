@@ -14,20 +14,23 @@ class Publisher {
 	 */
 	public function publish($bundle)
 	{
-		$this->move($bundle, $this->from($bundle), $this->to($bundle));
+		$path = Bundle::path($bundle);
 
-		echo "Assets published for bundle [$bundle].".PHP_EOL;
+		$this->move($path.'public', PUBLIC_PATH.'bundles'.DS.$bundle);
+
+		$this->move($path.'tests', TESTS_PATH.'cases'.DS.'bundles'.DS.$bundle);
+
+		echo "Assets and tests published for bundle [$bundle].".PHP_EOL;
 	}
 
 	/**
 	 * Copy the contents of a bundle's assets to the public folder.
 	 *
-	 * @param  string  $bundle
 	 * @param  string  $source
 	 * @param  string  $destination
 	 * @return void
 	 */
-	protected function move($bundle, $source, $destination)
+	protected function move($source, $destination)
 	{
 		File::copy_dir($source, $destination);	
 	}
