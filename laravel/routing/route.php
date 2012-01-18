@@ -58,7 +58,7 @@ class Route {
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
 		// root of the application, a single forward slash will be returned.
-		$uris = array_get($action, 'handles', array());
+		$uris = array_get($action, 'handles', array($key));
 
 		$this->uris = array_map(array($this, 'extract'), $uris);
 

@@ -200,8 +200,6 @@ class Router {
 
 			$action = array('uses' => Bundle::prefix($bundle).'home@index');
 
-			$action['handles'] = array($destination);
-
 			return new Route($method.' '.$uri, $action);
 		}
 
@@ -244,8 +242,6 @@ class Router {
 			$prefix = Bundle::prefix($bundle);
 
 			$action = array('uses' => $prefix.$controller.'@'.$method);
-
-			$action['handles'] = array($destination);
 
 			return new Route($destination, $action, $segments);
 		}
