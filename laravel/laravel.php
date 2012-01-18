@@ -130,9 +130,9 @@ foreach (Config::get('application.bundles') as $bundle)
 Bundle::start(DEFAULT_BUNDLE);
 
 /**
- * If the first segment of the request URI corresponds with a bundle,
- * we will start that bundle. By convention, bundles handle all URIs
- * which begin with their bundle name.
+ * If the first segment of the URI corresponds with a bundle we'll
+ * start that bundle. By convention, bundles handle all URIs which
+ * begin with their bundle name.
  */
 $bundle = URI::segment(1);
 
