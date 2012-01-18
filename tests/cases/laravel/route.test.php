@@ -17,13 +17,13 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testHandlesIndicatesIfTheRouteHandlesAGivenURI()
 	{
-		$route = new Laravel\Routing\Route('GET /', array('handles' => array('foo/bar')));
+		$route = new Laravel\Routing\Route('GET /', array('handles' => array('GET /foo/bar')));
 
 		$this->assertTrue($route->handles('foo/*'));
 		$this->assertTrue($route->handles('foo/bar'));
 		$this->assertFalse($route->handles('baz'));
 
-		$route = new Laravel\Routing\Route('GET /', array('handles' => array('/', 'home')));
+		$route = new Laravel\Routing\Route('GET /', array('handles' => array('GET /', 'GET /home')));
 
 		$this->assertTrue($route->handles('/'));
 		$this->assertTrue($route->handles('home'));

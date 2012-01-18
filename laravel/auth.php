@@ -62,7 +62,7 @@ class Auth {
 	{
 		if ( ! is_null(static::$user)) return static::$user;
 
-		$id = Session::get(Auth::user_key);
+		$id = IoC::core('session')->get(Auth::user_key);
 
 		// To retrieve the user, we'll first attempt to use the "user" Closure
 		// defined in the auth configuration file, passing in the ID. The user
