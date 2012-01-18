@@ -19,6 +19,11 @@ if ( ! isset($web)) $web = false;
 define('DS', DIRECTORY_SEPARATOR);
 
 // --------------------------------------------------------------
+// Define the path to the base directory.
+// --------------------------------------------------------------
+define('BASE_PATH', __DIR__.DS);
+
+// --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
 $paths['APP_PATH'] = 'application';
