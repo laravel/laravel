@@ -1,5 +1,6 @@
 <?php namespace Laravel\CLI\Tasks\Bundle;
 
+use Laravel\File;
 use Laravel\Bundle;
 use FilesystemIterator;
 
@@ -28,41 +29,7 @@ class Publisher {
 	 */
 	protected function move($bundle, $source, $destination)
 	{
-		if ( ! is_dir($source)) return;
-
-		// First we need to create the destination directory if it doesn't
-		// already exists. This directory hosts all of the assets we copy
-		// from the installed bundle's source directory.
-		if ( ! is_dir($destination))
-		{
-			mkdir($destination);
-		}
-
-		$items = new FilesystemIterator($source, FilesystemIterator::SKIP_DOTS);
-
-		foreach ($items as $item)
-		{
-			// If the file system item is a directory, we will recurse the
-			// function, passing in the item directory. To get the proper
-			// destination path, we'll replace the root bundle asset
-			// directory with the root public asset directory.
-			if ($item->isDir())
-			{
-				$path = $item->getRealPath();
-
-				$recurse = str_replace($this->from($bundle), $this->to($bundle), $path);
-
-				$this->move($bundle, $path, $recurse);
-			}
-			// If the file system item is an actual file, we can copy the
-			// file from the bundle asset directory to the public asset
-			// directory. The "copy" method will overwrite any existing
-			// files with the same name.
-			else
-			{
-				copy($item->getRealPath(), $destination.DS.$item->getBasename());
-			}
-		}		
+		File::copy_dir($source, $destination);	
 	}
 
 	/**
