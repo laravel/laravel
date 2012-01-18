@@ -160,11 +160,7 @@ class Autoloader {
 	 */
 	public static function psr($directory)
 	{
-		$directories = array_map(function($directory)
-		{
-			return rtrim($directory, '/').'/';
-
-		}, (array) $directory);
+		$directories = static::format($directory);
 
 		static::$psr = array_unique(array_merge(static::$psr, $directories));
 	}
@@ -177,7 +173,26 @@ class Autoloader {
 	 */
 	public static function namespaces($mappings)
 	{
+		$directories = static::format(array_values($mappings));
+
+		$mappings = array_combine(array_keys($mappings), $directories);
+
 		static::$namespaces = array_merge(static::$namespaces, $mappings);
+	}
+
+	/**
+	 * Format an array of directories with the proper trailing slashes.
+	 *
+	 * @param  array  $directories
+	 * @return array
+	 */
+	protected static function format($directories)
+	{
+		return array_map(function($directory)
+		{
+			return rtrim($directory, DS).DS;
+
+		}, (array) $directories);
 	}
 
 }
