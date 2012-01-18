@@ -157,10 +157,14 @@ class File {
 	{
 		$mimes = Config::get('mimes');
 
+		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+
+		// The MIME configuration file contains an array of file extensions and
+		// their associated MIME types. We will spin through each extension the
+		// developer wants to check to determine if the file's MIME type is in
+		// the list of MIMEs we have for that extension.
 		foreach ((array) $extensions as $extension)
 		{
-			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-
 			if (isset($mimes[$extension]) and in_array($mime, (array) $mimes[$extension]))
 			{
 				return true;
