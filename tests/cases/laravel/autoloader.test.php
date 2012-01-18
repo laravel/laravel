@@ -93,7 +93,7 @@ class AutoloaderTest extends PHPUnit_Framework_TestCase {
 	public function testClassesMappedByNamespaceCanBeLoaded()
 	{
 		Autoloader::namespaces(array(
-			'Dashboard' => APP_PATH.'dashboard',
+			'Dashboard' => BUNDLE_PATH.'dashboard'.DS.'models',
 		));
 
 		$this->assertInstanceOf('Dashboard\\Repository', new Dashboard\Repository);
