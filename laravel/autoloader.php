@@ -24,6 +24,13 @@ class Autoloader {
 	public static $psr = array();
 
 	/**
+	 * The mappings for namespaces to directories.
+	 *
+	 * @var array
+	 */
+	public static $namespaces = array();
+
+	/**
 	 * Load the file corresponding to a given class.
 	 *
 	 * This method is registerd in the bootstrap file as an SPL auto-loader.
@@ -59,14 +66,24 @@ class Autoloader {
 		// match the name of their bundle.
 		elseif (($slash = strpos($class, '\\')) !== false)
 		{
-			$bundle = substr($class, 0, $slash);
+			$namespace = substr($class, 0, $slash);
+
+			// If the class namespace is mapped to a directory, we will load
+			// the class using the PSR-0 standards from that directory by
+			// passing the directory into the "load_psr" method.
+			if (isset(static::$namespaces[$namespace]))
+			{
+				$directory = static::$namespaces[$namespace];
+
+				return static::load_psr(substr($class, $slash + 1), $directory);
+			}
 
 			// It's very important that we make sure the bundle has not been
 			// started here. If we don't, we'll end up in an infinite loop
 			// attempting to load a bundle's class.
-			if (Bundle::exists($bundle) and ! Bundle::started($bundle))
+			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
 			{
-				Bundle::start($bundle);
+				Bundle::start($namespace);
 
 				static::load($class);
 			}
@@ -79,19 +96,22 @@ class Autoloader {
 	 * Attempt to resolve a class using the PSR-0 standard.
 	 *
 	 * @param  string  $class
+	 * @param  string  $directory
 	 * @return void
 	 */
-	protected static function load_psr($class)
+	protected static function load_psr($class, $directory = null)
 	{
 		// The PSR-0 standard indicates that class namespace slashes or
 		// underscores should be used to indicate the directory tree in
 		// which the class resides.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
+		$directories = (is_nulL($directory)) ? static::$psr : array($directory);
+
 		// Once we have formatted the class name, we will simply spin
 		// through the registered PSR-0 directories and attempt to
 		// locate and load the class into the script.
-		foreach (static::$psr as $directory)
+		foreach ($directories as $directory)
 		{
 			if (file_exists($path = $directory.strtolower($file).EXT))
 			{
@@ -147,6 +167,17 @@ class Autoloader {
 		}, (array) $directory);
 
 		static::$psr = array_unique(array_merge(static::$psr, $directories));
+	}
+
+	/**
+	 * Map namespaces to directories.
+	 *
+	 * @param  string  $namespace
+	 * @param  string  $path
+	 */
+	public static function namespaces($mappings)
+	{
+		static::$namespaces = array_merge(static::$namespaces, $mappings);
 	}
 
 }
