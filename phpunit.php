@@ -9,13 +9,22 @@
  */
 
 // --------------------------------------------------------------
-// Override the application path if testing Laravel.
+// Define the directory separator for the environment.
+// --------------------------------------------------------------
+define('DS', DIRECTORY_SEPARATOR);
+
+// --------------------------------------------------------------
+// Override the framework paths if testing Laravel.
 // --------------------------------------------------------------
 foreach ($_SERVER['argv'] as $key => $argument)
 {
 	if ($argument == 'laravel' and $_SERVER['argv'][$key - 1] == '--group')
 	{
-		define('APP_PATH', realpath('tests/laravel').DIRECTORY_SEPARATOR);
+		define('APP_PATH', realpath('tests/laravel/application').DS);
+
+		define('BUNDLE_PATH', realpath('tests/laravel/bundles').DS);
+
+		define('STORAGE_PATH', realpath('tests/laravel/storage').DS);
 	}
 }
 

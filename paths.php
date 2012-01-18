@@ -16,7 +16,10 @@ if ( ! isset($web)) $web = false;
 // --------------------------------------------------------------
 // Define the directory separator for the environment.
 // --------------------------------------------------------------
-define('DS', DIRECTORY_SEPARATOR);
+if ( ! defined('DS'))
+{
+	define('DS', DIRECTORY_SEPARATOR);
+}
 
 // --------------------------------------------------------------
 // Define the path to the base directory.
@@ -67,7 +70,7 @@ foreach ($paths as $name => $path)
 {
 	if ( ! defined($name))
 	{
-		$path = ($web) ? '../'.$path : $path;
+		if ($web) $path = "../{$path}";
 
 		define($name, realpath($path).DS);
 	}
