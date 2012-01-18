@@ -18,7 +18,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected static $cache = array();
+	public static $cache = array();
 
 	/**
 	 * Determine if a configuration item or file exists.

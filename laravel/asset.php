@@ -254,7 +254,7 @@ class Asset_Container {
 		// ensure that we attach the correct path to the asset.
 		if (filter_var($asset['source'], FILTER_VALIDATE_URL) === false)
 		{
-			$asset['source'] = Bundle::assets($this->bundle).$asset['source'];
+			$asset['source'] = $this->path($asset['source']);
 		}
 
 		return HTML::$group($asset['source'], $asset['attributes']);
