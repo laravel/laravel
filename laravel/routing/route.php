@@ -118,7 +118,7 @@ class Route {
 	 */
 	public function response()
 	{
-		// If the action is a string, it is simply pointing the route to a 
+		// If the action is a string, it is simply pointing the route to a
 		// controller action, and we can just call the action and return
 		// its response. This is the most basic form of route, and is
 		// the simplest to handle.
@@ -214,7 +214,7 @@ class Route {
 	 */
 	public function handles($uri)
 	{
-		$pattern = ($uri !== '/') ? str_replace('*', '(.*)', $uri) : '^/$';
+		$pattern = ($uri !== '/') ? str_replace('*', '(.*)', $uri).'\z' : '^/$';
 
 		return ! is_null(array_first($this->uris, function($key, $uri) use ($pattern)
 		{
