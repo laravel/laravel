@@ -32,7 +32,7 @@ class Crypter {
 	 *
 	 * <code>
 	 *		// Encrypt a string using the Mcrypt PHP extension
-	 *		$encrypted = Crypter::encrpt('secret');
+	 *		$encrypted = Crypter::encrypt('secret');
 	 * </code>
 	 *
 	 * @param  string  $value
