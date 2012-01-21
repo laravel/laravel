@@ -17,6 +17,11 @@ abstract class Grammar {
 	 */
 	public function wrap($value)
 	{
+		// Expressions should be injected into the query as raw strings,
+		// so we do not want to wrap them in any way. We'll just return
+		// the string value from the expression to be included.
+		if ($value instanceof Expression) return $value->get();
+
 		// If the value being wrapped contains a column alias, we need to
 		// wrap it a little differently as each segment must be wrapped
 		// and not the entire string. We'll split the value on the "as"
@@ -27,11 +32,6 @@ abstract class Grammar {
 
 			return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
 		}
-
-		// Expressions should be injected into the query as raw strings,
-		// so we do not want to wrap them in any way. We'll just return
-		// the string value from the expression to be included.
-		if ($value instanceof Expression) return $value->get();
 
 		// Since columns may be prefixed with their corresponding table
 		// name so as to not make them ambiguous, we will need to wrap
