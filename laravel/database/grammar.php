@@ -17,8 +17,8 @@ abstract class Grammar {
 	 */
 	public function wrap($value)
 	{
-		// Expressions should be injected into the query as raw strings,
-		// so we do not want to wrap them in any way. We'll just return
+		// Expressions should be injected into the query as raw strings so
+		// so we do not want to wrap them in any way. We will just return
 		// the string value from the expression to be included.
 		if ($value instanceof Expression) return $value->get();
 
