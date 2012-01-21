@@ -7,6 +7,7 @@ class SQLite extends Connector {
 	 *
 	 * @param  array  $config
 	 * @return PDO
+	 * @throws PDOException If the attempt to connect to the requested database fails.
 	 */
 	public function connect($config)
 	{
@@ -21,12 +22,9 @@ class SQLite extends Connector {
 			return new PDO('sqlite::memory:', null, null, $options);
 		}
 
-		if (file_exists($path = DATABASE_PATH.$config['database'].'.sqlite'))
-		{
-			return new PDO('sqlite:'.$path, null, null, $options);
-		}
-
-		throw new \Exception("SQLite database [{$config['database']}] could not be found.");
+		// The database file will be created if it does not exist.
+		$path = DATABASE_PATH.$config['database'].'.sqlite';
+		return new PDO('sqlite:'.$path, null, null, $options);
 	}
 
 }
