@@ -194,9 +194,14 @@ class Migrator extends Task {
 		// next migration at the same time unknowingly.
 		$date = date('Y_m_d').'_'.time();
 
-		$path = Bundle::path($bundle).'migrations/'.$date.'_'.$migration.EXT;
+		$path = Bundle::path($bundle).'migrations'.DIRECTORY_SEPARATOR;
 
-		File::put($path, $this->stub($bundle, $migration));
+		if ( ! is_dir($path))
+		{
+			mkdir($path);
+		}
+
+		File::put($path.$date.'_'.$migration.EXT, $this->stub($bundle, $migration));
 
 		echo "Great! New migration created!";
 	}
