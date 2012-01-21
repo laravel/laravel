@@ -127,6 +127,14 @@ class Resolver {
 			$instances[] = compact('bundle', 'name', 'migration');
 		}
 
+		// At this point the migrations are only sorted within their
+		// bundles so we need to re-sort them by name to ensure they
+		// are in a consistent order.
+		usort($migrations, function($a, $b)
+		{
+			return strcmp($a['name'], $b['name']);
+		});
+
 		return $instances;
 	}
 
