@@ -24,6 +24,7 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($route->handles('/'));
 		$this->assertFalse($route->handles('baz'));
 		$this->assertFalse($route->handles('/foo'));
+		$this->assertFalse($route->handles('foo'));
 
 		$route = new Laravel\Routing\Route('GET /', array('handles' => array('GET /', 'GET /home')));
 
