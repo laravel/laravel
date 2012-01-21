@@ -67,7 +67,7 @@ class Table {
 	 * @param  string        $name
 	 * @return Fluent
 	 */
-	public function primary($columns, $name = null)
+	public function primary($columns, $name)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
 	}
@@ -79,7 +79,7 @@ class Table {
 	 * @param  string        $name
 	 * @return Fluent
 	 */
-	public function unique($columns, $name = null)
+	public function unique($columns, $name)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
 	}
@@ -91,7 +91,7 @@ class Table {
 	 * @param  string        $name
 	 * @return Fluent
 	 */
-	public function fulltext($columns, $name = null)
+	public function fulltext($columns, $name)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
 	}
@@ -101,7 +101,7 @@ class Table {
 	 *
 	 * @param  string|array
 	 */
-	public function index($columns, $name = null)
+	public function index($columns, $name)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
 	}
@@ -114,7 +114,7 @@ class Table {
 	 * @param  string        $name
 	 * @return Fluent
 	 */
-	public function key($type, $columns, $name = null)
+	public function key($type, $columns, $name)
 	{
 		$parameters = array('name' => $name, 'columns' => (array) $columns);
 
