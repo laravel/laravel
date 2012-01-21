@@ -21,12 +21,12 @@ class SQLite extends Connector {
 			return new PDO('sqlite::memory:', null, null, $options);
 		}
 
-		if (file_exists($path = DATABASE_PATH.$config['database'].'.sqlite'))
-		{
-			return new PDO('sqlite:'.$path, null, null, $options);
-		}
+		// SQLite databases will be created automatically if they do not exist, so we
+		// will not check for the existence of the database file before establishing
+		// the PDO connection to the database.
+		$path = DATABASE_PATH.$config['database'].'.sqlite';
 
-		throw new \Exception("SQLite database [{$config['database']}] could not be found.");
+		return new PDO('sqlite:'.$path, null, null, $options);
 	}
 
 }
