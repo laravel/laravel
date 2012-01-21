@@ -51,7 +51,7 @@ class Bundler extends Task {
 
 			IoC::resolve($provider)->install($bundle);
 
-			$publisher->publish($bundle);
+			$publisher->publish($bundle['name']);
 		}
 	}
 
@@ -72,7 +72,7 @@ class Bundler extends Task {
 
 		foreach ($bundles as $bundle)
 		{
-			$publisher->publish($bundle);
+			$publisher->publish($bundle['name']);
 		}
 	}
 
