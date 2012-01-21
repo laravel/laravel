@@ -194,12 +194,12 @@ class Migrator extends Task {
 		// next migration at the same time unknowingly.
 		$date = date('Y_m_d').'_'.time();
 
-		$path = Bundle::path($bundle).'migrations'.DIRECTORY_SEPARATOR;
+		$path = Bundle::path($bundle).'migrations'.DS;
 
-		if ( ! is_dir($path))
-		{
-			mkdir($path);
-		}
+		// If the migration directory does not exist for the bundle,
+		// we will create the directory so there aren't errors when
+		// when we try to write the migration file.
+		if ( ! is_dir($path)) mkdir($path);
 
 		File::put($path.$date.'_'.$migration.EXT, $this->stub($bundle, $migration));
 
