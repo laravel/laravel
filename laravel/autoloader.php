@@ -10,13 +10,6 @@ class Autoloader {
 	public static $mappings = array();
 
 	/**
-	 * All of the class aliases registered with the auto-loader.
-	 *
-	 * @var array
-	 */
-	public static $aliases = array();
-
-	/**
 	 * The directories that use the PSR-0 naming convention.
 	 *
 	 * @var array
@@ -29,6 +22,13 @@ class Autoloader {
 	 * @var array
 	 */
 	public static $namespaces = array();
+
+	/**
+	 * All of the class aliases registered with the auto-loader.
+	 *
+	 * @var array
+	 */
+	public static $aliases = array();
 
 	/**
 	 * Load the file corresponding to a given class.
@@ -56,21 +56,14 @@ class Autoloader {
 			require static::$mappings[$class];
 		}
 
-		// If the class is namespaced to an existing bundle and the bundle has
-		// not been started, we will start the bundle and attempt to load the
-		// class file again. If that fails, an error will be thrown by PHP.
-		//
-		// This allows bundle classes to be loaded by the auto-loader before
-		// their class mappings have actually been registered; however, it
-		// is up to the bundle developer to namespace their classes to
-		// match the name of their bundle.
 		elseif (($slash = strpos($class, '\\')) !== false)
 		{
 			$namespace = substr($class, 0, $slash);
 
-			// If the class namespace is mapped to a directory, we will load
-			// the class using the PSR-0 standards from that directory by
-			// passing the directory into the "load_psr" method.
+			// If the class namespace is mapped to a directory, we will load the class
+			// using the PSR-0 standards from that directory; however, we will trim
+			// off the beginning of the namespace to account for files in the root
+			// of the mapped directory.
 			if (isset(static::$namespaces[$namespace]))
 			{
 				$directory = static::$namespaces[$namespace];
@@ -78,9 +71,14 @@ class Autoloader {
 				return static::load_psr(substr($class, $slash + 1), $directory);
 			}
 
-			// It's very important that we make sure the bundle has not been
-			// started here. If we don't, we'll end up in an infinite loop
-			// attempting to load a bundle's class.
+			// If the class is namespaced to an existing bundle and the bundle has
+			// not been started, we will start the bundle and attempt to load the
+			// class file again. If that fails, an error will be thrown by PHP.
+			//
+			// This allows bundle classes to be loaded by the auto-loader before
+			// their class mappings have actually been registered; however, it
+			// is up to the bundle developer to namespace their classes to
+			// match the name of their bundle.
 			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
 			{
 				Bundle::start($namespace);
@@ -89,6 +87,9 @@ class Autoloader {
 			}
 		}
 
+		// If the class is not maped and is not part of a bundle or a mapped
+		// namespace, we'll make a last ditch effort to load the class via
+		// the PSR-0 from one of the registered directories.
 		static::load_psr($class);
 	}
 
@@ -103,7 +104,8 @@ class Autoloader {
 	{
 		// The PSR-0 standard indicates that class namespace slashes or
 		// underscores should be used to indicate the directory tree in
-		// which the class resides.
+		// which the class resides, so we'll convert the namespace
+		// slashes to directory slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
 		$directories = (is_nulL($directory)) ? static::$psr : array($directory);
@@ -111,6 +113,10 @@ class Autoloader {
 		// Once we have formatted the class name, we will simply spin
 		// through the registered PSR-0 directories and attempt to
 		// locate and load the class into the script.
+		//
+		// We will check for both lowercase and CamelCase files as
+		// Laravel uses a lowercase version of PSR-0, while true
+		// PSR-0 uses CamelCase for file names.
 		foreach ($directories as $directory)
 		{
 			if (file_exists($path = $directory.strtolower($file).EXT))
@@ -191,7 +197,7 @@ class Autoloader {
 		return array_map(function($directory)
 		{
 			return rtrim($directory, DS).DS;
-
+		
 		}, (array) $directories);
 	}
 
