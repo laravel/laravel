@@ -27,6 +27,9 @@ class Command {
 		// via the container instead of by this class.
 		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
+		// Once the bundle has been started, we will attempt to resolve the
+		// task instance. Tasks may be resolved through the file system or
+		// through the application IoC container.
 		if (is_null($task = static::resolve($bundle, $task)))
 		{
 			throw new \Exception("Sorry, I can't find that task.");
@@ -47,7 +50,7 @@ class Command {
 
 		// Extract the task method from the task string. Methods are called
 		// on tasks by separating the task and method with a single colon.
-		// If no task is specified, "run" is used as the default method.
+		// If no task is specified, "run" is used as the default.
 		if (str_contains($task, ':'))
 		{
 			list($task, $method) = explode(':', $task);

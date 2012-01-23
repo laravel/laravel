@@ -17,31 +17,7 @@ Bundle::start(DEFAULT_BUNDLE);
  * us to seamlessly add tasks to the CLI so that the Task class
  * doesn't have to worry about how to resolve core tasks.
  */
-
-/**
- * The bundle task is responsible for the installation of bundles
- * and their dependencies. It utilizes the bundles API to get the
- * meta-data for the available bundles.
- */
-IoC::register('task: bundle', function()
-{
-	return new Tasks\Bundle\Bundler;
-});
-
-/**
- * The migrate task is responsible for running database migrations
- * as well as migration rollbacks. We will also create an instance
- * of the migration resolver and database classes, which are used
- * to perform various support functions for the migrator.
- */
-IoC::register('task: migrate', function()
-{
-	$database = new Tasks\Migrate\Database;
-
-	$resolver = new Tasks\Migrate\Resolver($database);
-
-	return new Tasks\Migrate\Migrator($resolver, $database);
-});
+require SYS_PATH.'cli/dependencies'.EXT;
 
 /**
  * We will wrap the command execution in a try / catch block and
