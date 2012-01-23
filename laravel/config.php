@@ -152,7 +152,7 @@ class Config {
 		{
 			if ($directory !== '' and file_exists($path = $directory.$file.EXT))
 			{
-				$config = array_merge($config, require $path);
+				$config = $config + require $path;
 			}
 		}
 
