@@ -358,7 +358,7 @@ class View implements ArrayAccess {
 	 */
 	public function __get($key)
 	{
-		return $this[$key];
+		return $this->data[$key];
 	}
 
 	/**
@@ -366,7 +366,15 @@ class View implements ArrayAccess {
 	 */
 	public function __set($key, $value)
 	{
-		$this[$key] = $value;
+		$this->data[$key] = $value;
+	}
+
+	/**
+	 * Magic Method for checking dynamically-set data.
+	 */
+	public function __isset($key)
+	{
+		return isset($this->data[$key]);
 	}
 
 	/**
