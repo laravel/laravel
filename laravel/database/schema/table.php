@@ -67,7 +67,7 @@ class Table {
 	 * @param  string        $name
 	 * @return Fluent
 	 */
-	public function primary($columns, $name)
+	public function primary($columns, $name = null)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
 	}
@@ -148,7 +148,7 @@ class Table {
 	 * @param  string  $name
 	 * @return void
 	 */
-	public function drop_primary($name)
+	public function drop_primary($name = null)
 	{
 		return $this->drop_key(__FUNCTION__, $name);
 	}

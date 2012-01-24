@@ -144,7 +144,7 @@ class MySQL extends Grammar {
 	 */
 	public function primary(Table $table, Fluent $command)
 	{
-		return $this->key($table, $command, 'PRIMARY KEY');
+		return $this->key($table, $command->name(null), 'PRIMARY KEY');
 	}
 
 	/**

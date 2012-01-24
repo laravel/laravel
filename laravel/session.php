@@ -38,7 +38,7 @@ class Session {
 	 * @param  string  $driver
 	 * @return Driver
 	 */
-	protected static function factory($driver)
+	public static function factory($driver)
 	{
 		switch ($driver)
 		{

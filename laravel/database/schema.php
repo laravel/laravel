@@ -29,7 +29,6 @@ class Schema {
 	 */
 	public static function execute($table)
 	{
-		die('here');
 		foreach ($table->commands as $command)
 		{
 			$connection = DB::connection($table->connection);

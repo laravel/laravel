@@ -92,6 +92,7 @@ Autoloader::$mappings = array(
 	'Laravel\\CLI\\Tasks\\Migrate\\Resolver' => SYS_PATH.'cli/tasks/migrate/resolver'.EXT,
 	'Laravel\\CLI\\Tasks\\Migrate\\Database' => SYS_PATH.'cli/tasks/migrate/database'.EXT,
 	'Laravel\\CLI\\Tasks\\Key' => SYS_PATH.'cli/tasks/key'.EXT,
+	'Laravel\\CLI\\Tasks\\Session' => SYS_PATH.'cli/tasks/session'.EXT,
 
 	'Laravel\\Database\\Connection' => SYS_PATH.'database/connection'.EXT,
 	'Laravel\\Database\\Expression' => SYS_PATH.'database/expression'.EXT,

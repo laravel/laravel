@@ -36,6 +36,17 @@ IoC::singleton('task: key', function()
 });
 
 /**
+ * The session task is responsible for performing tasks related
+ * to the session store of the application. It can do things
+ * such as generating the session table or clearing expired
+ * sessions from storage.
+ */
+IoC::singleton('task: session', function()
+{
+	return new Tasks\Session;
+});
+
+/**
  * The bundle repository is responsible for communicating with
  * the Laravel bundle sources to get information regarding any
  * bundles that are requested for installation.
