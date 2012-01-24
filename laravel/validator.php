@@ -476,7 +476,7 @@ class Validator {
 	 */
 	protected function validate_alpha($attribute, $value)
 	{
-		return preg_match('/^([a-z])+$/i', $value);
+		return preg_match('/^([a-z\s])+$/i', $value);
 	}
 
 	/**
@@ -488,7 +488,7 @@ class Validator {
 	 */
 	protected function validate_alpha_num($attribute, $value)
 	{
-		return preg_match('/^([a-z0-9])+$/i', $value);
+		return preg_match('/^([a-z0-9\s])+$/i', $value);
 	}
 
 	/**
@@ -500,7 +500,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-\s])+$/i', $value);	
 	}
 
 	/**
