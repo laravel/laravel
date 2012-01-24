@@ -504,6 +504,34 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an attribute contains only characters that can be part of a Perl "word".
+	 * The definition of letters and digits is controlled by PCRE's character tables, and may vary
+	 * if locale-specific matching is taking place. For example, in the "fr" (French) locale, 
+	 * some character codes greater than 128 are used for accented letters, and 
+	 * these are matched by \w.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_word($attribute, $value)
+	{
+		return preg_match('/^[\w-]+$/u', $value);
+	}
+
+	/**
+	 * Same as validate_word, but for more than one.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_words($attribute, $value)
+	{
+	    return preg_match('/^[\w -]+$/u', $value);
+	}
+
+	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
 	 * @param  string  $attribute
