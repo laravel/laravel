@@ -2,6 +2,7 @@
 
 use Laravel\IoC;
 use Laravel\Bundle;
+use Laravel\Config;
 use Laravel\Database as DB;
 
 /**
@@ -10,6 +11,44 @@ use Laravel\Database as DB;
  * the auto-loader mappings are registered.
  */
 Bundle::start(DEFAULT_BUNDLE);
+
+/**
+ * Set the CLI options on the $_SERVER global array so we can easily
+ * retrieve them from the various parts of the CLI code. We can use
+ * the Request class to access them conveniently.
+ */
+$_SERVER['cli'] = array();
+
+foreach ($_SERVER['argv'] as $key => $value)
+{
+	if (starts_with($value, '--'))
+	{
+		$option = array_get($_SERVER['argv'], $key + 1, true);
+
+		array_set($_SERVER, 'cli.'.substr($value, 2), $option);
+	}
+}
+
+/**
+ * The Laravel environment may be specified on the CLI using the "env"
+ * option, allowing the developer to easily use local configuration
+ * files from the CLI since the environment is usually controlled
+ * by server environmenet variables.
+ */
+if (isset($_SERVER['cli']['env']))
+{
+	$_SERVER['LARAVEL_ENV'] = $_SERVER['cli']['env'];
+}
+
+/**
+ * The default database connection may be set by specifying a value
+ * for the "database" CLI option. This allows migrations to be run
+ * conveniently for a test or staging database.
+ */
+if (isset($_SERVER['cli']['db']))
+{
+	Config::set('database.default', $_SERVER['cli']['db']);
+}
 
 /**
  * We will register all of the Laravel provided tasks inside the IoC

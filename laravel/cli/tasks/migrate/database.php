@@ -1,5 +1,6 @@
 <?php namespace Laravel\CLI\Tasks\Migrate;
 
+use Laravel\Request;
 use Laravel\Database as DB;
 
 class Database {

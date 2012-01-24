@@ -1,4 +1,4 @@
-<?php
+<?php namespace Laravel\CLI; use Laravel\IoC;
 
 /**
  * The migrate task is responsible for running database migrations
@@ -32,7 +32,7 @@ IoC::register('task: bundle', function()
  */
 IoC::singleton('bundle.repository', function()
 {
-	return new Repository;
+	return new Tasks\Bundle\Repository;
 });
 
 /**
@@ -42,7 +42,7 @@ IoC::singleton('bundle.repository', function()
  */
 IoC::singleton('bundle.publisher', function()
 {
-	return new Publisher;
+	return new Tasks\Bundle\Publisher;
 });
 
 /**
@@ -53,5 +53,5 @@ IoC::singleton('bundle.publisher', function()
  */
 IoC::singleton('bundle.provider: github', function()
 {
-	return new Providers\Github;
+	return new Tasks\Bundle\Providers\Github;
 });
