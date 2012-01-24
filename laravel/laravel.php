@@ -112,7 +112,7 @@ unset($input[Request::spoofer]);
 
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc())
 {
-	$input = stripslashes($input);
+	$input = array_map('stripslashes', $input);	
 }
 
 Input::$input = $input;
