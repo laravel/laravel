@@ -67,9 +67,12 @@ ini_set('display_errors', 'Off');
  */
 if (magic_quotes())
 {
-	$magic = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
 
-	array_walk($magic, 'array_strip_slashes');	
+	foreach ($magics as &$magic)
+	{
+		$magic = array_strip_slashes($magic);
+	}
 }
 
 /**

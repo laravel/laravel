@@ -97,7 +97,7 @@ function array_set(&$array, $key, $value)
 
 		// If the key doesn't exist at this depth, we will just create an
 		// empty array to hold the next value, allowing us to create the
-		// arrays necessary to hold the final value at the proper depth.
+		// arrays to hold the final value at the proper depth.
 		if ( ! isset($array[$key]) or ! is_array($array[$key]))
 		{
 			$array[$key] = array();
@@ -197,10 +197,10 @@ function array_spin($array, $callback)
  */
 function array_strip_slashes($array)
 {
+	$result = array();
+
 	foreach($array as $key => $value)
 	{
-		unset($array[$key]);
-
 		$key = stripslashes($key);
 
 		// If the value is an array, we will just recurse back into the
@@ -208,15 +208,15 @@ function array_strip_slashes($array)
 		// otherwise we will set the stripped value.
 		if (is_array($value))
 		{
-			$array[$key] = array_strip_slashes($value);
+			$result[$key] = array_strip_slashes($value);
 		}
 		else
 		{
-			$array[$key] = stripslashes($value);
+			$result[$key] = stripslashes($value);
 		}
 	}
 
-	return $array;
+	return $result;
 }
 
 /**
