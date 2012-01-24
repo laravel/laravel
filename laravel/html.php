@@ -302,9 +302,11 @@ class HTML {
 
 		foreach ((array) $attributes as $key => $value)
 		{
-			if (is_numeric($key)) $key = $value;
-
-			if ( ! is_null($value))
+			if (is_numeric($key))
+			{
+				$html[] = $value;
+			}
+			elseif ( ! is_null($value))
 			{
 				$html[] = $key.'="'.static::entities($value).'"';
 			}
