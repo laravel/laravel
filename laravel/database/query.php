@@ -629,7 +629,7 @@ class Query {
 	 * @param  string  $column
 	 * @return mixed
 	 */
-	private function aggregate($aggregator, $column)
+	public function aggregate($aggregator, $column)
 	{
 		$this->aggregate = compact('aggregator', 'column');
 
