@@ -81,6 +81,7 @@ Autoloader::$mappings = array(
 	'Laravel\\Cache\\Drivers\\Redis' => SYS_PATH.'cache/drivers/redis'.EXT,
 	'Laravel\\Cache\\Drivers\\Database' => SYS_PATH.'cache/drivers/database'.EXT,
 
+	'Laravel\\CLI\\Console' => SYS_PATH.'cli/console'.EXT,
 	'Laravel\\CLI\\Command' => SYS_PATH.'cli/command'.EXT,
 	'Laravel\\CLI\\Tasks\\Task' => SYS_PATH.'cli/tasks/task'.EXT,
 	'Laravel\\CLI\\Tasks\\Bundle\\Bundler' => SYS_PATH.'cli/tasks/bundle/bundler'.EXT,
@@ -92,7 +93,7 @@ Autoloader::$mappings = array(
 	'Laravel\\CLI\\Tasks\\Migrate\\Resolver' => SYS_PATH.'cli/tasks/migrate/resolver'.EXT,
 	'Laravel\\CLI\\Tasks\\Migrate\\Database' => SYS_PATH.'cli/tasks/migrate/database'.EXT,
 	'Laravel\\CLI\\Tasks\\Key' => SYS_PATH.'cli/tasks/key'.EXT,
-	'Laravel\\CLI\\Tasks\\Session' => SYS_PATH.'cli/tasks/session'.EXT,
+	'Laravel\\CLI\\Tasks\\Session\\Manager' => SYS_PATH.'cli/tasks/session/manager'.EXT,
 
 	'Laravel\\Database\\Connection' => SYS_PATH.'database/connection'.EXT,
 	'Laravel\\Database\\Expression' => SYS_PATH.'database/expression'.EXT,

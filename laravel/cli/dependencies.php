@@ -43,7 +43,7 @@ IoC::singleton('task: key', function()
  */
 IoC::singleton('task: session', function()
 {
-	return new Tasks\Session;
+	return new Tasks\Session\Manager;
 });
 
 /**

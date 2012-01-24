@@ -116,7 +116,7 @@ class Resolver {
 			// naming collisions with other bundle's migrations.
 			$prefix = Bundle::class_prefix($bundle);
 
-			$class = $prefix.substr($name, 22);
+			$class = $prefix.substr($name, 11);
 
 			$migration = new $class;
 

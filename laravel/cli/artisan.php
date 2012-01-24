@@ -15,17 +15,7 @@ Bundle::start(DEFAULT_BUNDLE);
  * retrieve them from the various parts of the CLI code. We can use
  * the Request class to access them conveniently.
  */
-$_SERVER['cli'] = array();
-
-foreach ($_SERVER['argv'] as $key => $value)
-{
-	if (starts_with($value, '--'))
-	{
-		$option = array_get($_SERVER['argv'], $key + 1, true);
-
-		array_set($_SERVER, 'cli.'.substr($value, 2), $option);
-	}
-}
+list($arguments, $_SERVER['cli']) = Console::options($_SERVER['argv']);
 
 /**
  * The Laravel environment may be specified on the CLI using the "env"
@@ -65,7 +55,7 @@ require SYS_PATH.'cli/dependencies'.EXT;
  */
 try
 {
-	Command::run(array_slice($_SERVER['argv'], 1));
+	Command::run(array_slice($arguments, 1));
 }
 catch (\Exception $e)
 {

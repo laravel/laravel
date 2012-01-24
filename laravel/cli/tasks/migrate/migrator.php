@@ -124,7 +124,7 @@ class Migrator extends Task {
 			// By only removing the migration after it has successfully rolled back,
 			// we can re-run the rollback command in the event of any errors with
 			// the migration. When we re-run, only the migrations that have not
-			// been rolled back for the batch will still be in the database.
+			// been rolled back will still be in the database.
 			$this->database->delete($migration['bundle'], $migration['name']);
 		}
 
@@ -176,8 +176,8 @@ class Migrator extends Task {
 	/**
 	 * Generate a new migration file.
 	 *
-	 * @param  array  $arguments
-	 * @return void
+	 * @param  array   $arguments
+	 * @return string
 	 */
 	public function make($arguments = array())
 	{
@@ -188,11 +188,11 @@ class Migrator extends Task {
 
 		list($bundle, $migration) = Bundle::parse($arguments[0]);
 
-		// The migration path is prefixed with the UNIX timestamp, which
+		// The migration path is prefixed with the date timestamp, which
 		// is a better way of ordering migrations than a simple integer
 		// incrementation, since developers may start working on the
 		// next migration at the same time unknowingly.
-		$date = date('Y_m_d').'_'.time();
+		$prefix = date('Y_m_d');
 
 		$path = Bundle::path($bundle).'migrations'.DS;
 
@@ -201,9 +201,16 @@ class Migrator extends Task {
 		// when we try to write the migration file.
 		if ( ! is_dir($path)) mkdir($path);
 
-		File::put($path.$date.'_'.$migration.EXT, $this->stub($bundle, $migration));
+		$file = $path.$prefix.'_'.$migration.EXT;
+
+		File::put($file, $this->stub($bundle, $migration));
 
 		echo "Great! New migration created!";
+
+		// Once the migration has been created, we'll return the
+		// migration file name so it can be used by the task
+		// consumer if necessary.
+		return $file;
 	}
 
 	/**
@@ -219,8 +226,7 @@ class Migrator extends Task {
 
 		// The class name is formatted simialrly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in
-		// the default bundle. However, unlike tasks, there is nothing
-		// appended to the class name since they're already unique.
+		// the default bundle.
 		$class = Bundle::class_prefix($bundle).Str::classify($migration);
 
 		return str_replace('{{class}}', $class, $stub);

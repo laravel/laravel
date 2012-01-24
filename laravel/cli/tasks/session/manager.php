@@ -1,9 +1,13 @@
 <?php namespace Laravel\CLI\Tasks\Session;
 
+use Laravel\IoC;
 use Laravel\File;
 use Laravel\Config;
+use Laravel\Session;
+use Laravel\CLI\Tasks\Task;
 use Laravel\Database\Schema;
 use Laravel\Session\Drivers\Sweeper;
+use Laravel\CLI\Tasks\Migrate\Migrator;
 
 class Manager extends Task {
 
@@ -15,19 +19,17 @@ class Manager extends Task {
 	 */
 	public function table($arguments = array())
 	{
-		Schema::table(Config::get('session.table'), function($table)
-		{
-			$table->create();
+		$migrator = IoC::resolve('task: migrate');
 
-			// The session table consists simply of an ID, a UNIX timestamp to
-			// indicate the expiration time, and a blob field which will hold
-			// the serialized form of the session payload.
-			$table->string('id')->length(40)->primary('session_primary');
+		// To create the session table, we will actually create a database
+		// migration and then run it. This allows the application to stay
+		// portable through migrations while still having a session table
+		// generated on the database.
+		$migration = $migrator->make(array('create_session_table'));
 
-			$table->integer('last_activity');
+		$stub = SYS_PATH.'cli/tasks/session/migration'.EXT;
 
-			$table->text('data');
-		});
+		File::put($migration, File::get($stub));
 
 		// By default no session driver is specified in the configuration.
 		// Since the developer is requesting that the session table be
@@ -35,11 +37,17 @@ class Manager extends Task {
 		// to save an extra step for the developer.
 		$config = File::get(APP_PATH.'config/session'.EXT);
 
-		$config = str_replace("'driver' => '',", "'driver' => 'database',", $config);
+		$config = str_replace(
+			"'driver' => '',",
+			"'driver' => 'database',",
+			$config
+		);
 
 		File::put(APP_PATH.'config/session'.EXT, $config);
 
-		echo "The table has been created! Database set as session driver.";
+		echo PHP_EOL;
+
+		$migrator->run();
 	}
 
 	/**
@@ -50,7 +58,7 @@ class Manager extends Task {
 	 */
 	public function sweep($arguments = array())
 	{
-		$driver = \Laravel\Session::factory(Config::get('session.driver'));
+		$driver = Session::factory(Config::get('session.driver'));
 
 		// If the driver implements the "Sweeper" interface, we know that
 		// it can sweep expired sessions from storage. Not all drivers
