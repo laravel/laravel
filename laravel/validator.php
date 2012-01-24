@@ -476,7 +476,7 @@ class Validator {
 	 */
 	protected function validate_alpha($attribute, $value)
 	{
-		return preg_match('/^([a-z\s])+$/i', $value);
+		return preg_match('/^([a-z])+$/i', $value);
 	}
 
 	/**
@@ -488,7 +488,7 @@ class Validator {
 	 */
 	protected function validate_alpha_num($attribute, $value)
 	{
-		return preg_match('/^([a-z0-9\s])+$/i', $value);
+		return preg_match('/^([a-z0-9])+$/i', $value);
 	}
 
 	/**
@@ -500,8 +500,25 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-\s])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
 	}
+
+	/**
+	 * Validate that an attribute contains only characters that can be part of a Perl "word".
+	 * The definition of letters and digits is controlled by PCRE's character tables, and may vary
+	 * if locale-specific matching is taking place. For example, in the "fr" (French) locale, 
+	 * some character codes greater than 128 are used for accented letters, and 
+	 * these are matched by \w.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_word($attribute, $value)
+	{
+	    return preg_match('/^\w$/', $value);
+	}
+
 
 	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
