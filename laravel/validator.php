@@ -418,6 +418,33 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an (or all) attribute values exists in a given database table.
+	 *
+	 * If a database column is not specified, the attribute name will be used.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_in_db($attribute, $value, $parameters)
+	{
+		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
+
+		if (is_null($this->db)) $this->db = DB::connection();
+
+		if (is_array($value))
+		{
+			$return = $this->db->query("SELECT COUNT(DISTINCT $parameters[1]) AS count FROM $parameters[0] WHERE $parameters[1] IN ('".implode("','",$value)."')");
+			return $return[0]->count == count($value);
+		}
+		else
+		{
+			return $this->db->table($parameters[0])->where($parameters[1], '=', $value)->count() >= 1;
+		}
+	}
+
+	/**
 	 * Validate that an attribute is a valid e-mail address.
 	 *
 	 * @param  string  $attribute
