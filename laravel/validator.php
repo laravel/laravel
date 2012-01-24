@@ -516,7 +516,7 @@ class Validator {
 	 */
 	protected function validate_word($attribute, $value)
 	{
-	    return preg_match('/^\w+$/', $value);
+		return preg_match('/^[\w-]+$/u', $value);
 	}
 
 	/**
@@ -528,7 +528,7 @@ class Validator {
 	 */
 	protected function validate_words($attribute, $value)
 	{
-	    return preg_match('/^[\w ]+$/', $value);
+	    return preg_match('/^[\w -]+$/u', $value);
 	}
 
 	/**
