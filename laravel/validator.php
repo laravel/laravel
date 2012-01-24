@@ -516,9 +516,20 @@ class Validator {
 	 */
 	protected function validate_word($attribute, $value)
 	{
-	    return preg_match('/^\w$/', $value);
+	    return preg_match('/^\w+$/', $value);
 	}
 
+	/**
+	 * Same as validate_word, but for more than one.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_words($attribute, $value)
+	{
+	    return preg_match('/^[\w ]+$/', $value);
+	}
 
 	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
