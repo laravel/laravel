@@ -46,6 +46,10 @@ function array_get($array, $key, $default = null)
 {
 	if (is_null($key)) return $array;
 
+	// To retrieve the array item using dot syntax, we'll iterate through
+	// each segment in the key and look for that value. If it exists, we
+	// will return it, otherwise we will set the depth of the array and
+	// look for the next segment.
 	foreach (explode('.', $key) as $segment)
 	{
 		if ( ! is_array($array) or ! array_key_exists($segment, $array))
@@ -183,6 +187,46 @@ function array_first($array, $callback, $default = null)
 function array_spin($array, $callback)
 {
 	return array_map($callback, array_keys($array), array_values($array));
+}
+
+/**
+ * Recursively remove slashes from array keys and values.
+ *
+ * @param  array  $array
+ * @return array
+ */
+function array_strip_slashes($array)
+{
+	foreach($array as $key => $value)
+	{
+		unset($array[$key]);
+
+		$key = stripslashes($key);
+
+		// If the value is an array, we will just recurse back into the
+		// function to keep stripping the slashes out of the array,
+		// otherwise we will set the stripped value.
+		if (is_array($value))
+		{
+			$array[$key] = array_strip_slashes($value);
+		}
+		else
+		{
+			$array[$key] = stripslashes($value);
+		}
+	}
+
+	return $array;
+}
+
+/**
+ * Determine if "Magic Quotes" are enabled on the server.
+ *
+ * @return bool
+ */
+function magic_quotes()
+{
+	return function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc();
 }
 
 /**

@@ -59,6 +59,19 @@ error_reporting(-1);
 ini_set('display_errors', 'Off');
 
 /**
+ * Even though "Magic Quotes" are deprecated in PHP 5.3, they may
+ * still be enabled on the server. To account for this, we will
+ * strip slashes on all input arrays if magic quotes are turned
+ * on for the server environment.
+ */
+if (magic_quotes())
+{
+	$magic = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+
+	array_walk($magic, 'array_strip_slashes');	
+}
+
+/**
  * Load the session using the session manager. The payload will
  * be registered in the IoC container as an instance so it can
  * be easily access throughout the framework.
@@ -99,6 +112,8 @@ switch (Request::method())
 		else
 		{
 			parse_str(file_get_contents('php://input'), $input);
+
+			if (magic_quotes()) $input = array_strip_slashes($input);
 		}
 }
 
@@ -109,11 +124,6 @@ switch (Request::method())
  * model is filled with the input.
  */
 unset($input[Request::spoofer]);
-
-if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc())
-{
-	$input = array_map('stripslashes', $input);	
-}
 
 Input::$input = $input;
 
