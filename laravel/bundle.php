@@ -46,7 +46,7 @@ class Bundle {
 		// dependent bundles so that they are available.
 		if (file_exists($path = static::path($bundle).'bundle'.EXT))
 		{
-			require $path;
+			require_once $path;
 		}
 
 		// Each bundle may also have a "routes" file which is responsible for
@@ -65,11 +65,9 @@ class Bundle {
 	 */
 	public static function routes($bundle)
 	{
-		if (static::started($bundle)) return;
-
 		if (file_exists($path = static::path($bundle).'routes'.EXT))
 		{
-			require $path;
+			require_once $path;
 		}
 	}
 

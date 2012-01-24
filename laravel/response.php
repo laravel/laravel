@@ -214,7 +214,16 @@ class Response {
 		// Since this method is used by both the Route and Controller classes, it is
 		// a convenient spot to cast the application response to a string before it
 		// is returned to the main request handler.
-		$response->content = (string) $response->content;
+		$content =& $response->content;
+
+		if (is_object($content) and method_exists($content, '__toString'))
+		{
+			$content = $content->__toString();
+		}
+		else
+		{
+			$content = (string) $content;
+		}
 
 		return $response;
 	}
