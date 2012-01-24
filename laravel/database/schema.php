@@ -29,6 +29,7 @@ class Schema {
 	 */
 	public static function execute($table)
 	{
+		die('here');
 		foreach ($table->commands as $command)
 		{
 			$connection = DB::connection($table->connection);
@@ -82,9 +83,9 @@ class Schema {
 		{
 			foreach (array('primary', 'unique', 'fulltext', 'index') as $key)
 			{
-				if ($column->$key === true)
+				if (isset($column->attributes[$key]))
 				{
-					$table->$key($column->name);
+					$table->$key($column->name, $column->$key);
 				}
 			}
 		}

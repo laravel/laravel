@@ -7,7 +7,7 @@ class Fluent {
 	 *
 	 * @var array
 	 */
-	protected $attributes = array();
+	public $attributes = array();
 
 	/**
 	 * Create a new fluent container instance.
