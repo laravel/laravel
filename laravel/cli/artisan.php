@@ -1,9 +1,7 @@
 <?php namespace Laravel\CLI; defined('APP_PATH') or die('No direct script access.');
 
-use Laravel\IoC;
 use Laravel\Bundle;
 use Laravel\Config;
-use Laravel\Database as DB;
 
 /**
  * Fire up the default bundle. This will ensure any dependencies that
