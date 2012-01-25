@@ -57,14 +57,39 @@ abstract class Controller {
 
 		list($controller, $method) = explode('@', $destination);
 
+		list($method, $parameters) = static::backreference($method, $parameters);
+
 		$controller = static::resolve($bundle, $controller);
 
-		// If the controller could not be resolved, we're out of options and will
-		// return the 404 error response. Of course, if we found the controller,
-		// we can go ahead and execute the requested method on the instance.
+		// If the controller could not be resolved, we're out of options and
+		// will return the 404 error response. If we found the controller,
+		// we can execute the requested method on the instance.
 		if (is_null($controller)) return Response::error('404');
 
 		return $controller->execute($method, $parameters);
+	}
+
+	/**
+	 * Replace all back-references on the given method.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return array
+	 */
+	protected static function backreference($method, $parameters)
+	{
+		// Controller delegates may use back-references to the action parameters,
+		// which allows the developer to setup more flexible rouets to their
+		// controllers with less code. We will replace the back-references
+		// with their corresponding parameter value.
+		foreach ($parameters as $key => $value)
+		{
+			$method = str_replace('(:'.($key + 1).')', $value, $method, $count);
+
+			if ($count > 0) unset($parameters[$key]);
+		}
+
+		return array(str_replace('$1', 'index', $method), $parameters);
 	}
 
 	/**

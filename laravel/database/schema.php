@@ -75,9 +75,8 @@ class Schema {
 		}
 
 		// For some extra syntax sugar, we'll check for any implicit
-		// indexes on the table. The developer may specify the index
-		// type on the fluent column declaration. Here we'll find
-		// any implicit indexes and add the commands.
+		// indexes on the table since the developer may specify the
+		// index type on the fluent column declaration.
 		foreach ($table->columns as $column)
 		{
 			foreach (array('primary', 'unique', 'fulltext', 'index') as $key)

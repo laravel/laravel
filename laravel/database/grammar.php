@@ -30,7 +30,11 @@ abstract class Grammar {
 		{
 			$segments = explode(' ', $value);
 
-			return $this->wrap($segments[0]).' AS '.$this->wrap($segments[2]);
+			return sprintf(
+				'%s AS %s',
+				$this->wrap($segments[0]),
+				$this->wrap($segments[2])
+			);
 		}
 
 		// Since columns may be prefixed with their corresponding table
