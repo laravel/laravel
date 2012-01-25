@@ -50,4 +50,60 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('Laravel\\Messages', $view->data['errors']);
 	}
 
+	/**
+	 * Test the View __set method.
+	 *
+	 * @group laravel
+	 */
+	public function testDataCanBeSetOnViewsThroughMagicMethods()
+	{
+		$view = new View('home.index');
+
+		$view->comment = 'Taylor';
+
+		$this->assertEquals('Taylor', $view->data['comment']);
+	}
+
+	/**
+	 * Test the View __get method.
+	 *
+	 * @group laravel
+	 */
+	public function testDataCanBeRetrievedFromViewsThroughMagicMethods()
+	{
+		$view = new View('home.index');
+
+		$view->comment = 'Taylor';
+
+		$this->assertEquals('Taylor', $view->comment);
+	}
+
+	/**
+	 * Test the View's ArrayAccess implementation.
+	 *
+	 * @group laravel
+	 */
+	public function testDataCanBeSetOnTheViewThroughArrayAccess()
+	{
+		$view = new View('home.index');
+
+		$view['comment'] = 'Taylor';
+
+		$this->assertEquals('Taylor', $view->data['comment']);
+	}
+
+	/**
+	 * Test the View's ArrayAccess implementation.
+	 *
+	 * @group laravel
+	 */
+	public function testDataCanBeRetrievedThroughArrayAccess()
+	{
+		$view = new View('home.index');
+
+		$view['comment'] = 'Taylor';
+
+		$this->assertEquals('Taylor', $view['comment']);
+	}
+
 }
