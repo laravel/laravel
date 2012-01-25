@@ -3,6 +3,16 @@
 class ViewTest extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Test the View::make method.
+	 *
+	 * @group laravel
+	 */
+	public function testMakeMethodReturnsAViewInstance()
+	{
+		$this->assertInstanceOf('Laravel\\View', View::make('home.index'));
+	}
+
+	/**
 	 * Test the View class constructor.
 	 *
 	 * @group laravel
@@ -36,6 +46,42 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view = new View('home.index', array('name' => 'Taylor'));
 
 		$this->assertEquals('Taylor', $view->data['name']);
+	}
+
+	/**
+	 * Test the View::name method.
+	 *
+	 * @group laravel
+	 */
+	public function testNameMethodRegistersAViewName()
+	{
+		View::name('home.index', 'home');
+
+		$this->assertEquals('home.index', View::$names['home']);
+	}
+
+	/**
+	 * Test the View::shared method.
+	 *
+	 * @group laravel
+	 */
+	public function testSharedMethodAddsDataToSharedArray()
+	{
+		View::share('comment', 'Taylor');
+
+		$this->assertEquals('Taylor', View::$shared['comment']);
+	}
+
+	/**
+	 * Test the View::with method.
+	 *
+	 * @group laravel
+	 */
+	public function testViewDataCanBeSetUsingWithMethod()
+	{
+		$view = View::make('home.index')->with('comment', 'Taylor');
+
+		$this->assertEquals('Taylor', $view->data['comment']);
 	}
 
 	/**
@@ -104,6 +150,33 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view['comment'] = 'Taylor';
 
 		$this->assertEquals('Taylor', $view['comment']);
+	}
+
+	/**
+	 * Test the View::nest method.
+	 *
+	 * @group laravel
+	 */
+	public function testNestMethodSetsViewInstanceInData()
+	{
+		$view = View::make('home.index')->nest('partial', 'tests.basic');
+
+		$this->assertEquals('tests.basic', $view->data['partial']->view);
+		$this->assertInstanceOf('Laravel\\View', $view->data['partial']);
+	}
+
+	/**
+	 * Test that the registered data is passed to the view correctly.
+	 *
+	 * @group laravel
+	 */
+	public function testDataIsPassedToViewCorrectly()
+	{
+		View::share('name', 'Taylor');
+
+		$view = View::make('tests.basic')->with('age', 25)->render();
+
+		$this->assertEquals('Taylor is 25', $view);
 	}
 
 }
