@@ -23,9 +23,7 @@ class Cookie implements Driver {
 	{
 		if (\Laravel\Cookie::has(Cookie::payload))
 		{
-			$cookie = Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload));
-
-			return unserialize($cookie);
+			return unserialize(Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload)));
 		}
 	}
 
@@ -42,6 +40,14 @@ class Cookie implements Driver {
 		extract($config, EXTR_SKIP);
 
 		$payload = Crypter::encrypt(serialize($session));
+
+		// A cookie payload can't exceed 4096 bytes, so if the encrypted payload
+		// is greater than that, we'll throw an exception so the developer can
+		// switch to another session driver for the application.
+		if (strlen($payload) > 4000)
+		{
+			throw new \Exception("Session payload too large for cookie.");
+		}
 
 		\Laravel\Cookie::put(Cookie::payload, $payload, $lifetime, $path, $domain);
 	}
