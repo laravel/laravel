@@ -1,10 +1,5 @@
 <?php namespace Laravel;
 
-if (Config::get('application.key') === '')
-{
-	throw new \Exception("An application key is required to use sessions.");
-}
-
 class Session {
 
 	/**
@@ -29,6 +24,11 @@ class Session {
 	 */
 	public static function start($driver)
 	{
+		if (Config::get('application.key') === '')
+		{
+			throw new \Exception("An application key is required to use sessions.");
+		}
+
 		static::$instance = new Session\Payload(static::factory($driver));
 	}
 

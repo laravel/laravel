@@ -21,7 +21,7 @@ class View implements ArrayAccess {
 	 *
 	 * @var string
 	 */
-	protected $path;
+	public $path;
 
 	/**
 	 * All of the shared view data.
@@ -68,12 +68,16 @@ class View implements ArrayAccess {
 		// This makes error display in the view extremely convenient, since the
 		// developer can always assume they have a message container instance
 		// available to them in the view.
-		if (Config::get('session.driver') !== '' and Session::started() and ! isset($this['errors']))
+		if ( ! isset($this->data['errors']))
 		{
-			$this->data['errors'] = Session::get('errors', function()
+			if (Session::started() and Session::has('errors'))
 			{
-				return new Messages;
-			});
+				$this->data['errors'] = Session::get('errors');
+			}
+			else
+			{
+				$this->data['errors'] = new Messages;
+			}
 		}
 	}
 
