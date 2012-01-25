@@ -89,7 +89,7 @@ abstract class Controller {
 			if ($count > 0) unset($parameters[$key]);
 		}
 
-		return array(str_replace('$1', 'index', $method), $parameters);
+		return array(str_replace('(:1)', 'index', $method), $parameters);
 	}
 
 	/**
