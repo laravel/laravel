@@ -5,8 +5,6 @@ class Console {
 	/**
 	 * Parse the command line arguments and return the results.
 	 *
-	 * The returned array contains the arguments and the options.
-	 *
 	 * @param  array  $argv
 	 * @param  array
 	 */

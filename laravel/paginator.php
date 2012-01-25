@@ -375,17 +375,16 @@ class Paginator {
 	}
 
 	/**
-	 * Create the "appendage" that should be attached to every pagination link.
-	 *
-	 * The developer may assign an array of values that will be converted to a
-	 * query string and attached to every pagination link. This allows simple
-	 * implementation of sorting or other things the developer may need.
+	 * Create the "appendage" to be attached to every pagination link.
 	 *
 	 * @param  array   $appends
 	 * @return string
 	 */
 	protected function appendage($appends)
 	{
+	 	// The developer may assign an array of values that will be converted to a
+	 	// query string and attached to every pagination link. This allows simple
+	 	// implementation of sorting or other things the developer may need.
 		if ( ! is_null($this->appendage)) return $this->appendage;
 
 		if (count($appends) <= 0)

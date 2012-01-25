@@ -73,10 +73,6 @@ class Bundler extends Task {
 
 		$repository = IoC::resolve('bundle.repository');
 
-		// This method is primarily responsible for gathering the data
-		// for all bundles that need to be installed. This allows us
-		// to verify the existence of the bundle before even getting
-		// started on the actual installation process.
 		foreach ($bundles as $bundle)
 		{
 			// First we'll call the bundle repository to gather the bundle data

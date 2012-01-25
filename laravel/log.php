@@ -43,7 +43,7 @@ class Log {
 	{
 		$message = date('Y-m-d H:i:s').' '.Str::upper($type)." - {$message}".PHP_EOL;
 
-		File::append(STORAGE_PATH.'logs/'.date('Y-m').'.log', $message);
+		File::append(STORAGE_PATH.'logs/'.date('Y-m-d').'.log', $message);
 	}
 
 	/**

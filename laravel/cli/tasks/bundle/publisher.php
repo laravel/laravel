@@ -32,7 +32,7 @@ class Publisher {
 	 */
 	protected function move($source, $destination)
 	{
-		File::copy_dir($source, $destination);	
+		File::cpdir($source, $destination);	
 	}
 
 	/**

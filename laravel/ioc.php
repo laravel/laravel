@@ -124,11 +124,6 @@ class IoC {
 			return static::$singletons[$name];
 		}
 
-		if ( ! static::registered($name))
-		{
-			throw new \Exception("Error resolving [$name]. No resolver has been registered.");
-		}
-
 		$object = call_user_func(static::$registry[$name]['resolver'], $parameters);
 
 		// If the resolver is registering as a singleton resolver, we will cache

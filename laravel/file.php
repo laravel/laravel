@@ -181,7 +181,7 @@ class File {
 	 * @param  string  $destination
 	 * @return void
 	 */
-	public static function copy_dir($source, $destination)
+	public static function cpdir($source, $destination)
 	{
 		if ( ! is_dir($source)) return;
 
@@ -207,7 +207,7 @@ class File {
 			{
 				$path = $item->getRealPath();
 
-				static::copy_dir($path, $location);
+				static::cpdir($path, $location);
 			}
 			// If the file system item is an actual file, we can copy the
 			// file from the bundle asset directory to the public asset

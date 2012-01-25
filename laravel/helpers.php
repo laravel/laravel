@@ -21,7 +21,7 @@ function e($value)
  * @param  string  $language
  * @return string
  */
-function __($key, $replacements = array(), $language = null)
+function lang($key, $replacements = array(), $language = null)
 {
 	return Laravel\Lang::line($key, $replacements, $language);
 }

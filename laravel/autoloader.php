@@ -116,7 +116,7 @@ class Autoloader {
 		//
 		// We will check for both lowercase and CamelCase files as
 		// Laravel uses a lowercase version of PSR-0, while true
-		// PSR-0 uses CamelCase for file names.
+		// PSR-0 uses CamelCase for all file names.
 		foreach ($directories as $directory)
 		{
 			if (file_exists($path = $directory.strtolower($file).EXT))
