@@ -3,6 +3,15 @@
 class ViewTest extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Tear down the testing environment.
+	 */
+	public function tearDown()
+	{
+		View::$shared = array();
+		Event::$events = array();
+	}
+
+	/**
 	 * Test the View::make method.
 	 *
 	 * @group laravel
@@ -162,6 +171,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		$view = View::make('home.index')->nest('partial', 'tests.basic');
 
 		$this->assertEquals('tests.basic', $view->data['partial']->view);
+
 		$this->assertInstanceOf('Laravel\\View', $view->data['partial']);
 	}
 
@@ -175,6 +185,51 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 		View::share('name', 'Taylor');
 
 		$view = View::make('tests.basic')->with('age', 25)->render();
+
+		$this->assertEquals('Taylor is 25', $view);
+	}
+
+	/**
+	 * Test that the View class renders nested views.
+	 *
+	 * @group laravel
+	 */
+	public function testNestedViewsAreRendered()
+	{
+		$view = View::make('tests.basic')
+								->with('age', 25)
+								->nest('name', 'tests.nested');
+
+		$this->assertEquals('Taylor is 25', $view->render());
+	}
+
+	/**
+	 * Test that the View class renders nested responses.
+	 *
+	 * @group laravel
+	 */
+	public function testNestedResponsesAreRendered()
+	{
+		$view = View::make('tests.basic')
+								->with('age', 25)
+								->with('name', Response::view('tests.nested'));
+
+		$this->assertEquals('Taylor is 25', $view->render());
+	}
+
+	/**
+	 * Test the View class raises a composer event.
+	 *
+	 * @group laravel
+	 */
+	public function testComposerEventIsCalledWhenViewIsRendering()
+	{
+		View::composer('tests.basic', function($view)
+		{
+			$view->data = array('name' => 'Taylor', 'age' => 25);
+		});
+
+		$view = View::make('tests.basic')->render();
 
 		$this->assertEquals('Taylor is 25', $view);
 	}
