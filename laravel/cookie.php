@@ -45,9 +45,9 @@ class Cookie {
 			// character for convenience. To separate the hash and the contents
 			// we can simply expode on that character.
 			//
-			// By re-feeding the cookie value into the "sign" method, we should
-			// be able to generate a hash that matches the one taken out of the
-			// cookie. If they don't match, the cookie value has been changed.
+			// By re-feeding the cookie value into the "sign" method we should
+			// be able to generate a hash that matches the one taken from the
+			// cookie. If they don't, the cookie value has been changed.
 			list($hash, $value) = explode('~', $value, 2);
 
 			if (static::hash($name, $value) === $hash)
@@ -87,6 +87,15 @@ class Cookie {
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
 		$_COOKIE[$name] = static::sign($name, $value);
+
+		// A cookie payload can't exceed 4096 bytes, so if the payload
+		// is greater than that, we'll raise an exception to warn the
+		// developer of the problem since it may cause problems with
+		// the application, especially if using cookie sessions.
+		if (strlen($_COOKIE[$name]) > 4000)
+		{
+			throw new \Exception("Payload too large for cookie.");
+		}
 
 		return setcookie($name, $_COOKIE[$name], $time, $path, $domain, $secure);
 	}
