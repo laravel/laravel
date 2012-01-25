@@ -250,7 +250,7 @@ class Connection {
 				// parameters based on the elements in the binding.
 				if (is_array($bindings[$i]))
 				{
-					$parameters = implode(', ', array_fill(0, count($bindings[$i]), '?'));
+					$parameters = $this->grammar()->parameterize($bindings[$i]);
 
 					$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
 				}
