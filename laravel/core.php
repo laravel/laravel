@@ -149,7 +149,7 @@ $bundles = require BUNDLE_PATH.'bundles'.EXT;
 
 foreach ($bundles as $key => $value)
 {
-	$handles = array_get($value, 'handles');
+	$location = (is_array($value)) ? $value['location'] : $value;
 
-	Bundle::register($key, $value['location'], $handles);
+	Bundle::register($key, $location, array_get($value, 'handles'));
 }
