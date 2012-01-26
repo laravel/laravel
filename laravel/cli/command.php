@@ -106,7 +106,7 @@ class Command {
 	{
 		$prefix = Bundle::class_prefix($bundle);
 
-		return '\\'.$prefix.Str::clasify($task).'_Task';
+		return '\\'.$prefix.Str::classify($task).'_Task';
 	}
 
 }
