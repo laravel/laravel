@@ -1,4 +1,4 @@
-<?php namespace Laravel\Routing; use Closure, Laravel\Bundle;
+<?php namespace Laravel\Routing; use Closure, Laravel\Str, Laravel\Bundle;
 
 class Router {
 
@@ -128,6 +128,12 @@ class Router {
 	 */
 	public static function route($method, $uri)
 	{
+		// First we will make sure the bundle that handles the given URI has
+		// been started for the current request. Bundles may handle any URI
+		// as long as it begins with the string in the "handles" item of
+		// the bundle's registration array.
+		Bundle::start($bundle = Bundle::handles($uri));
+
 		// All route URIs begin with the request method and have a leading
 		// slash before the URI. We'll put the request method and URI in
 		// that format so we can easily check for literal matches.
@@ -139,10 +145,44 @@ class Router {
 		}
 
 		// If we can't find a literal match, we'll iterate through all of
-		// the registered routes attempting to find a matching route that
-		// uses wildcards or regular expressions.
+		// the registered routes to find a matching route that uses some
+		// regular expressions or wildcards.
+		if ( ! is_null($route = static::match($destination)))
+		{
+			return $route;
+		}
+
+		// If the bundle handling the request is not the default bundle,
+		// we want to remove the root "handles" string from the URI so
+		// it will not interfere with searching for a controller.
+		//
+		// If we left it on the URI, the root controller for the bundle
+		// would need to be nested in directories matching the clause.
+		// This will not intefere with the Route::handles method
+		// as the destination is used to set the route's URIs.
+		if ($bundle !== DEFAULT_BUNDLE)
+		{
+			$uri = str_replace(Bundle::get($bundle)->handles, '', $uri);
+
+			$uri = ltrim($uri, '/');
+		}
+
+		return static::controller($bundle, $method, $destination, Str::segments($uri));
+	}
+
+	/**
+	 * Iterate through every route to find a matching route.
+	 *
+	 * @param  string  $destination
+	 * @return Route
+	 */
+	protected static function match($destination)
+	{
 		foreach (static::$routes as $route => $action)
 		{
+			// We only need to check routes with regular expressions since
+			// all other routes would have been able to be caught by the
+			// check for literal matches we just did.
 			if (strpos($route, '(') !== false)
 			{
 				$pattern = '#^'.static::wildcards($route).'$#';
@@ -153,14 +193,6 @@ class Router {
 				}
 			}
 		}
-
-		// If there are no literal matches and no routes that match the
-		// request, we'll use convention to search for a controller to
-		// handle the request. If no controller can be found, the 404
-		// error response will be returned.
-		$segments = array_diff(explode('/', trim($uri, '/')), array(''));
-
-		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
 
 	/**
@@ -179,7 +211,7 @@ class Router {
 		// use the default method, which is "index".
 		if (count($segments) == 0)
 		{
-			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : "/{$bundle}";
+			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : '/'.Bundle::get($bundle)->handles;
 
 			$action = array('uses' => Bundle::prefix($bundle).'home@index');
 
@@ -187,23 +219,6 @@ class Router {
 		}
 
 		$directory = Bundle::path($bundle).'controllers/';
-
-		// We need to determine in which directory to look for the controllers.
-		// If the first segment of the request corresponds to a bundle that
-		// is installed for the application, we will use that bundle's
-		// controller path, otherwise we'll use the application's.
-		if (Bundle::routable($segments[0]))
-		{
-			$bundle = $segments[0];
-
-			// We shift the bundle name off of the URI segments because it will not
-			// be used to find a controller within the bundle. If we were to leave
-			// it in the segments, every bundle controller would need to be nested
-			// within a sub-directory matching the bundle name.
-			array_shift($segments);
-
-			return static::controller($bundle, $method, $destination, $segments);
-		}
 
 		if ( ! is_null($key = static::controller_key($segments, $directory)))
 		{

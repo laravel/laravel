@@ -256,6 +256,17 @@ class Str {
 	}
 
 	/**
+	 * Return the "URI" style segments in a given string.
+	 *
+	 * @param  string  $value
+	 * @return array
+	 */
+	public static function segments($value)
+	{
+		return array_diff(explode('/', trim($value, '/')), array(''));
+	}
+
+	/**
 	 * Generate a random alpha or alpha-numeric string.
 	 *
 	 * <code>

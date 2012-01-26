@@ -7,21 +7,36 @@ class Bundle {
 	 *
 	 * @var array
 	 */
-	protected static $bundles;
+	public static $bundles = array();
 
 	/**
 	 * A cache of the parsed bundle elements.
 	 *
 	 * @var array
 	 */
-	protected static $elements = array();
+	public static $elements = array();
 
 	/**
 	 * All of the bundles that have been started.
 	 *
 	 * @var array
 	 */
-	protected static $started = array();
+	public static $started = array();
+
+	/**
+	 * Register a bundle for the application.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $location
+	 * @param  string  $handles
+	 * @return void
+	 */
+	public static function register($bundle, $location, $handles = null)
+	{
+		$location = BUNDLE_PATH.rtrim($location, DS).DS;
+
+		static::$bundles[$bundle] = compact('location', 'handles');
+	}
 
 	/**
 	 * Load a bundle by running it's start-up script.
@@ -72,18 +87,21 @@ class Bundle {
 	}
 
 	/**
-	 * Determine if the given bundle is "routable".
+	 * Determine which bundle handles the given URI.
 	 *
-	 * A bundle is considered routable if it has a controller directory or a routes file.
+	 * If no bundle is assigned to handle the URI, the default bundle is returned.
 	 *
 	 * @param  string  $bundle
-	 * @return bool
+	 * @return string
 	 */
-	public static function routable($bundle)
+	public static function handles($uri)
 	{
-		$path = static::path($bundle);
+		foreach (static::$bundles as $key => $value)
+		{
+			if (starts_with($value['handles'], $uri)) return $key;
+		}
 
-		return is_dir($path.'controllers/') or file_exists($path.'routes'.EXT);
+		return DEFAULT_BUNDLE;
 	}
 
 	/**
@@ -146,7 +164,7 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
-		return ($bundle != DEFAULT_BUNDLE) ? BUNDLE_PATH.strtolower($bundle).DS : APP_PATH;
+		return ($bundle == DEFAULT_BUNDLE) ? APP_PATH : static::$bundles[$bundle]['location'];
 	}
 
 	/**
@@ -267,30 +285,24 @@ class Bundle {
 	}
 
 	/**
-	 * Detect all of the existing bundles in the application.
+	 * Get the information for a given bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return object
+	 */
+	public static function get($bundle)
+	{
+		return (object) array_get(static::$bundles, $bundle);
+	}
+
+	/**
+	 * Get all of the installed bundle names.
 	 *
 	 * @return array
 	 */
 	public static function all()
 	{
-		if (is_array(static::$bundles)) return static::$bundles;
-
-		$bundles = array();
-
-		$files = glob(BUNDLE_PATH.'*');
-
-		// When open_basedir is enabled the glob function returns false on
-		// an empty array. We'll check for this and return an empty array
-		// if the bundle directory doesn't have any bundles.
-		if ($files !== false)
-		{
-			foreach (array_filter($files, 'is_dir') as $bundle)
-			{
-				$bundles[] = basename($bundle);
-			}			
-		}
-
-		return static::$bundles = $bundles;
+		return array_keys(static::$bundles);
 	}
 
 }

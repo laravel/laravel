@@ -139,3 +139,17 @@ Autoloader::$mappings = array(
  * free to remove aliases when they extend core classes.
  */
 Autoloader::$aliases = Config::get('application.aliases');
+
+/**
+ * Register all of the bundles that are defined in the bundle info
+ * file within the bundles directory. This informs the framework
+ * where the bundle lives and which URIs it responds to.
+ */
+$bundles = require BUNDLE_PATH.'bundles'.EXT;
+
+foreach ($bundles as $key => $value)
+{
+	$handles = array_get($value, 'handles');
+
+	Bundle::register($key, $value['location'], $handles);
+}
