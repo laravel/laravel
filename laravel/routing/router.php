@@ -101,7 +101,7 @@ class Router {
 		// the bundle that are installed for the application.
 		if (count(static::$names) == 0)
 		{
-			foreach (Bundle::all() as $bundle)
+			foreach (Bundle::names() as $bundle)
 			{
 				Bundle::routes($bundle);
 			}
@@ -120,7 +120,7 @@ class Router {
 	}
 
 	/**
-	 * Search the routes for the route matching a request method and URI.
+	 * Search the routes for the route matching a method and URI.
 	 *
 	 * @param  string   $method
 	 * @param  string   $uri
@@ -206,13 +206,22 @@ class Router {
 	 */
 	protected static function controller($bundle, $method, $destination, $segments)
 	{
-		// If there are no more segments in the URI, we will just create a route
-		// for the default controller of the bundle, which is "home". We'll also
-		// use the default method, which is "index".
 		if (count($segments) == 0)
 		{
-			$uri = ($bundle == DEFAULT_BUNDLE) ? '/' : '/'.Bundle::get($bundle)->handles;
+			$uri = '/';
 
+			// If the bundle is not the default bundle for the application, we'll
+			// set the root URI as the root URI registered with the bundle in the
+			// bundle configuration file for the application. It's registered in
+			// the bundle configuration using the "handles" clause.
+			if ($bundle !== DEFAULT_BUNDLE)
+			{
+				$uri = '/'.Bundle::get($bundle)->handles;
+			}
+
+			// We'll generate a default "uses" clause for the route action that
+			// points to the default controller and method for the bundle so
+			// that the route will execute the default controller method.
 			$action = array('uses' => Bundle::prefix($bundle).'home@index');
 
 			return new Route($method.' '.$uri, $action);

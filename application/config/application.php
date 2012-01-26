@@ -100,21 +100,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Autoloaded Bundles
-	|--------------------------------------------------------------------------
-	|
-	| Bundles can provide a ton of awesome drop-in functionality for your web
-	| application. Everything from Twitter integration to an admin backend.
-	|
-	| Here you may specify the bundles that should be automatically started
-	| on every request to your application.
-	|
-	*/
-
-	'bundles' => array(),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Class Aliases
 	|--------------------------------------------------------------------------
 	|

@@ -143,9 +143,9 @@ Bundle::start(DEFAULT_BUNDLE);
  * array of auto-loaded bundles. This lets the developer have an
  * easy way to load bundles for every request.
  */
-foreach (Config::get('application.bundles') as $bundle)
+foreach (Bundle::all() as $bundle => $config)
 {
-	Bundle::start($bundle);
+	if ($config['auto']) Bundle::start($bundle);
 }
 
 /**

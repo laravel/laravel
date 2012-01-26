@@ -37,7 +37,7 @@ class Resolver {
 		// returned by "all" method on the Bundle class.
 		if (is_null($bundle))
 		{
-			$bundles = array_merge(Bundle::all(), array('application'));
+			$bundles = array_merge(Bundle::names(), array('application'));
 		}
 		else
 		{

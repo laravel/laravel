@@ -47,7 +47,7 @@ class Bundler extends Task {
 		// If no bundles are passed to the command, we'll just gather all
 		// of the installed bundle names and publish the assets for each
 		// of the bundles to the public directory.
-		if (count($bundles) == 0) $bundles = Bundle::all();
+		if (count($bundles) == 0) $bundles = Bundle::names();
 
 		$publisher = IoC::resolve('bundle.publisher');
 

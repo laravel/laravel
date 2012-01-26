@@ -147,9 +147,7 @@ Autoloader::$aliases = Config::get('application.aliases');
  */
 $bundles = require BUNDLE_PATH.'bundles'.EXT;
 
-foreach ($bundles as $key => $value)
+foreach ($bundles as $bundle => $config)
 {
-	$location = (is_array($value)) ? $value['location'] : $value;
-
-	Bundle::register($key, $location, array_get($value, 'handles'));
+	Bundle::register($bundle, $config);
 }

@@ -31,11 +31,21 @@ class Bundle {
 	 * @param  string  $handles
 	 * @return void
 	 */
-	public static function register($bundle, $location, $handles = null)
+	public static function register($bundle, $config = array())
 	{
-		$location = BUNDLE_PATH.rtrim($location, DS).DS;
+		$defaults = array('handles' => null, 'auto' => false);
 
-		static::$bundles[$bundle] = compact('location', 'handles');
+		if ( ! isset($config['location']))
+		{
+			throw new \Exception("Location not set for bundle [$bundle]");
+		}
+
+		// We will trim the trailing slash from the location and add it back so we don't
+		// have to worry about the developer adding or not adding it to the location
+		// path for the bundle. This makes sure it is always there.
+		$config['location'] = BUNDLE_PATH.rtrim($config['location'], DS).DS;
+
+		static::$bundles[$bundle] = array_merge($defaults, $config);
 	}
 
 	/**
@@ -98,7 +108,7 @@ class Bundle {
 	{
 		foreach (static::$bundles as $key => $value)
 		{
-			if (starts_with($value['handles'], $uri)) return $key;
+			if (starts_with($uri, $value['handles'])) return $key;
 		}
 
 		return DEFAULT_BUNDLE;
@@ -112,7 +122,7 @@ class Bundle {
 	 */
 	public static function exists($bundle)
 	{
-		return in_array(strtolower($bundle), static::all());
+		return in_array(strtolower($bundle), static::names());
 	}
 
 	/**
@@ -296,11 +306,21 @@ class Bundle {
 	}
 
 	/**
-	 * Get all of the installed bundle names.
+	 * Get all of the installed bundles for the application.
 	 *
 	 * @return array
 	 */
 	public static function all()
+	{
+		return static::$bundles;
+	}
+
+	/**
+	 * Get all of the installed bundle names.
+	 *
+	 * @return array
+	 */
+	public static function names()
 	{
 		return array_keys(static::$bundles);
 	}
