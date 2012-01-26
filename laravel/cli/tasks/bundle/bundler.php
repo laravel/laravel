@@ -14,8 +14,6 @@ class Bundler extends Task {
 	 */
 	public function install($bundles)
 	{
-		$publisher = IoC::resolve('bundle.publisher');
-
 		foreach ($this->get($bundles) as $bundle)
 		{
 			if (is_dir(BUNDLE_PATH.$bundle['name']))
@@ -35,8 +33,6 @@ class Bundler extends Task {
 			$provider = "bundle.provider: {$bundle['provider']}";
 
 			IoC::resolve($provider)->install($bundle);
-
-			$publisher->publish($bundle['name']);
 		}
 	}
 
