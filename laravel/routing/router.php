@@ -256,11 +256,12 @@ class Router {
 	 */
 	protected static function controller_key($segments, $directory)
 	{
+		$reverse = array_reverse($segments, true);
+
 		// To find the proper controller, we need to iterate backwards through
 		// the URI segments and take the first file that matches. That file
 		// should be the deepest possible controller matched by the URI.
-		$reverse = array_reverse($segments, true);
-
+		// Once we find it, we'll return its index key.
 		foreach ($reverse as $key => $value)
 		{
 			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
