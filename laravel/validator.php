@@ -424,7 +424,7 @@ class Validator {
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param  array   $parameters List of (0) table name (1) column
 	 * @return bool
 	 */
 	protected function validate_in_db($attribute, $value, $parameters)
