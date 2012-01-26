@@ -5,11 +5,6 @@ class Hash {
 	/**
 	 * Hash a password using the Bcrypt hashing scheme.
 	 *
-	 * Bcrypt provides a future-proof hashing algorithm by allowing the number of
-	 * "rounds" to be increased, thus increasing the time it takes to generate the
-	 * hashed value. The longer it takes takes to generate the hash, the more
-	 * impractical a rainbow table attack against the hashes becomes.
-	 *
 	 * <code>
 	 *		// Create a Bcrypt hash of a value
 	 *		$hash = Hash::make('secret');
@@ -24,7 +19,24 @@ class Hash {
 	 */
 	public static function make($value, $rounds = 8)
 	{
-		return crypt($value, '$2a$'.str_pad($rounds, 2, '0', STR_PAD_LEFT).'$'.static::salt());
+		$work = str_pad($rounds, 2, '0', STR_PAD_LEFT);
+
+		// Bcrypt expects the salt to be 22 base64 encoded characters including
+		// dots and slashes. We will get rid of the plus signs included in the
+		// base64 data and replace them with dots. OpenSSL will be used if it
+		// is available, otherwise we will use the Str::random method.
+		if (function_exists('openssl_random_pseudo_bytes'))
+		{
+			$salt = openssl_random_pseudo_bytes(16);
+		}
+		else
+		{
+			$salt = Str::random(40);
+		}
+
+		$salt = substr(strtr(base64_encode($salt), '+', '.'), 0 , 22);
+
+		return crypt($value, '$2a$'.$work.'$'.$salt);
 	}
 
 	/**
@@ -37,27 +49,6 @@ class Hash {
 	public static function check($value, $hash)
 	{
 		return crypt($value, $hash) === $hash;
-	}
-
-	/**
-	 * Get a salt for use during Bcrypt hashing.
-	 *
-	 * @return string
-	 */
-	protected static function salt()
-	{
-		// Bcrypt expects the salt to be 22 base64 encoded characters, including dots
-		// and slashes. We will get rid of the plus signs included in the base64 data
-		// and replace them with dots. OpenSSL will be used if available, since it is
-		// more random, otherwise we will fallback on Str::random.
-		if (function_exists('openssl_random_pseudo_bytes'))
-		{
-			$bytes = openssl_random_pseudo_bytes(16);
-
-			return substr(strtr(base64_encode($bytes), '+', '.'), 0 , 22);
-		}
-
-		return substr(str_replace('+', '.', base64_encode(Str::random(40))), 0, 22);
 	}
 
 }

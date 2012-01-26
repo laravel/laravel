@@ -3,66 +3,15 @@
 class Str {
 
 	/**
-	 * Convert a string to lowercase.
+	 * Get the default string encoding for the application.
 	 *
-	 * <code>
-	 *		// Convert a string to lowercase
-	 *		echo Str::lower('STOP YELLING');
-	 * </code>
+	 * This method is simply a short-cut to Config::get('application.encoding').
 	 *
-	 * @param  string  $value
 	 * @return string
 	 */
-	public static function lower($value)
+	public static function encoding()
 	{
-		if (function_exists('mb_strtolower'))
-		{
-			return mb_strtolower($value, Config::$items['application']['encoding']);
-		}
-
-		return strtolower($value);
-	}
-
-	/**
-	 * Convert a string to uppercase.
-	 *
-	 * <code>
-	 *		// Convert a string to uppercase
-	 *		echo Str::upper('speak louder');
-	 * </code>
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function upper($value)
-	{
-		if (function_exists('mb_strtoupper'))
-		{
-			return mb_strtoupper($value, Config::$items['application']['encoding']);
-		}
-
-		return strtoupper($value);
-	}
-
-	/**
-	 * Convert a string to title case (ucwords equivalent).
-	 *
-	 * <code>
-	 *		// Convert a string to title case
-	 *		echo Str::title('taylor otwell');
-	 * </code>
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function title($value)
-	{
-		if (function_exists('mb_convert_case'))
-		{
-			return mb_convert_case($value, MB_CASE_TITLE, Config::$items['application']['encoding']);
-		}
-
-		return ucwords(strtolower($value));
+		return Config::get('application.encoding');
 	}
 
 	/**
@@ -70,7 +19,10 @@ class Str {
 	 *
 	 * <code>
 	 *		// Get the length of a string
-	 *		echo Str::length('taylor otwell');
+	 *		$length = Str::length('Taylor Otwell');
+	 *
+	 *		// Get the length of a multi-byte string
+	 *		$length = Str::length('Τάχιστη')
 	 * </code>
 	 *
 	 * @param  string  $value
@@ -78,12 +30,69 @@ class Str {
 	 */
 	public static function length($value)
 	{
-		if (function_exists('mb_strlen'))
+		return (MB_STRING) ? mb_strlen($value, static::encoding()) : strlen($value);
+	}
+
+	/**
+	 * Convert a string to lowercase.
+	 *
+	 * <code>
+	 *		// Convert a string to lowercase
+	 *		$lower = Str::lower('Taylor Otwell');
+	 *
+	 *		// Convert a multi-byte string to lowercase
+	 *		$lower = Str::lower('Τάχιστη');
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function lower($value)
+	{
+		return (MB_STRING) ? mb_strtolower($value, static::encoding()) : strtolower($value);
+	}
+
+	/**
+	 * Convert a string to uppercase.
+	 *
+	 * <code>
+	 *		// Convert a string to uppercase
+	 *		$upper = Str::upper('Taylor Otwell');
+	 *
+	 *		// Convert a multi-byte string to uppercase
+	 *		$upper = Str::upper('Τάχιστη');
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function upper($value)
+	{
+		return (MB_STRING) ? mb_strtoupper($value, static::encoding()) : strtoupper($value);
+	}
+
+	/**
+	 * Convert a string to title case (ucwords equivalent).
+	 *
+	 * <code>
+	 *		// Convert a string to title case
+	 *		$title = Str::title('taylor otwell');
+	 *
+	 *		// Convert a multi-byte string to title case
+	 *		$title = Str::title('νωθρού κυνός');
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function title($value)
+	{
+		if (MB_STRING)
 		{
-			return mb_strlen($value, Config::$items['application']['encoding']);
+			return mb_convert_case($value, MB_CASE_TITLE, static::encoding());
 		}
 
-		return strlen($value);
+		return ucwords(strtolower($value));
 	}
 
 	/**
@@ -106,16 +115,52 @@ class Str {
 	{
 		if (static::length($value) <= $limit) return $value;
 
-		if (function_exists('mb_substr'))
+		if (MB_STRING)
 		{
-			return mb_substr($value, 0, $limit, Config::$items['application']['encoding']).$end;
+			return mb_substr($value, 0, $limit, static::encoding()).$end;
 		}
 
 		return substr($value, 0, $limit).$end;
 	}
 
 	/**
-	 * Limit the number of words in a string
+	 * Get the singular form of the given word.
+	 *
+	 * The word should be defined in the "strings" configuration file.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function singular($value)
+	{
+		return array_get(array_flip(Config::get('strings.inflection')), strtolower($value), $value);
+	}
+
+	/**
+	 * Get the plural form of the given word.
+	 *
+	 * The word should be defined in the "strings" configuration file.
+	 *
+	 * <code>
+	 *		// Returns the plural form of "child"
+	 *		$plural = Str::plural('child', 10);
+	 *
+	 *		// Returns the singular form of "octocat" since count is one
+	 *		$plural = Str::plural('octocat', 1);
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function plural($value, $count = 2)
+	{
+		if ((int) $count == 1) return $value;
+
+		return array_get(Config::get('strings.inflection'), strtolower($value), $value);
+	}
+
+	/**
+	 * Limit the number of words in a string.
 	 *
 	 * <code>
 	 *		// Returns "This is a..."
@@ -132,27 +177,55 @@ class Str {
 	 */
 	public static function words($value, $words = 100, $end = '...')
 	{
-		$count = str_word_count($value, 1);
+		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
 
-		if ($count <= $words) return $value;
+		if (static::length($value) == static::length($matches[0]))
+		{
+			$end = '';
+		}
 
-		return implode(' ', array_slice($count, 0, $words)).$end;
+		return rtrim($matches[0]).$end;
+	}
+
+	/**
+	 * Generate a URL friendly "slug" from a given string.
+	 *
+	 * <code>
+	 *		// Returns "this-is-my-blog-post"
+	 *		$slug = Str::slug('This is my blog post!');
+	 *
+	 *		// Returns "this_is_my_blog_post"
+	 *		$slug = Str::slug('This is my blog post!', '_');
+	 * </code>
+	 *
+	 * @param  string  $title
+	 * @param  string  $separator
+	 * @return string
+	 */
+	public static function slug($title, $separator = '-')
+	{
+		$title = static::ascii($title);
+
+		// Remove all characters that are not the separator, letters, numbers, or whitespace.
+		$title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', static::lower($title));
+
+		// Replace all separator characters and whitespace by a single separator
+		$title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+
+		return trim($title, $separator);
 	}
 
 	/**
 	 * Convert a string to 7-bit ASCII.
 	 *
-	 * <code>
-	 *		// Returns "Deuxieme Article"
-	 *		echo Str::ascii('Deuxième Article');
-	 * </code>
+	 * This is helpful for converting UTF-8 strings for usage in URLs, etc.
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	public static function ascii($value)
 	{
-		$foreign = Config::get('ascii');
+		$foreign = Config::get('strings.ascii');
 
 		$value = preg_replace(array_keys($foreign), array_values($foreign), $value);
 
@@ -160,13 +233,34 @@ class Str {
 	}
 
 	/**
+	 * Convert a string to an underscored, camel-cased class name.
+	 *
+	 * This method is primarily used to format task and controller names.
+	 *
+	 * <code>
+	 *		// Returns "Task_Name"
+	 *		$class = Str::classify('task_name');
+	 *
+	 *		// Returns "Taylor_Otwell"
+	 *		$class = Str::classify('taylor otwell')
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function classify($value)
+	{
+		return str_replace(' ', '_', static::title(str_replace(array('_', '.'), ' ', $value)));
+	}
+
+	/**
 	 * Generate a random alpha or alpha-numeric string.
 	 *
 	 * <code>
-	 *		// Generate a 40 character random, alpha-numeric string
+	 *		// Generate a 40 character random alpha-numeric string
 	 *		echo Str::random(40);
 	 *
-	 *		// Generate a 16 character random, alphabetic string
+	 *		// Generate a 16 character random alphabetic string
 	 *		echo Str::random(16, 'alpha');
 	 * <code>
 	 *
@@ -196,7 +290,7 @@ class Str {
 				return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 			default:
-				throw new \DomainException("Invalid random string type [$type].");
+				throw new \Exception("Invalid random string type [$type].");
 		}
 	}
 

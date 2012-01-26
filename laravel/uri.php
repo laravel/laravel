@@ -14,14 +14,10 @@ class URI {
 	 *
 	 * @var array
 	 */
-	protected static $segments = array();
+	public static $segments = array();
 
 	/**
 	 * Get the URI for the current request.
-	 *
-	 * If the request is to the root of the application, a single forward slash
-	 * will be returned. Otherwise, the URI will be returned with all of the
-	 * leading and trailing slashes removed.
 	 *
 	 * @return string
 	 */
@@ -36,14 +32,23 @@ class URI {
 		// rid of all of the the sub-directories from the request URI.
 		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
-		if (($index = '/'.Config::$items['application']['index']) !== '/')
+		// We'll also remove the application's index page as it is not used for at
+		// all for routing and is totally unnecessary as far as the framework is
+		// concerned. It is only in the URI when mod_rewrite is not available.
+		if (($index = '/'.Config::get('application.index')) !== '/')
 		{
 			$uri = static::remove($uri, $index);
 		}
 
 		static::$uri = static::format($uri);
 
-		static::$segments = explode('/', static::$uri);
+		// Cache the URI segments. This allows us to avoid having to explode
+		// the segments every time the developer requests one of them. The
+		// extra slashes have already been stripped off of the URI so no
+		// extraneous elements should be present in the segment array.
+		$segments = explode('/', trim(static::$uri, '/'));
+
+		static::$segments = array_diff($segments, array(''));
 
 		return static::$uri;
 	}
@@ -67,7 +72,7 @@ class URI {
 	{
 		static::current();
 
-		return Arr::get(static::$segments, $index - 1, $default);
+		return array_get(static::$segments, $index - 1, $default);
 	}
 
 	/**
@@ -79,18 +84,11 @@ class URI {
 	 */
 	protected static function remove($uri, $value)
 	{
-		if (strpos($uri, $value) === 0)
-		{
-			return substr($uri, strlen($value));
-		}
-		return $uri;
+		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 	}
 
 	/**
 	 * Format a given URI.
-	 *
-	 * If the URI is an empty string, a single forward slash will be returned.
-	 * Otherwise, we will trim the URI's leading and trailing slashes.
 	 *
 	 * @param  string  $uri
 	 * @return string

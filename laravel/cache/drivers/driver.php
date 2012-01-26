@@ -28,9 +28,7 @@ abstract class Driver {
 	 */
 	public function get($key, $default = null)
 	{
-		if ( ! is_null($item = $this->retrieve($key))) return $item;
-
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return ( ! is_null($item = $this->retrieve($key))) ? $item : value($default);
 	}
 
 	/**
@@ -57,8 +55,7 @@ abstract class Driver {
 	abstract public function put($key, $value, $minutes);
 
 	/**
-	 * Get an item from the cache. If the item doesn't exist in the
-	 * cache, store the default value in the cache and return it.
+	 * Get an item from the cache, or cache and return the default value.
 	 *
 	 * <code>
 	 *		// Get an item from the cache, or cache a value for 15 minutes
@@ -77,9 +74,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$default = ($default instanceof Closure) ? call_user_func($default) : $default;
-
-		$this->put($key, $default, $minutes);
+		$this->put($key, value($default), $minutes);
 
 		return $default;
 	}
@@ -91,5 +86,16 @@ abstract class Driver {
 	 * @return void
 	 */
 	abstract public function forget($key);
+
+	/**
+	 * Get the expiration time as a UNIX timestamp.
+	 *
+	 * @param  int  $minutes
+	 * @return int
+	 */
+	protected function expiration($minutes)
+	{
+		return time() + ($minutes * 60);
+	}
 
 }
