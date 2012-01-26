@@ -11,7 +11,7 @@
 | your own bundles to share with the Laravel community.
 |
 | This is a list of the bundles installed for your application and tells
-| Laravel the location of hte bundle's root directory, as well as the
+| Laravel the location of the bundle's root directory, as well as the
 | root URI the bundle responds to.
 |
 | For example, if you have an "admin" bundle located in "bundles/admin" 
