@@ -250,7 +250,9 @@ class Str {
 	 */
 	public static function classify($value)
 	{
-		return str_replace(' ', '_', static::title(str_replace(array('_', '.'), ' ', $value)));
+		$search = array('_', '-', '.');
+
+		return str_replace(' ', '_', static::title(str_replace($search, ' ', $value)));
 	}
 
 	/**

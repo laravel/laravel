@@ -76,7 +76,7 @@ class Router {
 			{
 				// PHP 5.3.2 has a bug that causes closures cast as arrays
 				// to yield an empty array. We will work around this by
-				// manually adding the Closure instance to a new array.
+				// manually adding the Closure instance to an array.
 				if ($action instanceof Closure) $action = array($action);
 
 				static::$routes[$uri] = (array) $action;
@@ -87,8 +87,7 @@ class Router {
 	}
 
 	/**
-	 * Find a route by name.
-	 *
+	 * Find a route by the route's assigned name.
 	 *
 	 * @param  string  $name
 	 * @return array
@@ -142,42 +141,26 @@ class Router {
 		// If we can't find a literal match, we'll iterate through all of
 		// the registered routes attempting to find a matching route that
 		// uses wildcards or regular expressions.
-		if ( ! is_null($route = static::search($destination)))
-		{
-			return $route;
-		}
-
-		// If there are no literal matches and no routes that match the
-		// request, we'll use convention to search for a controller to
-		// handle the request. If no controller can be found, the 404
-		// error response will be returned by the application.
-		$segments = array_diff(explode('/', trim($uri, '/')), array(''));
-
-		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
-	}
-
-	/**
-	 * Attempt to match a destination to one of the registered routes.
-	 *
-	 * @param  string  $destination
-	 * @return Route
-	 */
-	protected static function search($destination)
-	{
 		foreach (static::$routes as $route => $action)
 		{
-			// Since routes that don't use wildcards or regular expressions
-			// should have been caught by the literal route check, we will
-			// only check routes that have a parentheses, indicating that
-			// there are wildcards or regular expressions.
 			if (strpos($route, '(') !== false)
 			{
-				if (preg_match('#^'.static::wildcards($route).'$#', $destination, $parameters))
+				$pattern = '#^'.static::wildcards($route).'$#';
+
+				if (preg_match($pattern, $destination, $parameters))
 				{
 					return new Route($route, $action, array_slice($parameters, 1));
 				}
 			}
 		}
+
+		// If there are no literal matches and no routes that match the
+		// request, we'll use convention to search for a controller to
+		// handle the request. If no controller can be found, the 404
+		// error response will be returned.
+		$segments = array_diff(explode('/', trim($uri, '/')), array(''));
+
+		return static::controller(DEFAULT_BUNDLE, $method, $destination, $segments);
 	}
 
 	/**
