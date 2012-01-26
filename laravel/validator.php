@@ -426,6 +426,18 @@ class Validator {
 
 		return $query->count() == 0;
 	}
+	
+	/**
+	 * Validate that an attribute is a valid IP.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_ip($attribute, $value)
+	{
+		return filter_var($value, FILTER_VALIDATE_IP) !== false;
+	}
 
 	/**
 	 * Validate that an attribute is a valid e-mail address.
