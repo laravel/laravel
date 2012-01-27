@@ -53,7 +53,7 @@ class Bundler extends Task {
 
 		foreach ($bundles as $bundle)
 		{
-			$publisher->publish($bundle['name']);
+			$publisher->publish($bundle);
 		}
 	}
 
