@@ -21,10 +21,11 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 	public function testBasicRouteCanBeRouted()
 	{
 		Router::register('GET /', function() {});
-		Router::register('GET /home', function() {});
+		Router::register(array('GET /home', 'GET /main'), function() {});
 
 		$this->assertEquals('GET /', Router::route('GET', '/')->key);
 		$this->assertEquals('GET /home', Router::route('GET', '/home')->key);
+		$this->assertEquals('GET /main', Router::route('GET', '/main')->key);
 	}
 
 	/**
