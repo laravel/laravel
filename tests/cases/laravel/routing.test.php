@@ -91,7 +91,19 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testRoutesToBundlesCanBeResolved()
 	{
+		$this->assertNull(Router::route('GET', 'dashboard/foo'));
 		$this->assertEquals('GET /dashboard', Router::route('GET', 'dashboard')->key);
+	}
+
+	/**
+	 * Test bundle controller route resolution.
+	 *
+	 * @group laravel
+	 */
+	public function testBundleControllersCanBeResolved()
+	{
+		$this->assertEquals('dashboard::panel@index', Router::route('GET', 'dashboard/panel')->action['uses']);
+		$this->assertEquals('dashboard::panel@show', Router::route('GET', 'dashboard/panel/show')->action['uses']);
 	}
 
 }
