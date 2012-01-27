@@ -35,7 +35,6 @@
 
 Router::register(array('GET /', 'GET /home'), function()
 {
-	var_dump(Bundle::$bundles);
 	return View::make('home.index');
 });
 
