@@ -21,6 +21,13 @@ class Manager extends Task {
 	{
 		$migrator = IoC::resolve('task: migrate');
 
+		$key = IoC::resolve('task: key');
+
+		// Since sessions can't work without an application key, we will go
+		// ahead and set the key if one has not already been set for the
+		// application so the developer doesn't need to set it.
+		$key->generate();
+
 		// To create the session table, we will actually create a database
 		// migration and then run it. This allows the application to stay
 		// portable through migrations while still having a session table
