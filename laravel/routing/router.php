@@ -59,11 +59,6 @@ class Router {
 			// need to add it to the action array as a "uses" clause, which will
 			// indicate to the route to call the controller when the route is
 			// executed by the application.
-			//
-			// Note that all route actions are converted to arrays. This just
-			// gives us a convenient and consistent way of accessing it since
-			// we can always make an assumption that the action is an array,
-			// and it lets us store the URIs on the action for each route.
 			if (is_string($action))
 			{
 				static::$routes[$uri]['uses'] = $action;
@@ -74,9 +69,6 @@ class Router {
 			// handled by the route instance.
 			else
 			{
-				// PHP 5.3.2 has a bug that causes closures cast as arrays
-				// to yield an empty array. We will work around this by
-				// manually adding the Closure instance to an array.
 				if ($action instanceof Closure) $action = array($action);
 
 				static::$routes[$uri] = (array) $action;
@@ -226,7 +218,7 @@ class Router {
 
 			// We'll generate a default "uses" clause for the route action that
 			// points to the default controller and method for the bundle so
-			// that the route will execute the default controller method.
+			// that the route will execute the default.
 			$action = array('uses' => Bundle::prefix($bundle).'home@index');
 
 			return new Route($method.' '.$uri, $action);
@@ -234,13 +226,13 @@ class Router {
 
 		$directory = Bundle::path($bundle).'controllers/';
 
-		if ( ! is_null($key = static::controller_key($segments, $directory)))
+		if ( ! is_null($key = static::locate($segments, $directory)))
 		{
 			// First, we'll extract the controller name, then, since we need
 			// to extract the method and parameters, we will remove the name
 			// of the controller from the URI. Then we can shift the method
 			// off of the array of segments. Any remaining segments are the
-			// parameters that should be passed to the controller method.
+			// parameters for the method.
 			$controller = implode('.', array_slice($segments, 0, $key));
 
 			$segments = array_slice($segments, $key);
@@ -260,13 +252,13 @@ class Router {
 	}
 
 	/**
-	 * Get the URI index for the controller that should handle the request.
+	 * Locate the URI segment matching a controller name.
 	 *
 	 * @param  string  $directory
 	 * @param  array   $segments
 	 * @return int
 	 */
-	protected static function controller_key($segments, $directory)
+	protected static function locate($segments, $directory)
 	{
 		for ($i = count($segments) - 1; $i >= 0; $i--)
 		{
@@ -301,7 +293,10 @@ class Router {
 		// back on after we know how many replacements we made.
 		$key = str_replace($search, $replace, $key, $count);
 
-		$key .= ($count > 0) ? str_repeat(')?', $count) : '';
+		if ($count > 0)
+		{
+			$key .= str_repeat(')?', $count);
+		}
 
 		// For "regular" parameters, we can just do a simple translate
 		// using the patterns array. There is not need to cap the
