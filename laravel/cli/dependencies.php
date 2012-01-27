@@ -47,6 +47,16 @@ IoC::singleton('task: session', function()
 });
 
 /**
+ * The "test" task is responsible for running the unit tests for
+ * the application, bundles, and the core framework itself.
+ * It provides a nice wrapper around PHPUnit.
+ */
+IoC::singleton('task: test', function()
+{
+	return new Tasks\Test\Runner;
+});
+
+/**
  * The bundle repository is responsible for communicating with
  * the Laravel bundle sources to get information regarding any
  * bundles that are requested for installation.
@@ -58,8 +68,8 @@ IoC::singleton('bundle.repository', function()
 
 /**
  * The bundle publisher is responsible for publishing bundle
- * assets and tests to their correct directories within the
- * application, such as the web accessible directory.
+ * assets to their correct directories within the install,
+ * such as the web accessible directory.
  */
 IoC::singleton('bundle.publisher', function()
 {

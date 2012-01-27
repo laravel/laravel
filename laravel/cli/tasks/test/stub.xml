@@ -3,7 +3,7 @@
          backupGlobals="false">
 	<testsuites>
 		<testsuite name="Test Suite">
-			<directory suffix=".test.php">tests</directory>
+			<directory suffix=".test.php">{{directory}}</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
