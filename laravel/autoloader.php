@@ -60,6 +60,11 @@ class Autoloader {
 		{
 			$namespace = substr($class, 0, $slash);
 
+			if ($namespace == 'Laravel')
+			{
+				return static::load_psr($class, BASE_PATH);
+			}
+
 			// If the class namespace is mapped to a directory, we will load the class
 			// using the PSR-0 standards from that directory; however, we will trim
 			// off the beginning of the namespace to account for files in the root
@@ -108,7 +113,14 @@ class Autoloader {
 		// slashes to directory slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
-		$directories = (is_nulL($directory)) ? static::$psr : array($directory);
+		if (is_null($directory))
+		{
+			$directories = static::$psr;
+		}
+		else
+		{
+			$directories = array($directory);
+		}
 
 		// Once we have formatted the class name, we will simply spin
 		// through the registered PSR-0 directories and attempt to
@@ -117,9 +129,11 @@ class Autoloader {
 		// We will check for both lowercase and CamelCase files as
 		// Laravel uses a lowercase version of PSR-0, while true
 		// PSR-0 uses CamelCase for all file names.
+		$lower = strtolower($file);
+
 		foreach ($directories as $directory)
 		{
-			if (file_exists($path = $directory.strtolower($file).EXT))
+			if (file_exists($path = $directory.$lower.EXT))
 			{
 				return require $path;
 			}
