@@ -68,4 +68,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('GET /profile/(:any)/(:any?)', Router::route('GET', 'profile/taylor/otwell')->key);
 	}
 
+	/**
+	 * Test that basic controller routing is working.
+	 *
+	 * @group laravel
+	 */
+	public function testBasicRouteToControllerIsRouted()
+	{
+		$this->assertEquals('home@index', Router::route('GET', '/')->action['uses']);
+		$this->assertEquals('auth@index', Router::route('GET', 'auth')->action['uses']);
+		$this->assertEquals('home@index', Router::route('GET', 'home')->action['uses']);
+		$this->assertEquals('home@index', Router::route('GET', 'home/index')->action['uses']);
+		$this->assertEquals('home@profile', Router::route('GET', 'home/profile')->action['uses']);
+		$this->assertEquals('admin.panel@index', Router::route('GET', 'admin/panel')->action['uses']);
+		$this->assertEquals('admin.panel@show', Router::route('GET', 'admin/panel/show')->action['uses']);
+	}
+
 }
