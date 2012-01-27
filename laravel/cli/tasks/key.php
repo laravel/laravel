@@ -48,6 +48,8 @@ class Key extends Task {
 		{
 			echo "An application key already exists!";
 		}
+
+		echo PHP_EOL;
 	}
 
 }
