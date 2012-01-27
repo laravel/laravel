@@ -27,6 +27,10 @@
 | Now the bundle will be recognized by Laravel and will be able
 | to respond to requests beginning with "admin"!
 |
+| Have a bundle that lives in the root of the bundle directory
+| and doesn't respond to any requests? Just add the bundle
+| name to the array and we'll take care of the rest.
+|
 */
 
 return array();

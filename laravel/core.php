@@ -47,7 +47,9 @@ Autoloader::$aliases = Config::get('application.aliases');
  */
 $bundles = require BUNDLE_PATH.'bundles'.EXT;
 
-foreach ($bundles as $bundle => $config)
+foreach ($bundles as $bundle => $value)
 {
-	Bundle::register($bundle, $config);
+	if (is_numeric($bundle)) $bundle = $value;
+
+	Bundle::register($bundle, $value);
 }

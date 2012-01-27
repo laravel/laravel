@@ -35,14 +35,22 @@ class Bundle {
 	{
 		$defaults = array('handles' => null, 'auto' => false);
 
+		// If the given config is actually a string, we will assume it is a location
+		// and convert it to an array so that the developer may conveniently add
+		// bundles to the configuration without making an array for each one.
+		if (is_string($config))
+		{
+			$config = array('location' => $config);
+		}
+
 		if ( ! isset($config['location']))
 		{
 			throw new \Exception("Location not set for bundle [$bundle]");
 		}
 
-		// We will trim the trailing slash from the location and add it back so we don't
-		// have to worry about the developer adding or not adding it to the location
-		// path for the bundle. This makes sure it is always there.
+		// We will trim the trailing slash from the location and add it back so
+		// we don't have to worry about the developer adding or not adding it
+		// to the location path for the bundle.
 		$config['location'] = BUNDLE_PATH.rtrim($config['location'], DS).DS;
 
 		static::$bundles[$bundle] = array_merge($defaults, $config);
