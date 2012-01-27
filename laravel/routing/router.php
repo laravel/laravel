@@ -167,7 +167,9 @@ class Router {
 			$uri = ltrim($uri, '/');
 		}
 
-		return static::controller($bundle, $method, $destination, Str::segments($uri));
+		$segments = Str::segments($uri);
+
+		return static::controller($bundle, $method, $destination, $segments);
 	}
 
 	/**
@@ -285,21 +287,26 @@ class Router {
 	}
 
 	/**
-	 * Translate route URI wildcards into actual regular expressions.
+	 * Translate route URI wildcards into regular expressions.
 	 *
 	 * @param  string  $key
 	 * @return string
 	 */
 	protected static function wildcards($key)
 	{
+		list($search, $replace) = array_divide(static::$optional);
+
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We'll add the endings
 		// back on after we know how many replacements we made.
-		$key = str_replace(array_keys(static::$optional), array_values(static::$optional), $key, $count);
+		$key = str_replace($search, $replace, $key, $count);
 
 		$key .= ($count > 0) ? str_repeat(')?', $count) : '';
 
-		return str_replace(array_keys(static::$patterns), array_values(static::$patterns), $key);
+		// For "regular" parameters, we can just do a simple translate
+		// using the patterns array. There is not need to cap the
+		// pattern like we did with optional parameters.
+		return strtr($key, static::$patterns);
 	}
 
 }
