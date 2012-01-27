@@ -19,6 +19,22 @@ define('DS', DIRECTORY_SEPARATOR);
 require 'paths.php';
 
 // --------------------------------------------------------------
+// Override the application paths when testing the core.
+// --------------------------------------------------------------
+$config = file_get_contents('phpunit.xml');
+
+if (strpos($config, 'laravel-tests') !== false)
+{
+	$path = $GLOBALS['BUNDLE_PATH'].'laravel-tests'.DS;
+
+	$GLOBALS['APP_PATH'] = $path.'application'.DS;
+
+	$GLOBALS['BUNDLE_PATH'] = $path.'bundles'.DS;
+
+	$GLOBALS['STORAGE_PATH'] = $path.'storage'.DS;
+}
+
+// --------------------------------------------------------------
 // Bootstrap the Laravel core.
 // --------------------------------------------------------------
 require $GLOBALS['SYS_PATH'].'core.php';

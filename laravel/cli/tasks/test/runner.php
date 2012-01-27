@@ -35,16 +35,6 @@ class Runner extends Task {
 
 		$path = $GLOBALS['BUNDLE_PATH'].'laravel-tests/';
 
-		// When testing the framework, we will swap out the application
-		// and other core paths to stub out the application portion of
-		// the framework for testing. This allows us to create dummy
-		// controllers, views, models, etc.
-		$GLOBALS['APP_PATH'] = $path.'application'.DS;
-
-		$GLOBALS['BUNDLE_PATH'] = $path.'bundles'.DS;
-
-		$GLOBALS['STORAGE_PATH'] = $path.'storage'.DS;
-
 		$this->test();
 	}
 
