@@ -33,13 +33,6 @@ require SYS_PATH.'autoloader'.EXT;
 spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 
 /**
- * Register the "BASE_PATH" as a PSR-0 directory. This allows the
- * entire Laravel framework to be laoded according to the PSR-0
- * conventions, as the entire core follows the convention.
- */
-Autoloader::psr(BASE_PATH);
-
-/**
  * Register all of the core class aliases. These aliases provide a
  * convenient way of working with the Laravel core classes without
  * having to worry about the namespacing. The developer is also
