@@ -1,4 +1,4 @@
-<?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
 
 class Cache {
 
@@ -51,7 +51,7 @@ class Cache {
 				return new Cache\Drivers\APC(Config::get('cache.key'));
 
 			case 'file':
-				return new Cache\Drivers\File(CACHE_PATH);
+				return new Cache\Drivers\File($GLOBALS['STORAGE_PATH'].'cache'.DS);
 
 			case 'memcached':
 				return new Cache\Drivers\Memcached(Memcached::connection(), Config::get('cache.key'));

@@ -52,7 +52,7 @@ class Session {
 				return new Session\Drivers\Database(Database::connection());
 
 			case 'file':
-				return new Session\Drivers\File(SESSION_PATH);
+				return new Session\Drivers\File($GLOBALS['STORAGE_PATH'].'sessions'.DS);
 
 			case 'memcached':
 				return new Session\Drivers\Memcached(Cache::driver('memcached'));

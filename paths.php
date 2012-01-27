@@ -24,7 +24,7 @@ if ( ! defined('DS'))
 // --------------------------------------------------------------
 // Define the path to the base directory.
 // --------------------------------------------------------------
-define('BASE_PATH', __DIR__.DS);
+$GLOBALS['BASE_PATH'] = __DIR__.DS;
 
 // --------------------------------------------------------------
 // The path to the application directory.
@@ -47,20 +47,15 @@ $paths['BUNDLE_PATH'] = 'bundles';
 $paths['STORAGE_PATH'] = 'storage';
 
 // --------------------------------------------------------------
-// The path to the tests directory.
-// --------------------------------------------------------------
-$paths['TESTS_PATH'] = 'tests';
-
-// --------------------------------------------------------------
 // The path to the public directory.
 // --------------------------------------------------------------
 if ($web)
 {
-	define('PUBLIC_PATH', realpath('').DS);
+	$GLOBALS['PUBLIC_PATH'] = realpath('').DS;
 }
 else
 {
-	$paths['PUBLIC_PATH'] = 'public';
+	$paths['PUBLIC'] = 'public';
 }
 
 // --------------------------------------------------------------
@@ -68,10 +63,7 @@ else
 // --------------------------------------------------------------
 foreach ($paths as $name => $path)
 {
-	if ( ! defined($name))
-	{
-		if ($web) $path = "../{$path}";
+	if ($web) $path = "../{$path}";
 
-		define($name, realpath($path).DS);
-	}
+	$GLOBALS[$name] = realpath($path).DS;
 }

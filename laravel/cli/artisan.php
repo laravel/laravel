@@ -1,4 +1,4 @@
-<?php namespace Laravel\CLI; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel\CLI; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
 
 use Laravel\Bundle;
 use Laravel\Config;
@@ -44,7 +44,7 @@ if (isset($_SERVER['cli']['db']))
  * us to seamlessly add tasks to the CLI so that the Task class
  * doesn't have to worry about how to resolve core tasks.
  */
-require SYS_PATH.'cli/dependencies'.EXT;
+require $GLOBALS['SYS_PATH'].'cli/dependencies'.EXT;
 
 /**
  * We will wrap the command execution in a try / catch block and

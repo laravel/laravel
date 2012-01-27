@@ -1,4 +1,4 @@
-<?php namespace Laravel\CLI\Tasks\Bundle; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel\CLI\Tasks\Bundle; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
 
 use Laravel\IoC;
 use Laravel\Bundle;
@@ -16,7 +16,7 @@ class Bundler extends Task {
 	{
 		foreach ($this->get($bundles) as $bundle)
 		{
-			if (is_dir(BUNDLE_PATH.$bundle['name']))
+			if (is_dir($GLOBALS['BUNDLE_PATH'].$bundle['name']))
 			{
 				echo "Bundle {$bundle['name']} is already installed.";
 

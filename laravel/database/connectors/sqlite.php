@@ -24,7 +24,7 @@ class SQLite extends Connector {
 		// SQLite databases will be created automatically if they do not exist, so we
 		// will not check for the existence of the database file before establishing
 		// the PDO connection to the database.
-		$path = DATABASE_PATH.$config['database'].'.sqlite';
+		$path = $GLOBALS['STORAGE_PATH'].'database'.DS.$config['database'].'.sqlite';
 
 		return new PDO('sqlite:'.$path, null, null, $options);
 	}

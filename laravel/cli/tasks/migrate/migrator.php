@@ -222,7 +222,7 @@ class Migrator extends Task {
 	 */
 	protected function stub($bundle, $migration)
 	{
-		$stub = File::get(SYS_PATH.'cli/tasks/migrate/stub'.EXT);
+		$stub = File::get($GLOBALS['SYS_PATH'].'cli/tasks/migrate/stub'.EXT);
 
 		// The class name is formatted simialrly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in

@@ -1,4 +1,4 @@
-<?php namespace Laravel; defined('APP_PATH') or die('No direct script access.');
+<?php namespace Laravel; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
 
 class Asset {
 

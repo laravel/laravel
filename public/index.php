@@ -31,4 +31,4 @@ unset($web);
 // --------------------------------------------------------------
 // Launch Laravel.
 // --------------------------------------------------------------
-require SYS_PATH.'laravel.php';
+require $GLOBALS['SYS_PATH'].'laravel.php';
