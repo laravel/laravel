@@ -16,13 +16,16 @@ define('DS', DIRECTORY_SEPARATOR);
 // --------------------------------------------------------------
 // Override the framework paths if testing Laravel.
 // --------------------------------------------------------------
-if (in_array('build.xml', $_SERVER['argv']))
+foreach ($_SERVER['argv'] as $argument)
 {
-	define('APP_PATH', realpath('bundles/laravel-tests/application').DS);
+	if (strpos($argument, 'build.xml') !== false)
+	{
+		define('APP_PATH', realpath('bundles/laravel-tests/application').DS);
 
-	define('BUNDLE_PATH', realpath('bundles/laravel-tests/bundles').DS);
+		define('BUNDLE_PATH', realpath('bundles/laravel-tests/bundles').DS);
 
-	define('STORAGE_PATH', realpath('bundles/laravel-tests/storage').DS);
+		define('STORAGE_PATH', realpath('bundles/laravel-tests/storage').DS);
+	}
 }
 
 // --------------------------------------------------------------
