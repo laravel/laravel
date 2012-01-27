@@ -187,6 +187,9 @@ class Router {
 			{
 				$pattern = '#^'.static::wildcards($route).'$#';
 
+				// If we get a match, we'll return the route and slice off
+				// the first parameter match, as preg_match sets the first
+				// array item to the full-text match.
 				if (preg_match($pattern, $destination, $parameters))
 				{
 					return new Route($route, $action, array_slice($parameters, 1));
@@ -263,20 +266,21 @@ class Router {
 	 */
 	protected static function controller_key($segments, $directory)
 	{
-		$reverse = array_reverse($segments, true);
-
-		// To find the proper controller, we need to iterate backwards through
-		// the URI segments and take the first file that matches. That file
-		// should be the deepest possible controller matched by the URI.
-		// Once we find it, we'll return its index key.
-		foreach ($reverse as $key => $value)
+		for ($i = count($segments) - 1; $i >= 0; $i--)
 		{
-			$controller = implode('/', array_slice($segments, 0, $key + 1)).EXT;
-
-			if (file_exists($directory.$controller))
+			// To find the proper controller, we need to iterate backwards through
+			// the URI segments and take the first file that matches. That file
+			// should be the deepest possible controller matched by the URI.
+			if (file_exists($directory.implode('/', $segments).EXT))
 			{
-				return $key + 1;
+				return $i + 1;
 			}
+
+			// If a controller did not exist for the segments, we will pop
+			// the last segment off of the array so that on the next run
+			// through the loop we'll check one folder up from the one
+			// we checked on this iteration.
+			array_pop($segments);
 		}
 	}
 
