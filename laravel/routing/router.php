@@ -298,9 +298,6 @@ class Router {
 			$key .= str_repeat(')?', $count);
 		}
 
-		// For "regular" parameters, we can just do a simple translate
-		// using the patterns array. There is not need to cap the
-		// pattern like we did with optional parameters.
 		return strtr($key, static::$patterns);
 	}
 
