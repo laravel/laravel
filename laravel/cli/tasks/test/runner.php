@@ -17,20 +17,51 @@ class Runner extends Task {
 	}
 
 	/**
+	 * Run the tests for the Laravel framework.
+	 *
+	 * @return void
+	 */
+	public function core()
+	{
+		if ( ! is_dir(BUNDLE_PATH.'laravel-tests'))
+		{
+			throw new \Exception("The bundle [laravel-tests] has not been installed!");
+		}
+
+		// When testing the Laravel core, we will just stub the path directly
+		// so the test bundle is not required to be registered in the bundle
+		// configuration, as it is kind of a unique bundle.
+		$this->stub(BUNDLE_PATH.'laravel-tests/cases');
+
+		$this->test();
+	}
+
+	/**
 	 * Run the tests for a given bundle.
 	 *
 	 * @param  array  $arguments
 	 * @return void
 	 */
-	public function bundle($arguments = array())
+	public function bundle($bundles = array())
 	{
-		// To run PHPUnit for the application, bundles, and the framework
-		// from one task, we'll dynamically stub PHPUnit.xml files via
-		// the task and point the test suite to the correct directory
-		// based on what was requested.
-		$this->stub(Bundle::path($arguments[0]).'tests');
+		if (count($bundles) == 0)
+		{
+			$bundles = Bundle::names();
+		}
 
-		$this->test();
+		foreach ($bundles as $bundle)
+		{
+			// To run PHPUnit for the application, bundles, and the framework
+			// from one task, we'll dynamically stub PHPUnit.xml files via
+			// the task and point the test suite to the correct directory
+			// based on what was requested.
+			if (is_dir($path = Bundle::path($bundle).'tests'))
+			{
+				$this->stub($path);
+
+				$this->test();				
+			}
+		}
 	}
 
 	/**
