@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Routing\Route;
+
 class RouteTest extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -17,7 +19,7 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testHandlesIndicatesIfTheRouteHandlesAGivenURI()
 	{
-		$route = new Laravel\Routing\Route('GET /', array('handles' => array('GET /foo/bar')));
+		$route = new Route('GET /', array('handles' => array('GET /foo/bar')));
 
 		$this->assertTrue($route->handles('foo/*'));
 		$this->assertTrue($route->handles('foo/bar'));
@@ -26,11 +28,24 @@ class RouteTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($route->handles('/foo'));
 		$this->assertFalse($route->handles('foo'));
 
-		$route = new Laravel\Routing\Route('GET /', array('handles' => array('GET /', 'GET /home')));
+		$route = new Route('GET /', array('handles' => array('GET /', 'GET /home')));
 
 		$this->assertTrue($route->handles('/'));
 		$this->assertTrue($route->handles('home'));
 		$this->assertFalse($route->handles('foo'));
+	}
+
+	/**
+	 * Tests the Route::is method.
+	 *
+	 * @group laravel
+	 */
+	public function testIsMethodIndicatesIfTheRouteHasAGivenName()
+	{
+		$route = new Route('GET /', array('name' => 'profile'));
+
+		$this->assertTrue($route->is('profile'));
+		$this->assertFalse($route->is('something'));
 	}
 
 }
