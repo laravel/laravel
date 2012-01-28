@@ -407,7 +407,7 @@ class Validator {
 	 * Validate the uniqueness of an attribute value on a given database table.
 	 *
 	 * If a database column is not specified, the attribute name will be used.
-	 * When performing an update a second parameter containing the ID of the record
+	 * When performing an update a third parameter containing the ID of the record
 	 * can be given to avoid checking itself.
 	 *
 	 * @param  string  $attribute
