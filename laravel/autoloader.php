@@ -86,7 +86,7 @@ class Autoloader {
 			// match the name of their bundle.
 			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
 			{
-				Bundle::start($namespace);
+				Bundle::start(strtolower($namespace));
 
 				static::load($class);
 			}
