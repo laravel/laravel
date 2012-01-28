@@ -33,7 +33,7 @@ class Bundle {
 	 */
 	public static function register($bundle, $config = array())
 	{
-		$defaults = array('location' => $bundle, 'handles' => null, 'auto' => false);
+		$defaults = array('handles' => null, 'auto' => false);
 
 		// If the given config is actually a string, we will assume it is a location
 		// and convert it to an array so that the developer may conveniently add
@@ -45,7 +45,7 @@ class Bundle {
 
 		if ( ! isset($config['location']))
 		{
-			throw new \Exception("Location not set for bundle [$bundle]");
+			$config['location'] = $bundle;
 		}
 
 		// We will trim the trailing slash from the location and add it back so
