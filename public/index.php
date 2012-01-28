@@ -3,7 +3,7 @@
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  3.0.0 (Beta 2)
+ * @version  3.0.0
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
@@ -31,4 +31,4 @@ unset($web);
 // --------------------------------------------------------------
 // Launch Laravel.
 // --------------------------------------------------------------
-require $GLOBALS['SYS_PATH'].'laravel.php';
+require path('sys').'laravel.php';

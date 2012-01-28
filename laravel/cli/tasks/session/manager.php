@@ -34,7 +34,7 @@ class Manager extends Task {
 		// generated on the database.
 		$migration = $migrator->make(array('create_session_table'));
 
-		$stub = $GLOBALS['SYS_PATH'].'cli/tasks/session/migration'.EXT;
+		$stub = path('sys').'cli/tasks/session/migration'.EXT;
 
 		File::put($migration, File::get($stub));
 
@@ -42,7 +42,7 @@ class Manager extends Task {
 		// Since the developer is requesting that the session table be
 		// created on the database, we'll set the driver to database
 		// to save an extra step for the developer.
-		$config = File::get($GLOBALS['APP_PATH'].'config/session'.EXT);
+		$config = File::get(path('app').'config/session'.EXT);
 
 		$config = str_replace(
 			"'driver' => '',",
@@ -50,7 +50,7 @@ class Manager extends Task {
 			$config
 		);
 
-		File::put($GLOBALS['APP_PATH'].'config/session'.EXT, $config);
+		File::put(path('app').'config/session'.EXT, $config);
 
 		echo PHP_EOL;
 

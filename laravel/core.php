@@ -17,10 +17,10 @@ define('MB_STRING', (int) function_exists('mb_get_info'));
  * These are typically classes that the auto-loader relies upon to
  * load classes, such as the array and configuration classes.
  */
-require $GLOBALS['SYS_PATH'].'bundle'.EXT;
-require $GLOBALS['SYS_PATH'].'config'.EXT;
-require $GLOBALS['SYS_PATH'].'helpers'.EXT;
-require $GLOBALS['SYS_PATH'].'autoloader'.EXT;
+require path('sys').'bundle'.EXT;
+require path('sys').'config'.EXT;
+require path('sys').'helpers'.EXT;
+require path('sys').'autoloader'.EXT;
 
 /**
  * Register the Autoloader's "load" method on the auto-loader stack.
@@ -42,7 +42,7 @@ Autoloader::$aliases = Config::get('application.aliases');
  * file within the bundles directory. This informs the framework
  * where the bundle lives and which URIs it responds to.
  */
-$bundles = require $GLOBALS['BUNDLE_PATH'].'bundles'.EXT;
+$bundles = require path('bundle').'bundles'.EXT;
 
 foreach ($bundles as $bundle => $value)
 {

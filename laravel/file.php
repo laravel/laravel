@@ -18,10 +18,10 @@ class File {
 	 *
 	 * <code>
 	 *		// Get the contents of a file
-	 *		$contents = File::get($GLOBALS['APP_PATH'].'routes'.EXT);
+	 *		$contents = File::get(path('app').'routes'.EXT);
 	 *
 	 *		// Get the contents of a file or return a default value if it doesn't exist
-	 *		$contents = File::get($GLOBALS['APP_PATH'].'routes'.EXT, 'Default Value');
+	 *		$contents = File::get(path('app').'routes'.EXT, 'Default Value');
 	 * </code>
 	 *
 	 * @param  string  $path

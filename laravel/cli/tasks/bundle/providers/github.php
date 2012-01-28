@@ -17,7 +17,7 @@ class Github implements Provider {
 		// a location outside of the Git repository, so we don't need
 		// the full bundle path. We'll just take the basename in case
 		// the bundle directory has been renamed.
-		$path = basename($GLOBALS['BUNDLE_PATH']).'/';
+		$path = basename(path('bundle')).'/';
 
 		passthru('git submodule add '.$repository.' '.$path.$bundle['name']);
 

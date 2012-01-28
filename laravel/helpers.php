@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Get one of the global paths.
- *
- * @param  string  $path
- * @return string
- */
-function path($path)
-{
-	return $GLOBALS[strtoupper($path).'_PATH'];
-}
-
-/**
  * Convert HTML characters to entities.
  *
  * The encoding specified in the application configuration file will be used.
@@ -37,7 +26,7 @@ function __($key, $replacements = array(), $language = null)
 	return Laravel\Lang::line($key, $replacements, $language);
 }
 
-/**
+/**a
  * Get an item from an array using "dot" notation.
  *
  * <code>

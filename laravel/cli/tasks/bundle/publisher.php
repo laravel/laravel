@@ -16,7 +16,7 @@ class Publisher {
 	{
 		$path = Bundle::path($bundle);
 
-		$this->move($path.'public', $GLOBALS['PUBLIC_PATH'].'bundles'.DS.$bundle);
+		$this->move($path.'public', path('public').'bundles'.DS.$bundle);
 
 		echo "Assets published for bundle [$bundle].".PHP_EOL;
 	}
@@ -41,7 +41,7 @@ class Publisher {
 	 */
 	protected function to($bundle)
 	{
-		return $GLOBALS['PUBLIC_PATH'].'bundles'.DS.$bundle.DS;
+		return path('public').'bundles'.DS.$bundle.DS;
 	}
 
 	/**

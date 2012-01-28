@@ -3,7 +3,7 @@
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  2.2.0 (Beta 1)
+ * @version  3.0.0
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
@@ -16,9 +16,9 @@ require 'paths.php';
 // --------------------------------------------------------------
 // Bootstrap the Laravel core.
 // --------------------------------------------------------------
-require $GLOBALS['SYS_PATH'].'core.php';
+require path('sys').'core.php';
 
 // --------------------------------------------------------------
 // Launch the Laravel "Artisan" CLI.
 // --------------------------------------------------------------
-require $GLOBALS['SYS_PATH'].'cli/artisan'.EXT;
+require path('sys').'cli/artisan'.EXT;

@@ -23,7 +23,7 @@ class Runner extends Task {
 	 */
 	public function core()
 	{
-		if ( ! is_dir($GLOBALS['BUNDLE_PATH'].'laravel-tests'))
+		if ( ! is_dir(path('bundle').'laravel-tests'))
 		{
 			throw new \Exception("The bundle [laravel-tests] has not been installed!");
 		}
@@ -31,9 +31,9 @@ class Runner extends Task {
 		// When testing the Laravel core, we will just stub the path directly
 		// so the test bundle is not required to be registered in the bundle
 		// configuration, as it is kind of a unique bundle.
-		$this->stub($GLOBALS['BUNDLE_PATH'].'laravel-tests/cases');
+		$this->stub(path('bundle').'laravel-tests/cases');
 
-		$path = $GLOBALS['BUNDLE_PATH'].'laravel-tests/';
+		$path = path('bundle').'laravel-tests/';
 
 		$this->test();
 	}
@@ -76,9 +76,9 @@ class Runner extends Task {
 		// We'll simply fire off PHPUnit with the configuration switch
 		// pointing to our temporary configuration file. This allows
 		// us to flexibly run tests for any setup.
-		passthru('phpunit -c '.$GLOBALS['BASE_PATH'].'phpunit.xml');
+		passthru('phpunit -c '.path('base').'phpunit.xml');
 
-		@unlink($GLOBALS['BASE_PATH'].'phpunit.xml');
+		@unlink(path('base').'phpunit.xml');
 	}
 
 	/**
@@ -89,11 +89,11 @@ class Runner extends Task {
 	 */
 	protected function stub($directory)
 	{
-		$stub = File::get($GLOBALS['SYS_PATH'].'cli/tasks/test/stub.xml');
+		$stub = File::get(path('sys').'cli/tasks/test/stub.xml');
 
 		$stub = str_replace('{{directory}}', $directory, $stub);
 
-		File::put($GLOBALS['BASE_PATH'].'phpunit.xml', $stub);
+		File::put(path('base').'phpunit.xml', $stub);
 	}
 
 }

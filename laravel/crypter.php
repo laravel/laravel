@@ -1,4 +1,4 @@
-<?php namespace Laravel; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
+<?php namespace Laravel; defined('DS') or die('No direct script access.');
 
 if (trim(Config::get('application.key')) === '')
 {

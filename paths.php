@@ -3,7 +3,7 @@
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  2.2.0 (Beta 1)
+ * @version  3.0.0
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
@@ -24,38 +24,38 @@ if ( ! defined('DS'))
 // --------------------------------------------------------------
 // Define the path to the base directory.
 // --------------------------------------------------------------
-$GLOBALS['BASE_PATH'] = __DIR__.DS;
+$GLOBALS['laravel_paths']['base'] = __DIR__.DS;
 
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
-$paths['APP_PATH'] = 'application';
+$paths['app'] = 'application';
 
 // --------------------------------------------------------------
 // The path to the Laravel directory.
 // --------------------------------------------------------------
-$paths['SYS_PATH'] = 'laravel';
+$paths['sys'] = 'laravel';
 
 // --------------------------------------------------------------
 // The path to the bundles directory.
 // --------------------------------------------------------------
-$paths['BUNDLE_PATH'] = 'bundles';
+$paths['bundle'] = 'bundles';
 
 // --------------------------------------------------------------
 // The path to the storage directory.
 // --------------------------------------------------------------
-$paths['STORAGE_PATH'] = 'storage';
+$paths['storage'] = 'storage';
 
 // --------------------------------------------------------------
 // The path to the public directory.
 // --------------------------------------------------------------
 if ($web)
 {
-	$GLOBALS['PUBLIC_PATH'] = realpath('').DS;
+	$GLOBALS['laravel_paths']['public'] = realpath('').DS;
 }
 else
 {
-	$paths['PUBLIC'] = 'public';
+	$paths['public'] = 'public';
 }
 
 // --------------------------------------------------------------
@@ -65,5 +65,21 @@ foreach ($paths as $name => $path)
 {
 	if ($web) $path = "../{$path}";
 
-	$GLOBALS[$name] = realpath($path).DS;
+	$GLOBALS['laravel_paths'][$name] = realpath($path).DS;
+}
+
+// --------------------------------------------------------------
+// Define a global path helper function.
+// --------------------------------------------------------------
+function path($path)
+{
+	return $GLOBALS['laravel_paths'][$path];
+}
+
+// --------------------------------------------------------------
+// Define a global path setter function.
+// --------------------------------------------------------------
+function set_path($path, $value)
+{
+	$GLOBALS['laravel_paths'][$path] = $value;
 }

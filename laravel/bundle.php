@@ -1,4 +1,4 @@
-<?php namespace Laravel; isset($GLOBALS['APP_PATH']) or die('No direct script access.');
+<?php namespace Laravel; defined('DS') or die('No direct script access.');
 
 class Bundle {
 
@@ -51,7 +51,7 @@ class Bundle {
 		// We will trim the trailing slash from the location and add it back so
 		// we don't have to worry about the developer adding or not adding it
 		// to the location path for the bundle.
-		$config['location'] = $GLOBALS['BUNDLE_PATH'].rtrim($config['location'], DS).DS;
+		$config['location'] = path('bundle').rtrim($config['location'], DS).DS;
 
 		static::$bundles[$bundle] = array_merge($defaults, $config);
 	}
@@ -173,7 +173,7 @@ class Bundle {
 	 *		// Returns the bundle path for the "admin" bundle
 	 *		$path = Bundle::path('admin');
 	 *
-	 *		// Returns the $GLOBALS['APP_PATH'] constant as the default bundle
+	 *		// Returns the path('app') constant as the default bundle
 	 *		$path = Bundle::path('application');
 	 * </code>
 	 *
@@ -182,7 +182,7 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
-		return ($bundle == DEFAULT_BUNDLE) ? $GLOBALS['APP_PATH'] : static::$bundles[$bundle]['location'];
+		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::$bundles[$bundle]['location'];
 	}
 
 	/**

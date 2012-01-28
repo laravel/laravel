@@ -12,8 +12,8 @@ require 'core.php';
  * default timezone used by all date / timezone functions throughout
  * the entire application.
  */
-
 date_default_timezone_set(Config::get('application.timezone'));
+
 /**
  * Register the PHP exception handler. The framework throws exceptions
  * on every error that cannot be handled. All of those exceptions will

@@ -19,7 +19,7 @@ class Key extends Task {
 	 */
 	public function __construct()
 	{
-		$this->path = $GLOBALS['APP_PATH'].'config/application'.EXT;
+		$this->path = path('app').'config/application'.EXT;
 	}
 
 	/**
