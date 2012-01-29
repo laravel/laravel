@@ -135,7 +135,8 @@ $input = array();
 switch (Request::method())
 {
 	case 'GET':
-		$input = $_GET;
+		$query_string = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+		parse_str($query_string, $input);
 		break;
 
 	case 'POST':
