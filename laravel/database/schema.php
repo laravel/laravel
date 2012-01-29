@@ -33,7 +33,7 @@ class Schema {
 		{
 			$connection = DB::connection($table->connection);
 
-			$grammar = static::grammar($connection->driver());
+			$grammar = static::grammar($connection);
 
 			// Each grammar has a function that corresponds to the command type
 			// and is responsible for building that's commands SQL. This lets
@@ -43,10 +43,10 @@ class Schema {
 			{
 				$statements = $grammar->$method($table, $command);
 
-				// Once we have the statements, we will cast them to an array even
-				// though not all of the commands return an array. This is just in
-				// case the command needs to run more than one query to do what
-				// it needs to do what is requested by the developer.
+				// Once we have the statements, we will cast them to an array
+				// even though not all of the commands return an array just
+				// in case the command needs to run more than one query to
+				// do what it needs to do.
 				foreach ((array) $statements as $statement)
 				{
 					$connection->statement($statement);
@@ -66,7 +66,7 @@ class Schema {
 		// If the developer has specified columns for the table and the
 		// table is not being created, we will assume they simply want
 		// to add the columns to the table, and will generate an add
-		// command for them, adding the columns to the command.
+		// command on the schema automatically.
 		if (count($table->columns) > 0 and ! $table->creating())
 		{
 			$command = new Fluent(array('type' => 'add'));
@@ -92,24 +92,26 @@ class Schema {
 	/**
 	 * Create the appropriate schema grammar for the driver.
 	 *
-	 * @param  string   $driver
+	 * @param  Connection  $connection
 	 * @return Grammar
 	 */
-	public static function grammar($driver)
+	public static function grammar(Connection $connection)
 	{
+		$driver = $connection->driver();
+
 		switch ($driver)
 		{
 			case 'mysql':
-				return new Schema\Grammars\MySQL;
+				return new Schema\Grammars\MySQL($connection);
 
 			case 'pgsql':
-				return new Schema\Grammars\Postgres;
+				return new Schema\Grammars\Postgres($connection);
 
 			case 'sqlsrv':
-				return new Schema\Grammars\SQLServer;
+				return new Schema\Grammars\SQLServer($connection);
 
 			case 'sqlite':
-				return new Schema\Grammars\SQLite;
+				return new Schema\Grammars\SQLite($connection);
 		}
 
 		throw new \Exception("Schema operations not supported for [$driver].");

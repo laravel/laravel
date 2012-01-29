@@ -27,7 +27,11 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 		// This method is primarily for convenience so we can just pass a
 		// column or table instance into the wrap method without sending
 		// in the name each time we need to wrap one of these objects.
-		if ($value instanceof Table or $value instanceof Fluent)
+		if ($value instanceof Table)
+		{
+			return $this->wrap_table($value->name);
+		}
+		elseif ($value instanceof Fluent)
 		{
 			$value = $value->name;
 		}

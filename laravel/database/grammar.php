@@ -10,6 +10,45 @@ abstract class Grammar {
 	protected $wrapper = '"%s"';
 
 	/**
+	 * The database connection instance for the grammar.
+	 *
+	 * @var Connection
+	 */
+	protected $connection;
+
+	/**
+	 * Create a new database grammar instance.
+	 *
+	 * @param  Connection  $connection
+	 * @return void
+	 */
+	public function __construct(Connection $connection)
+	{
+		$this->connection = $connection;
+	}
+
+	/**
+	 * Wrap a table in keyword identifiers.
+	 *
+	 * @param  string  $table
+	 * @return string
+	 */
+	public function wrap_table($table)
+	{
+		$prefix = '';
+
+		// Tables may be prefixed with a string. This allows developers to
+		// prefix tables by application on the same database which may be
+		// required in some brown-field situations.
+		if (isset($this->connection->config['prefix']))
+		{
+			$prefix = $this->connection->config['prefix'];
+		}
+
+		return $this->wrap($prefix.$table);
+	}
+
+	/**
 	 * Wrap a value in keyword identifiers.
 	 *
 	 * @param  string  $value

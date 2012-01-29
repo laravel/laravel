@@ -14,7 +14,7 @@ class Connection {
 	 *
 	 * @var array
 	 */
-	protected $config;
+	public $config;
 
 	/**
 	 * The query grammar instance for the connection.
@@ -74,13 +74,13 @@ class Connection {
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
-				return $this->grammar = new Query\Grammars\MySQL;
+				return $this->grammar = new Query\Grammars\MySQL($this);
 
 			case 'sqlsrv':
-				return $this->grammar = new Query\Grammars\SQLServer;
+				return $this->grammar = new Query\Grammars\SQLServer($this);
 
 			default:
-				return $this->grammar = new Query\Grammars\Grammar;
+				return $this->grammar = new Query\Grammars\Grammar($this);
 		}
 	}
 

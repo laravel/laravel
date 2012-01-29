@@ -101,7 +101,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function from(Query $query)
 	{
-		return 'FROM '.$this->wrap($query->from);
+		return 'FROM '.$this->wrap_table($query->from);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Grammar extends \Laravel\Database\Grammar {
 		// set of joins in valid SQL that can appended to the query.
 		foreach ($query->joins as $join)
 		{
-			$table = $this->wrap($join['table']);
+			$table = $this->wrap_table($join['table']);
 
 			$column1 = $this->wrap($join['column1']);
 
@@ -141,6 +141,8 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	final protected function wheres(Query $query)
 	{
+		if (is_null($query->wheres)) return '';
+
 		// Each WHERE clause array has a "type" that is assigned by the query
 		// builder, and each type has its own compiler function. We will call
 		// the appropriate compiler for each where clause in the query.
@@ -311,7 +313,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Force every insert to be treated like a batch insert. This simply makes
 		// creating the SQL syntax a little easier on us since we can always treat
@@ -342,7 +344,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function update(Query $query, $values)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Each column in the UPDATE statement needs to be wrapped in keyword
 		// identifiers, and a place-holder needs to be created for each value
@@ -370,7 +372,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function delete(Query $query)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Like the UPDATE statement, the DELETE statement is constrained
 		// by WHERE clauses, so we'll need to run the "wheres" method to

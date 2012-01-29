@@ -38,6 +38,7 @@ return array(
 		'sqlite' => array(
 			'driver'   => 'sqlite',
 			'database' => 'application',
+			'prefix'   => '',
 		),
 
 		'mysql' => array(
@@ -47,6 +48,7 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'charset'  => 'utf8',
+			'prefix'   => '',
 		),
 
 		'pgsql' => array(
@@ -56,6 +58,7 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'charset'  => 'utf8',
+			'prefix'   => '',
 		),
 
 		'sqlsrv' => array(
@@ -64,6 +67,7 @@ return array(
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
+			'prefix'   => '',
 		),
 
 	),
