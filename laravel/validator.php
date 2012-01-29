@@ -407,6 +407,8 @@ class Validator {
 	 * Validate the uniqueness of an attribute value on a given database table.
 	 *
 	 * If a database column is not specified, the attribute name will be used.
+	 * When performing an update a third parameter containing the ID of the record
+	 * can be given to avoid checking itself.
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -417,11 +419,13 @@ class Validator {
 	{
 		if (is_null($this->db)) $this->db = Database::connection();
 
-		$query = $this->db->table($parameters[0])->where($attribute, '=', $value);
+		if ( ! isset($parameters[1])) $parameters[1] = $attribute;
 
-		if (isset($parameters[1]))
+		$query = $this->db->table($parameters[0])->where($parameters[1], '=', $value);
+
+		if( isset($parameters[2]))
 		{
-			$query->where('id', '<>', $parameters[1]);
+			$query->where('id', '<>', $parameters[2]);
 		}
 
 		return $query->count() == 0;
