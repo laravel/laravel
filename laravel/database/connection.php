@@ -74,13 +74,13 @@ class Connection {
 		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
 		{
 			case 'mysql':
-				return $this->grammar = new Query\Grammars\MySQL;
+				return $this->grammar = new Query\Grammars\MySQL($this);
 
 			case 'sqlsrv':
-				return $this->grammar = new Query\Grammars\SQLServer;
+				return $this->grammar = new Query\Grammars\SQLServer($this);
 
 			default:
-				return $this->grammar = new Query\Grammars\Grammar;
+				return $this->grammar = new Query\Grammars\Grammar($this);
 		}
 	}
 
@@ -258,6 +258,16 @@ class Connection {
 		}
 
 		return trim($sql);
+	}
+
+	/**
+	 * Get the table prefix for the database connection.
+	 *
+	 * @return string
+	 */
+	public function table_prefix()
+	{
+		return isset($this->config['table_prefix']) ? $this->config['table_prefix'] : '';
 	}
 
 	/**

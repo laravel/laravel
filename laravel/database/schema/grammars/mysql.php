@@ -26,7 +26,7 @@ class MySQL extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
+		$sql = 'CREATE TABLE '.$this->wrap_table($table).' ('.$columns.')';
 
 		// MySQL supports various "engines" for database tables. If an engine
 		// was specified by the developer, we will set it after adding the
@@ -59,7 +59,7 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -197,7 +197,7 @@ class MySQL extends Grammar {
 
 		$name = $command->name;
 
-		return 'ALTER TABLE '.$this->wrap($table)." ADD {$type} {$name}({$keys})";
+		return 'ALTER TABLE '.$this->wrap_table($table)." ADD {$type} {$name}({$keys})";
 	}
 
 	/**
@@ -209,7 +209,7 @@ class MySQL extends Grammar {
 	 */
 	public function drop(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'DROP TABLE '.$this->wrap_table($table);
 	}
 
 	/**
@@ -232,7 +232,7 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -244,7 +244,7 @@ class MySQL extends Grammar {
 	 */
 	public function drop_primary(Table $table, Fluent $command)
 	{
-		return 'ALTER TABLE '.$this->wrap($table).' DROP PRIMARY KEY';
+		return 'ALTER TABLE '.$this->wrap_table($table).' DROP PRIMARY KEY';
 	}
 
 	/**
@@ -292,7 +292,7 @@ class MySQL extends Grammar {
 	 */
 	protected function drop_key(Table $table, Fluent $command)
 	{
-		return 'ALTER TABLE '.$this->wrap($table)." DROP INDEX {$command->name}";
+		return 'ALTER TABLE '.$this->wrap_table($table)." DROP INDEX {$command->name}";
 	}
 
 	/**

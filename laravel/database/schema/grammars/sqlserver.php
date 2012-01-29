@@ -26,7 +26,7 @@ class SQLServer extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
+		$sql = 'CREATE TABLE '.$this->wrap_table($table).' ('.$columns.')';
 
 		return $sql;
 	}
@@ -51,7 +51,7 @@ class SQLServer extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class SQLServer extends Grammar {
 
 		$columns = $this->columnize($columns);
 
-		return 'ALTER TABLE '.$this->wrap($table)." ADD CONSTRAINT {$name} PRIMARY KEY ({$columns})";
+		return 'ALTER TABLE '.$this->wrap_table($table)." ADD CONSTRAINT {$name} PRIMARY KEY ({$columns})";
 	}
 
 	/**
@@ -172,7 +172,7 @@ class SQLServer extends Grammar {
 		// be updated automatically by the server.
 		$sql[] = "CREATE FULLTEXT CATALOG {$command->catalog}";
 
-		$create =  "CREATE FULLTEXT INDEX ON ".$this->wrap($table)." ({$columns}) ";
+		$create =  "CREATE FULLTEXT INDEX ON ".$this->wrap_table($table)." ({$columns}) ";
 
 		// Full-text indexes must specify a unique, non-nullable column as
 		// the index "key" and this should have been created manually by
@@ -209,7 +209,7 @@ class SQLServer extends Grammar {
 
 		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
 
-		return $create." INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
+		return $create." INDEX {$command->name} ON ".$this->wrap_table($table)." ({$columns})";
 	}
 
 	/**
@@ -221,7 +221,7 @@ class SQLServer extends Grammar {
 	 */
 	public function drop(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'DROP TABLE '.$this->wrap_table($table);
 	}
 
 	/**
@@ -244,7 +244,7 @@ class SQLServer extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -256,7 +256,7 @@ class SQLServer extends Grammar {
 	 */
 	public function drop_primary(Table $table, Fluent $command)
 	{
-		return 'ALTER TABLE '.$this->wrap($table).' DROP CONSTRAINT '.$command->name;
+		return 'ALTER TABLE '.$this->wrap_table($table).' DROP CONSTRAINT '.$command->name;
 	}
 
 	/**
@@ -308,7 +308,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function drop_key(Table $table, Fluent $command)
 	{
-		return "DROP INDEX {$command->name} ON ".$this->wrap($table);
+		return "DROP INDEX {$command->name} ON ".$this->wrap_table($table);
 	}
 
 	/**

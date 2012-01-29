@@ -19,7 +19,7 @@ class Postgres extends Grammar {
 		// First we will generate the base table creation statement. Other than
 		// auto-incrementing keys, no indexes will be created during the first
 		// creation of the table. They will be added in separate commands.
-		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
+		$sql = 'CREATE TABLE '.$this->wrap_table($table).' ('.$columns.')';
 
 		return $sql;
 	}
@@ -44,7 +44,7 @@ class Postgres extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Postgres extends Grammar {
 	{
 		$columns = $this->columnize($command->columns);
 
-		return 'ALTER TABLE '.$this->wrap($table)." ADD PRIMARY KEY ({$columns})";
+		return 'ALTER TABLE '.$this->wrap_table($table)." ADD PRIMARY KEY ({$columns})";
 	}
 
 	/**
@@ -163,7 +163,7 @@ class Postgres extends Grammar {
 
 		$columns = $this->columnize($command->columns);
 
-		return "CREATE INDEX {$name} ON ".$this->wrap($table)." USING gin({$columns})";
+		return "CREATE INDEX {$name} ON ".$this->wrap_table($table)." USING gin({$columns})";
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Postgres extends Grammar {
 
 		$create = ($unique) ? 'CREATE UNIQUE' : 'CREATE';
 
-		return $create." INDEX {$command->name} ON ".$this->wrap($table)." ({$columns})";
+		return $create." INDEX {$command->name} ON ".$this->wrap_table($table)." ({$columns})";
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Postgres extends Grammar {
 	 */
 	public function drop(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'DROP TABLE '.$this->wrap_table($table);
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Postgres extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		return 'ALTER TABLE '.$this->wrap_table($table).' '.$columns;
 	}
 
 	/**
@@ -239,7 +239,7 @@ class Postgres extends Grammar {
 	 */
 	public function drop_primary(Table $table, Fluent $command)
 	{
-		return 'ALTER TABLE '.$this->wrap($table).' DROP CONSTRAINT '.$table->name.'_pkey';
+		return 'ALTER TABLE '.$this->wrap_table($table).' DROP CONSTRAINT '.$table->name.'_pkey';
 	}
 
 	/**

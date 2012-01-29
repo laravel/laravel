@@ -33,7 +33,7 @@ class Schema {
 		{
 			$connection = DB::connection($table->connection);
 
-			$grammar = static::grammar($connection->driver());
+			$grammar = static::grammar($connection);
 
 			// Each grammar has a function that corresponds to the command type
 			// and is responsible for building that's commands SQL. This lets
@@ -90,29 +90,29 @@ class Schema {
 	}
 
 	/**
-	 * Create the appropriate schema grammar for the driver.
+	 * Create the appropriate schema grammar for the connection.
 	 *
-	 * @param  string   $driver
+	 * @param  Connection   $connection
 	 * @return Grammar
 	 */
-	public static function grammar($driver)
+	public static function grammar(Connection $connection)
 	{
-		switch ($driver)
+		switch ($connection->driver())
 		{
 			case 'mysql':
-				return new Schema\Grammars\MySQL;
+				return new Schema\Grammars\MySQL($connection);
 
 			case 'pgsql':
-				return new Schema\Grammars\Postgres;
+				return new Schema\Grammars\Postgres($connection);
 
 			case 'sqlsrv':
-				return new Schema\Grammars\SQLServer;
+				return new Schema\Grammars\SQLServer($connection);
 
 			case 'sqlite':
-				return new Schema\Grammars\SQLite;
+				return new Schema\Grammars\SQLite($connection);
 		}
 
-		throw new \Exception("Schema operations not supported for [$driver].");
+		throw new \Exception("Schema operations not supported for [{$connection->driver()}].");
 	}
 
 }
