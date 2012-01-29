@@ -415,14 +415,12 @@ class Validator {
 	 */
 	protected function validate_unique($attribute, $value, $parameters)
 	{
-		if (is_null($this->db)) $this->db = Database::connection();
-
 		// We allow the table column to be specified just in case the column does
 		// not have the same name as the attribute. It must be within the second
 		// parameter position, right after the databse table name.
 		if (isset($parameters[1])) $attribute = $parameters[1];
 
-		$query = $this->db->table($parameters[0])->where($attribute, '=', $value);
+		$query = $this->db()->table($parameters[0])->where($attribute, '=', $value);
 
 		// We also allow an ID to be specified that will not be included in the
 		// uniqueness check. This makes updating columns easier since it is
@@ -768,6 +766,18 @@ class Validator {
 	{
 		$this->db = $connection;
 		return $this;
+	}
+
+	/**
+	 * Get the database connection for the Validator.
+	 *
+	 * @return Connection
+	 */
+	protected function db()
+	{
+		if ( ! is_null($this->db)) return $this->db;
+
+		return $this->db = Database::connection();
 	}
 
 	/**
