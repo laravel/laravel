@@ -38,6 +38,13 @@ spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 Autoloader::$aliases = Config::get('application.aliases');
 
 /**
+ * Register the Laravel namespace so that the auto-loader loads it
+ * according to the PSR-0 naming conventions. This should provide
+ * fast resolution of all core classes.
+ */
+Autoloader::namespaces(array('Laravel' => path('sys')));
+
+/**
  * Register all of the bundles that are defined in the bundle info
  * file within the bundles directory. This informs the framework
  * where the bundle lives and which URIs it responds to.

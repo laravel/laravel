@@ -60,11 +60,6 @@ class Autoloader {
 		{
 			$namespace = substr($class, 0, $slash);
 
-			if ($namespace == 'Laravel')
-			{
-				return static::load_psr($class, path('base'));
-			}
-
 			// If the class namespace is mapped to a directory, we will load the class
 			// using the PSR-0 standards from that directory; however, we will trim
 			// off the beginning of the namespace to account for files in the root
