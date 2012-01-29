@@ -6,6 +6,13 @@ use Laravel\Database\Expression;
 class Grammar extends \Laravel\Database\Grammar {
 
 	/**
+	 * The connection this Grammar is serving.
+	 *
+	 * @var array
+	 */
+	protected $connection;
+
+	/**
 	 * All of the query componenets in the order they should be built.
 	 *
 	 * @var array
@@ -14,6 +21,17 @@ class Grammar extends \Laravel\Database\Grammar {
 		'aggregate', 'selects', 'from', 'joins', 'wheres',
 		'groupings', 'orderings', 'limit', 'offset',
 	);
+
+	/**
+	 * Create a new Grammar instance.
+	 *
+	 * @param  Connection    $connection
+	 * @return void
+	 */
+	public function __construct(\Laravel\Database\Connection $connection)
+	{
+		$this->connection = $connection;
+	}
 
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
@@ -101,7 +119,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function from(Query $query)
 	{
-		return 'FROM '.$this->wrap($query->from);
+		return 'FROM '.$this->wrap_table($query->from);
 	}
 
 	/**
@@ -121,7 +139,7 @@ class Grammar extends \Laravel\Database\Grammar {
 		// set of joins in valid SQL that can appended to the query.
 		foreach ($query->joins as $join)
 		{
-			$table = $this->wrap($join['table']);
+			$table = $this->wrap_table($join['table']);
 
 			$column1 = $this->wrap($join['column1']);
 
@@ -311,7 +329,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function insert(Query $query, $values)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Force every insert to be treated like a batch insert. This simply makes
 		// creating the SQL syntax a little easier on us since we can always treat
@@ -342,7 +360,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function update(Query $query, $values)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Each column in the UPDATE statement needs to be wrapped in keyword
 		// identifiers, and a place-holder needs to be created for each value
@@ -370,13 +388,24 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function delete(Query $query)
 	{
-		$table = $this->wrap($query->from);
+		$table = $this->wrap_table($query->from);
 
 		// Like the UPDATE statement, the DELETE statement is constrained
 		// by WHERE clauses, so we'll need to run the "wheres" method to
 		// make the WHERE clauses for the query. The "wheres" method 
 		// encapsulates the logic to create the full WHERE clause.
 		return trim("DELETE FROM {$table} ".$this->wheres($query));
+	}
+
+	/**
+	 * Wrap a table name in keyword identifiers after adding the prefix
+	 *
+	 * @param  string   $table
+	 * @return string
+	 */
+	public function wrap_table($table)
+	{
+		return $this->wrap($this->connection->table_prefix().$table);
 	}
 
 }
