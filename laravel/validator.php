@@ -418,7 +418,7 @@ class Validator {
 		if (is_null($this->db)) $this->db = Database::connection();
 
 		// We allow the table column to be specified just in case the column does
-		// not have the same name as the attribute. It must be in the second
+		// not have the same name as the attribute. It must be within the second
 		// parameter position, right after the databse table name.
 		if (isset($parameters[1])) $attribute = $parameters[1];
 
