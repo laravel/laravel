@@ -417,11 +417,19 @@ class Validator {
 	{
 		if (is_null($this->db)) $this->db = Database::connection();
 
+		// We allow the table column to be specified just in case the column does
+		// not have the same name as the attribute. It must be in the second
+		// parameter position, right after the databse table name.
+		if (isset($parameters[1])) $attribute = $parameters[1];
+
 		$query = $this->db->table($parameters[0])->where($attribute, '=', $value);
 
-		if (isset($parameters[1]))
+		// We also allow an ID to be specified that will not be included in the
+		// uniqueness check. This makes updating columns easier since it is
+		// fine for the given ID to exist in the table.
+		if (isset($parameters[2]))
 		{
-			$query->where('id', '<>', $parameters[1]);
+			$query->where('id', '<>', $parameters[2]);
 		}
 
 		return $query->count() == 0;
