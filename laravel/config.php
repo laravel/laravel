@@ -14,7 +14,7 @@ class Config {
 	public static $items = array();
 
 	/**
-	 * A cache of the loaded configuration items.
+	 * A cache of the parsed configuration items.
 	 *
 	 * @var array
 	 */
