@@ -182,3 +182,5 @@ if (Config::get('session.driver') !== '')
 }
 
 $response->send();
+
+Event::fire('laravel: done');
