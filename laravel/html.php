@@ -16,6 +16,17 @@ class HTML {
 	}
 
 	/**
+	 * Convert entities to HTML characters.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function decode($value)
+	{
+		return html_entity_decode($value, ENT_QUOTES, Config::get('application.encoding'));
+	}
+
+	/**
 	 * Generate a link to a JavaScript file.
 	 *
 	 * <code>
