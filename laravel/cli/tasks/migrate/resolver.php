@@ -128,7 +128,7 @@ class Resolver {
 		}
 
 		// At this point the migrations are only sorted within their
-		// bundles so we need to re-sort them by name to ensure they
+		// bundles so we need to resort them by name to ensure they
 		// are in a consistent order.
 		usort($migrations, function($a, $b)
 		{
