@@ -87,6 +87,8 @@ class Bundle {
 		// start script for reverse routing efficiency purposes.
 		static::routes($bundle);
 
+		Event::fire("started: {$bundle}");
+
 		static::$started[] = strtolower($bundle);
 	}
 

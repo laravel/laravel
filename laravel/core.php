@@ -17,6 +17,7 @@ define('MB_STRING', (int) function_exists('mb_get_info'));
  * These are typically classes that the auto-loader relies upon to
  * load classes, such as the array and configuration classes.
  */
+require path('sys').'event'.EXT;
 require path('sys').'bundle'.EXT;
 require path('sys').'config'.EXT;
 require path('sys').'helpers'.EXT;
