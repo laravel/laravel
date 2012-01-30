@@ -381,7 +381,14 @@ class Form {
 	 */
 	protected static function option($value, $display, $selected)
 	{
-		$selected = ($value == $selected) ? 'selected' : null;
+		if (is_array($selected))
+		{
+			$selected = (in_array($value, $selected)) ? 'selected' : null;
+		}
+		else
+		{
+			$selected = ($value == $selected) ? 'selected' : null;
+		}
 
 		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
 
