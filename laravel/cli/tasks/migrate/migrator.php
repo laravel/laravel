@@ -192,7 +192,7 @@ class Migrator extends Task {
 		// is a better way of ordering migrations than a simple integer
 		// incrementation, since developers may start working on the
 		// next migration at the same time unknowingly.
-		$prefix = date('Y_m_d');
+		$prefix = date('Y_m_d').'_'.time();
 
 		$path = Bundle::path($bundle).'migrations'.DS;
 
