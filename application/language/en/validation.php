@@ -47,9 +47,11 @@ return array(
 	),
 	"confirmed"      => "The :attribute confirmation does not match.",
 	"email"          => "The :attribute format is invalid.",
+	"exists"         => "The selected :attribute is invalid.",
 	"image"          => "The :attribute must be an image.",
 	"in"             => "The selected :attribute is invalid.",
 	"integer"        => "The :attribute must be an integer.",
+	"ip"             => "The :attribute must be a valid IP address.",
 	"max"            => array(
 		"numeric" => "The :attribute must be less than :max.",
 		"file"    => "The :attribute must be less than :max kilobytes.",
