@@ -44,6 +44,8 @@ class SQLServer extends Grammar {
 	 */
 	protected function selects(Query $query)
 	{
+		if ( ! is_null($query->aggregate)) return;
+
 		$select = ($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
 
 		// Instead of using a "LIMIT" keyword, SQL Server uses the "TOP"

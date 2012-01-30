@@ -75,6 +75,11 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function selects(Query $query)
 	{
+		// Sometimes developers may set a "select" clause on the same query that
+		// is performing in aggregate look-up, such as during pagination. So we
+		// will not generate the select clause if an aggregate is present.
+		if ( ! is_null($query->aggregate)) return;
+
 		$select = ($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
 
 		return $select.$this->columnize($query->selects);
