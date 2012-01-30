@@ -17,7 +17,7 @@ class Manager extends Task {
 	 * @param  array  $arguments
 	 * @return void
 	 */
-	public function install($arguments = array())
+	public function table($arguments = array())
 	{
 		$migrator = IoC::resolve('task: migrate');
 
