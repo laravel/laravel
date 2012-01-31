@@ -8,19 +8,6 @@
 require 'core.php';
 
 /**
- * Verify that an application key has been set in the configuration.
- * The key is used to do proper signature hashing on cookies, as
- * well as keep various other parts of the framework secure, so
- * it is a required configuration option.
- */
-if (Config::$items['application']['application']['key'] == '')
-{
-	$path = 'application/config/application.php';
-
-	die("Please set an application key in <b>{$path}</b>.");
-}
-
-/**
  * Register the default timezone for the application. This will be the
  * default timezone used by all date / timezone functions throughout
  * the entire application.
