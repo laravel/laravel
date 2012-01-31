@@ -23,18 +23,18 @@ class Payload {
 	public $session;
 
 	/**
-	 * Indicates if the session already exists in storage.
-	 *
-	 * @var bool
-	 */
-	protected $exists = true;
-
-	/**
 	 * The session driver used to retrieve and store the session payload.
 	 *
 	 * @var Driver
 	 */
-	protected $driver;
+	public $driver;
+
+	/**
+	 * Indicates if the session already exists in storage.
+	 *
+	 * @var bool
+	 */
+	public $exists = true;
 
 	/**
 	 * Create a new session payload instance.
