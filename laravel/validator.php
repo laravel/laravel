@@ -427,7 +427,9 @@ class Validator {
 		// fine for the given ID to exist in the table.
 		if (isset($parameters[2]))
 		{
-			$query->where($attribute, '<>', $parameters[2]);
+			$id = (isset($parameters[3])) ? $parameters[3] : 'id';
+
+			$query->where($id, '<>', $parameters[2]);
 		}
 
 		return $query->count() == 0;
