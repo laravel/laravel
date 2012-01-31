@@ -181,6 +181,22 @@ if (Config::get('session.driver') !== '')
 	Session::save();
 }
 
+/**
+ * Send all of the cookies to the browser. The cookies are
+ * stored in a "jar" until the end of a request, primarily
+ * to make testing the cookie functionality of the site
+ * much easier since the jar can be inspected.
+ */
+if (Config::get('application.key') !== '')
+{
+	Cookie::send();	
+}
+
+/**
+ * Send the final response to the browser and fire the
+ * final event indicating that the processing for the
+ * current request is completed.
+ */
 $response->send();
 
 Event::fire('laravel: done');
