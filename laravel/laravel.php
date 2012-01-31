@@ -15,15 +15,9 @@ require 'core.php';
  */
 if (Config::$items['application']['application']['key'] == '')
 {
-	$key = Str::random(32);
+	$path = 'application/config/application.php';
 
-	Config::set('application.key', $key);
-
-	$config = File::get(path('app').'config/application'.EXT);
-
-	$config = str_replace("'key' => ''", "'key' => '{$key}'", $config);
-
-	File::put(path('app').'config/application'.EXT, $config);
+	die("Please set an application key in <b>{$path}</b>.");
 }
 
 /**
