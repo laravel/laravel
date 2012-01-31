@@ -76,7 +76,7 @@ abstract class Driver {
 
 		$this->put($key, value($default), $minutes);
 
-		return $default;
+		return ($default instanceof Closure) ? call_user_func($default) : $default;
 	}
 
 	/**
