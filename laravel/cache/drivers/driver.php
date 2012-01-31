@@ -74,7 +74,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$this->put($key, value($default), $minutes);
+		$this->put($key, $default = value($default), $minutes);
 
 		return $default;
 	}
