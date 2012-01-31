@@ -8,11 +8,6 @@ use Laravel\Session;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
-if (Config::get('application.key') === '')
-{
-	throw new \Exception("An application key is required to use sessions.");
-}
-
 class Payload {
 
 	/**

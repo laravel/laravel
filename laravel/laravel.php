@@ -8,6 +8,25 @@
 require 'core.php';
 
 /**
+ * Verify that an application key has been set in the configuration.
+ * The key is used to do proper signature hashing on cookies, as
+ * well as keep various other parts of the framework secure, so
+ * it is a required configuration option.
+ */
+if (Config::$items['application']['application']['key'] == '')
+{
+	$key = Str::random(32);
+
+	Config::set('application.key', $key);
+
+	$config = File::get(path('app').'config/application'.EXT);
+
+	$config = str_replace("'key' => ''", "'key' => '{$key}'", $config);
+
+	File::put(path('app').'config/application'.EXT, $config);
+}
+
+/**
  * Register the default timezone for the application. This will be the
  * default timezone used by all date / timezone functions throughout
  * the entire application.
@@ -187,10 +206,7 @@ if (Config::get('session.driver') !== '')
  * to make testing the cookie functionality of the site
  * much easier since the jar can be inspected.
  */
-if (Config::get('application.key') !== '')
-{
-	Cookie::send();	
-}
+Cookie::send();	
 
 /**
  * Send the final response to the browser and fire the

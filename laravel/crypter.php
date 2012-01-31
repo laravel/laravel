@@ -1,10 +1,5 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
-if (trim(Config::get('application.key')) === '')
-{
-	throw new \Exception('The Crypter class may not be used without an application key.');
-}
-
 class Crypter {
 
 	/**

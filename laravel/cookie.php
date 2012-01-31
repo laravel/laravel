@@ -2,11 +2,6 @@
 
 use Closure;
 
-if (trim(Config::get('application.key')) === '')
-{
-	throw new \Exception('The cookie class may not be used without an application key.');
-}
-
 class Cookie {
 
 	/**
@@ -28,13 +23,46 @@ class Cookie {
 	}
 
 	/**
+	 * Send all of the cookies to the browser.
+	 *
+	 * @return void
+	 */
+	public static function send()
+	{
+		if (headers_sent()) return false;
+
+		// All cookies are stored in the "jar" when set and not sent
+		// directly to the browser. This simply makes testing all of
+		// the cookie functionality easier since the cooke jar can
+		// be inspected by the developer in tests.
+		foreach (static::$jar as $cookie)
+		{
+			extract($cookie);
+
+			$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
+
+			// A cookie payload can't exceed 4096 bytes, so if the
+			// payload is greater than that, we'll raise an error
+			// to warn the developer.
+			$value = static::sign($name, $value);
+
+			if (strlen($value) > 4000)
+			{
+				throw new \Exception("Payload too large for cookie.");
+			}
+
+			setcookie($name, $value, $time, $path, $domain, $secure);
+		}
+	}
+
+	/**
 	 * Get the value of a cookie.
 	 *
 	 * <code>
 	 *		// Get the value of the "favorite" cookie
 	 *		$favorite = Cookie::get('favorite');
 	 *
-	 *		// Get the value of a cookie or return a default value if it doesn't exist
+	 *		// Get the value of a cookie or return a default value 
 	 *		$favorite = Cookie::get('framework', 'Laravel');
 	 * </code>
 	 *
@@ -44,6 +72,8 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
+		if (isset(static::$jar[$name])) return static::$jar[$name];
+
 		$value = array_get($_COOKIE, $name);
 
 		if ( ! is_null($value) and isset($value[40]) and $value[40] == '~')
@@ -69,8 +99,6 @@ class Cookie {
 	/**
 	 * Set the value of a cookie.
 	 *
-	 * If the response headers have already been sent, the cookie will not be set.
-	 *
 	 * <code>
 	 *		// Set the value of the "favorite" cookie
 	 *		Cookie::put('favorite', 'Laravel');
@@ -89,44 +117,7 @@ class Cookie {
 	 */
 	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
 	{
-		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
-
-		$_COOKIE[$name] = $value = static::sign($name, $value);
-
-		// A cookie payload can't exceed 4096 bytes, so if the payload
-		// is greater than that, we'll raise an exception to warn the
-		// developer of the problem since it may cause bad problems.
-		if (strlen($value) > 4000)
-		{
-			throw new \Exception("Payload too large for cookie.");
-		}
-
-		static::$jar[$name] = compact(
-
-			'name', 'value', 'time', 'path', 'domain', 'secure'
-
-		);
-	}
-
-	/**
-	 * Send all of the cookies to the browser.
-	 *
-	 * @return void
-	 */
-	public static function send()
-	{
-		if (headers_sent()) return false;
-
-		// All cookies are stored in the "jar" when set and not sent
-		// immediately to the browser. This just makes testing the
-		// cookie functionality of an application much easier, as
-		// the jar can be inspected by the developer.
-		foreach (static::$jar as $cookie)
-		{
-			extract($cookie);
-
-			setcookie($name, $value, $time, $path, $domain, $secure);
-		}
+		static::$jar[$name] = compact('name', 'value', 'minutes', 'path', 'domain', 'secure');
 	}
 
 	/**
