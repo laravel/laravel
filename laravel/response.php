@@ -157,7 +157,7 @@ class Response {
 	 */
 	public static function error($code, $data = array())
 	{
-		return new static(View::make('error/'.$code, $data), $code);
+		return new static(View::make('error.'.$code, $data), $code);
 	}
 
 	/**

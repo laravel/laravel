@@ -66,4 +66,21 @@ return array(
 		Log::exception($exception);
 	},
 
+	/*
+	|--------------------------------------------------------------------------
+	| PHP INI Display Errors Setting
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the display_errors setting of the PHP.ini file.
+	| Typically you may keep this "Off", as Laravel will cleanly handle
+	| the display of all errors.
+	|
+	| However, if you encounter an infamous white screen of death scenario,
+	| turning this "On" may help you solve the problem by getting the
+	| real error message being thrown by the application.
+	|
+	*/
+
+	'display' => 'Off',
+
 );

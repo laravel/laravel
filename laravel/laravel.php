@@ -57,7 +57,7 @@ register_shutdown_function(function()
  */
 error_reporting(-1);
 
-ini_set('display_errors', 'Off');
+ini_set('display_errors', Config::get('error.display'));
 
 /**
  * Even though "Magic Quotes" are deprecated in PHP 5.3, they may
