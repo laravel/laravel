@@ -17,9 +17,9 @@ class Github implements Provider {
 		// If the installation target directory doesn't exist, we will create
 		// it recursively so that we can properly add the Git submodule for
 		// the bundle when we install.
-		if ( ! is_dir(path('bundle').$path))
+		if ( ! is_dir(dirname(path('bundle').$path)))
 		{
-			mkdir(path('bundle').$path, 0777, true);
+			mkdir(dirname(path('bundle').$path), 0777, true);
 		}
 
 		// We need to just extract the basename of the bundle path when
