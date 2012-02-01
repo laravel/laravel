@@ -72,7 +72,7 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		if (isset(static::$jar[$name])) return static::$jar[$name];
+		if (isset(static::$jar[$name])) return static::$jar[$name]['value'];
 
 		$value = array_get($_COOKIE, $name);
 
