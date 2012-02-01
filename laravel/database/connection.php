@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database; use PDO, PDOStatement;
+<?php namespace Laravel\Database; use PDO, PDOStatement, Laravel\Event;
 
 class Connection {
 
@@ -222,7 +222,7 @@ class Connection {
 		// execution time in a static array that is accessed by all of
 		// the connections used by the application. This allows us to
 		// review all of the executed SQL.
-		static::$queries[] = compact('sql', 'bindings', 'time');
+		static::log($sql, $bindings, $time);
 
 		return array($statement, $result);
 	}
@@ -258,6 +258,21 @@ class Connection {
 		}
 
 		return trim($sql);
+	}
+
+	/**
+	 * Log the query and fire the core query event.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @param  int     $time
+	 * @return void
+	 */
+	protected static function log($sql, $bindings, $time)
+	{
+		Event::fire('laravel: query', array($sql, $bindings, $time));
+
+		static::$queries = compact('sql', 'bindings', 'time');
 	}
 
 	/**
