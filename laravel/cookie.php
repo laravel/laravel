@@ -147,7 +147,7 @@ class Cookie {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function sign($name, $value)
+	public static function sign($name, $value)
 	{
 		return static::hash($name, $value).'~'.$value;
 	}
