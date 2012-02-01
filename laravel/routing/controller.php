@@ -293,7 +293,7 @@ abstract class Controller {
 	 */
 	public function layout()
 	{
-		return View::make($this->layout);
+		return isset(View::$names[$this->layout]) ? View::of($this->layout) : View::make($this->layout);
 	}
 
 	/**
