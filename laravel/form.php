@@ -304,6 +304,19 @@ class Form {
 	{
 		return static::input('number', $name, $value, $attributes);
 	}
+	
+	/**
+	 * Create a HTML date input element.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */		
+	public static function date($name, $value = null, $attributes = array())
+	{
+		return static::input('date', $name, $value, $attributes);
+	}
 
 	/**
 	 * Create a HTML file input element.
