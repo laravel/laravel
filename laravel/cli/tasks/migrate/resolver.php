@@ -130,7 +130,7 @@ class Resolver {
 		// At this point the migrations are only sorted within their
 		// bundles so we need to resort them by name to ensure they
 		// are in a consistent order.
-		usort($migrations, function($a, $b)
+		usort($instances, function($a, $b)
 		{
 			return strcmp($a['name'], $b['name']);
 		});
