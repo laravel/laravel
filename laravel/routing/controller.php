@@ -293,6 +293,11 @@ abstract class Controller {
 	 */
 	public function layout()
 	{
+		if (starts_with($this->layout, 'name: '))
+		{
+			return View::of(substr($this->layout, 6));
+		}
+
 		return View::make($this->layout);
 	}
 
