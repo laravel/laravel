@@ -12,14 +12,23 @@ class Github implements Provider {
 	{
 		$repository = "git@github.com:{$bundle['location']}.git";
 
+		$path = array_get($bundle, 'path', $bundle['name']);
+
+		// If the installation target directory doesn't exist, we will create
+		// it recursively so that we can properly add the Git submodule for
+		// the bundle when we install.
+		if ( ! is_dir(path('bundle').$path))
+		{
+			mkdir(path('bundle').$path, 0777, true);
+		}
+
 		// We need to just extract the basename of the bundle path when
 		// adding the submodule. Of course, we can't add a submodule to
 		// a location outside of the Git repository, so we don't need
-		// the full bundle path. We'll just take the basename in case
-		// the bundle directory has been renamed.
-		$path = basename(path('bundle')).'/';
+		// the full bundle path.
+		$root = basename(path('bundle')).'/';
 
-		passthru('git submodule add '.$repository.' '.$path.$bundle['name']);
+		passthru('git submodule add '.$repository.' '.$root.$path);
 
 		passthru('git submodule update');
 	}
