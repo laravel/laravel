@@ -263,6 +263,16 @@ class Payload {
 	}
 
 	/**
+	 * Get the last activity for the session.
+	 *
+	 * @return int
+	 */
+	public function activity()
+	{
+		return $this->session['last_activity'];
+	}
+
+	/**
 	 * Store the session payload in storage.
 	 *
 	 * This method will be called automatically at the end of the request.
