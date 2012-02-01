@@ -222,7 +222,7 @@ class Connection {
 		// execution time in a static array that is accessed by all of
 		// the connections used by the application. This allows us to
 		// review all of the executed SQL.
-		static::log($sql, $bindings, $time);
+		$this->log($sql, $bindings, $time);
 
 		return array($statement, $result);
 	}
@@ -268,7 +268,7 @@ class Connection {
 	 * @param  int     $time
 	 * @return void
 	 */
-	protected static function log($sql, $bindings, $time)
+	protected function log($sql, $bindings, $time)
 	{
 		Event::fire('laravel: query', array($sql, $bindings, $time));
 
