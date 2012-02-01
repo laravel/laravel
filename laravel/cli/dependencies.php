@@ -47,6 +47,16 @@ IoC::singleton('task: session', function()
 });
 
 /**
+ * The route task is responsible for calling routes within the
+ * application and dumping the result. This allows for simple
+ * testing of APIs and JSON based applications.
+ */
+IoC::singleton('task: route', function()
+{
+	return new Tasks\Route;
+});
+
+/**
  * The "test" task is responsible for running the unit tests for
  * the application, bundles, and the core framework itself.
  * It provides a nice wrapper around PHPUnit.
