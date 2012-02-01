@@ -63,6 +63,19 @@ return array(
 	|
 	*/
 
-	'logout' => function($user) {}
+	'logout' => function($user) {},
+
+	/*
+	|--------------------------------------------------------------------------
+	| "Remember Me" Cookie Name
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the cookie name that will be used for the cookie
+	| that serves as the "remember me" token. Of course, a sensible default
+	| has been set for you, so you probably don't need to change it.
+	|
+	*/
+
+	'cookie' => 'laravel_remember',
 
 );
