@@ -74,6 +74,18 @@ class Lang {
 	}
 
 	/**
+	 * Determine if a language line exists.
+	 *
+	 * @param  string  $key
+	 * @param  string  $language
+	 * @return bool
+	 */
+	public static function has($key, $language = null)
+	{
+		return ! is_null(static::line($key, array(), $language)->get());
+	}
+
+	/**
 	 * Get the language line as a string.
 	 *
 	 * <code>
