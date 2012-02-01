@@ -604,9 +604,15 @@ class Validator {
 		// First we'll check for developer specified, attribute specific messages.
 		// These messages take first priority. They allow the fine-grained tuning
 		// of error messages for each rule.
-		if (array_key_exists($attribute.'_'.$rule, $this->messages))
+		$custom = $attribute.'_'.$rule;
+
+		if (array_key_exists($custom, $this->messages))
 		{
-			return $this->messages[$attribute.'_'.$rule];
+			return $this->messages[$custom];
+		}
+		elseif (Lang::has($custom = "validation.custom.{$custom}", $this->language))
+		{
+			return Lang::line($custom)->get($this->language);
 		}
 
 		// Next we'll check for developer specified, rule specific error messages.

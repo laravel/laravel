@@ -4,23 +4,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Validation Attribute Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used to swap attribute place-holders
-	| with something more reader friendly such as "E-Mail Address" instead
-	| of "email". Your users will thank you.
-	|
-	| The Validator class will automatically search this array of lines it
-	| is attempting to replace the :attribute place-holder in messages.
-	| It's pretty slick. We think you'll like it.
-	|
-	*/
-
-	'attributes' => array(),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Validation Language Lines
 	|--------------------------------------------------------------------------
 	|
@@ -73,5 +56,39 @@ return array(
 	),
 	"unique"         => "The :attribute has already been taken.",
 	"url"            => "The :attribute format is invalid.",
+
+	/*
+	|--------------------------------------------------------------------------
+	| Custom Validation Language Lines
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify custom validation messages for attributes using the
+	| convention "attribute_rule" to name the lines. This helps keep your
+	| custom validation clean and tidy.
+	|
+	| So, say you want to use a custom validation message when validating that
+	| the "email" attribute is unique. Just add "email_unique" to this array
+	| with your custom message. The Validator will handle the rest!
+	|
+	*/
+
+	'custom' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Attributes
+	|--------------------------------------------------------------------------
+	|
+	| The following language lines are used to swap attribute place-holders
+	| with something more reader friendly such as "E-Mail Address" instead
+	| of "email". Your users will thank you.
+	|
+	| The Validator class will automatically search this array of lines it
+	| is attempting to replace the :attribute place-holder in messages.
+	| It's pretty slick. We think you'll like it.
+	|
+	*/
+
+	'attributes' => array(),
 
 );
