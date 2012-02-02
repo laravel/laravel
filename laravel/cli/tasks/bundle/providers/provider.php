@@ -40,6 +40,8 @@ abstract class Provider {
 
 		$latest = File::latest(dirname($target));
 
+		@chmod($latest->getRealPath(), 0777);
+
 		// Once we have the latest modified directory, we should be
 		// able to move its contents over into the bundles folder
 		// so the bundle will be usable by the develoepr.

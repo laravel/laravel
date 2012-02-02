@@ -222,7 +222,7 @@ class File {
 			{
 				$path = $item->getRealPath();
 
-				static::cpdir($path, $location);
+				static::cpdir($path, $location, $delete, $options);
 
 				if ($delete) @rmdir($item->getRealPath());
 			}
