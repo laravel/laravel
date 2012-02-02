@@ -3,7 +3,7 @@
 class MySQL extends Connector {
 
 	/**
-	 * Establish a PDO database connection for a given database configuration.
+	 * Establish a PDO database connection.
 	 *
 	 * @param  array  $config
 	 * @return PDO
@@ -15,7 +15,7 @@ class MySQL extends Connector {
 		// Format the initial MySQL PDO connection string. These options are required
 		// for every MySQL connection that is established. The connection strings
 		// have the following convention: "mysql:host=hostname;dbname=database"
-		$dsn = sprintf('%s:host=%s;dbname=%s', $driver, $host, $database);
+		$dsn = "mysql:host={$host};dbname={$database}";
 
 		// Check for any optional MySQL PDO options. These options are not required
 		// to establish a PDO connection; however, may be needed in certain server

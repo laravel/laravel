@@ -68,7 +68,7 @@ class File extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$value = (time() + ($minutes * 60)).serialize($value);
+		$value = $this->expiration($minutes).serialize($value);
 
 		file_put_contents($this->path.$key, $value, LOCK_EX);
 	}
@@ -81,10 +81,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		if (file_exists($this->path.$key))
-		{
-			@unlink($this->path.$key);
-		}
+		if (file_exists($this->path.$key)) @unlink($this->path.$key);
 	}
 
 }

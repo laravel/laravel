@@ -69,6 +69,14 @@
 				padding: 10px;
 			}
 
+			#main div.warning {
+				background-color: #feefb3;
+				border: 1px solid;
+				border-radius: 5px;
+				color: #9f6000;
+				padding: 10px;
+			}
+
 			#main ul {
 				margin: 10px 0;
 				padding: 0 30px;
@@ -81,41 +89,55 @@
 	</head>
 	<body>
 		<div id="main">
-			<h1>Welcome To Laravel</h1>
+			<?php if (Config::get('application.key') == ''): ?>
 
-			<h2>A Framework For Web Artisans</h2>
+				<h1>Whoops!</h1>
 
-			<p>
-				You have successfully installed the Laravel framework. Laravel is a simple framework
-				that helps web artisans create beautiful, creative applications using elegant, expressive
-				syntax. You'll love using it.
-			</p>
+				<br>
 
-			<h3>Learn the terrain.</h3>
+				<div class="warning">
+					Please set an application key in <strong>application/config/application.php</strong>!
+				</div>
 
-			<p>
-				You've landed yourself on our default home page. The route that
-				is generating this page lives at:
-			</p>
+			<?php else: ?>
 
-			<pre><code>APP_PATH/routes.php</code></pre>
+				<h1>Welcome To Laravel</h1>
 
-			<p>And the view sitting before you can be found at:</p>
+				<h2>A Framework For Web Artisans</h2>
 
-			<pre><code>APP_PATH/views/home/index.php</code></pre>
+				<p>
+					You have successfully installed the Laravel framework. Laravel is a simple framework
+					that helps web artisans create beautiful, creative applications using elegant, expressive
+					syntax. You'll love using it.
+				</p>
 
-			<h3>Create something beautiful.</h3>
+				<h3>Learn the terrain.</h3>
 
-			<p>
-				Now that you're up and running, it's time to start creating!
-				Here are some links to help you get started:
-			</p>
+				<p>
+					You've landed yourself on our default home page. The route that
+					is generating this page lives at:
+				</p>
 
-			<ul>
-				<li><a href="http://laravel.com">Official Website</a></li>
-				<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
-				<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
-			</ul>
+				<pre><code>APP_PATH/routes.php</code></pre>
+
+				<p>And the view sitting before you can be found at:</p>
+
+				<pre><code>APP_PATH/views/home/index.php</code></pre>
+
+				<h3>Create something beautiful.</h3>
+
+				<p>
+					Now that you're up and running, it's time to start creating!
+					Here are some links to help you get started:
+				</p>
+
+				<ul>
+					<li><a href="http://laravel.com">Official Website</a></li>
+					<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
+					<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
+				</ul>
+
+			<?php endif; ?>
 
 		</div>
 	</body>

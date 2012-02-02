@@ -4,22 +4,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Validation Attribute Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used to swap attribute place-holders
-	| with something more reader friendly, such as "E-Mail Address" instead
-	| of "email".
-	|
-	| The Validator class will automatically search this array of lines when
-	| attempting to replace the :attribute place-holder in error messages.
-	|
-	*/
-
-	'attributes' => array(),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Validation Language Lines
 	|--------------------------------------------------------------------------
 	|
@@ -28,9 +12,9 @@ return array(
 	| such as the size (max, min, between) rules. These versions are used
 	| for different input types such as strings and files.
 	|
-	| These language lines may be easily changed by the developer to provide
-	| custom error messages in their application. Error messages for custom
-	| validation rules may also be added to this file.
+	| These language lines may be easily changed to provide custom error
+	| messages in your application. Error messages for custom validation
+	| rules may also be added to this file.
 	|
 	*/
 
@@ -46,9 +30,11 @@ return array(
 	),
 	"confirmed"      => "The :attribute confirmation does not match.",
 	"email"          => "The :attribute format is invalid.",
+	"exists"         => "The selected :attribute is invalid.",
 	"image"          => "The :attribute must be an image.",
 	"in"             => "The selected :attribute is invalid.",
 	"integer"        => "The :attribute must be an integer.",
+	"ip"             => "The :attribute must be a valid IP address.",
 	"max"            => array(
 		"numeric" => "The :attribute must be less than :max.",
 		"file"    => "The :attribute must be less than :max kilobytes.",
@@ -70,5 +56,39 @@ return array(
 	),
 	"unique"         => "The :attribute has already been taken.",
 	"url"            => "The :attribute format is invalid.",
+
+	/*
+	|--------------------------------------------------------------------------
+	| Custom Validation Language Lines
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify custom validation messages for attributes using the
+	| convention "attribute_rule" to name the lines. This helps keep your
+	| custom validation clean and tidy.
+	|
+	| So, say you want to use a custom validation message when validating that
+	| the "email" attribute is unique. Just add "email_unique" to this array
+	| with your custom message. The Validator will handle the rest!
+	|
+	*/
+
+	'custom' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
+	| Validation Attributes
+	|--------------------------------------------------------------------------
+	|
+	| The following language lines are used to swap attribute place-holders
+	| with something more reader friendly such as "E-Mail Address" instead
+	| of "email". Your users will thank you.
+	|
+	| The Validator class will automatically search this array of lines it
+	| is attempting to replace the :attribute place-holder in messages.
+	| It's pretty slick. We think you'll like it.
+	|
+	*/
+
+	'attributes' => array(),
 
 );

@@ -23,9 +23,7 @@ class Cookie implements Driver {
 	{
 		if (\Laravel\Cookie::has(Cookie::payload))
 		{
-			$cookie = Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload));
-
-			return unserialize($cookie);
+			return unserialize(Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload)));
 		}
 	}
 

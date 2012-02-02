@@ -7,12 +7,12 @@ return array(
 	| Session Driver
 	|--------------------------------------------------------------------------
 	|
-	| The name of the session driver for your application.
+	| The name of the session driver used by your application. Since HTTP is
+	| stateless, sessions are used to simulate "state" across requests made
+	| by the same user of your application. In other words, it's how an
+	| application knows who the heck you are.
 	|
-	| Since HTTP is stateless, sessions are used to maintain "state" across
-	| multiple requests from the same user of your application.
-	|
-	| Supported Drivers: 'cookie', 'file', 'database', 'memcached', 'apc', 'redis'.
+	| Drivers: 'cookie', 'file', 'database', 'memcached', 'apc', 'redis'.
 	|
 	*/
 
@@ -23,9 +23,9 @@ return array(
 	| Session Database
 	|--------------------------------------------------------------------------
 	|
-	| The database table on which the session should be stored. 
-	|
-	| This option is only relevant when using the "database" session driver.
+	| The database table on which the session should be stored. It probably
+	| goes without saying that this option only matters if you are using
+	| the super slick database session driver.
 	|
 	*/
 
@@ -40,8 +40,9 @@ return array(
 	| This option specifies the probability of session garbage collection
 	| occuring for any given request. 
 	|
-	| For example, the default value states that garbage collection has about
-	| a 2% (2 / 100) chance of occuring for any given request.
+	| For example, the default value states that garbage collection has a
+	| 2% chance of occuring for any given request to the application.
+	| Feel free to tune this to your application's size and speed.
 	|
 	*/
 

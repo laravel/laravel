@@ -9,11 +9,8 @@ class Redirect extends Response {
 	 *		// Create a redirect response to a location within the application
 	 *		return Redirect::to('user/profile');
 	 *
-	 *		// Create a redirect with a 301 status code
+	 *		// Create a redirect response with a 301 status code
 	 *		return Redirect::to('user/profile', 301);
-	 *
-	 *		// Create a redirect response to a location outside of the application
-	 *		return Redirect::to('http://google.com');
 	 * </code>
 	 *
 	 * @param  string    $url
@@ -39,13 +36,48 @@ class Redirect extends Response {
 	}
 
 	/**
-	 * Add an item to the session flash data.
-	 *
-	 * This is useful for passing status messages or other temporary data to the next request.
+	 * Create a redirect response to a named route.
 	 *
 	 * <code>
-	 *		// Create a redirect response and flash something to the session
-	 *		return Redirect::to('user/profile')->with('message', 'Welcome Back!');
+	 *		// Create a redirect response to the "login" named route
+	 *		return Redirect::to_route('login');
+	 *
+	 *		// Create a redirect response to the "profile" named route with parameters
+	 *		return Redirect::to_route('profile', array($username));
+	 * </code>
+	 *
+	 * @param  string    $route
+	 * @param  array     $parameters
+	 * @param  int       $status
+	 * @param  bool      $https
+	 * @return Redirect
+	 */
+	public static function to_route($route, $parameters = array(), $status = 302, $https = false)
+	{
+		return static::to(URL::to_route($route, $parameters, $https), $status);
+	}
+
+	/**
+	 * Create a redirect response to a named route using HTTPS.
+	 *
+	 * @param  string    $route
+	 * @param  array     $parameters
+	 * @param  int       $status
+	 * @return Redirect
+	 */
+	public static function to_secure_route($route, $parameters = array(), $status = 302)
+	{
+		return static::to_route($route, $parameters, $status, true);
+	}
+
+	/**
+	 * Add an item to the session flash data.
+	 *
+	 * This is useful for "passing" status messages or other data to the next request.
+	 *
+	 * <code>
+	 *		// Create a redirect response and flash to the session
+	 *		return Redirect::to('profile')->with('message', 'Welcome Back!');
 	 * </code>
 	 *
 	 * @param  string          $key
@@ -56,10 +88,10 @@ class Redirect extends Response {
 	{
 		if (Config::get('session.driver') == '')
 		{
-			throw new \LogicException('A session driver must be set before setting flash data.');
+			throw new \Exception('A session driver must be set before setting flash data.');
 		}
 
-		IoC::core('session')->flash($key, $value);
+		Session::flash($key, $value);
 
 		return $this;
 	}
@@ -71,13 +103,13 @@ class Redirect extends Response {
 	 *
 	 * <code>
 	 *		// Redirect and flash all of the input data to the session
-	 *		return Redirect::to_login()->with_input();
+	 *		return Redirect::to('login')->with_input();
 	 *
 	 *		// Redirect and flash only a few of the input items
-	 *		return Redirect::to_login()->with_input('only', array('email', 'username'));
+	 *		return Redirect::to('login')->with_input('only', array('email', 'username'));
 	 *
 	 *		// Redirect and flash all but a few of the input items
-	 *		return Redirect::to_login()->with_input('except', array('password', 'ssn'));
+	 *		return Redirect::to('login')->with_input('except', array('password', 'ssn'));
 	 * </code>
 	 *
 	 * @param  string    $filter
@@ -87,6 +119,7 @@ class Redirect extends Response {
 	public function with_input($filter = null, $items = array())
 	{
 		Input::flash($filter, $items);
+
 		return $this;
 	}
 
@@ -96,11 +129,8 @@ class Redirect extends Response {
 	 * This method allows you to conveniently pass validation errors back to views.
 	 *
 	 * <code>
-	 *		// Redirect and flash a validator's errors the session
+	 *		// Redirect and flash validator errors the session
 	 *		return Redirect::to('register')->with_errors($validator);
-	 *
-	 *		// Redirect and flash a message container to the session
-	 *		return Redirect::to('register')->with_errors($messages);
 	 * </code>
 	 *
 	 * @param  Validator|Messages  $container
@@ -111,42 +141,6 @@ class Redirect extends Response {
 		$errors = ($container instanceof Validator) ? $container->errors : $container;
 
 		return $this->with('errors', $errors);
-	}
-
-	/**
-	 * Magic Method to handle creation of redirects to named routes.
-	 *
-	 * <code>
-	 *		// Create a redirect response to the "profile" named route
-	 *		return Redirect::to_profile();
-	 *
-	 *		// Create a redirect response to a named route using HTTPS
-	 *		return Redirect::to_secure_profile();
-	 *
-	 *		// Create a redirect response to a named route with wildcard parameters
-	 *		return Redirect::to_profile(array($username));
-	 * </code>
-	 */
-	public static function __callStatic($method, $parameters)
-	{
-		// Extract the parameters that should be placed in the URL. These parameters
-		// are used to fill all of the wildcard slots in the route URI definition.
-		// They are passed as the first parameter to this magic method.
-		$wildcards = (isset($parameters[0])) ? $parameters[0] : array();
-
-		$status = (isset($parameters[1])) ? $parameters[1] : 302;
-
-		if (strpos($method, 'to_secure_') === 0)
-		{
-			return static::to(URL::to_route(substr($method, 10), $wildcards, true), $status);
-		}
-
-		if (strpos($method, 'to_') === 0)
-		{
-			return static::to(URL::to_route(substr($method, 3), $wildcards), $status);
-		}
-
-		throw new \BadMethodCallException("Method [$method] is not defined on the Redirect class.");
 	}
 
 }

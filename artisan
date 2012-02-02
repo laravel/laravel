@@ -1,0 +1,24 @@
+<?php
+/**
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @version  3.0.0
+ * @author   Taylor Otwell <taylorotwell@gmail.com>
+ * @link     http://laravel.com
+ */
+
+// --------------------------------------------------------------
+// Set the core Laravel path constants.
+// --------------------------------------------------------------
+require 'paths.php';
+
+// --------------------------------------------------------------
+// Bootstrap the Laravel core.
+// --------------------------------------------------------------
+require path('sys').'core.php';
+
+// --------------------------------------------------------------
+// Launch the Laravel "Artisan" CLI.
+// --------------------------------------------------------------
+require path('sys').'cli/artisan'.EXT;
