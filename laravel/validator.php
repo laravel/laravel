@@ -245,6 +245,31 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an attribute is the same as another attribute.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_same_as($attribute, $value, $parameters)
+	{
+		$other = $parameters[0];
+		return isset($this->attributes[$other]) and $value == $this->attributes[$other];
+	}
+
+	/**
+	 * Validate that an attribute is not the same as another attribute.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_not_same_as($attribute, $value, $parameters)
+	{
+		return !$this->validate_same_as($attribute, $value, $parameters);
+	}
+
+	/**
 	 * Validate that an attribute has a matching confirmation attribute.
 	 *
 	 * @param  string  $attribute
@@ -253,9 +278,7 @@ class Validator {
 	 */
 	protected function validate_confirmed($attribute, $value)
 	{
-		$confirmed = $attribute.'_confirmation';
-
-		return isset($this->attributes[$confirmed]) and $value == $this->attributes[$confirmed];
+		return $this->validate_same_as($attribue, $value, array( $attribute.'_confirmation' ) );
 	}
 
 	/**
@@ -515,7 +538,7 @@ class Validator {
 	protected function validate_active_url($attribute, $value)
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
-		
+
 		return checkdnsrr($url);
 	}
 
@@ -564,7 +587,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $value);
 	}
 
 	/**
@@ -664,7 +687,7 @@ class Validator {
 			$line = 'string';
 		}
 
-		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
 	}
 
 	/**
@@ -755,7 +778,7 @@ class Validator {
 	{
 		$parameters = array();
 
-		// The format for specifying validation rules and parameters follows a 
+		// The format for specifying validation rules and parameters follows a
 		// {rule}:{parameters} formatting convention. For instance, the rule
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
