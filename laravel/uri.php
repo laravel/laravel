@@ -40,6 +40,8 @@ class URI {
 			$uri = static::remove($uri, $index);
 		}
 
+		$uri = urldecode($uri);
+
 		static::$uri = static::format($uri);
 
 		// Cache the URI segments. This allows us to avoid having to explode
