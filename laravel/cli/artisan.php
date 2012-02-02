@@ -15,7 +15,9 @@ Bundle::start(DEFAULT_BUNDLE);
  * retrieve them from the various parts of the CLI code. We can use
  * the Request class to access them conveniently.
  */
-list($arguments, $_SERVER['cli']) = Console::options($_SERVER['argv']);
+list($arguments, $_SERVER['CLI']) = Console::options($_SERVER['argv']);
+
+$_SERVER['CLI'] = array_change_key_case($_SERVER['CLI'], CASE_UPPER);
 
 /**
  * The Laravel environment may be specified on the CLI using the "env"
@@ -23,9 +25,9 @@ list($arguments, $_SERVER['cli']) = Console::options($_SERVER['argv']);
  * files from the CLI since the environment is usually controlled
  * by server environmenet variables.
  */
-if (isset($_SERVER['cli']['env']))
+if (isset($_SERVER['CLI']['ENV']))
 {
-	$_SERVER['LARAVEL_ENV'] = $_SERVER['cli']['env'];
+	$_SERVER['LARAVEL_ENV'] = $_SERVER['CLI']['ENV'];
 }
 
 /**
@@ -33,9 +35,9 @@ if (isset($_SERVER['cli']['env']))
  * for the "database" CLI option. This allows migrations to be run
  * conveniently for a test or staging database.
  */
-if (isset($_SERVER['cli']['db']))
+if (isset($_SERVER['CLI']['DB']))
 {
-	Config::set('database.default', $_SERVER['cli']['db']);
+	Config::set('database.default', $_SERVER['CLI']['DB']);
 }
 
 /**

@@ -25,9 +25,9 @@ class Github extends Provider {
 	 */
 	protected function zipball($bundle)
 	{
-		$zip = "https://github.com/{$bundle['location']}/zipball/master";
+		$url = "http://nodeload.github.com/{$bundle['location']}/zipball/master";
 
-		parent::zipball($zip, true);
+		parent::zipball($bundle, $url, true);
 	}
 
 	/**
@@ -38,6 +38,7 @@ class Github extends Provider {
 	 */
 	protected function submodule($bundle)
 	{
+		die('here');
 		$repository = "git@github.com:{$bundle['location']}.git";
 
 		$this->directory($bundle);

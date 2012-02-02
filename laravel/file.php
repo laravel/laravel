@@ -191,7 +191,7 @@ class File {
 		// from the installed bundle's source directory.
 		if ( ! is_dir($destination))
 		{
-			mkdir($destination);
+			mkdir($destination, 0777, true);
 		}
 
 		$items = new FilesystemIterator($source, FilesystemIterator::SKIP_DOTS);
@@ -225,6 +225,30 @@ class File {
 		}
 
 		if ($delete) rmdir($source);
+	}
+
+	/**
+	 * Get the most recently modified file in a directory.
+	 *
+	 * @param  string       $directory
+	 * @return SplFileInfo
+	 */
+	public static function latest($directory)
+	{
+		$time = 0;
+
+		$items = new FilesystemIterator($directory, FilesystemIterator::SKIP_DOTS);
+
+		// To get the latest created file, we'll simply spin through the
+		// directory, setting the latest file if we encounter a file
+		// with a UNIX timestamp greater than the latest one we
+		// have encountered thus far in the loop.
+		foreach ($items as $item)
+		{
+			if ($item->getMTime() > $time) $latest = $item;
+		}
+
+		return $latest;
 	}
 
 }
