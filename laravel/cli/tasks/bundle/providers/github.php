@@ -1,6 +1,6 @@
 <?php namespace Laravel\CLI\Tasks\Bundle\Providers;
 
-class Github implements Provider {
+class Github extends Provider {
 
 	/**
 	 * Install the given bundle into the application.
@@ -10,17 +10,35 @@ class Github implements Provider {
 	 */
 	public function install($bundle)
 	{
+		$method = (Request::server('cli.zip')) ? 'zipball' : 'submodule';
+
+		$this->$method($bundle);
+	}
+
+	/**
+	 * Install a Github hosted bundle from Zip.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	protected function zipball($bundle)
+	{
+		$zip = "https://github.com/{$bundle['location']}/zipball/master";
+
+		parent::zipball($zip, true);
+	}
+
+	/**
+	 * Install a Github hosted bundle using submodules.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	protected function submodule($bundle)
+	{
 		$repository = "git@github.com:{$bundle['location']}.git";
 
-		$path = array_get($bundle, 'path', $bundle['name']);
-
-		// If the installation target directory doesn't exist, we will create
-		// it recursively so that we can properly add the Git submodule for
-		// the bundle when we install.
-		if ( ! is_dir($target = dirname(path('bundle').$path)))
-		{
-			mkdir($target, 0777, true);
-		}
+		$this->directory($bundle);
 
 		// We need to just extract the basename of the bundle path when
 		// adding the submodule. Of course, we can't add a submodule to
@@ -28,7 +46,7 @@ class Github implements Provider {
 		// the full bundle path.
 		$root = basename(path('bundle')).'/';
 
-		passthru('git submodule add '.$repository.' '.$root.$path);
+		passthru('git submodule add '.$repository.' '.$root.$this->path($bundle));
 
 		passthru('git submodule update');
 	}
