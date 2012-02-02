@@ -22,9 +22,9 @@ abstract class Provider {
 	protected function zipball($bundle, $url)
 	{
 		// When installing a bundle from a Zip archive, we'll first clone
-		// down the bundle zip into the bundles "working" directory.
-		// This gives us a spot to all of our bundle extrations.
-		$target = path('storage').'work/bundles/bundle.zip';
+		// down the bundle zip into the bundles "working" directory so
+		// we have a spot to do all of our bundle extrations.
+		$target = path('storage').'work/laravel-bundle.zip';
 
 		File::put($target, file_get_contents($url));
 
@@ -36,7 +36,7 @@ abstract class Provider {
 		// into the working directory. By convention, we expect the
 		// archive to contain one root directory, and all of the
 		// bundle contents should be stored in that directory.
-		$zip->extractTo(path('storage').'work/bundles');
+		$zip->extractTo(path('storage').'work');
 
 		$latest = File::latest(dirname($target));
 
