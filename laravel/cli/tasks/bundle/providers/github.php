@@ -28,6 +28,8 @@ class Github extends Provider {
 		$url = "http://nodeload.github.com/{$bundle['location']}/zipball/master";
 
 		parent::zipball($bundle, $url, true);
+
+		echo "Bundle [{$bundle['name']} has been installed!".PHP_EOL;
 	}
 
 	/**
