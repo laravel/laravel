@@ -29,7 +29,7 @@ class Github extends Provider {
 
 		parent::zipball($bundle, $url, true);
 
-		echo "Bundle [{$bundle['name']} has been installed!".PHP_EOL;
+		echo "Bundle [{$bundle['name']}] has been installed!".PHP_EOL;
 	}
 
 	/**

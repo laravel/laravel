@@ -45,7 +45,7 @@ abstract class Provider {
 		// so the bundle will be usable by the develoepr.
 		$path = $this->path($bundle);
 
-		File::cpdir($latest->getRealPath(), path('bundle').$path);
+		File::mvdir($latest->getRealPath(), path('bundle').$path);
 
 		@unlink($target);
 	}
