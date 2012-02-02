@@ -38,7 +38,6 @@ class Github extends Provider {
 	 */
 	protected function submodule($bundle)
 	{
-		die('here');
 		$repository = "git@github.com:{$bundle['location']}.git";
 
 		$this->directory($bundle);
