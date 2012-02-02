@@ -179,9 +179,10 @@ class File {
 	 *
 	 * @param  string  $source
 	 * @param  string  $destination
+	 * @param  bool    $delete
 	 * @return void
 	 */
-	public static function cpdir($source, $destination)
+	public static function cpdir($source, $destination, $delete = false)
 	{
 		if ( ! is_dir($source)) return;
 
@@ -208,6 +209,8 @@ class File {
 				$path = $item->getRealPath();
 
 				static::cpdir($path, $location);
+
+				if ($delete) rmdir($item->getRealPath());
 			}
 			// If the file system item is an actual file, we can copy the
 			// file from the bundle asset directory to the public asset
@@ -216,8 +219,12 @@ class File {
 			else
 			{
 				copy($item->getRealPath(), $location);
+
+				if ($delete) unlink($item->getRealPath());
 			}
 		}
+
+		if ($delete) rmdir($source);
 	}
 
 }
