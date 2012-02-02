@@ -1,5 +1,7 @@
 <?php namespace Laravel\CLI\Tasks\Bundle\Providers;
 
+use Laravel\Request;
+
 class Github extends Provider {
 
 	/**
