@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure, FilesystemIterator;
+<?php namespace Laravel; use Closure, FilesystemIterator as fIterator;
 
 class File {
 
@@ -175,14 +175,28 @@ class File {
 	}
 
 	/**
+	 * Move a directory from one location to another.
+	 *
+	 * @param  string  $source
+	 * @param  string  $destination
+	 * @param  int     $options
+	 * @return void
+	 */
+	public static function mvdir($source, $destination, $options = fIterator::SKIP_DOTS)
+	{
+		static::cpdir($source, $destination, true, $options);
+	}
+
+	/**
 	 * Recursively copy directory contents to another directory.
 	 *
 	 * @param  string  $source
 	 * @param  string  $destination
 	 * @param  bool    $delete
+	 * @param  int     $options
 	 * @return void
 	 */
-	public static function cpdir($source, $destination, $delete = false)
+	public static function cpdir($source, $destination, $delete = false, $options = fIterator::SKIP_DOTS)
 	{
 		if ( ! is_dir($source)) return;
 
@@ -194,7 +208,7 @@ class File {
 			mkdir($destination, 0777, true);
 		}
 
-		$items = new FilesystemIterator($source, FilesystemIterator::SKIP_DOTS);
+		$items = new fIterator($source, $options);
 
 		foreach ($items as $item)
 		{
@@ -210,7 +224,7 @@ class File {
 
 				static::cpdir($path, $location);
 
-				if ($delete) rmdir($item->getRealPath());
+				if ($delete) @rmdir($item->getRealPath());
 			}
 			// If the file system item is an actual file, we can copy the
 			// file from the bundle asset directory to the public asset
@@ -220,7 +234,7 @@ class File {
 			{
 				copy($item->getRealPath(), $location);
 
-				if ($delete) unlink($item->getRealPath());
+				if ($delete) @unlink($item->getRealPath());
 			}
 		}
 
@@ -231,13 +245,14 @@ class File {
 	 * Get the most recently modified file in a directory.
 	 *
 	 * @param  string       $directory
+	 * @param  int          $options
 	 * @return SplFileInfo
 	 */
-	public static function latest($directory)
+	public static function latest($directory, $options = fIterator::SKIP_DOTS)
 	{
 		$time = 0;
 
-		$items = new FilesystemIterator($directory, FilesystemIterator::SKIP_DOTS);
+		$items = new fIterator($directory, $options);
 
 		// To get the latest created file, we'll simply spin through the
 		// directory, setting the latest file if we encounter a file
