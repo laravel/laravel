@@ -12,7 +12,7 @@ class Github extends Provider {
 	 */
 	public function install($bundle)
 	{
-		$method = (Request::server('cli.zip')) ? 'zipball' : 'submodule';
+		$method = (Request::server('cli.git')) ? 'submodule' : 'zipball';
 
 		$this->$method($bundle);
 	}
