@@ -37,6 +37,5 @@ Autoloader::psr(array(
 */
 
 Autoloader::map(array(
-	//'User' => path('app').'models/user.php',
-	//'Role' => path('app').'models/role.php',
+	'Base_Controller' => path('app').'controllers/base.php',
 ));
