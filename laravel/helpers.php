@@ -363,3 +363,14 @@ function value($value)
 {
 	return ($value instanceof Closure) ? call_user_func($value) : $value;
 }
+
+/**
+ * Short-cut for constructor method chaining.
+ *
+ * @param  mixed  $object
+ * @return mixed
+ */
+function with($object)
+{
+	return $object;
+}
