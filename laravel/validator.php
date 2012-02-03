@@ -59,13 +59,6 @@ class Validator {
 	protected $size_rules = array('size', 'between', 'min', 'max');
 
 	/**
-	 * The inclusion related validation rules.
-	 *
-	 * @var array
-	 */
-	protected $inclusion_rules = array('in', 'not_in', 'mimes');
-
-	/**
 	 * The numeric related validation rules.
 	 *
 	 * @var array
