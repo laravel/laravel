@@ -38,16 +38,16 @@ abstract class Provider {
 		// bundle contents should be stored in that directory.
 		$zip->extractTo(path('storage').'work');
 
-		$latest = File::latest(dirname($target));
+		$latest = File::latest(dirname($target))->getRealPath();
 
-		@chmod($latest->getRealPath(), 0777);
+		@chmod($latest, 0777);
 
 		// Once we have the latest modified directory, we should be
 		// able to move its contents over into the bundles folder
 		// so the bundle will be usable by the develoepr.
 		$path = $this->path($bundle);
 
-		File::mvdir($latest->getRealPath(), path('bundle').$path);
+		File::mvdir($latest, path('bundle').$path);
 
 		@unlink($target);
 	}
