@@ -65,6 +65,8 @@ class Bundler extends Task {
 	 */
 	public function upgrade($bundles)
 	{
+		if (count($bundles) == 0) $bundles = Bundle::names();
+
 		foreach ($bundles as $name)
 		{
 			if ( ! Bundle::exists($name))
