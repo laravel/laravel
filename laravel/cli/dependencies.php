@@ -22,7 +22,9 @@ IoC::register('task: migrate', function()
  */
 IoC::register('task: bundle', function()
 {
-	return new Tasks\Bundle\Bundler;
+	$repository = IoC::resolve('bundle.repository');
+
+	return new Tasks\Bundle\Bundler($repository);
 });
 
 /**
