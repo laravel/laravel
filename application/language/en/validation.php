@@ -29,6 +29,7 @@ return array(
 		"string"  => "The :attribute must be between :min - :max characters.",
 	),
 	"confirmed"      => "The :attribute confirmation does not match.",
+	"different"      => "The :attribute and :other must be different.",
 	"email"          => "The :attribute format is invalid.",
 	"exists"         => "The selected :attribute is invalid.",
 	"image"          => "The :attribute must be an image.",
@@ -49,6 +50,7 @@ return array(
 	"not_in"         => "The selected :attribute is invalid.",
 	"numeric"        => "The :attribute must be a number.",
 	"required"       => "The :attribute field is required.",
+	"same"           => "The :attribute and :other must match.",
 	"size"           => array(
 		"numeric" => "The :attribute must be :size.",
 		"file"    => "The :attribute must be :size kilobyte.",

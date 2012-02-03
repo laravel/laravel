@@ -253,9 +253,7 @@ class Validator {
 	 */
 	protected function validate_confirmed($attribute, $value)
 	{
-		$confirmed = $attribute.'_confirmation';
-
-		return isset($this->attributes[$confirmed]) and $value == $this->attributes[$confirmed];
+		return $this->validate_same($attribute, $value, array($attribute.'_confirmation'));
 	}
 
 	/**
@@ -270,6 +268,36 @@ class Validator {
 	protected function validate_accepted($attribute, $value)
 	{
 		return $this->validate_required($attribute, $value) and ($value == 'yes' or $value == '1');
+	}
+
+	/**
+	 * Validate that an attribute is the same as another attribute.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_same($attribute, $value, $parameters)
+	{
+		$other = $parameters[0];
+
+		return isset($this->attributes[$other]) and $value == $this->attributes[$other];
+	}
+
+	/**
+	 * Validate that an attribute is different from another attribute.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_different($attribute, $value, $parameters)
+	{
+		$other = $parameters[0];
+
+		return isset($this->attributes[$other]) and $value != $this->attributes[$other];
 	}
 
 	/**
@@ -727,7 +755,9 @@ class Validator {
 		// If no language line has been specified for the attribute, all of
 		// the underscores will be removed from the attribute name and that
 		// will be used as the attribtue name in the message.
-		$display = Lang::line("{$bundle}validation.attributes.{$attribute}")->get($this->language);
+		$line = "{$bundle}validation.attributes.{$attribute}";
+
+		$display = Lang::line($line)->get($this->language);
 
 		return (is_null($display)) ? str_replace('_', ' ', $attribute) : $display;
 	}
