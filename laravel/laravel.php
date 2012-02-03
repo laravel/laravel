@@ -161,14 +161,17 @@ if (count(URI::$segments) > 15)
 
 Request::$route = Routing\Router::route(Request::method(), URI::current());
 
-if ( ! is_null(Request::$route))
+if (is_null(Request::$route))
 {
-	$response = Request::$route->call();
-}
-else
-{
+	Request::$route = new Routing\Route('GET /404', array(function()
+	{
+		return Response::error('404');
+	}));
+
 	$response = Response::error('404');
 }
+
+$response = Request::$route->call();
 
 /**
  * Close the session and write the active payload to persistent
