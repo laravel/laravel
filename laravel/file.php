@@ -242,6 +242,39 @@ class File {
 	}
 
 	/**
+	 * Recursively copy directory contents to another directory.
+	 *
+	 * @param  string  $source
+	 * @param  string  $destination
+	 * @param  bool    $delete
+	 * @param  int     $options
+	 * @return void
+	 */
+	public static function rmdir($directory)
+	{
+		if ( ! is_dir($directory)) return;
+
+		$items = new fIterator($directory);
+
+		foreach ($items as $item)
+		{
+			// If the item is a directory, we can just recurse into the
+			// function and delete that sub-directory, otherwise we'll
+			// just deleete the file and keep going!
+			if ($item->isDir())
+			{
+				static::rmdir($item->getRealPath());
+			}
+			else
+			{
+				@unlink($item->getRealPath());
+			}
+		}
+
+		@rmdir($directory);
+	}
+
+	/**
 	 * Get the most recently modified file in a directory.
 	 *
 	 * @param  string       $directory
