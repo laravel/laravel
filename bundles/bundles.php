@@ -33,4 +33,4 @@
 |
 */
 
-return array('gravitas');
+return array();
