@@ -54,8 +54,6 @@ class Route {
 		$this->key = $key;
 		$this->action = $action;
 
-		$this->parameters = array_map('urldecode', $parameters);
-
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
 		// root of the application, a single forward slash will be returned.
@@ -68,6 +66,8 @@ class Route {
 		// the bundle so we know if we need to run a bundle's global filters
 		// when executing the route.
 		$this->bundle = Bundle::resolve(head(explode('/', $this->uris[0])));
+
+		$this->parameters = array_map('urldecode', $parameters);
 	}
 
 	/**
