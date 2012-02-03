@@ -53,7 +53,8 @@ class Route {
 	{
 		$this->key = $key;
 		$this->action = $action;
-		$this->parameters = $parameters;
+
+		$this->parameters = array_map('urldecode', $parameters);
 
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
