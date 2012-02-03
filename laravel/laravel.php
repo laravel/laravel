@@ -154,12 +154,14 @@ foreach (Bundle::all() as $bundle => $config)
  * static property. If no route is found, the 404 response will
  * be returned to the browser.
  */
+$uri = URI::current();
+
 if (count(URI::$segments) > 15)
 {
 	throw new \Exception("Invalid request. Too many URI segments.");
 }
 
-Request::$route = Routing\Router::route(Request::method(), URI::current());
+Request::$route = Routing\Router::route(Request::method(), $uri);
 
 if (is_null(Request::$route))
 {
