@@ -242,12 +242,9 @@ class File {
 	}
 
 	/**
-	 * Recursively copy directory contents to another directory.
+	 * Recursively delete a directory.
 	 *
-	 * @param  string  $source
-	 * @param  string  $destination
-	 * @param  bool    $delete
-	 * @param  int     $options
+	 * @param  string  $directory
 	 * @return void
 	 */
 	public static function rmdir($directory)
