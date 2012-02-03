@@ -807,6 +807,20 @@ class Validator {
 	}
 
 	/**
+	 * Replace all place-holders for the not_in rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_mimes($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':values', implode(', ', $parameters), $message);
+	}
+
+	/**
 	 * Replace all place-holders for the same rule.
 	 *
 	 * @param  string  $message
