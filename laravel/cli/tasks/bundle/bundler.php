@@ -1,6 +1,7 @@
 <?php namespace Laravel\CLI\Tasks\Bundle; defined('DS') or die('No direct script access.');
 
 use Laravel\IoC;
+use Laravel\File;
 use Laravel\Bundle;
 use Laravel\CLI\Tasks\Task;
 
@@ -34,7 +35,7 @@ class Bundler extends Task {
 	{
 		foreach ($this->get($bundles) as $bundle)
 		{
-			if (is_dir(path('bundle').$bundle['name']))
+			if (Bundle::exists($bundle['name']))
 			{
 				echo "Bundle {$bundle['name']} is already installed.";
 
@@ -48,7 +49,9 @@ class Bundler extends Task {
 			// Each bundle provider implements the Provider interface and
 			// is repsonsible for retrieving the bundle source from its
 			// hosting party and installing it into the application.
-			$this->download($bundle, $this->path($bundle));
+			$path = path('bundle').$this->path($bundle);
+
+			$this->download($bundle, $path);
 
 			echo "Bundle [{$bundle['name']}] has been installed!".PHP_EOL;
 		}
@@ -64,25 +67,38 @@ class Bundler extends Task {
 	{
 		foreach ($bundles as $name)
 		{
-			$bundle = Bundle::get($name);
-
-			if (is_nulL($bundle))
+			if ( ! Bundle::exists($name))
 			{
-				throw new \Exception("Bundle [{$name}] is not installed!");
+				echo "Bundle [{$name}] is not installed!";
+
+				continue;
 			}
 
-			$data = $this->retrieve($bundle);
+			// First we want to retrieve the information for the bundle,
+			// such as where it is currently installed. This will let
+			// us upgrade the bundle into the same path in which it
+			// is already installed.
+			$bundle = Bundle::get($name);
+
+			// If the bundle exists, we will grab the data about the
+			// bundle from the API so we can make the right bundle
+			// provider for the bundle, since we have no way of
+			// knowing which provider was used to install.
+			$response = $this->retrieve($name);
 
 			if ($response['status'] == 'not-found')
 			{
 				continue;
 			}
 
+			// Once we have the bundle information from the API,
+			// we'll simply recursively delete the bundle and
+			// then re-download it using the provider.
 			File::rmdir($bundle->location);
 
-			$this->download($bundle, $bundle->location);
+			$this->download($response['bundle'], $bundle->location);
 
-			echo "Bundle [{$bundle['name']}] has been upgraded!".PHP_EOL;
+			echo "Bundle [{$name}] has been upgraded!".PHP_EOL;
 		}
 	}
 
@@ -94,9 +110,9 @@ class Bundler extends Task {
 	 */
 	public function publish($bundles)
 	{
-		// If no bundles are passed to the command, we'll just gather all
-		// of the installed bundle names and publish the assets for each
-		// of the bundles to the public directory.
+		// If no bundles are passed to the command, we'll just gather
+		// all of the installed bundle names and publish the assets
+		// for each of the bundles to the public directory.
 		if (count($bundles) == 0) $bundles = Bundle::names();
 
 		$publisher = IoC::resolve('bundle.publisher');
@@ -138,7 +154,9 @@ class Bundler extends Task {
 
 			$responses[] = $bundle;
 
-			$responses = array_merge($responses, $this->get($bundle['dependencies']));
+			$dependencies = $this->get($bundle['dependencies']);
+
+			$responses = array_merge($responses, $dependencies);
 		}
 
 		return $responses;
@@ -151,7 +169,7 @@ class Bundler extends Task {
 	 * @param  string  $path
 	 * @return void
 	 */
-	protected function download($bundlem, $path)
+	protected function download($bundle, $path)
 	{
 		$provider = "bundle.provider: {$bundle['provider']}";
 

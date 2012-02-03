@@ -49,9 +49,7 @@ abstract class Provider {
 		// Once we have the latest modified directory, we should be
 		// able to move its contents over into the bundles folder
 		// so the bundle will be usable by the develoepr.
-		$path = $this->path($bundle);
-
-		File::mvdir($latest, path('bundle').$path);
+		File::mvdir($latest, $path);
 
 		@unlink($target);
 	}
