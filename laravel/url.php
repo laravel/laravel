@@ -3,13 +3,30 @@
 class URL {
 
 	/**
+	 * The cached base URL.
+	 *
+	 * @var string
+	 */
+	public static $base;
+
+	/**
 	 * Get the base URL of the application.
 	 *
 	 * @return string
 	 */
 	public static function base()
 	{
-		if (($base = Config::get('application.url')) !== '') return $base;
+		if (isset(static::$base)) return static::$base;
+
+		$base = 'http://localhost';
+
+		// If the application URL configuration is set, we will just use
+		// that instead of trying to guess the URL based on the $_SERVER
+		// array's host and script name.
+		if (($url = Config::get('application.url')) !== '')
+		{
+			$base = $url;
+		}
 
 		if (isset($_SERVER['HTTP_HOST']))
 		{
@@ -21,10 +38,10 @@ class URL {
 			// construct the base URL to the application.
 			$path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 
-			return rtrim($protocol.$_SERVER['HTTP_HOST'].$path, '/');
+			$base = rtrim($protocol.$_SERVER['HTTP_HOST'].$path, '/');
 		}
 
-		return 'http://localhost';
+		return static::$base = $base;
 	}
 
 	/**

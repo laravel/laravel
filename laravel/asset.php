@@ -78,7 +78,6 @@ class Asset_Container {
 	 * Create a new asset container instance.
 	 *
 	 * @param  string  $name
-	 * @param  HTML    $html
 	 * @return void
 	 */
 	public function __construct($name)
