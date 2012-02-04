@@ -14,7 +14,7 @@ class Resolver {
 	/**
 	 * Create a new instance of the migration resolver.
 	 *
-	 * @param  Database  $datbase
+	 * @param  Database  $database
 	 * @return void
 	 */
 	public function __construct(Database $database)

@@ -7,7 +7,7 @@ class Base_Controller extends Controller {
 	 *
 	 * @param  string    $method
 	 * @param  array     $parameters
-	 * @return Response
+	 * @return Laravel\Response
 	 */
 	public function __call($method, $parameters)
 	{

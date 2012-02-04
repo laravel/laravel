@@ -5,7 +5,7 @@ class Session {
 	/**
 	 * The session singleton instance for the request.
 	 *
-	 * @var Payload
+	 * @var Session\Payload
 	 */
 	public static $instance;
 
@@ -31,7 +31,7 @@ class Session {
 	 * Create a new session driver instance.
 	 *
 	 * @param  string  $driver
-	 * @return Driver
+	 * @return Session\Drivers\Driver
 	 */
 	public static function factory($driver)
 	{
@@ -71,7 +71,7 @@ class Session {
 	 *		Session::instance()->put('name', 'Taylor');
 	 * </code>
 	 *
-	 * @return Payload
+	 * @return Session\Payload
 	 */
 	public static function instance()
 	{

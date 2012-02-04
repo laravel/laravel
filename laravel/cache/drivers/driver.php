@@ -23,7 +23,6 @@ abstract class Driver {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
-	 * @param  string  $driver
 	 * @return mixed
 	 */
 	public function get($key, $default = null)

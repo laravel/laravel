@@ -21,6 +21,7 @@ class IoC {
 	 *
 	 * @param  string   $name
 	 * @param  Closure  $resolver
+	 * @param  bool     $singleton
 	 * @return void
 	 */
 	public static function register($name, Closure $resolver, $singleton = false)

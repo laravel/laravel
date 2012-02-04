@@ -41,7 +41,7 @@ class Runner extends Task {
 	/**
 	 * Run the tests for a given bundle.
 	 *
-	 * @param  array  $arguments
+	 * @param  array  $bundles
 	 * @return void
 	 */
 	public function bundle($bundles = array())

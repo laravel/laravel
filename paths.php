@@ -68,17 +68,28 @@ foreach ($paths as $name => $path)
 	$GLOBALS['laravel_paths'][$name] = realpath($path).DS;
 }
 
-// --------------------------------------------------------------
-// Define a global path helper function.
-// --------------------------------------------------------------
+/**
+ * A global path helper function.
+ * 
+ * <code>
+ *     $storage = path('storage');
+ * </code>
+ * 
+ * @param  string  $path
+ * @return string
+ */
 function path($path)
 {
 	return $GLOBALS['laravel_paths'][$path];
 }
 
-// --------------------------------------------------------------
-// Define a global path setter function.
-// --------------------------------------------------------------
+/**
+ * A global path setter function.
+ * 
+ * @param  string  $path
+ * @param  string  $value
+ * @return void
+ */
 function set_path($path, $value)
 {
 	$GLOBALS['laravel_paths'][$path] = $value;

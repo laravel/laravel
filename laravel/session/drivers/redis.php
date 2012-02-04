@@ -5,14 +5,14 @@ class Redis implements Driver {
 	/**
 	 * The Redis cache driver instance.
 	 *
-	 * @var Cache\Drivers\Redis
+	 * @var Laravel\Cache\Drivers\Redis
 	 */
 	protected $redis;
 
 	/**
 	 * Create a new Redis session driver.
 	 *
-	 * @param  Cache\Drivers\Redis  $redis
+	 * @param  Laravel\Cache\Drivers\Redis  $redis
 	 * @return void
 	 */
 	public function __construct(\Laravel\Cache\Drivers\Redis $redis)
