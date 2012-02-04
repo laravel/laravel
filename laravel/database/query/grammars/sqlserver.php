@@ -124,7 +124,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function limit(Query $query)
 	{
-		return;
+		return '';
 	}
 
 	/**
@@ -135,7 +135,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function offset(Query $query)
 	{
-		return;
+		return '';
 	}
 
 }
