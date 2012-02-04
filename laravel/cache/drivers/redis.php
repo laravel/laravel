@@ -5,14 +5,14 @@ class Redis extends Driver {
 	/**
 	 * The Redis database instance.
 	 *
-	 * @var Redis
+	 * @var Laravel\Redis
 	 */
 	protected $redis;
 
 	/**
 	 * Create a new Redis cache driver instance.
 	 *
-	 * @param  Redis  $redis
+	 * @param  Laravel\Redis  $redis
 	 * @return void
 	 */
 	public function __construct(\Laravel\Redis $redis)

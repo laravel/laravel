@@ -202,7 +202,7 @@ class Payload {
 	 *		Session::keep(array('name', 'email'));
 	 * </code>
 	 *
-	 * @param  string|array  $key
+	 * @param  string|array  $keys
 	 * @return void
 	 */
 	public function keep($keys)

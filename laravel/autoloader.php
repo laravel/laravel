@@ -183,8 +183,8 @@ class Autoloader {
 	/**
 	 * Map namespaces to directories.
 	 *
-	 * @param  string  $namespace
-	 * @param  string  $path
+	 * @param  array  $mappings
+	 * @return void
 	 */
 	public static function namespaces($mappings)
 	{

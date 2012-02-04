@@ -99,7 +99,9 @@ class Table {
 	/**
 	 * Create a new index on the table.
 	 *
-	 * @param  string|array
+	 * @param  string|array  $columns
+	 * @param  string        $name
+	 * @return Fluent
 	 */
 	public function index($columns, $name)
 	{
@@ -237,7 +239,6 @@ class Table {
 	 * Add a float column to the table.
 	 *
 	 * @param  string  $name
-	 * @param  bool    $increment
 	 * @return Fluent
 	 */
 	public function float($name)

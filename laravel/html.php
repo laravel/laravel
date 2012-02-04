@@ -173,6 +173,7 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
+	 * @param  bool    $https
 	 * @return string
 	 */
 	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
