@@ -73,7 +73,7 @@ class URI {
 	 * @param  string  $uri
 	 * @return void
 	 */
-	protected function segments($uri)
+	protected static function segments($uri)
 	{
 		$segments = explode('/', trim($uri, '/'));
 
