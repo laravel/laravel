@@ -33,22 +33,14 @@ class URI {
 		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
 		// We'll also remove the application's index page as it is not used for at
-		// all for routing and is totally unnecessary as far as the framework is
-		// concerned. It is only in the URI when mod_rewrite is not available.
+		// all for routing and is totally unnecessary as far as the routing of
+		// incoming requests to the framework is concerned.
 		if (($index = '/'.Config::get('application.index')) !== '/')
 		{
 			$uri = static::remove($uri, $index);
 		}
 
-		static::$uri = static::format($uri);
-
-		// Cache the URI segments. This allows us to avoid having to explode
-		// the segments every time the developer requests one of them. The
-		// extra slashes have already been stripped off of the URI so no
-		// extraneous elements should be present in the segment array.
-		$segments = explode('/', trim(static::$uri, '/'));
-
-		static::$segments = array_diff($segments, array(''));
+		static::segments(static::$uri = static::format($uri));
 
 		return static::$uri;
 	}
@@ -73,6 +65,19 @@ class URI {
 		static::current();
 
 		return array_get(static::$segments, $index - 1, $default);
+	}
+
+	/**
+	 * Set the URI segments for the request.
+	 *
+	 * @param  string  $uri
+	 * @return void
+	 */
+	protected function segments($uri)
+	{
+		$segments = explode('/', trim($uri, '/'));
+
+		static::$segments = array_diff($segments, array(''));
 	}
 
 	/**
