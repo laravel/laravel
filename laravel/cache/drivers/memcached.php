@@ -5,7 +5,7 @@ class Memcached extends Driver {
 	/**
 	 * The Memcache instance.
 	 *
-	 * @var Memcache
+	 * @var Laravel\Memcached
 	 */
 	protected $memcache;
 
@@ -19,10 +19,11 @@ class Memcached extends Driver {
 	/**
 	 * Create a new Memcached cache driver instance.
 	 *
-	 * @param  Memcache  $memcache
+	 * @param  Laravel\Memcached  $memcache
+	 * @param  string    $key
 	 * @return void
 	 */
-	public function __construct(Memcache $memcache, $key)
+	public function __construct(\Laravel\Memcached $memcache, $key)
 	{
 		$this->key = $key;
 		$this->memcache = $memcache;
