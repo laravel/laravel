@@ -26,7 +26,7 @@ function __($key, $replacements = array(), $language = null)
 	return Laravel\Lang::line($key, $replacements, $language);
 }
 
-/**a
+/**
  * Get an item from an array using "dot" notation.
  *
  * <code>

@@ -183,7 +183,7 @@ class View implements ArrayAccess {
 	 * </code>
 	 *
 	 * @param  string   $view
-	 * @param  Closure  
+	 * @param  Closure  $composer
 	 * @return void
 	 */
 	public static function composer($view, $composer)
