@@ -74,7 +74,7 @@ class Database {
 	/**
 	 * Get a database query instance for the migration table.
 	 *
-	 * @return Query
+	 * @return Laravel\Database\Query
 	 */
 	protected function table()
 	{

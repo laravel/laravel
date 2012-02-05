@@ -27,8 +27,7 @@ class Bundle {
 	 * Register a bundle for the application.
 	 *
 	 * @param  string  $bundle
-	 * @param  string  $location
-	 * @param  string  $handles
+	 * @param  mixed   $config  Array of 'location', 'handles' and 'auto'; or string of location.
 	 * @return void
 	 */
 	public static function register($bundle, $config = array())
@@ -111,7 +110,7 @@ class Bundle {
 	 *
 	 * If no bundle is assigned to handle the URI, the default bundle is returned.
 	 *
-	 * @param  string  $bundle
+	 * @param  string  $uri
 	 * @return string
 	 */
 	public static function handles($uri)
