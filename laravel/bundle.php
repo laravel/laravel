@@ -52,6 +52,14 @@ class Bundle {
 		// to the location path for the bundle.
 		$config['location'] = path('bundle').rtrim($config['location'], DS).DS;
 
+		// If the handles clause is set, we will append a trailing slash so
+		// that it is not ultra-greedy. Otherwise, bundles that handle "s"
+		// would handle all bundles that start with "s".
+		if (isset($config['handles']))
+		{
+			$config['handles'] = $config['handles'].'/';
+		}
+
 		static::$bundles[$bundle] = array_merge($defaults, $config);
 	}
 
@@ -115,6 +123,8 @@ class Bundle {
 	 */
 	public static function handles($uri)
 	{
+		$uri = rtrim($uri, '/').'/';
+
 		foreach (static::$bundles as $key => $value)
 		{
 			if (starts_with($uri, $value['handles'])) return $key;
