@@ -86,7 +86,7 @@ class Bundle {
 		// dependent bundles so that they are available.
 		if (file_exists($path = static::path($bundle).'bundle'.EXT))
 		{
-			require_once $path;
+			require $path;
 		}
 
 		// Each bundle may also have a "routes" file which is responsible for
@@ -109,7 +109,7 @@ class Bundle {
 	{
 		if (file_exists($path = static::path($bundle).'routes'.EXT))
 		{
-			require_once $path;
+			require $path;
 		}
 	}
 
