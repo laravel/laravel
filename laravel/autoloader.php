@@ -181,22 +181,6 @@ class Autoloader {
 	}
 
 	/**
-	 * Map namespaces to directories.
-	 *
-	 * @param  array  $mappings
-	 * @return void
-	 */
-	public static function namespaces($mappings)
-	{
-		foreach ($mappings as $namespace => $directory)
-		{
-			$namespace = trim($namespace, '\\').'\\';
-
-			static::$namespaces[$namespace] = head(static::format($directory));
-		}
-	}
-
-	/**
 	 * Register underscored "namespaces" to directory mappings.
 	 *
 	 * @param  array  $mappings
@@ -204,10 +188,35 @@ class Autoloader {
 	 */
 	public static function underscored($mappings)
 	{
+		static::namespaces($mappings, '_');
+	}
+
+	/**
+	 * Map namespaces to directories.
+	 *
+	 * @param  array   $mappings
+	 * @param  string  $append
+	 * @return void
+	 */
+	public static function namespaces($mappings, $append = '\\')
+	{
 		foreach ($mappings as $namespace => $directory)
 		{
-			static::$namespaces[$namespace.'_'] = head(static::format($directory));
+			// When adding new namespaces to the mappings, we will unset the previously
+			// mapped value if it existed. This allows previously registered spaces to
+			// be mapped to new directories on the fly.
+			$namespace = trim($namespace, $append).$append;
+
+			unset(static::$namespaces[$namespace]);
+
+			$namespaces[$namespace] = head(static::format($directory));
 		}
+
+		// We'll array_merge the new mappings onto the front of the array so
+		// derivative namespaces are not always shadowed by their parents.
+		// For instance, when mappings Laravel\Docs, we don't want the
+		// main Laravel namespace to always override it.
+		static::$namespaces = array_merge($namespaces, static::$namespaces);
 	}
 
 	/**
