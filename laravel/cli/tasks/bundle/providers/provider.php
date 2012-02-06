@@ -30,7 +30,7 @@ abstract class Provider {
 		// we have a spot to do all of our bundle extration work.
 		$target = $work.'laravel-bundle.zip';
 
-		File::put($target, file_get_contents($url));
+		File::put($target, $this->download($url));
 
 		$zip = new \ZipArchive;
 
@@ -52,6 +52,27 @@ abstract class Provider {
 		File::mvdir($latest, $path);
 
 		@unlink($target);
+	}
+
+	/**
+	 * Download a remote zip archive from a URL.
+	 *
+	 * @param  string  $url
+	 * @return string
+	 */
+	protected function download($url)
+	{
+		$remote = file_get_contents($url);
+
+		// If we were unable to download the zip archive correctly
+		// we'll bomb out since we don't want to extract the last
+		// zip that was put in the storage directory.
+		if ($remote === false)
+		{
+			throw new \Exception("Error downloading bundle [{$bundle}].");
+		}
+
+		return $remote;
 	}
 
 }
