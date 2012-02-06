@@ -626,12 +626,12 @@ class Query {
 	 * Get an aggregate value.
 	 *
 	 * @param  string  $aggregator
-	 * @param  string  $column
+	 * @param  array   $columns
 	 * @return mixed
 	 */
-	public function aggregate($aggregator, $column)
+	public function aggregate($aggregator, $columns)
 	{
-		$this->aggregate = compact('aggregator', 'column');
+		$this->aggregate = compact('aggregator', 'columns');
 
 		$sql = $this->grammar->select($this);
 
@@ -660,7 +660,7 @@ class Query {
 		// we have the count.
 		list($orderings, $this->orderings) = array($this->orderings, null);
 
-		$page = Paginator::page($total = $this->count(), $per_page);
+		$page = Paginator::page($total = $this->count($columns), $per_page);
 
 		$this->orderings = $orderings;
 
@@ -818,14 +818,9 @@ class Query {
 
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
-			if ($method == 'count')
-			{
-				return $this->aggregate(strtoupper($method), '*');
-			}
-			else
-			{
-				return $this->aggregate(strtoupper($method), $parameters[0]);
-			}
+			if (count($parameters) == 0) $parameters[0] = '*';
+
+			return $this->aggregate(strtoupper($method), (array) $parameters[0]);
 		}
 
 		throw new \Exception("Method [$method] is not defined on the Query class.");
