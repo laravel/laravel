@@ -58,3 +58,10 @@ foreach ($bundles as $bundle => $value)
 
 	Bundle::register($bundle, $value);
 }
+
+/**
+ * Register the default timezone for the application. This will
+ * be the default timezone used by all date functions through
+ * throughout the entire application.
+ */
+date_default_timezone_set(Config::get('application.timezone'));
