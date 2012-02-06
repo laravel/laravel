@@ -64,10 +64,8 @@ class Autoloader {
 			// using the PSR-0 standards from that directory; however, we will trim
 			// off the beginning of the namespace to account for files in the root
 			// of the mapped directory.
-			if (isset(static::$namespaces[$namespace]))
+			if ( ! is_null($directory = static::directory($class)))
 			{
-				$directory = static::$namespaces[$namespace];
-
 				return static::load_psr(substr($class, $slash + 1), $directory);
 			}
 
@@ -91,6 +89,23 @@ class Autoloader {
 		// namespace, we'll make a last ditch effort to load the class via
 		// the PSR-0 from one of the registered directories.
 		static::load_psr($class);
+	}
+
+	/**
+	 * Get the directory associated with a given namespaced class.
+	 *
+	 * @param  string  $class
+	 * @return string
+	 */
+	protected static function directory($class)
+	{
+		foreach (static::$namespaces as $namespace => $directory)
+		{
+			if (starts_with($class, $namespace))
+			{
+				return $directory;
+			}
+		}
 	}
 
 	/**
