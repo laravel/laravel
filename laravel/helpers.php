@@ -374,3 +374,14 @@ function with($object)
 {
 	return $object;
 }
+
+/**
+ * Determine if the current version of PHP is at least the supplied version.
+ *
+ * @param  string  $version
+ * @return bool
+ */
+function has_php($version)
+{
+	return version_compare(PHP_VERSION, $version) >= 0;
+}
