@@ -655,19 +655,19 @@ class Query {
 	public function paginate($per_page = 20, $columns = array('*'))
 	{
 		// Because some database engines may throw errors if we leave orderings
-		// on the query when retrieving the total number of records, we will
-		// remove all of the ordreings and put them back on the query after
-		// we have the count.
+		// on the query when retrieving the total number of records, we'll drop
+		// all of the ordreings and put them back on the query after we have
+		// retrieved the count from the table.
 		list($orderings, $this->orderings) = array($this->orderings, null);
 
 		$page = Paginator::page($total = $this->count($columns), $per_page);
 
 		$this->orderings = $orderings;
 
-		// Now we're ready to get the actual pagination results from the
-		// database table. The "for_page" method provides a convenient
-		// way to set the limit and offset so we get the correct span
-		// of results from the table.
+		// Now we're ready to get the actual pagination results from the table
+		// using the for_page and get methods. The "for_page" method provides
+		// a convenient way to set the limit and offset so we get the correct
+		// span of results from the table.
 		$results = $this->for_page($page, $per_page)->get($columns);
 
 		return Paginator::make($results, $total, $per_page);
