@@ -37,6 +37,13 @@ class Router {
 	);
 
 	/**
+	 * An array of HTTP request methods.
+	 *
+	 * @var array
+	 */
+	public static $methods = array('GET', 'POST', 'PUT', 'DELETE');
+
+	/**
 	 * Register a route with the router.
 	 *
 	 * <code>
@@ -48,13 +55,20 @@ class Router {
 	 * </code>
 	 *
 	 * @param  string|array  $route
-	 * @param  string        $action
+	 * @param  mixed         $action
 	 * @return void
 	 */
 	public static function register($route, $action)
 	{
 		foreach ((array) $route as $uri)
 		{
+			if (starts_with($uri, '*'))
+			{
+				static::universal(substr($uri, 2), $action);
+
+				continue;
+			}
+
 			// If the action is a string, it is a pointer to a controller, so we
 			// need to add it to the action array as a "uses" clause, which will
 			// indicate to the route to call the controller when the route is
@@ -76,6 +90,30 @@ class Router {
 
 			static::$routes[$uri]['handles'] = (array) $route;
 		}
+	}
+
+	/**
+	 * Register a route for all HTTP verbs.
+	 *
+	 * @param  string  $route
+	 * @param  mixed   $action
+	 * @return void
+	 */
+	protected static function universal($route, $action)
+	{
+		$count = count(static::$methods);
+
+		$routes = array_fill(0, $count, $route);
+
+		// When registering a universal route, we'll iterate through all of the
+		// verbs supported by the router and prepend each one of the URIs with
+		// one of the request verbs, then we'll register the routes.
+		for ($i = 0; $i < $count; $i++)
+		{
+			$routes[$i] = static::$methods[$i].' '.$routes[$i];
+		}
+
+		static::register($routes, $action);
 	}
 
 	/**
