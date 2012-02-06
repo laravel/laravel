@@ -24,6 +24,13 @@ class Bundle {
 	public static $started = array();
 
 	/**
+	 * All of the bundles that have their routes files loaded.
+	 *
+	 * @var array
+	 */
+	public static $routed = array();
+
+	/**
 	 * Register a bundle for the application.
 	 *
 	 * @param  string  $bundle
@@ -107,10 +114,14 @@ class Bundle {
 	 */
 	public static function routes($bundle)
 	{
-		if (file_exists($path = static::path($bundle).'routes'.EXT))
+		$path = static::path($bundle).'routes'.EXT;
+
+		if ( ! static::routed($bundle) and file_exists($path))
 		{
 			require $path;
 		}
+
+		static::$routed[] = $bundle;
 	}
 
 	/**
@@ -153,6 +164,17 @@ class Bundle {
 	public static function started($bundle)
 	{
 		return in_array(strtolower($bundle), static::$started);
+	}
+
+	/**
+	 * Determine if a given bundle has its routes file loaded.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	public static function routed($bundle)
+	{
+		return in_array(strtolower($bundle), static::$routed);
 	}
 
 	/**
