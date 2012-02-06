@@ -131,7 +131,7 @@ class Bundle {
 	 */
 	public static function exists($bundle)
 	{
-		return in_array(strtolower($bundle), static::names());
+		return $bundle == DEFAULT_BUNDLE or in_array(strtolower($bundle), static::names());
 	}
 
 	/**
