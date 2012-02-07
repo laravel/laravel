@@ -384,8 +384,7 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		// Like the UPDATE statement, the DELETE statement is constrained
 		// by WHERE clauses, so we'll need to run the "wheres" method to
-		// make the WHERE clauses for the query. The "wheres" method 
-		// encapsulates the logic to create the full WHERE clause.
+		// make the WHERE clauses for the query.
 		return trim("DELETE FROM {$table} ".$this->wheres($query));
 	}
 
