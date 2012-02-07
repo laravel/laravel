@@ -10,6 +10,16 @@ class URL {
 	public static $base;
 
 	/**
+	 * Get the full URL for the current request.
+	 *
+	 * @return string
+	 */
+	public static function current()
+	{
+		return static::to(URI::current());
+	}
+
+	/**
 	 * Get the base URL of the application.
 	 *
 	 * @return string
