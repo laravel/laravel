@@ -1,5 +1,5 @@
 <phpunit colors="true"
-         bootstrap="phpunit.php"
+         bootstrap="{{bootstrap}}"
          backupGlobals="false">
 	<testsuites>
 		<testsuite name="Test Suite">

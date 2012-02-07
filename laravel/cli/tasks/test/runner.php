@@ -89,11 +89,45 @@ class Runner extends Task {
 	 */
 	protected function stub($directory)
 	{
-		$stub = File::get(path('sys').'cli/tasks/test/stub.xml');
+		$path = path('sys').'cli/tasks/test/';
 
-		$stub = str_replace('{{directory}}', $directory, $stub);
+		$stub = File::get($path.'stub.xml');
+
+		// The PHPUnit bootstrap file contains several items that are swapped
+		// at test time. This allows us to point PHPUnit at a few different
+		// locations depending on what the develoepr wants to test.
+		foreach (array('bootstrap', 'directory') as $item)
+		{
+			$stub = $this->{"swap_{$item}"}($stub, $path, $directory);
+		}
 
 		File::put(path('base').'phpunit.xml', $stub);
+	}
+
+	/**
+	 * Swap the bootstrap file in the stub.
+	 *
+	 * @param  string  $stub
+	 * @param  string  $path
+	 * @param  string  $directory
+	 * @return string
+	 */
+	protected function swap_bootstrap($stub, $path, $directory)
+	{
+		return str_replace('{{bootstrap}}', $path.'phpunit.php', $stub);
+	}
+
+	/**
+	 * Swap the directory in the stub.
+	 *
+	 * @param  string  $stub
+	 * @param  string  $path
+	 * @param  string  $directory
+	 * @return string
+	 */
+	protected function swap_directory($stub, $path, $directory)
+	{
+		return str_replace('{{directory}}', $directory, $stub);
 	}
 
 }

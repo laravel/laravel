@@ -40,6 +40,19 @@ class Bundle {
 	 */
 	public static function detect($path)
 	{
+		$bundles = static::search($path);
+
+		return array_merge($bundles, require path('base').'bundles.php');
+	}
+
+	/**
+	 * Detect all of the installed bundles from disk.
+	 *
+	 * @param  string  $path
+	 * @return array
+	 */
+	protected static function search($path)
+	{
 		$bundles = array();
 
 		$items = new fIterator($path);
