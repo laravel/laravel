@@ -46,17 +46,25 @@ Autoloader::$aliases = Config::get('application.aliases');
 Autoloader::namespaces(array('Laravel' => path('sys')));
 
 /**
- * Register all of the bundles that are defined in the bundle info
- * file within the bundles directory. This informs the framework
- * where the bundle lives and which URIs it responds to.
+ * Grab the bundle manifest for the application. This contains an
+ * array of all of the installed bundles, plus information about
+ * each of them. If it's not cached, we'll detect them and then
+ * cache it to save time later.
  */
-$bundles = require path('bundle').'bundles'.EXT;
-
-foreach ($bundles as $bundle => $value)
+$bundles = Cache::remember('laravel.bundle.manifest', function()
 {
-	if (is_numeric($bundle)) $bundle = $value;
+	return Bundle::detect();
 
-	Bundle::register($bundle, $value);
+}, Config::get('application.bundle.cache'));
+
+/**
+ * Register all of the bundles that are defined in the main bundle
+ * manifest. This informs the framework where the bundle lives
+ * and which URIs it can respnod to.
+ */
+foreach ($bundles as $bundle)
+{
+	Bundle::register($bundle);
 }
 
 /**
