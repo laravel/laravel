@@ -206,7 +206,7 @@ class Connection {
 			return ! $binding instanceof Expression;
 		}));
 
-		$sql = $this->transform($sql, $bindings);
+		$sql = $this->grammar()->shortcut($sql, $bindings);
 
 		$statement = $this->pdo->prepare($sql);
 
@@ -227,39 +227,6 @@ class Connection {
 		$this->log($sql, $bindings, $time);
 
 		return array($statement, $result);
-	}
-
-	/**
-	 * Transform an SQL query into an executable query.
-	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
-	 * @return string
-	 */
-	protected function transform($sql, $bindings)
-	{
-		// Laravel provides an easy short-cut notation for writing raw
-		// WHERE IN statements. If (...) is in the query, it will be
-		// replaced with the correct number of parameters based on
-		// the bindings for the query.
-		if (strpos($sql, '(...)') !== false)
-		{
-			for ($i = 0; $i < count($bindings); $i++)
-			{
-				// If the binding is an array, we can assume it is being used
-				// to fill a "where in" condition, so we'll replace the next
-				// place-holder in the SQL query with the correct number of
-				// parameters based on the elements in the binding.
-				if (is_array($bindings[$i]))
-				{
-					$parameters = $this->grammar()->parameterize($bindings[$i]);
-
-					$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
-				}
-			}			
-		}
-
-		return trim($sql);
 	}
 
 	/**

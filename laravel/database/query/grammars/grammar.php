@@ -75,9 +75,10 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function selects(Query $query)
 	{
-		// Sometimes developers may set a "select" clause on the same query that
-		// is performing in aggregate look-up, such as during pagination. So we
-		// will not generate the select clause if an aggregate is present.
+		// Sometimes developers may set a "select" clause on the same query
+		// that is performing in aggregate look-up, like during pagination.
+		// So we will not generate the select clause if an aggregate is
+		// present so the aggregates work.
 		if ( ! is_null($query->aggregate)) return;
 
 		$select = ($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
@@ -386,6 +387,38 @@ class Grammar extends \Laravel\Database\Grammar {
 		// make the WHERE clauses for the query. The "wheres" method 
 		// encapsulates the logic to create the full WHERE clause.
 		return trim("DELETE FROM {$table} ".$this->wheres($query));
+	}
+
+	/**
+	 * Transform an SQL short-cuts into real SQL for PDO.
+	 *
+	 * @param  string  $sql
+	 * @param  array   $bindings
+	 * @return string
+	 */
+	public function shortcut($sql, $bindings)
+	{
+		// Laravel provides an easy short-cut notation for writing raw
+		// WHERE IN statements. If (...) is in the query, it will be
+		// replaced with the correct number of parameters based on
+		// the bindings for the query.
+		if (strpos($sql, '(...)') !== false)
+		{
+			for ($i = 0; $i < count($bindings); $i++)
+			{
+				// If the binding is an array, we can just assume it's
+				// used to fill a "where in" condition, so we'll just
+				// replace the next place-holder in the query.
+				if (is_array($bindings[$i]))
+				{
+					$parameters = $this->parameterize($bindings[$i]);
+
+					$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
+				}
+			}			
+		}
+
+		return trim($sql);
 	}
 
 }
