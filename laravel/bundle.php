@@ -34,7 +34,7 @@ class Bundle {
 	 * Register a bundle for the application.
 	 *
 	 * @param  string  $bundle
-	 * @param  mixed   $config  Array of 'location', 'handles' and 'auto'; or string of location.
+	 * @param  mixed   $config
 	 * @return void
 	 */
 	public static function register($bundle, $config = array())
