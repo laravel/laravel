@@ -36,7 +36,9 @@ class Key extends Task {
 		// specified through the CLI.
 		$key = Str::random(array_get($arguments, 0, 32));
 
-		$config = str_replace("'key' => '',", "'key' => '{$key}',", File::get($this->path), $count);
+		$config = File::get($this->path);
+
+		$config = str_replace("'key' => '',", "'key' => '{$key}',", $config, $count);
 
 		File::put($this->path, $config);
 

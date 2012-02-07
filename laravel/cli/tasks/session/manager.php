@@ -69,8 +69,7 @@ class Manager extends Task {
 
 		// If the driver implements the "Sweeper" interface, we know that
 		// it can sweep expired sessions from storage. Not all drivers
-		// need be sweepers, as stores like Memcached and APC will
-		// perform their own garbage collection.
+		// need be sweepers since they do their own.
 		if ($driver instanceof Sweeper)
 		{
 			$lifetime = Config::get('session.lifetime');

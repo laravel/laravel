@@ -45,8 +45,7 @@ class Schema {
 
 				// Once we have the statements, we will cast them to an array
 				// even though not all of the commands return an array just
-				// in case the command needs to run more than one query to
-				// do what it needs to do.
+				// in case the command needs to run more than one query.
 				foreach ((array) $statements as $statement)
 				{
 					$connection->statement($statement);

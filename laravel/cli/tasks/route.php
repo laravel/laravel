@@ -12,7 +12,7 @@ class Route extends Task {
 	 * @param  array  $arguments
 	 * @return void
 	 */
-	public function run($arguments = array())
+	public function call($arguments = array())
 	{
 		if ( ! count($arguments) == 2)
 		{
@@ -21,7 +21,7 @@ class Route extends Task {
 
 		// First we'll set the request method and URI in the $_SERVER array,
 		// which will allow the framework to retrieve the proper method
-		// and URI using the normal URI and Request classes.
+		// and URI using the URI and Request classes.
 		$_SERVER['REQUEST_METHOD'] = strtoupper($arguments[0]);
 
 		$_SERVER['REQUEST_URI'] = $arguments[1];
