@@ -112,12 +112,18 @@ return array(
 	| as the name of a bundle and the URIs it responds to. This value is
 	| the number of that bundle info is cached.
 	|
+	| Auto:
+	|
+	| You may wish to auto-start some bundles instead of lazy-loading them.
+	| This is useful for debug bundles as well as bundles that are used
+	| throughout your application. You may specify which bundles should
+	| be auto-loaded in this array.
+	|
 	*/
 
 	'bundle' => array(
-
 		'cache' => 0,
-
+		'auto'  => array(),
 	),
 
 	/*
