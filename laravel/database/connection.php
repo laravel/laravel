@@ -196,6 +196,8 @@ class Connection {
 	 */
 	protected function execute($sql, $bindings = array())
 	{
+		$bindings = (array) $bindings;
+
 		// Since expressions are injected into the query as strings, we need to
 		// remove them from the array of bindings. After we have removed them,
 		// we'll reset the array so there aren't gaps in the keys.
