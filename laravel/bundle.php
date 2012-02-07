@@ -62,7 +62,7 @@ class Bundle {
 			// the location automatically since we know it.
 			if ($item->isDir())
 			{
-				$path = $item->getRealPath().DS.'bundle.info';
+				$path = $item->getRealPath().DS.'bundle.php';
 
 				// If we found a file, we'll require in the array it contains
 				// and add it to the directory. The info array will contain
@@ -146,7 +146,7 @@ class Bundle {
 		// the bundle for use by the application. The start script may register any
 		// classes the bundle uses with the auto-loader, or perhaps will start any
 		// dependent bundles so that they are available.
-		if (file_exists($path = static::path($bundle).'bundle'.EXT))
+		if (file_exists($path = static::path($bundle).'start'.EXT))
 		{
 			require $path;
 		}
