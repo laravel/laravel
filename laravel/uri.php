@@ -66,6 +66,27 @@ class URI {
 
 		return array_get(static::$segments, $index - 1, $default);
 	}
+	
+	/**
+	 * Return the URI as an associative array
+	 *
+	 * @return array
+	 **/
+	public static function to_assoc()
+	{
+		$uri_segments = explode('/', static::current());
+
+		$uri_segments_length = count($uri_segments);
+
+		$uri_as_assoc = array();
+
+		for ($i = 0; $i < $uri_segments_length; $i = $i + 2)
+		{
+			$uri_as_assoc[$uri_segments[$i]] = $uri_segments[$i + 1];
+		}
+
+		return $uri_as_assoc;
+	}
 
 	/**
 	 * Set the URI segments for the request.
