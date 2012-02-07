@@ -1,5 +1,7 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+use FilesystemIterator as fIterator;
+
 class Bundle {
 
 	/**
@@ -31,43 +33,74 @@ class Bundle {
 	public static $routed = array();
 
 	/**
+	 * Detect all of the installed bundles from disk.
+	 *
+	 * @param  string  $path
+	 * @return array
+	 */
+	public static function detect($path)
+	{
+		$bundles = array();
+
+		$items = new fIterator($path);
+
+		foreach ($items as $item)
+		{
+			// If the item is a directory, we'll search for a bundle.info file.
+			// If one exists, we will add it to the bundle array. We will set
+			// the location automatically since we know it.
+			if ($item->isDir())
+			{
+				$path = $item->getRealPath().DS.'bundle.info';
+
+				// If we found a file, we'll require in the array it contains
+				// and add it to the directory. The info array will contain
+				// basic info like the bundle name and any URIs it may
+				// handle incoming requests for.
+				if (file_exists($path))
+				{
+					$info = require $path;
+
+					$info['location'] = dirname($path).DS;
+
+					$bundles[$info['name']] = $info;
+
+					continue;
+				}
+				// If a bundle.info file doesn't exist within a directory,
+				// we'll recurse into the directory to keep searching in
+				// the bundle directory for nested bundles.
+				else
+				{
+					$recurse = static::detect($item->getRealPath());
+
+					$bundles = array_merge($bundles, $recurse);
+				}
+			}
+		}
+
+		return $bundles;
+	}
+
+	/**
 	 * Register a bundle for the application.
 	 *
-	 * @param  string  $bundle
-	 * @param  mixed   $config
+	 * @param  array  $config
 	 * @return void
 	 */
-	public static function register($bundle, $config = array())
+	public static function register($config)
 	{
 		$defaults = array('handles' => null, 'auto' => false);
 
-		// If the given config is actually a string, we will assume it is a location
-		// and convert it to an array so that the developer may conveniently add
-		// bundles to the configuration without making an array for each one.
-		if (is_string($config))
-		{
-			$config = array('location' => $config);
-		}
-
-		if ( ! isset($config['location']))
-		{
-			$config['location'] = $bundle;
-		}
-
-		// We will trim the trailing slash from the location and add it back so
-		// we don't have to worry about the developer adding or not adding it
-		// to the location path for the bundle.
-		$config['location'] = path('bundle').rtrim($config['location'], DS).DS;
-
-		// If the handles clause is set, we will append a trailing slash so
-		// that it is not ultra-greedy. Otherwise, bundles that handle "s"
-		// would handle all bundles that start with "s".
+		// If a handles clause has been specified, we will cap it with a trailing
+		// slash so the bundle is not extra greedy with its routes. Otherwise a
+		// bundle that handles "s" would handle all routes beginning with "s".
 		if (isset($config['handles']))
 		{
-			$config['handles'] = $config['handles'].'/';
+			$config['handles'] = str_finish($config['handles'], '/');
 		}
 
-		static::$bundles[$bundle] = array_merge($defaults, $config);
+		static::$bundles[$config['name']] = array_merge($defaults, $config);
 	}
 
 	/**
@@ -82,7 +115,7 @@ class Bundle {
 	{
 		if (static::started($bundle)) return;
 
-		if ($bundle !== DEFAULT_BUNDLE and ! static::exists($bundle))
+		if ( ! static::exists($bundle))
 		{
 			throw new \Exception("Bundle [$bundle] has not been installed.");
 		}

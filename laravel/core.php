@@ -53,7 +53,7 @@ Autoloader::namespaces(array('Laravel' => path('sys')));
  */
 $bundles = Cache::remember('laravel.bundle.manifest', function()
 {
-	return Bundle::detect();
+	return Bundle::detect(path('bundle'));
 
 }, Config::get('application.bundle.cache'));
 

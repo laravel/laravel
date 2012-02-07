@@ -21,7 +21,6 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| If you are including the "index.php" in your URLs, you can ignore this.
-	|
 	| However, if you are using mod_rewrite to get cleaner URLs, just set
 	| this option to an empty string and we'll take care of the rest.
 	|
@@ -73,13 +72,13 @@ return array(
 	| SSL Link Generation
 	|--------------------------------------------------------------------------
 	|
-	| Many sites use SSL to protect their users data. However, you may not
-	| always be able to use SSL on your development machine, meaning all HTTPS
-	| will be broken during development.
+	| Many sites use SSL to protect their users data. However, you may not be
+	| able to use SSL on your development machine, meaning all HTTPS will be
+	| broken during development.
 	|
 	| For this reason, you may wish to disable the generation of HTTPS links
-	| throughout your application. This option does just that. All attempts to
-	| generate HTTPS links will generate regular HTTP links instead.
+	| throughout your application. This option does just that. All attempts
+	| to generate HTTPS links will generate regular HTTP links instead.
 	|
 	*/
 
@@ -90,7 +89,7 @@ return array(
 	| Application Timezone
 	|--------------------------------------------------------------------------
 	|
-	| The default timezone of your application. This timezone will be used when
+	| The default timezone of your application. The timezone will be used when
 	| Laravel needs a date, such as when writing to a log file or travelling
 	| to a distant star at warp speed.
 	|
@@ -100,17 +99,38 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Bundle Options
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify options related to application bundles, such as the
+	| amount of time the bundle manifest is cached. Each option is detailed
+	| below with suggestions for sensible values.
+	|
+	| Cache:
+	|
+	| All bundles have a "bundle.info" file which contains information such
+	| as the name of a bundle and the URIs it responds to. This value is
+	| the number of that bundle info is cached.
+	|
+	*/
+
+	'bundle' => array(
+
+		'cache' => 0,
+
+	),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Class Aliases
 	|--------------------------------------------------------------------------
 	|
 	| Here, you can specify any class aliases that you would like registered
-	| when Laravel loads. Aliases are lazy-loaded, so add as many as you want.
+	| when Laravel loads. Aliases are lazy-loaded, so feel free to add!
 	|
 	| Aliases make it more convenient to use namespaced classes. Instead of
 	| referring to the class using its full namespace, you may simply use
 	| the alias defined here.
-	|
-	| We have already aliased common Laravel classes to make life easier.
 	|
 	*/
 
