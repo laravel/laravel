@@ -27,8 +27,7 @@ class URL {
 		{
 			$base = $url;
 		}
-
-		if (isset($_SERVER['HTTP_HOST']))
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			$protocol = (Request::secure()) ? 'https://' : 'http://';
 
