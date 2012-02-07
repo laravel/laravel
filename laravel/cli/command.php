@@ -9,33 +9,54 @@ class Command {
 	/**
 	 * Run a CLI task with the given arguments.
 	 *
+	 * <code>
+	 *		// Call the migrate artisan task
+	 *		Command::run(array('migrate'));
+	 *
+	 *		// Call the migrate task with some arguments
+	 *		Command::run(array('migrate:rollback', 'bundle-name'))
+	 * </code>
+	 *
 	 * @param  array  $arguments
 	 * @return void
 	 */
 	public static function run($arguments = array())
 	{
-		if ( ! isset($arguments[0]))
-		{
-			throw new \Exception("Whoops! You forgot to provide the task name.");
-		}
+		static::validate($arguments);
 
 		list($bundle, $task, $method) = static::parse($arguments[0]);
 
-		// If the task exists within a bundle, we will start the bundle so that
-		// any dependencies can be registered in the application IoC container.
-		// If the task is registered in the container, it will be resolved
-		// via the container instead of by this class.
+		// If the task exists within a bundle, we will start the bundle so that any
+		// dependencies can be registered in the application IoC container. If the
+		// task is registered in the container, it will be resolved via the
+		// container instead of by this class.
 		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
-		// Once the bundle has been started, we will attempt to resolve the
-		// task instance. Tasks may be resolved through the file system or
-		// through the application IoC container.
-		if (is_null($task = static::resolve($bundle, $task)))
+		// Once the bundle has been started, we will attempt to resolve the task
+		// instance. Tasks may be resolved through the file system or through
+		// the application IoC container.
+		$task = static::resolve($bundle, $task);
+
+		if (is_null($task))
 		{
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
 		$task->$method(array_slice($arguments, 1));
+	}
+
+	/**
+	 * Determine if the given command arguments are valid.
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	protected static function validate($arguments)
+	{
+		if ( ! isset($arguments[0]))
+		{
+			throw new \Exception("You forgot to provide the task name.");
+		}
 	}
 
 	/**
@@ -66,6 +87,14 @@ class Command {
 	/**
 	 * Resolve an instance of the given task name.
 	 *
+	 * <code>
+	 *		// Resolve an instance of a task
+	 *		$task = Command::resolve('application', 'migrate');
+	 *
+	 *		// Resolve an instance of a task wtihin a bundle
+	 *		$task = Command::resolve('bundle', 'foo');
+	 * </code>
+	 *
 	 * @param  string  $bundle
 	 * @param  string  $task
 	 * @return object
@@ -93,6 +122,54 @@ class Command {
 
 			return new $task;
 		}
+	}
+
+	/**
+	 * Parse the command line arguments and return the results.
+	 *
+	 * @param  array  $argv
+	 * @return array
+	 */
+	public static function options($argv)
+	{
+		$options = array();
+
+		$arguments = array();
+
+		for ($i = 0, $count = count($argv); $i < $count; $i++)
+		{
+			$argument = $argv[$i];
+
+			// If the CLI argument starts with a double hyphen, it is an option,
+			// so we will extract the value and add it to the array of options
+			// to be returned by the method.
+			if (starts_with($argument, '--'))
+			{
+				// By default, we will assume the value of the options is true,
+				// but if the option contains an equals sign, we will take the
+				// value to the right of the equals sign as the value and
+				// remove the value from the option key.
+				list($key, $value) = array(substr($argument, 2), true);
+
+				if (($equals = strpos($argument, '=')) !== false)
+				{
+					$key = substr($argument, 2, $equals - 2);
+
+					$value = substr($argument, $equals + 1);
+				}
+
+				$options[$key] = $value;
+			}
+			// If the CLI argument does not start with a double hyphen it's
+			// simply an argument to be passed to the console task so we'll
+			// add it to the array of "regular" arguments.
+			else
+			{
+				$arguments[] = $argument;
+			}
+		}
+
+		return array($arguments, $options);
 	}
 
 	/**

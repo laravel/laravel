@@ -15,7 +15,7 @@ Bundle::start(DEFAULT_BUNDLE);
  * retrieve them from the various parts of the CLI code. We can use
  * the Request class to access them conveniently.
  */
-list($arguments, $_SERVER['CLI']) = Console::options($_SERVER['argv']);
+list($arguments, $_SERVER['CLI']) = Command::options($_SERVER['argv']);
 
 $_SERVER['CLI'] = array_change_key_case($_SERVER['CLI'], CASE_UPPER);
 
