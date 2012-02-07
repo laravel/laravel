@@ -79,9 +79,8 @@ abstract class Controller {
 	protected static function backreference($method, $parameters)
 	{
 		// Controller delegates may use back-references to the action parameters,
-		// which allows the developer to setup more flexible rouets to their
-		// controllers with less code. We will replace the back-references
-		// with their corresponding parameter value.
+		// which allows the developer to setup more flexible routes to various
+		// controllers with much less code than usual.
 		foreach ($parameters as $key => $value)
 		{
 			$method = str_replace('(:'.($key + 1).')', $value, $method, $count);
@@ -158,13 +157,7 @@ abstract class Controller {
 	 */
 	protected static function format($bundle, $controller)
 	{
-		// If the controller's bundle is not the application bundle, we will
-		// prepend the bundle to the identifier so the bundle is prefixed to
-		// the class name when it is formatted. Bundle controllers are
-		// always prefixed with the bundle name.
-		if ($bundle !== DEFAULT_BUNDLE) $controller = $bundle.'.'.$controller;
-
-		return Str::classify($controller).'_Controller';
+		return Bundle::class_prefix($bundle).Str::classify($controller).'_Controller';
 	}
 
 	/**

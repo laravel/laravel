@@ -134,9 +134,6 @@ class Auth {
 		// or authentication provider they wish.
 		$user = call_user_func($config['attempt'], $username, $password);
 
-		// If the user credentials were authenticated by the closure, we will
-		// log the user into the application, which will store their user ID
-		// in the session for subsequent requests.
 		if (is_null($user)) return false;
 
 		static::login($user, $remember);

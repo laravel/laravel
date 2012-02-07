@@ -14,8 +14,7 @@ class Error {
 
 		// If detailed errors are enabled, we'll just format the exception into
 		// a simple error message and display it on the screen. We don't use a
-		// View in case the problem is in the View class itself so we can not
-		// run into a white screen of death situation.
+		// View in case the problem is in the View class.
 		if (Config::get('error.detail'))
 		{
 			echo "<html><h2>Unhandled Exception</h2>
@@ -50,7 +49,7 @@ class Error {
 		// For a PHP error, we'll create an ErrorExcepetion and then feed that
 		// exception to the exception method, which will create a simple view
 		// of the exception details. The ErrorException class is built-in to
-		// PHP for converting native errors to Exceptions.
+		// PHP for converting native errors.
 		$exception = new \ErrorException($error, $code, 0, $file, $line);
 
 		if (in_array($code, Config::get('error.ignore')))
