@@ -81,6 +81,38 @@ class URI {
 	}
 
 	/**
+	 * Returns the URI as an associative array.
+	 * 
+	 * Set the offset to return the URI as assoc after the $offset.
+	 *
+	 * <code>
+	 * 		// Get the URI as an associative array
+	 * 		$assoc = URI::to_assoc();
+	 * 
+	 * 		// Get the URI after the 2nd segment as an associative array
+	 * 		$assoc = URI::to_assoc(2);
+	 * </code>
+	 *
+	 * @param int     $offset
+	 * @return array
+	 **/
+	public static function to_assoc($offset = 0)
+	{
+		$uri_segments = explode('/', static::current());
+
+		$uri_segments_length = count($uri_segments);
+
+		$uri_as_assoc = array();
+
+		for ($i = $offset; $i < $uri_segments_length; $i = $i + 2)
+		{
+			$uri_as_assoc[$uri_segments[$i]] = $uri_segments[$i + 1];
+		}
+
+		return $uri_as_assoc;
+	}
+
+	/**
 	 * Remove a given value from the URI.
 	 *
 	 * @param  string  $uri
