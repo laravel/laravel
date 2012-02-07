@@ -40,9 +40,7 @@ class Bundle {
 	 */
 	public static function detect($path)
 	{
-		$bundles = static::search($path);
-
-		return array_merge($bundles, require path('base').'bundles.php');
+		return static::search($path);
 	}
 
 	/**
