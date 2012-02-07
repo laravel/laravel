@@ -1,9 +1,4 @@
-<?php namespace Laravel;
-
-if (trim(Config::$items['application']['key']) === '')
-{
-	throw new \LogicException('The encryption class may not be used without an application key.');
-}
+<?php namespace Laravel; defined('DS') or die('No direct script access.');
 
 class Crypter {
 
@@ -12,28 +7,19 @@ class Crypter {
 	 *
 	 * @var string
 	 */
-	protected static $cipher = MCRYPT_RIJNDAEL_256;
+	public static $cipher = MCRYPT_RIJNDAEL_256;
 
 	/**
 	 * The encryption mode.
 	 *
 	 * @var string
 	 */
-	protected static $mode = MCRYPT_MODE_CBC;
+	public static $mode = MCRYPT_MODE_CBC;
 
 	/**
 	 * Encrypt a string using Mcrypt.
 	 *
-	 * The given string will be encrypted using AES-256 encryption for a high
-	 * degree of security. The returned string will also be base64 encoded.
-	 *
-	 * Mcrypt must be installed on your machine before using this method, and
-	 * an application key must be specified in the application configuration.
-	 *
-	 * <code>
-	 *		// Encrypt a string using the Mcrypt PHP extension
-	 *		$encrypted = Crypter::encrpt('secret');
-	 * </code>
+	 * The string will be encrypted using the AES-256 scheme and will be base64 encoded.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -50,26 +36,27 @@ class Crypter {
 	/**
 	 * Decrypt a string using Mcrypt.
 	 *
-	 * The given encrypted value must have been encrypted using Laravel and
-	 * the application key specified in the application configuration file.
-	 *
-	 * Mcrypt must be installed on your machine before using this method.
-	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	public static function decrypt($value)
 	{
-		if (($value = base64_decode($value)) === false)
-		{
-			throw new \InvalidArgumentException('Input value is not valid base64 data.');
-		}
+		$value = base64_decode($value);
 
+		// To decrypt the value, we first need to extract the input vector and
+		// the encrypted value. The input vector size varies across different
+		// encryption ciphers and modes, so we will get the correct size for
+		// the cipher and mode being used by the class.
 		$iv = substr($value, 0, static::iv_size());
 
 		$value = substr($value, static::iv_size());
 
-		return rtrim(mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv), "\0");
+		// Once we have the input vector and the value, we can give them both
+		// to Mcrypt for decryption. The value is sometimes padded with \0,
+		// so we will trim all of the padding characters from the string.
+		$key = static::key();
+
+		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
 	}
 
 	/**
@@ -89,7 +76,7 @@ class Crypter {
 	 */
 	protected static function key()
 	{
-		return Config::$items['application']['key'];
+		return Config::get('application.key');
 	}
 
 }

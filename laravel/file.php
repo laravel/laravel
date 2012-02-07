@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel; use Closure, FilesystemIterator as fIterator;
 
 class File {
 
@@ -18,10 +18,10 @@ class File {
 	 *
 	 * <code>
 	 *		// Get the contents of a file
-	 *		$contents = File::get(APP_PATH.'routes'.EXT);
+	 *		$contents = File::get(path('app').'routes'.EXT);
 	 *
 	 *		// Get the contents of a file or return a default value if it doesn't exist
-	 *		$contents = File::get(APP_PATH.'routes'.EXT, 'Default Value');
+	 *		$contents = File::get(path('app').'routes'.EXT, 'Default Value');
 	 * </code>
 	 *
 	 * @param  string  $path
@@ -30,12 +30,7 @@ class File {
 	 */
 	public static function get($path, $default = null)
 	{
-		if (file_exists($path))
-		{
-			return file_get_contents($path);
-		}
-
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return (file_exists($path)) ? file_get_contents($path) : value($default);
 	}
 
 	/**
@@ -98,7 +93,7 @@ class File {
 	/**
 	 * Get the file size of a given file.
 	 *
-	 * @param  string  $file
+	 * @param  string  $path
 	 * @return int
 	 */
 	public static function size($path)
@@ -115,25 +110,6 @@ class File {
 	public static function modified($path)
 	{
 		return filemtime($path);
-	}
-
-	/**
-	 * Move an uploaded file to permanent storage.
-	 *
-	 * <code>
-	 *		// Upload the $_FILES['photo'] file to a permanent location
-	 *		File::upload('photo', 'path/to/new/home.jpg');
-	 * </code>
-	 *
-	 * @param  string  $key
-	 * @param  string  $path
-	 * @return bool
-	 */
-	public static function upload($key, $path)
-	{
-		if ( ! isset($_FILES[$key])) return false;
-
-		return move_uploaded_file($_FILES[$key]['tmp_name'], $path);
 	}
 
 	/**
@@ -163,7 +139,7 @@ class File {
 	/**
 	 * Determine if a file is a given type.
 	 *
-	 * The Fileinfo PHP extension will be used to determine the MIME type of the file.
+	 * The Fileinfo PHP extension is used to determine the file's MIME type.
 	 *
 	 * <code>
 	 *		// Determine if a file is a JPG image
@@ -173,7 +149,7 @@ class File {
 	 *		$image = File::is(array('jpg', 'png', 'gif'), 'path/to/file');
 	 * </code>
 	 *
-	 * @param  array|string  $extension
+	 * @param  array|string  $extensions
 	 * @param  string        $path
 	 * @return bool
 	 */
@@ -181,10 +157,14 @@ class File {
 	{
 		$mimes = Config::get('mimes');
 
+		$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+
+		// The MIME configuration file contains an array of file extensions and
+		// their associated MIME types. We will spin through each extension the
+		// developer wants to check to determine if the file's MIME type is in
+		// the list of MIMEs we have for that extension.
 		foreach ((array) $extensions as $extension)
 		{
-			$mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-
 			if (isset($mimes[$extension]) and in_array($mime, (array) $mimes[$extension]))
 			{
 				return true;
@@ -192,6 +172,128 @@ class File {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Move a directory from one location to another.
+	 *
+	 * @param  string  $source
+	 * @param  string  $destination
+	 * @param  int     $options
+	 * @return void
+	 */
+	public static function mvdir($source, $destination, $options = fIterator::SKIP_DOTS)
+	{
+		static::cpdir($source, $destination, true, $options);
+	}
+
+	/**
+	 * Recursively copy directory contents to another directory.
+	 *
+	 * @param  string  $source
+	 * @param  string  $destination
+	 * @param  bool    $delete
+	 * @param  int     $options
+	 * @return void
+	 */
+	public static function cpdir($source, $destination, $delete = false, $options = fIterator::SKIP_DOTS)
+	{
+		if ( ! is_dir($source)) return;
+
+		// First we need to create the destination directory if it doesn't
+		// already exists. This directory hosts all of the assets we copy
+		// from the installed bundle's source directory.
+		if ( ! is_dir($destination))
+		{
+			mkdir($destination, 0777, true);
+		}
+
+		$items = new fIterator($source, $options);
+
+		foreach ($items as $item)
+		{
+			$location = $destination.DS.$item->getBasename();
+
+			// If the file system item is a directory, we will recurse the
+			// function, passing in the item directory. To get the proper
+			// destination path, we'll add the basename of the source to
+			// to the destination directory.
+			if ($item->isDir())
+			{
+				$path = $item->getRealPath();
+
+				static::cpdir($path, $location, $delete, $options);
+
+				if ($delete) @rmdir($item->getRealPath());
+			}
+			// If the file system item is an actual file, we can copy the
+			// file from the bundle asset directory to the public asset
+			// directory. The "copy" method will overwrite any existing
+			// files with the same name.
+			else
+			{
+				copy($item->getRealPath(), $location);
+
+				if ($delete) @unlink($item->getRealPath());
+			}
+		}
+
+		if ($delete) rmdir($source);
+	}
+
+	/**
+	 * Recursively delete a directory.
+	 *
+	 * @param  string  $directory
+	 * @return void
+	 */
+	public static function rmdir($directory)
+	{
+		if ( ! is_dir($directory)) return;
+
+		$items = new fIterator($directory);
+
+		foreach ($items as $item)
+		{
+			// If the item is a directory, we can just recurse into the
+			// function and delete that sub-directory, otherwise we'll
+			// just deleete the file and keep going!
+			if ($item->isDir())
+			{
+				static::rmdir($item->getRealPath());
+			}
+			else
+			{
+				@unlink($item->getRealPath());
+			}
+		}
+
+		@rmdir($directory);
+	}
+
+	/**
+	 * Get the most recently modified file in a directory.
+	 *
+	 * @param  string       $directory
+	 * @param  int          $options
+	 * @return SplFileInfo
+	 */
+	public static function latest($directory, $options = fIterator::SKIP_DOTS)
+	{
+		$time = 0;
+
+		$items = new fIterator($directory, $options);
+
+		// To get the latest created file, we'll simply spin through the
+		// directory, setting the latest file if we encounter a file
+		// with a UNIX timestamp greater than the latest one we
+		// have encountered thus far in the loop.
+		foreach ($items as $item)
+		{
+			if ($item->getMTime() > $time) $latest = $item;
+		}
+
+		return $latest;
 	}
 
 }

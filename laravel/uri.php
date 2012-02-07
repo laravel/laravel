@@ -14,14 +14,10 @@ class URI {
 	 *
 	 * @var array
 	 */
-	protected static $segments = array();
+	public static $segments = array();
 
 	/**
 	 * Get the URI for the current request.
-	 *
-	 * If the request is to the root of the application, a single forward slash
-	 * will be returned. Otherwise, the URI will be returned with all of the
-	 * leading and trailing slashes removed.
 	 *
 	 * @return string
 	 */
@@ -36,14 +32,15 @@ class URI {
 		// rid of all of the the sub-directories from the request URI.
 		$uri = static::remove($uri, parse_url(URL::base(), PHP_URL_PATH));
 
-		if (($index = '/'.Config::$items['application']['index']) !== '/')
+		// We'll also remove the application's index page as it is not used for at
+		// all for routing and is totally unnecessary as far as the routing of
+		// incoming requests to the framework is concerned.
+		if (($index = '/'.Config::get('application.index')) !== '/')
 		{
 			$uri = static::remove($uri, $index);
 		}
 
-		static::$uri = static::format($uri);
-
-		static::$segments = explode('/', static::$uri);
+		static::segments(static::$uri = static::format($uri));
 
 		return static::$uri;
 	}
@@ -67,7 +64,52 @@ class URI {
 	{
 		static::current();
 
-		return Arr::get(static::$segments, $index - 1, $default);
+		return array_get(static::$segments, $index - 1, $default);
+	}
+
+	/**
+	 * Set the URI segments for the request.
+	 *
+	 * @param  string  $uri
+	 * @return void
+	 */
+	protected static function segments($uri)
+	{
+		$segments = explode('/', trim($uri, '/'));
+
+		static::$segments = array_diff($segments, array(''));
+	}
+
+	/**
+	 * Returns the URI as an associative array.
+	 * 
+	 * Set the offset to return the URI as assoc after the $offset.
+	 *
+	 * <code>
+	 * 		// Get the URI as an associative array
+	 * 		$assoc = URI::to_assoc();
+	 * 
+	 * 		// Get the URI after the 2nd segment as an associative array
+	 * 		$assoc = URI::to_assoc(2);
+	 * </code>
+	 *
+	 * @param int     $offset
+	 * @return array
+	 **/
+	public static function to_assoc($offset = 0)
+	{
+		$uri_segments = explode('/', static::current());
+
+		$uri_segments_length = count($uri_segments);
+
+		$uri_as_assoc = array();
+
+		for ($i = $offset; $i < $uri_segments_length; $i = $i + 2)
+		{
+			$uri_as_assoc[$uri_segments[$i]] = $uri_segments[$i + 1];
+		}
+
+		return $uri_as_assoc;
 	}
 
 	/**
@@ -79,18 +121,11 @@ class URI {
 	 */
 	protected static function remove($uri, $value)
 	{
-		if (strpos($uri, $value) === 0)
-		{
-			return substr($uri, strlen($value));
-		}
-		return $uri;
+		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
 	}
 
 	/**
 	 * Format a given URI.
-	 *
-	 * If the URI is an empty string, a single forward slash will be returned.
-	 * Otherwise, we will trim the URI's leading and trailing slashes.
 	 *
 	 * @param  string  $uri
 	 * @return string

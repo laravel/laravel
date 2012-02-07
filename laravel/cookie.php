@@ -1,11 +1,15 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel; defined('DS') or die('No direct script access.');
 
-if (trim(Config::$items['application']['key']) === '')
-{
-	throw new \LogicException('The cookie class may not be used without an application key.');
-}
+use Closure;
 
 class Cookie {
+
+	/**
+	 * The cookies that have been set.
+	 *
+	 * @var array
+	 */
+	public static $jar = array();
 
 	/**
 	 * Determine if a cookie exists.
@@ -19,7 +23,48 @@ class Cookie {
 	}
 
 	/**
+	 * Send all of the cookies to the browser.
+	 *
+	 * @return void
+	 */
+	public static function send()
+	{
+		if (headers_sent()) return false;
+
+		// All cookies are stored in the "jar" when set and not sent
+		// directly to the browser. This simply makes testing all of
+		// the cookie functionality easier since the cooke jar can
+		// be inspected by the developer in tests.
+		foreach (static::$jar as $cookie)
+		{
+			extract($cookie);
+
+			$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
+
+			// A cookie payload can't exceed 4096 bytes, so if the
+			// payload is greater than that, we'll raise an error
+			// to warn the developer.
+			$value = static::sign($name, $value);
+
+			if (strlen($value) > 4000)
+			{
+				throw new \Exception("Payload too large for cookie.");
+			}
+
+			setcookie($name, $value, $time, $path, $domain, $secure);
+		}
+	}
+
+	/**
 	 * Get the value of a cookie.
+	 *
+	 * <code>
+	 *		// Get the value of the "favorite" cookie
+	 *		$favorite = Cookie::get('favorite');
+	 *
+	 *		// Get the value of a cookie or return a default value 
+	 *		$favorite = Cookie::get('framework', 'Laravel');
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  mixed   $default
@@ -27,53 +72,40 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		$value = Arr::get($_COOKIE, $name);
+		if (isset(static::$jar[$name])) return static::$jar[$name]['value'];
 
-		if ( ! is_null($value))
+		$value = array_get($_COOKIE, $name);
+
+		if ( ! is_null($value) and isset($value[40]) and $value[40] == '~')
 		{
-			// All Laravel managed cookies are "signed" with a fingerprint hash.
-			// The hash serves to verify that the contents of the cookie have not
-			// been modified by the user. We can verify the integrity of the cookie
-			// by extracting the value and re-hashing it, then comparing that hash
-			// against the hash stored in the cookie.
-			if (isset($value[40]) and $value[40] === '~')
-			{
-				list($hash, $value) = explode('~', $value, 2);
+			// The hash signature and the cookie value are separated by a tilde
+			// character for convenience. To separate the hash and the contents
+			// we can simply expode on that character.
+			//
+			// By re-feeding the cookie value into the "sign" method we should
+			// be able to generate a hash that matches the one taken from the
+			// cookie. If they don't, the cookie value has been changed.
+			list($hash, $value) = explode('~', $value, 2);
 
-				if (static::hash($name, $value) === $hash)
-				{
-					return $value;
-				}
+			if (static::hash($name, $value) === $hash)
+			{
+				return $value;
 			}
 		}
 
-		return ($default instanceof Closure) ? call_user_func($default) : $default;
+		return value($default);
 	}
 
 	/**
-	 * Set a "permanent" cookie. The cookie will last for one year.
+	 * Set the value of a cookie.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  string  $path
-	 * @param  string  $domain
-	 * @param  bool    $secure
-	 * @param  bool    $http_only
-	 * @return bool
-	 */
-	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
-	{
-		return static::put($name, $value, 525600, $path, $domain, $secure, $http_only);
-	}
-
-	/**
-	 * Set the value of a cookie. 
+	 * <code>
+	 *		// Set the value of the "favorite" cookie
+	 *		Cookie::put('favorite', 'Laravel');
 	 *
-	 * If a negative number of minutes is specified, the cookie will be deleted.
-	 *
-	 * This method's signature is very similar to the PHP setcookie method.
-	 * However, you simply need to pass the number of minutes for which you
-	 * wish the cookie to be valid. No funky time calculation is required.
+	 *		// Set the value of the "favorite" cookie for twenty minutes
+	 *		Cookie::put('favorite', 'Laravel', 20);
+	 * </code>
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -81,39 +113,47 @@ class Cookie {
 	 * @param  string  $path
 	 * @param  string  $domain
 	 * @param  bool    $secure
-	 * @param  bool    $http_only
-	 * @return bool
+	 * @return void
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
 	{
-		if (headers_sent()) return false;
-
-		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
-
-		$value = static::hash($name, $value).'~'.$value;
-
-		if ($minutes < 0)
-		{
-			unset($_COOKIE[$name]);
-		}
-		else
-		{
-			$_COOKIE[$name] = $value;
-		}
-
-		return setcookie($name, $value, $time, $path, $domain, $secure, $http_only);
+		static::$jar[$name] = compact('name', 'value', 'minutes', 'path', 'domain', 'secure');
 	}
 
 	/**
-	 * Generate a cookie hash.
+	 * Set a "permanent" cookie. The cookie will last for one year.
 	 *
-	 * Cookie salts are used to verify that the contents of the cookie have not
-	 * been modified by the user, since they serve as a fingerprint of the cookie
-	 * contents. The application key is used to salt the salts.
+	 * <code>
+	 *		// Set a cookie that should last one year
+	 *		Cookie::forever('favorite', 'Blue');
+	 * </code>
 	 *
-	 * When the cookie is read using the "get" method, the value will be extracted
-	 * from the cookie and hashed, if the hash in the cookie and the hashed value
-	 * do not match, we know the cookie has been changed on the client.
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @param  string  $path
+	 * @param  string  $domain
+	 * @param  bool    $secure
+	 * @return bool
+	 */
+	public static function forever($name, $value, $path = '/', $domain = null, $secure = false)
+	{
+		return static::put($name, $value, 525600, $path, $domain, $secure);
+	}
+
+	/**
+	 * Generate a cookie signature based on the contents.
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function sign($name, $value)
+	{
+		return static::hash($name, $value).'~'.$value;
+	}
+
+	/**
+	 * Generate a cookie hash based on the contents.
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
@@ -121,7 +161,7 @@ class Cookie {
 	 */
 	protected static function hash($name, $value)
 	{
-		return sha1($name.$value.Config::$items['application']['key']);
+		return sha1($name.$value.Config::get('application.key'));
 	}
 
 	/**
@@ -131,12 +171,11 @@ class Cookie {
 	 * @param  string  $path
 	 * @param  string  $domain
 	 * @param  bool    $secure
-	 * @param  bool    $http_only
 	 * @return bool
 	 */
-	public static function forget($name, $path = '/', $domain = null, $secure = false, $http_only = false)
+	public static function forget($name, $path = '/', $domain = null, $secure = false)
 	{
-		return static::put($name, null, -2000, $path, $domain, $secure, $http_only);
+		return static::put($name, null, -2000, $path, $domain, $secure);
 	}
 
 }

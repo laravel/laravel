@@ -101,7 +101,7 @@ class Database implements Driver, Sweeper {
 	 */
 	private function table()
 	{
-		return $this->connection->table(Config::$items['session']['table']);		
+		return $this->connection->table(Config::get('session.table'));		
 	}
 	
 }

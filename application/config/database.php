@@ -7,39 +7,29 @@ return array(
 	| Default Database Connection
 	|--------------------------------------------------------------------------
 	|
-	| The name of your default database connection.
-	|
-	| This connection will be the default for all database operations unless a
-	| different connection is specified when performing the operation.
+	| The name of your default database connection. This connection will used
+	| as the default for all database operations unless a different name is
+	| given when performing said operation. This connection name should be
+	| listed in the array of connections below.
 	|
 	*/
 
-	'default' => 'sqlite',
+	'default' => 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
 	| Database Connections
 	|--------------------------------------------------------------------------
 	|
-	| All of the database connections used by your application.
+	| All of the database connections used by your application. Many of your
+	| applications will no doubt only use one connection; however, you have
+	| the freedom to specify as many connections as you can handle.
 	|
-	| Supported Drivers: 'mysql', 'pgsql', 'sqlite'.
+	| All database work in Laravel is done through the PHP's PDO facilities,
+	| so make sure you have the PDO drivers for your particlar database of
+	| choice installed on your machine.
 	|
-	| Note: When using the SQLite driver, the path and "sqlite" extention will
-	|       be added automatically. You only need to specify the database name.
-	|
-	| Using a driver that isn't supported? You can still establish a PDO
-	| connection. Simply specify a driver and DSN option:
-	|
-	|		'odbc' => array(
-	|			'driver'   => 'odbc',
-	|			'dsn'      => 'your-dsn',
-	|			'username' => 'username',
-	|			'password' => 'password',
-	|		)
-	|
-	| Note: When using an unsupported driver, Eloquent and the fluent query
-	|       builder may not work as expected.
+	| Drivers: 'mysql', 'pgsql', 'sqlsrv', 'sqlite'.
 	|
 	*/
 
@@ -48,6 +38,7 @@ return array(
 		'sqlite' => array(
 			'driver'   => 'sqlite',
 			'database' => 'application',
+			'prefix'   => '',
 		),
 
 		'mysql' => array(
@@ -55,8 +46,9 @@ return array(
 			'host'     => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
-			'password' => 'password',
+			'password' => '',
 			'charset'  => 'utf8',
+			'prefix'   => '',
 		),
 
 		'pgsql' => array(
@@ -64,8 +56,18 @@ return array(
 			'host'     => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
-			'password' => 'password',
+			'password' => '',
 			'charset'  => 'utf8',
+			'prefix'   => '',
+		),
+
+		'sqlsrv' => array(
+			'driver'   => 'sqlsrv',
+			'host'     => 'localhost',
+			'database' => 'database',
+			'username' => 'root',
+			'password' => '',
+			'prefix'   => '',
 		),
 
 	),
@@ -77,11 +79,9 @@ return array(
 	|
 	| Redis is an open source, fast, and advanced key-value store. However, it
 	| provides a richer set of commands than a typical key-value store such as
-	| APC or memcached.
+	| APC or memcached. All the cool kids are using it.
 	|
-	| Here you may specify the hosts and ports for your Redis databases.
-	|
-	| For more information regarding Redis, check out: http://redis.io
+	| To get the scoop on Redis, check out: http://redis.io
 	|
 	*/
 
