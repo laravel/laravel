@@ -115,6 +115,17 @@ class Bundle {
 	}
 
 	/**
+	 * Disable a bundle for the current request.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	public static function disable($bundle)
+	{
+		unset(static::$bundles[$bundle]);
+	}
+
+	/**
 	 * Load a bundle by running it's start-up script.
 	 *
 	 * If the bundle has already been started, no action will be taken.
