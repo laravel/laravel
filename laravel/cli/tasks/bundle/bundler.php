@@ -138,17 +138,17 @@ class Bundler extends Task {
 		// with that name doesn't already exist. If it does, we'll bomb out and
 		// notify the developer of the problem. Bundle names must be unique
 		// since classes are prefixed with the name.
-		$options['name'] = $arguments[0];
+		$options['name'] = $name = $arguments[0];
 
-		if (Bundle::exists($options['name']))
+		if (Bundle::exists($name))
 		{
-			throw new \Exception("A bundle with that name already exists!");
+			throw new \Exception("That bundle already exists!");
 		}
 
 		// The developer may specify a location to which the bundle should be
 		// installed. If a location is not specified, the bundle name will
 		// be used as the default installation location.
-		$location = Request::server('cli.location') ?: $options['name'];
+		$location = Request::server('cli.location') ?: $name;
 
 		$location = path('bundle').$location;
 
@@ -166,7 +166,7 @@ class Bundler extends Task {
 		// immediately and the developer can start using it.
 		File::put($location.DS.'bundle'.EXT, $info);
 
-		echo "Bundle [{$options['name']}] has been created!".PHP_EOL;
+		echo "Bundle [{$name}] has been created!".PHP_EOL;
 
 		$this->refresh();
 	}
@@ -197,8 +197,7 @@ class Bundler extends Task {
 		{
 			// First we'll call the bundle repository to gather the bundle data
 			// array, which contains all of the information needed to install
-			// the bundle into the application. We'll verify that the bundle
-			// exists and the API is responding for each bundle.
+			// the bundle into the application.
 			$response = $this->retrieve($bundle);
 
 			if ($response['status'] == 'not-found')
