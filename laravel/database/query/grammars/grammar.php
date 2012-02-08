@@ -23,7 +23,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function select(Query $query)
 	{
-		die(var_dump($this->concatenate($this->components($query))));
+		return $this->concatenate($this->components($query));
 	}
 
 	/**
