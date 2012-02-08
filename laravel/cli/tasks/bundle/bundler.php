@@ -4,6 +4,7 @@ use Laravel\IoC;
 use Laravel\File;
 use Laravel\Cache;
 use Laravel\Bundle;
+use Laravel\Request;
 use Laravel\CLI\Tasks\Task;
 
 class Bundler extends Task {
@@ -79,16 +80,14 @@ class Bundler extends Task {
 				continue;
 			}
 
-			// First we want to retrieve the information for the bundle,
-			// such as where it is currently installed. This will let
-			// us upgrade the bundle into the same path in which it
-			// is already installed.
+			// First we want to retrieve the information for the bundle, such as
+			// where it is currently installed. This will allow us to upgrade
+			// the bundle into it's current installation path.
 			$bundle = Bundle::get($name);
 
-			// If the bundle exists, we will grab the data about the
-			// bundle from the API so we can make the right bundle
-			// provider for the bundle, since we have no way of
-			// knowing which provider was used to install.
+			// If the bundle exists, we will grab the data about the bundle from
+			// the API so we can make the right bundle provider for the bundle,
+			// since we don't know the provider used to install.
 			$response = $this->retrieve($name);
 
 			if ($response['status'] == 'not-found')
@@ -96,9 +95,9 @@ class Bundler extends Task {
 				continue;
 			}
 
-			// Once we have the bundle information from the API,
-			// we'll simply recursively delete the bundle and
-			// then re-download it using the provider.
+			// Once we have the bundle information from the API, we'll simply
+			// recursively delete the bundle and then re-download it using
+			// the correct provider assigned to the bundle.
 			File::rmdir($bundle->location);
 
 			$this->download($response['bundle'], $bundle->location);
@@ -117,17 +116,59 @@ class Bundler extends Task {
 	 */
 	public function publish($bundles)
 	{
-		// If no bundles are passed to the command, we'll just gather
-		// all of the installed bundle names and publish the assets
-		// for each of the bundles to the public directory.
 		if (count($bundles) == 0) $bundles = Bundle::names();
 
-		$publisher = IoC::resolve('bundle.publisher');
+		array_walk($bundles, array(IoC::resolve('bundle.publisher'), 'publish'));
+	}
 
-		foreach ($bundles as $bundle)
+	/**
+	 * Create a new bundle stub.
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	public function make($arguments)
+	{
+		if ( ! isset($arguments[0]))
 		{
-			$publisher->publish($bundle);
+			throw new \Exception("We need to know the bundle name!");
 		}
+
+		// First we'll grab the name from the argument list and make sure a bundle
+		// with that name doesn't already exist. If it does, we'll bomb out and
+		// notify the developer of the problem. Bundle names must be unique
+		// since classes are prefixed with the name.
+		$options['name'] = $arguments[0];
+
+		if (Bundle::exists($options['name']))
+		{
+			throw new \Exception("A bundle with that name already exists!");
+		}
+
+		// The developer may specify a location to which the bundle should be
+		// installed. If a location is not specified, the bundle name will
+		// be used as the default installation location.
+		$location = Request::server('cli.location') ?: $options['name'];
+
+		$location = path('bundle').$location;
+
+		$options['handles'] = Request::server('cli.handles');
+
+		// We'll create the actual PHP that should be inserted into the info
+		// file for the bundle. This contains the bundle's name as well as
+		// any URIs it is setup to handle.
+		$info = '<?php return '.var_export($options, true).';';
+
+		mkdir($location, 0777, true);
+
+		// Finally we can write the file to disk and clear the bundle cache.
+		// We clear the cache so that the new bundle will be recognized
+		// immediately and the developer can start using it.
+		File::put($location.DS.'bundle'.EXT, $info);
+
+		echo "Bundle [{$options['name']}] has been created!".PHP_EOL;
+
+		$this->refresh();
 	}
 
 	/**
