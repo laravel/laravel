@@ -110,7 +110,7 @@ return array(
 	|
 	| All bundles have a "bundle.info" file which contains information such
 	| as the name of a bundle and the URIs it responds to. This value is
-	| the number of that bundle info is cached.
+	| the number of minutes that bundle info is cached.
 	|
 	| Auto:
 	|
