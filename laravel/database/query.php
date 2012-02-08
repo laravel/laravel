@@ -679,7 +679,9 @@ class Query {
 		// retrieved the count from the table.
 		list($orderings, $this->orderings) = array($this->orderings, null);
 
-		$page = Paginator::page($total = $this->count($columns), $per_page);
+		$total = $this->count(reset($columns));
+
+		$page = Paginator::page($total, $per_page);
 
 		$this->orderings = $orderings;
 
