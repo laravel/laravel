@@ -2,6 +2,7 @@
 
 use Laravel\File;
 use Laravel\Bundle;
+use Laravel\Request;
 use Laravel\CLI\Tasks\Task;
 
 class Runner extends Task {
@@ -76,9 +77,11 @@ class Runner extends Task {
 		// We'll simply fire off PHPUnit with the configuration switch
 		// pointing to our temporary configuration file. This allows
 		// us to flexibly run tests for any setup.
-		passthru('phpunit -c '.path('base').'phpunit.xml');
+		$path = path('base').'phpunit.xml';
 
-		@unlink(path('base').'phpunit.xml');
+		passthru('phpunit --configuration '.$path);
+
+		@unlink($path);
 	}
 
 	/**
@@ -95,7 +98,7 @@ class Runner extends Task {
 
 		// The PHPUnit bootstrap file contains several items that are swapped
 		// at test time. This allows us to point PHPUnit at a few different
-		// locations depending on what the develoepr wants to test.
+		// locations depending on what the developer wants to test.
 		foreach (array('bootstrap', 'directory') as $item)
 		{
 			$stub = $this->{"swap_{$item}"}($stub, $path, $directory);
