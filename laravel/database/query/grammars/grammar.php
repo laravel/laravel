@@ -23,7 +23,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function select(Query $query)
 	{
-		return $this->concatenate($this->components($query));
+		die(var_dump($this->concatenate($this->components($query))));
 	}
 
 	/**
@@ -36,12 +36,11 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		// Each portion of the statement is compiled by a function corresponding
 		// to an item in the components array. This lets us to keep the creation
-		// of the query very granular, and allows for the flexible customization
-		// of the query building process by each database system's grammar.
+		// of the query very granular and very flexible.
 		//
-		// Note that each component also corresponds to a public property on the
-		// query instance, allowing us to pass the appropriate data into each of
-		// the compiler functions.
+		// Note that each component also connects to a public property on the
+		// query instance, allowing us to pass the correct data into each
+		// of the compiler functions.
 		foreach ($this->components as $component)
 		{
 			if ( ! is_null($query->$component))
@@ -75,10 +74,6 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function selects(Query $query)
 	{
-		// Sometimes developers may set a "select" clause on the same query
-		// that is performing in aggregate look-up, like during pagination.
-		// So we will not generate the select clause if an aggregate is
-		// present so the aggregates work.
 		if ( ! is_null($query->aggregate)) return;
 
 		$select = ($query->distinct) ? 'SELECT DISTINCT ' : 'SELECT ';
@@ -129,15 +124,40 @@ class Grammar extends \Laravel\Database\Grammar {
 		// set of joins in valid SQL that can appended to the query.
 		foreach ($query->joins as $join)
 		{
-			$table = $this->wrap_table($join['table']);
+			$table = $this->wrap_table($join->table);
 
-			$column1 = $this->wrap($join['column1']);
+			$clauses = array();
 
-			$column2 = $this->wrap($join['column2']);
+			// Each JOIN statement may have multiple clauses, so we will
+			// iterate through each clause creating the conditions then
+			// we will concatenate them all together.
+			foreach ($join->clauses as $clause)
+			{
+				extract($clause);
 
-			$sql[] = "{$join['type']} JOIN {$table} ON {$column1} {$join['operator']} {$column2}";
+				$column1 = $this->wrap($column1);
+
+				$column2 = $this->wrap($column2);
+
+				$clauses[] = "{$connector} {$column1} {$operator} {$column2}";
+			}
+
+			// The first clause will have a connector on the front,
+			// but it is not needed on the first condition, so we
+			// will strip it off of the condition before adding
+			// it to the array of joins.
+			$search = array('AND ', 'OR ');
+
+			$clauses[0] = str_replace($search, '', $clauses[0]);
+
+			$clauses = implode(' ', $clauses);
+
+			$sql[] = "{$join->type} JOIN {$table} ON {$clauses}";
 		}
 
+		// Finally, we should have an array of JOIN clauses
+		// that we can implode together and return as the
+		// complete SQL for the JOIN of the query.
 		return implode(' ', $sql);
 	}
 
@@ -180,10 +200,6 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function where_nested($where)
 	{
-		// To generate a nested WHERE clause, we'll just feed the query
-		// back into the "wheres" method. Once we have the clause, we
-		// will strip off the first six characters to get rid of the
-		// leading WHERE keyword.
 		return '('.substr($this->wheres($where['query']), 6).')';
 	}
 

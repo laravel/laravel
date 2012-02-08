@@ -147,9 +147,28 @@ class Query {
 	 * @param  string  $type
 	 * @return Query
 	 */
-	public function join($table, $column1, $operator, $column2, $type = 'INNER')
+	public function join($table, $column1, $operator = null, $column2 = null, $type = 'INNER')
 	{
-		$this->joins[] = compact('type', 'table', 'column1', 'operator', 'column2');
+		// If the "column" is really an instance of a Closure, the developer is
+		// trying to create a join with a complex "ON" clause. So, we will add
+		// the join, and then call the Closure with the join.
+		if ($column1 instanceof Closure)
+		{
+			$this->joins[] = new Query\Join($type, $table);
+
+			call_user_func($column1, end($this->joins));
+		}
+		// If the column is just a string, we can assume that the join just
+		// has a simple on clause, and we'll create the join instance and
+		// add the clause automatically for the develoepr.
+		else
+		{
+			$join = new Query\Join($type, $table);
+
+			$join->on($column1, $operator, $column2);
+
+			$this->joins[] = $join;
+		}
 
 		return $this;
 	}
