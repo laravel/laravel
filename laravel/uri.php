@@ -37,7 +37,7 @@ class URI {
 		// and use the first one we encounter for the URI.
 		static::$uri = static::detect();
 
-		// If you ever encounter this error, please information the Laravel
+		// If you ever encounter this error, please inform the nerdy Laravel
 		// dev team with information about your server. We want to support
 		// Laravel an as many server environments as possible!
 		if (is_null(static::$uri))
