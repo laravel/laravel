@@ -96,7 +96,7 @@ class URI {
 			$uri = static::remove($uri, $index);
 		}
 
-		return (($uri = trim($uri, '/')) !== '') ? $uri : '/';
+		return trim($uri, '/') ?: '/';
 	}
 
 	/**
