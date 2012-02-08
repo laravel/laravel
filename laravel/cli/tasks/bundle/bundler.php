@@ -138,6 +138,8 @@ class Bundler extends Task {
 	public function refresh()
 	{
 		Cache::forget(Bundle::manifest);
+
+		echo 'Bundle cache cleared!'.PHP_EOL;
 	}
 
 	/**
