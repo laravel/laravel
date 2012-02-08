@@ -33,6 +33,13 @@ class Bundle {
 	public static $routed = array();
 
 	/**
+	 * The cache key for the bundle manifest.
+	 *
+	 * @var string
+	 */
+	const manifest = 'laravel.bundle.manifest';
+
+	/**
 	 * Detect all of the installed bundles from disk.
 	 *
 	 * @param  string  $path

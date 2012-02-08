@@ -2,6 +2,7 @@
 
 use Laravel\IoC;
 use Laravel\File;
+use Laravel\Cache;
 use Laravel\Bundle;
 use Laravel\CLI\Tasks\Task;
 
@@ -55,6 +56,8 @@ class Bundler extends Task {
 
 			echo "Bundle [{$bundle['name']}] has been installed!".PHP_EOL;
 		}
+
+		$this->refresh();
 	}
 
 	/**
@@ -102,6 +105,8 @@ class Bundler extends Task {
 
 			echo "Bundle [{$name}] has been upgraded!".PHP_EOL;
 		}
+
+		$this->refresh();
 	}
 
 	/**
@@ -123,6 +128,16 @@ class Bundler extends Task {
 		{
 			$publisher->publish($bundle);
 		}
+	}
+
+	/**
+	 * Clear the bundle manifest cache.
+	 *
+	 * @return void
+	 */
+	public function refresh()
+	{
+		Cache::forget(Bundle::manifest);
 	}
 
 	/**

@@ -51,7 +51,7 @@ Autoloader::namespaces(array('Laravel' => path('sys')));
  * each of them. If it's not cached, we'll detect them and then
  * cache it to save time later.
  */
-$bundles = Cache::remember('laravel.bundle.manifest', function()
+$bundles = Cache::remember(Bundle::manifest, function()
 {
 	return Bundle::detect(path('bundle'));
 
