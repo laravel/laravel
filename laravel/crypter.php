@@ -45,15 +45,14 @@ class Crypter {
 
 		// To decrypt the value, we first need to extract the input vector and
 		// the encrypted value. The input vector size varies across different
-		// encryption ciphers and modes, so we will get the correct size for
-		// the cipher and mode being used by the class.
+		// encryption ciphers and modes, so we'll get the correct size.
 		$iv = substr($value, 0, static::iv_size());
 
 		$value = substr($value, static::iv_size());
 
 		// Once we have the input vector and the value, we can give them both
 		// to Mcrypt for decryption. The value is sometimes padded with \0,
-		// so we will trim all of the padding characters from the string.
+		// so we will trim all of the padding characters.
 		$key = static::key();
 
 		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
