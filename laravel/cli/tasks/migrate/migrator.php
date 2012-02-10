@@ -115,7 +115,7 @@ class Migrator extends Task {
 		// along with their bundles and names. We will iterate through each
 		// migration and run the "down" method, removing them from the
 		// database as we go.
-		foreach ($migrations as $migration)
+		foreach (array_reverse($migrations) as $migration)
 		{
 			$migration['migration']->down();
 
