@@ -204,7 +204,7 @@ class URL {
 
 		// Since assets are not served by Laravel, we do not need to come through
 		// the front controller. So, we'll remove the application index specified
-		// in the application configuration from the generated URL.
+		// in the application configuration from the URL.
 		if (($index = Config::get('application.index')) !== '')
 		{
 			$url = str_replace($index.'/', '', $url);
@@ -244,32 +244,6 @@ class URL {
 		$https = array_get(current($route), 'https', false);
 
 		return static::to(Route::transpose($uri, $parameters), $https);
-	}
-
-	/**
-	 * Substitute the parameters in a given URI.
-	 *
-	 * @param  string  $uri
-	 * @param  array   $parameters
-	 * @return string
-	 */
-	public static function transpose($uri, $parameters)
-	{
-		// Spin through each route parameter and replace the route wildcard segment
-		// with the corresponding parameter passed to the method. Afterwards, we'll
-		// replace all of the remaining optional URI segments.
-		foreach ((array) $parameters as $parameter)
-		{
-			if ( ! is_null($parameter))
-			{
-				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
-			}
-		}
-
-		// If there are any remaining optional place-holders, we'll just replace
-		// them with empty strings since not every optional parameter has to be
-		// in the array of parameters that were passed.
-		return str_replace(array_keys(Router::$optional), '', $uri);		
 	}
 
 }

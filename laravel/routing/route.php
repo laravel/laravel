@@ -56,32 +56,53 @@ class Route {
 
 		// Extract each URI from the route key. Since the route key has the request
 		// method, we will extract that from the string. If the URI points to the
-		// root of the application, a single forward slash will be returned.
+		// root of the application, a single forward slash is returned.
 		$uris = array_get($action, 'handles', array($key));
 
-		$this->uris = array_map(array($this, 'extract'), $uris);
+		$this->uris = array_map(array($this, 'destination'), $uris);
 
 		// Determine the bundle in which the route was registered. We will know
-		// the bundle by feeding the URI into the bundle::handles method, which
-		// will return the bundle assigned to that URI.
+		// the bundle by using the bundle::handles method, which will return
+		// the bundle assigned to that URI.
 		$this->bundle = Bundle::handles($this->uris[0]);
 
-		$this->parameters = array_map('urldecode', $parameters);
+		$defaults = array_get($action, 'defaults', array());
+
+		$this->parameters = array_merge($parameters, $defaults);
+
+		// Once we have set the parameters and URIs, we'll transpose the route
+		// parameters onto the URIs so that the routes response naturally to
+		// the handles without the wildcards messing them up.
+		foreach ($this->uris as &$uri)
+		{
+			$uri = $this->transpose($uri, $this->parameters);
+		}
 	}
 
 	/**
-	 * Retrieve the URI from a given route destination.
+	 * Substitute the parameters in a given URI.
 	 *
-	 * If the request is to the application root, a slash is returned.
-	 *
-	 * @param  string  $segment
+	 * @param  string  $uri
+	 * @param  array   $parameters
 	 * @return string
 	 */
-	protected static function extract($segment)
+	public static function transpose($uri, $parameters)
 	{
-		$uri = substr($segment, strpos($segment, ' ') + 1);
+		// Spin through each route parameter and replace the route wildcard segment
+		// with the corresponding parameter passed to the method. Afterwards, we'll
+		// replace all of the remaining optional URI segments.
+		foreach ((array) $parameters as $parameter)
+		{
+			if ( ! is_null($parameter))
+			{
+				$uri = preg_replace('/\(.+?\)/', $parameter, $uri, 1);
+			}
+		}
 
-		return ($uri !== '/') ? trim($uri, '/') : $uri;
+		// If there are any remaining optional place-holders, we'll just replace
+		// them with empty strings since not every optional parameter has to be
+		// in the array of parameters that were passed.
+		return str_replace(array_keys(Router::$optional), '', $uri);		
 	}
 
 	/**
@@ -92,9 +113,8 @@ class Route {
 	public function call()
 	{
 		// The route is responsible for running the global filters, and any
-		// filters defined on the route itself. Since all incoming requests
-		// come through a route (either defined or ad-hoc), it makes sense
-		// to let the route handle the global filters.
+		// filters defined on the route itself, since all incoming requests
+		// come through a route (either defined or ad-hoc).
 		$response = Filter::run($this->filters('before'), array(), true);
 
 		if (is_null($response))
@@ -102,6 +122,9 @@ class Route {
 			$response = $this->response();
 		}
 
+		// We always return a Response instance from the route calls, so
+		// we'll use the prepare method on the Response class to make
+		// sure we have a valid Response isntance.
 		$response = Response::prepare($response);
 
 		Filter::run($this->filters('after'), array($response));
@@ -216,6 +239,39 @@ class Route {
 		{
 			return preg_match('#'.$pattern.'#', $uri);
 		}));
+	}
+
+	/**
+	 * Register a route with the router.
+	 *
+	 * <code>
+	 *		// Register a route with the router
+	 *		Router::register('GET /', function() {return 'Home!';});
+	 *
+	 *		// Register a route that handles multiple URIs with the router
+	 *		Router::register(array('GET /', 'GET /home'), function() {return 'Home!';});
+	 * </code>
+	 *
+	 * @param  string|array  $route
+	 * @param  mixed         $action
+	 * @param  bool          $https
+	 * @return void
+	 */
+	public static function to($route, $action)
+	{
+		Router::register($route, $action);
+	}
+
+	/**
+	 * Register a HTTPS route with the router.
+	 *
+	 * @param  string|array  $route
+	 * @param  mixed         $action
+	 * @return void
+	 */
+	public static function secure($route, $action)
+	{
+		Router::secure($route, $action);
 	}
 
 	/**
