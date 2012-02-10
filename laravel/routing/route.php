@@ -218,4 +218,20 @@ class Route {
 		}));
 	}
 
+	/**
+	 * Extract the URI string from a route destination.
+	 *
+	 * <code>
+	 *		// Returns "home/index" as the destination's URI
+	 *		$uri = Route::uri('GET /home/index');
+	 * </code>
+	 *
+	 * @param  string  $destination
+	 * @return string
+	 */
+	public static function destination($destination)
+	{
+		return trim(substr($destination, strpos($destination, '/')), '/') ?: '/';
+	}
+
 }
