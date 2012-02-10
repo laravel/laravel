@@ -98,9 +98,9 @@ class Bundler extends Task {
 			// Once we have the bundle information from the API, we'll simply
 			// recursively delete the bundle and then re-download it using
 			// the correct provider assigned to the bundle.
-			File::rmdir($bundle->location);
+			File::rmdir($bundle['location']);
 
-			$this->download($response['bundle'], $bundle->location);
+			$this->download($response['bundle'], $bundle['location']);
 
 			echo "Bundle [{$name}] has been upgraded!".PHP_EOL;
 		}

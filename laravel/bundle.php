@@ -401,11 +401,11 @@ class Bundle {
 	 * Get the information for a given bundle.
 	 *
 	 * @param  string  $bundle
-	 * @return object
+	 * @return array
 	 */
 	public static function get($bundle)
 	{
-		return (object) array_get(static::$bundles, $bundle);
+		return array_get(static::$bundles, $bundle);
 	}
 
 	/**
