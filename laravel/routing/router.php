@@ -318,7 +318,7 @@ class Router {
 		// to point the pattern to the controller's index method.
 		$pattern = trim($root.'/'.$home, '/') ?: '/';
 
-		$attributes = array('uses' => "{$identifier}@(:1)", 'defaults' => 'index');
+		$attributes = array('uses' => "{$identifier}@index");
 
 		static::register('*', $pattern, $attributes);
 	}
