@@ -35,6 +35,11 @@ class Redirect extends Response {
 		return static::to($url, $status, true);
 	}
 
+	public static function to_action($action, $parameters = array())
+	{
+		
+	}
+
 	/**
 	 * Create a redirect response to a named route.
 	 *
@@ -49,25 +54,11 @@ class Redirect extends Response {
 	 * @param  string    $route
 	 * @param  array     $parameters
 	 * @param  int       $status
-	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public static function to_route($route, $parameters = array(), $status = 302, $https = false)
+	public static function to_route($route, $parameters = array(), $status = 302)
 	{
-		return static::to(URL::to_route($route, $parameters, $https), $status);
-	}
-
-	/**
-	 * Create a redirect response to a named route using HTTPS.
-	 *
-	 * @param  string    $route
-	 * @param  array     $parameters
-	 * @param  int       $status
-	 * @return Redirect
-	 */
-	public static function to_secure_route($route, $parameters = array(), $status = 302)
-	{
-		return static::to_route($route, $parameters, $status, true);
+		return static::to(URL::to_route($route, $parameters), $status);
 	}
 
 	/**

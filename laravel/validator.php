@@ -853,11 +853,11 @@ class Validator {
 
 		// More reader friendly versions of the attribute names may be stored
 		// in the validation language file, allowing a more readable version
-		// of the attribute name to be used in the validation message.
+		// of the attribute name to be used in the message.
 		//
 		// If no language line has been specified for the attribute, all of
 		// the underscores will be removed from the attribute name and that
-		// will be used as the attribtue name in the message.
+		// will be used as the attribtue name.
 		$line = "{$bundle}validation.attributes.{$attribute}";
 
 		$display = Lang::line($line)->get($this->language);

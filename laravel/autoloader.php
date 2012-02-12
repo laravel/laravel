@@ -104,7 +104,7 @@ class Autoloader {
 	{
 		// The PSR-0 standard indicates that class namespaces and underscores
 		// shoould be used to indcate the directory tree in which the class
-		// resides, so we'll convert them to directory slashes.
+		// resides, so we'll convert them to slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
 		$directories = $directory ?: static::$psr;

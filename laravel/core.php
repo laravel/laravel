@@ -31,14 +31,6 @@ require path('sys').'autoloader'.EXT;
 spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 
 /**
- * Register all of the core class aliases. These aliases provide a
- * convenient way of working with the Laravel core classes without
- * having to worry about the namespacing. The developer is also
- * free to remove aliases when they extend core classes.
- */
-Autoloader::$aliases = Config::get('application.aliases');
-
-/**
  * Register the Laravel namespace so that the auto-loader loads it
  * according to the PSR-0 naming conventions. This should provide
  * fast resolution of all core classes.
@@ -46,26 +38,39 @@ Autoloader::$aliases = Config::get('application.aliases');
 Autoloader::namespaces(array('Laravel' => path('sys')));
 
 /**
- * Grab the bundle manifest for the application. This contains an
- * array of all of the installed bundles, plus information about
- * each of them. If it's not cached, we'll detect them and then
- * cache it to save time later.
+ * Set the CLI options on the $_SERVER global array so we can easily
+ * retrieve them from the various parts of the CLI code. We can use
+ * the Request class to access them conveniently.
  */
-$bundles = Cache::remember(Bundle::manifest, function()
+if (defined('STDIN'))
 {
-	return Bundle::detect(path('bundle'));
+	$console = CLI\Command::options($_SERVER['argv']);
 
-}, Config::get('application.bundle.cache'));
+	list($arguments, $options) = $console;
+
+	$options = array_change_key_case($options, CASE_UPPER);
+
+	$_SERVER['CLI'] = $options;
+}
 
 /**
- * Register all of the bundles that are defined in the main bundle
- * manifest. This informs the framework where the bundle lives
- * and which URIs it can respnod to.
+ * The Laravel environment may be specified on the CLI using the env
+ * option, allowing the developer to easily use local configuration
+ * files from the CLI since the environment is usually controlled
+ * by server environmenet variables.
  */
-foreach ($bundles as $bundle)
+if (isset($_SERVER['CLI']['ENV']))
 {
-	Bundle::register($bundle);
+	$_SERVER['LARAVEL_ENV'] = $_SERVER['CLI']['ENV'];
 }
+
+/**
+ * Register all of the core class aliases. These aliases provide a
+ * convenient way of working with the Laravel core classes without
+ * having to worry about the namespacing. The developer is also
+ * free to remove aliases when they extend core classes.
+ */
+Autoloader::$aliases = Config::get('application.aliases');
 
 /**
  * Register the default timezone for the application. This will
@@ -75,3 +80,15 @@ foreach ($bundles as $bundle)
 $timezone = Config::get('application.timezone');
 
 date_default_timezone_set($timezone);
+
+/**
+ * Finally we'll grab all of the bundles and register them
+ * with the bundle class. All of the bundles are stored in
+ * an array within the application directory.
+ */
+$bundles = require path('app').'bundles'.EXT;
+
+foreach ($bundles as $bundle => $config)
+{
+	Bundle::register($bundle, $config);
+}

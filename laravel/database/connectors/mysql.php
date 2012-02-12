@@ -20,11 +20,11 @@ class MySQL extends Connector {
 		// Check for any optional MySQL PDO options. These options are not required
 		// to establish a PDO connection; however, may be needed in certain server
 		// or hosting environments used by the developer.
-		foreach (array('port', 'unix_socket') as $key => $value)
+		foreach (array('port', 'unix_socket') as $key)
 		{
 			if (isset($config[$key]))
 			{
-				$dsn .= ";{$key}={$value}";
+				$dsn .= ";{$key}={$config[$key]}";
 			}
 		}
 

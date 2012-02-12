@@ -25,9 +25,15 @@ class Error {
 				  <h3>Stack Trace:</h3>
 				  <pre>".$exception->getTraceAsString()."</pre></html>";
 		}
+
+		// If we're not using detailed error messages, we'll use the event
+		// system to get the response that should be sent to the browser.
+		// Using events gives the developer more freedom.
 		else
 		{
-			Response::error('500')->send();
+			$response = Event::first('500');
+
+			return Response::prepare($response)->send();
 		}
 
 		exit(1);
@@ -48,8 +54,7 @@ class Error {
 
 		// For a PHP error, we'll create an ErrorExcepetion and then feed that
 		// exception to the exception method, which will create a simple view
-		// of the exception details. The ErrorException class is built-in to
-		// PHP for converting native errors.
+		// of the exception details for the developer.
 		$exception = new \ErrorException($error, $code, 0, $file, $line);
 
 		if (in_array($code, Config::get('error.ignore')))
@@ -71,8 +76,10 @@ class Error {
 	{
 		// If a fatal error occured that we have not handled yet, we will
 		// create an ErrorException and feed it to the exception handler,
-		// as it will not have been handled by the error handler.
-		if ( ! is_null($error = error_get_last()))
+		// as it will not yet have been handled.
+		$error = error_get_last();
+
+		if ( ! is_null($error))
 		{
 			extract($error, EXTR_SKIP);
 

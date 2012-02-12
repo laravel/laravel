@@ -21,7 +21,20 @@ class URI {
 	 *
 	 * @var array
 	 */
-	protected static $attempt = array('PATH_INFO', 'REQUEST_URI', 'PHP_SELF', 'REDIRECT_URL');
+	protected static $attempt = array(
+		'PATH_INFO', 'REQUEST_URI',
+		'PHP_SELF', 'REDIRECT_URL'
+	);
+
+	/**
+	 * Get the full URI including the query string.
+	 *
+	 * @return string
+	 */
+	public static function full()
+	{
+		return static::current().static::query();
+	}
 
 	/**
 	 * Get the URI for the current request.
@@ -39,7 +52,7 @@ class URI {
 
 		// If you ever encounter this error, please inform the nerdy Laravel
 		// dev team with information about your server. We want to support
-		// Laravel an as many server environments as possible!
+		// Laravel an as many servers as we possibly can!
 		if (is_null(static::$uri))
 		{
 			throw new \Exception("Could not detect request URI.");
@@ -81,22 +94,45 @@ class URI {
 	 */
 	protected static function format($uri)
 	{
-		// First we want to remove the application's base URL from the URI
-		// if it is in the string. It is possible for some of the server
-		// variables to include the entire document root.
+		// First we want to remove the application's base URL from the URI if it is
+		// in the string. It is possible for some of the parsed server variables to
+		// include the entire document root in the string.
 		$uri = static::remove_base($uri);
 
 		$index = '/'.Config::get('application.index');
 
-		// Next we'll remove the index file from the URI if it is there
-		// and then finally trim down the URI. If the URI is left with
-		// nothing but spaces, we use a single slash for root.
+		// Next we'll remove the index file from the URI if it is there and then
+		// finally trim down the URI. If the URI is left with spaces, we'll use
+		// a single slash for the root URI.
 		if ($index !== '/')
 		{
 			$uri = static::remove($uri, $index);
 		}
 
 		return trim($uri, '/') ?: '/';
+	}
+
+	/**
+	 * Determine if the current URI matches a given pattern.
+	 *
+	 * @param  string  $pattern
+	 * @return bool
+	 */
+	public static function is($pattern)
+	{
+		// Asterisks are translated into zero-or-more regular expression wildcards
+		// to make it convenient to check if the URI starts with a given pattern
+		// such as "library/*". This is only done when not root.
+		if ($pattern !== '/')
+		{
+			$pattern = str_replace('*', '(.*)', $pattern).'\z';
+		}
+		else
+		{
+			$pattern = '^/$';
+		}
+
+		return preg_match('#'.$pattern.'#', static::current());
 	}
 
 	/**
@@ -199,6 +235,16 @@ class URI {
 	protected static function remove($uri, $value)
 	{
 		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
+	}
+
+	/**
+	 * Get the query string for the current request.
+	 *
+	 * @return string
+	 */
+	protected static function query()
+	{
+		return (count((array) $_GET) > 0) ? '?'.http_build_query($_GET) : '';
 	}
 
 }

@@ -132,14 +132,24 @@ Input::$input = $input;
 Bundle::start(DEFAULT_BUNDLE);
 
 /**
- * Start all of the bundles that are specified in the configuration
- * array of auto-loaded bundles. This lets the developer have an
- * easy way to load bundles for every request.
+ * Auto-start any bundles configured to start on every request.
+ * This is especially useful for debug bundles or bundles that
+ * are used throughout the application.
  */
-foreach (Config::get('application.bundle.auto') as $bundle)
+foreach (Bundle::$bundles as $bundle => $config)
 {
-	Bundle::start($bundle);
+	if ($config['auto']) Bundle::start($bundle);
 }
+
+/**
+ * Register the "catch-all" route that handles 404 responses for
+ * routes that can not be matched to any other route within the
+ * application. We'll just raise the 404 event.
+ */
+Routing\Router::register('*', '(:all)', function()
+{
+	return Event::first('404');
+});
 
 /**
  * If the requset URI has too many segments, we will bomb out of
@@ -161,16 +171,6 @@ if (count(URI::$segments) > 15)
  * be returned to the browser.
  */
 Request::$route = Routing\Router::route(Request::method(), $uri);
-
-if (is_null(Request::$route))
-{
-	Request::$route = new Routing\Route('GET /404', array(function()
-	{
-		return Response::error('404');
-	}));
-
-	$response = Response::error('404');
-}
 
 $response = Request::$route->call();
 

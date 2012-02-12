@@ -33,103 +33,35 @@ class Bundle {
 	public static $routed = array();
 
 	/**
-	 * The cache key for the bundle manifest.
+	 * Register the bundle for the application.
 	 *
-	 * @var string
-	 */
-	const manifest = 'laravel.bundle.manifest';
-
-	/**
-	 * Detect all of the installed bundles from disk.
-	 *
-	 * @param  string  $path
-	 * @return array
-	 */
-	public static function detect($path)
-	{
-		return static::search($path);
-	}
-
-	/**
-	 * Detect all of the installed bundles from disk.
-	 *
-	 * @param  string  $path
-	 * @return array
-	 */
-	protected static function search($path)
-	{
-		$bundles = array();
-
-		$items = new fIterator($path);
-
-		foreach ($items as $item)
-		{
-			// If the item is a directory, we'll search for a bundle.info file.
-			// If one exists, we will add it to the bundle array. We will set
-			// the location automatically since we know it.
-			if ($item->isDir())
-			{
-				$path = $item->getRealPath().DS.'bundle.php';
-
-				// If we found a file, we'll require in the array it contains
-				// and add it to the directory. The info array will contain
-				// basic info like the bundle name and any URIs it may
-				// handle incoming requests for.
-				if (file_exists($path))
-				{
-					$info = require $path;
-
-					$info['location'] = dirname($path).DS;
-
-					$bundles[$info['name']] = $info;
-
-					continue;
-				}
-				// If a bundle.info file doesn't exist within a directory,
-				// we'll recurse into the directory to keep searching in
-				// the bundle directory for nested bundles.
-				else
-				{
-					$recurse = static::detect($item->getRealPath());
-
-					$bundles = array_merge($bundles, $recurse);
-				}
-			}
-		}
-
-		return $bundles;
-	}
-
-	/**
-	 * Register a bundle for the application.
-	 *
-	 * @param  array  $config
+	 * @param  string  $bundle
+	 * @param  array   $config
 	 * @return void
 	 */
-	public static function register($config)
+	public static function register($bundle, $config = array())
 	{
 		$defaults = array('handles' => null, 'auto' => false);
 
-		// If a handles clause has been specified, we will cap it with a trailing
-		// slash so the bundle is not extra greedy with its routes. Otherwise a
-		// bundle that handles "s" would handle all routes beginning with "s".
-		if (isset($config['handles']))
+		// If the given configuration is actually a string, we will assume it is a
+		// location and set the bundle name to match it. This is common for most
+		// bundles who simply live in the root bundle directory.
+		if (is_string($config))
 		{
-			$config['handles'] = str_finish($config['handles'], '/');
+			$bundle = $config;
+
+			$config = array('location' => $bundle);
 		}
 
-		static::$bundles[$config['name']] = array_merge($defaults, $config);
-	}
+		// IF no location is set, we will set the location to match the name of
+		// the bundle. This is for bundles who are installed to the root of
+		// the bundle directory so a location was not set.
+		if ( ! isset($config['location']))
+		{
+			$config['location'] = $bundle;
+		}
 
-	/**
-	 * Disable a bundle for the current request.
-	 *
-	 * @param  string  $bundle
-	 * @return void
-	 */
-	public static function disable($bundle)
-	{
-		unset(static::$bundles[$bundle]);
+		static::$bundles[$bundle] = array_merge($defaults, $config);
 	}
 
 	/**
@@ -151,8 +83,7 @@ class Bundle {
 
 		// Each bundle may have a "start" script which is responsible for preparing
 		// the bundle for use by the application. The start script may register any
-		// classes the bundle uses with the auto-loader, or perhaps will start any
-		// dependent bundles so that they are available.
+		// classes the bundle uses with the auto-loader, etc.
 		if (file_exists($path = static::path($bundle).'start'.EXT))
 		{
 			require $path;
@@ -178,12 +109,28 @@ class Bundle {
 	{
 		$path = static::path($bundle).'routes'.EXT;
 
+		// By setting the bundle property on the router the router knows what
+		// value to replace the (:bundle) place-holder with when the bundle
+		// routes are added, keeping the routes flexible.
+		Routing\Router::$bundle = static::option($bundle, 'handles');
+
 		if ( ! static::routed($bundle) and file_exists($path))
 		{
 			require $path;
 		}
 
 		static::$routed[] = $bundle;
+	}
+
+	/**
+	 * Disable a bundle for the current request.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	public static function disable($bundle)
+	{
+		unset(static::$bundles[$bundle]);
 	}
 
 	/**
@@ -200,7 +147,10 @@ class Bundle {
 
 		foreach (static::$bundles as $key => $value)
 		{
-			if (starts_with($uri, $value['handles'])) return $key;
+			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/'))
+			{
+				return $key;
+			}
 		}
 
 		return DEFAULT_BUNDLE;
@@ -215,6 +165,19 @@ class Bundle {
 	public static function exists($bundle)
 	{
 		return $bundle == DEFAULT_BUNDLE or in_array(strtolower($bundle), static::names());
+	}
+
+	/**
+	 * Get the full path location of a given bundle.
+	*
+	* @param  string  $bundle
+	* @return string
+	 */
+	public static function location($bundle)
+	{
+		$location = array_get(static::$bundles, $bundle.'.location');
+
+		return path('bundle').str_finish($location, DS);
 	}
 
 	/**
@@ -277,7 +240,7 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
-		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::$bundles[$bundle]['location'];
+		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::location($bundle);
 	}
 
 	/**
@@ -401,7 +364,7 @@ class Bundle {
 	 * Get the information for a given bundle.
 	 *
 	 * @param  string  $bundle
-	 * @return array
+	 * @return object
 	 */
 	public static function get($bundle)
 	{

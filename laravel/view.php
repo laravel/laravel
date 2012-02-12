@@ -67,7 +67,7 @@ class View implements ArrayAccess {
 		//
 		// This makes error display in the view extremely convenient, since the
 		// developer can always assume they have a message container instance
-		// available to them in the view.
+		// available to them in the view's variables.
 		if ( ! isset($this->data['errors']))
 		{
 			if (Session::started() and Session::has('errors'))

@@ -55,10 +55,8 @@ class Bundler extends Task {
 
 			$this->download($bundle, $path);
 
-			echo "Bundle [{$bundle['name']}] has been installed!".PHP_EOL;
+			echo "Bundle [{$bundle['name']}] installed!".PHP_EOL;
 		}
-
-		$this->refresh();
 	}
 
 	/**
@@ -83,7 +81,7 @@ class Bundler extends Task {
 			// First we want to retrieve the information for the bundle, such as
 			// where it is currently installed. This will allow us to upgrade
 			// the bundle into it's current installation path.
-			$bundle = Bundle::get($name);
+			$location = Bundle::location($name);
 
 			// If the bundle exists, we will grab the data about the bundle from
 			// the API so we can make the right bundle provider for the bundle,
@@ -98,89 +96,12 @@ class Bundler extends Task {
 			// Once we have the bundle information from the API, we'll simply
 			// recursively delete the bundle and then re-download it using
 			// the correct provider assigned to the bundle.
-			File::rmdir($bundle['location']);
+			File::rmdir($location);
 
-			$this->download($response['bundle'], $bundle['location']);
+			$this->download($response['bundle'], $location);
 
 			echo "Bundle [{$name}] has been upgraded!".PHP_EOL;
 		}
-
-		$this->refresh();
-	}
-
-	/**
-	 * Publish bundle assets to the public directory.
-	 *
-	 * @param  array  $bundles
-	 * @return void
-	 */
-	public function publish($bundles)
-	{
-		if (count($bundles) == 0) $bundles = Bundle::names();
-
-		array_walk($bundles, array(IoC::resolve('bundle.publisher'), 'publish'));
-	}
-
-	/**
-	 * Create a new bundle stub.
-	 *
-	 * @param  array  $arguments
-	 * @return void
-	 */
-	public function make($arguments)
-	{
-		if ( ! isset($arguments[0]))
-		{
-			throw new \Exception("We need to know the bundle name!");
-		}
-
-		// First we'll grab the name from the argument list and make sure a bundle
-		// with that name doesn't already exist. If it does, we'll bomb out and
-		// notify the developer of the problem. Bundle names must be unique
-		// since classes are prefixed with the name.
-		$options['name'] = $name = $arguments[0];
-
-		if (Bundle::exists($name))
-		{
-			throw new \Exception("That bundle already exists!");
-		}
-
-		// The developer may specify a location to which the bundle should be
-		// installed. If a location is not specified, the bundle name will
-		// be used as the default installation location.
-		$location = Request::server('cli.location') ?: $name;
-
-		$location = path('bundle').$location;
-
-		$options['handles'] = Request::server('cli.handles');
-
-		// We'll create the actual PHP that should be inserted into the info
-		// file for the bundle. This contains the bundle's name as well as
-		// any URIs it is setup to handle.
-		$info = '<?php return '.var_export($options, true).';';
-
-		mkdir($location, 0777, true);
-
-		// Finally we can write the file to disk and clear the bundle cache.
-		// We clear the cache so that the new bundle will be recognized
-		// immediately and the developer can start using it.
-		File::put($location.DS.'bundle'.EXT, $info);
-
-		echo "Bundle [{$name}] has been created!".PHP_EOL;
-
-		$this->refresh();
-	}
-
-	/**
-	 * Clear the bundle manifest cache.
-	 *
-	 * @return void
-	 */
-	public function refresh()
-	{
-		Cache::forget(Bundle::manifest);
-
-		echo 'Bundle cache cleared!'.PHP_EOL;
 	}
 
 	/**
@@ -197,7 +118,7 @@ class Bundler extends Task {
 		{
 			// First we'll call the bundle repository to gather the bundle data
 			// array, which contains all of the information needed to install
-			// the bundle into the application.
+			// the bundle into the Laravel application.
 			$response = $this->retrieve($bundle);
 
 			if ($response['status'] == 'not-found')
@@ -207,18 +128,33 @@ class Bundler extends Task {
 
 			// If the bundle was retrieved successfully, we will add it to
 			// our array of bundles, as well as merge all of the bundle's
-			// dependencies into the array of responses so that they are
-			// installed along with the consuming dependency.
+			// dependencies into the array of responses.
 			$bundle = $response['bundle'];
 
 			$responses[] = $bundle;
 
+			// We'll also get the bundle's declared dependenceis so they
+			// can be installed along with the bundle, making it easy
+			// to install a group of bundles.
 			$dependencies = $this->get($bundle['dependencies']);
 
 			$responses = array_merge($responses, $dependencies);
 		}
 
 		return $responses;
+	}
+
+	/**
+	 * Publish bundle assets to the public directory.
+	 *
+	 * @param  array  $bundles
+	 * @return void
+	 */
+	public function publish($bundles)
+	{
+		if (count($bundles) == 0) $bundles = Bundle::names();
+
+		array_walk($bundles, array(IoC::resolve('bundle.publisher'), 'publish'));
 	}
 
 	/**
