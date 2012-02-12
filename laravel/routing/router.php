@@ -397,12 +397,14 @@ class Router {
 	{
 		Bundle::start($bundle = Bundle::handles($uri));
 
+		$routes = (array) static::routes($method);
+
 		// Of course literal route matches are the quickest to find, so we will
-		// check for those first. If the destination key exists in teh routes
+		// check for those first. If the destination key exists in the routes
 		// array we can just return that route now.
-		if (array_key_exists($uri, static::$routes[$method]))
+		if (array_key_exists($uri, $routes))
 		{
-			$action = static::$routes[$method][$uri];
+			$action = $routes[$uri];
 
 			return new Route($method, $uri, $action);
 		}
