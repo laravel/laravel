@@ -134,6 +134,7 @@ return array(
 		'Lang'       => 'Laravel\\Lang',
 		'Memcached'  => 'Laravel\\Memcached',
 		'Paginator'  => 'Laravel\\Paginator',
+		'URI'        => 'Laravel\\URI',
 		'URL'        => 'Laravel\\URL',
 		'Redirect'   => 'Laravel\\Redirect',
 		'Redis'      => 'Laravel\\Redis',
