@@ -213,7 +213,7 @@ class View implements ArrayAccess {
 		//
 		// Also, if the Blade view has expired or doesn't exist it will be
 		// re-compiled and placed in the view storage directory. The Blade
-		// views are re-compiled each time the original view is changed.
+		// views are re-compiled the original view changes.
 		if (strpos($this->path, BLADE_EXT) !== false)
 		{
 			$this->path = $this->compile();

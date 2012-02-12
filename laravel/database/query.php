@@ -399,7 +399,7 @@ class Query {
 
 		// To handle a nested where statement, we will actually instantiate a
 		// new Query instance and run the callback over that instance, which
-		// will allow the developer to have a fresh query to work with.
+		// will allow the developer to have a fresh query.
 		$query = new Query($this->connection, $this->grammar, $this->from);
 
 		// Once the callback has been run on the query, we will store the
@@ -623,8 +623,7 @@ class Query {
 
 		// If the query has an offset and we are using the SQL Server grammar,
 		// we need to spin through the results and remove the "rownum" from
-		// each of the objects. Unfortunately SQL Server does not have an
-		// offset keyword, so we have to use row numbers in the query.
+		// each of the objects since there is no "offset".
 		if ($this->offset > 0 and $this->grammar instanceof SQLServer)
 		{
 			array_walk($results, function($result)

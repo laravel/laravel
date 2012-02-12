@@ -53,18 +53,18 @@ class SQLite extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the front
-		// of each definition, then we'll concatenate the definitions using commas
-		// like normal and generate the SQL.
+		// Once we the array of column definitions, we need to add "add" to the
+		// front of each definition, then we'll concatenate the definitions
+		// using commas like normal and generate the SQL.
 		$columns = array_map(function($column)
 		{
 			return 'ADD COLUMN '.$column;
 
 		}, $columns);
 
-		// SQLite only allows one column to be added in an ALTER statement, so we
-		// will create an array of statements and return them all to the schema
-		// manager, which will execute each one separately.
+		// SQLite only allows one column to be added in an ALTER statement,
+		// so we will create an array of statements and return them all to
+		// the schema manager for separate execution.
 		foreach ($columns as $column)
 		{
 			$sql[] = 'ALTER TABLE '.$this->wrap($table).' '.$column;
