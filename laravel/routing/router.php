@@ -101,6 +101,26 @@ class Router {
 	}
 
 	/**
+	 * Register many request URIs to a single action.
+	 *
+	 * <code>
+	 *		// Register a group of URIs for an action
+	 *		Router::share(array('GET', '/'), array('POST', '/'), 'home@index');
+	 * </code>
+	 *
+	 * @param  array  $routes
+	 * @param  mixed  $action
+	 * @return void
+	 */
+	public static function share($routes, $action)
+	{
+		foreach ($routes as $route)
+		{
+			static::register($route[0], $route[1], $action);
+		}
+	}
+
+	/**
 	 * Register a group of routes that share attributes.
 	 *
 	 * @param  array    $attributes
