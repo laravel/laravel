@@ -35,9 +35,17 @@ class Redirect extends Response {
 		return static::to($url, $status, true);
 	}
 
-	public static function to_action($action, $parameters = array())
+	/**
+	 * Create a redirect response to a controller action.
+	 *
+	 * @param  string    $action
+	 * @param  array     $parameters
+	 * @param  int       $status
+	 * @return Redirect
+	 */
+	public static function to_action($action, $parameters = array(), $status = 302)
 	{
-		
+		return static::to(URL::to_action($action, $parameters), $status);
 	}
 
 	/**
