@@ -90,14 +90,14 @@ function array_set(&$array, $key, $value)
 	// This loop allows us to dig down into the array to a dynamic depth by
 	// setting the array value for each level that we dig into. Once there
 	// is one key left, we can fall out of the loop and set the value as
-	// we should be at the proper depth within the array.
+	// we should be at the proper depth.
 	while (count($keys) > 1)
 	{
 		$key = array_shift($keys);
 
 		// If the key doesn't exist at this depth, we will just create an
 		// empty array to hold the next value, allowing us to create the
-		// arrays to hold the final value at the proper depth.
+		// arrays to hold the final value.
 		if ( ! isset($array[$key]) or ! is_array($array[$key]))
 		{
 			$array[$key] = array();
@@ -131,7 +131,7 @@ function array_forget(&$array, $key)
 	// This loop functions very similarly to the loop in the "set" method.
 	// We will iterate over the keys, setting the array value to the new
 	// depth at each iteration. Once there is only one key left, we will
-	// be at the proper depth in the array to "forget" the value.
+	// be at the proper depth in the array.
 	while (count($keys) > 1)
 	{
 		$key = array_shift($keys);
@@ -139,7 +139,7 @@ function array_forget(&$array, $key)
 		// Since this method is supposed to remove a value from the array,
 		// if a value higher up in the chain doesn't exist, there is no
 		// need to keep digging into the array, since it is impossible
-		// for the final value to even exist in the array.
+		// for the final value to even exist.
 		if ( ! isset($array[$key]) or ! is_array($array[$key]))
 		{
 			return;
@@ -337,6 +337,18 @@ function route($name, $parameters = array(), $https = false)
 function starts_with($haystack, $needle)
 {
 	return strpos($haystack, $needle) === 0;
+}
+
+/**
+ * Determine if a given string ends with a given value.
+ *
+ * @param  string  $haystack
+ * @param  string  $needle
+ * @return bool
+ */
+function ends_with($haystack, $needle)
+{
+	return $needle == substr($haystack, strlen($haystack) - strlen($needle));
 }
 
 /**

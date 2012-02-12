@@ -1,1 +1,2 @@
-laravel.bundle.manifest
+*
+!.gitignore

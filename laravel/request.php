@@ -1,13 +1,11 @@
-<?php namespace Laravel;
-
-use Closure;
+<?php namespace Laravel; use Closure;
 
 class Request {
 
 	/**
-	 * The route handling the current request.
+	 * All of the route instances handling the request.
 	 *
-	 * @var Routing\Route
+	 * @var array
 	 */
 	public static $route;
 
@@ -139,7 +137,7 @@ class Request {
 	}
 
 	/**
-	 * Get the route handling the current request.
+	 * Get the main route handling the request.
 	 *
 	 * @return Route
 	 */

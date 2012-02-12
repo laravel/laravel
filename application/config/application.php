@@ -99,35 +99,6 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Bundle Options
-	|--------------------------------------------------------------------------
-	|
-	| Here you may specify options related to application bundles, such as the
-	| amount of time the bundle manifest is cached. Each option is detailed
-	| below with suggestions for sensible values.
-	|
-	| Cache:
-	|
-	| All bundles have a "bundle.info" file which contains information such
-	| as the name of a bundle and the URIs it responds to. This value is
-	| the number of minutes that bundle info is cached.
-	|
-	| Auto:
-	|
-	| You may wish to auto-start some bundles instead of lazy-loading them.
-	| This is useful for debug bundles as well as bundles that are used
-	| throughout your application. You may specify which bundles should
-	| be auto-loaded in this array.
-	|
-	*/
-
-	'bundle' => array(
-		'cache' => 0,
-		'auto'  => array(),
-	),
-
-	/*
-	|--------------------------------------------------------------------------
 	| Class Aliases
 	|--------------------------------------------------------------------------
 	|
@@ -168,6 +139,7 @@ return array(
 		'Redis'      => 'Laravel\\Redis',
 		'Request'    => 'Laravel\\Request',
 		'Response'   => 'Laravel\\Response',
+		'Route'      => 'Laravel\\Routing\\Route',
 		'Router'     => 'Laravel\\Routing\\Router',
 		'Schema'     => 'Laravel\\Database\\Schema',
 		'Section'    => 'Laravel\\Section',

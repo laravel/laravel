@@ -16,26 +16,22 @@ class SQLite extends Grammar {
 	{
 		$columns = implode(', ', $this->columns($table));
 
-		// First we will generate the base table creation statement. Other than
-		// auto-incrementing keys, no indexes will be created during the first
-		// creation of the table. They will be added in separate commands.
+		// First we will generate the base table creation statement. Other than incrementing
+		// keys, no indexes will be created during the first creation of the table since
+		// they will be added in separate commands.
 		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns;
 
-		// SQLite does not allow adding a primary key as a command apart from
-		// when the table is initially created, so we'll need to sniff out
-		// any primary keys here and add them to the table.
-		//
-		// Because of this, this class does not have the typical "primary"
-		// method as it would be pointless since the primary keys can't
-		// be set on anything but the table creation statement.
+		// SQLite does not allow adding a primary key as a command apart from the creation
+		// of the table, so we'll need to sniff out any primary keys here and add them to
+		// the table now during this command.
 		$primary = array_first($table->commands, function($key, $value)
 		{
 			return $value->type == 'primary';
 		});
 
-		// If we found primary key in the array of commands, we'll create
-		// the SQL for the key addition and append it to the SQL table
-		// creation statement for the schema table.
+		// If we found primary key in the array of commands, we'll create the SQL for
+		// the key addition and append it to the SQL table creation statement for
+		// the schema table so the index is properly generated.
 		if ( ! is_null($primary))
 		{
 			$columns = $this->columnize($primary->columns);
@@ -57,18 +53,18 @@ class SQLite extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we have an array of all of the column definitions, we need to
-		// spin through each one and prepend "ADD COLUMN" to each of them,
-		// which is the syntax used by SQLite when adding columns.
+		// Once we the array of column definitions, we need to add "add" to the front
+		// of each definition, then we'll concatenate the definitions using commas
+		// like normal and generate the SQL.
 		$columns = array_map(function($column)
 		{
 			return 'ADD COLUMN '.$column;
 
 		}, $columns);
 
-		// SQLite only allows one column to be added in an ALTER statement,
-		// so we will create an array of statements and return them all to
-		// the schema manager, which will execute each one.
+		// SQLite only allows one column to be added in an ALTER statement, so we
+		// will create an array of statements and return them all to the schema
+		// manager, which will execute each one separately.
 		foreach ($columns as $column)
 		{
 			$sql[] = 'ALTER TABLE '.$this->wrap($table).' '.$column;
