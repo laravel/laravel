@@ -333,6 +333,18 @@ class Route {
 	}
 
 	/**
+	 * Register many request URIs to a single action.
+	 *
+	 * @param  array  $routes
+	 * @param  mixed  $action
+	 * @return void
+	 */
+	public static function share($routes, $action)
+	{
+		Router::share($routes, $action);
+	}
+
+	/**
 	 * Register a HTTPS route with the router.
 	 *
 	 * @param  string        $method

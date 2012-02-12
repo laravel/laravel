@@ -23,14 +23,14 @@ class MySQL extends Grammar {
 	{
 		$columns = implode(', ', $this->columns($table));
 
-		// First we will generate the base table creation statement. Other than incrementing
-		// keys, no indexes will be created during the first creation of the table since
-		// they will be added in separate commands.
+		// First we will generate the base table creation statement. Other than auto
+		// incrementing keys, no indexes will be created during the first creation
+		// of the table as they're added in separate commands.
 		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
 
-		// MySQL supports various "engines" for database tables. If an engine ws specified
-		// by the developer, we will set it after adding the columns the table creation
-		// statement. Some engines support extra indexes.
+		// MySQL supports various "engines" for database tables. If an engine was
+		// specified by the developer, we will set it after adding the columns
+		// the table creation statement the schema.
 		if ( ! is_null($table->engine))
 		{
 			$sql .= ' ENGINE = '.$table->engine;
@@ -50,9 +50,9 @@ class MySQL extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the front
-		// of each definition, then we'll concatenate the definitions using commas
-		// like normal and generate the SQL.
+		// Once we the array of column definitions, we need to add "add" to the
+		// front of each definition, then we'll concatenate the definitions
+		// using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
 			return 'ADD '.$column;

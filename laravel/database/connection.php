@@ -222,8 +222,7 @@ class Connection {
 
 		// Once we have execute the query, we log the SQL, bindings, and
 		// execution time in a static array that is accessed by all of
-		// the connections used by the application. This allows us to
-		// review all of the executed SQL.
+		// the connections used by the application.
 		$this->log($sql, $bindings, $time);
 
 		return array($statement, $result);
