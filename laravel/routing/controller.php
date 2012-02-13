@@ -113,6 +113,8 @@ abstract class Controller {
 	 */
 	public static function resolve($bundle, $controller)
 	{
+		if ( ! static::load($bundle, $controller)) return;
+
 		$identifier = Bundle::identifier($bundle, $controller);
 
 		// If the controller is registered in the IoC container, we will resolve
@@ -128,8 +130,6 @@ abstract class Controller {
 		// If we couldn't resolve the controller out of the IoC container we'll
 		// format the controller name into its proper class name and load it
 		// by convention out of the bundle's controller directory.
-		if ( ! static::load($bundle, $controller)) return;
-
 		$controller = static::format($bundle, $controller);
 
 		$controller = new $controller;
