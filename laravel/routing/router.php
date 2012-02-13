@@ -371,7 +371,7 @@ class Router {
 		{
 			foreach ($routes as $key => $value)
 			{
-				if (isset($value['name']) and $value['name'] === $name)
+				if (isset($value['as']) and $value['as'] === $name)
 				{
 					return static::$names[$name] = array($key => $value);
 				}

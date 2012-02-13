@@ -213,7 +213,7 @@ class Route {
 	 */
 	public function is($name)
 	{
-		return array_get($this->action, 'name') === $name;
+		return array_get($this->action, 'as') === $name;
 	}
 
 	/**
