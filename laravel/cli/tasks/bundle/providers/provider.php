@@ -38,8 +38,7 @@ abstract class Provider {
 
 		// Once we have the Zip archive, we can open it and extract it
 		// into the working directory. By convention, we expect the
-		// archive to contain one root directory, and all of the
-		// bundle contents should be stored in that directory.
+		// archive to contain one root directory with the bundle.
 		$zip->extractTo($work);
 
 		$latest = File::latest($work)->getRealPath();

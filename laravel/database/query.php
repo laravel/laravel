@@ -3,7 +3,6 @@
 use Closure;
 use Laravel\Database;
 use Laravel\Paginator;
-use Laravel\Database\Query\Grammars\Grammar;
 use Laravel\Database\Query\Grammars\SQLServer;
 
 class Query {
@@ -107,7 +106,7 @@ class Query {
 	 * @param  string      $table
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Grammar $grammar, $table)
+	public function __construct(Connection $connection, Query\Grammars\Grammar $grammar, $table)
 	{
 		$this->from = $table;
 		$this->grammar = $grammar;

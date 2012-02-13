@@ -30,8 +30,7 @@ class Manager extends Task {
 
 		// To create the session table, we will actually create a database
 		// migration and then run it. This allows the application to stay
-		// portable through migrations while still having a session table
-		// generated on the database.
+		// portable through the framework's migrations system.
 		$migration = $migrator->make(array('create_session_table'));
 
 		$stub = path('sys').'cli/tasks/session/migration'.EXT;
@@ -40,8 +39,7 @@ class Manager extends Task {
 
 		// By default no session driver is specified in the configuration.
 		// Since the developer is requesting that the session table be
-		// created on the database, we'll set the driver to database
-		// to save an extra step for the developer.
+		// created on the database, we'll set the driver.
 		$config = File::get(path('app').'config/session'.EXT);
 
 		$config = str_replace(
