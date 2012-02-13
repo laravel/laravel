@@ -26,7 +26,7 @@ class Crypter {
 	 */
 	public static function encrypt($value)
 	{
-		$iv = mcrypt_create_iv(static::iv_size(), MCRYPT_RAND);
+		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
 
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
@@ -56,6 +56,35 @@ class Crypter {
 		$key = static::key();
 
 		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
+	}
+
+	/**
+	 * Get the most secure random number generator for the system.
+	 *
+	 * @return int
+	 */
+	protected static function randomizer()
+	{
+		// There are various sources from which we can get random numbers
+		// but some are more random than others. We'll choose the most
+		// random source we can for this server environment.
+		if (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return MCRYPT_DEV_URANDOM;
+		}
+		elseif (defined('MCRYPT_DEV_RANDOM'))
+		{
+			return MCRYPT_DEV_RANDOM;
+		}
+		// When using the default random number generator, we'll seed
+		// the generator on each call to ensure the results are as
+		// random as we can possibly get them.
+		else
+		{
+			mt_srand();
+
+			return MCRYPT_RAND;
+		}
 	}
 
 	/**
