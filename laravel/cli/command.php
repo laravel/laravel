@@ -42,7 +42,14 @@ class Command {
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
-		$task->$method(array_slice($arguments, 1));
+		if(method_exists($task, $method))
+		{
+			$task->$method(array_slice($arguments, 1));
+		}
+		else
+		{
+			throw new \Exception("Sorry, I can't find that method!");
+		}
 	}
 
 	/**
