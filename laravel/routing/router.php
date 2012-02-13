@@ -423,7 +423,7 @@ class Router {
 	{
 		Bundle::start($bundle = Bundle::handles($uri));
 
-		$routes = (array) static::routes($method);
+		$routes = (array) static::method($method);
 
 		// Of course literal route matches are the quickest to find, so we will
 		// check for those first. If the destination key exists in the routes
@@ -453,7 +453,7 @@ class Router {
 	 */
 	protected static function match($method, $uri)
 	{
-		foreach (static::routes($method) as $route => $action)
+		foreach (static::method($method) as $route => $action)
 		{
 			// We only need to check routes with regular expression since all other
 			// would have been able to be matched by the search for literal matches
@@ -499,10 +499,37 @@ class Router {
 	/**
 	 * Get all of the registered routes, with fallbacks at the end.
 	 *
+	 * @return array
+	 */
+	public static function routes()
+	{
+		$routes = static::$routes;
+
+		foreach (static::$methods as $method)
+		{
+			// It's possible that the routes array may not contain any routes for the
+			// method, so we'll seed each request method with an empty array if it
+			// doesn't already contain any routes.
+			if ( ! isset($routes[$method])) $routes[$method] = array();
+
+			$fallback = array_get(static::$fallback, $method, array());
+
+			// When building the array of routes, we'll merge in all of the fallback
+			// routes for each request methdo individually. This allows us to avoid
+			// collisions when merging the arrays together.
+			$routes[$method] = array_merge($routes[$method], $fallback);
+		}
+
+		return $routes;
+	}
+
+	/**
+	 * Grab all of the routes for a given request method.
+	 *
 	 * @param  string  $method
 	 * @return array
 	 */
-	public static function routes($method = null)
+	public static function method($method)
 	{
 		$routes = array_get(static::$routes, $method, array());
 
