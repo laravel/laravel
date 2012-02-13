@@ -107,6 +107,8 @@ class Bundle {
 	 */
 	public static function routes($bundle)
 	{
+		if (static::routed($bundle)) return;
+
 		$path = static::path($bundle).'routes'.EXT;
 
 		// By setting the bundle property on the router the router knows what
@@ -116,10 +118,10 @@ class Bundle {
 
 		if ( ! static::routed($bundle) and file_exists($path))
 		{
+			static::$routed[] = $bundle;
+
 			require $path;
 		}
-
-		static::$routed[] = $bundle;
 	}
 
 	/**

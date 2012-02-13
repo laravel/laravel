@@ -367,11 +367,14 @@ class Router {
 		// To find a named route, we will iterate through every route defined
 		// for the application. We will cache the routes by name so we can
 		// load them very quickly the next time.
-		foreach (static::all() as $key => $value)
+		foreach (static::routes() as $method => $routes)
 		{
-			if (array_get($value, 'name') === $name)
+			foreach ($routes as $key => $value)
 			{
-				return static::$names[$name] = array($key => $value);
+				if (isset($value['name']) and $value['name'] === $name)
+				{
+					return static::$names[$name] = array($key => $value);
+				}
 			}
 		}
 	}
@@ -397,11 +400,14 @@ class Router {
 		// To find the route, we'll simply spin through the routes looking
 		// for a route with a "uses" key matching the action, and if we
 		// find one we cache and return it.
-		foreach (static::all() as $uri => $route)
+		foreach (static::routes() as $method => $routes)
 		{
-			if (array_get($route, 'uses') == $action)
+			foreach ($routes as $key => $value)
 			{
-				return static::$uses[$action] = array($uri => $route);
+				if (isset($value['uses']) and $value['uses'] === $action)
+				{
+					return static::$uses[$action] = array($key => $value);
+				}
 			}
 		}
 	}
@@ -488,26 +494,6 @@ class Router {
 		}
 
 		return strtr($key, static::$patterns);
-	}
-
-	/**
-	 * Get all of the routes across all request methods.
-	 *
-	 * @return array
-	 */
-	public static function all()
-	{
-		$all = array();
-
-		// To get all the routes, we'll just loop through each request
-		// method supported by the router and merge in each of the
-		// arrays into the main array of routes.
-		foreach (static::$methods as $method)
-		{
-			$all = array_merge($all, static::routes($method));
-		}
-
-		return $all;
 	}
 
 	/**

@@ -244,7 +244,9 @@ class URL {
 		// should be generated with an HTTPS protocol string or just HTTP.
 		$https = array_get(current($route), 'https', false);
 
-		return static::to(static::transpose(key($route), $parameters), $https);
+		$uri = trim(static::transpose(key($route), $parameters), '/');
+
+		return static::to($uri, $https);
 	}
 
 	/**
