@@ -212,8 +212,7 @@ class Connection {
 
 		// Every query is timed so that we can log the executinon time along
 		// with the query SQL and array of bindings. This should be make it
-		// convenient for the developer to profile the application's query
-		// performance to diagnose bottlenecks.
+		// convenient for the developer to profile performance.
 		$time = microtime(true);
 
 		$result = $statement->execute($bindings);
