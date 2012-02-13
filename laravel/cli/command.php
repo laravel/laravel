@@ -42,7 +42,7 @@ class Command {
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
-		if(method_exists($task, $method) or method_exists($task, '__call'))
+		if(is_callable(array($task, $method)))
 		{
 			$task->$method(array_slice($arguments, 1));
 		}
