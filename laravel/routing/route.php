@@ -78,36 +78,16 @@ class Route {
 	 */
 	protected function parameters($uri, $action, $parameters)
 	{
-		$wildcards = 0;
-
 		$defaults = (array) array_get($action, 'defaults');
-
-		// We need to determine how many of the default paramters should be merged
-		// into the parameter array. First, we will count the number of wildcards
-		// in the route URI and then merge the defaults.
-		foreach (array_keys(Router::patterns()) as $wildcard)
-		{
-			$wildcards += substr_count($uri, $wildcard);
-		}
-
-		$needed = $wildcards - count($parameters);
 
 		// If there are less parameters than wildcards, we will figure out how
 		// many parameters we need to inject from the array of defaults and
 		// merge them in into the main array for the route.
-		if ($needed > 0)
+		if (count($defaults) > count($parameters))
 		{
-			$defaults = array_slice($defaults, count($defaults) - $needed);
+			$defaults = array_slice($defaults, count($parameters));
 
 			$parameters = array_merge($parameters, $defaults);
-		}
-
-		// If the final number of parameters doesn't match the count of the
-		// wildcards, we'll pad parameter array with null to cover any of
-		// the default values that were forgotten.
-		if (count($parameters) !== $wildcards)
-		{
-			$parameters = array_pad($parameters, $wildcards, null);
 		}
 
 		$this->parameters = $parameters;
