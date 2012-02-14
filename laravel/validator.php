@@ -122,6 +122,26 @@ class Validator {
 	 *
 	 * @return bool
 	 */
+	public function passes()
+	{
+		return $this->valid();
+	}
+
+	/**
+	 * Validate the target array using the specified validation rules.
+	 *
+	 * @return bool
+	 */
+	public function fails()
+	{
+		return $this->invalid();
+	}
+
+	/**
+	 * Validate the target array using the specified validation rules.
+	 *
+	 * @return bool
+	 */
 	public function invalid()
 	{
 		return ! $this->valid();
