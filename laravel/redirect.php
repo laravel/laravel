@@ -1,6 +1,28 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Laravel\Routing\Router;
 
 class Redirect extends Response {
+
+	/**
+	 * Create a redirect response to application root.
+	 *
+	 * @param  int       $status
+	 * @param  bool      $secure
+	 * @return Redirect
+	 */
+	public static function home($status = 302, $https = false)
+	{
+		$route = Router::find('home');
+
+		// If a route named "home" exists, we'll route to that instead of using
+		// the single slash root URI. THis allows the HTTPS attribute to be
+		// respected instead of being hard-coded in the redirect.
+		if ( ! is_null($route))
+		{
+			return static::to_route('home', $status);
+		}
+
+		return static::to('/', $status, $https);
+	}
 
 	/**
 	 * Create a redirect response.
