@@ -63,8 +63,7 @@ abstract class Grammar {
 
 		// If the value being wrapped contains a column alias, we need to
 		// wrap it a little differently as each segment must be wrapped
-		// and not the entire string. We'll split the value on the "as"
-		// joiner to extract the column and the alias.
+		// and not the entire string.
 		if (strpos(strtolower($value), ' as ') !== false)
 		{
 			$segments = explode(' ', $value);

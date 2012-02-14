@@ -16,7 +16,44 @@ class Schema {
 	{
 		call_user_func($callback, $table = new Schema\Table($table));
 
-		static::implications($table);
+		return static::execute($table);
+	}
+
+	/**
+	 * Create a new database table schema.
+	 *
+	 * @param  string   $table
+	 * @param  Closure  $callback
+	 * @return void
+	 */
+	public static function create($table, $callback)
+	{
+		$table = new Schema\Table($table);
+
+		// To indicate that the table is new and needs to be created, we'll run
+		// the "create" command on the table instance. This tells schema it is
+		// not simply a column modification operation.
+		$table->create();
+
+		call_user_func($callback, $table);
+
+		return static::execute($table);
+	}
+
+	/**
+	 * Drop a database table from the schema.
+	 *
+	 * @param  string  $table
+	 * @return void
+	 */
+	public static function drop($table)
+	{
+		$table = new Schema\Table($table);
+
+		// To indicate that the table needs to be dropped, we will run the
+		// "drop" command on the table instance and pass the instance to
+		// the execute method as calling a Closure isn't needed.
+		$table->drop();
 
 		return static::execute($table);
 	}
@@ -29,22 +66,27 @@ class Schema {
 	 */
 	public static function execute($table)
 	{
+		// The implications method is responsible for finding any fluently
+		// defined indexes on the schema table and adding the explicit
+		// commands that are needed to tbe schema instance.
+		static::implications($table);
+
 		foreach ($table->commands as $command)
 		{
 			$connection = DB::connection($table->connection);
 
 			$grammar = static::grammar($connection);
 
-			// Each grammar has a function that corresponds to the command type and is for
-			// building that command's SQL. This lets the SQL generation stay granular
-			// and flexible across various database systems.
+			// Each grammar has a function that corresponds to the command type and
+			// is for building that command's SQL. This lets the SQL syntax builds
+			// stay granular across various database systems.
 			if (method_exists($grammar, $method = $command->type))
 			{
 				$statements = $grammar->$method($table, $command);
 
-				// Once we have the statements, we will cast them to an array even though
-				// not all of the commands return an array just in case the command
-				// needs multiple queries to complete its database work.
+				// Once we have the statements, we will cast them to an array even
+				// though not all of the commands return an array just in case it
+				// needs multiple queries to complete.
 				foreach ((array) $statements as $statement)
 				{
 					$connection->statement($statement);

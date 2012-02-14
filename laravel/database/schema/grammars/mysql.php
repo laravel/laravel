@@ -28,9 +28,6 @@ class MySQL extends Grammar {
 		// of the table as they're added in separate commands.
 		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
 
-		// MySQL supports various "engines" for database tables. If an engine was
-		// specified by the developer, we will set it after adding the columns
-		// the table creation statement the schema.
 		if ( ! is_null($table->engine))
 		{
 			$sql .= ' ENGINE = '.$table->engine;
