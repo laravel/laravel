@@ -459,7 +459,10 @@ class Validator {
 		// We allow the table column to be specified just in case the column does
 		// not have the same name as the attribute. It must be within the second
 		// parameter position, right after the database table name.
-		if (isset($parameters[1])) $attribute = $parameters[1];
+		if (isset($parameters[1]))
+		{
+			$attribute = $parameters[1];
+		}
 
 		$query = $this->db()->table($parameters[0])->where($attribute, '=', $value);
 
