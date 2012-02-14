@@ -91,22 +91,22 @@ Event::listen('500', function()
 |
 */
 
-Filter::register('before', function()
+Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
 });
 
-Filter::register('after', function()
+Route::filter('after', function()
 {
 	// Do stuff after every request to your application...
 });
 
-Filter::register('csrf', function()
+Route::filter('csrf', function()
 {
 	if (Request::forged()) return Response::error('500');
 });
 
-Filter::register('auth', function()
+Route::filter('auth', function()
 {
 	if (Auth::guest()) return Redirect::to('login');
 });

@@ -337,4 +337,16 @@ class Route {
 		Router::secure($method, $route, $action);
 	}
 
+	/**
+	 * Register a route filter.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $callback
+	 * @return void
+	 */
+	public static function filter($name, Closure $callback)
+	{
+		Filter::register($name, $callback);
+	}
+
 }
