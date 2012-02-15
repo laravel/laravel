@@ -65,18 +65,6 @@ if (isset($_SERVER['CLI']['ENV']))
 }
 
 /**
- * Call the bootstrap Closure that was defined in the start.php
- * file for the framework. This allows events and more to be
- * registered extremely early in the life cycle.
- */
-if (isset($bootstrap))
-{
-	call_user_func($bootstrap);
-
-	unset($bootstrap);
-}
-
-/**
  * Register all of the core class aliases. These aliases provide a
  * convenient way of working with the Laravel core classes without
  * having to worry about the namespacing. The developer is also

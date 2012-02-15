@@ -59,14 +59,6 @@ else
 }
 
 // --------------------------------------------------------------
-// Define a bootstrap Closure that runs on core load.
-// --------------------------------------------------------------
-$bootstrap = function()
-{
-	Laravel\Config::set('key.auto', true);	
-};
-
-// --------------------------------------------------------------
 // Define each constant if it hasn't been defined.
 // --------------------------------------------------------------
 foreach ($paths as $name => $path)
