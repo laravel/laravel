@@ -11,17 +11,7 @@ class Redirect extends Response {
 	 */
 	public static function home($status = 302, $https = false)
 	{
-		$route = Router::find('home');
-
-		// If a route named "home" exists, we'll route to that instead of using
-		// the single slash root URI. THis allows the HTTPS attribute to be
-		// respected instead of being hard-coded in the redirect.
-		if ( ! is_null($route))
-		{
-			return static::to_route('home', $status);
-		}
-
-		return static::to('/', $status, $https);
+		return static::to(URL::home($https), $status);
 	}
 
 	/**

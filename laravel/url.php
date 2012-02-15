@@ -30,6 +30,27 @@ class URL {
 	}
 
 	/**
+	 * Get the URL for the application root.
+	 *
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function home($https = false)
+	{
+		$route = Router::find('home');
+
+		// If a route named "home" exists, we'll route to that instead of using
+		// the single slash root URI. THis allows the HTTPS attribute to be
+		// respected instead of being hard-coded in the redirect.
+		if ( ! is_null($route))
+		{
+			return static::to_route('home');
+		}
+
+		return static::to('/', $https);
+	}
+
+	/**
 	 * Get the base URL of the application.
 	 *
 	 * @return string
