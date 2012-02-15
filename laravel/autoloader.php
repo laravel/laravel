@@ -173,7 +173,7 @@ class Autoloader {
 	 * @param  string|array  $directory
 	 * @return void
 	 */
-	public static function psr($directory)
+	public static function directories($directory)
 	{
 		$directories = static::format($directory);
 
