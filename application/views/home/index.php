@@ -89,56 +89,41 @@
 	</head>
 	<body>
 		<div id="main">
-			<?php if (Config::get('application.key') == ''): ?>
+			<h1>Welcome To Laravel</h1>
 
-				<h1>Whoops!</h1>
+			<h2>A Framework For Web Artisans</h2>
 
-				<br>
+			<p>
+				You have successfully installed the Laravel framework. Laravel is a simple framework
+				that helps web artisans create beautiful, creative applications using elegant, expressive
+				syntax. You'll love using it.
+			</p>
 
-				<div class="warning">
-					Please set an application key in <strong>application/config/application.php</strong>!
-				</div>
+			<h3>Learn the terrain.</h3>
 
-			<?php else: ?>
+			<p>
+				You've landed yourself on our default home page. The route that
+				is generating this page lives at:
+			</p>
 
-				<h1>Welcome To Laravel</h1>
+			<pre><code>APP_PATH/routes.php</code></pre>
 
-				<h2>A Framework For Web Artisans</h2>
+			<p>And the view sitting before you can be found at:</p>
 
-				<p>
-					You have successfully installed the Laravel framework. Laravel is a simple framework
-					that helps web artisans create beautiful, creative applications using elegant, expressive
-					syntax. You'll love using it.
-				</p>
+			<pre><code>APP_PATH/views/home/index.php</code></pre>
 
-				<h3>Learn the terrain.</h3>
+			<h3>Create something beautiful.</h3>
 
-				<p>
-					You've landed yourself on our default home page. The route that
-					is generating this page lives at:
-				</p>
+			<p>
+				Now that you're up and running, it's time to start creating!
+				Here are some links to help you get started:
+			</p>
 
-				<pre><code>APP_PATH/routes.php</code></pre>
-
-				<p>And the view sitting before you can be found at:</p>
-
-				<pre><code>APP_PATH/views/home/index.php</code></pre>
-
-				<h3>Create something beautiful.</h3>
-
-				<p>
-					Now that you're up and running, it's time to start creating!
-					Here are some links to help you get started:
-				</p>
-
-				<ul>
-					<li><a href="http://laravel.com">Official Website</a></li>
-					<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
-					<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
-				</ul>
-
-			<?php endif; ?>
-
+			<ul>
+				<li><a href="http://laravel.com">Official Website</a></li>
+				<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
+				<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
+			</ul>
 		</div>
 	</body>
 </html>
