@@ -239,7 +239,7 @@ class Connection {
 	{
 		Event::fire('laravel: query', array($sql, $bindings, $time));
 
-		static::$queries = compact('sql', 'bindings', 'time');
+		static::$queries[] = compact('sql', 'bindings', 'time');
 	}
 
 	/**
