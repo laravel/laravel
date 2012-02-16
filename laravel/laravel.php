@@ -210,4 +210,4 @@ Cookie::send();
  */
 $response->send();
 
-Event::fire('done');
+Event::fire('laravel.done');

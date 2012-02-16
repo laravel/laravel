@@ -240,7 +240,7 @@ class Connection {
 	 */
 	protected function log($sql, $bindings, $time)
 	{
-		Event::fire('query', array($sql, $bindings, $time));
+		Event::fire('laravel.query', array($sql, $bindings, $time));
 
 		static::$queries[] = compact('sql', 'bindings', 'time');
 	}
