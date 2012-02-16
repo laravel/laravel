@@ -81,9 +81,9 @@ class Bundle {
 			throw new \Exception("Bundle [$bundle] has not been installed.");
 		}
 
-		// Each bundle may have a "start" script which is responsible for preparing
-		// the bundle for use by the application. The start script may register any
-		// classes the bundle uses with the auto-loader, etc.
+		// Each bundle may have a start script which is responsible for preparing
+		// the bundle for use by the application. The start script may register
+		// any classes the bundle uses with the auto-loader, etc.
 		if (file_exists($path = static::path($bundle).'start'.EXT))
 		{
 			require $path;

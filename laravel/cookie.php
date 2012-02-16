@@ -31,27 +31,38 @@ class Cookie {
 	{
 		if (headers_sent()) return false;
 
-		// All cookies are stored in the "jar" when set and not sent directly to
-		// the browser. This simply makes testing all of the cookie stuff very
-		// easy since the jar can be inspected by the tests.
+		// All cookies are stored in the "jar" when set and not sent directly to the
+		// browser. This simply makes testing all of the cookie stuff very easy
+		// since the jar can be inspected by the tests.
 		foreach (static::$jar as $cookie)
 		{
-			extract($cookie);
-
-			$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
-
-			// A cookie payload can't exceed 4096 bytes, so if the payload is greater
-			// than that, we'll raise an error to warn the developer since it could
-			// cause serious session problems.
-			$value = static::sign($name, $value);
-
-			if (strlen($value) > 4000)
-			{
-				throw new \Exception("Payload too large for cookie.");
-			}
-
-			setcookie($name, $value, $time, $path, $domain, $secure);
+			static::set($cookie);
 		}
+	}
+
+	/**
+	 * Send a cookie from the cookie jar back to the browser.
+	 *
+	 * @param  array  $cookie
+	 * @return void
+	 */
+	protected static function set($cookie)
+	{
+		extract($cookie);
+
+		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
+
+		// A cookie payload can't exceed 4096 bytes, so if the payload is greater
+		// than that, we'll raise an error to warn the developer since it could
+		// cause serious cookie-based session problems.
+		$value = static::sign($name, $value);
+
+		if (strlen($value) > 4000)
+		{
+			throw new \Exception("Payload too large for cookie.");
+		}
+
+		setcookie($name, $value, $time, $path, $domain, $secure);
 	}
 
 	/**
