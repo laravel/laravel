@@ -131,7 +131,20 @@ class Crypter {
 	{
 		$pad = ord($value[($length = Str::length($value)) - 1]);
 
-		return substr($value, 0, $length - $pad);
+		if ($pad and $pad < static::$block)
+		{
+			// If the correct padding is present on the string, we will remove
+			// it and return the value. Otherwise, we'll throw an exception
+			// as the padding appears to have been changed.
+			if (preg_match('/'.chr($pad).'{'.$pad.'}$/', $value))
+			{
+				return substr($value, 0, $length - $pad);
+			}
+
+			throw new \Exception("Decryption error. Padding is invalid.");
+		}
+
+		return $value;
 	}
 
 	/**
