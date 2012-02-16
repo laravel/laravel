@@ -242,6 +242,8 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
+		if (is_null($bundle)) return static::path(DEFAULT_BUNDLE);
+
 		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::location($bundle);
 	}
 
