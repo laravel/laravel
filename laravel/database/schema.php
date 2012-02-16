@@ -122,7 +122,7 @@ class Schema {
 			{
 				if (isset($column->attributes[$key]))
 				{
-					$table->$key($column->name, $column->$key);
+					$table->$key($column->name);
 				}
 			}
 		}
