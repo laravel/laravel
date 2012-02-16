@@ -82,16 +82,14 @@ if (magic_quotes())
 
 /**
  * Load the session using the session manager. The payload will
- * be registered in the IoC container as an instance so it can
- * be easily access throughout the framework.
+ * be set on a static property of the Session class for easy
+ * access throughout the framework and application.
  */
 if (Config::get('session.driver') !== '')
 {
 	Session::start(Config::get('session.driver'));
 
 	Session::load(Cookie::get(Config::get('session.cookie')));
-
-	IoC::instance('laravel.session', Session::$instance);
 }
 
 /**
