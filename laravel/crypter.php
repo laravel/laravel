@@ -17,6 +17,13 @@ class Crypter {
 	public static $mode = MCRYPT_MODE_CBC;
 
 	/**
+	 * The block size of the cipher.
+	 *
+	 * @var int
+	 */
+	public static $block = 32;
+
+	/**
 	 * Encrypt a string using Mcrypt.
 	 *
 	 * The string will be encrypted using the AES-256 scheme and will be base64 encoded.
@@ -27,6 +34,8 @@ class Crypter {
 	public static function encrypt($value)
 	{
 		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
+
+		$value = static::pad($value);
 
 		$value = mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
 
@@ -55,7 +64,9 @@ class Crypter {
 		// so we will trim all of the padding characters.
 		$key = static::key();
 
-		return rtrim(mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv), "\0");
+		$value = mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv);
+
+		return static::unpad($value);
 	}
 
 	/**
@@ -95,6 +106,32 @@ class Crypter {
 	protected static function iv_size()
 	{
 		return mcrypt_get_iv_size(static::$cipher, static::$mode);
+	}
+
+	/**
+	 * Add PKCS7 compatible padding on the given value.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function pad($value)
+	{
+		$pad = static::$block - (Str::length($value) % static::$block);
+
+		return $value .= str_repeat(chr($pad), $pad);
+	}
+
+	/**
+	 * Remove the PKCS7 compatible padding from the given value.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function unpad($value)
+	{
+		$pad = ord($value[($length = Str::length($value)) - 1]);
+
+		return substr($value, 0, $length - $pad);
 	}
 
 	/**
