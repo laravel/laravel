@@ -224,10 +224,12 @@ class Migrator extends Task {
 	{
 		$stub = File::get(path('sys').'cli/tasks/migrate/stub'.EXT);
 
+		$prefix = Bundle::class_prefix($bundle);
+
 		// The class name is formatted simialrly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in
-		// the default bundle.
-		$class = Bundle::class_prefix($bundle).Str::classify($migration);
+		// the default "application" bundle.
+		$class = $prefix.Str::classify($migration);
 
 		return str_replace('{{class}}', $class, $stub);
 	}
