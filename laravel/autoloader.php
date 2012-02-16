@@ -67,26 +67,6 @@ class Autoloader {
 			return static::load_psr($class, $info['directory']);
 		}
 
-		elseif (($slash = strpos($class, '\\')) !== false)
-		{
-			$namespace = substr($class, 0, $slash);
-
-			// If the class is namespaced to an existing bundle and the bundle has
-			// not been started, we will start the bundle and attempt to load the
-			// class file again. If that fails, an error will be thrown by PHP.
-			//
-			// This allows bundle classes to be loaded by the auto-loader before
-			// their class mappings have actually been registered; however, it
-			// is up to the bundle developer to namespace their classes to
-			// match the name of their bundle.
-			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
-			{
-				Bundle::start(strtolower($namespace));
-
-				static::load($class);
-			}
-		}
-
 		// If the class is not maped and is not part of a bundle or a mapped
 		// namespace, we'll make a last ditch effort to load the class via
 		// the PSR-0 from one of the registered directories.
