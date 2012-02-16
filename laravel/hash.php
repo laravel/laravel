@@ -3,18 +3,6 @@
 class Hash {
 
 	/**
-	 * Determine if an unhashed value matches a given Bcrypt hash.
-	 *
-	 * @param  string  $value
-	 * @param  string  $hash
-	 * @return bool
-	 */
-	public static function check($value, $hash)
-	{
-		return crypt($value, $hash) === $hash;
-	}
-
-	/**
 	 * Hash a password using the Bcrypt hashing scheme.
 	 *
 	 * <code>
@@ -49,6 +37,18 @@ class Hash {
 		$salt = substr(strtr(base64_encode($salt), '+', '.'), 0 , 22);
 
 		return crypt($value, '$2a$'.$work.'$'.$salt);
+	}
+
+	/**
+	 * Determine if an unhashed value matches a Bcrypt hash.
+	 *
+	 * @param  string  $value
+	 * @param  string  $hash
+	 * @return bool
+	 */
+	public static function check($value, $hash)
+	{
+		return crypt($value, $hash) === $hash;
 	}
 
 }
