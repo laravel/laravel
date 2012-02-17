@@ -150,7 +150,7 @@ class Query {
 	{
 		// If the "column" is really an instance of a Closure, the developer is
 		// trying to create a join with a complex "ON" clause. So, we will add
-		// the join, and then call the Closure with the join.
+		// the join, and then call the Closure with the join/
 		if ($column1 instanceof Closure)
 		{
 			$this->joins[] = new Query\Join($type, $table);
@@ -435,7 +435,7 @@ class Query {
 		//
 		// The index variable helps us get the correct parameter value
 		// for the where condition. We increment it each time we add
-		// a condition to the query.
+		// a condition to the query's where.
 		$connector = 'AND';
 
 		$index = 0;
