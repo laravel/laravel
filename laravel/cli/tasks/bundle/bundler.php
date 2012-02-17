@@ -81,7 +81,7 @@ class Bundler extends Task {
 			// First we want to retrieve the information for the bundle, such as
 			// where it is currently installed. This will allow us to upgrade
 			// the bundle into it's current installation path.
-			$location = Bundle::location($name);
+			$location = Bundle::path($name);
 
 			// If the bundle exists, we will grab the data about the bundle from
 			// the API so we can make the right bundle provider for the bundle,

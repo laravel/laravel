@@ -170,19 +170,6 @@ class Bundle {
 	}
 
 	/**
-	 * Get the full path location of a given bundle.
-	*
-	* @param  string  $bundle
-	* @return string
-	 */
-	public static function location($bundle)
-	{
-		$location = array_get(static::$bundles, $bundle.'.location');
-
-		return path('bundle').str_finish($location, DS);
-	}
-
-	/**
 	 * Determine if a given bundle has been started for the request.
 	 *
 	 * @param  string  $bundle
@@ -242,9 +229,14 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
-		if (is_null($bundle)) return static::path(DEFAULT_BUNDLE);
-
-		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::location($bundle);
+		if (is_null($bundle) or $bundle === DEFAULT_BUNDLE)
+		{
+			return path('app');
+		}
+		else if ($location = array_get(static::$bundles, $bundle.'.location'))
+		{
+			return str_finish(path('bundle').$location, DS);
+		}
 	}
 
 	/**
