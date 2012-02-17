@@ -32,7 +32,7 @@ class MySQL extends Connector {
 
 		if (isset($config['charset']))
 		{
-			$connection->prepare("SET NAMES '{$charset}'")->execute();
+			$connection->prepare("SET NAMES '{$config['charset']}'")->execute();
 		}
 
 		return $connection;
