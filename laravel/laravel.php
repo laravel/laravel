@@ -57,7 +57,9 @@ ini_set('display_errors', Config::get('error.display'));
  * string for the developer. This provides the developer with
  * a zero configuration install process.
  */
-if (Config::get('application.key') == '')
+$auto_key = Config::get('application.auto_key');
+
+if ($auto_key and Config::get('application.key') == '')
 {
 	ob_start() and with(new CLI\Tasks\Key)->generate();
 
