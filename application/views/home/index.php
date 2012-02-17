@@ -11,7 +11,7 @@
 			body
 			{
 				background-color:#2F3030;
-				font-family:'Droid Serif', serif;
+				font-family:"Droid Serif", "Georgia", "Times New Roman", "Palatino", "Hoefler Text", "Baskerville", serif;
 				color:#C8CCCC;
 				margin:0;
 			}
@@ -26,7 +26,7 @@
 
 			h1 em
 			{
-				font-family:'Droid Serif', serif;
+				font-family:"Droid Serif", "Georgia", "Times New Roman", "Palatino", "Hoefler Text", "Baskerville", serif;
 				color:#E33922;
 			}
 
