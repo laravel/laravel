@@ -53,9 +53,10 @@ error_reporting(-1);
 ini_set('display_errors', Config::get('error.display'));
 
 /**
- * Determine if we need to set the application key to a random
- * string for the developer. This provides the developer with
- * a zero configuration install process.
+ * Determine if we need to set the application key to a very random
+ * string so we can provide a zero configuration installation but
+ * still ensure that the key is set to something random. It is
+ * possible to disable this feature.
  */
 $auto_key = Config::get('application.auto_key');
 
