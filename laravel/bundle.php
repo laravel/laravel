@@ -255,6 +255,8 @@ class Bundle {
 	 */
 	public static function assets($bundle)
 	{
+		if (is_null($bundle)) return static::assets(DEFAULT_BUNDLE);
+
 		return ($bundle != DEFAULT_BUNDLE) ? URL::base()."/bundles/{$bundle}/" : URL::base().'/';
 	}
 
