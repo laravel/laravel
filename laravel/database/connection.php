@@ -208,23 +208,33 @@ class Connection {
 
 		$sql = $this->grammar()->shortcut($sql, $bindings);
 
-		$statement = $this->pdo->prepare($sql);
+		// Each database operation is wrapped in a try / catch so we can wrap
+		// any database exceptions in our custom exception class, which will
+		// set the message to include the SQL and query bindings.
+		try
+		{
+			$statement = $this->pdo->prepare($sql);
 
-		// Every query is timed so that we can log the executinon time along
-		// with the query SQL and array of bindings. This should be make it
-		// convenient for the developer to profile performance.
-		$time = microtime(true);
+			$start = microtime(true);
 
-		$result = $statement->execute($bindings);
+			$result = $statement->execute($bindings);
+		}
+		// If an exception occurs, we'll pass it into our custom exception
+		// and set the message to include the SQL and query bindings so
+		// debugging is much easier on the developer.
+		catch (\Exception $exception)
+		{
+			$exception = new Exception($sql, $bindings, $exception);
 
-		$time = number_format((microtime(true) - $time) * 1000, 2);
+			throw $exception;
+		}
 
 		// Once we have execute the query, we log the SQL, bindings, and
 		// execution time in a static array that is accessed by all of
-		// the connections used by the application.
+		// the connections actively being used by the application.
 		if (Config::get('database.profile'))
 		{
-			$this->log($sql, $bindings, $time);
+			$this->log($sql, $bindings, $start);
 		}
 
 		return array($statement, $result);
@@ -235,11 +245,13 @@ class Connection {
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
-	 * @param  int     $time
+	 * @param  int     $start
 	 * @return void
 	 */
-	protected function log($sql, $bindings, $time)
+	protected function log($sql, $bindings, $start)
 	{
+		$time = number_format((microtime(true) - $start) * 1000, 2);
+
 		Event::fire('laravel.query', array($sql, $bindings, $time));
 
 		static::$queries[] = compact('sql', 'bindings', 'time');
