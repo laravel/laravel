@@ -717,7 +717,7 @@ class Query {
 
 		$sql = $this->grammar->insert($this, $values);
 
-		return $this->connection->statement($sql, $bindings);
+		return $this->connection->query($sql, $bindings);
 	}
 
 	/**
@@ -731,7 +731,7 @@ class Query {
 	{
 		$sql = $this->grammar->insert($this, $values);
 
-		$this->connection->statement($sql, array_values($values));
+		$this->connection->query($sql, array_values($values));
 
 		// Some database systems (Postgres) require a sequence name to be
 		// given when retrieving the auto-incrementing ID, so we'll pass
@@ -797,7 +797,7 @@ class Query {
 
 		$sql = $this->grammar->update($this, $values);
 
-		return $this->connection->update($sql, $bindings);
+		return $this->connection->query($sql, $bindings);
 	}
 
 	/**
@@ -820,7 +820,7 @@ class Query {
 
 		$sql = $this->grammar->delete($this);
 
-		return $this->connection->delete($sql, $this->bindings);		
+		return $this->connection->query($sql, $this->bindings);		
 	}
 
 	/**

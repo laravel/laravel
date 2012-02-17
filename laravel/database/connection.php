@@ -140,49 +140,22 @@ class Connection {
 	{
 		list($statement, $result) = $this->execute($sql, $bindings);
 
-		return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
-	}
-
-	/**
-	 * Execute a SQL UPDATE query and return the affected row count.
-	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
-	 * @return int
-	 */
-	public function update($sql, $bindings = array())
-	{
-		list($statement, $result) = $this->execute($sql, $bindings);
-
-		return $statement->rowCount();
-	}
-
-	/**
-	 * Execute a SQL DELETE query and return the affected row count.
-	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
-	 * @return int
-	 */
-	public function delete($sql, $bindings = array())
-	{
-		list($statement, $result) = $this->execute($sql, $bindings);
-
-		return $statement->rowCount();
-	}
-
-	/**
-	 * Execute an SQL query and return the boolean result of the PDO statement.
-	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
-	 * @return bool
-	 */
-	public function statement($sql, $bindings = array())
-	{
-		list($statement, $result) = $this->execute($sql, $bindings);
-
-		return $result;
+		// The result we return depends on the type of query executed against the
+		// database. On SELECT clauses, we will return the result set, for update
+		// and deletes we will return the affected row count. And for all other
+		// queries we'll just return the boolean result.
+		if (stripos($sql, 'select') === 0)
+		{
+			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
+		}
+		elseif (stripos($sql, 'update') === 0 or stripos($sql, 'delete') === 0)
+		{
+			return $statement->rowCount();
+		}
+		else
+		{
+			return $result;
+		}
 	}
 
 	/**

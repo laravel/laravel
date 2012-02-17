@@ -89,7 +89,7 @@ class Schema {
 				// needs multiple queries to complete.
 				foreach ((array) $statements as $statement)
 				{
-					$connection->statement($statement);
+					$connection->query($statement);
 				}
 			}
 		}
