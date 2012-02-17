@@ -75,10 +75,9 @@ class Migrator extends Task {
 			return;
 		}
 
-		// We need to grab the latest batch ID and increment it
-		// by one. This allows us to group the migrations such
-		// that we can easily determine which migrations need
-		// to roll back for the command.
+		// We need to grab the latest batch ID and increment it by one.
+		// This allows us to group the migrations so we can easily
+		// determine which migrations need to roll back.
 		$batch = $this->database->batch() + 1;
 
 		foreach ($migrations as $migration)
@@ -87,9 +86,9 @@ class Migrator extends Task {
 
 			echo 'Migrated: '.$this->display($migration).PHP_EOL;
 
-			// After running a migration, we log its execution in the
-			// migration table so that we can easily determine which
-			// migrations we'll reverse on a rollback.
+			// After running a migration, we log its execution in the migration
+			// table so that we can easily determine which migrations we'll
+			// reverse in the event of a migration rollback.
 			$this->database->log($migration['bundle'], $migration['name'], $batch);
 		}
 	}
@@ -113,8 +112,7 @@ class Migrator extends Task {
 
 		// The "last" method on the resolver returns an array of migrations,
 		// along with their bundles and names. We will iterate through each
-		// migration and run the "down" method, removing them from the
-		// database as we go.
+		// migration and run the "down" method.
 		foreach (array_reverse($migrations) as $migration)
 		{
 			$migration['migration']->down();
@@ -123,8 +121,7 @@ class Migrator extends Task {
 
 			// By only removing the migration after it has successfully rolled back,
 			// we can re-run the rollback command in the event of any errors with
-			// the migration. When we re-run, only the migrations that have not
-			// been rolled back will still be in the database.
+			// the migration and pick up where we left off.
 			$this->database->delete($migration['bundle'], $migration['name']);
 		}
 
