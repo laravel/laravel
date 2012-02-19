@@ -206,7 +206,7 @@ class Migrator extends Task {
 
 		// Once the migration has been created, we'll return the
 		// migration file name so it can be used by the task
-		// consumer if necessary.
+		// consumer if necessary for futher work.
 		return $file;
 	}
 
