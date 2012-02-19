@@ -14,7 +14,7 @@ class Autoloader {
 	 *
 	 * @var array
 	 */
-	public static $psr = array();
+	public static $directories = array();
 
 	/**
 	 * The mappings for namespaces to directories.
@@ -87,7 +87,7 @@ class Autoloader {
 		// resides, so we'll convert them to slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
-		$directories = $directory ?: static::$psr;
+		$directories = $directory ?: static::$directories;
 
 		$lower = strtolower($file);
 
@@ -157,7 +157,7 @@ class Autoloader {
 	{
 		$directories = static::format($directory);
 
-		static::$psr = array_unique(array_merge(static::$psr, $directories));
+		static::$directories = array_unique(array_merge(static::$directories, $directories));
 	}
 
 	/**
