@@ -12,6 +12,8 @@ class Error {
 	{
 		static::log($exception);
 
+		ob_end_clean();
+
 		// If detailed errors are enabled, we'll just format the exception into
 		// a simple error message and display it on the screen. We don't use a
 		// View in case the problem is in the View class.
