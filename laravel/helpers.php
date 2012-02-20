@@ -362,6 +362,20 @@ function str_finish($value, $cap)
 }
 
 /**
+ * Get the root namespace of a given class.
+ *
+ * @param  string  $class
+ * @return string
+ */
+function root_namespace($class)
+{
+	if (str_contains($class, '\\'))
+	{
+		return head(explode('\\', $class));
+	}
+}
+
+/**
  * Return the value of the given item.
  *
  * If the given item is a Closure the result of the Closure will be returned.
