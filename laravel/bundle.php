@@ -63,7 +63,10 @@ class Bundle {
 		}
 
 		static::$bundles[$bundle] = array_merge($defaults, $config);
-		
+
+		// It is possible for the develoepr to specify auto-loader mappings
+		// directly on the bundle registration. This provides a convenient
+		// way to register mappings withuot a bootstrap.
 		static::autoloading($bundle, $config);
 	}
 
@@ -138,9 +141,7 @@ class Bundle {
 	{
 		$path = trim(Bundle::path($bundle), DS);
 
-		$autoloads = array_get($config, 'autoloads', array());
-
-		foreach ($autoloads as $type => $mappings)
+		foreach (array_get($config, 'autoloads', array()) as $type => $mappings)
 		{
 			// When registering each type of mapping we'll replace the (:bundle)
 			// place-holder with the path to the bundle's root directory, so
