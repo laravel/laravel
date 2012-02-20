@@ -96,7 +96,7 @@ Route::filter('before', function()
 	// Do stuff before every request to your application...
 });
 
-Route::filter('after', function()
+Route::filter('after', function($response)
 {
 	// Do stuff after every request to your application...
 });
