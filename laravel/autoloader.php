@@ -42,7 +42,7 @@ class Autoloader {
 	{
 		// First, we will check to see if the class has been aliased. If it has,
 		// we will register the alias, which may cause the auto-loader to be
-		// called again for the "real" class name.
+		// called again for the "real" class name to load its file.
 		if (isset(static::$aliases[$class]))
 		{
 			class_alias(static::$aliases[$class], $class);
@@ -57,9 +57,8 @@ class Autoloader {
 		}
 
 		// If the class namespace is mapped to a directory, we will load the
-		// class using the PSR-0 standards from that directory; however, we
-		// will trim off the beginning of the namespace to account for
-		// the root of the mapped directory.
+		// class using the PSR-0 standards from that directory accounting
+		// for the root of the namespace by trimming it.
 		if ( ! is_null($info = static::namespaced($class)))
 		{
 			$class = substr($class, strlen($info['namespace']));
@@ -67,24 +66,6 @@ class Autoloader {
 			return static::load_psr($class, $info['directory']);
 		}
 
-		// If the class is namespaced and a bundle exists that is assigned
-		// a name matching that namespace, we'll start the bundle and let
-		// the class fall through the method again.
-		if ( ! is_null($namespace = root_namespace($class)))
-		{
-			$namespace = strtolower($namespace);
-
-			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
-			{
-				Bundle::start($namespace);
-
-				return static::load($class);
-			}
-		}
-
-		// If the class is not maped and is not part of a bundle or a mapped
-		// namespace, we'll make a last ditch effort to load the class via
-		// the PSR-0 from one of the registered directories.
 		static::load_psr($class);
 	}
 
