@@ -697,14 +697,15 @@ class Validator {
 	protected function size_message($bundle, $attribute, $rule)
 	{
 		// There are three different types of size validations. The attribute
-		// may be either a number, file, or a string. If the attribute has a
-		// numeric rule attached to it, we can assume it is a number. If the
-		// attribute is in the file array, it is a file, otherwise we can
-		// assume the attribute is simply a string.
+		// may be either a number, file, or a string, so we'll check a few
+		// things to figure out which one it is.
 		if ($this->has_rule($attribute, $this->numeric_rules))
 		{
 			$line = 'numeric';
 		}
+		// We assume that attributes present in the $_FILES array are files,
+		// which makes sense. If the attribute doesn't have numeric rules
+		// and isn't as file, it's a string.
 		elseif (array_key_exists($attribute, Input::file()))
 		{
 			$line = 'file';
@@ -877,15 +878,19 @@ class Validator {
 		// More reader friendly versions of the attribute names may be stored
 		// in the validation language file, allowing a more readable version
 		// of the attribute name to be used in the message.
-		//
-		// If no language line has been specified for the attribute, all of
-		// the underscores will be removed from the attribute name and that
-		// will be used as the attribtue name.
 		$line = "{$bundle}validation.attributes.{$attribute}";
 
 		$display = Lang::line($line)->get($this->language);
 
-		return (is_null($display)) ? str_replace('_', ' ', $attribute) : $display;
+		// If no language line has been specified for the attribute, all of
+		// the underscores are removed from the attribute name and that
+		// will be used as the attribtue name.
+		if (is_null($display))
+		{
+			return str_replace('_', ' ', $attribute);
+		}
+
+		return $display;
 	}
 
 	/**

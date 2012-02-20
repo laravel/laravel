@@ -129,11 +129,7 @@ class IoC {
 
 		// If the resolver is registering as a singleton resolver, we will cache
 		// the instance of the object in the container so we can resolve it next
-		// time without having to instantiate a new instance of the object.
-		//
-		// This allows the developer to reuse objects that do not need to be
-		// instantiated each time they are needed, such as a SwiftMailer or
-		// Twig object that can be shared.
+		// time without having to instantiate a brand new instance.
 		if (isset(static::$registry[$name]['singleton']))
 		{
 			return static::$singletons[$name] = $object;

@@ -53,11 +53,14 @@ error_reporting(-1);
 ini_set('display_errors', Config::get('error.display'));
 
 /**
- * Determine if we need to set the application key to a random
- * string for the developer. This provides the developer with
- * a zero configuration install process.
+ * Determine if we need to set the application key to a very random
+ * string so we can provide a zero configuration installation but
+ * still ensure that the key is set to something random. It is
+ * possible to disable this feature.
  */
-if (Config::get('application.key') == '')
+$auto_key = Config::get('application.auto_key');
+
+if ($auto_key and Config::get('application.key') == '')
 {
 	ob_start() and with(new CLI\Tasks\Key)->generate();
 
@@ -82,16 +85,14 @@ if (magic_quotes())
 
 /**
  * Load the session using the session manager. The payload will
- * be registered in the IoC container as an instance so it can
- * be easily access throughout the framework.
+ * be set on a static property of the Session class for easy
+ * access throughout the framework and application.
  */
 if (Config::get('session.driver') !== '')
 {
 	Session::start(Config::get('session.driver'));
 
 	Session::load(Cookie::get(Config::get('session.cookie')));
-
-	IoC::instance('laravel.session', Session::$instance);
 }
 
 /**
@@ -212,4 +213,4 @@ Cookie::send();
  */
 $response->send();
 
-Event::fire('laravel: done');
+Event::fire('laravel.done');

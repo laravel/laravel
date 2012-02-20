@@ -14,7 +14,7 @@ class Autoloader {
 	 *
 	 * @var array
 	 */
-	public static $psr = array();
+	public static $directories = array();
 
 	/**
 	 * The mappings for namespaces to directories.
@@ -67,23 +67,18 @@ class Autoloader {
 			return static::load_psr($class, $info['directory']);
 		}
 
-		elseif (($slash = strpos($class, '\\')) !== false)
+		// If the class is namespaced and a bundle exists that is assigned
+		// a name matching that namespace, we'll start the bundle and let
+		// the class fall through the method again.
+		if ( ! is_null($namespace = root_namespace($class)))
 		{
-			$namespace = substr($class, 0, $slash);
+			$namespace = strtolower($namespace);
 
-			// If the class is namespaced to an existing bundle and the bundle has
-			// not been started, we will start the bundle and attempt to load the
-			// class file again. If that fails, an error will be thrown by PHP.
-			//
-			// This allows bundle classes to be loaded by the auto-loader before
-			// their class mappings have actually been registered; however, it
-			// is up to the bundle developer to namespace their classes to
-			// match the name of their bundle.
 			if (Bundle::exists($namespace) and ! Bundle::started($namespace))
 			{
-				Bundle::start(strtolower($namespace));
+				Bundle::start($namespace);
 
-				static::load($class);
+				return static::load($class);
 			}
 		}
 
@@ -107,7 +102,7 @@ class Autoloader {
 		// resides, so we'll convert them to slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
-		$directories = $directory ?: static::$psr;
+		$directories = $directory ?: static::$directories;
 
 		$lower = strtolower($file);
 
@@ -177,7 +172,7 @@ class Autoloader {
 	{
 		$directories = static::format($directory);
 
-		static::$psr = array_unique(array_merge(static::$psr, $directories));
+		static::$directories = array_unique(array_merge(static::$directories, $directories));
 	}
 
 	/**

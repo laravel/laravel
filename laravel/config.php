@@ -141,7 +141,7 @@ class Config {
 
 		// If there are not at least two segments in the array, it means that the
 		// developer is requesting the entire configuration array to be returned.
-		// If that is the case, we'll make the item field of the array "null".
+		// If that is the case, we'll make the item field "null".
 		if (count($segments) >= 2)
 		{
 			$parsed = array($bundle, $segments[0], implode('.', array_slice($segments, 1)));

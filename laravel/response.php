@@ -205,7 +205,10 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		if ( ! $response instanceof Response) $response = new static($response);
+		if ( ! $response instanceof Response)
+		{
+			$response = new static($response);
+		}
 
 		// We'll need to force the response to be a string before closing the session,
 		// since the developer may be using the session within a view, and we can't

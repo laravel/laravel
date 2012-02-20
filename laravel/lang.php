@@ -183,18 +183,33 @@ class Lang {
 
 		// Language files can belongs to the application or to any bundle
 		// that is installed for the application. So, we'll need to use
-		// the bundle's path when checking for the file.
-		//
-		// This is similar to the loading method for configuration files,
-		// but we do not need to cascade across directories since most
-		// likely language files are static across environments.
-		$path = Bundle::path($bundle)."language/{$language}/{$file}".EXT;
+		// the bundle's path when looking for the file.
+		$path = static::path($bundle, $language, $file);
 
-		if (file_exists($path)) $lines = require $path;
+		if (file_exists($path))
+		{
+			$lines = require $path;
+		}
 
+		// All of the language lines are cached in an array so we can
+		// quickly look them up on subsequent reqwuests for the line.
+		// This keeps us from loading files each time.
 		static::$lines[$bundle][$language][$file] = $lines;
 
 		return count($lines) > 0;
+	}
+
+	/**
+	 * Get the path to a bundle's language file.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $language
+	 * @param  string  $file
+	 * @return string
+	 */
+	protected static function path($bundle, $language, $file)
+	{
+		return Bundle::path($bundle)."language/{$language}/{$file}".EXT;
 	}
 
 	/**

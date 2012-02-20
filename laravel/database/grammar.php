@@ -59,7 +59,10 @@ abstract class Grammar {
 		// Expressions should be injected into the query as raw strings so
 		// so we do not want to wrap them in any way. We will just return
 		// the string value from the expression to be included.
-		if ($value instanceof Expression) return $value->get();
+		if ($value instanceof Expression)
+		{
+			return $value->get();
+		}
 
 		// If the value being wrapped contains a column alias, we need to
 		// wrap it a little differently as each segment must be wrapped

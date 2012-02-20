@@ -1,5 +1,6 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+use Laravel\Routing\Router;
 use FilesystemIterator as fIterator;
 
 class Bundle {
@@ -81,9 +82,9 @@ class Bundle {
 			throw new \Exception("Bundle [$bundle] has not been installed.");
 		}
 
-		// Each bundle may have a "start" script which is responsible for preparing
-		// the bundle for use by the application. The start script may register any
-		// classes the bundle uses with the auto-loader, etc.
+		// Each bundle may have a start script which is responsible for preparing
+		// the bundle for use by the application. The start script may register
+		// any classes the bundle uses with the auto-loader, etc.
 		if (file_exists($path = static::path($bundle).'start'.EXT))
 		{
 			require $path;
@@ -94,7 +95,7 @@ class Bundle {
 		// start script for reverse routing efficiency purposes.
 		static::routes($bundle);
 
-		Event::fire("started: {$bundle}");
+		Event::fire("laravel.started: {$bundle}");
 
 		static::$started[] = strtolower($bundle);
 	}
@@ -114,7 +115,7 @@ class Bundle {
 		// By setting the bundle property on the router the router knows what
 		// value to replace the (:bundle) place-holder with when the bundle
 		// routes are added, keeping the routes flexible.
-		Routing\Router::$bundle = static::option($bundle, 'handles');
+		Router::$bundle = static::option($bundle, 'handles');
 
 		if ( ! static::routed($bundle) and file_exists($path))
 		{
@@ -167,19 +168,6 @@ class Bundle {
 	public static function exists($bundle)
 	{
 		return $bundle == DEFAULT_BUNDLE or in_array(strtolower($bundle), static::names());
-	}
-
-	/**
-	 * Get the full path location of a given bundle.
-	*
-	* @param  string  $bundle
-	* @return string
-	 */
-	public static function location($bundle)
-	{
-		$location = array_get(static::$bundles, $bundle.'.location');
-
-		return path('bundle').str_finish($location, DS);
 	}
 
 	/**
@@ -242,7 +230,14 @@ class Bundle {
 	 */
 	public static function path($bundle)
 	{
-		return ($bundle == DEFAULT_BUNDLE) ? path('app') : static::location($bundle);
+		if (is_null($bundle) or $bundle === DEFAULT_BUNDLE)
+		{
+			return path('app');
+		}
+		else if ($location = array_get(static::$bundles, $bundle.'.location'))
+		{
+			return str_finish(path('bundle').$location, DS);
+		}
 	}
 
 	/**
@@ -253,6 +248,8 @@ class Bundle {
 	 */
 	public static function assets($bundle)
 	{
+		if (is_null($bundle)) return static::assets(DEFAULT_BUNDLE);
+
 		return ($bundle != DEFAULT_BUNDLE) ? URL::base()."/bundles/{$bundle}/" : URL::base().'/';
 	}
 

@@ -178,18 +178,6 @@ function array_first($array, $callback, $default = null)
 }
 
 /**
- * Spin through the array, executing a callback with each key and element.
- *
- * @param  array  $array
- * @param  mixed  $callback
- * @return array
- */
-function array_spin($array, $callback)
-{
-	return array_map($callback, array_keys($array), array_values($array));
-}
-
-/**
  * Recursively remove slashes from array keys and values.
  *
  * @param  array  $array
@@ -371,6 +359,20 @@ function str_contains($haystack, $needle)
 function str_finish($value, $cap)
 {
 	return rtrim($value, $cap).$cap;
+}
+
+/**
+ * Get the root namespace of a given class.
+ *
+ * @param  string  $class
+ * @return string
+ */
+function root_namespace($class)
+{
+	if (str_contains($class, '\\'))
+	{
+		return head(explode('\\', $class));
+	}
 }
 
 /**

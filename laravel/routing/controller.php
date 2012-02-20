@@ -191,7 +191,7 @@ abstract class Controller {
 
 		// Again, as was the case with route closures, if the controller "before"
 		// filters return a response, it will be considered the response to the
-		// request and the controller method will not be used .
+		// request and the controller method will not be used.
 		$response = Filter::run($filters, array(), true);
 
 		if (is_null($response))

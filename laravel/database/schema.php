@@ -89,7 +89,7 @@ class Schema {
 				// needs multiple queries to complete.
 				foreach ((array) $statements as $statement)
 				{
-					$connection->statement($statement);
+					$connection->query($statement);
 				}
 			}
 		}
@@ -122,7 +122,7 @@ class Schema {
 			{
 				if (isset($column->attributes[$key]))
 				{
-					$table->$key($column->name, $column->$key);
+					$table->$key($column->name);
 				}
 			}
 		}

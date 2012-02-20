@@ -38,9 +38,15 @@ return array(
 	| remain secret and should not be shared with anyone. Make it about 32
 	| characters of random gibberish.
 	|
+	| The "auto_key" option tells Laravel to automatically set this key value
+	| if one has not already been set. This is generally done on the first
+	| request to the Laravel splash screen.
+	|
 	*/
 
 	'key' => '',
+
+	'auto_key' => true,
 
 	/*
 	|--------------------------------------------------------------------------
