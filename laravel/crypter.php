@@ -141,7 +141,13 @@ class Crypter {
 				return substr($value, 0, $length - $pad);
 			}
 
-			throw new \Exception("Decryption error. Padding is invalid.");
+			// If the padding characters do not match the expected padding
+			// for the value we'll bomb out with an exception since the
+			// encrypted value seems to have been changed.
+			else
+			{
+				throw new \Exception("Decryption error. Padding is invalid.");
+			}
 		}
 
 		return $value;
