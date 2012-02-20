@@ -200,7 +200,7 @@ class View implements ArrayAccess {
 	{
 		// To allow bundles or other pieces of the application to modify the
 		// view before it is rendered, we will fire an event, passing in the
-		// view instance so it can modified by any of the listeners.
+		// view instance so it can modified.
 		Event::fire("laravel.composing: {$this->view}", array($this));
 
 		$data = $this->data();
