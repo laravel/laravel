@@ -69,7 +69,7 @@ class Bundle {
 		// way to register mappings withuot a bootstrap.
 		if (isset($config['autoloads']))
 		{
-			static::autoloading($bundle, $config);
+			static::autoloads($bundle, $config);
 		}
 	}
 
@@ -140,7 +140,7 @@ class Bundle {
 	 * @param  array   $config
 	 * @return void
 	 */
-	protected static function autoloading($bundle, $config)
+	protected static function autoloads($bundle, $config)
 	{
 		$path = trim(Bundle::path($bundle), DS);
 
