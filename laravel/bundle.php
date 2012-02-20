@@ -138,7 +138,9 @@ class Bundle {
 	{
 		$path = trim(Bundle::path($bundle), DS);
 
-		foreach ((array) $config['autoloads'] as $type => $mappings)
+		$autoloads = array_get($config, 'autoloads', array());
+
+		foreach ($autoloads as $type => $mappings)
 		{
 			// When registering each type of mapping we'll replace the (:bundle)
 			// place-holder with the path to the bundle's root directory, so
