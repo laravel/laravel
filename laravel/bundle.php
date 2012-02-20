@@ -142,7 +142,7 @@ class Bundle {
 	 */
 	protected static function autoloads($bundle, $config)
 	{
-		$path = trim(Bundle::path($bundle), DS);
+		$path = rtrim(Bundle::path($bundle), DS);
 
 		foreach ($config['autoloads'] as $type => $mappings)
 		{
