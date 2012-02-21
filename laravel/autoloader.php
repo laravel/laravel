@@ -130,7 +130,7 @@ class Autoloader {
 	 */
 	protected static function controller($class)
 	{
-		$controller = str_replace(array('_', '_Controller'), array('/', ''), $class);
+		$controller = str_replace(array('_Controller', '_'), array('', '/'), $class);
 
 		return CONTROLLER_PATH.strtolower($controller).EXT;
 	}
