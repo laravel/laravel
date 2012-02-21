@@ -3,6 +3,15 @@
 use Laravel\Str;
 use Laravel\File;
 
+/**
+ * The Key class is an Artisan task which can be used to generate
+ * an application key.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Key extends Task {
 
 	/**

@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The String class is a utility class providing useful methods for
+ * interacting with PHP strings.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Str {
 
 	/**

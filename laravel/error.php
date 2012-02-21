@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The Error class is responsible for displaying a suitable response
+ * when a PHP error is encountered, depending on the current environment.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Error {
 
 	/**

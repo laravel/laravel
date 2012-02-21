@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The Log class provides methods for interacting with text based
+ * Log files.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Log {
 
 	/**

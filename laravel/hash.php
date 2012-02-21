@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The hash class is responsible for the generation, and matching of Bcrypt
+ * password hashes.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Hash {
 
 	/**

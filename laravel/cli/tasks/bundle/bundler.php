@@ -7,6 +7,15 @@ use Laravel\Bundle;
 use Laravel\Request;
 use Laravel\CLI\Tasks\Task;
 
+/**
+ * The Bundler class is an Artisan task which provides useful commands
+ * for interacting with Laravel bundles.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Bundler extends Task {
 
 	/**

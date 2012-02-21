@@ -1,5 +1,14 @@
 <?php namespace Laravel; use Closure;
 
+/**
+ * The Lang class allows for strings to loaded from Laravel string files
+ * based upon the language requested.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Lang {
 
 	/**

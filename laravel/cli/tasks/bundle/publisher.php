@@ -4,6 +4,15 @@ use Laravel\File;
 use Laravel\Bundle;
 use FilesystemIterator;
 
+/**
+ * The Publisher class is used by the Bundler Artisan task to
+ * publish a bundles assets to the public directory.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Publisher {
 
 	/**
@@ -30,7 +39,7 @@ class Publisher {
 	 */
 	protected function move($source, $destination)
 	{
-		File::cpdir($source, $destination);	
+		File::cpdir($source, $destination);
 	}
 
 	/**

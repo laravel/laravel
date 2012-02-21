@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The Memcached class provides memcached, memory object caching system
+ * support for the Laravel framework.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see 		http://memcached.org/
+ */
 class Memcached {
 
 	/**

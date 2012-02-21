@@ -3,6 +3,14 @@
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
 
+/**
+ * The MySQL class contains Grammar specific to MySQL queries.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class MySQL extends Grammar {
 
 	/**

@@ -3,6 +3,15 @@
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
 
+/**
+ * The Grammar abstract class can be extended to provide grammatical changes to
+ * SQL queries used by different databases.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 abstract class Grammar extends \Laravel\Database\Grammar {
 
 	/**

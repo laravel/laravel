@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The Section class provides methods which allow for content to be injected
+ * into layouts from nested views.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Section {
 
 	/**

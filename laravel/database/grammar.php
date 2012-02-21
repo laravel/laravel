@@ -1,5 +1,15 @@
 <?php namespace Laravel\Database;
 
+/**
+ * The Grammer class is extended by connectors, and allows for
+ * database connectors to use different syntax, while maintaining
+ * compatibility with Laravel database queries.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 abstract class Grammar {
 
 	/**

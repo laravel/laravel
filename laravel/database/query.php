@@ -5,6 +5,15 @@ use Laravel\Database;
 use Laravel\Paginator;
 use Laravel\Database\Query\Grammars\SQLServer;
 
+/**
+ * The Query class contains the methods used by the Fluent Query Builder
+ * to created an SQL query.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Query {
 
 	/**
@@ -275,7 +284,7 @@ class Query {
 	 */
 	public function or_where_id($value)
 	{
-		return $this->or_where('id', '=', $value);		
+		return $this->or_where('id', '=', $value);
 	}
 
 	/**
@@ -824,7 +833,7 @@ class Query {
 
 		$sql = $this->grammar->delete($this);
 
-		return $this->connection->query($sql, $this->bindings);		
+		return $this->connection->query($sql, $this->bindings);
 	}
 
 	/**

@@ -1,5 +1,14 @@
 <?php namespace Laravel; use Closure, FilesystemIterator as fIterator;
 
+/**
+ * The File class is a utility class that provides useful methods for
+ * interacting with the hosts file system.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class File {
 
 	/**
@@ -70,7 +79,7 @@ class File {
 
 	/**
 	 * Extract the file extension from a file path.
-	 * 
+	 *
 	 * @param  string  $path
 	 * @return string
 	 */

@@ -1,5 +1,14 @@
 <?php namespace Laravel; use Closure, ArrayAccess;
 
+/**
+ * The View class provides a method of returning templated responses to
+ * HTTP requests.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class View implements ArrayAccess {
 
 	/**
@@ -239,7 +248,7 @@ class View implements ArrayAccess {
 		// This allows the assets used by nested views to be added to the
 		// asset container before the main view is evaluated and dumps
 		// the links to the assets into the HTML.
-		foreach ($data as &$value) 
+		foreach ($data as &$value)
 		{
 			if ($value instanceof View or $value instanceof Response)
 			{

@@ -1,5 +1,14 @@
 <?php namespace Laravel\Database; use PDO, PDOStatement, Laravel\Config, Laravel\Event;
 
+/**
+ * The Connection class is responsible for creating database connections
+ * and executing SQL queries.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Connection {
 
 	/**

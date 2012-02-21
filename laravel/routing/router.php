@@ -5,6 +5,15 @@ use Laravel\Str;
 use Laravel\Bundle;
 use Laravel\Request;
 
+/**
+ * The Router class ensures that routes are parsed correctly, and
+ * the correct closure or controller action is fired.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Router {
 
 	/**
@@ -203,7 +212,7 @@ class Router {
 			{
 				$routes[$method][$uri] = static::action($action);
 			}
-			
+
 			// If a group is being registered, we'll merge all of the group
 			// options into the action, giving preference to the action
 			// for options that are specified in both.

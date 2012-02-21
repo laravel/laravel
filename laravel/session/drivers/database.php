@@ -3,6 +3,15 @@
 use Laravel\Config;
 use Laravel\Database\Connection;
 
+/**
+ * The Database class provides support for storing session data in a database.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see  		replaceme
+ */
 class Database implements Driver, Sweeper {
 
 	/**
@@ -65,10 +74,10 @@ class Database implements Driver, Sweeper {
 		else
 		{
 			$this->table()->insert(array(
-				'id'            => $session['id'], 
-				'last_activity' => $session['last_activity'], 
+				'id'            => $session['id'],
+				'last_activity' => $session['last_activity'],
 				'data'          => serialize($session['data'])
-			));			
+			));
 		}
 	}
 
@@ -101,7 +110,7 @@ class Database implements Driver, Sweeper {
 	 */
 	private function table()
 	{
-		return $this->connection->table(Config::get('session.table'));		
+		return $this->connection->table(Config::get('session.table'));
 	}
-	
+
 }

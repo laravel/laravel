@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The Form class is a utility class which provides helpful methods for the
+ * generation of HTML based forms.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Form {
 
 	/**
@@ -37,7 +46,7 @@ class Form {
 		$method = strtoupper($method);
 
 		$attributes['method'] =  static::method($method);
-		
+
 		$attributes['action'] = static::action($action, $https);
 
 		// If a character encoding has not been specified in the attributes, we will
@@ -110,7 +119,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @param  bool    $https
 	 * @return string
-	 */	
+	 */
 	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
@@ -125,7 +134,7 @@ class Form {
 	 * @param  string  $method
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
 	{
 		return static::open_for_files($action, $method, $attributes, true);
@@ -163,7 +172,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
@@ -191,7 +200,7 @@ class Form {
 	 * @param  mixed   $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function input($type, $name, $value = null, $attributes = array())
 	{
 		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
@@ -222,7 +231,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
@@ -248,7 +257,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function search($name, $value = null, $attributes = array())
 	{
 		return static::input('search', $name, $value, $attributes);
@@ -261,7 +270,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function email($name, $value = null, $attributes = array())
 	{
 		return static::input('email', $name, $value, $attributes);
@@ -287,7 +296,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function url($name, $value = null, $attributes = array())
 	{
 		return static::input('url', $name, $value, $attributes);
@@ -300,12 +309,12 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function number($name, $value = null, $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
 	}
-	
+
 	/**
 	 * Create a HTML date input element.
 	 *
@@ -313,7 +322,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function date($name, $value = null, $attributes = array())
 	{
 		return static::input('date', $name, $value, $attributes);
@@ -325,7 +334,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function file($name, $attributes = array())
 	{
 		return static::input('file', $name, null, $attributes);
@@ -368,11 +377,11 @@ class Form {
 	 * @param  string  $selected
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
 		$attributes['id'] = static::id($name, $attributes);
-		
+
 		$attributes['name'] = $name;
 
 		$html = array();

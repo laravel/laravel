@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The Redis class provides support for the Redis key-value store
+ * software.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see 		http://redis.io/
+ */
 class Redis {
 
 	/**
@@ -99,17 +109,17 @@ class Redis {
 		{
 			case '-':
 				throw new \Exception('Redis error: '.substr(trim($response), 4));
-			
+
 			case '+':
 			case ':':
 				return $this->inline($response);
-			
+
 			case '$':
 				return $this->bulk($response);
-			
+
 			case '*':
 				return $this->multibulk($response);
-			
+
 			default:
 				throw new \Exception("Unknown Redis response: ".substr($response, 0, 1));
 		}
@@ -124,7 +134,7 @@ class Redis {
 	{
 		if ( ! is_null($this->connection)) return $this->connection;
 
-		$this->connection = @fsockopen($this->host, $this->port, $error, $message);		
+		$this->connection = @fsockopen($this->host, $this->port, $error, $message);
 
 		if ($this->connection === false)
 		{

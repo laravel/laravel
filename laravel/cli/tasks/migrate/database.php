@@ -3,6 +3,15 @@
 use Laravel\Request;
 use Laravel\Database as DB;
 
+/**
+ * The Database class provides methods to allow the Artisan migration task to
+ * interact with the database.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Database {
 
 	/**

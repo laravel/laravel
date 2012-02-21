@@ -3,6 +3,15 @@
 use Laravel\Fluent;
 use Laravel\Database as DB;
 
+/**
+ * The Schema class contains methods that can be used to alter
+ * the structure of a database.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Schema {
 
 	/**

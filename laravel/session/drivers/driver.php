@@ -1,5 +1,14 @@
 <?php namespace Laravel\Session\Drivers;
 
+/**
+ * The Driver interface, can be implemented by session drivers to provide a
+ * means of saving, deleting and loading session data.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 interface Driver {
 
 	/**

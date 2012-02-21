@@ -1,5 +1,13 @@
 <?php namespace Laravel;
 
+/**
+ * Responsible for handling user authentication.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Auth {
 
 	/**

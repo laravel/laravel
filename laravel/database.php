@@ -3,6 +3,15 @@
 use Laravel\Database\Expression;
 use Laravel\Database\Connection;
 
+/**
+ * The Database class is responsible for managing instances of database
+ * connections for a number of different database drivers.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Database {
 
 	/**

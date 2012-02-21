@@ -1,5 +1,14 @@
 <?php namespace Laravel\Session\Drivers;
 
+/**
+ * The Redis class provides support for storing session data with Redis.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see  		replaceme
+ */
 class Redis implements Driver {
 
 	/**

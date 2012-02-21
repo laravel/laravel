@@ -4,6 +4,15 @@ use Laravel\IoC;
 use Laravel\Str;
 use Laravel\Bundle;
 
+/**
+ * The Command class provides a means of running CLI based tasks
+ * using the Laravel Artisan script.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Command {
 
 	/**

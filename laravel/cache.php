@@ -1,5 +1,14 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+/**
+ * The cache class is responsible for returning a cache driver instance
+ * for a number of available drivers.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Cache {
 
 	/**

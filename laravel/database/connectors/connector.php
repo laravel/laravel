@@ -1,5 +1,14 @@
 <?php namespace Laravel\Database\Connectors; use PDO;
 
+/**
+ * The Connector abstact class is extended by classes which describe
+ * a method for creating a new database connection.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 abstract class Connector {
 
 	/**

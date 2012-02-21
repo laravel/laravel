@@ -1,5 +1,14 @@
 <?php namespace Laravel;
 
+/**
+ * The Session class acts as a factory for creating, and returning instances of
+ * sessions based upon a number of different session drivers.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Session {
 
 	/**
