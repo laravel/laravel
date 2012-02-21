@@ -1,5 +1,13 @@
 # Laravel Change Log
 
+## Version 2.1.1
+
+- Fix: Fixed bug in controller auto-loading routine.
+
+### Upgrading from 2.1.0
+
+- Replace **laravel** directory.
+
 ## Version 2.1.0
 
 - Fix: Multiple wildcards / regular expressions per segment are now supported.
