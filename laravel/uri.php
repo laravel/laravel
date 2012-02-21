@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The URI class is a utility class containing methods for interacting
+ * with a URI and its segments.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/requests
+ */
 class URI {
 
 	/**
@@ -83,7 +93,7 @@ class URI {
 
 				return static::format($uri);
 			}
-		}		
+		}
 	}
 
 	/**

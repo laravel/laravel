@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Closure;
 
+/**
+ * The Validator class provides a useful way of validating arrays of
+ * data based upon pre-defined validation rules.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/validation
+ */
 class Validator {
 
 	/**
@@ -559,7 +569,7 @@ class Validator {
 	protected function validate_active_url($attribute, $value)
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
-		
+
 		return checkdnsrr($url);
 	}
 
@@ -608,7 +618,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $value);
 	}
 
 	/**
@@ -715,7 +725,7 @@ class Validator {
 			$line = 'string';
 		}
 
-		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
 	}
 
 	/**
@@ -922,7 +932,7 @@ class Validator {
 	{
 		$parameters = array();
 
-		// The format for specifying validation rules and parameters follows a 
+		// The format for specifying validation rules and parameters follows a
 		// {rule}:{parameters} formatting convention. For instance, the rule
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)

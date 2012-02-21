@@ -2,6 +2,17 @@
 
 use Closure;
 
+
+/**
+ * The Cookie class contains useful methods for interacting with
+ * cookies.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/input#cookies
+ */
 class Cookie {
 
 	/**
@@ -72,7 +83,7 @@ class Cookie {
 	 *		// Get the value of the "favorite" cookie
 	 *		$favorite = Cookie::get('favorite');
 	 *
-	 *		// Get the value of a cookie or return a default value 
+	 *		// Get the value of a cookie or return a default value
 	 *		$favorite = Cookie::get('framework', 'Laravel');
 	 * </code>
 	 *

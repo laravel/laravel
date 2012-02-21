@@ -4,6 +4,16 @@ use Closure;
 use Laravel\Bundle;
 use Laravel\Request;
 
+/**
+ * The Filter class provides a method of running code before or after
+ * a route or controller action has been called.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/routing#filters
+ */
 class Filter {
 
 	/**
@@ -106,13 +116,22 @@ class Filter {
 				if ( ! is_null($response) and $override)
 				{
 					return $response;
-				}				
+				}
 			}
 		}
 	}
 
 }
 
+/**
+ * The Filter_Collection class is used to store and retrieve Filters
+ * which have been registered.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Filter_Collection {
 
 	/**

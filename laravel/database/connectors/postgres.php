@@ -1,5 +1,14 @@
 <?php namespace Laravel\Database\Connectors; use PDO;
 
+/**
+ * The Postgres class is a connector for use with Postgres databases.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see  		http://www.postgresql.org/
+ */
 class Postgres extends Connector {
 
 	/**

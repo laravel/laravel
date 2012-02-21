@@ -8,6 +8,16 @@ use Laravel\Session;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
+/**
+ * The Payload class contains methods for interacting with the
+ * session data.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/session/usage
+ */
 class Payload {
 
 	/**
@@ -73,7 +83,7 @@ class Payload {
 		if ( ! $this->has(Session::csrf_token))
 		{
 			$this->put(Session::csrf_token, Str::random(40));
-		}		
+		}
 	}
 
 	/**
@@ -340,7 +350,7 @@ class Payload {
 
 		$minutes = ( ! $expire_on_close) ? $lifetime : 0;
 
-		Cookie::put($cookie, $this->session['id'], $minutes, $path, $domain, $secure);	
+		Cookie::put($cookie, $this->session['id'], $minutes, $path, $domain, $secure);
 	}
 
 }

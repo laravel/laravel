@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Closure;
 
+/**
+ * The Request class provides useful methods relating to the current
+ * HTTP request.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/requests
+ */
 class Request {
 
 	/**

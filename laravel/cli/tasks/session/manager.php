@@ -7,6 +7,16 @@ use Laravel\Session;
 use Laravel\CLI\Tasks\Task;
 use Laravel\Session\Drivers\Sweeper;
 
+/**
+ * The Manager class is a session task which allows for easy creation
+ * of the session database table, and provides a quick method of
+ * clearing it.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Manager extends Task {
 
 	/**

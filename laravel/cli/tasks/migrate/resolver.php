@@ -2,6 +2,15 @@
 
 use Laravel\Bundle;
 
+/**
+ * The Resolver class is a utility class used by the Artisan
+ * migration task for use with database migrations.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Resolver {
 
 	/**

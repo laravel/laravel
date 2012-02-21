@@ -1,5 +1,14 @@
 <?php namespace Laravel\CLI\Tasks\Bundle\Providers; use Laravel\Request;
 
+/**
+ * The Github class is a provider class which allows the downloading of
+ * bundles directly from github.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Github extends Provider {
 
 	/**

@@ -5,6 +5,16 @@ use Laravel\Bundle;
 use Laravel\Request;
 use Laravel\CLI\Tasks\Task;
 
+/**
+ * The Runner class is an Artisan task which allows for running PHPUnit
+ * tests from the command line.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see 		http://www.phpunit.de
+ */
 class Runner extends Task {
 
 	/**
@@ -64,7 +74,7 @@ class Runner extends Task {
 			{
 				$this->stub($path);
 
-				$this->test();				
+				$this->test();
 			}
 		}
 	}

@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The Event class provides methods that allow event listeners to
+ * be registered, and notified when an Event has been fired.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/events
+ */
 class Event {
 
 	/**

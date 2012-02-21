@@ -1,5 +1,15 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+/**
+ * The Blade class handles the parsing of view files which use
+ * Laravel's blade templating system.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link   		http://laravel.com/docs/views/templating
+ */
 class Blade {
 
 	/**

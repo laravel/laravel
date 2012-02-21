@@ -1,5 +1,14 @@
 <?php namespace Laravel\Database;
 
+/**
+ * The Exception class can be used to handle Exceptions relating
+ * to database interaction.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Exception extends \Exception {
 
 	/**
