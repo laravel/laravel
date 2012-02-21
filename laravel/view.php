@@ -95,8 +95,7 @@ class View implements ArrayAccess {
 
 		// Views may have the normal PHP extension or the Blade PHP extension, so
 		// we need to check if either of them exist in the base views directory
-		// for the bundle. We'll check for the PHP extension first since that
-		// is probably the more common of the two.
+		// for the bundle and return the first one we find.
 		foreach (array(EXT, BLADE_EXT) as $extension)
 		{
 			if (file_exists($path = $root.Bundle::element($view).$extension))
