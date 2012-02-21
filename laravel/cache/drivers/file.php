@@ -1,7 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
 /**
- * The class File provides a driver for File based caching.
+ * The File class provides a driver for File based caching.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

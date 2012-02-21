@@ -8,6 +8,7 @@
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/views
  */
 class Response {
 

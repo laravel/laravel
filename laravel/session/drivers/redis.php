@@ -7,7 +7,7 @@
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
- * @see  		replaceme
+ * @see  		http://redis.io/
  */
 class Redis implements Driver {
 

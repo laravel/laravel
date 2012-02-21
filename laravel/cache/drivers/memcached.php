@@ -1,7 +1,7 @@
 <?php namespace Laravel\Cache\Drivers; use Memcache;
 
 /**
- * The class Memcached provides a driver for Memcached based caching.
+ * The Memcached class provides a driver for Memcached based caching.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

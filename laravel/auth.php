@@ -1,12 +1,14 @@
 <?php namespace Laravel;
 
 /**
- * Responsible for handling user authentication.
+ * The Auth class is responsible for handling user authentication, and contains
+ * useful methods for retrieving information about the currently logged in user.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link   		http://laravel.com/docs/auth/usage
  */
 class Auth {
 

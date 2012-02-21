@@ -15,6 +15,7 @@ use Laravel\CLI\Tasks\Task;
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/artisan/tasks#bundle-tasks
  */
 class Bundler extends Task {
 

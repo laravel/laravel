@@ -9,6 +9,7 @@
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
  * @see 		http://redis.io/
+ * @link  		http://laravel.com/docs/database/redis
  */
 class Redis {
 

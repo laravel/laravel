@@ -1,7 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
 /**
- * The APC clas is a cache driver for the Alternative PHP Cache.
+ * The APC class is a cache driver for the Alternative PHP Cache.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

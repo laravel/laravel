@@ -1,7 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
 /**
- * The class Redis provides a driver for Redis based caching.
+ * The Redis class provides a driver for Redis based caching.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

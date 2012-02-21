@@ -5,7 +5,7 @@ use Laravel\Database as DB;
 use Laravel\Database\Connection;
 
 /**
- * The class Database provides a driver for Database based caching.
+ * The Database class provides a driver for Database based caching.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

@@ -1,7 +1,7 @@
 <?php namespace Laravel\Cache\Drivers; use Closure;
 
 /**
- * The class Driver, is an abstract class which Caching drivers extend.
+ * The Driver class is an abstract class which Caching drivers extend.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>

@@ -1,6 +1,9 @@
 <?php namespace Laravel\Database;
 
 /**
+ * The Expression class can be used to retrieve the string value of a database
+ * expression.
+ *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell

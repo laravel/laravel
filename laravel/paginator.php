@@ -1,13 +1,14 @@
 <?php namespace Laravel;
 
 /**
- * The pagination class provides a convenient way of adding
+ * The Paginator class provides a convenient way of adding
  * pagination to database result objects.
  *
  * @package  	Laravel
  * @author  	Taylor Otwell <taylorotwell@gmail.com>
  * @copyright  	2012 Taylor Otwell
  * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/views/pagination
  */
 class Paginator {
 
