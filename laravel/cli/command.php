@@ -28,8 +28,7 @@ class Command {
 
 		// If the task exists within a bundle, we will start the bundle so that any
 		// dependencies can be registered in the application IoC container. If the
-		// task is registered in the container, it will be resolved via the
-		// container instead of by this class.
+		// task is registered in the container,  we'll resolve it.
 		if (Bundle::exists($bundle)) Bundle::start($bundle);
 
 		$task = static::resolve($bundle, $task);
