@@ -1,5 +1,14 @@
 <?php namespace Laravel\Session\Drivers;
 
+/**
+ * The Memcached class provides support for storing session data with Memcached.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see  		http://memcached.org/
+ */
 class Memcached implements Driver {
 
 	/**

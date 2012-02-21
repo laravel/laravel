@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Closure;
 
+/**
+ * The Validator class provides a useful way of validating arrays of
+ * data based upon pre-defined validation rules.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/validation
+ */
 class Validator {
 
 	/**

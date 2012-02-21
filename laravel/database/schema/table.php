@@ -2,6 +2,14 @@
 
 use Laravel\Fluent;
 
+/**
+ * The Table class is used to modify the structure of a database table.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Table {
 
 	/**

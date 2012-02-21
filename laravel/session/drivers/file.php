@@ -1,5 +1,13 @@
 <?php namespace Laravel\Session\Drivers;
 
+/**
+ * The File class provides support for storing session data in the filesystem.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class File implements Driver, Sweeper {
 
 	/**

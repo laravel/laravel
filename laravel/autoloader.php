@@ -1,5 +1,15 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+/**
+ * The Autoloader class is responsible for mapping class names, to their
+ * individual source files, and loading them automatically when needed.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link   		http://laravel.com/docs/loading
+ */
 class Autoloader {
 
 	/**

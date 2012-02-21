@@ -5,6 +5,16 @@ use Laravel\Bundle;
 use Laravel\Request;
 use Laravel\Response;
 
+/**
+ * The Route class represents a mapping between a URI path and its parameters
+ * to a specific closure or controller action.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/routing
+ */
 class Route {
 
 	/**

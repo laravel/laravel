@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Closure;
 
+/**
+ * The IoC class is responsible for managing the creation of object, and
+ * to resolve them throughout the application.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/ioc
+ */
 class IoC {
 
 	/**

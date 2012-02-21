@@ -3,6 +3,14 @@
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
 
+/**
+ * The SQLite class contains Grammar specific to SQLite queries.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class SQLite extends Grammar {
 
 	/**

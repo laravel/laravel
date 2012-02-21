@@ -1,5 +1,16 @@
 <?php namespace Laravel;
 
+/**
+ * The Redis class provides support for the Redis key-value store
+ * software.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see 		http://redis.io/
+ * @link  		http://laravel.com/docs/database/redis
+ */
 class Redis {
 
 	/**
