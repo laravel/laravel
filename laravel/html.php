@@ -180,6 +180,45 @@ class HTML {
 		return static::link(URL::to_route($name, $parameters), $title, $attributes);
 	}
 
+/**
+	 * Generate an HTML link to an action
+	 *
+	 * An array of parameters may be specified to fill in URI segment wildcards.
+	 *
+	 * <code>
+	 *		// Generate a link to the "user@profile" controller action
+	 *		echo HTML::link_to_action('user@profile', 'User Profile');
+	 *
+	 *		// Generate a link to the "user@profile" action and add some parameters
+	 *		echo HTML::link_to_action('user@profile', 'User Profile', array('taylor'));
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @param  bool    $https
+	 * @return string
+	 */
+	public static function link_to_action($action, $title, $parameters = array(), $attributes = array(), $https = false)
+	{
+		return static::link(URL::to_action($action, $parameters, $https), $title, $attributes);
+	}
+
+	/**
+	 * Generate an HTTPS HTML link to a controller action.
+	 *
+	 * @param  string  $action
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_secure_action($action, $title, $parameters = array(), $attributes = array())
+	{
+		return static::link_to_action($action, $title, $parameters, $attributes, true);
+	}
+
 	/**
 	 * Generate an HTML mailto link.
 	 *
