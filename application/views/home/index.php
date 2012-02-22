@@ -121,16 +121,16 @@
 				padding:1em 1em 0.8em 1em;
 			}
 
-			.sep
+			.logo
 			{
-				margin-top:3em;
+				margin-bottom:0.5em;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="top">
 			<div class="container">
-				<h1>Welcome To <em>Laravel</em></h1>
+				<img class="logo" src="http://laravel.com/img/laravel.png" alt="Laravel">
 
 				<h2>A Framework For Web Artisans</h2>
 
