@@ -149,7 +149,7 @@ class Router {
 		call_user_func($callback);
 
 		// Once the routes have been registered, we want to set the group to
-		// null so the attributes will not be assigned to any of the routes
+		// null so the attributes will not be given to any of the routes
 		// that are added after the group is declared.
 		static::$group = null;
 	}
@@ -176,7 +176,7 @@ class Router {
 
 		// If the developer is registering multiple request methods to handle
 		// the URI, we'll spin through each method and register the route
-		// for each of them along with each URI.
+		// for each of them along with each URI and action.
 		if (is_array($method))
 		{
 			foreach ($method as $http)
