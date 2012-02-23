@@ -39,7 +39,13 @@ class Router {
 	 *
 	 * @var array
 	 */
-	public static $fallback = array();
+	public static $fallback = array(
+		'GET'    => array(),
+		'POST'   => array(),
+		'PUT'    => array(),
+		'DELETE' => array(),
+		'HEAD'   => array(),
+	);
 
 	/**
 	 * The current attributes being shared by routes.
@@ -87,7 +93,7 @@ class Router {
 	 *
 	 * @var array
 	 */
-	public static $methods = array('GET', 'POST', 'PUT', 'DELETE');
+	public static $methods = array('GET', 'POST', 'PUT', 'DELETE', 'HEAD');
 
 	/**
 	 * Register a HTTPS route with the router.
@@ -167,6 +173,19 @@ class Router {
 	public static function register($method, $route, $action)
 	{
 		if (is_string($route)) $route = explode(', ', $route);
+
+		// If the developer is registering multiple request methods to handle
+		// the URI, we'll spin through each method and register the route
+		// for each of them along with each URI.
+		if (is_array($method))
+		{
+			foreach ($method as $http)
+			{
+				static::register($http, $route, $action);
+			}
+
+			return;
+		}
 
 		foreach ((array) $route as $uri)
 		{
