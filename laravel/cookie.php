@@ -33,7 +33,7 @@ class Cookie {
 
 		// All cookies are stored in the "jar" when set and not sent directly to the
 		// browser. This simply makes testing all of the cookie stuff very easy
-		// since the jar can be inspected by the tests.
+		// since the jar can be inspected by the application's tests.
 		foreach (static::$jar as $cookie)
 		{
 			static::set($cookie);
