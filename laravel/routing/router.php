@@ -26,7 +26,13 @@ class Router {
 	 *
 	 * @var array
 	 */
-	public static $routes = array();
+	public static $routes = array(
+		'GET'    => array(),
+		'POST'   => array(),
+		'PUT'    => array(),
+		'DELETE' => array(),
+		'HEAD'   => array(),
+	);
 
 	/**
 	 * All of the "fallback" routes that have been registered.

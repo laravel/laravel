@@ -33,6 +33,11 @@ class Request {
 	 */
 	public static function method()
 	{
+		if ($_SERVER['REQUEST_METHOD'] == 'HEAD')
+		{
+			return 'GET';
+		}
+
 		return (static::spoofed()) ? $_POST[Request::spoofer] : $_SERVER['REQUEST_METHOD'];
 	}
 
