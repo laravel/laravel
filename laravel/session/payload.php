@@ -8,6 +8,16 @@ use Laravel\Session;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
 
+/**
+ * The Payload class contains methods for interacting with the
+ * session data.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/session/usage
+ */
 class Payload {
 
 	/**

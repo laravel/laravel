@@ -6,6 +6,15 @@ use Laravel\Bundle;
 use Laravel\CLI\Tasks\Task;
 use Laravel\Database\Schema;
 
+/**
+ * The Migrator class is an Artisan task which provides commands for
+ * creating, applying and reverting database migrations.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Migrator extends Task {
 
 	/**

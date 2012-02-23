@@ -1,5 +1,15 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+/**
+ * The Asset class is responsible for managing assets such as CSS
+ * stylesheets and javascripts that can be used by Views.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link   		http://laravel.com/docs/views/assets
+ */
 class Asset {
 
 	/**
@@ -51,6 +61,14 @@ class Asset {
 
 }
 
+/**
+ * The Asset_Container class is used to store a collection of assets.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Asset_Container {
 
 	/**

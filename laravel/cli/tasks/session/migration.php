@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * The Create_Session_Table class is a migration used by the manager
+ * Artisan task to create the session database table.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Create_Session_Table {
 
 	/**

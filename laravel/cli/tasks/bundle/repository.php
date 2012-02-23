@@ -1,5 +1,14 @@
 <?php namespace Laravel\CLI\Tasks\Bundle;
 
+/**
+ * The Repository class is used by the Bundler Artisan task to
+ * communicate with the Laravel bundles API.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Repository {
 
 	/**

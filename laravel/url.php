@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Laravel\Routing\Router, Laravel\Routing\Route;
 
+/**
+ * The URL class is a utility class providing useful methods for interacting
+ * with URLs within the framework.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/urls
+ */
 class URL {
 
 	/**

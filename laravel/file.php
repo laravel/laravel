@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Closure, FilesystemIterator as fIterator;
 
+/**
+ * The File class is a utility class that provides useful methods for
+ * interacting with the hosts file system.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/files
+ */
 class File {
 
 	/**

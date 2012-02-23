@@ -1,5 +1,15 @@
 <?php namespace Laravel; use Laravel\Routing\Router;
 
+/**
+ * The Redirect class allows for the redirection of the current request
+ * to a controller action or route.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/views#redirects
+ */
 class Redirect extends Response {
 
 	/**

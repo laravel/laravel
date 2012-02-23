@@ -5,6 +5,16 @@ use Laravel\Database;
 use Laravel\Paginator;
 use Laravel\Database\Query\Grammars\SQLServer;
 
+/**
+ * The Query class contains the methods used by the Fluent Query Builder
+ * to created an SQL query.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/database/raw
+ */
 class Query {
 
 	/**

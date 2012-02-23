@@ -5,6 +5,16 @@ use Laravel\Str;
 use Laravel\Bundle;
 use Laravel\Request;
 
+/**
+ * The Router class ensures that routes are parsed correctly, and
+ * the correct closure or controller action is fired.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/routing
+ */
 class Router {
 
 	/**

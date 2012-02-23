@@ -9,6 +9,16 @@ use Laravel\Request;
 use Laravel\Redirect;
 use Laravel\Response;
 
+/**
+ * The Controller abstract class can be extended by application controllers
+ * to group similar actions, and respond to HTTP requests.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link 		http://laravel.com/docs/controllers
+ */
 abstract class Controller {
 
 	/**

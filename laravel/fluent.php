@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The Fluent class acts as a container for creating objects with chainable
+ * methods.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/database/fluent
+ */
 class Fluent {
 
 	/**

@@ -1,5 +1,15 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+/**
+ * The Crypter class contains method for encrypting and decrypting strings
+ * in AES-256 with base64 encoding.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/encryption
+ */
 class Crypter {
 
 	/**

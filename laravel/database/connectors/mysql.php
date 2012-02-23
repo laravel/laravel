@@ -1,5 +1,14 @@
 <?php namespace Laravel\Database\Connectors; use PDO;
 
+/**
+ * The MySQL class is a connector for use with MySQL databases.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @see  		http://www.mysql.com/
+ */
 class MySQL extends Connector {
 
 	/**

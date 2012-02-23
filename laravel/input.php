@@ -1,5 +1,15 @@
 <?php namespace Laravel;
 
+/**
+ * The Input class provides useful methods to interact with the
+ * applications request data.
+ *
+ * @package  	Laravel
+ * @author  	Taylor Otwell <taylorotwell@gmail.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ * @link  		http://laravel.com/docs/input#input
+ */
 class Input {
 
 	/**
