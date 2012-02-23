@@ -64,10 +64,6 @@ class View implements ArrayAccess {
 		// If a session driver has been specified, we will bind an instance of the
 		// validation error message container to every view. If an errors instance
 		// exists in the session, we will use that instance.
-		//
-		// This makes error display in the view extremely convenient, since the
-		// developer can always assume they have a message container instance
-		// available to them in the view's variables.
 		if ( ! isset($this->data['errors']))
 		{
 			if (Session::started() and Session::has('errors'))
