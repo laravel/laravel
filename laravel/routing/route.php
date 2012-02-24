@@ -348,5 +348,17 @@ class Route {
 	{
 		Filter::register($name, $callback);
 	}
+	
+	/**
+	 * Calls the specified route and returns its response.
+	 *
+	 * @param  string    $method
+	 * @param  string    $uri
+	 * @return Response
+	 */
+	public static function load($method, $uri)
+	{
+		return Router::route(strtoupper($method), $uri)->call();
+	}
 
 }
