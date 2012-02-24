@@ -8,7 +8,6 @@
  */
 define('EXT', '.php');
 define('CRLF', "\r\n");
-define('BLADE_EXT', '.blade.php');
 define('DEFAULT_BUNDLE', 'application');
 define('MB_STRING', (int) function_exists('mb_get_info'));
 
