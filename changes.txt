@@ -1,8 +1,8 @@
 Changes for 3.1:
 
-	- View engine, Blade extracted to bundle.
+	- ** View engine, Blade extracted to bundle.
 	- Logging events.
-	- db.fetch option for changing PDO fetch style.
+	- ** db.fetch option for changing PDO fetch style.
 	- controller factories for injecting any IoC.
 	- link_to_action HTML helpers...
 	- default value on config::get
