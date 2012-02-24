@@ -66,7 +66,7 @@ class Cookie {
 			setcookie($name, $value, $time, $path, $domain, $secure);
 		}
 	}
-	
+
 
 	/**
 	 * Get the value of a cookie.
@@ -92,7 +92,7 @@ class Cookie {
 		if ( ! is_null($value) and isset($value[40]) and $value[40] == '~')
 		{
 			// The hash signature and the cookie value are separated by a tilde
-			// character for convenience. To separate the hash and the contents
+			// character for convenience. To separate the hash and the payload
 			// we can simply expode on that character.
 			list($hash, $value) = explode('~', $value, 2);
 
