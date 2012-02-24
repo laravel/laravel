@@ -38,6 +38,13 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
+	 * The Laravel view engine event name.
+	 *
+	 * @var string
+	 */
+	const engine = 'laravel.view.engine';
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -194,15 +201,17 @@ class View implements ArrayAccess {
 	{
 		// To allow bundles or other pieces of the application to modify the
 		// view before it is rendered, we'll fire an event, passing in the
-		// view instance so it can modified.
-		Event::fire("laravel.composing: {$this->view}", array($this));
+		// view instance so it can modified by the composer.
+		$composer = "laravel.composing: {$this->view}";
+
+		Event::fire($composer, array($this));
 
 		// If there are listeners to the view engine event, we'll pass them
 		// the view so they can render it according to their needs, which
 		// allows easy attachment of other view parsers.
-		if (Event::listeners('laravel.viewer'))
+		if (Event::listeners(static::engine))
 		{
-			return Event::first('laravel.viewer', array($this));
+			return Event::first(static::engine, array($this));
 		}
 		else
 		{
