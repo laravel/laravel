@@ -5,3 +5,4 @@ Changes for 3.1:
 	- db.fetch option for changing PDO fetch style.
 	- controller factories for injecting any IoC.
 	- link_to_action HTML helpers...
+	- default value on config::get
