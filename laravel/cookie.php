@@ -31,9 +31,9 @@ class Cookie {
 	{
 		if (headers_sent()) return false;
 
-		// All cookies are stored in the "jar" when set and not sent directly to the
-		// browser. This simply makes testing all of the cookie stuff very easy
-		// since the jar can be inspected by the application's tests.
+		// All cookies are stored in the "jar" when set and not sent directly to
+		// the browser. This simply makes testing all of the cookie stuff very
+		// easy since the jar can be inspected by tests.
 		foreach (static::$jar as $cookie)
 		{
 			static::set($cookie);
@@ -52,18 +52,21 @@ class Cookie {
 
 		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
 
-		// A cookie payload can't exceed 4096 bytes, so if the payload is greater
-		// than that, we'll raise an error to warn the developer since it could
-		// cause serious cookie-based session problems.
 		$value = static::sign($name, $value);
 
+		// A cookie payload can't exceed 4096 bytes, so if the cookie payload
+		// is greater than that, we'll raise an error to warn the developer
+		// since it could cause cookie session problems.
 		if (strlen($value) > 4000)
 		{
 			throw new \Exception("Payload too large for cookie.");
 		}
-
-		setcookie($name, $value, $time, $path, $domain, $secure);
+		else
+		{
+			setcookie($name, $value, $time, $path, $domain, $secure);
+		}
 	}
+	
 
 	/**
 	 * Get the value of a cookie.
@@ -91,12 +94,11 @@ class Cookie {
 			// The hash signature and the cookie value are separated by a tilde
 			// character for convenience. To separate the hash and the contents
 			// we can simply expode on that character.
-			//
-			// By re-feeding the cookie value into the "sign" method we should
-			// be able to generate a hash that matches the one taken from the
-			// cookie. If they don't, the cookie value has been changed.
 			list($hash, $value) = explode('~', $value, 2);
 
+			// By re-feeding the cookie value into the "hash" method we should
+			// be able to generate a hash that matches the one taken from the
+			// cookie. If they don't, we return null.
 			if (static::hash($name, $value) === $hash)
 			{
 				return $value;
