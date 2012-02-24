@@ -142,8 +142,7 @@ class Connection {
 
 		// The result we return depends on the type of query executed against the
 		// database. On SELECT clauses, we will return the result set, for update
-		// and deletes we will return the affected row count. And for all other
-		// queries we'll just return the boolean result.
+		// and deletes we will return the affected row count.
 		if (stripos($sql, 'select') === 0)
 		{
 			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
