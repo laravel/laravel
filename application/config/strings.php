@@ -31,6 +31,20 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| HTML Self-Closing Syntax
+	|--------------------------------------------------------------------------
+	|
+	| Here you can set the global syntax of self-closing tags for functions
+	| that generate HTML, such as those found in the Form and HTML classes.
+	| This ensures that Laravel's generated HTML will validate, no matter what
+	| doctype you use.
+	|
+	*/
+
+	'close_tag' => '>',
+
+	/*
+	|--------------------------------------------------------------------------
 	| ASCII Characters
 	|--------------------------------------------------------------------------
 	|

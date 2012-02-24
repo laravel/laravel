@@ -73,7 +73,7 @@ class HTML {
 
 		$url = static::entities(URL::to_asset($url));
 
-		return '<link href="'.$url.'"'.static::attributes($attributes).'>'.PHP_EOL;
+		return '<link href="'.$url.'"'.static::attributes($attributes).Config::get('strings.close_tag').PHP_EOL;
 	}
 
 	/**
@@ -224,7 +224,7 @@ class HTML {
 	{
 		$attributes['alt'] = $alt;
 
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
+		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).Config::get('strings.close_tag');
 	}
 
 	/**
