@@ -211,7 +211,45 @@ class URI {
 
 		return array_get(static::$segments, $index - 1, $default);
 	}
-
+	
+	/**
+	 * Get the value of a specific segment key of the request URI.
+	 *
+	 * <code>
+	 *		// Get the value of the segment key "page"
+	 *		$value = URI::segment_value('page');
+	 *
+	 *		// Get the value of the segment key "page", or return a default value
+	 *		$segment = URI::segment('page', '1');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public static function segment_value($uri_key, $default = null)
+	{
+		static::current();
+		
+		$i = 0;
+		
+		foreach (static::$segments as $value)
+		{
+			if ($uri_key == $value)
+			{
+				// We do +1 because the next segment is the value for the key
+				return static::$segments[$i+1]; 
+			}
+			else
+			{
+				$i++;
+			}
+		}
+		
+		// If we got this far, return our default
+		return $default;
+	}
+	
 	/**
 	 * Set the URI segments for the request.
 	 *
