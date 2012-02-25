@@ -37,9 +37,9 @@ class Bundler extends Task {
 	{
 		foreach ($this->get($bundles) as $bundle)
 		{
-			if (Bundle::exists($bundle['name']))
+			if (Bundle::exists($bundle['path']))
 			{
-				echo "Bundle {$bundle['name']} is already installed.";
+				echo "Bundle [{$bundle['name']}] is already installed.";
 
 				continue;
 			}
