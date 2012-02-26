@@ -56,14 +56,16 @@ class Autoloader {
 			require static::$mappings[$class];
 		}
 
+		$namespace = root_namespace($class).'\\';
+
 		// If the class namespace is mapped to a directory, we will load the
 		// class using the PSR-0 standards from that directory accounting
 		// for the root of the namespace by trimming it.
-		if ( ! is_null($info = static::namespaced($class)))
+		if (isset(static::$namespaces[$namespace]))
 		{
-			$class = substr($class, strlen($info['namespace']));
+			$class = substr($class, strlen($namespace));
 
-			return static::load_psr($class, $info['directory']);
+			return static::load_psr($class, static::$namespaces[$namespace]);
 		}
 
 		static::load_psr($class);
@@ -99,23 +101,6 @@ class Autoloader {
 			elseif (file_exists($path = $directory.$file.EXT))
 			{
 				return require $path;
-			}
-		}
-	}
-
-	/**
-	 * Get the directory for a given namespaced class.
-	 *
-	 * @param  string  $class
-	 * @return string
-	 */
-	protected static function namespaced($class)
-	{
-		foreach (static::$namespaces as $namespace => $directory)
-		{
-			if (starts_with($class, $namespace))
-			{
-				return compact('namespace', 'directory');
 			}
 		}
 	}

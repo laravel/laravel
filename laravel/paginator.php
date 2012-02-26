@@ -216,7 +216,7 @@ class Paginator {
 		//
 		// Likewise, if the page is very close to the end, we will create the
 		// beginning of the slider, but just show the last several pages at
-		// the end of the slider.
+		// the end of the slider. Otherwise, we'll build the range.
 		//
 		// Example: 1 [2] 3 4 5 6 ... 23 24
 		if ($this->page <= $window)
