@@ -201,7 +201,7 @@ class View implements ArrayAccess {
 	{
 		// To allow bundles or other pieces of the application to modify the
 		// view before it is rendered, we'll fire an event, passing in the
-		// view instance so it can modified by the composer.
+		// view instance so it can modified.
 		$composer = "laravel.composing: {$this->view}";
 
 		Event::fire($composer, array($this));
@@ -232,7 +232,7 @@ class View implements ArrayAccess {
 
 		// We'll include the view contents for parsing within a catcher
 		// so we can avoid any WSOD errors. If an exception occurs we
-		// will just throw it back out to the exception handler.
+		// will throw it out to the exception handler.
 		try
 		{
 			include $this->path;
