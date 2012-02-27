@@ -365,13 +365,14 @@ function str_finish($value, $cap)
  * Get the root namespace of a given class.
  *
  * @param  string  $class
+ * @param  string  $separator
  * @return string
  */
-function root_namespace($class)
+function root_namespace($class, $separator = '\\')
 {
-	if (str_contains($class, '\\'))
+	if (str_contains($class, $separator))
 	{
-		return head(explode('\\', $class));
+		return head(explode($separator, $class));
 	}
 }
 
