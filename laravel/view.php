@@ -38,6 +38,20 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
+	 * The extensions a view file can have.
+	 *
+	 * @var array
+	 */
+	public static $extensions = array(EXT);
+
+	/**
+	 * The path in which a view can live.
+	 *
+	 * @var array
+	 */
+	public static $paths = array(DEFAULT_BUNDLE => array(''));
+
+	/**
 	 * The Laravel view engine event name.
 	 *
 	 * @var string
@@ -99,11 +113,16 @@ class View implements ArrayAccess {
 		// We need to make sure that the view exists. If it doesn't, we will
 		// throw an exception since there is not any point in going further.
 		// If it does, we can just return the full view path.
-		$path = $root.Bundle::element($view).EXT;
+		$paths = array_get(static::$paths, Bundle::name($view), array(''));
 
-		if (file_exists($path))
+		foreach ($paths as $path)
 		{
-			return $path;
+			foreach (static::$extensions as $ext)
+			{
+				$file = $root.$path.Bundle::element($view).$ext;
+
+				if (file_exists($file)) return $file;
+			}
 		}
 
 		throw new \Exception("View [$view] doesn't exist.");
@@ -211,12 +230,12 @@ class View implements ArrayAccess {
 		// allows easy attachment of other view parsers.
 		if (Event::listeners(static::engine))
 		{
-			return Event::first(static::engine, array($this));
+			$result = Event::first(static::engine, array($this));
+
+			if ($result !== false) return $result;
 		}
-		else
-		{
-			return $this->get();
-		}
+
+		return $this->get();
 	}
 
 	/**
