@@ -172,11 +172,13 @@ class Connection {
 
 		// Since expressions are injected into the query as strings, we need to
 		// remove them from the array of bindings. After we have removed them,
-		// we'll reset the array so there aren't gaps in the keys.
-		$bindings = array_values(array_filter($bindings, function($binding)
+		// we'll reset the array so there are not gaps within the keys.
+		$bindings = array_filter($bindings, function($binding)
 		{
 			return ! $binding instanceof Expression;
-		}));
+		});
+
+		$bindings = array_values($bindings);
 
 		$sql = $this->grammar()->shortcut($sql, $bindings);
 
