@@ -15,12 +15,27 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 - PHPUnit Integration.
 - A lot more.
 
-### "Hello World"
+### A Few Examples
+
+**Hello World:**
 
 	Route::get('/', function()
 	{
 		return "Hello World!":
 	});
+
+**Passing Data To Views:**
+
+	Route::get('user/(:num)', function($id)
+	{
+		$user = DB::table('users')->find($id);
+
+		return View::make('profile')->with('user', $user);
+	});
+
+**Redirecting & Flashing Data To The Session:**
+
+	return Redirect::to('profile')->with('message', 'Welcome Back!');
 
 ### Contributing to Laravel
 
