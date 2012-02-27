@@ -212,6 +212,31 @@ class View implements ArrayAccess {
 	}
 
 	/**
+	 * Register a new root path for a bundle.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $path
+	 * @return void
+	 */
+	public static function search($bundle, $path)
+	{
+		static::$paths[$bundle][] = $path;
+	}
+
+	/**
+	 * Register a new valid view extension.
+	 *
+	 * @param  string  $extension
+	 * @return void
+	 */
+	public static function extension($extension)
+	{
+		static::$extensions[] = $extension;
+
+		static::$extensions = array_unique(static::$extensions);
+	}
+
+	/**
 	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
