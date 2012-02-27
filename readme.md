@@ -15,6 +15,13 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 - PHPUnit Integration.
 - A lot more.
 
+### "Hello World"
+
+	Route::get('/', function()
+	{
+		return "Hello World!":
+	});
+
 ### Contributing to Laravel
 
 Contributions are encouraged and welcome; however, please review the Developer Certificate of Origin in the "license.txt" file included in the repository. All commits must be signed off using the "-s" switch.
