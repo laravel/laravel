@@ -52,7 +52,7 @@ class Payload {
 	{
 		if ( ! is_null($id)) $this->session = $this->driver->load($id);
 
-		// If the session doesn't exist or is invalid, we will create a new session
+		// If the session doesn't exist or is invalid we will create a new session
 		// array and mark the session as being non-existent. Some drivers, such as
 		// the database driver, need to know whether the session exists in storage
 		// so they can know whether to insert or update the session.
