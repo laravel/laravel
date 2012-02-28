@@ -39,7 +39,18 @@ class Filter {
 	{
 		if (isset(static::$aliases[$name])) $name = static::$aliases[$name];
 
-		static::$filters[$name] = $callback;
+		if (isset(static::$filters[$name]))
+		{
+			$old = static::$filters[$name];
+			static::$filters[$name] = function() use ($old, $callback) {
+				call_user_func_array($callback, func_get_args());
+				call_user_func_array($old, func_get_args());
+			};
+		} 
+		else 
+		{
+			static::$filters[$name] = $callback;
+		}
 	}
 
 	/**
