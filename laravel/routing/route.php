@@ -191,6 +191,8 @@ class Route {
 	 */
 	protected function patterns()
 	{
+		$filters = array();
+
 		// We will simply iterate through the registered patterns and
 		// check the URI pattern against the URI for the route and
 		// if they match we'll attach the filter.
