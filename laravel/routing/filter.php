@@ -38,14 +38,17 @@ class Filter {
 	 *		Filter::register('before', array('Class', 'method'));
 	 * </code>
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $callback
+	 * @param  string  $name
+	 * @param  mixed   $callback
 	 * @return void
 	 */
-	public static function register($name, Closure $callback)
+	public static function register($name, $callback)
 	{
 		if (isset(static::$aliases[$name])) $name = static::$aliases[$name];
 
+		// If the filter starts with "pattern: ", the filter is being setup to match on
+		// all requests that match a given pattern. This is nice for defining filters
+		// that handle all URIs beginning with "admin" for example.
 		if (starts_with($name, 'pattern: '))
 		{
 			foreach (explode(', ', substr($name, 9)) as $pattern)
@@ -102,8 +105,7 @@ class Filter {
 
 				// We will also go ahead and start the bundle for the developer. This allows
 				// the developer to specify bundle filters on routes without starting the
-				// bundle manually, and performance is improved since the bundle is only
-				// started when needed.
+				// bundle manually, and performance is improved by lazy-loading.
 				Bundle::start(Bundle::name($filter));
 
 				if ( ! isset(static::$filters[$filter])) continue;

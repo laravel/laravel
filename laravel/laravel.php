@@ -98,8 +98,7 @@ switch (Request::method())
 		$input = $_POST;
 		break;
 
-	case 'PUT':
-	case 'DELETE':
+	default:
 		if (Request::spoofed())
 		{
 			$input = $_POST;

@@ -31,6 +31,7 @@ class Router {
 		'POST'   => array(),
 		'PUT'    => array(),
 		'DELETE' => array(),
+		'PATCH'  => array(),
 		'HEAD'   => array(),
 	);
 
@@ -44,6 +45,7 @@ class Router {
 		'POST'   => array(),
 		'PUT'    => array(),
 		'DELETE' => array(),
+		'PATCH'  => array(),
 		'HEAD'   => array(),
 	);
 
