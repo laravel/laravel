@@ -7,3 +7,4 @@ Changes for 3.1:
 	- link_to_action HTML helpers...
 	- default value on config::get
 	- Registering of view paths and extensions
+	- Pattern based filters.
