@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class Memcached implements Driver {
+class Memcached extends Driver {
 
 	/**
 	 * The Memcache cache driver instance.

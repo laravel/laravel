@@ -54,22 +54,17 @@ class Payload {
 
 		// If the session doesn't exist or is invalid we will create a new session
 		// array and mark the session as being non-existent. Some drivers, such as
-		// the database driver, need to know whether the session exists in storage
-		// so they can know whether to insert or update the session.
+		// the database driver, need to know whether it exists.
 		if (is_null($this->session) or static::expired($this->session))
 		{
 			$this->exists = false;
 
-			$this->session = array('id' => Str::random(40), 'data' => array(
-				':new:' => array(),
-				':old:' => array(),
-			));
+			$this->session = $this->driver->fresh();
 		}
 
 		// A CSRF token is stored in every session. The token is used by the Form
 		// class and the "csrf" filter to protect the application from cross-site
-		// request forgery attacks. The token is simply a long, random string
-		// which should be posted with each request to the application.
+		// request forgery attacks. The token is simply a random string.
 		if ( ! $this->has(Session::csrf_token))
 		{
 			$this->put(Session::csrf_token, Str::random(40));
@@ -125,8 +120,7 @@ class Payload {
 
 		// We check for the item in the general session data first, and if it
 		// does not exist in that data, we will attempt to find it in the new
-		// and old flash data. If none of those arrays contain the requested
-		// item, we will just return the default value.
+		// and old flash data, or finally return the default value.
 		if ( ! is_null($value = array_get($session, $key)))
 		{
 			return $value;
@@ -247,7 +241,7 @@ class Payload {
 	 */
 	public function regenerate()
 	{
-		$this->session['id'] = Str::random(40);
+		$this->session['id'] = $this->driver->id();
 
 		$this->exists = false;
 	}

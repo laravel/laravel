@@ -2,7 +2,7 @@
 
 use Laravel\Crypter;
 
-class Cookie implements Driver {
+class Cookie extends Driver {
 
 	/**
 	 * The name of the cookie used to store the session payload.
