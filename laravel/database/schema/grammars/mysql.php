@@ -91,21 +91,6 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Get the SQL syntax for indicating if a column is unsigned.
-	 *
-	 * @param  Table   $table
-	 * @param  Fluent  $column
-	 * @return string
-	 */
-	protected function unsigned(Table $table, Fluent $column)
-	{
-		if ($column->type == 'integer' && $column->unsigned)
-		{
-			return ' UNSIGNED';
-		}
-	}
-
-	/**
 	 * Get the SQL syntax for indicating if a column is nullable.
 	 *
 	 * @param  Table   $table
