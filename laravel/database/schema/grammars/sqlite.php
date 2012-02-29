@@ -91,7 +91,7 @@ class SQLite extends Grammar {
 			// types to the types used by the database.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
@@ -102,6 +102,21 @@ class SQLite extends Grammar {
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is unsigned.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function unsigned(Table $table, Fluent $column)
+	{
+		if ($column->type == 'integer' && $column->unsigned)
+		{
+			return ' UNSIGNED';
+		}
 	}
 
 	/**

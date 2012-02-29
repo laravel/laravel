@@ -65,7 +65,7 @@ class Postgres extends Grammar {
 			// types to the types used by the database.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('incrementer', 'nullable', 'defaults');
+			$elements = array('unsigned', 'incrementer', 'nullable', 'defaults');
 
 			foreach ($elements as $element)
 			{
@@ -76,6 +76,21 @@ class Postgres extends Grammar {
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is unsigned.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function unsigned(Table $table, Fluent $column)
+	{
+		if ($column->type == 'integer' && $column->unsigned)
+		{
+			return ' UNSIGNED';
+		}
 	}
 
 	/**
