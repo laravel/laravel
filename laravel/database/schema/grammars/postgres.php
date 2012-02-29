@@ -65,7 +65,7 @@ class Postgres extends Grammar {
 			// types to the types used by the database.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('incrementer', 'nullable', 'defaults');
+			$elements = array('unsigned', 'incrementer', 'nullable', 'defaults');
 
 			foreach ($elements as $element)
 			{
