@@ -91,7 +91,7 @@ class SQLite extends Grammar {
 			// types to the types used by the database.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
