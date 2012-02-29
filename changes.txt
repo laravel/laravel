@@ -9,3 +9,4 @@ Changes for 3.1:
 	- Registering of view paths and extensions
 	- Pattern based filters.
 	- Better session ID assignment
+	- Added cviebrock's unsigned support.
