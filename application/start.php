@@ -49,6 +49,41 @@ Laravel\Autoloader::$aliases = $aliases;
 
 /*
 |--------------------------------------------------------------------------
+| Laravel View Loader
+|--------------------------------------------------------------------------
+|
+| The Laravel view loader is responsible for returning the full file path
+| for the given bundle and view. Of course, a default implementation is
+| provided to load views according to typical Laravel conventions but
+| you may change this to customize how your views are organized.
+|
+*/
+
+Event::listen(View::loader, function($bundle, $view)
+{
+	return View::file($bundle, $view);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Laravel Language Loader
+|--------------------------------------------------------------------------
+|
+| The Laravel language loader is responsible for returning the array of
+| language lines for a given bundle, language, and "file". A default
+| implementation has been provided which uses the default language
+| directories included with Laravel. However, you may tweak this
+| method to laad your language arrays however you wish.
+|
+*/
+
+Event::listen(Lang::loader, function($bundle, $language, $file)
+{
+	return Lang::file($bundle, $language, $file);
+});
+
+/*
+|--------------------------------------------------------------------------
 | Set The Default Timezone
 |--------------------------------------------------------------------------
 |

@@ -52,6 +52,13 @@ class View implements ArrayAccess {
 	public static $paths = array(DEFAULT_BUNDLE => array(''));
 
 	/**
+	 * The Laravel view loader event name.
+	 *
+	 * @var string
+	 */
+	const loader = 'laravel.view.loader';
+
+	/**
 	 * The Laravel view engine event name.
 	 *
 	 * @var string
@@ -106,26 +113,38 @@ class View implements ArrayAccess {
 	 */
 	protected function path($view)
 	{
+		list($bundle, $view) = Bundle::parse($view);
+
 		$view = str_replace('.', '/', $view);
 
-		$root = Bundle::path(Bundle::name($view)).'views/';
+		// We delegate the determination of view paths to the view loader
+		// event so that the developer is free to override and manage
+		// the loading views in any way they see fit.
+		$path = Event::first(static::loader, array($bundle, $view));
 
-		// We need to make sure that the view exists. If it doesn't, we will
-		// throw an exception since there is not any point in going further.
-		// If it does, we can just return the full view path.
-		$paths = array_get(static::$paths, Bundle::name($view), array(''));
-
-		foreach ($paths as $path)
+		if ( ! is_null($path))
 		{
-			foreach (static::$extensions as $ext)
-			{
-				$file = $root.$path.Bundle::element($view).$ext;
-
-				if (file_exists($file)) return $file;
-			}
+			return $path;
 		}
 
 		throw new \Exception("View [$view] doesn't exist.");
+	}
+
+	/**
+	 * Get the path to a view using the default folder convention.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $view
+	 * @return string
+	 */
+	public static function file($bundle, $view)
+	{
+		$root = Bundle::path($bundle).'views/';
+
+		if (file_exists($path = $root.$view.EXT))
+		{
+			return $path;
+		}
 	}
 
 	/**
