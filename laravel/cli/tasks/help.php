@@ -15,7 +15,7 @@ class Help extends Task {
 	{
 		if(! count($arguments)) $this->_help();
 
-		$task = IoC::resolve('task: '. $arguments[0]);
+		$task = IoC::resolve('task: '. Str::lower($arguments[0]));
 
 		if(is_callable(array($task, 'help')))
 		{
