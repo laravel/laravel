@@ -64,26 +64,9 @@ if (isset($_SERVER['CLI']['ENV']))
 }
 
 /**
- * Register all of the core class aliases. These aliases provide a
- * convenient way of working with the Laravel core classes without
- * having to worry about the namespacing. The developer is also
- * free to remove aliases when they extend core classes.
- */
-Autoloader::$aliases = Config::get('application.aliases');
-
-/**
- * Register the default timezone for the application. This will
- * be the default timezone used by all date functions through
- * throughout the entire application.
- */
-$timezone = Config::get('application.timezone');
-
-date_default_timezone_set($timezone);
-
-/**
- * Finally we'll grab all of the bundles and register them
- * with the bundle class. All of the bundles are stored in
- * an array within the application directory.
+ * Finally we'll grab all of the bundles and register them with the
+ * bundle class. All of the bundles are stored in an array within
+ * the application directory which defines all bundles.
  */
 $bundles = require path('app').'bundles'.EXT;
 

@@ -2,6 +2,67 @@
 
 /*
 |--------------------------------------------------------------------------
+| PHP Display Errors Configuration
+|--------------------------------------------------------------------------
+|
+| Since Laravel intercepts and displays all errors with a detailed stack
+| trace, we can turn off the display_errors ini directive. However, you
+| may want to enable this option if you ever run into a dreaded white
+| screen of death, as it can provide some clues.
+|
+*/
+
+ini_set('display_errors', 'Off');
+
+/*
+|--------------------------------------------------------------------------
+| Register Class Aliases
+|--------------------------------------------------------------------------
+|
+| Aliases allow you to use classes without always specifying their fully
+| namespaced path. This is convenient for working with any library that
+| makes a heavy use of namespace for class organization. Here we will
+| simply register the configured class aliases.
+|
+*/
+
+$aliases = Laravel\Config::get('application.aliases');
+
+Laravel\Autoloader::$aliases = $aliases;
+
+/*
+|--------------------------------------------------------------------------
+| Set The Default Timezone
+|--------------------------------------------------------------------------
+|
+| We need to set the default timezone for the application. This controls
+| the timezone that will be used by any of the date methods and classes
+| utilized by Laravel or your application. The timezone may be set in
+| your application configuration file.
+|
+*/
+
+date_default_timezone_set(Config::get('application.timezone'));
+
+/*
+|--------------------------------------------------------------------------
+| Start / Load The User Session
+|--------------------------------------------------------------------------
+|
+| Sessions allow the web, which is stateless, to simulate state. In other
+| words, sessions allow you to store information about the current user
+| and state of your application. Here we'll just fire up the session
+| if a session driver has been configured.
+|
+*/
+
+if (Config::get('session.driver') !== '')
+{
+	Session::load();
+}
+
+/*
+|--------------------------------------------------------------------------
 | Auto-Loader Mappings
 |--------------------------------------------------------------------------
 |

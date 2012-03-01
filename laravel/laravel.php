@@ -50,8 +50,6 @@ register_shutdown_function(function()
  */
 error_reporting(-1);
 
-ini_set('display_errors', Config::get('error.display'));
-
 /**
  * Even though "Magic Quotes" are deprecated in PHP 5.3, they may
  * still be enabled on the server. To account for this, we will
@@ -66,18 +64,6 @@ if (magic_quotes())
 	{
 		$magic = array_strip_slashes($magic);
 	}
-}
-
-/**
- * Load the session using the session manager. The payload will
- * be set on a static property of the Session class for easy
- * access throughout the framework and application.
- */
-if (Config::get('session.driver') !== '')
-{
-	Session::start(Config::get('session.driver'));
-
-	Session::load(Cookie::get(Config::get('session.cookie')));
 }
 
 /**
