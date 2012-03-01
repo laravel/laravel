@@ -10,3 +10,6 @@ Changes for 3.1:
 	- Pattern based filters.
 	- Better session ID assignment
 	- Added cviebrock's unsigned support.
+	- Added config, view, and lang loaders.
+	- Moved more stuff into application/start
+	- Removed error.display config options.
