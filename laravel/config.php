@@ -175,14 +175,7 @@ class Config {
 		// We allow a "config.loader" event to be registered which is responsible for
 		// returning an array representing the configuration for the bundle and file
 		// requested. This allows many types of config "drivers".
-		if (Event::listeners(static::loader))
-		{
-			$config = Event::first(static::loader, func_get_args());
-		}
-		else
-		{
-			$config = static::file($bundle, $file);
-		}
+		$config = Event::first(static::loader, func_get_args());
 
 		// If configuration items were actually found for the bundle and file we
 		// will add them to the configuration array and return true, otherwise

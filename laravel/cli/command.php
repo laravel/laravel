@@ -44,7 +44,7 @@ class Command {
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
-		if(is_callable(array($task, $method)))
+		if (is_callable(array($task, $method)))
 		{
 			$task->$method(array_slice($arguments, 1));
 		}
@@ -114,7 +114,7 @@ class Command {
 
 		// First we'll check to see if the task has been registered in the
 		// application IoC container. This allows all dependencies to be
-		// injected into tasks for more testability.
+		// injected into tasks for more flexible testability.
 		if (IoC::registered("task: {$identifier}"))
 		{
 			return IoC::resolve("task: {$identifier}");
