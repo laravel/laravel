@@ -301,7 +301,7 @@ class MySQL extends Grammar {
 	 */
 	public function drop_foreign(Table $table, Fluent $command)
 	{
-		return $this->drop_constraint($table, $command);		
+		return "ALTER TABLE ".$this->wrap($table)." DROP FOREIGN KEY ".$command->name;
 	}
 
 	/**
