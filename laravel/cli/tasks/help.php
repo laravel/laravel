@@ -77,7 +77,22 @@ class Help extends Task {
 	 */
 	private function _help()
 	{
-		echo "This will be the main help dialog." . PHP_EOL;
+		echo "Commands:" . PHP_EOL;
+
+		echo "\tbundle" . PHP_EOL;
+		echo "\tkey" . PHP_EOL;
+		echo "\tmigrate" . PHP_EOL;
+		echo "\troute" . PHP_EOL;
+		echo "\tsession" . PHP_EOL;
+		echo "\ttest" . PHP_EOL;
+
+		echo "\nOptions:" . PHP_EOL;
+		echo "\t--env=<value>" . PHP_EOL;
+		echo "\t\tSet the Laravel Environment." . PHP_EOL;
+		echo "\t--database=<name>" . PHP_EOL;
+		echo "\t\tSet the default database connection." . PHP_EOL;
+
+		echo "\nUse `php artisan help <command>` to find help for a command." . PHP_EOL;
 		exit();
 	}
 
