@@ -3,6 +3,16 @@
 use Laravel\Str;
 use Laravel\IoC;
 
+/**
+ * The help class is responsible for showing a global help page, and
+ * the ability to define task help pages, and method help pages for
+ * other artisan tasks.
+ *
+ * @package  	Laravel
+ * @author  	Dayle Rees <me@daylerees.com>
+ * @copyright  	2012 Taylor Otwell
+ * @license 	MIT License <http://www.opensource.org/licenses/mit>
+ */
 class Help extends Task {
 
 	/**
@@ -26,6 +36,13 @@ class Help extends Task {
 	 * 		echo "This is the help page for task:methodname.".PHP_EOL;
 	 * }
 	 * </code>
+	 *
+	 * Usage :
+	 *
+	 * <code>
+	 * php artisan help mytask
+	 * php artisan help mytask:methodname
+	 * <code>
 	 *
 	 * @param array $arguments
 	 */
@@ -55,6 +72,9 @@ class Help extends Task {
 		}
 	}
 
+	/**
+	 * Show a help dialog for artisan itself.
+	 */
 	private function _help()
 	{
 		echo "This will be the main help dialog." . PHP_EOL;
