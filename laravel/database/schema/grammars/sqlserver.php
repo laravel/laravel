@@ -213,39 +213,6 @@ class SQLServer extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for creating a foreign key.
-	 *
-	 * @param  Table    $table
-	 * @param  Command  $command
-	 * @return string
-	 */
-	public function foreign(Table $table, Fluent $command)
-	{
-		$name = $command->name;
-
-		// We need to wrap both of the table names in quoted identifiers to protect
-		// against any possible keyword collisions, both the table on which the
-		// command is being executed and the referenced table are wrapped.
-		$table = $this->wrap($table);
-
-		$on = $this->wrap($command->on);
-
-		// Next we need to columnize both the command table's columns as well as
-		// the columns referenced by the foreign key. We'll cast the referenced
-		// columns to an array since they aren't by the fluent command.
-		$foreign = $this->columnize($command->columns);
-
-		$referenced = $this->columnize((array) $command->references);
-
-		// Finally we can built the SQL. This should be the same for all database
-		// platforms we support, but we'll just keep it in the grammars since
-		// adding foreign keys using ALTER isn't supported by SQLite.
-		$sql = "ALTER TABLE $table ADD CONSTRAINT $name ";
-
-		die($sql .= "FOREIGN KEY ($foreign) REFERENCES $on ($referenced)");
-	}
-
-	/**
 	 * Generate the SQL statement for a drop table command.
 	 *
 	 * @param  Table   $table
@@ -342,6 +309,18 @@ class SQLServer extends Grammar {
 	protected function drop_key(Table $table, Fluent $command)
 	{
 		return "DROP INDEX {$command->name} ON ".$this->wrap($table);
+	}
+
+	/**
+	 * Drop a foreign key constraint from the table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $fluent
+	 * @return string
+	 */
+	public function drop_foreign(Table $table, Fluent $command)
+	{
+		return $this->drop_constraint($table, $command);		
 	}
 
 	/**
