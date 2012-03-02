@@ -109,6 +109,17 @@ class Table {
 	}
 
 	/**
+	 * Add a foreign key constraint to the table.
+	 *
+	 * @param  string|array  $columns
+	 * @param  string        $name
+	 */
+	public function foreign($columns, $name = null)
+	{
+		return $this->key(__FUNCTION__, $columns, $name);
+	}
+
+	/**
 	 * Create a command for creating any index.
 	 *
 	 * @param  string        $type
