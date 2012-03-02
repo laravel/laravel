@@ -48,10 +48,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function unsigned(Table $table, Fluent $column)
 	{
-		if ($column->type == 'integer' && $column->unsigned)
-		{
-			return ' UNSIGNED';
-		}
+		trigger_error("Schema error. Database does not support unsigned integers.", E_USER_NOTICE);
 	}
 
 }
