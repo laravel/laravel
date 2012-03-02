@@ -9,6 +9,24 @@ class Help extends Task {
 	 * Show a global help message, or call the help() method
 	 * of a task given as parameter.
 	 *
+	 * Defining a task help page :
+	 *
+	 * <code>
+	 * public function help()
+	 * {
+	 * 		echo "This is my help page.".PHP_EOL;
+	 * }
+	 * </code>
+	 *
+	 * Defining a help page for a Task's method.
+	 *
+	 * <code>
+	 * public function help_methodname()
+	 * {
+	 * 		echo "This is the help page for task:methodname.".PHP_EOL;
+	 * }
+	 * </code>
+	 *
 	 * @param array $arguments
 	 */
 	public function run($arguments = array())
