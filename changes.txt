@@ -13,3 +13,4 @@ Changes for 3.1:
 	- Added config, view, and lang loaders.
 	- Moved more stuff into application/start
 	- Removed error.display config options.
+	- Added foreign key support to schema builder.
