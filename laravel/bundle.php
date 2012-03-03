@@ -54,7 +54,7 @@ class Bundle {
 			$config = array('location' => $bundle);
 		}
 
-		// IF no location is set, we will set the location to match the name of
+		// If no location is set, we will set the location to match the name of
 		// the bundle. This is for bundles who are installed to the root of
 		// the bundle directory so a location was not set.
 		if ( ! isset($config['location']))
