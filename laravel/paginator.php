@@ -173,8 +173,7 @@ class Paginator {
 		//
 		// If there are not enough pages to make the creation of a slider possible
 		// based on the adjacent pages, we will simply display all of the pages.
-		// Otherwise, we will create a "truncating" slider which displays a 
-		// nice window of pages based on the current page.
+		// Otherwise, we will create a "truncating" sliding window.
 		if ($this->last < 7 + ($adjacent * 2))
 		{
 			$links = $this->range(1, $this->last);
@@ -212,7 +211,7 @@ class Paginator {
 
 		// If the current page is so close to the beginning that we do not have
 		// room to create a full sliding window, we will only show the first
-		// several pages, followed by the ending section of the slider.
+		// several pages, followed by the ending of the slider.
 		//
 		// Likewise, if the page is very close to the end, we will create the
 		// beginning of the slider, but just show the last several pages at
