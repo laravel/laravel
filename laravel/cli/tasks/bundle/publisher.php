@@ -14,6 +14,9 @@ class Publisher {
 	 */
 	public function publish($bundle)
 	{
+		if (! Bundle::exists($bundle))
+			throw new \Exception('A bundle must be registered in bundles.php to be published.');
+
 		$path = Bundle::path($bundle);
 
 		$this->move($path.'public', path('public').'bundles'.DS.$bundle);
@@ -30,7 +33,7 @@ class Publisher {
 	 */
 	protected function move($source, $destination)
 	{
-		File::cpdir($source, $destination);	
+		File::cpdir($source, $destination);
 	}
 
 	/**
