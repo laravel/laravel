@@ -996,7 +996,7 @@ class Validator {
 			return call_user_func_array(static::$validators[$method], $parameters);
 		}
 
-		throw new \Exception("Call to undefined method [$method] on Validator instance.");
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
