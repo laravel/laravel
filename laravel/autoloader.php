@@ -75,8 +75,8 @@ class Autoloader {
 			return static::load_namespaced($class, $namespace, $directory);
 		}
 
-		// If the class uses PEARish style underscores for indicating its
-		// directory structure, we will load the class using the PSR-0
+		// If the class uses PEAR-ish style underscores for indicating its
+		// directory structure we'll load the class using PSR-0 standards
 		// standards from that directory, trimming the root.
 		$namespace = root_namespace($class, '_').'_';
 
