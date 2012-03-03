@@ -293,6 +293,18 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Drop a foreign key constraint from the table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $fluent
+	 * @return string
+	 */
+	public function drop_foreign(Table $table, Fluent $command)
+	{
+		return "ALTER TABLE ".$this->wrap($table)." DROP FOREIGN KEY ".$command->name;
+	}
+
+	/**
 	 * Generate the data-type definition for a string.
 	 *
 	 * @param  Fluent   $column

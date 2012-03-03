@@ -142,6 +142,27 @@ class Request {
 	}
 
 	/**
+	 * Get the Laravel environment for the current request.
+	 *
+	 * @return string|null
+	 */
+	public static function env()
+	{
+		if (isset($_SERVER['LARAVEL_ENV'])) return $_SERVER['LARAVEL_ENV'];
+	}
+
+	/**
+	 * Determine the current request environment.
+	 *
+	 * @param  string  $env
+	 * @return bool
+	 */
+	public static function is_env($env)
+	{
+		return static::env() === $env;
+	}
+
+	/**
 	 * Get the main route handling the request.
 	 *
 	 * @return Route

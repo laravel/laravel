@@ -109,6 +109,17 @@ class Table {
 	}
 
 	/**
+	 * Add a foreign key constraint to the table.
+	 *
+	 * @param  string|array  $columns
+	 * @param  string        $name
+	 */
+	public function foreign($columns, $name = null)
+	{
+		return $this->key(__FUNCTION__, $columns, $name);
+	}
+
+	/**
 	 * Create a command for creating any index.
 	 *
 	 * @param  string        $type
@@ -197,6 +208,17 @@ class Table {
 	}
 
 	/**
+	 * Drop a foreign key constraint from the table.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function drop_foreign($name)
+	{
+		return $this->drop_key(__FUNCTION__, $name);
+	}
+
+	/**
 	 * Create a command to drop any type of index.
 	 *
 	 * @param  string  $type
@@ -205,7 +227,7 @@ class Table {
 	 */
 	protected function drop_key($type, $name)
 	{
-		return $this->command($type, array('name' => $name));
+		return $this->command($type, compact('name'));
 	}
 
 	/**

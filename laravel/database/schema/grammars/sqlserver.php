@@ -312,6 +312,18 @@ class SQLServer extends Grammar {
 	}
 
 	/**
+	 * Drop a foreign key constraint from the table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $fluent
+	 * @return string
+	 */
+	public function drop_foreign(Table $table, Fluent $command)
+	{
+		return $this->drop_constraint($table, $command);		
+	}
+
+	/**
 	 * Generate the data-type definition for a string.
 	 *
 	 * @param  Fluent  $column

@@ -1,46 +1,78 @@
 <?php namespace Laravel;
 
-/**
- * Define all of the constants that we will need to use the framework.
- * These are things like file extensions, as well as all of the paths
- * used by the framework. All of the paths are built on top of the
- * basic application, laravel, and public paths.
- */
+/*
+|--------------------------------------------------------------------------
+| PHP Display Errors Configuration
+|--------------------------------------------------------------------------
+|
+| Register the constants used by the framework. These are things like file
+| extensions and other information that we want to be able to access with
+| just a simple constant.
+|
+*/
+
 define('EXT', '.php');
 define('CRLF', "\r\n");
 define('DEFAULT_BUNDLE', 'application');
 define('MB_STRING', (int) function_exists('mb_get_info'));
 
-/**
- * Require all of the classes that can't be loaded by the auto-loader.
- * These are typically classes that the auto-loader relies upon to
- * load classes, such as the array and configuration classes.
- */
+/*
+|--------------------------------------------------------------------------
+| Require Core Classes
+|--------------------------------------------------------------------------
+|
+| Here we will just load in the classes that are used for every request
+| or are used by the configuration class. It is quicker and simpler to
+| just manually load them in instead of using the auto-loader.
+|
+*/
+
+require path('sys').'ioc'.EXT;
 require path('sys').'event'.EXT;
 require path('sys').'bundle'.EXT;
 require path('sys').'config'.EXT;
 require path('sys').'helpers'.EXT;
 require path('sys').'autoloader'.EXT;
 
-/**
- * Register the Autoloader's "load" method on the auto-loader stack.
- * This method provides the lazy-loading of all class files, as well
- * as any PSR-0 compliant libraries used by the application.
- */
+/*
+|--------------------------------------------------------------------------
+| Register The Framework Auto-Loader
+|--------------------------------------------------------------------------
+|
+| Next we'll register the Autoloader class on the SPL auto-loader stack
+| so it can lazy-load our class files as we need them. This class and
+| method will be called each time a class is needed but has not been
+| defined yet and will load the appropriate file.
+|
+*/
+
 spl_autoload_register(array('Laravel\\Autoloader', 'load'));
 
-/**
- * Register the Laravel namespace so that the auto-loader loads it
- * according to the PSR-0 naming conventions. This should provide
- * fast resolution of all core classes.
- */
+/*
+|--------------------------------------------------------------------------
+| Register The Laravel Namespace
+|--------------------------------------------------------------------------
+|
+| Register the "Laravel" namespace and its directory mapping so the class
+| loader can quickly load all of the core classes using PSR-0 style load
+| conventions throughout the "laravel" directory since all core classes
+| are namespaced into the "Laravel" namespace.
+|
+*/
+
 Autoloader::namespaces(array('Laravel' => path('sys')));
 
-/**
- * Set the CLI options on the $_SERVER global array so we can easily
- * retrieve them from the various parts of the CLI code. We can use
- * the Request class to access them conveniently.
- */
+/*
+|--------------------------------------------------------------------------
+| Set The CLI Options Array
+|--------------------------------------------------------------------------
+|
+| If the current request is from the Artisan command-line interface, we
+| will parse the command line arguments and options and set them the
+| array of options in the $_SERVER global array for convenience.
+|
+*/
+
 if (defined('STDIN'))
 {
 	$console = CLI\Command::options($_SERVER['argv']);
@@ -52,39 +84,34 @@ if (defined('STDIN'))
 	$_SERVER['CLI'] = $options;
 }
 
-/**
- * The Laravel environment may be specified on the CLI using the env
- * option, allowing the developer to easily use local configuration
- * files from the CLI since the environment is usually controlled
- * by server environmenet variables.
- */
+/*
+|--------------------------------------------------------------------------
+| Set The CLI Laravel Environment
+|--------------------------------------------------------------------------
+|
+| Next we'll set the LARAVEL_ENV variable if the current request is from
+| the Artisan command-line interface. Since the environment is often
+| specified within an Apache .htaccess file, we need to set it here
+| when the request is not coming through Apache.
+|
+*/
+
 if (isset($_SERVER['CLI']['ENV']))
 {
 	$_SERVER['LARAVEL_ENV'] = $_SERVER['CLI']['ENV'];
 }
 
-/**
- * Register all of the core class aliases. These aliases provide a
- * convenient way of working with the Laravel core classes without
- * having to worry about the namespacing. The developer is also
- * free to remove aliases when they extend core classes.
- */
-Autoloader::$aliases = Config::get('application.aliases');
+/*
+|--------------------------------------------------------------------------
+| Register The Laravel Bundles
+|--------------------------------------------------------------------------
+|
+| Finally we will register all of the bundles that have been defined for
+| the application. None of them will be started, yet but will be setup
+| so that they may be started by the develop at any time.
+|
+*/
 
-/**
- * Register the default timezone for the application. This will
- * be the default timezone used by all date functions through
- * throughout the entire application.
- */
-$timezone = Config::get('application.timezone');
-
-date_default_timezone_set($timezone);
-
-/**
- * Finally we'll grab all of the bundles and register them
- * with the bundle class. All of the bundles are stored in
- * an array within the application directory.
- */
 $bundles = require path('app').'bundles'.EXT;
 
 foreach ($bundles as $bundle => $config)
