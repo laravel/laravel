@@ -338,6 +338,17 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Generate the data-type definintion for a decimal.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_decimal(Fluent $column)
+	{
+		return "DECIMAL({$column->precision}, {$column->scale})";
+	}
+
+	/**
 	 * Generate the data-type definition for a boolean.
 	 *
 	 * @param  Fluent  $column

@@ -277,6 +277,19 @@ class Table {
 	}
 
 	/**
+	 * Add a decimal column to the table.
+	 *
+	 * @param  string  $name
+	 * @param  int     $precision
+	 * @param  int     $scale
+	 * @return Fluent
+	 */
+	public function decimal($name, $precision, $scale)
+	{
+		return $this->column(__FUNCTION__, compact('name', 'precision', 'scale'));
+	}
+
+	/**
 	 * Add a boolean column to the table.
 	 *
 	 * @param  string  $name
