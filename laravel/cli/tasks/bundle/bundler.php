@@ -54,6 +54,7 @@ class Bundler extends Task {
 			$path = path('bundle').$this->path($bundle);
 
 			echo "Fetching [{$bundle['name']}]...";
+
 			$this->download($bundle, $path);
 
 			echo "done! Bundle installed.".PHP_EOL;
