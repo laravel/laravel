@@ -130,7 +130,7 @@ class IoC {
 		// If the resolver is registering as a singleton resolver, we will cache
 		// the instance of the object in the container so we can resolve it next
 		// time without having to instantiate a brand new instance.
-		if (isset(static::$registry[$name]['singleton']))
+		if (static::$registry[$name]['singleton'])
 		{
 			return static::$singletons[$name] = $object;
 		}
