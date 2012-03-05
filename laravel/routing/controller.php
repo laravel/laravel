@@ -47,6 +47,22 @@ abstract class Controller {
 	const factory = 'laravel.controller.factory';
 
 	/**
+	 * Create a new Controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		// If the controller has specified a layout to be used when rendering
+		// views, we will instantiate the layout instance and set it to the
+		// layout property, replacing the string layout name.
+		if ( ! is_null($this->layout))
+		{
+			$this->layout = $this->layout();
+		}
+	}
+
+	/**
 	 * Call an action method on a controller.
 	 *
 	 * <code>
@@ -141,22 +157,12 @@ abstract class Controller {
 		// by convention out of the bundle's controller directory.
 		if (Event::listeners(static::factory))
 		{
-			$controller = Event::first(static::factory, $controller);
+			return Event::first(static::factory, $controller);
 		}
 		else
 		{
-			$controller = new $controller;
+			return new $controller;
 		}
-
-		// If the controller has specified a layout to be used when rendering
-		// views, we will instantiate the layout instance and set it to the
-		// layout property, replacing the string layout name.
-		if ( ! is_null($controller->layout))
-		{
-			$controller->layout = $controller->layout();
-		}
-
-		return $controller;
 	}
 
 	/**
