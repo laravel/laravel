@@ -77,7 +77,7 @@ class Messages {
 	 */
 	public function first($key, $format = ':message')
 	{
-		return (count($messages = $this->get($key, $format)) > 0) ? $messages[0] : '';
+		return (count($messages = $this->get($key, $format)) > 0) ? reset($messages) : '';
 	}
 
 	/**
