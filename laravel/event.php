@@ -62,7 +62,7 @@ class Event {
 	 */
 	public static function clear($event)
 	{
-		static::$events[$event] = array();
+		unset(static::$events[$event]);
 	}
 
 	/**
