@@ -209,7 +209,7 @@ class Validator {
 	{
 		$message = $this->replace($this->message($attribute, $rule), $attribute, $rule, $parameters);
 
-		$this->errors->add($attribute, $message);
+		$this->errors->add($attribute, $rule, $message);
 	}
 
 	/**

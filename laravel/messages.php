@@ -32,9 +32,9 @@ class Messages {
 	 * @param  string  $message
 	 * @return void
 	 */
-	public function add($key, $message)
+	public function add($key, $rule, $message)
 	{
-		if ($this->unique($key, $message)) $this->messages[$key][] = $message;
+		if ($this->unique($key, $message)) $this->messages[$key][$rule] = $message;
 	}
 
 	/**
