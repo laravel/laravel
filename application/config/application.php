@@ -154,5 +154,21 @@ return array(
 		'Validator'  => 'Laravel\\Validator',
 		'View'       => 'Laravel\\View',
 	),
+	
+	/*
+	|--------------------------------------------------------------------------
+	| Maximum URI segments allowed
+	|--------------------------------------------------------------------------
+	|
+	| This should be not be changed unless absolutely necessary.  
+	| There may be occasion where you must increase the default 
+	| limit on the number of segments
+	| 
+	| If the requset URI has too many segments, we will bomb out of
+	| the request. This is to avoid potential DDoS attacks against
+	| the framework by overloading the controller lookup method
+	| with thousands of segments.
+	*/
+	'max_uri_segments' => 15,
 
 );
