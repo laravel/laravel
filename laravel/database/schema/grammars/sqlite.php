@@ -113,7 +113,7 @@ class SQLite extends Grammar {
 	 */
 	protected function nullable(Table $table, Fluent $column)
 	{
-		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+		return ' NULL';
 	}
 
 	/**
