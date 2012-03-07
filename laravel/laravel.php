@@ -151,13 +151,15 @@ Routing\Router::register('*', '(:all)', function()
 
 /**
  * If the requset URI has too many segments, we will bomb out of
- * the request. This is too avoid potential DDoS attacks against
+ * the request. This is to avoid potential DDoS attacks against
  * the framework by overloading the controller lookup method
  * with thousands of segments.
  */
 $uri = URI::current();
 
-if (count(URI::$segments) > 15)
+$max_segments = ( Config::get('application.max_uri_segments') > 0 ) ? Config::get('application.max_uri_segments') : 15;
+
+if (count(URI::$segments) > $max_segments)
 {
 	throw new \Exception("Invalid request. Too many URI segments.");
 }
