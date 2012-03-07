@@ -26,8 +26,7 @@ class SQLServer extends Connector {
 
 		// Format the SQL Server connection string. This connection string format can
 		// also be used to connect to Azure SQL Server databases. The port is defined
-		// directly after the server name, so we'll create that and then create the
-		// final DSN string to pass to PDO.
+		// directly after the server name, so we'll create that first.
 		$port = (isset($port)) ? ','.$port : '';
 
 		$dsn = "sqlsrv:Server={$host}{$port};Database={$database}";

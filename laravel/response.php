@@ -205,7 +205,10 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		if ( ! $response instanceof Response) $response = new static($response);
+		if ( ! $response instanceof Response)
+		{
+			$response = new static($response);
+		}
 
 		// We'll need to force the response to be a string before closing the session,
 		// since the developer may be using the session within a view, and we can't
@@ -285,7 +288,7 @@ class Response {
 
 		// Once the framework controlled headers have been sentm, we can
 		// simply iterate over the developer's headers and send each one
-		// to the browser. Headers with the same name will be overriden.
+		// back to the browser for the response.
 		foreach ($this->headers as $name => $value)
 		{
 			header("{$name}: {$value}", true);

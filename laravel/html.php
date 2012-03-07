@@ -173,26 +173,11 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
-	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $https = false)
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array())
 	{
-		return static::link(URL::to_route($name, $parameters, $https), $title, $attributes);
-	}
-
-	/**
-	 * Generate an HTTPS HTML link to a route.
-	 *
-	 * @param  string  $name
-	 * @param  string  $title
-	 * @param  array   $parameters
-	 * @param  array   $attributes
-	 * @return string
-	 */
-	public static function link_to_secure_route($name, $title, $parameters = array(), $attributes = array())
-	{
-		return static::link_to_route($name, $title, $parameters, $attributes, true);
+		return static::link(URL::to_route($name, $parameters), $title, $attributes);
 	}
 
 	/**

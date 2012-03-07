@@ -23,14 +23,11 @@ class MySQL extends Grammar {
 	{
 		$columns = implode(', ', $this->columns($table));
 
-		// First we will generate the base table creation statement. Other than
-		// auto-incrementing keys, no indexes will be created during the first
-		// creation of the table. They will be added in separate commands.
+		// First we will generate the base table creation statement. Other than auto
+		// incrementing keys, no indexes will be created during the first creation
+		// of the table as they're added in separate commands.
 		$sql = 'CREATE TABLE '.$this->wrap($table).' ('.$columns.')';
 
-		// MySQL supports various "engines" for database tables. If an engine
-		// was specified by the developer, we will set it after adding the
-		// columns the table creation statement.
 		if ( ! is_null($table->engine))
 		{
 			$sql .= ' ENGINE = '.$table->engine;
@@ -50,9 +47,9 @@ class MySQL extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add"
-		// to the front of each definition, then we'll concatenate the
-		// definitions using commas like normal and generate the SQL.
+		// Once we the array of column definitions, we need to add "add" to the
+		// front of each definition, then we'll concatenate the definitions
+		// using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
 			return 'ADD '.$column;
@@ -77,7 +74,7 @@ class MySQL extends Grammar {
 			// Each of the data type's have their own definition creation method,
 			// which is responsible for creating the SQL for the type. This lets
 			// us to keep the syntax easy and fluent, while translating the
-			// types to the types used by the database.
+			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
 			$elements = array('nullable', 'defaults', 'incrementer');
@@ -223,9 +220,9 @@ class MySQL extends Grammar {
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
-		// Once we the array of column names, we need to add "drop" to the
-		// front of each column, then we'll concatenate the columns using
-		// commas and generate the alter statement SQL.
+		// Once we the array of column names, we need to add "drop" to the front
+		// of each column, then we'll concatenate the columns using commas and
+		// generate the alter statement SQL.
 		$columns = implode(', ', array_map(function($column)
 		{
 			return 'DROP '.$column;

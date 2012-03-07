@@ -10,10 +10,6 @@ class Home_Controller extends Base_Controller {
 	| Instead of using RESTful routes and anonymous functions, you might wish
 	| to use controllers to organize your application API. You'll love them.
 	|
-	| To start using this controller simply remove the default route from the
-	| application "routes.php" file. Laravel is smart enough to locate this
-	| controller and call the default method, which is "action_index".
-	|
 	| This controller responds to URIs beginning with "home", and it also
 	| serves as the default controller for the application, meaning it
 	| handles requests to the root of the application.

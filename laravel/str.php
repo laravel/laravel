@@ -124,6 +124,34 @@ class Str {
 	}
 
 	/**
+	 * Limit the number of words in a string.
+	 *
+	 * <code>
+	 *		// Returns "This is a..."
+	 *		echo Str::words('This is a sentence.', 3);
+	 *
+	 *		// Limit the number of words and append a custom ending
+	 *		echo Str::words('This is a sentence.', 3, '---');
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @param  int     $words
+	 * @param  string  $end
+	 * @return string
+	 */
+	public static function words($value, $words = 100, $end = '...')
+	{
+		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
+
+		if (static::length($value) == static::length($matches[0]))
+		{
+			$end = '';
+		}
+
+		return rtrim($matches[0]).$end;
+	}
+
+	/**
 	 * Get the singular form of the given word.
 	 *
 	 * The word should be defined in the "strings" configuration file.
@@ -164,34 +192,6 @@ class Str {
 		$plural = array_get(Config::get('strings.inflection'), strtolower($value), $value);
 
 		return (ctype_upper($value[0])) ? static::title($plural) : $plural;
-	}
-
-	/**
-	 * Limit the number of words in a string.
-	 *
-	 * <code>
-	 *		// Returns "This is a..."
-	 *		echo Str::words('This is a sentence.', 3);
-	 *
-	 *		// Limit the number of words and append a custom ending
-	 *		echo Str::words('This is a sentence.', 3, '---');
-	 * </code>
-	 *
-	 * @param  string  $value
-	 * @param  int     $words
-	 * @param  string  $end
-	 * @return string
-	 */
-	public static function words($value, $words = 100, $end = '...')
-	{
-		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
-
-		if (static::length($value) == static::length($matches[0]))
-		{
-			$end = '';
-		}
-
-		return rtrim($matches[0]).$end;
 	}
 
 	/**

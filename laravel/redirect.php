@@ -1,6 +1,18 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Laravel\Routing\Router;
 
 class Redirect extends Response {
+
+	/**
+	 * Create a redirect response to application root.
+	 *
+	 * @param  int       $status
+	 * @param  bool      $secure
+	 * @return Redirect
+	 */
+	public static function home($status = 302, $https = false)
+	{
+		return static::to(URL::home($https), $status);
+	}
 
 	/**
 	 * Create a redirect response.
@@ -36,6 +48,19 @@ class Redirect extends Response {
 	}
 
 	/**
+	 * Create a redirect response to a controller action.
+	 *
+	 * @param  string    $action
+	 * @param  array     $parameters
+	 * @param  int       $status
+	 * @return Redirect
+	 */
+	public static function to_action($action, $parameters = array(), $status = 302)
+	{
+		return static::to(URL::to_action($action, $parameters), $status);
+	}
+
+	/**
 	 * Create a redirect response to a named route.
 	 *
 	 * <code>
@@ -49,25 +74,11 @@ class Redirect extends Response {
 	 * @param  string    $route
 	 * @param  array     $parameters
 	 * @param  int       $status
-	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public static function to_route($route, $parameters = array(), $status = 302, $https = false)
+	public static function to_route($route, $parameters = array(), $status = 302)
 	{
-		return static::to(URL::to_route($route, $parameters, $https), $status);
-	}
-
-	/**
-	 * Create a redirect response to a named route using HTTPS.
-	 *
-	 * @param  string    $route
-	 * @param  array     $parameters
-	 * @param  int       $status
-	 * @return Redirect
-	 */
-	public static function to_secure_route($route, $parameters = array(), $status = 302)
-	{
-		return static::to_route($route, $parameters, $status, true);
+		return static::to(URL::to_route($route, $parameters), $status);
 	}
 
 	/**

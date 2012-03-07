@@ -12,9 +12,11 @@ class Runner extends Task {
 	 *
 	 * @return void
 	 */
-	public function run()
+	public function run($bundles = array())
 	{
-		$this->bundle(array(DEFAULT_BUNDLE));
+		if (count($bundles) == 0) $bundles = array(DEFAULT_BUNDLE);
+
+		$this->bundle($bundles);
 	}
 
 	/**

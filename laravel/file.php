@@ -161,8 +161,7 @@ class File {
 
 		// The MIME configuration file contains an array of file extensions and
 		// their associated MIME types. We will spin through each extension the
-		// developer wants to check to determine if the file's MIME type is in
-		// the list of MIMEs we have for that extension.
+		// developer wants to check and look for the MIME type.
 		foreach ((array) $extensions as $extension)
 		{
 			if (isset($mimes[$extension]) and in_array($mime, (array) $mimes[$extension]))

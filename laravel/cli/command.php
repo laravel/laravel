@@ -28,21 +28,30 @@ class Command {
 
 		// If the task exists within a bundle, we will start the bundle so that any
 		// dependencies can be registered in the application IoC container. If the
-		// task is registered in the container, it will be resolved via the
-		// container instead of by this class.
-		if (Bundle::exists($bundle)) Bundle::start($bundle);
+		// task is registered in the container,  we'll resolve it.
+		if (Bundle::exists($bundle))
+		{
+			Bundle::start($bundle);
+		}
 
-		// Once the bundle has been started, we will attempt to resolve the task
-		// instance. Tasks may be resolved through the file system or through
-		// the application IoC container.
 		$task = static::resolve($bundle, $task);
 
+		// Once the bundle has been resolved, we'll make sure we could actually
+		// find that task, and then verify that the method exists on the task
+		// so we can successfully call it without a problem.
 		if (is_null($task))
 		{
 			throw new \Exception("Sorry, I can't find that task.");
 		}
 
-		$task->$method(array_slice($arguments, 1));
+		if(is_callable(array($task, $method)))
+		{
+			$task->$method(array_slice($arguments, 1));
+		}
+		else
+		{
+			throw new \Exception("Sorry, I can't find that method!");
+		}
 	}
 
 	/**
