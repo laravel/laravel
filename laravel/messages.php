@@ -32,9 +32,9 @@ class Messages {
 	 * @param  string  $message
 	 * @return void
 	 */
-	public function add($key, $message)
+	public function add($key, $rule, $message)
 	{
-		if ($this->unique($key, $message)) $this->messages[$key][] = $message;
+		if ($this->unique($key, $message)) $this->messages[$key][$rule] = $message;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Messages {
 	 */
 	public function first($key, $format = ':message')
 	{
-		return (count($messages = $this->get($key, $format)) > 0) ? $messages[0] : '';
+		return (count($messages = $this->get($key, $format)) > 0) ? reset($messages) : '';
 	}
 
 	/**
