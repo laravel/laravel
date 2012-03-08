@@ -16,3 +16,4 @@ Changes for 3.1:
 	- Added foreign key support to schema builder.
 	- Postgres "unique" indexes are now added with ADD CONSTRAINT
 	- Added "Event::until" method.
+	- Added "memory" cache and session drivers.
