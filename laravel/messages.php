@@ -52,10 +52,18 @@ class Messages {
 	/**
 	 * Determine if messages exist for a given key.
 	 *
+	 * <code>
+	 *		// Is there a message for the e-mail attribute
+	 *		return $messages->has('email');
+	 *
+	 *		// Is there a message for the any attribute
+	 *		echo $messages->has();
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public function has($key)
+	public function has($key = null)
 	{
 		return $this->first($key) !== '';
 	}
