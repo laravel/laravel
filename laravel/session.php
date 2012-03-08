@@ -64,6 +64,9 @@ class Session {
 			case 'memcached':
 				return new Session\Drivers\Memcached(Cache::driver('memcached'));
 
+			case 'memory':
+				return new Session\Drivers\Memory;
+
 			case 'redis':
 				return new Session\Drivers\Redis(Cache::driver('redis'));
 
