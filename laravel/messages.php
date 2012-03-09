@@ -52,10 +52,18 @@ class Messages {
 	/**
 	 * Determine if messages exist for a given key.
 	 *
+	 * <code>
+	 *		// Is there a message for the e-mail attribute
+	 *		return $messages->has('email');
+	 *
+	 *		// Is there a message for the any attribute
+	 *		echo $messages->has();
+	 * </code>
+	 *
 	 * @param  string  $key
 	 * @return bool
 	 */
-	public function has($key)
+	public function has($key = null)
 	{
 		return $this->first($key) !== '';
 	}
@@ -64,6 +72,9 @@ class Messages {
 	 * Get the first message from the container for a given key.
 	 *
 	 * <code>
+	 *		// Echo the first message out of all messages.
+	 *		echo $messages->first();
+	 *
 	 *		// Echo the first message for the e-mail attribute
 	 *		echo $messages->first('email');
 	 *
@@ -75,9 +86,11 @@ class Messages {
 	 * @param  string  $format
 	 * @return string
 	 */
-	public function first($key, $format = ':message')
+	public function first($key = null, $format = ':message')
 	{
-		return (count($messages = $this->get($key, $format)) > 0) ? $messages[0] : '';
+		$messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
+
+		return (count($messages) > 0) ? $messages[0] : '';
 	}
 
 	/**

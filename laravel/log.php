@@ -10,7 +10,7 @@ class Log {
 	 */
 	public static function exception($e)
 	{
-		static::write('error', static::format($e));
+		static::write('error', static::exception_line($e));
 	}
 
 	/**
@@ -19,7 +19,7 @@ class Log {
 	 * @param  Exception  $e
 	 * @return string
 	 */
-	protected static function format($e)
+	protected static function exception_line($e)
 	{
 		return $e->getMessage().' in '.$e->getFile().' on line '.$e->getLine();
 	}
@@ -41,9 +41,34 @@ class Log {
 	 */
 	public static function write($type, $message)
 	{
-		$message = date('Y-m-d H:i:s').' '.Str::upper($type)." - {$message}".PHP_EOL;
+		// If there is a listener for the log event, we'll delegate the logging
+		// to the event and not write to the log files. This allows for quick
+		// swapping of log implementations for debugging.
+		if (Event::listeners('laravel.log'))
+		{
+			Event::fire('laravel.log', array($type, $message));
+		}
 
-		File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
+		// If there aren't listeners on the log event, we'll just write to the
+		// log files using the default conventions, writing one log file per
+		// day so they files don't get too crowded.
+		else
+		{
+			$message = static::format($type, $message);
+
+			File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
+		}
+	}
+
+	/**
+	 * Format a log message for logging.
+	 *
+	 * @param  string  $type
+	 * @param  
+	 */
+	protected static function format($type, $message)
+	{
+		return date('Y-m-d H:i:s').' '.Str::upper($type)." - {$message}".PHP_EOL;
 	}
 
 	/**

@@ -40,6 +40,29 @@ abstract class Controller {
 	protected $filters = array();
 
 	/**
+	 * The event name for the Laravel controller factory.
+	 *
+	 * @var string
+	 */
+	const factory = 'laravel.controller.factory';
+
+	/**
+	 * Create a new Controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		// If the controller has specified a layout to be used when rendering
+		// views, we will instantiate the layout instance and set it to the
+		// layout property, replacing the string layout name.
+		if ( ! is_null($this->layout))
+		{
+			$this->layout = $this->layout();
+		}
+	}
+
+	/**
 	 * Call an action method on a controller.
 	 *
 	 * <code>
@@ -127,22 +150,19 @@ abstract class Controller {
 			return IoC::resolve($resolver);
 		}
 
+		$controller = static::format($bundle, $controller);
+
 		// If we couldn't resolve the controller out of the IoC container we'll
 		// format the controller name into its proper class name and load it
 		// by convention out of the bundle's controller directory.
-		$controller = static::format($bundle, $controller);
-
-		$controller = new $controller;
-
-		// If the controller has specified a layout to be used when rendering
-		// views, we will instantiate the layout instance and set it to the
-		// layout property, replacing the string layout name.
-		if ( ! is_null($controller->layout))
+		if (Event::listeners(static::factory))
 		{
-			$controller->layout = $controller->layout();
+			return Event::first(static::factory, $controller);
 		}
-
-		return $controller;
+		else
+		{
+			return new $controller;
+		}
 	}
 
 	/**

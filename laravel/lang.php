@@ -33,6 +33,13 @@ class Lang {
 	protected static $lines = array();
 
 	/**
+	 * The language loader event name.
+	 *
+	 * @var string
+	 */
+	const loader = 'laravel.language.loader';
+
+	/**
 	 * Create a new Lang instance.
 	 *
 	 * @param  string  $key
@@ -179,6 +186,26 @@ class Lang {
 			return true;
 		}
 
+		// We use a "loader" event to delegate the loading of the language
+		// array, which allows the develop to organize the language line
+		// arrays for their application however they wish.
+		$lines = Event::first(static::loader, func_get_args());
+
+		static::$lines[$bundle][$language][$file] = $lines;
+
+		return count($lines) > 0;
+	}
+
+	/**
+	 * Load a language array from a language file.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $language
+	 * @param  string  $file
+	 * @return array
+	 */
+	public static function file($bundle, $language, $file)
+	{
 		$lines = array();
 
 		// Language files can belongs to the application or to any bundle
@@ -191,12 +218,7 @@ class Lang {
 			$lines = require $path;
 		}
 
-		// All of the language lines are cached in an array so we can
-		// quickly look them up on subsequent reqwuests for the line.
-		// This keeps us from loading files each time.
-		static::$lines[$bundle][$language][$file] = $lines;
-
-		return count($lines) > 0;
+		return $lines;
 	}
 
 	/**

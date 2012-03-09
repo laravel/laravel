@@ -77,7 +77,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
@@ -88,6 +88,21 @@ class MySQL extends Grammar {
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is unsigned.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function unsigned(Table $table, Fluent $column)
+	{
+		if ($column->type == 'integer' && $column->unsigned)
+		{
+			return ' UNSIGNED';
+		}
 	}
 
 	/**
@@ -293,6 +308,18 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Drop a foreign key constraint from the table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $fluent
+	 * @return string
+	 */
+	public function drop_foreign(Table $table, Fluent $command)
+	{
+		return "ALTER TABLE ".$this->wrap($table)." DROP FOREIGN KEY ".$command->name;
+	}
+
+	/**
 	 * Generate the data-type definition for a string.
 	 *
 	 * @param  Fluent   $column
@@ -323,6 +350,17 @@ class MySQL extends Grammar {
 	protected function type_float(Fluent $column)
 	{
 		return 'FLOAT';
+	}
+
+	/**
+	 * Generate the data-type definintion for a decimal.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_decimal(Fluent $column)
+	{
+		return "DECIMAL({$column->precision}, {$column->scale})";
 	}
 
 	/**

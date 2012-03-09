@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class APC implements Driver {
+class APC extends Driver {
 
 	/**
 	 * The APC cache driver instance.

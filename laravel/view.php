@@ -38,6 +38,34 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
+	 * The extensions a view file can have.
+	 *
+	 * @var array
+	 */
+	public static $extensions = array(EXT);
+
+	/**
+	 * The path in which a view can live.
+	 *
+	 * @var array
+	 */
+	public static $paths = array(DEFAULT_BUNDLE => array(''));
+
+	/**
+	 * The Laravel view loader event name.
+	 *
+	 * @var string
+	 */
+	const loader = 'laravel.view.loader';
+
+	/**
+	 * The Laravel view engine event name.
+	 *
+	 * @var string
+	 */
+	const engine = 'laravel.view.engine';
+
+	/**
 	 * Create a new view instance.
 	 *
 	 * <code>
@@ -62,12 +90,8 @@ class View implements ArrayAccess {
 		$this->path = $this->path($view);
 
 		// If a session driver has been specified, we will bind an instance of the
-		// validation error message container to every view. If an errors instance
+		// validation error message container to every view. If an error instance
 		// exists in the session, we will use that instance.
-		//
-		// This makes error display in the view extremely convenient, since the
-		// developer can always assume they have a message container instance
-		// available to them in the view's variables.
 		if ( ! isset($this->data['errors']))
 		{
 			if (Session::started() and Session::has('errors'))
@@ -89,22 +113,38 @@ class View implements ArrayAccess {
 	 */
 	protected function path($view)
 	{
+		list($bundle, $view) = Bundle::parse($view);
+
 		$view = str_replace('.', '/', $view);
 
-		$root = Bundle::path(Bundle::name($view)).'views/';
+		// We delegate the determination of view paths to the view loader
+		// event so that the developer is free to override and manage
+		// the loading views in any way they see fit.
+		$path = Event::first(static::loader, array($bundle, $view));
 
-		// Views may have the normal PHP extension or the Blade PHP extension, so
-		// we need to check if either of them exist in the base views directory
-		// for the bundle and return the first one we find.
-		foreach (array(EXT, BLADE_EXT) as $extension)
+		if ( ! is_null($path))
 		{
-			if (file_exists($path = $root.Bundle::element($view).$extension))
-			{
-				return $path;
-			}
+			return $path;
 		}
 
-		throw new \Exception("View [$view] does not exist.");
+		throw new \Exception("View [$view] doesn't exist.");
+	}
+
+	/**
+	 * Get the path to a view using the default folder convention.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $view
+	 * @return string
+	 */
+	public static function file($bundle, $view)
+	{
+		$root = Bundle::path($bundle).'views/';
+
+		if (file_exists($path = $root.$view.EXT))
+		{
+			return $path;
+		}
 	}
 
 	/**
@@ -191,6 +231,31 @@ class View implements ArrayAccess {
 	}
 
 	/**
+	 * Register a new root path for a bundle.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $path
+	 * @return void
+	 */
+	public static function search($bundle, $path)
+	{
+		static::$paths[$bundle][] = $path;
+	}
+
+	/**
+	 * Register a new valid view extension.
+	 *
+	 * @param  string  $extension
+	 * @return void
+	 */
+	public static function extension($extension)
+	{
+		static::$extensions[] = $extension;
+
+		static::$extensions = array_unique(static::$extensions);
+	}
+
+	/**
 	 * Get the evaluated string content of the view.
 	 *
 	 * @return string
@@ -198,27 +263,51 @@ class View implements ArrayAccess {
 	public function render()
 	{
 		// To allow bundles or other pieces of the application to modify the
-		// view before it is rendered, we will fire an event, passing in the
+		// view before it is rendered, we'll fire an event, passing in the
 		// view instance so it can modified.
-		Event::fire("laravel.composing: {$this->view}", array($this));
+		$composer = "laravel.composing: {$this->view}";
 
-		$data = $this->data();
+		Event::fire($composer, array($this));
 
-		ob_start() and extract($data, EXTR_SKIP);
-
-		// If the view is Bladed, we need to check the view for changes and
-		// get the path to the compiled view file. Otherwise, we'll just
-		// use the regular path to the view.
-		//
-		// Also, if the Blade view has expired or doesn't exist it will be
-		// re-compiled and placed in the view storage directory. The Blade
-		// views are re-compiled the original view changes.
-		if (strpos($this->path, BLADE_EXT) !== false)
+		// If there are listeners to the view engine event, we'll pass them
+		// the view so they can render it according to their needs, which
+		// allows easy attachment of other view parsers.
+		if (Event::listeners(static::engine))
 		{
-			$this->path = $this->compile();
+			$result = Event::first(static::engine, array($this));
+
+			if ($result !== false) return $result;
 		}
 
-		try {include $this->path;} catch(\Exception $e) {ob_get_clean(); throw $e;}
+		return $this->get();
+	}
+
+	/**
+	 * Get the evaluated contents of the view.
+	 *
+	 * @return string
+	 */
+	public function get()
+	{
+		$__data = $this->data();
+
+		ob_start() and extract($__data, EXTR_SKIP);
+
+		// We'll include the view contents for parsing within a catcher
+		// so we can avoid any WSOD errors. If an exception occurs we
+		// will throw it out to the exception handler.
+		try
+		{
+			include $this->path;
+		}
+
+		// If we caught an exception, we'll silently flush the output
+		// buffer so that no partially rendered views get thrown out
+		// to the client and confuse the user.
+		catch (\Exception $e)
+		{
+			ob_get_clean(); throw $e;
+		}
 
 		return ob_get_clean();
 	}
@@ -230,7 +319,7 @@ class View implements ArrayAccess {
 	 *
 	 * @return array
 	 */
-	protected function data()
+	public function data()
 	{
 		$data = array_merge($this->data, static::$shared);
 
@@ -246,29 +335,6 @@ class View implements ArrayAccess {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Get the path to the compiled version of the Blade view.
-	 *
-	 * @return string
-	 */
-	protected function compile()
-	{
-		// Compiled views are stored in the storage directory using the MD5
-		// hash of their path. This allows us to easily store the views in
-		// the directory without worrying about structure.
-		$compiled = path('storage').'views/'.md5($this->path);
-
-		// The view will only be re-compiled if the view has been modified
-		// since the last compiled version of the view was created or no
-		// compiled view exists at all in storage.
-		if ( ! file_exists($compiled) or (filemtime($this->path) > filemtime($compiled)))
-		{
-			file_put_contents($compiled, Blade::compile($this->path));
-		}
-
-		return $compiled;
 	}
 
 	/**

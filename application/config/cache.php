@@ -11,7 +11,7 @@ return array(
 	| be used to increase the performance of your application by storing any
 	| commonly accessed data in memory, a file, or some other storage.
 	|
-	| A variety of awesome drivers are available for you to use with Laravel.
+	| A variety of great drivers are available for you to use with Laravel.
 	| Some, like APC, are extremely fast. However, if that isn't an option
 	| in your environment, try file or database caching.
 	|

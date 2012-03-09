@@ -23,8 +23,7 @@ class Hash {
 
 		// Bcrypt expects the salt to be 22 base64 encoded characters including
 		// dots and slashes. We will get rid of the plus signs included in the
-		// base64 data and replace them with dots. OpenSSL will be used if it
-		// is available on the server.
+		// base64 data and replace them with dots.
 		if (function_exists('openssl_random_pseudo_bytes'))
 		{
 			$salt = openssl_random_pseudo_bytes(16);

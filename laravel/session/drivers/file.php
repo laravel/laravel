@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class File implements Driver, Sweeper {
+class File extends Driver implements Sweeper {
 
 	/**
 	 * The path to which the session files should be written.

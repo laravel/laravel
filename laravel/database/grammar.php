@@ -35,6 +35,11 @@ abstract class Grammar {
 	 */
 	public function wrap_table($table)
 	{
+		if ($table instanceof Expression)
+		{
+			return $this->wrap($table);
+		}
+
 		$prefix = '';
 
 		// Tables may be prefixed with a string. This allows developers to

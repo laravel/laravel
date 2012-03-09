@@ -14,6 +14,13 @@ class Publisher {
 	 */
 	public function publish($bundle)
 	{
+		if ( ! Bundle::exists($bundle))
+		{
+			echo "Bundle [$bundle] is not registered.";
+
+			return;
+		}
+
 		$path = Bundle::path($bundle);
 
 		$this->move($path.'public', path('public').'bundles'.DS.$bundle);

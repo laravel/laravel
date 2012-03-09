@@ -18,6 +18,20 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| PDO Fetch Style
+	|--------------------------------------------------------------------------
+	|
+	| By default, database results will be returned as instances of the PHP
+	| stdClass object; however, you may wish to retrieve records as arrays
+	| instead of objects. Here you can control the PDO fetch style of the
+	| database queries run by your application.
+	|
+	*/
+
+	'fetch' => PDO::FETCH_CLASS,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Default Database Connection
 	|--------------------------------------------------------------------------
 	|
@@ -42,8 +56,6 @@ return array(
 	| All database work in Laravel is done through the PHP's PDO facilities,
 	| so make sure you have the PDO drivers for your particlar database of
 	| choice installed on your machine.
-	|
-	| Drivers: 'mysql', 'pgsql', 'sqlsrv', 'sqlite'.
 	|
 	*/
 
