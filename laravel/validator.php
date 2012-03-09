@@ -10,6 +10,13 @@ class Validator {
 	public $attributes;
 
 	/**
+	 * The contents of the attribute array as they have been potentially mutated by validators.
+	 *
+	 * @var array
+	 */
+	public $mutated_attributes;
+
+	/**
 	 * The post-validation error messages.
 	 *
 	 * @var Messages
@@ -90,6 +97,7 @@ class Validator {
 		$this->rules = $rules;
 		$this->messages = $messages;
 		$this->attributes = $attributes;
+		$this->mutated_attributes = $attributes;
 	}
 
 	/**
@@ -183,9 +191,31 @@ class Validator {
 		// rules will not be run for the attribute.
 		$validatable = $this->validatable($rule, $attribute, $value);
 
-		if ($validatable and ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
+		if ($validatable)
 		{
-			$this->error($attribute, $rule, $parameters);
+			// Check to see if we have a supporting validator method for this rule.
+			if ( method_exists($this, 'validate_'.$rule))
+			{
+				if (! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
+				{
+					$this->error($attribute, $rule, $parameters);
+				}
+			}
+			else
+			{
+				// Call the method and capture the result.
+				$result = call_user_func($rule, array_get($this->mutated_attributes, $attribute));
+
+				if( $result === false)
+				{
+					$this->error($attribute, $rule, $parameters);
+				}
+				else
+				{
+					$this->mutated_attributes[$attribute] = $result;
+				}
+			}
+
 		}
 	}
 
@@ -559,7 +589,7 @@ class Validator {
 	protected function validate_active_url($attribute, $value)
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
-		
+
 		return checkdnsrr($url);
 	}
 
@@ -608,7 +638,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $value);
 	}
 
 	/**
@@ -715,7 +745,7 @@ class Validator {
 			$line = 'string';
 		}
 
-		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
 	}
 
 	/**
@@ -922,13 +952,21 @@ class Validator {
 	{
 		$parameters = array();
 
-		// The format for specifying validation rules and parameters follows a 
+		// Temporarily replace double-colons (the scope resolution operator)
+		// with pipes (which were parsed out before this step).  Two pipes
+		// are used so that the str pos of the argument : will not be affected.
+		$rule = str_replace('::', '||', $rule);
+
+		// The format for specifying validation rules and parameters follows a
 		// {rule}:{parameters} formatting convention. For instance, the rule
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
 		{
 			$parameters = explode(',', substr($rule, $colon + 1));
 		}
+
+		// Replace the scope resolution operator
+		$rule = str_replace('||', '::', $rule);
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
 	}
