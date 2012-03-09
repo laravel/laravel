@@ -43,9 +43,8 @@ class HTML {
 	 */
 	public static function script($url, $attributes = array())
 	{
-		$url = static::entities(URL::to_asset($url));
-
-		return '<script src="'.$url.'"'.static::attributes($attributes).'></script>'.PHP_EOL;
+		$attributes['src'] = static::entities(URL::to_asset($url));		
+        return static::content_tag('script', '', $attributes);
 	}
 
 	/**
@@ -71,9 +70,8 @@ class HTML {
 
 		$attributes = $attributes + $defaults;
 
-		$url = static::entities(URL::to_asset($url));
-
-		return '<link href="'.$url.'"'.static::attributes($attributes).'>'.PHP_EOL;
+		$attributes['href'] = static::entities(URL::to_asset($url));
+        return static::tag('link', $attributes);
 	}
 
 	/**
@@ -85,7 +83,7 @@ class HTML {
 	 */
 	public static function span($value, $attributes = array())
 	{
-		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
+	    return static::content_tag('span', static::entities($value), $attributes);
 	}
 
 	/**
@@ -107,9 +105,8 @@ class HTML {
 	 */
 	public static function link($url, $title, $attributes = array(), $https = false)
 	{
-		$url = static::entities(URL::to($url, $https));
-
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$attributes['href'] = static::entities(URL::to($url, $https));
+        return static::content_tag('a', static::entities($title), $attributes);
 	}
 
 	/**
@@ -138,9 +135,8 @@ class HTML {
 	 */
 	public static function link_to_asset($url, $title, $attributes = array(), $https = null)
 	{
-		$url = static::entities(URL::to_asset($url, $https));
-
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$attributes['href'] = static::entities(URL::to_asset($url, $https));
+        return static::content_tag('a', static::entities($title), $attributes);
 	}
 
 	/**
@@ -197,8 +193,8 @@ class HTML {
 		if (is_null($title)) $title = $email;
 
 		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
-
-		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$attributes['href'] = $email;
+        return static::content_tag('a', static::entities($title), $attributes);
 	}
 
 	/**
@@ -223,8 +219,8 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = $alt;
-
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
+		$attributes['src'] = static::entities(URL::to_asset($url));
+        return static::tag('img', $attributes);
 	}
 
 	/**
@@ -274,11 +270,10 @@ class HTML {
 			}
 			else
 			{
-				$html .= '<li>'.static::entities($value).'</li>';
+				$html .= static::content_tag('li', static::entities($value));
 			}
 		}
-
-		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
+        return static::content_tag($type, $html, $attributes);
 	}
 
 	/**
@@ -306,6 +301,37 @@ class HTML {
 
 		return (count($html) > 0) ? ' '.implode(' ', $html) : '';
 	}
+	
+    /**
+     *
+     * Returns HTML for a self-closing tag
+     *
+     * @param string $name
+     * @param array $options
+     * @return string
+     *
+     */
+     	
+    function tag($name, $attributes = array())
+    {
+        return '<' . $name . static::attributes($attributes) . ' />' . PHP_EOL;
+    }
+	
+    /**
+     *
+     * Returns HTML for a non self-closing tag
+     *
+     * @param string $name
+     * @param string $inner
+     * @param array $options
+     * @return string
+     *
+     */
+     
+    public static function content_tag($name, $inner = '', $attributes = array())
+    {
+        return '<' . $name . static::attributes($attributes) . '>' . $inner . '</' . $name . '>' . PHP_EOL;
+    }
 
 	/**
 	 * Obfuscate a string to prevent spam-bots from sniffing it.
