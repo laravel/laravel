@@ -200,7 +200,7 @@ class Form {
 
 		$attributes = array_merge($attributes, compact('type', 'name', 'value', 'id'));
 
-		return '<input'.HTML::attributes($attributes).'>'.PHP_EOL;
+		return '<input'.HTML::attributes($attributes).' />'.PHP_EOL;
 	}
 
 	/**
