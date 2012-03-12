@@ -35,6 +35,9 @@ abstract class Grammar {
 	 */
 	public function wrap_table($table)
 	{
+		// Expressions should be injected into the query as raw strings so
+		// so we do not want to wrap them in any way. We will just return
+		// the string value from the expression to be included.
 		if ($table instanceof Expression)
 		{
 			return $this->wrap($table);
