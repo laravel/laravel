@@ -8,6 +8,7 @@ use Laravel\Bundle;
 use Laravel\Request;
 use Laravel\Redirect;
 use Laravel\Response;
+use FilesystemIterator as fIterator;
 
 abstract class Controller {
 
@@ -60,6 +61,57 @@ abstract class Controller {
 		{
 			$this->layout = $this->layout();
 		}
+	}
+
+	/**
+	 * Detect all of the controllers for a given bundle.
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $directory
+	 * @return array
+	 */
+	public static function detect($bundle = DEFAULT_BUNDLE, $directory = null)
+	{
+		if (is_null($directory))
+		{
+			$directory = Bundle::path($bundle).'controllers';
+		}
+
+		// First we'll get the root path to the directory housing all of
+		// the bundle's controllers. This will be used later to figure
+		// out the identifiers needed for the found controllers.
+		$root = Bundle::path($bundle).'controllers'.DS;
+
+		$controllers = array();
+
+		$items = new fIterator($directory, fIterator::SKIP_DOTS);
+
+		foreach ($items as $item)
+		{
+			// If the item is a directory, we will recurse back into the function
+			// to detect all of the nested controllers and we will keep adding
+			// them into the array of controllers for the bundle.
+			if ($item->isDir())
+			{
+				$nested = static::detect($bundle, $item->getRealPath());
+
+				$controllers = array_merge($controllers, $nested);
+			}
+
+			// If the item is a file, we'll assume it is a controller and we
+			// will build the identifier string for the controller that we
+			// can pass into the route's controller method.
+			else
+			{
+				$controller = str_replace(array($root, EXT), '', $item->getRealPath());
+
+				$controller = str_replace(DS, '.', $controller);
+
+				$controllers[] = Bundle::identifier($bundle, $controller);
+			}
+		}
+
+		return $controllers;
 	}
 
 	/**
