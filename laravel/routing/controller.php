@@ -258,6 +258,17 @@ abstract class Controller {
 			$action = "action_{$method}";
 		}
 
+		// Make sure that required parameters is passed in the URI
+		if (method_exists($this, $action))
+	        {
+	            $ref = new \ReflectionMethod($this, $action);
+	
+	            if (count($parameters) < $ref->getNumberOfRequiredParameters())
+	            {
+	                return Response::error(404);
+	            }
+	        }
+
 		$response = call_user_func_array(array($this, $action), $parameters);
 
 		// If the controller has specified a layout view. The response
