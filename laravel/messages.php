@@ -34,7 +34,11 @@ class Messages {
 	 */
 	public function add($key, $rule, $message)
 	{
-		if ($this->unique($key, $message)) $this->messages[$key][$rule] = $message;
+		if ($this->unique($key, $message))
+		{
+			if (empty($rule)) $this->messages[$key][] = $message;
+			else $this->messages[$key][$rule] = $message;
+		}
 	}
 
 	/**
