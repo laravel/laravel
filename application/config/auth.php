@@ -20,36 +20,20 @@ return array(
 
 	'user' => function($id)
 	{
-		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
-		{
-			return DB::table('users')->find($id);
-		} 
+	    if (filter_var($id, FILTER_VALIDATE_INT) !== false)
+	    {
+	        return User::find($id);
+	    }
 	},
 
-	/*
-	|--------------------------------------------------------------------------
-	| Authenticate User Credentials
-	|--------------------------------------------------------------------------
-	|
-	| This closure is called by the Auth::attempt() method when attempting to
-	| authenticate a user that is logging into your application. It's like a
-	| super buff bouncer to your application.
-	|
-	| If the provided credentials are correct, simply return an object that
-	| represents the user being authenticated. As long as it has a property
-	| for the "id", any object will work. If the credentials are not valid,
-	| you don't meed to return anything.
-	|
-	*/
-
-	'attempt' => function($username, $password)
+	'attempt' => function($email, $password)
 	{
-		$user = DB::table('users')->where_username($username)->first();
+	    $user = User::where_email($email)->first();
 
-		if ( ! is_null($user) and Hash::check($password, $user->password))
-		{
-			return $user;
-		}
+	    if ( ! is_null($user) and Hash::check($password, $user->password))
+	    {
+	        return $user;
+	    }
 	},
 
 	/*

@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[<?php namespace ${1:App}\Commands;
+
+class ${2:CommandName} {
+
+	public function __construct(\$attributes)
+	{
+		\$this->attributes = \$attributes;
+	}
+
+}]]></content>
+    <tabTrigger>cqrscommand</tabTrigger>
+    <scope></scope>
+    <description>CQRS Command …</description>
+</snippet>

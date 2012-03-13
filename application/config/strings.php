@@ -23,9 +23,8 @@ return array(
 
 	'inflection' => array(
 
-		'user'    => 'users',
-		'person'  => 'people',
-		'comment' => 'comments',
+    	'user' => 'users',
+    	'role' => 'roles',
 
 	),
 

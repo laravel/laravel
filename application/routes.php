@@ -38,6 +38,11 @@ Route::get('/, home', function()
 	return View::make('home.index');
 });
 
+Route::post('/, home', function()
+{
+	var_dump(Authority::can('create', 'page', true));
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application 404 & 500 Error Handlers

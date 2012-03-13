@@ -33,4 +33,24 @@
 |
 */
 
-return array();
+return array(
+	'eloquent' => array(
+		'autoloads' => array(
+			'map' => array(
+				'Eloquent\\Model'    => '(:bundle)/model.php',
+				'Eloquent\\Hydrator' => '(:bundle)/hydrator.php',
+			),
+		),
+	),
+	'lcqrs' => array(
+		'autoloads' => array(
+			'namespaces' => array(
+				'App'    => '(:bundle)/app',
+			),
+		),
+		'handles' => 'lcqrs'
+	),
+	'authority' => array(
+		'auto' => true
+	)
+);
