@@ -877,7 +877,7 @@ class Validator {
 
 		// More reader friendly versions of the attribute names may be stored
 		// in the validation language file, allowing a more readable version
-		// of the attribute name to be used in the message.
+		// of the attribute name in the message.
 		$line = "{$bundle}validation.attributes.{$attribute}";
 
 		$display = Lang::line($line)->get($this->language);
@@ -927,7 +927,7 @@ class Validator {
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
 		{
-			$parameters = explode(',', substr($rule, $colon + 1));
+			$parameters = str_getcsv(substr($rule, $colon + 1));
 		}
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
@@ -996,7 +996,7 @@ class Validator {
 			return call_user_func_array(static::$validators[$method], $parameters);
 		}
 
-		throw new \Exception("Call to undefined method [$method] on Validator instance.");
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }

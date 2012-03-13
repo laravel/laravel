@@ -33,6 +33,11 @@ class Request {
 	 */
 	public static function method()
 	{
+		if ($_SERVER['REQUEST_METHOD'] == 'HEAD')
+		{
+			return 'GET';
+		}
+
 		return (static::spoofed()) ? $_POST[Request::spoofer] : $_SERVER['REQUEST_METHOD'];
 	}
 
@@ -134,6 +139,27 @@ class Request {
 	public static function cli()
 	{
 		return defined('STDIN');
+	}
+
+	/**
+	 * Get the Laravel environment for the current request.
+	 *
+	 * @return string|null
+	 */
+	public static function env()
+	{
+		if (isset($_SERVER['LARAVEL_ENV'])) return $_SERVER['LARAVEL_ENV'];
+	}
+
+	/**
+	 * Determine the current request environment.
+	 *
+	 * @param  string  $env
+	 * @return bool
+	 */
+	public static function is_env($env)
+	{
+		return static::env() === $env;
 	}
 
 	/**

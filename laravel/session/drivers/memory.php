@@ -1,24 +1,13 @@
 <?php namespace Laravel\Session\Drivers;
 
-class Memcached extends Driver {
+class Memory extends Driver {
 
 	/**
-	 * The Memcache cache driver instance.
+	 * The session payload that will be returned by the driver.
 	 *
-	 * @var Laravel\Cache\Drivers\Memcached
+	 * @var array
 	 */
-	private $memcached;
-
-	/**
-	 * Create a new Memcached session driver instance.
-	 *
-	 * @param  Laravel\Cache\Drivers\Memcached  $memcached
-	 * @return void
-	 */
-	public function __construct(\Laravel\Cache\Drivers\Memcached $memcached)
-	{
-		$this->memcached = $memcached;
-	}
+	public $session;
 
 	/**
 	 * Load a session from storage by a given ID.
@@ -30,7 +19,7 @@ class Memcached extends Driver {
 	 */
 	public function load($id)
 	{
-		return $this->memcached->get($id);
+		return $this->session;
 	}
 
 	/**
@@ -43,7 +32,7 @@ class Memcached extends Driver {
 	 */
 	public function save($session, $config, $exists)
 	{
-		$this->memcached->put($session['id'], $session, $config['lifetime']);
+		//
 	}
 
 	/**
@@ -54,7 +43,7 @@ class Memcached extends Driver {
 	 */
 	public function delete($id)
 	{
-		$this->memcached->forget($id);
+		//
 	}
 
 }

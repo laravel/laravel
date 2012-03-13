@@ -283,6 +283,17 @@ class SQLite extends Grammar {
 	}
 
 	/**
+	 * Generate the data-type definintion for a decimal.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_decimal(Fluent $column)
+	{
+		return 'FLOAT';
+	}
+
+	/**
 	 * Generate the data-type definition for a boolean.
 	 *
 	 * @param  Fluent  $column

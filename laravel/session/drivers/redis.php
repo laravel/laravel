@@ -1,6 +1,6 @@
 <?php namespace Laravel\Session\Drivers;
 
-class Redis implements Driver {
+class Redis extends Driver {
 
 	/**
 	 * The Redis cache driver instance.

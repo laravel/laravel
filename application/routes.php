@@ -33,7 +33,7 @@
 |
 */
 
-Route::get('/, home', function()
+Route::get('/', function()
 {
 	return View::make('home.index');
 });
@@ -82,7 +82,7 @@ Event::listen('500', function()
 |
 | First, define a filter:
 |
-|		Filter::register('filter', function()
+|		Route::filter('filter', function()
 |		{
 |			return 'Filtered!';
 |		});

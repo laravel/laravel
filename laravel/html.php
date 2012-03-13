@@ -181,6 +181,30 @@ class HTML {
 	}
 
 	/**
+	 * Generate an HTML link to a controller action.
+	 *
+	 * An array of parameters may be specified to fill in URI segment wildcards.
+	 *
+	 * <code>
+	 *		// Generate a link to the "home@index" action
+	 *		echo HTML::link_to_action('home@index', 'Home');
+	 *
+	 *		// Generate a link to the "user@profile" route and add some parameters
+	 *		echo HTML::link_to_action('user@profile', 'Profile', array('taylor'));
+	 * </code>
+	 *
+	 * @param  string  $action
+	 * @param  string  $title
+	 * @param  array   $parameters
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_action($action, $title, $parameters = array(), $attributes = array())
+	{
+		return static::link(URL::to_action($action, $parameters), $title, $attributes);
+	}
+
+	/**
 	 * Generate an HTML mailto link.
 	 *
 	 * The E-Mail address will be obfuscated to protect it from spam bots.

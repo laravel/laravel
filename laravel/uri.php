@@ -116,10 +116,13 @@ class URI {
 	 * Determine if the current URI matches a given pattern.
 	 *
 	 * @param  string  $pattern
+	 * @param  string  $uri
 	 * @return bool
 	 */
-	public static function is($pattern)
+	public static function is($pattern, $uri = null)
 	{
+		$uri = $uri ?: static::current();
+
 		// Asterisks are translated into zero-or-more regular expression wildcards
 		// to make it convenient to check if the URI starts with a given pattern
 		// such as "library/*". This is only done when not root.
@@ -132,7 +135,7 @@ class URI {
 			$pattern = '^/$';
 		}
 
-		return preg_match('#'.$pattern.'#', static::current());
+		return preg_match('#'.$pattern.'#', $uri);
 	}
 
 	/**

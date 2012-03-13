@@ -181,14 +181,14 @@ class Response {
 		if (is_null($name)) $name = basename($path);
 
 		$headers = array_merge(array(
-			'Content-Description'       => 'File Transfer',
-			'Content-Type'              => File::mime(File::extension($path)),
-			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
-			'Content-Transfer-Encoding' => 'binary',
-			'Expires'                   => 0,
-			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-			'Pragma'                    => 'public',
-			'Content-Length'            => File::size($path),
+			'content-description'       => 'File Transfer',
+			'content-type'              => File::mime(File::extension($path)),
+			'content-disposition'       => 'attachment; filename="'.$name.'"',
+			'content-transfer-encoding' => 'binary',
+			'expires'                   => 0,
+			'cache-control'             => 'must-revalidate, post-check=0, pre-check=0',
+			'pragma'                    => 'public',
+			'content-length'            => File::size($path),
 		), $headers);
 
 		return new static(File::get($path), 200, $headers);
@@ -279,11 +279,11 @@ class Response {
 		// If the content type was not set by the developer, we will set the
 		// header to a default value that indicates to the browser that the
 		// response is HTML and that it uses the default encoding.
-		if ( ! isset($this->headers['Content-Type']))
+		if ( ! isset($this->headers['content-type']))
 		{
 			$encoding = Config::get('application.encoding');
 
-			$this->header('Content-Type', 'text/html; charset='.$encoding);
+			$this->header('content-type', 'text/html; charset='.$encoding);
 		}
 
 		// Once the framework controlled headers have been sentm, we can
@@ -314,7 +314,7 @@ class Response {
 	 */
 	public function header($name, $value)
 	{
-		$this->headers[$name] = $value;
+		$this->headers[strtolower($name)] = $value;
 		return $this;
 	}
 

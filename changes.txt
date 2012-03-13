@@ -1,0 +1,19 @@
+Changes for 3.1:
+
+	- ** View engine, Blade extracted to bundle.
+	- Logging events.
+	- ** db.fetch option for changing PDO fetch style.
+	- controller factories for injecting any IoC.
+	- link_to_action HTML helpers...
+	- default value on config::get
+	- Registering of view paths and extensions
+	- Pattern based filters.
+	- Better session ID assignment
+	- Added cviebrock's unsigned support.
+	- Added config, view, and lang loaders.
+	- Moved more stuff into application/start
+	- Removed error.display config options.
+	- Added foreign key support to schema builder.
+	- Postgres "unique" indexes are now added with ADD CONSTRAINT
+	- Added "Event::until" method.
+	- Added "memory" cache and session drivers.
