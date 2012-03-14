@@ -42,7 +42,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'pgsql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,9 +80,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'database',
+			'database' => 'laravel',
 			'username' => 'root',
-			'password' => '',
+			'password' => 'vagrant',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 		),

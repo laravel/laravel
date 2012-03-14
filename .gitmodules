@@ -1,0 +1,3 @@
+[submodule "bundles/lcqrs"]
+path = bundles/lcqrs
+url = git@github.com:Vespakoen/LCQRS.git

@@ -422,3 +422,7 @@ function render($view, $data = array())
 {
 	return Laravel\View::make($view, $data)->render();
 }
+
+function uncamelcase($value) {
+	return substr(preg_replace("/([A-Z])/e", "'_'.strtolower('$1')", $value), 1);
+}

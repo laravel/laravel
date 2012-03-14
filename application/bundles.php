@@ -43,12 +43,13 @@ return array(
 		),
 	),
 	'lcqrs' => array(
-		'autoloads' => array(
-			'namespaces' => array(
-				'App'    => '(:bundle)/app',
-			),
-		),
+		'location' => 'lcqrs/core',
+		'auto' => true,
 		'handles' => 'lcqrs'
+	),
+	'app' => array(
+		'location' => 'lcqrs/app',
+		'auto' => true
 	),
 	'authority' => array(
 		'auto' => true
