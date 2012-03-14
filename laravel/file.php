@@ -244,10 +244,9 @@ class File {
 	 * Recursively delete a directory.
 	 *
 	 * @param  string  $directory
-	 * @param	bool	$preserve
 	 * @return void
 	 */
-	public static function rmdir($directory, $preserve = false)
+	public static function rmdir($directory)
 	{
 		if ( ! is_dir($directory)) return;
 
@@ -267,12 +266,8 @@ class File {
 				@unlink($item->getRealPath());
 			}
 		}
-		
-		// Second param allows user to preserve the directory.
-		if ($preserve === false)
-		{
-			@rmdir($directory);
-		}
+
+		@rmdir($directory);
 	}
 
 	/**
