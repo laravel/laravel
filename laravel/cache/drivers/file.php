@@ -74,6 +74,18 @@ class File extends Driver {
 	}
 
 	/**
+	 * Write an item to the cache for five years.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public function forever($key, $value)
+	{
+		return $this->put($key, $value, 2628000);
+	}
+
+	/**
 	 * Delete an item from the cache.
 	 *
 	 * @param  string  $key
