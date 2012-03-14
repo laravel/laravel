@@ -82,7 +82,7 @@ class Memory extends Driver {
 	 */
 	public function flush()
 	{
-		$this->stroage = array();
+		$this->storage = array();
 	}
 
 }
