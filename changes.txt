@@ -18,3 +18,4 @@ Changes for 3.1:
 	- Added "Event::until" method.
 	- Added "memory" cache and session drivers.
 	- Added controller::detect method.
+	- Added Cache::forever method.
