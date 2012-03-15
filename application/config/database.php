@@ -70,9 +70,9 @@ return array(
 		'mysql' => array(
 			'driver'   => 'mysql',
 			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
+			'database' => 'laravel',
+			'username' => 'laravel',
+			'password' => 'laravel',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 		),

@@ -1,0 +1,18 @@
+<snippet>
+    <content><![CDATA[<?php namespace ${1:App}\CommandHandlers;
+
+use ${1:App}\\${2}\\${3:AggregateRootOrEntityName};
+
+class ${4:CommandHandlerName} {
+
+	public function __construct(\$command)
+	{
+		\$${5:aggregaterootorentityname} = new ${3:AggregateRootOrEntityName};
+		\$${5:aggregaterootorentityname}->command(\$command->attributes);
+	}
+
+}]]></content>
+    <tabTrigger>cqrscommandhandler</tabTrigger>
+    <scope></scope>
+    <description>CQRS CommandHandler …</description>
+</snippet>

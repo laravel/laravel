@@ -1,0 +1,15 @@
+<snippet>
+    <content><![CDATA[<?php namespace ${1:App}\Events;
+
+class ${2:EventThatHappened} {
+
+	public function __construct(\$attributes)
+	{
+		\$this->attributes = \$attributes;
+	}
+
+}]]></content>
+    <tabTrigger>cqrsevent</tabTrigger>
+    <scope></scope>
+    <description>CQRS Event …</description>
+</snippet>
