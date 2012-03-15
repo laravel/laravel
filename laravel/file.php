@@ -174,6 +174,19 @@ class File {
 	}
 
 	/**
+	 * Make a new directory.
+	 *
+	 * @param	string	$path
+	 */
+	public static function mkdir($path)
+	{
+		if ( ! is_dir($path))
+		{
+			mkdir($path, 0777, true);
+		}
+	}
+
+	/**
 	 * Move a directory from one location to another.
 	 *
 	 * @param  string  $source
