@@ -292,6 +292,14 @@ class Str {
 	{
 		return substr(str_shuffle(str_repeat(static::pool($type), 5)), 0, $length);
 	}
+	
+	/**
+	 * Generate a unique random string.
+	 */
+	public static function unique()
+	{
+		return md5(uniqid(mt_rand()));
+	}
 
 	/**
 	 * Get the character pool for a given type of random string.
