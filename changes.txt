@@ -19,3 +19,4 @@ Changes for 3.1:
 	- Added "memory" cache and session drivers.
 	- Added controller::detect method.
 	- Added Cache::forever method.
+	- Controller layouts now resolved in Laravel\Controller __construct.
