@@ -1,5 +1,7 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
+use FilesystemIterator as fIterator;
+
 class Autoloader {
 
 	/**
@@ -200,6 +202,25 @@ class Autoloader {
 		$mappings = static::format_mappings($mappings, '\\');
 
 		static::$namespaces = array_merge($mappings, static::$namespaces);
+	}
+
+	/**
+	 * Include all files in a directory
+	 *
+	 * @param mixed   $directory  one (string) or multiple (array) directories 
+	 * @return void
+	 */
+	public static function includes($directories, $recursive = false, $options = fIterator::SKIP_DOTS)
+	{
+		if( ! is_array($directories)) $directories = array($directories);
+		
+		foreach ($directories as $directory)
+		{
+			foreach(File::all($directory, $recursive, $options) as $file)
+			{
+				require $file;
+			}	
+		}
 	}
 
 	/**

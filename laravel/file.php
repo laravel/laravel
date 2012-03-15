@@ -294,4 +294,22 @@ class File {
 		return $latest;
 	}
 
+	public static function all($directory, $recursive = false, $options = fIterator::SKIP_DOTS)
+	{
+		$files = array();
+		$items = new fIterator($directory, $options);
+		foreach ($items as $item)
+		{
+			$full_path = $item->getPath().DS.$item->getFilename();
+			if( ! $item->isDir()) {
+				$files[] = $full_path;
+			}
+			elseif($recursive) {
+				$files = array_merge($files, static::all($full_path, true, $options));
+			}
+		}
+
+		return $files;
+	}
+
 }

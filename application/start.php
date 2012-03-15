@@ -142,3 +142,16 @@ Autoloader::directories(array(
 	path('app').'models',
 	path('app').'libraries',
 ));
+
+/*
+|--------------------------------------------------------------------------
+| Auto-Loader Includes
+|--------------------------------------------------------------------------
+|
+| The Laravel auto-loader can include all files in a directory with a 
+| simple command.
+|
+*/
+Autoloader::includes(array(
+	path('app').'routes',
+), true);
