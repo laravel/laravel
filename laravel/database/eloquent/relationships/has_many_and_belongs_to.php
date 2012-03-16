@@ -39,9 +39,25 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$this->other = $other;
 
-		$this->joining = $table;
+		$this->joining = $table ?: $this->joining($model, $associated);
 
 		parent::__construct($model, $associated, $foreign);
+	}
+
+	/**
+	 * Determine the joining table name for the relationship.
+	 *
+	 * By default, the name is the models sorted and concatenated with an underscore.
+	 *
+	 * @return string
+	 */
+	protected function joining($model, $associated)
+	{
+		$models = array(class_basename($model), class_basename($associated));
+
+		sort($models);
+
+		return strtolower($models[0].'_'.$models[1]);
 	}
 
 	/**

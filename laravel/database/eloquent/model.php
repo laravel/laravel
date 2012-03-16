@@ -264,7 +264,7 @@ abstract class Model {
 	 * @param  string        $other
 	 * @return Relationship
 	 */
-	public function has_many_and_belongs_to($model, $table, $foreign = null, $other = null)
+	public function has_many_and_belongs_to($model, $table = null, $foreign = null, $other = null)
 	{
 		return new Has_Many_And_Belongs_To($this, $model, $table, $foreign, $other);
 	}
