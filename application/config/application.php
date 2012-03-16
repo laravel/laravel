@@ -126,6 +126,7 @@ return array(
 		'Cookie'     => 'Laravel\\Cookie',
 		'Crypter'    => 'Laravel\\Crypter',
 		'DB'         => 'Laravel\\Database',
+		'Eloquent'   => 'Laravel\\Database\\Eloquent\\Model',
 		'Event'      => 'Laravel\\Event',
 		'File'       => 'Laravel\\File',
 		'Filter'     => 'Laravel\\Routing\\Filter',
