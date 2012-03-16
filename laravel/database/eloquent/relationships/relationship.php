@@ -69,6 +69,19 @@ abstract class Relationship extends Query {
 	}
 
 	/**
+	 * Get a freshly instantiated instance of the related model class.
+	 *
+	 * @param  array  $attributes
+	 * @return Model
+	 */
+	protected function fresh_model($attributes = array())
+	{
+		$class = get_class($this->model);
+
+		return new $class($attributes);
+	}
+
+	/**
 	 * Get the foreign key for the relationship.
 	 *
 	 * @return string

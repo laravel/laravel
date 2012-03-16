@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent\Relationships;
 
+use Laravel\Database\Eloquent\Model;
 use Laravel\Database\Eloquent\Pivot;
 
 class Has_Many_And_Belongs_To extends Relationship {
@@ -23,7 +24,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * @var array
 	 */
-	protected $with = array('created_at', 'updated_at');
+	protected $with = array('id', 'created_at', 'updated_at');
 
 	/**
 	 * Create a new many to many relationship instance.
@@ -93,11 +94,17 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function insert($attributes, $joining = array())
 	{
-		$id = $this->table->insert_get_id($attributes, $this->model->sequence());
+		$model = $this->model->create($attributes);
 
-		$result = $this->insert_joining(array_merge($this->join_record($id), $joining));
+		// If the insert was successful, we'll insert a record into the joining table
+		// using the new ID that was just inserted into the related table, allowing
+		// the developer to not worry about maintaining the join table.
+		if ($model instanceof Model and is_numeric($id = $model->get_key()))
+		{
+			$result = $this->insert_joining(array_merge($this->join_record($id), $joining));
+		}
 
-		return is_numeric($id) and $result;
+		return $model instanceof Model and $result;
 	}
 
 	/**

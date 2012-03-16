@@ -59,7 +59,7 @@ abstract class Model {
 	 *
 	 * @var bool
 	 */
-	public static $timestamps = false;
+	public static $timestamps = true;
 
 	/**
 	 * The name of the table associated with the model.

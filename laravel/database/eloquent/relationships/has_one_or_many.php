@@ -14,7 +14,7 @@ class Has_One_Or_Many extends Relationship {
 	{
 		$attributes[$this->foreign_key()] = $this->base->get_key();
 
-		return parent::insert($attributes);
+		return $this->model->create($attributes);
 	}
 
 	/**
