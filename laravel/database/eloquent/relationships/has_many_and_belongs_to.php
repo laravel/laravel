@@ -133,7 +133,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function set_select($foreign)
 	{
-		$foreign = $this->joining.'.'.$foreign.' as eloquent_foreign_key';
+		$foreign = $this->joining.'.'.$foreign.' as pivot_foreign_key';
 
 		$this->table->select(array($this->model->table().'.*', $foreign));
 
@@ -201,7 +201,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function match($relationship, &$parents, $children)
 	{
-		$foreign = 'eloquent_foreign_key';
+		$foreign = 'pivot_foreign_key';
 
 		foreach ($children as $key => $child)
 		{
@@ -213,6 +213,20 @@ class Has_Many_And_Belongs_To extends Relationship {
 			unset($child->attributes[$foreign]);
 
 			unset($child->original[$foreign]);
+		}
+	}
+
+	/**
+	 * Clean-up any pivot columns that are on the results.
+	 *
+	 * @param  array  $results
+	 * @return void
+	 */
+	protected function clean(&$results)
+	{
+		foreach ($results as &$result)
+		{
+			
 		}
 	}
 

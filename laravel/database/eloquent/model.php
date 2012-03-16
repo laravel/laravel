@@ -1,7 +1,7 @@
 <?php namespace Laravel\Database\Eloquent;
 
 use Laravel\Database;
-use Eloquent\Relationships\Has_Many_And_Belongs_To;
+use Laravel\Database\Eloquent\Relationships\Has_Many_And_Belongs_To;
 
 abstract class Model {
 
@@ -320,7 +320,7 @@ abstract class Model {
 	 */
 	protected function timestamp()
 	{
-		$this->updated_at = $this->get_timestamp();
+		$this->updated_at = static::get_timestamp();
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
 	}
@@ -330,7 +330,7 @@ abstract class Model {
 	 *
 	 * @return mixed
 	 */
-	protected function get_timestamp()
+	protected static function get_timestamp()
 	{
 		return date('Y-m-d H:i:s');
 	}
@@ -406,7 +406,7 @@ abstract class Model {
 	 */
 	public function get_attribute($key)
 	{
-		return $this->attributes[$key];
+		return array_get($this->attributes, $key);
 	}
 
 	/**

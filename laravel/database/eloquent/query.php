@@ -76,7 +76,7 @@ class Query {
 			{
 				// If the relationship is nested, we will skip laoding it here and let
 				// the load method parse and set the nested eager loads on the right
-				// relationship when it is getting ready to eager laod it.
+				// relationship when it is getting ready to eager laod.
 				if (str_contains($relationship, '.'))
 				{
 					continue;
@@ -84,6 +84,14 @@ class Query {
 
 				$this->load($results, $relationship, $constraints);
 			}
+		}
+
+		// The many to many relationships may have pivot table column on them
+		// so we will call the "clean" method on the relationship to remove
+		// any pivot columns that are on the model.
+		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
+		{
+			$this->clean($results);
 		}
 
 		return $results;

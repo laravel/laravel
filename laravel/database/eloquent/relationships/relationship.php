@@ -1,4 +1,7 @@
-<?php namespace Laravel\Database\Eloquent\Relationships; use Eloquent\Model, Eloquent\Query;
+<?php namespace Laravel\Database\Eloquent\Relationships;
+
+use Laravel\Database\Eloquent\Model;
+use Laravel\Database\Eloquent\Query;
 
 abstract class Relationship extends Query {
 

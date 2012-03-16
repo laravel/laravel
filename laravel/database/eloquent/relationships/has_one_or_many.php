@@ -1,4 +1,6 @@
-<?php namespace Laravel\Database\Eloquent\Relationships; use Eloquent\Model;
+<?php namespace Laravel\Database\Eloquent\Relationships;
+
+use Laravel\Database\Eloquent\Model;
 
 class Has_One_Or_Many extends Relationship {
 
