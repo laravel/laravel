@@ -83,6 +83,13 @@ abstract class Model {
 	public static $sequence;
 
 	/**
+	 * The default number of models to show per page when paginating.
+	 *
+	 * @var int
+	 */
+	public static $per_page = 20;
+
+	/**
 	 * Create a new Eloquent model instance.
 	 *
 	 * @param  array  $attributes
@@ -148,6 +155,23 @@ abstract class Model {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Create a new model and store it in the database.
+	 *
+	 * If save is successful, the model will be returned, otherwise false.
+	 *
+	 * @param  array        $attributes
+	 * @return Model|false
+	 */
+	public static function create($attributes)
+	{
+		$model = new static($attributes);
+
+		$success = $model->save();
+
+		return ($success) ? $model : false;
 	}
 
 	/**
@@ -320,7 +344,7 @@ abstract class Model {
 	 */
 	protected function timestamp()
 	{
-		$this->updated_at = static::get_timestamp();
+		$this->updated_at = $this->get_timestamp();
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
 	}
@@ -330,7 +354,7 @@ abstract class Model {
 	 *
 	 * @return mixed
 	 */
-	protected static function get_timestamp()
+	public function get_timestamp()
 	{
 		return date('Y-m-d H:i:s');
 	}
@@ -502,7 +526,7 @@ abstract class Model {
 		// If the method is actually the name of a static property on the model we'll
 		// return the value of the static property. This makes it convenient for
 		// relationships to access these values off of the instances.
-		if (in_array($method, array('key', 'table', 'connection', 'sequence')))
+		if (in_array($method, array('key', 'table', 'connection', 'sequence', 'per_page')))
 		{
 			return static::$$method;
 		}

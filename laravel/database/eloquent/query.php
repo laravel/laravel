@@ -29,8 +29,8 @@ class Query {
 	 * @var array
 	 */
 	public $passthru = array(
-		'lists', 'only', 'insert', 'update', 'increment', 'decrement',
-		'count', 'min', 'max', 'avg', 'sum'
+		'lists', 'only', 'insert', 'insert_get_id', 'update', 'increment',
+		'decrement', 'count', 'min', 'max', 'avg', 'sum',
 	);
 
 	/**
@@ -68,33 +68,28 @@ class Query {
 	 */
 	public function get($columns = array('*'), $include = true)
 	{
-		$results = $this->hydrate($this->model, $this->table->get($columns));
+		return $this->hydrate($this->model, $this->table->get($columns), $include);
+	}
 
-		if ($include)
-		{
-			foreach ($this->model_includes() as $relationship => $constraints)
-			{
-				// If the relationship is nested, we will skip laoding it here and let
-				// the load method parse and set the nested eager loads on the right
-				// relationship when it is getting ready to eager laod.
-				if (str_contains($relationship, '.'))
-				{
-					continue;
-				}
+	/**
+	 * Get an array of paginated model results.
+	 *
+	 * @param  int        $per_page
+	 * @param  array      $columns
+	 * @return Paginator
+	 */
+	public function paginate($per_page = null, $columns = array('*'))
+	{
+		$per_page = $per_page ?: $this->model->per_page();
 
-				$this->load($results, $relationship, $constraints);
-			}
-		}
+		// First we'll grab the Paginator instance and get the results. Then we can
+		// feed those raw database results into the hydrate method to get models
+		// for the results, which we'll set on the paginator and return it.
+		$paginator = $this->table->paginate($per_page, $columns);
 
-		// The many to many relationships may have pivot table column on them
-		// so we will call the "clean" method on the relationship to remove
-		// any pivot columns that are on the model.
-		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
-		{
-			$this->pivot($results);
-		}
+		$paginator->results = $this->hydrate($this->model, $paginator->results);
 
-		return $results;
+		return $paginator;
 	}
 
 	/**
@@ -104,7 +99,7 @@ class Query {
 	 * @param  array  $results
 	 * @return array
 	 */
-	public function hydrate($model, $results)
+	public function hydrate($model, $results, $include = true)
 	{
 		$class = get_class($model);
 
@@ -118,6 +113,30 @@ class Query {
 			$result = (array) $result;
 
 			$models[$result[$this->model->key()]] = new $class($result, true);
+		}
+
+		if ($include and count($results) > 0)
+		{
+			foreach ($this->model_includes() as $relationship => $constraints)
+			{
+				// If the relationship is nested, we will skip laoding it here and let
+				// the load method parse and set the nested eager loads on the right
+				// relationship when it is getting ready to eager laod.
+				if (str_contains($relationship, '.'))
+				{
+					continue;
+				}
+
+				$this->load($models, $relationship, $constraints);
+			}
+		}
+
+		// The many to many relationships may have pivot table column on them
+		// so we will call the "clean" method on the relationship to remove
+		// any pivot columns that are on the model.
+		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
+		{
+			$this->pivot($models);
 		}
 
 		return $models;

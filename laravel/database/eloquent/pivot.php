@@ -10,6 +10,13 @@ class Pivot extends Model {
 	public $pivot_table;
 
 	/**
+	 * Indicates if the model has update and creation timestamps.
+	 *
+	 * @var bool
+	 */
+	public static $timestamps = true;
+
+	/**
 	 * Create a new pivot table instance.
 	 *
 	 * @param  string  $table

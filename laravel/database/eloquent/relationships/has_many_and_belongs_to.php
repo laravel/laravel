@@ -23,7 +23,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * @var array
 	 */
-	protected $with = array();
+	protected $with = array('created_at', 'updated_at');
 
 	/**
 	 * Create a new many to many relationship instance.
@@ -73,25 +73,29 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record into the joining table of the association.
 	 *
-	 * @param  int   $id
+	 * @param  int    $id
+	 * @param  array  $joining
 	 * @return bool
 	 */
-	public function add($id)
+	public function add($id, $attributes = array())
 	{
-		return $this->insert_joining($this->join_record($id));
+		$joining = array_merge($this->join_record($id), $attributes);
+
+		return $this->insert_joining($joining);
 	}
 
 	/**
 	 * Insert a new record for the association.
 	 *
 	 * @param  array  $attributes
+	 * @param  array  $joining
 	 * @return bool
 	 */
-	public function insert($attributes)
+	public function insert($attributes, $joining = array())
 	{
 		$id = $this->table->insert_get_id($attributes, $this->model->sequence());
 
-		$result = $this->insert_joining($this->join_record($id));
+		$result = $this->insert_joining(array_merge($this->join_record($id), $joining));
 
 		return is_numeric($id) and $result;
 	}
@@ -125,6 +129,13 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function insert_joining($attributes)
 	{
+		// All joining tables get creation and update timestamps automatically even though
+		// some developers may not need them. This just provides them if necessary since
+		// it would be a pain for the developer to maintain them manually.
+		$attributes['created_at'] = $this->model->get_timestamp();
+
+		$attributes['updated_at'] = $attributes['created_at'];
+
 		return $this->joining_table()->insert($attributes);
 	}
 
@@ -292,7 +303,12 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function with($columns)
 	{
-		$this->with = (is_array($columns)) ? $columns : func_get_args();
+		$columns = (is_array($columns)) ? $columns : func_get_args();
+
+		// The "with" array contains a couple of columns by default, so we will
+		// just merge in the developer specified columns here, and we'll make
+		// sure the values of the array are unique.
+		$this->with = array_unique(array_merge($this->with, $columns));
 
 		$this->set_select($this->foreign_key(), $this->other_key());
 
