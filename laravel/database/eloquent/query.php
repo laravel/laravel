@@ -91,7 +91,7 @@ class Query {
 		// any pivot columns that are on the model.
 		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
 		{
-			$this->clean($results);
+			$this->pivot($results);
 		}
 
 		return $results;

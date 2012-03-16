@@ -1,5 +1,7 @@
 <?php namespace Laravel\Database\Eloquent\Relationships;
 
+use Laravel\Database\Eloquent\Pivot;
+
 class Has_Many_And_Belongs_To extends Relationship {
 
 	/**
@@ -15,6 +17,13 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * @var string
 	 */
 	protected $other;
+
+	/**
+	 * The columns on the joining tbale that should be fetched.
+	 *
+	 * @var array
+	 */
+	protected $with = array();
 
 	/**
 	 * Create a new many to many relationship instance.
@@ -120,22 +129,35 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function constrain()
 	{
+		$other = $this->other_key();
+
 		$foreign = $this->foreign_key();
 
-		$this->set_select($foreign)->set_join($this->other_key())->set_where($foreign);
+		$this->set_select($foreign, $other)->set_join($other)->set_where($foreign);
 	}
 
 	/**
 	 * Set the SELECT clause on the query builder for the relationship.
 	 *
 	 * @param  string  $foreign
+	 * @param  string  $other
 	 * @return void
 	 */
-	protected function set_select($foreign)
+	protected function set_select($foreign, $other)
 	{
-		$foreign = $this->joining.'.'.$foreign.' as pivot_foreign_key';
+		$columns = array($this->model->table().'.*');
 
-		$this->table->select(array($this->model->table().'.*', $foreign));
+		$this->with = array_merge($this->with, array($foreign, $other));
+
+		// Since pivot tables may have extra information on them that the developer
+		// needs, we allow an extra array of columns to be specified that will be
+		// fetched from the pivot table and hydrate into the pivot model.
+		foreach ($this->with as $column)
+		{
+			$columns[] = $this->joining.'.'.$column.' as pivot_'.$column;
+		}
+
+		$this->table->select($columns);
 
 		return $this;
 	}
@@ -201,33 +223,64 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function match($relationship, &$parents, $children)
 	{
-		$foreign = 'pivot_foreign_key';
+		$foreign = $this->foreign_key();
 
 		foreach ($children as $key => $child)
 		{
-			$parents[$child->$foreign]->relationships[$relationship][$child->{$child->key()}] = $child;
-
-			// After matching the child model with its parent, we can remove the foreign key
-			// from the model, as it was only necessary to allow us to know which parent
-			// the child belongs to for eager loading and isn't necessary otherwise.
-			unset($child->attributes[$foreign]);
-
-			unset($child->original[$foreign]);
+			$parents[$child->pivot->$foreign]->relationships[$relationship][$child->{$child->key()}] = $child;
 		}
 	}
 
 	/**
-	 * Clean-up any pivot columns that are on the results.
+	 * Hydrate the Pivot model on an array of results.
 	 *
 	 * @param  array  $results
 	 * @return void
 	 */
-	protected function clean(&$results)
+	protected function pivot(&$results)
 	{
 		foreach ($results as &$result)
 		{
-			
+			// Every model result for a many-to-many relationship needs a Pivot instance
+			// to represent the pivot table's columns. Sometimes extra columns are on
+			// the pivot table that may need to be accessed by the developer.
+			$pivot = new Pivot($this->joining);
+
+			// If the attribute key starts with "pivot_", we know this is a column on
+			// the pivot table, so we will move it to the Pivot model and purge it
+			// from the model since it actually belongs to the pivot.
+			foreach ($result->attributes as $key => $value)
+			{
+				if (starts_with($key, 'pivot_'))
+				{
+					$pivot->{substr($key, 6)} = $value;
+
+					$result->purge($key);
+				}
+			}
+
+			// Once we have completed hydrating the pivot model instance, we'll set
+			// it on the result model's relationships array so the developer can
+			// quickly and easily access any pivot table information.
+			$result->relationships['pivot'] = $pivot;
+
+			$pivot->sync() and $result->sync();
 		}
+	}
+
+	/**
+	 * Set the columns on the joining table that should be fetched.
+	 *
+	 * @param  array         $column
+	 * @return Relationship
+	 */
+	public function with($columns)
+	{
+		$this->with = (is_array($columns)) ? $columns : func_get_args();
+
+		$this->set_select($this->foreign_key(), $this->other_key());
+
+		return $this;
 	}
 
 	/**

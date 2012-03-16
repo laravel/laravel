@@ -346,6 +346,18 @@ abstract class Model {
 	}
 
 	/**
+	 * Sync the original attributes with the current attributes.
+	 *
+	 * @return bool
+	 */
+	final public function sync()
+	{
+		$this->original = $this->attributes;
+
+		return true;
+	}
+
+	/**
 	 * Determine if a given attribute has changed from its original state.
 	 *
 	 * @param  string  $attribute
@@ -419,6 +431,18 @@ abstract class Model {
 	public function set_attribute($key, $value)
 	{
 		$this->attributes[$key] = $value;
+	}
+
+	/**
+	 * Remove an attribute from the model.
+	 *
+	 * @param  string  $key
+	 */
+	final public function purge($key)
+	{
+		unset($this->original[$key]);
+
+		unset($this->attributes[$key]);
 	}
 
 	/**
