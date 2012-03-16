@@ -20,3 +20,4 @@ Changes for 3.1:
 	- Added controller::detect method.
 	- Added Cache::forever method.
 	- Controller layouts now resolved in Laravel\Controller __construct.
+	- Rewrote Eloquent and included in core.
