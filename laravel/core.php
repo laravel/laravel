@@ -64,6 +64,30 @@ Autoloader::namespaces(array('Laravel' => path('sys')));
 
 /*
 |--------------------------------------------------------------------------
+| Register Eloquent Mappings
+|--------------------------------------------------------------------------
+|
+| A few of the Eloquent ORM classes use a non PSR-0 naming standard so
+| we will just map them with hard-coded paths here since PSR-0 uses
+| underscores as directory hierarchy indicators.
+|
+*/
+
+Autoloader::map(array(
+	'Laravel\\Database\\Eloquent\\Relationships\\Belongs_To' 
+                    => path('sys').'database/eloquent/relationships/belongs_to'.EXT,
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many' 
+                    => path('sys').'database/eloquent/relationships/has_many'.EXT,
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many_And_Belongs_To' 
+                    => path('sys').'database/eloquent/relationships/has_many_and_belongs_to'.EXT,
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_One' 
+                    => path('sys').'database/eloquent/relationships/has_one'.EXT,
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_One_Or_Many' 
+                    => path('sys').'database/eloquent/relationships/has_one_or_many'.EXT,
+));
+
+/*
+|--------------------------------------------------------------------------
 | Set The CLI Options Array
 |--------------------------------------------------------------------------
 |
