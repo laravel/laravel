@@ -22,6 +22,9 @@ class MySQL extends Connector {
 			$dsn .= ";port={$config['port']}";
 		}
 
+		// The UNIX socket option allows the developer to indicate that the MySQL
+		// instance must be connected to via a given socket. We'll just append
+		// it to the DSN connection string if it is present.
 		if (isset($config['unix_socket']))
 		{
 			$dsn .= ";unix_socket={$config['unix_socket']}";
