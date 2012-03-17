@@ -237,7 +237,7 @@ class Query {
 	 */
 	public function where($column, $operator = null, $value = null, $connector = 'AND')
 	{
-		// If a CLosure is passed into the method, it means a nested where
+		// If a Closure is passed into the method, it means a nested where
 		// clause is being initiated, so we will take a different course
 		// of action than when the statement is just a simple where.
 		if ($column instanceof Closure)
@@ -397,16 +397,16 @@ class Query {
 	{
 		$type = 'where_nested';
 
-		// To handle a nested where statement, we will actually instantiate a
-		// new Query instance and run the callback over that instance, which
-		// will allow the developer to have a fresh query.
+		// To handle a nested where statement, we will actually instantiate a new
+		// Query instance and run the callback over that instance, which will
+		// allow the developer to have a fresh query instance
 		$query = new Query($this->connection, $this->grammar, $this->from);
 
 		call_user_func($callback, $query);
 
-		// Once the callback has been run on the query, we will store the
-		// nested query instance on the where clause array so that it's
-		// passed to the query's query grammar instance.
+		// Once the callback has been run on the query, we will store the nested
+		// query instance on the where clause array so that it's passed to the
+		// query's query grammar instance when building.
 		$this->wheres[] = compact('type', 'query', 'connector');
 
 		$this->bindings = array_merge($this->bindings, $query->bindings);
@@ -429,32 +429,31 @@ class Query {
 
 		$segments = preg_split('/(_and_|_or_)/i', $finder, -1, $flags);
 
-		// The connector variable will determine which connector will be
-		// used for the condition. We'll change it as we come across new
+		// The connector variable will determine which connector will be used
+		// for the condition. We'll change it as we come across new boolean
 		// connectors in the dynamic method string.
 		//
-		// The index variable helps us get the correct parameter value
-		// for the where condition. We increment it each time we add
-		// a condition to the query's where.
+		// The index variable helps us get the correct parameter value for
+		// the where condition. We increment it each time we add another
+		// condition to the query's where clause.
 		$connector = 'AND';
 
 		$index = 0;
 
 		foreach ($segments as $segment)
 		{
-			// If the segment is not a boolean connector, we can assume it
-			// it is a column name, and we'll add it to the query as a new
-			// where clause.
-			//
-			// Otherwise, we'll store the connector so that we know how to
-			// connection the next where clause we find to the query, as
-			// all connectors should precede a new where clause.
+			// If the segment is not a boolean connector, we can assume it it is
+			// a column name, and we'll add it to the query as a new constraint
+			// of the query's where clause and keep iterating the segments.
 			if ($segment != '_and_' and $segment != '_or_')
 			{
 				$this->where($segment, '=', $parameters[$index], $connector);
 
 				$index++;
 			}
+			// Otherwise, we will store the connector so we know how the next
+			// where clause we find in the query should be connected to the
+			// previous one and will add it when we find the next one.
 			else
 			{
 				$connector = trim(strtoupper($segment), '_');
@@ -777,9 +776,9 @@ class Query {
 	{
 		$wrapped = $this->grammar->wrap($column);
 
-		// To make the adjustment to the column, we'll wrap the expression in
-		// an Expression instance, which forces the adjustment to be injected
-		// into the query as a string instead of bound.
+		// To make the adjustment to the column, we'll wrap the expression in an
+		// Expression instance, which forces the adjustment to be injected into
+		// the query as a string instead of bound.
 		$value = Database::raw($wrapped.$operator.$amount);
 
 		return $this->update(array($column => $value));
@@ -793,10 +792,9 @@ class Query {
 	 */
 	public function update($values)
 	{
-		// For update statements, we need to merge the bindings such that
-		// the update values occur before the where bindings in the array
-		// since the set statements will precede any of the where clauses
-		// in the SQL syntax that is generated.
+		// For update statements, we need to merge the bindings such that the update
+		// values occur before the where bindings in the array since the sets will
+		// precede any of the where clauses in the SQL syntax that is generated.
 		$bindings =  array_merge(array_values($values), $this->bindings);
 
 		$sql = $this->grammar->update($this, $values);
@@ -814,9 +812,9 @@ class Query {
 	 */
 	public function delete($id = null)
 	{
-		// If an ID is given to the method, we'll set the where clause
-		// to match on the value of the ID. This allows the developer
-		// to quickly delete a row by its primary key value.
+		// If an ID is given to the method, we'll set the where clause to
+		// match on the value of the ID. This allows the developer to
+		// quickly delete a row by its primary key value.
 		if ( ! is_null($id))
 		{
 			$this->where('id', '=', $id);
@@ -839,6 +837,9 @@ class Query {
 			return $this->dynamic_where($method, $parameters, $this);
 		}
 
+		// All of the aggregate methods are handled by a single method, so we'll
+		// catch them all here and then pass them off to the agregate method
+		// instead of creating methods for each one of them.
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
 			if (count($parameters) == 0) $parameters[0] = '*';
