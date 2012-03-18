@@ -114,7 +114,9 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function delete()
 	{
-		return $this->joining_table()->where($this->foreign_key(), '=', $this->base->get_key())->delete();
+		$id = $this->base->get_key();
+
+		return $this->joining_table()->where($this->foreign_key(), '=', $id)->delete();
 	}
 
 	/**

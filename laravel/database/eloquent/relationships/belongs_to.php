@@ -13,15 +13,24 @@ class Belongs_To extends Relationship {
 	}
 
 	/**
+	 * Update the parent model of the relationship.
+	 *
+	 * @param  array  $attributes
+	 * @return int
+	 */
+	public function update($attributes)
+	{
+		return $this->model->update($this->foreign_value(), $attributes);
+	}
+
+	/**
 	 * Set the proper constraints on the relationship table.
 	 *
 	 * @return void
 	 */
 	protected function constrain()
 	{
-		$foreign = $this->base->get_attribute($this->foreign);
-
-		$this->table->where($this->base->key(), '=', $foreign);
+		$this->table->where($this->base->key(), '=', $this->foreign_value());
 	}
 
 	/**
@@ -78,6 +87,16 @@ class Belongs_To extends Relationship {
 				$child->relationships[$relationship] = $parents[$child->$foreign];
 			}
 		}
+	}
+
+	/**
+	 * Get the value of the foreign key from the base model.
+	 *
+	 * @return mixed
+	 */
+	public function foreign_value()
+	{
+		return $this->base->get_attribute($this->foreign);
 	}
 
 }

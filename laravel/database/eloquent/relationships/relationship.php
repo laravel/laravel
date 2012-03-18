@@ -57,7 +57,7 @@ abstract class Relationship extends Query {
 	{
 		if ( ! is_null($foreign)) return $foreign;
 
-		// If the model is an object, we will simply get the class of the object and
+		// If the model is an object we'll simply get the class of the object and
 		// then take the basename, which is simply the object name minus the
 		// namespace, and we'll append "_id" to the name.
 		if (is_object($model))
