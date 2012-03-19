@@ -104,17 +104,6 @@ abstract class Model {
 	}
 
 	/**
-	 * Set the accessible attributes for the given model.
-	 *
-	 * @param  array  $attributes
-	 * @return void
-	 */
-	public static function accessible($attributes)
-	{
-		static::$accessible = $attributes;
-	}
-
-	/**
 	 * Hydrate the model with an array of attributes.
 	 *
 	 * @param  array  $attributes
@@ -155,6 +144,28 @@ abstract class Model {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Set the accessible attributes for the given model.
+	 *
+	 * @param  array  $attributes
+	 * @return void
+	 */
+	public static function accessible($attributes)
+	{
+		static::$accessible = $attributes;
+	}
+
+	/**
+	 * Execute a callback wrapped in a database transaction.
+	 *
+	 * @param  Closure  $callback
+	 * @return void
+	 */
+	public static function transaction($callback)
+	{
+		with(new static)->query()->connection()->transaction($callback);
 	}
 
 	/**
@@ -211,9 +222,7 @@ abstract class Model {
 	 */
 	public static function all()
 	{
-		$model = new static;
-
-		return $model->query()->get();
+		return with(new static)->query()->get();
 	}
 
 	/**
