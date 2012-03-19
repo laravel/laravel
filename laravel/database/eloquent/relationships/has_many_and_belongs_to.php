@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent\Relationships;
 
+use Laravel\Str;
 use Laravel\Database\Eloquent\Model;
 use Laravel\Database\Eloquent\Pivot;
 
@@ -48,7 +49,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Determine the joining table name for the relationship.
 	 *
-	 * By default, the name is the models sorted and concatenated with an underscore.
+	 * By default, the name is the models sorted and joined with underscores.
 	 *
 	 * @return string
 	 */
@@ -140,7 +141,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		// All joining tables get creation and update timestamps automatically even though
 		// some developers may not need them. This just provides them if necessary since
-		// it would be a pain for the developer to maintain them manually.
+		// it would be a pain for the developer to maintain them each manually.
 		$attributes['created_at'] = $this->model->get_timestamp();
 
 		$attributes['updated_at'] = $attributes['created_at'];

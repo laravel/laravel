@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
+use Laravel\Str;
 use Laravel\Database;
 use Laravel\Database\Eloquent\Relationships\Has_Many_And_Belongs_To;
 
@@ -416,6 +417,16 @@ abstract class Model {
 	public function dirty()
 	{
 		return ! $this->exists or $this->original !== $this->attributes;
+	}
+
+	/**
+	 * Get the name of the table associated with the model.
+	 *
+	 * @return string
+	 */
+	public function table()
+	{
+		return static::$table ?: strtolower(Str::plural(basename(get_class($this))));
 	}
 
 	/**
