@@ -158,17 +158,6 @@ abstract class Model {
 	}
 
 	/**
-	 * Execute a callback wrapped in a database transaction.
-	 *
-	 * @param  Closure  $callback
-	 * @return void
-	 */
-	public static function transaction($callback)
-	{
-		with(new static)->query()->connection()->transaction($callback);
-	}
-
-	/**
 	 * Create a new model and store it in the database.
 	 *
 	 * If save is successful, the model will be returned, otherwise false.
