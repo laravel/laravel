@@ -510,6 +510,14 @@ abstract class Model {
 			return $this->relationships[$key];
 		}
 
+		// Next we'll check if the requested key is in the array of attributes
+		// for the model. These are simply regular properties that typically
+		// correspond to a single column on the database for the model.
+		elseif (array_key_exists($key, $this->attributes))
+		{
+			return $this->{"get_{$key}"}();
+		}
+
 		// If the item is not a loaded relationship, it may be a relationship
 		// that hasn't been loaded yet. If it is, we will lazy load it and
 		// set the value of the relationship in the relationship array.
