@@ -7,11 +7,13 @@ class Has_One_Or_Many extends Relationship {
 	/**
 	 * Insert a new record for the association.
 	 *
-	 * @param  array  $attributes
+	 * @param  Model|array  $attributes
 	 * @return bool
 	 */
 	public function insert($attributes)
 	{
+		$attributes = ($attributes instanceof Model) ? $attributes->attributes : $attributes;
+
 		$attributes[$this->foreign_key()] = $this->base->get_key();
 
 		return $this->model->create($attributes);
