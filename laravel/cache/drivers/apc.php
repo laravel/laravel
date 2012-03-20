@@ -64,6 +64,18 @@ class APC extends Driver {
 	}
 
 	/**
+	 * Write an item to the cache that lasts forever.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public function forever($key, $value)
+	{
+		return $this->put($key, $value, 0);
+	}
+
+	/**
 	 * Delete an item from the cache.
 	 *
 	 * @param  string  $key

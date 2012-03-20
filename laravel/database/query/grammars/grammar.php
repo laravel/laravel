@@ -37,10 +37,6 @@ class Grammar extends \Laravel\Database\Grammar {
 		// Each portion of the statement is compiled by a function corresponding
 		// to an item in the components array. This lets us to keep the creation
 		// of the query very granular and very flexible.
-		//
-		// Note that each component also connects to a public property on the
-		// query instance, allowing us to pass the correct data into each
-		// of the compiler functions.
 		foreach ($this->components as $component)
 		{
 			if ( ! is_null($query->$component))
@@ -91,7 +87,13 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		$column = $this->columnize($query->aggregate['columns']);
 
-		if ($query->distinct and $column !== '*') $column = 'DISTINCT '.$column;
+		// If the "distinct" flag is set and we're not aggregating everything
+		// we'll set the distinct clause on the query, since this is used
+		// to count all of the distinct values in a column, etc.
+		if ($query->distinct and $column !== '*')
+		{
+			$column = 'DISTINCT '.$column;
+		}
 
 		return 'SELECT '.$query->aggregate['aggregator'].'('.$column.') AS '.$this->wrap('aggregate');
 	}
@@ -118,19 +120,15 @@ class Grammar extends \Laravel\Database\Grammar {
 		// We need to iterate through each JOIN clause that is attached to the
 		// query an translate it into SQL. The table and the columns will be
 		// wrapped in identifiers to avoid naming collisions.
-		//
-		// Once all of the JOINs have been compiled, we can concatenate them
-		// together using a single space, which should give us the complete
-		// set of joins in valid SQL that can appended to the query.
 		foreach ($query->joins as $join)
 		{
 			$table = $this->wrap_table($join->table);
 
 			$clauses = array();
 
-			// Each JOIN statement may have multiple clauses, so we will
-			// iterate through each clause creating the conditions then
-			// we will concatenate them all together.
+			// Each JOIN statement may have multiple clauses, so we will iterate
+			// through each clause creating the conditions then we'll join all
+			// of the together at the end to build the clause.
 			foreach ($join->clauses as $clause)
 			{
 				extract($clause);
@@ -142,10 +140,9 @@ class Grammar extends \Laravel\Database\Grammar {
 				$clauses[] = "{$connector} {$column1} {$operator} {$column2}";
 			}
 
-			// The first clause will have a connector on the front,
-			// but it is not needed on the first condition, so we
-			// will strip it off of the condition before adding
-			// it to the array of joins.
+			// The first clause will have a connector on the front, but it is
+			// not needed on the first condition, so we will strip it off of
+			// the condition before adding it to the arrya of joins.
 			$search = array('AND ', 'OR ');
 
 			$clauses[0] = str_replace($search, '', $clauses[0]);
@@ -155,9 +152,9 @@ class Grammar extends \Laravel\Database\Grammar {
 			$sql[] = "{$join->type} JOIN {$table} ON {$clauses}";
 		}
 
-		// Finally, we should have an array of JOIN clauses
-		// that we can implode together and return as the
-		// complete SQL for the JOIN of the query.
+		// Finally, we should have an array of JOIN clauses that we can
+		// implode together and return as the complete SQL for the
+		// join clause of the query under construction.
 		return implode(' ', $sql);
 	}
 
@@ -173,11 +170,7 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		// Each WHERE clause array has a "type" that is assigned by the query
 		// builder, and each type has its own compiler function. We will call
-		// the appropriate compiler for each where clause in the query.
-		//
-		// Keeping each particular where clause in its own "compiler" allows
-		// us to keep the query generation process very granular, making it
-		// easier to customize derived grammars for other databases.
+		// the appropriate compiler for each where clause.
 		foreach ($query->wheres as $where)
 		{
 			$sql[] = $where['connector'].' '.$this->{$where['type']}($where);
@@ -187,7 +180,7 @@ class Grammar extends \Laravel\Database\Grammar {
 		{
 			// We attach the boolean connector to every where segment just
 			// for convenience. Once we have built the entire clause we'll
-			// remove the first instance of a connector from the clause.
+			// remove the first instance of a connector.
 			return 'WHERE '.preg_replace('/AND |OR /', '', implode(' ', $sql), 1);
 		}
 	}
@@ -296,9 +289,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		foreach ($query->orderings as $ordering)
 		{
-			$direction = strtoupper($ordering['direction']);
-
-			$sql[] = $this->wrap($ordering['column']).' '.$direction;
+			$sql[] = $this->wrap($ordering['column']).' '.strtoupper($ordering['direction']);
 		}
 
 		return 'ORDER BY '.implode(', ', $sql);
@@ -341,12 +332,12 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		// Force every insert to be treated like a batch insert. This simply makes
 		// creating the SQL syntax a little easier on us since we can always treat
-		// the values as if it is an array containing multiple inserts.
+		// the values as if it contains multiple inserts.
 		if ( ! is_array(reset($values))) $values = array($values);
 
 		// Since we only care about the column names, we can pass any of the insert
 		// arrays into the "columnize" method. The columns should be the same for
-		// every insert to the table so we can just use the first record.
+		// every record inserted into the table.
 		$columns = $this->columnize(array_keys(reset($values)));
 
 		// Build the list of parameter place-holders of values bound to the query.
@@ -370,10 +361,9 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		$table = $this->wrap_table($query->from);
 
-		// Each column in the UPDATE statement needs to be wrapped in keyword
-		// identifiers, and a place-holder needs to be created for each value
-		// in the array of bindings. Of course, if the value of the binding
-		// is an expression, the expression string will be injected.
+		// Each column in the UPDATE statement needs to be wrapped in the keyword
+		// identifiers, and a place-holder needs to be created for each value in
+		// the array of bindings, so we'll build the sets first.
 		foreach ($values as $column => $value)
 		{
 			$columns[] = $this->wrap($column).' = '.$this->parameter($value);
@@ -381,10 +371,9 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		$columns = implode(', ', $columns);
 
-		// UPDATE statements may be constrained by a WHERE clause, so we'll
-		// run the entire where compilation process for those contraints.
-		// This is easily achieved by passing the query to the "wheres"
-		// method which will call all of the where compilers.
+		// UPDATE statements may be constrained by a WHERE clause, so we'll run
+		// the entire where compilation process for those contraints. This is
+		// easily achieved by passing it to the "wheres" method.
 		return trim("UPDATE {$table} SET {$columns} ".$this->wheres($query));
 	}
 
@@ -398,9 +387,6 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		$table = $this->wrap_table($query->from);
 
-		// Like the UPDATE statement, the DELETE statement is constrained
-		// by WHERE clauses, so we'll need to run the "wheres" method to
-		// make the WHERE clauses for the query.
 		return trim("DELETE FROM {$table} ".$this->wheres($query));
 	}
 
@@ -413,17 +399,16 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function shortcut($sql, $bindings)
 	{
-		// Laravel provides an easy short-cut notation for writing raw
-		// WHERE IN statements. If (...) is in the query, it will be
-		// replaced with the correct number of parameters based on
-		// the bindings for the query.
+		// Laravel provides an easy short-cut notation for writing raw WHERE IN
+		// statements. If (...) is in the query, it will be replaced with the
+		// correct number of parameters based on the bindings.
 		if (strpos($sql, '(...)') !== false)
 		{
 			for ($i = 0; $i < count($bindings); $i++)
 			{
-				// If the binding is an array, we can just assume it's
-				// used to fill a "where in" condition, so we'll just
-				// replace the next place-holder in the query.
+				// If the binding is an array, we can just assume it's used to
+				// fill a "where in" condition, so we will just replace the
+				// next place-holder in the query with the constraint.
 				if (is_array($bindings[$i]))
 				{
 					$parameters = $this->parameterize($bindings[$i]);
