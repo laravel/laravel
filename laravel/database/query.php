@@ -182,7 +182,7 @@ class Query {
 	 * @param  string  $column2
 	 * @return Query
 	 */
-	public function left_join($table, $column1, $operator, $column2)
+	public function left_join($table, $column1, $operator = null, $column2 = null)
 	{
 		return $this->join($table, $column1, $operator, $column2, 'LEFT');
 	}

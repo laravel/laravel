@@ -41,7 +41,7 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 
 Contributions are encouraged and welcome; however, please review the Developer Certificate of Origin in the "license.txt" file included in the repository. All commits must be signed off using the "-s" switch.
 
-	git commit -s -m "thie commit will be signed off automatically!"
+	git commit -s -m "this commit will be signed off automatically!"
 
 ### License
 
