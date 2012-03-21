@@ -67,6 +67,29 @@ class File {
 	{
 		if (static::exists($path)) @unlink($path);
 	}
+	
+	
+	/**
+	 * Move a file.
+	 *
+	 * @param	string	$path
+	 * @param	string	$new_path
+	 */
+	public static function move($path, $new_path)
+	{
+		rename($path, $new_path);
+	}
+	
+	/**
+	 * Copy a file.
+	 *
+	 * @param	string	$path
+	 * @param	string	$new_path
+	 */
+	public static function copy($path, $new_path)
+	{
+		copy($path, $new_path);
+	}
 
 	/**
 	 * Extract the file extension from a file path.
