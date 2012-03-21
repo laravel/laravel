@@ -274,6 +274,17 @@ class File {
 	}
 
 	/**
+	 * Empty the specified directory of all files and folders.
+	 *
+	 * @param  string  $directory
+	 * @return void
+	 */
+	public static function cleandir($directory)
+	{
+		return static::rmdir($directory, true);
+	}
+
+	/**
 	 * Get the most recently modified file in a directory.
 	 *
 	 * @param  string       $directory
