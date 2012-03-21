@@ -404,7 +404,7 @@ abstract class Model {
 	 */
 	public function changed($attribute)
 	{
-		array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
+		return array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
 	}
 
 	/**
