@@ -243,7 +243,7 @@ class Query {
 	 *
 	 * @return Connection
 	 */
-	protected function connection()
+	public function connection()
 	{
 		return Database::connection($this->model->connection());
 	}

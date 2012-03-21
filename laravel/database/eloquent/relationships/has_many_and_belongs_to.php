@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent\Relationships;
 
+use Laravel\Str;
 use Laravel\Database\Eloquent\Model;
 use Laravel\Database\Eloquent\Pivot;
 
@@ -48,7 +49,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Determine the joining table name for the relationship.
 	 *
-	 * By default, the name is the models sorted and concatenated with an underscore.
+	 * By default, the name is the models sorted and joined with underscores.
 	 *
 	 * @return string
 	 */
@@ -78,7 +79,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * @param  array  $joining
 	 * @return bool
 	 */
-	public function add($id, $attributes = array())
+	public function attach($id, $attributes = array())
 	{
 		$joining = array_merge($this->join_record($id), $attributes);
 
@@ -88,12 +89,20 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record for the association.
 	 *
-	 * @param  array  $attributes
-	 * @param  array  $joining
+	 * @param  Model|array  $attributes
+	 * @param  array        $joining
 	 * @return bool
 	 */
 	public function insert($attributes, $joining = array())
 	{
+		// If the attributes are actually an instance of a model, we'll just grab the
+		// array of attributes off of the model for saving, allowing the developer
+		// to easily validate the joining models before inserting them.
+		if ($attributes instanceof Model)
+		{
+			$attributes = $attributes->attributes;
+		}
+
 		$model = $this->model->create($attributes);
 
 		// If the insert was successful, we'll insert a record into the joining table
@@ -138,9 +147,6 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function insert_joining($attributes)
 	{
-		// All joining tables get creation and update timestamps automatically even though
-		// some developers may not need them. This just provides them if necessary since
-		// it would be a pain for the developer to maintain them manually.
 		$attributes['created_at'] = $this->model->get_timestamp();
 
 		$attributes['updated_at'] = $attributes['created_at'];

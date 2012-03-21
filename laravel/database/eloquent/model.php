@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
+use Laravel\Str;
 use Laravel\Database;
 use Laravel\Database\Eloquent\Relationships\Has_Many_And_Belongs_To;
 
@@ -104,17 +105,6 @@ abstract class Model {
 	}
 
 	/**
-	 * Set the accessible attributes for the given model.
-	 *
-	 * @param  array  $attributes
-	 * @return void
-	 */
-	public static function accessible($attributes)
-	{
-		static::$accessible = $attributes;
-	}
-
-	/**
 	 * Hydrate the model with an array of attributes.
 	 *
 	 * @param  array  $attributes
@@ -155,6 +145,17 @@ abstract class Model {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Set the accessible attributes for the given model.
+	 *
+	 * @param  array  $attributes
+	 * @return void
+	 */
+	public static function accessible($attributes)
+	{
+		static::$accessible = $attributes;
 	}
 
 	/**
@@ -211,9 +212,7 @@ abstract class Model {
 	 */
 	public static function all()
 	{
-		$model = new static;
-
-		return $model->query()->get();
+		return with(new static)->query()->get();
 	}
 
 	/**
@@ -421,6 +420,16 @@ abstract class Model {
 	}
 
 	/**
+	 * Get the name of the table associated with the model.
+	 *
+	 * @return string
+	 */
+	public function table()
+	{
+		return static::$table ?: strtolower(Str::plural(basename(get_class($this))));
+	}
+
+	/**
 	 * Get the dirty attributes for the model.
 	 *
 	 * @return array
@@ -499,6 +508,14 @@ abstract class Model {
 		if (array_key_exists($key, $this->relationships))
 		{
 			return $this->relationships[$key];
+		}
+
+		// Next we'll check if the requested key is in the array of attributes
+		// for the model. These are simply regular properties that typically
+		// correspond to a single column on the database for the model.
+		elseif (array_key_exists($key, $this->attributes))
+		{
+			return $this->{"get_{$key}"}();
 		}
 
 		// If the item is not a loaded relationship, it may be a relationship

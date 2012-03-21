@@ -15,11 +15,13 @@ class Belongs_To extends Relationship {
 	/**
 	 * Update the parent model of the relationship.
 	 *
-	 * @param  array  $attributes
+	 * @param  Model|array  $attributes
 	 * @return int
 	 */
 	public function update($attributes)
 	{
+		$attributes = ($attributes instanceof Model) ? $attributes->get_dirty() : $attributes;
+
 		return $this->model->update($this->foreign_value(), $attributes);
 	}
 
