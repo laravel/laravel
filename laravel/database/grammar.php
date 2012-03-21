@@ -91,17 +91,21 @@ abstract class Grammar {
 		// the table and the column in keyword identifiers.
 		foreach (explode('.', $value) as $segment)
 		{
-			if ($segment == '*')
-			{
-				$wrapped[] = $segment;
-			}
-			else
-			{
-				$wrapped[] = sprintf($this->wrapper, $segment);
-			}
+			$wrapped[] = $this->wrap_value($segment);
 		}
 
 		return implode('.', $wrapped);
+	}
+
+	/**
+	 * Wrap a single string value in keyword identifiers.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected function wrap_value($value)
+	{
+		return ($value !== '*') ? sprintf($this->wrapper, $value) : $value;
 	}
 
 	/**
