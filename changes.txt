@@ -21,3 +21,7 @@ Changes for 3.1:
 	- Added Cache::forever method.
 	- Controller layouts now resolved in Laravel\Controller __construct.
 	- Rewrote Eloquent and included in core.
+	- Added "match" validation rule.
+	- Fixed table prefix bug.
+	- Added Form::macro method.
+	- Added Route::forward method.
