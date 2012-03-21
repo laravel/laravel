@@ -7,28 +7,25 @@ class Form {
 	 *
 	 * @var array
 	 */
-	protected static $labels = array();
+	public static $labels = array();
 	
 	/**
-	 * The registered custom inputs
+	 * The registered custom macros.
 	 *
 	 * @var array
 	 */
-	
-	protected static $inputs = array();
-    
-	/**
-	 * Dynamically handle calls to custom registered inputs.
-	 */
+	public static $macros = array();
 
-	public static function __callStatic($method, $parameters)
+    /**
+     * Registers a custom macro.
+     *
+     * @param  string   $name
+     * @param  Closure  $input
+     * @return void
+     */
+	public static function macro($name, $macro)
 	{
-	    if (isset(static::$inputs[$method]))
-	    {
-	        return call_user_func_array(static::$inputs[$method], $parameters);
-	    }
-	    
-	    throw new \Exception("Method [$method] does not exist.");
+		static::$macros[$name] = $macro;
 	}
 
 	/**
@@ -74,27 +71,13 @@ class Form {
 
 		// Since PUT and DELETE methods are not actually supported by HTML forms,
 		// we'll create a hidden input element that contains the request method
-		// and set the actual request method to POST. Laravel will look for the
-		// hidden element to determine the request method.
+		// and set the actual request method variable to POST.
 		if ($method == 'PUT' or $method == 'DELETE')
 		{
 			$append = static::hidden(Request::spoofer, $method);
 		}
 
 		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
-	}
-        
-    /**
-     * Registers a custom input
-     *
-     * @param string $name
-     * @param Closure $input
-     * @return void
-     */
-
-	public static function register($name, $input)
-	{
-		static::$inputs[$name] = $input;
 	}
 
 	/**
@@ -576,8 +559,7 @@ class Form {
 	{
 		// If an ID has been explicitly specified in the attributes, we will
 		// use that ID. Otherwise, we will look for an ID in the array of
-		// label names as this makes it convenient to give input elements
-		// the same ID as their corresponding labels.
+		// label names so labels and their elements have the same ID.
 		if (array_key_exists('id', $attributes))
 		{
 			return $attributes['id'];
@@ -587,6 +569,23 @@ class Form {
 		{
 			return $name;
 		}
+	}
+
+	/**
+	 * Dynamically handle calls to custom macros.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+	    if (isset(static::$inputs[$method]))
+	    {
+	        return call_user_func_array(static::$inputs[$method], $parameters);
+	    }
+	    
+	    throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
