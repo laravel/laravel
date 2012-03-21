@@ -89,19 +89,32 @@ abstract class Grammar {
 		// Since columns may be prefixed with their corresponding table
 		// name so as to not make them ambiguous, we will need to wrap
 		// the table and the column in keyword identifiers.
-		foreach (explode('.', $value) as $segment)
+		$segments = explode('.', $value);
+
+		foreach ($segments as $key => $value)
 		{
-			if ($segment == '*')
+			if ($key == 0 and count($segments) > 1)
 			{
-				$wrapped[] = $segment;
+				$wrapped[] = $this->wrap_table($value);
 			}
 			else
 			{
-				$wrapped[] = sprintf($this->wrapper, $segment);
+				$wrapped[] = $this->wrap_value($value);
 			}
 		}
 
 		return implode('.', $wrapped);
+	}
+
+	/**
+	 * Wrap a single string value in keyword identifiers.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected function wrap_value($value)
+	{
+		return ($value !== '*') ? sprintf($this->wrapper, $value) : $value;
 	}
 
 	/**

@@ -612,6 +612,18 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an attribute passes a regular expression check.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_match($attribute, $value, $parameters)
+	{
+		return preg_match($parameters[0], $value);
+	}
+
+	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
 	 * @param  string  $attribute
