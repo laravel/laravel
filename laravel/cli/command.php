@@ -46,7 +46,7 @@ class Command {
 
 		if(is_callable(array($task, $method)))
 		{
-			$task->$method(array_slice($arguments, 1));
+			call_user_func_array(array($task, $method), array_slice($arguments, 1));
 		}
 		else
 		{
