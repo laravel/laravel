@@ -198,6 +198,18 @@ class File {
 	}
 
 	/**
+	 * Create a new directory.
+	 *
+	 * @param  string  $path
+	 * @param  int     $chmod
+	 * @return void
+	 */
+	public static function mkdir($path, $chmod = 0777)
+	{
+		return ( ! is_dir($path)) ? mkdir($path, $chmod, true) : true;
+	}
+
+	/**
 	 * Move a directory from one location to another.
 	 *
 	 * @param  string  $source
