@@ -77,7 +77,7 @@ class Form {
 			$append = static::hidden(Request::spoofer, $method);
 		}
 
-		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
+		return '<form'.HTML::attributes($attributes).'>'.$append;
 	}
 
 	/**
@@ -190,7 +190,7 @@ class Form {
 
 		$value = HTML::entities($value);
 
-		return '<label for="'.$name.'"'.$attributes.'>'.$value.'</label>'.PHP_EOL;
+		return '<label for="'.$name.'"'.$attributes.'>'.$value.'</label>';
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Form {
 
 		$attributes = array_merge($attributes, compact('type', 'name', 'value', 'id'));
 
-		return '<input'.HTML::attributes($attributes).'>'.PHP_EOL;
+		return '<input'.HTML::attributes($attributes).'>';
 	}
 
 	/**
@@ -367,7 +367,7 @@ class Form {
 
 		if ( ! isset($attributes['cols'])) $attributes['cols'] = 50;
 
-		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
+		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>';
 	}
 
 	/**
@@ -400,7 +400,7 @@ class Form {
 			$html[] = static::option($value, $display, $selected);
 		}
 
-		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>'.PHP_EOL;
+		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>';
 	}
 
 	/**
@@ -545,7 +545,7 @@ class Form {
 	 */
 	public static function button($value, $attributes = array())
 	{
-		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
+		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>';
 	}
 
 	/**
