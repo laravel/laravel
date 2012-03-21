@@ -580,9 +580,9 @@ class Form {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$inputs[$method]))
+	    if (isset(static::$macros[$method]))
 	    {
-	        return call_user_func_array(static::$inputs[$method], $parameters);
+	        return call_user_func_array(static::$macros[$method], $parameters);
 	    }
 	    
 	    throw new \Exception("Method [$method] does not exist.");
