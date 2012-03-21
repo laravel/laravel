@@ -246,9 +246,10 @@ class File {
 	 * Recursively delete a directory.
 	 *
 	 * @param  string  $directory
+	 * @param  bool    $preserve
 	 * @return void
 	 */
-	public static function rmdir($directory)
+	public static function rmdir($directory, $preserve = false)
 	{
 		if ( ! is_dir($directory)) return;
 
@@ -269,7 +270,7 @@ class File {
 			}
 		}
 
-		@rmdir($directory);
+		if ( ! $preserve) @rmdir($directory);
 	}
 
 	/**
