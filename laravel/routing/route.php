@@ -380,7 +380,7 @@ class Route {
 	{
 		Filter::register($name, $callback);
 	}
-	
+
 	/**
 	 * Calls the specified route and returns its response.
 	 *
@@ -388,7 +388,7 @@ class Route {
 	 * @param  string    $uri
 	 * @return Response
 	 */
-	public static function load($method, $uri)
+	public static function forward($method, $uri)
 	{
 		return Router::route(strtoupper($method), $uri)->call();
 	}
