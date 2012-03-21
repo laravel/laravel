@@ -49,7 +49,7 @@ class Memcached extends Driver {
 	{
 		if (($cache = $this->memcache->get($this->key.$key)) !== false)
 		{
-			return $cache;
+			return unserialize($cache);
 		}
 	}
 
@@ -68,7 +68,7 @@ class Memcached extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->memcache->set($this->key.$key, $value, 0, $minutes * 60);
+		$this->memcache->set($this->key.$key, serialize($value), 0, $minutes * 60);
 	}
 
 	/**
