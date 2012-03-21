@@ -69,6 +69,30 @@ class File {
 	}
 
 	/**
+	 * Move a file to a new location.
+	 *
+	 * @param  string  $path
+	 * @param  string  $target
+	 * @return void
+	 */
+	public static function move($path, $target)
+	{
+		return rename($path, $target);
+	}
+
+	/**
+	 * Copy a file to a new location.
+	 *
+	 * @param  string  $path
+	 * @param  string  $target
+	 * @return void
+	 */
+	public static function copy($path, $target)
+	{
+		return copy($path, $target);
+	}
+
+	/**
 	 * Extract the file extension from a file path.
 	 * 
 	 * @param  string  $path
