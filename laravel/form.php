@@ -8,6 +8,28 @@ class Form {
 	 * @var array
 	 */
 	protected static $labels = array();
+	
+	/**
+	 * The registered custom inputs
+	 *
+	 * @var array
+	 */
+	
+	protected static $inputs = array();
+    
+	/**
+	 * Dynamically handle calls to custom registered inputs.
+	 */
+
+	public static function __callStatic($method, $parameters)
+	{
+	    if (isset(static::$inputs[$method]))
+	    {
+	        return call_user_func_array(static::$inputs[$method], $parameters);
+	    }
+	    
+	    throw new \Exception("Method [$method] does not exist.");
+	}
 
 	/**
 	 * Open a HTML form.
@@ -60,6 +82,19 @@ class Form {
 		}
 
 		return '<form'.HTML::attributes($attributes).'>'.$append.PHP_EOL;
+	}
+        
+    /**
+     * Registers a custom input
+     *
+     * @param string $name
+     * @param Closure $input
+     * @return void
+     */
+
+	public static function register($name, $input)
+	{
+		static::$inputs[$name] = $input;
 	}
 
 	/**
