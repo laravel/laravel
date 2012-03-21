@@ -388,7 +388,7 @@ function class_basename($class)
 {
 	if (is_object($class)) $class = get_class($class);
 
-	return basename($class);
+	return basename(str_replace('\\', '/', $class));
 }
 
 /**

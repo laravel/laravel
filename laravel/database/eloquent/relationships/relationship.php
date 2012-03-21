@@ -62,7 +62,7 @@ abstract class Relationship extends Query {
 		// namespace, and we'll append "_id" to the name.
 		if (is_object($model))
 		{
-			$model = get_class($model);
+			$model = class_basename($model);
 		}
 
 		return strtolower(basename($model).'_id');
@@ -88,7 +88,7 @@ abstract class Relationship extends Query {
 	 */
 	protected function foreign_key()
 	{
-		return Relationship::foreign($this->base, $this->foreign);
+		return static::foreign($this->base, $this->foreign);
 	}
 
 }
