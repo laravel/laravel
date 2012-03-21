@@ -59,6 +59,8 @@ return array(
 	),
 	"unique"         => "The :attribute has already been taken.",
 	"url"            => "The :attribute format is invalid.",
+	"before"		 => "The :attribute field must contain a date before :date.",
+	"after"		 	=> "The :attribute field must contain a date after :date.",
 
 	/*
 	|--------------------------------------------------------------------------
