@@ -41,7 +41,7 @@ class APC extends Driver {
 	{
 		if (($cache = apc_fetch($this->key.$key)) !== false)
 		{
-			return unserialize($cache);
+			return $cache;
 		}
 	}
 
@@ -60,7 +60,7 @@ class APC extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		apc_store($this->key.$key, serialize($value), $minutes * 60);
+		apc_store($this->key.$key, $value, $minutes * 60);
 	}
 
 	/**
