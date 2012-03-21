@@ -205,8 +205,6 @@ class Form {
 
 		$attributes = HTML::attributes($attributes);
 
-		$value = HTML::entities($value);
-
 		return '<label for="'.$name.'"'.$attributes.'>'.$value.'</label>'.PHP_EOL;
 	}
 
@@ -384,7 +382,7 @@ class Form {
 
 		if ( ! isset($attributes['cols'])) $attributes['cols'] = 50;
 
-		return '<textarea'.HTML::attributes($attributes).'>'.HTML::entities($value).'</textarea>'.PHP_EOL;
+		return '<textarea'.HTML::attributes($attributes).'>'.$value.'</textarea>'.PHP_EOL;
 	}
 
 	/**
@@ -441,7 +439,7 @@ class Form {
 
 		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
 
-		return '<option'.HTML::attributes($attributes).'>'.HTML::entities($display).'</option>';
+		return '<option'.HTML::attributes($attributes).'>'.$display.'</option>';
 	}
 
 	/**
@@ -562,7 +560,7 @@ class Form {
 	 */
 	public static function button($value, $attributes = array())
 	{
-		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>'.PHP_EOL;
+		return '<button'.HTML::attributes($attributes).'>'.$value.'</button>'.PHP_EOL;
 	}
 
 	/**

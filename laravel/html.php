@@ -85,7 +85,7 @@ class HTML {
 	 */
 	public static function span($value, $attributes = array())
 	{
-		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
+		return '<span'.static::attributes($attributes).'>'.$value.'</span>';
 	}
 
 	/**
@@ -109,7 +109,7 @@ class HTML {
 	{
 		$url = static::entities(URL::to($url, $https));
 
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.$title.'</a>';
 	}
 
 	/**
@@ -140,7 +140,7 @@ class HTML {
 	{
 		$url = static::entities(URL::to_asset($url, $https));
 
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.$title.'</a>';
 	}
 
 	/**
@@ -222,7 +222,7 @@ class HTML {
 
 		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
 
-		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.$title.'</a>';
 	}
 
 	/**
@@ -298,7 +298,7 @@ class HTML {
 			}
 			else
 			{
-				$html .= '<li>'.static::entities($value).'</li>';
+				$html .= '<li>'.$value.'</li>';
 			}
 		}
 
