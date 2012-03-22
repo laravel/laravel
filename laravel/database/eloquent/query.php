@@ -136,7 +136,7 @@ class Query {
 		// any pivot columns that are on the model.
 		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
 		{
-			$this->pivot($models);
+			$this->hydrate_pivot($models);
 		}
 
 		return $models;
