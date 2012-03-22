@@ -18,6 +18,7 @@ class Blade {
 		'yields',
 		'section_start',
 		'section_end',
+		'render_each',
 	);
 
 	/**
@@ -236,6 +237,19 @@ class Blade {
 	protected static function compile_section_end($value)
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade @render_each statements into View statements.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_render_each($value)
+	{
+		$pattern = static::matcher('render_each');
+
+		return preg_replace($pattern, '$1<?php \\Laravel\\View::render_each$2; ?>', $value);
 	}
 
 	/**

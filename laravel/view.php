@@ -38,20 +38,6 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
-	 * The extensions a view file can have.
-	 *
-	 * @var array
-	 */
-	public static $extensions = array(EXT);
-
-	/**
-	 * The path in which a view can live.
-	 *
-	 * @var array
-	 */
-	public static $paths = array(DEFAULT_BUNDLE => array(''));
-
-	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -238,28 +224,47 @@ class View implements ArrayAccess {
 	}
 
 	/**
-	 * Register a new root path for a bundle.
+	 * Get the rendered contents of a partial from a loop.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $path
-	 * @return void
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @param  string  $iterator
+	 * @param  string  $empty
+	 * @return string
 	 */
-	public static function search($bundle, $path)
+	public static function render_each($view, array $data, $iterator, $empty = null)
 	{
-		static::$paths[$bundle][] = $path;
-	}
+		$result = '';
 
-	/**
-	 * Register a new valid view extension.
-	 *
-	 * @param  string  $extension
-	 * @return void
-	 */
-	public static function extension($extension)
-	{
-		static::$extensions[] = $extension;
+		// If is actually data in the array, we will loop through the data and
+		// append an instance of the partial view to the final result HTML,
+		// passing in the iterated value of the data array.
+		if (count($data) > 0)
+		{
+			foreach ($data as $key => $value)
+			{
+				$with = array('key' => $key, $iterator => $value);
 
-		static::$extensions = array_unique(static::$extensions);
+				$result .= render($view, $with);
+			}
+		}
+
+		// If there is no data in the array, we will render the contents of
+		// the "empty" view. Alternative, the "empty view" can be a raw
+		// string that is prefixed with "raw|" for convenience.
+		else
+		{
+			if (starts_with($empty, 'raw|'))
+			{
+				$result = substr($empty, 4);
+			}
+			else
+			{
+				$result = render($empty ?: $view.'_empty');
+			}
+		}
+
+		return $result;
 	}
 
 	/**
