@@ -232,7 +232,7 @@ class View implements ArrayAccess {
 	 * @param  string  $empty
 	 * @return string
 	 */
-	public static function render_each($view, array $data, $iterator, $empty = null)
+	public static function render_each($view, array $data, $iterator, $empty = 'raw|')
 	{
 		$result = '';
 
@@ -260,7 +260,7 @@ class View implements ArrayAccess {
 			}
 			else
 			{
-				$result = render($empty ?: $view.'_empty');
+				$result = render($empty);
 			}
 		}
 

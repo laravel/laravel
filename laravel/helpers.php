@@ -437,3 +437,17 @@ function render($view, $data = array())
 {
 	return Laravel\View::make($view, $data)->render();
 }
+
+/**
+ * Get the rendered contents of a partial from a loop.
+ *
+ * @param  string  $view
+ * @param  array   $data
+ * @param  string  $iterator
+ * @param  string  $empty
+ * @return string
+ */
+function render_each($partial, array $data, $iterator, $empty = 'raw|')
+{
+	return Laravel\View::render_each($partial, $data, $iterator, $empty);
+}
