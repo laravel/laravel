@@ -9,6 +9,9 @@ class Blade {
 	 */
 	protected static $compilers = array(
 		'echos',
+		'forelse',
+		'empty',
+		'endforelse',
 		'structure_openings',
 		'structure_closings',
 		'else',
@@ -91,6 +94,68 @@ class Blade {
 	protected static function compile_echos($value)
 	{
 		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade "for else" statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_forelse($value)
+	{
+		preg_match_all('/(\s*)@forelse(\s*\(.*\))(\s*)/', $value, $matches);
+
+		// First we'll loop through all of the "@forelse" lines. We need to
+		// wrap each loop in an "if/else" statement that checks the count
+		// of the variable being iterated against.
+		if (isset($matches[0]))
+		{
+			foreach ($matches[0] as $forelse)
+			{
+				preg_match('/\$[^\s]*/', $forelse, $variable);
+
+				// Once we have extracted the variable being looped against, we cab
+				// prepend an "if" statmeent to the start of the loop that checks
+				// that the count of the variable is greater than zero.
+				$if = "<?php if (count({$variable[0]}) > 0): ?>";
+
+				$search = '/(\s*)@forelse(\s*\(.*\))/';
+
+				$replace = '$1'.$if.'<?php foreach$2: ?>';
+
+				$blade = preg_replace($search, $replace, $forelse);
+
+				// Finally, once we have the check prepended to the loop, we will
+				// replace all instances of this "forelse" structure in the
+				// content of the view being compiled to Blade syntax.
+				$value = str_replace($forelse, $blade, $value);
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Rewrites Blade "empty" statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_empty($value)
+	{
+		return str_replace('@empty', '<?php endforeach; ?><?php else: ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade "forelse" endings into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_endforelse($value)
+	{
+		return str_replace('@endforelse', '<?php endif; ?>', $value);
 	}
 
 	/**
