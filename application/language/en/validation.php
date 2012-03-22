@@ -20,9 +20,11 @@ return array(
 
 	"accepted"       => "The :attribute must be accepted.",
 	"active_url"     => "The :attribute is not a valid URL.",
+	"after"          => "The :attribute must be a date after :date.",
 	"alpha"          => "The :attribute may only contain letters.",
 	"alpha_dash"     => "The :attribute may only contain letters, numbers, and dashes.",
 	"alpha_num"      => "The :attribute may only contain letters and numbers.",
+	"before"         => "The :attribute must be a date before :date.",
 	"between"        => array(
 		"numeric" => "The :attribute must be between :min - :max.",
 		"file"    => "The :attribute must be between :min - :max kilobytes.",
@@ -59,8 +61,6 @@ return array(
 	),
 	"unique"         => "The :attribute has already been taken.",
 	"url"            => "The :attribute format is invalid.",
-	"before"		 => "The :attribute field must contain a date before :date.",
-	"after"		 	=> "The :attribute field must contain a date after :date.",
 
 	/*
 	|--------------------------------------------------------------------------
