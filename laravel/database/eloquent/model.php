@@ -416,7 +416,7 @@ abstract class Model {
 	 */
 	public function dirty()
 	{
-		return ! $this->exists or $this->original !== $this->attributes;
+		return ! $this->exists or count($this->get_dirty()) > 0;
 	}
 
 	/**
