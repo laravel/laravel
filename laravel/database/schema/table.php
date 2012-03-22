@@ -136,7 +136,7 @@ class Table {
 		// the index that can be used when dropping indexes.
 		if (is_null($name))
 		{
-			$name = implode('_', $columns).'_'.$type;
+			$name = $this->name.implode('_', $columns).'_'.$type;
 		}
 
 		return $this->command($type, compact('name', 'columns'));
