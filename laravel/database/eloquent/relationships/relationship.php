@@ -24,11 +24,21 @@ abstract class Relationship extends Query {
 	{
 		$this->foreign = $foreign;
 
-		// We will go ahead and set the model and associated instances on the relationship
-		// to match the relationship targets passed in from the model. These will allow
-		// us to gather more inforamtion on the relationship.
-		$this->model = ($associated instanceof Model) ? $associated : new $associated;
+		// We will go ahead and set the model and associated instances on the
+		// relationship to match the relationship targets passed in from the
+		// model. These will allow us to gather the relationship info.
+		if ($associated instanceof Model)
+		{
+			$this->model = $associated;
+		}
+		else
+		{
+			$this->model = new $associated;
+		}
 
+		// For relationships, we'll set the base model to be the model being
+		// associated from. This model contains the value of the foreign
+		// key needed to connect to the associated model.
 		if ($model instanceof Model)
 		{
 			$this->base = $model;
@@ -38,9 +48,9 @@ abstract class Relationship extends Query {
 			$this->base = new $model;
 		}
 
-		// Next we'll set the fluent query builder for the relationship and constrain
-		// the query such that it only returns the models that are appropriate for
-		// the relationship, typically by setting the foreign key.
+		// Next we'll set the fluent query builder for the relationship and
+		// constrain the query such that it only returns the models that
+		// are appropriate for the relationship.
 		$this->table = $this->query();
 
 		$this->constrain();
