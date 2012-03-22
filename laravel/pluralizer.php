@@ -99,7 +99,7 @@ class Pluralizer {
 		// If the word hasn't been cached, we'll check the list of words that
 		// that are "uncountable". This should be a quick look up since we
 		// can just hit the array directly for the value.
-		if (in_array(strtolower($value), $this->config['uncountable']))
+		if (in_array(Str::lower($value), $this->config['uncountable']))
 		{
 			return $value;
 		}
