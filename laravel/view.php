@@ -387,6 +387,21 @@ class View implements ArrayAccess {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
+	 * @return View
+	 */
+	public function shares($key, $value)
+	{
+		static::share($key, $value);
+		return $this;
+	}
+
+	/**
+	 * Add a key / value pair to the shared view data.
+	 *
+	 * Shared view data is accessible to every view created by the application.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
 	 * @return void
 	 */
 	public static function share($key, $value)

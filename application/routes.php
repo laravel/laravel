@@ -35,6 +35,9 @@
 
 Route::get('/', function()
 {
+	$content = file_get_contents(path('app').'views/home/index.php');
+	$matches = preg_match('/(\s*)@forelse(\s*\(.*\))(.+)@endforelse/m', $content);
+	die(var_dump($matches));
 	return View::make('home.index');
 });
 

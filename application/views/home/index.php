@@ -101,6 +101,10 @@
 
 			<h3>Learn the terrain.</h3>
 
+			@forelse ($something as $something)
+				Do Stuff.
+			@endforelse
+
 			<p>
 				You've landed yourself on our default home page. The route that
 				is generating this page lives at:
