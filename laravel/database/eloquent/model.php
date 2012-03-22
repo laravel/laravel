@@ -548,6 +548,34 @@ abstract class Model {
 	}
 
 	/**
+	 * Determine if an attribute exists on the model.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+		foreach (array('attributes', 'relationships') as $source)
+		{
+			if (array_key_exists($key, $this->$source)) return true;
+		}
+	}
+
+	/**
+	 * Remove an attribute from the model.
+	 *
+	 * @param  string  $key
+	 * @return void
+	 */
+	public function __unset($key)
+	{
+		foreach (array('attributes', 'relationships') as $source)
+		{
+			unset($this->$source[$key]);
+		}
+	}
+
+	/**
 	 * Handle dynamic method calls on the model.
 	 *
 	 * @param  string  $method

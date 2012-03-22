@@ -110,7 +110,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		// the developer to not worry about maintaining the join table.
 		if ($model instanceof Model)
 		{
-			$joining = array_merge($this->join_record($id), $joining);
+			$joining = array_merge($this->join_record($model->get_key()), $joining);
 
 			$result = $this->insert_joining($joining);
 		}
