@@ -56,7 +56,7 @@ class Query {
 	{
 		$results = $this->hydrate($this->model, $this->table->take(1)->get($columns, false));
 
-		return (is_array($results)) ? head($results) : $results;
+		return (count($results) > 0) ? head($results) : null;
 	}
 
 	/**
