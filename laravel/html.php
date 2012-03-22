@@ -3,6 +3,25 @@
 class HTML {
 
 	/**
+	 * The registered custom macros.
+	 *
+	 * @var array
+	 */
+	public static $macros = array();
+
+    /**
+     * Registers a custom macro.
+     *
+     * @param  string   $name
+     * @param  Closure  $input
+     * @return void
+     */
+	public static function macro($name, $macro)
+	{
+		static::$macros[$name] = $macro;
+	}
+
+	/**
 	 * Convert HTML characters to entities.
 	 *
 	 * The encoding specified in the application configuration file will be used.
@@ -319,7 +338,7 @@ class HTML {
 		{
 			// For numeric keys, we will assume that the key and the value are the
 			// same, as this will conver HTML attributes such as "required" that
-			// may be specified as required="required".
+			// may be specified as required="required", etc.
 			if (is_numeric($key)) $key = $value;
 
 			if ( ! is_null($value))
@@ -345,8 +364,7 @@ class HTML {
 		{
 			// To properly obfuscate the value, we will randomly convert each
 			// letter to its entity or hexadecimal representation, keeping a
-			// bot from sniffing the randomly obfuscated letters from the
-			// page and guarding against e-mail harvesting.
+			// bot from sniffing the randomly obfuscated letters.
 			switch (rand(1, 3))
 			{
 				case 1:
@@ -363,6 +381,23 @@ class HTML {
 		}
 
 		return $safe;
+	}
+
+	/**
+	 * Dynamically handle calls to custom macros.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+	    if (isset(static::$macros[$method]))
+	    {
+	        return call_user_func_array(static::$macros[$method], $parameters);
+	    }
+	    
+	    throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
