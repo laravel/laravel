@@ -11,6 +11,7 @@
 | may be used by the developer.
 |
 */
+
 require 'core.php';
 
 /*

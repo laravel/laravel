@@ -114,6 +114,19 @@ Event::listen(Lang::loader, function($bundle, $language, $file)
 
 /*
 |--------------------------------------------------------------------------
+| Enable The Blade View Engine
+|--------------------------------------------------------------------------
+|
+| The Blade view engine provides a clean, beautiful templating language
+| for your application, including syntax for echoing data and all of
+| the typical PHP control structures. We'll simply enable it here.
+|
+*/
+
+Blade::sharpen();
+
+/*
+|--------------------------------------------------------------------------
 | Set The Default Timezone
 |--------------------------------------------------------------------------
 |

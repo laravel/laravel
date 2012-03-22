@@ -117,9 +117,9 @@ class View implements ArrayAccess {
 
 		$view = str_replace('.', '/', $view);
 
-		// We delegate the determination of view paths to the view loader
-		// event so that the developer is free to override and manage
-		// the loading views in any way they see fit.
+		// We delegate the determination of view paths to the view loader event
+		// so that the developer is free to override and manage the loading
+		// of views in any way they see fit for their application.
 		$path = Event::first(static::loader, array($bundle, $view));
 
 		if ( ! is_null($path))
@@ -141,7 +141,14 @@ class View implements ArrayAccess {
 	{
 		$root = Bundle::path($bundle).'views/';
 
+		// Views may have either the default PHP fiel extension of the "Blade"
+		// extension, so we will need to check for both in the view path
+		// and return the first one we find for the given view.
 		if (file_exists($path = $root.$view.EXT))
+		{
+			return $path;
+		}
+		elseif (file_exists($path = $root.$view.BLADE_EXT))
 		{
 			return $path;
 		}
