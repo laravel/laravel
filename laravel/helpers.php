@@ -451,3 +451,14 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
 {
 	return Laravel\View::render_each($partial, $data, $iterator, $empty);
 }
+
+/**
+ * Get the string contents of a section.
+ *
+ * @param  string  $section
+ * @return string
+ */
+function yield($section)
+{
+	return Laravel\Section::yield($section);
+}

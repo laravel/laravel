@@ -28,3 +28,6 @@ Changes for 3.1:
 	- Prepend table name to default index names in schema.
 	- Added for/else to Blade.
 	- Added View::render_each
+	- Able to specify full path to view (path: ).
+	- Blade extended views.
+	- Yield is now done via blade through {{ yield("content") }}
