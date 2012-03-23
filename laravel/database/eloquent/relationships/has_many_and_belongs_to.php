@@ -341,7 +341,11 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function pivot()
 	{
-		return new Pivot($this->joining);
+		$key = $this->base->get_key();
+
+		$foreign = $this->foreign_key();
+
+		return with(new Pivot($this->joining))->where($foreign, '=', $key);
 	}
 
 	/**
