@@ -108,7 +108,7 @@ class Blade {
 	{
 		// If the Blade template is not using "layouts", we'll just return it
 		// it unchanged since there is nothing to do with layouts and we'll
-		// just let the other Blade compilers handle it.
+		// just let the other Blade compilers handle the rest.
 		if ( ! starts_with($value, '@layout'))
 		{
 			return $value;
@@ -121,11 +121,11 @@ class Blade {
 
 		$layout = static::extract($lines[0], '@layout');
 
+		$lines[] = "<?php echo render('{$layout}'); ?>";
+
 		// We will add a "render" statement to the end of the templates and
 		// and then slice off the @layout shortcut from the start so the
 		// sections register before the parent template renders.
-		$lines[] = "<?php echo render('{$layout}'); ?>";
-
 		return implode(CRLF, array_slice($lines, 1));
 	}
 
