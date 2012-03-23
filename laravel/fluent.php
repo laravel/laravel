@@ -77,4 +77,20 @@ class Fluent {
 		$this->attributes[$key] = $value;
 	}
 
+	/**
+	 * Dynamically check if an attribute is set.
+	 */
+	public function __isset($key)
+	{
+		return isset($this->attributes[$key]);
+	}
+
+	/**
+	 * Dynamically unset an attribute.
+	 */
+	public function __unset($key)
+	{
+		return unset($this->attributes[$key]);
+	}
+
 }
