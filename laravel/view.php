@@ -349,11 +349,11 @@ class View implements ArrayAccess {
 		// All nested views and responses are evaluated before the main view.
 		// This allows the assets used by nested views to be added to the
 		// asset container before the main view is evaluated.
-		foreach ($data as &$value) 
+		foreach ($data as $key => $value) 
 		{
 			if ($value instanceof View or $value instanceof Response)
 			{
-				$value = $value->render();
+				$data[$key] = $value->render();
 			}
 		}
 

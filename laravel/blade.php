@@ -3,34 +3,12 @@
 class Blade {
 
 	/**
-	 * The cache key for the extension tree.
-	 *
-	 * @var string
-	 */
-	const cache = 'laravel.blade.extensions';
-
-	/**
-	 * An array containing the template extension tree.
-	 *
-	 * @var array
-	 */
-	public static $extensions;
-
-	/**
-	 * The original extension tree loaded from the cache.
-	 *
-	 * @var array
-	 */
-	public static $original;
-
-	/**
 	 * All of the compiler functions used by Blade.
 	 *
 	 * @var array
 	 */
 	protected static $compilers = array(
-		'extends',
-		'includes',
+		'layouts',
 		'echos',
 		'forelse',
 		'empty',
@@ -38,6 +16,9 @@ class Blade {
 		'structure_openings',
 		'structure_closings',
 		'else',
+		'includes',
+		'yields',
+		'yield_sections',
 		'section_start',
 		'section_end',
 	);
@@ -49,8 +30,6 @@ class Blade {
 	 */
 	public static function sharpen()
 	{
-		static::extensions();
-
 		Event::listen(View::engine, function($view)
 		{
 			// The Blade view engine should only handle the rendering of views which
@@ -81,42 +60,6 @@ class Blade {
 	}
 
 	/**
-	 * Load the extension tree so we can correctly invalidate caches.
-	 *
-	 * @return void
-	 */
-	protected static function extensions()
-	{
-		// The entire view extension tree is cached so we can check for expired
-		// views anywhere in the tree. This allows us to recompile a child
-		// view if any of its parent views change throughout the tree.
-		static::$extensions = Cache::get(Blade::cache);
-
-		static::$original = static::$extensions;
-
-		// If no extension tree was present, we need to invalidate every cache
-		// since we have no way of knowing which views needs to be compiled
-		// since we don't know any of their parent views.
-		if (is_null(static::$extensions))
-		{
-			static::flush();
-
-			static::$extensions = array();
-		}
-
-		// We'll hook into the "done" event of Laravel and write out the tree
-		// of extensions if it was changed during the course of the request.
-		// The tree would change if new templates were rendered, etc.
-		Event::listen('laravel.done', function()
-		{
-			if (Blade::$extensions !== Blade::$original)
-			{
-				Cache::forever(Blade::cache, Blade::$extensions);
-			}
-		});
-	}
-
-	/**
 	 * Determine if a view is "expired" and needs to be re-compiled.
 	 *
 	 * @param  string  $view
@@ -128,39 +71,7 @@ class Blade {
 	{
 		$compiled = static::compiled($path);
 
-		return filemtime($path) > filemtime($compiled) or static::expired_parent($view);
-	}
-
-	/**
-	 * Determine if the given view has an expired parent view.
-	 *
-	 * @param  string  $view
-	 * @return bool
-	 */
-	protected static function expired_parent($view)
-	{
-		// If the view is extending another view, we need to recursively check
-		// whether any of the extended views have expired, all the way up to
-		// the top most parent view of the extension chain.
-		if (isset(static::$extensions[$view]))
-		{
-			$e = static::$extensions[$view];
-
-			return static::expired($e['view'], $e['path']);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the fully qualified path for a compiled view.
-	 *
-	 * @param  string  $view
-	 * @return string
-	 */
-	public static function compiled($path)
-	{
-		return path('storage').'views/'.md5($path);
+		return filemtime($path) > filemtime(static::compiled($path));
 	}
 
 	/**
@@ -193,99 +104,42 @@ class Blade {
 		return $value;
 	}
 
-	/**
-	 * Rewrites Blade extended templates into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @param  View    $view
-	 * @return string
-	 */
-	protected static function compile_extends($value, $view)
+	protected static function compile_layouts($value)
 	{
-		// If the view doesn't begin with @extends, we don't need to do anything
-		// and can simply return the view to be parsed by the rest of Blade's
-		// compilers like any other normal Blade view would be compiled.
-		if (is_null($view) or ! starts_with($value, '@extends'))
+		// If the Blade template is not using "layouts", we'll just return it
+		// it unchanged since there is nothing to do with layouts and we'll
+		// just let the other Blade compilers handle it.
+		if ( ! starts_with($value, '@layout'))
 		{
 			return $value;
 		}
 
-		// First we need to parse the parent template from the extends keyword
-		// so we know which parent to render. We will remove the extends
-		// from the template after we have extracted the parent.
-		$template = static::extract_template($value);
+		// First we'll split out the lines of the template so we can get the
+		// the layout from the top of the template. By convention it must
+		// be located on the first line of the template contents.
+		$lines = preg_split("/(\r?\n)/", $value);
 
-		$path = static::store_extended($value, $view);
+		$layout = static::extract($lines[0], '@layout');
 
-		// Once we have stored a copy of the view without the "extends" clause
-		// we can load up that stored view and render it. The extending view
-		// should only be using "sections", so we don't need the output.
-		View::make("path: {$path}", $view->data())->render();
+		// We will add a "render" statement to the end of the templates and
+		// and then slice off the @layout shortcut from the start so the
+		// sections register before the parent template renders.
+		$lines[] = "<?php echo render('{$layout}'); ?>";
 
-		$parent =  View::make($template);
-
-		// Finally we will make and return the parent view as the output of
-		// the compilation. We'll touch the parent to force it to compile
-		// when it is rendered so we can make sure we're all fresh.
-		touch($parent->path);
-
-		static::log_extension($view, $parent);
-
-		return $parent->render();
+		return implode(CRLF, array_slice($lines, 1));
 	}
 
 	/**
-	 * Extract the parent template name from an extending view.
+	 * Extract a variable value out of a Blade expression.
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function extract_template($value)
+	protected static function extract($value, $expression)
 	{
-		preg_match('/@extends(\s*\(.*\))(\s*)/', $value, $matches);
+		preg_match('/'.$expression.'(\s*\(.*\))(\s*)/', $value, $matches);
 
 		return str_replace(array("('", "')"), '', $matches[1]);
-	}
-
-	/**
-	 * Store an extended view in the view storage.
-	 *
-	 * @param  string  $value
-	 * @param  View    $view
-	 * @return array
-	 */
-	protected static function store_extended($value, $view)
-	{
-		$value = preg_replace('/@extends(\s*\(.*\))(\s*)/', '', $value);
-
-		file_put_contents($path = static::compiled($view->path.'_extended').BLADE_EXT, $value);
-
-		return $path;
-	}
-
-	/**
-	 * Log a view extension for a given view in the extension tree.
-	 *
-	 * @param  View  $view
-	 * @param  View  $parent
-	 * @return void
-	 */
-	protected static function log_extension($view, $parent)
-	{
-		static::$extensions[$view->view] = array('view' => $parent->view, 'path' => $parent->path);
-	}
-
-	/**
-	 * Rewrites Blade "include" statements to valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function compile_includes($value)
-	{
-		$pattern = '/\{\{(\s*)include(\s*\(.*\))(\s*)\}\}/';
-
-		return preg_replace($pattern, '<?php echo render$2->with(get_defined_vars()); ?>', $value);
 	}
 
 	/**
@@ -309,31 +163,25 @@ class Blade {
 	{
 		preg_match_all('/(\s*)@forelse(\s*\(.*\))(\s*)/', $value, $matches);
 
-		// First we'll loop through all of the "@forelse" lines. We need to
-		// wrap each loop in an if/else statement that checks the count
-		// of the variable that is being iterated by the loop.
-		if (isset($matches[0]))
+		foreach ($matches[0] as $forelse)
 		{
-			foreach ($matches[0] as $forelse)
-			{
-				preg_match('/\$[^\s]*/', $forelse, $variable);
+			preg_match('/\$[^\s]*/', $forelse, $variable);
 
-				// Once we have extracted the variable being looped against, we can
-				// prepend an "if" statmeent to the start of the loop that checks
-				// that the count of the variable is greater than zero.
-				$if = "<?php if (count({$variable[0]}) > 0): ?>";
+			// Once we have extracted the variable being looped against, we can add
+			// an if statmeent to the start of the loop that checks if the count
+			// of the variable being looped against is greater than zero.
+			$if = "<?php if (count({$variable[0]}) > 0): ?>";
 
-				$search = '/(\s*)@forelse(\s*\(.*\))/';
+			$search = '/(\s*)@forelse(\s*\(.*\))/';
 
-				$replace = '$1'.$if.'<?php foreach$2: ?>';
+			$replace = '$1'.$if.'<?php foreach$2: ?>';
 
-				$blade = preg_replace($search, $replace, $forelse);
+			$blade = preg_replace($search, $replace, $forelse);
 
-				// Finally, once we have the check prepended to the loop, we will
-				// replace all instances of this "forelse" syntax in the view
-				// content of the view being compiled to Blade syntax.
-				$value = str_replace($forelse, $blade, $value);
-			}
+			// Finally, once we have the check prepended to the loop we'll replace
+			// all instances of this "forelse" syntax in the view content of the
+			// view being compiled to Blade syntax with real syntax.
+			$value = str_replace($forelse, $blade, $value);
 		}
 
 		return $value;
@@ -399,6 +247,46 @@ class Blade {
 	}
 
 	/**
+	 * Rewrites Blade @include statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_includes($value)
+	{
+		$pattern = static::matcher('include');
+
+		return preg_replace($pattern, '$1<?php echo render$2->with(get_defined_vars()); ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade @yield statements into Section statements.
+	 *
+	 * The Blade @yield statement is a shortcut to the Section::yield method.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_yields($value)
+	{
+		$pattern = static::matcher('yield');
+
+		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yield$2; ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade yield section statements into valid PHP.
+	 *
+	 * @return string
+	 */
+	protected static function compile_yield_sections($value)
+	{
+		$replace = '<?php echo \\Laravel\\Section::yield_section(); ?>';
+
+		return str_replace('@yield_section', $replace, $value);
+	}
+
+	/**
 	 * Rewrites Blade @section statements into Section statements.
 	 *
 	 * The Blade @section statement is a shortcut to the Section::start method.
@@ -438,21 +326,14 @@ class Blade {
 	}
 
 	/**
-	 * Remove all of the cached views from storage.
+	 * Get the fully qualified path for a compiled view.
 	 *
-	 * @return void
+	 * @param  string  $view
+	 * @return string
 	 */
-	protected static function flush()
+	public static function compiled($path)
 	{
-		$items = new fIterator(path('storage').'views');
-
-		foreach ($items as $item)
-		{
-			if ($item->isFile() and $item->getBasename() !== '.gitignore')
-			{
-				@unlink($item->getRealPath());
-			}
-		}
+		return path('storage').'views/'.md5($path);
 	}
 
 }
