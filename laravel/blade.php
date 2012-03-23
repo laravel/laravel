@@ -8,6 +8,7 @@ class Blade {
 	 * @var array
 	 */
 	protected static $compilers = array(
+		'includes',
 		'echos',
 		'forelse',
 		'empty',
@@ -86,6 +87,21 @@ class Blade {
 	}
 
 	/**
+	 * Rewrites Blade "include" statements to valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_includes($value)
+	{
+		$pattern = '/\{\{(\s*)include(\s*\(.*\))(\s*)\}\}/';
+
+		$value = preg_replace($pattern, '<?php echo render$2', $value);
+
+		return rtrim($value, ')').', get_defined_vars()); ?>';
+	}
+
+	/**
 	 * Rewrites Blade echo statements into PHP echo statements.
 	 *
 	 * @param  string  $value
@@ -115,9 +131,9 @@ class Blade {
 			{
 				preg_match('/\$[^\s]*/', $forelse, $variable);
 
-				// Once we have extracted the variable being looped against, we cab
-				// prepend an "if" statmeent to the start of the loop that checks
-				// that the count of the variable is greater than zero.
+				// Once we have extracted the variable being looped against, we can prepend
+				// an "if" statmeent to the start of the loop that checks that the count
+				// of the variable is greater than zero before looping the data.
 				$if = "<?php if (count({$variable[0]}) > 0): ?>";
 
 				$search = '/(\s*)@forelse(\s*\(.*\))/';
@@ -126,9 +142,9 @@ class Blade {
 
 				$blade = preg_replace($search, $replace, $forelse);
 
-				// Finally, once we have the check prepended to the loop, we will
-				// replace all instances of this "forelse" structure in the
-				// content of the view being compiled to Blade syntax.
+				// Finally, once we have the check prepended to the loop, we will replace
+				// all instances of this "forelse" structure in the content of the view
+				// being compiled to Blade syntax using a simple str_replace.
 				$value = str_replace($forelse, $blade, $value);
 			}
 		}
