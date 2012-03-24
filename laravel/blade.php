@@ -119,9 +119,9 @@ class Blade {
 		// be located on the first line of the template contents.
 		$lines = preg_split("/(\r?\n)/", $value);
 
-		$layout = static::extract($lines[0], '@layout');
+		$pattern = static::matcher('layout');
 
-		$lines[] = "<?php echo render('{$layout}'); ?>";
+		$lines[] = preg_replace($pattern, '$1@include$2', $lines[0]);
 
 		// We will add a "render" statement to the end of the templates and
 		// and then slice off the @layout shortcut from the start so the
@@ -137,7 +137,7 @@ class Blade {
 	 */
 	protected static function extract($value, $expression)
 	{
-		preg_match('/'.$expression.'(\s*\(.*\))(\s*)/', $value, $matches);
+		preg_match('/@layout(\s*\(.*\))(\s*)/', $value, $matches);
 
 		return str_replace(array("('", "')"), '', $matches[1]);
 	}
