@@ -90,7 +90,7 @@ class Fluent {
 	 */
 	public function __unset($key)
 	{
-		return unset($this->attributes[$key]);
+		unset($this->attributes[$key]);
 	}
 
 }
