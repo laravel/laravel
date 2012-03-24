@@ -435,6 +435,8 @@ function has_php($version)
  */
 function render($view, $data = array())
 {
+	if (is_null($view)) return '';
+
 	return Laravel\View::make($view, $data)->render();
 }
 
