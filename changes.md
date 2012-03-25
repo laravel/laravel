@@ -1,0 +1,73 @@
+## Laravel Change Log
+
+## Contents
+
+- [Laravel 3.1](#3.1)
+- [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1"></a>
+## Laravel 3.1
+
+- Added events to logger for more flexibility.
+- Added **database.fetch** configuration option.
+- Added controller factories for injecting any IoC.
+- Added **link_to_action** HTML helpers.
+- Added ability to set default value on Config::get.
+- Added the ability to add pattern based filters.
+- Improved session ID assignment.
+- Added support for "unsigned" integers in schema builder.
+- Added config, view, and lang loaders.
+- Added more logic to **application/start.php** for more flexibility.
+- Added foreign key support to schema builder.
+- Postgres "unique" indexes are now added with ADD CONSTRAINT.
+- Added "Event::until" method.
+- Added "memory" cache and session drivers.
+- Added Controller::detect method.
+- Added Cache::forever method.
+- Controller layouts now resolved in Laravel\Controller __construct.
+- Rewrote Eloquent and included in core.
+- Added "match" validation rule.
+- Fixed table prefix bug.
+- Added Form::macro method.
+- Added HTML::macro method.
+- Added Route::forward method.
+- Prepend table name to default index names in schema.
+- Added "forelse" to Blade.
+- Added View::render_each.
+- Able to specify full path to view (path: ).
+- Added support for Blade template inheritance.
+
+<a name="upgrade-3.1"></a>
+## Upgrading From 3.0
+
+### Replace your **application/start.php** file.
+
+The default **start.php** file has been expanded in order to give you more flexibility over the loading of your language, configuration, and view files. To upgrade your file, copy your current file and paste it at the bottom of a copy of the new Laravel 3.1 start file. Next, scroll up in the **start** file until you see the default Autoloader registrations (line 61 and line 76). Delete both of these sections since you just pasted your previous auto-loader registrations at the bottom of the file.
+
+### Remove the **display** option from your **errors** configuration file.
+
+This option is now set at the beginning of your **application/start** file.
+
+### Call the parent controller's constructor from your controller.
+
+Simply add a **parent::__construct();** to to any of your controllers that have a constructor.
+
+### Prefix Laravel migration created indexes with their table name.
+
+If you have created indexes on tables using the Laravel migration system and you used to the default index naming scheme provided by Laravel, prefix the index names with their table name on your database.
+
+### Update Eloquent many-to-many tables.
+
+Eloquent now maintains **created_at** and **updated_at** column on many-to-many intermediate tables by default. Simply add these columns to your tables. Also, many-to-many tables are now the singular model names concatenated with an underscore. For example, if the relationship is between User and Role, the intermediate table name should be **role_user**.
+
+### Remove Eloquent bundle.
+
+If you are using the Eloquent bundle with your installation, you can remove it from your bundles directory and your **application/bundles.php** file. Eloquent version 2 is included in the core in Laravel 3.1. Your models can also now extend simply **Eloquent** instead of **Eloquent\Model**.
+
+### Update your **config/strings.php** file.
+
+English pluralization and singularization is now automatic. Just completely replace your **application/config/strings.php** file.
+
+### Add the **fetch** option to your database configuration file.
+
+A new **fetch** option allows you to specify in which format you receive your database results. Just copy and paste the option from the new **application/config/database.php** file.
