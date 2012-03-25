@@ -54,7 +54,7 @@ Simply add a **parent::__construct();** to to any of your controllers that have 
 
 ### Prefix Laravel migration created indexes with their table name.
 
-If you have created indexes on tables using the Laravel migration system and you used to the default index naming scheme provided by Laravel, prefix the index names with their table name on your database.
+If you have created indexes on tables using the Laravel migration system and you used to the default index naming scheme provided by Laravel, prefix the index names with their table name on your database. So, if the current index name is "id_unique" on the "users" table, make the index name "users_id_unique".
 
 ### Update Eloquent many-to-many tables.
 
