@@ -427,6 +427,20 @@ function has_php($version)
 }
 
 /**
+ * Get a view instance.
+ *
+ * @param  string  $view
+ * @param  array   $data
+ * @return View
+ */
+function view($view, $data = array())
+{
+	if (is_null($view)) return '';
+
+	return Laravel\View::make($view, $data);
+}
+
+/**
  * Render the given view.
  *
  * @param  string  $view
