@@ -56,6 +56,12 @@ Simply add a **parent::__construct();** to to any of your controllers that have 
 
 If you have created indexes on tables using the Laravel migration system and you used to the default index naming scheme provided by Laravel, prefix the index names with their table name on your database. So, if the current index name is "id_unique" on the "users" table, make the index name "users_id_unique".
 
+### Add alias for Eloquent in your application configuration.
+
+Add the following to the **aliases** array in your **application/config/application.php** file:
+
+	'Eloquent' => 'Laravel\\Eloquent',
+
 ### Update Eloquent many-to-many tables.
 
 Eloquent now maintains **created_at** and **updated_at** column on many-to-many intermediate tables by default. Simply add these columns to your tables. Also, many-to-many tables are now the singular model names concatenated with an underscore. For example, if the relationship is between User and Role, the intermediate table name should be **role_user**.
