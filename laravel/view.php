@@ -390,7 +390,7 @@ class View implements ArrayAccess {
 	 * @param  mixed   $value
 	 * @return View
 	 */
-	public function with($key, $value)
+	public function with($key, $value = null)
 	{
 		if (is_array($key))
 		{
