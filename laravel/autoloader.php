@@ -66,25 +66,23 @@ class Autoloader {
 		// If the class namespace is mapped to a directory, we will load the
 		// class using the PSR-0 standards from that directory accounting
 		// for the root of the namespace by trimming it off.
-		$namespace = root_namespace($class).'\\';
-
-		if (isset(static::$namespaces[$namespace]))
+		foreach (static::$namespaces as $namespace => $directory)
 		{
-			$directory = static::$namespaces[$namespace];
-
-			return static::load_namespaced($class, $namespace, $directory);
+			if (starts_with($class, $namespace))
+			{
+				return static::load_namespaced($class, $namespace, $directory);
+			}
 		}
 
 		// If the class uses PEAR-ish style underscores for indicating its
 		// directory structure we'll load the class using PSR-0 standards
 		// standards from that directory, trimming the root.
-		$namespace = root_namespace($class, '_').'_';
-
-		if (isset(static::$underscored[$namespace]))
+		foreach (static::$underscored as $prefix => $directory)
 		{
-			$directory = static::$underscored[$namespace];
-
-			return static::load_namespaced($class, $namespace, $directory);
+			if (starts_with($class, $prefix))
+			{
+				return static::load_namespaced($class, $prefix, $directory);
+			}
 		}
 
 		// If all else fails we will just iterator through the mapped
