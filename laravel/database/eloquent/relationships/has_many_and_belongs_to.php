@@ -290,19 +290,17 @@ class Has_Many_And_Belongs_To extends Relationship {
 			// the pivot table that may need to be accessed by the developer.
 			$pivot = new Pivot($this->joining);
 
-			$attributes = array_filter($result->attributes, function($attribute)
-			{
-				return starts_with($attribute, 'pivot_');
-			});
-
 			// If the attribute key starts with "pivot_", we know this is a column on
 			// the pivot table, so we will move it to the Pivot model and purge it
 			// from the model since it actually belongs to the pivot.
-			foreach ($attributes as $key => $value)
+			foreach ($result->attributes as $key => $value)
 			{
-				$pivot->{substr($key, 6)} = $value;
+				if (starts_with($key, 'pivot_'))
+				{
+					$pivot->{substr($key, 6)} = $value;
 
-				$result->purge($key);
+					$result->purge($key);
+				}
 			}
 
 			// Once we have completed hydrating the pivot model instance, we'll set
