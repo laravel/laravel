@@ -96,7 +96,7 @@ abstract class Relationship extends Query {
 	 *
 	 * @return string
 	 */
-	protected function foreign_key()
+	public function foreign_key()
 	{
 		return static::foreign($this->base, $this->foreign);
 	}

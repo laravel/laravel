@@ -17,6 +17,8 @@ class Blade {
 		'structure_closings',
 		'else',
 		'includes',
+		'render_each',
+		'render',
 		'yields',
 		'yield_sections',
 		'section_start',
@@ -263,6 +265,32 @@ class Blade {
 		$pattern = static::matcher('include');
 
 		return preg_replace($pattern, '$1<?php echo view$2->with(get_defined_vars()); ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade @render statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_render($value)
+	{
+		$pattern = static::matcher('render');
+
+		return preg_replace($pattern, '$1<?php echo render$2; ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade @render_each statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_render_each($value)
+	{
+		$pattern = static::matcher('render_each');
+
+		return preg_replace($pattern, '$1<?php echo render_each$2; ?>', $value);
 	}
 
 	/**

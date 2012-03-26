@@ -136,9 +136,9 @@ abstract class Model {
 			}
 		}
 
-		// If the original attribute values have not been set, we will set them to
-		// the values passed to this method allowing us to quickly check if the
-		// model has changed since hydration of the original instance.
+		// If the original attribute values have not been set, we will set
+		// them to the values passed to this method allowing us to easily
+		// check if the model has changed since hydration.
 		if (count($this->original) === 0)
 		{
 			$this->original = $this->attributes;
@@ -306,6 +306,32 @@ abstract class Model {
 	public function has_many_and_belongs_to($model, $table = null, $foreign = null, $other = null)
 	{
 		return new Has_Many_And_Belongs_To($this, $model, $table, $foreign, $other);
+	}
+
+	/**
+	 * Save the model and all of its relations to the database.
+	 *
+	 * @return bool
+	 */
+	public function push()
+	{
+		$this->save();
+
+		// To sync all of the relationships to the database, we will simply spin through
+		// the relationships, calling the "push" method on each of the models in that
+		// given relationship, this should ensure that each model is saved.
+		foreach ($this->relationships as $name => $models)
+		{
+			if ( ! is_array($models))
+			{
+				$models = array($models);
+			}
+
+			foreach ($models as $model)
+			{
+				$model->push();
+			}
+		}
 	}
 
 	/**
@@ -610,14 +636,6 @@ abstract class Model {
 		elseif (starts_with($method, 'set_'))
 		{
 			$this->attributes[substr($method, 4)] = $parameters[0];
-		}
-
-		// If the method begins with "add_", we will assume that the developer is
-		// adding a related model instance to the model. This is useful for
-		// adding all of the related models and then saving at once.
-		elseif (starts_with($method, 'add_'))
-		{
-			$this->relationships[substr($method, 4)][] = $parameters[0];
 		}
 
 		// Finally we will assume that the method is actually the beginning of a
