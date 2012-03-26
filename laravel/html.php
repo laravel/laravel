@@ -7,11 +7,16 @@ class HTML {
 	 *
 	 * The encoding specified in the application configuration file will be used.
 	 *
-	 * @param  string  $value
+	 * @param  mixed  $value
 	 * @return string
 	 */
 	public static function entities($value)
 	{
+		if (is_array($value))
+		{
+			return array_map(array('HTML', 'entities'), $value);
+		}
+		
 		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
 	}
 
