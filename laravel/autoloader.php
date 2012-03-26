@@ -218,7 +218,10 @@ class Autoloader {
 		{
 			foreach(File::all($directory, $recursive, $options) as $file)
 			{
-				require $file;
+				if(ends_with($file, '.php'))
+				{
+					require $file;
+				}
 			}	
 		}
 	}

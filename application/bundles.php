@@ -49,7 +49,8 @@ return array(
 	),
 	'app' => array(
 		'location' => 'lcqrs/app',
-		'auto' => true
+		'auto' => true,
+		'handles' => 'app'
 	),
 	'authority' => array(
 		'auto' => true

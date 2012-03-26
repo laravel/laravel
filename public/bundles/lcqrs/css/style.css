@@ -1,0 +1,29 @@
+body {
+	background: #f0f0f0;
+	font-family: 'Ubuntu';
+	padding: 0px; }
+
+h1 {
+	margin: 0 0 20px 0; }
+
+#container {
+	width: 980px;
+	margin: 40px auto;
+	background: #fff;
+	padding: 40px; }
+
+table {
+	width: 100%;
+	border-spacing: 0; }
+
+th {
+	background: #808080;
+	color: #fff;
+	padding: 5px 10px; }
+
+td {
+	background: #f0f0f0;
+	padding: 5px 10px; }
+
+tr.odd td {
+	background: #fff; }
