@@ -388,7 +388,7 @@ function class_basename($class)
 {
 	if (is_object($class)) $class = get_class($class);
 
-	return basename($class);
+	return basename(str_replace('\\', '/', $class));
 }
 
 /**
@@ -427,6 +427,20 @@ function has_php($version)
 }
 
 /**
+ * Get a view instance.
+ *
+ * @param  string  $view
+ * @param  array   $data
+ * @return View
+ */
+function view($view, $data = array())
+{
+	if (is_null($view)) return '';
+
+	return Laravel\View::make($view, $data);
+}
+
+/**
  * Render the given view.
  *
  * @param  string  $view
@@ -435,9 +449,35 @@ function has_php($version)
  */
 function render($view, $data = array())
 {
+	if (is_null($view)) return '';
+
 	return Laravel\View::make($view, $data)->render();
 }
 
 function uncamelcase($value) {
 	return substr(preg_replace("/([A-Z])/e", "'_'.strtolower('$1')", $value), 1);
+}
+/**
+ * Get the rendered contents of a partial from a loop.
+ *
+ * @param  string  $view
+ * @param  array   $data
+ * @param  string  $iterator
+ * @param  string  $empty
+ * @return string
+ */
+function render_each($partial, array $data, $iterator, $empty = 'raw|')
+{
+	return Laravel\View::render_each($partial, $data, $iterator, $empty);
+}
+
+/**
+ * Get the string contents of a section.
+ *
+ * @param  string  $section
+ * @return string
+ */
+function yield($section)
+{
+	return Laravel\Section::yield($section);
 }

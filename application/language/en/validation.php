@@ -20,9 +20,11 @@ return array(
 
 	"accepted"       => "The :attribute must be accepted.",
 	"active_url"     => "The :attribute is not a valid URL.",
+	"after"          => "The :attribute must be a date after :date.",
 	"alpha"          => "The :attribute may only contain letters.",
 	"alpha_dash"     => "The :attribute may only contain letters, numbers, and dashes.",
 	"alpha_num"      => "The :attribute may only contain letters and numbers.",
+	"before"         => "The :attribute must be a date before :date.",
 	"between"        => array(
 		"numeric" => "The :attribute must be between :min - :max.",
 		"file"    => "The :attribute must be between :min - :max kilobytes.",
@@ -36,6 +38,7 @@ return array(
 	"in"             => "The selected :attribute is invalid.",
 	"integer"        => "The :attribute must be an integer.",
 	"ip"             => "The :attribute must be a valid IP address.",
+	"match"          => "The :attribute format is invalid.",
 	"max"            => array(
 		"numeric" => "The :attribute must be less than :max.",
 		"file"    => "The :attribute must be less than :max kilobytes.",

@@ -17,6 +17,13 @@ class Redis {
 	protected $port;
 
 	/**
+	 * The databse number the connection selects on load.
+	 *
+	 * @var int
+	 */
+	protected $database;
+
+	/**
 	 * The connection to the Redis database.
 	 *
 	 * @var resource
@@ -35,12 +42,14 @@ class Redis {
 	 *
 	 * @param  string  $host
 	 * @param  string  $port
+	 * @param  int     $database
 	 * @return void
 	 */
-	public function __construct($host, $port)
+	public function __construct($host, $port, $database = 0)
 	{
 		$this->host = $host;
 		$this->port = $port;
+		$this->database = $database;
 	}
 
 	/**
@@ -68,7 +77,9 @@ class Redis {
 				throw new \Exception("Redis database [$name] is not defined.");
 			}
 
-			static::$databases[$name] = new static($config['host'], $config['port']);
+			extract($config);
+
+			static::$databases[$name] = new static($host, $port, $database);
 		}
 
 		return static::$databases[$name];
@@ -95,6 +106,17 @@ class Redis {
 
 		$response = trim(fgets($this->connection, 512));
 
+		return $this->parse($response);
+	}
+
+	/**
+	 * Parse and return the response from the Redis database.
+	 *
+	 * @param  string  $response
+	 * @return mixed
+	 */
+	protected function parse($response)
+	{
 		switch (substr($response, 0, 1))
 		{
 			case '-':
@@ -130,6 +152,8 @@ class Redis {
 		{
 			throw new \Exception("Error making Redis connection: {$error} - {$message}");
 		}
+
+		$this->select($this->database);
 
 		return $this->connection;
 	}
@@ -191,18 +215,21 @@ class Redis {
 
 		list($read, $response, $size) = array(0, '', substr($head, 1));
 
-		do
+		if ($size > 0)
 		{
-			// Calculate and read the appropriate bytes off of the Redis response.
-			// We'll read off the response in 1024 byte chunks until the entire
-			// response has been read from the database.
-			$block = (($remaining = $size - $read) < 1024) ? $remaining : 1024;
+			do
+			{
+				// Calculate and read the appropriate bytes off of the Redis response.
+				// We'll read off the response in 1024 byte chunks until the entire
+				// response has been read from the database.
+				$block = (($remaining = $size - $read) < 1024) ? $remaining : 1024;
 
-			$response .= fread($this->connection, $block);
+				$response .= fread($this->connection, $block);
 
-			$read += $block;
+				$read += $block;
 
-		} while ($read < $size);
+			} while ($read < $size);
+		}
 
 		// The response ends with a trailing CRLF. So, we need to read that off
 		// of the end of the file stream to get it out of the way of the next
@@ -225,11 +252,11 @@ class Redis {
 		$response = array();
 
 		// Iterate through each bulk response in the multi-bulk and parse it out
-		// using the "bulk" method since a multi-bulk response is just a list of
-		// plain old bulk responses.
+		// using the "parse" method since a multi-bulk response is just a list
+		// of plain old Redis database responses.
 		for ($i = 0; $i < $count; $i++)
 		{
-			$response[] = $this->bulk(trim(fgets($this->connection, 512)));
+			$response[] = $this->parse(trim(fgets($this->connection, 512)));
 		}
 
 		return $response;

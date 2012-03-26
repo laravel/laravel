@@ -119,6 +119,7 @@ return array(
 		'Auth'       => 'Laravel\\Auth',
 		'Asset'      => 'Laravel\\Asset',
 		'Autoloader' => 'Laravel\\Autoloader',
+		'Blade'      => 'Laravel\\Blade',
 		'Bundle'     => 'Laravel\\Bundle',
 		'Cache'      => 'Laravel\\Cache',
 		'Config'     => 'Laravel\\Config',

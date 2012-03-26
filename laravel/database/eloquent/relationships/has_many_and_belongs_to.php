@@ -79,7 +79,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * @param  array  $joining
 	 * @return bool
 	 */
-	public function add($id, $attributes = array())
+	public function attach($id, $attributes = array())
 	{
 		$joining = array_merge($this->join_record($id), $attributes);
 
@@ -89,20 +89,30 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record for the association.
 	 *
-	 * @param  array  $attributes
-	 * @param  array  $joining
+	 * @param  Model|array  $attributes
+	 * @param  array        $joining
 	 * @return bool
 	 */
 	public function insert($attributes, $joining = array())
 	{
+		// If the attributes are actually an instance of a model, we'll just grab the
+		// array of attributes off of the model for saving, allowing the developer
+		// to easily validate the joining models before inserting them.
+		if ($attributes instanceof Model)
+		{
+			$attributes = $attributes->attributes;
+		}
+
 		$model = $this->model->create($attributes);
 
 		// If the insert was successful, we'll insert a record into the joining table
 		// using the new ID that was just inserted into the related table, allowing
 		// the developer to not worry about maintaining the join table.
-		if ($model instanceof Model and is_numeric($id = $model->get_key()))
+		if ($model instanceof Model)
 		{
-			$result = $this->insert_joining(array_merge($this->join_record($id), $joining));
+			$joining = array_merge($this->join_record($model->get_key()), $joining);
+
+			$result = $this->insert_joining($joining);
 		}
 
 		return $model instanceof Model and $result;
@@ -139,9 +149,6 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function insert_joining($attributes)
 	{
-		// All joining tables get creation and update timestamps automatically even though
-		// some developers may not need them. This just provides them if necessary since
-		// it would be a pain for the developer to maintain them each manually.
 		$attributes['created_at'] = $this->model->get_timestamp();
 
 		$attributes['updated_at'] = $attributes['created_at'];
@@ -274,7 +281,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * @param  array  $results
 	 * @return void
 	 */
-	protected function pivot(&$results)
+	protected function hydrate_pivot(&$results)
 	{
 		foreach ($results as &$result)
 		{
@@ -283,17 +290,19 @@ class Has_Many_And_Belongs_To extends Relationship {
 			// the pivot table that may need to be accessed by the developer.
 			$pivot = new Pivot($this->joining);
 
+			$attributes = array_filter($result->attributes, function($attribute)
+			{
+				return starts_with($attribute, 'pivot_');
+			});
+
 			// If the attribute key starts with "pivot_", we know this is a column on
 			// the pivot table, so we will move it to the Pivot model and purge it
 			// from the model since it actually belongs to the pivot.
-			foreach ($result->attributes as $key => $value)
+			foreach ($attributes as $key => $value)
 			{
-				if (starts_with($key, 'pivot_'))
-				{
-					$pivot->{substr($key, 6)} = $value;
+				$pivot->{substr($key, 6)} = $value;
 
-					$result->purge($key);
-				}
+				$result->purge($key);
 			}
 
 			// Once we have completed hydrating the pivot model instance, we'll set
@@ -323,6 +332,20 @@ class Has_Many_And_Belongs_To extends Relationship {
 		$this->set_select($this->foreign_key(), $this->other_key());
 
 		return $this;
+	}
+
+	/**
+	 * Get a model instance of the pivot table for the relationship.
+	 *
+	 * @return Pivot
+	 */
+	public function pivot()
+	{
+		$key = $this->base->get_key();
+
+		$foreign = $this->foreign_key();
+
+		return with(new Pivot($this->joining))->where($foreign, '=', $key);
 	}
 
 	/**

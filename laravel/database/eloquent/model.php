@@ -404,7 +404,7 @@ abstract class Model {
 	 */
 	public function changed($attribute)
 	{
-		array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
+		return array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
 	}
 
 	/**
@@ -416,7 +416,7 @@ abstract class Model {
 	 */
 	public function dirty()
 	{
-		return ! $this->exists or $this->original !== $this->attributes;
+		return ! $this->exists or count($this->get_dirty()) > 0;
 	}
 
 	/**
@@ -510,6 +510,14 @@ abstract class Model {
 			return $this->relationships[$key];
 		}
 
+		// Next we'll check if the requested key is in the array of attributes
+		// for the model. These are simply regular properties that typically
+		// correspond to a single column on the database for the model.
+		elseif (array_key_exists($key, $this->attributes))
+		{
+			return $this->{"get_{$key}"}();
+		}
+
 		// If the item is not a loaded relationship, it may be a relationship
 		// that hasn't been loaded yet. If it is, we will lazy load it and
 		// set the value of the relationship in the relationship array.
@@ -537,6 +545,34 @@ abstract class Model {
 	public function __set($key, $value)
 	{
 		$this->{"set_{$key}"}($value);
+	}
+
+	/**
+	 * Determine if an attribute exists on the model.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+		foreach (array('attributes', 'relationships') as $source)
+		{
+			if (array_key_exists($key, $this->$source)) return true;
+		}
+	}
+
+	/**
+	 * Remove an attribute from the model.
+	 *
+	 * @param  string  $key
+	 * @return void
+	 */
+	public function __unset($key)
+	{
+		foreach (array('attributes', 'relationships') as $source)
+		{
+			unset($this->$source[$key]);
+		}
 	}
 
 	/**
@@ -569,12 +605,21 @@ abstract class Model {
 		// to perform the appropriate action based on the method.
 		if (starts_with($method, 'get_'))
 		{
-			return $this->get_attribute(substr($method, 4));
+			return $this->attributes[substr($method, 4)];
 		}
 		elseif (starts_with($method, 'set_'))
 		{
-			return $this->set_attribute(substr($method, 4), $parameters[0]);
+			$this->attributes[substr($method, 4)] = $parameters[0];
 		}
+
+		// If the method begins with "add_", we will assume that the developer is
+		// adding a related model instance to the model. This is useful for
+		// adding all of the related models and then saving at once.
+		elseif (starts_with($method, 'add_'))
+		{
+			$this->relationships[substr($method, 4)][] = $parameters[0];
+		}
+
 		// Finally we will assume that the method is actually the beginning of a
 		// query, such as "where", and will create a new query instance and
 		// call the method on the query instance, returning it after.

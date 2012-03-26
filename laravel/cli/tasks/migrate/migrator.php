@@ -154,9 +154,9 @@ class Migrator extends Task {
 			// the bundle name and string migration name as an unique ID
 			// for the migrations, allowing us to easily identify which
 			// migrations have been run for each bundle.
-			$table->string('bundle');
+			$table->string('bundle', 50);
 
-			$table->string('name');
+			$table->string('name', 200);
 
 			// When running a migration command, we will store a batch
 			// ID with each of the rows on the table. This will allow

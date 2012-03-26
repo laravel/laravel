@@ -612,6 +612,18 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an attribute passes a regular expression check.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_match($attribute, $value, $parameters)
+	{
+		return preg_match($parameters[0], $value);
+	}
+
+	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
 	 * @param  string  $attribute
@@ -633,6 +645,32 @@ class Validator {
 
 		return false;
 	}
+
+	/**
+	 * Validate the date is before a given date.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_before($attribute, $value, $parameters)
+	{
+		return (strtotime($value) < strtotime($parameters[0]));
+	}	
+
+	/**
+	 * Validate the date is after a given date.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_after($attribute, $value, $parameters)
+	{
+		return (strtotime($value) > strtotime($parameters[0]));
+	}		
 
 	/**
 	 * Get the proper error message for an attribute and rule.
@@ -864,6 +902,34 @@ class Validator {
 	{
 		return str_replace(':other', $parameters[0], $message);
 	}
+
+	/**
+	 * Replace all place-holders for the before rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_before($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':date', $parameters[0], $message);
+	}
+
+	/**
+	 * Replace all place-holders for the after rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_after($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':date', $parameters[0], $message);
+	}	
 
 	/**
 	 * Get the displayable name for a given attribute.

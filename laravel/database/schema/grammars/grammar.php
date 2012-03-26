@@ -32,7 +32,22 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 
 		$sql = "ALTER TABLE $table ADD CONSTRAINT $name ";
 
-		return $sql .= "FOREIGN KEY ($foreign) REFERENCES $on ($referenced)";
+		$sql .= "FOREIGN KEY ($foreign) REFERENCES $on ($referenced)";
+
+		// Finally we will check for any "on delete" or "on update" options for
+		// the foreign key. These control the behavior of the constraint when
+		// an update or delete statement is run against the record.
+		if ( ! is_null($command->on_delete))
+		{
+			$sql .= " ON DELETE {$command->on_delete}";
+		}
+
+		if ( ! is_null($command->on_update))
+		{
+			$sql .= " ON UPDATE {$command->on_update}";
+		}
+
+		return $sql;
 	}
 
 	/**

@@ -56,7 +56,7 @@ class Query {
 	{
 		$results = $this->hydrate($this->model, $this->table->take(1)->get($columns, false));
 
-		return (is_array($results)) ? head($results) : $results;
+		return (count($results) > 0) ? head($results) : null;
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Query {
 		// any pivot columns that are on the model.
 		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
 		{
-			$this->pivot($models);
+			$this->hydrate_pivot($models);
 		}
 
 		return $models;
