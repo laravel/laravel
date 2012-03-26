@@ -132,6 +132,16 @@ class Request {
 	}
 
 	/**
+	 * Get the HTTP referrer for the request.
+	 *
+	 * @return string
+	 */
+	public static function referrer()
+	{
+		return array_get($_SERVER, 'HTTP_REFERER');
+	}
+
+	/**
 	 * Determine if the current request is via the command line.
 	 *
 	 * @return bool

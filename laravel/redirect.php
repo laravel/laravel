@@ -15,6 +15,17 @@ class Redirect extends Response {
 	}
 
 	/**
+	 * Create a redirect response to the HTTP referrer.
+	 *
+	 * @param  int       $status
+	 * @return Redirect
+	 */
+	public static function back($status = 302)
+	{
+		return static::to(Request::referrer(), $status);
+	}
+
+	/**
 	 * Create a redirect response.
 	 *
 	 * <code>
