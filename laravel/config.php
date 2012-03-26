@@ -75,7 +75,7 @@ class Config {
 		$items = static::$items[$bundle][$file];
 
 		// If a specific configuration item was not requested, the key will be null,
-		// meaning we need to return the entire array of configuration item from the
+		// meaning we'll to return the entire array of configuration item from the
 		// requested configuration file. Otherwise we can return the item.
 		if (is_null($item))
 		{
