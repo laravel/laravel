@@ -92,7 +92,7 @@ Autoloader::directories(array(
 
 Event::listen(View::loader, function($bundle, $view)
 {
-	return View::file($bundle, $view, path('app').'views');
+	return View::file($bundle, $view, Bundle::path($bundle).'views');
 });
 
 /*
