@@ -104,6 +104,12 @@ class Blade {
 		return $value;
 	}
 
+	/**
+	 * Rewrites Blade "@layout" expressions into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
 	protected static function compile_layouts($value)
 	{
 		// If the Blade template is not using "layouts", we'll just return it
