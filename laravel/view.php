@@ -138,7 +138,7 @@ class View implements ArrayAccess {
 	{
 		$root = Bundle::path($bundle).'views/';
 
-		// Views may have either the default PHP fiel extension of the "Blade"
+		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
 		if (file_exists($path = $root.$view.EXT))
