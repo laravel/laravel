@@ -122,6 +122,8 @@ class Query {
 				$new->$key = $value;
 			}
 
+			$new->original = $new->attributes;
+
 			$models[$result[$this->model->key()]] = $new;
 		}
 
