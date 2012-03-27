@@ -14,6 +14,7 @@ $loader->register();
 
 $loader->registerNamespace('Symfony', __DIR__.'/vendor');
 
+use Laravel\File;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
