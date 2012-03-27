@@ -41,6 +41,7 @@ class TestingReleaser extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
+		passthru('git checkout testing');
 		passthru('git merge develop');
 		File::rmdir(__DIR__.'/tests');
 		@unlink(__DIR__.'/phpunit.php');
