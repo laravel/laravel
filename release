@@ -85,6 +85,8 @@ class DevelopHotfixer extends Command {
 		File::rmdir(__DIR__.'/tests_bkp');
 		@unlink(__DIR__.'/phpunit_bkp.php');
 		@unlink(__DIR__.'/phpunit_bkp.xml');
+		passthru('git add .');
+		passthru('git commit -am "<auto> merging hotfixes. re-added tests into repository."');
 	}
 
 }
