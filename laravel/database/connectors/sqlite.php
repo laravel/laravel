@@ -20,21 +20,7 @@ class SQLite extends Connector {
 			return new PDO('sqlite::memory:', null, null, $options);
 		}
 
-		// We'll allow the "database" configuration option to be a fully qualified
-		// path to the database so we'll check if that is the case first. If it
-		// isn't a fully qualified path we will use the storage directory.
-		if (file_exists($config['database']))
-		{
-			$path = $config['database'];
-		}
-
-		// The database option does not appear to be a fully qualified path so we
-		// will just assume it is a relative path from the storage directory
-		// which is typically used to store all SQLite databases.
-		else
-		{
-			$path = path('storage').'database'.DS.$config['database'].'.sqlite';
-		}
+		$path = path('storage').'database'.DS.$config['database'].'.sqlite';
 
 		return new PDO('sqlite:'.$path, null, null, $options);
 	}
