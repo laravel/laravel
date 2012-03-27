@@ -71,6 +71,7 @@ class DevelopHotfixer extends Command {
 	 */
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
+		passthru('git checkout develop');
 		File::cpdir(__DIR__.'/tests', __DIR__.'/tests_bkp');
 		File::copy(__DIR__.'/phpunit.php', __DIR__.'/phpunit_bkp.php');
 		File::copy(__DIR__.'/phpunit.xml', __DIR__.'/phpunit_bkp.xml');
