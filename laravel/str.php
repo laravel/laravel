@@ -2,6 +2,10 @@
 
 class Str {
 
+	// alternator state variables
+	private static $alternator_key = 0;
+	private static $alternator_strings = array();
+
 	/**
 	 * Get the default string encoding for the application.
 	 *
@@ -291,6 +295,53 @@ class Str {
 	public static function random($length, $type = 'alnum')
 	{
 		return substr(str_shuffle(str_repeat(static::pool($type), 5)), 0, $length);
+	}
+
+	/**
+	 * Alternate through parameters wrapping to the first once the last has been returned.
+	 *
+	 * <code>
+	 *		// Outputs 3 strings, one for each iteration of the loop.
+	 *		for($i=0; $i<3; $i++)
+	 *			echo Str::alternate('a', 'b', 'c');
+	 *
+	 *		// Output: abc
+	 *
+	 *		// Reset the alternator.
+	 *		echo Str::alternate('a', 'b', 'c');
+	 *		echo Str::alternate('a', 'b', 'c');
+	 *		Str::alternate();
+	 *		echo Str::alternate('a', 'b', 'c');
+	 *
+	 *		// Output: aba
+	 * <code>
+	 *
+	 * @param  string	$value1
+	 * @param  string	$value2
+	 * @param  string	$values...
+	 * @return string
+	 */
+	public static function alternate()
+	{
+		// get arguments
+		$arguments = func_get_args();
+
+		// reset alternation if strings are different
+		if(array_diff($arguments, self::$alternator_strings) or empty($arguments))
+		{
+			self::$alternator_strings = $arguments;
+			self::$alternator_key = 0;
+		}
+
+		if(empty($arguments)) return '';
+
+		$return_value = self::$alternator_strings[self::$alternator_key];
+
+		// increment key
+		if(++self::$alternator_key >= count(self::$alternator_strings))
+			self::$alternator_key = 0;
+
+		return $return_value;
 	}
 
 	/**
