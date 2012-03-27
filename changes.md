@@ -36,6 +36,7 @@
 - Added View::render_each.
 - Able to specify full path to view (path: ).
 - Added support for Blade template inheritance.
+- Added "before" and "after" validation checks for dates.
 
 <a name="upgrade-3.1"></a>
 ## Upgrading From 3.0
