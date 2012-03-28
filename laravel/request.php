@@ -7,7 +7,7 @@ class Request {
 	 *
 	 * @var HttpFoundation\Request
 	 */
-	public static $request;
+	public static $foundation;
 
 	/**
 	 * All of the route instances handling the request.
@@ -78,7 +78,7 @@ class Request {
 	 */
 	public static function ip($default = '0.0.0.0')
 	{
-		return value(static::$request->getClientIp(), $default);
+		return value(static::$foundation->getClientIp(), $default);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Request {
 	 */
 	public static function accept()
 	{
-		return static::$request->getAcceptableContentTypes();
+		return static::$foundation->getAcceptableContentTypes();
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Request {
 	 */
 	public static function secure()
 	{
-		return static::$request->isSecure();
+		return static::$foundation->isSecure();
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Request {
 	 */
 	public static function ajax()
 	{
-		return static::$request->isXmlHttpRequest();
+		return static::$foundation->isXmlHttpRequest();
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Request {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array(static::$request, $method), $parameters);
+		return call_user_func_array(array(static::$foundation, $method), $parameters);
 	}
 
 }

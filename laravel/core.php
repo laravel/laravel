@@ -176,4 +176,4 @@ foreach ($bundles as $bundle => $config)
 
 use Symfony\Component\HttpFoundation\Request as FoundationRequest;
 
-Request::$request = FoundationRequest::createFromGlobals();
+Request::$foundation = FoundationRequest::createFromGlobals();

@@ -362,6 +362,17 @@ function str_finish($value, $cap)
 }
 
 /**
+ * Determine if the given object has a toString method.
+ *
+ * @param  object  $value
+ * @return bool
+ */
+function str_object($value)
+{
+	return is_object($value) and method_exists($value, '__toString');
+}
+
+/**
  * Get the root namespace of a given class.
  *
  * @param  string  $class
