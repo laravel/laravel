@@ -304,8 +304,8 @@ class URL {
 
 		// If there are any remaining optional place-holders, we'll just replace
 		// them with empty strings since not every optional parameter has to be
-		// in the array of parameters that were passed.
-		$uri = str_replace(array_keys(Router::$optional), '', $uri);
+		// in the array of parameters that were passed to us.
+		$uri = preg_replace('/\(.+?\)/', '', $uri);
 
 		return trim($uri, '/');
 	}
