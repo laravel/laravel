@@ -131,6 +131,18 @@ class URL {
 
 		return rtrim($root, '/').'/'.ltrim($url, '/');
 	}
+	
+	/**
+	 * Generate an application URL to the previous URL.
+	 *
+	 * @param  string  $fallback
+	 * @return string
+	 */
+	public static function back($fallback = '/')
+	{
+	    $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : $fallback;
+	    return static::to($url);
+	}	
 
 	/**
 	 * Generate an application URL with HTTPS.

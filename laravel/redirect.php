@@ -47,6 +47,17 @@ class Redirect extends Response {
 	}
 
 	/**
+	 * Create a redirect response to the previous URL.
+	 *
+	 * @param  string    $fallback
+	 * @return Redirect
+	 */
+	public static function back($fallback = '/')
+	{
+	    return static::to(URL::back($fallback));
+	}
+
+	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
 	 * @param  string    $url
