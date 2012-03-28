@@ -2,8 +2,20 @@
 
 ## Contents
 
+- [Laravel 3.1.1](#3.1.1)
+- [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1.1"></a>
+## Laravel 3.1.1
+
+- Fixes Eloquent model hydration bug involving custom setters.
+
+<a name="upgrade-3.1.1"></a>
+## Upgrading From 3.1
+
+- Replace the **laravel** folder.
 
 <a name="3.1"></a>
 ## Laravel 3.1
