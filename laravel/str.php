@@ -314,7 +314,7 @@ class Str {
 	 *		echo Str::alternate('a', 'b', 'c');
 	 *
 	 *		// Output: aba
-	 * <code>
+	 * </code>
 	 *
 	 * @param  string	$value1
 	 * @param  string	$value2
