@@ -88,6 +88,7 @@
 		</style>
 	</head>
 	<body>
+		<?php Anbu::render(); ?>
 		<div id="main">
 			<h1>Welcome To Laravel</h1>
 

@@ -127,6 +127,20 @@ Blade::sharpen();
 
 /*
 |--------------------------------------------------------------------------
+| Enable The Anbu Profiler
+|--------------------------------------------------------------------------
+|
+| The Anbu profiler is an easy way to view all of your Executed SQL
+| queries, log entries and other useful data from the front-end of your
+| web app, to enable output simply add Anbu::render(); after the <body>
+| tag of your main template, or page.
+|
+*/
+
+Anbu::register();
+
+/*
+|--------------------------------------------------------------------------
 | Set The Default Timezone
 |--------------------------------------------------------------------------
 |
