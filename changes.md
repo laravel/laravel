@@ -62,6 +62,7 @@ If you have created indexes on tables using the Laravel migration system and you
 Add the following to the **aliases** array in your **application/config/application.php** file:
 
 	'Eloquent' => 'Laravel\\Database\\Eloquent\\Model',
+	'Blade' => 'Laravel\\Blade',
 
 ### Update Eloquent many-to-many tables.
 
