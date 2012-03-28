@@ -286,7 +286,7 @@ class Str {
 	 *
 	 *		// Generate a 16 character random alphabetic string
 	 *		echo Str::random(16, 'alpha');
-	 * <code>
+	 * </code>
 	 *
 	 * @param  int	   $length
 	 * @param  string  $type
