@@ -3,6 +3,13 @@
 class Request {
 
 	/**
+	 * The Symfony HttpFoundation Request instance.
+	 *
+	 * @var HttpFoundation\Request
+	 */
+	public static $request;
+
+	/**
 	 * All of the route instances handling the request.
 	 *
 	 * @var array
@@ -71,20 +78,7 @@ class Request {
 	 */
 	public static function ip($default = '0.0.0.0')
 	{
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}
-		elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-		{
-			return $_SERVER['HTTP_CLIENT_IP'];
-		}
-		elseif (isset($_SERVER['REMOTE_ADDR']))
-		{
-			return $_SERVER['REMOTE_ADDR'];
-		}
-
-		return value($default);
+		return value(static::$request->getClientIp(), $default);
 	}
 
 	/**
@@ -98,13 +92,33 @@ class Request {
 	}
 
 	/**
+	 * Get the list of acceptable content types for the request.
+	 *
+	 * @return array
+	 */
+	public static function accept()
+	{
+		return static::$request->getAcceptableContentTypes();
+	}
+
+	/**
+	 * Determine if the request accepts a given content type.
+	 *
+	 * @return bool
+	 */
+	public static function accepts($type)
+	{
+		return in_array($type, static::accept());
+	}
+
+	/**
 	 * Determine if the current request is using HTTPS.
 	 *
 	 * @return bool
 	 */
 	public static function secure()
 	{
-		return isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off';
+		return static::$request->isSecure();
 	}
 
 	/**
@@ -126,9 +140,7 @@ class Request {
 	 */
 	public static function ajax()
 	{
-		if ( ! isset($_SERVER['HTTP_X_REQUESTED_WITH'])) return false;
-
-		return strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+		return static::$request->isXmlHttpRequest();
 	}
 
 	/**
@@ -180,6 +192,18 @@ class Request {
 	public static function route()
 	{
 		return static::$route;
+	}
+
+	/**
+	 * Pass any other methods to the Symfony request.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		return call_user_func_array(array(static::$request, $method), $parameters);
 	}
 
 }
