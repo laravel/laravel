@@ -119,7 +119,7 @@ class Query {
 			// we were to pass them in using the constructor or fill methods.
 			foreach ($result as $key => $value)
 			{
-				$new->$key = $value;
+				$new->set_attribute($key, $value);
 			}
 
 			$new->original = $new->attributes;
