@@ -87,6 +87,51 @@ class Has_Many_And_Belongs_To extends Relationship {
 	}
 
 	/**
+	 * Detach a record from the joining table of the association.
+	 *
+	 * @param  int   $ids
+	 * @return bool
+	 */
+	public function detach($ids)
+	{
+		if ( ! is_array($ids)) $ids = array($ids);
+
+		return $this->pivot()->where_in($this->other_key(), $ids)->delete();
+	}
+
+	/**
+	 * Sync the joining table with the array of given IDs.
+	 *
+	 * @param  array  $ids
+	 * @return bool
+	 */
+	public function sync($ids)
+	{
+		$current = $this->pivot()->lists($this->other_key());
+
+		// First we need to attach any of the associated models that are not currently
+		// in the joining table. We'll spin through the given IDs, checking to see
+		// if they exist in the array of current ones, and if not we insert.
+		foreach ($ids as $id)
+		{
+			if ( ! in_array($id, $current))
+			{
+				$this->attach($id);
+			}
+		}
+
+		// Next we will take the difference of the current and given IDs and detach
+		// all of the entities that exists in the current array but are not in
+		// the array of IDs given to the method, finishing the sync.
+		$detach = array_diff($current, $ids);
+
+		if (count($detach) > 0)
+		{
+			$this->detach(array_diff($current, $ids));
+		}
+	}
+
+	/**
 	 * Insert a new record for the association.
 	 *
 	 * @param  Model|array  $attributes
