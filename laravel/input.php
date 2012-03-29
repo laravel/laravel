@@ -136,39 +136,15 @@ class Input {
 	 * <code>
 	 *		// Get the array of information for the "picture" upload
 	 *		$picture = Input::file('picture');
-	 *
-	 *		// Get a specific element from within the file's data array
-	 *		$size = Input::file('picture.size');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return array
+	 * @param  string        $key
+	 * @param  mixed         $default
+	 * @return UploadedFile
 	 */
 	public static function file($key = null, $default = null)
 	{
-		return array_get($_FILES, $key, $default);
-	}
-
-	/**
-	 * Move an uploaded file to permanent storage.
-	 *
-	 * This method is simply a convenient wrapper around move_uploaded_file.
-	 *
-	 * <code>
-	 *		// Move the "picture" file to a permanent location on disk
-	 *		Input::upload('picture', 'path/to/photos/picture.jpg');
-	 * </code>
-	 *
-	 * @param  string  $key
-	 * @param  string  $path
-	 * @return bool
-	 */
-	public static function upload($key, $path)
-	{
-		if (is_null(static::file($key))) return false;
-
-		return move_uploaded_file(static::file("{$key}.tmp_name"), $path);
+		return array_get(Request::foundation()->files->all(), $key, $default);
 	}
 
 	/**

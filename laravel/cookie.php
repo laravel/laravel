@@ -1,6 +1,4 @@
-<?php namespace Laravel; defined('DS') or die('No direct script access.');
-
-use Closure;
+<?php namespace Laravel; use Closure;
 
 class Cookie {
 
@@ -23,52 +21,6 @@ class Cookie {
 	}
 
 	/**
-	 * Send all of the cookies to the browser.
-	 *
-	 * @return void
-	 */
-	public static function send()
-	{
-		if (headers_sent()) return false;
-
-		// All cookies are stored in the "jar" when set and not sent directly to
-		// the browser. This simply makes testing all of the cookie stuff very
-		// easy since the jar can be inspected by tests.
-		foreach (static::$jar as $cookie)
-		{
-			static::set($cookie);
-		}
-	}
-
-	/**
-	 * Send a cookie from the cookie jar back to the browser.
-	 *
-	 * @param  array  $cookie
-	 * @return void
-	 */
-	protected static function set($cookie)
-	{
-		extract($cookie);
-
-		$time = ($minutes !== 0) ? time() + ($minutes * 60) : 0;
-
-		$value = static::sign($name, $value);
-
-		// A cookie payload can't exceed 4096 bytes, so if the cookie payload
-		// is greater than that, we'll raise an error to warn the developer
-		// since it could cause cookie session problems.
-		if (strlen($value) > 4000)
-		{
-			throw new \Exception("Payload too large for cookie.");
-		}
-		else
-		{
-			setcookie($name, $value, $time, $path, $domain, $secure);
-		}
-	}
-
-
-	/**
 	 * Get the value of a cookie.
 	 *
 	 * <code>
@@ -85,27 +37,9 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		if (isset(static::$jar[$name])) return static::$jar[$name]['value'];
+		if (isset(static::$jar[$name])) return static::$jar[$name];
 
-		$value = array_get($_COOKIE, $name);
-
-		if ( ! is_null($value) and isset($value[40]) and $value[40] == '~')
-		{
-			// The hash signature and the cookie value are separated by a tilde
-			// character for convenience. To separate the hash and the payload
-			// we can simply expode on that character.
-			list($hash, $value) = explode('~', $value, 2);
-
-			// By re-feeding the cookie value into the "hash" method we should
-			// be able to generate a hash that matches the one taken from the
-			// cookie. If they don't, we return null.
-			if (static::hash($name, $value) === $hash)
-			{
-				return $value;
-			}
-		}
-
-		return value($default);
+		return array_get(Request::foundation()->cookies->all(), $name, $default);
 	}
 
 	/**
@@ -121,15 +55,20 @@ class Cookie {
 	 *
 	 * @param  string  $name
 	 * @param  string  $value
-	 * @param  int     $minutes
+	 * @param  int     $expiration
 	 * @param  string  $path
 	 * @param  string  $domain
 	 * @param  bool    $secure
 	 * @return void
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
+	public static function put($name, $value, $expiration = 0, $path = '/', $domain = null, $secure = false)
 	{
-		static::$jar[$name] = compact('name', 'value', 'minutes', 'path', 'domain', 'secure');
+		if ($expiration !== 0)
+		{
+			$expiration = time() + ($expiration * 60);
+		}
+
+		static::$jar[$name] = compact('name', 'value', 'expiration', 'path', 'domain', 'secure');
 	}
 
 	/**
@@ -150,30 +89,6 @@ class Cookie {
 	public static function forever($name, $value, $path = '/', $domain = null, $secure = false)
 	{
 		return static::put($name, $value, 525600, $path, $domain, $secure);
-	}
-
-	/**
-	 * Generate a cookie signature based on the contents.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @return string
-	 */
-	public static function sign($name, $value)
-	{
-		return static::hash($name, $value).'~'.$value;
-	}
-
-	/**
-	 * Generate a cookie hash based on the contents.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function hash($name, $value)
-	{
-		return sha1($name.$value.Config::get('application.key'));
 	}
 
 	/**

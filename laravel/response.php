@@ -175,9 +175,9 @@ class Response {
 			$this->content = (string) $this->content;
 		}
 
-		// Once we have the string content, we can set the content on
-		// the HttpFoundation Response instance in preparation for
-		// sending it back to client browser when all is done.
+		// Once we obtain the string content, we can set the content on
+		// the HttpFoundation's Response instance in preparation for
+		// sending it back to client browser when all is finished.
 		$this->foundation->setContent($this->content);
 
 		return $this->content;
@@ -190,7 +190,9 @@ class Response {
 	 */
 	public function send()
 	{
-		$this->foundation->prepare(Request::$foundation);
+		$this->cookies();
+
+		$this->foundation->prepare(Request::foundation());
 
 		$this->foundation->send();
 	}
@@ -202,9 +204,29 @@ class Response {
 	 */
 	public function send_headers()
 	{
-		$this->foundation->prepare(Request::$foundation);
+		$this->foundation->prepare(Request::foundation());
 
 		$this->foundation->sendHeaders();
+	}
+
+	/**
+	 * Set the cookies on the HttpFoundation Response.
+	 *
+	 * @return void
+	 */
+	protected function cookies()
+	{
+		$ref = new \ReflectionClass('Symfony\Component\HttpFoundation\Cookie');
+
+		// All of the cookies for the response are actually stored on the
+		// Cookie class until we're ready to send the response back to
+		// the browser. This allows a cookies to be set easily.
+		foreach (Cookie::$jar as $name => $cookie)
+		{
+			$config = array_values($cookie);
+
+			$this->headers()->setCookie($ref->newInstanceArgs($config));
+		}
 	}
 
 	/**
@@ -219,6 +241,16 @@ class Response {
 		$this->foundation->headers->set($name, $value);
 
 		return $this;
+	}
+
+	/**
+	 * Get the HttpFoundation Response headers.
+	 *
+	 * @return ResponseParameterBag
+	 */
+	public function headers()
+	{
+		return $this->foundation->headers;
 	}
 
 	/**

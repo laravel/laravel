@@ -210,19 +210,6 @@ if (Config::get('session.driver') !== '')
 
 /*
 |--------------------------------------------------------------------------
-| Let's Eat Cookies
-|--------------------------------------------------------------------------
-|
-| All cookies set during the request are actually stored in a cookie jar
-| until the end of the request so they can be expected by unit tests or
-| the developer. Here, we'll push them out to the browser.
-|
-*/
-
-Cookie::send();	
-
-/*
-|--------------------------------------------------------------------------
 | Send The Response To The Browser
 |--------------------------------------------------------------------------
 |

@@ -78,7 +78,7 @@ class Request {
 	 */
 	public static function ip($default = '0.0.0.0')
 	{
-		return value(static::$foundation->getClientIp(), $default);
+		return value(static::foundation()->getClientIp(), $default);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Request {
 	 */
 	public static function accept()
 	{
-		return static::$foundation->getAcceptableContentTypes();
+		return static::foundation()->getAcceptableContentTypes();
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Request {
 	 */
 	public static function secure()
 	{
-		return static::$foundation->isSecure();
+		return static::foundation()->isSecure();
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Request {
 	 */
 	public static function ajax()
 	{
-		return static::$foundation->isXmlHttpRequest();
+		return static::foundation()->isXmlHttpRequest();
 	}
 
 	/**
@@ -195,6 +195,16 @@ class Request {
 	}
 
 	/**
+	 * Get the Symfony HttpFoundation Request instance.
+	 *
+	 * @return HttpFoundation\Request
+	 */
+	public static function foundation()
+	{
+		return static::$foundation;
+	}
+
+	/**
 	 * Pass any other methods to the Symfony request.
 	 *
 	 * @param  string  $method
@@ -203,7 +213,7 @@ class Request {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		return call_user_func_array(array(static::$foundation, $method), $parameters);
+		return call_user_func_array(array(static::foundation(), $method), $parameters);
 	}
 
 }
