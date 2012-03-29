@@ -21,7 +21,7 @@ class Request {
 	 *
 	 * @var string
 	 */
-	const spoofer = '__spoofer';
+	const spoofer = '_method';
 
 	/**
 	 * Get the URI for the current request.
@@ -40,12 +40,36 @@ class Request {
 	 */
 	public static function method()
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'HEAD')
-		{
-			return 'GET';
-		}
+		$method = static::foundation()->getMethod();
 
-		return (static::spoofed()) ? $_POST[Request::spoofer] : $_SERVER['REQUEST_METHOD'];
+		return ($method == 'HEAD') ? 'GET' : $method;
+	}
+
+	/**
+	 * Get a header from the request.
+	 *
+	 * <code>
+	 *		// Get a header from the request
+	 *		$referer = Request::header('referer');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public static function header($key, $default = null)
+	{
+		return array_get(static::foundation()->headers->all(), $key, $default);
+	}
+
+	/**
+	 * Get all of the HTTP request headers.
+	 *
+	 * @return array
+	 */
+	public static function headers()
+	{
+		return static::foundation()->headers->all();
 	}
 
 	/**
@@ -57,7 +81,7 @@ class Request {
 	 */
 	public static function server($key = null, $default = null)
 	{
-		return array_get($_SERVER, strtoupper($key), $default);
+		return array_get(static::foundation()->server->all(), $key, $default);
 	}
 
 	/**
@@ -67,7 +91,7 @@ class Request {
 	 */
 	public static function spoofed()
 	{
-		return is_array($_POST) and array_key_exists(Request::spoofer, $_POST);
+		return ! is_null(static::foundation()->get(Request::spoofer));
 	}
 
 	/**
@@ -79,16 +103,6 @@ class Request {
 	public static function ip($default = '0.0.0.0')
 	{
 		return value(static::foundation()->getClientIp(), $default);
-	}
-
-	/**
-	 * Get the HTTP protocol for the request.
-	 *
-	 * @return string
-	 */
-	public static function protocol()
-	{
-		return array_get($_SERVER, 'SERVER_PROTOCOL', 'HTTP/1.1');
 	}
 
 	/**
@@ -150,7 +164,7 @@ class Request {
 	 */
 	public static function referrer()
 	{
-		return array_get($_SERVER, 'HTTP_REFERER');
+		return static::foundation()->headers->get('referer');
 	}
 
 	/**
@@ -170,7 +184,7 @@ class Request {
 	 */
 	public static function env()
 	{
-		if (isset($_SERVER['LARAVEL_ENV'])) return $_SERVER['LARAVEL_ENV'];
+		return static::foundation()->server->get('LARAVEL_ENV');
 	}
 
 	/**
