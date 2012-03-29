@@ -16,7 +16,7 @@ class Input {
 	 */
 	public static function all()
 	{
-		$input = array_merge(static::get(), static::query(), $_FILES);
+		$input = array_merge(static::get(), static::query(), static::file());
 
 		unset($input[Request::spoofer]);
 
@@ -55,7 +55,14 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		return array_get(Request::foundation()->request->all(), $key, $default);
+		$value = Request::foundation()->request->get($key);
+
+		if (is_null($value))
+		{
+			return array_get(static::query(), $key, $default);
+		}
+
+		return $value;
 	}
 
 	/**
@@ -161,7 +168,29 @@ class Input {
 	 */
 	public static function file($key = null, $default = null)
 	{
-		return array_get(Request::foundation()->files->all(), $key, $default);
+		return array_get($_FILES, $key, $default);
+	}
+
+	/**
+	 * Move an uploaded file to permanent storage.
+	 *
+	 * This method is simply a convenient wrapper around move_uploaded_file.
+	 *
+	 * <code>
+	 *		// Move the "picture" file to a new permanent location on disk
+	 *		Input::upload('picture', 'path/to/photos', 'picture.jpg');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  string  $directory
+	 * @param  string  $name
+	 * @return bool
+	 */
+	public static function upload($key, $directory, $name = null)
+	{
+		if (is_null(static::file($key))) return false;
+
+		return Request::foundation()->files->get($key)->move($directory, $name);
 	}
 
 	/**
