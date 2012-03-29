@@ -12,6 +12,7 @@
 <a name="3.2"></a>
 ## Laravel 3.2
 
+- Fixed the passing of strings into the Input::except method.
 - Fixed replacement of optional parameters in URL::transpose method.
 - Added "to_array" method to the base Eloquent model.
 - Added "$hidden" static variable to the base Eloquent model.
