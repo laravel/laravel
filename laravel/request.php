@@ -3,18 +3,18 @@
 class Request {
 
 	/**
-	 * The Symfony HttpFoundation Request instance.
-	 *
-	 * @var HttpFoundation\Request
-	 */
-	public static $foundation;
-
-	/**
 	 * All of the route instances handling the request.
 	 *
 	 * @var array
 	 */
 	public static $route;
+
+	/**
+	 * The Symfony HttpFoundation Request instance.
+	 *
+	 * @var HttpFoundation\Request
+	 */
+	public static $foundation;
 
 	/**
 	 * The request data key that is used to indicate a spoofed request method.

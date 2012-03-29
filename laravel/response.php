@@ -138,9 +138,6 @@ class Response {
 	/**
 	 * Prepare a response from the given value.
 	 *
-	 * If the value is not a response, it will be converted into a response
-	 * instance and the content will be cast to a string.
-	 *
 	 * @param  mixed     $response
 	 * @return Response
 	 */
