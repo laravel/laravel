@@ -3,6 +3,7 @@
 use Laravel\View;
 use Laravel\File;
 use Laravel\Config;
+use Laravel\Event;
 
 /**
  * Anbu, the light weight profiler for Laravel.
@@ -92,6 +93,14 @@ class Anbu {
 		// modify them
 		$listener = Config::get('anbu.event_listeners');
 		$listener();
+
+		// echo anbu on laravel.done if enabled
+		if(Config::get('anbu.enable'))
+		{
+			Event::listen('laravel.done', function() {
+				Anbu::render();
+			});
+		}
 	}
 
 }

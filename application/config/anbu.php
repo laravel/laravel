@@ -5,6 +5,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Enable Anbu
+	|--------------------------------------------------------------------------
+	|
+	| This will cause anbu to be rendered on every request, if you would prefer
+	| to enable anbu in your templates manually, simply add Anbu::render();
+	| after the <body> tag.
+	|
+	*/
+
+	'enable' => true,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Show the LOG tab.
 	|--------------------------------------------------------------------------
 	|
