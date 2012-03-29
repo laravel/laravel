@@ -3,13 +3,6 @@
 class Input {
 
 	/**
-	 * The applicable input for the request.
-	 *
-	 * @var array
-	 */
-	public static $input;
-
-	/**
 	 * The key used to store old input in the session.
 	 *
 	 * @var string
@@ -23,7 +16,11 @@ class Input {
 	 */
 	public static function all()
 	{
-		return array_merge(static::get(), static::file());
+		$input = array_merge(static::get(), static::query(), $_FILES);
+
+		unset($input[Request::spoofer]);
+
+		return $input;
 	}
 
 	/**
@@ -58,7 +55,27 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		return array_get(static::$input, $key, $default);
+		return array_get(Request::foundation()->request->all(), $key, $default);
+	}
+
+	/**
+	 * Get an item from the query string.
+	 *
+	 * <code>
+	 *		// Get the "email" item from the query string
+	 *		$email = Input::query('email');
+	 *
+	 *		// Return a default value if the specified item doesn't exist
+	 *		$email = Input::query('name', 'Taylor');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public static function query($key = null, $default = null)
+	{
+		return array_get(Request::foundation()->query->all(), $key, $default);
 	}
 
 	/**

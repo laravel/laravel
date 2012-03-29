@@ -162,18 +162,3 @@ foreach ($bundles as $bundle => $config)
 {
 	Bundle::register($bundle, $config);
 }
-
-/*
-|--------------------------------------------------------------------------
-| Register The Laravel Bundles
-|--------------------------------------------------------------------------
-|
-| Finally we will register all of the bundles that have been defined for
-| the application. None of them will be started, yet but will be setup
-| so that they may be started by the develop at any time.
-|
-*/
-
-use Symfony\Component\HttpFoundation\Request as FoundationRequest;
-
-Request::$foundation = FoundationRequest::createFromGlobals();

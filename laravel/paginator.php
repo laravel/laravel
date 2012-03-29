@@ -112,7 +112,7 @@ class Paginator {
 	 */
 	public static function page($total, $per_page)
 	{
-		$page = Input::get('page', 1);
+		$page = Input::query('page', 1);
 
 		// The page will be validated and adjusted if it is less than one or greater
 		// than the last page. For example, if the current page is not an integer or

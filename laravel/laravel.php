@@ -57,77 +57,18 @@ error_reporting(-1);
 
 /*
 |--------------------------------------------------------------------------
-| Magic Quotes Strip Slashes
+| Create The HttpFoundation Request
 |--------------------------------------------------------------------------
 |
-| Even though "Magic Quotes" are deprecated in PHP 5.3.x, they may still
-| be enabled on the server. To account for this, we will strip slashes
-| on all input arrays if magic quotes are enabled for the server.
+| Laravel uses the HttpFoundation Symfony component to handle the request
+| and response functionality for the framework. This allows us to not
+| worry about that boilerplate code and focus on what matters.
 |
 */
 
-if (magic_quotes())
-{
-	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+use Symfony\Component\HttpFoundation\Request as FoundationRequest;
 
-	foreach ($magics as &$magic)
-	{
-		$magic = array_strip_slashes($magic);
-	}
-}
-
-/*
-|--------------------------------------------------------------------------
-| Sniff The Input For The Request
-|--------------------------------------------------------------------------
-|
-| Next we'll gather the input to the application based on the global input
-| variables for the current request. The input will be gathered based on
-| the current request method and will be set on the Input manager class
-| as a simple static $input property which can be easily accessed.
-|
-*/
-
-$input = array();
-
-switch (Request::method())
-{
-	case 'GET':
-		$input = $_GET;
-		break;
-
-	case 'POST':
-		$input = $_POST;
-		break;
-
-	default:
-		if (Request::spoofed())
-		{
-			$input = $_POST;
-		}
-		else
-		{
-			parse_str(file_get_contents('php://input'), $input);
-
-			if (magic_quotes()) $input = array_strip_slashes($input);
-		}
-}
-
-/*
-|--------------------------------------------------------------------------
-| Remove The Spoofer Input
-|--------------------------------------------------------------------------
-|
-| The spoofed request method is removed from the input so it is not in
-| the Input::all() or Input::get() results. Leaving it in the array
-| could cause unexpected results since the developer won't be
-| expecting it to be present.
-|
-*/
-
-unset($input[Request::spoofer]);
-
-Input::$input = $input;
+Request::$foundation = FoundationRequest::createFromGlobals();
 
 /*
 |--------------------------------------------------------------------------
