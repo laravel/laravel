@@ -183,7 +183,7 @@ class Query {
 			$query->table->where_nested($constraints);
 		}
 
-		// Before matching the models, we will initialize the relationship
+		// Before matching the models, we will initialize the relationships
 		// to either null for single-value relationships or an array for
 		// the multi-value relationships as their baseline value.
 		$query->initialize($results, $relationship);

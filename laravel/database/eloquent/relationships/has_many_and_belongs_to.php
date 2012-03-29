@@ -239,7 +239,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		$this->with = array_merge($this->with, array($foreign, $other));
 
 		// Since pivot tables may have extra information on them that the developer
-		// needs, we allow an extra array of columns to be specified that will be
+		// needs we allow an extra array of columns to be specified that will be
 		// fetched from the pivot table and hydrate into the pivot model.
 		foreach ($this->with as $column)
 		{
@@ -314,9 +314,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
+		// For each child we'll just get the parent that connects to the child and set the
+		// child model on the relationship array using the keys. Once we're done looping
+		// through the children all of the proper relations will be set.
 		foreach ($children as $key => $child)
 		{
-			$parents[$child->pivot->$foreign]->relationships[$relationship][$child->{$child->key()}] = $child;
+			$parent =& $parents[$child->pivot->$foreign];
+
+			$parent->relationships[$relationship][$child->{$child->key()}] = $child;
 		}
 	}
 
@@ -337,7 +342,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 			// If the attribute key starts with "pivot_", we know this is a column on
 			// the pivot table, so we will move it to the Pivot model and purge it
-			// from the model since it actually belongs to the pivot.
+			// from the model since it actually belongs to the pivot model.
 			foreach ($result->attributes as $key => $value)
 			{
 				if (starts_with($key, 'pivot_'))
@@ -367,9 +372,9 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$columns = (is_array($columns)) ? $columns : func_get_args();
 
-		// The "with" array contains a couple of columns by default, so we will
-		// just merge in the developer specified columns here, and we'll make
-		// sure the values of the array are unique.
+		// The "with" array contains a couple of columns by default, so we will just
+		// merge in the developer specified columns here, and we will make sure
+		// the values of the array are unique to avoid duplicates.
 		$this->with = array_unique(array_merge($this->with, $columns));
 
 		$this->set_select($this->foreign_key(), $this->other_key());
