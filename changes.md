@@ -13,6 +13,8 @@
 ## Laravel 3.2
 
 - Fixed replacement of optional parameters in URL::transpose method.
+- Added "to_array" method to the base Eloquent model.
+- Added "$hidden" static variable to the base Eloquent model.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
