@@ -2,10 +2,22 @@
 
 ## Contents
 
+- [Laravel 3.2](#3.2)
+- [Upgrading From 3.1](#upgrade-3.2)
 - [Laravel 3.1.1](#3.1.1)
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2"></a>
+## Laravel 3.2
+
+- Fixed replacement of optional parameters in URL::transpose method.
+
+<a name="upgrade-3.2"></a>
+## Upgrading From 3.1
+
+- Replace the **laravel** folder.
 
 <a name="3.1.1"></a>
 ## Laravel 3.1.1
