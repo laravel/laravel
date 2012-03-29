@@ -605,7 +605,7 @@ class Form {
 	 *
 	 * @param array $data
 	 */
-	public static function populateForm(array $data)
+	public static function populate(array $data)
 	{
 		static::$formData = $data;
 	}
