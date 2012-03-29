@@ -8,7 +8,7 @@ class Form {
 	 * @var array
 	 */
 	public static $labels = array();
-	
+
 	/**
 	 * The registered custom macros.
 	 *
@@ -16,13 +16,20 @@ class Form {
 	 */
 	public static $macros = array();
 
-    /**
-     * Registers a custom macro.
-     *
-     * @param  string   $name
-     * @param  Closure  $input
-     * @return void
-     */
+	/**
+	 * Container for the given form_data
+	 *
+	 * @var array
+	 */
+	private static $form_data = array();
+
+	/**
+	* Registers a custom macro.
+	*
+	* @param  string   $name
+	* @param  Closure  $input
+	* @return void
+	*/
 	public static function macro($name, $macro)
 	{
 		static::$macros[$name] = $macro;
@@ -56,7 +63,7 @@ class Form {
 		$method = strtoupper($method);
 
 		$attributes['method'] =  static::method($method);
-		
+
 		$attributes['action'] = static::action($action, $https);
 
 		// If a character encoding has not been specified in the attributes, we will
@@ -128,7 +135,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @param  bool    $https
 	 * @return string
-	 */	
+	 */
 	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
@@ -143,7 +150,7 @@ class Form {
 	 * @param  string  $method
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
 	{
 		return static::open_for_files($action, $method, $attributes, true);
@@ -181,7 +188,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function label($name, $value, $attributes = array())
 	{
 		static::$labels[] = $name;
@@ -209,9 +216,25 @@ class Form {
 	 * @param  mixed   $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function input($type, $name, $value = null, $attributes = array())
 	{
+		//check if the form_data for this name is set
+		if (isset(static::$form_data[$name]))
+		{
+			if (!in_array($type, array('radio', 'checkbox', 'submit', 'image', 'reset', 'password'))) //check if it isn't of a type that wont allow value rewriting
+			{
+				$value = static::$form_data[$name];
+			}
+			else if (in_array($type, array('radio', 'checkbox'))) // check if we are dealing with a input that needs to be checked when in the form data
+			{
+				if ($value == static::$form_data[$name])
+				{
+					$attributes['checked'] = 'checked';
+				}
+			}
+		}
+
 		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
 
 		$id = static::id($name, $attributes);
@@ -240,7 +263,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function password($name, $attributes = array())
 	{
 		return static::input('password', $name, null, $attributes);
@@ -266,7 +289,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function search($name, $value = null, $attributes = array())
 	{
 		return static::input('search', $name, $value, $attributes);
@@ -279,7 +302,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function email($name, $value = null, $attributes = array())
 	{
 		return static::input('email', $name, $value, $attributes);
@@ -305,7 +328,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function url($name, $value = null, $attributes = array())
 	{
 		return static::input('url', $name, $value, $attributes);
@@ -318,12 +341,12 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function number($name, $value = null, $attributes = array())
 	{
 		return static::input('number', $name, $value, $attributes);
 	}
-	
+
 	/**
 	 * Create a HTML date input element.
 	 *
@@ -331,7 +354,7 @@ class Form {
 	 * @param  string  $value
 	 * @param  array   $attributes
 	 * @return string
-	 */		
+	 */
 	public static function date($name, $value = null, $attributes = array())
 	{
 		return static::input('date', $name, $value, $attributes);
@@ -343,7 +366,7 @@ class Form {
 	 * @param  string  $name
 	 * @param  array   $attributes
 	 * @return string
-	 */			
+	 */
 	public static function file($name, $attributes = array())
 	{
 		return static::input('file', $name, null, $attributes);
@@ -386,14 +409,20 @@ class Form {
 	 * @param  string  $selected
 	 * @param  array   $attributes
 	 * @return string
-	 */	
+	 */
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
 	{
 		$attributes['id'] = static::id($name, $attributes);
-		
+
 		$attributes['name'] = $name;
 
 		$html = array();
+
+		// check if the name is in the form data if so set it as selected
+		if (isset(static::$form_data[$name]))
+		{
+			$selected = static::$form_data[$name];
+		}
 
 		foreach ($options as $value => $display)
 		{
@@ -572,6 +601,16 @@ class Form {
 	}
 
 	/**
+	 * Sets the form data that the form can use to populate the form
+	 *
+	 * @param array $data
+	 */
+	public static function populate(array $data)
+	{
+		static::$form_data = $data;
+	}
+
+	/**
 	 * Dynamically handle calls to custom macros.
 	 *
 	 * @param  string  $method
@@ -580,12 +619,12 @@ class Form {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$macros[$method]))
-	    {
-	        return call_user_func_array(static::$macros[$method], $parameters);
-	    }
-	    
-	    throw new \Exception("Method [$method] does not exist.");
+		if (isset(static::$macros[$method]))
+		{
+			return call_user_func_array(static::$macros[$method], $parameters);
+		}
+
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
