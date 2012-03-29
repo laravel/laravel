@@ -16,13 +16,20 @@ class Form {
 	 */
 	public static $macros = array();
 
-    /**
-     * Registers a custom macro.
-     *
-     * @param  string   $name
-     * @param  Closure  $input
-     * @return void
-     */
+	/**
+	 * Container for the given formdata
+	 *
+	 * @var array
+	 */
+	private static $formData = array();
+
+	/**
+	* Registers a custom macro.
+	*
+	* @param  string   $name
+	* @param  Closure  $input
+	* @return void
+	*/
 	public static function macro($name, $macro)
 	{
 		static::$macros[$name] = $macro;
@@ -212,6 +219,22 @@ class Form {
 	 */		
 	public static function input($type, $name, $value = null, $attributes = array())
 	{
+		//check if the formData for this name is set
+		if (isset(static::$formData[$name]))
+		{
+			if (!in_array($type, array('radio', 'checkbox', 'submit', 'image', 'reset', 'password'))) //check if it isn't of a type that wont allow value rewriting
+			{
+				$value = static::$formData[$name];
+			} 
+			else if (in_array($type, array('radio', 'checkbox'))) // check if we are dealing with a input that needs to be checked when in the form data
+			{
+				if ($value == static::$formData[$name])
+				{
+					$attributes['checked'] = 'checked';
+				}
+			}
+		}
+		
 		$name = (isset($attributes['name'])) ? $attributes['name'] : $name;
 
 		$id = static::id($name, $attributes);
@@ -395,6 +418,12 @@ class Form {
 
 		$html = array();
 
+		// check if the name is in the form data if so set it as selected
+		if (isset(static::$formData[$name]))
+		{
+			$selected = static::$formData[$name];
+		}
+		
 		foreach ($options as $value => $display)
 		{
 			$html[] = static::option($value, $display, $selected);
@@ -572,6 +601,16 @@ class Form {
 	}
 
 	/**
+	 * Sets the form data that the form can use to populate the form
+	 *
+	 * @param array $data
+	 */
+	public static function populate(array $data)
+	{
+		static::$formData = $data;
+	}
+
+	/**
 	 * Dynamically handle calls to custom macros.
 	 *
 	 * @param  string  $method
@@ -580,12 +619,12 @@ class Form {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$macros[$method]))
-	    {
-	        return call_user_func_array(static::$macros[$method], $parameters);
-	    }
-	    
-	    throw new \Exception("Method [$method] does not exist.");
+		if (isset(static::$macros[$method]))
+		{
+			return call_user_func_array(static::$macros[$method], $parameters);
+		}
+
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
