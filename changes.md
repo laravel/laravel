@@ -4,6 +4,8 @@
 
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
+- [Laravel 3.1.2](#3.1.2)
+- [Upgrading From 3.1.1](#upgrade-3.1.2)
 - [Laravel 3.1.1](#3.1.1)
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
@@ -20,6 +22,17 @@
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
+
+- Replace the **laravel** folder.
+- Add new **vendors** folder.
+
+<a name="3.1.2"></a>
+## Laravel 3.1.2
+
+- Fixes Eloquent query method constructor conflict.
+
+<a name="upgrade-3.1.2"></a>
+## Upgrade From 3.1.1
 
 - Replace the **laravel** folder.
 
