@@ -4,6 +4,8 @@
 
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
+- [Laravel 3.1.3](#3.1.3)
+- [Upgrading From 3.1.2](#uprade-3.1.3)
 - [Laravel 3.1.2](#3.1.2)
 - [Upgrading From 3.1.1](#upgrade-3.1.2)
 - [Laravel 3.1.1](#3.1.1)
@@ -11,6 +13,7 @@
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
 
+<<<<<<< HEAD
 <a name="3.2"></a>
 ## Laravel 3.2
 
@@ -25,6 +28,16 @@
 
 - Replace the **laravel** folder.
 - Add new **vendors** folder.
+
+<a name="3.1.3"></a>
+## Laravel 3.1.3
+
+- Fixes **delete** method in Eloquent models.
+
+<a name="upgrade-3.1.3"></a>
+## Upgrade From 3.1.2
+
+- Replace the **laravel** folder.
 
 <a name="3.1.2"></a>
 ## Laravel 3.1.2
