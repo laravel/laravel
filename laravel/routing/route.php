@@ -255,9 +255,9 @@ class Route {
 	 * @param  string|array  $defaults
 	 * @return void
 	 */
-	public static function controller($controllers, $defaults = 'index')
+	public static function controller($controllers, $defaults = 'index', $route = '(:root)/(:controller)/(:wildcards)')
 	{
-		Router::controller($controllers, $defaults);
+		Router::controller($controllers, $defaults, $route);
 	}
 
 	/**
@@ -267,9 +267,9 @@ class Route {
 	 * @param  string|array  $defaults
 	 * @return void
 	 */
-	public static function secure_controller($controllers, $defaults = 'index')
+	public static function secure_controller($controllers, $defaults = 'index', $route = '(:root)/(:controller)/(:wildcards)')
 	{
-		Router::controller($controllers, $defaults, true);
+		Router::controller($controllers, $defaults, $route, true);
 	}
 
 	/**

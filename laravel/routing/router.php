@@ -282,9 +282,9 @@ class Router {
 	 * @param  string|array  $defaults
 	 * @return void
 	 */
-	public static function secure_controller($controllers, $defaults = 'index')
+	public static function secure_controller($controllers, $defaults = 'index', $route = '(:root)/(:controller)/(:wildcards)')
 	{
-		static::controller($controllers, $defaults, true);
+		static::controller($controllers, $defaults, $route, true);
 	}
 
 	/**
@@ -295,7 +295,7 @@ class Router {
 	 * @param  bool          $https
 	 * @return void
 	 */
-	public static function controller($controllers, $defaults = 'index', $https = false)
+	public static function controller($controllers, $defaults = 'index', $route = '(:root)/(:controller)/(:wildcards)', $https = false)
 	{
 		foreach ((array) $controllers as $identifier)
 		{
@@ -325,7 +325,7 @@ class Router {
 			// Once we have the path and root URI we can build a simple route for
 			// the controller that should handle a conventional controller route
 			// setup of controller/method/segment/segment, etc.
-			$pattern = trim("{$root}/{$controller}/{$wildcards}", '/');
+			$pattern = trim(str_replace(array('(:root)', '(:controller)', '(:wildcards)'), array($root, $controller, $wildcards), $route), '/');
 
 			// Finally we can build the "uses" clause and the attributes for the
 			// controller route and register it with the router with a wildcard
