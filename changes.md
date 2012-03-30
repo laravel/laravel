@@ -17,6 +17,7 @@
 - Fixes **delete** method in Eloquent models.
 
 <a name="upgrade-3.1.3"></a>
+## Upgrade From 3.1.2
 
 - Replace the **laravel** folder.
 
