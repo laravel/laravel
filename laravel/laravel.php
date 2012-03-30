@@ -57,6 +57,27 @@ error_reporting(-1);
 
 /*
 |--------------------------------------------------------------------------
+| Magic Quotes Strip Slashes
+|--------------------------------------------------------------------------
+|
+| Even though "Magic Quotes" are deprecated in PHP 5.3.x, they may still
+| be enabled on the server. To account for this, we will strip slashes
+| on all input arrays if magic quotes are enabled for the server.
+|
+*/
+
+if (magic_quotes())
+{
+	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+
+	foreach ($magics as &$magic)
+	{
+		$magic = array_strip_slashes($magic);
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
 | Create The HttpFoundation Request
 |--------------------------------------------------------------------------
 |
@@ -66,9 +87,9 @@ error_reporting(-1);
 |
 */
 
-use Symfony\Component\HttpFoundation\Request as FoundationRequest;
+use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
 
-Request::$foundation = FoundationRequest::createFromGlobals();
+Request::$foundation = RequestFoundation::createFromGlobals();
 
 /*
 |--------------------------------------------------------------------------
