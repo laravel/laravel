@@ -43,7 +43,7 @@ class Query {
 	{
 		$this->model = ($model instanceof Model) ? $model : new $model;
 
-		$this->table = $this->query();
+		$this->table = $this->table();
 	}
 
 	/**
@@ -245,7 +245,7 @@ class Query {
 	 *
 	 * @return Query
 	 */
-	protected function query()
+	protected function table()
 	{
 		return $this->connection()->table($this->model->table());
 	}
