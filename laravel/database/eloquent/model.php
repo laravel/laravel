@@ -386,6 +386,19 @@ abstract class Model {
 	}
 
 	/**
+	 * Delete the model from the database.
+	 *
+	 * @return int
+	 */
+	public function delete()
+	{
+		if ($this->exists)
+		{
+			return $this->query()->where(static::$key, '=', $this->get_key())->delete();
+		}
+	}
+
+	/**
 	 * Set the update and creation timestamps on the model.
 	 *
 	 * @return void
