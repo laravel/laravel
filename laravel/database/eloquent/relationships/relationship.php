@@ -51,7 +51,7 @@ abstract class Relationship extends Query {
 		// Next we'll set the fluent query builder for the relationship and
 		// constrain the query such that it only returns the models that
 		// are appropriate for the relationship.
-		$this->table = $this->query();
+		$this->table = $this->table();
 
 		$this->constrain();
 	}

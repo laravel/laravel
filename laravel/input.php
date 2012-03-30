@@ -120,7 +120,7 @@ class Input {
 	 */
 	public static function except($keys)
 	{
-		return array_diff_key(static::get(), array_flip($keys));
+		return array_diff_key(static::get(), array_flip((array) $keys));
 	}
 
 	/**
