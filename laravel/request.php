@@ -126,6 +126,16 @@ class Request {
 	}
 
 	/**
+	 * Get the languages accepted by the client's browser.
+	 *
+	 * @return array
+	 */
+	public static function languages()
+	{
+		return static::foundation()->getLanguages();
+	}
+
+	/**
 	 * Determine if the current request is using HTTPS.
 	 *
 	 * @return bool
