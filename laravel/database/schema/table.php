@@ -143,6 +143,17 @@ class Table {
 	}
 
 	/**
+	 * Rename the database table.
+	 *
+	 * @param  string  $name
+	 * @return Fluent
+	 */
+	public function rename($name)
+	{
+		return $this->command(__FUNCTION__, compact('name'));
+	}
+
+	/**
 	 * Drop the database table.
 	 *
 	 * @return Fluent
