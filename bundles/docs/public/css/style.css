@@ -101,6 +101,7 @@ body
 {
 	width:180px;
 	float:left;
+	font-size:0.9em;
 }
 
 .content
@@ -128,7 +129,6 @@ a:hover
 	list-style-type:none;
 	margin:0;
 	padding:0;
-	font-size:0.9em;
 }
 
 .menu ul
@@ -138,9 +138,17 @@ a:hover
 	margin:0;
 }
 
+.menu ul li:before
+{
+	content:"\2013";
+	text-decoration:none;
+	color:#777;
+	margin-right:0.2em;
+}
+
 pre, code
 {
-	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;	
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
 
 pre
@@ -150,6 +158,7 @@ pre
 	font-size:0.8em;
 	background-color:#f5f5f5;
 	text-shadow:1px 1px 0 #fff;
+	line-height:1.7em;
 }
 
 code
@@ -162,14 +171,58 @@ code
 }
 
 
+/* Prettify Styles -------------- */
+
+.com {
+  color: #93a1a1;
+}
+.lit {
+  color: #195f91;
+}
+.pun, .opn, .clo {
+  color: #93a1a1;
+}
+.fun {
+  color: #dc322f;
+}
+.str, .atv {
+  color: #D14;
+}
+.kwd, .linenums .tag {
+  color: #1e347b;
+}
+.typ,
+.atn,
+.dec,
+.var {
+  color: teal;
+}
+.pln {
+  color: #48484c;
+}
+
+.prettyprint
+{
+	padding:0;
+	text-shadow:1px 1px 0 #fff;
+}
+
+.prettyprint ol
+{
+	color:#ccc;
+}
+
+
+/* end ------------------------ */
+
 @media print {
-  * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } 
+  * { background: transparent !important; color: black !important; box-shadow:none !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; }
   a, a:visited { text-decoration: underline; }
   a[href]:after { content: " (" attr(href) ")"; }
   abbr[title]:after { content: " (" attr(title) ")"; }
-  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; } 
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
   pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
-  thead { display: table-header-group; } 
+  thead { display: table-header-group; }
   tr, img { page-break-inside: avoid; }
   img { max-width: 100% !important; }
   @page { margin: 0.5cm; }

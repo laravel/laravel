@@ -3,12 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title></title>
+	<title>Laravel: A Framework For Web Artisans</title>
 	<meta name="viewport" content="width=device-width">
 	{{ Asset::bundle('docs')->styles(); }}
 	{{ Asset::bundle('docs')->scripts(); }}
 </head>
-<body>
+<body onload="prettyPrint()">
 	<div class="wrapper">
 		<header>
 			<h1>Laravel</h1>
@@ -25,9 +25,10 @@
 				@include('docs::menu')
 			</aside>
 			<div class="content">
-				@yield('content')				
+				@yield('content')
 			</div>
-		</div>	
+		</div>
 	</div>
+	{{ Asset::container('footer')->bundle('docs')->scripts(); }}
 </body>
 </html>

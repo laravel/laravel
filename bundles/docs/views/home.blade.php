@@ -10,6 +10,12 @@
 
 	<pre>APP_PATH/routes.php</pre>
 
+<pre class="prettyprint lang-php linenums">
+return array(
+     'welcome' => 'Welcome to our website!',
+);
+</pre>
+
 	<p>And the view sitting before you can be found at:</p>
 
 	<pre>APP_PATH/views/home/index.php</pre>
