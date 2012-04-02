@@ -4,9 +4,9 @@ require_once __DIR__.'/libraries/markdown.php';
 
 View::composer('docs::template', function($view)
 {
-	Asset::add('stylesheet', 'css/style.css');
-	Asset::add('modernizr', 'js/modernizr-2.5.3.min.js');
-	Asset::container('footer')->add('prettify', 'js/prettify.js');
+	Asset::add('stylesheet', 'laravel/css/style.css');
+	Asset::add('modernizr', 'laravel/js/modernizr-2.5.3.min.js');
+	Asset::container('footer')->add('prettify', 'laravel/js/prettify.js');
 	$view->with('sidebar', Markdown(file_get_contents(path('storage').'documentation/contents.md')));
 });
 
