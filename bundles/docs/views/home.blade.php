@@ -1,26 +1,28 @@
 @layout('docs::template')
 
 @section('content')
-	<h3>Learn the terrain.</h3>
+	<h1>Learn the terrain.</h1>
 
 	<p>
-		You've landed yourself on our <code>default</code> home page. The route that
-		is generating this page lives at:
+		You've landed yourself on our default home page. The route that
+		is generating this page lives in the main routes file. You can
+		find it here:
 	</p>
 
 	<pre>APP_PATH/routes.php</pre>
 
+<!--
 <pre class="prettyprint lang-php linenums">
 return array(
      'welcome' => 'Welcome to our website!',
 );
 </pre>
-
+-->
 	<p>And the view sitting before you can be found at:</p>
 
 	<pre>APP_PATH/views/home/index.php</pre>
 
-	<h3>Create something beautiful.</h3>
+	<h1>Create something beautiful.</h1>
 
 	<p>
 		Now that you're up and running, it's time to start creating!

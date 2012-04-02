@@ -1,5 +1,5 @@
-<h3>Documentation</h3>
-<ul class="menu">
+<h2>Documentation</h2>
+<ul>
 	<li><a href="#">Menu Item</a></li>
 	<li><a href="#">Menu Item</a></li>
 	<li><a href="#">Menu Item</a>
@@ -24,5 +24,4 @@
 	<li><a href="#">Menu Item</a></li>
 	<li><a href="#">Menu Item</a></li>
 	<li><a href="#">Menu Item</a></li>
-
 </ul>
