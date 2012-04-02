@@ -356,7 +356,7 @@ class View implements ArrayAccess {
 		}
 		else
 		{
-			return static::$cache[$this->path] = include $this->path;
+			return static::$cache[$this->path] = file_get_contents($this->path);
 		}
 	}
 

@@ -22,7 +22,7 @@
 		</header>
 		<div role="main" class="main">
 			<aside class="sidebar">
-				@include('docs::menu')
+				{{ $sidebar }}
 			</aside>
 			<div class="content">
 				@yield('content')
