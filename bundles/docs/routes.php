@@ -17,9 +17,22 @@ Route::get('(:bundle)', function()
 
 Route::get('docs/(:any)/(:any?)', function($section, $page = null)
 {
-	$page = rtrim(implode('/', array($section, $page)), '/').'.md';
+	$root = path('storage').'documentation/';
 
-	$content = Markdown(file_get_contents(path('storage').'documentation/'.$page));
+	$file = rtrim(implode('/', array($section, $page)), '/').'.md';
+
+	if (file_exists($path = $root.$file))
+	{
+		$content = Markdown(file_get_contents($path));
+	}
+	elseif (file_exists($path = $root.$section.'/home.md'))
+	{
+		$content = Markdown(file_get_contents($path));
+	}
+	else
+	{
+		return Response::error('404');
+	}
 
 	return View::make('docs::page')->with('content', $content);	
 });
