@@ -64,7 +64,7 @@ body
 .wrapper
 {
 	width:760px;
-	margin:2em auto;
+	margin:0 auto 5em auto;
 }
 
 .wrapper>header
@@ -74,6 +74,7 @@ body
 	background-repeat:no-repeat;
 	background-position:right;
 	text-shadow:1px 1px 0px #fff;
+	padding-top:2.5em;
 }
 
 .wrapper>header h1
@@ -96,6 +97,11 @@ body
 	font-size:0.8em;
 }
 
+.intro-text
+{
+	width:480px;
+}
+
 .main
 {
 	overflow:hidden;
@@ -109,20 +115,37 @@ body
 	padding-left:1.5em;
 }
 
+.content blockquote p
+{
+	background-color:#f8f8f8;
+	padding:0.5em 1em;
+	border-left:3px solid #E3591E;
+	text-shadow:1px 1px 0 #fff;
+	font-style:italic;
+	margin:3em 0;
+}
+
+.content p
+{
+	line-height:1.6em;
+	margin:1.5em 0;
+}
+
 .content>h1 {
 	font-size: 18pt;
 }
 
 .content>h2 {
-	font-size: 16pt;
+	font-size: 14pt;
+	margin-top:2.2em;
 }
 
 .content>h3 {
-	font-size: 14pt;
+	font-size: 12pt;
 }
 
 .content>h4 {
-	font-size: 12pt;
+	font-size: 10pt;
 }
 
 .content>h1:not(:first-child) {
@@ -161,6 +184,19 @@ a:hover
 	text-decoration:none;
 	color:#777;
 	margin-right:0.2em;
+}
+
+.sidebar>ul ul
+{
+	list-style-type:none;
+	margin:0 0 0 1.5em;
+	padding:0;
+}
+
+.sidebar>ul ul>li:before
+{
+	content:"\2013";
+	margin-right:0.4em;
 }
 
 pre, code

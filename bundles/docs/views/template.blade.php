@@ -14,7 +14,7 @@
 			<h1>Laravel</h1>
 			<h2>A Framework For Web Artisans</h2>
 
-			<p>
+			<p class="intro-text">
 				You have successfully installed the Laravel framework. Laravel is a simple framework
 				that helps web artisans create beautiful, creative applications using elegant, expressive
 				syntax. You'll love using it.
