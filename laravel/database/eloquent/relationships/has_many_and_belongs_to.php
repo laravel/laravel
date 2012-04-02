@@ -25,7 +25,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * @var array
 	 */
-	protected $with = array('id', 'created_at', 'updated_at');
+	protected $with = array();
 
 	/**
 	 * Create a new many to many relationship instance.
@@ -42,6 +42,11 @@ class Has_Many_And_Belongs_To extends Relationship {
 		$this->other = $other;
 
 		$this->joining = $table ?: $this->joining($model, $associated);
+
+		if (Pivot::$timestamps)
+		{
+			$this->with = array('id', 'created_at', 'updated_at');
+		}
 
 		parent::__construct($model, $associated, $foreign);
 	}
