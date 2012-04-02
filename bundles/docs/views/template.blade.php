@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Laravel: A Framework For Web Artisans</title>
 	<meta name="viewport" content="width=device-width">
-	{{ Asset::bundle('docs')->styles(); }}
-	{{ Asset::bundle('docs')->scripts(); }}
+	{{ Asset::styles(); }}
+	{{ Asset::scripts(); }}
 </head>
 <body onload="prettyPrint()">
 	<div class="wrapper">
@@ -29,6 +29,6 @@
 			</div>
 		</div>
 	</div>
-	{{ Asset::container('footer')->bundle('docs')->scripts(); }}
+	{{ Asset::container('footer')->scripts(); }}
 </body>
 </html>

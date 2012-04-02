@@ -100,6 +100,7 @@ body
 .intro-text
 {
 	width:480px;
+	line-height:1.4em;
 }
 
 .main
@@ -150,6 +151,12 @@ body
 
 .content>h1:not(:first-child) {
 	margin-top: 30px;
+}
+
+.content li
+{
+	line-height:1.5em;
+	margin-bottom:1em;
 }
 
 a, a:visited
