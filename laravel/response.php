@@ -1,5 +1,6 @@
 <?php namespace Laravel;
 
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 
 class Response {
@@ -121,10 +122,12 @@ class Response {
 	{
 		if (is_null($name)) $name = basename($path);
 
+		// We'll set some sensible default headers, but merge the array given to
+		// us so that the developer has the chance to override any of these
+		// default headers with header values of their own liking.
 		$headers = array_merge(array(
 			'Content-Description'       => 'File Transfer',
 			'Content-Type'              => File::mime(File::extension($path)),
-			'Content-Disposition'       => 'attachment; filename="'.$name.'"',
 			'Content-Transfer-Encoding' => 'binary',
 			'Expires'                   => 0,
 			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
@@ -132,7 +135,27 @@ class Response {
 			'Content-Length'            => File::size($path),
 		), $headers);
 
-		return new static(File::get($path), 200, $headers);
+		// Once we create the response, we need to set the content disposition
+		// header on the response based on the file's name. We'll pass this
+		// off to the HttpFoundation and let it create the header text.
+		$response = new static(File::get($path), 200, $headers);
+
+		$d = $response->disposition($name);
+
+		return $response->header('Content-Disposition', $d);
+	}
+
+	/**
+	 * Create the proper Content-Disposition header.
+	 *
+	 * @param  string  $file
+	 * @return string
+	 */
+	public function disposition($file)
+	{
+		$type = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
+
+		return $this->foundation->headers->makeDisposition($type, $file);
 	}
 
 	/**
