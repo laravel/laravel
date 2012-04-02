@@ -35,7 +35,7 @@
 
 Route::get('/', function()
 {
-	return View::make('home.index');
+	return Redirect::to('docs');
 });
 
 /*
