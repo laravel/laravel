@@ -320,7 +320,7 @@ class View implements ArrayAccess {
 		// The contents of each view file is cached in an array for the
 		// request since partial views may be rendered inside of for
 		// loops which could incur performance penalties.
-		$__content = $this->load();
+		$__contents = $this->load();
 
 		ob_start() and extract($__data, EXTR_SKIP);
 
