@@ -55,7 +55,7 @@ td { vertical-align: top; }
 
 body
 {
-	font-family:'Ubuntu', sans-serif;
+	font-family:'Droid Sans', sans-serif;
 	font-size:10pt;
 	color:#555;
 	line-height: 25px;
@@ -148,7 +148,7 @@ a:hover
 	font-size:0.9em;
 }
 
-.sidebar ul
+.sidebar>ul
 {
 	list-style-type:none;
 	padding-left:1em;
@@ -156,9 +156,8 @@ a:hover
 	padding: 0;
 }
 
-.sidebar ul li:before
+.sidebar>ul li:before
 {
-	content:"\2013";
 	text-decoration:none;
 	color:#777;
 	margin-right:0.2em;
