@@ -1445,6 +1445,7 @@ class Markdown_Parser {
 	}
 	function _doAutoLinks_url_callback($matches) {
 		$url = $this->encodeAttribute($matches[1]);
+		$url = Laravel\URL::to($url);
 		$link = "<a href=\"$url\">$url</a>";
 		return $this->hashPart($link);
 	}
