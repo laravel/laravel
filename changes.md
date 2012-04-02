@@ -23,6 +23,7 @@
 - Added "to_array" method to the base Eloquent model.
 - Added "$hidden" static variable to the base Eloquent model.
 - Added "sync" method to has_many_and_belongs_to Eloquent relationship.
+- Improved View performance by only loading contents from file once.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1

@@ -38,6 +38,13 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
+	 * The cache content of loaded view files.
+	 *
+	 * @var array
+	 */
+	public static $cache = array();
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -286,12 +293,7 @@ class View implements ArrayAccess {
 	 */
 	public function render()
 	{
-		// To allow bundles or other pieces of the application to modify the
-		// view before it is rendered, we'll fire an event, passing in the
-		// view instance so it can modified.
-		$composer = "laravel.composing: {$this->view}";
-
-		Event::fire($composer, array($this));
+		Event::fire("laravel.composing: {$this->view}", array($this));
 
 		// If there are listeners to the view engine event, we'll pass them
 		// the view so they can render it according to their needs, which
@@ -315,6 +317,11 @@ class View implements ArrayAccess {
 	{
 		$__data = $this->data();
 
+		// The contents of each view file is cached in an array for the
+		// request since partial views may be rendered inside of for
+		// loops which could incur performance penalties.
+		$__contents = $this->load();
+
 		ob_start() and extract($__data, EXTR_SKIP);
 
 		// We'll include the view contents for parsing within a catcher
@@ -322,18 +329,35 @@ class View implements ArrayAccess {
 		// will throw it out to the exception handler.
 		try
 		{
-			include $this->path;
+			eval('?>'.$__contents);
 		}
 
 		// If we caught an exception, we'll silently flush the output
 		// buffer so that no partially rendered views get thrown out
-		// to the client and confuse the user.
+		// to the client and confuse the user with junk.
 		catch (\Exception $e)
 		{
 			ob_get_clean(); throw $e;
 		}
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get the contents of the view file from disk.
+	 *
+	 * @return string
+	 */
+	protected function load()
+	{
+		if (isset(static::$cache[$this->path]))
+		{
+			return static::$cache[$this->path];
+		}
+		else
+		{
+			return static::$cache[$this->path] = include $this->path;
+		}
 	}
 
 	/**
