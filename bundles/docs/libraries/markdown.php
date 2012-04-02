@@ -731,8 +731,9 @@ class Markdown_Parser {
 
 		if (isset($this->urls[$link_id])) {
 			$url = $this->urls[$link_id];
+			// dayle convert
+			$url = URL::to($url);			
 			$url = $this->encodeAttribute($url);
-			
 			$result = "<a href=\"$url\"";
 			if ( isset( $this->titles[$link_id] ) ) {
 				$title = $this->titles[$link_id];
@@ -754,7 +755,8 @@ class Markdown_Parser {
 		$link_text		=  $this->runSpanGamut($matches[2]);
 		$url			=  $matches[3] == '' ? $matches[4] : $matches[3];
 		$title			=& $matches[7];
-
+			// dayle convert
+			$url = URL::to($url);
 		$url = $this->encodeAttribute($url);
 
 		$result = "<a href=\"$url\"";
