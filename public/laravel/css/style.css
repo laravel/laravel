@@ -218,7 +218,12 @@ pre
 	font-size:0.8em;
 	background-color:#f5f5f5;
 	text-shadow:1px 1px 0 #fff;
-	line-height:1.7em;
+	line-height:1.5em;
+}
+
+.content pre li
+{
+	margin:0.2em 0;
 }
 
 code
