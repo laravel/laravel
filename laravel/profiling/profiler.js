@@ -1,10 +1,3 @@
-/*
-Anbu Profiler
-Copyright 2012 Dayle Rees.
-MIT License <http://www.opensource.org/licenses/mit>
-Intended for inclusion with the Laravel PHP Framework.
-*/
-
 var anbu = {
 
 	// BOUND ELEMENTS
@@ -170,5 +163,3 @@ jQuery(document).ready(function () {
 	// launch anbu
 	anbu.start();
 });
-
-

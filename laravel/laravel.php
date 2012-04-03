@@ -145,6 +145,22 @@ Bundle::start(DEFAULT_BUNDLE);
 
 /*
 |--------------------------------------------------------------------------
+| Attach The Laravel Profiler
+|--------------------------------------------------------------------------
+|
+| If the profiler is enabled, we will attach it to the Laravel events
+| for both queries and logs. This allows the profiler to intercept
+| any of the queries or logs performed by the application.
+|
+*/
+
+if (Config::get('application.profiler'))
+{
+	Profiling\Profiler::attach();
+}
+
+/*
+|--------------------------------------------------------------------------
 | Auto-Start Other Bundles
 |--------------------------------------------------------------------------
 |
