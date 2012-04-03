@@ -36,15 +36,7 @@
 				<p>
 					Leaning to use Laravel is amazingly simple thanks to
 					its {{ HTML::link('docs', 'wonderful documentation') }}.
-					Here are the basics:
 				</p>
-
-				<ul class="out-links">
-					<li>{{ HTML::link('docs/routing#the-basics', 'Defining Routes') }}</li>
-					<li>{{ HTML::link('docs/controllers#the-basics', 'Building Controllers') }}</li>
-					<li>{{ HTML::link('docs/views#the-basics', 'Creating Views') }}</li>
-					<li>{{ HTML::link('docs/database/eloquent', 'Eloquent ORM') }}</li>
-				</ul>
 
 				<h2>Create something beautiful.</h2>
 
