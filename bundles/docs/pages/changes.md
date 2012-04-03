@@ -21,6 +21,7 @@
 - [Added `to_array` method to the base Eloquent model](/docs/database/eloquent#to-array).
 - [Added `$hidden` static variable to the base Eloquent model](/docs/database/eloquent#to-array).
 - [Added `sync` method to has\_many\_and\_belongs\_to Eloquent relationship](/docs/database/eloquent#sync-method).
+- [Added `save` method to has\_many Eloquent relationship](/docs/database/eloquent#has-many-save).
 - Fixed the passing of strings into the Input::except method.
 - Fixed replacement of optional parameters in URL::transpose method.
 - Improved View performance by only loading contents from file once.

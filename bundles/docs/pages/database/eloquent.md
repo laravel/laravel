@@ -290,6 +290,20 @@ Let's assume you have a **Post** model that has many comments. Often you may wan
 
 When inserting related models through their parent model, the foreign key will automatically be set. So, in this case, the "post_id" was automatically set to "1" on the newly inserted comment.
 
+<a name="has-many-save"></a>
+When working with `has_many` relationships, you may use the `save` method to insert / update related models:
+
+	$comments = array(
+		array('message' => 'A new comment.'),
+		array('message' => 'A second comment.'),
+	);
+
+	$post = Post::find(1);
+
+	$post->comments()->save($comments);
+
+### Inserting Related Models (Many-To-Many)
+
 This is even more helpful when working with many-to-many relationships. For example, consider a **User** model that has many roles. Likewise, the **Role** model may have many users. So, the intermediate table for this relationship has "user_id" and "role_id" columns. Now, let's insert a new Role for a User:
 
 	$role = new Role(array('title' => 'Admin'));
