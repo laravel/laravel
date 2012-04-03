@@ -6,6 +6,16 @@
 require_once __DIR__.'/libraries/markdown.php';
 
 /**
+ * Get the root path for the documentation Markdown.
+ *
+ * @return string
+ */
+function doc_root()
+{
+	return path('sys').'documentation/';
+}
+
+/**
  * Get the parsed Markdown contents of a given page.
  *
  * @param  string  $page
@@ -13,7 +23,7 @@ require_once __DIR__.'/libraries/markdown.php';
  */
 function document($page)
 {
-	return Markdown(file_get_contents(__DIR__.'/pages/'.$page.'.md'));
+	return Markdown(file_get_contents(doc_root().$page.'.md'));
 }
 
 /**
@@ -24,7 +34,7 @@ function document($page)
  */
 function document_exists($page)
 {
-	return file_exists(__DIR__.'/pages/'.$page.'.md');
+	return file_exists(doc_root().$page.'.md');
 }
 
 /**
