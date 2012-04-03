@@ -39,7 +39,7 @@
 					Here are the basics:
 				</p>
 
-				<ul>
+				<ul class="out-links">
 					<li>{{ HTML::link('docs/routing#the-basics', 'Defining Routes') }}</li>
 					<li>{{ HTML::link('docs/controllers#the-basics', 'Building Controllers') }}</li>
 					<li>{{ HTML::link('docs/views#the-basics', 'Creating Views') }}</li>
