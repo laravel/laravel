@@ -29,5 +29,6 @@
 	</div>
 	{{ HTML::script('http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js') }}
 	{{ HTML::script('laravel/js/prettify.js') }}
+	{{ HTML::script('laravel/js/scroll.js') }}
 </body>
 </html>

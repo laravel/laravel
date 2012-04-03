@@ -269,7 +269,7 @@ code
 
 #toTop
 {
-	display:block;
+	display:none;
 	padding:0.2em 1em 0.05em 1em;
 	position:fixed;
 	top:1.2em;
