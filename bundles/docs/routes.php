@@ -13,7 +13,7 @@ require_once __DIR__.'/libraries/markdown.php';
  */
 function document($page)
 {
-	return Markdown(file_get_contents(path('storage').'documentation/'.$page.'.md'));
+	return Markdown(file_get_contents(__DIR__.'/pages/'.$page.'.md'));
 }
 
 /**
@@ -24,7 +24,7 @@ function document($page)
  */
 function document_exists($page)
 {
-	return file_exists(path('storage').'documentation/'.$page.'.md');
+	return file_exists(__DIR__.'/pages/'.$page.'.md');
 }
 
 /**
