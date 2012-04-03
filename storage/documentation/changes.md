@@ -18,11 +18,11 @@
 <a name="3.2"></a>
 ## Laravel 3.2
 
-- Fixed the passing of strings into the Input::except method.
-- Fixed replacement of optional parameters in URL::transpose method.
 - [Added `to_array` method to the base Eloquent model](/docs/database/eloquent#to-array).
 - [Added `$hidden` static variable to the base Eloquent model](/docs/database/eloquent#to-array).
 - [Added `sync` method to has\_many\_and\_belongs\_to Eloquent relationship](/docs/database/eloquent#sync-method).
+- Fixed the passing of strings into the Input::except method.
+- Fixed replacement of optional parameters in URL::transpose method.
 - Improved View performance by only loading contents from file once.
 - Fix handling of URLs beginning with has in URL::to.
 
