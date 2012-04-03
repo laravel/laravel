@@ -258,6 +258,27 @@ code
 	color:#888;
 }
 
+#toTop
+{
+	display:block;
+	padding:0.2em 1em 0.05em 1em;
+	position:fixed;
+	top:1.2em;
+	right:1.2em;
+	background-color:#777;
+	text-align:center;
+	color:#fff;
+	text-decoration:none;
+	text-transform:uppercase;
+	font-size:0.9em;
+	border-radius:3px;
+}
+
+#toTop:hover
+{
+	background-color:#E3591E;
+}
+
 
 /* Prettify Styles -------------- */
 
