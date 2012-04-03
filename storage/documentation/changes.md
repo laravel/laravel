@@ -1,4 +1,4 @@
-## Laravel Change Log
+# Laravel Change Log
 
 ## Contents
 
@@ -20,9 +20,9 @@
 
 - Fixed the passing of strings into the Input::except method.
 - Fixed replacement of optional parameters in URL::transpose method.
-- Added "to_array" method to the base Eloquent model.
-- Added "$hidden" static variable to the base Eloquent model.
-- Added "sync" method to has_many_and_belongs_to Eloquent relationship.
+- [Added `to_array` method to the base Eloquent model](/docs/database/eloquent#to-array).
+- [Added `$hidden` static variable to the base Eloquent model](/docs/database/eloquent#to-array).
+- [Added `sync` method to has\_many\_and\_belongs\_to Eloquent relationship](/docs/database/eloquent#sync-method).
 - Improved View performance by only loading contents from file once.
 - Fix handling of URLs beginning with has in URL::to.
 

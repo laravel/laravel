@@ -304,6 +304,7 @@ However, you may often only want to insert a new record into the intermediate ta
 
 	$user->roles()->attach($role_id);
 
+<a name="sync-method"></a>
 Alternatively, you can use the `sync` method, which accepts an array of IDs to "sync" with the intermediate table. After this operation is complete, only the IDs in the array will be on the intermediate table.
 
 	$user->roles()->sync(array(1, 2, 3));
