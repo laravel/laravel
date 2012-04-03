@@ -31,10 +31,12 @@ class Has_Many extends Has_One_Or_Many {
 		{
 			$attributes[$this->foreign_key()] = $this->base->get_key();
 
+			$class = get_class($this->model);
+
 			// If the "attributes" are actually an array of the related model we'll
 			// just use the existing instance instead of creating a fresh model
 			// instance for the attributes. This allows for validation.
-			if ($attributes instanceof get_class($this->model))
+			if ($attributes instanceof $class)
 			{
 				$model = $attributes;
 			}
