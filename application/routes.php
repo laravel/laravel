@@ -35,12 +35,6 @@
 
 Route::get('/', function()
 {
-	Config::set('database.connections.mysql.password', 'password');
-	Config::set('database.connections.mysql.database', 'bundler');
-	DB::table('users')->get();
-	DB::table('users')->where_id(1)->first();
-	DB::table('users')->where_in('id', array(1, 2, 3))->get();
-	Log::error('Something went wrong!');
 	return View::make('home.index');
 });
 
