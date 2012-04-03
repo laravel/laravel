@@ -15,21 +15,30 @@ class Has_Many extends Has_One_Or_Many {
 	/**
 	 * Sync the association table with an array of models.
 	 *
-	 * @param  array  $models
+	 * @param  mixed  $models
 	 * @return bool
 	 */
-	public function sync(array $models)
+	public function save($models)
 	{
+		if ( ! is_array($models)) $models = array($models);
+
 		$current = $this->table->lists($this->model->key());
 
-		// When syncing the has many relationship, we'll just spin the attributes and
-		// create a fresh model instances for each row. If the "id" is set on the
-		// array of attributes, we'll set the exists flag to true for update.
 		foreach ($models as $attributes)
 		{
 			$attributes[$this->foreign_key()] = $this->base->get_key();
 
-			$model = $this->fresh_model($attributes);
+			// If the "attributes" are actually an array of the related model we'll
+			// just use the existing instance instead of creating a fresh model
+			// instance for the attributes. This allows for validation.
+			if ($attributes instanceof get_class($this->model))
+			{
+				$model = $attributes;
+			}
+			else
+			{
+				$model = $this->fresh_model($attributes);
+			}
 
 			$id = $model->get_key();
 
