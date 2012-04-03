@@ -16,7 +16,7 @@
 									{{ $log[0] }}
 								</td>
 								<td>
-									{{ print_r($log[1]) }}
+									{{ $log[1] }}
 								</td>
 						@endforeach
 						</tr>
@@ -39,7 +39,7 @@
 									{{ $query[1] }}ms
 								</td>
 								<td>
-									<pre>{{ print_r($query[0]) }}</pre>
+									<pre>{{ $query[0] }}</pre>
 								</td>
 							</tr>
 						@endforeach
