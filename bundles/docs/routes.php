@@ -6,6 +6,8 @@ View::composer('docs::template', function($view)
 {
 	Asset::add('stylesheet', 'laravel/css/style.css');
 	Asset::add('modernizr', 'laravel/js/modernizr-2.5.3.min.js');
+	Asset::container('footer')->add('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
+	Asset::container('footer')->add('scroller', 'laravel/js/scroll.js');
 	Asset::container('footer')->add('prettify', 'laravel/js/prettify.js');
 	$view->with('sidebar', Markdown(file_get_contents(path('storage').'documentation/contents.md')));
 });
