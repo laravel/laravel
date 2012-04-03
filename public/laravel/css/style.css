@@ -235,6 +235,29 @@ code
 	text-shadow:1px 1px 0 #fff;
 }
 
+.home
+{
+	font-size:1.1em;
+}
+
+.out-links
+{
+	margin:0;
+	padding:0;
+}
+
+.out-links li
+{
+	display:inline-block;
+}
+
+.out-links li:not(:first-child):before
+{
+	content:"/";
+	padding:0 1em;
+	color:#888;
+}
+
 
 /* Prettify Styles -------------- */
 
