@@ -20,6 +20,9 @@ class Has_Many extends Has_One_Or_Many {
 	 */
 	public function save($models)
 	{
+		// If the given "models" are not an array, we'll force them into an array so
+		// we can conveniently loop through them and insert all of them into the
+		// related database table assigned to the associated model instance.
 		if ( ! is_array($models)) $models = array($models);
 
 		$current = $this->table->lists($this->model->key());
