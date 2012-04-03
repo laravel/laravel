@@ -13,15 +13,12 @@
 			<h1>Laravel</h1>
 			<h2>A Framework For Web Artisans</h2>
 
-			<p class="intro-text">
-				You have successfully installed the Laravel framework. Laravel is a simple framework
-				that helps web artisans create beautiful, creative applications using elegant, expressive
-				syntax. You'll love using it.
+			<p class="intro-text" style="margin-top: 45px;">
 			</p>
 		</header>
 		<div role="main" class="main">
 			<div class="home">
-				<h3>Learn the terrain.</h3>
+				<h2>Learn the terrain.</h3>
 
 				<p>
 					You've landed yourself on our default home page. The route that
@@ -34,13 +31,22 @@
 
 				<pre>{{ path('app') }}views/home/index.php</pre>
 
-				<h3>Read the docs.</h3>
+				<h2>Grow in knowledge.</h2>
 
 				<p>
-					The docs are now included with the source package, you can {{ HTML::link('docs', 'read them offline here') }}.
+					Leaning to use Laravel is amazingly simple thanks to
+					its {{ HTML::link('docs', 'wonderful documentation') }}.
+					Here are the basics:
 				</p>
 
-				<h3>Create something beautiful.</h3>
+				<ul>
+					<li>{{ HTML::link('docs/routing#the-basics', 'Defining Routes') }}</li>
+					<li>{{ HTML::link('docs/controllers#the-basics', 'Building Controllers') }}</li>
+					<li>{{ HTML::link('docs/views#the-basics', 'Creating Views') }}</li>
+					<li>{{ HTML::link('docs/database/eloquent', 'Eloquent ORM') }}</li>
+				</ul>
+
+				<h2>Create something beautiful.</h2>
 
 				<p>
 					Now that you're up and running, it's time to start creating!

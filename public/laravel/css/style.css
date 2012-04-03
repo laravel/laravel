@@ -141,6 +141,14 @@ body
 	margin-top:2.2em;
 }
 
+div.home>h2:not(:first-child) {
+	margin-top:2.2em;
+}
+
+div.home>h2 {
+	font-size: 14pt;
+}
+
 .content>h3 {
 	font-size: 12pt;
 }
@@ -154,6 +162,12 @@ body
 }
 
 .content li
+{
+	line-height:1.5em;
+	margin-bottom:1em;
+}
+
+div.home li
 {
 	line-height:1.5em;
 	margin-bottom:1em;
@@ -233,11 +247,6 @@ code
 	display:inline-block;
 	padding:0.2em 0.4em;
 	text-shadow:1px 1px 0 #fff;
-}
-
-.home
-{
-	font-size:1.1em;
 }
 
 .out-links
