@@ -35,8 +35,6 @@
 
 return array(
 
-	// route the official docs
-	'docs' => array(
-		'handles' => 'docs'
-	),
+	'docs' => array('handles' => 'docs'),
+
 );
