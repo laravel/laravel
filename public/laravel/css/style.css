@@ -161,6 +161,33 @@ div.home>h2 {
 	margin-top: 30px;
 }
 
+.content table
+{
+	border-collapse:collapse
+	border:1px solid #eee;
+	width:100%;
+	line-height:1.5em;
+}
+
+.content table code
+{
+	background-color:transparent;
+	font-size:0.9em;
+}
+
+.content table td, .content table th
+{
+	border:1px solid #eee;
+	padding:0.5em 0.7em;
+	vertical-align:middle;
+	text-align:left;
+}
+
+.content table th
+{
+	background-color:#f5f5f5;
+}
+
 .content li
 {
 	line-height:1.5em;
