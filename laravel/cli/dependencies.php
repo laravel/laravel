@@ -98,3 +98,12 @@ IoC::singleton('bundle.provider: github', function()
 {
 	return new Tasks\Bundle\Providers\Github;
 });
+
+/**
+ * Provide a method of showing a global help dialog
+ * and one for each task using a help() method.
+ */
+IoC::singleton('task: help', function()
+{
+	return new Tasks\Help;
+});
