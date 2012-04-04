@@ -159,7 +159,7 @@ class URL {
 		}
 		// If no route was found that handled the given action, we'll just
 		// generate the URL using the typical controller routing setup
-		// for URIs and turn SSL to false.
+		// for URIs and turn SSL to false by default.
 		else
 		{
 			return static::convention($action, $parameters);
