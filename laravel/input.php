@@ -55,7 +55,7 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		$value = Request::foundation()->request->get($key);
+		$value = array_get(Request::foundation()->request->all(), $key);
 
 		if (is_null($value))
 		{
