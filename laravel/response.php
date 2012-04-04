@@ -166,7 +166,7 @@ class Response {
 	 */
 	public static function prepare($response)
 	{
-		// We'll need to force the response to be a string before closing
+		// We will need to force the response to be a string before closing
 		// the session since the developer may be utilizing the session
 		// within the view, and we can't age it until rendering.
 		if ( ! $response instanceof Response)
