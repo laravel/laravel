@@ -62,11 +62,12 @@ class Error {
 		if (in_array($code, Config::get('error.ignore')))
 		{
 			return static::log($exception);
-
-			return true;
 		}
 
-		static::exception($exception);
+		// Throw the ErrorException so that the developer may catch it
+		// themselves.  If it is not caught then the exception handler will
+		// take over.
+		throw $exception;
 	}
 
 	/**
