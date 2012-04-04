@@ -21,7 +21,12 @@ background-repeat:no-repeat;
 background-position:5px -8px;
 }
 
-.anbu-tabs li:first-child
+.anbu.hidden .anbu-tabs
+{
+	background-image:none;
+}
+
+#anbu-open-tabs li:first-child
 {
 	margin-left:6em;
 }
