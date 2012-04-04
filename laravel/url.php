@@ -63,7 +63,7 @@ class URL {
 
 		// If the application's URL configuration is set, we will just use that
 		// instead of trying to guess the URL from the $_SERVER array's host
-		// and script variables as this is more reliable.
+		// and script variables as this is a more reliable method.
 		if (($url = Config::get('application.url')) !== '')
 		{
 			$base = $url;
@@ -111,6 +111,10 @@ class URL {
 		if ($https and Config::get('application.ssl'))
 		{
 			$root = preg_replace('~http://~', 'https://', $root, 1);
+		}
+		else
+		{
+			$root = preg_replace('~https://~', 'http://', $root, 1);
 		}
 
 		return rtrim($root, '/').'/'.ltrim($url, '/');
