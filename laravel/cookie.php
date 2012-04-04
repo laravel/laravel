@@ -63,6 +63,14 @@ class Cookie {
 		}
 		else
 		{
+			// We don't want to send secure cookies over HTTP unless the developer has
+			// turned off the "SSL" application configuration option, which is used
+			// while developing the application but should be true in production.
+			if ($secure and ! Request::secure() and Config::get('application.ssl'))
+			{
+				return;
+			}
+
 			setcookie($name, $value, $time, $path, $domain, $secure);
 		}
 	}

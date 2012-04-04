@@ -4,6 +4,8 @@
 
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
+- [Laravel 3.1.5](#3.1.5)
+- [Upgrading From 3.1.4](#upgrade-3.1.5)
 - [Laravel 3.1.4](#3.1.4)
 - [Upgrading From 3.1.3](#upgrade-3.1.4)
 - [Laravel 3.1.3](#3.1.3)
@@ -32,6 +34,16 @@
 
 - Replace the **laravel** folder.
 - Add new **vendors** folder.
+
+<a name="3.1.5"></a>
+## Laravel 3.1.5
+
+- Fixes bug that could allow secure cookies to be sent over HTTP.
+
+<a name="upgrade-3.1.5"></a>
+## Upgrading From 3.1.4
+
+- Replace the **laravel** folder.
 
 <a name="3.1.4"></a>
 ## Laravel 3.1.4
