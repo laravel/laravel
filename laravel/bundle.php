@@ -64,7 +64,7 @@ class Bundle {
 
 		static::$bundles[$bundle] = array_merge($defaults, $config);
 
-		// It is possible for the develoepr to specify auto-loader mappings
+		// It is possible for the developer to specify auto-loader mappings
 		// directly on the bundle registration. This provides a convenient
 		// way to register mappings withuot a bootstrap.
 		if (isset($config['autoloads']))
@@ -127,7 +127,7 @@ class Bundle {
 
 		if ( ! static::routed($bundle) and file_exists($path))
 		{
-			static::$routed[] = $bundle;
+			static::$routed[] = strtolower($bundle);
 
 			require $path;
 		}
@@ -204,7 +204,7 @@ class Bundle {
 	 */
 	public static function exists($bundle)
 	{
-		return $bundle == DEFAULT_BUNDLE or in_array(strtolower($bundle), static::names());
+		return $bundle == DEFAULT_BUNDLE or in_array(strtolower($bundle), array_map(function($v){ return strtolower($v); },static::names()));
 	}
 
 	/**
