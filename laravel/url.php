@@ -133,6 +133,10 @@ class URL {
 		if ($https and Config::get('application.ssl'))
 		{
 			$root = preg_replace('~http://~', 'https://', $root, 1);
+		} 
+		else if (strpos($root, 'https://') !== false)
+		{
+			$root = preg_replace('~https://~', 'http://', $root, 1);
 		}
 
 		return rtrim($root, '/').'/'.ltrim($url, '/');
