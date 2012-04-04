@@ -180,6 +180,7 @@ background-position:5px -8px;
 
 span.anbu-count
 {
+	text-transform: none !important;
 	margin-left:0.5em !important;
 	background-color:#555 !important;
 	display:inline-block !important;
