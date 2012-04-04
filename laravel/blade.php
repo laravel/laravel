@@ -8,6 +8,8 @@ class Blade {
 	 * @var array
 	 */
 	protected static $compilers = array(
+		'comments_singleline',
+		'comments_multiline',
 		'layouts',
 		'echos',
 		'forelse',
@@ -347,6 +349,36 @@ class Blade {
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
 	}
+
+	/**
+	 * Replaces Blade style multi line comments with PHP variants.
+	 * 
+	 * <code>
+	 * {{- this is a blade multi line comment -}}
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function compile_comments_multiline($value)
+	{
+		return preg_replace('/\{\{-(.+?)-\}\}/s', '<?php /* $1 */ ?>', $value);
+	}
+
+	/**
+	 * Replaces Blade style single line comments with PHP variants.
+	 * 
+	 * <code>
+	 * @- this is a blade single line comment
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function compile_comments_singleline($value)
+	{
+		return preg_replace('/\@-(.+?)\n/', '<?php // $1 ?>', $value);
+	}	
 
 	/**
 	 * Get the regular expression for a generic Blade function.
