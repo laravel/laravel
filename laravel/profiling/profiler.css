@@ -20,6 +20,7 @@
 .anbu-tabs li
 {
 	display:inline;
+	line-height:1em !important;
 }
 
 .anbu-tabs a, .anbu-tabs a:visited
