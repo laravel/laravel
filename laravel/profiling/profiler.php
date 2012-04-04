@@ -18,10 +18,14 @@ class Profiler {
 	/**
 	 * Get the rendered contents of the Profiler.
 	 *
+	 * @param  Response  $response
 	 * @return string
 	 */
-	public static function render()
+	public static function render($response)
 	{
+		// We only want to send the profiler toolbar if the request is not an AJAX
+		// request, as sending it on AJAX requests could mess up JSON driven API
+		// type applications, so we will not send anything in those scenarios.
 		if ( ! Request::ajax())
 		{
 			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
@@ -57,6 +61,19 @@ class Profiler {
 	}
 
 	/**
+	 * Determine if the given response includes jQuery.
+	 *
+	 * @param  Response  $response
+	 * @return bool
+	 */
+	protected static function has_jquery($response)
+	{
+		$pattern = '/\<head>(.*)\<script(.+)jquery(.*)\>\<\/script\>(.*)\<\/head\>/';
+
+		return preg_match($pattern, $response->content);
+	}
+
+	/**
 	 * Attach the Profiler's event listeners.
 	 *
 	 * @return void
@@ -81,7 +98,7 @@ class Profiler {
 		// browser. This will display the profiler's nice toolbar.
 		Event::listen('laravel.done', function($response)
 		{
-			echo Profiler::render();
+			echo Profiler::render($response);
 		});
 	}
 
