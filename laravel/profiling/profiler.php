@@ -4,6 +4,7 @@ use Laravel\View;
 use Laravel\File;
 use Laravel\Event;
 use Laravel\Config;
+use Laravel\Request;
 
 class Profiler {
 
@@ -21,7 +22,10 @@ class Profiler {
 	 */
 	public static function render()
 	{
-		return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
+		if ( ! Request::ajax())
+		{
+			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
+		}
 	}
 
 	/**
