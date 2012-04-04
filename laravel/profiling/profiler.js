@@ -116,6 +116,7 @@ var anbu = {
 				anbu.el.open_tabs.fadeIn(200);
 			})
 			anbu.el.main.animate({width: '100%'}, 700);
+			anbu.el.main.removeClass('hidden');
 	},
 
 	// HIDE()
@@ -124,9 +125,11 @@ var anbu = {
 
 	hide : function ()
 	{
+		
 		anbu.close_window();
 		anbu.el.window.slideUp(400, function () {
 			anbu.close_window();
+			anbu.el.main.addClass('hidden');
 			anbu.el.open_tabs.fadeOut(200, function () {
 				anbu.el.closed_tabs.fadeIn(200);
 			})
