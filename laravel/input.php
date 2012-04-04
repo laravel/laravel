@@ -16,7 +16,7 @@ class Input {
 	 */
 	public static function all()
 	{
-		$input = array_merge(static::get(), static::query(), static::file());
+		$input = array_merge_recursive(static::get(), static::query(), static::file());
 
 		unset($input[Request::spoofer]);
 
