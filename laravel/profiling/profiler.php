@@ -79,7 +79,7 @@ class Profiler {
 		// We'll attach the profiler to the "done" event so that we can easily
 		// attach the profiler output to the end of the output sent to the
 		// browser. This will display the profiler's nice toolbar.
-		Event::listen('laravel.done', function()
+		Event::listen('laravel.done', function($response)
 		{
 			echo Profiler::render();
 		});
