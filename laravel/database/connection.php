@@ -1,4 +1,4 @@
-<?php namespace Laravel\Database; use PDO, PDOStatement, Laravel\Config, Laravel\Event;
+<?php namespace Laravel\Database; use PDO, PDOStatement, Laravel\Config, Laravel\Event, Laravel\Database as DB;
 
 class Connection {
 
@@ -71,17 +71,14 @@ class Connection {
 	{
 		if (isset($this->grammar)) return $this->grammar;
 
-		switch (isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver())
+		$grammar = isset($this->config['grammar']) ? $this->config['grammar'] : $this->driver();
+		
+		if (isset(DB::$drivers[$grammar]['query']))
 		{
-			case 'mysql':
-				return $this->grammar = new Query\Grammars\MySQL($this);
-
-			case 'sqlsrv':
-				return $this->grammar = new Query\Grammars\SQLServer($this);
-
-			default:
-				return $this->grammar = new Query\Grammars\Grammar($this);
+			return $this->grammar = new DB::$drivers[$grammar]['query']($this);
 		}
+		
+		return $this->grammar = new Query\Grammars\Grammar($this);
 	}
 
 	/**
@@ -287,7 +284,7 @@ class Connection {
 	 */
 	public function driver()
 	{
-		return $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+		return $this->config['driver'];
 	}
 
 	/**
