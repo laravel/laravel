@@ -104,7 +104,7 @@ class Request {
 	 */
 	public static function secure()
 	{
-		return isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off';
+		return isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off' and Config::$items['application']['ssl'];
 	}
 
 	/**
