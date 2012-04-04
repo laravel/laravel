@@ -141,6 +141,14 @@ body
 	margin-top:2.2em;
 }
 
+div.home>h2:not(:first-child) {
+	margin-top:2.2em;
+}
+
+div.home>h2 {
+	font-size: 14pt;
+}
+
 .content>h3 {
 	font-size: 12pt;
 }
@@ -151,6 +159,33 @@ body
 
 .content>h1:not(:first-child) {
 	margin-top: 30px;
+}
+
+.content table
+{
+	border-collapse:collapse
+	border:1px solid #eee;
+	width:100%;
+	line-height:1.5em;
+}
+
+.content table code
+{
+	background-color:transparent;
+	font-size:0.9em;
+}
+
+.content table td, .content table th
+{
+	border:1px solid #eee;
+	padding:0.5em 0.7em;
+	vertical-align:middle;
+	text-align:left;
+}
+
+.content table th
+{
+	background-color:#f5f5f5;
 }
 
 .content li
@@ -218,7 +253,12 @@ pre
 	font-size:0.8em;
 	background-color:#f5f5f5;
 	text-shadow:1px 1px 0 #fff;
-	line-height:1.7em;
+	line-height:1.5em;
+}
+
+.content pre li
+{
+	margin:0.2em 0;
 }
 
 code
@@ -228,6 +268,45 @@ code
 	display:inline-block;
 	padding:0.2em 0.4em;
 	text-shadow:1px 1px 0 #fff;
+}
+
+.out-links
+{
+	margin:0;
+	padding:0;
+}
+
+.out-links li
+{
+	display:inline-block;
+}
+
+.out-links li:not(:first-child):before
+{
+	content:"/";
+	padding:0 1em;
+	color:#888;
+}
+
+#toTop
+{
+	display:none;
+	padding:0.2em 1em 0.05em 1em;
+	position:fixed;
+	top:1.2em;
+	right:1.2em;
+	background-color:#777;
+	text-align:center;
+	color:#fff;
+	text-decoration:none;
+	text-transform:uppercase;
+	font-size:0.9em;
+	border-radius:3px;
+}
+
+#toTop:hover
+{
+	background-color:#E3591E;
 }
 
 

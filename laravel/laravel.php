@@ -195,4 +195,4 @@ $response->send();
 |
 */
 
-Event::fire('laravel.done');
+Event::fire('laravel.done', array($response));

@@ -14,6 +14,7 @@
 - [Constraining Eager Loads](#constraining-eager-loads)
 - [Setter & Getter Methods](#getter-and-setter-methods)
 - [Mass-Assignment](#mass-assignment)
+- [Converting Models To Arrays](#to-array)
 
 <a name="the-basics"></a>
 ## The Basics
@@ -289,6 +290,20 @@ Let's assume you have a **Post** model that has many comments. Often you may wan
 
 When inserting related models through their parent model, the foreign key will automatically be set. So, in this case, the "post_id" was automatically set to "1" on the newly inserted comment.
 
+<a name="has-many-save"></a>
+When working with `has_many` relationships, you may use the `save` method to insert / update related models:
+
+	$comments = array(
+		array('message' => 'A new comment.'),
+		array('message' => 'A second comment.'),
+	);
+
+	$post = Post::find(1);
+
+	$post->comments()->save($comments);
+
+### Inserting Related Models (Many-To-Many)
+
 This is even more helpful when working with many-to-many relationships. For example, consider a **User** model that has many roles. Likewise, the **Role** model may have many users. So, the intermediate table for this relationship has "user_id" and "role_id" columns. Now, let's insert a new Role for a User:
 
 	$role = new Role(array('title' => 'Admin'));
@@ -302,6 +317,11 @@ Now, when the Role is inserted, not only is the Role inserted into the "roles" t
 However, you may often only want to insert a new record into the intermediate table. For example, perhaps the role you wish to attach to the user already exists. Just use the attach method:
 
 	$user->roles()->attach($role_id);
+
+<a name="sync-method"></a>
+Alternatively, you can use the `sync` method, which accepts an array of IDs to "sync" with the intermediate table. After this operation is complete, only the IDs in the array will be on the intermediate table.
+
+	$user->roles()->sync(array(1, 2, 3));
 
 <a name="intermediate-tables"></a>
 ## Working With Intermediate Tables
@@ -458,3 +478,24 @@ Alternatively, you may use the **accessible** method from your model:
 	User::accessible(array('email', 'password', 'name'));
 
 > **Note:** Utmost caution should be taken when mass-assigning using user-input. Technical oversights could cause serious security vulnerabilities.
+
+<a name="to-array"></a>
+## Converting Models To Arrays
+
+When building JSON APIs, you will often need to convert your models to array so they can be easily serialized. It's really simple.
+
+#### Convert a model to an array:
+
+	return json_encode($user->to_array());
+
+The `to_array` method will automatically grab all of the attributes on your model, as well as any loaded relationships.
+
+Sometimes you may wish to limit the attributes that are included in your model's array, such as passwords. To do this, add a `hidden` attribute definition to your model:
+
+#### Excluding attributes from the array:
+
+	class User extends Eloquent {
+
+		public static $hidden = array('password');
+
+	}

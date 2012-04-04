@@ -3,7 +3,7 @@
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  3.1.4
+ * @version  3.1.5
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
@@ -12,6 +12,14 @@
 // Initialize the web variable if it doesn't exist.
 // --------------------------------------------------------------
 if ( ! isset($web)) $web = false;
+
+// --------------------------------------------------------------
+// Change to the current directory if not from the web.
+// --------------------------------------------------------------
+if ( ! $web)
+{
+	chdir(__DIR__);
+}
 
 // --------------------------------------------------------------
 // Define the directory separator for the environment.
