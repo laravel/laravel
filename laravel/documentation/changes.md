@@ -29,6 +29,7 @@
 - Improved View performance by only loading contents from file once.
 - Fix handling of URLs beginning with has in URL::to.
 - Fix the resolution of unset Eloquent attributes.
+- Allows pivot table timestamps to be disabled.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
