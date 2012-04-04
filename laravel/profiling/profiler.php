@@ -61,19 +61,6 @@ class Profiler {
 	}
 
 	/**
-	 * Determine if the given response includes jQuery.
-	 *
-	 * @param  Response  $response
-	 * @return bool
-	 */
-	protected static function has_jquery($response)
-	{
-		$pattern = '/\<head>(.*)\<script(.+)jquery(.*)\>\<\/script\>(.*)\<\/head\>/';
-
-		return preg_match($pattern, $response->content);
-	}
-
-	/**
 	 * Attach the Profiler's event listeners.
 	 *
 	 * @return void
