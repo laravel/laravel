@@ -61,7 +61,7 @@ class URL {
 
 		$base = 'http://localhost';
 
-		// If the application URL configuration is set, we will just use that
+		// If the application's URL configuration is set, we will just use that
 		// instead of trying to guess the URL from the $_SERVER array's host
 		// and script variables as this is more reliable.
 		if (($url = Config::get('application.url')) !== '')
@@ -72,7 +72,7 @@ class URL {
 		{
 			$f = Request::foundation();
 
-			$base = $f->getScheme().'://'.$f->getHttpHost().$f->getBaseUrl();
+			$base = $f->getScheme().'://'.$f->getHttpHost().$f->getBasePath();
 		}
 
 		return static::$base = $base;
