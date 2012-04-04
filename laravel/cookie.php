@@ -135,9 +135,9 @@ class Cookie {
 	 * @param  bool    $secure
 	 * @return void
 	 */
-	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false)
+	public static function put($name, $value, $minutes = 0, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		static::$jar[$name] = compact('name', 'value', 'minutes', 'path', 'domain', 'secure');
+		static::$jar[$name] = compact('name', 'value', 'minutes', 'path', 'domain', 'secure', 'http_only');
 	}
 
 	/**
@@ -155,9 +155,9 @@ class Cookie {
 	 * @param  bool    $secure
 	 * @return bool
 	 */
-	public static function forever($name, $value, $path = '/', $domain = null, $secure = false)
+	public static function forever($name, $value, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, $value, 525600, $path, $domain, $secure);
+		return static::put($name, $value, 525600, $path, $domain, $secure, $http_only);
 	}
 
 	/**
@@ -193,9 +193,9 @@ class Cookie {
 	 * @param  bool    $secure
 	 * @return bool
 	 */
-	public static function forget($name, $path = '/', $domain = null, $secure = false)
+	public static function forget($name, $path = '/', $domain = null, $secure = false, $http_only = false)
 	{
-		return static::put($name, null, -2000, $path, $domain, $secure);
+		return static::put($name, null, -2000, $path, $domain, $secure, $http_only);
 	}
 
 }

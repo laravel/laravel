@@ -114,4 +114,15 @@ return array(
 
 	'secure' => false,
 
+	/*
+	|--------------------------------------------------------------------------
+	| HTTP only session cookie
+	|--------------------------------------------------------------------------
+	|
+	| Set session cookie to be http only, scripts like javascript wount be able to read it
+	|
+	*/
+
+	'http_only' => false,
+
 );
