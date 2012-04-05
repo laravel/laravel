@@ -36,7 +36,6 @@
 ## Upgrading From 3.1
 
 - Replace the **laravel** folder.
-- Add new **vendors** folder.
 
 <a name="3.1.5"></a>
 ## Laravel 3.1.5
