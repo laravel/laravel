@@ -19,11 +19,19 @@
 require 'ability.php';
 require 'rule.php';
 
+use Laravel\Auth;
+
 class Authority extends Authority\Ability {
 
 	protected static function current_user()
 	{
-		return \Auth::user() ?: new User;
+		return Auth::user() ?: new User;
+	}
+
+	public static function initialize($user)
+	{
+		$config = Config::get('authority');
+		call_user_func($config['initialize'], $user);
 	}
 
 }

@@ -1,1 +1,5 @@
-<?php return array('name' => 'authority');
+<?php
+
+// For the oldies
+
+return array('name' => 'authority');

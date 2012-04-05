@@ -11,33 +11,14 @@ class User extends Model {
 
     public static function has_role($key)
     {
-        foreach(Auth::user()->roles as $role)
-        {
-            if($role->key == $key)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return is_null($this->roles()->where_name($key)->first());
     }
 
     public static function has_any_role($keys)
     {
-        if( ! is_array($keys))
-        {
-            $keys = func_get_args();
-        }
+        $keys = (array) $keys;
 
-        foreach(Auth::user()->roles as $role)
-        {
-            if(in_array($role->key, $keys))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return is_null($this->roles()->where('name', 'IN', $keys)->first());
     }
     
 }

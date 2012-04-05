@@ -1,4 +1,4 @@
-<?php
+<?php namespace Authority;
 /**
 * Authority
 *
@@ -16,7 +16,8 @@
 *
 **/
 
-namespace Authority;
+use Laravel\Config;
+use Laravel\Auth;
 
 abstract class Ability {
 
@@ -25,13 +26,14 @@ abstract class Ability {
 
 	public static function initialize($user)
 	{
-		$config = \Config::get('Authority::authority');
+		$config = Config::get('authority::authority');
 		call_user_func($config['initialize'], $user);
 	}
 
 	public static function can($action, $resource, $resource_val = null)
 	{
-		if ( empty(static::$_rules)) {
+		if ( empty(static::$_rules))
+		{
 			static::initialize(static::current_user());
 		}
 
@@ -131,6 +133,6 @@ abstract class Ability {
 
 	protected static function current_user()
 	{
-		return \Auth::user() ?: new User;
+		return Auth::user() ?: new User;
 	}
 }

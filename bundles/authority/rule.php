@@ -1,4 +1,5 @@
-<?php
+<?php namespace Authority;
+
 /**
 * Authority
 *
@@ -15,8 +16,6 @@
 * @link http://github.com/machuga
 *
 **/
-
-namespace Authority;
 
 class Rule {
 
