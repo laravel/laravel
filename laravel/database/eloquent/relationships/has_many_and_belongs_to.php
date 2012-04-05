@@ -105,8 +105,16 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * @param  array  $ids
 	 * @return bool
 	 */
-	public function sync($ids)
+	public function sync($ids, $ignore = null)
 	{
+		if( ! is_array($ids)) return;
+
+		if( ! is_null($ignore))
+		{
+			$key = array_search($ignore, $ids);
+			if($key !== false) unset($ids[$key]);
+		}
+
 		$current = $this->pivot()->lists($this->other_key());
 
 		// First we need to attach any of the associated models that are not currently
