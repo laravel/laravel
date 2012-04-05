@@ -101,9 +101,9 @@ Autoloader::map(array(
 
 Autoloader::namespaces(array(
 	'Symfony\Component\Console' 
-                    => path('base').'vendor/Symfony/Component/Console',
+                    => path('sys').'vendor/Symfony/Component/Console',
 	'Symfony\Component\HttpFoundation'
-                    => path('base').'vendor/Symfony/Component/HttpFoundation',
+                    => path('sys').'vendor/Symfony/Component/HttpFoundation',
 ));
 
 /*
