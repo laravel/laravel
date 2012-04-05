@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.1.6](#3.1.6)
+- [Upgrading From 3.1.5](#upgrade-3.1.6)
 - [Laravel 3.1.5](#3.1.5)
 - [Upgrading From 3.1.4](#upgrade-3.1.5)
 - [Laravel 3.1.4](#3.1.4)
@@ -14,6 +16,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1.6"></a>
+## Laravel 3.1.6
+
+- Fixes many-to-many eager loading in Eloquent.
+
+<a name="upgrade-3.1.6"></a>
+## Upgrading From 3.1.5
+
+- Replace the **laravel** folder.
 
 <a name="3.1.5"></a>
 ## Laravel 3.1.5
