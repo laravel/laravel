@@ -176,7 +176,7 @@ class Bundle {
 	/**
 	 * Determine which bundle handles the given URI.
 	 *
-	 * If no bundle is assigned to handle the URI, the default bundle is returned.
+	 * The default bundle is returned if no other bundle is assigned.
 	 *
 	 * @param  string  $uri
 	 * @return string

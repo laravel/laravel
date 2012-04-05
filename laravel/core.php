@@ -89,6 +89,21 @@ Autoloader::map(array(
 
 /*
 |--------------------------------------------------------------------------
+| Register The Symfony Components
+|--------------------------------------------------------------------------
+|
+| Laravel's "Artisan" CLI makes use of the Symfony Console component to
+| build a wonderful CLI environment that is both robust and testable.
+| We'll register the component's namespace here.
+|
+*/
+
+Autoloader::namespaces(array(
+	'Symfony\Component\Console' => path('base').'vendor/Symfony/Component/Console',
+));
+
+/*
+|--------------------------------------------------------------------------
 | Set The CLI Options Array
 |--------------------------------------------------------------------------
 |

@@ -43,7 +43,7 @@ class Query {
 	{
 		$this->model = ($model instanceof Model) ? $model : new $model;
 
-		$this->table = $this->query();
+		$this->table = $this->table();
 	}
 
 	/**
@@ -112,7 +112,19 @@ class Query {
 		{
 			$result = (array) $result;
 
-			$models[$result[$this->model->key()]] = new $class($result, true);
+			$new = new $class(array(), true);
+
+			// We need to set the attributes manually in case the accessible property is
+			// set on the array which will prevent the mass assignemnt of attributes if
+			// we were to pass them in using the constructor or fill methods.
+			foreach ($result as $key => $value)
+			{
+				$new->set_attribute($key, $value);
+			}
+
+			$new->original = $new->attributes;
+
+			$models[$result[$this->model->key()]] = $new;
 		}
 
 		if ($include and count($results) > 0)
@@ -171,7 +183,7 @@ class Query {
 			$query->table->where_nested($constraints);
 		}
 
-		// Before matching the models, we will initialize the relationship
+		// Before matching the models, we will initialize the relationships
 		// to either null for single-value relationships or an array for
 		// the multi-value relationships as their baseline value.
 		$query->initialize($results, $relationship);
@@ -233,7 +245,7 @@ class Query {
 	 *
 	 * @return Query
 	 */
-	protected function query()
+	protected function table()
 	{
 		return $this->connection()->table($this->model->table());
 	}

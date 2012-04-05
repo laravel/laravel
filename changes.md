@@ -2,8 +2,49 @@
 
 ## Contents
 
+- [Laravel 3.2](#3.2)
+- [Upgrading From 3.1](#upgrade-3.2)
+- [Laravel 3.1.2](#3.1.2)
+- [Upgrading From 3.1.1](#upgrade-3.1.2)
+- [Laravel 3.1.1](#3.1.1)
+- [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2"></a>
+## Laravel 3.2
+
+- Fixed the passing of strings into the Input::except method.
+- Fixed replacement of optional parameters in URL::transpose method.
+- Added "to_array" method to the base Eloquent model.
+- Added "$hidden" static variable to the base Eloquent model.
+- Added "sync" method to has_many_and_belongs_to Eloquent relationship.
+
+<a name="upgrade-3.2"></a>
+## Upgrading From 3.1
+
+- Replace the **laravel** folder.
+- Add new **vendors** folder.
+
+<a name="3.1.2"></a>
+## Laravel 3.1.2
+
+- Fixes Eloquent query method constructor conflict.
+
+<a name="upgrade-3.1.2"></a>
+## Upgrade From 3.1.1
+
+- Replace the **laravel** folder.
+
+<a name="3.1.1"></a>
+## Laravel 3.1.1
+
+- Fixes Eloquent model hydration bug involving custom setters.
+
+<a name="upgrade-3.1.1"></a>
+## Upgrading From 3.1
+
+- Replace the **laravel** folder.
 
 <a name="3.1"></a>
 ## Laravel 3.1
@@ -36,6 +77,7 @@
 - Added View::render_each.
 - Able to specify full path to view (path: ).
 - Added support for Blade template inheritance.
+- Added "before" and "after" validation checks for dates.
 
 <a name="upgrade-3.1"></a>
 ## Upgrading From 3.0
@@ -60,7 +102,8 @@ If you have created indexes on tables using the Laravel migration system and you
 
 Add the following to the **aliases** array in your **application/config/application.php** file:
 
-	'Eloquent' => 'Laravel\\Eloquent',
+	'Eloquent' => 'Laravel\\Database\\Eloquent\\Model',
+	'Blade' => 'Laravel\\Blade',
 
 ### Update Eloquent many-to-many tables.
 
@@ -77,3 +120,15 @@ English pluralization and singularization is now automatic. Just completely repl
 ### Add the **fetch** option to your database configuration file.
 
 A new **fetch** option allows you to specify in which format you receive your database results. Just copy and paste the option from the new **application/config/database.php** file.
+
+### Add **database** option to your Redis configuration.
+
+If you are using Redis, add the "database" option to your Redis connection configurations. The "database" value can be zero by default.
+
+	'redis' => array(
+		'default' => array(
+			'host' => '127.0.0.1',
+			'port' => 6379,
+			'database' => 0
+		),
+	),

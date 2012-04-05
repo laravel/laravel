@@ -132,20 +132,21 @@ class View implements ArrayAccess {
 	 *
 	 * @param  string  $bundle
 	 * @param  string  $view
+	 * @param  string  $directory
 	 * @return string
 	 */
-	public static function file($bundle, $view)
+	public static function file($bundle, $view, $directory)
 	{
-		$root = Bundle::path($bundle).'views/';
+		$directory = str_finish($directory, DS);
 
-		// Views may have either the default PHP fiel extension of the "Blade"
+		// Views may have either the default PHP file extension of the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
-		if (file_exists($path = $root.$view.EXT))
+		if (file_exists($path = $directory.$view.EXT))
 		{
 			return $path;
 		}
-		elseif (file_exists($path = $root.$view.BLADE_EXT))
+		elseif (file_exists($path = $directory.$view.BLADE_EXT))
 		{
 			return $path;
 		}
