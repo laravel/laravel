@@ -42,9 +42,8 @@ class File extends Driver {
 		if ( ! file_exists($this->path.$key)) return null;
 
 		// File based caches store have the expiration timestamp stored in
-		// UNIX format prepended to their contents. This timestamp is then
-		// extracted and removed when the cache is read to determine if
-		// the file is still valid.
+		// UNIX format prepended to their contents. We'll compare the
+		// timestamp to the current time when we read the file.
 		if (time() >= substr($cache = file_get_contents($this->path.$key), 0, 10))
 		{
 			return $this->forget($key);
