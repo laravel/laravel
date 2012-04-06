@@ -31,7 +31,7 @@ abstract class Driver {
 	abstract public function delete($id);
 
 	/**
-	 * Insert a fresh session and return the payload array.
+	 * Create a fresh session array with a unique ID.
 	 *
 	 * @return array
 	 */
