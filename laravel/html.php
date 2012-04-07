@@ -237,7 +237,7 @@ class HTML {
 	{
 		$url = static::entities(URL::to($url));
 		
-		return '<a href="javascript:void(0);" onclick="window.open(\''.$url.'\', \'_blank\', \''.static::attributes($attributes, true).'\');">'.$title.'</a>';
+		return '<a href="'.$url.'" onclick="window.open(\''.$url.'\', \'_blank\', \''.static::attributes($attributes, true).'\');return false;">'.$title.'</a>';
 	}
 
 	/**
