@@ -25,7 +25,11 @@
 - Fixes custom validation language line loading from bundles.
 - Fixes double-loading of classes when overriding the core.
 - Classify migration names.
-- 
+
+<a name="upgrade-3.1.7"></a>
+## Upgrading From 3.1.6
+
+- Replace the **laravel** folder.
 
 <a name="3.1.6"></a>
 ## Laravel 3.1.6
