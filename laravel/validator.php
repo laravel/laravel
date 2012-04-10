@@ -559,7 +559,7 @@ class Validator {
 	protected function validate_active_url($attribute, $value)
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
-		
+
 		return checkdnsrr($url);
 	}
 
@@ -608,7 +608,7 @@ class Validator {
 	 */
 	protected function validate_alpha_dash($attribute, $value)
 	{
-		return preg_match('/^([-a-z0-9_-])+$/i', $value);	
+		return preg_match('/^([-a-z0-9_-])+$/i', $value);
 	}
 
 	/**
@@ -657,7 +657,7 @@ class Validator {
 	protected function validate_before($attribute, $value, $parameters)
 	{
 		return (strtotime($value) < strtotime($parameters[0]));
-	}	
+	}
 
 	/**
 	 * Validate the date is after a given date.
@@ -670,7 +670,7 @@ class Validator {
 	protected function validate_after($attribute, $value, $parameters)
 	{
 		return (strtotime($value) > strtotime($parameters[0]));
-	}		
+	}
 
 	/**
 	 * Get the proper error message for an attribute and rule.
@@ -692,7 +692,7 @@ class Validator {
 		{
 			return $this->messages[$custom];
 		}
-		elseif (Lang::has($custom = "validation.custom.{$custom}", $this->language))
+		elseif (Lang::has($custom = "{$bundle}validation.custom.{$custom}", $this->language))
 		{
 			return Lang::line($custom)->get($this->language);
 		}
@@ -753,7 +753,7 @@ class Validator {
 			$line = 'string';
 		}
 
-		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);	
+		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
 	}
 
 	/**
@@ -929,7 +929,7 @@ class Validator {
 	protected function replace_after($message, $attribute, $rule, $parameters)
 	{
 		return str_replace(':date', $parameters[0], $message);
-	}	
+	}
 
 	/**
 	 * Get the displayable name for a given attribute.
@@ -988,7 +988,7 @@ class Validator {
 	{
 		$parameters = array();
 
-		// The format for specifying validation rules and parameters follows a 
+		// The format for specifying validation rules and parameters follows a
 		// {rule}:{parameters} formatting convention. For instance, the rule
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
