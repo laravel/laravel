@@ -30,14 +30,15 @@
 - [Added `save` method to has\_many Eloquent relationship](/docs/database/eloquent#has-many-save).
 - [Added `unless` structure to Blade template engine](/docs/views/templating#blade-unless).
 - Migrated to the Symfony HttpFoundation component for core request / response handling.
-- Fixed the passing of strings into the Input::except method.
-- Fixed replacement of optional parameters in URL::transpose method.
-- Improved "update" handling on Has_Many and Has_One relationships.
+- Fixed the passing of strings into the `Input::except` method.
+- Fixed replacement of optional parameters in `URL::transpose` method.
+- Improved `update` handling on `Has_Many` and `Has_One` relationships.
 - Improved View performance by only loading contents from file once.
-- Fix handling of URLs beginning with has in URL::to.
+- Fix handling of URLs beginning with has in `URL::to`.
 - Fix the resolution of unset Eloquent attributes.
 - Allows pivot table timestamps to be disabled.
-- Made the "get_timestamp" Eloquent method static.
+- Made the `get_timestamp` Eloquent method static.
+- `Request::secure` now takes `application.ssl` configuration option into consideration.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1

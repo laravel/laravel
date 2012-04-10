@@ -142,7 +142,7 @@ class Request {
 	 */
 	public static function secure()
 	{
-		return static::foundation()->isSecure();
+		return static::foundation()->isSecure() and Config::get('application.ssl');
 	}
 
 	/**
