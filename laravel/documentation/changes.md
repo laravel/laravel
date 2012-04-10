@@ -4,6 +4,8 @@
 
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
+- [Laravel 3.1.7](#3.1.7)
+- [Upgrading From 3.1.6](#upgrade-3.1.7)
 - [Laravel 3.1.6](#3.1.6)
 - [Upgrading From 3.1.5](#upgrade-3.1.6)
 - [Laravel 3.1.5](#3.1.5)
@@ -36,6 +38,18 @@
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
+
+- Replace the **laravel** folder.
+
+<a name="3.1.7"></a>
+## Laravel 3.1.7
+
+- Fixes custom validation language line loading from bundles.
+- Fixes double-loading of classes when overriding the core.
+- Classify migration names.
+
+<a name="upgrade-3.1.7"></a>
+## Upgrading From 3.1.6
 
 - Replace the **laravel** folder.
 

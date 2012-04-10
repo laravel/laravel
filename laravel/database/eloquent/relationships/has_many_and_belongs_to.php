@@ -21,7 +21,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	protected $other;
 
 	/**
-	 * The columns on the joining tbale that should be fetched.
+	 * The columns on the joining table that should be fetched.
 	 *
 	 * @var array
 	 */
