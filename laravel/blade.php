@@ -13,6 +13,8 @@ class Blade {
 		'forelse',
 		'empty',
 		'endforelse',
+		'unless',
+		'endunless',
 		'structure_openings',
 		'structure_closings',
 		'else',
@@ -215,6 +217,30 @@ class Blade {
 	protected static function compile_endforelse($value)
 	{
 		return str_replace('@endforelse', '<?php endif; ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade "unless" statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_unless($value)
+	{
+		$pattern = '/(\s*)@unless(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php if(! ($2)): ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade "unless" endings into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_endunless($value)
+	{
+		return str_replace('@endunless', '<?php endif; ?>', $value);
 	}
 
 	/**
