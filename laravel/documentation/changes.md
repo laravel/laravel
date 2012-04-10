@@ -29,6 +29,7 @@
 - [Added `sync` method to has\_many\_and\_belongs\_to Eloquent relationship](/docs/database/eloquent#sync-method).
 - [Added `save` method to has\_many Eloquent relationship](/docs/database/eloquent#has-many-save).
 - [Added `unless` structure to Blade template engine](/docs/views/templating#blade-unless).
+- [Added Blade comments](/docs/views/templating#blade-comments).
 - Migrated to the Symfony HttpFoundation component for core request / response handling.
 - Fixed the passing of strings into the `Input::except` method.
 - Fixed replacement of optional parameters in `URL::transpose` method.

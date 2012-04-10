@@ -9,6 +9,7 @@ class Blade {
 	 */
 	protected static $compilers = array(
 		'layouts',
+		'comments',
 		'echos',
 		'forelse',
 		'empty',
@@ -150,6 +151,19 @@ class Blade {
 		preg_match('/@layout(\s*\(.*\))(\s*)/', $value, $matches);
 
 		return str_replace(array("('", "')"), '', $matches[1]);
+	}
+
+	/**
+	 * Rewrites Blade comments into PHP comments.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_comments($value)
+	{
+		$value = preg_replace('/\{\{--(.+?)(--\}\})?\n/', "<?php // $1 ?>", $value);
+
+		return preg_replace('/\{\{--((.|\s)*?)--\}\}/', "<?php /* $1 */ ?>\n", $value);
 	}
 
 	/**

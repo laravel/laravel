@@ -118,6 +118,16 @@ Blade makes writing your views pure bliss. To create a blade view, simply name y
 		...
 	<?php endif; ?>
 
+<a name="blade-comments"></a>
+#### Blade comments:
+	
+	@if ($check)
+		{{-- This is a comment --}}
+		...
+	@endif
+
+> **Note:** Blade comments, unlike HTML comments, are not visible in the HTML source.
+
 <a name="blade-layouts"></a>
 ## Blade Layouts
 
