@@ -61,6 +61,7 @@ class Autoloader {
 		elseif (isset(static::$mappings[$class]))
 		{
 			require static::$mappings[$class];
+			return;
 		}
 
 		// If the class namespace is mapped to a directory, we will load the
