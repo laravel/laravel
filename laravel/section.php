@@ -86,7 +86,6 @@ class Section {
 
 	/**
 	 * Extend the content in a given section.
-	 * The old content can be injected into the new using "@parent".
 	 *
 	 * @param  string  $section
 	 * @param  string  $content
@@ -106,7 +105,6 @@ class Section {
 
 	/**
 	 * Append content to a given section.
-	 * This concatenates the old content and the new.
 	 *
 	 * @param  string  $section
 	 * @param  string  $content
