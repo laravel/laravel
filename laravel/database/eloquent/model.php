@@ -193,7 +193,7 @@ abstract class Model {
 	{
 		$model = new static(array(), true);
 
-		if (static::$timestamps) $attributes['updated_at'] = $model->get_timestamp();
+		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
 
 		return $model->query()->where($model->key(), '=', $id)->update($attributes);
 	}
@@ -405,19 +405,9 @@ abstract class Model {
 	 */
 	protected function timestamp()
 	{
-		$this->updated_at = static::get_timestamp();
+		$this->updated_at = new \DateTime;
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
-	}
-
-	/**
-	 * Get the current timestamp in its storable form.
-	 *
-	 * @return mixed
-	 */
-	public static function get_timestamp()
-	{
-		return date('Y-m-d H:i:s');
 	}
 
 	/**

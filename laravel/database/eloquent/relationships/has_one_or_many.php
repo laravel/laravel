@@ -29,7 +29,7 @@ class Has_One_Or_Many extends Relationship {
 	{
 		if ($this->model->timestamps())
 		{
-			$attributes['updated_at'] = $this->model->get_timestamp();
+			$attributes['updated_at'] = new \DateTime;
 		}
 
 		return $this->table->update($attributes);

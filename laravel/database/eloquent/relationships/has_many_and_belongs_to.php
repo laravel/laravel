@@ -204,7 +204,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		if (Pivot::$timestamps)
 		{
-			$attributes['created_at'] = $this->model->get_timestamp();
+			$attributes['created_at'] = new \DateTime;
 
 			$attributes['updated_at'] = $attributes['created_at'];
 		}

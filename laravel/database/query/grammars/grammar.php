@@ -6,6 +6,13 @@ use Laravel\Database\Expression;
 class Grammar extends \Laravel\Database\Grammar {
 
 	/**
+	 * The format for properly saving a DateTime.
+	 *
+	 * @var string
+	 */
+	public $datetime = 'Y-m-d H:i:s';
+
+	/**
 	 * All of the query componenets in the order they should be built.
 	 *
 	 * @var array

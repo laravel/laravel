@@ -209,6 +209,19 @@ class Connection {
 
 		$sql = $this->grammar()->shortcut($sql, $bindings);
 
+		// Next we need to translate all DateTime bindings to their date-time
+		// strings that are compatible with the database. Each grammar may
+		// define it's own date-time format according to its needs.
+		$datetime = $this->grammar()->datetime;
+
+		for ($i = 0; $i < count($bindings); $i++)
+		{
+			if ($bindings[$i] instanceof \DateTime)
+			{
+				$bindings[$i] = $bindings[$i]->format($datetime);
+			}
+		}
+
 		// Each database operation is wrapped in a try / catch so we can wrap
 		// any database exceptions in our custom exception class, which will
 		// set the message to include the SQL and query bindings.
