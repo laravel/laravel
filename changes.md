@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.1.7](#3.1.7)
+- [Upgrading From 3.1.6](#upgrade-3.1.7)
 - [Laravel 3.1.6](#3.1.6)
 - [Upgrading From 3.1.5](#upgrade-3.1.6)
 - [Laravel 3.1.5](#3.1.5)
@@ -16,6 +18,14 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1.7"></a>
+## Laravel 3.1.7
+
+- Fixes custom validation language line loading from bundles.
+- Fixes double-loading of classes when overriding the core.
+- Classify migration names.
+- 
 
 <a name="3.1.6"></a>
 ## Laravel 3.1.6
