@@ -472,7 +472,7 @@ abstract class Model {
 	 */
 	public function table()
 	{
-		return static::$table ?: strtolower(Str::plural(basename(get_class($this))));
+		return static::$table ?: strtolower(Str::plural(class_basename($this)));
 	}
 
 	/**
