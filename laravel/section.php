@@ -39,7 +39,7 @@ class Section {
 		}
 		else
 		{
-			static::append($section, $content);
+			static::extend($section, $content);
 		}
 	}
 
@@ -79,23 +79,44 @@ class Section {
 	 */
 	public static function stop()
 	{
-		static::append($last = array_pop(static::$last), ob_get_clean());
+		static::extend($last = array_pop(static::$last), ob_get_clean());
 
 		return $last;
 	}
 
 	/**
-	 * Append content to a given section.
+	 * Extend the content in a given section.
+	 * The old content can be injected into the new using "@parent".
 	 *
 	 * @param  string  $section
 	 * @param  string  $content
 	 * @return void
 	 */
-	protected static function append($section, $content)
+	protected static function extend($section, $content)
 	{
 		if (isset(static::$sections[$section]))
 		{
 			static::$sections[$section] = str_replace('@parent', $content, static::$sections[$section]);
+		}
+		else
+		{
+			static::$sections[$section] = $content;
+		}
+	}
+
+	/**
+	 * Append content to a given section.
+	 * This concatenates the old content and the new.
+	 *
+	 * @param  string  $section
+	 * @param  string  $content
+	 * @return void
+	 */
+	public static function append($section, $content)
+	{
+		if (isset(static::$sections[$section]))
+		{
+			static::$sections[$section] .= $content;
 		}
 		else
 		{
