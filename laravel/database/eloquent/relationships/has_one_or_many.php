@@ -20,6 +20,22 @@ class Has_One_Or_Many extends Relationship {
 	}
 
 	/**
+	 * Update a record for the association.
+	 *
+	 * @param  array  $attributes
+	 * @return bool
+	 */
+	public function update(array $attributes)
+	{
+		if ($this->model->timestamps())
+		{
+			$attributes['updated_at'] = $this->model->get_timestamp();
+		}
+
+		return $this->table->update($attributes);
+	}
+
+	/**
 	 * Set the proper constraints on the relationship table.
 	 *
 	 * @return void

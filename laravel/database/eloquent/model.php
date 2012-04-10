@@ -405,7 +405,7 @@ abstract class Model {
 	 */
 	protected function timestamp()
 	{
-		$this->updated_at = $this->get_timestamp();
+		$this->updated_at = static::get_timestamp();
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
 	}
@@ -415,7 +415,7 @@ abstract class Model {
 	 *
 	 * @return mixed
 	 */
-	public function get_timestamp()
+	public static function get_timestamp()
 	{
 		return date('Y-m-d H:i:s');
 	}
@@ -675,7 +675,7 @@ abstract class Model {
 	 */
 	public function __call($method, $parameters)
 	{
-		$meta = array('key', 'table', 'connection', 'sequence', 'per_page');
+		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
 
 		// If the method is actually the name of a static property on the model we'll
 		// return the value of the static property. This makes it convenient for

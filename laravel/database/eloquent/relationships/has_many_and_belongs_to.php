@@ -25,7 +25,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * @var array
 	 */
-	protected $with = array();
+	protected $with = array('id');
 
 	/**
 	 * Create a new many to many relationship instance.
@@ -43,9 +43,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 		$this->joining = $table ?: $this->joining($model, $associated);
 
+		// If the Pivot table is timestamped, we'll set the timestamp columns to be
+		// fetched when the pivot table models are fetched by the developer else
+		// the ID will be the only "extra" column fetched in by default.
 		if (Pivot::$timestamps)
 		{
-			$this->with = array('id', 'created_at', 'updated_at');
+			$this->with[] = 'created_at';
+
+			$this->with[] = 'updated_at';
 		}
 
 		parent::__construct($model, $associated, $foreign);
@@ -197,9 +202,12 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function insert_joining($attributes)
 	{
-		$attributes['created_at'] = $this->model->get_timestamp();
+		if (Pivot::$timestamps)
+		{
+			$attributes['created_at'] = $this->model->get_timestamp();
 
-		$attributes['updated_at'] = $attributes['created_at'];
+			$attributes['updated_at'] = $attributes['created_at'];
+		}
 
 		return $this->joining_table()->insert($attributes);
 	}
@@ -386,17 +394,13 @@ class Has_Many_And_Belongs_To extends Relationship {
 	}
 
 	/**
-	 * Get a model instance of the pivot table for the relationship.
+	 * Get a relationship instance of the pivot table.
 	 *
-	 * @return Pivot
+	 * @return Has_Many
 	 */
 	public function pivot()
 	{
-		$key = $this->base->get_key();
-
-		$foreign = $this->foreign_key();
-
-		return with(new Pivot($this->joining))->where($foreign, '=', $key);
+		return new Has_Many($this->base, new Pivot($this->joining), $this->foreign_key());
 	}
 
 	/**

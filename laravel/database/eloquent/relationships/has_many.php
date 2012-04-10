@@ -29,8 +29,6 @@ class Has_Many extends Has_One_Or_Many {
 
 		foreach ($models as $attributes)
 		{
-			$attributes[$this->foreign_key()] = $this->base->get_key();
-
 			$class = get_class($this->model);
 
 			// If the "attributes" are actually an array of the related model we'll
@@ -44,6 +42,13 @@ class Has_Many extends Has_One_Or_Many {
 			{
 				$model = $this->fresh_model($attributes);
 			}
+
+			// We'll need to associate the model with its parent, so we'll set the
+			// foreign key on the model to the key of the parent model, making
+			// sure that the two models are associated in the database.
+			$foreign = $this->foreign_key();
+
+			$model->$foreign = $this->base->get_key();
 
 			$id = $model->get_key();
 

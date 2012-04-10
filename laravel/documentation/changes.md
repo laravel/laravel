@@ -31,10 +31,12 @@
 - Migrated to the Symfony HttpFoundation component for core request / response handling.
 - Fixed the passing of strings into the Input::except method.
 - Fixed replacement of optional parameters in URL::transpose method.
+- Improved "update" handling on Has_Many and Has_One relationships.
 - Improved View performance by only loading contents from file once.
 - Fix handling of URLs beginning with has in URL::to.
 - Fix the resolution of unset Eloquent attributes.
 - Allows pivot table timestamps to be disabled.
+- Made the "get_timestamp" Eloquent method static.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
