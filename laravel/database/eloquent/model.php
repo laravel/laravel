@@ -472,7 +472,17 @@ abstract class Model {
 	 */
 	public function get_dirty()
 	{
-		return array_diff_assoc($this->attributes, $this->original);
+		$dirty = array();
+
+		foreach ($this->attributes as $key => $value)
+		{
+			if ( ! isset($this->original[$key]) or $value !== $this->original[$key])
+			{
+				$dirty[$key] = $value;
+			}
+		}
+
+		return $dirty;
 	}
 
 	/**
