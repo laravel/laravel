@@ -38,6 +38,13 @@ class Paginator {
 	public $per_page;
 
 	/**
+	 * The style of our items.
+	 *
+	 * @var string
+	 */
+	public $style = 'btn';
+
+	/**
 	 * The values that should be appended to the end of the link query strings.
 	 *
 	 * @var array
@@ -300,11 +307,11 @@ class Paginator {
 		// the "first" element should be a span instead of a link.
 		if ($disabled($this->page, $this->last))
 		{
-			return HTML::span($text, array('class' => "{$class} disabled"));
+			return HTML::span($text, array('class' => "{$class} {$this->style} disabled"));
 		}
 		else
 		{
-			return $this->link($page, $text, $class);
+			return $this->link($page, $text, $class.' '.$this->style);
 		}
 	}
 
@@ -349,11 +356,11 @@ class Paginator {
 		{
 			if ($this->page == $page)
 			{
-				$pages[] = HTML::span($page, array('class' => 'current'));
+				$pages[] = HTML::span($page, array('class' => $this->style.' current'));
 			}
 			else
 			{
-				$pages[] = $this->link($page, $page, null);
+				$pages[] = $this->link($page, $page, $this->style);
 			}
 		}
 
