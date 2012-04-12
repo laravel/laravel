@@ -1,4 +1,4 @@
-<?php namespace Laravel\Cache\Drivers; use Closure;
+<?php namespace Laravel\Cache\Drivers;
 
 abstract class Driver {
 

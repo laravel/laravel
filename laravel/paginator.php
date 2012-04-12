@@ -282,7 +282,7 @@ class Paginator {
 	 * @param  string   $element
 	 * @param  int      $page
 	 * @param  string   $text
-	 * @param  Closure  $disabled
+	 * @param  callback  $disabled
 	 * @return string
 	 */
 	protected function element($element, $page, $text, $disabled)

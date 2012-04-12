@@ -13,7 +13,7 @@ class HTML {
      * Registers a custom macro.
      *
      * @param  string   $name
-     * @param  Closure  $input
+     * @param  callback  $macro
      * @return void
      */
 	public static function macro($name, $macro)
@@ -396,7 +396,7 @@ class HTML {
 	    {
 	        return call_user_func_array(static::$macros[$method], $parameters);
 	    }
-	    
+
 	    throw new \Exception("Method [$method] does not exist.");
 	}
 

@@ -1,6 +1,5 @@
 <?php namespace Laravel\Routing;
 
-use Closure;
 use Laravel\Bundle;
 use Laravel\Request;
 
@@ -113,7 +112,7 @@ class Filter {
 				$callback = static::$filters[$filter];
 
 				// Parameters may be passed into filters by specifying the list of parameters
-				// as an array, or by registering a Closure which will return the array of
+				// as an array, or by registering a callback which will return the array of
 				// parameters. If parameters are present, we will merge them with the
 				// parameters that were given to the method.
 				$response = call_user_func_array($callback, array_merge($pass, $parameters));
@@ -125,7 +124,7 @@ class Filter {
 				if ( ! is_null($response) and $override)
 				{
 					return $response;
-				}				
+				}
 			}
 		}
 	}
@@ -230,7 +229,7 @@ class Filter_Collection {
 	 */
 	protected function parameters()
 	{
-		if ($this->parameters instanceof Closure)
+		if (is_callable($this->parameters))
 		{
 			$this->parameters = call_user_func($this->parameters);
 		}

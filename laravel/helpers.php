@@ -163,7 +163,7 @@ function array_forget(&$array, $key)
  * </code>
  *
  * @param  array    $array
- * @param  Closure  $callback
+ * @param  callback  $callback
  * @param  mixed    $default
  * @return mixed
  */
@@ -410,7 +410,7 @@ function class_basename($class)
 /**
  * Return the value of the given item.
  *
- * If the given item is a Closure the result of the Closure will be returned.
+ * If the given item is a valid callback the result of the callback will be returned.
  *
  * @param  mixed  $value
  * @return mixed

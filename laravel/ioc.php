@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel;
 
 class IoC {
 
@@ -20,11 +20,11 @@ class IoC {
 	 * Register an object and its resolver.
 	 *
 	 * @param  string   $name
-	 * @param  Closure  $resolver
+	 * @param  callback  $resolver
 	 * @param  bool     $singleton
 	 * @return void
 	 */
-	public static function register($name, Closure $resolver, $singleton = false)
+	public static function register($name, $resolver, $singleton = false)
 	{
 		static::$registry[$name] = compact('resolver', 'singleton');
 	}
@@ -46,7 +46,7 @@ class IoC {
 	 * Singletons will only be instantiated the first time they are resolved.
 	 *
 	 * @param  string   $name
-	 * @param  Closure  $resolver
+	 * @param  callback  $resolver
 	 * @return void
 	 */
 	public static function singleton($name, $resolver)
@@ -75,7 +75,7 @@ class IoC {
 	 * Register a controller with the IoC container.
 	 *
 	 * @param  string   $name
-	 * @param  Closure  $resolver
+	 * @param  callback  $resolver
 	 * @return void
 	 */
 	public static function controller($name, $resolver)

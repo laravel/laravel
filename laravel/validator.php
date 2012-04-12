@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel;
 
 class Validator {
 
@@ -109,7 +109,7 @@ class Validator {
 	 * Register a custom validator.
 	 *
 	 * @param  string   $name
-	 * @param  Closure  $validator
+	 * @param  callback  $validator
 	 * @return void
 	 */
 	public static function register($name, $validator)

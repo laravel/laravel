@@ -28,7 +28,7 @@ class Section {
 	 * </code>
 	 *
 	 * @param  string          $section
-	 * @param  string|Closure  $content
+	 * @param  string|callback  $content
 	 * @return void
 	 */
 	public static function start($section, $content = '')
