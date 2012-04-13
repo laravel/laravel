@@ -1,4 +1,4 @@
-<?php namespace Laravel; defined('DS') or die('No direct script access.');
+<?php namespace Laravel;
 
 class Autoloader {
 
@@ -52,7 +52,7 @@ class Autoloader {
 		// called again for the "real" class name to load its file.
 		if (isset(static::$aliases[$class]))
 		{
-			class_alias(static::$aliases[$class], $class);
+			return class_alias(static::$aliases[$class], $class);
 		}
 
 		// All classes in Laravel are staticly mapped. There is no crazy search
@@ -73,17 +73,6 @@ class Autoloader {
 			if (starts_with($class, $namespace))
 			{
 				return static::load_namespaced($class, $namespace, $directory);
-			}
-		}
-
-		// If the class uses PEAR-ish style underscores for indicating its
-		// directory structure we'll load the class using PSR-0 standards
-		// standards from that directory, trimming the root.
-		foreach (static::$underscored as $prefix => $directory)
-		{
-			if (starts_with($class, $prefix))
-			{
-				return static::load_namespaced($class, $prefix, $directory);
 			}
 		}
 
@@ -177,6 +166,20 @@ class Autoloader {
 	}
 
 	/**
+	 * Map namespaces to directories.
+	 *
+	 * @param  array   $mappings
+	 * @param  string  $append
+	 * @return void
+	 */
+	public static function namespaces($mappings, $append = '\\')
+	{
+		$mappings = static::format_mappings($mappings, $append);
+
+		static::$namespaces = array_merge($mappings, static::$namespaces);
+	}
+
+	/**
 	 * Register underscored "namespaces" to directory mappings.
 	 *
 	 * @param  array  $mappings
@@ -184,22 +187,7 @@ class Autoloader {
 	 */
 	public static function underscored($mappings)
 	{
-		$mappings = static::format_mappings($mappings, '_');
-
-		static::$underscored = array_merge($mappings, static::$underscored);
-	}
-
-	/**
-	 * Map namespaces to directories.
-	 *
-	 * @param  array  $mappings
-	 * @return void
-	 */
-	public static function namespaces($mappings)
-	{
-		$mappings = static::format_mappings($mappings, '\\');
-
-		static::$namespaces = array_merge($mappings, static::$namespaces);
+		static::namespaces($mappings, '_');
 	}
 
 	/**

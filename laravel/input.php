@@ -3,13 +3,6 @@
 class Input {
 
 	/**
-	 * The applicable input for the request.
-	 *
-	 * @var array
-	 */
-	public static $input;
-
-	/**
 	 * The key used to store old input in the session.
 	 *
 	 * @var string
@@ -23,7 +16,11 @@ class Input {
 	 */
 	public static function all()
 	{
-		return array_merge(static::get(), static::file());
+		$input = array_merge_recursive(static::get(), static::query(), static::file());
+
+		unset($input[Request::spoofer]);
+
+		return $input;
 	}
 
 	/**
@@ -58,7 +55,34 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		return array_get(static::$input, $key, $default);
+		$value = array_get(Request::foundation()->request->all(), $key);
+
+		if (is_null($value))
+		{
+			return array_get(static::query(), $key, $default);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Get an item from the query string.
+	 *
+	 * <code>
+	 *		// Get the "email" item from the query string
+	 *		$email = Input::query('email');
+	 *
+	 *		// Return a default value if the specified item doesn't exist
+	 *		$email = Input::query('name', 'Taylor');
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public static function query($key = null, $default = null)
+	{
+		return array_get(Request::foundation()->query->all(), $key, $default);
 	}
 
 	/**
@@ -96,7 +120,7 @@ class Input {
 	 */
 	public static function except($keys)
 	{
-		return array_diff_key(static::get(), array_flip($keys));
+		return array_diff_key(static::get(), array_flip((array) $keys));
 	}
 
 	/**
@@ -136,14 +160,11 @@ class Input {
 	 * <code>
 	 *		// Get the array of information for the "picture" upload
 	 *		$picture = Input::file('picture');
-	 *
-	 *		// Get a specific element from within the file's data array
-	 *		$size = Input::file('picture.size');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return array
+	 * @param  string        $key
+	 * @param  mixed         $default
+	 * @return UploadedFile
 	 */
 	public static function file($key = null, $default = null)
 	{
@@ -156,19 +177,20 @@ class Input {
 	 * This method is simply a convenient wrapper around move_uploaded_file.
 	 *
 	 * <code>
-	 *		// Move the "picture" file to a permanent location on disk
-	 *		Input::upload('picture', 'path/to/photos/picture.jpg');
+	 *		// Move the "picture" file to a new permanent location on disk
+	 *		Input::upload('picture', 'path/to/photos', 'picture.jpg');
 	 * </code>
 	 *
 	 * @param  string  $key
-	 * @param  string  $path
+	 * @param  string  $directory
+	 * @param  string  $name
 	 * @return bool
 	 */
-	public static function upload($key, $path)
+	public static function upload($key, $directory, $name = null)
 	{
 		if (is_null(static::file($key))) return false;
 
-		return move_uploaded_file(static::file("{$key}.tmp_name"), $path);
+		return Request::foundation()->files->get($key)->move($directory, $name);
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 use Laravel\Bundle;
 use Laravel\Config;
+use Laravel\Request;
 
 /**
  * Fire up the default bundle. This will ensure any dependencies that
@@ -19,6 +20,16 @@ if (isset($_SERVER['CLI']['DB']))
 {
 	Config::set('database.default', $_SERVER['CLI']['DB']);
 }
+
+/**
+ * Overwrite the HttpFoundation request since we have set some of
+ * the server variables since it was created. This allows us to
+ * set the default database for the CLI task.
+ */
+
+use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
+
+Request::$foundation = RequestFoundation::createFromGlobals();
 
 /**
  * We will register all of the Laravel provided tasks inside the IoC
