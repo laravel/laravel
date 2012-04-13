@@ -264,7 +264,7 @@ class Blade {
 	{
 		$pattern = static::matcher('include');
 
-		return preg_replace($pattern, '$1<?php echo view$2->with(get_defined_vars()); ?>', $value);
+		return preg_replace($pattern, '$1<?php echo view$2->with(get_defined_vars())->render(); ?>', $value);
 	}
 
 	/**
