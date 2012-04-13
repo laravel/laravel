@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure;
+<?php namespace Laravel;
 
 class Cookie {
 
@@ -27,7 +27,7 @@ class Cookie {
 	 *		// Get the value of the "favorite" cookie
 	 *		$favorite = Cookie::get('favorite');
 	 *
-	 *		// Get the value of a cookie or return a default value 
+	 *		// Get the value of a cookie or return a default value
 	 *		$favorite = Cookie::get('framework', 'Laravel');
 	 * </code>
 	 *

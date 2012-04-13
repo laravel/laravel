@@ -138,10 +138,10 @@ class Router {
 	 * Register a group of routes that share attributes.
 	 *
 	 * @param  array    $attributes
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @return void
 	 */
-	public static function group($attributes, Closure $callback)
+	public static function group($attributes, $callback)
 	{
 		// Route groups allow the developer to specify attributes for a group
 		// of routes. To register them, we'll set a static property on the
@@ -230,7 +230,7 @@ class Router {
 			{
 				$routes[$method][$uri] = static::action($action);
 			}
-			
+
 			// If a group is being registered, we'll merge all of the group
 			// options into the action, giving preference to the action
 			// for options that are specified in both.

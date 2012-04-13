@@ -9,7 +9,7 @@ class Schema {
 	 * Begin a fluent schema operation on a database table.
 	 *
 	 * @param  string   $table
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @return void
 	 */
 	public static function table($table, $callback)
@@ -23,7 +23,7 @@ class Schema {
 	 * Create a new database table schema.
 	 *
 	 * @param  string   $table
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @return void
 	 */
 	public static function create($table, $callback)

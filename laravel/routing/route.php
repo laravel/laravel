@@ -1,6 +1,5 @@
 <?php namespace Laravel\Routing;
 
-use Closure;
 use Laravel\URI;
 use Laravel\Bundle;
 use Laravel\Request;
@@ -140,9 +139,9 @@ class Route {
 			return Controller::call($delegate, $this->parameters);
 		}
 
-		// If the route does not have a delegate, then it must be a Closure
-		// instance or have a Closure in its action array, so we will try
-		// to locate the Closure and call it directly.
+		// If the route does not have a delegate, then it must be a callback
+		// function or have a callback in its action array, so we will try
+		// to locate the callback and call it directly.
 		$handler = $this->handler();
 
 		if ( ! is_null($handler))
@@ -222,13 +221,13 @@ class Route {
 	/**
 	 * Get the anonymous function assigned to handle the route.
 	 *
-	 * @return Closure
+	 * @return callback
 	 */
 	protected function handler()
 	{
 		return array_first($this->action, function($key, $value)
 		{
-			return $value instanceof Closure;
+			return is_callable($value);
 		});
 	}
 
@@ -336,10 +335,10 @@ class Route {
 	 * Register a group of routes that share attributes.
 	 *
 	 * @param  array    $attributes
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @return void
 	 */
-	public static function group($attributes, Closure $callback)
+	public static function group($attributes, $callback)
 	{
 		Router::group($attributes, $callback);
 	}

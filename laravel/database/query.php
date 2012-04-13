@@ -1,6 +1,5 @@
 <?php namespace Laravel\Database;
 
-use Closure;
 use Laravel\Database;
 use Laravel\Paginator;
 use Laravel\Database\Query\Grammars\SQLServer;
@@ -140,7 +139,7 @@ class Query {
 	 * Add a join clause to the query.
 	 *
 	 * @param  string  $table
-	 * @param  string  $column1
+	 * @param  string|callback  $column1
 	 * @param  string  $operator
 	 * @param  string  $column2
 	 * @param  string  $type
@@ -148,10 +147,10 @@ class Query {
 	 */
 	public function join($table, $column1, $operator = null, $column2 = null, $type = 'INNER')
 	{
-		// If the "column" is really an instance of a Closure, the developer is
+		// If the "column" is really a callback function, the developer is
 		// trying to create a join with a complex "ON" clause. So, we will add
-		// the join, and then call the Closure with the join/
-		if ($column1 instanceof Closure)
+		// the join, and then call the function with the join/
+		if (is_callable($column1))
 		{
 			$this->joins[] = new Query\Join($type, $table);
 
@@ -229,7 +228,7 @@ class Query {
 	/**
 	 * Add a where condition to the query.
 	 *
-	 * @param  string  $column
+	 * @param  string|callback  $column
 	 * @param  string  $operator
 	 * @param  mixed   $value
 	 * @param  string  $connector
@@ -237,10 +236,10 @@ class Query {
 	 */
 	public function where($column, $operator = null, $value = null, $connector = 'AND')
 	{
-		// If a Closure is passed into the method, it means a nested where
+		// If a callback is passed into the method, it means a nested where
 		// clause is being initiated, so we will take a different course
 		// of action than when the statement is just a simple where.
-		if ($column instanceof Closure)
+		if (is_callable($column))
 		{
 			return $this->where_nested($column, $connector);
 		}
@@ -275,7 +274,7 @@ class Query {
 	 */
 	public function or_where_id($value)
 	{
-		return $this->or_where('id', '=', $value);		
+		return $this->or_where('id', '=', $value);
 	}
 
 	/**
@@ -389,7 +388,7 @@ class Query {
 	/**
 	 * Add a nested where condition to the query.
 	 *
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @param  string   $connector
 	 * @return Query
 	 */
@@ -822,7 +821,7 @@ class Query {
 
 		$sql = $this->grammar->delete($this);
 
-		return $this->connection->query($sql, $this->bindings);		
+		return $this->connection->query($sql, $this->bindings);
 	}
 
 	/**
