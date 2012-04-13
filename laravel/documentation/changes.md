@@ -33,6 +33,7 @@
 - [Added `unless` structure to Blade template engine](/docs/views/templating#blade-unless).
 - [Added Blade comments](/docs/views/templating#blade-comments).
 - [Added simpler environment management](/docs/install#environments).
+- Added support for bundles outside of the bundle directory.
 - Added support for DateTime database query bindings.
 - Migrated to the Symfony HttpFoundation component for core request / response handling.
 - Fixed the passing of strings into the `Input::except` method.

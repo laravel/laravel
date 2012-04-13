@@ -118,7 +118,7 @@ class Blade {
 	protected static function compile_layouts($value)
 	{
 		// If the Blade template is not using "layouts", we'll just return it
-		// it unchanged since there is nothing to do with layouts and we'll
+		// unchanged since there is nothing to do with layouts and we will
 		// just let the other Blade compilers handle the rest.
 		if ( ! starts_with($value, '@layout'))
 		{
@@ -126,8 +126,8 @@ class Blade {
 		}
 
 		// First we'll split out the lines of the template so we can get the
-		// the layout from the top of the template. By convention it must
-		// be located on the first line of the template contents.
+		// layout from the top of the template. By convention it must be
+		// located on the first line of the template contents.
 		$lines = preg_split("/(\r?\n)/", $value);
 
 		$pattern = static::matcher('layout');
@@ -135,7 +135,7 @@ class Blade {
 		$lines[] = preg_replace($pattern, '$1@include$2', $lines[0]);
 
 		// We will add a "render" statement to the end of the templates and
-		// and then slice off the @layout shortcut from the start so the
+		// then slice off the "@layout" shortcut from the start so the
 		// sections register before the parent template renders.
 		return implode(CRLF, array_slice($lines, 1));
 	}
@@ -203,8 +203,8 @@ class Blade {
 			$blade = preg_replace($search, $replace, $forelse);
 
 			// Finally, once we have the check prepended to the loop we'll replace
-			// all instances of this "forelse" syntax in the view content of the
-			// view being compiled to Blade syntax with real syntax.
+			// all instances of this forelse syntax in the view content of the
+			// view being compiled to Blade syntax with real PHP syntax.
 			$value = str_replace($forelse, $blade, $value);
 		}
 

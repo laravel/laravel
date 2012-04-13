@@ -271,9 +271,19 @@ class Bundle {
 		{
 			return path('app');
 		}
-		else if ($location = array_get(static::$bundles, $bundle.'.location'))
+		elseif ($location = array_get(static::$bundles, $bundle.'.location'))
 		{
-			return str_finish(path('bundle').$location, DS);
+			// If the bundle location starts with "path: ", we will assume that a raw
+			// path has been specified and will simply return it. Otherwise, we'll
+			// prepend the bundle directory path onto the location and return.
+			if (starts_with($location, 'path: '))
+			{
+				return str_finish(substr($location, 6), DS);
+			}
+			else
+			{
+				return str_finish(path('bundle').$location, DS);
+			}
 		}
 	}
 
@@ -374,8 +384,8 @@ class Bundle {
 	public static function parse($identifier)
 	{
 		// The parsed elements are cached so we don't have to reparse them on each
-		// subsequent request for the parsed element. So, if we've already parsed
-		// the given element, we'll just return the cached copy.
+		// subsequent request for the parsed element. So if we've already parsed
+		// the given element, we'll just return the cached copy as the value.
 		if (isset(static::$elements[$identifier]))
 		{
 			return static::$elements[$identifier];
@@ -387,7 +397,7 @@ class Bundle {
 		}
 		// If no bundle is in the identifier, we will insert the default bundle
 		// since classes like Config and Lang organize their items by bundle.
-		// The "application" folder essentially behaves as a bundle.
+		// The application folder essentially behaves as a default bundle.
 		else
 		{
 			$element = array(DEFAULT_BUNDLE, strtolower($identifier));
