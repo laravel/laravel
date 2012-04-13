@@ -76,9 +76,6 @@ class Autoloader {
 			}
 		}
 
-		// If all else fails we will just iterator through the mapped
-		// PSR-0 directories looking for the class. This is the last
-		// resort and slowest loading option for the class.
 		static::load_psr($class);
 	}
 
