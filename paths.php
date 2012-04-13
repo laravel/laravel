@@ -8,6 +8,25 @@
  * @link     http://laravel.com
  */
 
+/*
+|----------------------------------------------------------------
+| Application Environemtns
+|----------------------------------------------------------------
+|
+| Laravel takes a dead simple approach to environments, and we
+| think you'll love it. Just specify which URLs belongs to a
+| given environment, and when you access your application
+| from a URL matching that pattern, we'll be sure to
+| merge in that environment's configuration files.
+|
+*/
+
+$environments = array(
+
+	'local' => array('*localhost*', '*.dev'),
+
+);
+
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
