@@ -108,63 +108,6 @@ Autoloader::namespaces(array(
 
 /*
 |--------------------------------------------------------------------------
-| Set The CLI Options Array
-|--------------------------------------------------------------------------
-|
-| If the current request is from the Artisan command-line interface, we
-| will parse the command line arguments and options and set them the
-| array of options in the $_SERVER global array for convenience.
-|
-*/
-
-if (defined('STDIN'))
-{
-	$console = CLI\Command::options($_SERVER['argv']);
-
-	list($arguments, $options) = $console;
-
-	$options = array_change_key_case($options, CASE_UPPER);
-
-	$_SERVER['CLI'] = $options;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Set The CLI Laravel Environment
-|--------------------------------------------------------------------------
-|
-| Next we'll set the LARAVEL_ENV variable if the current request is from
-| the Artisan command-line interface. Since the environment is often
-| specified within an Apache .htaccess file, we need to set it here
-| when the request is not coming through Apache.
-|
-*/
-
-if (isset($_SERVER['CLI']['ENV']))
-{
-	$_SERVER['LARAVEL_ENV'] = $_SERVER['CLI']['ENV'];
-}
-
-/*
-|--------------------------------------------------------------------------
-| Register The Laravel Bundles
-|--------------------------------------------------------------------------
-|
-| Finally we will register all of the bundles that have been defined for
-| the application. None of them will be started, yet but will be setup
-| so that they may be started by the develop at any time.
-|
-*/
-
-$bundles = require path('app').'bundles'.EXT;
-
-foreach ($bundles as $bundle => $config)
-{
-	Bundle::register($bundle, $config);
-}
-
-/*
-|--------------------------------------------------------------------------
 | Magic Quotes Strip Slashes
 |--------------------------------------------------------------------------
 |
@@ -198,3 +141,89 @@ if (magic_quotes())
 use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
 
 Request::$foundation = RequestFoundation::createFromGlobals();
+
+/*
+|--------------------------------------------------------------------------
+| Determine The Application Environment
+|--------------------------------------------------------------------------
+|
+| Next we're ready to determine the application environment. This may be
+| set either via the command line options, or, if the request is from
+| the web, via the mapping of URIs to environments that lives in
+| the "paths.php" file for the application and is parsed.
+|
+*/
+
+if (Request::cli())
+{
+	foreach (Request::foundation()->server->get('argv') as $argument)
+	{
+		if (starts_with($argument, '--env='))
+		{
+			$environment = substr($argument, 6);
+
+			break;
+		}
+	}
+}
+else
+{
+	$environment = Request::detect_env($environments);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Set The Application Environment
+|--------------------------------------------------------------------------
+|
+| Once we have determined the application environment, we will set it on
+| the global server array of the HttpFoundation request. This makes it
+| available throughout the application, thought it is mainly only
+| used to determine which configuration files to merge in.
+|
+*/
+
+if ( ! is_null($environment))
+{
+	Request::foundation()->server->set('LARAVEL_ENV', $environment);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Set The CLI Options Array
+|--------------------------------------------------------------------------
+|
+| If the current request is from the Artisan command-line interface, we
+| will parse the command line arguments and options and set them the
+| array of options in the $_SERVER global array for convenience.
+|
+*/
+
+if (defined('STDIN'))
+{
+	$console = CLI\Command::options($_SERVER['argv']);
+
+	list($arguments, $options) = $console;
+
+	$options = array_change_key_case($options, CASE_UPPER);
+
+	$_SERVER['CLI'] = $options;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Register The Laravel Bundles
+|--------------------------------------------------------------------------
+|
+| Finally we will register all of the bundles that have been defined for
+| the application. None of them will be started, yet but will be setup
+| so that they may be started by the develop at any time.
+|
+*/
+
+$bundles = require path('app').'bundles'.EXT;
+
+foreach ($bundles as $bundle => $config)
+{
+	Bundle::register($bundle, $config);
+}

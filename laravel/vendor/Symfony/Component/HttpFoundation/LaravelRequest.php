@@ -24,4 +24,14 @@ class LaravelRequest extends Request {
         return $request;
     }
 
+    /**
+     * Get the root URL of the application.
+     *
+     * @return string
+     */
+    public function getRootUrl()
+    {
+        return $this->getScheme().'://'.$this->getHttpHost().$this->getBasePath();
+    }
+
 }

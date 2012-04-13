@@ -209,6 +209,31 @@ class Request {
 	}
 
 	/**
+	 * Detect the current environment from an environment configuration.
+	 *
+	 * @param  array        $environments
+	 * @return string|null
+	 */
+	public static function detect_env(array $environments)
+	{
+		$root = static::foundation()->getRootUrl();
+
+		foreach ($environments as $environment => $patterns)
+		{
+			// Essentially we just want to loop through each environment pattern
+			// and determine if the current URI matches the pattern and if so
+			// we'll simply return the environment for that URI pattern.
+			foreach ($patterns as $pattern)
+			{
+				if (Str::is($pattern, $root))
+				{
+					return $environment;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Get the main route handling the request.
 	 *
 	 * @return Route

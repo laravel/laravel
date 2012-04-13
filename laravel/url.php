@@ -70,9 +70,7 @@ class URL {
 		}
 		else
 		{
-			$f = Request::foundation();
-
-			$base = $f->getScheme().'://'.$f->getHttpHost().$f->getBasePath();
+			$base = Request::foundation()->getRootUrl();
 		}
 
 		return static::$base = $base;
