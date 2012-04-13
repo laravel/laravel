@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.1.8](#3.1.8)
+- [Upgrading From 3.1.7](#upgrade-3.1.8)
 - [Laravel 3.1.7](#3.1.7)
 - [Upgrading From 3.1.6](#upgrade-3.1.7)
 - [Laravel 3.1.6](#3.1.6)
@@ -18,6 +20,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1.8"></a>
+## Laravel 3.1.8
+
+- Fixes possible WSOD when using Blade's @include expression.
+
+<a name="upgrade-3.1.8"></a>
+## Upgrading From 3.1.7
+
+- Replace the **laravel** folder.
 
 <a name="3.1.7"></a>
 ## Laravel 3.1.7
