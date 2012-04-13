@@ -9,17 +9,9 @@
  */
 
 // --------------------------------------------------------------
-// Initialize the web variable if it doesn't exist.
+// Change to the current working directory.
 // --------------------------------------------------------------
-if ( ! isset($web)) $web = false;
-
-// --------------------------------------------------------------
-// Change to the current directory if not from the web.
-// --------------------------------------------------------------
-if ( ! $web)
-{
-	chdir(__DIR__);
-}
+chdir(__DIR__);
 
 // --------------------------------------------------------------
 // Define the directory separator for the environment.
@@ -57,22 +49,13 @@ $paths['storage'] = 'storage';
 // --------------------------------------------------------------
 // The path to the public directory.
 // --------------------------------------------------------------
-if ($web)
-{
-	$GLOBALS['laravel_paths']['public'] = realpath('').DS;
-}
-else
-{
-	$paths['public'] = 'public';
-}
+$paths['public'] = 'public';
 
 // --------------------------------------------------------------
 // Define each constant if it hasn't been defined.
 // --------------------------------------------------------------
 foreach ($paths as $name => $path)
 {
-	if ($web) $path = "../{$path}";
-
 	if ( ! isset($GLOBALS['laravel_paths'][$name]))
 	{
 		$GLOBALS['laravel_paths'][$name] = realpath($path).DS;

@@ -41,6 +41,7 @@
 - Allows pivot table timestamps to be disabled.
 - Made the `get_timestamp` Eloquent method static.
 - `Request::secure` now takes `application.ssl` configuration option into consideration.
+- Simplified the `paths.php` file.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
