@@ -371,44 +371,109 @@ class Form {
 	}
 
 	/**
-	 * Create a HTML select element.
-	 *
-	 * <code>
-	 *		// Create a HTML select element filled with options
-	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'));
-	 *
-	 *		// Create a select element with a default selected value
-	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), 'L');
-	 * </code>
-	 *
-	 * @param  string  $name
-	 * @param  array   $options
-	 * @param  string  $selected
-	 * @param  array   $attributes
-	 * @return string
-	 */	
-	public static function select($name, $options = array(), $selected = null, $attributes = array())
-	{
-		$attributes['id'] = static::id($name, $attributes);
-		
-		$attributes['name'] = $name;
+     * Create a HTML select element.
+     *
+     * <code>
+     *      // Create a HTML select element filled with options
+     *      echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'));
+     *
+     *      // Create a select element with a default selected value
+     *      echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), array('L'));
+     *
+     *      // Create a select element with two default selected values
+     *      echo Form::select('sizes', array('S' => 'Small', 'M' => 'Medium', 'L' => 'Large'), array('S', 'L'));
+     *
+     * </code>
+     *
+     * @param  string  $name
+     * @param  array   $options
+     * @param  array   $selected
+     * @param  array   $attributes
+     * @return string
+     */ 
+    public static function select($name, $options = array(), $selected = array(), $attributes = array())
+    {
+        $attributes['id']   = static::id($name, $attributes);
+        $attributes['name'] = $name;
 
-		$html = array();
+        // This is a multi-select
+        if (is_array($selected))
+        {
+            $attributes['multiple'] = 'multiple';
+        }
+        
+        if ( ! is_array($selected))
+        {
+            if ($selected === null)
+            {
+                // Use an empty array
+                $selected = array();
+            }
+            else
+            {
+                // Convert the selected options to an array
+                $selected = array( (string) $selected);
+            }
+        }
 
-		foreach ($options as $value => $display)
-		{
-			$html[] = static::option($value, $display, $selected);
-		}
+        if (empty($options))
+        {
+            // There are no options
+            $html = '';
+        }
+        else
+        {
+            $html = array();
 
-		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>';
-	}
+            foreach ($options as $value => $display)
+            {
+                if (is_array($display))
+                {
+                    // Create a new optgroup
+                    $group = array('label' => $value);
+
+                    // Create a new list of options
+                    $_options = array();
+
+                    foreach ($display as $_value => $_name)
+                    {
+                        // Force value to be string
+                        $_value = (string) $_value;
+
+                        // Create a new attribute set for this option
+                        $option = array('value' => $_value);
+
+                        if (in_array($_value, $selected))
+                        {
+                            // This option is selected
+                            $option['selected'] = 'selected';
+                        }
+
+                        // Change the option to the HTML string
+                        $_options[] = static::option($_value, $_name, $selected);
+                    }
+
+                    // Compile the options into a string
+                    $_options = "\n".implode("\n", $_options)."\n";
+
+                    $html[$value] = '<optgroup'.HTML::attributes($group).'>'.$_options.'</optgroup>';
+                }
+                else
+                {
+                    $html[] = static::option($value, $display, $selected);
+                }
+            }
+        }
+
+        return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>';
+    }
 
 	/**
 	 * Create a HTML select element option.
 	 *
 	 * @param  string  $value
 	 * @param  string  $display
-	 * @param  string  $selected
+	 * @param  mixed   $selected
 	 * @return string
 	 */
 	protected static function option($value, $display, $selected)
