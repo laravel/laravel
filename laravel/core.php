@@ -168,7 +168,9 @@ if (Request::cli())
 }
 else
 {
-	$environment = Request::detect_env($environments);
+	$root = Request::foundation()->getRootUrl();
+
+	$environment = Request::detect_env($environments, $root);
 }
 
 /*
