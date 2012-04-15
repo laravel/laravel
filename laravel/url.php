@@ -40,7 +40,7 @@ class URL {
 		$route = Router::find('home');
 
 		// If a route named "home" exists, we'll route to that instead of using
-		// the single slash root URI. THis allows the HTTPS attribute to be
+		// the single slash root URI. This allows the HTTPS attribute to be
 		// respected instead of being hard-coded in the redirect.
 		if ( ! is_null($route))
 		{

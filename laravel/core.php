@@ -75,15 +75,15 @@ Autoloader::namespaces(array('Laravel' => path('sys')));
 */
 
 Autoloader::map(array(
-	'Laravel\\Database\\Eloquent\\Relationships\\Belongs_To' 
+	'Laravel\\Database\\Eloquent\\Relationships\\Belongs_To'
                     => path('sys').'database/eloquent/relationships/belongs_to'.EXT,
-	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many' 
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many'
                     => path('sys').'database/eloquent/relationships/has_many'.EXT,
-	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many_And_Belongs_To' 
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_Many_And_Belongs_To'
                     => path('sys').'database/eloquent/relationships/has_many_and_belongs_to'.EXT,
-	'Laravel\\Database\\Eloquent\\Relationships\\Has_One' 
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_One'
                     => path('sys').'database/eloquent/relationships/has_one'.EXT,
-	'Laravel\\Database\\Eloquent\\Relationships\\Has_One_Or_Many' 
+	'Laravel\\Database\\Eloquent\\Relationships\\Has_One_Or_Many'
                     => path('sys').'database/eloquent/relationships/has_one_or_many'.EXT,
 ));
 
@@ -148,7 +148,7 @@ if (isset($_SERVER['CLI']['ENV']))
 |
 | Finally we will register all of the bundles that have been defined for
 | the application. None of them will be started, yet but will be setup
-| so that they may be started by the develop at any time.
+| so that they may be started by the developer at any time.
 |
 */
 

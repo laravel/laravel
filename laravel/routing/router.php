@@ -161,7 +161,7 @@ class Router {
 	 *
 	 * <code>
 	 *		// Register a route with the router
-	 *		Router::register('GET' ,'/', function() {return 'Home!';});
+	 *		Router::register('GET', '/', function() {return 'Home!';});
 	 *
 	 *		// Register a route that handles multiple URIs with the router
 	 *		Router::register(array('GET', '/', 'GET /home'), function() {return 'Home!';});
@@ -230,7 +230,7 @@ class Router {
 			{
 				$routes[$method][$uri] = static::action($action);
 			}
-			
+
 			// If a group is being registered, we'll merge all of the group
 			// options into the action, giving preference to the action
 			// for options that are specified in both.
@@ -542,7 +542,7 @@ class Router {
 			$fallback = array_get(static::$fallback, $method, array());
 
 			// When building the array of routes, we'll merge in all of the fallback
-			// routes for each request methdo individually. This allows us to avoid
+			// routes for each request method individually. This allows us to avoid
 			// collisions when merging the arrays together.
 			$routes[$method] = array_merge($routes[$method], $fallback);
 		}
