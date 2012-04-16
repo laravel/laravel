@@ -273,6 +273,7 @@ class File {
 			}
 		}
 
+		unset($items);
 		if ($delete) rmdir($source);
 		
 		return true;
@@ -306,6 +307,7 @@ class File {
 			}
 		}
 
+		unset($items);
 		if ( ! $preserve) @rmdir($directory);
 	}
 
