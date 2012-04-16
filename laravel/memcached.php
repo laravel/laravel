@@ -5,7 +5,7 @@ class Memcached {
 	/**
 	 * The Memcached connection instance.
 	 *
-	 * @var Memcached
+	 * @var Memcache
 	 */
 	protected static $connection;
 
@@ -40,7 +40,7 @@ class Memcached {
 	 */
 	protected static function connect($servers)
 	{
-		$memcache = new \Memcached;
+		$memcache = new \Memcache;
 
 		foreach ($servers as $server)
 		{
