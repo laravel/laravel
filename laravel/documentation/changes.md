@@ -33,7 +33,6 @@
 - [Added `unless` structure to Blade template engine](/docs/views/templating#blade-unless).
 - [Added Blade comments](/docs/views/templating#blade-comments).
 - [Added simpler environment management](/docs/install#environments).
-- Switched to `Memcached` API instead of `Memcache`.
 - Added support for bundles outside of the bundle directory.
 - Added support for DateTime database query bindings.
 - Migrated to the Symfony HttpFoundation component for core request / response handling.
