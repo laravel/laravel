@@ -312,7 +312,7 @@ abstract class Controller {
 
 		$response = call_user_func_array(array($this, $action), $parameters);
 
-		// If the controller has specified a layout view. The response
+		// If the controller has specified a layout view the response
 		// returned by the controller method will be bound to that
 		// view and the layout will be considered the response.
 		if (is_null($response) and ! is_null($this->layout))
