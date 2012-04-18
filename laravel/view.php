@@ -110,10 +110,11 @@ class View implements ArrayAccess {
 	}
 
 	/**
-	 * Allows people to check if a view passed in exists, handy for certain types of CMS development
-	 * @param  string  $view        	The view name (ex. site.home)
-	 * @param  boolean $return_path 	Setting to TRUE will return the path found if it exists
-	 * @return string / boolean
+	 * Determine if the given view exists.
+	 *
+	 * @param  string       $view
+	 * @param  boolean      $return_path
+	 * @return string|bool
 	 */
 	public static function exists($view, $return_path = false)
 	{
@@ -130,6 +131,7 @@ class View implements ArrayAccess {
 		{
 			return $return_path ? $path : true;
 		}
+
 		return false;
 	}
 
