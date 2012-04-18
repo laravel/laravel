@@ -40,19 +40,19 @@ class Memcached {
 	 */
 	protected static function connect($servers)
 	{
-		$memcache = new \Memcache;
+		$memcached = new \Memcached;
 
 		foreach ($servers as $server)
 		{
-			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
+			$memcached->addServer($server['host'], $server['port'], $server['weight']);
 		}
 
-		if ($memcache->getVersion() === false)
+		if ($memcached->getVersion() === false)
 		{
 			throw new \Exception('Could not establish memcached connection.');
 		}
 
-		return $memcache;
+		return $memcached;
 	}
 
 	/**
