@@ -224,6 +224,23 @@ class HTML {
 	}
 
 	/**
+	 * Generate a HTML link that opens in a new window.
+	 *
+	 * An array of parameters may be specified with the new window attributes.
+	 *
+	 * @param  string  $url
+	 * @param  string  $title
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_popup($url, $title, $attributes = array())
+	{
+		$url = static::entities(URL::to($url));
+		
+		return '<a href="'.$url.'" onclick="window.open(\''.$url.'\', \'_blank\', \''.static::attributes($attributes, true).'\');return false;">'.$title.'</a>';
+	}
+
+	/**
 	 * Generate an HTML mailto link.
 	 *
 	 * The E-Mail address will be obfuscated to protect it from spam bots.
@@ -330,24 +347,39 @@ class HTML {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function attributes($attributes)
+	public static function attributes($attributes, $javascript = false)
 	{
 		$html = array();
 
 		foreach ((array) $attributes as $key => $value)
 		{
-			// For numeric keys, we will assume that the key and the value are the
-			// same, as this will conver HTML attributes such as "required" that
-			// may be specified as required="required", etc.
-			if (is_numeric($key)) $key = $value;
+			if ( $javascript ) {
+				// Remove double quotes.
+				$html[] = $key.'='.static::entities($value).'';
+			} else {
+				// For numeric keys, we will assume that the key and the value are the
+				// same, as this will conver HTML attributes such as "required" that
+				// may be specified as required="required", etc.
+				if (is_numeric($key)) $key = $value;
 
-			if ( ! is_null($value))
-			{
-				$html[] = $key.'="'.static::entities($value).'"';
+				if ( ! is_null($value))
+				{
+					$html[] = $key.'="'.static::entities($value).'"';
+				}
 			}
 		}
 
-		return (count($html) > 0) ? ' '.implode(' ', $html) : '';
+		if ( count($html) > 0 ) {
+			if ( $javascript ) {
+				$html = implode(',', $html);
+			} else {
+				$html = ' '.implode(' ', $html);
+			}
+		} else {
+			$html = '';
+		}
+
+		return $html;
 	}
 
 	/**
