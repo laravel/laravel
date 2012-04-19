@@ -357,6 +357,17 @@ class Table {
 	}
 
 	/**
+	 * Add a relationship foreign key, appending _id.
+	 *
+	 * @param  string  $name
+	 * @return Fluent
+	 */
+	public function relate($name)
+	{
+		return $this->integer(strtolower($name).'_id');
+	}	
+
+	/**
 	 * Set the database connection for the table operation.
 	 *
 	 * @param  string  $connection
