@@ -125,7 +125,7 @@ class IoC {
 			return static::$singletons[$name];
 		}
 
-		$object = call_user_func(static::$registry[$name]['resolver'], $parameters);
+		$object = call_user_func_array(static::$registry[$name]['resolver'], $parameters);
 
 		// If the resolver is registering as a singleton resolver, we will cache
 		// the instance of the object in the container so we can resolve it next
