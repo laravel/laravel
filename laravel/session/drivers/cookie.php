@@ -10,6 +10,13 @@ class Cookie extends Driver {
 	const payload = 'session_payload';
 
 	/**
+	 * Indicates that a session have been loaded for the current request.
+	 *
+	 * @var boolean
+	 */
+	static $loaded = false;
+
+	/**
 	 * Load a session from storage by a given ID.
 	 *
 	 * If no session is found for the ID, null will be returned.
@@ -19,9 +26,10 @@ class Cookie extends Driver {
 	 */
 	public function load($id)
 	{
-		if (C::has(Cookie::payload))
+		if (!static::$loaded and \Laravel\Cookie::has(Cookie::payload))
 		{
-			return unserialize(Crypter::decrypt(C::get(Cookie::payload)));
+			static::$loaded = true;
+			return unserialize(Crypter::decrypt(\Laravel\Cookie::get(Cookie::payload)));
 		}
 	}
 
