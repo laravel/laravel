@@ -52,6 +52,7 @@
 - Added `$default` parameter to Bundle::option method.
 - Fixed bug present when using Eloquent models with Twig.
 - Allow multiple views to be registered for a single composer.
+- Added `Request::set_env` method.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
