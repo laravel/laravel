@@ -51,6 +51,7 @@
 - Only write file caches if number of minutes is greater than zero.
 - Added `$default` parameter to Bundle::option method.
 - Fixed bug present when using Eloquent models with Twig.
+- Allow multiple views to be registered for a single composer.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
