@@ -6,6 +6,7 @@ class Error {
 	 * Handle an exception and display the exception report.
 	 *
 	 * @param  Exception  $exception
+	 * @param  bool       $trace
 	 * @return void
 	 */
 	public static function exception($exception, $trace = true)
@@ -24,6 +25,7 @@ class Error {
 				  <pre>".$exception->getMessage()."</pre>
 				  <h3>Location:</h3>
 				  <pre>".$exception->getFile()." on line ".$exception->getLine()."</pre>";
+
 			if ($trace)
 			{
 				echo "
