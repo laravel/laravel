@@ -119,7 +119,7 @@ class Router {
 	 *
 	 * <code>
 	 *		// Register a group of URIs for an action
-	 *		Router::share(array('GET', '/'), array('POST', '/'), 'home@index');
+	 *		Router::share(array(array('GET', '/'), array('POST', '/')), 'home@index');
 	 * </code>
 	 *
 	 * @param  array  $routes
