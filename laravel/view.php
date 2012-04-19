@@ -250,13 +250,18 @@ class View implements ArrayAccess {
 	 *		});
 	 * </code>
 	 *
-	 * @param  string   $view
-	 * @param  Closure  $composer
+	 * @param  string|array  $view
+	 * @param  Closure       $composer
 	 * @return void
 	 */
-	public static function composer($view, $composer)
+	public static function composer($views, $composer)
 	{
-		Event::listen("laravel.composing: {$view}", $composer);
+		$views = (array) $views;
+
+		foreach ($views as $view)
+		{
+			Event::listen("laravel.composing: {$view}", $composer);
+		}
 	}
 
 	/**
