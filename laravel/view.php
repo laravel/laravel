@@ -224,15 +224,25 @@ class View implements ArrayAccess {
 	 *		{
 	 *			$view['title'] = 'Home';
 	 *		});
+	 *		// Register a composer for the "home" and "about" views
+	 *		View::composer(array('home', 'about'), function($view)
+	 *		{
+	 *			$view->nest('footer', 'partials.footer');
+	 *		});
 	 * </code>
 	 *
-	 * @param  string   $view
+	 * @param  mixed   $views
 	 * @param  Closure  $composer
 	 * @return void
 	 */
-	public static function composer($view, $composer)
+	public static function composer($views, $composer)
 	{
-		Event::listen("laravel.composing: {$view}", $composer);
+		$views = (array) $views;
+
+		foreach ($views as $view)
+		{
+			Event::listen("laravel.composing: {$view}", $composer);
+		}
 	}
 
 	/**
@@ -350,7 +360,7 @@ class View implements ArrayAccess {
 		// All nested views and responses are evaluated before the main view.
 		// This allows the assets used by nested views to be added to the
 		// asset container before the main view is evaluated.
-		foreach ($data as $key => $value) 
+		foreach ($data as $key => $value)
 		{
 			if ($value instanceof View or $value instanceof Response)
 			{

@@ -131,6 +131,21 @@ class Input {
 	}
 
 	/**
+	 * Retrieves all items from the uploaded file data.
+	 *
+	 * <code>
+	 *		// Retrieving all items from the $_FILES array
+	 *		$files = Input::files();
+	 * </code>
+	 *
+	 * @return array
+	 */
+	public static function files()
+	{
+		return $_FILES;
+	}
+
+	/**
 	 * Get an item from the uploaded file data.
 	 *
 	 * <code>

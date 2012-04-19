@@ -119,7 +119,7 @@ class Router {
 	 *
 	 * <code>
 	 *		// Register a group of URIs for an action
-	 *		Router::share(array('GET', '/'), array('POST', '/'), 'home@index');
+	 *		Router::share(array(array('GET', '/'), array('POST', '/')), 'home@index');
 	 * </code>
 	 *
 	 * @param  array  $routes
@@ -164,7 +164,7 @@ class Router {
 	 *		Router::register('GET', '/', function() {return 'Home!';});
 	 *
 	 *		// Register a route that handles multiple URIs with the router
-	 *		Router::register(array('GET', '/', 'GET /home'), function() {return 'Home!';});
+	 *		Router::register('GET', array('/', 'home'), function() {return 'Home!';});
 	 * </code>
 	 *
 	 * @param  string        $method
