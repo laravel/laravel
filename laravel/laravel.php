@@ -25,22 +25,11 @@ require 'core.php';
 |
 */
 
-set_exception_handler(function($e)
-{
-	Error::exception($e);
-});
+set_exception_handler(array('Laravel\Error', 'exception'));
 
+set_error_handler(array('Laravel\Error', 'native'));
 
-set_error_handler(function($code, $error, $file, $line)
-{
-	Error::native($code, $error, $file, $line);
-});
-
-
-register_shutdown_function(function()
-{
-	Error::shutdown();
-});
+register_shutdown_function(array('Laravel\Error', 'shutdown'));
 
 /*
 |--------------------------------------------------------------------------
