@@ -428,7 +428,7 @@ function class_basename($class)
  */
 function value($value)
 {
-	return ($value instanceof Closure) ? call_user_func($value) : $value;
+	return (is_callable($value) and ! is_string($value)) ? call_user_func($value) : $value;
 }
 
 /**
