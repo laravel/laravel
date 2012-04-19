@@ -160,6 +160,13 @@ Each time a view is created, its "composer" event will be fired. You can listen 
 
 Now each time the "home" view is created, an instance of the View will be passed to the registered Closure, allowing you to prepare the view however you wish.
 
+#### Register a composer that handles multiple views:
+
+	View::composer(array('home', 'profile'), function($view)
+	{
+		//
+	});
+
 > **Note:** A view can have more than one composer. Go wild!
 
 <a name="redirects"></a>
