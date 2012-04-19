@@ -8,7 +8,7 @@ class Error {
 	 * @param  Exception  $exception
 	 * @return void
 	 */
-	public static function exception($exception)
+	public static function exception($exception, $trace = true)
 	{
 		static::log($exception);
 
@@ -23,9 +23,13 @@ class Error {
 				  <h3>Message:</h3>
 				  <pre>".$exception->getMessage()."</pre>
 				  <h3>Location:</h3>
-				  <pre>".$exception->getFile()." on line ".$exception->getLine()."</pre>
+				  <pre>".$exception->getFile()." on line ".$exception->getLine()."</pre>";
+			if ($trace)
+			{
+				echo "
 				  <h3>Stack Trace:</h3>
 				  <pre>".$exception->getTraceAsString()."</pre></html>";
+			}
 		}
 
 		// If we're not using detailed error messages, we'll use the event
@@ -83,7 +87,7 @@ class Error {
 		{
 			extract($error, EXTR_SKIP);
 
-			static::exception(new \ErrorException($message, $type, 0, $file, $line));
+			static::exception(new \ErrorException($message, $type, 0, $file, $line), false);
 		}
 	}
 
