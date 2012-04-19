@@ -187,7 +187,7 @@ else
 
 if ( ! is_null($environment))
 {
-	Request::foundation()->server->set('LARAVEL_ENV', $environment);
+	Request::set_env($environment);
 }
 
 /*

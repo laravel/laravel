@@ -198,6 +198,17 @@ class Request {
 	}
 
 	/**
+	 * Set the Laravel environment for the current request.
+	 *
+	 * @param  string  $env
+	 * @return void
+	 */
+	public static function set_env($env)
+	{
+		static::foundation()->server->set('LARAVEL_ENV', $env);
+	}
+
+	/**
 	 * Determine the current request environment.
 	 *
 	 * @param  string  $env
