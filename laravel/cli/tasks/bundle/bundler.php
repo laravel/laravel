@@ -125,7 +125,7 @@ class Bundler extends Task {
 
 			if ($response['status'] == 'not-found')
 			{
-				throw new \Exception("There is not a bundle named [$bundle].");
+				throw new \Exception("There is no bundle named [$bundle].");
 			}
 
 			// If the bundle was retrieved successfully, we will add it to
