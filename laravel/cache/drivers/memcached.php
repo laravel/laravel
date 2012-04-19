@@ -1,11 +1,11 @@
-<?php namespace Laravel\Cache\Drivers; use Memcache;
+<?php namespace Laravel\Cache\Drivers;
 
 class Memcached extends Driver {
 
 	/**
 	 * The Memcache instance.
 	 *
-	 * @var Memcache
+	 * @var Memcached
 	 */
 	protected $memcache;
 
@@ -19,10 +19,10 @@ class Memcached extends Driver {
 	/**
 	 * Create a new Memcached cache driver instance.
 	 *
-	 * @param  Memcache  $memcache
+	 * @param  Memcached  $memcache
 	 * @return void
 	 */
-	public function __construct(Memcache $memcache, $key)
+	public function __construct(\Memcached $memcache, $key)
 	{
 		$this->key = $key;
 		$this->memcache = $memcache;
@@ -68,7 +68,7 @@ class Memcached extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->memcache->set($this->key.$key, $value, 0, $minutes * 60);
+		$this->memcache->set($this->key.$key, $value, $minutes * 60);
 	}
 
 	/**

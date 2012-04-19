@@ -39,6 +39,10 @@ All views are stored within the **application/views** directory and use the PHP 
 		return View::make('home.index');
 	});
 
+#### Determining if a view exists:
+
+	$exists = View::exists('home.index');
+
 Sometimes you will need a little more control over the response sent to the browser. For example, you may need to set a custom header on the response, or change the HTTP status code. Here's how:
 
 #### Returning a custom response:

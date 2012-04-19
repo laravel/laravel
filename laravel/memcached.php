@@ -5,7 +5,7 @@ class Memcached {
 	/**
 	 * The Memcached connection instance.
 	 *
-	 * @var Memcache
+	 * @var Memcached
 	 */
 	protected static $connection;
 
@@ -40,11 +40,11 @@ class Memcached {
 	 */
 	protected static function connect($servers)
 	{
-		$memcache = new \Memcache;
+		$memcache = new \Memcached;
 
 		foreach ($servers as $server)
 		{
-			$memcache->addServer($server['host'], $server['port'], true, $server['weight']);
+			$memcache->addServer($server['host'], $server['port'], $server['weight']);
 		}
 
 		if ($memcache->getVersion() === false)
