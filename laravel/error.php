@@ -62,8 +62,6 @@ class Error {
 		if (in_array($code, Config::get('error.ignore')))
 		{
 			return static::log($exception);
-
-			return true;
 		}
 
 		static::exception($exception);
