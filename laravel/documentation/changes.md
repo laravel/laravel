@@ -48,6 +48,7 @@
 - Made the `get_timestamp` Eloquent method static.
 - `Request::secure` now takes `application.ssl` configuration option into consideration.
 - Simplified the `paths.php` file.
+- Only write file caches if number of minutes is greater than zero.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
