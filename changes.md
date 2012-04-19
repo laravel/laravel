@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.1.9](#3.1.9)
+- [Upgrading From 3.1.8](#upgrade-3.1.9)
 - [Laravel 3.1.8](#3.1.8)
 - [Upgrading From 3.1.7](#upgrade-3.1.8)
 - [Laravel 3.1.7](#3.1.7)
@@ -20,6 +22,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.1.9"></a>
+## Laravel 3.1.9
+
+- Fixes cookie session driver bug that caused infinite loop on some occasions.
+
+<a name="upgrade-3.1.9"></a>
+## Upgrading From 3.1.8
+
+- Replace the **laravel** folder.
 
 <a name="3.1.8"></a>
 ## Laravel 3.1.8
