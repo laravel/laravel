@@ -16,20 +16,11 @@ Bundle::start(DEFAULT_BUNDLE);
  * for the "database" CLI option. This allows migrations to be run
  * conveniently for a test or staging database.
  */
-if (isset($_SERVER['CLI']['DB']))
+
+if ( ! is_null($database = get_cli_option('db')))
 {
-	Config::set('database.default', $_SERVER['CLI']['DB']);
+	Config::set('database.default', $database);
 }
-
-/**
- * Overwrite the HttpFoundation request since we have set some of
- * the server variables since it was created. This allows us to
- * set the default database for the CLI task.
- */
-
-use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
-
-Request::$foundation = RequestFoundation::createFromGlobals();
 
 /**
  * We will register all of the Laravel provided tasks inside the IoC

@@ -505,3 +505,23 @@ function yield($section)
 {
 	return Laravel\Section::yield($section);
 }
+
+/**
+ * Get a CLI option from the argv $_SERVER variable.
+ *
+ * @param  string  $option
+ * @param  mixed   $default
+ * @return string
+ */
+function get_cli_option($option, $default = null)
+{
+	foreach (Laravel\Request::foundation()->server->get('argv') as $argument)
+	{
+		if (starts_with($argument, "--{$option}="))
+		{
+			return substr($argument, strlen($option) + 3);
+		}
+	}
+
+	return value($default);
+}
