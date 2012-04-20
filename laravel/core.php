@@ -185,7 +185,7 @@ else
 |
 */
 
-if ( ! is_null($environment))
+if (isset($environment))
 {
 	Request::set_env($environment);
 }
