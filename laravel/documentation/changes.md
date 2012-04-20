@@ -53,6 +53,7 @@
 - Fixed bug present when using Eloquent models with Twig.
 - Allow multiple views to be registered for a single composer.
 - Added `Request::set_env` method.
+- `Schema::drop` now accepts `$connection` as second parameter.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1

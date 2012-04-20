@@ -37,6 +37,10 @@ Let's go over this example. The **create** method tells the Schema builder that 
 
 	Schema::drop('users');
 
+#### Dropping a table from a given database connection:
+
+	Schema::drop('users', 'connection_name');
+
 Sometimes you may need to specify the database connection on which the schema operation should be performed.
 
 #### Specifying the connection to run the operation on:
