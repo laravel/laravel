@@ -33,6 +33,7 @@ require path('sys').'event'.EXT;
 require path('sys').'bundle'.EXT;
 require path('sys').'config'.EXT;
 require path('sys').'helpers'.EXT;
+require path('sys').'error'.EXT;
 require path('sys').'autoloader'.EXT;
 
 /*
