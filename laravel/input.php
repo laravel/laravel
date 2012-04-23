@@ -228,4 +228,15 @@ class Input {
 		Session::flash(Input::old_input, array());
 	}
 
+	/**
+	 * Merge new input into the current request's input array.
+	 *
+	 * @param  array  $input
+	 * @return void
+	 */
+	public static function merge(array $input)
+	{
+		Request::foundation()->request->replace($input);
+	}
+
 }
