@@ -311,7 +311,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function eagerly_constrain($results)
 	{
-		$this->table->where_in($this->joining.'.'.$this->foreign_key(), array_keys($results));
+		$this->table->where_in($this->joining.'.'.$this->foreign_key(), $this->keys($results));
 	}
 
 	/**
@@ -325,14 +325,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
-		// For each child we'll just get the parent that connects to the child and set the
-		// child model on the relationship array using the keys. Once we're done looping
-		// through the children all of the proper relations will be set.
-		foreach ($children as $key => $child)
+		foreach ($parents as &$parent)
 		{
-			$parent =& $parents[$child->pivot->$foreign];
+			$matching = array_filter($children, function($v) use ($parent, $foreign)
+			{
+				return $v->pivot->$foreign == $parent->get_key();
+			});
 
-			$parent->relationships[$relationship][$child->{$child->key()}] = $child;
+			$parent->relationships[$relationship] = $matching;
 		}
 	}
 
