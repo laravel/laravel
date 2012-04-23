@@ -243,7 +243,7 @@ class Response {
 
 		// All of the cookies for the response are actually stored on the
 		// Cookie class until we're ready to send the response back to
-		// the browser. This allows a cookies to be set easily.
+		// the browser. This allows our cookies to be set easily.
 		foreach (Cookie::$jar as $name => $cookie)
 		{
 			$config = array_values($cookie);
@@ -277,16 +277,23 @@ class Response {
 	}
 
 	/**
-	 * Set the response status code.
+	 * Get / set the response status code.
 	 *
-	 * @param  int       $status
-	 * @return Response
+	 * @param  int    $status
+	 * @return mixed
 	 */
-	public function status($status)
+	public function status($status = null)
 	{
-		$this->foundation->setStatusCode($status);
+		if (is_null($status))
+		{
+			return $this->foundation->getStatusCode();
+		}
+		else
+		{
+			$this->foundation->setStatusCode($status);
 
-		return $this;
+			return $this;
+		}
 	}
 
 }
