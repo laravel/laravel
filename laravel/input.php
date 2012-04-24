@@ -236,6 +236,17 @@ class Input {
 	 */
 	public static function merge(array $input)
 	{
+		Request::foundation()->request->add($input);
+	}
+
+	/**
+	 * Replace the input for the current request.
+	 *
+	 * @param  array  $input
+	 * @return void
+	 */
+	public static function replace(array $input)
+	{
 		Request::foundation()->request->replace($input);
 	}
 
