@@ -55,7 +55,14 @@ class Input {
 	 */
 	public static function get($key = null, $default = null)
 	{
-		$value = array_get(Request::foundation()->request->all(), $key);
+		$input = Request::foundation()->request->all();
+
+		if (is_null($key))
+		{
+			return array_merge($input, static::query());
+		}
+
+		$value = array_get($input, $key);
 
 		if (is_null($value))
 		{
@@ -82,6 +89,11 @@ class Input {
 	 */
 	public static function query($key = null, $default = null)
 	{
+		if (is_null($key))
+		{
+			return Request::foundation()->query->all();
+		}
+
 		return array_get(Request::foundation()->query->all(), $key, $default);
 	}
 
@@ -151,6 +163,11 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
+		if (is_null($key))
+		{
+			return Session::get(Input::old_input, array());
+		}
+
 		return array_get(Session::get(Input::old_input, array()), $key, $default);
 	}
 
@@ -168,6 +185,11 @@ class Input {
 	 */
 	public static function file($key = null, $default = null)
 	{
+		if (is_null($key))
+		{
+			return $_FILES;
+		}
+
 		return array_get($_FILES, $key, $default);
 	}
 

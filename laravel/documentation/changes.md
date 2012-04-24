@@ -55,6 +55,7 @@
 - Added `Request::set_env` method.
 - `Schema::drop` now accepts `$connection` as second parameter.
 - Added `Input::merge` method.
+- Added `Input::replace` method.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
