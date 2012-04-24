@@ -55,6 +55,14 @@ abstract class Driver {
 	{
 		$session = array();
 
+		// If the driver is an instance of the Cookie driver, we are able to
+		// just return any string since the Cookie driver has no real idea
+		// of a server side persisted session with an ID.
+		if ($this instanceof Cookie)
+		{
+			return Str::random(40);
+		}
+
 		// We'll containue generating random IDs until we find an ID that is
 		// not currently assigned to a session. This is almost definitely
 		// going to happen on the first iteration.
