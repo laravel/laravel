@@ -56,7 +56,12 @@ class Input {
 	public static function get($key = null, $default = null)
 	{
 		$value = array_get(Request::foundation()->request->all(), $key);
-
+		
+		if (is_null($key))
+		{
+			$value = array_merge(static::query(), $value);
+		}
+		
 		if (is_null($value))
 		{
 			return array_get(static::query(), $key, $default);
