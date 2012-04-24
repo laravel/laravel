@@ -231,12 +231,15 @@ class Input {
 	/**
 	 * Merge new input into the current request's input array.
 	 *
-	 * @param  array  $input
+	 * @param  array   $input
+	 * @param  string  $method
 	 * @return void
 	 */
-	public static function merge(array $input)
+	public static function merge(array $input, $method = 'POST')
 	{
-		Request::foundation()->request->replace($input);
+		$param = ($method == 'POST') ? 'request' : 'query';
+
+		Request::foundation()->{$param}->replace($input);
 	}
 
 }
