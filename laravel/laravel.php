@@ -27,18 +27,24 @@ require 'core.php';
 
 set_exception_handler(function($e)
 {
+	require path('sys').'error'.EXT;
+
 	Error::exception($e);
 });
 
 
 set_error_handler(function($code, $error, $file, $line)
 {
+	require path('sys').'error'.EXT;
+
 	Error::native($code, $error, $file, $line);
 });
 
 
 register_shutdown_function(function()
 {
+	require path('sys').'error'.EXT;
+
 	Error::shutdown();
 });
 
