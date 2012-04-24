@@ -71,6 +71,8 @@ class Belongs_To extends Relationship {
 			}
 		}
 
+		if (count($keys) == 0) $keys = array(0);
+
 		$this->table->where_in($this->model->key(), array_unique($keys));
 	}
 
