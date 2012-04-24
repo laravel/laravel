@@ -148,7 +148,7 @@ class Str {
 	 */
 	public static function words($value, $words = 100, $end = '...')
 	{
-		if (trim((string) $value) == '') return '';
+		if (trim($value) == '') return '';
 
 		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
 
