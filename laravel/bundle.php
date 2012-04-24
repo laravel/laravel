@@ -297,7 +297,9 @@ class Bundle {
 	{
 		if (is_null($bundle)) return static::assets(DEFAULT_BUNDLE);
 
-		return ($bundle != DEFAULT_BUNDLE) ? URL::base()."/bundles/{$bundle}/" : URL::base().'/';
+		$server = Config::get('application.asset_url', URL::base() );
+
+		return ($bundle != DEFAULT_BUNDLE) ? $server."/bundles/{$bundle}/" : $server.'/';
 	}
 
 	/**
