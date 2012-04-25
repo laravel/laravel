@@ -83,7 +83,7 @@ class URI {
 
 				return static::format($uri);
 			}
-		}		
+		}
 	}
 
 	/**
@@ -113,29 +113,35 @@ class URI {
 	}
 
 	/**
-	 * Determine if the current URI matches a given pattern.
+	 * Determine if the current URI matches one or more given patterns.
 	 *
-	 * @param  string  $pattern
-	 * @param  string  $uri
+	 * @param  string|array  $patterns
+	 * @param  string  		 $uri
 	 * @return bool
 	 */
-	public static function is($pattern, $uri = null)
+	public static function is($patterns, $uri = null)
 	{
 		$uri = $uri ?: static::current();
 
-		// Asterisks are translated into zero-or-more regular expression wildcards
-		// to make it convenient to check if the URI starts with a given pattern
-		// such as "library/*". This is only done when not root.
-		if ($pattern !== '/')
+		foreach ((array) $patterns as $pattern)
 		{
-			$pattern = str_replace('*', '(.*)', $pattern).'\z';
-		}
-		else
-		{
-			$pattern = '^/$';
+			// Asterisks are translated into zero-or-more regular expression wildcards
+			// to make it convenient to check if the URI starts with a given pattern
+			// such as "library/*". This is only done when not root.
+			if ($pattern !== '/')
+			{
+				$pattern = str_replace('*', '(.*)', $pattern).'\z';
+			}
+			else
+			{
+				$pattern = '^/$';
+			}
+
+			if(preg_match('#'.$pattern.'#', $uri))
+				return true;
 		}
 
-		return preg_match('#'.$pattern.'#', $uri);
+		return false;
 	}
 
 	/**
