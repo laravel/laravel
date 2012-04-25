@@ -98,7 +98,7 @@ class Has_Many extends Has_One_Or_Many {
 				return $v->$foreign == $parent->get_key();
 			});
 
-			$parent->relationships[$relationship] = $matching;
+			$parent->relationships[$relationship] = array_values($matching);
 		}
 	}
 

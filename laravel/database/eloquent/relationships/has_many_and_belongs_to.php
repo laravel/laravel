@@ -332,7 +332,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 				return $v->pivot->$foreign == $parent->get_key();
 			});
 
-			$parent->relationships[$relationship] = $matching;
+			$parent->relationships[$relationship] = array_values($matching);
 		}
 	}
 
