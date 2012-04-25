@@ -19,7 +19,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected $components = array(
 		'aggregate', 'selects', 'from', 'joins', 'wheres',
-		'groupings', 'orderings', 'limit', 'offset',
+		'groupings', 'havings', 'orderings', 'limit', 'offset',
 	);
 
 	/**
@@ -284,6 +284,24 @@ class Grammar extends \Laravel\Database\Grammar {
 	protected function groupings(Query $query)
 	{
 		return 'GROUP BY '.$this->columnize($query->groupings);
+	}
+
+	/**
+	 * Compile the HAVING clause for a query.
+	 *
+	 * @param  Query  $query
+	 * @return string
+	 */
+	protected function havings(Query $query)
+	{
+		if (is_null($query->havings)) return '';
+
+		foreach ($query->havings as $having)
+		{
+			$sql[] = 'AND '.$this->wrap($having['column']).' '.$having['operator'].' '.$this->parameter($having['value']);
+		}
+
+		return 'HAVING '.preg_replace('/AND /', '', implode(' ', $sql), 1);
 	}
 
 	/**
