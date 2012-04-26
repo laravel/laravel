@@ -162,5 +162,22 @@ class Messages {
 
 		return $messages;
 	}
+	
+	/**
+	* Merge another messages object into current one
+	* The current object's messages have precedence, i.e, 
+	* if same key exists in both messages, the current object's key will be used
+	*/
+	public function merge(Messages $container)
+	{
+		if(! ($container instanceof Messages) )
+		{
+			return $this;
+		}
+
+		$this->messages += $container->messages;
+
+		return $this;
+	}
 
 }
