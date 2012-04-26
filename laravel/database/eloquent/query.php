@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
+use Laravel\Event;
 use Laravel\Database;
 use Laravel\Database\Eloquent\Relationships\Has_Many_And_Belongs_To;
 
@@ -119,12 +120,7 @@ class Query {
 			// We need to set the attributes manually in case the accessible property is
 			// set on the array which will prevent the mass assignemnt of attributes if
 			// we were to pass them in using the constructor or fill methods.
-			foreach ($result as $key => $value)
-			{
-				$new->set_attribute($key, $value);
-			}
-
-			$new->original = $new->attributes;
+			$new->fill_raw($result);
 
 			$models[] = $new;
 		}

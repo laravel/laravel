@@ -61,6 +61,7 @@
 - `Schema::drop` now accepts `$connection` as second parameter.
 - Added `Input::merge` method.
 - Added `Input::replace` method.
+- Added `eloquent.saved`, `eloquent.saving`, `eloquent.deleting`, and `eloquent.deleted` events to Eloquent models.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
