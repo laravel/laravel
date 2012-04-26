@@ -390,6 +390,8 @@ abstract class Model {
 			$query = $this->query()->where(static::$key, '=', $this->get_key());
 
 			$result = $query->update($this->get_dirty()) === 1;
+
+			if ($result) $this->fire_event('updated');
 		}
 
 		// If the model does not exist, we will insert the record and retrieve the last
@@ -402,6 +404,8 @@ abstract class Model {
 			$this->set_key($id);
 
 			$this->exists = $result = is_numeric($this->get_key());
+
+			if ($result) $this->fire_event('created');
 		}
 
 		// After the model has been "saved", we will set the original attributes to

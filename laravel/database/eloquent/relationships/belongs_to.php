@@ -32,7 +32,7 @@ class Belongs_To extends Relationship {
 	 */
 	protected function constrain()
 	{
-		$this->table->where($this->base->key(), '=', $this->foreign_value());
+		$this->table->where($this->model->key(), '=', $this->foreign_value());
 	}
 
 	/**
