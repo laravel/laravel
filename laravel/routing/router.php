@@ -174,6 +174,7 @@ class Router {
 	 */
 	public static function register($method, $route, $action)
 	{
+		if (ctype_digit($route)) $route = "({$route})";
 		if (is_string($route)) $route = explode(', ', $route);
 
 		// If the developer is registering multiple request methods to handle
