@@ -1,13 +1,13 @@
 <?php namespace Laravel\Cache\Drivers;
 
-class Memcached extends Driver {
+class Memcached extends Driver implements Sectionable {
 
 	/**
 	 * The Memcache instance.
 	 *
 	 * @var Memcached
 	 */
-	protected $memcache;
+	public $memcache;
 
 	/**
 	 * The cache key from the cache configuration file.
@@ -54,6 +54,19 @@ class Memcached extends Driver {
 	}
 
 	/**
+	 * Retrieve a sectioned item from the cache driver.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public function get_from_section($section, $key, $default = null)
+	{
+		return $this->get($this->section_item_key($section, $key), $default);
+	}
+
+	/**
 	 * Write an item to the cache for a given number of minutes.
 	 *
 	 * <code>
@@ -72,6 +85,20 @@ class Memcached extends Driver {
 	}
 
 	/**
+	 * Write a sectioned item to the cache.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @param  int     $minutes
+	 * @return void
+	 */
+	public function put_in_section($section, $key, $value, $minutes)
+	{
+		$this->put($this->section_item_key($section, $key), $value, $minutes);
+	}
+
+	/**
 	 * Write an item to the cache that lasts forever.
 	 *
 	 * @param  string  $key
@@ -84,6 +111,48 @@ class Memcached extends Driver {
 	}
 
 	/**
+	 * Write a sectioned item to the cache that lasts forever.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public function forever_in_section($section, $key, $value)
+	{
+		return $this->forever($this->section_item_key($section, $key), $value);
+	}
+
+	/**
+	 * Get a sectioned item from the cache, or cache and return the default value.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @param  int     $minutes
+	 * @return mixed
+	 */
+	public function remember_in_section($section, $key, $default, $minutes, $function = 'put')
+	{
+		$key = $this->section_item_key($section, $key);
+
+		return $this->remember($key, $default, $minutes, $function);
+	}
+
+	/**
+	 * Get a sectioned item from the cache, or cache the default value forever.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return mixed
+	 */
+	public function sear_in_section($section, $key, $default)
+	{
+		return $this->sear($this->section_item_key($section, $key), $default);
+	}
+
+	/**
 	 * Delete an item from the cache.
 	 *
 	 * @param  string  $key
@@ -92,6 +161,88 @@ class Memcached extends Driver {
 	public function forget($key)
 	{
 		$this->memcache->delete($this->key.$key);
+	}
+
+	/**
+	 * Delete a sectioned item from the cache.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @return void
+	 */
+	public function forget_in_section($section, $key)
+	{
+		return $this->forget($this->section_item_key($section, $key));
+	}
+
+	/**
+	 * Delete an entire section from the cache.
+	 *
+	 * @param  string    $section
+	 * @return int|bool
+	 */
+	public function forget_section($section)
+	{
+		return $this->memcache->increment($this->key.$this->section_key($section));
+	}
+
+	/**
+	 * Get the current section ID for a given section.
+	 *
+	 * @param  string  $section
+	 * @return int
+	 */
+	protected function section_id($section)
+	{
+		return $this->sear($this->section_key($section), function()
+		{
+			return rand(1, 10000);
+		});
+	}
+
+	/**
+	 * Get a section key name for a given section.
+	 *
+	 * @param  string  $section
+	 * @return string
+	 */
+	protected function section_key($section)
+	{
+		return $section.'_section_key';
+	}
+
+	/**
+	 * Get a section item key for a given section and key.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @return string
+	 */
+	protected function section_item_key($section, $key)
+	{
+		return $section.'#'.$this->section_id($section).'#'.$key;
+	}
+
+	/**
+	 * Determine if a key is sectioned.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function sectioned($key)
+	{
+		return str_contains($key, '::');
+	}
+
+	/**
+	 * Get the section and key from a sectioned key.
+	 *
+	 * @param  string  $key
+	 * @return array
+	 */
+	protected function parse($key)
+	{
+		return explode('::', $key, 2);
 	}
 
 }
