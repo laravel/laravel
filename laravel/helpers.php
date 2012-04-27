@@ -230,6 +230,22 @@ function array_divide($array)
 }
 
 /**
+ * Pluck an array of values from an array.
+ *
+ * @param  array   $array
+ * @param  string  $key
+ * @return array
+ */
+function array_pluck($array, $key)
+{
+	return array_map(function($v)
+	{
+		return is_object($v) ? $v->$key : $v[$key];
+
+	}, $array);
+}
+
+/**
  * Determine if "Magic Quotes" are enabled on the server.
  *
  * @return bool

@@ -63,6 +63,8 @@
 - Added `Input::replace` method.
 - Added saving, saved, updating, creating, deleting, and deleted events to Eloquent.
 - Added new `Sectionable` interface to allow cache drivers to simulate namespacing.
+- Added support for `HAVING` SQL clauses.
+- Added `array_pluck` helper, similar to pluck method in Underscore.js.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
