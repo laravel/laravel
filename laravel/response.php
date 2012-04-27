@@ -174,9 +174,23 @@ class Response {
 			$response = new static($response);
 		}
 
-		$response->render();
-
 		return $response;
+	}
+
+	/**
+	 * Send the headers and content of the response to the browser.
+	 *
+	 * @return void
+	 */
+	public function send()
+	{
+		$this->render();
+
+		$this->cookies();
+
+		$this->foundation->prepare(Request::foundation());
+
+		$this->foundation->send();
 	}
 
 	/**
@@ -204,20 +218,6 @@ class Response {
 		$this->foundation->setContent($this->content);
 
 		return $this->content;
-	}
-
-	/**
-	 * Send the headers and content of the response to the browser.
-	 *
-	 * @return void
-	 */
-	public function send()
-	{
-		$this->cookies();
-
-		$this->foundation->prepare(Request::foundation());
-
-		$this->foundation->send();
 	}
 
 	/**

@@ -7,7 +7,7 @@ class Memory extends Driver {
 	 *
 	 * @var string
 	 */
-	protected $storage = array();
+	public $storage = array();
 
 	/**
 	 * Determine if an item exists in the cache.
