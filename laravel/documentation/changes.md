@@ -62,6 +62,7 @@
 - Added `Input::merge` method.
 - Added `Input::replace` method.
 - Added saving, saved, updating, creating, deleting, and deleted events to Eloquent.
+- Added new `Sectionable` interface to allow cache drivers to simulate namespacing.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
