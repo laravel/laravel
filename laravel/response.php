@@ -184,8 +184,6 @@ class Response {
 	 */
 	public function send()
 	{
-		$this->render();
-
 		$this->cookies();
 
 		$this->foundation->prepare(Request::foundation());

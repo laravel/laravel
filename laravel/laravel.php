@@ -126,6 +126,19 @@ $response = Request::$route->call();
 
 /*
 |--------------------------------------------------------------------------
+| "Render" The Response
+|--------------------------------------------------------------------------
+|
+| The render method evaluates the content of the response and converts it
+| to a string. This evaluates any views and sub-responses within the
+| content and sets the raw string result as the new response.
+|
+*/
+
+$response->render();
+
+/*
+|--------------------------------------------------------------------------
 | Persist The Session To Storage
 |--------------------------------------------------------------------------
 |
