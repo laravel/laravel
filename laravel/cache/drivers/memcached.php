@@ -17,6 +17,20 @@ class Memcached extends Driver implements Sectionable {
 	protected $key;
 
 	/**
+	 * Indicates that section caching is implicit based on keys.
+	 *
+	 * @var bool
+	 */
+	public $implicit = true;
+
+	/**
+	 * The implicit section key delimiter.
+	 *
+	 * @var string
+	 */
+	public $delimiter = '::';
+
+	/**
 	 * Create a new Memcached cache driver instance.
 	 *
 	 * @param  Memcached  $memcache
@@ -47,7 +61,13 @@ class Memcached extends Driver implements Sectionable {
 	 */
 	protected function retrieve($key)
 	{
-		if (($cache = $this->memcache->get($this->key.$key)) !== false)
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->get_from_section($section, $key);
+		}
+		elseif (($cache = $this->memcache->get($this->key.$key)) !== false)
 		{
 			return $cache;
 		}
@@ -81,7 +101,16 @@ class Memcached extends Driver implements Sectionable {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->memcache->set($this->key.$key, $value, $minutes * 60);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->put_in_section($section, $key, $value, $minutes);
+		}
+		else
+		{
+			$this->memcache->set($this->key.$key, $value, $minutes * 60);
+		}
 	}
 
 	/**
@@ -107,7 +136,16 @@ class Memcached extends Driver implements Sectionable {
 	 */
 	public function forever($key, $value)
 	{
-		return $this->put($key, $value, 0);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->forever_in_section($section, $key, $value);
+		}
+		else
+		{
+			return $this->put($key, $value, 0);
+		}
 	}
 
 	/**
@@ -160,7 +198,23 @@ class Memcached extends Driver implements Sectionable {
 	 */
 	public function forget($key)
 	{
-		$this->memcache->delete($this->key.$key);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			if ($key == '*')
+			{
+				$this->forget_section($section);
+			}
+			else
+			{
+				$this->forget_in_section($section, $key);
+			}
+		}
+		else
+		{
+			$this->memcache->delete($this->key.$key);
+		}
 	}
 
 	/**
@@ -221,6 +275,17 @@ class Memcached extends Driver implements Sectionable {
 	protected function section_item_key($section, $key)
 	{
 		return $section.'#'.$this->section_id($section).'#'.$key;
+	}
+
+	/**
+	 * Indicates if a key is sectionable.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function sectionable($key)
+	{
+		return $this->implicit and $this->sectioned($key);
 	}
 
 	/**
