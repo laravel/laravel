@@ -1,6 +1,6 @@
 <?php namespace Laravel\Cache\Drivers;
 
-interface Sectionable {
+abstract class Sectionable extends Driver {
 
 	/**
 	 * Retrieve a sectioned item from the cache driver.
@@ -10,7 +10,7 @@ interface Sectionable {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function get_from_section($section, $key, $default = null);
+	abstract public function get_from_section($section, $key, $default = null);
 
 	/**
 	 * Write a sectioned item to the cache.
@@ -21,7 +21,7 @@ interface Sectionable {
 	 * @param  int     $minutes
 	 * @return void
 	 */
-	public function put_in_section($section, $key, $value, $minutes);
+	abstract public function put_in_section($section, $key, $value, $minutes);
 
 	/**
 	 * Write a sectioned item to the cache that lasts forever.
@@ -31,7 +31,7 @@ interface Sectionable {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public function forever_in_section($section, $key, $value);
+	abstract public function forever_in_section($section, $key, $value);
 
 	/**
 	 * Get a sectioned item from the cache, or cache and return the default value.
@@ -42,7 +42,7 @@ interface Sectionable {
 	 * @param  int     $minutes
 	 * @return mixed
 	 */
-	public function remember_in_section($section, $key, $default, $minutes, $function = 'put');
+	abstract public function remember_in_section($section, $key, $default, $minutes, $function = 'put');
 
 	/**
 	 * Get a sectioned item from the cache, or cache the default value forever.
@@ -52,7 +52,7 @@ interface Sectionable {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	public function sear_in_section($section, $key, $default);
+	abstract public function sear_in_section($section, $key, $default);
 
 	/**
 	 * Delete a sectioned item from the cache.
@@ -61,7 +61,7 @@ interface Sectionable {
 	 * @param  string  $key
 	 * @return void
 	 */
-	public function forget_in_section($section, $key);
+	abstract public function forget_in_section($section, $key);
 
 	/**
 	 * Delete an entire section from the cache.
@@ -69,6 +69,39 @@ interface Sectionable {
 	 * @param  string    $section
 	 * @return int|bool
 	 */
-	public function forget_section($section);
+	abstract public function forget_section($section);
+
+	/**
+	 * Indicates if a key is sectionable.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function sectionable($key)
+	{
+		return $this->implicit and $this->sectioned($key);
+	}
+
+	/**
+	 * Determine if a key is sectioned.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	protected function sectioned($key)
+	{
+		return str_contains($key, '::');
+	}
+
+	/**
+	 * Get the section and key from a sectioned key.
+	 *
+	 * @param  string  $key
+	 * @return array
+	 */
+	protected function parse($key)
+	{
+		return explode('::', $key, 2);
+	}
 
 }

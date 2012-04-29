@@ -1,6 +1,6 @@
 <?php namespace Laravel\Cache\Drivers;
 
-class Memcached extends Driver implements Sectionable {
+class Memcached extends Sectionable {
 
 	/**
 	 * The Memcache instance.
@@ -275,39 +275,6 @@ class Memcached extends Driver implements Sectionable {
 	protected function section_item_key($section, $key)
 	{
 		return $section.'#'.$this->section_id($section).'#'.$key;
-	}
-
-	/**
-	 * Indicates if a key is sectionable.
-	 *
-	 * @param  string  $key
-	 * @return bool
-	 */
-	protected function sectionable($key)
-	{
-		return $this->implicit and $this->sectioned($key);
-	}
-
-	/**
-	 * Determine if a key is sectioned.
-	 *
-	 * @param  string  $key
-	 * @return bool
-	 */
-	protected function sectioned($key)
-	{
-		return str_contains($key, '::');
-	}
-
-	/**
-	 * Get the section and key from a sectioned key.
-	 *
-	 * @param  string  $key
-	 * @return array
-	 */
-	protected function parse($key)
-	{
-		return explode('::', $key, 2);
 	}
 
 }

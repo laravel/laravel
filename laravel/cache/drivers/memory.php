@@ -1,6 +1,6 @@
 <?php namespace Laravel\Cache\Drivers;
 
-class Memory extends Driver implements Sectionable {
+class Memory extends Sectionable {
 
 	/**
 	 * The in-memory array of cached items.
