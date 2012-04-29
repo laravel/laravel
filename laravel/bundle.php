@@ -64,7 +64,7 @@ class Bundle {
 
 		static::$bundles[$bundle] = array_merge($defaults, $config);
 
-		// It is possible for the develoepr to specify auto-loader mappings
+		// It is possible for the developer to specify auto-loader mappings
 		// directly on the bundle registration. This provides a convenient
 		// way to register mappings withuot a bootstrap.
 		if (isset($config['autoloads']))
