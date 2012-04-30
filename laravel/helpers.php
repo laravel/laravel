@@ -238,7 +238,7 @@ function array_divide($array)
  */
 function array_pluck($array, $key)
 {
-	return array_map(function($v)
+	return array_map(function($v) use ($key)
 	{
 		return is_object($v) ? $v->$key : $v[$key];
 
