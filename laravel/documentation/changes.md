@@ -65,6 +65,7 @@
 - Added new `Sectionable` interface to allow cache drivers to simulate namespacing.
 - Added support for `HAVING` SQL clauses.
 - Added `array_pluck` helper, similar to pluck method in Underscore.js.
+- Allow the registration of custom cache and session drivers.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
