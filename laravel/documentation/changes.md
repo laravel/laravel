@@ -2,13 +2,10 @@
 
 ## Contents
 
-<<<<<<< HEAD:laravel/documentation/changes.md
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
-=======
 - [Laravel 3.1.9](#3.1.9)
 - [Upgrading From 3.1.8](#upgrade-3.1.9)
->>>>>>> master:changes.md
 - [Laravel 3.1.8](#3.1.8)
 - [Upgrading From 3.1.7](#upgrade-3.1.8)
 - [Laravel 3.1.7](#3.1.7)
