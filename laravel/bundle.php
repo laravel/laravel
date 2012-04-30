@@ -92,8 +92,12 @@ class Bundle {
 
 		// Each bundle may have a start script which is responsible for preparing
 		// the bundle for use by the application. The start script may register
-		// any classes the bundle uses with the auto-loader, etc.
-		if (file_exists($path = static::path($bundle).'start'.EXT))
+		// any classes the bundle uses with the auto-loader class, etc.
+		if ( ! is_null($starter = static::option($bundle, 'starter')))
+		{
+			$starter();
+		}
+		elseif (file_exists($path = static::path($bundle).'start'.EXT))
 		{
 			require $path;
 		}
