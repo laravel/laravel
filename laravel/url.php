@@ -220,6 +220,18 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
+
+		// If the URL is already well-formed, just return it
+		if (static::valid($url)) return $url;
+
+		// If a base asset URL is defined in the configuration, use that and
+		// don't try and change links to http/https.
+		if ($root = Config::get('application.asset_url', false )) {
+
+			return rtrim($root, '/').'/'.ltrim($url, '/');
+
+		}
+
 		if (is_null($https)) $https = Request::secure();
 
 		$url = static::to($url, $https);
