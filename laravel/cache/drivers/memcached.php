@@ -17,20 +17,6 @@ class Memcached extends Sectionable {
 	protected $key;
 
 	/**
-	 * Indicates that section caching is implicit based on keys.
-	 *
-	 * @var bool
-	 */
-	public $implicit = true;
-
-	/**
-	 * The implicit section key delimiter.
-	 *
-	 * @var string
-	 */
-	public $delimiter = '::';
-
-	/**
 	 * Create a new Memcached cache driver instance.
 	 *
 	 * @param  Memcached  $memcache
@@ -74,19 +60,6 @@ class Memcached extends Sectionable {
 	}
 
 	/**
-	 * Retrieve a sectioned item from the cache driver.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return mixed
-	 */
-	public function get_from_section($section, $key, $default = null)
-	{
-		return $this->get($this->section_item_key($section, $key), $default);
-	}
-
-	/**
 	 * Write an item to the cache for a given number of minutes.
 	 *
 	 * <code>
@@ -114,20 +87,6 @@ class Memcached extends Sectionable {
 	}
 
 	/**
-	 * Write a sectioned item to the cache.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
-	 * @return void
-	 */
-	public function put_in_section($section, $key, $value, $minutes)
-	{
-		$this->put($this->section_item_key($section, $key), $value, $minutes);
-	}
-
-	/**
 	 * Write an item to the cache that lasts forever.
 	 *
 	 * @param  string  $key
@@ -146,48 +105,6 @@ class Memcached extends Sectionable {
 		{
 			return $this->put($key, $value, 0);
 		}
-	}
-
-	/**
-	 * Write a sectioned item to the cache that lasts forever.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	public function forever_in_section($section, $key, $value)
-	{
-		return $this->forever($this->section_item_key($section, $key), $value);
-	}
-
-	/**
-	 * Get a sectioned item from the cache, or cache and return the default value.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @param  int     $minutes
-	 * @return mixed
-	 */
-	public function remember_in_section($section, $key, $default, $minutes, $function = 'put')
-	{
-		$key = $this->section_item_key($section, $key);
-
-		return $this->remember($key, $default, $minutes, $function);
-	}
-
-	/**
-	 * Get a sectioned item from the cache, or cache the default value forever.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return mixed
-	 */
-	public function sear_in_section($section, $key, $default)
-	{
-		return $this->sear($this->section_item_key($section, $key), $default);
 	}
 
 	/**
@@ -215,18 +132,6 @@ class Memcached extends Sectionable {
 		{
 			$this->memcache->delete($this->key.$key);
 		}
-	}
-
-	/**
-	 * Delete a sectioned item from the cache.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @return void
-	 */
-	public function forget_in_section($section, $key)
-	{
-		return $this->forget($this->section_item_key($section, $key));
 	}
 
 	/**

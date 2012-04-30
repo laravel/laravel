@@ -28,22 +28,16 @@ class Memory extends Sectionable {
 	 */
 	protected function retrieve($key)
 	{
-		return array_get($this->storage, $key);
-	}
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
 
-	/**
-	 * Retrieve a sectioned item from the cache driver.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return mixed
-	 */
-	public function get_from_section($section, $key, $default = null)
-	{
-		$key = $this->section_item_key($section, $key);
-
-		return array_get($this->storage, $key, $default);
+			return $this->get_from_section($section, $key);
+		}
+		else
+		{
+			return array_get($this->storage, $key);
+		}
 	}
 
 	/**
@@ -61,21 +55,16 @@ class Memory extends Sectionable {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		array_set($this->storage, $key, $value);
-	}
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
 
-	/**
-	 * Write a sectioned item to the cache.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
-	 * @return void
-	 */
-	public function put_in_section($section, $key, $value, $minutes)
-	{
-		$this->put($this->section_item_key($section, $key), $value, $minutes);
+			return $this->put_in_section($section, $key, $value, $minutes);
+		}
+		else
+		{
+			array_set($this->storage, $key, $value);
+		}
 	}
 
 	/**
@@ -87,49 +76,16 @@ class Memory extends Sectionable {
 	 */
 	public function forever($key, $value)
 	{
-		$this->put($key, $value, 0);
-	}
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
 
-	/**
-	 * Write a sectioned item to the cache that lasts forever.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	public function forever_in_section($section, $key, $value)
-	{
-		$this->put_in_section($section, $key, $value, 0);
-	}
-
-	/**
-	 * Get a sectioned item from the cache, or cache and return the default value.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @param  int     $minutes
-	 * @return mixed
-	 */
-	public function remember_in_section($section, $key, $default, $minutes, $function = 'put')
-	{
-		$key = $this->section_item_key($section, $key);
-
-		return $this->remember($key, $default, $minutes, $function);
-	}
-
-	/**
-	 * Get a sectioned item from the cache, or cache the default value forever.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @return mixed
-	 */
-	public function sear_in_section($section, $key, $default)
-	{
-		return $this->sear($this->section_item_key($section, $key), $default);
+			return $this->forever_in_section($section, $key, $value);
+		}
+		else
+		{
+			$this->put($key, $value, 0);
+		}
 	}
 
 	/**
@@ -140,19 +96,23 @@ class Memory extends Sectionable {
 	 */
 	public function forget($key)
 	{
-		array_forget($this->storage, $key);
-	}
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
 
-	/**
-	 * Delete a sectioned item from the cache.
-	 *
-	 * @param  string  $section
-	 * @param  string  $key
-	 * @return void
-	 */
-	public function forget_in_section($section, $key)
-	{
-		$this->forget($this->section_item_key($section, $key));
+			if ($key == '*')
+			{
+				$this->forget_section($section);
+			}
+			else
+			{
+				$this->forget_in_section($section, $key);
+			}
+		}
+		else
+		{
+			array_forget($this->storage, $key);
+		}
 	}
 
 	/**

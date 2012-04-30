@@ -3,6 +3,20 @@
 abstract class Sectionable extends Driver {
 
 	/**
+	 * Indicates that section caching is implicit based on keys.
+	 *
+	 * @var bool
+	 */
+	public $implicit = true;
+
+	/**
+	 * The implicit section key delimiter.
+	 *
+	 * @var string
+	 */
+	public $delimiter = '::';
+
+	/**
 	 * Retrieve a sectioned item from the cache driver.
 	 *
 	 * @param  string  $section
@@ -10,7 +24,10 @@ abstract class Sectionable extends Driver {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	abstract public function get_from_section($section, $key, $default = null);
+	public function get_from_section($section, $key, $default = null)
+	{
+		return $this->get($this->section_item_key($section, $key), $default);
+	}
 
 	/**
 	 * Write a sectioned item to the cache.
@@ -21,7 +38,10 @@ abstract class Sectionable extends Driver {
 	 * @param  int     $minutes
 	 * @return void
 	 */
-	abstract public function put_in_section($section, $key, $value, $minutes);
+	public function put_in_section($section, $key, $value, $minutes)
+	{
+		$this->put($this->section_item_key($section, $key), $value, $minutes);
+	}
 
 	/**
 	 * Write a sectioned item to the cache that lasts forever.
@@ -31,7 +51,10 @@ abstract class Sectionable extends Driver {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	abstract public function forever_in_section($section, $key, $value);
+	public function forever_in_section($section, $key, $value)
+	{
+		return $this->forever($this->section_item_key($section, $key), $value);
+	}
 
 	/**
 	 * Get a sectioned item from the cache, or cache and return the default value.
@@ -42,7 +65,12 @@ abstract class Sectionable extends Driver {
 	 * @param  int     $minutes
 	 * @return mixed
 	 */
-	abstract public function remember_in_section($section, $key, $default, $minutes, $function = 'put');
+	public function remember_in_section($section, $key, $default, $minutes, $function = 'put')
+	{
+		$key = $this->section_item_key($section, $key);
+
+		return $this->remember($key, $default, $minutes, $function);
+	}
 
 	/**
 	 * Get a sectioned item from the cache, or cache the default value forever.
@@ -52,7 +80,10 @@ abstract class Sectionable extends Driver {
 	 * @param  mixed   $default
 	 * @return mixed
 	 */
-	abstract public function sear_in_section($section, $key, $default);
+	public function sear_in_section($section, $key, $default)
+	{
+		return $this->sear($this->section_item_key($section, $key), $default);
+	}
 
 	/**
 	 * Delete a sectioned item from the cache.
@@ -61,7 +92,10 @@ abstract class Sectionable extends Driver {
 	 * @param  string  $key
 	 * @return void
 	 */
-	abstract public function forget_in_section($section, $key);
+	public function forget_in_section($section, $key)
+	{
+		return $this->forget($this->section_item_key($section, $key));
+	}
 
 	/**
 	 * Delete an entire section from the cache.
