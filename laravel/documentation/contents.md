@@ -12,6 +12,7 @@
 	- [Wildcards](/docs/routing#wildcards)
 	- [The 404 Event](/docs/routing#the-404-event)
 	- [Filters](/docs/routing#filters)
+	- [Pattern Filters](/docs/routing#pattern-filters)
 	- [Global Filters](/docs/routing#global-filters)
 	- [Route Groups](/docs/routing#groups)
 	- [Named Routes](/docs/routing#named-routes)
