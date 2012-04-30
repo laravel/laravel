@@ -12,6 +12,32 @@ class Database {
 	 */
 	public static $connections = array();
 
+	/** 
+	 * The registered database driver models.
+	 *
+	 * @var array
+	 */
+	public static $drivers = array(
+		'sqlite' => array(
+			'connector' => 'Laravel\\Database\\Connectors\\SQLite',
+			'schema' => 'Laravel\\Database\\Schema\\Grammars\\SQLite',
+		),
+		'mysql' => array(
+			'connector' => 'Laravel\\Database\\Connectors\\MySQL',
+			'schema' => 'Laravel\\Database\\Schema\\Grammars\\MySQL',
+			'query' => 'Laravel\\Database\\Query\\Grammars\\MySQL',
+		),
+		'pgsql' => array(
+			'connector' => 'Laravel\\Database\\Connectors\\Postgres',
+			'schema' => 'Laravel\\Database\\Schema\\Grammars\\Postgres',
+		),
+		'sqlsrv' => array(
+			'connector' => 'Laravel\\Database\\Connectors\\SQLServer',
+			'schema' => 'Laravel\\Database\\Schema\\Grammars\\SQLServer',
+			'query' => 'Laravel\\Database\\Query\\Grammars\\SQLServer',
+		),
+	);
+
 	/**
 	 * Get a database connection.
 	 *
@@ -58,6 +84,39 @@ class Database {
 		return static::connector($config['driver'])->connect($config);
 	}
 
+	/** 
+	 * Register an external database driver's models
+	 *
+	 * @param	mixed 	$name  	 name of driver to register, or an array of name=>model pairs
+	 * @param	mixed	$model   name of connector model or array of models by type
+	 */
+	public static function register($name,$model=null) 
+	{
+		if ( ! is_array($name)) $name = array( $name => $model );
+	
+		foreach ($name as $driver => $model)
+		{
+			if (isset(static::$drivers[$driver])) throw new \Exception("Database driver [$driver] is already registered.");
+			if ( ! is_array($model)) $model = array('connector'=>$model);
+			
+			if ( ! isset($model['connector'])) throw new \Exception("Registration of [$driver] provides no connector class");
+			
+			$tests = array(
+						'connector' => 'Laravel\\Database\\Connectors\\Connector',
+						'schema' => 'Laravel\\Database\\Schema\\Grammars\\Grammar',
+						'query' => 'Laravel\\Database\\Query\\Grammars\\Grammar',
+					 );
+			
+			foreach ($tests as $test => $testclass) {
+				if ( ! isset($model[$test])) continue;
+				if ( ! class_exists($model[$test])) throw new \Exception(ucfirst($test)." class [{$model[$test]}] is not defined.");
+				if ( ! is_subclass_of($model[$test],$testclass)) throw new \Exception(ucfirst($test)." class [{$model[$test]}] does not extend [$testclass].");
+			}
+			
+			static::$drivers[$driver] = $model;
+		}		
+	}
+
 	/**
 	 * Create a new database connector instance.
 	 *
@@ -66,23 +125,11 @@ class Database {
 	 */
 	protected static function connector($driver)
 	{
-		switch ($driver)
+		if (isset(static::$drivers[$driver]['connector']))
 		{
-			case 'sqlite':
-				return new Database\Connectors\SQLite;
-
-			case 'mysql':
-				return new Database\Connectors\MySQL;
-
-			case 'pgsql':
-				return new Database\Connectors\Postgres;
-
-			case 'sqlsrv':
-				return new Database\Connectors\SQLServer;
-
-			default:
-				throw new \Exception("Database driver [$driver] is not supported.");
+			return new static::$drivers[$driver]['connector'];
 		}
+		throw new \Exception("Database driver [$driver] is not supported.");
 	}
 
 	/**

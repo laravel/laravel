@@ -148,19 +148,9 @@ class Schema {
 	{
 		$driver = $connection->driver();
 
-		switch ($driver)
+		if (isset(DB::$drivers[$driver]['schema']))
 		{
-			case 'mysql':
-				return new Schema\Grammars\MySQL($connection);
-
-			case 'pgsql':
-				return new Schema\Grammars\Postgres($connection);
-
-			case 'sqlsrv':
-				return new Schema\Grammars\SQLServer($connection);
-
-			case 'sqlite':
-				return new Schema\Grammars\SQLite($connection);
+			return new DB::$drivers[$driver]['schema']($connection);
 		}
 
 		throw new \Exception("Schema operations not supported for [$driver].");
