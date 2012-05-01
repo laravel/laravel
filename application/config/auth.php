@@ -24,7 +24,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Here you may specify the database column that should be considered the
-	| "username" for your users. Typically, this will either be "usenrame"
+	| "username" for your users. Typically, this will either be "username"
 	| or "email". Of course, you're free to change the value to anything.
 	|
 	*/
