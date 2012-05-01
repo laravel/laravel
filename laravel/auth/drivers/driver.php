@@ -1,4 +1,4 @@
-<?php namespace Laravel\Auth\Login\Drivers;
+<?php namespace Laravel\Auth\Drivers;
 
 use Laravel\Str;
 use Laravel\Cookie;
@@ -42,6 +42,18 @@ abstract class Driver {
 	}
 
 	/**
+	 * Determine if the user of the application is not logged in.
+	 *
+	 * This method is the inverse of the "check" method.
+	 *
+	 * @return bool
+	 */
+	public function guest()
+	{
+		return ! $this->check();
+	}
+
+	/**
 	 * Determine if the user is logged in.
 	 *
 	 * @return bool
@@ -58,15 +70,28 @@ abstract class Driver {
 	 *
 	 * @return mixed|null
 	 */
-	abstract public function user();
+	public function user()
+	{
+		if ( ! is_null($this->user)) return $this->user;
+
+		return $this->user = $this->retrieve($this->token);
+	}
+
+	/**
+	 * Get the a given application user by ID.
+	 *
+	 * @param  int    $id
+	 * @return mixed
+	 */
+	abstract public function retrieve($id);
 
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  dynamic  $arguments
+	 * @param  array  $arguments
 	 * @return void
 	 */
-	abstract public function attempt();
+	abstract public function attempt($arguments = array());
 
 	/**
 	 * Login the user assigned to the given token.
@@ -74,10 +99,16 @@ abstract class Driver {
 	 * The token is typically a numeric ID for the user.
 	 *
 	 * @param  string  $token
+	 * @param  bool    $remember
+	 * @return bool
 	 */
-	public function login($token)
+	public function login($token, $remember = false)
 	{
 		$this->store($token);
+
+		if ($remember) $this->remember($token);
+
+		return true;
 	}
 
 	/**
