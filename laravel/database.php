@@ -141,7 +141,7 @@ class Database {
 	 * @param  Closure  $schema
 	 * @return void
 	 */
-	public static function register($name, Closure $connector, $query = null, $schema = null)
+	public static function extend($name, Closure $connector, $query = null, $schema = null)
 	{
 		if (is_null($query)) $query = '\Laravel\Database\Query\Grammars\Grammar';
 
