@@ -66,6 +66,7 @@
 - Allow the specification of a separate asset base URL for using CDNs.
 - Allow a `starter` Closure to be defined in `bundles.php` to be run on Bundle::start.
 - Allow the registration of custom database drivers.
+- New, driver based authentication system.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
