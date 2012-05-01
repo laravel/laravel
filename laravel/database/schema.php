@@ -148,6 +148,11 @@ class Schema {
 	{
 		$driver = $connection->driver();
 
+		if (isset(\Laravel\Database::$registrar[$driver]))
+		{
+			return \Laravel\Database::$registrar[$driver]['schema']();
+		}
+
 		switch ($driver)
 		{
 			case 'mysql':

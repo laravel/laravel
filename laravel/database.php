@@ -13,6 +13,13 @@ class Database {
 	public static $connections = array();
 
 	/**
+	 * The third-party driver registrar.
+	 *
+	 * @var array
+	 */
+	public static $registrar = array();
+
+	/**
 	 * Get a database connection.
 	 *
 	 * If no database name is specified, the default connection will be returned.
@@ -66,6 +73,11 @@ class Database {
 	 */
 	protected static function connector($driver)
 	{
+		if (isset(static::$registrar[$driver]))
+		{
+			return static::$registrar[$driver]['connector']();
+		}
+
 		switch ($driver)
 		{
 			case 'sqlite':
@@ -118,6 +130,22 @@ class Database {
 	public static function profile()
 	{
 		return Database\Connection::$queries;
+	}
+
+	/**
+	 * Register a database connector and grammars.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $connector
+	 * @param  Closure  $query
+	 * @param  Closure  $schema
+	 * @return void
+	 */
+	public static function register($name, Closure $connector, $query = null, $schema = null)
+	{
+		if (is_null($query)) $query = '\Laravel\Database\Query\Grammars\Grammar';
+
+		static::$registrar[$name] = compact('connector', 'query', 'schema');
 	}
 
 	/**
