@@ -19,7 +19,7 @@
 |
 | You can even respond to more than one URI:
 |
-|		Route::post('hello, world', function()
+|		Route::post(array('hello', 'world'), function()
 |		{
 |			return 'Hello World!';
 |		});

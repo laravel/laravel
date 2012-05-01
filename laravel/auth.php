@@ -61,16 +61,6 @@ class Auth {
 	}
 
 	/**
-	 * Run the logout method on all active drivers.
-	 *
-	 * @return void
-	 */
-	public static function logout()
-	{
-		array_walk(static::$drivers, function($d) { $d->logout(); });
-	}
-
-	/**
 	 * Register a third-party authentication driver.
 	 *
 	 * @param  string   $driver

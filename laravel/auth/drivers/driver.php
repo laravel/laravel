@@ -2,6 +2,7 @@
 
 use Laravel\Str;
 use Laravel\Cookie;
+use Laravel\Config;
 use Laravel\Session;
 
 abstract class Driver {
@@ -184,7 +185,7 @@ abstract class Driver {
 
 		extract($config);
 
-		Cookie::put($name, $minutes, $token, $path, $domain, $secure);
+		Cookie::put($name, $minutes, $value, $path, $domain, $secure);
 	}
 
 	/**
