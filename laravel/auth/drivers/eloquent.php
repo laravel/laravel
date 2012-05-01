@@ -1,26 +1,6 @@
-<?php namespace Laravel\Auth\Drivers; use User, Laravel\Hash;
+<?php namespace Laravel\Auth\Drivers; use Laravel\Hash, Laravel\Config;
 
 class Eloquent extends Driver {
-
-	/**
-	 * The name of the "User" model used by the application.
-	 *
-	 * @var string
-	 */
-	public $model;
-
-	/**
-	 * Create a new Eloquent authentication driver.
-	 *
-	 * @param  string  $model
-	 * @return void
-	 */
-	public function __construct($model)
-	{
-		$this->model = $model;
-
-		parent::__construct();
-	}
 
 	/**
 	 * Get the current user of the application.
@@ -46,7 +26,9 @@ class Eloquent extends Driver {
 	 */
 	public function attempt($arguments = array())
 	{
-		$user = $this->model()->where('email', '=', $arguments['email'])->first();
+		$username = Config::get('auth.username');
+
+		$user = $this->model()->where($username, '=', $arguments['username'])->first();
 
 		// This driver uses a basic username and password authentication scheme
 		// so if the credentials match what is in the database we will just
@@ -68,7 +50,9 @@ class Eloquent extends Driver {
 	 */
 	protected function model()
 	{
-		return new $this->model;
+		$model = Config::get('auth.model');
+
+		return new $model;
 	}
 
 }

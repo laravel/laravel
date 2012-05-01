@@ -1,26 +1,6 @@
-<?php namespace Laravel\Auth\Drivers; use Laravel\Hash, Laravel\Database;
+<?php namespace Laravel\Auth\Drivers; use Laravel\Hash, Laravel\Database as DB;
 
 class Fluent extends Driver {
-
-	/**
-	 * The "users" table used by the application.
-	 *
-	 * @var string
-	 */
-	public $table;
-
-	/**
-	 * Create a new fluent authentication driver.
-	 *
-	 * @param  string  $table
-	 * @return void
-	 */
-	public function __construct($table)
-	{
-		$this->table = $table;
-
-		parent::__construct();
-	}
 
 	/**
 	 * Get the current user of the application.
@@ -34,7 +14,7 @@ class Fluent extends Driver {
 	{
 		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
 		{
-			Database::table($this->table)->find($id);
+			DB::table(Config::get('auth.table'))->find($id);
 		} 
 	}
 
@@ -46,7 +26,7 @@ class Fluent extends Driver {
 	 */
 	public function attempt($arguments = array())
 	{
-		$user = Database::table($this->table)->where_email($arguments['email'])->first();
+		$user = $this->get_user($arguments['username']);
 
 		// This driver uses a basic username and password authentication scheme
 		// so if the credentials mmatch what is in the database we will just
@@ -59,6 +39,21 @@ class Fluent extends Driver {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the user from the database table by username.
+	 *
+	 * @param  mixed  $value
+	 * @return mixed
+	 */
+	protected function get_user($value)
+	{
+		$table = Config::get('auth.table');
+
+		$username = Config::get('auth.username');
+
+		return DB::table($table)->where($username, '=', $value)->first();
 	}
 
 }

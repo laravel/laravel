@@ -20,6 +20,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Authentication Username
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the database column that should be considered the
+	| "username" for your users. Typically, this will either be "usenrame"
+	| or "email". Of course, you're free to change the value to anything.
+	|
+	*/
+
+	'username' => 'email',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Authentication Model
 	|--------------------------------------------------------------------------
 	|
