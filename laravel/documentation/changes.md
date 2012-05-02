@@ -71,6 +71,7 @@
 - Added Response::json method for creating JSON responses.
 - Added Response::eloquent method for creating Eloquent responses.
 - Fixed bug when using many-to-many relationships on non-default database connection.
+- Added true reflection based IoC to container.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
