@@ -67,7 +67,7 @@
 - Allow a `starter` Closure to be defined in `bundles.php` to be run on Bundle::start.
 - Allow the registration of custom database drivers.
 - New, driver based authentication system.
-- Added Request::json() method for working with applications using Backbone.js or similar.
+- Added Input::json() method for working with applications using Backbone.js or similar.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
