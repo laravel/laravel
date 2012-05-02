@@ -3,6 +3,13 @@
 class Input {
 
 	/**
+	 * The JSON payload for applications using Backbone.js or similar.
+	 *
+	 * @var object
+	 */
+	public static $json;
+
+	/**
 	 * The key used to store old input in the session.
 	 *
 	 * @var string
@@ -90,6 +97,18 @@ class Input {
 	public static function query($key = null, $default = null)
 	{
 		return array_get(Request::foundation()->query->all(), $key, $default);
+	}
+
+	/**
+	 * Get the JSON payload for the request.
+	 *
+	 * @return object
+	 */
+	public static function json()
+	{
+		if ( ! is_null(static::$json)) return static::$json;
+
+		return static::$json = json_decode(Request::foundation()->getContent());
 	}
 
 	/**
