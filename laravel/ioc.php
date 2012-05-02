@@ -24,8 +24,10 @@ class IoC {
 	 * @param  bool     $singleton
 	 * @return void
 	 */
-	public static function register($name, $resolver, $singleton = false)
+	public static function register($name, $resolver = null, $singleton = false)
 	{
+		if (is_null($resolver)) $resolver = $name;
+
 		static::$registry[$name] = compact('resolver', 'singleton');
 	}
 
@@ -49,7 +51,7 @@ class IoC {
 	 * @param  Closure  $resolver
 	 * @return void
 	 */
-	public static function singleton($name, $resolver)
+	public static function singleton($name, $resolver = null)
 	{
 		static::register($name, $resolver, true);
 	}
