@@ -18,7 +18,7 @@ class Fluent extends Driver {
 	{
 		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
 		{
-			DB::table(Config::get('auth.table'))->find($id);
+			return DB::table(Config::get('auth.table'))->find($id);
 		} 
 	}
 
