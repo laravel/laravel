@@ -34,6 +34,10 @@
 
 Route::get('/', function()
 {
+	//Auth::logout();
+	Auth::logout();
+	var_dump(Auth::attempt(array('username' => 'taylorotwell@gmail.com', 'password' => 'secret')));
+	dd(Auth::user());
 	return View::make('home.index');
 });
 
