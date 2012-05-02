@@ -97,7 +97,17 @@ class IoC {
 			return static::$singletons[$type];
 		}
 
-		$concrete = array_get(static::$registry, "{$type}.resolver", $type);
+		// If we don't have a registered resolver or concrete for the type, we'll just
+		// assume the type is the concrete name and will attempt to resolve it as is
+		// since the container should be able to resolve concretes automatically.
+		if ( ! isset(static::$registry[$type]))
+		{
+			$concrete = $type;
+		}
+		else
+		{
+			$concrete = array_get(static::$registry[$type], 'resolver', $type);
+		}
 
 		// We're ready to instantiate an instance of the concrete type registered for
 		// the binding. This will instantiate the type, as well as resolve any of
