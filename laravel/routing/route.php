@@ -51,7 +51,6 @@ class Route {
 	 * @param  string   $uri
 	 * @param  array    $action
 	 * @param  array    $parameters
-	 * @return void
 	 */
 	public function __construct($method, $uri, $action, $parameters = array())
 	{
@@ -67,18 +66,17 @@ class Route {
 		// We'll set the parameters based on the number of parameters passed
 		// compared to the parameters that were needed. If more parameters
 		// are needed, we'll merge in defaults.
-		$this->parameters($uri, $action, $parameters);
+		$this->parameters($action, $parameters);
 	}
 
 	/**
 	 * Set the parameters array to the correct value.
 	 *
-	 * @param  string  $uri
 	 * @param  array   $action
 	 * @param  array   $parameters
 	 * @return void
 	 */
-	protected function parameters($uri, $action, $parameters)
+	protected function parameters($action, $parameters)
 	{
 		$defaults = (array) array_get($action, 'defaults');
 
@@ -252,7 +250,8 @@ class Route {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controller
+	 * @static
+	 * @param  string|array  $controllers
 	 * @param  string|array  $defaults
 	 * @return void
 	 */
