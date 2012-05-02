@@ -79,6 +79,26 @@ class Response {
 	}
 
 	/**
+	 * Create a new JSON response.
+	 *
+	 * <code>
+	 *		// Create a response instance with a view
+	 *		return Response::json($data, 200, array('header' => 'value'));
+	 * </code>
+	 *
+	 * @param  mixed     $data
+	 * @param  int       $status
+	 * @param  array     $headers
+	 * @return Response
+	 */
+	public static function json($data, $status = 200, $headers = array())
+	{
+		$headers['Content-Type'] = 'application/json';
+
+		return new static(json_encode($data), $status, $headers);
+	}
+
+	/**
 	 * Create a new error response instance.
 	 *
 	 * The response status code will be set using the specified code.
