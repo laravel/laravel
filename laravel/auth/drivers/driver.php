@@ -105,6 +105,8 @@ abstract class Driver {
 	 */
 	public function login($token, $remember = false)
 	{
+		$this->token = $token;
+
 		$this->store($token);
 
 		if ($remember) $this->remember($token);
