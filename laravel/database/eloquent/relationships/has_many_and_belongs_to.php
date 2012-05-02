@@ -349,7 +349,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 			// Every model result for a many-to-many relationship needs a Pivot instance
 			// to represent the pivot table's columns. Sometimes extra columns are on
 			// the pivot table that may need to be accessed by the developer.
-			$pivot = new Pivot($this->joining);
+			$pivot = new Pivot($this->joining, $this->model->connection());
 
 			// If the attribute key starts with "pivot_", we know this is a column on
 			// the pivot table, so we will move it to the Pivot model and purge it
@@ -400,7 +400,9 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	public function pivot()
 	{
-		return new Has_Many($this->base, new Pivot($this->joining), $this->foreign_key());
+		$pivot = new Pivot($this->joining, $this->model->connection());
+
+		return new Has_Many($this->base, $pivot, $this->foreign_key());
 	}
 
 	/**
