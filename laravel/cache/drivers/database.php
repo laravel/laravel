@@ -75,7 +75,7 @@ class Database extends Driver {
 		$expiration = $this->expiration($minutes);
 
 		// To update the value, we'll first attempt an insert against the
-		// database and if we catch an exception, we'll assume that the
+		// database and if we catch an exception we'll assume that the
 		// primary key already exists in the table and update.
 		try
 		{

@@ -1,13 +1,13 @@
-<?php namespace Laravel\Cache\Drivers; use Memcache;
+<?php namespace Laravel\Cache\Drivers;
 
-class Memcached extends Driver {
+class Memcached extends Sectionable {
 
 	/**
 	 * The Memcache instance.
 	 *
-	 * @var Memcache
+	 * @var Memcached
 	 */
-	protected $memcache;
+	public $memcache;
 
 	/**
 	 * The cache key from the cache configuration file.
@@ -19,10 +19,10 @@ class Memcached extends Driver {
 	/**
 	 * Create a new Memcached cache driver instance.
 	 *
-	 * @param  Memcache  $memcache
+	 * @param  Memcached  $memcache
 	 * @return void
 	 */
-	public function __construct(Memcache $memcache, $key)
+	public function __construct(\Memcached $memcache, $key)
 	{
 		$this->key = $key;
 		$this->memcache = $memcache;
@@ -47,7 +47,13 @@ class Memcached extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if (($cache = $this->memcache->get($this->key.$key)) !== false)
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->get_from_section($section, $key);
+		}
+		elseif (($cache = $this->memcache->get($this->key.$key)) !== false)
 		{
 			return $cache;
 		}
@@ -68,7 +74,16 @@ class Memcached extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->memcache->set($this->key.$key, $value, 0, $minutes * 60);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->put_in_section($section, $key, $value, $minutes);
+		}
+		else
+		{
+			$this->memcache->set($this->key.$key, $value, $minutes * 60);
+		}
 	}
 
 	/**
@@ -80,7 +95,16 @@ class Memcached extends Driver {
 	 */
 	public function forever($key, $value)
 	{
-		return $this->put($key, $value, 0);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->forever_in_section($section, $key, $value);
+		}
+		else
+		{
+			return $this->put($key, $value, 0);
+		}
 	}
 
 	/**
@@ -91,7 +115,71 @@ class Memcached extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->memcache->delete($this->key.$key);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			if ($key == '*')
+			{
+				$this->forget_section($section);
+			}
+			else
+			{
+				$this->forget_in_section($section, $key);
+			}
+		}
+		else
+		{
+			$this->memcache->delete($this->key.$key);
+		}
+	}
+
+	/**
+	 * Delete an entire section from the cache.
+	 *
+	 * @param  string    $section
+	 * @return int|bool
+	 */
+	public function forget_section($section)
+	{
+		return $this->memcache->increment($this->key.$this->section_key($section));
+	}
+
+	/**
+	 * Get the current section ID for a given section.
+	 *
+	 * @param  string  $section
+	 * @return int
+	 */
+	protected function section_id($section)
+	{
+		return $this->sear($this->section_key($section), function()
+		{
+			return rand(1, 10000);
+		});
+	}
+
+	/**
+	 * Get a section key name for a given section.
+	 *
+	 * @param  string  $section
+	 * @return string
+	 */
+	protected function section_key($section)
+	{
+		return $section.'_section_key';
+	}
+
+	/**
+	 * Get a section item key for a given section and key.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @return string
+	 */
+	protected function section_item_key($section, $key)
+	{
+		return $section.'#'.$this->section_id($section).'#'.$key;
 	}
 
 }

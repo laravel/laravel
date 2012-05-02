@@ -12,6 +12,13 @@ class SQLServer extends Grammar {
 	protected $wrapper = '[%s]';
 
 	/**
+	 * The format for properly saving a DateTime.
+	 *
+	 * @var string
+	 */
+	public $datetime = 'Y-m-d H:i:s.000';
+
+	/**
 	 * Compile a SQL SELECT statement from a Query instance.
 	 *
 	 * @param  Query   $query
