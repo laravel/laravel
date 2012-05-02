@@ -1,4 +1,8 @@
-<?php namespace Laravel\Auth\Drivers; use Laravel\Hash, Laravel\Database as DB;
+<?php namespace Laravel\Auth\Drivers;
+
+use Laravel\Hash;
+use Laravel\Config;
+use Laravel\Database as DB;
 
 class Fluent extends Driver {
 
