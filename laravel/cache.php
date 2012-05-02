@@ -54,7 +54,9 @@ class Cache {
 	{
 		if (isset(static::$registrar[$driver]))
 		{
-			return static::$registrar[$driver]();
+			$resolver = static::$registrar[$driver];
+
+			return $resolver();
 		}
 
 		switch ($driver)
