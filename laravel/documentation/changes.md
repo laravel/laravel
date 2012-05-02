@@ -69,6 +69,7 @@
 - New, driver based authentication system.
 - Added Input::json() method for working with applications using Backbone.js or similar.
 - Added Response::json method for creating JSON responses.
+- Added Response::eloquent method for creating Eloquent responses.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1

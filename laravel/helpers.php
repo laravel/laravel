@@ -246,6 +246,22 @@ function array_pluck($array, $key)
 }
 
 /**
+ * Transform Eloquent models to a JSON object.
+ *
+ * @param  Eloquent|array  $models
+ * @return object
+ */
+function eloquent_to_json($models)
+{
+	if ($models instanceof Eloquent)
+	{
+		return json_encode($models->to_array());
+	}
+
+	return json_encode(array_map(function($m) { return $m->to_array(); }, $models));
+}
+
+/**
  * Determine if "Magic Quotes" are enabled on the server.
  *
  * @return bool
