@@ -10,6 +10,13 @@ class Request {
 	public static $route;
 
 	/**
+	 * The JSON payload for applications using Backbone.js or similar.
+	 *
+	 * @var object
+	 */
+	public static $json;
+
+	/**
 	 * The Symfony HttpFoundation Request instance.
 	 *
 	 * @var HttpFoundation\Request
@@ -70,6 +77,18 @@ class Request {
 	public static function headers()
 	{
 		return static::foundation()->headers->all();
+	}
+
+	/**
+	 * Get the JSON payload for the request.
+	 *
+	 * @return object
+	 */
+	public static function json()
+	{
+		if ( ! is_null(static::$json)) return static::$json;
+
+		return static::$json = json_decode(static::foundation()->getContent());
 	}
 
 	/**
@@ -232,7 +251,7 @@ class Request {
 		{
 			// Essentially we just want to loop through each environment pattern
 			// and determine if the current URI matches the pattern and if so
-			// we'll simply return the environment for that URI pattern.
+			// we will simply return the environment for that URI pattern.
 			foreach ($patterns as $pattern)
 			{
 				if (Str::is($pattern, $uri))
