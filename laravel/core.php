@@ -210,7 +210,7 @@ if (defined('STDIN'))
 |--------------------------------------------------------------------------
 |
 | Finally we will register all of the bundles that have been defined for
-| the application. None of them will be started, yet but will be setup
+| the application. None of them will be started yet, but will be setup
 | so that they may be started by the developer at any time.
 |
 */

@@ -61,11 +61,11 @@ class File {
 	 * Delete a file.
 	 *
 	 * @param  string  $path
-	 * @return void
+	 * @return bool
 	 */
 	public static function delete($path)
 	{
-		if (static::exists($path)) @unlink($path);
+		if (static::exists($path)) return @unlink($path);
 	}
 
 	/**
