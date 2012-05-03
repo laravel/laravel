@@ -34,7 +34,7 @@ class Query {
 	 */
 	public $passthru = array(
 		'lists', 'only', 'insert', 'insert_get_id', 'update', 'increment',
-		'decrement', 'count', 'min', 'max', 'avg', 'sum',
+		'delete', 'decrement', 'count', 'min', 'max', 'avg', 'sum',
 	);
 
 	/**
@@ -267,8 +267,8 @@ class Query {
 		$result = call_user_func_array(array($this->table, $method), $parameters);
 
 		// Some methods may get their results straight from the fluent query
-		// builder, such as the aggregate methods. If the called method is
-		// one of these, we will return the result straight away.
+		// builder such as the aggregate methods. If the called method is
+		// one of these, we will just return the result straight away.
 		if (in_array($method, $this->passthru))
 		{
 			return $result;
