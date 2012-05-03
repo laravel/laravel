@@ -92,15 +92,95 @@ Autoloader::map(array(
 | Register The Symfony Components
 |--------------------------------------------------------------------------
 |
-| Laravel's "Artisan" CLI makes use of the Symfony Console component to
-| build a wonderful CLI environment that is both robust and testable.
-| We'll register the component's namespace here.
+| Laravel makes use of the Symfony components where the situation is
+| applicable and it is possible to do so. This allows us to focus
+| on the parts of the framework that are unique and not re-do
+| plumbing code that others have written.
 |
 */
 
 Autoloader::namespaces(array(
-	'Symfony\Component\Console' => path('base').'vendor/Symfony/Component/Console',
+	'Symfony\Component\Console' 
+                    => path('sys').'vendor/Symfony/Component/Console',
+	'Symfony\Component\HttpFoundation'
+                    => path('sys').'vendor/Symfony/Component/HttpFoundation',
 ));
+
+/*
+|--------------------------------------------------------------------------
+| Magic Quotes Strip Slashes
+|--------------------------------------------------------------------------
+|
+| Even though "Magic Quotes" are deprecated in PHP 5.3.x, they may still
+| be enabled on the server. To account for this, we will strip slashes
+| on all input arrays if magic quotes are enabled for the server.
+|
+*/
+
+if (magic_quotes())
+{
+	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+
+	foreach ($magics as &$magic)
+	{
+		$magic = array_strip_slashes($magic);
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Create The HttpFoundation Request
+|--------------------------------------------------------------------------
+|
+| Laravel uses the HttpFoundation Symfony component to handle the request
+| and response functionality for the framework. This allows us to not
+| worry about that boilerplate code and focus on what matters.
+|
+*/
+
+use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
+
+Request::$foundation = RequestFoundation::createFromGlobals();
+
+/*
+|--------------------------------------------------------------------------
+| Determine The Application Environment
+|--------------------------------------------------------------------------
+|
+| Next we're ready to determine the application environment. This may be
+| set either via the command line options, or, if the request is from
+| the web, via the mapping of URIs to environments that lives in
+| the "paths.php" file for the application and is parsed.
+|
+*/
+
+if (Request::cli())
+{
+	$environment = get_cli_option('env');
+}
+else
+{
+	$root = Request::foundation()->getRootUrl();
+
+	$environment = Request::detect_env($environments, $root);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Set The Application Environment
+|--------------------------------------------------------------------------
+|
+| Once we have determined the application environment, we will set it on
+| the global server array of the HttpFoundation request. This makes it
+| available throughout the application, thought it is mainly only
+| used to determine which configuration files to merge in.
+|
+*/
+
+if (isset($environment))
+{
+	Request::set_env($environment);
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -126,28 +206,11 @@ if (defined('STDIN'))
 
 /*
 |--------------------------------------------------------------------------
-| Set The CLI Laravel Environment
-|--------------------------------------------------------------------------
-|
-| Next we'll set the LARAVEL_ENV variable if the current request is from
-| the Artisan command-line interface. Since the environment is often
-| specified within an Apache .htaccess file, we need to set it here
-| when the request is not coming through Apache.
-|
-*/
-
-if (isset($_SERVER['CLI']['ENV']))
-{
-	$_SERVER['LARAVEL_ENV'] = $_SERVER['CLI']['ENV'];
-}
-
-/*
-|--------------------------------------------------------------------------
 | Register The Laravel Bundles
 |--------------------------------------------------------------------------
 |
 | Finally we will register all of the bundles that have been defined for
-| the application. None of them will be started, yet but will be setup
+| the application. None of them will be started yet, but will be setup
 | so that they may be started by the developer at any time.
 |
 */

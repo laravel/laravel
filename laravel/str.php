@@ -148,7 +148,9 @@ class Str {
 	 */
 	public static function words($value, $words = 100, $end = '...')
 	{
-		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/', $value, $matches);
+		if (trim($value) == '') return '';
+
+		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
 
 		if (static::length($value) == static::length($matches[0]))
 		{
@@ -298,6 +300,30 @@ class Str {
 	public static function random($length, $type = 'alnum')
 	{
 		return substr(str_shuffle(str_repeat(static::pool($type), 5)), 0, $length);
+	}
+
+	/**
+	 * Determine if a given string matches a given pattern.
+	 *
+	 * @param  string  $pattern
+	 * @param  string  $value
+	 * @return bool
+	 */
+	public static function is($pattern, $value)
+	{
+		// Asterisks are translated into zero-or-more regular expression wildcards
+		// to make it convenient to check if the URI starts with a given pattern
+		// such as "library/*". This is only done when not root.
+		if ($pattern !== '/')
+		{
+			$pattern = str_replace('*', '(.*)', $pattern).'\z';
+		}
+		else
+		{
+			$pattern = '^/$';
+		}
+
+		return preg_match('#'.$pattern.'#', $value);
 	}
 
 	/**
