@@ -198,6 +198,18 @@ class Input {
 	}
 
 	/**
+	 * Determine if the uploaded data contains a file.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function has_file($key)
+	{
+		$file = static::file($key);
+		return ! empty($file['tmp_name']);
+	}
+	
+	/**
 	 * Move an uploaded file to permanent storage.
 	 *
 	 * This method is simply a convenient wrapper around move_uploaded_file.
