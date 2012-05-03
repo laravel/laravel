@@ -37,7 +37,7 @@ class URI {
 
 		// We'll simply get the path info from the Symfony Request instance and then
 		// format to meet our needs in the router. If the URI is root, we'll give
-		// back a single slash, otherwise we'll strip the slashes.
+		// back a single slash, otherwise we'll strip all of the slashes off.
 		$uri = static::format(Request::getPathInfo());
 
 		static::segments($uri);

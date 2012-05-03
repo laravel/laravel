@@ -83,6 +83,9 @@ class Connection {
 			case 'mysql':
 				return $this->grammar = new Query\Grammars\MySQL($this);
 
+			case 'sqlite':
+				return $this->grammar = new Query\Grammars\SQLite($this);
+
 			case 'sqlsrv':
 				return $this->grammar = new Query\Grammars\SQLServer($this);
 
