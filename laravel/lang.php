@@ -112,13 +112,18 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
+		// If no default value is specified by the developer, we'll just return the
+		// key of the language line. This should indicate which language line we
+		// were attempting to render and is better than giving nothing back.
+		if (is_null($default)) $default = $this->key;
+
 		if (is_null($language)) $language = $this->language;
 
 		list($bundle, $file, $line) = $this->parse($this->key);
 
-		// If the file doesn't exist, we'll just return the default value that was
+		// If the file does not exist, we'll just return the default value that was
 		// given to the method. The default value is also returned even when the
-		// file exists and the file does not actually contain any lines.
+		// file exists and that file does not actually contain any lines.
 		if ( ! static::load($bundle, $language, $file))
 		{
 			return value($default);
