@@ -45,13 +45,26 @@ class Route {
 	public $parameters;
 
 	/**
+	 * The route's controller.
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 * The directory of the route's controller.
+	 *
+	 * @var string
+	 */
+	public $directory;
+
+	/**
 	 * Create a new Route instance.
 	 *
 	 * @param  string   $method
 	 * @param  string   $uri
 	 * @param  array    $action
 	 * @param  array    $parameters
-	 * @return void
 	 */
 	public function __construct($method, $uri, $action, $parameters = array())
 	{
@@ -67,18 +80,36 @@ class Route {
 		// We'll set the parameters based on the number of parameters passed
 		// compared to the parameters that were needed. If more parameters
 		// are needed, we'll merge in defaults.
-		$this->parameters($uri, $action, $parameters);
+		$this->parameters($action, $parameters);
+
+		// Here we will detect the route's directory and the controller. If the
+		// directory does not exist then only the controller will be set. This
+		// uses the "uses" attribute of $action such as admin.home@(:1).
+		$uses = array_get($action, 'uses');
+		if ($uses !== null)
+		{
+			$uses = explode('@', $uses);
+			$uses = explode('.', $uses);
+			if (count($uses) > 1)
+			{
+				$this->controller = array_pop($uses);
+				$this->directory = implode('.', $uses);
+			}
+			else
+			{
+				$this->controller = $uses[0];
+			}
+		}
 	}
 
 	/**
 	 * Set the parameters array to the correct value.
 	 *
-	 * @param  string  $uri
 	 * @param  array   $action
 	 * @param  array   $parameters
 	 * @return void
 	 */
-	protected function parameters($uri, $action, $parameters)
+	protected function parameters($action, $parameters)
 	{
 		$defaults = (array) array_get($action, 'defaults');
 
@@ -252,7 +283,8 @@ class Route {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controller
+	 * @static
+	 * @param  string|array  $controllers
 	 * @param  string|array  $defaults
 	 * @return void
 	 */
