@@ -205,8 +205,7 @@ class Input {
 	 */
 	public static function has_file($key)
 	{
-		$file = static::file($key);
-		return ! empty($file['tmp_name']);
+		return ! is_null(static::file("{$key}.tmp_name"));
 	}
 	
 	/**
