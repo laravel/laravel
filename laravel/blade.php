@@ -192,7 +192,7 @@ class Blade {
 			preg_match('/\$[^\s]*/', $forelse, $variable);
 
 			// Once we have extracted the variable being looped against, we can add
-			// an if statmeent to the start of the loop that checks if the count
+			// an if statement to the start of the loop that checks if the count
 			// of the variable being looped against is greater than zero.
 			$if = "<?php if (count({$variable[0]}) > 0): ?>";
 
