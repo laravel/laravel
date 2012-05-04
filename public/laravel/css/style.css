@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans);
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
@@ -101,6 +102,7 @@ body
 {
 	width:480px;
 	line-height:1.4em;
+	margin-top:45px;
 }
 
 .main
