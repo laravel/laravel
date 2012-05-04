@@ -644,11 +644,11 @@ abstract class Model {
 		// to perform the appropriate action based on the method.
 		if (starts_with($method, 'get_'))
 		{
-			return $this->attributes[substr($method, 4)];
+			return array_get($this->attributes, substr($method, 4));
 		}
 		elseif (starts_with($method, 'set_'))
 		{
-			$this->attributes[substr($method, 4)] = $parameters[0];
+			array_set($this->attributes, substr($method, 4), $parameters[0]);
 		}
 
 		// Finally we will assume that the method is actually the beginning of a
