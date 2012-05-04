@@ -26,7 +26,7 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
-		'extra',
+		'extensions',
 	);
 
 	/**
@@ -34,7 +34,7 @@ class Blade {
 	 *
 	 * @var array
 	 */
-	protected static $registered = array();
+	protected static $extensions = array();
 
 	/**
 	 * Register the Blade view engine with Laravel.
@@ -76,16 +76,16 @@ class Blade {
 	 * Register a new blade compiler.
 	 *
 	 * <code>
-	 * 		Blade::register(function($view) {
+	 * 		Blade::extend(function($view) {
 	 * 			return str_replace('thing', 'another_thing', $view);
 	 * 		});
 	 * </code>
 	 *
 	 * @param closure $compiler
 	 */
-	public static function register($compiler)
+	public static function extend($compiler)
 	{
-		static::$registered[] = $compiler;
+		static::$extensions[] = $compiler;
 	}
 
 	/**
@@ -416,9 +416,9 @@ class Blade {
 	 * @param  string  $value
 	 * @return string
 	 */
-	protected static function compile_extra($value)
+	protected static function compile_extensions($value)
 	{
-		foreach (static::$registered as $compiler)
+		foreach (static::$extensions as $compiler)
 		{
 			$value = $compiler($value);
 		}
