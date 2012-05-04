@@ -42,7 +42,7 @@ class Blade {
 			// return false so the View can be rendered as normal.
 			if ( ! str_contains($view->path, BLADE_EXT))
 			{
-				return false;
+				return;
 			}
 
 			$compiled = path('storage').'views/'.md5($view->path);
