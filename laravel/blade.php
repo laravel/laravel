@@ -74,8 +74,6 @@ class Blade {
 	 */
 	public static function expired($view, $path)
 	{
-		$compiled = static::compiled($path);
-
 		return filemtime($path) > filemtime(static::compiled($path));
 	}
 
