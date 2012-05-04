@@ -73,17 +73,19 @@ class Blade {
 	}
 
 	/**
-	 * Register a new blade compiler.
+	 * Register a custom Blade compiler.
 	 *
 	 * <code>
-	 * 		Blade::extend(function($view) {
-	 * 			return str_replace('thing', 'another_thing', $view);
+	 * 		Blade::extend(function($view)
+	 *		{
+	 * 			return str_replace('foo', 'bar', $view);
 	 * 		});
 	 * </code>
 	 *
-	 * @param closure $compiler
+	 * @param  Closure  $compiler
+	 * @return void
 	 */
-	public static function extend($compiler)
+	public static function extend(Closure $compiler)
 	{
 		static::$extensions[] = $compiler;
 	}
