@@ -175,6 +175,8 @@ class Connection {
 	 */
 	public function query($sql, $bindings = array())
 	{
+		$sql = trim($sql);
+
 		list($statement, $result) = $this->execute($sql, $bindings);
 
 		// The result we return depends on the type of query executed against the
