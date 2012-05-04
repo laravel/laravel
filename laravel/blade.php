@@ -1,4 +1,4 @@
-<?php namespace Laravel; use FilesystemIterator as fIterator;
+<?php namespace Laravel; use FilesystemIterator as fIterator; use Closure;
 
 class Blade {
 
