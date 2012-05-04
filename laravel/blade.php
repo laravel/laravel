@@ -434,7 +434,7 @@ class Blade {
 	 * @param  string  $function
 	 * @return string
 	 */
-	protected static function matcher($function)
+	public static function matcher($function)
 	{
 		return '/(\s*)@'.$function.'(\s*\(.*\))/';
 	}
