@@ -26,7 +26,15 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
+		'extra',
 	);
+
+	/**
+	 * An array of user defined compilers.
+	 *
+	 * @var array
+	 */
+	protected static $registered = array();
 
 	/**
 	 * Register the Blade view engine with Laravel.
@@ -62,6 +70,22 @@ class Blade {
 			// method on the view to evaluate the compiled PHP view.
 			return $view->get();
 		});
+	}
+
+	/**
+	 * Register a new blade compiler.
+	 *
+	 * <code>
+	 * 		Blade::register(function($view) {
+	 * 			return str_replace('thing', 'another_thing', $view);
+	 * 		});
+	 * </code>
+	 *
+	 * @param closure $compiler
+	 */
+	public static function register($compiler)
+	{
+		static::$registered[] = $compiler;
 	}
 
 	/**
@@ -385,6 +409,22 @@ class Blade {
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
 	}
+
+	/**
+	 * Execute user defined compilers.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_extra($value)
+	{
+		foreach (static::$registered as $compiler)
+		{
+			$value = $compiler($value);
+		}
+
+		return $value;
+	}	
 
 	/**
 	 * Get the regular expression for a generic Blade function.
