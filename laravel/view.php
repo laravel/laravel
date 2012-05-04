@@ -125,7 +125,7 @@ class View implements ArrayAccess {
 		// We delegate the determination of view paths to the view loader event
 		// so that the developer is free to override and manage the loading
 		// of views in any way they see fit for their application.
-		$path = Event::first(static::loader, array($bundle, $view));
+		$path = Event::until(static::loader, array($bundle, $view));
 
 		if ( ! is_null($path))
 		{
@@ -322,9 +322,9 @@ class View implements ArrayAccess {
 		// allows easy attachment of other view parsers.
 		if (Event::listeners(static::engine))
 		{
-			$result = Event::first(static::engine, array($this));
+			$result = Event::until(static::engine, array($this));
 
-			if ($result !== false) return $result;
+			if ( ! is_null($result)) return $result;
 		}
 
 		return $this->get();
