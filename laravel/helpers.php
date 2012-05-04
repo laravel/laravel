@@ -253,7 +253,7 @@ function array_pluck($array, $key)
  */
 function eloquent_to_json($models)
 {
-	if ($models instanceof Eloquent)
+	if ($models instanceof Laravel\Database\Eloquent\Model)
 	{
 		return json_encode($models->to_array());
 	}
