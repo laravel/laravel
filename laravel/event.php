@@ -145,7 +145,7 @@ class Event {
 			}
 		}
 
-		return $responses;
+		return $halt ? null : $responses;
 	}
 
 }
