@@ -89,7 +89,7 @@ class Lang {
 	 */
 	public static function has($key, $language = null)
 	{
-		return ! is_null(static::line($key, array(), $language)->get());
+		return static::line($key, array(), $language)->get() !== $key;
 	}
 
 	/**
