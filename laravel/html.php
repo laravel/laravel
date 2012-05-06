@@ -108,6 +108,19 @@ class HTML {
 	}
 
 	/**
+	 * Wrap content into the given tag with attributes.
+	 *
+	 * @param  string  $tag
+	 * @param  string  $content
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function wrap($tag, $content, $attributes = array())
+	{
+		return "<$tag".static::attributes($attributes).'>'.$content."</$tag>";
+	}
+
+	/**
 	 * Generate a HTML link.
 	 *
 	 * <code>
