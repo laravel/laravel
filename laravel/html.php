@@ -96,15 +96,28 @@ class HTML {
 	}
 
 	/**
-	 * Generate a HTML span.
+	 * Generate an opener for the given tag with attributes.
 	 *
-	 * @param  string  $value
+	 * @param  string  $tag
+	 * @param  array   $attributes
+	 * @param  bool    $xhtml
+	 * @return string
+	 */
+	public static function tag($tag, $attributes = array(), $xhtml = false)
+	{
+		$xhtml and $xhtml = ' /';
+		return "<$tag".static::attributes($attributes).$xhtml.'>';
+	}
+
+	/**
+	 * Generate an opener for the given single XHTML tag with attributes.
+	 *
+	 * @param  string  $tag
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function span($value, $attributes = array())
-	{
-		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
+	public static function xtag($tag, $attributes = array()) {
+		return static::tag($tag, $attributes, true);
 	}
 
 	/**
@@ -117,7 +130,35 @@ class HTML {
 	 */
 	public static function wrap($tag, $content, $attributes = array())
 	{
-		return "<$tag".static::attributes($attributes).'>'.$content."</$tag>";
+		return static::tag($tag, $attributes).$content."</$tag>";
+	}
+
+	/**
+	 * Does nothing on empty content or wraps it into the given tag.
+	 *
+	 * @param  string  $tag
+	 * @param  string  $content
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function wrap_if($tag, $content, $attributes = array())
+	{
+		if (trim($content) !== '')
+		{
+			return static::wrap($tag, $content, $attributes);
+		}
+	}
+
+	/**
+	 * Generate a HTML span.
+	 *
+	 * @param  string  $value
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function span($value, $attributes = array())
+	{
+		return static::wrap('span', static::entities($value), $attributes);
 	}
 
 	/**
@@ -139,9 +180,9 @@ class HTML {
 	 */
 	public static function link($url, $title, $attributes = array(), $https = false)
 	{
-		$url = static::entities(URL::to($url, $https));
+		$attributes['href'] = URL::to($url, $https);
 
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return static::wrap('a', static::entities($title), $attributes);
 	}
 
 	/**
@@ -170,9 +211,7 @@ class HTML {
 	 */
 	public static function link_to_asset($url, $title, $attributes = array(), $https = null)
 	{
-		$url = static::entities(URL::to_asset($url, $https));
-
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return static::link(URL::to_asset($url, $https), $title, $attributes);
 	}
 
 	/**
@@ -252,9 +291,9 @@ class HTML {
 
 		if (is_null($title)) $title = $email;
 
-		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
+		$attributes['href'] = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
 
-		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return static::wrap('a', static::entities($title), $attributes);
 	}
 
 	/**
@@ -279,8 +318,9 @@ class HTML {
 	public static function image($url, $alt = '', $attributes = array())
 	{
 		$attributes['alt'] = $alt;
+		$attributes['src'] = URL::to_asset($url);
 
-		return '<img src="'.static::entities(URL::to_asset($url)).'"'.static::attributes($attributes).'>';
+		return static::tag('img', $attributes);
 	}
 
 	/**
@@ -330,11 +370,11 @@ class HTML {
 			}
 			else
 			{
-				$html .= '<li>'.static::entities($value).'</li>';
+				$html .= static::wrap('li', static::entities($value));
 			}
 		}
 
-		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
+		return static::wrap($type, $html, $attributes);
 	}
 
 	/**
@@ -409,7 +449,7 @@ class HTML {
 	    {
 	        return call_user_func_array(static::$macros[$method], $parameters);
 	    }
-	    
+
 	    throw new \Exception("Method [$method] does not exist.");
 	}
 
