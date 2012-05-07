@@ -6,8 +6,8 @@
 	<title>Laravel: A Framework For Web Artisans</title>
 	<meta name="viewport" content="width=device-width">
 	{{ HTML::style('laravel/css/style.css') }}
-</head>
-<body onload="prettyPrint()">
+</head
+<body>
 	<div class="wrapper">
 		<header>
 			<h1>Laravel</h1>
