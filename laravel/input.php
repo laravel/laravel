@@ -127,7 +127,7 @@ class Input {
 	 */
 	public static function only($keys)
 	{
- 		return array_intersect_key(static::get(), array_flip((array) $keys));
+ 		return array_only(static::get(), $keys);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Input {
 	 */
 	public static function except($keys)
 	{
-		return array_diff_key(static::get(), array_flip((array) $keys));
+		return array_except(static::get(), $keys);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Input {
 	{
 		return ! is_null(static::file("{$key}.tmp_name"));
 	}
-	
+
 	/**
 	 * Move an uploaded file to permanent storage.
 	 *
