@@ -246,6 +246,30 @@ function array_pluck($array, $key)
 }
 
 /**
+ * Get a subset of the items from the given array.
+ *
+ * @param  array  $array
+ * @param  array  $keys
+ * @return array
+ */
+function array_only($array, $keys)
+{
+	return array_intersect_key( $array, array_flip((array) $keys) );
+}
+
+/**
+ * Get all of the given array except for a specified array of items.
+ *
+ * @param  array  $array
+ * @param  array  $keys
+ * @return array
+ */
+function array_except($array, $keys)
+{
+	return array_diff_key( $array, array_flip((array) $keys) );
+}
+
+/**
  * Transform Eloquent models to a JSON object.
  *
  * @param  Eloquent|array  $models
