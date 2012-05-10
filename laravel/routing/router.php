@@ -98,6 +98,13 @@ class Router {
 	public static $methods = array('GET', 'POST', 'PUT', 'DELETE', 'HEAD');
 
 	/**
+	 * Requested Route Queue
+	 *
+	 * @var array
+	 */
+	public static $route_queue = array();
+
+	/**
 	 * Register a HTTPS route with the router.
 	 *
 	 * @param  string        $method
@@ -232,7 +239,7 @@ class Router {
 			{
 				$routes[$method][$uri] = static::action($action);
 			}
-			
+
 			// If a group is being registered, we'll merge all of the group
 			// options into the action, giving preference to the action
 			// for options that are specified in both.
@@ -461,7 +468,11 @@ class Router {
 		{
 			$action = $routes[$uri];
 
-			return new Route($method, $uri, $action);
+			$route = new Route($method, $uri, $action);
+
+			static::add_to_queue($route);
+
+			return $route;
 		}
 
 		// If we can't find a literal match we'll iterate through all of the
@@ -469,6 +480,8 @@ class Router {
 		// regular expressions and wildcards.
 		if ( ! is_null($route = static::match($method, $uri)))
 		{
+			static::add_to_queue($route);
+
 			return $route;
 		}
 	}
@@ -585,6 +598,32 @@ class Router {
 	protected static function repeat($pattern, $times)
 	{
 		return implode('/', array_fill(0, $times, $pattern));
+	}
+
+	/**
+	 * Pops off and sets the request route to the last requested route
+	 */
+	public static function queue_next()
+	{
+		if (count(static::$route_queue) > 1)
+		{
+			Request::$route = array_pop(static::$route_queue);
+		}
+		else
+		{
+			Request::$route = static::$route_queue[0];
+		}
+	}
+
+	/**
+	 * Adds a route the the route queue and sets the current Request Route;
+	 *
+	 * @param  object  Route Object
+	 */
+	protected static function add_to_queue($route)
+	{
+		static::$route_queue[] = (Request::$route) ?: $route;
+		Request::$route = $route;
 	}
 
 }

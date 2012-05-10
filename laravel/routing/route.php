@@ -131,6 +131,8 @@ class Route {
 
 		Filter::run($this->filters('after'), array($response));
 
+		Router::queue_next();
+
 		return $response;
 	}
 
