@@ -180,24 +180,11 @@ class Connection {
 		list($statement, $result) = $this->execute($sql, $bindings);
 
 		// The result we return depends on the type of query executed against the
-		// database. On SELECT clauses or stored procedures, we will attempt to return the
-		// result set, for update and deletes we will return the affected row count.
-		if (stripos($sql, 'select') === 0 or preg_match('/^(exec|call)/i', $sql))
+		// database. On SELECT clauses, we will return the result set, for update
+		// and deletes we will return the affected row count.
+		if (stripos($sql, 'select') === 0)
 		{
-			try
-			{
-				return $this->fetch($statement, Config::get('database.fetch'));
-			}
-			catch (\Exception $exception)
-			{
-				// Ignore the exception thrown when a stored procedure does not return any results.
-				if ($exception->getMessage() === 'SQLSTATE[IMSSP]: The active result for the query contains no fields.')
-				{
-					return;
-				}
-
-				throw $exception;
-			}
+			return $this->fetch($statement, Config::get('database.fetch'));
 		}
 		elseif (stripos($sql, 'update') === 0 or stripos($sql, 'delete') === 0)
 		{
