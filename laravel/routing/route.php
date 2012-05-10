@@ -45,6 +45,13 @@ class Route {
 	public $parameters;
 
 	/**
+	 * The route's controller.
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
 	 * Create a new Route instance.
 	 *
 	 * @param  string   $method
@@ -68,6 +75,15 @@ class Route {
 		// compared to the parameters that were needed. If more parameters
 		// are needed, we'll merge in defaults.
 		$this->parameters($uri, $action, $parameters);
+
+		// Here we will detect the controller that is used for this route. This
+		// may look like "admin::home" or simply "home". Refer to routing.
+		$uses = array_get($action, 'uses');
+		if ($uses !== null)
+		{
+			list($controller) = explode('@', $uses);
+			$this->controller = $controller;
+		}
 	}
 
 	/**
