@@ -154,9 +154,9 @@ abstract class Controller {
 		// improve speed since the bundle is not loaded on every request.
 		Bundle::start($bundle);
 
-		list($controller, $method) = explode('@', $destination);
+		list($controller_name, $method) = explode('@', $destination);
 
-		$controller = static::resolve($bundle, $controller);
+		$controller = static::resolve($bundle, $controller_name);
 		
 		$controller->bundle = $bundle;
 		$controller->name   = $controller_name;
