@@ -31,6 +31,20 @@ class Route {
 	public $bundle;
 
 	/**
+	 * The name of the controller used by the route.
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 * The name of the controller action used by the route.
+	 *
+	 * @var string
+	 */
+	public $controller_action;
+
+	/**
 	 * The action that is assigned to the route.
 	 *
 	 * @var mixed
