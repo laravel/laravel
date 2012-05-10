@@ -8,6 +8,7 @@ class Blade {
 	 * @var array
 	 */
 	protected static $compilers = array(
+		'extensions',
 		'layouts',
 		'comments',
 		'echos',
@@ -26,7 +27,6 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
-		'extensions',
 	);
 
 	/**
