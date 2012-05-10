@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width">
 	{{ HTML::style('laravel/css/style.css') }}
 </head>
-<body onload="prettyPrint()">
+<body>
 	<div class="wrapper">
 		<header>
 			<h1>Laravel</h1>
