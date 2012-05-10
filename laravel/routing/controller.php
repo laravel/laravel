@@ -170,7 +170,10 @@ abstract class Controller {
 
 		$response = $controller->execute($method, $parameters);
 
-		Router::queue_next();
+		if ( ! is_null($route))
+		{
+			Router::queue_next();
+		}
 
 		return $response;
 	}
