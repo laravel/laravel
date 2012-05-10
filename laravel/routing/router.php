@@ -102,7 +102,7 @@ class Router {
 	 *
 	 * @var array
 	 */
-	protected static $route_queue = array();
+	public static $route_queue = array();
 
 	/**
 	 * Register a HTTPS route with the router.
@@ -620,7 +620,7 @@ class Router {
 	 *
 	 * @param  object  Route Object
 	 */
-	protected static function add_to_queue($route)
+	public static function add_to_queue($route)
 	{
 		static::$route_queue[] = (Request::$route) ?: $route;
 		Request::$route = $route;
