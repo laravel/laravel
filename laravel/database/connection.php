@@ -134,11 +134,12 @@ class Connection {
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
+	 * @param  bool    $fetch
 	 * @return mixed
 	 */
-	public function only($sql, $bindings = array())
+	public function only($sql, $bindings = array(), $fetch = true)
 	{
-		$results = (array) $this->first($sql, $bindings);
+		$results = (array) $this->first($sql, $bindings, $fetch);
 
 		return reset($results);
 	}
@@ -156,11 +157,12 @@ class Connection {
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
+	 * @param  bool    $fetch
 	 * @return object
 	 */
-	public function first($sql, $bindings = array())
+	public function first($sql, $bindings = array(), $fetch = true)
 	{
-		if (count($results = $this->query($sql, $bindings)) > 0)
+		if (count($results = $this->query($sql, $bindings, $fetch)) > 0)
 		{
 			return $results[0];
 		}
@@ -171,18 +173,19 @@ class Connection {
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
+	 * @param  bool    $fetch
 	 * @return array
 	 */
-	public function query($sql, $bindings = array())
+	public function query($sql, $bindings = array(), $fetch = true)
 	{
 		$sql = trim($sql);
 
 		list($statement, $result) = $this->execute($sql, $bindings);
 
 		// The result we return depends on the type of query executed against the
-		// database. On SELECT clauses, we will return the result set, for update
-		// and deletes we will return the affected row count.
-		if (stripos($sql, 'select') === 0)
+		// database. On SELECT clauses and stored procedures, we will return the
+		// result set, for update and deletes we will return the affected row count.
+		if ((stripos($sql, 'select') === 0 or preg_match('/^(exec|call)/i', $sql)) and $fetch)
 		{
 			return $this->fetch($statement, Config::get('database.fetch'));
 		}
