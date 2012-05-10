@@ -25,6 +25,20 @@ abstract class Controller {
 	 * @var string
 	 */
 	public $bundle;
+	
+	/**
+	 * The controllers name
+	 *
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * The controllers action
+	 *
+	 * @var string
+	 */
+	public $action;
 
 	/**
 	 * Indicates if the controller uses RESTful routing.
@@ -140,9 +154,13 @@ abstract class Controller {
 		// improve speed since the bundle is not loaded on every request.
 		Bundle::start($bundle);
 
-		list($controller, $method) = explode('@', $destination);
+		list($controller_name, $method) = explode('@', $destination);
 
-		$controller = static::resolve($bundle, $controller);
+		$controller = static::resolve($bundle, $controller_name);
+		
+		$controller->bundle = $bundle;
+		$controller->name   = $controller_name;
+		$controller->action = $method;
 
 		// If the controller could not be resolved, we're out of options and
 		// will return the 404 error response. If we found the controller,
