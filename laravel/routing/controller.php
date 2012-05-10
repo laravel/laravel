@@ -25,20 +25,6 @@ abstract class Controller {
 	 * @var string
 	 */
 	public $bundle;
-	
-	/**
-	 * The controllers name
-	 *
-	 * @var string
-	 */
-	public $name;
-
-	/**
-	 * The controllers action
-	 *
-	 * @var string
-	 */
-	public $action;
 
 	/**
 	 * Indicates if the controller uses RESTful routing.
