@@ -1,13 +1,13 @@
 <?php namespace Laravel\Cache\Drivers;
 
-class Memory extends Driver {
+class Memory extends Sectionable {
 
 	/**
 	 * The in-memory array of cached items.
 	 *
 	 * @var string
 	 */
-	protected $storage = array();
+	public $storage = array();
 
 	/**
 	 * Determine if an item exists in the cache.
@@ -28,9 +28,15 @@ class Memory extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if (array_key_exists($key, $this->storage))
+		if ($this->sectionable($key))
 		{
-			return $this->storage[$key];
+			list($section, $key) = $this->parse($key);
+
+			return $this->get_from_section($section, $key);
+		}
+		else
+		{
+			return array_get($this->storage, $key);
 		}
 	}
 
@@ -49,7 +55,16 @@ class Memory extends Driver {
 	 */
 	public function put($key, $value, $minutes)
 	{
-		$this->storage[$key] = $value;
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->put_in_section($section, $key, $value, $minutes);
+		}
+		else
+		{
+			array_set($this->storage, $key, $value);
+		}
 	}
 
 	/**
@@ -61,7 +76,16 @@ class Memory extends Driver {
 	 */
 	public function forever($key, $value)
 	{
-		$this->put($key, $value, 0);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			return $this->forever_in_section($section, $key, $value);
+		}
+		else
+		{
+			$this->put($key, $value, 0);
+		}
 	}
 
 	/**
@@ -72,7 +96,34 @@ class Memory extends Driver {
 	 */
 	public function forget($key)
 	{
-		unset($this->storage[$key]);
+		if ($this->sectionable($key))
+		{
+			list($section, $key) = $this->parse($key);
+
+			if ($key == '*')
+			{
+				$this->forget_section($section);
+			}
+			else
+			{
+				$this->forget_in_section($section, $key);
+			}
+		}
+		else
+		{
+			array_forget($this->storage, $key);
+		}
+	}
+
+	/**
+	 * Delete an entire section from the cache.
+	 *
+	 * @param  string    $section
+	 * @return int|bool
+	 */
+	public function forget_section($section)
+	{
+		array_forget($this->storage, 'section#'.$section);
 	}
 
 	/**
@@ -83,6 +134,18 @@ class Memory extends Driver {
 	public function flush()
 	{
 		$this->storage = array();
+	}
+
+	/**
+	 * Get a section item key for a given section and key.
+	 *
+	 * @param  string  $section
+	 * @param  string  $key
+	 * @return string
+	 */
+	protected function section_item_key($section, $key)
+	{
+		return "section#{$section}.{$key}";
 	}
 
 }
