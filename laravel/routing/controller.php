@@ -304,6 +304,11 @@ abstract class Controller {
 		if ($this->restful)
 		{
 			$action = strtolower(Request::method()).'_'.$method;
+
+      if (!method_exists($this, $action) && method_exists($this, "any_{$method}"))
+      {
+        $action = "any_{$method}";
+      }
 		}
 		else
 		{
