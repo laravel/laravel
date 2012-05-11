@@ -1,6 +1,5 @@
 <?php namespace Laravel\Session;
 
-use Closure;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
