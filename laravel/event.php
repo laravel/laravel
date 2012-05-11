@@ -10,6 +10,20 @@ class Event {
 	public static $events = array();
 
 	/**
+	 * The queued events waiting for flushing.
+	 *
+	 * @var array
+	 */
+	public static $queued = array();
+
+	/**
+	 * All of the registered queue flusher callbacks.
+	 *
+	 * @var array
+	 */
+	public static $flushers = array();
+
+	/**
 	 * Determine if an event has any registered listeners.
 	 *
 	 * @param  string  $event
@@ -55,6 +69,31 @@ class Event {
 	}
 
 	/**
+	 * Add an item to an event queue for processing.
+	 *
+	 * @param  string  $queue
+	 * @param  string  $key
+	 * @param  mixed   $data
+	 * @return void
+	 */
+	public static function queue($queue, $key, $data)
+	{
+		static::$queued[$queue][$key] = $data;
+	}
+
+	/**
+	 * Register a queue flusher callback.
+	 *
+	 * @param  string  $queue
+	 * @param  mixed   $callback
+	 * @return void
+	 */
+	public static function flusher($queue, $callback)
+	{
+		static::$flushers[$queue][] = $callback;
+	}
+
+	/**
 	 * Clear all event listeners for a given event.
 	 *
 	 * @param  string  $event
@@ -97,6 +136,28 @@ class Event {
 	public static function until($event, $parameters = array())
 	{
 		return static::fire($event, $parameters, true);
+	}
+
+	/**
+	 * Flush an event queue, firing the flusher for each payload.
+	 *
+	 * @param  string  $queue
+	 * @return void
+	 */
+	public static function flush($queue)
+	{
+		foreach (static::$flushers[$queue] as $flusher)
+		{
+			// We will simply spin through each payload registered for the event and
+			// fire the flusher, passing each payloads as we go. This allows all
+			// the events on the queue to be processed by the flusher easily.
+			foreach (static::$queued[$queue] as $key => $payload)
+			{
+				array_unshift($payload, $key);
+
+				call_user_func_array($flusher, $payload);
+			}
+		}
 	}
 
 	/**

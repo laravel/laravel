@@ -73,6 +73,7 @@
 - Fixed bug when using many-to-many relationships on non-default database connection.
 - Added true reflection based IoC to container.
 - Added `Request::route()->controller` and `Request::route()->controller_action`.
+- Added `Event::queue`, `Event::flusher`, and `Event::flush` methods to Event class.
 
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
