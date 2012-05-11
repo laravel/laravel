@@ -76,7 +76,7 @@ class Event {
 	 * @param  mixed   $data
 	 * @return void
 	 */
-	public static function queue($queue, $key, $data)
+	public static function queue($queue, $key, $data = array())
 	{
 		static::$queued[$queue][$key] = $data;
 	}
