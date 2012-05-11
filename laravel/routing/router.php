@@ -601,29 +601,31 @@ class Router {
 	}
 
 	/**
-	 * Pops off and sets the request route to the last requested route
+	 * Process the route queue
 	 */
 	public static function queue_next()
 	{
-		if (count(static::$route_queue) > 1)
+		// We process the queue by setting Request::$route to the last route in the queue.
+		// If the queue is empty, it Request::$route remains the same
+		if (count(static::$route_queue))
 		{
 			Request::$route = array_pop(static::$route_queue);
-		}
-		else
-		{
-			Request::$route = static::$route_queue[0];
 		}
 	}
 
 	/**
-	 * Adds a route the the route queue and sets the current Request Route;
+	 * Adds the previous route the the queue and sets the current Request route
 	 *
 	 * @param  object  Route Object
 	 */
 	public static function add_to_queue($route)
 	{
-		static::$route_queue[] = (Request::$route) ?: $route;
-		Request::$route = $route;
+		// We only store the previous route into the queue, the active route is not stored
+		if (Request::$route)
+		{
+			static::$route_queue[] = Request::$route;
+			Request::$route = $route;
+		}
 	}
 
 }

@@ -120,7 +120,7 @@ Routing\Router::register('*', '(:all)', function()
 
 $uri = URI::current();
 
-Routing\Router::route(Request::method(), $uri);
+Request::$route = Routing\Router::route(Request::method(), $uri);
 
 $response = Request::$route->call();
 
