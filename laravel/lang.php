@@ -103,7 +103,7 @@ class Lang {
 	 *		$line = Lang::line('validation.required')->get('sp');
 	 *
 	 *		// Return a default value if the line doesn't exist
-	 *		$line = Lang::line('validation.required', null, 'Default');
+	 *		$line = Lang::line('validation.required')->get(null, 'Default');
 	 * </code>
 	 *
 	 * @param  string  $language
