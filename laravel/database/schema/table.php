@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Schema;
 
+use \Closure;
 use Laravel\Fluent;
 
 class Table {

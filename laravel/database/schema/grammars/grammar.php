@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Schema\Grammars;
 
+use \Closure;
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
 
