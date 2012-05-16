@@ -31,9 +31,14 @@ You can compare an unhashed value against a hashed one using the **check** metho
 <a name="login"></a>
 ## Logging In
 
-Logging a user into your application is simple using the **attempt** method on the Auth class. Simply pass the username and password of the user to the method. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
-
-	if (Auth::attempt('example@gmail.com', 'password'))
+Logging a user into your application is simple using the **attempt** method on the Auth class. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
+	
+	$user = array(
+		'username' => 'example@gmail.com',
+		'password' => 'password',
+		'remember' => true
+	);
+	if (Auth::attempt($user))
 	{
 	     return Redirect::to('user/profile');
 	}
