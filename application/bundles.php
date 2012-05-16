@@ -33,4 +33,8 @@
 |
 */
 
-return array();
+return array(
+
+	'docs' => array('handles' => 'docs'),
+
+);

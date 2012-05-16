@@ -119,7 +119,7 @@ class Router {
 	 *
 	 * <code>
 	 *		// Register a group of URIs for an action
-	 *		Router::share(array('GET', '/'), array('POST', '/'), 'home@index');
+	 *		Router::share(array(array('GET', '/'), array('POST', '/')), 'home@index');
 	 * </code>
 	 *
 	 * @param  array  $routes
@@ -174,6 +174,8 @@ class Router {
 	 */
 	public static function register($method, $route, $action)
 	{
+		if (ctype_digit($route)) $route = "({$route})";
+
 		if (is_string($route)) $route = explode(', ', $route);
 
 		// If the developer is registering multiple request methods to handle

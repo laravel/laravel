@@ -71,6 +71,13 @@ class Query {
 	public $groupings;
 
 	/**
+	 * The HAVING clauses.
+	 *
+	 * @var array
+	 */
+	public $havings;
+
+	/**
 	 * The ORDER BY clauses.
 	 *
 	 * @var array
@@ -407,7 +414,10 @@ class Query {
 		// Once the callback has been run on the query, we will store the nested
 		// query instance on the where clause array so that it's passed to the
 		// query's query grammar instance when building.
-		$this->wheres[] = compact('type', 'query', 'connector');
+		if ($query->wheres !== null)
+		{
+			$this->wheres[] = compact('type', 'query', 'connector');
+		}
 
 		$this->bindings = array_merge($this->bindings, $query->bindings);
 
@@ -472,6 +482,22 @@ class Query {
 	public function group_by($column)
 	{
 		$this->groupings[] = $column;
+		return $this;
+	}
+
+	/**
+	 * Add a having to the query.
+	 *
+	 * @param  string  $column
+	 * @param  string  $operator
+	 * @param  mixed   $value
+	 */
+	public function having($column, $operator, $value)
+	{
+		$this->havings[] = compact('column', 'operator', 'value');
+
+		$this->bindings[] = $value;
+
 		return $this;
 	}
 

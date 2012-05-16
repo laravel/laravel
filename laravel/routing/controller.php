@@ -140,9 +140,19 @@ abstract class Controller {
 		// improve speed since the bundle is not loaded on every request.
 		Bundle::start($bundle);
 
-		list($controller, $method) = explode('@', $destination);
+		list($name, $method) = explode('@', $destination);
 
-		$controller = static::resolve($bundle, $controller);
+		$controller = static::resolve($bundle, $name);
+
+		// For convenience we will set the current controller and action on the
+		// Request's route instance so they can be easily accessed from the
+		// application. This is sometimes useful for dynamic situations.
+		if ( ! is_null($route = Request::route()))
+		{
+			$route->controller = $name;
+
+			$route->controller_action = $method;
+		}
 
 		// If the controller could not be resolved, we're out of options and
 		// will return the 404 error response. If we found the controller,
