@@ -125,7 +125,7 @@ class Paginator {
 	 * @param  int 		$page_number
 	 * @return string
 	 */
-	private function url($page_number)
+	public function url($page_number)
 	{
 		if ((int) $page_number > $this->last)
 		{
