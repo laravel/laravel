@@ -357,6 +357,18 @@ class Table {
 	}
 
 	/**
+	 * Add a generic column to the table.
+	 *
+	 * @param  string  $name
+	 * @param  bool    $increment
+	 * @return Fluent
+	 */
+	public function generic($name, Closure $fluent)
+	{
+		return $this->column($fluent, compact('name'));
+	}
+
+	/**
 	 * Set the database connection for the table operation.
 	 *
 	 * @param  string  $connection

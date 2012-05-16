@@ -93,6 +93,12 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function type(Fluent $column)
 	{
+		// added to support Closure definition
+		if ($column->type instanceof Closure) 
+		{
+			return call_user_func($column->type, $column);
+		}
+		
 		return $this->{'type_'.$column->type}($column);
 	}
 
