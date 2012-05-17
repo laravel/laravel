@@ -24,7 +24,7 @@ define('MB_STRING', (int) function_exists('mb_get_info'));
 |
 | Output buffering allows us to capture all output at any time, so that we
 | can discard it or treat it accordingly. An example of this is if you have
-| echoed a string, but want to return a Redirect object. Because Symphony
+| echoed a string, but want to return a Redirect object. Because Symfony
 | only checks if headers have been sent, your redirect just silently fails.
 |
 */
