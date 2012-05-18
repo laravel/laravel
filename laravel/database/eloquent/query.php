@@ -129,9 +129,9 @@ class Query {
 		{
 			foreach ($this->model_includes() as $relationship => $constraints)
 			{
-				// If the relationship is nested, we will skip laoding it here and let
+				// If the relationship is nested, we will skip loading it here and let
 				// the load method parse and set the nested eager loads on the right
-				// relationship when it is getting ready to eager laod.
+				// relationship when it is getting ready to eager load.
 				if (str_contains($relationship, '.'))
 				{
 					continue;
