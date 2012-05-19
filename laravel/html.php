@@ -46,6 +46,19 @@ class HTML {
 	}
 
 	/**
+	 * Convert HTML special characters.
+	 *
+	 * The encoding specified in the application configuration file will be used.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function specialchars($value)
+	{
+		return htmlspecialchars($value, ENT_QUOTES, Config::get('application.encoding'), false);
+	}
+
+	/**
 	 * Generate a link to a JavaScript file.
 	 *
 	 * <code>
