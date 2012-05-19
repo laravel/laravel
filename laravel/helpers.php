@@ -27,6 +27,17 @@ function __($key, $replacements = array(), $language = null)
 }
 
 /**
+ * Dump the given value and kill the script.
+ *
+ * @param  mixed  $value
+ * @return void
+ */
+function dd($value)
+{
+	die(var_dump($value));
+}
+
+/**
  * Get an item from an array using "dot" notation.
  *
  * <code>
@@ -219,6 +230,62 @@ function array_divide($array)
 }
 
 /**
+ * Pluck an array of values from an array.
+ *
+ * @param  array   $array
+ * @param  string  $key
+ * @return array
+ */
+function array_pluck($array, $key)
+{
+	return array_map(function($v) use ($key)
+	{
+		return is_object($v) ? $v->$key : $v[$key];
+
+	}, $array);
+}
+
+/**
+ * Get a subset of the items from the given array.
+ *
+ * @param  array  $array
+ * @param  array  $keys
+ * @return array
+ */
+function array_only($array, $keys)
+{
+	return array_intersect_key( $array, array_flip((array) $keys) );
+}
+
+/**
+ * Get all of the given array except for a specified array of items.
+ *
+ * @param  array  $array
+ * @param  array  $keys
+ * @return array
+ */
+function array_except($array, $keys)
+{
+	return array_diff_key( $array, array_flip((array) $keys) );
+}
+
+/**
+ * Transform Eloquent models to a JSON object.
+ *
+ * @param  Eloquent|array  $models
+ * @return object
+ */
+function eloquent_to_json($models)
+{
+	if ($models instanceof Laravel\Database\Eloquent\Model)
+	{
+		return json_encode($models->to_array());
+	}
+
+	return json_encode(array_map(function($m) { return $m->to_array(); }, $models));
+}
+
+/**
  * Determine if "Magic Quotes" are enabled on the server.
  *
  * @return bool
@@ -340,13 +407,18 @@ function ends_with($haystack, $needle)
 /**
  * Determine if a given string contains a given sub-string.
  *
- * @param  string  $haystack
- * @param  string  $needle
+ * @param  string        $haystack
+ * @param  string|array  $needle
  * @return bool
  */
 function str_contains($haystack, $needle)
 {
-	return strpos($haystack, $needle) !== false;
+	foreach ((array) $needle as $n)
+	{
+		if (strpos($haystack, $n) !== false) return true;
+	}
+
+	return false;
 }
 
 /**
@@ -359,6 +431,17 @@ function str_contains($haystack, $needle)
 function str_finish($value, $cap)
 {
 	return rtrim($value, $cap).$cap;
+}
+
+/**
+ * Determine if the given object has a toString method.
+ *
+ * @param  object  $value
+ * @return bool
+ */
+function str_object($value)
+{
+	return is_object($value) and method_exists($value, '__toString');
 }
 
 /**
@@ -401,7 +484,7 @@ function class_basename($class)
  */
 function value($value)
 {
-	return ($value instanceof Closure) ? call_user_func($value) : $value;
+	return (is_callable($value) and ! is_string($value)) ? call_user_func($value) : $value;
 }
 
 /**
@@ -477,4 +560,24 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
 function yield($section)
 {
 	return Laravel\Section::yield($section);
+}
+
+/**
+ * Get a CLI option from the argv $_SERVER variable.
+ *
+ * @param  string  $option
+ * @param  mixed   $default
+ * @return string
+ */
+function get_cli_option($option, $default = null)
+{
+	foreach (Laravel\Request::foundation()->server->get('argv') as $argument)
+	{
+		if (starts_with($argument, "--{$option}="))
+		{
+			return substr($argument, strlen($option) + 3);
+		}
+	}
+
+	return value($default);
 }

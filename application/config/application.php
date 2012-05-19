@@ -17,6 +17,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Asset URL
+	|--------------------------------------------------------------------------
+	|
+	| The base URL used for your application's asset files. This is useful if
+	| you are serving your assets through a different server or a CDN. If it
+	| is not set, we'll default to the application URL above.
+	|
+	*/
+
+	'asset_url' => '',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application Index
 	|--------------------------------------------------------------------------
 	|
@@ -38,13 +51,23 @@ return array(
 	| remain secret and should not be shared with anyone. Make it about 32
 	| characters of random gibberish.
 	|
-	| The "auto_key" option tells Laravel to automatically set this key value
-	| if one has not already been set. This is generally done on the first
-	| request to the Laravel splash screen.
-	|
 	*/
 
 	'key' => 'YourSecretKeyGoesHere!',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Profiler Toolbar
+	|--------------------------------------------------------------------------
+	|
+	| Laravel includes a beautiful profiler toolbar that gives you a heads
+	| up display of the queries and logs performed by your application.
+	| This is wonderful for development, but, of course, you should
+	| disable the toolbar for production applications..
+	|
+	*/
+
+	'profiler' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -140,6 +163,7 @@ return array(
 		'Log'        => 'Laravel\\Log',
 		'Memcached'  => 'Laravel\\Memcached',
 		'Paginator'  => 'Laravel\\Paginator',
+		'Profiler'   => 'Laravel\\Profiling\\Profiler',
 		'URL'        => 'Laravel\\URL',
 		'Redirect'   => 'Laravel\\Redirect',
 		'Redis'      => 'Laravel\\Redis',

@@ -1,6 +1,7 @@
 <?php namespace Laravel\Routing;
 
 use Closure;
+use Laravel\Str;
 use Laravel\URI;
 use Laravel\Bundle;
 use Laravel\Request;
@@ -30,6 +31,20 @@ class Route {
 	public $bundle;
 
 	/**
+	 * The name of the controller used by the route.
+	 *
+	 * @var string
+	 */
+	public $controller;
+
+	/**
+	 * The name of the controller action used by the route.
+	 *
+	 * @var string
+	 */
+	public $controller_action;
+
+	/**
 	 * The action that is assigned to the route.
 	 *
 	 * @var mixed
@@ -46,11 +61,10 @@ class Route {
 	/**
 	 * Create a new Route instance.
 	 *
-	 * @param  string   $method
-	 * @param  string   $uri
-	 * @param  array    $action
-	 * @param  array    $parameters
-	 * @return void
+	 * @param  string  $method
+	 * @param  string  $uri
+	 * @param  array   $action
+	 * @param  array   $parameters
 	 */
 	public function __construct($method, $uri, $action, $parameters = array())
 	{
@@ -66,18 +80,17 @@ class Route {
 		// We'll set the parameters based on the number of parameters passed
 		// compared to the parameters that were needed. If more parameters
 		// are needed, we'll merge in defaults.
-		$this->parameters($uri, $action, $parameters);
+		$this->parameters($action, $parameters);
 	}
 
 	/**
 	 * Set the parameters array to the correct value.
 	 *
-	 * @param  string  $uri
 	 * @param  array   $action
 	 * @param  array   $parameters
 	 * @return void
 	 */
-	protected function parameters($uri, $action, $parameters)
+	protected function parameters($action, $parameters)
 	{
 		$defaults = (array) array_get($action, 'defaults');
 
@@ -113,7 +126,7 @@ class Route {
 
 		// We always return a Response instance from the route calls, so
 		// we'll use the prepare method on the Response class to make
-		// sure we have a valid Response isntance.
+		// sure we have a valid Response instance.
 		$response = Response::prepare($response);
 
 		Filter::run($this->filters('after'), array($response));
@@ -198,7 +211,7 @@ class Route {
 		// if they match we'll attach the filter.
 		foreach (Filter::$patterns as $pattern => $filter)
 		{
-			if (URI::is($pattern, $this->uri))
+			if (Str::is($pattern, $this->uri))
 			{
 				$filters[] = $filter;
 			}
@@ -251,7 +264,7 @@ class Route {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controller
+	 * @param  string|array  $controllers
 	 * @param  string|array  $defaults
 	 * @return void
 	 */

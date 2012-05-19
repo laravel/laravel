@@ -1,4 +1,4 @@
-<?php namespace Laravel; use Closure, FilesystemIterator as fIterator;
+<?php namespace Laravel; use FilesystemIterator as fIterator;
 
 class File {
 
@@ -61,11 +61,11 @@ class File {
 	 * Delete a file.
 	 *
 	 * @param  string  $path
-	 * @return void
+	 * @return bool
 	 */
 	public static function delete($path)
 	{
-		if (static::exists($path)) @unlink($path);
+		if (static::exists($path)) return @unlink($path);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class File {
 
 	/**
 	 * Extract the file extension from a file path.
-	 * 
+	 *
 	 * @param  string  $path
 	 * @return string
 	 */
@@ -273,8 +273,9 @@ class File {
 			}
 		}
 
-		if ($delete) rmdir($source);
-		
+		unset($items);
+		if ($delete) @rmdir($source);
+
 		return true;
 	}
 
@@ -306,6 +307,7 @@ class File {
 			}
 		}
 
+		unset($items);
 		if ( ! $preserve) @rmdir($directory);
 	}
 

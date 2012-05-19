@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Eloquent;
 
+use Laravel\Event;
 use Laravel\Database;
 use Laravel\Database\Eloquent\Relationships\Has_Many_And_Belongs_To;
 
@@ -33,7 +34,7 @@ class Query {
 	 */
 	public $passthru = array(
 		'lists', 'only', 'insert', 'insert_get_id', 'update', 'increment',
-		'decrement', 'count', 'min', 'max', 'avg', 'sum',
+		'delete', 'decrement', 'count', 'min', 'max', 'avg', 'sum',
 	);
 
 	/**
@@ -66,12 +67,11 @@ class Query {
 	 * Get all of the model results for the query.
 	 *
 	 * @param  array  $columns
-	 * @param  bool   $keyed
 	 * @return array
 	 */
-	public function get($columns = array('*'), $keyed = true)
+	public function get($columns = array('*'))
 	{
-		return $this->hydrate($this->model, $this->table->get($columns), $keyed);
+		return $this->hydrate($this->model, $this->table->get($columns));
 	}
 
 	/**
@@ -100,10 +100,9 @@ class Query {
 	 *
 	 * @param  Model  $model
 	 * @param  array  $results
-	 * @param  bool   $keyed
 	 * @return array
 	 */
-	public function hydrate($model, $results, $keyed = true)
+	public function hydrate($model, $results)
 	{
 		$class = get_class($model);
 
@@ -121,33 +120,18 @@ class Query {
 			// We need to set the attributes manually in case the accessible property is
 			// set on the array which will prevent the mass assignemnt of attributes if
 			// we were to pass them in using the constructor or fill methods.
-			foreach ($result as $key => $value)
-			{
-				$new->set_attribute($key, $value);
-			}
+			$new->fill_raw($result);
 
-			$new->original = $new->attributes;
-
-			// Typically, the resulting models are keyed by their primary key, but it
-			// may be useful to not do this in some circumstances such as when we
-			// are eager loading a *-to-* relationships which has duplicates.
-			if ($keyed)
-			{
-				$models[$result[$this->model->key()]] = $new;
-			}
-			else
-			{
-				$models[] = $new;
-			}
+			$models[] = $new;
 		}
 
 		if (count($results) > 0)
 		{
 			foreach ($this->model_includes() as $relationship => $constraints)
 			{
-				// If the relationship is nested, we will skip laoding it here and let
+				// If the relationship is nested, we will skip loading it here and let
 				// the load method parse and set the nested eager loads on the right
-				// relationship when it is getting ready to eager laod.
+				// relationship when it is getting ready to eager load.
 				if (str_contains($relationship, '.'))
 				{
 					continue;
@@ -199,17 +183,7 @@ class Query {
 
 		$query->initialize($results, $relationship);
 
-		// If we're eager loading a many-to-many relationship we will disable
-		// the primary key indexing on the hydration since there could be
-		// roles shared across users and we don't want to overwrite.
-		if ( ! $query instanceof Has_Many_And_Belongs_To)
-		{
-			$query->match($relationship, $results, $query->get());
-		}
-		else
-		{
-			$query->match($relationship, $results, $query->get(array('*'), false));
-		}
+		$query->match($relationship, $results, $query->get());
 	}
 
 	/**
@@ -293,8 +267,8 @@ class Query {
 		$result = call_user_func_array(array($this->table, $method), $parameters);
 
 		// Some methods may get their results straight from the fluent query
-		// builder, such as the aggregate methods. If the called method is
-		// one of these, we will return the result straight away.
+		// builder such as the aggregate methods. If the called method is
+		// one of these, we will just return the result straight away.
 		if (in_array($method, $this->passthru))
 		{
 			return $result;

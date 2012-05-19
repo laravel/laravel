@@ -1,4 +1,4 @@
-<?php namespace Laravel; use FilesystemIterator as fIterator;
+<?php namespace Laravel; use FilesystemIterator as fIterator; use Closure;
 
 class Blade {
 
@@ -8,7 +8,9 @@ class Blade {
 	 * @var array
 	 */
 	protected static $compilers = array(
+		'extensions',
 		'layouts',
+		'comments',
 		'echos',
 		'forelse',
 		'empty',
@@ -16,6 +18,8 @@ class Blade {
 		'structure_openings',
 		'structure_closings',
 		'else',
+		'unless',
+		'endunless',
 		'includes',
 		'render_each',
 		'render',
@@ -24,6 +28,13 @@ class Blade {
 		'section_start',
 		'section_end',
 	);
+
+	/**
+	 * An array of user defined compilers.
+	 *
+	 * @var array
+	 */
+	protected static $extensions = array();
 
 	/**
 	 * Register the Blade view engine with Laravel.
@@ -39,7 +50,7 @@ class Blade {
 			// return false so the View can be rendered as normal.
 			if ( ! str_contains($view->path, BLADE_EXT))
 			{
-				return false;
+				return;
 			}
 
 			$compiled = path('storage').'views/'.md5($view->path);
@@ -62,6 +73,24 @@ class Blade {
 	}
 
 	/**
+	 * Register a custom Blade compiler.
+	 *
+	 * <code>
+	 * 		Blade::extend(function($view)
+	 *		{
+	 * 			return str_replace('foo', 'bar', $view);
+	 * 		});
+	 * </code>
+	 *
+	 * @param  Closure  $compiler
+	 * @return void
+	 */
+	public static function extend(Closure $compiler)
+	{
+		static::$extensions[] = $compiler;
+	}
+
+	/**
 	 * Determine if a view is "expired" and needs to be re-compiled.
 	 *
 	 * @param  string  $view
@@ -71,8 +100,6 @@ class Blade {
 	 */
 	public static function expired($view, $path)
 	{
-		$compiled = static::compiled($path);
-
 		return filemtime($path) > filemtime(static::compiled($path));
 	}
 
@@ -115,7 +142,7 @@ class Blade {
 	protected static function compile_layouts($value)
 	{
 		// If the Blade template is not using "layouts", we'll just return it
-		// it unchanged since there is nothing to do with layouts and we'll
+		// unchanged since there is nothing to do with layouts and we will
 		// just let the other Blade compilers handle the rest.
 		if ( ! starts_with($value, '@layout'))
 		{
@@ -123,8 +150,8 @@ class Blade {
 		}
 
 		// First we'll split out the lines of the template so we can get the
-		// the layout from the top of the template. By convention it must
-		// be located on the first line of the template contents.
+		// layout from the top of the template. By convention it must be
+		// located on the first line of the template contents.
 		$lines = preg_split("/(\r?\n)/", $value);
 
 		$pattern = static::matcher('layout');
@@ -132,7 +159,7 @@ class Blade {
 		$lines[] = preg_replace($pattern, '$1@include$2', $lines[0]);
 
 		// We will add a "render" statement to the end of the templates and
-		// and then slice off the @layout shortcut from the start so the
+		// then slice off the "@layout" shortcut from the start so the
 		// sections register before the parent template renders.
 		return implode(CRLF, array_slice($lines, 1));
 	}
@@ -148,6 +175,19 @@ class Blade {
 		preg_match('/@layout(\s*\(.*\))(\s*)/', $value, $matches);
 
 		return str_replace(array("('", "')"), '', $matches[1]);
+	}
+
+	/**
+	 * Rewrites Blade comments into PHP comments.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_comments($value)
+	{
+		$value = preg_replace('/\{\{--(.+?)(--\}\})?\n/', "<?php // $1 ?>", $value);
+
+		return preg_replace('/\{\{--((.|\s)*?)--\}\}/', "<?php /* $1 */ ?>\n", $value);
 	}
 
 	/**
@@ -176,7 +216,7 @@ class Blade {
 			preg_match('/\$[^\s]*/', $forelse, $variable);
 
 			// Once we have extracted the variable being looped against, we can add
-			// an if statmeent to the start of the loop that checks if the count
+			// an if statement to the start of the loop that checks if the count
 			// of the variable being looped against is greater than zero.
 			$if = "<?php if (count({$variable[0]}) > 0): ?>";
 
@@ -187,8 +227,8 @@ class Blade {
 			$blade = preg_replace($search, $replace, $forelse);
 
 			// Finally, once we have the check prepended to the loop we'll replace
-			// all instances of this "forelse" syntax in the view content of the
-			// view being compiled to Blade syntax with real syntax.
+			// all instances of this forelse syntax in the view content of the
+			// view being compiled to Blade syntax with real PHP syntax.
 			$value = str_replace($forelse, $blade, $value);
 		}
 
@@ -252,6 +292,30 @@ class Blade {
 	protected static function compile_else($value)
 	{
 		return preg_replace('/(\s*)@(else)(\s*)/', '$1<?php $2: ?>$3', $value);
+	}
+
+	/**
+	 * Rewrites Blade "unless" statements into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_unless($value)
+	{
+		$pattern = '/(\s*)@unless(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php if( ! ($2)): ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade "unless" endings into valid PHP.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_endunless($value)
+	{
+		return str_replace('@endunless', '<?php endif; ?>', $value);
 	}
 
 	/**
@@ -349,12 +413,28 @@ class Blade {
 	}
 
 	/**
+	 * Execute user defined compilers.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_extensions($value)
+	{
+		foreach (static::$extensions as $compiler)
+		{
+			$value = $compiler($value);
+		}
+
+		return $value;
+	}	
+
+	/**
 	 * Get the regular expression for a generic Blade function.
 	 *
 	 * @param  string  $function
 	 * @return string
 	 */
-	protected static function matcher($function)
+	public static function matcher($function)
 	{
 		return '/(\s*)@'.$function.'(\s*\(.*\))/';
 	}

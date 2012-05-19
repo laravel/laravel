@@ -101,4 +101,22 @@ abstract class Relationship extends Query {
 		return static::foreign($this->base, $this->foreign);
 	}
 
+	/**
+	 * Gather all the primary keys from a result set.
+	 *
+	 * @param  array  $results
+	 * @return array
+	 */
+	public function keys($results)
+	{
+		$keys = array();
+
+		foreach ($results as $result)
+		{
+			$keys[] = $result->get_key();
+		}
+
+		return array_unique($keys);
+	}
+
 }

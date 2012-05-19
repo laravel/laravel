@@ -1,6 +1,5 @@
 <?php namespace Laravel\Session;
 
-use Closure;
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
@@ -298,10 +297,9 @@ class Payload {
 		// session on the user's subsequent requests to the application.
 		$this->cookie($config);
 
-		// Some session drivers implement the Sweeper interface, meaning that
+		// Some session drivers implement the Sweeper interface meaning that
 		// they must clean up expired sessions manually. If the driver is a
-		// sweeper, we need to determine if garbage collection should be
-		// run for the request.
+		// sweeper, we'll calculate if we need to run garbage collection.
 		$sweepage = $config['sweepage'];
 
 		if ($this->driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
