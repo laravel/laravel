@@ -52,11 +52,15 @@ It's **extremely** important that you change the **application key** option befo
 <a name="environments"></a>
 ## Environments
 
-Most likely, the configuration options you need for local development are not the same as the options you need on your production server. Laravel's default environment handling mechanism is the **LARAVEL_ENV** environment variable. To get started, set the environment variable in your **httpd.conf** file:
+Most likely, the configuration options you need for local development are not the same as the options you need on your production server. Laravel's default environment handling mechanism is URL based, which will make setting up environments a breeze. Pop open the `paths.php` file in the root of your Laravel installation. You should see an array like this:
 
-	SetEnv LARAVEL_ENV local
+	$environments = array(
 
-> **Note:** Using a web server other than Apache? Check your server's documentation to learn how to set environment variables.
+		'local' => array('http://localhost*', '*.dev'),
+
+	);
+
+This tells Laravel that any URLs beginning with "localhost" or ending with ".dev" should be considered part of the "local" environment.
 
 Next, create an **application/config/local** directory. Any files and options you place in this directory will override the options in the base **application/config** directory. For example, you may wish to create an **application.php** file within your new **local** configuration directory:
 
@@ -68,9 +72,7 @@ Next, create an **application/config/local** directory. Any files and options yo
 
 In this example, the local **URL** option will override the **URL** option in **application/config/application.php**. Notice that you only need to specify the options you wish to override. 
 
-If you do not have access to your server's configuration files, you may manually set the **LARAVEL_ENV** variable at the top of Laravel's **paths.php** file:
-
-	$_SERVER['LARAVEL_ENV'] = 'local';
+Isn't it easy? Of course, you are free to create as many environments as you wish!
 
 <a name="cleaner-urls"></a>
 ## Cleaner URLs
