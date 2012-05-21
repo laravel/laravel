@@ -98,12 +98,13 @@ var anbu = {
 	close_window : function()
 	{
 		anbu.el.tab_pane.fadeOut(100);
-		anbu.el.window.slideUp(300);
-		anbu.el.close.fadeOut(300);
-		anbu.el.zoom.fadeOut(300);
-		anbu.el.tab_links.removeClass(anbu.active_tab);
-		anbu.active_pane = '';
-		anbu.window_open = false;
+		anbu.el.window.slideUp(300, function(){
+			anbu.el.close.fadeOut(300);
+			anbu.el.zoom.fadeOut(300);
+			anbu.el.tab_links.removeClass(anbu.active_tab);
+			anbu.active_pane = '';
+			anbu.window_open = false;
+		});
 	},
 
 
