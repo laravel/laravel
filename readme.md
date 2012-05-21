@@ -19,29 +19,43 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 
 **Hello World:**
 
-	Route::get('/', function()
-	{
-		return "Hello World!":
-	});
+```php
+<?php
+
+Route::get('/', function()
+{
+	return "Hello World!":
+});
+```
 
 **Passing Data To Views:**
 
-	Route::get('user/(:num)', function($id)
-	{
-		$user = DB::table('users')->find($id);
+```php
+<?php
 
-		return View::make('profile')->with('user', $user);
-	});
+Route::get('user/(:num)', function($id)
+{
+	$user = DB::table('users')->find($id);
+
+	return View::make('profile')->with('user', $user);
+});
+```
 
 **Redirecting & Flashing Data To The Session:**
 
-	return Redirect::to('profile')->with('message', 'Welcome Back!');
+```php
+<?php
+
+return Redirect::to('profile')->with('message', 'Welcome Back!');
+```
 
 ### Contributing to Laravel
 
 Contributions are encouraged and welcome; however, please review the Developer Certificate of Origin in the "license.txt" file included in the repository. All commits must be signed off using the "-s" switch.
 
-	git commit -s -m "this commit will be signed off automatically!"
+```bash
+git commit -s -m "this commit will be signed off automatically!"
+```
 
 ### License
 
