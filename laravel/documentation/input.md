@@ -3,6 +3,7 @@
 ## Contents
 
 - [Input](#input)
+- [JSON Input](#json)
 - [Files](#files)
 - [Old Input](#old-input)
 - [Redirecting With Old Input](#redirecting-with-old-input)
@@ -43,6 +44,15 @@ By default, *null* will be returned if the input item does not exist. However, y
 	if (Input::has('name')) ...
 
 > **Note:** The "has" method will return *false* if the input item is an empty string.
+
+<a name="json"></a>
+## JSON Input
+
+When working with JavaScript MVC frameworks like Backbone.js, you will need to get the JSON posted by the application. To make your life easier, we've included the `Input::json` method:
+
+#### Get JSON input to the application:
+
+	$data = Input::json();
 
 <a name="files"></a>
 ## Files
