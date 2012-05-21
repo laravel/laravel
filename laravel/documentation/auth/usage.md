@@ -7,6 +7,7 @@
 - [Protecting Routes](#filter)
 - [Retrieving The Logged In User](#user)
 - [Logging Out](#logout)
+- [Writing Custom Drivers](#drivers)
 
 > **Note:** Before using the Auth class, you must [specify a session driver](/docs/session/config).
 
@@ -31,18 +32,16 @@ You can compare an unhashed value against a hashed one using the **check** metho
 <a name="login"></a>
 ## Logging In
 
-Logging a user into your application is simple using the **attempt** method on the Auth class. Simply pass the username and password of the user to the method. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
+Logging a user into your application is simple using the **attempt** method on the Auth class. Simply pass the username and password of the user to the method. The credentials should be contained in an array, which allows for maximum flexibility across drivers, as some drivers may require a different number of arguments. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
 
-	if (Auth::attempt('example@gmail.com', 'password'))
+	$credentials = array('username' => 'example@gmail.com', 'password' => 'secret');
+
+	if (Auth::attempt($credentials))
 	{
 	     return Redirect::to('user/profile');
 	}
 
 If the user's credentials are valid, the user ID will be stored in the session and the user will be considered "logged in" on subsequent requests to your application.
-
-You probably noticed this method name corresponds to the **attempt** function you [configured earlier](/docs/auth/config#attempt). Each time you call the **attempt** method on the **Auth** class, the **attempt** function in the configuration file will be called to check the user's credentials.
-
-> **Note:** To provide more flexiblity when working with third-party authentication providers, you are not required to pass a password into the **attempt** method.
 
 To determine if the user of your application is logged in, call the **check** method:
 
@@ -74,8 +73,6 @@ To protect a route, simply attach the **auth** filter:
 Once a user has logged in to your application, you can access the user model via the **user** method on the Auth class:
 
 	return Auth::user()->email;
-
-This method calls the [**user** function](/docs/auth/config#user) in the configuration file. Also, you don't need to worry about performance when using this method. The user is only retrieved from storage the first time you use the method.
 
 > **Note:** If the user is not logged in, the **user** method will return NULL.
 

@@ -5,6 +5,7 @@
 - [The Basics](#the-basics)
 - [Firing Events](#firing-events)
 - [Listening To Events](#listening-to-events)
+- [Queued Events](#queued-events)
 - [Laravel Events](#laravel-events)
 
 <a name="the-basics"></a>
@@ -50,6 +51,32 @@ So, what good are events if nobody is listening? Register an event handler that 
 	});
 
 The Closure we provided to the method will be executed each time the "loaded" event is fired.
+
+<a name="queued-events"></a>
+## Queued Events
+
+Sometimes you may wish to "queue" an event for firing, but not fire it immediately. This is possible using the `queue` and `flush` methods. First, throw an event on a given queue with a unique identifier:
+
+#### Registering a queued event:
+
+	Event::queue('foo', $user->id, array($user));
+
+This method accepts three parameters. The first is the name of the queue, the second is a unique identifier for this item on the queue, and the third is an array of data to pass to the queue flusher.
+
+Next, we'll register a flusher for the `foo` queue:
+
+#### Registering an event flusher:
+
+	Event::flusher('foo', function($key, $user)
+	{
+		//
+	});
+
+Note that the event flusher receives two arguments. The first, is the unique identifier for the queued event, which in this case would be the user's ID. The second (and any remaining) parameters would be the payload items for the queued event.
+
+Finally, we can run our flusher and flush all queued events using the `flush` method:
+
+	Event::flush('foo');
 
 <a name="laravel-events"></a>
 ## Laravel Events
