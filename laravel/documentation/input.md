@@ -7,6 +7,7 @@
 - [Old Input](#old-input)
 - [Redirecting With Old Input](#redirecting-with-old-input)
 - [Cookies](#cookies)
+- [Merging & Replacing](#merge)
 
 <a name="input"></a>
 ## Input
@@ -122,3 +123,16 @@ Laravel provides a nice wrapper around the $_COOKIE array. However, there are a 
 #### Deleting a cookie:
 
 	Cookie::forget('name');
+
+<a name="merge"></a>
+## Merging & Replacing
+
+Sometimes you may wish to merge or replace the current input. Here's how:
+
+#### Merging new data into the current input:
+
+	Input::merge(array('name' => 'Spock'));
+
+#### Replacing the entire input array with new data:
+
+	Input::merge(array('doctor' => 'Bones', 'captain' => 'Kirk'));

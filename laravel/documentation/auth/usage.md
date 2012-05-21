@@ -7,6 +7,7 @@
 - [Protecting Routes](#filter)
 - [Retrieving The Logged In User](#user)
 - [Logging Out](#logout)
+- [Writing Custom Drivers](#drivers)
 
 > **Note:** Before using the Auth class, you must [specify a session driver](/docs/session/config).
 
