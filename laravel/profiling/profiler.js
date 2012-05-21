@@ -79,14 +79,15 @@ var anbu = {
 	{
 		// can't directly assign this line, but it works
 		$('.anbu-tab-pane:visible').fadeOut(200);
-		$('.' + tab.attr(anbu.tab_data)).delay(220).fadeIn(300);
-		anbu.el.tab_links.removeClass(anbu.active_tab);
-		tab.addClass(anbu.active_tab);
-		anbu.el.window.slideDown(300);
-		anbu.el.close.fadeIn(300);
-		anbu.el.zoom.fadeIn(300);
-		anbu.active_pane = tab.attr(anbu.tab_data);
-		anbu.window_open = true;
+		$('.' + tab.attr(anbu.tab_data)).delay(220).fadeIn(300, function(){
+			anbu.el.tab_links.removeClass(anbu.active_tab);
+			tab.addClass(anbu.active_tab);
+			anbu.el.window.slideDown(300);
+			anbu.el.close.fadeIn(300);
+			anbu.el.zoom.fadeIn(300);
+			anbu.active_pane = tab.attr(anbu.tab_data);
+			anbu.window_open = true;
+		});
 	},
 
 
