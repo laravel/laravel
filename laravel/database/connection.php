@@ -97,14 +97,14 @@ class Connection {
 	/**
 	 * Execute a callback wrapped in a database transaction.
 	 *
-	 * @param  Closure  $callback
+	 * @param  callback  $callback
 	 * @return void
 	 */
 	public function transaction($callback)
 	{
 		$this->pdo->beginTransaction();
 
-		// After beginning the database transaction, we will call the Closure
+		// After beginning the database transaction, we will call the callback
 		// so that it can do its database work. If an exception occurs we'll
 		// rollback the transaction and re-throw back to the developer.
 		try

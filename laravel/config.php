@@ -1,7 +1,5 @@
 <?php namespace Laravel; defined('DS') or die('No direct script access.');
 
-use Closure;
-
 class Config {
 
 	/**

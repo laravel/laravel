@@ -35,6 +35,7 @@
 - [Added `unless` structure to Blade template engine](/docs/views/templating#blade-unless).
 - [Added Blade comments](/docs/views/templating#blade-comments).
 - [Added simpler environment management](/docs/install#environments).
+- Added `Blade::extend()` method to define custom blade compilers.
 - Added `View::exists` method.
 - Use [Memcached](http://php.net/manual/en/book.memcached.php) API instead of older [Memcache](http://php.net/manual/en/book.memcache.php) API.
 - Added support for bundles outside of the bundle directory.
