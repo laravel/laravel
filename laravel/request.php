@@ -81,7 +81,7 @@ class Request {
 	 */
 	public static function server($key = null, $default = null)
 	{
-		return array_get(static::foundation()->server->all(), $key, $default);
+		return array_get(static::foundation()->server->all(), strtoupper($key), $default);
 	}
 
 	/**
