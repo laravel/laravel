@@ -80,6 +80,9 @@
 <a name="upgrade-3.2"></a>
 ## Upgrading From 3.1
 
+- Add new `asset_url` and `profiler` options to application configuration.
+- Replace **auth** configuration file.
+- Upgrade the **paths.php** file.
 - Replace the **laravel** folder.
 
 <a name="3.1.9"></a>
