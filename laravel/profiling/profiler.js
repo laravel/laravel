@@ -5,7 +5,7 @@ var anbu = {
 	// Binding these elements early, stops jQuery from "querying"
 	// the DOM every time they are used.
 
-	el : {
+	el: {
 		main: $('.anbu'),
 		close: $('#anbu-close'),
 		zoom: $('#anbu-zoom'),
