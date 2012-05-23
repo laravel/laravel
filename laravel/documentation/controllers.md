@@ -17,7 +17,7 @@
 
 Controllers are classes that are responsible for accepting user input and managing interactions between models, libraries, and views. Typically, they will ask a model for data, and then return a view that presents that data to the user.
 
-The usage of controllers is the most common method of implementingapplication logic in modern web-development. However, Laravel also empowers developers to implement their application logic within routing declarations. This is explored in detail in the [routing document](/docs/routing). New users are encourage to start with controllers. There is nothing that route-based application logic can do that controllers can't. 
+The usage of controllers is the most common method of implementing application logic in modern web-development. However, Laravel also empowers developers to implement their application logic within routing declarations. This is explored in detail in the [routing document](/docs/routing). New users are encourage to start with controllers. There is nothing that route-based application logic can do that controllers can't.
 
 Controller classes should be stored in **application/controllers** and should extend the Base\_Controller class. A Home\_Controller class is included with Laravel.
 
@@ -40,7 +40,7 @@ Controller classes should be stored in **application/controllers** and should ex
 <a name="controller-routing"></a>
 ## Controller Routing
 
-It is important to be aware that all routes in Laravel must be explicitly defined, including routes to controllers. 
+It is important to be aware that all routes in Laravel must be explicitly defined, including routes to controllers.
 
 This means that controller methods that have not been exposed through route registration **cannot** be accessed. It's possible to automatically expose all methods within a controller using controller route registration. Controller route registrations are typically defined in **application/routes.php**.
 
@@ -78,7 +78,7 @@ Great! Now we can access our "admin" bundle's home controller from the web!
 <a name="action-filters"></a>
 ## Action Filters
 
-Action filters are methods that can be run before or after a controller action.  With Laravel you don't only have control over which filters are assigned to which actions.  But, you can also choose which http verbs (post, get, put, and delete) will activate a filter.  
+Action filters are methods that can be run before or after a controller action.  With Laravel you don't only have control over which filters are assigned to which actions.  But, you can also choose which http verbs (post, get, put, and delete) will activate a filter.
 
 You can assign "before" and "after" filters to controller actions within the controller's constructor.
 
