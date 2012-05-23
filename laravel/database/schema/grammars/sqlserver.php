@@ -386,7 +386,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function type_date(Fluent $column)
 	{
-		return 'DATETIME';
+		return ($column->unix) ? 'INT' : 'DATETIME';
 	}
 
 	/**
@@ -397,7 +397,7 @@ class SQLServer extends Grammar {
 	 */
 	protected function type_timestamp(Fluent $column)
 	{
-		return 'TIMESTAMP';
+		return ($column->unix) ? 'INT' : 'TIMESTAMP';
 	}
 
 	/**
