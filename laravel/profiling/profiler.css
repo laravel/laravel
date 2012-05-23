@@ -21,7 +21,7 @@ background-repeat:no-repeat;
 background-position:5px -8px;
 }
 
-.anbu.hidden .anbu-tabs
+.anbu-hidden .anbu-tabs
 {
 	background-image:none;
 }

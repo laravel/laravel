@@ -139,10 +139,10 @@ var anbu = {
 	show: function() {
 
 		anbu.el.closed_tabs.fadeOut(600, function () {
+			anbu.el.main.removeClass('anbu-hidden');
 			anbu.el.open_tabs.fadeIn(200);
 		});
 		anbu.el.main.animate({width: '100%'}, 700);
-		anbu.el.main.removeClass('hidden');
 
 	},
 
@@ -153,14 +153,17 @@ var anbu = {
 	hide: function() {
 
 		anbu.close_window();
-		anbu.el.window.slideUp(400, function () {
-			anbu.close_window();
-			anbu.el.main.addClass('hidden');
-			anbu.el.open_tabs.fadeOut(200, function () {
-				anbu.el.closed_tabs.fadeIn(200);
+
+		setTimeout(function() {
+			anbu.el.window.slideUp(400, function () {
+				anbu.close_window();
+				anbu.el.main.addClass('anbu-hidden');
+				anbu.el.open_tabs.fadeOut(200, function () {
+					anbu.el.closed_tabs.fadeIn(200);
+				});
+				anbu.el.main.animate({width: anbu.mini_button_width}, 700);
 			});
-			anbu.el.main.animate({width: anbu.mini_button_width}, 700);
-		});
+		}, 100);
 
 	},
 
