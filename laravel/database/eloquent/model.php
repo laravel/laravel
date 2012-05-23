@@ -71,6 +71,13 @@ abstract class Model {
 	public static $timestamps = true;
 
 	/**
+	 * Indicate whether to use unix timestamps if timestamps true.
+	 *
+	 * @var bool
+	 */
+	public static $unix_timestamps = false;
+
+	/**
 	 * The name of the table associated with the model.
 	 *
 	 * @var string
@@ -218,7 +225,18 @@ abstract class Model {
 	{
 		$model = new static(array(), true);
 
-		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
+		if (static::$timestamps)
+		{
+			$attributes['updated_at'] = new \DateTime;
+
+			if (static::$unix_timestamps)
+			{
+				$attributes['updated_at'] = function(){
+					$timestamp = new \DateTime;
+					return $timestamp->getTimestamp();
+				}
+			}
+		} 
 
 		return $model->query()->where($model->key(), '=', $id)->update($attributes);
 	}
@@ -448,6 +466,15 @@ abstract class Model {
 	protected function timestamp()
 	{
 		$this->updated_at = new \DateTime;
+
+		if(static::$unix_timestamps)
+		{
+			
+			$this->updated_at = function(){
+				$timestamp = new \DateTime;
+				return $timestamp->getTimestamp();
+			}
+		}
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
 	}
