@@ -292,10 +292,6 @@ class Response
         $this->sendHeaders();
         $this->sendContent();
 
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
-        }
-
         return $this;
     }
 
