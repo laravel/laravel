@@ -174,6 +174,10 @@ class Validator {
 	protected function check($attribute, $rule)
 	{
 		list($rule, $parameters) = $this->parse($rule);
+		
+		//return if the rule is empty
+		if (!$rule)
+			return;
 
 		$value = array_get($this->attributes, $attribute);
 
