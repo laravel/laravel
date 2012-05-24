@@ -180,6 +180,4 @@ $response->send();
 
 Event::fire('laravel.done', array($response));
 
-if (function_exists('fastcgi_finish_request')) {
-    fastcgi_finish_request();
-}
+$response->finish();
