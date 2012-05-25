@@ -5,6 +5,7 @@ use Laravel\Cookie;
 use Laravel\Config;
 use Laravel\Session;
 use Laravel\Crypter;
+use Laravel\Database\Eloquent\Model as Eloquent;
 
 abstract class Driver {
 
@@ -100,12 +101,16 @@ abstract class Driver {
 	 *
 	 * The token is typically a numeric ID for the user.
 	 *
-	 * @param  string  $token
+	 * @param  mixed   $token
 	 * @param  bool    $remember
 	 * @return bool
 	 */
 	public function login($token, $remember = false)
 	{
+		// if the token is an Eloquent model
+		// set the token from the id field
+		if ($token instanceof Eloquent) $token = $token->id;
+
 		$this->token = $token;
 
 		$this->store($token);
