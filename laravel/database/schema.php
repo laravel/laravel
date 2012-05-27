@@ -47,14 +47,14 @@ class Schema {
 	 * @param  string  $name
 	 * @return void
 	 */
-	public static function rename($table, $rename)
+	public static function rename($table, $new_name)
 	{
 		$table = new Schema\Table($table);
 
 		// To indicate that the table needs to be renamed, we will run the
 		// "rename" command on the table instance and pass the instance to
 		// the execute method as calling a Closure isn't needed.
-		$table->rename($name);
+		$table->rename($new_name);
 
 		return static::execute($table);
 	}
