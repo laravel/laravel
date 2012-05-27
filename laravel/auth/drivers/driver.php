@@ -109,7 +109,7 @@ abstract class Driver {
 	{
 		// if the token is an Eloquent model
 		// set the token from the id field
-		if ($token instanceof Eloquent) $token = $token->id;
+		if ($token instanceof Eloquent) $token = $token->get_key();
 
 		$this->token = $token;
 
