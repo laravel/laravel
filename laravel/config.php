@@ -217,9 +217,9 @@ class Config {
 	 * @param  string  $bundle
 	 * @return array
 	 */
-	protected static function paths($bundle)
+	protected static function paths($bundle, $folder = 'config/')
 	{
-		$paths[] = Bundle::path($bundle).'config/';
+		$paths[] = Bundle::path($bundle).$folder;
 
 		// Configuration files can be made specific for a given environment. If an
 		// environment has been set, we will merge the environment configuration
@@ -229,6 +229,14 @@ class Config {
 			$paths[] = $paths[count($paths) - 1].Request::env().'/';
 		}
 
+		// Look inside application/config/bundle to allow config to be stored inside
+		// application folder, this allow bundle runtime configuration maintain even after
+		// bundle upgraded.
+		if ($bundle !== DEFAULT_BUNDLE)
+		{
+			$paths = $paths + static::paths(DEFAULT_BUNDLE, 'config/'.$bundle);
+		}
+		
 		return $paths;
 	}
 
