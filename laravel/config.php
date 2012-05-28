@@ -234,7 +234,7 @@ class Config {
 		// bundle upgraded.
 		if ($bundle !== DEFAULT_BUNDLE)
 		{
-			$paths = $paths + static::paths(DEFAULT_BUNDLE, 'config/'.$bundle);
+			$paths = static::paths(DEFAULT_BUNDLE, 'config/bundles/'.$bundle.'/') + $paths;
 		}
 		
 		return $paths;
