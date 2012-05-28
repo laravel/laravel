@@ -215,6 +215,7 @@ class Config {
 	 * Get the array of configuration paths that should be searched for a bundle.
 	 *
 	 * @param  string  $bundle
+	 * @param  string  $folder
 	 * @return array
 	 */
 	protected static function paths($bundle, $folder = 'config/')
@@ -229,14 +230,14 @@ class Config {
 			$paths[] = $paths[count($paths) - 1].Request::env().'/';
 		}
 
-		// Look inside application/config/bundle to allow config to be stored inside
-		// application folder, this allow bundle runtime configuration maintain even after
+		// Look inside application/config/bundles/bundle-name to allow config to be stored inside
+		// application folder, this allow bundle runtime configuration to maintain even after
 		// bundle upgraded.
 		if ($bundle !== DEFAULT_BUNDLE)
 		{
-			$paths = static::paths(DEFAULT_BUNDLE, 'config/bundles/'.$bundle.'/') + $paths;
+			$paths = array_merge($paths, static::paths(DEFAULT_BUNDLE, 'config/bundles/'.$bundle.'/'));
 		}
-		
+
 		return $paths;
 	}
 
