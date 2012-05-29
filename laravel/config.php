@@ -229,10 +229,10 @@ class Config {
 		{
 			$paths[] = $paths[count($paths) - 1].Request::env().'/';
 		}
-
-		// Look inside application/config/bundles/bundle-name to allow config to be stored inside
-		// application folder, this allow bundle runtime configuration to maintain even after
-		// bundle upgraded.
+		
+		// Look inside application/config/bundles/bundle-name to allow configs to be stored inside
+		// the application folder. This allows bundle runtime configuration to maintain even after
+		// the bundle is upgraded.
 		if ($bundle !== DEFAULT_BUNDLE)
 		{
 			$paths = array_merge($paths, static::paths(DEFAULT_BUNDLE, 'config/bundles/'.$bundle.'/'));
