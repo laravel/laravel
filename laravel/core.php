@@ -29,7 +29,7 @@ define('MB_STRING', (int) function_exists('mb_get_info'));
 |
 */
 
-ob_start();
+ob_start('mb_output_handler');
 
 /*
 |--------------------------------------------------------------------------
