@@ -67,6 +67,29 @@ class Eloquent extends Driver {
 	}
 
 	/**
+	 * Login the user assigned to the given token.
+	 *
+	 * The token is typically a numeric ID for the user.
+	 *
+	 * @param  mixed   $token
+	 * @param  bool    $remember
+	 * @return bool
+	 */
+	public function login($token, $remember = false)
+	{
+		// if the token is an Eloquent model get the primary key
+		if ($token instanceof \Eloquent) $token = $token->get_key();
+
+		$this->token = $token;
+
+		$this->store($token);
+
+		if ($remember) $this->remember($token);
+
+		return true;
+	}
+
+	/**
 	 * Get a fresh model instance.
 	 *
 	 * @return Eloquent

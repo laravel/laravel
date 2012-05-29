@@ -5,7 +5,6 @@ use Laravel\Cookie;
 use Laravel\Config;
 use Laravel\Session;
 use Laravel\Crypter;
-use Laravel\Database\Eloquent\Model as Eloquent;
 
 abstract class Driver {
 
