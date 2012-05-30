@@ -315,7 +315,14 @@ class HTML {
 			// lists may exist within nested lists, etc.
 			if (is_array($value))
 			{
-				$html .= static::listing($type, $value);
+				if (is_int($key))
+				{
+					$html .= static::listing($type, $value);
+				}
+				else
+				{
+					$html .= '<li>'.$key.static::listing($type, $value).'</li>';
+				}
 			}
 			else
 			{
