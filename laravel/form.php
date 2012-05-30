@@ -16,13 +16,13 @@ class Form {
 	 */
 	public static $macros = array();
 
-    /**
-     * Registers a custom macro.
-     *
-     * @param  string   $name
-     * @param  Closure  $input
-     * @return void
-     */
+	/**
+	 * Registers a custom macro.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $input
+	 * @return void
+	 */
 	public static function macro($name, $macro)
 	{
 		static::$macros[$name] = $macro;
@@ -607,12 +607,12 @@ class Form {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$macros[$method]))
-	    {
-	        return call_user_func_array(static::$macros[$method], $parameters);
-	    }
+		if (isset(static::$macros[$method]))
+		{
+			return call_user_func_array(static::$macros[$method], $parameters);
+		}
 
-	    throw new \Exception("Method [$method] does not exist.");
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
