@@ -80,12 +80,12 @@ class Messages {
 	 *
 	 * <code>
 	 *		// Apply a new default format.
-	 *		$messages->set_format('email', '<p>this is my :message</p>');
+	 *		$messages->format('email', '<p>this is my :message</p>');
 	 * </code>
 	 *
 	 * @param  string  $format
 	 */
-	public function set_format($format = ':message')
+	public function format($format = ':message')
 	{
 		$this->format = $format;
 	}
@@ -111,6 +111,7 @@ class Messages {
 	public function first($key = null, $format = null)
 	{
 		$format = ($format === null) ? $this->format : $format;
+
 		$messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
 
 		return (count($messages) > 0) ? $messages[0] : '';
@@ -134,9 +135,10 @@ class Messages {
 	public function get($key, $format = null)
 	{
 		$format = ($format === null) ? $this->format : $format;
+
 		if (array_key_exists($key, $this->messages))
 		{
-			return $this->format($this->messages[$key], $format);
+			return $this->transform($this->messages[$key], $format);
 		}
 
 		return array();
@@ -159,11 +161,12 @@ class Messages {
 	public function all($format = null)
 	{
 		$format = ($format === null) ? $this->format : $format;
+
 		$all = array();
 
 		foreach ($this->messages as $messages)
 		{
-			$all = array_merge($all, $this->format($messages, $format));
+			$all = array_merge($all, $this->transform($messages, $format));
 		}
 
 		return $all;
@@ -176,7 +179,7 @@ class Messages {
 	 * @param  string  $format
 	 * @return array
 	 */
-	protected function format($messages, $format)
+	protected function transform($messages, $format)
 	{
 		$messages = (array) $messages;
 
