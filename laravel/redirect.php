@@ -9,7 +9,7 @@ class Redirect extends Response {
 	 * @param  bool      $secure
 	 * @return Redirect
 	 */
-	public static function home($status = 302, $https = false)
+	public static function home($status = 302, $https = null)
 	{
 		return static::to(URL::home($https), $status);
 	}
@@ -41,7 +41,7 @@ class Redirect extends Response {
 	 * @param  bool      $https
 	 * @return Redirect
 	 */
-	public static function to($url, $status = 302, $https = false)
+	public static function to($url, $status = 302, $https = null)
 	{
 		return static::make('', $status)->header('Location', URL::to($url, $https));
 	}
