@@ -51,7 +51,7 @@ class Form {
 	 * @param  bool     $https
 	 * @return string
 	 */
-	public static function open($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public static function open($action = null, $method = 'POST', $attributes = array(), $https = null)
 	{
 		$method = strtoupper($method);
 
@@ -129,7 +129,7 @@ class Form {
 	 * @param  bool    $https
 	 * @return string
 	 */	
-	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = false)
+	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = null)
 	{
 		$attributes['enctype'] = 'multipart/form-data';
 

@@ -124,7 +124,7 @@ class HTML {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function link($url, $title, $attributes = array(), $https = false)
+	public static function link($url, $title, $attributes = array(), $https = null)
 	{
 		$url = URL::to($url, $https);
 
