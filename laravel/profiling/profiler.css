@@ -2,7 +2,7 @@
 {
 	font-family:Helvetica, "Helvetica Neue", Arial, sans-serif !important;
 	font-size:14px !important;
-	background-color:#222 !important;	
+	background-color:#222 !important;
 	position:fixed !important;
 	bottom:0 !important;
 	right:0 !important;
@@ -21,7 +21,7 @@ background-repeat:no-repeat;
 background-position:5px -8px;
 }
 
-.anbu.hidden .anbu-tabs
+.anbu-hidden .anbu-tabs
 {
 	background-image:none;
 }
@@ -213,4 +213,10 @@ span.anbu-count
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
+}
+
+/* hide panel-open elements, will become visible through anbu.start() */
+
+#anbu-close, #anbu-zoom, .anbu-tab-pane {
+	visibility: hidden;
 }
