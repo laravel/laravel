@@ -32,6 +32,7 @@
 
 - Fixed bug in cookie retrieval when cookie is set on same request.
 - Fixed bug in SQL Server grammar for primary keys.
+- Fixed bug in Validator on PHP 5.4.
 
 <a name="upgrade-3.2.1"></a>
 ## Upgrading From 3.2
