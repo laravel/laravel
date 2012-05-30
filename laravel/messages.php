@@ -10,6 +10,13 @@ class Messages {
 	public $messages;
 
 	/**
+	 * Default format for message output.
+	 *
+	 * @var string
+	 */	
+	public $format = ':message';
+
+	/**
 	 * Create a new Messages instance.
 	 *
 	 * @param  array  $messages
@@ -69,6 +76,21 @@ class Messages {
 	}
 
 	/**
+	 * Set the default message format for output.
+	 *
+	 * <code>
+	 *		// Apply a new default format.
+	 *		$messages->set_format('email', '<p>this is my :message</p>');
+	 * </code>
+	 *
+	 * @param  string  $format
+	 */
+	public function set_format($format = ':message')
+	{
+		$this->format = $format;
+	}
+
+	/**
 	 * Get the first message from the container for a given key.
 	 *
 	 * <code>
@@ -86,8 +108,9 @@ class Messages {
 	 * @param  string  $format
 	 * @return string
 	 */
-	public function first($key = null, $format = ':message')
+	public function first($key = null, $format = null)
 	{
+		$format = ($format === null) ? $this->format : $format;
 		$messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
 
 		return (count($messages) > 0) ? $messages[0] : '';
@@ -108,8 +131,9 @@ class Messages {
 	 * @param  string  $format
 	 * @return array
 	 */
-	public function get($key, $format = ':message')
+	public function get($key, $format = null)
 	{
+		$format = ($format === null) ? $this->format : $format;
 		if (array_key_exists($key, $this->messages))
 		{
 			return $this->format($this->messages[$key], $format);
@@ -132,8 +156,9 @@ class Messages {
 	 * @param  string  $format
 	 * @return array
 	 */
-	public function all($format = ':message')
+	public function all($format = null)
 	{
+		$format = ($format === null) ? $this->format : $format;
 		$all = array();
 
 		foreach ($this->messages as $messages)
