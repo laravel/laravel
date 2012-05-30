@@ -34,6 +34,7 @@
 - Fixed bug in SQL Server grammar for primary keys.
 - Fixed bug in Validator on PHP 5.4.
 - If HTTP / HTTPS is not specified for generated links, current protocol is used.
+- Fix bug in Eloquent auth driver.
 - Added `format` method to message container.
 
 <a name="upgrade-3.2.1"></a>
