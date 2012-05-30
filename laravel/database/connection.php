@@ -89,6 +89,9 @@ class Connection {
 			case 'sqlsrv':
 				return $this->grammar = new Query\Grammars\SQLServer($this);
 
+			case 'pgsql':
+				return $this->grammar = new Query\Grammars\Postgres($this);
+
 			default:
 				return $this->grammar = new Query\Grammars\Grammar($this);
 		}
@@ -189,6 +192,13 @@ class Connection {
 		elseif (stripos($sql, 'update') === 0 or stripos($sql, 'delete') === 0)
 		{
 			return $statement->rowCount();
+		}
+		// For insert statements that use the "returning" clause, which is allowed
+		// by databsae systems such as Postgres, we need to actually return the
+		// real query result so the consumer can get the ID.
+		elseif (stripos($sql, 'insert') === 0 and stripos($sql, 'returning') !== false)
+		{
+			return $this->fetch($statement, Config::get('database.fetch'));
 		}
 		else
 		{

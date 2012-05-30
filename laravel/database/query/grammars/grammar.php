@@ -376,6 +376,19 @@ class Grammar extends \Laravel\Database\Grammar {
 	}
 
 	/**
+	 * Compile a SQL INSERT and get ID statment from a Query instance.
+	 *
+	 * @param  Query   $query
+	 * @param  array   $values
+	 * @param  string  $column
+	 * @return string
+	 */
+	public function insert_get_id(Query $query, $values, $column)
+	{
+		return $this->insert($query, $values);
+	}
+
+	/**
 	 * Compile a SQL UPDATE statment from a Query instance.
 	 *
 	 * @param  Query   $query
