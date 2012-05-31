@@ -172,7 +172,7 @@ class Blade {
 	 */
 	protected static function extract($value, $expression)
 	{
-		preg_match('/@layout(\s*\(.*\))(\s*)/', $value, $matches);
+		preg_match('/@layout(\s*\(.*?\))(\s*)/', $value, $matches);
 
 		return str_replace(array("('", "')"), '', $matches[1]);
 	}
@@ -209,7 +209,7 @@ class Blade {
 	 */
 	protected static function compile_forelse($value)
 	{
-		preg_match_all('/(\s*)@forelse(\s*\(.*\))(\s*)/', $value, $matches);
+		preg_match_all('/(\s*)@forelse(\s*\(.*?\))(\s*)/', $value, $matches);
 
 		foreach ($matches[0] as $forelse)
 		{
@@ -220,7 +220,7 @@ class Blade {
 			// of the variable being looped against is greater than zero.
 			$if = "<?php if (count({$variable[0]}) > 0): ?>";
 
-			$search = '/(\s*)@forelse(\s*\(.*\))/';
+			$search = '/(\s*)@forelse(\s*\(.*?\))/';
 
 			$replace = '$1'.$if.'<?php foreach$2: ?>';
 
@@ -265,7 +265,7 @@ class Blade {
 	 */
 	protected static function compile_structure_openings($value)
 	{
-		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*\))/';
+		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*?\))/';
 
 		return preg_replace($pattern, '$1<?php $2$3: ?>', $value);
 	}
@@ -302,7 +302,7 @@ class Blade {
 	 */
 	protected static function compile_unless($value)
 	{
-		$pattern = '/(\s*)@unless(\s*\(.*\))/';
+		$pattern = '/(\s*)@unless(\s*\(.*?\))/';
 
 		return preg_replace($pattern, '$1<?php if( ! ($2)): ?>', $value);
 	}
@@ -436,7 +436,7 @@ class Blade {
 	 */
 	public static function matcher($function)
 	{
-		return '/(\s*)@'.$function.'(\s*\(.*\))/';
+		return '/(\s*)@'.$function.'(\s*\(.*?\))/';
 	}
 
 	/**
