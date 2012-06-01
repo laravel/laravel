@@ -613,7 +613,7 @@ class Query {
 		// by another column from the result set.
 		$values = array_map(function($row) use ($column)
 		{
-			return $row->$column;
+			return is_callable($column) ? $column($row) : $row->$column;
 
 		}, $results);
 
