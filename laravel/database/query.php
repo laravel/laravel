@@ -605,7 +605,7 @@ class Query {
 	{
 		$columns = (is_null($key)) ? array($column) : array($column, $key);
 
-		$results = $this->get($columns);
+		$results = is_callable($column) ? $this->get(array('*')) : $this->get($columns);
 
 		// First we will get the array of values for the requested column.
 		// Of course, this array will simply have numeric keys. After we
