@@ -656,7 +656,14 @@ class Validator {
 	 */
 	protected function validate_before($attribute, $value, $parameters)
 	{
-		return (strtotime($value) < strtotime($parameters[0]));
+		$result = strtotime($value) < strtotime($parameters[0]);
+
+		if ($result === false && isset($this->attributes[$parameters[0]]))
+		{
+			return $this->validate_before($this->attributes[$parameters[0]]);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -669,7 +676,14 @@ class Validator {
 	 */
 	protected function validate_after($attribute, $value, $parameters)
 	{
-		return (strtotime($value) > strtotime($parameters[0]));
+		$result = strtotime($value) > strtotime($parameters[0]);
+
+		if ($result === false && isset($this->attributes[$parameters[0]]))
+		{
+			return $this->validate_before($this->attributes[$parameters[0]]);
+		}
+
+		return $result;
 	}
 
 	/**
