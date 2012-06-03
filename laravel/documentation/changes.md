@@ -34,6 +34,9 @@
 
 - Overall improvement of Postgres support.
 - Fix issue in SQL Server Schema grammar.
+- Fix issue with eager loading and `first` or `find`.
+- Fix bug causing parameters to not be passed to `IoC::resolve`.
+- Allow the specification of hostnames in environment setup.
 
 <a name="upgrade-3.2.2"></a>
 ## Upgrading From 3.2.1
