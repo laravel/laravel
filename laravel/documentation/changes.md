@@ -33,6 +33,7 @@
 ## Laravel 3.2.2
 
 - Overall improvement of Postgres support.
+- Fix issue in SQL Server Schema grammar.
 
 <a name="upgrade-3.2.2"></a>
 ## Upgrading From 3.2.1
