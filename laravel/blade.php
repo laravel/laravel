@@ -53,7 +53,7 @@ class Blade {
 				return;
 			}
 
-			$compiled = path('storage').'views/'.md5($view->path);
+			$compiled = Blade::compiled($view->path);
 
 			// If the view doesn't exist or has been modified since the last time it
 			// was compiled, we will recompile the view into pure PHP from it's
