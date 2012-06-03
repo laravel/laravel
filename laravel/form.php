@@ -446,7 +446,7 @@ class Form {
 		}
 		else
 		{
-			$selected = ($value == $selected) ? 'selected' : null;
+			$selected = ((string) $value == (string) $selected) ? 'selected' : null;
 		}
 
 		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
