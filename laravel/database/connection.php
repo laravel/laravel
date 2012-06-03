@@ -332,17 +332,5 @@ class Connection {
 	{
 		return $this->table($method);
 	}
-	
-	/**
-	 * Get the last query that was executed.
-	 * 
-	 * Returns false if no queries have been executed yet.
-	 *
-	 * @return string
-	 */
-	public static function last_query()
-	{
-		return end(static::$queries);
-	}
 
 }

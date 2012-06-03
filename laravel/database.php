@@ -143,7 +143,7 @@ class Database {
 	 */
 	public static function last_query()
 	{
-		return Database\Connection::last_query();
+		return end(Database\Connection::$queries);
 	}
 
 	/**
