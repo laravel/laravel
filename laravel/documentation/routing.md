@@ -307,6 +307,10 @@ This routing convention may not be desirable for every situation, so you may als
 
 	Route::get('welcome', array('after' => 'log', 'uses' => 'home@index'));
 
+#### Registering a named route that points to a controller action:
+
+	Route::get('welcome', array('as' => 'home.welcome', 'uses' => 'home@index'));
+
 <a name="cli-route-testing"></a>
 ## CLI Route Testing
 
