@@ -18,7 +18,7 @@
 		</header>
 		<div role="main" class="main">
 			<div class="home">
-				<h2>Learn the terrain.</h3>
+				<h2>Learn the terrain.</h2>
 
 				<p>
 					You've landed yourself on our default home page. The route that
@@ -34,7 +34,7 @@
 				<h2>Grow in knowledge.</h2>
 
 				<p>
-					Leaning to use Laravel is amazingly simple thanks to
+					Learning to use Laravel is amazingly simple thanks to
 					its {{ HTML::link('docs', 'wonderful documentation') }}.
 				</p>
 
