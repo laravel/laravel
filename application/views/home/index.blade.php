@@ -34,7 +34,7 @@
 				<h2>Grow in knowledge.</h2>
 
 				<p>
-					Leaning to use Laravel is amazingly simple thanks to
+					Learning to use Laravel is amazingly simple thanks to
 					its {{ HTML::link('docs', 'wonderful documentation') }}.
 				</p>
 
