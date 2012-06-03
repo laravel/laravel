@@ -35,7 +35,7 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function home($https = false)
+	public static function home($https = null)
 	{
 		$route = Router::find('home');
 
@@ -91,7 +91,7 @@ class URL {
 	 * @param  bool    $https
 	 * @return string
 	 */
-	public static function to($url = '', $https = false)
+	public static function to($url = '', $https = null)
 	{
 		// If the given URL is already valid or begins with a hash, we'll just return
 		// the URL unchanged since it is already well formed. Otherwise we will add
@@ -100,6 +100,10 @@ class URL {
 		{
 			return $url;
 		}
+
+		// Unless $https is specified (true or false) then maintain the current request
+		// security for any new links generated.  So https for all secure links.
+		if (is_null($https)) $https = Request::secure();
 
 		$root = static::base().'/'.Config::get('application.index');
 
@@ -174,7 +178,7 @@ class URL {
 	 */
 	protected static function explicit($route, $action, $parameters)
 	{
-		$https = array_get(current($route), 'https', false);
+		$https = array_get(current($route), 'https', null);
 
 		return static::to(static::transpose(key($route), $parameters), $https);
 	}
@@ -196,8 +200,6 @@ class URL {
 		// clause as the root of the generated URL, as the bundle can only handle
 		// URIs that begin with that string and no others.
 		$root = $bundle['handles'] ?: '';
-
-		$https = false;
 
 		$parameters = implode('/', $parameters);
 
@@ -230,8 +232,6 @@ class URL {
 			return rtrim($root, '/').'/'.ltrim($url, '/');
 		}
 
-		if (is_null($https)) $https = Request::secure();
-
 		$url = static::to($url, $https);
 
 		// Since assets are not served by Laravel, we do not need to come through
@@ -258,7 +258,6 @@ class URL {
 	 *
 	 * @param  string  $name
 	 * @param  array   $parameters
-	 * @param  bool    $https
 	 * @return string
 	 */
 	public static function to_route($name, $parameters = array())
@@ -271,7 +270,7 @@ class URL {
 		// To determine whether the URL should be HTTPS or not, we look for the "https"
 		// value on the route action array. The route has control over whether the URL
 		// should be generated with an HTTPS protocol string or just HTTP.
-		$https = array_get(current($route), 'https', false);
+		$https = array_get(current($route), 'https', null);
 
 		$uri = trim(static::transpose(key($route), $parameters), '/');
 

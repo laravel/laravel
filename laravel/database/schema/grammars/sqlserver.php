@@ -138,7 +138,7 @@ class SQLServer extends Grammar {
 	{
 		$name = $command->name;
 
-		$columns = $this->columnize($columns);
+		$columns = $this->columnize($command->$columns);
 
 		return 'ALTER TABLE '.$this->wrap($table)." ADD CONSTRAINT {$name} PRIMARY KEY ({$columns})";
 	}

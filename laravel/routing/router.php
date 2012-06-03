@@ -297,7 +297,7 @@ class Router {
 	 * @param  bool          $https
 	 * @return void
 	 */
-	public static function controller($controllers, $defaults = 'index', $https = false)
+	public static function controller($controllers, $defaults = 'index', $https = null)
 	{
 		foreach ((array) $controllers as $identifier)
 		{

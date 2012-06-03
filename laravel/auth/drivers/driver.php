@@ -100,7 +100,7 @@ abstract class Driver {
 	 *
 	 * The token is typically a numeric ID for the user.
 	 *
-	 * @param  mixed   $token
+	 * @param  string  $token
 	 * @param  bool    $remember
 	 * @return bool
 	 */

@@ -249,7 +249,7 @@ class Validator {
 		{
 			return false;
 		}
-		elseif ( ! is_null(Input::file($attribute)) and $value['tmp_name'] == '')
+		elseif ( ! is_null(Input::file($attribute)) and is_array($value) and $value['tmp_name'] == '')
 		{
 			return false;
 		}
