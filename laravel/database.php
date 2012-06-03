@@ -133,6 +133,18 @@ class Database {
 	{
 		return Database\Connection::$queries;
 	}
+	
+	/**
+	 * Get the last query that was executed.
+	 *
+	 * Returns false if no queries have been executed yet.
+	 *
+	 * @return string
+	 */
+	public static function last_query()
+	{
+		return Database\Connection::last_query();
+	}
 
 	/**
 	 * Register a database connector and grammars.
