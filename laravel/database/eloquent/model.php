@@ -230,11 +230,9 @@ abstract class Model {
 	 * @param  array   $columns
 	 * @return Model
 	 */
-	public static function find($id, $columns = array('*'))
+	public function _find($id, $columns = array('*'))
 	{
-		$model = new static;
-
-		return $model->query()->where(static::$key, '=', $id)->first($columns);
+		return $this->query()->where(static::$key, '=', $id)->first($columns);
 	}
 
 	/**
@@ -746,10 +744,12 @@ abstract class Model {
 			return static::$$method;
 		}
 
+		$underscored = array('with', 'find');
+
 		// Some methods need to be accessed both staticly and non-staticly so we'll
 		// keep underscored methods of those methods and intercept calls to them
 		// here so they can be called either way on the model instance.
-		if (in_array($method, array('with')))
+		if (in_array($method, $underscored))
 		{
 			return call_user_func_array(array($this, '_'.$method), $parameters);
 		}
