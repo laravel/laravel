@@ -148,15 +148,19 @@ Request::$foundation = RequestFoundation::createFromGlobals();
 |--------------------------------------------------------------------------
 |
 | Next we're ready to determine the application environment. This may be
-| set either via the command line options, or, if the request is from
-| the web, via the mapping of URIs to environments that lives in
-| the "paths.php" file for the application and is parsed.
+| set either via the command line options or via the mapping of URIs to
+| environments that lives in the "paths.php" file for the application and
+| is parsed. When determining the CLI environment, the "--env" CLI option
+| overrides the mapping in "paths.php".
 |
 */
-
 if (Request::cli())
 {
 	$environment = get_cli_option('env');
+
+	if (! isset($environment)) {
+		$environment = Request::detect_env($environments, gethostname());
+	}
 }
 else
 {
