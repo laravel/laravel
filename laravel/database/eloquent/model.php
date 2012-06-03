@@ -399,7 +399,7 @@ abstract class Model {
 		// then we can consider the insert successful.
 		else
 		{
-			$id = $this->query()->insert_get_id($this->attributes, $this->sequence());
+			$id = $this->query()->insert_get_id($this->attributes, $this->key());
 
 			$this->set_key($id);
 

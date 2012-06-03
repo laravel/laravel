@@ -324,7 +324,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_integer(Fluent $column)
 	{
-		return ($column->increment) ? 'SERIAL' : 'INTEGER';
+		return ($column->increment) ? 'SERIAL' : 'BIGINT';
 	}
 
 	/**
