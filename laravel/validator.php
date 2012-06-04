@@ -660,7 +660,7 @@ class Validator {
 
 		if ($result === false && isset($this->attributes[$parameters[0]]))
 		{
-			return $this->validate_before($this->attributes[$parameters[0]]);
+			return $this->validate_before($attribute, $value, array($this->attributes[$parameters[0]]));
 		}
 
 		return $result;
@@ -680,7 +680,7 @@ class Validator {
 
 		if ($result === false && isset($this->attributes[$parameters[0]]))
 		{
-			return $this->validate_before($this->attributes[$parameters[0]]);
+			return $this->validate_after($attribute, $value, array($this->attributes[$parameters[0]]));
 		}
 
 		return $result;
