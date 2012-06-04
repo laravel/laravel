@@ -29,6 +29,11 @@
 |		{
 |			return "Welcome, $name.";
 |		});
+| 
+| For those of you coming from a controller orientated framework such as 
+| CodeIgniter, you can register all controllers in one simple statement:
+|
+|		Route::controller(Controller::detect());
 |
 */
 
