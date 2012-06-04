@@ -647,7 +647,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate the date is before a given date.
+	 * Validate the date is before a given date (or the date in another field).
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -667,7 +667,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate the date is after a given date.
+	 * Validate the date is after a given date (or the date in another field).
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
