@@ -314,6 +314,16 @@ class Table {
 	}
 
 	/**
+	 * Create unix_timestamp columns for creation and update timestamps.
+	 *
+	 * @return void
+	 */
+	public function unix_timestamps()
+	{
+		$this->timestamps(true);
+	}
+
+	/**
 	 * Add a date-time column to the table.
 	 *
 	 * @param  string  $name
