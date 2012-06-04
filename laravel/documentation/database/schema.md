@@ -68,7 +68,7 @@ Command  | Description
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent to the table
 `$table->timestamp('added_on', true);` | INTEGER equivalent to the table
 `$table->timestamps();`  |  Adds **created\_at** and **updated\_at** columns
-`$table->timestamps(true);` | Adds **created\_at** and **updated\_at** INTEGER columns
+`$table->unix_timestamps();` | Adds **created\_at** and **updated\_at** INTEGER columns
 `$table->text('description');`  |  TEXT equivalent to the table
 `$table->blob('data');`  |  BLOB equivalent to the table
 `->nullable()`  |  Designate that the column allows NULL values
