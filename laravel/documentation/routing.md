@@ -4,7 +4,7 @@
 
 - [The Basics](#the-basics)
 - [Wildcards](#wildcards)
-- [The 404 Events](#the-404-event)
+- [The 404 Event](#the-404-event)
 - [Filters](#filters)
 - [Pattern Filters](#pattern-filters)
 - [Global Filters](#global-filters)
