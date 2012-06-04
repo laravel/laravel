@@ -1,10 +1,13 @@
-## Laravel - A PHP Framework For Web Artisans
+# [Laravel](http://laravel.com) - A PHP Framework For Web Artisans
 
-Laravel is a clean and classy framework for PHP web development. Freeing you from spaghetti code, Laravel helps you create wonderful applications using simple, expressive syntax. Development should be a creative experience that you enjoy, not something that is painful. Enjoy the fresh air.
+Laravel is a clean and classy framework for PHP web development. Freeing you
+from spaghetti code, Laravel helps you create wonderful applications using
+simple, expressive syntax. Development should be a creative experience that you
+enjoy, not something that is painful. Enjoy the fresh air.
 
-### [Official Website & Documentation](http://laravel.com)
+[Official Website & Documentation](http://laravel.com)
 
-### Feature Overview
+## Feature Overview
 
 - Simple routing using Closures or controllers.
 - Views and templating.
@@ -15,9 +18,9 @@ Laravel is a clean and classy framework for PHP web development. Freeing you fro
 - PHPUnit Integration.
 - A lot more.
 
-### A Few Examples
+## A Few Examples
 
-**Hello World:**
+### Hello World:
 
 ```php
 <?php
@@ -28,7 +31,7 @@ Route::get('/', function()
 });
 ```
 
-**Passing Data To Views:**
+### Passing Data To Views:
 
 ```php
 <?php
@@ -41,7 +44,7 @@ Route::get('user/(:num)', function($id)
 });
 ```
 
-**Redirecting & Flashing Data To The Session:**
+### Redirecting & Flashing Data To The Session:
 
 ```php
 <?php
@@ -49,14 +52,16 @@ Route::get('user/(:num)', function($id)
 return Redirect::to('profile')->with('message', 'Welcome Back!');
 ```
 
-### Contributing to Laravel
+## Contributing to Laravel
 
-Contributions are encouraged and welcome; however, please review the Developer Certificate of Origin in the "license.txt" file included in the repository. All commits must be signed off using the "-s" switch.
+Contributions are encouraged and welcome; however, please review the Developer
+Certificate of Origin in the "license.txt" file included in the repository. All
+commits must be signed off using the `-s` switch.
 
 ```bash
 git commit -s -m "this commit will be signed off automatically!"
 ```
 
-### License
+## License
 
 Laravel is open-sourced software licensed under the MIT License.

@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.1](#3.2.1)
+- [Upgrading From 3.2](#upgrade-3.2.1)
 - [Laravel 3.2](#3.2)
 - [Upgrading From 3.1](#upgrade-3.2)
 - [Laravel 3.1.9](#3.1.9)
@@ -24,6 +26,21 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.1"></a>
+## Laravel 3.2.1
+
+- Fixed bug in cookie retrieval when cookie is set on same request.
+- Fixed bug in SQL Server grammar for primary keys.
+- Fixed bug in Validator on PHP 5.4.
+- If HTTP / HTTPS is not specified for generated links, current protocol is used.
+- Fix bug in Eloquent auth driver.
+- Added `format` method to message container.
+
+<a name="upgrade-3.2.1"></a>
+## Upgrading From 3.2
+
+- Replace the **laravel** folder.
 
 <a name="3.2"></a>
 ## Laravel 3.2
@@ -82,6 +99,18 @@
 
 - Add new `asset_url` and `profiler` options to application configuration.
 - Replace **auth** configuration file.
+
+Add the following entry to the `aliases` array in `config/application.php`..
+
+	'Profiler'   => 'Laravel\\Profiling\\Profiler',
+
+Add the following code above `Blade::sharpen()` in `application/start.php`..
+
+	if (Config::get('application.profiler'))
+	{
+	    Profiler::attach();
+	}
+
 - Upgrade the **paths.php** file.
 - Replace the **laravel** folder.
 
