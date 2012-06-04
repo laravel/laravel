@@ -618,7 +618,7 @@ class Form {
 		// If we are set to remember form input, the value will be
 		// re-populated from the Input. Otherwise, the given value will be
 		// used. (This value will always overwrite any Input data.)
-		if (!static::$remember || is_string($value) || !is_string($name))
+		if (!static::$remember or is_string($value) or !is_string($name))
 		{
 			return $value;
 		}
