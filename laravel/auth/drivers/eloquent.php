@@ -35,7 +35,9 @@ class Eloquent extends Driver {
 		// log the user into the application and remember them if asked.
 		$password = $arguments['password'];
 
-		if ( ! is_null($user) and Hash::check($password, $user->password))
+		$password_field = Config::get('auth.password');
+
+		if ( ! is_null($user) and Hash::check($password, $user->get_attribute($password_field)))
 		{
 			return $this->login($user->id, array_get($arguments, 'remember'));
 		}
