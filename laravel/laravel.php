@@ -88,7 +88,14 @@ Bundle::start(DEFAULT_BUNDLE);
 
 foreach (Bundle::$bundles as $bundle => $config)
 {
-	if ($config['auto']) Bundle::start($bundle);
+	if (
+		$config['auto'] === true
+		|| (! empty($config['auto']) && is_array($config['auto'])
+		&& ! empty($config['auto']['web']) && $config['auto']['web'])
+	)
+	{
+		Bundle::start($bundle);
+	}
 }
 
 /*
