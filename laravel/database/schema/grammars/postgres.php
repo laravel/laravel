@@ -25,7 +25,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Geenrate the SQL statements for a table modification command.
+	 * Generate the SQL statements for a table modification command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
