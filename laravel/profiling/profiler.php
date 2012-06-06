@@ -54,6 +54,8 @@ class Profiler {
 	{
 		foreach ($bindings as $binding)
 		{
+			$binding = "'{$binding}'";
+
 			$sql = preg_replace('/\?/', $binding, $sql, 1);
 		}
 
