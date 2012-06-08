@@ -327,7 +327,7 @@ abstract class Controller {
 			$action = "action_{$method}";
 		}
 
-		if ($this->ajaxful && Request::ajax())
+		if ($this->ajaxful and Request::ajax())
 		{
 			$action = "ajax_{$action}";
 		}
