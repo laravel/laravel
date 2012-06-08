@@ -2,7 +2,9 @@
 
 use Laravel\IoC;
 use Laravel\Str;
+use Laravel\Input;
 use Laravel\Bundle;
+use Laravel\Validator;
 
 class Command {
 
@@ -193,6 +195,29 @@ class Command {
 		$prefix = Bundle::class_prefix($bundle);
 
 		return '\\'.$prefix.Str::classify($task).'_Task';
+	}
+
+	/**
+	 * Input handler with validation support for cli.
+	 *
+	 * @param  array  $rules
+	 * @return array
+	 */
+	public static function input($rules,$messages = array())
+	{
+		// Parse a single line from stdin.
+		$line = trim(fgets(STDIN));
+
+		// Validate it aginst the rules passed in.
+		$validation = Validator::make(array('input' => $line), $rules, $messages);
+		if ($validation->fails())
+		{
+			echo $validation->errors->first('input', ':message' );
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 }
