@@ -46,7 +46,7 @@ class Key extends Task {
 		if ($count == 0)
 		{
 			echo "An application key already exists!" . PHP_EOL;
-			echo "Would you like to override the exsisting key?" . PHP_EOL;
+			echo "Would you like to override the existing key?" . PHP_EOL;
 			echo "yes/no: ";
 
 			// Require an bool value.
