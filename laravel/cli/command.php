@@ -208,7 +208,7 @@ class Command {
 		// Parse a single line from stdin.
 		$line = trim(fgets(STDIN));
 
-		// Validate it aginst the rules passed in.
+		// Validate it against the rules passed in.
 		$validation = Validator::make(array('input' => $line), $rules, $messages);
 		if ($validation->fails())
 		{
