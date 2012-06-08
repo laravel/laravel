@@ -2,6 +2,8 @@
 
 use Laravel\Str;
 use Laravel\File;
+use Laravel\Config as Config;
+use Laravel\CLI\Command as Command;
 
 class Key extends Task {
 
@@ -35,21 +37,34 @@ class Key extends Task {
 		// generate for the application token unless another length is
 		// specified through the CLI.
 		$key = Str::random(array_get($arguments, 0, 32));
+		$current = Config::get('application.key');
 
 		$config = File::get($this->path);
 
 		$config = str_replace("'key' => '',", "'key' => '{$key}',", $config, $count);
 
-		File::put($this->path, $config);
-
-		if ($count > 0)
+		if ($count == 0)
 		{
-			echo "Configuration updated with secure key!";
+			echo "An application key already exists!" . PHP_EOL;
+			echo "Would you like to override the exsisting key?" . PHP_EOL;
+			echo "yes/no: ";
+
+			// Require an bool value.
+			$rules['input'] = 'required|in:yes';
+			$messages = array('in' => '');
+
+			// Validate input and handle response.
+			if (Command::input($rules,$messages)) {
+				$config = str_replace("'key' => '{$current}',", "'key' => '{$key}',", $config, $count);
+				echo "Configuration updated with secure key!";
+			}
 		}
 		else
 		{
-			echo "An application key already exists!";
+			echo "Configuration updated with secure key!";
 		}
+
+		File::put($this->path, $config);
 
 		echo PHP_EOL;
 	}
