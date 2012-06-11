@@ -94,6 +94,35 @@ class Migrator extends Task {
 	}
 
 	/**
+	 * Seed the application with some default data.
+	 *
+	 * @return void
+	 */
+	public function seed($bundle = null)
+	{
+		if (empty($bundle))
+		{
+			$bundles = array_merge(Bundle::names(), array('application'));
+		}
+		else
+		{
+			$bundles = array($bundle);
+		}
+
+		foreach ($bundles as $bundle)
+		{
+			$path = Bundle::path($bundle).'seeds'.DS.'seed.php';
+
+			if (file_exists($path))
+			{
+				require $path;
+			}
+		}
+		
+		echo "Seed data installed successfully.";
+	}
+
+	/**
 	 * Rollback the latest migration command.
 	 *
 	 * @param  array  $arguments
