@@ -255,27 +255,7 @@ abstract class Model {
 	 */
 	public function _with($includes)
 	{
-		$includes = (array) $includes;
-
-    $all_includes = array();
-
-    foreach($includes as $include)
-    {
-      $nested = explode('.', $include);
-
-      $inc = array();
-
-      foreach($nested as $relation)
-      {
-        $inc[] = $relation;
-
-        $all_includes[] = implode('.', $inc);
-      }
-
-    }
-
-    //remove duplicates and reset the array keys.
-		$this->includes = array_values(array_unique($all_includes));
+		$this->includes = (array) $includes;
 
 		return $this;
 	}
