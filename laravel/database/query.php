@@ -297,11 +297,14 @@ class Query {
 	 */
 	public function where_in($column, $values, $connector = 'AND', $not = false)
 	{
-		$type = ($not) ? 'where_not_in' : 'where_in';
+		if (!empty($values))
+		{
+			$type = ($not) ? 'where_not_in' : 'where_in';
 
-		$this->wheres[] = compact('type', 'column', 'values', 'connector');
+			$this->wheres[] = compact('type', 'column', 'values', 'connector');
 
-		$this->bindings = array_merge($this->bindings, $values);
+			$this->bindings = array_merge($this->bindings, $values);
+		}
 
 		return $this;
 	}
