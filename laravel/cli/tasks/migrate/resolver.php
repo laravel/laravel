@@ -70,6 +70,65 @@ class Resolver {
 	}
 
 	/**
+	 * Grab and resolve all of the seeds for a bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return array
+	 */
+	public function seeds($bundle)
+	{
+		$seeds = array();
+
+		// If no bundle was given to the command, we'll grab every bundle for
+		// the application, including the "application" bundle, which is not
+		// returned by "all" method on the Bundle class.
+		if (is_null($bundle))
+		{
+			$bundles = array_merge(Bundle::names(), array('application'));
+		}
+		else
+		{
+			$bundles = array($bundle);
+		}
+
+		foreach ($bundles as $bundle)
+		{
+			$files = glob(Bundle::path($bundle).'db/seeds/*'.EXT);
+
+			// When open_basedir is enabled, glob will return false on an
+			// empty directory, so we will create an empty array in this
+			// case so the application doesn't bomb out.
+			if ($files === false)
+			{
+				$files = array();
+			}
+
+			foreach ($files as $file)
+			{
+				// Once we have the array of files in the migration directory,
+				// we'll take the basename of the file and remove the PHP file
+				// extension, for display purposes.
+				$name = str_replace(EXT, '', basename($file));
+
+				require_once $file;
+
+				// Migrations that exist within bundles other than the default
+				// will be prefixed with the bundle name to avoid any possible
+				// naming collisions with other bundle's migrations.
+				$prefix = Bundle::class_prefix($bundle);
+
+				$class = $prefix.\Laravel\Str::classify($name);
+
+				$task = new $class;
+
+				$seeds[] = compact('bundle', 'name', 'task');
+			}
+		}
+
+		return $seeds;
+	}
+
+	/**
 	 * Resolve an array of the last batch of migrations.
 	 *
 	 * @return array
@@ -98,7 +157,7 @@ class Resolver {
 			// migration using the name.
 			$bundle = $migration['bundle'];
 
-			$path = Bundle::path($bundle).'migrations/';
+			$path = Bundle::path($bundle).'db/migrations/';
 
 			// Migrations are not resolved through the auto-loader, so we will
 			// manually instantiate the migration class instances for each of
@@ -146,7 +205,7 @@ class Resolver {
 	 */
 	protected function migrations($bundle)
 	{
-		$files = glob(Bundle::path($bundle).'migrations/*_*'.EXT);
+		$files = glob(Bundle::path($bundle).'db/migrations/*_*'.EXT);
 
 		// When open_basedir is enabled, glob will return false on an
 		// empty directory, so we will return an empty array in this
