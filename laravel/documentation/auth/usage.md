@@ -63,7 +63,7 @@ It is common to limit access to certain routes only to logged in users. In Larav
 
 To protect a route, simply attach the **auth** filter:
 
-	Route::get('admin', array('before' => 'auth', function() {});
+	Route::get('admin', array('before' => 'auth', function() {}));
 
 > **Note:** You are free to edit the **auth** filter however you like. A default implementation is located in **application/routes.php**.
 
