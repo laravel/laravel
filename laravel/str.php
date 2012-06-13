@@ -131,6 +131,31 @@ class Str {
 	}
 
 	/**
+	 * Limit the number of chracters in a string including custom ending
+	 * 
+	 * <code>
+	 *		// Returns "Taylor..."
+	 *		echo Str::limit_exact('Taylor Otwell', 9);
+	 *
+	 *		// Limit the number of characters and append a custom ending
+	 *		echo Str::limit_exact('Taylor Otwell', 9, '---');
+	 * </code>
+	 * 
+	 * @param  string  $value
+	 * @param  int     $limit
+	 * @param  string  $end
+	 * @return string
+	 */
+	public static function limit_exact($value, $limit = 100, $end = '...')
+	{
+		if (static::length($value) <= $limit) return $value;
+
+		$limit -= static::length($end);
+
+		return static::limit($value, $limit, $end);
+	}
+
+	/**
 	 * Limit the number of words in a string.
 	 *
 	 * <code>
