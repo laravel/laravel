@@ -3,6 +3,7 @@
 use Closure;
 use Laravel\Database;
 use Laravel\Paginator;
+use Laravel\Database\Query\Grammars\Postgres;
 use Laravel\Database\Query\Grammars\SQLServer;
 
 class Query {
@@ -751,19 +752,23 @@ class Query {
 	 * Insert an array of values into the database table and return the ID.
 	 *
 	 * @param  array   $values
-	 * @param  string  $sequence
+	 * @param  string  $column
 	 * @return int
 	 */
-	public function insert_get_id($values, $sequence = null)
+	public function insert_get_id($values, $column = 'id')
 	{
-		$sql = $this->grammar->insert($this, $values);
+		$sql = $this->grammar->insert_get_id($this, $values, $column);
 
-		$this->connection->query($sql, array_values($values));
+		$result = $this->connection->query($sql, array_values($values));
 
-		// Some database systems (Postgres) require a sequence name to be
-		// given when retrieving the auto-incrementing ID, so we'll pass
-		// the given sequence into the method just in case.
-		return (int) $this->connection->pdo->lastInsertId($sequence);
+		if ($this->grammar instanceof Postgres)
+		{
+			return (int) $result[0]->$column;
+		}
+		else
+		{
+			return (int) $this->connection->pdo->lastInsertId();
+		}
 	}
 
 	/**

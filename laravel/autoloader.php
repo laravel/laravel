@@ -102,7 +102,7 @@ class Autoloader {
 	protected static function load_psr($class, $directory = null)
 	{
 		// The PSR-0 standard indicates that class namespaces and underscores
-		// shoould be used to indcate the directory tree in which the class
+		// should be used to indcate the directory tree in which the class
 		// resides, so we'll convert them to slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 

@@ -85,12 +85,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record into the joining table of the association.
 	 *
-	 * @param  int    $id
-	 * @param  array  $joining
+	 * @param  Model|int    $id
+	 * @param  array  $attributes
 	 * @return bool
 	 */
 	public function attach($id, $attributes = array())
 	{
+		$id = $id instanceof Model ? $id->get_key() : $id;
+		
 		$joining = array_merge($this->join_record($id), $attributes);
 
 		return $this->insert_joining($joining);

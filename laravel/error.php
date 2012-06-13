@@ -13,7 +13,7 @@ class Error {
 	{
 		static::log($exception);
 
-		//ob_get_level() and ob_end_clean();
+		ob_get_level() and ob_end_clean();
 
 		// If detailed errors are enabled, we'll just format the exception into
 		// a simple error message and display it on the screen. We don't use a
