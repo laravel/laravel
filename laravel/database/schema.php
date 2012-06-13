@@ -171,4 +171,23 @@ class Schema {
 		throw new \Exception("Schema operations not supported for [$driver].");
 	}
 
+	/**
+	 * Check if a table exists
+	 *
+	 * @param  String  $table
+	 * @return Boolean
+	 */
+	public static function exists($table)
+	{
+		try
+		{
+			$r = \Laravel\Database::table($table)->first();
+			return true;
+		}
+		catch(Exception $e)
+		{
+			return false;
+		}
+	}
+
 }
