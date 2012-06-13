@@ -180,6 +180,7 @@ return array(
 		'URI'        	=> 'Laravel\\URI',
 		'Validator'  	=> 'Laravel\\Validator',
 		'View'       	=> 'Laravel\\View',
+		'FunctionRegister' => 'Laravel\\FunctionRegister',
 	),
 
 );
