@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.3](#3.3)
+- [Upgrading From 3.2](#upgrade-3.3)
 - [Laravel 3.2.2](#3.2.2)
 - [Upgrading From 3.2.1](#upgrade-3.2.2)
 - [Laravel 3.2.1](#3.2.1)
@@ -28,6 +30,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.3"></a>
+## Laravel 3.3
+
+- Added `laravel.resolving` event for all IoC resolutions.
+
+<a name="upgrade-3.3"></a>
+## Upgrading From 3.2
+
+- Replace the **laravel** folder.
 
 <a name="3.2.2"></a>
 ## Laravel 3.2.2
