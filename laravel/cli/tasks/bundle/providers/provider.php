@@ -27,7 +27,7 @@ abstract class Provider {
 
 		// When installing a bundle from a Zip archive, we'll first clone
 		// down the bundle zip into the bundles "working" directory so
-		// we have a spot to do all of our bundle extration work.
+		// we have a spot to do all of our bundle extraction work.
 		$target = $work.'laravel-bundle.zip';
 
 		File::put($target, $this->download($url));

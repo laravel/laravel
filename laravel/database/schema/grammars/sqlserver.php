@@ -32,7 +32,7 @@ class SQLServer extends Grammar {
 	}
 
 	/**
-	 * Geenrate the SQL statements for a table modification command.
+	 * Generate the SQL statements for a table modification command.
 	 *
 	 * @param  Table   $table
 	 * @param  Fluent  $command
@@ -42,7 +42,7 @@ class SQLServer extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the
+		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
@@ -235,7 +235,7 @@ class SQLServer extends Grammar {
 	{
 		$columns = array_map(array($this, 'wrap'), $command->columns);
 
-		// Once we the array of column names, we need to add "drop" to the front
+		// Once we have the array of column names, we need to add "drop" to the front
 		// of each column, then we'll concatenate the columns using commas and
 		// generate the alter statement SQL.
 		$columns = implode(', ', array_map(function($column)
@@ -260,7 +260,7 @@ class SQLServer extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqiue key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table   $table
 	 * @param  Fluent  $command

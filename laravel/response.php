@@ -239,7 +239,7 @@ class Response {
 	public function render()
 	{
 		// If the content is a stringable object, we'll go ahead and call
-		// to toString method so that we can get the string content of
+		// the toString method so that we can get the string content of
 		// the content object. Otherwise we'll just cast to string.
 		if (str_object($this->content))
 		{

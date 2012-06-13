@@ -101,7 +101,7 @@ class URL {
 			return $url;
 		}
 
-		// Unless $https is specified (true or false) then maintain the current request
+		// Unless $https is specified (true or false), we maintain the current request
 		// security for any new links generated.  So https for all secure links.
 		if (is_null($https)) $https = Request::secure();
 
@@ -169,7 +169,7 @@ class URL {
 	}
 
 	/**
-	 * Generate a action URL from a route definition
+	 * Generate an action URL from a route definition
 	 *
 	 * @param  array   $route
 	 * @param  string  $action
@@ -196,7 +196,7 @@ class URL {
 
 		$bundle = Bundle::get($bundle);
 
-		// If a bundle exists for the action, we will attempt to use it's "handles"
+		// If a bundle exists for the action, we will attempt to use its "handles"
 		// clause as the root of the generated URL, as the bundle can only handle
 		// URIs that begin with that string and no others.
 		$root = $bundle['handles'] ?: '';

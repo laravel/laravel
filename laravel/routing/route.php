@@ -10,7 +10,7 @@ use Laravel\Response;
 class Route {
 
 	/**
-	 * The URI the route response to.
+	 * The URI the route responds to.
 	 *
 	 * @var string
 	 */
@@ -52,7 +52,7 @@ class Route {
 	public $action;
 
 	/**
-	 * The parameters that will passed to the route callback.
+	 * The parameters that will be passed to the route callback.
 	 *
 	 * @var array
 	 */
@@ -79,7 +79,7 @@ class Route {
 
 		// We'll set the parameters based on the number of parameters passed
 		// compared to the parameters that were needed. If more parameters
-		// are needed, we'll merge in defaults.
+		// are needed, we'll merge in the defaults.
 		$this->parameters($action, $parameters);
 	}
 
@@ -96,7 +96,7 @@ class Route {
 
 		// If there are less parameters than wildcards, we will figure out how
 		// many parameters we need to inject from the array of defaults and
-		// merge them in into the main array for the route.
+		// merge them into the main array for the route.
 		if (count($defaults) > count($parameters))
 		{
 			$defaults = array_slice($defaults, count($parameters));

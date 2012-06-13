@@ -152,7 +152,7 @@ class IoC {
 		$reflector = new \ReflectionClass($type);
 
 		// If the type is not instantiable, the developer is attempting to resolve
-		// an abstract type such as an Interface of Abstract Class and there is
+		// an abstract type such as an Interface of an Abstract Class and there is
 		// no binding registered for the abstraction so we need to bail out.
 		if ( ! $reflector->isInstantiable())
 		{
@@ -189,7 +189,7 @@ class IoC {
 			$dependency = $parameter->getClass();
 
 			// If the class is null, it means the dependency is a string or some other
-			// primitive type, which we can not esolve since it is not a class and
+			// primitive type, which we can not resolve since it is not a class and
 			// we'll just bomb out with an error since we have nowhere to go.
 			if (is_null($dependency))
 			{

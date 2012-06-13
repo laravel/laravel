@@ -51,7 +51,7 @@ class Log {
 
 		// If there aren't listeners on the log event, we'll just write to the
 		// log files using the default conventions, writing one log file per
-		// day so they files don't get too crowded.
+		// day so the files don't get too crowded.
 		else
 		{
 			$message = static::format($type, $message);

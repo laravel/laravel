@@ -163,7 +163,7 @@ class View implements ArrayAccess {
 	{
 		$directory = str_finish($directory, DS);
 
-		// Views may have either the default PHP file extension of the "Blade"
+		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
 		if (file_exists($path = $directory.$view.EXT))
@@ -291,7 +291,7 @@ class View implements ArrayAccess {
 		}
 
 		// If there is no data in the array, we will render the contents of
-		// the "empty" view. Alternative, the "empty view" can be a raw
+		// the "empty" view. Alternatively, the "empty view" can be a raw
 		// string that is prefixed with "raw|" for convenience.
 		else
 		{

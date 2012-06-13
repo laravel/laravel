@@ -462,7 +462,7 @@ function root_namespace($class, $separator = '\\')
 /**
  * Get the "class basename" of a class or object.
  *
- * The basename is considered the name of the class minus all namespaces.
+ * The basename is considered to be the name of the class minus all namespaces.
  *
  * @param  object|string  $class
  * @return string
