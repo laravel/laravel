@@ -746,10 +746,11 @@ abstract class Model {
 			return static::$$method;
 		}
 
-		// Some methods need to be accessed both staticly and non-staticly so we'll
+		// Some methods need to be accessed both statically and non-statically so we'll
 		// keep underscored methods of those methods and intercept calls to them
 		// here so they can be called either way on the model instance.
-		if (in_array($method, array('with')))
+		// This also enables the usage of chainable custom finder methods
+		if (method_exists($this, '_'.$method))
 		{
 			return call_user_func_array(array($this, '_'.$method), $parameters);
 		}
