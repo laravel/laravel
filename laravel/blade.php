@@ -209,27 +209,19 @@ class Blade {
 	 */
 	protected static function compile_forelse($value)
 	{
-		preg_match_all('/(\s*)@forelse(\s*\(.*\))(\s*)/', $value, $matches);
-
-		foreach ($matches[0] as $forelse)
+		preg_match_all('/@forelse\s*\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
+		
+		foreach ($matches as $forelse)
 		{
-			preg_match('/\s*\(\s*(\S*)\s/', $forelse, $variable);
-
 			// Once we have extracted the variable being looped against, we can add
 			// an if statement to the start of the loop that checks if the count
 			// of the variable being looped against is greater than zero.
-			$if = "<?php if (count({$variable[1]}) > 0): ?>";
-
-			$search = '/(\s*)@forelse(\s*\(.*\))/';
-
-			$replace = '$1'.$if.'<?php foreach$2: ?>';
-
-			$blade = preg_replace($search, $replace, $forelse);
+			$replace = '<?php if (count('.$forelse[1].') > 0): ?><?php foreach ('.$forelse[1].' as '.$forelse[2].'): ?>';
 
 			// Finally, once we have the check prepended to the loop we'll replace
 			// all instances of this forelse syntax in the view content of the
 			// view being compiled to Blade syntax with real PHP syntax.
-			$value = str_replace($forelse, $blade, $value);
+			$value = str_replace($forelse[0], $replace, $value);
 		}
 
 		return $value;
