@@ -216,7 +216,7 @@ class Blade {
 			// Once we have extracted the variable being looped against, we can add
 			// an if statement to the start of the loop that checks if the count
 			// of the variable being looped against is greater than zero.
-			$replace = '<?php if (count('.$forelse[1].') > 0): ?><?php foreach ('.$forelse[1].' as '.$forelse[2].'): ?>';
+			$replace = '<?php if (count($'.$forelse[1].') > 0): ?><?php foreach ($'.$forelse[1].' as $'.$forelse[2].'): ?>';
 
 			// Finally, once we have the check prepended to the loop we'll replace
 			// all instances of this forelse syntax in the view content of the
