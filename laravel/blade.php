@@ -161,9 +161,6 @@ class Blade {
 			$value
 		);
 
-		// We will add a "render" statement to the end of the templates and
-		// then slice off the "@layout" shortcut from the start so the
-		// sections register before the parent template renders.
 		return $value;
 	}
 
