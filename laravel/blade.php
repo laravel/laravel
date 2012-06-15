@@ -149,19 +149,22 @@ class Blade {
 			return $value;
 		}
 
-		// First we'll split out the lines of the template so we can get the
-		// layout from the top of the template. By convention it must be
-		// located on the first line of the template contents.
-		$lines = preg_split("/(\r?\n)/", $value);
-
-		$pattern = static::matcher('layout');
-
-		$lines[] = preg_replace($pattern, '$1@include$2', $lines[0]);
+		// First we'll get the layout from the top of the template and remove it.
+		// Then it is replaced with @include and attached to the end.
+		// By convention it must be located on the first line of the template contents.
+		preg_replace_callback(
+			'/^@layout(\s*?\(.+?\))(\r?\n)?/',
+			function($matches) use (&$value)
+			{
+				$value = substr( $value, strlen( $matches[0] ) ).CRLF.'@include'.$matches[1];
+			},
+			$value
+		);
 
 		// We will add a "render" statement to the end of the templates and
 		// then slice off the "@layout" shortcut from the start so the
 		// sections register before the parent template renders.
-		return implode(CRLF, array_slice($lines, 1));
+		return $value;
 	}
 
 	/**
