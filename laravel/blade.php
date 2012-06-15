@@ -209,7 +209,7 @@ class Blade {
 	 */
 	protected static function compile_forelse($value)
 	{
-		preg_match_all('/@forelse\s*\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
+		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
 		
 		foreach ($matches as $forelse)
 		{
