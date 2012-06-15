@@ -118,6 +118,11 @@ class View implements ArrayAccess {
 	 */
 	public static function exists($view, $return_path = false)
 	{
+		if(starts_with($view, 'name: '))
+		{
+			$view = static::$names[substr($view, 6)];
+		}
+		
 		list($bundle, $view) = Bundle::parse($view);
 
 		$view = str_replace('.', '/', $view);
