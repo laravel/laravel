@@ -93,7 +93,7 @@ class Has_Many extends Has_One_Or_Many {
 
 		foreach ($parents as &$parent)
 		{
-			$matching = array_filter($children, function($v) use ($parent, $foreign)
+			$matching = array_filter($children, function($v) use (&$parent, $foreign)
 			{
 				return $v->$foreign == $parent->get_key();
 			});
