@@ -327,7 +327,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 		foreach ($parents as &$parent)
 		{
-			$matching = array_filter($children, function($v) use ($parent, $foreign)
+			$matching = array_filter($children, function($v) use (&$parent, $foreign)
 			{
 				return $v->pivot->$foreign == $parent->get_key();
 			});
