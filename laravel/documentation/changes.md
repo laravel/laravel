@@ -2,8 +2,8 @@
 
 ## Contents
 
-- [Laravel 3.3](#3.3)
-- [Upgrading From 3.2](#upgrade-3.3)
+- [Laravel 3.2.3](#3.2.3)
+- [Upgrading From 3.2.2](#upgrade-3.2.3)
 - [Laravel 3.2.2](#3.2.2)
 - [Upgrading From 3.2.1](#upgrade-3.2.2)
 - [Laravel 3.2.1](#3.2.1)
@@ -31,13 +31,14 @@
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
 
-<a name="3.3"></a>
-## Laravel 3.3
+<a name="3.2.3"></a>
+## Laravel 3.2.3
 
+- Fixed eager loading bug in Eloquent.
 - Added `laravel.resolving` event for all IoC resolutions.
 
-<a name="upgrade-3.3"></a>
-## Upgrading From 3.2
+<a name="upgrade-3.2.3"></a>
+## Upgrading From 3.2.2
 
 - Replace the **laravel** folder.
 
