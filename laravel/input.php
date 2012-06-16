@@ -29,6 +29,29 @@ class Input {
 
 		return $input;
 	}
+	
+	/**
+	* Get all of the input data filtered/validated
+	* See http://php.net/manual/de/filter.filters.validate.php
+	* for available filters
+	*
+	* <code>
+	*		$filtered_data = Input::all_filtered(array('email' => FILTER_VALIDATE_EMAIL,
+	*												   'age' => FILTER_VALIDATE_INT));
+	* </code>
+	*
+	*
+	*
+	* @param array $filters
+	*
+	* @return array
+	*/
+	public static function all_filtered($filters = array()) 
+	{
+		if(!empty($filters)) return filter_var_array(Input:all(), $filters);
+		else return Input::all();
+	}
+	
 
 	/**
 	 * Determine if the input data contains an item.
@@ -77,6 +100,28 @@ class Input {
 		}
 
 		return $value;
+	}
+	
+	/**
+	 * Get an item from the input data and filter/validate it
+	 *
+	 * See http://php.net/manual/de/filter.filters.validate.php
+	 * for available filters
+	 *
+	 * This method is used for all request verbs (GET, POST, PUT, and DELETE).
+	 *
+	 * <code>
+	 *		// Get the "email" item from the input array and validate it as an email address
+	 *		$email = Input::get_filtered('email', FILTER_VALIDATE_EMAIL);
+	 * </code>
+	 *
+	 * @param  string  $key
+	 * @param  int   $filter
+	 * @return mixed
+	 */
+	public static function get_filtered($key = null, $filter = null)
+	{
+		return filter_var(Input::get($key), $filter);
 	}
 
 	/**
