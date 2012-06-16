@@ -40,7 +40,7 @@ class Has_One extends Has_One_Or_Many {
 
 		foreach ($parents as &$parent)
 		{
-			$matching = array_first($children, function($k, $v) use ($parent, $foreign)
+			$matching = array_first($children, function($k, $v) use (&$parent, $foreign)
 			{
 				return $v->$foreign == $parent->get_key();
 			});
