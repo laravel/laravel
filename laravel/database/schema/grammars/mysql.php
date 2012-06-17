@@ -143,7 +143,7 @@ class MySQL extends Grammar {
 	{
 		if ($column->type == 'integer' and $column->increment)
 		{
-			return ' AUTO_INCREMENT PRIMARY KEY';
+			return ' UNSIGNED AUTO_INCREMENT PRIMARY KEY';
 		}
 	}
 
