@@ -158,7 +158,7 @@ class IoC {
 		// no binding registered for the abstraction so we need to bail out.
 		if ( ! $reflector->isInstantiable())
 		{
-			throw new Exception("Resolution target [$type] is not instantiable.");
+			throw new \Exception("Resolution target [$type] is not instantiable.");
 		}
 
 		$constructor = $reflector->getConstructor();
@@ -195,7 +195,7 @@ class IoC {
 			// we'll just bomb out with an error since we have nowhere to go.
 			if (is_null($dependency))
 			{
-				throw new Exception("Unresolvable dependency resolving [$parameter].");
+				throw new \Exception("Unresolvable dependency resolving [$parameter].");
 			}
 
 			$dependencies[] = static::resolve($dependency->name);
