@@ -46,8 +46,8 @@ return array(
 	),
 	"mimes"          => ":attribute muss eine Datei sein des Formats: :values.",
 	"min"            => array(
-		"numeric" => ":attribute muss größer sein als :min.",
-		"file"    => ":attribute muss größer sein als :min Kilobytes.",
+		"numeric" => ":attribute muss gr&ouml;&szlig;er sein als :min.",
+		"file"    => ":attribute muss gr&ouml;&szlig;er sein als :min Kilobytes.",
 		"string"  => ":attribute muss l&auml;nger sein als :min Zeichen.",
 	),
 	"not_in"         => "Die selektierte :attribute ist ung&uuml;ltig.",
