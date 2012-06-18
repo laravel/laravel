@@ -129,6 +129,8 @@ class IoC {
 			static::$singletons[$type] = $object;
 		}
 
+		Event::fire('laravel.resolving', array($type, $object));
+
 		return $object;
 	}
 

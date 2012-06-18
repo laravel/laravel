@@ -89,7 +89,7 @@ class Belongs_To extends Relationship {
 
 		foreach ($children as &$child)
 		{
-			$parent = array_first($parents, function($k, $v) use ($child, $foreign)
+			$parent = array_first($parents, function($k, $v) use (&$child, $foreign)
 			{
 				return $v->get_key() == $child->$foreign;
 			});
