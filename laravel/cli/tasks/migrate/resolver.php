@@ -158,13 +158,23 @@ class Resolver {
 			$bundle = $migration['bundle'];
 
 			$path = Bundle::path($bundle).'db/migrations/';
+			$alt_path = Bundle::path($bundle).'migrations/';
 
 			// Migrations are not resolved through the auto-loader, so we will
 			// manually instantiate the migration class instances for each of
 			// the migration names we're given.
 			$name = $migration['name'];
 
-			require_once $path.$name.EXT;
+			// Test the paths for backwards compatibility
+			$file = $path.$name.EXT;
+			if (File::exists($file))
+			{
+				require_once $path.$name.EXT;
+			}
+			else
+			{
+				require_once $alt_path.$name.EXT;
+			}
 
 			// Since the migration name will begin with the numeric ID, we'll
 			// slice off the ID so we are left with the migration class name.
@@ -206,6 +216,13 @@ class Resolver {
 	protected function migrations($bundle)
 	{
 		$files = glob(Bundle::path($bundle).'db/migrations/*_*'.EXT);
+
+		// For backwards compatibility...
+		$migrations_dir = Bundle::path($bundle).'migrations/';
+		if (File::exists($migrations_dir))
+		{
+			$files = array_merge(glob($migrations_dir.'*_*'.EXT), $files);
+		}
 
 		// When open_basedir is enabled, glob will return false on an
 		// empty directory, so we will return an empty array in this
