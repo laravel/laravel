@@ -498,7 +498,11 @@ class Router {
 				// full-text match of the pattern.
 				if (preg_match($pattern, $uri, $parameters))
 				{
-					return new Route($method, $route, $action, array_slice($parameters, 1));
+					$match = new Route($method, $route, $action, array_slice($parameters, 1));
+					if ($match->validates())
+					{
+						return $match;
+					}
 				}
 			}
 		}

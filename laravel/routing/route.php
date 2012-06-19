@@ -275,6 +275,21 @@ class Route {
 	}
 
 	/**
+	 * Determine if the route is valid for the parameters.
+	 * 
+	 * @return bool
+	 */
+	public function validates()
+	{
+		if ( ! empty($this->action['rules']))
+		{
+			return \Validator::make($this->parameters, $this->action['rules'])->passes();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Register a controller with the router.
 	 *
 	 * @param  string|array  $controllers
