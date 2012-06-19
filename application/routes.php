@@ -92,6 +92,10 @@ Event::listen('500', function()
 
 Route::filter('before', function()
 {
+	if(!Config::get('application.online'))
+	{
+		return View::make('offline');
+	}
 	// Do stuff before every request to your application...
 });
 

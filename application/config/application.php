@@ -4,6 +4,18 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Application Online
+	|--------------------------------------------------------------------------
+	|
+	| If your site is undergoing maintenance, set this to false. Each request
+	| will be responded with offline.blade.php found in the views folder.
+	|
+	*/
+	
+	'online' => true,
+	
+	/*
+	|--------------------------------------------------------------------------
 	| Application URL
 	|--------------------------------------------------------------------------
 	|
