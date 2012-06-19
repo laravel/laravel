@@ -320,7 +320,7 @@ abstract class Controller {
 			$action = "action_{$method}";
 		}
 
-		$response = call_user_func_array(array($this, $action), $parameters);
+		$response = call_user_func_assoc(array($this, $action), $parameters);
 
 		// If the controller has specified a layout view the response
 		// returned by the controller method will be bound to that
