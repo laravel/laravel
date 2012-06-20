@@ -102,7 +102,8 @@ class Request {
 	 */
 	public static function ip($default = '0.0.0.0')
 	{
-		return value(static::foundation()->getClientIp(), $default);
+		$client_ip = static::foundation()->getClientIp();
+		return $client_ip === NULL ? $default : $client_ip;
 	}
 
 	/**
