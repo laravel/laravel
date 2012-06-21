@@ -32,19 +32,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		return $this->concatenate($this->components($query));
 	}
-	
-	/**
-	 * Generates a SQL SHOW columns statement from a Query instance.
-	 *
-	 * @param  Query   $query
-	 * @return string
-	 */
-	public function show(Query $query)
-	{
-		$table = $this->wrap_table($query->from);
-		$sql = "show columns FROM {$table}";
-		return $sql;
-	}
+
 	/**
 	 * Generate the SQL for every component of the query.
 	 *
