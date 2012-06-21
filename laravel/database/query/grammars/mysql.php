@@ -18,8 +18,7 @@ class MySQL extends Grammar {
 	public function show(Query $query)
 	{
 		$table = $this->wrap_table($query->from);
-		$sql = "show columns FROM {$table}";
-		return $sql;
+		return "show columns FROM {$table}";
 	}
 
 }
