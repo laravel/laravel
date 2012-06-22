@@ -143,6 +143,18 @@ class Query {
 		$this->selects = (array) $columns;
 		return $this;
 	}
+	
+	/**
+	 * Shows all the columns in the table.
+	 *
+	 * @return array
+	 */
+	public function columns()
+	{
+		$sql =	$this->grammar->show($this);
+		$result = $this->connection->query($sql, $this->bindings);
+		return $result;
+	}
 
 	/**
 	 * Add a join clause to the query.

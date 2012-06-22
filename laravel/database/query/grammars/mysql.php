@@ -8,5 +8,17 @@ class MySQL extends Grammar {
 	 * @var string
 	 */
 	protected $wrapper = '`%s`';
+	
+	/**
+	 * Generates a SQL SHOW columns statement from a Query instance.
+	 *
+	 * @param  Query   $query
+	 * @return string
+	 */
+	public function show(Query $query)
+	{
+		$table = $this->wrap_table($query->from);
+		return "show columns FROM {$table}";
+	}
 
 }
