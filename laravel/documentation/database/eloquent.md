@@ -65,7 +65,7 @@ Need to retrieve an entire table? Just use the static **all** method:
 	     echo $user->email;
 	}
 
-Of course, retrieving an entire table isn't very helpful. Thankfully, **every method that is available through the fluent query builder is available in Eloquent**. Just begin querying your model with a static call to one of the [query builder](/docs/database/query) methods, and execute the query using the **get** or **first** method. The get method will return an array of models, while the first method will return a single model:
+Of course, retrieving an entire table isn't very helpful. Thankfully, **every method that is available through the fluent query builder is available in Eloquent**. Just begin querying your model with a static call to one of the [query builder](/docs/database/fluent) methods, and execute the query using the **get** or **first** method. The get method will return an array of models, while the first method will return a single model:
 
 	$user = User::where('email', '=', $email)->first();
 
