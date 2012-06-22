@@ -143,6 +143,18 @@ class Query {
 		$this->selects = (array) $columns;
 		return $this;
 	}
+	
+	/**
+	 * Shows all the columns in the table.
+	 *
+	 * @return array
+	 */
+	public function columns()
+	{
+		$sql = "SELECT column_name, column_type FROM information_schema.columns WHERE table_name ='{$this->from}'";
+		$result = $this->connection->query($sql, $this->bindings);
+		return $result;
+	}
 
 	/**
 	 * Add a join clause to the query.
