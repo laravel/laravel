@@ -14,6 +14,15 @@ class Profiler {
 	 * @var array
 	 */
 	protected static $data = array('queries' => array(), 'logs' => array());
+	
+	/**
+	 * The time when the profiler was setup.
+	 *
+	 * This is used for generating the total page rendering time.
+	 *
+	 * @var float
+	 */
+	protected static $start_time;
 
 	/**
 	 * Get the rendered contents of the Profiler.
@@ -28,6 +37,10 @@ class Profiler {
 		// type applications, so we will not send anything in those scenarios.
 		if ( ! Request::ajax())
 		{
+			if ($this->start_time)
+			{
+				static::$data['time'] = number_format((microtime(true) - $this->start_time) * 1000, 2);
+			}
 			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
 		}
 	}
@@ -67,6 +80,9 @@ class Profiler {
 	 */
 	public static function attach()
 	{
+		// Record when the profiler was setup (as a rough measure for render time)
+		$this->start_time = microtime(true);
+		
 		// First we'll attach to the query and log events. These allow us to catch
 		// all of the SQL queries and log messages that come through Laravel,
 		// and we will pass them onto the Profiler for simple storage.
