@@ -356,7 +356,47 @@ class View implements ArrayAccess {
 		// will throw it out to the exception handler.
 		try
 		{
+			$view = $this;
+			set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext) use ($view, $__contents)
+			{
+				if (in_array($errno, Config::get('error.ignore', array())))
+				{
+					// Error level is to be ignored
+					return;
+				}
+				$path = str_replace(path('base'), '', $view->path);
+				echo $errstr.' on line '.$errline.' of '.$path.':';
+
+				$lines = explode("\n", $__contents);
+
+				// Get some context if possible
+				$context_start = $errline - 4;
+				$context_end = $errline + 2;
+				while ( ! isset($lines[$context_start]))
+				{
+					$context_start++;
+				}
+				while ( ! isset($lines[$context_end]))
+				{
+					$context_end--;
+				}
+
+				// Print the code
+				echo '<br /><br /><code>';
+				for ($i = $context_start; $i <= $context_end; $i++)
+				{
+					if ($i+1 == $errline) echo "<strong>\n";
+					$line = str_replace(array('<code>', '</code>'), '', highlight_string($lines[$i], true));
+					//$line = substr($line, 4);
+					echo str_replace(' ', '&nbsp;', str_pad($i+1, 4, ' ', STR_PAD_LEFT)).$line;
+					if ($i+1 == $errline) echo '</strong>';
+					echo '<br />';
+				}
+				echo '</code>';
+				die();
+			});
 			eval('?>'.$__contents);
+			restore_error_handler();
 		}
 
 		// If we caught an exception, we'll silently flush the output
