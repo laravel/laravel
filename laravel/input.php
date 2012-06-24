@@ -217,7 +217,10 @@ class Input {
 	public static function file_uploaded($key)
 	{
 		$file = static::file($key);
-		return static::has_file($key) and $file['error'] === 0;
+
+		if (is_null($file)) return false;
+
+		return $file['error'] === 0;	
 	}
 
 	/**
