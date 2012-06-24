@@ -359,10 +359,10 @@ class View implements ArrayAccess {
 			$view = $this;
 			set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext) use ($view, $__contents)
 			{
-				if (in_array($errno, Config::get('error.ignore', array())))
+				if (in_array($errno, Config::get('error.ignore', array())) || ! strrpos($errstr, 'eval'))
 				{
-					// Error level is to be ignored
-					return;
+					// Error level is to be ignored or it's not an eval error
+					return false;
 				}
 				$path = str_replace(path('base'), '', $view->path);
 				echo $errstr.' on line '.$errline.' of '.$path.':';
