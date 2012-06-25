@@ -12,7 +12,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-Almost every interactive web application needs to validate data. For instance, a registration form probably requires the password to be confirmed. Maybe the e-mail address must be unique. Validating data can be a cumbersome process. Thankfully, it isn't in Laravel. The Validator class provides as awesome array of validation helpers to make validating your data a breeze. Let's walk through an example:
+Almost every interactive web application needs to validate data. For instance, a registration form probably requires the password to be confirmed. Maybe the e-mail address must be unique. Validating data can be a cumbersome process. Thankfully, it isn't in Laravel. The Validator class provides an awesome array of validation helpers to make validating your data a breeze. Let's walk through an example:
 
 #### Get an array of data you want to validate:
 
