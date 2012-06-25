@@ -4,6 +4,7 @@
 - [Installation & Setup](/docs/install)
 	- [Requirements](/docs/install#requirements)
 	- [Installation](/docs/install#installation)
+	- [Server Configuration: Why Public?](/docs/install#server-configuration)
 	- [Basic Configuration](/docs/install#basic-configuration)
 	- [Environments](/docs/install#environments)
 	- [Cleaner URLs](/docs/install#cleaner-urls)
