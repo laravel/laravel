@@ -14,13 +14,13 @@ class Eloquent extends Driver {
 	{
 		// We return an object here either if the passed token is an integer (ID)
 		// or if we are passed a model object of the correct type
-		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
+		if (filter_var($token, FILTER_VALIDATE_INT) !== false)
 		{
-			return $this->model()->find($id);
+			return $this->model()->find($token);
 		}
-		else if (get_class($id) == Config::get('auth.model'))
+		else if (get_class($token) == Config::get('auth.model'))
 		{
-			return $id;
+			return $token;
 		}
 	}
 
