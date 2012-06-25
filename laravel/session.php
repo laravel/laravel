@@ -1,4 +1,4 @@
-<?php namespace Laravel;
+<?php namespace Laravel; use Closure;
 
 class Session {
 

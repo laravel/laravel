@@ -164,6 +164,8 @@ Great! Now, we can simply return the "profile" view from our route:
 
 The profile view will automatically use the "master" template thanks to Blade's **@layout** expression.
 
+**Important:** The **@layout** call must always be on the very first line of the file, with no leading whitespaces or newline breaks.
+
 Sometimes you may want to only append to a section of a layout rather than overwrite it. For example, consider the navigation list in our "master" layout. Let's assume we just want to append a new list item. Here's how to do it:
 
 	@layout('master')

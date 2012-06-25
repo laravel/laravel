@@ -278,7 +278,7 @@ class Blade {
 	 */
 	protected static function compile_structure_closings($value)
 	{
-		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile)(\s*)/';
+		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile|break)(\s*)/';
 
 		return preg_replace($pattern, '$1<?php $2; ?>$3', $value);
 	}

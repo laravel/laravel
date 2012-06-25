@@ -194,7 +194,7 @@ class Connection {
 			return $statement->rowCount();
 		}
 		// For insert statements that use the "returning" clause, which is allowed
-		// by databsae systems such as Postgres, we need to actually return the
+		// by database systems such as Postgres, we need to actually return the
 		// real query result so the consumer can get the ID.
 		elseif (stripos($sql, 'insert') === 0 and stripos($sql, 'returning') !== false)
 		{
