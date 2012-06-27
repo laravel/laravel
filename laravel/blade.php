@@ -27,6 +27,7 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
+		'assign',
 	);
 
 	/**
@@ -410,6 +411,17 @@ class Blade {
 	protected static function compile_section_end($value)
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
+	}
+	
+	/**
+	 * Rewrites Blade @assign statements into valid PHP
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_assign($value)
+	{
+		return preg_replace('/(\s*)@assign(\s*)(\()(.*)(\))(\s*)/', '$1<?php $4; ?>$6', $value);
 	}
 
 	/**
