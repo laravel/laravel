@@ -82,7 +82,8 @@ class Runner extends Task {
 		$path = path('base').'phpunit.xml';
 		
 		// fix the spaced directories problem when using the command line
-		$path = str_replace(" ", "\\ ", $path);
+		// strings with spaces inside should be wrapped in quotes.
+		$path = escapeshellarg($path)
 
 		passthru('phpunit --configuration '.$path);
 
