@@ -260,9 +260,42 @@ class Blade {
 	 */
 	protected static function compile_structure_openings($value)
 	{
-		$pattern = '/@(if|elseif|foreach|for|while)\s*?(\(.+?\))/';
-
-		return preg_replace($pattern, '<?php $1$2: ?>', $value);
+		preg_replace_callback(
+			'/@(if|elseif|foreach|for|while)(\s*?)(\([^\n\r\t]+\))/',
+			function($matches) use (&$value)
+			{
+				if(count( $matches ) === 4)
+				{
+					$open  = 0;
+					$close = 0;
+					$cut   = 0;
+					$len   = strlen($matches[3]);
+					for($i = 0; $i < $len; $i++)
+					{
+						if($matches[3][$i] === '(' )
+						{
+							$open++;
+						}
+						if($matches[3][$i] === ')' )
+						{
+							$close++;
+						}
+						if($open !== 0 && ($open === $close))
+						{
+							break;
+						}
+					}
+					$condition = substr($matches[3], 0, ($i + 1));
+					$value = str_replace(
+						'@'.$matches[1].$matches[2].$condition,
+						'<?php '.$matches[1].$condition.': ?>',
+						$value
+					);
+				}
+			},
+			$value
+		);
+		return $value;
 	}
 
 	/**
