@@ -5,6 +5,7 @@
 - [Storing Items](#put)
 - [Retrieving Items](#get)
 - [Removing Items](#forget)
+- [Flashing Items](#flash)
 - [Regeneration](#regeneration)
 
 <a name="put"></a>
@@ -15,10 +16,6 @@ To store items in the session call the put method on the Session class:
 	Session::put('name', 'Taylor');
 
 The first parameter is the **key** to the session item. You will use this key to retrieve the item from the session. The second parameter is the **value** of the item.
-
-The **flash** method stores an item in the session that will expire after the next request. It's useful for storing temporary data like status or error messages:
-
-	Session::flash('status', 'Welcome Back!');
 
 <a name="get"></a>
 ## Retrieving Items
@@ -52,6 +49,28 @@ To remove an item from the session use the **forget** method on the Session clas
 You can even remove all of the items from the session using the **flush** method:
 
 	Session::flush();
+
+<a name="flash"></a>
+## Flashing Items
+
+The **flash** method stores an item in the session that will expire after the next request. It's useful for storing temporary data like status or error messages:
+
+	Session::flash('status', 'Welcome Back!');
+	
+Flash items that are expring in subsequent requests can be retained for another request by using one of the following methods:
+
+Retain all items for another request:
+
+	Session::reflash();
+	
+Retain an individual item for another request:
+	
+	Session::keep('status');
+	
+Retain several items for another request:
+	
+	Session::keep(array('status', 'other_item'));
+
 
 <a name="regeneration"></a>
 ## Regeneration
