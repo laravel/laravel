@@ -12,6 +12,7 @@
 - [Working With Intermediate Tables](#intermediate-tables)
 - [Eager Loading](#eager)
 - [Constraining Eager Loads](#constraining-eager-loads)
+- [Eager Loading in the Controller](#eager-loading-in-controller)
 - [Setter & Getter Methods](#getter-and-setter-methods)
 - [Mass-Assignment](#mass-assignment)
 - [Converting Models To Arrays](#to-array)
@@ -418,6 +419,31 @@ Sometimes you may wish to eager load a relationship, but also specify a conditio
 	}))->get();
 
 In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
+
+<a name="eager-loading-in-controller"></a>
+## Eager Loading in the Controller
+
+If you find yourself eager loading the same models often, you may want to use **$includes** in the controller.
+
+	class Book extends Eloquent {
+
+	     $includes = array('author');
+	     
+	     public function author()
+	     {
+	          return $this->belongs_to('Author');
+	     }
+
+	}
+	
+**$includes** takes the same arguments that **with** takes. The following is now eagerly loaded.
+
+	foreach (Book::all() as $book)
+	{
+	     echo $book->author->name;
+	}
+
+Using **with** will override a controllers **$includes**.
 
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
