@@ -71,7 +71,6 @@ Retain several items for another request:
 	
 	Session::keep(array('status', 'other_item'));
 
-
 <a name="regeneration"></a>
 ## Regeneration
 
