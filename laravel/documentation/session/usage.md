@@ -57,7 +57,7 @@ The **flash** method stores an item in the session that will expire after the ne
 
 	Session::flash('status', 'Welcome Back!');
 	
-Flash items that are expring in subsequent requests can be retained for another request by using one of the **reflash** or **keep** methods:
+Flash items that are expiring in subsequent requests can be retained for another request by using one of the **reflash** or **keep** methods:
 
 Retain all items for another request:
 
