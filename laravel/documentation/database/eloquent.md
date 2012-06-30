@@ -12,7 +12,6 @@
 - [Working With Intermediate Tables](#intermediate-tables)
 - [Eager Loading](#eager)
 - [Constraining Eager Loads](#constraining-eager-loads)
-- [Eager Loading in the Model](#eager-loading-in-model)
 - [Setter & Getter Methods](#getter-and-setter-methods)
 - [Mass-Assignment](#mass-assignment)
 - [Converting Models To Arrays](#to-array)
@@ -407,22 +406,6 @@ You may even eager load nested relationships. For example, let's assume our **Au
 
 	$books = Book::with(array('author', 'author.contacts'))->get();
 
-<a name="constraining-eager-loads"></a>
-## Constraining Eager Loads
-
-Sometimes you may wish to eager load a relationship, but also specify a condition for the eager load. It's simple. Here's what it looks like:
-
-	$users = User::with(array('posts' => function($query)
-	{
-		$query->where('title', 'like', '%first%');
-
-	}))->get();
-
-In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
-
-<a name="eager-loading-in-model"></a>
-## Eager Loading in the Model
-
 If you find yourself eager loading the same models often, you may want to use **$includes** in the model.
 
 	class Book extends Eloquent {
@@ -443,7 +426,20 @@ If you find yourself eager loading the same models often, you may want to use **
 	     echo $book->author->name;
 	}
 
-Using **with** will override a models **$includes**.
+> **Note:** Using **with** will override a models **$includes**.
+
+<a name="constraining-eager-loads"></a>
+## Constraining Eager Loads
+
+Sometimes you may wish to eager load a relationship, but also specify a condition for the eager load. It's simple. Here's what it looks like:
+
+	$users = User::with(array('posts' => function($query)
+	{
+		$query->where('title', 'like', '%first%');
+
+	}))->get();
+
+In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
 
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
