@@ -12,7 +12,7 @@
 - [Working With Intermediate Tables](#intermediate-tables)
 - [Eager Loading](#eager)
 - [Constraining Eager Loads](#constraining-eager-loads)
-- [Eager Loading in the Controller](#eager-loading-in-controller)
+- [Eager Loading in the Model](#eager-loading-in-model)
 - [Setter & Getter Methods](#getter-and-setter-methods)
 - [Mass-Assignment](#mass-assignment)
 - [Converting Models To Arrays](#to-array)
@@ -420,14 +420,14 @@ Sometimes you may wish to eager load a relationship, but also specify a conditio
 
 In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
 
-<a name="eager-loading-in-controller"></a>
-## Eager Loading in the Controller
+<a name="eager-loading-in-model"></a>
+## Eager Loading in the Model
 
-If you find yourself eager loading the same models often, you may want to use **$includes** in the controller.
+If you find yourself eager loading the same models often, you may want to use **$includes** in the model.
 
 	class Book extends Eloquent {
 
-	     $includes = array('author');
+	     public $includes = array('author');
 	     
 	     public function author()
 	     {
@@ -443,7 +443,7 @@ If you find yourself eager loading the same models often, you may want to use **
 	     echo $book->author->name;
 	}
 
-Using **with** will override a controllers **$includes**.
+Using **with** will override a models **$includes**.
 
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
