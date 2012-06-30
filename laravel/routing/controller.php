@@ -34,6 +34,13 @@ abstract class Controller {
 	public $restful = false;
 
 	/**
+	 * Indicates if the controller uses AJAXful routing.
+	 *
+	 * @var bool
+	 */
+	public $ajaxful = false;
+
+	/**
 	 * The filters assigned to the controller.
 	 *
 	 * @var array
@@ -318,6 +325,11 @@ abstract class Controller {
 		else
 		{
 			$action = "action_{$method}";
+		}
+
+		if ($this->ajaxful and Request::ajax())
+		{
+			$action = "ajax_{$action}";
 		}
 
 		$response = call_user_func_array(array($this, $action), $parameters);
