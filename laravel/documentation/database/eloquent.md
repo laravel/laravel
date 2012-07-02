@@ -406,6 +406,28 @@ You may even eager load nested relationships. For example, let's assume our **Au
 
 	$books = Book::with(array('author', 'author.contacts'))->get();
 
+If you find yourself eager loading the same models often, you may want to use **$includes** in the model.
+
+	class Book extends Eloquent {
+
+	     public $includes = array('author');
+	     
+	     public function author()
+	     {
+	          return $this->belongs_to('Author');
+	     }
+
+	}
+	
+**$includes** takes the same arguments that **with** takes. The following is now eagerly loaded.
+
+	foreach (Book::all() as $book)
+	{
+	     echo $book->author->name;
+	}
+
+> **Note:** Using **with** will override a models **$includes**.
+
 <a name="constraining-eager-loads"></a>
 ## Constraining Eager Loads
 
@@ -418,6 +440,7 @@ Sometimes you may wish to eager load a relationship, but also specify a conditio
 	}))->get();
 
 In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
+
 
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
