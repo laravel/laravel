@@ -96,7 +96,12 @@ class Runner extends Task {
 	{
 		$path = path('sys').'cli/tasks/test/';
 
-		$stub = File::get($path.'stub.xml');
+		$stub = File::get(path('app').'tests/stub.xml');
+
+		if ($stub === null)
+		{
+			$stub = File::get($path.'stub.xml');
+		}
 
 		// The PHPUnit bootstrap file contains several items that are swapped
 		// at test time. This allows us to point PHPUnit at a few different
