@@ -26,6 +26,20 @@ class Table {
 	public $engine;
 
 	/**
+	 * The character set that should be used for the table.
+	 *
+	 * @var string
+	 */
+	public $charset;
+
+	/**
+	 * The collation that should be used for the table.
+	 *
+	 * @var string
+	 */
+	public $collation;
+
+	/**
 	 * The columns that should be added to the table.
 	 *
 	 * @var array
@@ -48,6 +62,12 @@ class Table {
 	public function __construct($name)
 	{
 		$this->name = $name;
+		// Set the default character set for the table to be the same as the
+		// character set in the database configuration.  This can be overridden
+		// with the charset() method.
+		// 
+		// Is there a better way to retrieve this value from the database config?
+		$this->charset = \Laravel\Config::get('database.connections.mysql.charset');
 	}
 
 	/**
@@ -70,6 +90,26 @@ class Table {
 	public function primary($columns, $name = null)
 	{
 		return $this->key(__FUNCTION__, $columns, $name);
+	}
+
+	/**
+	 * Set an alternative character set for the table.
+	 * 
+	 * @param string $charset
+	 */
+	public function charset($charset)
+	{
+		$this->charset = $charset;
+	}
+
+	/**
+	 * Set an alternative collation for the table.
+	 * 
+	 * @param string $collation
+	 */
+	public function collate($collation)
+	{
+		$this->collation = $collation;
 	}
 
 	/**
