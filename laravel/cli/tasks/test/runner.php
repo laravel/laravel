@@ -81,7 +81,9 @@ class Runner extends Task {
 		// us to flexibly run tests for any setup.
 		$path = path('base').'phpunit.xml';
 
-		passthru('phpunit --configuration '.$path);
+		$args = array_slice($_SERVER['argv'], 2);
+
+		passthru("phpunit --configuration {$path} ".implode(' ', $args));
 
 		@unlink($path);
 	}
