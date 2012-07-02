@@ -62,6 +62,7 @@
 			</a>
 		</li>
 		<li><a class="anbu-tab">Time <span class="anbu-count">{{ $time }}ms</span></a></li>
+		<li><a class="anbu-tab">Memory <span class="anbu-count">{{ $memory }} ({{ $memory_peak }})</span></a></li>
 		<li class="anbu-tab-right"><a id="anbu-hide" href="#">&#8614;</a></li>
 		<li class="anbu-tab-right"><a id="anbu-close" href="#">&times;</a></li>
 		<li class="anbu-tab-right"><a id="anbu-zoom" href="#">&#8645;</a></li>
