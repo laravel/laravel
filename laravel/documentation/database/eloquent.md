@@ -441,7 +441,6 @@ Sometimes you may wish to eager load a relationship, but also specify a conditio
 
 In this example, we're eager loading the posts for the users, but only if the post's "title" column contains the word "first".
 
-
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
 
