@@ -131,6 +131,22 @@ Need to maintain creation and update timestamps on your database records? With E
 
 Next, add **created_at** and **updated_at** date columns to your table. Now, whenever you save the model, the creation and update timestamps will be set automatically. You're welcome.
 
+By default Eloquent uses `DateTime` to generate the timestamps. What if you want to use UNIX timestamps? Add the following static methods to your model:
+
+	class User extends Eloquent {
+
+	     public static $timestamps = true;
+
+	     public static function created_at() {
+		  return time();
+	     }
+
+	     public static function updated_at() {
+		  return time();
+	     }
+
+	}
+
 > **Note:** You can change the default timezone of your application in the **application/config/application.php** file.
 
 <a name="relationships"></a>

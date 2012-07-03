@@ -368,7 +368,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_date(Fluent $column)
 	{
-		return 'TIMESTAMP(0) WITHOUT TIME ZONE';
+		return ($column->unix) ? 'INT' : 'TIMESTAMP(0) WITHOUT TIME ZONE';
 	}
 
 	/**
@@ -379,7 +379,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_timestamp(Fluent $column)
 	{
-		return 'TIMESTAMP';
+		return ($column->unix) ? 'INT' : 'TIMESTAMP';
 	}
 
 	/**

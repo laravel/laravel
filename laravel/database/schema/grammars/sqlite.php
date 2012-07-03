@@ -312,7 +312,7 @@ class SQLite extends Grammar {
 	 */
 	protected function type_date(Fluent $column)
 	{
-		return 'DATETIME';
+		return ($column->unix) ? 'INTEGER' : 'DATETIME';
 	}
 
 	/**
@@ -323,7 +323,7 @@ class SQLite extends Grammar {
 	 */
 	protected function type_timestamp(Fluent $column)
 	{
-		return 'DATETIME';
+		return ($column->unix) ? 'INTEGER' : 'DATETIME';
 	}
 
 	/**

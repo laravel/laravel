@@ -185,9 +185,33 @@ abstract class Model {
 	 */
 	public static function accessible($attributes = null)
 	{
-		if (is_null($attributes)) return static::$accessible;
+		if (is_null($attributes)) {
+			return static::$accessible;
+		}
 
 		static::$accessible = $attributes;
+	}
+
+	/**
+	 * Returns the timestamp for the created_at attribute.
+	 *
+	 * @static
+	 * @return \DateTime
+	 */
+	public static function created_at()
+	{
+		return new \DateTime;
+	}
+
+	/**
+	 * Returns the timestamp for the updated_at attribute.
+	 *
+	 * @static
+	 * @return \DateTime
+	 */
+	public static function updated_at()
+	{
+		return new \DateTime;
 	}
 
 	/**
@@ -218,7 +242,7 @@ abstract class Model {
 	{
 		$model = new static(array(), true);
 
-		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
+		if (static::$timestamps) $attributes['updated_at'] = static::updated_at();
 
 		return $model->query()->where($model->key(), '=', $id)->update($attributes);
 	}
@@ -465,9 +489,9 @@ abstract class Model {
 	 */
 	protected function timestamp()
 	{
-		$this->updated_at = new \DateTime;
+		$this->updated_at = static::updated_at();
 
-		if ( ! $this->exists) $this->created_at = $this->updated_at;
+		if (!$this->exists) $this->created_at = static::created_at();
 	}
 
 	/**
