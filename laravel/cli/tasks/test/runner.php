@@ -58,6 +58,9 @@ class Runner extends Task {
 		if (count($bundles) == 0)
 		{
 			$bundles = Bundle::names();
+
+			// Don't forget the default bundle!
+			$bundles[] = DEFAULT_BUNDLE;
 		}
 
 		$to_run = array();
