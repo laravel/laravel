@@ -119,7 +119,7 @@ class Runner extends Task {
 	{
 		$path = path('sys').'cli/tasks/test/';
 
-		$stub = File::get(path('app').'tests/stub.xml');
+		$stub = File::get($directory.'/stub.xml');
 
 		if ($stub === null)
 		{
