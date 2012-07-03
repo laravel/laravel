@@ -8,13 +8,19 @@ use Laravel\CLI\Tasks\Task;
 class Runner extends Task {
 
 	/**
+	 * Test arguments that are passed to PHPUnit
+	 * @var array
+	 */
+	public $test_args = array();
+
+	/**
 	 * Run all of the unit tests for the application.
 	 *
 	 * @return void
 	 */
 	public function run($bundles = array())
 	{
-		if (count($bundles) == 0) $bundles = array(DEFAULT_BUNDLE);
+		$this->test_args = array_slice($_SERVER['argv'], 2);
 
 		$this->bundle($bundles);
 	}
@@ -54,18 +60,32 @@ class Runner extends Task {
 			$bundles = Bundle::names();
 		}
 
-		foreach ($bundles as $bundle)
+		$to_run = array();
+
+		foreach ($bundles as $index => $bundle)
+		{
+			if (is_dir($path = Bundle::path($bundle).'tests'))
+			{
+				// Check if any of our bundles have tests that can be run
+				$to_run[] = $path;
+
+				// Remove the bundle from our test args
+				if (array_key_exists($index, $this->test_args) && $this->test_args[$index] === $bundle)
+				{
+					unset($this->test_args[$index]);
+				}
+			}
+		}
+
+		foreach ($to_run as $path)
 		{
 			// To run PHPUnit for the application, bundles, and the framework
 			// from one task, we'll dynamically stub PHPUnit.xml files via
 			// the task and point the test suite to the correct directory
 			// based on what was requested.
-			if (is_dir($path = Bundle::path($bundle).'tests'))
-			{
-				$this->stub($path);
+			$this->stub($path);
 
-				$this->test();				
-			}
+			$this->test();
 		}
 	}
 
@@ -81,9 +101,7 @@ class Runner extends Task {
 		// us to flexibly run tests for any setup.
 		$path = path('base').'phpunit.xml';
 
-		$args = array_slice($_SERVER['argv'], 2);
-
-		passthru("phpunit --configuration {$path} ".implode(' ', $args));
+		passthru("phpunit --configuration {$path} ".implode(' ', $this->test_args));
 
 		@unlink($path);
 	}
