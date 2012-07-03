@@ -64,8 +64,11 @@ Command  | Description
 `$table->float('amount');`  |  FLOAT equivalent to the table
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
 `$table->date('created_at');`  |  DATE equivalent to the table
+`$table->date('created_at', true);` | INTEGER equivalent to the table
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent to the table
+`$table->timestamp('added_on', true);` | INTEGER equivalent to the table
 `$table->timestamps();`  |  Adds **created\_at** and **updated\_at** columns
+`$table->timestamps(true);` | Adds **created\_at** and **updated\_at** INTEGER columns
 `$table->text('description');`  |  TEXT equivalent to the table
 `$table->blob('data');`  |  BLOB equivalent to the table
 `->nullable()`  |  Designate that the column allows NULL values

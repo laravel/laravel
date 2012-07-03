@@ -305,35 +305,38 @@ class Table {
 	/**
 	 * Create date-time columns for creation and update timestamps.
 	 *
+	 * @param bool $unix use unix timestamps
 	 * @return void
 	 */
-	public function timestamps()
+	public function timestamps($unix = false)
 	{
-		$this->date('created_at');
+		$this->date('created_at', $unix);
 
-		$this->date('updated_at');
+		$this->date('updated_at', $unix);
 	}
 
 	/**
 	 * Add a date-time column to the table.
 	 *
 	 * @param  string  $name
+	 * @param  bool    $unix
 	 * @return Fluent
 	 */
-	public function date($name)
+	public function date($name, $unix = false)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'unix'));
 	}
 
 	/**
 	 * Add a timestamp column to the table.
 	 *
 	 * @param  string  $name
+	 * @param  bool    $unix
 	 * @return Fluent
 	 */
-	public function timestamp($name)
+	public function timestamp($name, $unix = false)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'unix'));
 	}
 
 	/**
