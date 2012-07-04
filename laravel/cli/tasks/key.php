@@ -2,6 +2,7 @@
 
 use Laravel\Str;
 use Laravel\File;
+use Laravel\Request;
 
 class Key extends Task {
 
@@ -19,7 +20,11 @@ class Key extends Task {
 	 */
 	public function __construct()
 	{
-		$this->path = path('app').'config/application'.EXT;
+        if ($environment = Request::env()) {
+            $this->path = path('app').'config/'.$environment.'/application'.EXT;
+        } else {
+            $this->path = path('app').'config/application'.EXT;
+        }
 	}
 
 	/**
@@ -30,6 +35,12 @@ class Key extends Task {
 	 */
 	public function generate($arguments = array())
 	{
+		if(!file_exists($this->path)) {
+			echo "The application.php file in your environment does not exist!";
+			echo PHP_EOL;
+			return;
+		}
+
 		// By default the Crypter class uses AES-256 encryption which uses
 		// a 32 byte input vector, so that is the length of string we will
 		// generate for the application token unless another length is
