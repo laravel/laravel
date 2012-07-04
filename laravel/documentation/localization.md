@@ -33,7 +33,7 @@ Next, you should create a corresponding **marketing.php** file within the **appl
 
 Nice! Now you know how to get started setting up your language files and directories. Let's keep localizing!
 
-<a name="basics"></a>
+<a name="get"></a>
 ## Retrieving A Language Line
 
 #### Retrieving a language line:
