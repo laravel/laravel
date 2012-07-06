@@ -42,6 +42,7 @@ class Messages {
 	public function add($key, $message)
 	{
 		if ($this->unique($key, $message)) $this->messages[$key][] = $message;
+		return $this;
 	}
 
 	/**
@@ -164,9 +165,9 @@ class Messages {
 
 		$all = array();
 
-		foreach ($this->messages as $messages)
+		foreach ($this->messages as $key => $message)
 		{
-			$all = array_merge($all, $this->transform($messages, $format));
+			$all = array_merge($all, $this->transform(array('key' => $key, 'messages' =>$message), $format));
 		}
 
 		return $all;
@@ -181,11 +182,13 @@ class Messages {
 	 */
 	protected function transform($messages, $format)
 	{
-		$messages = (array) $messages;
+		$key = $messages['key'];
+		$messages = (array) $messages['messages'];
 
-		foreach ($messages as $key => &$message)
+		foreach ($messages as &$message)
 		{
 			$message = str_replace(':message', $message, $format);
+			$message = str_replace(':key', $key, $message);
 		}
 
 		return $messages;
