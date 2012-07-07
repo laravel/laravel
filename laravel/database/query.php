@@ -140,7 +140,7 @@ class Query {
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->selects = (array) $columns;
+		$this->selects = is_array($columns) ? $columns : array($columns);
 		return $this;
 	}
 
@@ -395,7 +395,7 @@ class Query {
 	}
 
 	/**
-	 * Add a nested where condition to the query.
+	 * Add nested constraints to the query.
 	 *
 	 * @param  Closure  $callback
 	 * @param  string   $connector
@@ -403,24 +403,7 @@ class Query {
 	 */
 	public function where_nested($callback, $connector = 'AND')
 	{
-		$type = 'where_nested';
-
-		// To handle a nested where statement, we will actually instantiate a new
-		// Query instance and run the callback over that instance, which will
-		// allow the developer to have a fresh query instance
-		$query = new Query($this->connection, $this->grammar, $this->from);
-
-		call_user_func($callback, $query);
-
-		// Once the callback has been run on the query, we will store the nested
-		// query instance on the where clause array so that it's passed to the
-		// query's query grammar instance when building.
-		if ($query->wheres !== null)
-		{
-			$this->wheres[] = compact('type', 'query', 'connector');
-		}
-
-		$this->bindings = array_merge($this->bindings, $query->bindings);
+		call_user_func($callback, $this);
 
 		return $this;
 	}
