@@ -63,6 +63,9 @@ Now you are familiar with the basic usage of the Validator class. You're ready t
 
 	'name' => 'required'
 
+#### Validate that an attribute is present, when another attribute is present:
+	'last_name' => 'required_with:first_name'
+
 <a name="rule-alpha"></a>
 ### Alpha, Alpha Numeric, & Alpha Dash
 
