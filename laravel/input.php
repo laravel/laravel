@@ -209,6 +209,21 @@ class Input {
 	}
 
 	/**
+	 * Determine if a file has been successfully uploaded.
+	 *
+	 * @param  string  $key
+	 * @return bool
+	 */
+	public static function file_uploaded($key)
+	{
+		$file = static::file($key);
+
+		if (is_null($file)) return false;
+
+		return $file['error'] === 0;	
+	}
+
+	/**
 	 * Move an uploaded file to permanent storage.
 	 *
 	 * This method is simply a convenient wrapper around move_uploaded_file.
