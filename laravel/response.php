@@ -93,7 +93,7 @@ class Response {
 	 */
 	public static function json($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json';
+		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
 		return new static(json_encode($data), $status, $headers);
 	}
@@ -113,7 +113,7 @@ class Response {
 	 */
 	public static function eloquent($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json';
+		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
 		return new static(eloquent_to_json($data), $status, $headers);
 	}
