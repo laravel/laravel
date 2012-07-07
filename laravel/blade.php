@@ -421,7 +421,7 @@ class Blade {
 	 */
 	protected static function compile_assign($value)
 	{
-		return preg_replace('/(\s*)@assign(\s*)(\()(.*)(\))(\s*)/', '$1<?php $4; ?>$6', $value);
+		return preg_replace('/(\s*)@assign\s*\(\$(.*), (.*)\)(\s*)/', '$1<?php $$2 = $3; ?>$4', $value);
 	}
 
 	/**
