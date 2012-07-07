@@ -28,23 +28,11 @@ class Profiler {
 		// type applications, so we will not send anything in those scenarios.
 		if ( ! Request::ajax())
 		{
-			static::$data['memory'] = static::get_file_size(memory_get_usage(true));
-			static::$data['memory_peak'] = static::get_file_size(memory_get_peak_usage(true));
+			static::$data['memory'] = get_file_size(memory_get_usage(true));
+			static::$data['memory_peak'] = get_file_size(memory_get_peak_usage(true));
 			static::$data['time'] = number_format((microtime(true) - LARAVEL_START) * 1000, 2);
 			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
 		}
-	}
-	
-	/**
-	 * Calculate the human-readable file size (with proper units).
-	 *
-	 * @param  int  $size
-	 * @return string
-	 */
-	private static function get_file_size($size)
-	{
-		$units = array('Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB');
-		return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).' '.$units[$i];
 	}
 
 	/**
