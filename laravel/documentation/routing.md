@@ -152,6 +152,15 @@ Sometimes you may want to attach a filter to all requests that begin with a give
 
 	Route::filter('pattern: admin/*', 'auth');
 
+Optionally you can register filters directly when attaching filters to a given URI by supplying an array with the name of the filter and a callback.
+
+#### Defining a filter and URI pattern based filter in one:
+
+    Route::filter('pattern: admin/*', array('name' => 'auth', function()
+    {
+        // 
+    }));
+
 <a name="global-filters"></a>
 ## Global Filters
 
