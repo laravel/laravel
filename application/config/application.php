@@ -104,8 +104,8 @@ return array(
 	| broken during development.
 	|
 	| For this reason, you may wish to disable the generation of HTTPS links
-	| throughout your application. This option does just that. All attempts
-	| to generate HTTPS links will generate regular HTTP links instead.
+	| throughout your application. This option does just that. If set to 'false',
+	| all attempts to generate HTTPS links will generate regular HTTP links instead.
 	|
 	*/
 
