@@ -32,7 +32,7 @@ You can compare an unhashed value against a hashed one using the **check** metho
 <a name="login"></a>
 ## Logging In
 
-Logging a user into your application is simple using the **attempt** method on the Auth class. Simply pass the username and password of the user to the method. The credentials should be contained in an array, which allows for maximum flexibility across drivers, as some drivers may require a different number of arguments. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
+Logging a user into your application is simple using the **attempt** method on the Auth class. Simply pass the username and password of the user to the method, along with any other optional values that should be verified. The credentials should be contained in an array, which allows for maximum flexibility across drivers, as some drivers may require a different number of arguments. The login method will return **true** if the credentials are valid. Otherwise, **false** will be returned:
 
 	$credentials = array('username' => 'example@gmail.com', 'password' => 'secret');
 
