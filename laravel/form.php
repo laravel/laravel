@@ -409,6 +409,39 @@ class Form {
 
 		return '<select'.HTML::attributes($attributes).'>'.implode('', $html).'</select>';
 	}
+	
+	/**
+	 * Create a group of radio buttons.
+	 *
+	 * <code>
+	 *		// Create a radio group consisting of two options
+	 *		echo Form::radiogroup('option', array(1 => 'Yes', 0 => 'No'));
+	 *
+	 *		// Create a radio group with a default selected value
+	 *		echo Form::radiogroup('option', array(1 => 'Yes', 0 => 'No'), 1);
+	 * </code>
+	 *
+	 * @param  string  $name
+	 * @param  array   $options
+	 * @param  string  $selected
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function radiogroup($name, $options = array(), $selected = null, $attributes = array())
+	{
+		$attributes['id'] = static::id($name, $attributes);
+
+		$attributes['name'] = $name;
+
+		$html = array();
+
+		foreach ($options as $value => $display)
+		{
+			$html[] = static::radio($value, $display, $value == $selected, $attributes);
+		}
+
+		return implode('', $html);
+	}
 
 	/**
 	 * Create a HTML select element optgroup.
