@@ -23,7 +23,8 @@
 1. [Download Laravel](http://laravel.com/download)
 2. Extract the Laravel archive and upload the contents to your web server.
 3. Set the value of the **key** option in the **config/application.php** file to a random, 32 character string.
-4. Navigate to your application in a web browser.
+4. Verify that the `storage/views` directory is writable.
+5. Navigate to your application in a web browser.
 
 If all is well, you should see a pretty Laravel splash page. Get ready, there is lots more to learn!
 
