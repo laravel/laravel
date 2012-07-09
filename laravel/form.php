@@ -21,15 +21,15 @@ class Form {
 	 *
 	 * @var bool
 	 */
-	public static $remember = false;
+	protected static $remember = false;
 
-    /**
-     * Registers a custom macro.
-     *
-     * @param  string   $name
-     * @param  Closure  $input
-     * @return void
-     */
+	/**
+	 * Registers a custom macro.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $input
+	 * @return void
+	 */
 	public static function macro($name, $macro)
 	{
 		static::$macros[$name] = $macro;
@@ -625,6 +625,16 @@ class Form {
 
 		return Input::old($name, $value);
 	}
+	
+	/**
+	 * Let form fields be re-populated from Input.
+	 *
+	 * @return void
+	 */
+	public static function remember()
+	{
+		static::$remember = true;
+	}
 
 	/**
 	 * Dynamically handle calls to custom macros.
@@ -635,12 +645,12 @@ class Form {
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$macros[$method]))
-	    {
-	        return call_user_func_array(static::$macros[$method], $parameters);
-	    }
+		if (isset(static::$macros[$method]))
+		{
+			return call_user_func_array(static::$macros[$method], $parameters);
+		}
 
-	    throw new \Exception("Method [$method] does not exist.");
+		throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
