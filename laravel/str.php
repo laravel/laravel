@@ -232,6 +232,26 @@ class Str {
 	}
 
 	/**
+	 * Convert a slug into a human-readable string
+	 *
+	 * <code>
+	 *		// Returns "this is my blog post"
+	 *		$str = Str::human('this_is_my_blog_post');
+	 *		$str = Str::human('this-is-my-blog-post');
+	 * </code>
+	 *
+	 * @param  string  $slug
+	 * @return string
+	 */
+	public static function human($slug, $replace = array('_', '-', '+'))
+	{
+		$slug = static::ascii($slug);
+
+		// Replace underscores and dashes with spaces
+		return trim(str_replace($replace, ' ', $slug));
+	}
+
+	/**
 	 * Convert a string to 7-bit ASCII.
 	 *
 	 * This is helpful for converting UTF-8 strings for usage in URLs, etc.
