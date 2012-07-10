@@ -21,7 +21,7 @@ class Eloquent extends Driver {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array  $arguments
+	 * @param  array $arguments
 	 * @return void
 	 */
 	public function attempt($arguments = array())

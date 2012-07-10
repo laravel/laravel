@@ -25,7 +25,7 @@ class Fluent extends Driver {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array  $arguments
+	 * @param  array $arguments
 	 * @return void
 	 */
 	public function attempt($arguments = array())
@@ -49,7 +49,7 @@ class Fluent extends Driver {
 	/**
 	 * Get the user from the database table.
 	 *
-	 * @param  mixed  $array
+	 * @param  array  $arguments
 	 * @return mixed
 	 */
 	protected function get_user($arguments)
