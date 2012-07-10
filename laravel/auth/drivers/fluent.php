@@ -30,10 +30,9 @@ class Fluent extends Driver {
 	 */
 	public function attempt($arguments = array())
 	{
-		$user = $this->get_user($arguments['username']);
+		$user = $this->get_user($arguments);
 
-		// This driver uses a basic username and password authentication scheme
-		// so if the credentials match what is in the database we will just
+		// If the credentials match what is in the database we will just
 		// log the user into the application and remember them if asked.
 		$password = $arguments['password'];
 
@@ -48,18 +47,25 @@ class Fluent extends Driver {
 	}
 
 	/**
-	 * Get the user from the database table by username.
+	 * Get the user from the database table.
 	 *
-	 * @param  mixed  $value
+	 * @param  mixed  $array
 	 * @return mixed
 	 */
-	protected function get_user($value)
+	protected function get_user($arguments)
 	{
 		$table = Config::get('auth.table');
 
-		$username = Config::get('auth.username');
+		return DB::table($table)->where(function($query) use($arguments) {
+			$username = Config::get('auth.username');
+			
+			$query->where($username, '=', $arguments['username']);
 
-		return DB::table($table)->where($username, '=', $value)->first();
+			foreach( array_except($arguments, array('username', 'password')) as $column => $val )
+			{
+			    $query->where($column, '=', $val);
+			}
+		})->first();
 	}
 
 }
