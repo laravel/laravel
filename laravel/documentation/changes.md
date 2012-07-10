@@ -37,6 +37,7 @@
 ## Laravel 3.2.4
 
 - Speed up many to many eager loading mapping.
+- Tweak the Eloquent::changed() method.
 
 <a name="upgrade-3.2.3"></a>
 ## Upgrading From 3.2.3
