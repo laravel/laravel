@@ -26,27 +26,28 @@ class Eloquent extends Driver {
 	 */
 	public function attempt($arguments = array())
 	{
-		$user = $this->model()->where(function($query) use($arguments) {
+		$user = $this->model()->where(function($query) use($arguments)
+		{
 			$username = Config::get('auth.username');
 			
 			$query->where($username, '=', $arguments['username']);
 
-			foreach( array_except($arguments, array('username', 'password')) as $column => $val )
+			foreach(array_except($arguments, array('username', 'password', 'remember')) as $column => $val)
 			{
 			    $query->where($column, '=', $val);
 			}
-			})->first();
+		})->first();
 
-			// If the credentials match what is in the database we will just
-			// log the user into the application and remember them if asked.
-			$password = $arguments['password'];
+		// If the credentials match what is in the database we will just
+		// log the user into the application and remember them if asked.
+		$password = $arguments['password'];
 
-			$password_field = Config::get('auth.password', 'password');
+		$password_field = Config::get('auth.password', 'password');
 
-			if ( ! is_null($user) and Hash::check($password, $user->get_attribute($password_field)))
-			{
-				return $this->login($user->id, array_get($arguments, 'remember'));
-			}
+		if ( ! is_null($user) and Hash::check($password, $user->get_attribute($password_field)))
+		{
+			return $this->login($user->id, array_get($arguments, 'remember'));
+		}
 
 		return false;
 	}

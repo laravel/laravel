@@ -56,12 +56,13 @@ class Fluent extends Driver {
 	{
 		$table = Config::get('auth.table');
 
-		return DB::table($table)->where(function($query) use($arguments) {
+		return DB::table($table)->where(function($query) use($arguments)
+		{
 			$username = Config::get('auth.username');
 			
 			$query->where($username, '=', $arguments['username']);
 
-			foreach( array_except($arguments, array('username', 'password')) as $column => $val )
+			foreach(array_except($arguments, array('username', 'password', 'remember')) as $column => $val)
 			{
 			    $query->where($column, '=', $val);
 			}
