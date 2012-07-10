@@ -177,6 +177,25 @@ class Request {
 	{
 		return static::foundation()->headers->get('referer');
 	}
+	
+	/**
+	 * Get the timestamp of the time when the request was started.
+	 *
+	 * The value is actually calculated when this function gets first called.
+	 *
+	 * @return int
+	 */
+	public static function time()
+	{
+		static $time;
+		
+		if (!isset($time))
+		{
+			$time = time();
+		}
+		
+		return $time;
+	}
 
 	/**
 	 * Determine if the current request is via the command line.
