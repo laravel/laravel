@@ -54,6 +54,18 @@ return array(
 	*/
 
 	'key' => 'YourSecretKeyGoesHere!',
+	
+	/*
+	|--------------------------------------------------------------------------
+	| Application cache
+	|--------------------------------------------------------------------------
+	|
+	| Laravel automatically caches your views to save time
+	| compiling over and over again.
+	| Change to false if you are looking for prevent the caching
+	|
+	*/
+	'cache'	=>	false,
 
 	/*
 	|--------------------------------------------------------------------------
