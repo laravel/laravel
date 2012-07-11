@@ -82,8 +82,6 @@ class Join {
 	 */
 	public function on_nested($callback, $connector = 'AND')
 	{
-		$type = 'on_nested';
-
 		// To handle a nested ON clause, we will actually instantiate a new
 		// Join instance and run the callback over that instance
 		$join = new Join($this->type, $this->table);
