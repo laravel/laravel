@@ -4,11 +4,7 @@
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-<<<<<<< HEAD
-- [Server Configuration: Why Public?](#server-configuration)
-=======
 - [Server Configuration](#server-configuration)
->>>>>>> feature/docs-install
 - [Basic Configuration](#basic-configuration)
 - [Environments](#environments)
 - [Cleaner URLs](#cleaner-urls)
