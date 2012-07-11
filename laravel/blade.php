@@ -53,17 +53,27 @@ class Blade {
 				return;
 			}
 
-			$compiled = Blade::compiled($view->path);
-
-			// If the view doesn't exist or has been modified since the last time it
-			// was compiled, we will recompile the view into pure PHP from it's
-			// Blade representation, writing it to cached storage.
-			if ( ! file_exists($compiled) or Blade::expired($view->view, $view->path))
+			// If the cache is activated then create the cache file
+			// of the view
+			if ( Config::get('application.cache') )
 			{
-				file_put_contents($compiled, Blade::compile($view));
+				$compiled = Blade::compiled($view->path);
+	
+				// If the view doesn't exist or has been modified since the last time it
+				// was compiled, we will recompile the view into pure PHP from it's
+				// Blade representation, writing it to cached storage.
+				if ( ! file_exists($compiled) or Blade::expired($view->view, $view->path))
+				{
+					file_put_contents($compiled, Blade::compile($view));
+				}
+				
+				$view->path = $compiled;
 			}
-
-			$view->path = $compiled;
+			else
+			{
+				// Simulate the cache of the view
+				View::$cache[$view->path] = Blade::compile($view);
+			}
 
 			// Once the view has been compiled, we can simply set the path to the
 			// compiled view on the view instance and call the typical "get"
