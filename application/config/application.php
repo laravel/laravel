@@ -65,7 +65,7 @@ return array(
 	| Change to false if you are looking for prevent the caching
 	|
 	*/
-	'cache'	=>	false,
+	'cache'	=>	true,
 
 	/*
 	|--------------------------------------------------------------------------
