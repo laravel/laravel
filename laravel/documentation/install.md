@@ -41,10 +41,6 @@ If you are having problems installing, try the following:
 
 - Make sure the **public** directory is the document root of your web server. (see: Server Configuration below)
 - If you are using mod_rewrite, set the **index** option in **application/config/application.php** to an empty string.
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> hotfix/fix_markdown
 - Verify that your storage folder and the folders within are writable by your web server.
 
 <a name="server-configuration"></a>
