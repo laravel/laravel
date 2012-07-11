@@ -57,9 +57,9 @@ A very basic example of an Apache VirtualHost configuration for MySite might loo
 		ServerName mysite.dev
 	</VirtualHost>
 
-Notice that while we installed to **/Users/JonSnow/Sites/MySite** our DocumentRoot points to /Users/JonSnow/Sites/MySite/public**.
+Notice that while we installed to **/Users/JonSnow/Sites/MySite** our DocumentRoot points to **/Users/JonSnow/Sites/MySite/public**.
 
-While pointing the DocumentRoot to the public folder is a commonly used best-practice, it's possible that you may need to use Laravel on a host that does not allow you to update your DocumentRoot. A collection of algorithms to circumvent this need can be found [http://forums.laravel.com/viewtopic.php?id=1258](on the Laravel forums.)
+While pointing the DocumentRoot to the public folder is a commonly used best-practice, it's possible that you may need to use Laravel on a host that does not allow you to update your DocumentRoot. A collection of algorithms to circumvent this need can be found [on the Laravel forums.](http://forums.laravel.com/viewtopic.php?id=1258)
 
 <a name="basic-configuration"></a>
 ## Basic Configuration
