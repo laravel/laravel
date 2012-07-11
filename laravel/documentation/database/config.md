@@ -67,4 +67,4 @@ An example of the MySQL system settings with added default PDO attributes:
 		PDO::ATTR_EMULATE_PREPARES  => false,
 	),
 
-More about the PDO connection attributes can be found [here](http://php.net/manual/en/pdo.setattribute.php).
+More about the PDO connection attributes can be found [in the PHP manual](http://php.net/manual/en/pdo.setattribute.php).
