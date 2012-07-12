@@ -318,6 +318,10 @@ However, you may often only want to insert a new record into the intermediate ta
 
 	$user->roles()->attach($role_id);
 
+It's also possible to attach data for fields in the intermediate table (pivot table), to do this add a second array variable to the attach command containing the data you want to attach:
+	
+	$user->roles()->attach($role_id, array('expires' => $expires));
+
 <a name="sync-method"></a>
 Alternatively, you can use the `sync` method, which accepts an array of IDs to "sync" with the intermediate table. After this operation is complete, only the IDs in the array will be on the intermediate table.
 
@@ -405,6 +409,28 @@ Need to eager load more than one relationship? It's easy:
 You may even eager load nested relationships. For example, let's assume our **Author** model has a "contacts" relationship. We can eager load both of the relationships from our Book model like so:
 
 	$books = Book::with(array('author', 'author.contacts'))->get();
+
+If you find yourself eager loading the same models often, you may want to use **$includes** in the model.
+
+	class Book extends Eloquent {
+
+	     public $includes = array('author');
+	     
+	     public function author()
+	     {
+	          return $this->belongs_to('Author');
+	     }
+
+	}
+	
+**$includes** takes the same arguments that **with** takes. The following is now eagerly loaded.
+
+	foreach (Book::all() as $book)
+	{
+	     echo $book->author->name;
+	}
+
+> **Note:** Using **with** will override a models **$includes**.
 
 <a name="constraining-eager-loads"></a>
 ## Constraining Eager Loads

@@ -99,7 +99,7 @@ class MySQL extends Grammar {
 	 */
 	protected function unsigned(Table $table, Fluent $column)
 	{
-		if ($column->type == 'integer' && $column->unsigned)
+		if ($column->type == 'integer' && ($column->unsigned || $column->increment))
 		{
 			return ' UNSIGNED';
 		}

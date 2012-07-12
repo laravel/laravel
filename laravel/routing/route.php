@@ -213,6 +213,15 @@ class Route {
 		{
 			if (Str::is($pattern, $this->uri))
 			{
+				// If the filter provided is an array then we need to register
+				// the filter before we can assign it to the route.
+				if (is_array($filter))
+				{
+					list($filter, $callback) = array_values($filter);
+
+					Filter::register($filter, $callback);
+				}
+
 				$filters[] = $filter;
 			}
 		}

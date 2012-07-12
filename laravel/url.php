@@ -107,6 +107,14 @@ class URL {
 
 		$root = static::base().'/'.Config::get('application.index');
 
+		// If multiple languages are being supported via URIs, we will append current
+		// language to the URI so all redirects and URLs generated include the
+		// current language so it is not lost on further requests.
+		if (count(Config::get('application.languages')) > 0)
+		{
+			$root .= '/'.Config::get('application.language');
+		}
+
 		// Since SSL is not often used while developing the application, we allow the
 		// developer to disable SSL on all framework generated links to make it more
 		// convenient to work with the site while developing locally.
@@ -240,6 +248,11 @@ class URL {
 		if (($index = Config::get('application.index')) !== '')
 		{
 			$url = str_replace($index.'/', '', $url);
+		}
+
+		if (count(Config::get('application.languages')) > 0)
+		{
+			$url = str_replace(Config::get('application.language').'/', '', $url);
 		}
 
 		return $url;

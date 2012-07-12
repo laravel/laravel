@@ -218,9 +218,11 @@ abstract class Model {
 	{
 		$model = new static(array(), true);
 
-		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
+		$model->fill($attributes);
 
-		return $model->query()->where($model->key(), '=', $id)->update($attributes);
+		if (static::$timestamps) $model->timestamp();
+
+		return $model->query()->where($model->key(), '=', $id)->update($model->attributes);
 	}
 
 	/**
@@ -500,7 +502,7 @@ abstract class Model {
 	 */
 	public function changed($attribute)
 	{
-		return array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
+		return array_get($this->attributes, $attribute) != array_get($this->original, $attribute);
 	}
 
 	/**
@@ -536,7 +538,7 @@ abstract class Model {
 
 		foreach ($this->attributes as $key => $value)
 		{
-			if ( ! isset($this->original[$key]) or $value !== $this->original[$key])
+			if ( ! array_key_exists($key, $this->original) or $value !== $this->original[$key])
 			{
 				$dirty[$key] = $value;
 			}
@@ -725,7 +727,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->$source)) return true;
+			if (array_key_exists($key, $this->$source)) return !is_null($this->$source[$key]);
 		}
 		
 		if (method_exists($this, $key)) return true;

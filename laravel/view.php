@@ -551,4 +551,20 @@ class View implements ArrayAccess {
 		return $this->render();
 	}
 
+	/**
+	 * Magic Method for handling dynamic functions.
+	 *
+	 * This method handles calls to dynamic with helpers.
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos($method, 'with_') === 0)
+		{
+			$key = substr($method, 5);
+			return $this->with($key, $parameters[0]);
+		}
+
+		throw new \Exception("Method [$method] is not defined on the View class.");
+	}
+
 }

@@ -80,6 +80,10 @@ class Runner extends Task {
 		// pointing to our temporary configuration file. This allows
 		// us to flexibly run tests for any setup.
 		$path = path('base').'phpunit.xml';
+		
+		// fix the spaced directories problem when using the command line
+		// strings with spaces inside should be wrapped in quotes.
+		$path = escapeshellarg($path)
 
 		passthru('phpunit --configuration '.$path);
 

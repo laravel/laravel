@@ -214,7 +214,7 @@ class Validator {
 	 */
 	protected function implicit($rule)
 	{
-		return $rule == 'required' or $rule == 'accepted';
+		return $rule == 'required' or $rule == 'accepted' or $rule == 'required_with';
 	}
 
 	/**
@@ -252,6 +252,27 @@ class Validator {
 		elseif ( ! is_null(Input::file($attribute)) and is_array($value) and $value['tmp_name'] == '')
 		{
 			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validate that an attribute exists in the attributes array, if another
+	 * attribute exists in the attributes array.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_required_with($attribute, $value, $parameters)
+	{
+		$other = $parameters[0];
+
+		if ($this->validate_required($other, $this->attributes[$other]))
+		{
+			return $this->validate_required($attribute, $value);
 		}
 
 		return true;
