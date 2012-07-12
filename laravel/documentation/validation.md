@@ -417,7 +417,7 @@ As mentioned above, you may even specify and receive a list of parameters in you
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{
 	    return $value == $parameters[0];
-	}
+	});
 
 In this case, the parameters argument of your validation rule would receive an array containing one element: "yes".
 
