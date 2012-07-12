@@ -31,5 +31,4 @@ class Help extends Task {
 			}
 		}
 	}
-
 }
