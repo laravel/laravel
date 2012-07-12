@@ -17,7 +17,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$_SERVER['auth.login.stub'] = null;
 		Cookie::$jar = array();
 		Config::$items = array();
-		Auth::driver()->$user = null;
+		Auth::driver()->user = null;
 		Session::$instance = null;
 		Config::set('database.default', 'sqlite');
 	}
@@ -30,7 +30,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$_SERVER['auth.login.stub'] = null;
 		Cookie::$jar = array();
 		Config::$items = array();
-		Auth::driver()->$user = null;
+		Auth::driver()->user = null;
 		Session::$instance = null;
 		Config::set('database.default', 'mysql');
 	}
@@ -42,7 +42,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testUserMethodReturnsCurrentUser()
 	{
-		Auth::$user = 'Taylor';
+		Auth::driver()->user = 'Taylor';
 
 		$this->assertEquals('Taylor', Auth::user());
 	}
