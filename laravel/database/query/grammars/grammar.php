@@ -131,30 +131,7 @@ class Grammar extends \Laravel\Database\Grammar {
 		{
 			$table = $this->wrap_table($join->table);
 
-			$clauses = array();
-
-			// Each JOIN statement may have multiple clauses, so we will iterate
-			// through each clause creating the conditions then we'll join all
-			// of the together at the end to build the clause.
-			foreach ($join->clauses as $clause)
-			{
-				extract($clause);
-
-				$column1 = $this->wrap($column1);
-
-				$column2 = $this->wrap($column2);
-
-				$clauses[] = "{$connector} {$column1} {$operator} {$column2}";
-			}
-
-			// The first clause will have a connector on the front, but it is
-			// not needed on the first condition, so we will strip it off of
-			// the condition before adding it to the arrya of joins.
-			$search = array('AND ', 'OR ');
-
-			$clauses[0] = str_replace($search, '', $clauses[0]);
-
-			$clauses = implode(' ', $clauses);
+			$clauses = $this->join_clauses($join);
 
 			$sql[] = "{$join->type} JOIN {$table} ON {$clauses}";
 		}
@@ -163,6 +140,61 @@ class Grammar extends \Laravel\Database\Grammar {
 		// implode together and return as the complete SQL for the
 		// join clause of the query under construction.
 		return implode(' ', $sql);
+	}
+
+	/**
+	 * Compile a single clause for a join
+	 * 
+	 * @param Join $join
+	 * @return array
+	 */
+	protected function join_clause($clause)
+	{
+		extract($clause);
+
+		$column1 = $this->wrap($column1);
+
+		$column2 = $this->wrap($column2);
+
+		return "{$connector} {$column1} {$operator} {$column2}";
+	}
+
+	/**
+	 * Compile the clauses of a join
+	 * 
+	 * @param Join $join
+	 * @return array
+	 */
+	protected function join_clauses($join)
+	{
+		$clauses = array();
+
+		// Each JOIN statement may have multiple clauses, so we will iterate
+		// through each clause creating the conditions then we'll join all
+		// of the together at the end to build the clause.
+		foreach ($join->clauses as $clause)
+		{
+			if(isset($clause['join']))
+			{
+				$connector = $clause['connector'];
+				$clauses[] = "{$connector} (".$this->join_clauses($clause['join']).")";
+			}
+			else
+			{
+				$clauses[] = $this->join_clause($clause);
+			}
+		}
+
+		// The first clause will have a connector on the front, but it is
+		// not needed on the first condition, so we will strip it off of
+		// the condition before adding it to the arrya of joins.
+		$search = array('AND ', 'OR ');
+
+		$clauses[0] = str_replace($search, '', $clauses[0]);
+
+		$clauses = implode(' ', $clauses);
+
+		return $clauses;
 	}
 
 	/**
