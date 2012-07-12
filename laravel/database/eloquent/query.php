@@ -127,7 +127,7 @@ class Query {
 
 		if (count($results) > 0)
 		{
-			foreach ($this->model_includes() as $relationship => $constraints)
+			foreach ($this->model->includes as $relationship => $constraints)
 			{
 				// If the relationship is nested, we will skip loading it here and let
 				// the load method parse and set the nested eager loads on the right
@@ -196,7 +196,7 @@ class Query {
 	{
 		$nested = array();
 
-		foreach ($this->model_includes() as $include => $constraints)
+		foreach ($this->model->includes as $include => $constraints)
 		{
 			// To get the nested includes, we want to find any includes that begin
 			// the relationship and a dot, then we will strip off the leading
@@ -208,31 +208,6 @@ class Query {
 		}
 
 		return $nested;
-	}
-
-	/**
-	 * Get the eagerly loaded relationships for the model.
-	 *
-	 * @return array
-	 */
-	protected function model_includes()
-	{
-		$includes = array();
-
-		foreach ($this->model->includes as $relationship => $constraints)
-		{
-			// When eager loading relationships, constraints may be set on the eager
-			// load definition; however, is none are set, we need to swap the key
-			// and the value of the array since there are no constraints.
-			if (is_numeric($relationship))
-			{
-				list($relationship, $constraints) = array($constraints, null);
-			}
-
-			$includes[$relationship] = $constraints;
-		}
-
-		return $includes;
 	}
 
 	/**
