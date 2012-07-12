@@ -257,7 +257,7 @@ abstract class Model {
 	{
 		$includes = (array) $includes;
 
-		$given_includes = array();
+		$this->includes = array();
 
 		foreach ($includes as $relationship => $constraints)
 		{
@@ -269,26 +269,8 @@ abstract class Model {
 				list($relationship, $constraints) = array($constraints, null);
 			}
 
-			$given_includes[$relationship] = $constraints;
+			$this->includes[$relationship] = $constraints;
 		}
-
-		$relationships = array_keys($given_includes);
-		$implicits = array();
-
-		foreach ($relationships as $relationship)
-		{
-			$parts = explode('.', $relationship);
-
-			$prefix = '';
-			foreach ($parts as $part)
-			{
-				$implicits[$prefix.$part] = null;
-				$prefix .= $part.'.';
-			}
-		}
-
-		// Add all implicit includes to the explicit ones
-		$this->includes = $given_includes + $implicits;
 
 		return $this;
 	}
