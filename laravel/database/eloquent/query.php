@@ -122,6 +122,9 @@ class Query {
 			// we were to pass them in using the constructor or fill methods.
 			$new->fill_raw($result);
 
+            // Mark the model as existant in the database
+            $new->exists = true;
+
 			$models[] = $new;
 		}
 
