@@ -1,7 +1,3 @@
-branches:
-  only:
-    - core-tests
-
 language: php
 
 php:
