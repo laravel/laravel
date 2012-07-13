@@ -69,7 +69,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	{
 		Cookie::forever('foo', 'bar');
 		$this->assertEquals('bar', Cookie::$jar['foo']['value']);
-		$this->assertEquals(525600, Cookie::$jar['foo']['minutes']);
+		$this->assertEquals(525600, Cookie::$jar['foo']['expiration']);
 
 		Cookie::forever('bar', 'baz', 'path', 'domain', true);
 		$this->assertEquals('path', Cookie::$jar['bar']['path']);
@@ -84,11 +84,11 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testForgetSetsCookieWithExpiration()
 	{
-		Cookie::forget('bar', 'path', 'domain', true);
-		$this->assertEquals(-2000, Cookie::$jar['bar']['minutes']);
+		Cookie::forget('bar', 'path', 'domain');
+		$this->assertEquals(-2000, Cookie::$jar['bar']['expiration']);
 		$this->assertEquals('path', Cookie::$jar['bar']['path']);
 		$this->assertEquals('domain', Cookie::$jar['bar']['domain']);
-		$this->assertTrue(Cookie::$jar['bar']['secure']);
+		$this->assertFalse(Cookie::$jar['bar']['secure']);
 	}
 
 }
