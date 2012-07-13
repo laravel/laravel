@@ -55,10 +55,10 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testBundleViewIsCreatedWithCorrectPath()
 	{
-		$view = new View('laravel-tests::home.index');
+		$view = new View('home.index');
 
 		$this->assertEquals(
-			str_replace(DS, '/', Bundle::path('laravel-tests')).'views/home/index.php',
+			str_replace(DS, '/', Bundle::path(DEFAULT_BUNDLE)).'views/home/index.php',
 			str_replace(DS, '/', $view->path)
 		);
 	}
