@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
+
 class SessionPayloadTokenStub {
 
 	public function token() { return 'Taylor'; }
@@ -20,17 +22,57 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Set one of the $_SERVER variables.
+	 *
+	 * @param string  $key
+	 * @param string  $value
+	 */
+	protected function setServerVar($key, $value)
+	{
+		$_SERVER[$key] = $value;
+
+		$this->restartRequest();
+	}
+
+	/**
+	 * Set one of the $_POST variables.
+	 *
+	 * @param string  $key
+	 * @param string  $value
+	 */
+	protected function setPostVar($key, $value)
+	{
+		$_POST[$key] = $value;
+
+		$this->restartRequest();
+	}
+
+	/**
+	 * Reinitialize the global request.
+	 * 
+	 * @return void
+	 */
+	protected function restartRequest()
+	{
+		// FIXME: Ugly hack, but old contents from previous requests seem to
+		// trip up the Foundation class.
+		$_FILES = array();
+
+		Request::$foundation = RequestFoundation::createFromGlobals();
+	}
+
+	/**
 	 * Test the Request::method method.
 	 *
 	 * @group laravel
 	 */
 	public function testMethodReturnsTheHTTPRequestMethod()
 	{
-		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$this->setServerVar('REQUEST_METHOD', 'POST');
 
 		$this->assertEquals('POST', Request::method());
 
-		$_POST[Request::spoofer] = 'PUT';
+		$this->setPostVar(Request::spoofer, 'PUT');
 
 		$this->assertEquals('PUT', Request::method());
 	}
@@ -42,7 +84,8 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testServerMethodReturnsFromServerArray()
 	{
-		$_SERVER = array('TEST' => 'something', 'USER' => array('NAME' => 'taylor'));
+		$this->setServerVar('TEST', 'something');
+		$this->setServerVar('USER', array('NAME' => 'taylor'));
 
 		$this->assertEquals('something', Request::server('test'));
 		$this->assertEquals('taylor', Request::server('user.name'));
@@ -55,31 +98,18 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testIPMethodReturnsClientIPAddress()
 	{
-		$_SERVER['REMOTE_ADDR'] = 'something';
+		$this->setServerVar('REMOTE_ADDR', 'something');
 		$this->assertEquals('something', Request::ip());
 
-		$_SERVER['HTTP_CLIENT_IP'] = 'something';
+		$this->setServerVar('HTTP_CLIENT_IP', 'something');
 		$this->assertEquals('something', Request::ip());
 
-		$_SERVER['HTTP_X_FORWARDED_FOR'] = 'something';
+		$this->setServerVar('HTTP_CLIENT_IP', 'something');
 		$this->assertEquals('something', Request::ip());
 
 		$_SERVER = array();
+		$this->restartRequest();
 		$this->assertEquals('0.0.0.0', Request::ip());
-	}
-
-	/**
-	 * Test the Request::protocol method.
-	 *
-	 * @group laravel
-	 */
-	public function testProtocolMethodReturnsProtocol()
-	{
-		$_SERVER['SERVER_PROTOCOL'] = 'taylor';
-		$this->assertEquals('taylor', Request::protocol());
-
-		unset($_SERVER['SERVER_PROTOCOL']);
-		$this->assertEquals('HTTP/1.1', Request::protocol());
 	}
 
 	/**
@@ -89,11 +119,11 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSecureMethodsIndicatesIfHTTPS()
 	{
-		$_SERVER['HTTPS'] = 'on';
-
+		$this->setServerVar('HTTPS', 'on');
+		
 		$this->assertTrue(Request::secure());
 
-		$_SERVER['HTTPS'] = 'off';
+		$this->setServerVar('HTTPS', 'off');
 
 		$this->assertFalse(Request::secure());
 	}
@@ -107,7 +137,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->assertFalse(Request::ajax());
 
-		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
+		$this->setServerVar('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest');
 
 		$this->assertTrue(Request::ajax());
 	}

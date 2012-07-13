@@ -189,7 +189,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase {
 
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
-		$this->assertEquals(404, Controller::call('restful@index')->status);
+		$this->assertEquals(404, Controller::call('restful@index')->status());
 
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 

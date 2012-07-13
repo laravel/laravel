@@ -12,8 +12,9 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 		$response = Response::make('foo', 201, array('bar' => 'baz'));
 
 		$this->assertEquals('foo', $response->content);
-		$this->assertEquals(201, $response->status);
-		$this->assertEquals(array('bar' => 'baz'), $response->headers);
+		$this->assertEquals(201, $response->status());
+		$this->assertArrayHasKey('bar', $response->headers()->all());
+		$this->assertEquals('baz', $response->headers()->get('bar'));
 	}
 
 	/**
@@ -38,7 +39,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 	{
 		$response = Response::error('404', array('name' => 'Taylor'));
 
-		$this->assertEquals(404, $response->status);
+		$this->assertEquals(404, $response->status());
 		$this->assertEquals('error.404', $response->content->view);
 		$this->assertEquals('Taylor', $response->content->data['name']);
 	}
@@ -70,7 +71,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 	{
 		$response = Response::make('')->header('foo', 'bar');
 
-		$this->assertEquals('bar', $response->headers['foo']);
+		$this->assertEquals('bar', $response->headers()->get('foo'));
 	}
 
 	/**
@@ -82,7 +83,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 	{
 		$response = Response::make('')->status(404);
 
-		$this->assertEquals(404, $response->status);
+		$this->assertEquals(404, $response->status());
 	}
 
 }
