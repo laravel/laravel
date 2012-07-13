@@ -4,78 +4,70 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Retrieve The Current User
+	| Default Authentication Driver
 	|--------------------------------------------------------------------------
 	|
-	| This closure is called by the Auth class' "user" method when trying to
-	| retrieve a user by the ID that is stored in their session. If you find
-	| the user, just return the user object, but make sure it has an "id"
-	| property. If you can't find the user, just return null.
+	| Laravel uses a flexible driver-based system to handle authentication.
+	| You are free to register your own drivers using the Auth::extend
+	| method. Of course, a few great drivers are provided out of
+	| box to handle basic authentication simply and easily.
 	|
-	| Of course, a simple and elegant authentication solution has already
-	| been provided for you using the query builder and hashing engine.
-	| We love making your life as easy as possible.
+	| Drivers: 'fluent', 'eloquent'.
 	|
 	*/
 
-	'user' => function($id)
-	{
-		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
-		{
-			return DB::table('users')->find($id);
-		} 
-	},
+	'driver' => 'fluent',
 
 	/*
 	|--------------------------------------------------------------------------
-	| Authenticate User Credentials
+	| Authentication Username
 	|--------------------------------------------------------------------------
 	|
-	| This closure is called by the Auth::attempt() method when attempting to
-	| authenticate a user that is logging into your application. It's like a
-	| super buff bouncer to your application.
-	|
-	| If the provided credentials are correct, simply return an object that
-	| represents the user being authenticated. As long as it has a property
-	| for the "id", any object will work. If the credentials are not valid,
-	| you don't meed to return anything.
+	| Here you may specify the database column that should be considered the
+	| "username" for your users. Typically, this will either be "username"
+	| or "email". Of course, you're free to change the value to anything.
 	|
 	*/
 
-	'attempt' => function($username, $password)
-	{
-		$user = DB::table('users')->where_username($username)->first();
-
-		if ( ! is_null($user) and Hash::check($password, $user->password))
-		{
-			return $user;
-		}
-	},
+	'username' => 'username',
 
 	/*
 	|--------------------------------------------------------------------------
-	| Logout The Current User
+	| Authentication Password
 	|--------------------------------------------------------------------------
 	|
-	| Here you may do anything that needs to be done when a user logs out of
-	| your application, such as call the logout method on a third-party API
-	| you are using for authentication or anything else you desire.
+	| Here you may specify the database column that should be considered the
+	| "password" for your users. Typically, this will be "password" but,
+	| again, you're free to change the value to anything you see fit.
 	|
 	*/
 
-	'logout' => function($user) {},
+	'password' => 'password',
 
 	/*
 	|--------------------------------------------------------------------------
-	| "Remember Me" Cookie Name
+	| Authentication Model
 	|--------------------------------------------------------------------------
 	|
-	| Here you may specify the cookie name that will be used for the cookie
-	| that serves as the "remember me" token. Of course, a sensible default
-	| has been set for you, so you probably don't need to change it.
+	| When using the "eloquent" authentication driver, you may specify the
+	| model that should be considered the "User" model. This model will
+	| be used to authenticate and load the users of your application.
 	|
 	*/
 
-	'cookie' => 'laravel_remember',
+	'model' => 'User',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Authentication Table
+	|--------------------------------------------------------------------------
+	|
+	| When using the "fluent" authentication driver, the database table used
+	| to load users may be specified here. This table will be used in by
+	| the fluent query builder to authenticate and load your users.
+	|
+	*/
+
+	'table' => 'users',
 
 );
