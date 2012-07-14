@@ -87,9 +87,12 @@ class Runner extends Task {
 		// strings with spaces inside should be wrapped in quotes.
 		$path = escapeshellarg($path);
 
-		passthru('phpunit --configuration '.$path);
+		passthru('phpunit --configuration '.$path, $status);
 
 		@unlink($path);
+
+		// Pass through the exit status
+		exit($status);
 	}
 
 	/**
