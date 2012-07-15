@@ -560,7 +560,10 @@ class Validator {
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
 
-		return checkdnsrr($url);
+		if(!empty($url))
+			return checkdnsrr($url);
+		else
+			return false;
 	}
 
 	/**
