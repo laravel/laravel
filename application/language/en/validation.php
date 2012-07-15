@@ -24,6 +24,7 @@ return array(
 	"alpha"          => "The :attribute may only contain letters.",
 	"alpha_dash"     => "The :attribute may only contain letters, numbers, and dashes.",
 	"alpha_num"      => "The :attribute may only contain letters and numbers.",
+	"alpha_space"	 => "The :attribute may only contain letters and spaces.",
 	"before"         => "The :attribute must be a date before :date.",
 	"between"        => array(
 		"numeric" => "The :attribute must be between :min - :max.",
