@@ -50,6 +50,7 @@ return array(
 		"file"    => "The :attribute must be at least :min kilobytes.",
 		"string"  => "The :attribute must be at least :min characters.",
 	),
+	"name"	   	 => "The :attribute may only contain letters, dashes, and spaces.",
 	"not_in"         => "The selected :attribute is invalid.",
 	"numeric"        => "The :attribute must be a number.",
 	"required"       => "The :attribute field is required.",
