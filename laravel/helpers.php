@@ -38,6 +38,18 @@ function dd($value)
 }
 
 /**
+ * Dump the given value in a readable manner and kill the script.
+ *
+ * @param  mixed  $value
+ * @return void
+ */
+function pdd($value)
+{
+	echo '<pre>';
+	die(var_dump($value));
+}
+
+/**
  * Get an item from an array using "dot" notation.
  *
  * <code>
