@@ -277,6 +277,21 @@ As you may have noticed, the default name of the intermediate table is the singu
 
 	}
 
+You can now get all roles for a user, but what if you want to retrieve all users which have a specific role? Then you'll need to define the relationship in the Role model as well.
+
+	class Role extends Eloquent {
+
+	     public function users()
+	     {
+	          return $this->has_many_and_belongs_to('User');
+	     }
+
+	}
+
+This way to can retrieve all users which have the 'group' role by using
+
+	$users = Role::where_name('group')->users()->get();
+
 <a name="inserting-related-models"></a>
 ## Inserting Related Models
 
