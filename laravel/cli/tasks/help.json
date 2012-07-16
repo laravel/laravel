@@ -1,0 +1,78 @@
+{
+	"Application Configuration": {
+		"key:generate": {
+			"description": "Generate a secure application key.",
+			"command": "php artisan key:generate"
+		}
+	},
+	"Database Tables": {
+		"session:table": {
+			"description": "Generate a migration for the sessions database table.",
+			"command": "php artisan session:table"
+		}
+	},
+	"Migrations": {
+		"migrate:install": {
+			"description": "Create the Laravel migration table.",
+			"command": "php artisan migrate:install"
+		},
+		"migrate:make": {
+			"description": "Create a migration.",
+			"command": "php artisan migrate:make create_users_table"
+		},
+		"migrate": {
+			"description": "Run outstanding migrations.",
+			"command": "php artisan migrate"
+		},
+		"migrate:rollback": {
+			"description": "Roll back the most recent migration.",
+			"command": "php artisan migrate:rollback"
+		},
+		"migrate:reset": {
+			"description": "Roll back all migrations.",
+			"command": "php artisan migrate:reset"
+		}
+	},
+	"Bundles": {
+		"bundle:install": {
+			"description": "Install a bundle.",
+			"command": "php artisan bundle:install swiftmailer"
+		},
+		"bundle:upgrade": {
+			"description": "Upgrade a bundle.",
+			"command": "php artisan bundle:upgrade swiftmailer"
+		},
+		"bundle:publish": {
+			"description": "Publish all bundles' assets.",
+			"command": "php artisan bundle:publish"
+		}
+	},	
+	"Unit Testing": {
+		"test": {
+			"description": "Run the application's tests.",
+			"command": "php artisan test"
+		}
+	},
+	"Routing": {
+		"route:call": {
+			"description": "Call a route.",
+			"command": "php artisan route:call get api/user/1"
+		}
+	},
+	"Application Keys": {
+		"key:generate": {
+			"description": "Generate an application key.",
+			"command": "php artisan key:generade"
+		}
+	},
+	"CLI Options": {
+		"--env=": {
+			"description": "Set the Laravel environment.",
+			"command": "php artisan task --env=local"
+		},
+		"--database=": {
+			"description": "Set the default database connection.",
+			"command": "php artisan task --database=mysql"
+		}
+	}
+}
