@@ -290,7 +290,7 @@ You can now get all roles for a user, but what if you want to retrieve all users
 
 This way to can retrieve all users which have the 'group' role by using
 
-	$users = Role::where_name('group')->users()->get();
+	$users = Role::where_name('group')->users;
 
 <a name="inserting-related-models"></a>
 ## Inserting Related Models
