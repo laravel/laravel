@@ -47,7 +47,7 @@
 			"command": "php artisan bundle:publish"
 		}
 	},	
-	"Unit Tests": {
+	"Unit Testing": {
 		"test": {
 			"description": "Run the application's tests.",
 			"command": "php artisan test"

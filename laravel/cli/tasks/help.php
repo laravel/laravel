@@ -6,21 +6,22 @@ use Laravel\File;
 class Help extends Task {
 
 	/**
-	 * List 
+	 * List available artisan commands. 
 	 *
 	 * @param  array  $arguments
 	 * @return void
 	 */
 	public function commands()
 	{
+		// read help contents
 
-		$command_data = json_decode(file_get_contents(__DIR__.'/help.json'));
+		$command_data = json_decode(File::get(__DIR__.'/help.json'));
+
+		// format and display help contents
 
 		$i=0;
-
 		foreach($command_data as $category => $commands)
 		{
-
 			if($i++ != 0) echo PHP_EOL;
 
 			echo PHP_EOL . "# $category" . PHP_EOL;
