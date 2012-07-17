@@ -18,7 +18,7 @@
 	- [Route Groups](/docs/routing#groups)
 	- [Named Routes](/docs/routing#named-routes)
 	- [HTTPS Routes](/docs/routing#https-routes)
-	- [Bundle Routing](/docs/routing#bundle-routing)
+	- [Bundle Routes](/docs/routing#bundle-routes)
 	- [CLI Route Testing](/docs/routing#cli-route-testing)
 - [Controllers](/docs/controllers)
 	- [The Basics](/docs/controllers#the-basics)
