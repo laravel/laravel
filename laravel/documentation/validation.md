@@ -306,6 +306,8 @@ Great! So, we have two simple registration routes. One to handle displaying the 
 
 **But, notice we are not explicitly binding the errors to the view in our GET route**. However, an errors variable will still be available in the view. Laravel intelligently determines if errors exist in the session, and if they do, binds them to the view for you. If no errors exist in the session, an empty message container will still be bound to the view. In your views, this allows you to always assume you have a message container available via the errors variable. We love making your life easier.
 
+> **Note:** It is generally good practice to pass old input data to forms with errors. To do this, just call `with_input()` on your returned Redirect response to make the input available with `Input::old()` in the next request. You can then [auto-fill your form fields](/views/forms#autofill).
+
 <a name="custom-error-messages"></a>
 ## Custom Error Messages
 
