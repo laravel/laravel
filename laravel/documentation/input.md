@@ -88,6 +88,10 @@ You'll commonly need to re-populate forms after invalid form submissions. Larave
 
 	$name = Input::old('name');
 
+#### Optional default value as the second argument
+
+	$name = Input::old('name', $user->name);
+
 > **Note:** You must specify a session driver before using the "old" method.
 
 *Further Reading:*
