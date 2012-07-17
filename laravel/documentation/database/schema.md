@@ -69,6 +69,7 @@ Command  | Description
 `$table->text('description');`  |  TEXT equivalent to the table
 `$table->blob('data');`  |  BLOB equivalent to the table
 `->nullable()`  |  Designate that the column allows NULL values
+`->default($value)`  |  Declare a default value for a column
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 
