@@ -9,6 +9,7 @@
 - [Checkboxes and Radio Buttons](#checkboxes-and-radio-buttons)
 - [Drop-Down Lists](#drop-down-lists)
 - [Buttons](#buttons)
+- [Auto-filling form fields](#autofill)
 - [Custom Macros](#custom-macros)
 
 > **Note:** All input data displayed in form elements is filtered through the HTML::entities method.
@@ -133,6 +134,17 @@ Laravel provides an easy method of protecting your application from cross-site r
 	echo Form::submit('Click Me!');
 
 > **Note:** Need to create a button element? Try the *button* method. It has the same signature as *submit*.
+
+<a name="autofill"></a>
+## Auto-filling form fields
+
+When displaying form errors inline, you often want to fill forms with their previous data. Doing that is as easy as calling one more method on the form helper class:
+
+#### Telling a form to auto-fill its fields from previous input data:
+
+	Form::remember();
+
+> **Note:** You still need to make sure to call `with_input()` when redirecting to a page making use of this feature.
 
 <a name="custom-macros"></a>
 ## Custom Macros
