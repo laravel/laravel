@@ -112,7 +112,12 @@ class URL {
 		// current language so it is not lost on further requests.
 		if (count(Config::get('application.languages')) > 0)
 		{
-			$root .= '/'.Config::get('application.language');
+            		// If the application.index is f.e "index.php", the generated url will be like
+            		// http://example.com/index.php/en
+            		// If the application.index is an empty string, the generated url will be like
+            		// http://example.com/en
+            		if(strlen(Config::get('application.index')) > 0) $root .= '/';
+			$root .= Config::get('application.language');
 		}
 
 		// Since SSL is not often used while developing the application, we allow the
