@@ -15,11 +15,6 @@
 require 'paths.php';
 
 // --------------------------------------------------------------
-// Bootstrap the Laravel core.
-// --------------------------------------------------------------
-require path('sys').'core.php';
-
-// --------------------------------------------------------------
 // Launch the Laravel "Artisan" CLI.
 // --------------------------------------------------------------
-require path('sys').'cli/artisan'.EXT;
+require path('sys').'cli/artisan.php';
