@@ -14,6 +14,17 @@ function e($value)
 }
 
 /**
+ * Convert entities to HTML characters.
+ *
+ * @param  string  $value
+ * @return string
+ */
+function d($value)
+{
+	return Laravel\HTML::decode($value);
+}
+
+/**
  * Retrieve a language line.
  *
  * @param  string  $key
