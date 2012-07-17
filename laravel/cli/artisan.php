@@ -4,6 +4,11 @@ use Laravel\Bundle;
 use Laravel\Config;
 use Laravel\Request;
 
+// --------------------------------------------------------------
+// Bootstrap the Laravel core.
+// --------------------------------------------------------------
+require path('sys').'core.php';
+
 /**
  * Fire up the default bundle. This will ensure any dependencies that
  * need to be registered in the IoC container are registered and that
