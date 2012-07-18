@@ -244,6 +244,7 @@ Many-to-many relationships are the most complicated of the three relationships. 
 
 **Roles_Users:**
 
+    id      - INTEGER
 	user_id - INTEGER
 	role_id - INTEGER
 
@@ -273,6 +274,17 @@ As you may have noticed, the default name of the intermediate table is the singu
 	     public function roles()
 	     {
 	          return $this->has_many_and_belongs_to('Role', 'user_roles');
+	     }
+
+	}
+
+By default only certain fields from the pivot table will be returned (the two **id** fields, and the timestamps). If your pivot table contains additional columns, you can fetch them too by using the **with()** method :
+
+	class User extends Eloquent {
+
+	     public function roles()
+	     {
+	          return $this->has_many_and_belongs_to('Role', 'user_roles')->with('column');
 	     }
 
 	}
