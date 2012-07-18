@@ -142,7 +142,7 @@ When displaying form errors inline, you often want to fill forms with their prev
 
 #### Telling a form to auto-fill its fields from previous input data:
 
-	Form::remember();
+	Form::remember_input();
 
 > **Note:** You still need to make sure to call `with_input()` when redirecting to a page making use of this feature.
 
