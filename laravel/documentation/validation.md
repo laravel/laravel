@@ -301,32 +301,29 @@ Once you have performed your validation, you need an easy way to get the errors 
 
 		if ($validation->fails())
 		{
-			return Redirect::to('register')->with_errors($validation);
+			return Redirect::to('register')->with_errors($validation)->with_input();
 		}
 	});
 
-Great! So, we have two simple registration routes. One to handle displaying the form, and one to handle the posting of the form. In the POST route, we run some validation over the input. If the validation fails, we redirect back to the registration form and flash the validation errors to the session so they will be available for us to display.
+Great! So, we have two simple registration routes. One to handle displaying the form, and one to handle the posting of the form. In the POST route, we run some validation over the input. If the validation fails, we redirect back to the registration form. We also flash the validation errors and the input to the session so they will be available for us to display back in the view.
 
-**But, notice we are not explicitly binding the errors to the view in our GET route**. However, an errors variable ($errors) will still be available in the view. Laravel intelligently determines if errors exist in the session, and if they do, binds them to the view for you. If no errors exist in the session, an empty message container will still be bound to the view. In your views, this allows you to always assume you have a message container available via the errors variable. We love making your life easier.
+In the corresponding view, you can access validation errors with the **$errors** variable. In this example, we test if an error occurred (and if so, add a *error* class to the div) and display the corresponding validation error:
 
-For example, if email address validation failed, we can look for 'email' within the $errors session var.
+	<div class='@if ( $errors->has('username') ) {{ "error" }} @endif'>
+		{{ Form::label('username', 'Name'))}}
+		<div class='controls'>
+			{{ Form::text('username', Input::old('username'))}}
+			{{ HTML::span($errors->first('username')) }}
+		</div>
+	</div>
 
-	$errors->has('email')
+Notice that, because we also flashed our input values to the Session, we repopulate our form field with the previously entered value using:
 
-Using Blade, we can then conditionally add error messages to our view.
+	{{ Form::text('username', Input::old('username')) }}
 
-	{{ $errors->has('email') ? 'Invalid Email Address' : 'Condition is false. Can be left blank' }}
+*Further Reading:*
 
-This will also work great when we need to conditionally add classes when using something like Twitter Bootstrap.
-For example, if the email address failed validation, we may want to add the "error" class from Bootstrap to our *div class="control-group"* statement.
-
-	<div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
-	
-When the validation fails, our rendered view will have the appended *error* class.
-
-	<div class="control-group error">
-	
-
+- [Input](/docs/input)
 
 <a name="custom-error-messages"></a>
 ## Custom Error Messages

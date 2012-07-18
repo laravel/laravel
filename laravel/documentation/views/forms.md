@@ -60,6 +60,23 @@ Laravel provides an easy method of protecting your application from cross-site r
 		//
 	}));
 
+#### Attaching the CSRF filter to a controller:
+
+Alternatively, you can attach the filter directly to a controller. Simply add it into the controller's constructor:
+
+	class My_Controller extends Base_Controller
+	{
+		public class __construct()
+		{
+			parent::__construct();
+			$this->filter('before', 'csrf');
+		}
+	}
+
+If you wish to limit the filter to only POST requests, add the following:
+
+	$this->filter('before', 'csrf')->on('post');
+
 #### Retrieving the CSRF token string:
 
 	$token = Session::token();
