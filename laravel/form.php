@@ -631,7 +631,7 @@ class Form {
 	 *
 	 * @return void
 	 */
-	public static function remember()
+	public static function remember_input()
 	{
 		static::$remember = true;
 	}
