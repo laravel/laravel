@@ -103,7 +103,10 @@ class HTML {
 
 		$attributes = $attributes + $defaults;
 
-		$url = URL::to_asset($url);
+		$f = getcwd() . "/public/" . $url;
+		$v = md5(File::get($f));
+
+		$url = URL::to_asset($url) . "?v=" . $v;
 
 		return '<link href="'.$url.'"'.static::attributes($attributes).'>'.PHP_EOL;
 	}
