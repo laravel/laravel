@@ -127,7 +127,7 @@ class SQLite extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return ' DEFAULT '.$this->wrap($column->default);
+			return ' DEFAULT '.$this->wrap($this->default_value($column->default));
 		}
 	}
 
