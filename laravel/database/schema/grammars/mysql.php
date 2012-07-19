@@ -213,6 +213,18 @@ class MySQL extends Grammar {
 	}
 
 	/**
+	 * Generate the SQL statement for a rename table command.
+	 *
+	 * @param  Table    $table
+	 * @param  Fluent   $command
+	 * @return string
+	 */
+	public function rename(Table $table, Fluent $command)
+	{
+		return 'RENAME TABLE '.$this->wrap($table).' TO '.$this->wrap($command->name);
+	}
+
+	/**
 	 * Generate the SQL statement for a drop table command.
 	 *
 	 * @param  Table    $table
