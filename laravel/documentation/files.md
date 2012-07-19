@@ -4,6 +4,7 @@
 
 - [Reading Files](#get)
 - [Writing Files](#put)
+- [Deleting Files](#delete)
 - [File Uploads](#upload)
 - [File Extensions](#ext)
 - [Checking File Types](#is)
@@ -28,6 +29,13 @@
 #### Appending to a file:
 
 	File::append('path/to/file', 'appended file content');
+	
+<a name="delete"></a>
+## Deleting Files
+
+#### Deleting a file:
+
+	File::delete('path/to/file');
 
 <a name="upload"></a>
 ## File Uploads
