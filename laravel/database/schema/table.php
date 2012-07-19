@@ -358,6 +358,17 @@ class Table {
 		return $this->column(__FUNCTION__, compact('name'));
 	}
 
+    /**
+   	 * Add a uuid column to the table.
+   	 *
+   	 * @param  string  $name
+   	 * @return Fluent
+   	 */
+   	public function uuid($name)
+   	{
+   		return $this->column(__FUNCTION__, compact('name'));
+   	}
+
 	/**
 	 * Set the database connection for the table operation.
 	 *

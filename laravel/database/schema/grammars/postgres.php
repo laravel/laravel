@@ -2,6 +2,7 @@
 
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Expression;
 
 class Postgres extends Grammar {
 
@@ -101,7 +102,7 @@ class Postgres extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+            return " DEFAULT ".($column->default instanceof Expression ? $column->default : "'".$column->default."'");
 		}
 	}
 
@@ -403,5 +404,16 @@ class Postgres extends Grammar {
 	{
 		return 'BYTEA';
 	}
+
+    /**
+   	 * Generate the data-type definition for a uuid.
+   	 *
+   	 * @param  Fluent  $column
+   	 * @return string
+   	 */
+   	protected function type_uuid(Fluent $column)
+   	{
+   		return 'UUID';
+   	}
 
 }
