@@ -491,12 +491,18 @@ class Router {
 			{
 				$pattern = '#^'.static::wildcards($route).'$#';
 
+				$pattern = static::names($pattern);
+
 				// If we get a match we'll return the route and slice off the first
 				// parameter match, as preg_match sets the first array item to the
 				// full-text match of the pattern.
 				if (preg_match($pattern, $uri, $parameters))
 				{
-					return new Route($method, $route, $action, array_slice($parameters, 1));
+					$match = new Route($method, $route, $action, array_slice($parameters, 1));
+					if ($match->validates())
+					{
+						return $match;
+					}
 				}
 			}
 		}
@@ -523,6 +529,18 @@ class Router {
 		}
 
 		return strtr($key, static::$patterns);
+	}
+
+	/**
+	 * Translate unmatched URI parameters into named parameters.
+	 *
+	 * @param  string $key
+	 * @return string
+	 */
+	protected static function names($key)
+	{
+		$pattern = trim(static::$patterns['(:any)'], '()');
+		return preg_replace('/\(:([^\)]+)\)/', "(?P<$1>".$pattern.')', $key);
 	}
 
 	/**

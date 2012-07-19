@@ -94,6 +94,18 @@ class Route {
 	{
 		$defaults = (array) array_get($action, 'defaults');
 
+		// Move the non-numeric indices from the parameters array
+		// to the names array for use later.
+		$names = array();
+		foreach (array_keys($parameters) as $key)
+		{
+			if ( ! is_numeric($key))
+			{
+				$names[$key] = $parameters[$key];
+				unset($parameters[$key]);
+			}
+		}
+
 		// If there are less parameters than wildcards, we will figure out how
 		// many parameters we need to inject from the array of defaults and
 		// merge them in into the main array for the route.
@@ -104,7 +116,8 @@ class Route {
 			$parameters = array_merge($parameters, $defaults);
 		}
 
-		$this->parameters = $parameters;
+		// Stick the named parameters on the end so that they don't interfere.
+		$this->parameters = array_merge($parameters, $names);
 	}
 
 	/**
@@ -160,7 +173,7 @@ class Route {
 
 		if ( ! is_null($handler))
 		{
-			return call_user_func_array($handler, $this->parameters);
+			return call_user_func_assoc($handler, $this->parameters);
 		}
 	}
 
@@ -268,6 +281,21 @@ class Route {
 	public function is($name)
 	{
 		return array_get($this->action, 'as') === $name;
+	}
+
+	/**
+	 * Determine if the route is valid for the parameters.
+	 * 
+	 * @return bool
+	 */
+	public function validates()
+	{
+		if ( ! empty($this->action['rules']))
+		{
+			return \Validator::make($this->parameters, $this->action['rules'])->passes();
+		}
+
+		return true;
 	}
 
 	/**

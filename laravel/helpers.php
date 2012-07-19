@@ -581,3 +581,46 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
+
+/**
+ * Attempt to call a function with associate array values as parameters.
+ *
+ * @param  Closure|array $callback
+ * @param  array $parameters
+ * @return mixed
+ */
+function call_user_func_assoc($callback, $parameters)
+{
+	$method = null;
+
+	if (is_array($callback))
+	{
+		$reflector = new \ReflectionClass($callback[0]);
+		$method = $reflector->getMethod($callback[1]);
+	}
+	else
+	{
+		$method = new \ReflectionFunction($callback);
+	}
+
+	$ordered = array();
+	foreach ($method->getParameters() as $param)
+	{
+		if (isset($parameters[$param->name]))
+		{
+			$ordered[] = $parameters[$param->name];
+		}
+		else
+		{
+			$ordered = null;
+			break;
+		}
+	}
+
+	if ( ! is_null($ordered))
+	{
+		return call_user_func_array($callback, $ordered);
+	}
+
+	return call_user_func_array($callback, $parameters);
+}
