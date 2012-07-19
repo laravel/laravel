@@ -2,6 +2,7 @@
 
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Expression;
 
 class SQLServer extends Grammar {
 
@@ -108,7 +109,7 @@ class SQLServer extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+            return " DEFAULT ".($column->default instanceof Expression ? $column->default : "'".$column->default."'");
 		}
 	}
 
@@ -421,5 +422,16 @@ class SQLServer extends Grammar {
 	{
 		return 'VARBINARY(MAX)';
 	}
+
+    /**
+   	 * Generate the data-type definition for a uuid.
+   	 *
+   	 * @param  Fluent  $column
+   	 * @return string
+   	 */
+   	protected function type_uuid(Fluent $column)
+   	{
+   		return 'NVARCHAR(36)';
+   	}
 
 }

@@ -2,6 +2,7 @@
 
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
+use Laravel\Database\Expression;
 
 class MySQL extends Grammar {
 
@@ -128,7 +129,7 @@ class MySQL extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+            return " DEFAULT ".($column->default instanceof Expression ? $column->default : "'".$column->default."'");
 		}
 	}
 
@@ -417,5 +418,16 @@ class MySQL extends Grammar {
 	{
 		return 'BLOB';
 	}
+
+    /**
+   	 * Generate the data-type definition for a uuid.
+   	 *
+   	 * @param  Fluent  $column
+   	 * @return string
+   	 */
+   	protected function type_uuid(Fluent $column)
+   	{
+   		return 'VARCHAR(36)';
+   	}
 
 }

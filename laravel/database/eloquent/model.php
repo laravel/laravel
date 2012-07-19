@@ -98,6 +98,20 @@ abstract class Model {
 	 */
 	public static $per_page = 20;
 
+    /**
+   	 * Indicates if the model using uuid as primary key.
+   	 *
+   	 * @var bool
+   	 */
+   	public static $key_is_uuid = false;
+
+    /**
+   	 * Indicates if the model using uuid as primary key and need automatically generate UUIDs when new records are created otherwise using database default.
+   	 *
+   	 * @var bool
+   	 */
+   	public static $key_generate_uuid = false;
+
 	/**
 	 * Create a new Eloquent model instance.
 	 *
@@ -419,11 +433,14 @@ abstract class Model {
 		// then we can consider the insert successful.
 		else
 		{
+            // Generated uuid for primay key
+            if ($this->key_is_uuid() && $this->key_generate_uuid() && !is_string($this->get_key())) $this->set_key(Str::uuid());
+
 			$id = $this->query()->insert_get_id($this->attributes, $this->key());
 
 			$this->set_key($id);
 
-			$this->exists = $result = is_numeric($this->get_key());
+			$this->exists = $result = $this->key_is_uuid() ? is_string($this->get_key()) : is_numeric($this->get_key());
 
 			if ($result) $this->fire_event('created');
 		}
@@ -756,7 +773,7 @@ abstract class Model {
 	 */
 	public function __call($method, $parameters)
 	{
-		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
+		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps', 'key_is_uuid', 'key_generate_uuid');
 
 		// If the method is actually the name of a static property on the model we'll
 		// return the value of the static property. This makes it convenient for
