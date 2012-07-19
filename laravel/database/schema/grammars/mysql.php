@@ -128,7 +128,7 @@ class MySQL extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+			return " DEFAULT '".$this->default_value($column->default)."'";
 		}
 	}
 
