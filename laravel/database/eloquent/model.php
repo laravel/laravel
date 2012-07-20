@@ -71,6 +71,13 @@ abstract class Model {
 	public static $timestamps = true;
 
 	/**
+	* Indicates if the model is using optimistic locking.
+	*
+	* @var bool
+	*/
+	public static $optimistic_lock = false;
+
+	/**
 	 * The name of the table associated with the model.
 	 *
 	 * @var string
@@ -219,6 +226,8 @@ abstract class Model {
 		$model = new static(array(), true);
 
 		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
+
+		if (static::$optimistic_lock) $attributes['lock_version'] = $this->lock_version++;
 
 		return $model->query()->where($model->key(), '=', $id)->update($attributes);
 	}
@@ -385,11 +394,36 @@ abstract class Model {
 		// fluent query instance. We'll set the where condition automatically.
 		if ($this->exists)
 		{
-			$query = $this->query()->where(static::$key, '=', $this->get_key());
+			if (static::$optimistic_lock)
+			{
+				$this->lock_version++;
 
-			$result = $query->update($this->get_dirty()) === 1;
+				$query = $this->query()->where(static::$key, '=', $this->get_key())->where('lock_version', '=', $this->lock_version-1);
 
-			if ($result) $this->fire_event('updated');
+				$result = $query->update($this->get_dirty()) === 1;
+
+				if ($result)
+				{
+					$this->fire_event('updated');
+				}
+
+				// VersionMissmatchException
+				else
+				{
+					$this->lock_version--;
+					throw new \Exception("Version missmatch: Data were modified in the meantime.");
+				}
+			}
+			// No locking enabled
+			else
+			{
+
+				$query = $this->query()->where(static::$key, '=', $this->get_key());
+
+				$result = $query->update($this->get_dirty()) === 1;
+
+				if ($result) $this->fire_event('updated');
+			}
 		}
 
 		// If the model does not exist, we will insert the record and retrieve the last
