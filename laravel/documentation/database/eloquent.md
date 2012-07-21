@@ -242,7 +242,7 @@ Many-to-many relationships are the most complicated of the three relationships. 
 	id   - INTEGER
 	name - VARCHAR
 
-**Roles_Users:**
+**Role_User:**
 
     id      - INTEGER
 	user_id - INTEGER
