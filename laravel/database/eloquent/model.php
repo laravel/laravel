@@ -71,6 +71,13 @@ abstract class Model {
 	public static $timestamps = true;
 
 	/**
+	* Indicates if the model is using optimistic locking.
+	*
+	* @var bool
+	*/
+	public static $optimistic_lock = false;
+
+	/**
 	 * The name of the table associated with the model.
 	 *
 	 * @var string
@@ -221,6 +228,8 @@ abstract class Model {
 		$model->fill($attributes);
 
 		if (static::$timestamps) $model->timestamp();
+
+		if (static::$optimistic_lock) $model->update_version();
 
 		return $model->query()->where($model->key(), '=', $id)->update($model->attributes);
 	}
@@ -400,12 +409,17 @@ abstract class Model {
 			$this->timestamp();
 		}
 
+		if (static::$optimistic_lock)
+		{
+			$this->update_version();
+		}
+
 		$this->fire_event('saving');
 
 		// If the model exists, we only need to update it in the database, and the update
 		// will be considered successful if there is one affected row returned from the
 		// fluent query instance. We'll set the where condition automatically.
-		if ($this->exists)
+		if ($this->exists && ! static::$optimistic_lock)
 		{
 			$query = $this->query()->where(static::$key, '=', $this->get_key());
 
@@ -414,6 +428,26 @@ abstract class Model {
 			if ($result) $this->fire_event('updated');
 		}
 
+		else if ($this->exists && static::$optimistic_lock)
+		{
+			$query = $this->query()
+				->where(static::$key, '=', $this->get_key())
+				->where('lock_version', '=', $this->lock_version-1);
+
+			$result = $query->update($this->get_dirty()) === 1;
+
+			if ($result)
+			{
+				$this->fire_event('updated');
+			}
+
+			// Version missmatch triggered
+			else
+			{
+				$this->lock_version--;
+				throw new \Exception("Version missmatch: Data were modified in the meantime.");
+			}
+		}
 		// If the model does not exist, we will insert the record and retrieve the last
 		// insert ID that is associated with the model. If the ID returned is numeric
 		// then we can consider the insert successful.
@@ -470,6 +504,23 @@ abstract class Model {
 		$this->updated_at = new \DateTime;
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
+	}
+
+	/**
+	 * Set the version on the model.
+	 *
+	 * @return void
+	 */
+	protected function update_version()
+	{
+		if (! $this->exists)
+		{
+			$this->lock_version = 0;
+		}
+		else
+		{
+			$this->lock_version++;
+		}
 	}
 
 	/**
