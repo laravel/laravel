@@ -71,7 +71,7 @@ class Payload {
 	}
 
 	/**
-	 * Deteremine if the session payload instance is valid.
+	 * Determine if the session payload instance is valid.
 	 *
 	 * The session is considered valid if it exists and has not expired.
 	 *
