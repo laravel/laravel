@@ -9,13 +9,13 @@ class HTML {
 	 */
 	public static $macros = array();
 
-    /**
-     * Registers a custom macro.
-     *
-     * @param  string   $name
-     * @param  Closure  $input
-     * @return void
-     */
+	/**
+	 * Registers a custom macro.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $input
+	 * @return void
+	 */
 	public static function macro($name, $macro)
 	{
 		static::$macros[$name] = $macro;
