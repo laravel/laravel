@@ -28,7 +28,7 @@ class Log {
 	 * Write a message to the log file.
 	 *
 	 * <code>
-	 *		// Write an "error" messge to the log file
+	 *		// Write an "error" message to the log file
 	 *		Log::write('error', 'Something went horribly wrong!');
 	 *
 	 *		// Write an "error" message using the class' magic method

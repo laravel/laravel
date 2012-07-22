@@ -287,7 +287,7 @@ class Connection {
 	{
 		// If the fetch style is "class", we'll hydrate an array of PHP
 		// stdClass objects as generic containers for the query rows,
-		// otherwise we'll just use the fetch styel value.
+		// otherwise we'll just use the fetch style value.
 		if ($style === PDO::FETCH_CLASS)
 		{
 			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');

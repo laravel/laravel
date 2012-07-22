@@ -77,7 +77,7 @@ class Cookie {
 
 		// If the secure option is set to true, yet the request is not over HTTPS
 		// we'll throw an exception to let the developer know that they are
-		// attempting to send a secure cookie over the unsecure HTTP.
+		// attempting to send a secure cookie over the unsecured HTTP.
 		if ($secure and ! Request::secure())
 		{
 			throw new \Exception("Attempting to set secure cookie over HTTP.");
