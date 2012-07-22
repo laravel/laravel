@@ -134,7 +134,7 @@ class Lang {
 		$line = array_get($lines, $line, $default);
 
 		// If the line is not a string, it probably means the developer asked for
-		// the entire langauge file and the value of the requested value will be
+		// the entire language file and the value of the requested value will be
 		// an array containing all of the lines in the file.
 		if (is_string($line))
 		{

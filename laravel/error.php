@@ -80,7 +80,7 @@ class Error {
 	 */
 	public static function shutdown()
 	{
-		// If a fatal error occured that we have not handled yet, we will
+		// If a fatal error occurred that we have not handled yet, we will
 		// create an ErrorException and feed it to the exception handler,
 		// as it will not yet have been handled.
 		$error = error_get_last();
