@@ -21,4 +21,17 @@ class SQLite extends Grammar
 		return 'ORDER BY '.implode(', ', $sql);
 	}
 
+	/**
+	 * Returns the SQL to get the name and type of each column. Note that all info
+	 * is always returned for SQLite, regardless of the $all_info flag.
+	 *
+	 * @param  Query   $query
+	 * @param  bool    $all_info
+	 * @return string
+	 */
+	public function columns(Query $query, $all_info = false)
+	{
+		return "PRAGMA table_info({$query->from})";
+	}
+
 }

@@ -840,6 +840,19 @@ class Query {
 	}
 
 	/**
+	 * Returns the name and type of each column in the table.
+	 *
+	 * @param  bool    $all_info If false, only the name & type will be returned.
+	 * @return array
+	 */
+	public function columns($all_info = false)
+	{
+		$sql = $this->grammar->columns($this, $all_info);
+
+		return $this->connection->query($sql);
+	}
+
+	/**
 	 * Magic Method for handling dynamic functions.
 	 *
 	 * This method handles calls to aggregates as well as dynamic where clauses.
