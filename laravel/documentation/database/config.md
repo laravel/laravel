@@ -49,7 +49,7 @@ The default connection will always be used by the [fluent query builder](/docs/d
 <a href="options"></a>
 ##Overwriting The Default PDO Options
 
-The PDO connecter class (**laravel/database/connectors/connector.php**) has a set of default PDO attributes defined which can be overwritten in the options array for each system. For example, one of the default attributes is to force column names to lowercase (**PDO::CASE_LOWER**) even if they are defined in UPPERCASE or CamelCase in the table. Therefor, under the default attributes, query result object variables would only be accessible in lowercase.
+The PDO connector class (**laravel/database/connectors/connector.php**) has a set of default PDO attributes defined which can be overwritten in the options array for each system. For example, one of the default attributes is to force column names to lowercase (**PDO::CASE_LOWER**) even if they are defined in UPPERCASE or CamelCase in the table. Therefore, under the default attributes, query result object variables would only be accessible in lowercase.
 An example of the MySQL system settings with added default PDO attributes:
 
 	'mysql' => array(
