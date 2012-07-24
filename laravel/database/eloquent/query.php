@@ -217,22 +217,23 @@ class Query {
 	 */
 	protected function model_includes()
 	{
-		$includes = array();
+		$relationships = array_keys($this->model->includes);
+		$implicits = array();
 
-		foreach ($this->model->includes as $relationship => $constraints)
+		foreach ($relationships as $relationship)
 		{
-			// When eager loading relationships, constraints may be set on the eager
-			// load definition; however, is none are set, we need to swap the key
-			// and the value of the array since there are no constraints.
-			if (is_numeric($relationship))
-			{
-				list($relationship, $constraints) = array($constraints, null);
-			}
+			$parts = explode('.', $relationship);
 
-			$includes[$relationship] = $constraints;
+			$prefix = '';
+			foreach ($parts as $part)
+			{
+				$implicits[$prefix.$part] = NULL;
+				$prefix .= $part.'.';
+			}
 		}
 
-		return $includes;
+		// Add all implicit includes to the explicit ones
+		return $this->model->includes + $implicits;
 	}
 
 	/**
