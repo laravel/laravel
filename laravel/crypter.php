@@ -7,7 +7,7 @@ class Crypter {
 	 *
 	 * @var string
 	 */
-	public static $cipher = MCRYPT_RIJNDAEL_256;
+	public static $cipher = MCRYPT_RIJNDAEL_128;
 
 	/**
 	 * The encryption mode.
@@ -21,7 +21,7 @@ class Crypter {
 	 *
 	 * @var int
 	 */
-	public static $block = 32;
+	public static $block = 16;
 
 	/**
 	 * Encrypt a string using Mcrypt.

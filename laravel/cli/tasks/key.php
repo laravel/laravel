@@ -31,10 +31,10 @@ class Key extends Task {
 	public function generate($arguments = array())
 	{
 		// By default the Crypter class uses AES-256 encryption which uses
-		// a 32 byte input vector, so that is the length of string we will
+		// a 16 byte input vector, so that is the length of string we will
 		// generate for the application token unless another length is
 		// specified through the CLI.
-		$key = Str::random(array_get($arguments, 0, 32));
+		$key = Str::random(array_get($arguments, 0, 16));
 
 		$config = File::get($this->path);
 
