@@ -257,25 +257,20 @@ abstract class Model {
 	{
 		$includes = (array) $includes;
 
-		$all_includes = array();
+		$this->includes = array();
 
-		foreach($includes as $include)
+		foreach ($includes as $relationship => $constraints)
 		{
-			$nested = explode('.', $include);
-
-			$inc = array();
-
-			foreach($nested as $relation)
+			// When eager loading relationships, constraints may be set on the eager
+			// load definition; however, is none are set, we need to swap the key
+			// and the value of the array since there are no constraints.
+			if (is_numeric($relationship))
 			{
-				$inc[] = $relation;
-
-				$all_includes[] = implode('.', $inc);
+				list($relationship, $constraints) = array($constraints, null);
 			}
 
+			$this->includes[$relationship] = $constraints;
 		}
-
-		//remove duplicates and reset the array keys.
-		$this->includes = array_values(array_unique($all_includes));
 
 		return $this;
 	}
