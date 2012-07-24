@@ -186,9 +186,9 @@ class Blade {
 	 */
 	protected static function compile_comments($value)
 	{
-		$value = preg_replace('/\{\{--(.+?)(--\}\})?\n/', "<?php // $1 ?>", $value);
+		$value = preg_replace('/\{\{--(.+?)(--\}\})?\n/s', "<?php // $1 ?>", $value);
 
-		return preg_replace('/\{\{--((.|\s)*?)--\}\}/', "<?php /* $1 */ ?>\n", $value);
+		return preg_replace('/\{\{--((.|\s)*?)--\}\}/s', "<?php /* $1 */ ?>\n", $value);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class Blade {
 	 */
 	protected static function compile_echos($value)
 	{
-		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
+		return preg_replace('/\{\{(.+?)\}\}/s', '<?php echo $1; ?>', $value);
 	}
 
 	/**
