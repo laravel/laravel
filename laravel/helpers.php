@@ -581,3 +581,21 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
+
+/**
+ * Make remote file operations aware of proxy "context"
+ */
+function set_default_stream_context() 
+{
+	if (isset($_ENV['http_proxy'])) 
+	{
+		$context = array(
+			'http' => array(
+				'proxy' => $_ENV['http_proxy'],
+				'request_fulluri' => true,
+			)
+		);
+		
+		stream_context_set_default($context);
+	}
+}
