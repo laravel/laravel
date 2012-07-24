@@ -1,6 +1,7 @@
 <?php namespace Laravel\CLI\Tasks\Bundle\Providers;
 
 use Laravel\File;
+use Laravel\Proxy;
 
 abstract class Provider {
 
@@ -66,7 +67,11 @@ abstract class Provider {
 	 */
 	protected function download($url)
 	{
-		$remote = file_get_contents($url);
+		// Get proxy information from the user's OS, use file_get_contents
+		// with the context created
+		$proxy = Proxy::http();
+
+		$remote = file_get_contents($url, false, $proxy);
 
 		// If we were unable to download the zip archive correctly
 		// we'll bomb out since we don't want to extract the last
