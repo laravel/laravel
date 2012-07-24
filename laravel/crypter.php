@@ -41,6 +41,27 @@ class Crypter {
 
 		return base64_encode($iv.$value);
 	}
+	
+	/**
+	 * Encrypt and HMAC a string.
+	 *
+	 * The string will be encrypted using the AES-256 scheme, authenticated using SHA-512 and the result will be base64 encoded.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function encrypt_hmac($value)
+	{
+		$iv = mcrypt_create_iv(static::iv_size(), static::randomizer());
+
+		$value = static::pad($value);
+
+		$value = $iv . mcrypt_encrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+
+		$value = $value . hash_hmac('sha512', $value, static::key(), true);
+
+		return base64_encode($value);
+	}
 
 	/**
 	 * Decrypt a string using Mcrypt.
@@ -62,9 +83,40 @@ class Crypter {
 		// Once we have the input vector and the value, we can give them both
 		// to Mcrypt for decryption. The value is sometimes padded with \0,
 		// so we will trim all of the padding characters.
-		$key = static::key();
 
-		$value = mcrypt_decrypt(static::$cipher, $key, $value, static::$mode, $iv);
+		$value = mcrypt_decrypt(static::$cipher, static::key(), $value, static::$mode, $iv);
+
+		return static::unpad($value);
+	}
+	
+	/**
+	 * Decrypt and check the integrity of a string.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function decrypt_hmac($value)
+	{
+		$value = base64_decode($value);
+
+		// To decrypt the value, we first need to extract the input vector and
+		// the encrypted value. The input vector size varies across different
+		// encryption ciphers and modes, so we'll get the correct size.
+		$iv = substr($value, 0, static::iv_size());
+
+		$ciphertext = substr($value, static::iv_size(), -64);
+
+		$hmac = substr($value, -64);
+
+		if(hash_hmac('sha512', $iv . $ciphertext, static::key(), true) !== $hmac) {
+			throw new \Exception("Decryption error. HMAC is invalid.");
+		}
+
+		// Once we have the input vector and the value, we can give them both
+		// to Mcrypt for decryption. The value is sometimes padded with \0,
+		// so we will trim all of the padding characters.
+
+		$value = mcrypt_decrypt(static::$cipher, static::key(), $ciphertext, static::$mode, $iv);
 
 		return static::unpad($value);
 	}
