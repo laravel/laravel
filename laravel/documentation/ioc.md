@@ -24,7 +24,7 @@ IoC containers help make your application more flexible and testable. Since you 
 	});
 
 
-Great! Now we have registered a resolver for SwiftMailer in our container. But, what if we don't want the container to create a new mailer instance every time we need one? Maybe we just want the container to return the same instance after the intial instance is created. Just tell the container the object should be a singleton:
+Great! Now we have registered a resolver for SwiftMailer in our container. But, what if we don't want the container to create a new mailer instance every time we need one? Maybe we just want the container to return the same instance after the initial instance is created. Just tell the container the object should be a singleton:
 
 #### Registering a singleton in the container:
 

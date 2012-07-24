@@ -118,7 +118,7 @@ class Query {
 			$new = new $class(array(), true);
 
 			// We need to set the attributes manually in case the accessible property is
-			// set on the array which will prevent the mass assignemnt of attributes if
+			// set on the array which will prevent the mass assignment of attributes if
 			// we were to pass them in using the constructor or fill methods.
 			$new->fill_raw($result);
 

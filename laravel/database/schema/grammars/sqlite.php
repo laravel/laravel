@@ -214,7 +214,7 @@ class SQLite extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table   $table
 	 * @param  Fluent  $command
@@ -226,7 +226,7 @@ class SQLite extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table   $table
 	 * @param  Fluent  $command

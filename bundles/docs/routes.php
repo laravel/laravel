@@ -38,7 +38,7 @@ function document_exists($page)
 }
 
 /**
- * Attach the sidebar to the documentatoin template.
+ * Attach the sidebar to the documentation template.
  */
 View::composer('docs::template', function($view)
 {

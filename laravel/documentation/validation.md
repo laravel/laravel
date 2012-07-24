@@ -344,7 +344,7 @@ In the example above, the custom required message will be used for the email att
 
 However, if you are using many custom error messages, specifying inline may become cumbersome and messy. For that reason, you can specify your custom messages in the **custom** array within the validation language file:
 
-#### Adding custom error messages to the validation langauge file:
+#### Adding custom error messages to the validation language file:
 
 	'custom' => array(
 		'email_required' => 'We need to know your e-mail address!',

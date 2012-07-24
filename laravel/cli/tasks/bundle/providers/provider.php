@@ -49,7 +49,7 @@ abstract class Provider {
 
 		// Once we have the latest modified directory, we should be
 		// able to move its contents over into the bundles folder
-		// so the bundle will be usable by the develoepr.
+		// so the bundle will be usable by the developer.
 		File::mvdir($latest, $path);
 
 		File::rmdir($work.'zip');

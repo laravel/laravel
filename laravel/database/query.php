@@ -168,7 +168,7 @@ class Query {
 
 		// If the column is just a string, we can assume that the join just
 		// has a simple on clause, and we'll create the join instance and
-		// add the clause automatically for the develoepr.
+		// add the clause automatically for the developer.
 		else
 		{
 			$join = new Query\Join($type, $table);
@@ -869,7 +869,7 @@ class Query {
 		}
 
 		// All of the aggregate methods are handled by a single method, so we'll
-		// catch them all here and then pass them off to the agregate method
+		// catch them all here and then pass them off to the aggregate method
 		// instead of creating methods for each one of them.
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{
