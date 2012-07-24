@@ -137,4 +137,26 @@ class SQLServer extends Grammar {
 		return '';
 	}
 
+    /**
+     * Get an array of tables
+     *
+     * @return array
+     */
+    public function tables()
+    {
+        $tables = array();
+
+        if ($this->connection instanceof \Laravel\Database\Connection)
+        {
+            $sql = "SELECT table_name AS name FROM INFORMATION_SCHEMA.tables";
+            $results = $this->connection->query($sql);
+
+            array_walk($results, function($r) use (&$tables) {
+                $tables[] = $r->name;
+            });
+        }
+
+        return $tables;
+    }
+
 }
