@@ -27,6 +27,7 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
+		'lang'
 	);
 
 	/**
@@ -413,6 +414,19 @@ class Blade {
 	}
 
 	/**
+	 * Rewrite Blade @lang statements into Lang statements
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	protected static function compile_lang($value)
+	{
+		$pattern = static::matcher('lang');
+
+		return preg_replace($pattern, '$1<?php echo Lang::line$2->get(); ?>', $value);
+	}
+
+	/**
 	 * Execute user defined compilers.
 	 *
 	 * @param  string  $value
@@ -426,7 +440,7 @@ class Blade {
 		}
 
 		return $value;
-	}	
+	}
 
 	/**
 	 * Get the regular expression for a generic Blade function.
