@@ -25,7 +25,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Geenrate the SQL statements for a table modification command.
+	 * Generate the SQL statements for a table modification command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -258,7 +258,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -351,7 +351,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the data-type definintion for a decimal.
+	 * Generate the data-type definition for a decimal.
 	 *
 	 * @param  Fluent  $column
 	 * @return string

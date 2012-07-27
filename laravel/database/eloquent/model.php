@@ -763,7 +763,7 @@ abstract class Model {
 
 		$underscored = array('with', 'find');
 
-		// Some methods need to be accessed both staticly and non-staticly so we'll
+		// Some methods need to be accessed both statically and non-statically so we'll
 		// keep underscored methods of those methods and intercept calls to them
 		// here so they can be called either way on the model instance.
 		if (in_array($method, $underscored))

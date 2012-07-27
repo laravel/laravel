@@ -102,7 +102,7 @@ class URL {
 		}
 
 		// Unless $https is specified (true or false) then maintain the current request
-		// security for any new links generated.  So https for all secure links.
+		// security for any new links generated. So https for all secure links.
 		if (is_null($https)) $https = Request::secure();
 
 		$root = static::base().'/'.Config::get('application.index');

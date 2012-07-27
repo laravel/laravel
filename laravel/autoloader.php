@@ -40,7 +40,7 @@ class Autoloader {
 	/**
 	 * Load the file corresponding to a given class.
 	 *
-	 * This method is registerd in the bootstrap file as an SPL auto-loader.
+	 * This method is registered in the bootstrap file as an SPL auto-loader.
 	 *
 	 * @param  string  $class
 	 * @return void
@@ -55,7 +55,7 @@ class Autoloader {
 			return class_alias(static::$aliases[$class], $class);
 		}
 
-		// All classes in Laravel are staticly mapped. There is no crazy search
+		// All classes in Laravel are statically mapped. There is no crazy search
 		// routine that digs through directories. It's just a simple array of
 		// class to file path maps for ultra-fast file loading.
 		elseif (isset(static::$mappings[$class]))
@@ -102,7 +102,7 @@ class Autoloader {
 	protected static function load_psr($class, $directory = null)
 	{
 		// The PSR-0 standard indicates that class namespaces and underscores
-		// should be used to indcate the directory tree in which the class
+		// should be used to indicate the directory tree in which the class
 		// resides, so we'll convert them to slashes.
 		$file = str_replace(array('\\', '_'), '/', $class);
 
