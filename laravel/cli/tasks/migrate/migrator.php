@@ -206,7 +206,7 @@ class Migrator extends Task {
 
 		// Once the migration has been created, we'll return the
 		// migration file name so it can be used by the task
-		// consumer if necessary for futher work.
+		// consumer if necessary for further work.
 		return $file;
 	}
 
@@ -223,7 +223,7 @@ class Migrator extends Task {
 
 		$prefix = Bundle::class_prefix($bundle);
 
-		// The class name is formatted simialrly to tasks and controllers,
+		// The class name is formatted similarly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in
 		// the default "application" bundle.
 		$class = $prefix.Str::classify($migration);

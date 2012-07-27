@@ -974,7 +974,7 @@ class Validator {
 
 		// If no language line has been specified for the attribute, all of
 		// the underscores are removed from the attribute name and that
-		// will be used as the attribtue name.
+		// will be used as the attribute name.
 		else
 		{
 			return str_replace('_', ' ', $attribute);

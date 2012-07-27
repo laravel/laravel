@@ -359,7 +359,7 @@ class HTML {
 		foreach ((array) $attributes as $key => $value)
 		{
 			// For numeric keys, we will assume that the key and the value are the
-			// same, as this will conver HTML attributes such as "required" that
+			// same, as this will convert HTML attributes such as "required" that
 			// may be specified as required="required", etc.
 			if (is_numeric($key)) $key = $value;
 

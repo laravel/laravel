@@ -296,7 +296,7 @@ class File {
 		{
 			// If the item is a directory, we can just recurse into the
 			// function and delete that sub-directory, otherwise we'll
-			// just deleete the file and keep going!
+			// just delete the file and keep going!
 			if ($item->isDir())
 			{
 				static::rmdir($item->getRealPath());

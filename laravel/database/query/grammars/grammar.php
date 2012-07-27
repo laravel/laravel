@@ -13,7 +13,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	public $datetime = 'Y-m-d H:i:s';
 
 	/**
-	 * All of the query componenets in the order they should be built.
+	 * All of the query components in the order they should be built.
 	 *
 	 * @var array
 	 */
@@ -149,7 +149,7 @@ class Grammar extends \Laravel\Database\Grammar {
 
 			// The first clause will have a connector on the front, but it is
 			// not needed on the first condition, so we will strip it off of
-			// the condition before adding it to the arrya of joins.
+			// the condition before adding it to the array of joins.
 			$search = array('AND ', 'OR ');
 
 			$clauses[0] = str_replace($search, '', $clauses[0]);
@@ -343,7 +343,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	}
 
 	/**
-	 * Compile a SQL INSERT statment from a Query instance.
+	 * Compile a SQL INSERT statement from a Query instance.
 	 *
 	 * This method handles the compilation of single row inserts and batch inserts.
 	 *
@@ -366,7 +366,7 @@ class Grammar extends \Laravel\Database\Grammar {
 		$columns = $this->columnize(array_keys(reset($values)));
 
 		// Build the list of parameter place-holders of values bound to the query.
-		// Each insert should have the same number of bound paramters, so we can
+		// Each insert should have the same number of bound parameters, so we can
 		// just use the first array of values.
 		$parameters = $this->parameterize(reset($values));
 
@@ -376,7 +376,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	}
 
 	/**
-	 * Compile a SQL INSERT and get ID statment from a Query instance.
+	 * Compile a SQL INSERT and get ID statement from a Query instance.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
@@ -389,7 +389,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	}
 
 	/**
-	 * Compile a SQL UPDATE statment from a Query instance.
+	 * Compile a SQL UPDATE statement from a Query instance.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
@@ -410,13 +410,13 @@ class Grammar extends \Laravel\Database\Grammar {
 		$columns = implode(', ', $columns);
 
 		// UPDATE statements may be constrained by a WHERE clause, so we'll run
-		// the entire where compilation process for those contraints. This is
+		// the entire where compilation process for those constraints. This is
 		// easily achieved by passing it to the "wheres" method.
 		return trim("UPDATE {$table} SET {$columns} ".$this->wheres($query));
 	}
 
 	/**
-	 * Compile a SQL DELETE statment from a Query instance.
+	 * Compile a SQL DELETE statement from a Query instance.
 	 *
 	 * @param  Query   $query
 	 * @return string
