@@ -191,7 +191,7 @@ class Bundle {
 
 		foreach (static::$bundles as $key => $value)
 		{
-			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/'))
+			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/') or $value['handles'] == '/')
 			{
 				return $key;
 			}
