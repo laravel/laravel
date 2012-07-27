@@ -46,7 +46,7 @@ class Bundle {
 
 		// If the given configuration is actually a string, we will assume it is a
 		// location and set the bundle name to match it. This is common for most
-		// bundles who simply live in the root bundle directory.
+		// bundles that simply live in the root bundle directory.
 		if (is_string($config))
 		{
 			$bundle = $config;
@@ -55,7 +55,7 @@ class Bundle {
 		}
 
 		// If no location is set, we will set the location to match the name of
-		// the bundle. This is for bundles who are installed to the root of
+		// the bundle. This is for bundles that are installed on the root of
 		// the bundle directory so a location was not set.
 		if ( ! isset($config['location']))
 		{
@@ -74,7 +74,7 @@ class Bundle {
 	}
 
 	/**
-	 * Load a bundle by running it's start-up script.
+	 * Load a bundle by running its start-up script.
 	 *
 	 * If the bundle has already been started, no action will be taken.
 	 *
@@ -124,7 +124,7 @@ class Bundle {
 
 		$path = static::path($bundle).'routes'.EXT;
 
-		// By setting the bundle property on the router the router knows what
+		// By setting the bundle property on the router, the router knows what
 		// value to replace the (:bundle) place-holder with when the bundle
 		// routes are added, keeping the routes flexible.
 		Router::$bundle = static::option($bundle, 'handles');
@@ -372,7 +372,7 @@ class Bundle {
 	}
 
 	/**
-	 * Parse a element identifier and return the bundle name and element.
+	 * Parse an element identifier and return the bundle name and element.
 	 *
 	 * <code>
 	 *		// Returns array(null, 'admin.user')

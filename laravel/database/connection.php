@@ -209,7 +209,7 @@ class Connection {
 	/**
 	 * Execute a SQL query against the connection.
 	 *
-	 * The PDO statement and boolean result will be return in an array.
+	 * The PDO statement and boolean result will be returned in an array.
 	 *
 	 * @param  string  $sql
 	 * @param  array   $bindings
@@ -265,7 +265,7 @@ class Connection {
 			throw $exception;
 		}
 
-		// Once we have execute the query, we log the SQL, bindings, and
+		// Once we have executed the query, we log the SQL, bindings, and
 		// execution time in a static array that is accessed by all of
 		// the connections actively being used by the application.
 		if (Config::get('database.profile'))

@@ -55,7 +55,7 @@ class Router {
 	public static $group;
 
 	/**
-	 * The "handes" clause for the bundle currently being routed.
+	 * The "handles" clause for the bundle currently being routed.
 	 *
 	 * @var string
 	 */
@@ -311,7 +311,7 @@ class Router {
 
 			$root = Bundle::option($bundle, 'handles');
 
-			// If the controller is a "home" controller, we'll need to also build a
+			// If the controller is a "home" controller, we'll need to also build an
 			// index method route for the controller. We'll remove "home" from the
 			// route root and setup a route to point to the index method.
 			if (ends_with($controller, 'home'))
@@ -428,7 +428,7 @@ class Router {
 
 		// To find the route, we'll simply spin through the routes looking
 		// for a route with a "uses" key matching the action, and if we
-		// find one we cache and return it.
+		// find one, we cache and return it.
 		foreach (static::routes() as $method => $routes)
 		{
 			foreach ($routes as $key => $value)
@@ -484,7 +484,7 @@ class Router {
 	{
 		foreach (static::method($method) as $route => $action)
 		{
-			// We only need to check routes with regular expression since all other
+			// We only need to check routes with regular expression since all others
 			// would have been able to be matched by the search for literal matches
 			// we just did before we started searching.
 			if (str_contains($route, '('))

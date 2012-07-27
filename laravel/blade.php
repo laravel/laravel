@@ -149,9 +149,9 @@ class Blade {
 			return $value;
 		}
 
-		// First we'll get the layout from the top of the template and remove it.
-		// Then it is replaced with @include and attached to the end.
-		// By convention it must be located on the first line of the template contents.
+		// First we'll split out the lines of the template so we can get the
+		// layout from the top of the template. By convention, it must be
+		// located on the first line of the template contents.
 		preg_replace_callback(
 			'/^@layout(\s*?\(.+?\))(\r?\n)?/',
 			function($matches) use (&$value)
@@ -211,7 +211,7 @@ class Blade {
 	protected static function compile_forelse($value)
 	{
 		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
-		
+
 		if ( count($matches) < 1 ) return $value;
 
 		foreach ($matches as $forelse)
@@ -452,7 +452,7 @@ class Blade {
 		}
 
 		return $value;
-	}	
+	}
 
 	/**
 	 * Get the regular expression for a generic Blade function.

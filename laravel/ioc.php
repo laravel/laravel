@@ -154,7 +154,7 @@ class IoC {
 		$reflector = new \ReflectionClass($type);
 
 		// If the type is not instantiable, the developer is attempting to resolve
-		// an abstract type such as an Interface of Abstract Class and there is
+		// an abstract type such as an Interface of an Abstract Class and there is
 		// no binding registered for the abstraction so we need to bail out.
 		if ( ! $reflector->isInstantiable())
 		{

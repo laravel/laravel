@@ -3,7 +3,7 @@
 class Cookie {
 
 	/**
-	 * How long is forever (in minutes).
+	 * How long is forever (in minutes)?
 	 *
 	 * @var int
 	 */

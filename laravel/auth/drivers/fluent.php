@@ -11,7 +11,7 @@ class Fluent extends Driver {
 	 *
 	 * If the user is a guest, null should be returned.
 	 *
-	 * @param  int         $id
+	 * @param  int  $id
 	 * @return mixed|null
 	 */
 	public function retrieve($id)

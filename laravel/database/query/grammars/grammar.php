@@ -125,7 +125,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	protected function joins(Query $query)
 	{
 		// We need to iterate through each JOIN clause that is attached to the
-		// query an translate it into SQL. The table and the columns will be
+		// query and translate it into SQL. The table and the columns will be
 		// wrapped in identifiers to avoid naming collisions.
 		foreach ($query->joins as $join)
 		{
@@ -135,7 +135,7 @@ class Grammar extends \Laravel\Database\Grammar {
 
 			// Each JOIN statement may have multiple clauses, so we will iterate
 			// through each clause creating the conditions then we'll join all
-			// of the together at the end to build the clause.
+			// of them together at the end to build the clause.
 			foreach ($join->clauses as $clause)
 			{
 				extract($clause);

@@ -210,7 +210,7 @@ $response->send();
 | And We're Done!
 |--------------------------------------------------------------------------
 |
-| Raise the "done" event so extra output can be attached to the response
+| Raise the "done" event so extra output can be attached to the response.
 | This allows the adding of debug toolbars, etc. to the view, or may be
 | used to do some kind of logging by the application.
 |

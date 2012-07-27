@@ -104,7 +104,7 @@ class Pluralizer {
 			return $value;
 		}
 
-		// Next we will check the "irregular" patterns, which contains words
+		// Next, we will check the "irregular" patterns, which contain words
 		// like "children" and "teeth" which can not be inflected using the
 		// typically used regular expression matching approach.
 		foreach ($irregular as $irregular => $pattern)

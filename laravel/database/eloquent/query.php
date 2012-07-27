@@ -141,7 +141,7 @@ class Query {
 			}
 		}
 
-		// The many to many relationships may have pivot table column on them
+		// The many to many relationships may have pivot table columns on them
 		// so we will call the "clean" method on the relationship to remove
 		// any pivot columns that are on the model.
 		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
@@ -199,7 +199,7 @@ class Query {
 		foreach ($this->model_includes() as $include => $constraints)
 		{
 			// To get the nested includes, we want to find any includes that begin
-			// the relationship and a dot, then we will strip off the leading
+			// the relationship with a dot, then we will strip off the leading
 			// nesting indicator and set the include in the array.
 			if (starts_with($include, $relationship.'.'))
 			{

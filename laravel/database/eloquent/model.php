@@ -753,7 +753,7 @@ abstract class Model {
 	{
 		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
 
-		// If the method is actually the name of a static property on the model we'll
+		// If the method is actually the name of a static property on the model, we'll
 		// return the value of the static property. This makes it convenient for
 		// relationships to access these values off of the instances.
 		if (in_array($method, $meta))

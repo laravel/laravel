@@ -90,7 +90,7 @@ class Schema {
 	{
 		// The implications method is responsible for finding any fluently
 		// defined indexes on the schema table and adding the explicit
-		// commands that are needed to the schema instance.
+		// commands that are needed for the schema instance.
 		static::implications($table);
 
 		foreach ($table->commands as $command)

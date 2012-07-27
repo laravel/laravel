@@ -29,7 +29,7 @@ class SQLite extends Grammar {
 			return $value->type == 'primary';
 		});
 
-		// If we found primary key in the array of commands, we'll create the SQL for
+		// If we found primary keys in the array of commands, we'll create the SQL for
 		// the key addition and append it to the SQL table creation statement for
 		// the schema table so the index is properly generated.
 		if ( ! is_null($primary))
@@ -53,7 +53,7 @@ class SQLite extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the
+		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
 		$columns = array_map(function($column)
@@ -87,7 +87,7 @@ class SQLite extends Grammar {
 		{
 			// Each of the data type's have their own definition creation method
 			// which is responsible for creating the SQL for the type. This lets
-			// us to keep the syntax easy and fluent, while translating the
+			// us keep the syntax easy and fluent, while translating the
 			// types to the types used by the database.
 			$sql = $this->wrap($column).' '.$this->type($column);
 

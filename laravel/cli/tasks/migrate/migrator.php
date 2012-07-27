@@ -151,7 +151,7 @@ class Migrator extends Task {
 			$table->create();
 
 			// Migrations can be run for a specific bundle, so we'll use
-			// the bundle name and string migration name as an unique ID
+			// the bundle name and string migration name as a unique ID
 			// for the migrations, allowing us to easily identify which
 			// migrations have been run for each bundle.
 			$table->string('bundle', 50);
