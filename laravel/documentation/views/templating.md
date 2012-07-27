@@ -64,18 +64,21 @@ Blade makes writing your views pure bliss. To create a blade view, simply name y
 #### Echoing a variable using Blade:
 
 	Hello, {{$name}}.
-	
+
 #### Echoing function results using Blade:
 
 	{{ Asset::styles() }}
 
-#### Rendering a view:
+#### Render a view:
+
+You can use **@include** to render a view into another view. The rendered view will automatically inherit all of the data from the current view.
 
 	<h1>Profile</hi>
-
 	@include('user.profile')
 
-> **Note:** When using the **@include** Blade expression, the view will automatically inherit all of the current view data.
+Similarly, you can use **@render**, which behaves the same as **@include** except the rendered view will **not** inherit the data from the current view.
+
+	@render('admin.list')
 
 #### Creating loops using Blade:
 
@@ -124,7 +127,7 @@ Blade makes writing your views pure bliss. To create a blade view, simply name y
 
 <a name="blade-comments"></a>
 #### Blade comments:
-	
+
 	@if ($check)
 		{{-- This is a comment --}}
 		...
