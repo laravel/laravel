@@ -25,6 +25,7 @@ class Bundler extends Task {
 	public function __construct($repository)
 	{
 		$this->repository = $repository;
+		set_default_stream_context();
 	}
 
 	/**
