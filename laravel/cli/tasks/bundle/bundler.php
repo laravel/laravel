@@ -135,7 +135,7 @@ class Bundler extends Task {
 
 			$responses[] = $bundle;
 
-			// We'll also get the bundle's declared dependenceis so they
+			// We'll also get the bundle's declared dependencies so they
 			// can be installed along with the bundle, making it easy
 			// to install a group of bundles.
 			$dependencies = $this->get($bundle['dependencies']);

@@ -15,7 +15,7 @@
 <a name="entities"></a>
 ## Entities
 
-When displaying user input in your Views, it is important to convert all characters which have signifance in HTML to their "entity" representation.
+When displaying user input in your Views, it is important to convert all characters which have significance in HTML to their "entity" representation.
 
 For example, the < symbol should be converted to its entity representation. Converting HTML characters to their entity representation helps protect your application from cross-site scripting:
 

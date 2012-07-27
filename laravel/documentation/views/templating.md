@@ -10,7 +10,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-Your application probably uses a common layout across most of its pages. Manually creating this layout within every controller action can be a pain. Specifying a controller layout will make your develompent much more enjoyable. Here's how to get started:
+Your application probably uses a common layout across most of its pages. Manually creating this layout within every controller action can be a pain. Specifying a controller layout will make your development much more enjoyable. Here's how to get started:
 
 #### Specify a "layout" property on your controller:
 

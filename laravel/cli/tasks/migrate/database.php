@@ -40,7 +40,7 @@ class Database {
 		$table = $this->table();
 
 		// First we need to grab the last batch ID from the migration table,
-		// as this will allow us to grab the lastest batch of migrations
+		// as this will allow us to grab the latest batch of migrations
 		// that need to be run for a rollback command.
 		$id = $this->batch();
 
