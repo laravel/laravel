@@ -56,7 +56,7 @@ Sometimes you will need a little more control over the response sent to the brow
 
 #### Returning a custom response containing a view:
 
-	return Response::view('home', 200, $headers);
+	return Response::view('home', $headers);
 
 #### Returning a JSON response:
 
