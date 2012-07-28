@@ -54,9 +54,10 @@ Sometimes you will need a little more control over the response sent to the brow
 		return Response::make('Hello World!', 200, $headers);
 	});
 
-#### Returning a custom response containing a view:
+#### Returning a custom response containing a view, with binding data:
 
-	return Response::view('home', $headers);
+	$data = array('foo' => 'bar');
+	return Response::view('home', $data);
 
 #### Returning a JSON response:
 
