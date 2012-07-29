@@ -56,8 +56,7 @@ Sometimes you will need a little more control over the response sent to the brow
 
 #### Returning a custom response containing a view, with binding data:
 
-	$data = array('foo' => 'bar');
-	return Response::view('home', $data);
+	return Response::view('home', array('foo' => 'bar'));
 
 #### Returning a JSON response:
 
