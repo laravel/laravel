@@ -65,7 +65,7 @@ The **is** method does not simply check the file extension. The Fileinfo PHP ext
 
 #### Getting the MIME type associated with an extension:
 
-	echo File::mime('gif');
+	echo File::mime('gif'); // outputs 'image/gif'
 
 > **Note:** This method simply returns the MIME type defined for the extension in the **application/config/mimes.php** file.
 
