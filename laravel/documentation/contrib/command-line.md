@@ -1,9 +1,10 @@
-# Command Line
+# Contributing to Laravel via Command-Line
 
 ## Contents
  - [Getting Started](#getting-started)
  - [Forking Laravel](#forking-laravel)
  - [Cloning Laravel](#cloning-laravel)
+ - [Adding your Fork](#adding-your-fork)
  - [Creating Branches](#creating-branches)
  - [Committing](#committing)
  - [Submitting a Pull Request](#submitting-a-pull-request)
@@ -12,11 +13,9 @@
 <a name='getting-started'></a>
 ## Getting Started
 
-This tutorial explains the basics of contributing to a project on [GitHub](https://github.com/). The workflow can apply to most projects on GitHub, but in this case, we will be focused on the [Laravel](https://github.com/laravel/laravel) project.
+This tutorial explains the basics of contributing to a project on [GitHub](https://github.com/) via the command-line. The workflow can apply to most projects on GitHub, but in this case, we will be focused on the [Laravel](https://github.com/laravel/laravel) project. This tutorial is applicable to OSX, Linux and Windows.
 
-This tutorial assumes that you have installed [Git](http://git-scm.com/) and that you have created a [GitHub account](https://github.com/signup/free). If you haven't already, look at the documentation for [Laravel on GitHub](/docs/contrib/github) in order to familiarize yourself with Laravel's repositories and branches.
-
-*[Jason Lewis](http://jasonlewis.me/)'s blog post on [Contributing to a GitHub Project](http://jasonlewis.me/blog/2012/06/how-to-contributing-to-a-github-project) was the inspiration for this tutorial.*
+This tutorial assumes you have installed [Git](http://git-scm.com/) and you have created a [GitHub account](https://github.com/signup/free). If you haven't already, look at the [Laravel on GitHub](/docs/contrib/github) documentation in order to familiarize yourself with Laravel's repositories and branches.
 
 <a name='forking-laravel'></a>
 ## Forking Laravel
@@ -35,13 +34,16 @@ Next, clone the Laravel repository (not your fork you made):
 
 	# git clone https://github.com/laravel/laravel.git .
 
-The reason you are cloning the original Laravel repository (and not the fork you made) is so you can use it to always have the latest Laravel development code. If you simply clone the fork you made, you would have to re-fork the Laravel repository again every time you want the latest changes to Laravel development code.
+> **Note**: The reason you are cloning the original Laravel repository (and not the fork you made) is so you can always pull down the most recent changes from the Laravel repository to your local repository.
+
+<a name='adding-your-fork'></a>
+## Adding your Fork
 
 Next, it's time to add the fork you made as a **remote repository**:
 
 	# git remote add fork git@github.com:username/laravel.git
 
-Remember to replace **username** with your GitHub username. *This is case-sensitive*. You can verify that your fork was added by typing:
+Remember to replace *username** with your GitHub username. *This is case-sensitive*. You can verify that your fork was added by typing:
 
 	# git remote
 
@@ -58,21 +60,19 @@ Next, you want to make sure you are up-to-date with the latest Laravel repositor
 
 	# git pull origin develop
 
-Now you are ready to create a new branch.
-
-> **Create a new branch for every new feature or bug-fix.** Why? Let's say you make a new branch and add 5 different new features and fix 12 bugs. If one or more of your new features or bug-fixes are rejected by the Laravel team (for whatever reason) your entire pull request will be ignored, even if most of your new features or bug-fixes are perfect. On top of this, separate branches will encourage organization and limit interdependency between new features and bug-fixes that you add.
-
-When you create a new branch, use a self-descriptive naming convention. For example, if there is a bug in Eloquent that you want to fix, name your branch accordingly:
+Now you are ready to create a new branch for your new feature or bug-fix. When you create a new branch, use a self-descriptive naming convention. For example, if you are going to fix a bug in Eloquent, name your branch *bug/eloquent*:
 
 	# git branch bug/eloquent
 	# git checkout bug/eloquent
 	Switched to branch 'bug/eloquent'
 
-Or if there is a new feature or change to the documentation that you want to make, for example, the localization documentation:
+Or if there is a new feature to add or change to the documentation that you want to make, for example, the localization documentation:
 
 	# git branch feature/localization-docs
 	# git checkout feature/localization-docs
 	Switched to branch 'feature/localization-docs'
+
+> **Note:** Create one new branch for every new feature or bug-fix. This will encourage organization, limit interdependency between new features/fixes and will make it easy for the Laravel team to merge your changes into the Laravel core.
 
 Now that you have created your own branch and have switched to it, it's time to make your changes to the code. Add your new feature or fix that bug.
 
@@ -96,6 +96,8 @@ Next, commit the changes to the repository:
 Now that your local repository has your committed changes, it's time to push (or sync) your new branch to your fork that is hosted in GitHub:
 
 	# git push fork feature/localization-docs
+
+Your branch has been successfully pushed to your fork on GitHub.
 
 <a name='submitting-a-pull-request'></a>
 ## Submitting a Pull Request
@@ -121,3 +123,5 @@ Then, pull down the latest changes from Laravel's repository:
 	# git pull origin develop
 
 Now you are ready to create a new branch and start coding again!
+
+> [Jason Lewis](http://jasonlewis.me/)'s blog post [Contributing to a GitHub Project](http://jasonlewis.me/blog/2012/06/how-to-contributing-to-a-github-project) was the primary inspiration for this tutorial.

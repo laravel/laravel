@@ -28,3 +28,8 @@ The **laravel** repository has multiple branches, each serving a specific purpos
 - **develop** - This is the working development branch. All proposed code changes and contributions by the community are pulled into this branch. *When you make a pull request to the Laravel project, this is the branch you want to pull-request into.*
 
 Once certain milestones have been reached and/or Taylor Otwell and the Laravel team is happy with the stability and additional features of the current development branch, the changes in the **develop** branch are pulled into the **master** branch, thus creating and releasing the newest stable version of Laravel for the world to use.
+
+*Further Reading*
+
+ - [Contributing to Laravel via Command-Line](docs/contrib/command-line)
+ - [Contributing to Laravel using TortoiseGit](docs/contrib/tortoisegit)
