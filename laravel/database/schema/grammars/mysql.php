@@ -77,7 +77,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'first', 'after');
 
 			foreach ($elements as $element)
 			{
@@ -145,6 +145,30 @@ class MySQL extends Grammar {
 		{
 			return ' AUTO_INCREMENT PRIMARY KEY';
 		}
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is put the first.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function first(Table $table, Fluent $column)
+	{
+		return ($column->type !== 'create' and $column->first) ? ' FIRST' : '';
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is put the after a column.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function after(Table $table, Fluent $column)
+	{
+		return ($column->type !== 'create' && ! $column->first and $column->after) ? ' AFTER '.$this->wrap($column->after) : '';
 	}
 
 	/**
