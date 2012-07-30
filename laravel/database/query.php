@@ -140,7 +140,7 @@ class Query {
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->selects = is_array($columns) ? $columns : array($columns);
+		$this->selects = array_merge((array) $this->selects, (array) $columns);
 		return $this;
 	}
 
