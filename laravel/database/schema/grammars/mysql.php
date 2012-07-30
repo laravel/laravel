@@ -6,6 +6,13 @@ use Laravel\Database\Schema\Table;
 class MySQL extends Grammar {
 
 	/**
+	 * The process identifier for current request
+	 * 
+	 * @var boolean
+	 */
+	protected $creating = false;
+
+	/**
 	 * The keyword identifier for the database system.
 	 *
 	 * @var string
@@ -21,6 +28,8 @@ class MySQL extends Grammar {
 	 */
 	public function create(Table $table, Fluent $command)
 	{
+		$this->creating = true;
+
 		$columns = implode(', ', $this->columns($table));
 
 		// First we will generate the base table creation statement. Other than auto
@@ -45,6 +54,8 @@ class MySQL extends Grammar {
 	 */
 	public function add(Table $table, Fluent $command)
 	{
+		$this->creating = false;
+
 		$columns = $this->columns($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
@@ -156,7 +167,7 @@ class MySQL extends Grammar {
 	 */
 	protected function first(Table $table, Fluent $column)
 	{
-		return ($column->type !== 'create' and $column->first) ? ' FIRST' : '';
+		return ( ! $this->creating and $column->first) ? ' FIRST' : '';
 	}
 
 	/**
@@ -168,7 +179,7 @@ class MySQL extends Grammar {
 	 */
 	protected function after(Table $table, Fluent $column)
 	{
-		return ($column->type !== 'create' && ! $column->first and $column->after) ? ' AFTER '.$this->wrap($column->after) : '';
+		return ( ! $this->creating && ! $column->first and $column->after) ? ' AFTER '.$this->wrap($column->after) : '';
 	}
 
 	/**
