@@ -135,12 +135,15 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $attributes
 	 * @param  bool    $https
+	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link($url, $title, $attributes = array(), $https = null)
+	public static function link($url, $title, $attributes = array(), $https = null, $escape = true)
 	{
 		$url = URL::to($url, $https);
-
+		if(!$escape) {
+			return '<a href="'.$url.'"'.static::attributes($attributes).'>'.$title.'</a>';
+		}
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
 
@@ -150,11 +153,12 @@ class HTML {
 	 * @param  string  $url
 	 * @param  string  $title
 	 * @param  array   $attributes
+	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_secure($url, $title, $attributes = array())
+	public static function link_to_secure($url, $title, $attributes = array(), $escape = true)
 	{
-		return static::link($url, $title, $attributes, true);
+		return static::link($url, $title, $attributes, true, $escape);
 	}
 
 	/**
@@ -205,11 +209,12 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
+	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_route($name, $title, $parameters = array(), $attributes = array())
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $escape = true)
 	{
-		return static::link(URL::to_route($name, $parameters), $title, $attributes);
+		return static::link(URL::to_route($name, $parameters), $title, $attributes, $escape);
 	}
 
 	/**
@@ -229,11 +234,12 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
+	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_action($action, $title, $parameters = array(), $attributes = array())
+	public static function link_to_action($action, $title, $parameters = array(), $attributes = array(), $escape = true)
 	{
-		return static::link(URL::to_action($action, $parameters), $title, $attributes);
+		return static::link(URL::to_action($action, $parameters), $title, $attributes, $escape);
 	}
 
 	/**
