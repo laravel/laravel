@@ -11,7 +11,7 @@
 
 Because Laravel's development and source control is done through GitHub, anyone is able to make contributions to it. Anyone can fix bugs, add features or improve the documentation.
 
-After submitting proposed changes to the project, the Laravel project managers will review the changes and make the decision to commit them to Laravel's core.
+After submitting proposed changes to the project, the Laravel team will review the changes and make the decision to commit them to Laravel's core.
 
 <a name='repositories'></a>
 ## Repositories
@@ -27,4 +27,4 @@ The **laravel** repository has multiple branches, each serving a specific purpos
 - **staging** - I'm not sure what this is for... Last minute testing before pushing develop to master?
 - **develop** - This is the working development branch. All proposed code changes and contributions by the community are pulled into this branch. *When you make a pull request to the Laravel project, this is the branch you want to pull-request into.*
 
-Once certain milestones have been reached and Taylor Otwell and other Laravel project managers are happy with the stability and additional features of the current development branch, the changes in the **develop** branch are pulled into the **master** branch, thus creating and releasing the newest stable version of Laravel for the world to use.
+Once certain milestones have been reached and/or Taylor Otwell and the Laravel team is happy with the stability and additional features of the current development branch, the changes in the **develop** branch are pulled into the **master** branch, thus creating and releasing the newest stable version of Laravel for the world to use.
