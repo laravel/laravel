@@ -181,20 +181,11 @@ class Request {
 	/**
 	 * Get the timestamp of the time when the request was started.
 	 *
-	 * The value is actually calculated when this function gets first called.
-	 *
 	 * @return int
 	 */
 	public static function time()
 	{
-		static $time;
-		
-		if (!isset($time))
-		{
-			$time = time();
-		}
-		
-		return $time;
+		return (int) LARAVEL_START;
 	}
 
 	/**
