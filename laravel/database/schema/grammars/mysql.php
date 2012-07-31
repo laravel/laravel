@@ -6,6 +6,13 @@ use Laravel\Database\Schema\Table;
 class MySQL extends Grammar {
 
 	/**
+	 * The process identifier for current request
+	 * 
+	 * @var boolean
+	 */
+	protected $creating = false;
+
+	/**
 	 * The keyword identifier for the database system.
 	 *
 	 * @var string
@@ -21,6 +28,8 @@ class MySQL extends Grammar {
 	 */
 	public function create(Table $table, Fluent $command)
 	{
+		$this->creating = true;
+
 		$columns = implode(', ', $this->columns($table));
 
 		// First we will generate the base table creation statement. Other than auto
@@ -45,6 +54,8 @@ class MySQL extends Grammar {
 	 */
 	public function add(Table $table, Fluent $command)
 	{
+		$this->creating = false;
+
 		$columns = $this->columns($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
@@ -77,7 +88,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'first', 'after');
 
 			foreach ($elements as $element)
 			{
@@ -145,6 +156,30 @@ class MySQL extends Grammar {
 		{
 			return ' AUTO_INCREMENT PRIMARY KEY';
 		}
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is put the first.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function first(Table $table, Fluent $column)
+	{
+		return ( ! $this->creating and $column->first) ? ' FIRST' : '';
+	}
+
+	/**
+	 * Get the SQL syntax for indicating if a column is put the after a column.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function after(Table $table, Fluent $column)
+	{
+		return ( ! $this->creating && ! $column->first and $column->after) ? ' AFTER '.$this->wrap($column->after) : '';
 	}
 
 	/**
