@@ -5,6 +5,7 @@ use Laravel\File;
 use Laravel\Event;
 use Laravel\Config;
 use Laravel\Request;
+use Laravel\Database;
 
 class Profiler {
 
@@ -57,6 +58,8 @@ class Profiler {
 	{
 		foreach ($bindings as $binding)
 		{
+			$binding = Database::connection()->pdo->quote($binding);
+
 			$sql = preg_replace('/\?/', $binding, $sql, 1);
 		}
 
