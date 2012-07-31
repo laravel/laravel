@@ -188,7 +188,7 @@ class Blade {
 	protected static function compile_comments($value)
 	{
 		$value = preg_replace('/\{\{--(.*?)--\}\}/', "<?php // $1 ?>", $value);
-		
+
 		return preg_replace('/\{\{--(.*?)--\}\}/s', "<?php /* ?>$1<?php */ ?>", $value);
 	}
 
@@ -447,9 +447,7 @@ class Blade {
 	 */
 	protected static function compile_lang($value)
 	{
-		$pattern = static::matcher('lang');
-
-		return preg_replace($pattern, '$1<?php echo Lang::line$2->get(); ?>', $value);
+		return preg_replace('/\{:(.+?)\}/', '<?php echo Lang::line('$1')->get(); ?>', $value);
 	}
 
 	/**
