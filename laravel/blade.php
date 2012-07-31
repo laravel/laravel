@@ -48,7 +48,7 @@ class Blade {
 			// The Blade view engine should only handle the rendering of views which
 			// end with the Blade extension. If the given view does not, we will
 			// return false so the View can be rendered as normal.
-			if ( ! \Laravel\starts_with($view->path, BLADE_EXT))
+			if ( ! \Laravel\str_contains($view->path, BLADE_EXT))
 			{
 				return;
 			}
