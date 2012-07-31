@@ -49,7 +49,7 @@ Check [the routing page](/docs/routing#controller-routing) for more information 
 <a name="bundle-controllers"></a>
 ## Bundle Controllers
 
-Bundles are Laravel's modular package system. Bundles can easily configured to handle requests to your application. We'll be going over [bundles in more detail](/docs/bundles) in another document.
+Bundles are Laravel's modular package system. Bundles can be easily configured to handle requests to your application. We'll be going over [bundles in more detail](/docs/bundles) in another document.
 
 Creating controllers that belong to bundles is almost identical to creating your application controllers. Just prefix the controller class name with the name of the bundle, so if your bundle is named "admin", your controller classes would look like this:
 
