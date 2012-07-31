@@ -132,6 +132,12 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 		{{-- This is a comment --}}
 		...
 	@endif
+	
+	{{--
+		This is
+		a multi-line
+		comment.
+	--}}
 
 > **Note:** Blade comments, unlike HTML comments, are not visible in the HTML source.
 
