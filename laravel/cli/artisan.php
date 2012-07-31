@@ -17,7 +17,7 @@ Bundle::start(DEFAULT_BUNDLE);
  * conveniently for a test or staging database.
  */
 
-if ( ! is_null($database = get_cli_option('db')))
+if ( ! is_null($database = \Laravel\get_cli_option('db')))
 {
 	Config::set('database.default', $database);
 }

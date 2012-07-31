@@ -560,9 +560,9 @@ class Router {
 	 */
 	public static function method($method)
 	{
-		$routes = array_get(static::$routes, $method, array());
+		$routes = \Laravel\array_get(static::$routes, $method, array());
 
-		return array_merge($routes, array_get(static::$fallback, $method, array()));
+		return array_merge($routes, \Laravel\array_get(static::$fallback, $method, array()));
 	}
 
 	/**

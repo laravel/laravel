@@ -49,7 +49,7 @@ class Filter {
 		// If the filter starts with "pattern: ", the filter is being setup to match on
 		// all requests that match a given pattern. This is nice for defining filters
 		// that handle all URIs beginning with "admin" for example.
-		if (starts_with($name, 'pattern: '))
+		if (\Laravel\starts_with($name, 'pattern: '))
 		{
 			foreach (explode(', ', substr($name, 9)) as $pattern)
 			{

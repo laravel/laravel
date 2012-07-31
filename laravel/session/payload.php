@@ -120,20 +120,20 @@ class Payload {
 		// We check for the item in the general session data first, and if it
 		// does not exist in that data, we will attempt to find it in the new
 		// and old flash data, or finally return the default value.
-		if ( ! is_null($value = array_get($session, $key)))
+		if ( ! is_null($value = \Laravel\array_get($session, $key)))
 		{
 			return $value;
 		}
-		elseif ( ! is_null($value = array_get($session[':new:'], $key)))
+		elseif ( ! is_null($value = \Laravel\array_get($session[':new:'], $key)))
 		{
 			return $value;
 		}
-		elseif ( ! is_null($value = array_get($session[':old:'], $key)))
+		elseif ( ! is_null($value = \Laravel\array_get($session[':old:'], $key)))
 		{
 			return $value;
 		}
 
-		return value($default);
+		return \Laravel\value($default);
 	}
 
 	/**
