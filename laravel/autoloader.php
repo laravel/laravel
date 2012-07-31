@@ -205,7 +205,7 @@ class Autoloader {
 
 			unset(static::$namespaces[$namespace]);
 
-			$namespaces[$namespace] = head(static::format($directory));
+			$namespaces[$namespace] = \Laravel\head(static::format($directory));
 		}
 
 		return $namespaces;

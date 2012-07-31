@@ -46,7 +46,7 @@ class Cookie {
 	{
 		if (isset(static::$jar[$name])) return static::$jar[$name]['value'];
 
-		return array_get(Request::foundation()->cookies->all(), $name, $default);
+		return \Laravel\array_get(Request::foundation()->cookies->all(), $name, $default);
 	}
 
 	/**

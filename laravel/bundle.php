@@ -191,7 +191,7 @@ class Bundle {
 
 		foreach (static::$bundles as $key => $value)
 		{
-			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/'))
+			if (isset($value['handles']) and \Laravel\starts_with($uri, $value['handles'].'/'))
 			{
 				return $key;
 			}
@@ -275,18 +275,18 @@ class Bundle {
 		{
 			return path('app');
 		}
-		elseif ($location = array_get(static::$bundles, $bundle.'.location'))
+		elseif ($location = \Laravel\array_get(static::$bundles, $bundle.'.location'))
 		{
 			// If the bundle location starts with "path: ", we will assume that a raw
 			// path has been specified and will simply return it. Otherwise, we'll
 			// prepend the bundle directory path onto the location and return.
 			if (starts_with($location, 'path: '))
 			{
-				return str_finish(substr($location, 6), DS);
+				return \Laravel\str_finish(substr($location, 6), DS);
 			}
 			else
 			{
-				return str_finish(path('bundle').$location, DS);
+				return \Laravel\str_finish(path('bundle').$location, DS);
 			}
 		}
 	}
@@ -418,7 +418,7 @@ class Bundle {
 	 */
 	public static function get($bundle)
 	{
-		return array_get(static::$bundles, $bundle);
+		return \Laravel\array_get(static::$bundles, $bundle);
 	}
 
 	/**
@@ -435,10 +435,10 @@ class Bundle {
 
 		if (is_null($bundle))
 		{
-			return value($default);
+			return \Laravel\value($default);
 		}
 
-		return array_get($bundle, $option, $default);
+		return \Laravel\array_get($bundle, $option, $default);
 	}
 
 	/**

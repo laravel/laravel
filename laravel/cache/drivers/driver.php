@@ -27,7 +27,7 @@ abstract class Driver {
 	 */
 	public function get($key, $default = null)
 	{
-		return ( ! is_null($item = $this->retrieve($key))) ? $item : value($default);
+		return ( ! is_null($item = $this->retrieve($key))) ? $item : \Laravel\value($default);
 	}
 
 	/**
@@ -73,7 +73,7 @@ abstract class Driver {
 	{
 		if ( ! is_null($item = $this->get($key, null))) return $item;
 
-		$this->$function($key, $default = value($default), $minutes);
+		$this->$function($key, $default = \Laravel\value($default), $minutes);
 
 		return $default;
 	}

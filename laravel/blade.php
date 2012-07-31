@@ -48,7 +48,7 @@ class Blade {
 			// The Blade view engine should only handle the rendering of views which
 			// end with the Blade extension. If the given view does not, we will
 			// return false so the View can be rendered as normal.
-			if ( ! str_contains($view->path, BLADE_EXT))
+			if ( ! \Laravel\starts_with($view->path, BLADE_EXT))
 			{
 				return;
 			}
@@ -144,7 +144,7 @@ class Blade {
 		// If the Blade template is not using "layouts", we'll just return it
 		// unchanged since there is nothing to do with layouts and we will
 		// just let the other Blade compilers handle the rest.
-		if ( ! starts_with($value, '@layout'))
+		if ( ! \Laravel\starts_with($value, '@layout'))
 		{
 			return $value;
 		}

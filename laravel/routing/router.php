@@ -510,7 +510,7 @@ class Router {
 	 */
 	protected static function wildcards($key)
 	{
-		list($search, $replace) = array_divide(static::$optional);
+		list($search, $replace) = \Laravel\array_divide(static::$optional);
 
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We'll add the endings
@@ -541,7 +541,7 @@ class Router {
 			// doesn't already contain any routes.
 			if ( ! isset($routes[$method])) $routes[$method] = array();
 
-			$fallback = array_get(static::$fallback, $method, array());
+			$fallback = \Laravel\array_get(static::$fallback, $method, array());
 
 			// When building the array of routes, we'll merge in all of the fallback
 			// routes for each request method individually. This allows us to avoid

@@ -96,7 +96,7 @@ class URL {
 		// If the given URL is already valid or begins with a hash, we'll just return
 		// the URL unchanged since it is already well formed. Otherwise we will add
 		// the base URL of the application and return the full URL.
-		if (static::valid($url) or starts_with($url, '#'))
+		if (static::valid($url) or \Laravel\starts_with($url, '#'))
 		{
 			return $url;
 		}
@@ -186,7 +186,7 @@ class URL {
 	 */
 	protected static function explicit($route, $action, $parameters)
 	{
-		$https = array_get(current($route), 'https', null);
+		$https = \Laravel\array_get(current($route), 'https', null);
 
 		return static::to(static::transpose(key($route), $parameters), $https);
 	}
@@ -283,7 +283,7 @@ class URL {
 		// To determine whether the URL should be HTTPS or not, we look for the "https"
 		// value on the route action array. The route has control over whether the URL
 		// should be generated with an HTTPS protocol string or just HTTP.
-		$https = array_get(current($route), 'https', null);
+		$https = \Laravel\array_get(current($route), 'https', null);
 
 		$uri = trim(static::transpose(key($route), $parameters), '/');
 

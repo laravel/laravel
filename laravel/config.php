@@ -68,7 +68,7 @@ class Config {
 	{
 		list($bundle, $file, $item) = static::parse($key);
 
-		if ( ! static::load($bundle, $file)) return value($default);
+		if ( ! static::load($bundle, $file)) return \Laravel\value($default);
 
 		$items = static::$items[$bundle][$file];
 
@@ -81,7 +81,7 @@ class Config {
 		}
 		else
 		{
-			return array_get($items, $item, $default);
+			return \Laravel\array_get($items, $item, $default);
 		}
 	}
 

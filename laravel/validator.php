@@ -175,7 +175,7 @@ class Validator {
 	{
 		list($rule, $parameters) = $this->parse($rule);
 
-		$value = array_get($this->attributes, $attribute);
+		$value = \Laravel\array_get($this->attributes, $attribute);
 
 		// Before running the validator, we need to verify that the attribute and rule
 		// combination is actually validatable. Only the "accepted" rule implies that
@@ -654,7 +654,7 @@ class Validator {
 	 */
 	protected function validate_mimes($attribute, $value, $parameters)
 	{
-		if ( ! is_array($value) or array_get($value, 'tmp_name', '') == '') return true;
+		if ( ! is_array($value) or \Laravel\array_get($value, 'tmp_name', '') == '') return true;
 
 		foreach ($parameters as $extension)
 		{

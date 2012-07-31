@@ -244,7 +244,7 @@ abstract class Model {
 	 */
 	public static function all()
 	{
-		return with(new static)->query()->get();
+		return \Laravel\with(new static)->query()->get();
 	}
 
 	/**
@@ -497,7 +497,7 @@ abstract class Model {
 	 */
 	public function changed($attribute)
 	{
-		return array_get($this->attributes, $attribute) != array_get($this->original, $attribute);
+		return \Laravel\array_get($this->attributes, $attribute) != \Laravel\array_get($this->original, $attribute);
 	}
 
 	/**
@@ -570,7 +570,7 @@ abstract class Model {
 	 */
 	public function get_attribute($key)
 	{
-		return array_get($this->attributes, $key);
+		return \Laravel\array_get($this->attributes, $key);
 	}
 
 	/**

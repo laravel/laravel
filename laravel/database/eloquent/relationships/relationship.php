@@ -72,7 +72,7 @@ abstract class Relationship extends Query {
 		// namespace, and we'll append "_id" to the name.
 		if (is_object($model))
 		{
-			$model = class_basename($model);
+			$model = \Laravel\class_basename($model);
 		}
 
 		return strtolower(basename($model).'_id');

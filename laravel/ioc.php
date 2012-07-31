@@ -106,7 +106,7 @@ class IoC {
 		}
 		else
 		{
-			$concrete = array_get(static::$registry[$type], 'resolver', $type);
+			$concrete = \Laravel\array_get(static::$registry[$type], 'resolver', $type);
 		}
 
 		// We're ready to instantiate an instance of the concrete type registered for

@@ -86,7 +86,7 @@ class URI {
 	{
 		static::current();
 
-		return array_get(static::$segments, $index - 1, $default);
+		return \Laravel\array_get(static::$segments, $index - 1, $default);
 	}
 
 	/**

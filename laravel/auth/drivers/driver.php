@@ -167,7 +167,7 @@ abstract class Driver {
 		// and return the first segment, which is the user's ID token.
 		if ( ! is_null($cookie))
 		{
-			return head(explode('|', Crypter::decrypt($cookie)));
+			return \Laravel\head(explode('|', Crypter::decrypt($cookie)));
 		}
 	}
 
