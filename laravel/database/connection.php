@@ -185,7 +185,7 @@ class Connection {
 		// The result we return depends on the type of query executed against the
 		// database. On SELECT clauses, we will return the result set, for update
 		// and deletes we will return the affected row count.
-		if (stripos($sql, 'select') === 0)
+		if (stripos($sql, 'select') === 0 || stripos($sql, 'show') === 0)
 		{
 			return $this->fetch($statement, Config::get('database.fetch'));
 		}
