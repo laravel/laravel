@@ -167,7 +167,7 @@ class Query {
 		}
 
 		// If the column is just a string, we can assume that the join just
-		// has a simple "ON" clause, and we'll create the join instance and
+		// has a simple on clause, and we'll create the join instance and
 		// add the clause automatically for the developer.
 		else
 		{

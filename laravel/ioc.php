@@ -179,7 +179,7 @@ class IoC {
 	/**
 	 * Resolve all of the dependencies from the ReflectionParameters.
 	 *
-	 * @param  array  $parameterrs
+	 * @param  array  $parameters
 	 * @return array
 	 */
 	protected static function dependencies($parameters)

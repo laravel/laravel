@@ -4,63 +4,54 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Validation Language Lines
+	| Dutch validation language file
 	|--------------------------------------------------------------------------
-	|
-	| The following language lines contain the default error messages used
-	| by the validator class. Some of the rules contain multiple versions,
-	| such as the size (max, min, between) rules. These versions are used
-	| for different input types such as strings and files.
-	|
-	| These language lines may be easily changed to provide custom error
-	| messages in your application. Error messages for custom validation
-	| rules may also be added to this file.
 	|
 	*/
 
-	"accepted"       => "De :attribute moet worden geaccepteerd.",
-	"active_url"     => "De :attribute is geen geldige URL.",
-	"after"          => "De :attribute moet een datum zijn na :date.",
-	"alpha"          => "De :attribute mag alleen letters bevatten.",
-	"alpha_dash"     => "De :attribute mag alleen letters, nummers, en strepen bevatten.",
-	"alpha_num"      => "De :attribute mag alleen letters en nummers bevatten",
-	"before"         => "De :attribute moet een datim zijn voor :date.",
+	"accepted"       => "Het :attribute moet geaccepteerd zijn.",
+	"active_url"     => "Het :attribute is geen geldig URL.",
+	"after"          => "Het :attribute moet een datum na :date zijn.",
+	"alpha"          => "Het :attribute mag alleen letters bevatten.",
+	"alpha_dash"     => "Het :attribute mag alleen letters, nummers, onderstreep(_) en strepen(-) bevatten.",
+	"alpha_num"      => "Het :attribute mag alleen letters en nummers",
+	"before"         => "Het :attribute moet een datum voor :date zijn.",
 	"between"        => array(
-		"numeric" => "De :attribute moet tussen :min - :max zijn.",
-		"file"    => "De :attribute moet tussen :min - :max kilobytes zijn.",
-		"string"  => "De :attribute moet tussen :min - :max karakters zijn.",
+		"numeric" => "Het :attribute moet tussen :min en :max zijn.",
+		"file"    => "Het :attribute moet tussen :min en :max kilobytes zijn.",
+		"string"  => "Het :attribute moet tussen :min en :max tekens zijn.",
 	),
-	"confirmed"      => "De :attribute bevestiging komt niet overeen.",
-	"different"      => "De :attribute en :other moeten verschillen van elkaar.",
-	"email"          => "De :attribute is ongeldig.",
-	"exists"         => "De geselecteerde :attribute is ongeldig.",
-	"image"          => "De :attribute moet een plaatje zijn.",
-	"in"             => "De geselecteerde :attribute is ongeldig.",
-	"integer"        => "De :attribute moet een heel getal zijn.",
-	"ip"             => "De :attribute moet een geldig IP-adres zijn.",
-	"match"          => "De :attribute formaat is ongeldig.",
+	"confirmed"      => "Het :attribute bevestiging komt niet overeen.",
+	"different"      => "Het :attribute en :other moeten verschillend zijn.",
+	"email"          => "Het :attribute formaat is ongeldig.",
+	"exists"         => "Het gekozen :attribute is al ingebruik.",
+	"image"          => "Het :attribute moet een afbeelding zijn.",
+	"in"             => "Het gekozen :attribute is ongeldig.",
+	"integer"        => "Het :attribute moet een getal zijn.",
+	"ip"             => "Het :attribute moet een geldig IP adres bevatten.",
+	"match"          => "Het :attribute formaat is ongeldig.",
 	"max"            => array(
-		"numeric" => "De :attribute moet minder zijn als :max.",
-		"file"    => "De :attribute moet kleiner zijn als :max kilobytes.",
-		"string"  => "De :attribute moet korter zijn dan :max karakters.",
+		"numeric" => "Het :attribute moet minder dan :max zijn.",
+		"file"    => "Het :attribute moet minder dan :max kilobytes zijn.",
+		"string"  => "Het :attribute moet minder dan :max tekens zijn.",
 	),
-	"mimes"          => "De :attribute moet een van de volgende bestandsformaten :values bevatten",
+	"mimes"          => "Het :attribute moet een bestand zijn van het bestandstype :values.",
 	"min"            => array(
-		"numeric" => "De :attribute moet meer zijn als :min.",
-		"file"    => "De :attribute moet groter zijn als :min kilobytes.",
-		"string"  => "De :attribute moet langer zijn dan :min karakters.",
+		"numeric" => "Het :attribute moet minimaal :min zijn.",
+		"file"    => "Het :attribute moet minimaal :min kilobytes zijn.",
+		"string"  => "Het :attribute moet minimaal :min characters zijn.",
 	),
-	"not_in"         => "De geselecteerde :attribute is ongeldig.",
-	"numeric"        => "De :attribute moet een nummer zijn.",
-	"required"       => "De :attribute veld is vereist.",
-	"same"           => "De :attribute en :other moeten overeen komen.",
+	"not_in"         => "Het :attribute formaat is ongeldig.",
+	"numeric"        => "Het :attribute moet een nummer zijn.",
+	"required"       => "Het :attribute veld is verplicht.",
+	"same"           => "Het :attribute en :other moeten overeenkomen.",
 	"size"           => array(
-		"numeric" => "De :attribute moet :size groot zijn.",
-		"file"    => "De :attribute moet :size kilobytes groot zijn.",
-		"string"  => "De :attribute moet :size karakters bevatten.",
+		"numeric" => "Het :attribute moet :size zijn.",
+		"file"    => "Het :attribute moet :size kilobyte zijn.",
+		"string"  => "Het :attribute moet :size characters zijn.",
 	),
-	"unique"         => "De :attribute bestaat al.",
-	"url"            => "De :attribute formaat is ongeldig.",
+	"unique"         => "Het :attribute is al in gebruik.",
+	"url"            => "Het :attribute formaat is ongeldig.",
 
 	/*
 	|--------------------------------------------------------------------------

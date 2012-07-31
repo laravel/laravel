@@ -100,7 +100,7 @@ class Command {
 	 *		// Resolve an instance of a task
 	 *		$task = Command::resolve('application', 'migrate');
 	 *
-	 *		// Resolve an instance of a task wtihin a bundle
+	 *		// Resolve an instance of a task within a bundle
 	 *		$task = Command::resolve('bundle', 'foo');
 	 * </code>
 	 *

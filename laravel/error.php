@@ -60,7 +60,7 @@ class Error {
 	{
 		if (error_reporting() === 0) return;
 
-		// For a PHP error, we'll create an ErrorExcepetion and then feed that
+		// For a PHP error, we'll create an ErrorException and then feed that
 		// exception to the exception method, which will create a simple view
 		// of the exception details for the developer.
 		$exception = new \ErrorException($error, $code, 0, $file, $line);

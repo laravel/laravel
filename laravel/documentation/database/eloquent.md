@@ -224,7 +224,7 @@ Want to join on a different foreign key? No problem. Just pass it in the second 
 
 	return $this->has_many('Comment', 'my_foreign_key');
 
-You may be wondering: _If the dynamic properties return the relationship and require less keystokes, why would I ever use the relationship methods?_ Actually, relationship methods are very powerful. They allow you to continue to chain query methods before retrieving the relationship. Check this out:
+You may be wondering: _If the dynamic properties return the relationship and require less keystrokes, why would I ever use the relationship methods?_ Actually, relationship methods are very powerful. They allow you to continue to chain query methods before retrieving the relationship. Check this out:
 
 	echo Post::find(1)->comments()->order_by('votes', 'desc')->take(10)->get();
 

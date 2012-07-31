@@ -106,7 +106,7 @@ class Response {
 	 *		return Response::eloquent($data, 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  Eloquenet|array  $data
+	 * @param  Eloquent|array   $data
 	 * @param  int              $status
 	 * @param  array            $headers
 	 * @return Response
