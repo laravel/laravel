@@ -96,24 +96,24 @@ class ControllerTest extends PHPUnit_Framework_TestCase {
 	{
 		$_SERVER['test-on-post'] = false;
 
-		$_SERVER['REQUEST_METHOD'] = 'GET';
+		Request::$foundation->setMethod('GET');
 		Controller::call('filter@index');
 
 		$this->assertFalse($_SERVER['test-on-post']);
 
-		$_SERVER['REQUEST_METHOD'] = 'POST';
+		Request::$foundation->setMethod('POST');
 		Controller::call('filter@index');
 
 		$this->assertTrue($_SERVER['test-on-post']);
 
 		$_SERVER['test-on-get-put'] = false;
 
-		$_SERVER['REQUEST_METHOD'] = 'POST';
+		Request::$foundation->setMethod('POST');
 		Controller::call('filter@index');
 
 		$this->assertFalse($_SERVER['test-on-get-put']);
 
-		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		Request::$foundation->setMethod('PUT');
 		Controller::call('filter@index');
 
 		$this->assertTrue($_SERVER['test-on-get-put']);
@@ -183,15 +183,18 @@ class ControllerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testRestfulControllersRespondWithRestfulMethods()
 	{
-		$_SERVER['REQUEST_METHOD'] = 'GET';
+		Request::$foundation->setMethod('GET');
+		//$_SERVER['REQUEST_METHOD'] = 'GET';
 
 		$this->assertEquals('get_index', Controller::call('restful@index')->content);
 
-		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		//$_SERVER['REQUEST_METHOD'] = 'PUT';
+		Request::$foundation->setMethod('PUT');
 
 		$this->assertEquals(404, Controller::call('restful@index')->status());
 
-		$_SERVER['REQUEST_METHOD'] = 'POST';
+		//$_SERVER['REQUEST_METHOD'] = 'POST';
+		Request::$foundation->setMethod('POST');
 
 		$this->assertEquals('post_index', Controller::call('restful@index')->content);
 	}

@@ -373,7 +373,9 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 		$cookie = Cookie::$jar[Config::get('session.cookie')];
 
 		$this->assertEquals('foo', $cookie['value']);
-		$this->assertEquals(Config::get('session.lifetime'), $cookie['expiration']);
+		// Shouldn't be able to test this cause session.lifetime store number of minutes 
+		// while cookie expiration store timestamp when it going to expired.
+		// $this->assertEquals(Config::get('session.lifetime'), $cookie['expiration']);
 		$this->assertEquals(Config::get('session.domain'), $cookie['domain']);
 		$this->assertEquals(Config::get('session.path'), $cookie['path']);
 		$this->assertEquals(Config::get('session.secure'), $cookie['secure']);

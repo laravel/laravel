@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
+
 use Laravel\Str;
 use Laravel\Auth;
 use Laravel\Cookie;
@@ -36,6 +38,33 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Set one of the $_SERVER variables.
+	 *
+	 * @param string  $key
+	 * @param string  $value
+	 */
+	protected function setServerVar($key, $value)
+	{
+		$_SERVER[$key] = $value;
+
+		$this->restartRequest();
+	}
+
+	/**
+	 * Reinitialize the global request.
+	 * 
+	 * @return void
+	 */
+	protected function restartRequest()
+	{
+		// FIXME: Ugly hack, but old contents from previous requests seem to
+		// trip up the Foundation class.
+		$_FILES = array();
+
+		Request::$foundation = RequestFoundation::createFromGlobals();
+	}
+
+	/**
 	 * Test the Auth::user method.
 	 *
 	 * @group laravel
@@ -54,7 +83,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckMethodReturnsTrueWhenUserIsSet()
 	{
-		$this->assertTrue(AuthUserReturnsDummy::check());
+		$auth = new AuthUserReturnsDummy;
+
+		$this->assertTrue($auth->check());
 	}
 
 	/**
@@ -64,7 +95,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckMethodReturnsFalseWhenNoUserIsSet()
 	{
-		$this->assertFalse(AuthUserReturnsNull::check());
+		$auth = new AuthUserReturnsNull;
+
+		$this->assertFalse($auth->check());
 	}
 
 	/**
@@ -74,7 +107,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGuestReturnsTrueWhenNoUserIsSet()
 	{
-		$this->assertTrue(AuthUserReturnsNull::guest());
+		$auth = new AuthUserReturnsNull;
+
+		$this->assertTrue($auth->guest());
 	}
 
 	/**
@@ -84,7 +119,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGuestReturnsFalseWhenUserIsSet()
 	{
-		$this->assertFalse(AuthUserReturnsDummy::guest());
+		$auth = new AuthUserReturnsDummy;
+		
+		$this->assertFalse($auth->guest());
 	}
 
 	/**
@@ -107,10 +144,12 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testUserReturnsUserByID()
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
-		// FIXME: Not sure whether hard-coding the key is a good idea.
-		Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 1;
+		
+		Auth::login(1);
 
 		$this->assertEquals('Taylor Otwell', Auth::user()->name);
+
+		Auth::logout();
 	}
 
 	/**
@@ -121,8 +160,8 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testNullReturnedWhenUserIDNotValidInteger()
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
-		// FIXME: Not sure whether hard-coding the key is a good idea.
-		Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 'asdlkasd';
+		
+		Auth::login('asdlkasd');
 
 		$this->assertNull(Auth::user());
 	}
@@ -137,10 +176,13 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
 
 		$cookie = Crypter::encrypt('1|'.Str::random(40));
-		Cookie::forever(Config::get('auth.cookie'), $cookie);
+		Cookie::forever('authloginstub_remember', $cookie);
 
-		$this->assertEquals('Taylor Otwell', AuthLoginStub::user()->name);
-		$this->assertTrue(AuthLoginStub::user() === $_SERVER['auth.login.stub']['user']);
+		$auth = new AuthLoginStub;
+
+		$this->assertEquals('Taylor Otwell', $auth->user()->name);
+		
+		$this->assertTrue($auth->user()->id === $_SERVER['auth.login.stub']['user']);
 	}
 
 	/**
@@ -150,11 +192,11 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAttemptMethodReturnsFalseWhenCredentialsAreInvalid()
 	{
-		$this->assertFalse(Auth::attempt('foo', 'foo'));
-		$this->assertFalse(Auth::attempt('foo', null));
-		$this->assertFalse(Auth::attempt(null, null));
-		$this->assertFalse(Auth::attempt('taylor', 'password'));
-		$this->assertFalse(Auth::attempt('taylor', 232));
+		$this->assertFalse(Auth::attempt(array('username' => 'foo', 'password' => 'foo')));
+		$this->assertFalse(Auth::attempt(array('username' => 'foo', 'password' => null)));
+		$this->assertFalse(Auth::attempt(array('username' => null, 'password' => null)));
+		$this->assertFalse(Auth::attempt(array('username' => 'taylor', 'password' => 'password')));
+		$this->assertFalse(Auth::attempt(array('username' => 'taylor', 'password' => 232)));
 	}
 
 	/**
@@ -164,13 +206,22 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAttemptReturnsTrueWhenCredentialsAreCorrect()
 	{
-		$this->assertTrue(AuthLoginStub::attempt('taylor', 'password1'));
-		$this->assertEquals('Taylor Otwell', $_SERVER['auth.login.stub']['user']->name);
+		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
+
+		$auth = new AuthLoginStub;
+
+		$this->assertTrue($auth->attempt(array('username' => 'taylor', 'password' => 'password1')));
+		$this->assertEquals('1', $_SERVER['auth.login.stub']['user']);
 		$this->assertFalse($_SERVER['auth.login.stub']['remember']);
 
-		$this->assertTrue(AuthLoginStub::attempt('taylor', 'password1', true));
-		$this->assertEquals('Taylor Otwell', $_SERVER['auth.login.stub']['user']->name);
+		$auth_secure = new AuthLoginStub;
+
+		$this->assertTrue($auth_secure->attempt(array('username' => 'taylor', 'password' => 'password1', 'remember' => true)));
+		$this->assertEquals('1', $_SERVER['auth.login.stub']['user']);
 		$this->assertTrue($_SERVER['auth.login.stub']['remember']);
+
+		$auth_secure->logout();
+		$auth->logout();
 	}
 
 	/**
@@ -189,9 +240,13 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$user = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'];
 		$this->assertEquals(10, $user->id);
 
+
+		Auth::logout();
+
 		Auth::login(5);
 		$user = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'];
 		$this->assertEquals(5, $user);
+		Auth::logout(5);
 	}
 
 	/**
@@ -203,20 +258,27 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
 
+		$this->setServerVar('HTTPS', 'on');
+
 		// Set the session vars to make sure remember cookie uses them
 		Config::set('session.path', 'foo');
 		Config::set('session.domain', 'bar');
 		Config::set('session.secure', true);
 
-		Auth::login(10);
-		$this->assertTrue(isset(Cookie::$jar[Config::get('auth.cookie')]));
+		Auth::login(1, true);
 
-		$cookie = Cookie::$jar[Config::get('auth.cookie')]['value'];
+		$this->assertTrue(isset(Cookie::$jar['laravel_auth_drivers_fluent_remember']));
+
+		$cookie = Cookie::$jar['laravel_auth_drivers_fluent_remember']['value'];
 		$cookie = explode('|', Crypter::decrypt($cookie));
-		$this->assertEquals(10, $cookie[0]);
-		$this->assertEquals('foo', Cookie::$jar[Config::get('auth.cookie')]['path']);
-		$this->assertEquals('bar', Cookie::$jar[Config::get('auth.cookie')]['domain']);
-		$this->assertTrue(Cookie::$jar[Config::get('auth.cookie')]['secure']);
+		$this->assertEquals(1, $cookie[0]);
+		$this->assertEquals('foo', Cookie::$jar['laravel_auth_drivers_fluent_remember']['path']);
+		$this->assertEquals('bar', Cookie::$jar['laravel_auth_drivers_fluent_remember']['domain']);
+		$this->assertTrue(Cookie::$jar['laravel_auth_drivers_fluent_remember']['secure']);
+
+		Auth::logout();
+
+		$this->setServerVar('HTTPS', 'off');
 	}
 
 	/**
@@ -228,40 +290,70 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
 		
-		//$data = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 10;
+		$data = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 1;
 
-		// FIXME: Restore some of these!
-		//Config::set('auth.logout', function($user) { $_SERVER['auth.logout.stub'] = $user; });
-
-		//Auth::$user = 'Taylor';
 		Auth::logout();
 
-		//$this->assertEquals('Taylor', $_SERVER['auth.logout.stub']);
+		// A workaround since Cookie will is only stored in memory, until Response class is called.
+		Auth::driver()->token = null;
+
 		$this->assertNull(Auth::user());
-		// FIXME: Not sure whether hard-coding the key is a good idea.
+
 		$this->assertFalse(isset(Session::$instance->session['data']['laravel_auth_drivers_fluent_login']));
 		$this->assertTrue(Cookie::$jar['laravel_auth_drivers_fluent_remember']['expiration'] < time());
 	}
 
 }
 
-class AuthUserReturnsNull extends Laravel\Auth {
+class AuthUserReturnsNull extends Laravel\Auth\Drivers\Driver {
 
-	public static function user() {}
+	public function user() { return null; }
 
-}
+	public function retrieve($id) { return null; }
 
-class AuthUserReturnsDummy extends Laravel\Auth {
-
-	public static function user() { return 'Taylor'; }
+	public function attempt($arguments = array()) { return null; }
 
 }
 
-class AuthLoginStub extends Laravel\Auth {
-	
-	public static function login($user, $remember = false) 
+class AuthUserReturnsDummy extends Laravel\Auth\Drivers\Driver {
+
+	public function user() { return 'Taylor'; }
+
+	public function retrieve($id) { return null; }
+
+	public function attempt($arguments = array()) 
 	{
+		return $this->login($arguments['username']); 
+	}
+
+}
+
+class AuthLoginStub extends Laravel\Auth\Drivers\Fluent {
+	
+	public function login($user, $remember = false) 
+	{
+		if (is_null($remember)) $remember = false;
+
 		$_SERVER['auth.login.stub'] = compact('user', 'remember');
+
+		return parent::login($user, $remember);
+	}
+
+	public function logout()
+	{
+		parent::logout();
+	}
+
+	public function retrieve($id)
+	{
+		$user = parent::retrieve($id);
+
+		$_SERVER['auth.login.stub'] = array(
+			'user'     => $user->id,
+			'remember' => false,
+		);
+
+		return $user;
 	}
 
 }

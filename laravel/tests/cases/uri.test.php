@@ -49,7 +49,7 @@ class URITest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSegmentMethodReturnsAURISegment()
 	{
-		$this->setRequestUri('http://localhost/index.php/user/profile');
+		$this->setRequestUri('/user/profile');
 
 		$this->assertEquals('user', URI::segment(1));
 		$this->assertEquals('profile', URI::segment(2));
@@ -61,16 +61,14 @@ class URITest extends PHPUnit_Framework_TestCase {
 	public function requestUriProvider()
 	{
 		return array(
-			array('/index.php', '/'),
-			array('/index.php/', '/'),
-			array('http://localhost/user', 'user'),
-			array('http://localhost/user/', 'user'),
-			array('http://localhost/index.php', '/'),
-			array('http://localhost/index.php/', '/'),
-			array('http://localhost/index.php//', '/'),
-			array('http://localhost/index.php/user', 'user'),
-			array('http://localhost/index.php/user/', 'user'),
-			array('http://localhost/index.php/user/profile', 'user/profile'),
+			array('/user', 'user'),
+			array('/user/', 'user'),
+			array('', '/'),
+			array('/', '/'),
+			array('//', '/'),
+			array('/user', 'user'),
+			array('/user/', 'user'),
+			array('/user/profile', 'user/profile'),
 		);
 	}
 

@@ -147,10 +147,8 @@ class BundleTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAssetPathReturnsPathToBundlesAssets()
 	{
-		Config::set('application.url', 'http://localhost');
-
-		$this->assertEquals('http://localhost/bundles/dashboard/', Bundle::assets('dashboard'));
-		$this->assertEquals('http://localhost/', Bundle::assets(DEFAULT_BUNDLE));
+		$this->assertEquals('/bundles/dashboard/', Bundle::assets('dashboard'));
+		$this->assertEquals('/', Bundle::assets(DEFAULT_BUNDLE));
 
 		Config::set('application.url', '');
 	}

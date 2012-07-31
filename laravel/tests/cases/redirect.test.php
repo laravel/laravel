@@ -12,7 +12,7 @@ class RedirectTest extends PHPUnit_Framework_TestCase {
 		Config::set('session.driver', 'foo');
 		Router::$routes = array();
 		Router::$names = array();
-		Config::set('application.url', 'http://localhost');
+		URL::$base = 'http://localhost/';
 		Config::set('application.index', '');
 	}
 
@@ -25,7 +25,7 @@ class RedirectTest extends PHPUnit_Framework_TestCase {
 		Config::set('session.driver', '');
 		Router::$routes = array();
 		Router::$names = array();
-		Config::set('application.url', '');
+		URL::$base = '';
 		Config::set('application.index', 'index.php');
 		Session::$instance = null;
 	}

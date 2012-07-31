@@ -149,7 +149,7 @@ class InputTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->setSession();
 
-		$input = array('name' => 'Taylor');
+		$input = array('name' => 'Taylor', 'age' => 30);
 		Request::foundation()->request->add($input);
 
 		Input::flash();
