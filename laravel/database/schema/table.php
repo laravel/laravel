@@ -1,5 +1,6 @@
 <?php namespace Laravel\Database\Schema;
 
+use \Closure;
 use Laravel\Fluent;
 
 class Table {
@@ -367,6 +368,18 @@ class Table {
 	public function blob($name)
 	{
 		return $this->column(__FUNCTION__, compact('name'));
+	}
+
+	/**
+	 * Add a generic column to the table.
+	 *
+	 * @param  string  $name
+	 * @param  bool    $increment
+	 * @return Fluent
+	 */
+	public function generic($name, Closure $fluent)
+	{
+		return $this->column($fluent, compact('name'));
 	}
 
 	/**
