@@ -215,11 +215,12 @@ class Config {
 	 * Get the array of configuration paths that should be searched for a bundle.
 	 *
 	 * @param  string  $bundle
+	 * @param  string  $folder
 	 * @return array
 	 */
-	protected static function paths($bundle)
+	protected static function paths($bundle, $folder = 'config/')
 	{
-		$paths[] = Bundle::path($bundle).'config/';
+		$paths[] = Bundle::path($bundle).$folder;
 
 		// Configuration files can be made specific for a given environment. If an
 		// environment has been set, we will merge the environment configuration
@@ -227,6 +228,14 @@ class Config {
 		if ( ! is_null(Request::env()))
 		{
 			$paths[] = $paths[count($paths) - 1].Request::env().'/';
+		}
+		
+		// Look inside application/config/bundles/bundle-name to allow configs to be stored inside
+		// the application folder. This allows bundle runtime configuration to maintain even after
+		// the bundle is upgraded.
+		if ($bundle !== DEFAULT_BUNDLE)
+		{
+			$paths = array_merge($paths, static::paths(DEFAULT_BUNDLE, 'config/bundles/'.$bundle.'/'));
 		}
 
 		return $paths;
