@@ -668,7 +668,7 @@ class Validator {
 	}
 
 	/**
-	 * Validate the date is before a given date.
+	 * Validate the date is before a given date (or the date in another field).
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -677,11 +677,18 @@ class Validator {
 	 */
 	protected function validate_before($attribute, $value, $parameters)
 	{
-		return (strtotime($value) < strtotime($parameters[0]));
+		$result = strtotime($value) < strtotime($parameters[0]);
+
+		if ($result === false && isset($this->attributes[$parameters[0]]))
+		{
+			return $this->validate_before($attribute, $value, array($this->attributes[$parameters[0]]));
+		}
+
+		return $result;
 	}
 
 	/**
-	 * Validate the date is after a given date.
+	 * Validate the date is after a given date (or the date in another field).
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
@@ -690,7 +697,14 @@ class Validator {
 	 */
 	protected function validate_after($attribute, $value, $parameters)
 	{
-		return (strtotime($value) > strtotime($parameters[0]));
+		$result = strtotime($value) > strtotime($parameters[0]);
+
+		if ($result === false && isset($this->attributes[$parameters[0]]))
+		{
+			return $this->validate_after($attribute, $value, array($this->attributes[$parameters[0]]));
+		}
+
+		return $result;
 	}
 
 	/**

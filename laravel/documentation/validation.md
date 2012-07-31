@@ -204,6 +204,12 @@ Many times, when updating a record, you want to use the unique rule, but exclude
 
 > **Note:** The **before** and **after** validation rules use the **strtotime** PHP function to convert your date to something the rule can understand.
 
+#### Validate that a date attribute is after the date in another form field:
+
+	'due_date' => 'after:start_date';
+
+This also works with *before*.
+
 <a name="rule-email"></a>
 ### E-Mail Addresses
 
