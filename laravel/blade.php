@@ -27,6 +27,7 @@ class Blade {
 		'yield_sections',
 		'section_start',
 		'section_end',
+		'lang'
 	);
 
 	/**
@@ -436,6 +437,19 @@ class Blade {
 	protected static function compile_section_end($value)
 	{
 		return str_replace('@endsection', '<?php \\Laravel\\Section::stop(); ?>', $value);
+	}
+
+	/**
+	 * Rewrite Blade @lang statements into Lang statements
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	protected static function compile_lang($value)
+	{
+		$pattern = static::matcher('lang');
+
+		return preg_replace($pattern, '$1<?php echo Lang::line$2->get(); ?>', $value);
 	}
 
 	/**
