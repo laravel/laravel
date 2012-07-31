@@ -19,6 +19,7 @@
 	- [Named Routes](/docs/routing#named-routes)
 	- [HTTPS Routes](/docs/routing#https-routes)
 	- [Bundle Routes](/docs/routing#bundle-routes)
+	- [Controller Routing](/docs/routing#controller-routing)
 	- [CLI Route Testing](/docs/routing#cli-route-testing)
 - [Controllers](/docs/controllers)
 	- [The Basics](/docs/controllers#the-basics)
@@ -109,3 +110,9 @@
 	- [Bundle Tasks](/docs/artisan/tasks#bundle-tasks)
 	- [CLI Options](/docs/artisan/tasks#cli-options)
 - [Commands](/docs/artisan/commands)
+
+### Contributing
+
+- [Laravel on GitHub](docs/contrib/github)
+- [Command Line](docs/contrib/command-line)
+- [TortoiseGit](docs/contrib/tortoisegit)

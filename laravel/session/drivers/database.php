@@ -84,7 +84,7 @@ class Database extends Driver implements Sweeper {
 	}
 
 	/**
-	 * Delete all expired sessions from persistant storage.
+	 * Delete all expired sessions from persistent storage.
 	 *
 	 * @param  int   $expiration
 	 * @return void

@@ -48,7 +48,7 @@ class Pluralizer {
 		}
 
 		// English words may be automatically inflected using regular expressions.
-		// If the word is english, we'll just pass off the word to the automatic
+		// If the word is English, we'll just pass off the word to the automatic
 		// inflection method and return the result, which is cached.
 		$irregular = $this->config['irregular'];
 
@@ -77,7 +77,7 @@ class Pluralizer {
 		}
 
 		// English words may be automatically inflected using regular expressions.
-		// If the word is english, we'll just pass off the word to the automatic
+		// If the word is English, we'll just pass off the word to the automatic
 		// inflection method and return the result, which is cached.
 		$irregular = array_flip($this->config['irregular']);
 
@@ -104,7 +104,7 @@ class Pluralizer {
 			return $value;
 		}
 
-		// Next we will check the "irregular" patterns, which contains words
+		// Next, we will check the "irregular" patterns, which contain words
 		// like "children" and "teeth" which can not be inflected using the
 		// typically used regular expression matching approach.
 		foreach ($irregular as $irregular => $pattern)

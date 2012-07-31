@@ -24,7 +24,7 @@ class Session {
 	const csrf_token = 'csrf_token';
 
 	/**
-	 * Create the session payload and the load the session.
+	 * Create the session payload and load the session.
 	 *
 	 * @return void
 	 */

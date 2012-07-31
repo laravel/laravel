@@ -177,6 +177,16 @@ class Request {
 	{
 		return static::foundation()->headers->get('referer');
 	}
+	
+	/**
+	 * Get the timestamp of the time when the request was started.
+	 *
+	 * @return int
+	 */
+	public static function time()
+	{
+		return (int) LARAVEL_START;
+	}
 
 	/**
 	 * Determine if the current request is via the command line.

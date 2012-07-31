@@ -34,7 +34,7 @@ require path('sys').'cli/dependencies'.EXT;
  * We will wrap the command execution in a try / catch block and
  * simply write out any exception messages we receive to the CLI
  * for the developer. Note that this only writes out messages
- * for the CLI exceptions. All others will be not be caught
+ * for the CLI exceptions. All others will not be caught
  * and will be totally dumped out to the CLI.
  */
 try

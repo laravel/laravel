@@ -13,7 +13,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-The Schema Bulder provides methods for creating and modifying your database tables. Using a fluent syntax, you can work with your tables without using any vendor specific SQL.
+The Schema Builder provides methods for creating and modifying your database tables. Using a fluent syntax, you can work with your tables without using any vendor specific SQL.
 
 *Further Reading:*
 

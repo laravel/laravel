@@ -169,7 +169,7 @@ You may also specify multiple conditions for an **ON** clause by passing a Closu
 			$join->on('users.id', '=', 'phone.user_id');
 			$join->or_on('users.id', '=', 'phone.contact_id');
 		})
-		->get(array('users.email', 'phone.numer'));
+		->get(array('users.email', 'phone.number'));
 
 <a name="ordering"></a>
 ## Ordering Results

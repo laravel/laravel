@@ -47,7 +47,7 @@ class Paginator {
 	/**
 	 * The compiled appendage that will be appended to the links.
 	 *
-	 * This consists of a sprintf format  with a page place-holder and query string.
+	 * This consists of a sprintf format with a page place-holder and query string.
 	 *
 	 * @var string
 	 */
