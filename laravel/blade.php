@@ -356,7 +356,7 @@ class Blade {
 	{
 		$pattern = static::matcher('include');
 
-		return preg_replace($pattern, '<?php echo view$1->with(get_defined_vars())->render(); ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\view$1->with(get_defined_vars())->render(); ?>', $value);
 	}
 
 	/**
@@ -369,7 +369,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render');
 
-		return preg_replace($pattern, '<?php echo render$1; ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\render$1; ?>', $value);
 	}
 
 	/**
@@ -382,7 +382,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render_each');
 
-		return preg_replace($pattern, '<?php echo render_each$1; ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\render_each$1; ?>', $value);
 	}
 
 	/**

@@ -150,7 +150,7 @@ class Payload {
 	 */
 	public function put($key, $value)
 	{
-		array_set($this->session['data'], $key, $value);
+		\Laravel\array_set($this->session['data'], $key, $value);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class Payload {
 	 */
 	public function flash($key, $value)
 	{
-		array_set($this->session['data'][':new:'], $key, $value);
+		\Laravel\array_set($this->session['data'][':new:'], $key, $value);
 	}
 
 	/**
