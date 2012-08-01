@@ -184,13 +184,11 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testPathMethodReturnsCorrectPathForABundleAsset()
 	{
-		Config::set('application.url', 'http://localhost');
-
 		$container = $this->getContainer();
 
 		$container->bundle('eloquent');
 
-		$this->assertEquals('http://localhost/bundles/eloquent/foo.jpg', $container->path('foo.jpg'));
+		$this->assertEquals('/bundles/eloquent/foo.jpg', $container->path('foo.jpg'));
 	}
 
 	/**
@@ -200,11 +198,9 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testPathMethodReturnsCorrectPathForAnApplicationAsset()
 	{
-		Config::set('application.url', 'http://localhost');
-
 		$container = $this->getContainer();
 
-		$this->assertEquals('http://localhost/foo.jpg', $container->path('foo.jpg'));
+		$this->assertEquals('/foo.jpg', $container->path('foo.jpg'));
 	}
 
 	/**
