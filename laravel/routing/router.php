@@ -314,7 +314,7 @@ class Router {
 			// If the controller is a "home" controller, we'll need to also build an
 			// index method route for the controller. We'll remove "home" from the
 			// route root and setup a route to point to the index method.
-			if (ends_with($controller, 'home'))
+			if (\Laravel\ends_with($controller, 'home'))
 			{
 				static::root($identifier, $controller, $root);
 			}

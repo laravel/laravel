@@ -81,7 +81,7 @@ class Command {
 		// Extract the task method from the task string. Methods are called
 		// on tasks by separating the task and method with a single colon.
 		// If no task is specified, "run" is used as the default.
-		if (str_contains($task, ':'))
+		if (\Laravel\str_contains($task, ':'))
 		{
 			list($task, $method) = explode(':', $task);
 		}
