@@ -383,7 +383,7 @@ class MySQL extends Grammar {
 	 */
 	protected function type_boolean(Fluent $column)
 	{
-		return 'TINYINT';
+		return 'TINYINT(1)';
 	}
 
 	/**
