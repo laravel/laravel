@@ -125,7 +125,7 @@ class Event {
 	}
 
 	/**
-	 * Fire an event and return the the first response.
+	 * Fire an event and return the first response.
 	 *
 	 * Execution will be halted after the first valid response is found.
 	 *

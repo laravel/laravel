@@ -366,7 +366,7 @@ In the example above, the custom required message will be used for the email att
 
 However, if you are using many custom error messages, specifying inline may become cumbersome and messy. For that reason, you can specify your custom messages in the **custom** array within the validation language file:
 
-#### Adding custom error messages to the validation langauge file:
+#### Adding custom error messages to the validation language file:
 
 	'custom' => array(
 		'email_required' => 'We need to know your e-mail address!',
@@ -417,7 +417,7 @@ As mentioned above, you may even specify and receive a list of parameters in you
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{
 	    return $value == $parameters[0];
-	}
+	});
 
 In this case, the parameters argument of your validation rule would receive an array containing one element: "yes".
 

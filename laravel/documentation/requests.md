@@ -62,7 +62,7 @@ Sometimes you may need to determine if the current URI is a given string, or beg
 		// This request is over HTTPS!
 	}
 
-#### Determing if the current request is an AJAX request:
+#### Determining if the current request is an AJAX request:
 
 	if (Request::ajax())
 	{

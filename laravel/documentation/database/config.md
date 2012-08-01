@@ -5,6 +5,7 @@
 - [Quick Start Using SQLite](#quick)
 - [Configuring Other Databases](#server)
 - [Setting The Default Connection Name](#default)
+- [Overwriting The Default PDO Options](#options)
 
 Laravel supports the following databases out of the box:
 
@@ -44,3 +45,26 @@ As you have probably noticed, each database connection defined in the **applicat
 	'default' => 'sqlite';
 
 The default connection will always be used by the [fluent query builder](/docs/database/fluent). If you need to change the default connection during a request, use the **Config::set** method.
+
+<a href="options"></a>
+##Overwriting The Default PDO Options
+
+The PDO connector class (**laravel/database/connectors/connector.php**) has a set of default PDO attributes defined which can be overwritten in the options array for each system. For example, one of the default attributes is to force column names to lowercase (**PDO::CASE_LOWER**) even if they are defined in UPPERCASE or CamelCase in the table. Therefore, under the default attributes, query result object variables would only be accessible in lowercase.
+An example of the MySQL system settings with added default PDO attributes:
+
+	'mysql' => array(
+		'driver'   => 'mysql',
+		'host'     => 'localhost',
+		'database' => 'database',
+		'username' => 'root',
+		'password' => '',
+		'charset'  => 'utf8',
+		'prefix'   => '',
+		PDO::ATTR_CASE              => PDO::CASE_LOWER,
+		PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION,
+		PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
+		PDO::ATTR_STRINGIFY_FETCHES => false,
+		PDO::ATTR_EMULATE_PREPARES  => false,
+	),
+
+More about the PDO connection attributes can be found [in the PHP manual](http://php.net/manual/en/pdo.setattribute.php).

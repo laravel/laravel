@@ -96,4 +96,19 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 		return $this->{'type_'.$column->type}($column);
 	}
 
+	/**
+	 * Format a value so that it can be used in SQL DEFAULT clauses.
+	 * @param  mixed   $value
+	 * @return string
+	 */
+	protected function default_value($value)
+	{
+		if (is_bool($value))
+		{
+			return intval($value);
+		}
+
+		return strval($value);
+	}
+
 }

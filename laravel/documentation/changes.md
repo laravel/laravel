@@ -38,6 +38,7 @@
 
 - Speed up many to many eager loading mapping.
 - Tweak the Eloquent::changed() method.
+- Added support for locales in the URI.
 
 <a name="upgrade-3.2.3"></a>
 ## Upgrading From 3.2.3

@@ -13,7 +13,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-The Schema Bulder provides methods for creating and modifying your database tables. Using a fluent syntax, you can work with your tables without using any vendor specific SQL.
+The Schema Builder provides methods for creating and modifying your database tables. Using a fluent syntax, you can work with your tables without using any vendor specific SQL.
 
 *Further Reading:*
 
@@ -69,6 +69,7 @@ Command  | Description
 `$table->text('description');`  |  TEXT equivalent to the table
 `$table->blob('data');`  |  BLOB equivalent to the table
 `->nullable()`  |  Designate that the column allows NULL values
+`->default($value)`  |  Declare a default value for a column
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 

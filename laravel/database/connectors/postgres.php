@@ -44,6 +44,13 @@ class Postgres extends Connector {
 			$connection->prepare("SET NAMES '{$config['charset']}'")->execute();
 		}
 
+		// If a schema has been specified, we'll execute a query against
+		// the database to set the search path.
+		if (isset($config['schema']))
+		{
+			$connection->prepare("SET search_path TO '{$config['schema']}'")->execute();
+		}
+
 		return $connection;
 	}
 

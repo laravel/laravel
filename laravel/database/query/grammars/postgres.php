@@ -5,7 +5,7 @@ use Laravel\Database\Query;
 class Postgres extends Grammar {
 
 	/**
-	 * Compile a SQL INSERT and get ID statment from a Query instance.
+	 * Compile a SQL INSERT and get ID statement from a Query instance.
 	 *
 	 * @param  Query   $query
 	 * @param  array   $values
