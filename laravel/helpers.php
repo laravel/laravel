@@ -150,7 +150,8 @@ function array_forget(&$array, $key)
 	{
 		$array = array_diff($array, $keys);
 	}
-	else {
+	else
+	{
 		// This loop functions very similarly to the loop in the "set" method.
 		// We will iterate over the keys, setting the array value to the new
 		// depth at each iteration. Once there is only one key left, we will
