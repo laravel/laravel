@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use Laravel\Request;
+
 class File extends Driver {
 
 	/**
@@ -44,7 +46,7 @@ class File extends Driver {
 		// File based caches store have the expiration timestamp stored in
 		// UNIX format prepended to their contents. We'll compare the
 		// timestamp to the current time when we read the file.
-		if (time() >= substr($cache = file_get_contents($this->path.$key), 0, 10))
+		if (Request::time() >= substr($cache = file_get_contents($this->path.$key), 0, 10))
 		{
 			return $this->forget($key);
 		}

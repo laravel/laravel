@@ -3,6 +3,7 @@
 use Laravel\IoC;
 use Laravel\File;
 use Laravel\Config;
+use Laravel\Request;
 use Laravel\Session;
 use Laravel\CLI\Tasks\Task;
 use Laravel\Session\Drivers\Sweeper;
@@ -62,7 +63,7 @@ class Manager extends Task {
 		{
 			$lifetime = Config::get('session.lifetime');
 
-			$driver->sweep(time() - ($lifetime * 60));
+			$driver->sweep(Request::time() - ($lifetime * 60));
 		}
 
 		echo "The session table has been swept!";

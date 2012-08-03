@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use Laravel\Request;
+
 abstract class Driver {
 
 	/**
@@ -106,7 +108,7 @@ abstract class Driver {
 	 */
 	protected function expiration($minutes)
 	{
-		return time() + ($minutes * 60);
+		return Request::time() + ($minutes * 60);
 	}
 
 }

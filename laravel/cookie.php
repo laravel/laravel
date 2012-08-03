@@ -1,5 +1,7 @@
 <?php namespace Laravel;
 
+use Laravel\Request;
+
 class Cookie {
 
 	/**
@@ -72,7 +74,7 @@ class Cookie {
 	{
 		if ($expiration !== 0)
 		{
-			$expiration = time() + ($expiration * 60);
+			$expiration = Request::time() + ($expiration * 60);
 		}
 
 		// If the secure option is set to true, yet the request is not over HTTPS

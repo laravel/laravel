@@ -3,6 +3,7 @@
 use Laravel\Config;
 use Laravel\Database as DB;
 use Laravel\Database\Connection;
+use Laravel\Request;
 
 class Database extends Driver {
 
@@ -47,7 +48,7 @@ class Database extends Driver {
 
 		if ( ! is_null($cache))
 		{
-			if (time() >= $cache->expiration) return $this->forget($key);
+			if (Request::time() >= $cache->expiration) return $this->forget($key);
 
 			return unserialize($cache->value);
 		}
