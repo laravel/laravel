@@ -146,7 +146,7 @@ function array_forget(&$array, $key)
 	$keys = explode('.', $key);
 
 	// Are we just trying to remove a simple key from an array?
-	if ( count($keys) === 1 )
+	if (count($keys) === 1)
 	{
 		$array = array_diff($array, $keys);
 	}
