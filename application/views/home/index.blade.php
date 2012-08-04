@@ -29,7 +29,7 @@
 
 				<p>And the view sitting before you can be found at:</p>
 
-				<pre>{{ path('app') }}views/home/index.php</pre>
+				<pre>{{ path('app') }}views/home/index.blade.php</pre>
 
 				<h2>Grow in knowledge.</h2>
 
