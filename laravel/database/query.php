@@ -297,6 +297,21 @@ class Query {
 	 */
 	public function where_in($column, $values, $connector = 'AND', $not = false)
 	{
+		// Handle an empty value list
+		if (empty($values))
+		{
+			// "NOT IN ()" will cause the WHERE clause to match all rows
+			if ($not)
+			{
+				return $this->raw_where('1 = 1', array(), $connector);
+			}
+			// "IN ()" will cause the WHERE clause to match no rows
+			else
+			{
+				return $this->raw_where('1 != 1', array(), $connector);
+			}
+		}
+
 		$type = ($not) ? 'where_not_in' : 'where_in';
 
 		$this->wheres[] = compact('type', 'column', 'values', 'connector');
