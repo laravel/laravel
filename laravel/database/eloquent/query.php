@@ -171,15 +171,9 @@ class Query {
 		// eager relationship using a separate, specific method.
 		$query->table->reset_where();
 
-		$query->eagerly_constrain($results);
-
 		// Constraints may be specified in-line for the eager load by passing
-		// a Closure as the value portion of the eager load. We can use the
-		// query builder's nested query support to add the constraints.
-		if ( ! is_null($constraints))
-		{
-			$query->table->where_nested($constraints);
-		}
+		// a Closure as the value portion of the eager load.
+		$query->eagerly_constrain($results, $constraints);
 
 		$query->initialize($results, $relationship);
 
