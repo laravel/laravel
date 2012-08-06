@@ -689,7 +689,7 @@ class Validator {
 	 */
 	protected function validate_count($attribute, $value, $parameters)
 	{
-		return (is_array($value) && count($value) == $parameters);
+		return (is_array($value) && count($value) == $parameters[0]);
 	}
 
 	/**
@@ -702,7 +702,7 @@ class Validator {
 	 */
 	protected function validate_countmin($attribute, $value, $parameters)
 	{
-		return (is_array($value) && count($value) >= $parameters);
+		return (is_array($value) && count($value) >= $parameters[0]);
 	}
 
 	/**
@@ -715,7 +715,7 @@ class Validator {
 	 */
 	protected function validate_countmax($attribute, $value, $parameters)
 	{
-		return (is_array($value) && count($value) <= $parameters);
+		return (is_array($value) && count($value) <= $parameters[0]);
 	}
 
 	/**
@@ -1027,7 +1027,7 @@ class Validator {
 	 */
 	protected function replace_count($message, $attribute, $rule, $parameters)
 	{
-		return str_replace(':count', $parameters, $message);
+		return str_replace(':count', $parameters[0], $message);
 	}
 
 	/**
@@ -1041,7 +1041,7 @@ class Validator {
 	 */
 	protected function replace_countmin($message, $attribute, $rule, $parameters)
 	{
-		return str_replace(':min', $parameters, $message);
+		return str_replace(':min', $parameters[0], $message);
 	}
 
 	/**
@@ -1055,7 +1055,7 @@ class Validator {
 	 */
 	protected function replace_countmax($message, $attribute, $rule, $parameters)
 	{
-		return str_replace(':max', $parameters, $message);
+		return str_replace(':max', $parameters[0], $message);
 	}
 
 	/**
