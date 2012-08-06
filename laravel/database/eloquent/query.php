@@ -166,11 +166,6 @@ class Query {
 
 		$query->model->includes = $this->nested_includes($relationship);
 
-		// We'll remove any of the where clauses from the relationship to give
-		// the relationship the opportunity to set the constraints for an
-		// eager relationship using a separate, specific method.
-		$query->table->reset_where();
-
 		// Constraints may be specified in-line for the eager load by passing
 		// a Closure as the value portion of the eager load.
 		$query->eagerly_constrain($results, $constraints);

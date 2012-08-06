@@ -55,6 +55,10 @@ class Has_One_Or_Many extends Relationship {
 	 */
 	public function eagerly_constrain($results, Closure $constraints = null)
 	{
+		// We'll remove any constraints from the relationship if we have
+		// custom constraints specified on this eager load.
+		if ( ! is_null($constraints)) $this->table->reset();
+
 		$this->table->where_in($this->foreign_key(), $this->keys($results));
 
 		if ( ! is_null($constraints))
