@@ -522,9 +522,9 @@ class Form {
 	{
 		if ($checked) $attributes['checked'] = 'checked';
 
-		if (static::$remember and !empty(Input::all()))
+		if (static::$remember and !empty(Input::old()))
 		{
-			$attributes['checked'] = Input::has($name);
+			$attributes['checked'] = Input::had($name);
 		}
 
 		$attributes['id'] = static::id($name, $attributes);
