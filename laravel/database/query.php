@@ -475,6 +475,7 @@ class Query {
 	 * @param  string  $column
 	 * @param  string  $operator
 	 * @param  mixed   $value
+	 * @return Query
 	 */
 	public function having($column, $operator, $value)
 	{

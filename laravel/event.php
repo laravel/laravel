@@ -176,7 +176,7 @@ class Event {
 	 *		$responses = Event::fire(array('start', 'loading'), $parameters);
 	 * </code>
 	 *
-	 * @param  string|array  $event
+	 * @param  string|array  $events
 	 * @param  array         $parameters
 	 * @param  bool          $halt
 	 * @return array

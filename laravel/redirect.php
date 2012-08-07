@@ -6,7 +6,7 @@ class Redirect extends Response {
 	 * Create a redirect response to application root.
 	 *
 	 * @param  int       $status
-	 * @param  bool      $secure
+	 * @param  bool      $https
 	 * @return Redirect
 	 */
 	public static function home($status = 302, $https = null)

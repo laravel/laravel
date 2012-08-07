@@ -292,7 +292,7 @@ class Router {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controller
+	 * @param  string|array  $controllers
 	 * @param  string|array  $defaults
 	 * @param  bool          $https
 	 * @return void

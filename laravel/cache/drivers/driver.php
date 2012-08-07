@@ -67,6 +67,7 @@ abstract class Driver {
 	 * @param  string  $key
 	 * @param  mixed   $default
 	 * @param  int     $minutes
+	 * @param  string  $function
 	 * @return mixed
 	 */
 	public function remember($key, $default, $minutes, $function = 'put')

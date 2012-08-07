@@ -543,7 +543,7 @@ function render($view, $data = array())
 /**
  * Get the rendered contents of a partial from a loop.
  *
- * @param  string  $view
+ * @param  string  $partial
  * @param  array   $data
  * @param  string  $iterator
  * @param  string  $empty
