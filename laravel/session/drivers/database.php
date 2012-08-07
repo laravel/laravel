@@ -10,7 +10,7 @@ class Database extends Driver implements Sweeper {
 	 *
 	 * @var Connection
 	 */
-	private $connection;
+	protected $connection;
 
 	/**
 	 * Create a new database session driver.
@@ -84,7 +84,7 @@ class Database extends Driver implements Sweeper {
 	}
 
 	/**
-	 * Delete all expired sessions from persistant storage.
+	 * Delete all expired sessions from persistent storage.
 	 *
 	 * @param  int   $expiration
 	 * @return void

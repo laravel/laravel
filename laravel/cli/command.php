@@ -100,7 +100,7 @@ class Command {
 	 *		// Resolve an instance of a task
 	 *		$task = Command::resolve('application', 'migrate');
 	 *
-	 *		// Resolve an instance of a task wtihin a bundle
+	 *		// Resolve an instance of a task within a bundle
 	 *		$task = Command::resolve('bundle', 'foo');
 	 * </code>
 	 *
@@ -121,7 +121,7 @@ class Command {
 		}
 
 		// If the task file exists, we'll format the bundle and task name
-		// into a task class name and resolve an instance of the so that
+		// into a task class name and resolve an instance of the class so that
 		// the requested method may be executed.
 		if (file_exists($path = Bundle::path($bundle).'tasks/'.$task.EXT))
 		{

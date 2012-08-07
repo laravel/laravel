@@ -73,7 +73,7 @@ class Config {
 		$items = static::$items[$bundle][$file];
 
 		// If a specific configuration item was not requested, the key will be null,
-		// meaning we'll to return the entire array of configuration item from the
+		// meaning we'll return the entire array of configuration items from the
 		// requested configuration file. Otherwise we can return the item.
 		if (is_null($item))
 		{
@@ -175,7 +175,7 @@ class Config {
 		// requested. This allows many types of config "drivers".
 		$config = Event::first(static::loader, func_get_args());
 
-		// If configuration items were actually found for the bundle and file we
+		// If configuration items were actually found for the bundle and file, we
 		// will add them to the configuration array and return true, otherwise
 		// we will return false indicating the file was not found.
 		if (count($config) > 0)

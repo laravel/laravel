@@ -427,7 +427,7 @@ class Form {
 			$html[] = static::option($value, $display, $selected);
 		}
 
-		return '<optgroup label="'.HTML::entities($label).'">'.implode('', $html).'</option>';
+		return '<optgroup label="'.HTML::entities($label).'">'.implode('', $html).'</optgroup>';
 	}
 
 	/**

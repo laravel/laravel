@@ -21,7 +21,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 		// command is being executed and the referenced table are wrapped.
 		$table = $this->wrap($table);
 
-		$on = $this->wrap($command->on);
+		$on = $this->wrap_table($command->on);
 
 		// Next we need to columnize both the command table's columns as well as
 		// the columns referenced by the foreign key. We'll cast the referenced
@@ -94,6 +94,21 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	protected function type(Fluent $column)
 	{
 		return $this->{'type_'.$column->type}($column);
+	}
+
+	/**
+	 * Format a value so that it can be used in SQL DEFAULT clauses.
+	 * @param  mixed   $value
+	 * @return string
+	 */
+	protected function default_value($value)
+	{
+		if (is_bool($value))
+		{
+			return intval($value);
+		}
+
+		return strval($value);
 	}
 
 }

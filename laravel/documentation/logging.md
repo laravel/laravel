@@ -24,7 +24,7 @@ The **detail** option indicates if the framework should display the error messag
 
 To enable logging, set the **log** option in the error configuration to "true". When enabled, the Closure defined by the **logger** configuration item will be executed when an error occurs. This gives you total flexibility in how the error should be logged. You can even e-mail the errors to your development team!
 
-By default, logs are stored in the **storage/logs** direcetory, and a new log file is created for each day. This keeps your log files from getting crowded with too many messages.
+By default, logs are stored in the **storage/logs** directory, and a new log file is created for each day. This keeps your log files from getting crowded with too many messages.
 
 <a name="the-logger-class"></a>
 ## The Logger Class
