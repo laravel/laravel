@@ -517,7 +517,7 @@ abstract class Model {
 	 *
 	 * @return string
 	 */
-	public function table()
+	public function _table()
 	{
 		return static::$table ?: strtolower(Str::plural(class_basename($this)));
 	}
@@ -751,7 +751,7 @@ abstract class Model {
 	 */
 	public function __call($method, $parameters)
 	{
-		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
+		$meta = array('key', 'connection', 'sequence', 'per_page', 'timestamps');
 
 		// If the method is actually the name of a static property on the model, we'll
 		// return the value of the static property. This makes it convenient for
@@ -761,7 +761,7 @@ abstract class Model {
 			return static::$$method;
 		}
 
-		$underscored = array('with', 'find');
+		$underscored = array('with', 'find', 'table');
 
 		// Some methods need to be accessed both statically and non-statically so we'll
 		// keep underscored methods of those methods and intercept calls to them
