@@ -132,6 +132,7 @@ return array(
 	| The default timezone of your application. The timezone will be used when
 	| Laravel needs a date, such as when writing to a log file or travelling
 	| to a distant star at warp speed.
+	| http://www.php.net/manual/en/timezones.php
 	|
 	*/
 
