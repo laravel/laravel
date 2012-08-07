@@ -5,6 +5,7 @@ use Laravel\File;
 use Laravel\Event;
 use Laravel\Config;
 use Laravel\Request;
+use Laravel\Database;
 
 class Profiler {
 
@@ -14,7 +15,7 @@ class Profiler {
 	 * @var array
 	 */
 	protected static $data = array('queries' => array(), 'logs' => array());
-
+	
 	/**
 	 * Get the rendered contents of the Profiler.
 	 *
@@ -28,6 +29,9 @@ class Profiler {
 		// type applications, so we will not send anything in those scenarios.
 		if ( ! Request::ajax())
 		{
+			static::$data['memory'] = get_file_size(memory_get_usage(true));
+			static::$data['memory_peak'] = get_file_size(memory_get_peak_usage(true));
+			static::$data['time'] = number_format((microtime(true) - LARAVEL_START) * 1000, 2);
 			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
 		}
 	}
@@ -54,6 +58,8 @@ class Profiler {
 	{
 		foreach ($bindings as $binding)
 		{
+			$binding = Database::connection()->pdo->quote($binding);
+
 			$sql = preg_replace('/\?/', $binding, $sql, 1);
 		}
 

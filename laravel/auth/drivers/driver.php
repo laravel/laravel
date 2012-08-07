@@ -80,7 +80,7 @@ abstract class Driver {
 	}
 
 	/**
-	 * Get the a given application user by ID.
+	 * Get the given application user by ID.
 	 *
 	 * @param  int    $id
 	 * @return mixed
@@ -192,7 +192,7 @@ abstract class Driver {
 	}
 
 	/**
-	 * Get session key name used to store the token.
+	 * Get the session key name used to store the token.
 	 *
 	 * @return string
 	 */

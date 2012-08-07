@@ -15,6 +15,7 @@
 - [Setter & Getter Methods](#getter-and-setter-methods)
 - [Mass-Assignment](#mass-assignment)
 - [Converting Models To Arrays](#to-array)
+- [Deleting Models](#delete)
 
 <a name="the-basics"></a>
 ## The Basics
@@ -65,7 +66,7 @@ Need to retrieve an entire table? Just use the static **all** method:
 	     echo $user->email;
 	}
 
-Of course, retrieving an entire table isn't very helpful. Thankfully, **every method that is available through the fluent query builder is available in Eloquent**. Just begin querying your model with a static call to one of the [query builder](/docs/database/query) methods, and execute the query using the **get** or **first** method. The get method will return an array of models, while the first method will return a single model:
+Of course, retrieving an entire table isn't very helpful. Thankfully, **every method that is available through the fluent query builder is available in Eloquent**. Just begin querying your model with a static call to one of the [query builder](/docs/database/fluent) methods, and execute the query using the **get** or **first** method. The get method will return an array of models, while the first method will return a single model:
 
 	$user = User::where('email', '=', $email)->first();
 
@@ -223,7 +224,7 @@ Want to join on a different foreign key? No problem. Just pass it in the second 
 
 	return $this->has_many('Comment', 'my_foreign_key');
 
-You may be wondering: _If the dynamic properties return the relationship and require less keystokes, why would I ever use the relationship methods?_ Actually, relationship methods are very powerful. They allow you to continue to chain query methods before retrieving the relationship. Check this out:
+You may be wondering: _If the dynamic properties return the relationship and require less keystrokes, why would I ever use the relationship methods?_ Actually, relationship methods are very powerful. They allow you to continue to chain query methods before retrieving the relationship. Check this out:
 
 	echo Post::find(1)->comments()->order_by('votes', 'desc')->take(10)->get();
 
@@ -242,8 +243,9 @@ Many-to-many relationships are the most complicated of the three relationships. 
 	id   - INTEGER
 	name - VARCHAR
 
-**Roles_Users:**
+**Role_User:**
 
+    id      - INTEGER
 	user_id - INTEGER
 	role_id - INTEGER
 
@@ -273,6 +275,17 @@ As you may have noticed, the default name of the intermediate table is the singu
 	     public function roles()
 	     {
 	          return $this->has_many_and_belongs_to('Role', 'user_roles');
+	     }
+
+	}
+
+By default only certain fields from the pivot table will be returned (the two **id** fields, and the timestamps). If your pivot table contains additional columns, you can fetch them too by using the **with()** method :
+
+	class User extends Eloquent {
+
+	     public function roles()
+	     {
+	          return $this->has_many_and_belongs_to('Role', 'user_roles')->with('column');
 	     }
 
 	}
@@ -317,6 +330,10 @@ Now, when the Role is inserted, not only is the Role inserted into the "roles" t
 However, you may often only want to insert a new record into the intermediate table. For example, perhaps the role you wish to attach to the user already exists. Just use the attach method:
 
 	$user->roles()->attach($role_id);
+
+It's also possible to attach data for fields in the intermediate table (pivot table), to do this add a second array variable to the attach command containing the data you want to attach:
+
+	$user->roles()->attach($role_id, array('expires' => $expires));
 
 <a name="sync-method"></a>
 Alternatively, you can use the `sync` method, which accepts an array of IDs to "sync" with the intermediate table. After this operation is complete, only the IDs in the array will be on the intermediate table.
@@ -405,6 +422,28 @@ Need to eager load more than one relationship? It's easy:
 You may even eager load nested relationships. For example, let's assume our **Author** model has a "contacts" relationship. We can eager load both of the relationships from our Book model like so:
 
 	$books = Book::with(array('author', 'author.contacts'))->get();
+
+If you find yourself eager loading the same models often, you may want to use **$includes** in the model.
+
+	class Book extends Eloquent {
+
+	     public $includes = array('author');
+
+	     public function author()
+	     {
+	          return $this->belongs_to('Author');
+	     }
+
+	}
+
+**$includes** takes the same arguments that **with** takes. The following is now eagerly loaded.
+
+	foreach (Book::all() as $book)
+	{
+	     echo $book->author->name;
+	}
+
+> **Note:** Using **with** will override a models **$includes**.
 
 <a name="constraining-eager-loads"></a>
 ## Constraining Eager Loads
@@ -499,3 +538,12 @@ Sometimes you may wish to limit the attributes that are included in your model's
 		public static $hidden = array('password');
 
 	}
+
+<a name="delete"></a>
+## Deleting Models
+
+Because Eloquent inherits all the features and methods of Fluent queries, deleting models is a snap:
+
+	$author->delete();
+
+Note, however, than this won't delete any related models (e.g. all the author's Book models will still exist), unless you have set up [foreign keys](/docs/database/schema#foreign-keys) and cascading deletes.

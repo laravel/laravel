@@ -214,7 +214,7 @@ class Validator {
 	 */
 	protected function implicit($rule)
 	{
-		return $rule == 'required' or $rule == 'accepted';
+		return $rule == 'required' or $rule == 'accepted' or $rule == 'required_with';
 	}
 
 	/**
@@ -252,6 +252,27 @@ class Validator {
 		elseif ( ! is_null(Input::file($attribute)) and is_array($value) and $value['tmp_name'] == '')
 		{
 			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validate that an attribute exists in the attributes array, if another
+	 * attribute exists in the attributes array.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_required_with($attribute, $value, $parameters)
+	{
+		$other = $parameters[0];
+
+		if ($this->validate_required($other, $this->attributes[$other]))
+		{
+			return $this->validate_required($attribute, $value);
 		}
 
 		return true;
@@ -401,8 +422,8 @@ class Validator {
 	protected function size($attribute, $value)
 	{
 	 	// This method will determine if the attribute is a number, string, or file and
-	 	// return the proper size accordingly. If it is a number, then number itself is
-	 	// the size; if it is a file, the size is kilobytes in the size; if it is a
+	 	// return the proper size accordingly. If it is a number, the number itself is
+	 	// the size; if it is a file, the kilobytes is the size; if it is a
 	 	// string, the length is the size.
 		if (is_numeric($value) and $this->has_rule($attribute, $this->numeric_rules))
 		{
@@ -560,7 +581,7 @@ class Validator {
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
 
-		return checkdnsrr($url);
+		return (trim($url) !== '') ? checkdnsrr($url) : false;
 	}
 
 	/**
@@ -743,7 +764,7 @@ class Validator {
 		}
 		// We assume that attributes present in the $_FILES array are files,
 		// which makes sense. If the attribute doesn't have numeric rules
-		// and isn't as file, it's a string.
+		// and isn't a file, it's a string.
 		elseif (array_key_exists($attribute, Input::file()))
 		{
 			$line = 'file';
@@ -862,7 +883,7 @@ class Validator {
 	}
 
 	/**
-	 * Replace all place-holders for the not_in rule.
+	 * Replace all place-holders for the mimes rule.
 	 *
 	 * @param  string  $message
 	 * @param  string  $attribute
@@ -953,7 +974,7 @@ class Validator {
 
 		// If no language line has been specified for the attribute, all of
 		// the underscores are removed from the attribute name and that
-		// will be used as the attribtue name.
+		// will be used as the attribute name.
 		else
 		{
 			return str_replace('_', ' ', $attribute);

@@ -8,7 +8,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The URL used to access your application without a trailing slash. The URL
-	| does not have to be set. If it isn't we'll try our best to guess the URL
+	| does not have to be set. If it isn't, we'll try our best to guess the URL
 	| of your application.
 	|
 	*/
@@ -48,7 +48,7 @@ return array(
 	|
 	| This key is used by the encryption and cookie classes to generate secure
 	| encrypted strings and hashes. It is extremely important that this key
-	| remain secret and should not be shared with anyone. Make it about 32
+	| remains secret and it should not be shared with anyone. Make it about 32
 	| characters of random gibberish.
 	|
 	*/
@@ -63,7 +63,7 @@ return array(
 	| Laravel includes a beautiful profiler toolbar that gives you a heads
 	| up display of the queries and logs performed by your application.
 	| This is wonderful for development, but, of course, you should
-	| disable the toolbar for production applications..
+	| disable the toolbar for production applications.
 	|
 	*/
 
@@ -84,7 +84,7 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Application Language
+	| Default Application Language
 	|--------------------------------------------------------------------------
 	|
 	| The default language of your application. This language will be used by
@@ -96,10 +96,23 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Supported Languages
+	|--------------------------------------------------------------------------
+	|
+	| These languages may also be supported by your application. If a request
+	| enters your application with a URI beginning with one of these values
+	| the default language will automatically be set to that language.
+	|
+	*/
+
+	'languages' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
 	| SSL Link Generation
 	|--------------------------------------------------------------------------
 	|
-	| Many sites use SSL to protect their users data. However, you may not be
+	| Many sites use SSL to protect their users' data. However, you may not be
 	| able to use SSL on your development machine, meaning all HTTPS will be
 	| broken during development.
 	|

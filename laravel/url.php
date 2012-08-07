@@ -101,11 +101,19 @@ class URL {
 			return $url;
 		}
 
-		// Unless $https is specified (true or false) then maintain the current request
+		// Unless $https is specified (true or false), we maintain the current request
 		// security for any new links generated.  So https for all secure links.
 		if (is_null($https)) $https = Request::secure();
 
 		$root = static::base().'/'.Config::get('application.index');
+
+		// If multiple languages are being supported via URIs, we will append current
+		// language to the URI so all redirects and URLs generated include the
+		// current language so it is not lost on further requests.
+		if (count(Config::get('application.languages')) > 0)
+		{
+			$root .= '/'.Config::get('application.language');
+		}
 
 		// Since SSL is not often used while developing the application, we allow the
 		// developer to disable SSL on all framework generated links to make it more
@@ -169,7 +177,7 @@ class URL {
 	}
 
 	/**
-	 * Generate a action URL from a route definition
+	 * Generate an action URL from a route definition
 	 *
 	 * @param  array   $route
 	 * @param  string  $action
@@ -196,7 +204,7 @@ class URL {
 
 		$bundle = Bundle::get($bundle);
 
-		// If a bundle exists for the action, we will attempt to use it's "handles"
+		// If a bundle exists for the action, we will attempt to use its "handles"
 		// clause as the root of the generated URL, as the bundle can only handle
 		// URIs that begin with that string and no others.
 		$root = $bundle['handles'] ?: '';
@@ -240,6 +248,11 @@ class URL {
 		if (($index = Config::get('application.index')) !== '')
 		{
 			$url = str_replace($index.'/', '', $url);
+		}
+
+		if (count(Config::get('application.languages')) > 0)
+		{
+			$url = str_replace(Config::get('application.language').'/', '', $url);
 		}
 
 		return $url;

@@ -44,7 +44,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		$this->joining = $table ?: $this->joining($model, $associated);
 
 		// If the Pivot table is timestamped, we'll set the timestamp columns to be
-		// fetched when the pivot table models are fetched by the developer else
+		// fetched when the pivot table models are fetched by the developer, or else
 		// the ID will be the only "extra" column fetched in by default.
 		if (Pivot::$timestamps)
 		{
@@ -131,7 +131,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		}
 
 		// Next we will take the difference of the current and given IDs and detach
-		// all of the entities that exists in the current array but are not in
+		// all of the entities that exist in the current array but are not in
 		// the array of IDs given to the method, finishing the sync.
 		$detach = array_diff($current, $ids);
 
@@ -325,14 +325,21 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
+		$dictionary = array();
+
+		foreach ($children as $child)
+		{
+			$dictionary[$child->pivot->$foreign][] = $child;
+		}
+
 		foreach ($parents as &$parent)
 		{
-			$matching = array_filter($children, function($v) use (&$parent, $foreign)
-			{
-				return $v->pivot->$foreign == $parent->get_key();
-			});
+			$parent_key = $parent->get_key();
 
-			$parent->relationships[$relationship] = array_values($matching);
+			if (isset($dictionary[$parent_key]))
+			{
+				$parent->relationships[$relationship] = $dictionary[$parent_key];
+			}
 		}
 	}
 
