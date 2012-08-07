@@ -517,9 +517,9 @@ abstract class Model {
 	 *
 	 * @return string
 	 */
-	public function table()
+	public static function table()
 	{
-		return static::$table ?: strtolower(Str::plural(class_basename($this)));
+		return static::$table ?: strtolower(Str::plural(class_basename(get_called_class())));
 	}
 
 	/**
@@ -751,7 +751,16 @@ abstract class Model {
 	 */
 	public function __call($method, $parameters)
 	{
-		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
+		$static = array('table');
+
+		// If the method is actually the name of a static method on the model we'll
+		// call the method statically.
+		if (in_array($method, $static))
+		{
+			return call_user_func_array(array(get_class($this), $method), $parameters);
+		}
+		
+		$meta = array('key', 'connection', 'sequence', 'per_page', 'timestamps');
 
 		// If the method is actually the name of a static property on the model, we'll
 		// return the value of the static property. This makes it convenient for
