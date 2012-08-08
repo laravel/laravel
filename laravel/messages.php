@@ -171,6 +171,28 @@ class Messages {
 
 		return $all;
 	}
+	
+	/**
+     	 * Converts all messages to a single string.
+     	 *
+     	 * <code>
+     	 *      // Return a string of all the messages
+     	 *      // in the collector
+     	 *      $all = $messages->join();
+    	 *
+     	 *      // Return a string of all the formatted
+     	 *      // messages in the collector
+     	 *      $all = $messages->join('<p>:message</p>');
+     	 * </code>
+    	 *
+     	 * @param string $format
+     	 * @return string
+     	 */
+    	public function join($format = null)
+    	{
+        	$messages = $this->all($format);
+        	return implode($messages);
+    	}
 
 	/**
 	 * Format an array of messages.
