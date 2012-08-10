@@ -394,6 +394,17 @@ class MySQL extends Grammar {
 	 */
 	protected function type_date(Fluent $column)
 	{
+		return 'DATE';
+	}
+
+	/**
+	 * Generate the data-type definition for a datetime.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_datetime(Fluent $column)
+	{
 		return 'DATETIME';
 	}
 
