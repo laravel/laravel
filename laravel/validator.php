@@ -637,6 +637,7 @@ class Validator {
 	 *
 	 * @param  string  $attribute
 	 * @param  mixed   $value
+	 * @param  array   $parameters
 	 * @return bool
 	 */
 	protected function validate_match($attribute, $value, $parameters)

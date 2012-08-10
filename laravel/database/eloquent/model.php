@@ -567,6 +567,7 @@ abstract class Model {
 	 * Get a given attribute from the model.
 	 *
 	 * @param  string  $key
+	 * @return mixed
 	 */
 	public function get_attribute($key)
 	{

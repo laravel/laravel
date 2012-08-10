@@ -119,6 +119,7 @@ class Request {
 	/**
 	 * Determine if the request accepts a given content type.
 	 *
+	 * @param  string  $type
 	 * @return bool
 	 */
 	public static function accepts($type)

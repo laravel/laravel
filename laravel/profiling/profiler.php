@@ -39,6 +39,8 @@ class Profiler {
 	/**
 	 * Add a log entry to the log entries array.
 	 *
+	 * @param  string  $type
+	 * @param  string  $message
 	 * @return void
 	 */
 	public static function log($type, $message)

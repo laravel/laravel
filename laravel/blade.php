@@ -95,7 +95,6 @@ class Blade {
 	 *
 	 * @param  string  $view
 	 * @param  string  $path
-	 * @param  string  $compiled
 	 * @return bool
 	 */
 	public static function expired($view, $path)
@@ -106,7 +105,7 @@ class Blade {
 	/**
 	 * Compiles the specified file containing Blade pseudo-code into valid PHP.
 	 *
-	 * @param  string  $path
+	 * @param  string  $view
 	 * @return string
 	 */
 	public static function compile($view)
@@ -168,6 +167,7 @@ class Blade {
 	 * Extract a variable value out of a Blade expression.
 	 *
 	 * @param  string  $value
+	 * @param  string  $expression
 	 * @return string
 	 */
 	protected static function extract($value, $expression)
@@ -403,6 +403,7 @@ class Blade {
 	/**
 	 * Rewrites Blade yield section statements into valid PHP.
 	 *
+	 * @param  string  $value
 	 * @return string
 	 */
 	protected static function compile_yield_sections($value)
@@ -468,7 +469,7 @@ class Blade {
 	/**
 	 * Get the fully qualified path for a compiled view.
 	 *
-	 * @param  string  $view
+	 * @param  string  $path
 	 * @return string
 	 */
 	public static function compiled($path)

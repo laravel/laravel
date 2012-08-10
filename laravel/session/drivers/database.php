@@ -10,7 +10,7 @@ class Database extends Driver implements Sweeper {
 	 *
 	 * @var Connection
 	 */
-	private $connection;
+	protected $connection;
 
 	/**
 	 * Create a new database session driver.

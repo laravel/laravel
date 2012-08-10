@@ -113,6 +113,7 @@ class Table {
 	 *
 	 * @param  string|array  $columns
 	 * @param  string        $name
+	 * @return Fluent
 	 */
 	public function foreign($columns, $name = null)
 	{
