@@ -8,6 +8,12 @@ use Laravel\CLI\Tasks\Task;
 class Runner extends Task {
 
 	/**
+	 * Test arguments that are passed to PHPUnit
+	 * @var array
+	 */
+	public $test_args = array();
+
+	/**
 	 * Run all of the unit tests for the application.
 	 *
 	 * @param  array  $bundles
@@ -15,7 +21,7 @@ class Runner extends Task {
 	 */
 	public function run($bundles = array())
 	{
-		if (count($bundles) == 0) $bundles = array(DEFAULT_BUNDLE);
+		$this->test_args = array_slice($_SERVER['argv'], 2);
 
 		$this->bundle($bundles);
 	}
@@ -53,20 +59,37 @@ class Runner extends Task {
 		if (count($bundles) == 0)
 		{
 			$bundles = Bundle::names();
+
+			// Don't forget the default bundle!
+			$bundles[] = DEFAULT_BUNDLE;
 		}
 
-		foreach ($bundles as $bundle)
+		$to_run = array();
+
+		foreach ($bundles as $index => $bundle)
+		{
+			if (is_dir($path = Bundle::path($bundle).'tests'))
+			{
+				// Check if any of our bundles have tests that can be run
+				$to_run[] = $path;
+
+				// Remove the bundle from our test args
+				if (array_key_exists($index, $this->test_args) && $this->test_args[$index] === $bundle)
+				{
+					unset($this->test_args[$index]);
+				}
+			}
+		}
+
+		foreach ($to_run as $path)
 		{
 			// To run PHPUnit for the application, bundles, and the framework
 			// from one task, we'll dynamically stub PHPUnit.xml files via
 			// the task and point the test suite to the correct directory
 			// based on what was requested.
-			if (is_dir($path = Bundle::path($bundle).'tests'))
-			{
-				$this->stub($path);
+			$this->stub($path);
 
-				$this->test();				
-			}
+			$this->test();
 		}
 	}
 
@@ -86,7 +109,7 @@ class Runner extends Task {
 		// strings with spaces inside should be wrapped in quotes.
 		$path = escapeshellarg($path);
 
-		passthru('phpunit --configuration '.$path);
+		passthru("phpunit --configuration {$path} ".implode(' ', $this->test_args));
 
 		@unlink($path);
 	}
@@ -101,7 +124,12 @@ class Runner extends Task {
 	{
 		$path = path('sys').'cli/tasks/test/';
 
-		$stub = File::get($path.'stub.xml');
+		$stub = File::get($directory.'/stub.xml');
+
+		if ($stub === null)
+		{
+			$stub = File::get($path.'stub.xml');
+		}
 
 		// The PHPUnit bootstrap file contains several items that are swapped
 		// at test time. This allows us to point PHPUnit at a few different
