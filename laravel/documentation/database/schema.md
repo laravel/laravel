@@ -62,6 +62,7 @@ Command  | Description
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length
 `$table->integer('votes');`  |  INTEGER equivalent to the table
 `$table->float('amount');`  |  FLOAT equivalent to the table
+`$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
 `$table->date('created_at');`  |  DATE equivalent to the table
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent to the table
