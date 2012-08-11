@@ -157,7 +157,7 @@ Request::$foundation = RequestFoundation::createFromGlobals();
 
 if (Request::cli())
 {
-	$environment = get_cli_option('env');
+	$environment = \Laravel\get_cli_option('env');
 
 	if ( ! isset($environment))
 	{

@@ -60,7 +60,7 @@ class Query {
 	{
 		$results = $this->hydrate($this->model, $this->table->take(1)->get($columns));
 
-		return (count($results) > 0) ? head($results) : null;
+		return (count($results) > 0) ? \Laravel\head($results) : null;
 	}
 
 	/**

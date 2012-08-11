@@ -30,7 +30,7 @@ class File {
 	 */
 	public static function get($path, $default = null)
 	{
-		return (file_exists($path)) ? file_get_contents($path) : value($default);
+		return (file_exists($path)) ? file_get_contents($path) : \Laravel\value($default);
 	}
 
 	/**

@@ -24,7 +24,7 @@ class SQLite extends Grammar {
 		// SQLite does not allow adding a primary key as a command apart from the creation
 		// of the table, so we'll need to sniff out any primary keys here and add them to
 		// the table now during this command.
-		$primary = array_first($table->commands, function($key, $value)
+		$primary = \Laravel\array_first($table->commands, function($key, $value)
 		{
 			return $value->type == 'primary';
 		});

@@ -314,7 +314,7 @@ class Router {
 			// If the controller is a "home" controller, we'll need to also build an
 			// index method route for the controller. We'll remove "home" from the
 			// route root and setup a route to point to the index method.
-			if (ends_with($controller, 'home'))
+			if (\Laravel\ends_with($controller, 'home'))
 			{
 				static::root($identifier, $controller, $root);
 			}
@@ -487,7 +487,7 @@ class Router {
 			// We only need to check routes with regular expression since all others
 			// would have been able to be matched by the search for literal matches
 			// we just did before we started searching.
-			if (str_contains($route, '('))
+			if (\Laravel\str_contains($route, '('))
 			{
 				$pattern = '#^'.static::wildcards($route).'$#';
 
@@ -510,7 +510,7 @@ class Router {
 	 */
 	protected static function wildcards($key)
 	{
-		list($search, $replace) = array_divide(static::$optional);
+		list($search, $replace) = \Laravel\array_divide(static::$optional);
 
 		// For optional parameters, first translate the wildcards to their
 		// regex equivalent, sans the ")?" ending. We'll add the endings
@@ -541,7 +541,7 @@ class Router {
 			// doesn't already contain any routes.
 			if ( ! isset($routes[$method])) $routes[$method] = array();
 
-			$fallback = array_get(static::$fallback, $method, array());
+			$fallback = \Laravel\array_get(static::$fallback, $method, array());
 
 			// When building the array of routes, we'll merge in all of the fallback
 			// routes for each request method individually. This allows us to avoid
@@ -560,9 +560,9 @@ class Router {
 	 */
 	public static function method($method)
 	{
-		$routes = array_get(static::$routes, $method, array());
+		$routes = \Laravel\array_get(static::$routes, $method, array());
 
-		return array_merge($routes, array_get(static::$fallback, $method, array()));
+		return array_merge($routes, \Laravel\array_get(static::$fallback, $method, array()));
 	}
 
 	/**

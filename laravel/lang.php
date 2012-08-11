@@ -126,12 +126,12 @@ class Lang {
 		// file exists and that file does not actually contain any lines.
 		if ( ! static::load($bundle, $language, $file))
 		{
-			return value($default);
+			return \Laravel\value($default);
 		}
 
 		$lines = static::$lines[$bundle][$language][$file];
 
-		$line = array_get($lines, $line, $default);
+		$line = \Laravel\array_get($lines, $line, $default);
 
 		// If the line is not a string, it probably means the developer asked for
 		// the entire language file and the value of the requested value will be

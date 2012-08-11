@@ -121,7 +121,7 @@ class Event {
 	 */
 	public static function first($event, $parameters = array())
 	{
-		return head(static::fire($event, $parameters));
+		return \Laravel\head(static::fire($event, $parameters));
 	}
 
 	/**

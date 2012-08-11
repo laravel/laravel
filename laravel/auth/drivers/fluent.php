@@ -40,7 +40,7 @@ class Fluent extends Driver {
 
 		if ( ! is_null($user) and Hash::check($password, $user->{$password_field}))
 		{
-			return $this->login($user->id, array_get($arguments, 'remember'));
+			return $this->login($user->id, \Laravel\array_get($arguments, 'remember'));
 		}
 
 		return false;

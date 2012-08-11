@@ -1,4 +1,5 @@
 <?php
+namespace Laravel;
 
 /**
  * Convert HTML characters to entities.
@@ -10,7 +11,7 @@
  */
 function e($value)
 {
-	return Laravel\HTML::entities($value);
+	return HTML::entities($value);
 }
 
 /**
@@ -23,7 +24,7 @@ function e($value)
  */
 function __($key, $replacements = array(), $language = null)
 {
-	return Laravel\Lang::line($key, $replacements, $language);
+	return Lang::line($key, $replacements, $language);
 }
 
 /**
@@ -280,7 +281,7 @@ function array_except($array, $keys)
  */
 function eloquent_to_json($models)
 {
-	if ($models instanceof Laravel\Database\Eloquent\Model)
+	if ($models instanceof Database\Eloquent\Model)
 	{
 		return json_encode($models->to_array());
 	}
@@ -328,7 +329,7 @@ function head($array)
  */
 function url($url = '', $https = null)
 {
-	return Laravel\URL::to($url, $https);
+	return URL::to($url, $https);
 }
 
 /**
@@ -340,7 +341,7 @@ function url($url = '', $https = null)
  */
 function asset($url, $https = null)
 {
-	return Laravel\URL::to_asset($url, $https);
+	return URL::to_asset($url, $https);
 }
 
 /**
@@ -360,7 +361,7 @@ function asset($url, $https = null)
  */
 function action($action, $parameters = array())
 {
-	return Laravel\URL::to_action($action, $parameters);
+	return URL::to_action($action, $parameters);
 }
 
 /**
@@ -380,7 +381,7 @@ function action($action, $parameters = array())
  */
 function route($name, $parameters = array())
 {
-	return Laravel\URL::to_route($name, $parameters);
+	return URL::to_route($name, $parameters);
 }
 
 /**
@@ -523,7 +524,7 @@ function view($view, $data = array())
 {
 	if (is_null($view)) return '';
 
-	return Laravel\View::make($view, $data);
+	return View::make($view, $data);
 }
 
 /**
@@ -537,7 +538,7 @@ function render($view, $data = array())
 {
 	if (is_null($view)) return '';
 
-	return Laravel\View::make($view, $data)->render();
+	return View::make($view, $data)->render();
 }
 
 /**
@@ -551,7 +552,7 @@ function render($view, $data = array())
  */
 function render_each($partial, array $data, $iterator, $empty = 'raw|')
 {
-	return Laravel\View::render_each($partial, $data, $iterator, $empty);
+	return View::render_each($partial, $data, $iterator, $empty);
 }
 
 /**
@@ -562,7 +563,7 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
  */
 function yield($section)
 {
-	return Laravel\Section::yield($section);
+	return Section::yield($section);
 }
 
 /**
@@ -574,7 +575,7 @@ function yield($section)
  */
 function get_cli_option($option, $default = null)
 {
-	foreach (Laravel\Request::foundation()->server->get('argv') as $argument)
+	foreach (Request::foundation()->server->get('argv') as $argument)
 	{
 		if (starts_with($argument, "--{$option}="))
 		{

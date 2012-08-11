@@ -166,7 +166,7 @@ class View implements ArrayAccess {
 	 */
 	public static function file($bundle, $view, $directory)
 	{
-		$directory = str_finish($directory, DS);
+		$directory = \Laravel\str_finish($directory, DS);
 
 		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
@@ -291,7 +291,7 @@ class View implements ArrayAccess {
 			{
 				$with = array('key' => $key, $iterator => $value);
 
-				$result .= render($view, $with);
+				$result .= \Laravel\render($view, $with);
 			}
 		}
 
@@ -306,7 +306,7 @@ class View implements ArrayAccess {
 			}
 			else
 			{
-				$result = render($empty);
+				$result = \Laravel\render($empty);
 			}
 		}
 

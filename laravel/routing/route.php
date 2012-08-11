@@ -92,7 +92,7 @@ class Route {
 	 */
 	protected function parameters($action, $parameters)
 	{
-		$defaults = (array) array_get($action, 'defaults');
+		$defaults = (array) \Laravel\array_get($action, 'defaults');
 
 		// If there are less parameters than wildcards, we will figure out how
 		// many parameters we need to inject from the array of defaults and
@@ -238,7 +238,7 @@ class Route {
 	 */
 	protected function delegate()
 	{
-		return array_get($this->action, 'uses');
+		return \Laravel\array_get($this->action, 'uses');
 	}
 
 	/**
@@ -248,7 +248,7 @@ class Route {
 	 */
 	protected function handler()
 	{
-		return array_first($this->action, function($key, $value)
+		return \Laravel\array_first($this->action, function($key, $value)
 		{
 			return $value instanceof Closure;
 		});
@@ -267,7 +267,7 @@ class Route {
 	 */
 	public function is($name)
 	{
-		return array_get($this->action, 'as') === $name;
+		return \Laravel\array_get($this->action, 'as') === $name;
 	}
 
 	/**

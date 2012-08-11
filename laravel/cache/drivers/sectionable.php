@@ -125,7 +125,7 @@ abstract class Sectionable extends Driver {
 	 */
 	protected function sectioned($key)
 	{
-		return str_contains($key, '::');
+		return \Laravel\str_contains($key, '::');
 	}
 
 	/**

@@ -69,11 +69,11 @@ class Input {
 			return array_merge($input, static::query());
 		}
 
-		$value = array_get($input, $key);
+		$value = \Laravel\array_get($input, $key);
 
 		if (is_null($value))
 		{
-			return array_get(static::query(), $key, $default);
+			return \Laravel\array_get(static::query(), $key, $default);
 		}
 
 		return $value;
@@ -96,7 +96,7 @@ class Input {
 	 */
 	public static function query($key = null, $default = null)
 	{
-		return array_get(Request::foundation()->query->all(), $key, $default);
+		return \Laravel\array_get(Request::foundation()->query->all(), $key, $default);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Input {
 	 */
 	public static function only($keys)
 	{
- 		return array_only(static::get(), $keys);
+ 		return \Laravel\array_only(static::get(), $keys);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Input {
 	 */
 	public static function except($keys)
 	{
-		return array_except(static::get(), $keys);
+		return \Laravel\array_except(static::get(), $keys);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Input {
 	 */
 	public static function old($key = null, $default = null)
 	{
-		return array_get(Session::get(Input::old_input, array()), $key, $default);
+		return \Laravel\array_get(Session::get(Input::old_input, array()), $key, $default);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class Input {
 	 */
 	public static function file($key = null, $default = null)
 	{
-		return array_get($_FILES, $key, $default);
+		return \Laravel\array_get($_FILES, $key, $default);
 	}
 
 	/**

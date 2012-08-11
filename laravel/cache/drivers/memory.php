@@ -36,7 +36,7 @@ class Memory extends Sectionable {
 		}
 		else
 		{
-			return array_get($this->storage, $key);
+			return \Laravel\array_get($this->storage, $key);
 		}
 	}
 

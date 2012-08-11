@@ -199,7 +199,7 @@ class Bundler extends Task {
 	 */
 	protected function path($bundle)
 	{
-		return array_get($bundle, 'path', $bundle['name']);
+		return \Laravel\array_get($bundle, 'path', $bundle['name']);
 	}
 
 }

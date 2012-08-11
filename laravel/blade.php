@@ -48,7 +48,7 @@ class Blade {
 			// The Blade view engine should only handle the rendering of views which
 			// end with the Blade extension. If the given view does not, we will
 			// return false so the View can be rendered as normal.
-			if ( ! str_contains($view->path, BLADE_EXT))
+			if ( ! \Laravel\str_contains($view->path, BLADE_EXT))
 			{
 				return;
 			}
@@ -143,7 +143,7 @@ class Blade {
 		// If the Blade template is not using "layouts", we'll just return it
 		// unchanged since there is nothing to do with layouts and we will
 		// just let the other Blade compilers handle the rest.
-		if ( ! starts_with($value, '@layout'))
+		if ( ! \Laravel\starts_with($value, '@layout'))
 		{
 			return $value;
 		}
@@ -356,7 +356,7 @@ class Blade {
 	{
 		$pattern = static::matcher('include');
 
-		return preg_replace($pattern, '<?php echo view$1->with(get_defined_vars())->render(); ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\view$1->with(get_defined_vars())->render(); ?>', $value);
 	}
 
 	/**
@@ -369,7 +369,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render');
 
-		return preg_replace($pattern, '<?php echo render$1; ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\render$1; ?>', $value);
 	}
 
 	/**
@@ -382,7 +382,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render_each');
 
-		return preg_replace($pattern, '<?php echo render_each$1; ?>', $value);
+		return preg_replace($pattern, '<?php echo \\Laravel\\render_each$1; ?>', $value);
 	}
 
 	/**

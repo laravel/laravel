@@ -81,7 +81,7 @@ class Command {
 		// Extract the task method from the task string. Methods are called
 		// on tasks by separating the task and method with a single colon.
 		// If no task is specified, "run" is used as the default.
-		if (str_contains($task, ':'))
+		if (\Laravel\str_contains($task, ':'))
 		{
 			list($task, $method) = explode(':', $task);
 		}
@@ -152,7 +152,7 @@ class Command {
 			// If the CLI argument starts with a double hyphen, it is an option,
 			// so we will extract the value and add it to the array of options
 			// to be returned by the method.
-			if (starts_with($argument, '--'))
+			if (\Laravel\starts_with($argument, '--'))
 			{
 				// By default, we will assume the value of the options is true,
 				// but if the option contains an equals sign, we will take the

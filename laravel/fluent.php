@@ -37,7 +37,7 @@ class Fluent {
 	 */
 	public function get($attribute, $default = null)
 	{
-		return array_get($this->attributes, $attribute, $default);
+		return \Laravel\array_get($this->attributes, $attribute, $default);
 	}
 
 	/**

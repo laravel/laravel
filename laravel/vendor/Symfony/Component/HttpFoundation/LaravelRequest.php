@@ -17,7 +17,7 @@ class LaravelRequest extends Request {
             && in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), array('PUT', 'DELETE', 'PATCH'))
         ) {
             parse_str($request->getContent(), $data);
-            if (magic_quotes()) $data = array_strip_slashes($data);
+            if (magic_quotes()) $data = \Laravel\array_strip_slashes($data);
             $request->request = new ParameterBag($data);
         }
 

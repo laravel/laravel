@@ -67,7 +67,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 */
 	protected function joining($model, $associated)
 	{
-		$models = array(class_basename($model), class_basename($associated));
+		$models = array(class_basename($model), \Laravel\class_basename($associated));
 
 		sort($models);
 
