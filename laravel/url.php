@@ -242,11 +242,6 @@ class URL {
 			$url = str_replace($index.'/', '', $url);
 		}
 
-		if (count(Config::get('application.languages')) > 0)
-		{
-			$url = str_replace(Config::get('application.language').'/', '', $url);
-		}
-
 		return $url;
 	}
 
