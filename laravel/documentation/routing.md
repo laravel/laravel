@@ -84,7 +84,9 @@ In the following example the first parameter is the route that you're "registeri
 	{
 		//
 	});
+#### Using wildcard without closure:
 
+	Route::get('page/(:any)/(:any)', '(:1)@(:2)');
 <a name="the-404-event"></a>
 ## The 404 Event
 
