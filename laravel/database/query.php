@@ -605,7 +605,7 @@ class Query {
 		// set the keys on the array of values using the array_combine
 		// function provided by PHP, which should give us the proper
 		// array form to return from the method.
-		if ( ! is_null($key))
+		if ( ! is_null($key) && count($results))
 		{
 			return array_combine(array_map(function($row) use ($key)
 			{
