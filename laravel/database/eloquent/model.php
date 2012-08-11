@@ -723,7 +723,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->$source)) return !is_null($this->$source[$key]);
+			if (isset($this->$source[$key])) return true;
 		}
 		
 		if (method_exists($this, $key)) return true;
