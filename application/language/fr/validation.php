@@ -24,6 +24,7 @@ return array(
 	"alpha"          => "Le champ :attribute ne doit contenir que des lettres.",
 	"alpha_dash"     => "Le champ :attribute ne doit contenir que des lettres, nombres et des tirets.",
 	"alpha_num"      => "Le champ :attribute ne doit contenir que des lettres et nombres.",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => "Le champ :attribute doit être une date avant :date.",
 	"between"        => array(
 		"numeric" => "Le champ :attribute doit être entre :min - :max.",
@@ -31,6 +32,10 @@ return array(
 		"string"  => "Le champ :attribute doit être entre :min - :max caractères.",
 	),
 	"confirmed"      => "Le champ :attribute confirmation est différent.",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => "Les champ :attribute et :other doivent être différents.",
 	"email"          => "Le format du champ :attribute est invalide.",
 	"exists"         => "Le champ sélectionné :attribute est invalide.",

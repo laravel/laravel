@@ -669,6 +669,70 @@ class Validator {
 	}
 
 	/**
+	 * Validate that an attribute is an array
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @return bool
+	 */
+	protected function validate_array($attribute, $value)
+	{
+		return is_array($value);
+	}
+
+	/**
+	 * Validate that an attribute of type array has a specific count
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_count($attribute, $value, $parameters)
+	{
+		return (is_array($value) && count($value) == $parameters[0]);
+	}
+
+	/**
+	 * Validate that an attribute of type array has a minimum of elements.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_countmin($attribute, $value, $parameters)
+	{
+		return (is_array($value) && count($value) >= $parameters[0]);
+	}
+
+	/**
+	 * Validate that an attribute of type array has a maximum of elements.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_countmax($attribute, $value, $parameters)
+	{
+		return (is_array($value) && count($value) <= $parameters[0]);
+	}
+
+	/**
+	 * Validate that an attribute of type array has elements between max and min.
+	 *
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_countbetween($attribute, $value, $parameters)
+	{
+		return (is_array($value) && count($value) >= $parameters[0] && count($value) <= $parameters[1] );
+	}
+
+	/**
 	 * Validate the date is before a given date.
 	 *
 	 * @param  string  $attribute
@@ -951,6 +1015,62 @@ class Validator {
 	protected function replace_after($message, $attribute, $rule, $parameters)
 	{
 		return str_replace(':date', $parameters[0], $message);
+	}
+
+	/**
+	 * Replace all place-holders for the count rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_count($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':count', $parameters[0], $message);
+	}
+
+	/**
+	 * Replace all place-holders for the countmin rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_countmin($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':min', $parameters[0], $message);
+	}
+
+	/**
+	 * Replace all place-holders for the countmax rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_countmax($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':max', $parameters[0], $message);
+	}
+
+	/**
+	 * Replace all place-holders for the between rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_countbetween($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(array(':min', ':max'), $parameters, $message);
 	}
 
 	/**

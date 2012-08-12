@@ -24,6 +24,7 @@ return array(
 	"alpha"          => "Поле :attribute может содержать только буквы.",
 	"alpha_dash"     => "Поле :attribute может содержать только буквы, цифры и тире.",
 	"alpha_num"      => "Поле :attribute может содержать только буквы и цифры.",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => "Поле :attribute должно быть датой перед :date.",
 	"between"        => array(
 		"numeric" => "Поле :attribute должно быть между :min и :max.",
@@ -31,6 +32,10 @@ return array(
 		"string"  => "Поле :attribute должно быть от :min до :max символов.",
 	),
 	"confirmed"      => "Поле :attribute не совпадает с подтверждением.",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => "Поля :attribute и :other должны различаться.",
 	"email"          => "Поле :attribute имеет неверный формат.",
 	"exists"         => "Выбранное значение для :attribute уже существует.",
