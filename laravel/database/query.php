@@ -747,38 +747,13 @@ class Query {
 
 		if ($this->grammar instanceof Postgres)
 		{
-			return (int) $this->_fetchField( $result[0], $column );
+			
+			$row = (array) $result[0];
+			return (int) $row[$column];
 		}
 		else
 		{
 			return (int) $this->connection->pdo->lastInsertId();
-		}
-	}
-	/**
-	 * 
-	 * @param mixed $sqlResult
-	 * @param string $column
-	 * @throws \RuntimeException
-	 * @return mixed
-	 */
-	protected function _fetchField( $sqlResult, $column )
-	{
-		
-		$fetchStyle = \Config::get('database.fetch');
-		switch( $fetchStyle )
-		{
-			case \PDO::FETCH_CLASS:
-			case \PDO::FETCH_LAZY:
-			case \PDO::FETCH_OBJ:
-				return $sqlResult->$column;
-				break;
-			case \PDO::FETCH_ASSOC:
-			case \PDO::FETCH_BOTH:
-				return $sqlResult[$column];
-				break;
-			default:
-				throw new \RuntimeException( sprintf( 'Unknown PDO fetch style: %s', $fetchStyle ), 0 );
-				break;
 		}
 	}
 
