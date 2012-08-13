@@ -149,9 +149,15 @@ abstract class Controller {
 		// application. This is sometimes useful for dynamic situations.
 		if ( ! is_null($route = Request::route()))
 		{
-			$route->controller = $name;
+			$controller_route = $route;
 
-			$route->controller_action = $method;
+			$controller_route->bundle = $bundle;
+
+			$controller_route->controller = $name;
+
+			$controller_route->controller_action = $method;
+
+			Router::add_to_queue($controller_route);
 		}
 
 		// If the controller could not be resolved, we're out of options and
@@ -162,7 +168,14 @@ abstract class Controller {
 			return Event::first('404');
 		}
 
-		return $controller->execute($method, $parameters);
+		$response = $controller->execute($method, $parameters);
+
+		if ( ! is_null($route))
+		{
+			Router::queue_next();
+		}
+
+		return $response;
 	}
 
 	/**
