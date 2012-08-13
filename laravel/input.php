@@ -23,7 +23,8 @@ class Input {
 	 */
 	public static function all()
 	{
-		$input = array_merge(static::get(), static::query(), static::file());
+		$input = array_merge(static::get(), static::query(), static::file(), 
+												static::getXmlHttpRequest() );
 
 		unset($input[Request::spoofer]);
 
@@ -41,6 +42,75 @@ class Input {
 	public static function has($key)
 	{
 		return trim((string) static::get($key)) !== '';
+	}
+	
+	/**
+	 * Get an item from the input data if it is an XmlHttpRequest.
+	 *
+	 *
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public static function getXmlHttpRequest( $key = null, $default = null)
+	{
+		$returnXHR = null;
+	
+		if ( Request::foundation()->isXmlHttpRequest() )
+		{
+			$parsedXHR = self::_parseXHTMLRequest(
+										Request::foundation()->getContent() );
+			
+			if ( !is_null( $key ) )
+			{
+				if ( isset( $parsedXHR[$key] ) )
+				{
+					$returnXHR = $parsedXHR[$key];
+				}
+			} else {
+				$returnXHR = $parsedXHR;
+			}
+		} else {
+			if ( is_null( $key ) )
+			{
+				$returnXHR = array();
+			}
+		}
+	
+		if ( ( is_null( $returnXHR ) ) && ( !is_null( $default ) ) )
+		{
+			$returnXHR = $default;
+		}
+	
+		return $returnXHR;
+	}
+	
+	/**
+	* Try to parse the input from a XmlHttpRequest input
+	*
+	* @param string $rawInput
+	* @return array
+	*/
+	protected static function _parseXHTMLRequest( $rawInput )
+	{
+		$parsedInput = null;
+		try {
+			$parsedInput = json_decode( $rawInput, true );
+		} catch (\Exception $e) {
+			// do nothing
+		}
+		
+		if ( is_null( $parsedInput ) )
+		{
+			parse_str( $rawInput, $parsedInput );
+		}
+	
+		if ( !is_array( $parsedInput ) )
+		{
+			$parsedInput = array();
+		}
+	
+		return $parsedInput;
 	}
 
 	/**
