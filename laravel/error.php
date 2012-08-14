@@ -39,9 +39,9 @@ class Error {
 		// Using events gives the developer more freedom.
 		else
 		{
-			$response = Event::first('500');
-
-			return Response::prepare($response)->send();
+			$response = Response::prepare(Event::first('500'));
+			$response->render();
+			return $response->send();
 		}
 
 		exit(1);
