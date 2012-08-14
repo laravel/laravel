@@ -18,7 +18,7 @@ set_path('docs', path('sys').'documentation'.DS);
  */
 Route::get('(:bundle)([a-zA-Z0-9\_\-/]*)', function($route)
 {
-	//$route = str_replace('/', DS, $route);
+	// $route = str_replace('/', DS, $route);
 
 	if ( ! file_exists($file = path('docs').$route.'.md') && ! file_exists($file = path('docs').$route.DS.'home.md'))
 		return Response::error('404');
