@@ -102,7 +102,7 @@ Route::filter('after', function($response)
 
 Route::filter('csrf', function()
 {
-	if (Request::forged()) return Response::error('500');
+	if (Request::forged()) return Response::error('403');
 });
 
 Route::filter('auth', function()
