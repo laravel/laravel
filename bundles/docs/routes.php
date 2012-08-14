@@ -16,16 +16,16 @@ set_path('docs', path('sys').'documentation'.DS);
  * @param  string  $file
  * @return mixed
  */
-Route::get('(:bundle)([a-zA-Z0-9\_\-/]*)', function($file)
+Route::get('(:bundle)([a-zA-Z0-9\_\-/]*)', function($route)
 {
-	if ($file === '')
+	if ($route === '')
 		$file = 'home';
 
-	// $file = str_replace('/', DS, $file);
+	// $route = str_replace('/', DS, $route);
 
-	if ( ! file_exists($file = path('docs').$file.'.md'))
+	if ( ! file_exists($file = path('docs').$route.'.md') && ! file_exists($file = path('docs').$route.DS.'home.md'))
 		return Response::error('404');
-
+	
 	$sidebar = @file_get_contents(path('docs').'contents.md') ?: 'File not found.';
 
 	$content = file_get_contents($file);
