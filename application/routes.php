@@ -54,16 +54,12 @@ Route::get('/', function()
 
 Event::listen('404', function()
 {
-	$response = Response::error('404');
-	$response->render();
-	return $response;
+	return Response::error('404');
 });
 
 Event::listen('500', function()
 {
-	$response = Response::error('500');
-	$response->render();
-	return $response;
+	return Response::error('500');
 });
 
 /*
