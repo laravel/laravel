@@ -27,7 +27,7 @@ return array(
 	"array"          => "The :attribute must have selected elements.",
 	"before"         => ":attribute musi zawierać datę, która jest przed :date.",
 	"between"        => array(
-		"numeric" => ":ttribute musi mieścić się w granicach :min - :max.",
+		"numeric" => ":attribute musi mieścić się w granicach :min - :max.",
 		"file"    => ":attribute musi mieć :min - :max kilobajtów.",
 		"string"  => ":attribute musi mieć :min - :max znaków.",
 	),
