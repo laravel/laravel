@@ -99,6 +99,26 @@ class Response {
 	}
 
 	/**
+	 * Create a XML response
+	 *
+	 * <code>
+	 *		// Create a response instance with XML
+	 *		return Response::xml($data, 200, array('header' => 'value'))
+	 * </code>
+	 *
+	 * @param	mixed	$data
+	 * @param	int	$status
+	 * @param	array	$headers
+	 * @return	Response
+	 */
+	public static function xml($data, $status = 200, $headers = array())
+	{
+		$headers['Content-Type'] = 'text/xml';
+		
+		return new static(array_to_xml($data), $status, $headers);
+	}
+
+	/**
 	 * Create a new response of JSON'd Eloquent models.
 	 *
 	 * <code>
