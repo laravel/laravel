@@ -51,6 +51,10 @@ return array(
 	| remains secret and it should not be shared with anyone. Make it about 32
 	| characters of random gibberish.
 	|
+	| You can generate a random application key by visiting:
+	|
+	| 	http://laravel.com/application-key
+	|
 	*/
 
 	'key' => 'YourSecretKeyGoesHere!',
