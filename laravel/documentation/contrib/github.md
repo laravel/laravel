@@ -31,5 +31,5 @@ Once certain milestones have been reached and/or Taylor Otwell and the Laravel t
 
 *Further Reading*
 
- - [Contributing to Laravel via Command-Line](docs/contrib/command-line)
- - [Contributing to Laravel using TortoiseGit](docs/contrib/tortoisegit)
+ - [Contributing to Laravel via Command-Line](/docs/contrib/command-line)
+ - [Contributing to Laravel using TortoiseGit](/docs/contrib/tortoisegit)
