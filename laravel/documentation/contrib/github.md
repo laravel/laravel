@@ -3,7 +3,7 @@
 ## Contents
 
 - [The Basics](#the-basics)
-- [Repositories](#repositoriess)
+- [Repositories](#repositories)
 - [Branches](#branches)
 
 <a name='the-basics'></a>
