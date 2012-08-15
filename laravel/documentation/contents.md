@@ -113,6 +113,6 @@
 
 ### Contributing
 
-- [Laravel on GitHub](docs/contrib/github)
-- [Command Line](docs/contrib/command-line)
-- [TortoiseGit](docs/contrib/tortoisegit)
+- [Laravel on GitHub](/docs/contrib/github)
+- [Command Line](/docs/contrib/command-line)
+- [TortoiseGit](/docs/contrib/tortoisegit)
