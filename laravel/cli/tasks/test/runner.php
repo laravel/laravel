@@ -8,6 +8,15 @@ use Laravel\CLI\Tasks\Task;
 class Runner extends Task {
 
 	/**
+	 * The base directory where the tests will be executed.
+	 *
+	 * A phpunit.xml should also be stored in that directory.
+	 * 
+	 * @var string
+	 */
+	protected $base_path;
+
+	/**
 	 * Run all of the unit tests for the application.
 	 *
 	 * @param  array  $bundles
@@ -27,17 +36,8 @@ class Runner extends Task {
 	 */
 	public function core()
 	{
-		if ( ! is_dir(path('bundle').'laravel-tests'))
-		{
-			throw new \Exception("The bundle [laravel-tests] has not been installed!");
-		}
-
-		// When testing the Laravel core, we will just stub the path directly
-		// so the test bundle is not required to be registered in the bundle
-		// configuration, as it is kind of a unique bundle.
-		$this->stub(path('bundle').'laravel-tests/cases');
-
-		$path = path('bundle').'laravel-tests/';
+		$this->base_path = path('sys').'tests'.DS;
+		$this->stub(path('sys').'tests'.DS.'cases');
 
 		$this->test();
 	}
@@ -54,6 +54,8 @@ class Runner extends Task {
 		{
 			$bundles = Bundle::names();
 		}
+
+		$this->base_path = path('sys').'cli'.DS.'tasks'.DS.'test'.DS;
 
 		foreach ($bundles as $bundle)
 		{
@@ -78,17 +80,20 @@ class Runner extends Task {
 	protected function test()
 	{
 		// We'll simply fire off PHPUnit with the configuration switch
-		// pointing to our temporary configuration file. This allows
+		// pointing to our requested configuration file. This allows
 		// us to flexibly run tests for any setup.
-		$path = path('base').'phpunit.xml';
+		$path = 'phpunit.xml';
 		
 		// fix the spaced directories problem when using the command line
 		// strings with spaces inside should be wrapped in quotes.
 		$path = escapeshellarg($path);
 
-		passthru('phpunit --configuration '.$path);
+		passthru('phpunit --configuration '.$path, $status);
 
 		@unlink($path);
+
+		// Pass through the exit status
+		exit($status);
 	}
 
 	/**
@@ -108,7 +113,7 @@ class Runner extends Task {
 		// locations depending on what the developer wants to test.
 		foreach (array('bootstrap', 'directory') as $item)
 		{
-			$stub = $this->{"swap_{$item}"}($stub, $path, $directory);
+			$stub = $this->{"swap_{$item}"}($stub, $directory);
 		}
 
 		File::put(path('base').'phpunit.xml', $stub);
@@ -118,24 +123,22 @@ class Runner extends Task {
 	 * Swap the bootstrap file in the stub.
 	 *
 	 * @param  string  $stub
-	 * @param  string  $path
 	 * @param  string  $directory
 	 * @return string
 	 */
-	protected function swap_bootstrap($stub, $path, $directory)
+	protected function swap_bootstrap($stub, $directory)
 	{
-		return str_replace('{{bootstrap}}', $path.'phpunit.php', $stub);
+		return str_replace('{{bootstrap}}', $this->base_path.'phpunit.php', $stub);
 	}
 
 	/**
 	 * Swap the directory in the stub.
 	 *
 	 * @param  string  $stub
-	 * @param  string  $path
 	 * @param  string  $directory
 	 * @return string
 	 */
-	protected function swap_directory($stub, $path, $directory)
+	protected function swap_directory($stub, $directory)
 	{
 		return str_replace('{{directory}}', $directory, $stub);
 	}
