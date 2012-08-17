@@ -14,7 +14,7 @@ class Profiler {
 	 *
 	 * @var array
 	 */
-	protected static $data = array('queries' => array(), 'logs' => array());
+	protected static $data = array('queries' => array(), 'logs' => array(), 'timers' => array());
 	
 	/**
 	 * Get the rendered contents of the Profiler.
@@ -32,7 +32,92 @@ class Profiler {
 			static::$data['memory'] = get_file_size(memory_get_usage(true));
 			static::$data['memory_peak'] = get_file_size(memory_get_peak_usage(true));
 			static::$data['time'] = number_format((microtime(true) - LARAVEL_START) * 1000, 2);
+			foreach ( static::$data['timers'] as &$timer)
+			{
+				$timer['running_time'] = number_format((microtime(true) - $timer['start'] ) * 1000, 2);
+			}
+
 			return render('path: '.__DIR__.'/template'.BLADE_EXT, static::$data);
+		}
+	}
+
+	/**
+	 * Allow a callback to be timed.
+	 *
+	 * @param closure $func
+	 * @param string $name
+	 * @return void
+	 */
+	public static function time( $func, $name = 'default_func_timer' )
+	{
+		// First measure the runtime of the func
+		$start = microtime(true);
+		$func();
+		$end = microtime(true);
+
+		// Check to see if a timer by that name exists
+		if (isset(static::$data['timers'][$name]))
+		{
+			$name = $name.uniqid();
+		}
+		
+		// Push the time into the timers array for display
+		static::$data['timers'][$name]['start'] = $start;
+		static::$data['timers'][$name]['end'] = $end;
+		static::$data['timers'][$name]['time'] = number_format(($end - $start) * 1000, 2);
+	}
+
+	/**
+	 *  Start, or add a tick to a timer.
+	 *
+	 * @param string $name
+	 * @return void
+	 */
+	public static function tick($name = 'default_timer', $callback = null)
+	{
+		$name = trim($name);
+		if (empty($name)) $name = 'default_timer';
+
+		// Is this a brand new tick?
+		if (isset(static::$data['timers'][$name]))
+		{
+			$current_timer = static::$data['timers'][$name];
+			$ticks = count($current_timer['ticks']);
+
+			// Initialize the new time for the tick
+			$new_tick = array();
+			$mt = microtime(true);
+			$new_tick['raw_time'] = $mt - $current_timer['start'];
+			$new_tick['time'] = number_format(($mt - $current_timer['start']) * 1000, 2);
+
+			// Use either the start time or the last tick for the diff
+			if ($ticks > 0)
+			{
+				$last_tick = $current_timer['ticks'][$ticks- 1]['raw_time'];
+				$new_tick['diff'] = number_format(($new_tick['raw_time'] - $last_tick) * 1000, 2);
+			}
+			else
+			{
+				$new_tick['diff'] = $new_tick['time'];
+			}
+
+			// Add the new tick to the stack of them
+			static::$data['timers'][$name]['ticks'][] = $new_tick;
+		}
+		else
+		{
+			// Initialize a start time on the first tick
+			static::$data['timers'][$name]['start'] = microtime(true);
+			static::$data['timers'][$name]['ticks'] = array();
+		}
+
+		// Run the callback for this tick if it's specified
+		if ( ! is_null($callback) and is_callable($callback))
+		{
+			// After we've ticked, call the callback function
+			call_user_func_array($callback, array(
+				static::$data['timers'][$name]
+			));
 		}
 	}
 
