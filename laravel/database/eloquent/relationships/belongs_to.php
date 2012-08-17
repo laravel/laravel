@@ -79,9 +79,8 @@ class Belongs_To extends Relationship {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  string  $relationship
-	 * @param  array   $children
-	 * @param  array   $parents
+	 * @param  array  $children
+	 * @param  array  $parents
 	 * @return void
 	 */
 	public function match($relationship, &$children, $parents)

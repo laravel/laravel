@@ -83,9 +83,8 @@ class Has_Many extends Has_One_Or_Many {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  string  $relationship
-	 * @param  array   $parents
-	 * @param  array   $children
+	 * @param  array  $parents
+	 * @param  array  $children
 	 * @return void
 	 */
 	public function match($relationship, &$parents, $children)
