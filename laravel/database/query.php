@@ -196,6 +196,24 @@ class Query {
 	}
 
 	/**
+	 * Reset all constraints to their initial state.
+	 * 
+	 * @return void
+	 */
+	public function reset()
+	{
+		// Reset fields to null
+		foreach (array('selects', 'aggregate', 'joins', 'wheres', 'groupings', 'havings', 'orderings', 'limit', 'offset') as $field)
+		{
+			$this->$field = null;
+		}
+
+		// Reset other fields
+		$this->distinct = false;
+		$this->bindings = array();
+	}
+
+	/**
 	 * Reset the where clause to its initial state.
 	 *
 	 * @return void

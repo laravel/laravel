@@ -1,6 +1,7 @@
 <?php namespace Laravel\Database\Eloquent\Relationships;
 
 use Laravel\Database\Eloquent\Model;
+use Closure;
 
 class Has_One_Or_Many extends Relationship {
 
@@ -48,12 +49,22 @@ class Has_One_Or_Many extends Relationship {
 	/**
 	 * Set the proper constraints on the relationship table for an eager load.
 	 *
-	 * @param  array  $results
+	 * @param  array    $results
+	 * @param  Closure  $constraints
 	 * @return void
 	 */
-	public function eagerly_constrain($results)
+	public function eagerly_constrain($results, Closure $constraints = null)
 	{
+		// We'll remove any constraints from the relationship if we have
+		// custom constraints specified on this eager load.
+		if ( ! is_null($constraints)) $this->table->reset();
+
 		$this->table->where_in($this->foreign_key(), $this->keys($results));
+
+		if ( ! is_null($constraints))
+		{
+			call_user_func($constraints, $this->table);
+		}
 	}
 
 }
