@@ -38,7 +38,7 @@ class Query {
 	);
 
 	/**
-	 * Create a new query instance for a model.
+	 * Creat a new query instance for a model.
 	 *
 	 * @param  Model  $model
 	 * @return void
@@ -118,7 +118,7 @@ class Query {
 			$new = new $class(array(), true);
 
 			// We need to set the attributes manually in case the accessible property is
-			// set on the array which will prevent the mass assignment of attributes if
+			// set on the array which will prevent the mass assignemnt of attributes if
 			// we were to pass them in using the constructor or fill methods.
 			$new->fill_raw($result);
 
@@ -141,7 +141,7 @@ class Query {
 			}
 		}
 
-		// The many to many relationships may have pivot table columns on them
+		// The many to many relationships may have pivot table column on them
 		// so we will call the "clean" method on the relationship to remove
 		// any pivot columns that are on the model.
 		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
@@ -199,7 +199,7 @@ class Query {
 		foreach ($this->model_includes() as $include => $constraints)
 		{
 			// To get the nested includes, we want to find any includes that begin
-			// the relationship with a dot, then we will strip off the leading
+			// the relationship and a dot, then we will strip off the leading
 			// nesting indicator and set the include in the array.
 			if (starts_with($include, $relationship.'.'))
 			{
@@ -217,23 +217,22 @@ class Query {
 	 */
 	protected function model_includes()
 	{
-		$relationships = array_keys($this->model->includes);
-		$implicits = array();
+		$includes = array();
 
-		foreach ($relationships as $relationship)
+		foreach ($this->model->includes as $relationship => $constraints)
 		{
-			$parts = explode('.', $relationship);
-
-			$prefix = '';
-			foreach ($parts as $part)
+			// When eager loading relationships, constraints may be set on the eager
+			// load definition; however, is none are set, we need to swap the key
+			// and the value of the array since there are no constraints.
+			if (is_numeric($relationship))
 			{
-				$implicits[$prefix.$part] = NULL;
-				$prefix .= $part.'.';
+				list($relationship, $constraints) = array($constraints, null);
 			}
+
+			$includes[$relationship] = $constraints;
 		}
 
-		// Add all implicit includes to the explicit ones
-		return $this->model->includes + $implicits;
+		return $includes;
 	}
 
 	/**
