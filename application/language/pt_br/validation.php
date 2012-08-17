@@ -1,7 +1,7 @@
 <?php 
 
 return array(
-    // TraduÁ„o portuguÍs do Brasil
+    // Tradu√ß√£o portugu√™s do Brasil
 
 	/*
 	|--------------------------------------------------------------------------
@@ -19,49 +19,49 @@ return array(
 	|
 	*/
 
-	"accepted"       => ":attribute deve ser aceito.",
-	"active_url"     => ":attribute n„o È uma URL v·lida.",
-	"after"          => ":attribute deve ser uma data apÛs :date.",
-	"alpha"          => ":attribute sÛ pode conter letras.",
-	"alpha_dash"     => ":attribute sÛ pode conter letras, n˙meros e travessıes.",
-	"alpha_num"      => ":attribute sÛ pode conter letras e n˙meros.",
-	"before"         => ":attribute deve ser uma data anterior a :date.",
+	"accepted"       => "O campo :attribute deve ser aceito.",
+	"active_url"     => "O campo :attribute n√£o √© uma URL v√°lida.",
+	"after"          => "O campo :attribute deve ser uma data ap√≥s :date.",
+	"alpha"          => "O campo :attribute s√≥ pode conter letras.",
+	"alpha_dash"     => "O campo :attribute s√≥ pode conter letras, n√∫meros e travess√µes.",
+	"alpha_num"      => "O campo :attribute s√≥ pode conter letras e n√∫meros.",
+	"before"         => "O campo :attribute deve ser uma data anterior a :date.",
 	"between"        => array(
-		"numeric" => ":attributedeve estar entre :min - :max.",
-		"file"    => ":attribute deve ser entre :min - :max kilobytes.",
-		"string"  => ":attribute deve ter entre :min - :max caracteres.",
+		"numeric" => "O valor de :attribute deve estar entre :min - :max.",
+		"file"    => "O valor de :attribute deve ser entre :min - :max kilobytes.",
+		"string"  => "O valor de :attribute deve ter entre :min - :max caracteres.",
 	),
-	"confirmed"      => "A :attribute confirmaÁ„o n„o coincide.",
-	"different"      => ":attribute e :other devem ser diferentes.",
-	"email"          => ":attribute formato inv·lido.",
-	"exists"         => "O item selecionado :attribute È inv·lido.",
-	"image"          => ":attribute deve ser uma imagem.",
-	"in"             => "O item selecionado :attribute È inv·lido.",
-	"integer"        => ":attribute deve ser um n˙mero inteiro.",
-	"ip"             => ":attribute deve ser um endereÁo IP v·lido.",
-	"match"          => ":attribute formato inv·lido.",
+	"confirmed"      => "A confirma√ß√£o do campo :attribute n√£o coincide.",
+	"different"      => "Os campos :attribute e :other devem ser diferentes.",
+	"email"          => "Formato de :attribute √© inv√°lido.",
+	"exists"         => "O item selecionado em :attribute √© inv√°lido.",
+	"image"          => "O campo :attribute deve ser uma imagem.",
+	"in"             => "O item selecionado em :attribute √© inv√°lido.",
+	"integer"        => "O valor de :attribute deve ser um n√∫mero inteiro.",
+	"ip"             => "O valor de :attribute deve ser um endere√ßo IP v√°lido.",
+	"match"          => "Formato de :attribute √© inv√°lido.",
 	"max"            => array(
-		"numeric" => ":attribute deve ser menor que :max.",
-		"file"    => ":attribute deve ser menor que :max kilobytes.",
-		"string"  => ":attribute deve ter menos que :max caracteres.",
+		"numeric" => "O valor de :attribute deve ser menor que :max.",
+		"file"    => "O valor de :attribute deve ser menor que :max kilobytes.",
+		"string"  => "O valor de :attribute deve ter menos que :max caracteres.",
 	),
-	"mimes"          => ":attribute deve ser um arquivo do tipo :values.",
+	"mimes"          => "O campo :attribute deve ser um arquivo do tipo :values.",
 	"min"            => array(
-		"numeric" => ":attribute deve ser pelo menos :min.",
-		"file"    => ":attribute deve ter pelo menos :min kilobytes.",
-		"string"  => ":attribute deve ter pelo menos :min caracteres.",
+		"numeric" => "O valor de :attribute deve ser pelo menos :min.",
+		"file"    => "O valor de :attribute deve ter pelo menos :min kilobytes.",
+		"string"  => "O valor de :attribute deve ter pelo menos :min caracteres.",
 	),
-	"not_in"         => "O item selecionado :attribute È inv·lido.",
-	"numeric"        => ":attribute deve ser um n˙mero.",
-	"required"       => ":attribute campo È requerido.",
-	"same"           => ":attribute e :other devem ser iguais.",
+	"not_in"         => "O item selecionado em :attribute √© inv√°lido.",
+	"numeric"        => "O campo :attribute deve ser um n√∫mero.",
+	"required"       => "O campo :attribute √© obrigat√≥rio",
+	"same"           => "Os valores de :attribute e :other devem ser iguais.",
 	"size"           => array(
-		"numeric" => ":attribute deve ser :size.",
-		"file"    => ":attribute deve ter :size kilobyte.",
-		"string"  => ":attribute deve ter :size caracteres.",
+		"numeric" => "O valor de :attribute deve ser :size.",
+		"file"    => "O valor de :attribute deve ter :size kilobyte.",
+		"string"  => "O valor de :attribute deve ter :size caracteres.",
 	),
-	"unique"         => ":attribute j· est· em uso e n„o pode ser atribuÌdo (unique).",
-	"url"            => ":attribute formato inv·lido.",
+	"unique"         => ":attribute j√° est√° em uso e n√£o pode ser atribu√≠do (unique).",
+	"url"            => "O formato de :attribute √© inv√°lido.",
 
 	/*
 	|--------------------------------------------------------------------------
