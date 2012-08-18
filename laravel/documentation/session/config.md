@@ -1,4 +1,3 @@
-<a name="config"></a>
 # Session Configuration
 
 ## Contents
