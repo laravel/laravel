@@ -6,19 +6,19 @@
 - [Repositories](#repositoriess)
 - [Branches](#branches)
 
-<a name='the-basics'></a>
+<a name="the-basics"></a>
 ## The Basics
 
 Because Laravel's development and source control is done through GitHub, anyone is able to make contributions to it. Anyone can fix bugs, add features or improve the documentation.
 
 After submitting proposed changes to the project, the Laravel team will review the changes and make the decision to commit them to Laravel's core.
 
-<a name='repositories'></a>
+<a name="repositories"></a>
 ## Repositories
 
 Laravel's home on GitHub is at [github.com/laravel](https://github.com/laravel). Laravel has several repositories. For basic contributions, the only repository you need to pay attention to is the **laravel** repository, located at [github.com/laravel/laravel](https://github.com/laravel/laravel).
 
-<a name='branches'></a>
+<a name="branches"></a>
 ## Branches
 
 The **laravel** repository has multiple branches, each serving a specific purpose:
