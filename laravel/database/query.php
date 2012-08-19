@@ -612,10 +612,9 @@ class Query {
 		// have this array we will determine if we need to key the array
 		// by another column from the result set.
 		$pos = strpos($column, '.');
-        if (is_int($pos)) {
-            $column = substr($column, $pos + 1);
-            //return 
-        }
+		if (is_int($pos)) {
+			$column = substr($column, $pos + 1);
+		}
 		$values = array_map(function($row) use ($column)
 		{
 			return $row->$column;
@@ -629,7 +628,6 @@ class Query {
 		$pos = strpos($key, '.');
 		if (is_int($pos)) {
 			$key = substr($key, $pos + 1);
-			//return 
 		}
 		if ( ! is_null($key))
 		{
