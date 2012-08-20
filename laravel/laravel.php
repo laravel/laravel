@@ -109,6 +109,48 @@ Routing\Router::register('*', '(:all)', function()
 
 /*
 |--------------------------------------------------------------------------
+| Gather The URI And Locales
+|--------------------------------------------------------------------------
+|
+| When routing, we'll need to grab the URI and the supported locales for
+| the route so we can properly set the language and route the request
+| to the proper end-point in the application.
+|
+*/
+
+$uri = URI::current();
+
+$languages = Config::get('application.languages', array());
+
+$languages[] = Config::get('application.language');
+
+/*
+|--------------------------------------------------------------------------
+| Set The Locale Based On The Route
+|--------------------------------------------------------------------------
+|
+| If the URI starts with one of the supported languages, we will set
+| the default lagnauge to match that URI segment and shorten the
+| URI we'll pass to the router to not include the lang segment.
+|
+*/
+
+foreach ($languages as $language)
+{
+	if (starts_with($uri, $language))
+	{
+		Config::set('application.language', $language);
+
+		$uri = trim(substr($uri, strlen($language)), '/'); break;
+	}
+}
+
+if ($uri == '') $uri = '/';
+
+URI::$uri = $uri;
+
+/*
+|--------------------------------------------------------------------------
 | Route The Incoming Request
 |--------------------------------------------------------------------------
 |
@@ -117,8 +159,6 @@ Routing\Router::register('*', '(:all)', function()
 | of the Response object that we can send back to the browser
 |
 */
-
-$uri = URI::current();
 
 Request::$route = Routing\Router::route(Request::method(), $uri);
 
