@@ -69,7 +69,11 @@ class Log {
 	 */
 	protected static function format($type, $message)
 	{
-		return date('Y-m-d H:i:s').' '.Str::upper($type)." - {$message}".PHP_EOL;
+		$e = new \Exception();
+		$trace = $e->getTrace();
+	    $index = ($trace[2]['function'] == '__callStatic')?3:1;
+
+		return date('Y-m-d H:i:s').' '.Str::upper($type).' '.$trace[$index]['file'].' '.$trace[$index]['line']." - {$message}".PHP_EOL;
 	}
 
 	/**
