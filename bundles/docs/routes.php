@@ -13,7 +13,7 @@ set_path('docs', path('sys').'documentation'.DS);
 /**
  * Handle routes for documentation files.
  *
- * @param  string  $file
+ * @param  string  $route
  * @return mixed
  */
 Route::get('(:bundle)([a-zA-Z0-9\_\-/]*)', function($route)
