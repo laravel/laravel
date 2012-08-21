@@ -78,6 +78,13 @@ In the following example the first parameter is the route that you're "registeri
 		//
 	});
 
+#### Catching the remaining URI without limitations:
+
+	Route::get('files/(:all)', function($path)
+	{
+		//
+	});
+
 #### Allowing a URI segment to be optional:
 
 	Route::get('page/(:any?)', function($page = 'index')
