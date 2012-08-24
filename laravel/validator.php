@@ -84,7 +84,7 @@ class Validator {
 	{
 		foreach ($rules as $key => &$rule)
 		{
-			$rule = (is_string($rule)) ? explode('|', $rule) : $rule;
+			$rule = (is_string($rule)) ? str_getcsv($rule, '|', '"', '\\') : $rule;
 		}
 
 		$this->rules = $rules;
@@ -642,7 +642,7 @@ class Validator {
 	 */
 	protected function validate_match($attribute, $value, $parameters)
 	{
-		return preg_match(join(",", $parameters), $value);
+		return preg_match(join(',', $parameters), $value);
 	}
 
 	/**
@@ -1136,7 +1136,7 @@ class Validator {
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
 		{
-			$parameters = str_getcsv(substr($rule, $colon + 1));
+			$parameters = explode(',', substr($rule, $colon + 1));
 		}
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
