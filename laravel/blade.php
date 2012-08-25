@@ -21,8 +21,6 @@ class Blade {
 		'unless',
 		'endunless',
 		'includes',
-		'render_each',
-		'render',
 		'yields',
 		'yield_sections',
 		'section_start',
@@ -152,10 +150,10 @@ class Blade {
 		// layout from the top of the template. By convention, it must be
 		// located on the first line of the template contents.
 		preg_replace_callback(
-			'/^@layout(\s*?\(.+?\))(\r?\n)?/',
+			'/^@layout\s*?(\s*?\(.+?\))(\r?\n)?/',
 			function($matches) use (&$value)
 			{
-				$value = substr( $value, strlen( $matches[0] ) ).CRLF.'@include'.$matches[1];
+				$value = substr( $value, strlen( $matches[0] ) ).'@include'.$matches[1];
 			},
 			$value
 		);
@@ -210,7 +208,7 @@ class Blade {
 	 */
 	protected static function compile_forelse($value)
 	{
-		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
+		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s+as\s+\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
 
 		if ( count($matches) < 1 ) return $value;
 
@@ -261,7 +259,7 @@ class Blade {
 	protected static function compile_structure_openings($value)
 	{
 		preg_replace_callback(
-			'/@(if|elseif|foreach|for|while)(\s*?)(\([^\n\r\t]+\))/',
+			'/@(if|elseif|foreach|for|while|render|render_each)(\s*?)(\([^\n\r\t]+\))/',
 			function($matches) use (&$value)
 			{
 				if(count( $matches ) === 4)
@@ -288,7 +286,10 @@ class Blade {
 					$condition = substr($matches[3], 0, ($i + 1));
 					$value = str_replace(
 						'@'.$matches[1].$matches[2].$condition,
-						'<?php '.$matches[1].$condition.': ?>',
+						'<?php '.
+							(( $matches[1] == 'render' || $matches[1] == 'render_each' )?'echo ':'').
+							$matches[1].$condition.
+						': ?>',
 						$value
 					);
 				}
@@ -357,32 +358,6 @@ class Blade {
 		$pattern = static::matcher('include');
 
 		return preg_replace($pattern, '<?php echo view$1->with(get_defined_vars())->render(); ?>', $value);
-	}
-
-	/**
-	 * Rewrites Blade @render statements into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function compile_render($value)
-	{
-		$pattern = static::matcher('render');
-
-		return preg_replace($pattern, '<?php echo render$1; ?>', $value);
-	}
-
-	/**
-	 * Rewrites Blade @render_each statements into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function compile_render_each($value)
-	{
-		$pattern = static::matcher('render_each');
-
-		return preg_replace($pattern, '<?php echo render_each$1; ?>', $value);
 	}
 
 	/**
