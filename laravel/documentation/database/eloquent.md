@@ -299,7 +299,7 @@ Let's assume you have a **Post** model that has many comments. Often you may wan
 
 	$post = Post::find(1);
 
-	$post->comments()->insert($comment);
+	$comment = $post->comments()->insert($comment);
 
 When inserting related models through their parent model, the foreign key will automatically be set. So, in this case, the "post_id" was automatically set to "1" on the newly inserted comment.
 
@@ -323,7 +323,7 @@ This is even more helpful when working with many-to-many relationships. For exam
 
 	$user = User::find(1);
 
-	$user->roles()->insert($role);
+	$role = $user->roles()->insert($role);
 
 Now, when the Role is inserted, not only is the Role inserted into the "roles" table, but a record in the intermediate table is also inserted for you. It couldn't be easier!
 
