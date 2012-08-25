@@ -286,10 +286,11 @@ class Blade {
 					$condition = substr($matches[3], 0, ($i + 1));
 					$value = str_replace(
 						'@'.$matches[1].$matches[2].$condition,
-						'<?php '.
-							(( $matches[1] == 'render' || $matches[1] == 'render_each' )?'echo ':'').
-							$matches[1].$condition.
-						': ?>',
+						'<?php '.( 
+								( $matches[1] == 'render' || $matches[1] == 'render_each' )?
+								'echo '.$matches[1].$condition
+								:$matches[1].$condition.':'
+						).' ?>',
 						$value
 					);
 				}
