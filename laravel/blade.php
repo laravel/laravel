@@ -12,13 +12,11 @@ class Blade {
 		'layouts',
 		'comments',
 		'echos',
-		'forelse',
 		'empty',
 		'endforelse',
 		'structure_openings',
 		'structure_closings',
 		'else',
-		'unless',
 		'endunless',
 		'includes',
 		'yields',
@@ -201,34 +199,6 @@ class Blade {
 	}
 
 	/**
-	 * Rewrites Blade "for else" statements into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function compile_forelse($value)
-	{
-		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s+as\s+\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
-
-		if ( count($matches) < 1 ) return $value;
-
-		foreach ($matches as $forelse)
-		{
-			// Once we have extracted the variable being looped against, we can add
-			// an if statement to the start of the loop that checks if the count
-			// of the variable being looped against is greater than zero.
-			$replace = '<?php if (count($'.$forelse[1].') > 0): foreach ($'.$forelse[1].' as $'.$forelse[2].'): ?>';
-
-			// Finally, once we have the check prepended to the loop we'll replace
-			// all instances of this forelse syntax in the view content of the
-			// view being compiled to Blade syntax with real PHP syntax.
-			$value = str_replace($forelse[0], $replace, $value);
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Rewrites Blade "empty" statements into valid PHP.
 	 *
 	 * @param  string  $value
@@ -259,7 +229,7 @@ class Blade {
 	protected static function compile_structure_openings($value)
 	{
 		preg_replace_callback(
-			'/@(if|elseif|foreach|for|while|render|render_each)(\s*?)(\([^\n\r\t]+\))/',
+			'/@(if|elseif|foreach|for|while|forelse|render|render_each|unless)(\s*?)(\([^\n\r\t]+\))/',
 			function($matches) use (&$value)
 			{
 				if(count( $matches ) === 4)
@@ -284,15 +254,41 @@ class Blade {
 						}
 					}
 					$condition = substr($matches[3], 0, ($i + 1));
-					$value = str_replace(
-						'@'.$matches[1].$matches[2].$condition,
-						'<?php '.( 
-								( $matches[1] == 'render' || $matches[1] == 'render_each' )?
-								'echo '.$matches[1].$condition
-								:$matches[1].$condition.':'
-						).' ?>',
-						$value
-					);
+					if( $matches[1] == 'render' || $matches[1] == 'render_each' )
+					{
+						$value = str_replace(
+							'@'.$matches[1].$matches[2].$condition,
+							'<?php echo '.$matches[1].$condition.'; ?>',
+							$value
+						);
+					}
+					elseif( $matches[1] == 'unless' )
+					{
+						$value = str_replace(
+							'@'.$matches[1].$matches[2].$condition,
+							'<?php if( ! '.$condition.' ): ?>',
+							$value
+						);
+					}
+					elseif( $matches[1] == 'forelse' )
+					{
+						if( preg_match('/\(\s*?\$(.+?)\s+as\s+/', $condition, $match ) )
+						{
+							$value = str_replace(
+								'@'.$matches[1].$matches[2].$condition,
+								'<?php if (count($'.$match[1].') > 0): foreach'.$condition.': ?>',
+								$value
+							);
+						}
+					}
+					else
+					{
+						$value = str_replace(
+							'@'.$matches[1].$matches[2].$condition,
+							'<?php '.$matches[1].$condition.': ?>',
+							$value
+						);
+					}
 				}
 			},
 			$value
@@ -322,19 +318,6 @@ class Blade {
 	protected static function compile_else($value)
 	{
 		return str_replace( '@else', '<?php else: ?>', $value);
-	}
-
-	/**
-	 * Rewrites Blade "unless" statements into valid PHP.
-	 *
-	 * @param  string  $value
-	 * @return string
-	 */
-	protected static function compile_unless($value)
-	{
-		$pattern = static::matcher('unless');
-
-		return preg_replace($pattern, '<?php if( ! ($1)): ?>', $value);
 	}
 
 	/**
