@@ -594,6 +594,11 @@ class Query {
 		// Of course, this array will simply have numeric keys. After we
 		// have this array we will determine if we need to key the array
 		// by another column from the result set.
+		$pos = strpos($column, '.');
+		if (is_int($pos)) {
+			$column = substr($column, $pos + 1);
+
+		}
 		$values = array_map(function($row) use ($column)
 		{
 			return $row->$column;
@@ -604,6 +609,10 @@ class Query {
 		// set the keys on the array of values using the array_combine
 		// function provided by PHP, which should give us the proper
 		// array form to return from the method.
+		$pos = strpos($key, '.');
+		if (is_int($pos)) {
+			$key = substr($key, $pos + 1);
+		}
 		if ( ! is_null($key))
 		{
 			return array_combine(array_map(function($row) use ($key)
