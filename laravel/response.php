@@ -93,9 +93,16 @@ class Response {
 	 */
 	public static function json($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json; charset=utf-8';
+		//check if callback function is specified
+		$callback = Input::get('callback');
 
-		return new static(json_encode($data), $status, $headers);
+		if ($callback) {
+			$headers['Content-Type'] = 'application/javascript';
+			return new static(Input::get('callback') . '(' . json_encode($data) . ')', $status, $headers);
+		} else {
+			$headers['Content-Type'] = 'application/json';
+			return new static(json_encode($data), $status, $headers);
+		}
 	}
 
 	/**
