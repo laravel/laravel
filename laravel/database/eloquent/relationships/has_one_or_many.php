@@ -7,8 +7,10 @@ class Has_One_Or_Many extends Relationship {
 	/**
 	 * Insert a new record for the association.
 	 *
+	 * If save is successful, the model will be returned, otherwise false.
+	 *
 	 * @param  Model|array  $attributes
-	 * @return bool
+	 * @return Model|false
 	 */
 	public function insert($attributes)
 	{
@@ -16,7 +18,7 @@ class Has_One_Or_Many extends Relationship {
 		{
 			$attributes->set_attribute($this->foreign_key(), $this->base->get_key());
 			
-			return $attributes->save();
+			return $attributes->save() ? $attributes : false;
 		}
 		else
 		{
