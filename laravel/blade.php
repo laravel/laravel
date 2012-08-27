@@ -272,7 +272,7 @@ class Blade {
 					}
 					elseif( $matches[1] == 'forelse' )
 					{
-						if( preg_match('/\(\s*?\$(.+?)\s+as\s+/', $condition, $match ) )
+						if( preg_match('/\(\s*?\$(.+?)\s+as\s+/i', $condition, $match ) )
 						{
 							$value = str_replace(
 								'@'.$matches[1].$matches[2].$condition,
