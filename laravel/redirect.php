@@ -166,6 +166,23 @@ class Redirect extends Response {
 	}
 
 	/**
+	 *
+	 * This method allows you to conveniently pass a success message to views.
+	 *
+	 * <code>
+	 *		// Redirect and flash validator errors the session
+	 *		return Redirect::to('register')->with_success( 'User created!' );
+	 * </code>
+	 *
+	 * @param  String $message
+	 * @return Redirect
+	 */
+	public function with_success( $message )
+	{
+		return $this->with( 'success', $message );
+	}
+
+	/**
 	 * Send the headers and content of the response to the browser.
 	 *
 	 * @return void
