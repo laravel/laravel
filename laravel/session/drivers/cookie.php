@@ -53,4 +53,16 @@ class Cookie extends Driver {
 		C::forget(Cookie::payload);
 	}
 
+	/**
+	 * Get a new session ID that isn't assigned to any current session.
+	 *
+	 * @return string
+	 */
+	public function id()
+	{
+		// We are able to just return any string since the Cookie driver 
+		// has no real idea of a server side persisted session with an ID.
+		return Str::random(40);
+	}
+
 }
