@@ -27,11 +27,16 @@ class HTML {
 	 * The encoding specified in the application configuration file will be used.
 	 *
 	 * @param  string  $value
+	 * @param  bool    $exec
 	 * @return string
 	 */
-	public static function entities($value)
+	public static function entities($value, $exec = true)
 	{
-		return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		if($exec) {
+			return htmlentities($value, ENT_QUOTES, Config::get('application.encoding'), false);
+		} else {
+			return $value;
+		}
 	}
 
 	/**
@@ -117,7 +122,12 @@ class HTML {
 	 */
 	public static function span($value, $attributes = array())
 	{
-		return '<span'.static::attributes($attributes).'>'.static::entities($value).'</span>';
+		$exec = static::check_to_encode($attributes);
+		if (array_key_exists('encode', $attributes)) {
+			// Remove index from array
+			unset($attributes['encode']);
+		}
+		return '<span'.static::attributes($attributes).'>'.static::entities($value, $exec).'</span>';
 	}
 
 	/**
@@ -135,16 +145,20 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $attributes
 	 * @param  bool    $https
-	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link($url, $title, $attributes = array(), $https = null, $escape = true)
+	public static function link($url, $title, $attributes = array(), $https = null)
 	{
 		$url = URL::to($url, $https);
-		if(!$escape) {
-			return '<a href="'.$url.'"'.static::attributes($attributes).'>'.$title.'</a>';
+		$exec = static::check_to_encode($attributes);
+		if (array_key_exists('encode', $attributes)) {
+			// Remove index from array
+			unset($attributes['encode']);
+		} else {
+			// Encode string since not told to do otherwise
+			$exec = true;
 		}
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
 	}
 
 	/**
@@ -153,12 +167,11 @@ class HTML {
 	 * @param  string  $url
 	 * @param  string  $title
 	 * @param  array   $attributes
-	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_secure($url, $title, $attributes = array(), $escape = true)
+	public static function link_to_secure($url, $title, $attributes = array())
 	{
-		return static::link($url, $title, $attributes, true, $escape);
+		return static::link($url, $title, $attributes, true);
 	}
 
 	/**
@@ -176,7 +189,16 @@ class HTML {
 	{
 		$url = URL::to_asset($url, $https);
 
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$exec = static::check_to_encode($attributes);
+		if (array_key_exists('encode', $attributes)) {
+			// Remove index from array
+			unset($attributes['encode']);
+		} else {
+			// Encode string since not told to do otherwise
+			$exec = true;
+		}
+
+		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
 	}
 
 	/**
@@ -260,7 +282,16 @@ class HTML {
 
 		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
 
-		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
+		$exec = static::check_to_encode($attributes);
+		if (array_key_exists('encode', $attributes)) {
+			// Remove index from array
+			unset($attributes['encode']);
+		} else {
+			// Encode string since not told to do otherwise
+			$exec = true;
+		}
+
+		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
 	}
 
 	/**
@@ -345,7 +376,16 @@ class HTML {
 			}
 			else
 			{
-				$html .= '<li>'.static::entities($value).'</li>';
+				$exec = static::check_to_encode($attributes);
+				if (array_key_exists('encode', $attributes)) {
+					// Remove index from array
+					unset($attributes['encode']);
+				} else {
+					// Encode string since not told to do otherwise
+					$exec = true;
+				}
+
+				$html .= '<li>'.static::entities($value, $exec).'</li>';
 			}
 		}
 
@@ -409,6 +449,22 @@ class HTML {
 		}
 
 		return $safe;
+	}
+
+	/**
+	 * To be more DRY this will wrap some repetitive checks the will operate to
+	 * detect if the developer wants to encode the string passed.
+	 * @param  array $attributes
+	 * @return bool 
+	 */
+	private function check_to_encode($attributes) {
+		if (array_key_exists('encode', $attributes)) {
+			if ($attributes['encode']) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 	/**
