@@ -30,10 +30,10 @@ class BladeTest extends PHPUnit_Framework_TestCase {
 		$blade3 = "@if (true)\nfoo\n@elseif (false)\nbar\n@endif";
 		$blade4 = "@if (true)\nfoo\n@else\nbar\n@endif";
 
-		$this->assertEquals("<?php if(true): ?>\nfoo\n<?php endif; ?>", Blade::compile_string($blade1));
-		$this->assertEquals("<?php if(count(".'$something'.") > 0): ?>\nfoo\n<?php endif; ?>", Blade::compile_string($blade2));
-		$this->assertEquals("<?php if(true): ?>\nfoo\n<?php elseif(false): ?>\nbar\n<?php endif; ?>", Blade::compile_string($blade3));
-		$this->assertEquals("<?php if(true): ?>\nfoo\n<?php else: ?>\nbar\n<?php endif; ?>", Blade::compile_string($blade4));
+		$this->assertEquals("<?php if (true): ?>\nfoo\n<?php endif; ?>", Blade::compile_string($blade1));
+		$this->assertEquals("<?php if (count(".'$something'.") > 0): ?>\nfoo\n<?php endif; ?>", Blade::compile_string($blade2));
+		$this->assertEquals("<?php if (true): ?>\nfoo\n<?php elseif (false): ?>\nbar\n<?php endif; ?>", Blade::compile_string($blade3));
+		$this->assertEquals("<?php if (true): ?>\nfoo\n<?php else: ?>\nbar\n<?php endif; ?>", Blade::compile_string($blade4));
 	}
 
 	/**
