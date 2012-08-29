@@ -457,7 +457,7 @@ class HTML {
 	 * @param  array $attributes
 	 * @return bool 
 	 */
-	private function check_to_encode($attributes) {
+	private static function check_to_encode($attributes) {
 		if (array_key_exists('encode', $attributes)) {
 			if ($attributes['encode']) {
 				return true;
