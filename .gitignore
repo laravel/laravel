@@ -19,6 +19,7 @@ Thumbs.db
 .tmproj
 *.esproj
 nbproject
+.redcar
 
 # Dreamweaver added files
 _notes
