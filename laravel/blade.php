@@ -105,7 +105,7 @@ class Blade {
 	/**
 	 * Compiles the specified file containing Blade pseudo-code into valid PHP.
 	 *
-	 * @param  string  $view
+	 * @param  string  $path
 	 * @return string
 	 */
 	public static function compile($view)
@@ -149,33 +149,31 @@ class Blade {
 		}
 
 		// First we'll split out the lines of the template so we can get the
-		// layout from the top of the template. By convention, it must be
+		// layout from the top of the template. By convention it must be
 		// located on the first line of the template contents.
-		preg_replace_callback(
-			'/^@layout(\s*?\(.+?\))(\r?\n)?/',
-			function($matches) use (&$value)
-			{
-				$value = substr( $value, strlen( $matches[0] ) ).CRLF.'@include'.$matches[1];
-			},
-			$value
-		);
+		$lines = preg_split("/(\r?\n)/", $value);
 
-		return $value;
+		$pattern = static::matcher('layout');
+
+		$lines[] = preg_replace($pattern, '$1@include$2', $lines[0]);
+
+		// We will add a "render" statement to the end of the templates and
+		// then slice off the "@layout" shortcut from the start so the
+		// sections register before the parent template renders.
+		return implode(CRLF, array_slice($lines, 1));
 	}
 
 	/**
 	 * Extract a variable value out of a Blade expression.
 	 *
 	 * @param  string  $value
-	 * @param  string  $expression
 	 * @return string
 	 */
 	protected static function extract($value, $expression)
 	{
-		if ( preg_match("/@layout\s*?\(\s*?'(.+?)'\s*?\)/", $value, $matches))
-		{
-			return trim( $matches[1] );
-		}
+		preg_match('/@layout(\s*\(.*\))(\s*)/', $value, $matches);
+
+		return str_replace(array("('", "')"), '', $matches[1]);
 	}
 
 	/**
@@ -186,9 +184,9 @@ class Blade {
 	 */
 	protected static function compile_comments($value)
 	{
-		$value = preg_replace('/\{\{--(.*?)--\}\}/', "<?php // $1 ?>", $value);
-		
-		return preg_replace('/\{\{--(.*?)--\}\}/s', "<?php /* ?>$1<?php */ ?>", $value);
+		$value = preg_replace('/\{\{--(.+?)(--\}\})?\n/', "<?php // $1 ?>", $value);
+
+		return preg_replace('/\{\{--((.|\s)*?)--\}\}/', "<?php /* $1 */ ?>\n", $value);
 	}
 
 	/**
@@ -199,7 +197,7 @@ class Blade {
 	 */
 	protected static function compile_echos($value)
 	{
-		return preg_replace('/\{\{(.+?)\}\}/s', '<?php echo $1; ?>', $value);
+		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
 	}
 
 	/**
@@ -210,21 +208,27 @@ class Blade {
 	 */
 	protected static function compile_forelse($value)
 	{
-		preg_match_all('/@forelse\s*?\(\s*?\$(.+?)\s*?as\s*?\$(.+?)\s*?\)/', $value, $matches, PREG_SET_ORDER );
+		preg_match_all('/(\s*)@forelse(\s*\(.*\))(\s*)/', $value, $matches);
 
-		if ( count($matches) < 1 ) return $value;
-
-		foreach ($matches as $forelse)
+		foreach ($matches[0] as $forelse)
 		{
+			preg_match('/\s*\(\s*(\S*)\s/', $forelse, $variable);
+
 			// Once we have extracted the variable being looped against, we can add
 			// an if statement to the start of the loop that checks if the count
 			// of the variable being looped against is greater than zero.
-			$replace = '<?php if (count($'.$forelse[1].') > 0): foreach ($'.$forelse[1].' as $'.$forelse[2].'): ?>';
+			$if = "<?php if (count({$variable[1]}) > 0): ?>";
+
+			$search = '/(\s*)@forelse(\s*\(.*\))/';
+
+			$replace = '$1'.$if.'<?php foreach$2: ?>';
+
+			$blade = preg_replace($search, $replace, $forelse);
 
 			// Finally, once we have the check prepended to the loop we'll replace
 			// all instances of this forelse syntax in the view content of the
 			// view being compiled to Blade syntax with real PHP syntax.
-			$value = str_replace($forelse[0], $replace, $value);
+			$value = str_replace($forelse, $blade, $value);
 		}
 
 		return $value;
@@ -238,7 +242,7 @@ class Blade {
 	 */
 	protected static function compile_empty($value)
 	{
-		return str_replace('@empty', '<?php endforeach; else: ?>', $value);
+		return str_replace('@empty', '<?php endforeach; ?><?php else: ?>', $value);
 	}
 
 	/**
@@ -260,42 +264,9 @@ class Blade {
 	 */
 	protected static function compile_structure_openings($value)
 	{
-		preg_replace_callback(
-			'/@(if|elseif|foreach|for|while)(\s*?)(\([^\n\r\t]+\))/',
-			function($matches) use (&$value)
-			{
-				if(count( $matches ) === 4)
-				{
-					$open  = 0;
-					$close = 0;
-					$cut   = 0;
-					$len   = strlen($matches[3]);
-					for($i = 0; $i < $len; $i++)
-					{
-						if($matches[3][$i] === '(' )
-						{
-							$open++;
-						}
-						if($matches[3][$i] === ')' )
-						{
-							$close++;
-						}
-						if($open !== 0 && ($open === $close))
-						{
-							break;
-						}
-					}
-					$condition = substr($matches[3], 0, ($i + 1));
-					$value = str_replace(
-						'@'.$matches[1].$matches[2].$condition,
-						'<?php '.$matches[1].$condition.': ?>',
-						$value
-					);
-				}
-			},
-			$value
-		);
-		return $value;
+		$pattern = '/(\s*)@(if|elseif|foreach|for|while)(\s*\(.*\))/';
+
+		return preg_replace($pattern, '$1<?php $2$3: ?>', $value);
 	}
 
 	/**
@@ -306,9 +277,9 @@ class Blade {
 	 */
 	protected static function compile_structure_closings($value)
 	{
-		$pattern = '/@(endif|endforeach|endfor|endwhile|break|continue)/';
+		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile)(\s*)/';
 
-		return preg_replace($pattern, '<?php $1; ?>', $value);
+		return preg_replace($pattern, '$1<?php $2; ?>$3', $value);
 	}
 
 	/**
@@ -319,7 +290,7 @@ class Blade {
 	 */
 	protected static function compile_else($value)
 	{
-		return str_replace( '@else', '<?php else: ?>', $value);
+		return preg_replace('/(\s*)@(else)(\s*)/', '$1<?php $2: ?>$3', $value);
 	}
 
 	/**
@@ -330,9 +301,9 @@ class Blade {
 	 */
 	protected static function compile_unless($value)
 	{
-		$pattern = static::matcher('unless');
+		$pattern = '/(\s*)@unless(\s*\(.*\))/';
 
-		return preg_replace($pattern, '<?php if( ! ($1)): ?>', $value);
+		return preg_replace($pattern, '$1<?php if( ! ($2)): ?>', $value);
 	}
 
 	/**
@@ -356,7 +327,7 @@ class Blade {
 	{
 		$pattern = static::matcher('include');
 
-		return preg_replace($pattern, '<?php echo view$1->with(get_defined_vars())->render(); ?>', $value);
+		return preg_replace($pattern, '$1<?php echo view$2->with(get_defined_vars())->render(); ?>', $value);
 	}
 
 	/**
@@ -369,7 +340,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render');
 
-		return preg_replace($pattern, '<?php echo render$1; ?>', $value);
+		return preg_replace($pattern, '$1<?php echo render$2; ?>', $value);
 	}
 
 	/**
@@ -382,7 +353,7 @@ class Blade {
 	{
 		$pattern = static::matcher('render_each');
 
-		return preg_replace($pattern, '<?php echo render_each$1; ?>', $value);
+		return preg_replace($pattern, '$1<?php echo render_each$2; ?>', $value);
 	}
 
 	/**
@@ -397,18 +368,19 @@ class Blade {
 	{
 		$pattern = static::matcher('yield');
 
-		return preg_replace($pattern, '<?php echo \\Laravel\\Section::yield$1; ?>', $value);
+		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yield$2; ?>', $value);
 	}
 
 	/**
 	 * Rewrites Blade yield section statements into valid PHP.
 	 *
-	 * @param  string  $value
 	 * @return string
 	 */
 	protected static function compile_yield_sections($value)
 	{
-		return str_replace('@yield_section', '<?php echo \\Laravel\\Section::yield_section(); ?>', $value);
+		$replace = '<?php echo \\Laravel\\Section::yield_section(); ?>';
+
+		return str_replace('@yield_section', $replace, $value);
 	}
 
 	/**
@@ -423,7 +395,7 @@ class Blade {
 	{
 		$pattern = static::matcher('section');
 
-		return preg_replace($pattern, '<?php \\Laravel\\Section::start$1; ?>', $value);
+		return preg_replace($pattern, '$1<?php \\Laravel\\Section::start$2; ?>', $value);
 	}
 
 	/**
@@ -436,7 +408,7 @@ class Blade {
 	 */
 	protected static function compile_section_end($value)
 	{
-		return str_replace('@endsection', '<?php \\Laravel\\Section::stop(); ?>', $value);
+		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
 	}
 
 	/**
@@ -453,7 +425,7 @@ class Blade {
 		}
 
 		return $value;
-	}
+	}	
 
 	/**
 	 * Get the regular expression for a generic Blade function.
@@ -463,13 +435,13 @@ class Blade {
 	 */
 	public static function matcher($function)
 	{
-		return '/@'.$function.'\s*?(\(.+?\))/';
+		return '/(\s*)@'.$function.'(\s*\(.*\))/';
 	}
 
 	/**
 	 * Get the fully qualified path for a compiled view.
 	 *
-	 * @param  string  $path
+	 * @param  string  $view
 	 * @return string
 	 */
 	public static function compiled($path)
