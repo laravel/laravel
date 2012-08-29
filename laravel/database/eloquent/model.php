@@ -617,6 +617,8 @@ abstract class Model {
 			// to_array method, keying them both by name and ID.
 			elseif (is_array($models))
 			{
+				$attributes[$name] = array();
+
 				foreach ($models as $id => $model)
 				{
 					$attributes[$name][$id] = $model->to_array();
