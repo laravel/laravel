@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.6](#3.2.6)
+- [Upgrading From 3.2.5](#upgrade-3.2.6)
 - [Laravel 3.2.5](#3.2.5)
 - [Upgrading From 3.2.4](#upgrade-3.2.5)
 - [Laravel 3.2.4](#3.2.4)
@@ -34,6 +36,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.6"></a>
+## Laravel 3.2.6
+
+- Revert Blade code back to 3.2.3 tag.
+
+<a name="upgrade-3.2.6"></a>
+### Upgrading From 3.2.5
+
+- Replace the **laravel** folder.
 
 <a name="3.2.5"></a>
 ## Laravel 3.2.5
