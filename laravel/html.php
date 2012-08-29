@@ -154,9 +154,6 @@ class HTML {
 		if (array_key_exists('encode', $attributes)) {
 			// Remove index from array
 			unset($attributes['encode']);
-		} else {
-			// Encode string since not told to do otherwise
-			$exec = true;
 		}
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
 	}
@@ -193,9 +190,6 @@ class HTML {
 		if (array_key_exists('encode', $attributes)) {
 			// Remove index from array
 			unset($attributes['encode']);
-		} else {
-			// Encode string since not told to do otherwise
-			$exec = true;
 		}
 
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
@@ -286,9 +280,6 @@ class HTML {
 		if (array_key_exists('encode', $attributes)) {
 			// Remove index from array
 			unset($attributes['encode']);
-		} else {
-			// Encode string since not told to do otherwise
-			$exec = true;
 		}
 
 		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
@@ -380,9 +371,6 @@ class HTML {
 				if (array_key_exists('encode', $attributes)) {
 					// Remove index from array
 					unset($attributes['encode']);
-				} else {
-					// Encode string since not told to do otherwise
-					$exec = true;
 				}
 
 				$html .= '<li>'.static::entities($value, $exec).'</li>';
@@ -464,6 +452,9 @@ class HTML {
 			} else {
 				return false;
 			}
+		} else {
+			// Yes encode since not told to do so otherwise
+			return true;
 		}
 	}
 
