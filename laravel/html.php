@@ -122,12 +122,8 @@ class HTML {
 	 */
 	public static function span($value, $attributes = array())
 	{
-		$exec = static::check_to_encode($attributes);
-		if (array_key_exists('encode', $attributes)) {
-			// Remove index from array
-			unset($attributes['encode']);
-		}
-		return '<span'.static::attributes($attributes).'>'.static::entities($value, $exec).'</span>';
+		$clean = static::check_non_html_attributes($attributes);
+		return '<span'.static::attributes($clean['attributes']).'>'.static::entities($value, $clean['encode']).'</span>';
 	}
 
 	/**
@@ -150,12 +146,8 @@ class HTML {
 	public static function link($url, $title, $attributes = array(), $https = null)
 	{
 		$url = URL::to($url, $https);
-		$exec = static::check_to_encode($attributes);
-		if (array_key_exists('encode', $attributes)) {
-			// Remove index from array
-			unset($attributes['encode']);
-		}
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
+		$clean = static::check_non_html_attributes($attributes);
+		return '<a href="'.$url.'"'.static::attributes($clean['attributes']).'>'.static::entities($title, $clean['encode']).'</a>';
 	}
 
 	/**
@@ -186,13 +178,9 @@ class HTML {
 	{
 		$url = URL::to_asset($url, $https);
 
-		$exec = static::check_to_encode($attributes);
-		if (array_key_exists('encode', $attributes)) {
-			// Remove index from array
-			unset($attributes['encode']);
-		}
+		$clean = static::check_non_html_attributes($attributes);
 
-		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
+		return '<a href="'.$url.'"'.static::attributes($clean['attributes']).'>'.static::entities($title, $clean['encode']).'</a>';
 	}
 
 	/**
@@ -276,13 +264,9 @@ class HTML {
 
 		$email = '&#109;&#097;&#105;&#108;&#116;&#111;&#058;'.$email;
 
-		$exec = static::check_to_encode($attributes);
-		if (array_key_exists('encode', $attributes)) {
-			// Remove index from array
-			unset($attributes['encode']);
-		}
+		$clean = static::check_non_html_attributes($attributes);
 
-		return '<a href="'.$email.'"'.static::attributes($attributes).'>'.static::entities($title, $exec).'</a>';
+		return '<a href="'.$email.'"'.static::attributes($clean['attributes']).'>'.static::entities($title, $clean['encode']).'</a>';
 	}
 
 	/**
@@ -367,17 +351,13 @@ class HTML {
 			}
 			else
 			{
-				$exec = static::check_to_encode($attributes);
-				if (array_key_exists('encode', $attributes)) {
-					// Remove index from array
-					unset($attributes['encode']);
-				}
+				$clean = static::check_non_html_attributes($attributes);
 
-				$html .= '<li>'.static::entities($value, $exec).'</li>';
+				$html .= '<li>'.static::entities($value, $clean['encode']).'</li>';
 			}
 		}
 
-		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
+		return '<'.$type.static::attributes($clean['attributes']).'>'.$html.'</'.$type.'>';
 	}
 
 	/**
@@ -440,22 +420,29 @@ class HTML {
 	}
 
 	/**
-	 * To be more DRY this will wrap some repetitive checks the will operate to
-	 * detect if the developer wants to encode the string passed.
+	 * Check for any attributes that are not part of HTML. Returns an
+	 * array that contains HTML acceptable attributes and the non HTML
+	 * attributes. As of right now the only non HTML attribute is `encode`.
 	 * @param  array $attributes
-	 * @return bool 
+	 * @return array 
 	 */
-	private static function check_to_encode($attributes) {
+	private static function check_non_html_attributes($attributes) {
+		$result = array();
 		if (array_key_exists('encode', $attributes)) {
 			if ($attributes['encode']) {
-				return true;
+				$enc = true;
 			} else {
-				return false;
+				$enc = false;
 			}
+			// Remove from attributes array
+			unset($attributes['encode']);
 		} else {
 			// Yes encode since not told to do so otherwise
-			return true;
+			$enc = true;
 		}
+		$result['attributes'] = $attributes;
+		$result['encode'] = $enc;
+		return $result;
 	}
 
 	/**
