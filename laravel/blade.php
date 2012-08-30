@@ -148,7 +148,7 @@ class Blade {
 		// layout from the top of the template. By convention, it must be
 		// located on the first line of the template contents.
 		preg_replace_callback(
-			'/^@layout\s*?(\s*?\(.+?\))(\r?\n)?/',
+			'/^@layout\s*?(\s*?\(.*?\))(\r?\n)?/',
 			function($matches) use (&$value)
 			{
 				$value = substr( $value, strlen( $matches[0] ) ).'@include'.$matches[1];
