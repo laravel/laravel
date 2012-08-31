@@ -213,12 +213,11 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
-	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_route($name, $title, $parameters = array(), $attributes = array(), $escape = true)
+	public static function link_to_route($name, $title, $parameters = array(), $attributes = array())
 	{
-		return static::link(URL::to_route($name, $parameters), $title, $attributes, $escape);
+		return static::link(URL::to_route($name, $parameters), $title, $attributes);
 	}
 
 	/**
@@ -238,12 +237,11 @@ class HTML {
 	 * @param  string  $title
 	 * @param  array   $parameters
 	 * @param  array   $attributes
-	 * @param  bool	   $escape
 	 * @return string
 	 */
-	public static function link_to_action($action, $title, $parameters = array(), $attributes = array(), $escape = true)
+	public static function link_to_action($action, $title, $parameters = array(), $attributes = array())
 	{
-		return static::link(URL::to_action($action, $parameters), $title, $attributes, $escape);
+		return static::link(URL::to_action($action, $parameters), $title, $attributes);
 	}
 
 	/**
@@ -458,7 +456,7 @@ class HTML {
 	    {
 	        return call_user_func_array(static::$macros[$method], $parameters);
 	    }
-	    
+
 	    throw new \Exception("Method [$method] does not exist.");
 	}
 
