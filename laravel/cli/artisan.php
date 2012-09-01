@@ -11,6 +11,28 @@ use Laravel\Request;
  */
 Bundle::start(DEFAULT_BUNDLE);
 
+/*
+|--------------------------------------------------------------------------
+| Auto-Start Other Bundles
+|--------------------------------------------------------------------------
+|
+| Bundles that are used throughout the application may be auto-started
+| so they are immediately available on every request without needing
+| to explicitly start them within the application.
+|
+*/
+
+foreach (Bundle::$bundles as $bundle => $config)
+{
+	if (
+		! empty($config['auto']) && is_array($config['auto'])
+		&& ! empty($config['auto']['cli']) && $config['auto']['cli']
+	)
+	{
+		Bundle::start($bundle);
+	}
+}
+
 /**
  * The default database connection may be set by specifying a value
  * for the "database" CLI option. This allows migrations to be run
