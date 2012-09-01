@@ -94,6 +94,31 @@ class Migrator extends Task {
 	}
 
 	/**
+	 * Run the seed tasks for a given bundle.
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	public function seed($arguments = array())
+	{
+		$seeds = $this->resolver->seeds(empty($bundle) ? null : $arguments);
+
+		if (count($seeds) == 0)
+		{
+			echo "No seeds have been created.";
+
+			return;
+		}
+
+		foreach ($seeds as $seed)
+		{
+			$seed['task']->run();
+
+			echo 'Seeded: '.$this->display($seed).PHP_EOL;
+		}
+	}
+
+	/**
 	 * Rollback the latest migration command.
 	 *
 	 * @param  array  $arguments
@@ -191,7 +216,7 @@ class Migrator extends Task {
 		// next migration at the same time unknowingly.
 		$prefix = date('Y_m_d_His');
 
-		$path = Bundle::path($bundle).'migrations'.DS;
+		$path = Bundle::path($bundle).'db/migrations'.DS;
 
 		// If the migration directory does not exist for the bundle,
 		// we will create the directory so there aren't errors when
