@@ -191,9 +191,18 @@ class Bundle {
 
 		foreach (static::$bundles as $key => $value)
 		{
-			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/'))
-			{
-				return $key;
+			if (isset($value['handles']))
+			{ 
+				// Let's see if one of them matches the uri
+				foreach ((array) $value['handles'] as $handles)
+				{
+					if (starts_with($uri, $handles.'/'))
+					{
+						// replace the array with a string with the matching handles and return the key
+						static::$bundles[$key]['handles'] = $handles;
+						return $key;
+					}
+				}
 			}
 		}
 
