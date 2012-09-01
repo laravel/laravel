@@ -56,6 +56,14 @@ You now have a fluent query builder for the "users" table. Using this query buil
 #### Selecting distinct results from the database:
 
 	$user = DB::table('users')->distinct()->get();
+	
+#### Selecting all columns from the table:
+	
+	$columns = DB::table('users')->columns();
+	foreach($columns as $column) {
+		echo "{$column->column_name}: {$column->column_type} <br />";
+	}
+This will give you all columns in the 'users' table and their type.
 
 <a name="where"></a>
 ## Building Where Clauses
