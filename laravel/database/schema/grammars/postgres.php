@@ -369,7 +369,7 @@ class Postgres extends Grammar {
 	 */
 	protected function type_boolean(Fluent $column)
 	{
-		return 'SMALLINT';
+		return 'BOOLEAN';
 	}
 
 	/**
