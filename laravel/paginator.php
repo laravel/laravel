@@ -38,6 +38,20 @@ class Paginator {
 	public $per_page;
 
 	/**
+	 * The URL to the next pagination page.
+	 *
+	 * @var string
+	 */
+	public $url_to_next;
+
+	/**
+	 * The URL to the previous pagination page.
+	 *
+	 * @var string
+	 */
+	public $url_to_previous;
+
+	/**
 	 * The values that should be appended to the end of the link query strings.
 	 *
 	 * @var array
@@ -84,6 +98,8 @@ class Paginator {
 		$this->total = $total;
 		$this->results = $results;
 		$this->per_page = $per_page;
+		$this->url_to_next = $this->url($this->page + 1);
+		$this->url_to_previous = $this->url($this->page - 1);
 	}
 
 	/**
@@ -101,6 +117,25 @@ class Paginator {
 		$last = ceil($total / $per_page);
 
 		return new static($results, $page, $total, $per_page, $last);
+	}
+
+	/**
+	 * Create the link to a pagination page.
+	 *
+	 * @param  int 		$page_number
+	 * @return string
+	 */
+	public function url($page_number)
+	{
+		if ((int) $page_number > $this->last)
+		{
+			$page_number = $this->last;
+		}
+		else if ((int) $page_number < 1)
+		{
+			$page_number = 1;
+		}
+		return URL::to(URI::current().'?page='.$page_number.$this->appendage($this->appends), Request::secure());
 	}
 
 	/**
@@ -370,9 +405,7 @@ class Paginator {
 	 */
 	protected function link($page, $text, $class)
 	{
-		$query = '?page='.$page.$this->appendage($this->appends);
-
-		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
+		return HTML::link($this->url($page), $text, compact('class'), Request::secure());
 	}
 
 	/**
