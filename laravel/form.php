@@ -526,7 +526,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function submit($value, $attributes = array())
+	public static function submit($value = null, $attributes = array())
 	{
 		return static::input('submit', null, $value, $attributes);
 	}
@@ -538,7 +538,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function reset($value, $attributes = array())
+	public static function reset($value = null, $attributes = array())
 	{
 		return static::input('reset', null, $value, $attributes);
 	}
@@ -570,7 +570,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function button($value, $attributes = array())
+	public static function button($value = null, $attributes = array())
 	{
 		return '<button'.HTML::attributes($attributes).'>'.HTML::entities($value).'</button>';
 	}

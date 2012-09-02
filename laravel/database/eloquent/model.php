@@ -445,7 +445,7 @@ abstract class Model {
 	 *
 	 * @return void
 	 */
-	protected function timestamp()
+	public function timestamp()
 	{
 		$this->updated_at = new \DateTime;
 
@@ -617,6 +617,8 @@ abstract class Model {
 			// to_array method, keying them both by name and ID.
 			elseif (is_array($models))
 			{
+				$attributes[$name] = array();
+
 				foreach ($models as $id => $model)
 				{
 					$attributes[$name][$id] = $model->to_array();
