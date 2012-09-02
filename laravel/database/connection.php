@@ -325,6 +325,16 @@ class Connection {
 		return $this->config['driver'];
 	}
 
+    /**
+     * Get an array of tables in the database.
+     *
+     * @return array of tables
+     */
+    public function tables()
+    {
+        return $this->grammar()->tables();
+    }
+
 	/**
 	 * Magic Method for dynamically beginning queries on database tables.
 	 */

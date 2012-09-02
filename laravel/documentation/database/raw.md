@@ -44,6 +44,16 @@ Laravel provides a few other methods to make querying your database simple. Here
 
 	$email = DB::only('select email from users where id = 1');
 
+#### Getting an array of tables in the database:
+
+    $tables = DB::tables();
+
+or
+
+	$tables = DB::connection('sqlite')->tables();
+
+> **Note:** If no connection name is specified, the **default** connection's database tables will be returned.
+
 <a name="pdo-connections"></a>
 ## PDO Connections
 

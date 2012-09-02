@@ -461,4 +461,13 @@ class Grammar extends \Laravel\Database\Grammar {
 		return trim($sql);
 	}
 
+    /**
+     * Generate an SQL statement for query tables
+     *
+     * @return string
+     */
+    public function tables() {
+        return array();
+    }
+
 }
