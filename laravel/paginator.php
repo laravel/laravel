@@ -372,7 +372,7 @@ class Paginator {
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return '<li'.HTML::attributes(compact($class)).'>'. HTML::link(URI::current().$query, $text, [], Request::secure()).'</li>';
+		return '<li'.HTML::attributes(compact($class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
 	}
 
 	/**
