@@ -763,7 +763,9 @@ class Query {
 
 		if ($this->grammar instanceof Postgres)
 		{
-			return (int) $result[0]->$column;
+			
+			$row = (array) $result[0];
+			return (int) $row[$column];
 		}
 		else
 		{
