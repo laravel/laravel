@@ -43,6 +43,7 @@
 ## Laravel 3.2.7
 
 - Fix bug in Eloquent `to_array` method.
+- Fix bug in displaying of generic error page.
 
 <a name="upgrade-3.2.7"></a>
 ### Upgrading From 3.2.6
