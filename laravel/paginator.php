@@ -38,6 +38,13 @@ class Paginator {
 	public $per_page;
 
 	/**
+	 * The url of the page
+	 *
+	 * @var string
+	 */
+	public $url;
+
+	/**
 	 * The values that should be appended to the end of the link query strings.
 	 *
 	 * @var array
@@ -75,15 +82,17 @@ class Paginator {
 	 * @param  int    $total
 	 * @param  int    $per_page
 	 * @param  int    $last
+	 * @param  string $url
 	 * @return void
 	 */
-	protected function __construct($results, $page, $total, $per_page, $last)
+	protected function __construct($results, $page, $total, $per_page, $last, $url)
 	{
 		$this->page = $page;
 		$this->last = $last;
 		$this->total = $total;
 		$this->results = $results;
 		$this->per_page = $per_page;
+		$this->url = $url;
 	}
 
 	/**
@@ -92,15 +101,17 @@ class Paginator {
 	 * @param  array      $results
 	 * @param  int        $total
 	 * @param  int        $per_page
+	 * @param  int        $page
+	 * @param  string     $url
 	 * @return Paginator
 	 */
-	public static function make($results, $total, $per_page)
+	public static function make($results, $total, $per_page, $page = null, $url = null)
 	{
-		$page = static::page($total, $per_page);
+		$page = static::page($total, $per_page, $page);
 
 		$last = ceil($total / $per_page);
 
-		return new static($results, $page, $total, $per_page, $last);
+		return new static($results, $page, $total, $per_page, $last, $url);
 	}
 
 	/**
@@ -110,9 +121,12 @@ class Paginator {
 	 * @param  int  $per_page
 	 * @return int
 	 */
-	public static function page($total, $per_page)
+	public static function page($total, $per_page, $page = null)
 	{
-		$page = Input::get('page', 1);
+		if (is_null($page))
+		{
+			$page = Input::get('page', 1);
+		}
 
 		// The page will be validated and adjusted if it is less than one or greater
 		// than the last page. For example, if the current page is not an integer or
@@ -372,7 +386,7 @@ class Paginator {
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
+		return HTML::link(($this->url ?: URI::current()).$query, $text, compact('class'), Request::secure());
 	}
 
 	/**
