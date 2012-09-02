@@ -484,6 +484,74 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test the match validation rule.
+	 *
+	 * @group laravel
+	 */
+	public function testTheMatchRule()
+	{
+    $input = array('test' => '01.01.1900');
+		$rules = array('test' => 'match:/^([0-3][0-9])\.([0-1][0-9])\.([0-9]{4})$/');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['test'] = '0.01.1900';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+		$input['test'] = '01.0.1900';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+		$input['test'] = '01.01.190';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+		
+		// testing '|', '"' and ',' in regex string 
+		$input = array('test' => '"""az');
+		$rules = array('test' => 'size:5|"match:/^[\x22|a|z]{1,5}$/"');// Not a RL example...
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+		// You don't have to enclose the size rule, but it works :-)
+		$rules = array('test' => '"size:5"|"match:/^[\x22|a|z]{1,5}$/"');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+		
+		// testing single quoted regex strings
+		$regex= '/^[\x22]{1,8}$/';
+		$input = array('test' => '"""');
+		$rules = array('test' => '"match:'.$regex.'"');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+		
+		/* 
+       In a double quoted string the \x22 get replaced by a '"'
+       and therefore recognized as a string delimiter by the 
+       str_getcsv() function.
+       So this code will throw a error: preg_match(): Unknown modifier '"'.
+       
+      $regex= "/^[\x22]{1,8}$/";
+      $rules = array('test' => '"match:'.$regex.'"');
+      $this->assertTrue(Validator::make($input, $rules)->valid());
+		*/
+		
+		// some advanced email-regex test, found at: 
+		// http://aktuell.de.selfhtml.org/artikel/programmiertechnik/email/index.htm
+		// a bit modified using single quoted string when using \x22 in regex string
+		$nonascii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
+    $nqtext        = '[^\\\\'.$nonascii.'\015\012\x22]';
+    $qchar         = "\\\\[^$nonascii]";
+    $protocol      = '(?:mailto:)';
+    $normuser      = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
+    $quotedstring  = '\x22(?:'.$nqtext.'|'.$qchar.')+\x22';
+    $user_part     = "(?:$normuser|$quotedstring)";
+    $dom_mainpart  = '[a-zA-Z0-9][a-zA-Z0-9._-]*\\.';
+    $dom_subpart   = '(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\\.)*';
+    $dom_tldpart   = '[a-zA-Z]{2,5}';
+    $domain_part   = "$dom_subpart$dom_mainpart$dom_tldpart";
+
+    $regex         = "$protocol?$user_part\@$domain_part" ;
+    $input = array('test' => 'test@gmx.de');
+		$rules = array('test' => '"match:/^' . $regex.'$/"');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['test'] = '0011900';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+	}
+
+
+	/**
 	 * Test that the validator sets the correct messages.
 	 *
 	 * @group laravel
