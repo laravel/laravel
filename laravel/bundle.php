@@ -107,9 +107,9 @@ class Bundle {
 		// start script for reverse routing efficiency purposes.
 		static::routes($bundle);
 
-		Event::fire("laravel.started: {$bundle}");
-
 		static::$started[] = strtolower($bundle);
+
+		Event::fire("laravel.started: {$bundle}");
 	}
 
 	/**
