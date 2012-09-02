@@ -184,6 +184,7 @@ class Migrator extends Task {
 		}
 
 		list($bundle, $migration) = Bundle::parse($arguments[0]);
+		$table = array_get($arguments, 1);
 
 		// The migration path is prefixed with the date timestamp, which
 		// is a better way of ordering migrations than a simple integer
@@ -200,7 +201,7 @@ class Migrator extends Task {
 
 		$file = $path.$prefix.'_'.$migration.EXT;
 
-		File::put($file, $this->stub($bundle, $migration));
+		File::put($file, $this->stub($bundle, $migration, $table));
 
 		echo "Great! New migration created!";
 
@@ -217,9 +218,14 @@ class Migrator extends Task {
 	 * @param  string  $migration
 	 * @return string
 	 */
-	protected function stub($bundle, $migration)
+	protected function stub($bundle, $migration, $table = null)
 	{
-		$stub = File::get(path('sys').'cli/tasks/migrate/stub'.EXT);
+		$stub = $table
+			? File::get(path('sys').'cli/tasks/migrate/stub_scaffold'.EXT)
+			: File::get(path('sys').'cli/tasks/migrate/stub'.EXT);
+
+		// Replace the table name
+		if($table) $stub = str_replace('{{table}}', $table, $stub);
 
 		$prefix = Bundle::class_prefix($bundle);
 
