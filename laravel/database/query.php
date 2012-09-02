@@ -639,8 +639,11 @@ class Query {
 	 * @param  array  $columns
 	 * @return array
 	 */
-	public function get($columns = array('*'))
+	public function get($columns)
 	{
+		// This would be so goooood @Caneco
+		if (!is_array($columns)) explode(',',$columns);
+		
 		if (is_null($this->selects)) $this->select($columns);
 
 		$sql = $this->grammar->select($this);
