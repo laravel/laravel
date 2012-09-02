@@ -186,7 +186,7 @@ class Request {
 	 */
 	public static function time()
 	{
-		return (int) LARAVEL_START;
+		return static::foundation()->server->get('REQUEST_TIME', time());
 	}
 
 	/**

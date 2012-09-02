@@ -3,6 +3,7 @@
 use Laravel\Str;
 use Laravel\Config;
 use Laravel\Cookie;
+use Laravel\Request;
 use Laravel\Session;
 use Laravel\Session\Drivers\Driver;
 use Laravel\Session\Drivers\Sweeper;
@@ -82,7 +83,7 @@ class Payload {
 	{
 		$lifetime = Config::get('session.lifetime');
 
-		return (time() - $session['last_activity']) > ($lifetime * 60);
+		return (Request::time() - $session['last_activity']) > ($lifetime * 60);
 	}
 
 	/**
@@ -274,7 +275,7 @@ class Payload {
 	 */
 	public function save()
 	{
-		$this->session['last_activity'] = time();
+		$this->session['last_activity'] = Request::time();
 
 		// Session flash data is only available during the request in which it
 		// was flashed and the following request. We will age the data so that
@@ -304,7 +305,7 @@ class Payload {
 
 		if ($this->driver instanceof Sweeper and (mt_rand(1, $sweepage[1]) <= $sweepage[0]))
 		{
-			$this->driver->sweep(time() - ($config['lifetime'] * 60));
+			$this->driver->sweep(Request::time() - ($config['lifetime'] * 60));
 		}
 	}
 
