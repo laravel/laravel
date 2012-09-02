@@ -173,6 +173,31 @@ class Messages {
 	}
 
 	/**
+         * Converts all messages or groups of messages to a 
+     	 * single string. This is useful is you want to 
+    	 * display all messages in an HTML list or any time 
+    	 * you need to output multiple messages in a 
+    	 * formatted manner.
+    	 *
+    	 * <code>
+    	 *      //Outputs a ul with every message as a list item.
+    	 *      echo '<ul>'.$messages->join(null, '<li>:message</li>').'</ul>';
+    	 *      //Outputs a ul with every email message as a list item.
+    	 *      echo '<ul>'.$messages->join('email', '<li>:message</li>').'</ul>';
+    	 * </code>
+    	 *
+    	 * @param string $key
+    	 * @param string $format
+    	 * @return string
+    	 */
+    	public function join($key = null, $format = null)
+    	{
+        	$messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
+
+        	return implode($messages);
+    	}
+
+	/**
 	 * Format an array of messages.
 	 *
 	 * @param  array   $messages
