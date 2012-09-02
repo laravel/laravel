@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.8](#3.2.8)
+- [Upgrading From 3.2.7](#upgrade-3.2.8)
 - [Laravel 3.2.7](#3.2.7)
 - [Upgrading From 3.2.6](#upgrade-3.2.7)
 - [Laravel 3.2.6](#3.2.6)
@@ -38,6 +40,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.8"></a>
+## Laravel 3.2.8
+
+- Fix double slash bug in URLs when using languages and no "index.php".
+
+<a name="upgrade-3.2.8"></a>
+### Upgrading From 3.2.7
+
+- Replace the **laravel** folder.
 
 <a name="3.2.7"></a>
 ## Laravel 3.2.7
