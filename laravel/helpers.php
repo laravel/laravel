@@ -127,6 +127,9 @@ function array_set(&$array, $key, $value)
  * Remove an array item from a given array using "dot" notation.
  *
  * <code>
+ *		// Remove the $array['name'] item from the array
+ *		array_forget($array, 'name');
+ *
  *		// Remove the $array['user']['name'] item from the array
  *		array_forget($array, 'user.name');
  *
@@ -142,27 +145,35 @@ function array_forget(&$array, $key)
 {
 	$keys = explode('.', $key);
 
-	// This loop functions very similarly to the loop in the "set" method.
-	// We will iterate over the keys, setting the array value to the new
-	// depth at each iteration. Once there is only one key left, we will
-	// be at the proper depth in the array.
-	while (count($keys) > 1)
+	// Are we just trying to remove a simple key from an array?
+	if (count($keys) === 1)
 	{
-		$key = array_shift($keys);
-
-		// Since this method is supposed to remove a value from the array,
-		// if a value higher up in the chain doesn't exist, there is no
-		// need to keep digging into the array, since it is impossible
-		// for the final value to even exist.
-		if ( ! isset($array[$key]) or ! is_array($array[$key]))
+		$array = array_diff($array, $keys);
+	}
+	else
+	{
+		// This loop functions very similarly to the loop in the "set" method.
+		// We will iterate over the keys, setting the array value to the new
+		// depth at each iteration. Once there is only one key left, we will
+		// be at the proper depth in the array.
+		while (count($keys) > 1)
 		{
-			return;
+			$key = array_shift($keys);
+
+			// Since this method is supposed to remove a value from the array,
+			// if a value higher up in the chain doesn't exist, there is no
+			// need to keep digging into the array, since it is impossible
+			// for the final value to even exist.
+			if ( ! isset($array[$key]) or ! is_array($array[$key]))
+			{
+				return;
+			}
+
+			$array =& $array[$key];
 		}
 
-		$array =& $array[$key];
+		unset($array[array_shift($keys)]);
 	}
-
-	unset($array[array_shift($keys)]);
 }
 
 /**
