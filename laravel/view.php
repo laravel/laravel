@@ -38,6 +38,13 @@ class View implements ArrayAccess {
 	public static $names = array();
 
 	/**
+	 * All of the registered file extensions.
+	 *
+	 * @var array
+	 */
+	public static $extensions = array(EXT);
+
+	/**
 	 * The cache content of loaded view files.
 	 *
 	 * @var array
@@ -171,13 +178,12 @@ class View implements ArrayAccess {
 		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
-		if (file_exists($path = $directory.$view.EXT))
+		foreach(static::$extensions as $ext)
 		{
-			return $path;
-		}
-		elseif (file_exists($path = $directory.$view.BLADE_EXT))
-		{
-			return $path;
+			if (file_exists($path = $directory.$view.$ext))
+			{
+				return $path;
+			}
 		}
 	}
 

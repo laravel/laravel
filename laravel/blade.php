@@ -43,6 +43,7 @@ class Blade {
 	 */
 	public static function sharpen()
 	{
+		View::$extensions[] = BLADE_EXT;
 		Event::listen(View::engine, function($view)
 		{
 			// The Blade view engine should only handle the rendering of views which
