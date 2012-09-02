@@ -6,80 +6,28 @@
 require_once __DIR__.'/libraries/markdown.php';
 
 /**
- * Get the root path for the documentation Markdown.
- *
- * @return string
+ * Set the path to the documentation.
  */
-function doc_root()
-{
-	return path('sys').'documentation/';
-}
+set_path('docs', path('sys').'documentation'.DS);
 
 /**
- * Get the parsed Markdown contents of a given page.
+ * Handle routes for documentation files.
  *
- * @param  string  $page
- * @return string
- */
-function document($page)
-{
-	return Markdown(file_get_contents(doc_root().$page.'.md'));
-}
-
-/**
- * Determine if a documentation page exists.
- *
- * @param  string  $page
- * @return bool
- */
-function document_exists($page)
-{
-	return file_exists(doc_root().$page.'.md');
-}
-
-/**
- * Attach the sidebar to the documentation template.
- */
-View::composer('docs::template', function($view)
-{
-	$view->with('sidebar', document('contents'));
-});
-
-/**
- * Handle the documentation homepage.
- *
- * This page contains the "introduction" to Laravel.
- */
-Route::get('(:bundle)', function()
-{
-	return View::make('docs::page')->with('content', document('home'));
-});
-
-/**
- * Handle documentation routes for sections and pages.
- *
- * @param  string  $section
- * @param  string  $page
+ * @param  string  $route
  * @return mixed
  */
-Route::get('(:bundle)/(:any)/(:any?)', function($section, $page = null)
+Route::get('(:bundle)([a-zA-Z0-9\_\-/]*)', function($route)
 {
-	$file = rtrim(implode('/', func_get_args()), '/');
+	// $route = str_replace('/', DS, $route);
 
-	// If no page was specified, but a "home" page exists for the section,
-	// we'll set the file to the home page so that the proper page is
-	// displayed back out to the client for the requested doc page.
-	if (is_null($page) and document_exists($file.'/home'))
-	{
-		$file .= '/home';
-	}
-
-	if (document_exists($file))
-	{
-		return View::make('docs::page')->with('content', document($file));
-	}
-	else
-	{
+	if ( ! file_exists($file = path('docs').$route.'.md') && ! file_exists($file = path('docs').$route.DS.'home.md'))
 		return Response::error('404');
-	}
+	
+	$sidebar = @file_get_contents(path('docs').'contents.md') ?: 'File not found.';
+
+	$content = file_get_contents($file);
+
+	return View::make('docs::page')
+		->with('sidebar', Markdown($sidebar))
+		->with('content', Markdown($content));
 });
