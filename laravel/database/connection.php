@@ -200,6 +200,11 @@ class Connection {
 		{
 			return $this->fetch($statement, Config::get('database.fetch'));
 		}
+		// This is an SQLite-specific query, and we need to return the result set.
+		elseif (stripos($sql, 'pragma') === 0)
+		{
+			return $this->fetch($statement, Config::get('database.fetch'));
+		}
 		else
 		{
 			return $result;

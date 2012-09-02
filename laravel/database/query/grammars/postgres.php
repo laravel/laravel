@@ -17,4 +17,23 @@ class Postgres extends Grammar {
 		return $this->insert($query, $values)." RETURNING $column";
 	}
 
+	/**
+	 * Returns the SQL to get the name and type of each column.
+	 *
+	 * @param  Query   $query
+	 * @param  bool    $all_info If false, only the name & type will be returned.
+	 * @return string
+	 */
+	public function columns(Query $query, $all_info = false)
+	{
+		$sql = 'SELECT ';
+		if ( $all_info )
+		{
+			$sql .= ' *, ';
+		}
+		$sql .= "column_name AS name, data_type AS type FROM information_schema.columns WHERE table_name ='{$query->from}'";
+
+		return $sql;
+	}
+
 }
