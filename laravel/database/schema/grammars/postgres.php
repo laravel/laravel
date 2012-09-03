@@ -211,18 +211,6 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop table command.
-	 *
-	 * @param  Table    $table
-	 * @param  Fluent   $command
-	 * @return string
-	 */
-	public function drop(Table $table, Fluent $command)
-	{
-		return 'DROP TABLE '.$this->wrap($table);
-	}
-
-	/**
 	 * Generate the SQL statement for a drop column command.
 	 *
 	 * @param  Table    $table
@@ -309,7 +297,7 @@ class Postgres extends Grammar {
 	 * Drop a foreign key constraint from the table.
 	 *
 	 * @param  Table   $table
-	 * @param  Fluent  $fluent
+	 * @param  Fluent  $command
 	 * @return string
 	 */
 	public function drop_foreign(Table $table, Fluent $command)

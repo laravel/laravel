@@ -6,7 +6,7 @@ class Redirect extends Response {
 	 * Create a redirect response to application root.
 	 *
 	 * @param  int       $status
-	 * @param  bool      $secure
+	 * @param  bool      $https
 	 * @return Redirect
 	 */
 	public static function home($status = 302, $https = null)
@@ -163,6 +163,25 @@ class Redirect extends Response {
 		$errors = ($container instanceof Validator) ? $container->errors : $container;
 
 		return $this->with('errors', $errors);
+	}
+
+	/**
+	 * Send the headers and content of the response to the browser.
+	 *
+	 * @return void
+	 */
+	public function send()
+	{
+		// Dump all output buffering, this ensures
+		// that symphony will send our redirect headers
+		// properly if we've outputted any content from
+		// within Laravel.
+		while (ob_get_level() > 0)
+		{
+			ob_end_clean();
+		}
+
+		return parent::send();
 	}
 
 }

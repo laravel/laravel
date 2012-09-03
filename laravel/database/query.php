@@ -2,7 +2,7 @@
 
 use Closure;
 use Laravel\Database;
-use Paginator;
+use Laravel\Paginator;
 use Laravel\Database\Query\Grammars\Postgres;
 use Laravel\Database\Query\Grammars\SQLServer;
 
@@ -140,7 +140,7 @@ class Query {
 	 */
 	public function select($columns = array('*'))
 	{
-		$this->selects = is_array($columns) ? $columns : array($columns);
+		$this->selects = (array) $columns;
 		return $this;
 	}
 
@@ -158,7 +158,7 @@ class Query {
 	{
 		// If the "column" is really an instance of a Closure, the developer is
 		// trying to create a join with a complex "ON" clause. So, we will add
-		// the join, and then call the Closure with the join.
+		// the join, and then call the Closure with the join/
 		if ($column1 instanceof Closure)
 		{
 			$this->joins[] = new Query\Join($type, $table);
@@ -168,7 +168,7 @@ class Query {
 
 		// If the column is just a string, we can assume that the join just
 		// has a simple on clause, and we'll create the join instance and
-		// add the clause automatically for the developer.
+		// add the clause automatically for the develoepr.
 		else
 		{
 			$join = new Query\Join($type, $table);
@@ -283,7 +283,7 @@ class Query {
 	 */
 	public function or_where_id($value)
 	{
-		return $this->or_where('id', '=', $value);
+		return $this->or_where('id', '=', $value);		
 	}
 
 	/**
@@ -395,7 +395,7 @@ class Query {
 	}
 
 	/**
-	 * Add nested constraints to the query.
+	 * Add a nested where condition to the query.
 	 *
 	 * @param  Closure  $callback
 	 * @param  string   $connector
@@ -403,7 +403,24 @@ class Query {
 	 */
 	public function where_nested($callback, $connector = 'AND')
 	{
-		call_user_func($callback, $this);
+		$type = 'where_nested';
+
+		// To handle a nested where statement, we will actually instantiate a new
+		// Query instance and run the callback over that instance, which will
+		// allow the developer to have a fresh query instance
+		$query = new Query($this->connection, $this->grammar, $this->from);
+
+		call_user_func($callback, $query);
+
+		// Once the callback has been run on the query, we will store the nested
+		// query instance on the where clause array so that it's passed to the
+		// query's query grammar instance when building.
+		if ($query->wheres !== null)
+		{
+			$this->wheres[] = compact('type', 'query', 'connector');
+		}
+
+		$this->bindings = array_merge($this->bindings, $query->bindings);
 
 		return $this;
 	}
@@ -436,7 +453,7 @@ class Query {
 
 		foreach ($segments as $segment)
 		{
-			// If the segment is not a boolean connector, we can assume it is
+			// If the segment is not a boolean connector, we can assume it it is
 			// a column name, and we'll add it to the query as a new constraint
 			// of the query's where clause and keep iterating the segments.
 			if ($segment != '_and_' and $segment != '_or_')
@@ -604,7 +621,7 @@ class Query {
 		// set the keys on the array of values using the array_combine
 		// function provided by PHP, which should give us the proper
 		// array form to return from the method.
-		if ( ! is_null($key))
+		if ( ! is_null($key) && count($results))
 		{
 			return array_combine(array_map(function($row) use ($key)
 			{
@@ -659,7 +676,7 @@ class Query {
 	public function aggregate($aggregator, $columns)
 	{
 		// We'll set the aggregate value so the grammar does not try to compile
-		// a SELECT clause on the query. If an aggregator is present, its own
+		// a SELECT clause on the query. If an aggregator is present, it's own
 		// grammar function will be used to build the SQL syntax.
 		$this->aggregate = compact('aggregator', 'columns');
 
@@ -686,7 +703,7 @@ class Query {
 	{
 		// Because some database engines may throw errors if we leave orderings
 		// on the query when retrieving the total number of records, we'll drop
-		// all of the orderings and put them back on the query.
+		// all of the ordreings and put them back on the query.
 		list($orderings, $this->orderings) = array($this->orderings, null);
 
 		$total = $this->count(reset($columns));
@@ -713,12 +730,12 @@ class Query {
 	{
 		// Force every insert to be treated like a batch insert to make creating
 		// the binding array simpler since we can just spin through the inserted
-		// rows as if there was more than one every time.
+		// rows as if there/ was more than one every time.
 		if ( ! is_array(reset($values))) $values = array($values);
 
 		$bindings = array();
 
-		// We need to merge the insert values into the array of the query
+		// We need to merge the the insert values into the array of the query
 		// bindings so that they will be bound to the PDO statement when it
 		// is executed by the database connection.
 		foreach ($values as $value)
@@ -819,7 +836,7 @@ class Query {
 	/**
 	 * Execute the query as a DELETE statement.
 	 *
-	 * Optionally, an ID may be passed to the method to delete a specific row.
+	 * Optionally, an ID may be passed to the method do delete a specific row.
 	 *
 	 * @param  int   $id
 	 * @return int
@@ -836,7 +853,7 @@ class Query {
 
 		$sql = $this->grammar->delete($this);
 
-		return $this->connection->query($sql, $this->bindings);
+		return $this->connection->query($sql, $this->bindings);		
 	}
 
 	/**
@@ -852,7 +869,7 @@ class Query {
 		}
 
 		// All of the aggregate methods are handled by a single method, so we'll
-		// catch them all here and then pass them off to the aggregate method
+		// catch them all here and then pass them off to the agregate method
 		// instead of creating methods for each one of them.
 		if (in_array($method, array('count', 'min', 'max', 'avg', 'sum')))
 		{

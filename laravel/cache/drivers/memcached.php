@@ -20,6 +20,7 @@ class Memcached extends Sectionable {
 	 * Create a new Memcached cache driver instance.
 	 *
 	 * @param  Memcached  $memcache
+	 * @param  string     $key
 	 * @return void
 	 */
 	public function __construct(\Memcached $memcache, $key)

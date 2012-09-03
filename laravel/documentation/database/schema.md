@@ -62,6 +62,7 @@ Command  | Description
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length
 `$table->integer('votes');`  |  INTEGER equivalent to the table
 `$table->float('amount');`  |  FLOAT equivalent to the table
+`$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
 `$table->date('created_at');`  |  DATE equivalent to the table
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent to the table
@@ -70,6 +71,7 @@ Command  | Description
 `$table->blob('data');`  |  BLOB equivalent to the table
 `->nullable()`  |  Designate that the column allows NULL values
 `->default($value)`  |  Declare a default value for a column
+`->unsigned()`  |  Set INTEGER to UNSIGNED
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 
@@ -144,3 +146,9 @@ You may also specify options for the "on delete" and "on update" actions of the 
 You may also easily drop a foreign key constraint. The default foreign key names follow the [same convention](#dropping-indexes) as the other indexes created by the Schema builder. Here's an example:
 
 	$table->drop_foreign('posts_user_id_foreign');
+
+> **Note:** The field referenced in the foreign key is very likely an auto increment and therefore automatically an unsigned integer. Please make sure to create the foreign key field with **unsigned()** as both fields have to be the exact same type, the engine on both tables has to be set to **InnoDB**, and the referenced table must be created **before** the table with the foreign key.
+
+	$table->engine = 'InnoDB';
+
+	$table->integer('user_id')->unsigned();

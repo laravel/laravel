@@ -255,22 +255,7 @@ abstract class Model {
 	 */
 	public function _with($includes)
 	{
-		$includes = (array) $includes;
-
-		$this->includes = array();
-
-		foreach ($includes as $relationship => $constraints)
-		{
-			// When eager loading relationships, constraints may be set on the eager
-			// load definition; however, is none are set, we need to swap the key
-			// and the value of the array since there are no constraints.
-			if (is_numeric($relationship))
-			{
-				list($relationship, $constraints) = array($constraints, null);
-			}
-
-			$this->includes[$relationship] = $constraints;
-		}
+		$this->includes = (array) $includes;
 
 		return $this;
 	}
@@ -460,7 +445,7 @@ abstract class Model {
 	 *
 	 * @return void
 	 */
-	protected function timestamp()
+	public function timestamp()
 	{
 		$this->updated_at = new \DateTime;
 
@@ -533,7 +518,7 @@ abstract class Model {
 
 		foreach ($this->attributes as $key => $value)
 		{
-			if ( ! array_key_exists($key, $this->original) or $value !== $this->original[$key])
+			if ( ! isset($this->original[$key]) or $value !== $this->original[$key])
 			{
 				$dirty[$key] = $value;
 			}
@@ -632,6 +617,8 @@ abstract class Model {
 			// to_array method, keying them both by name and ID.
 			elseif (is_array($models))
 			{
+				$attributes[$name] = array();
+
 				foreach ($models as $id => $model)
 				{
 					$attributes[$name][$id] = $model->to_array();
@@ -722,7 +709,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->$source)) return !is_null($this->$source[$key]);
+			if (array_key_exists($key, $this->$source)) return true;
 		}
 		
 		if (method_exists($this, $key)) return true;
@@ -753,7 +740,7 @@ abstract class Model {
 	{
 		$meta = array('key', 'table', 'connection', 'sequence', 'per_page', 'timestamps');
 
-		// If the method is actually the name of a static property on the model, we'll
+		// If the method is actually the name of a static property on the model we'll
 		// return the value of the static property. This makes it convenient for
 		// relationships to access these values off of the instances.
 		if (in_array($method, $meta))
@@ -763,7 +750,7 @@ abstract class Model {
 
 		$underscored = array('with', 'find');
 
-		// Some methods need to be accessed both statically and non-statically so we'll
+		// Some methods need to be accessed both staticly and non-staticly so we'll
 		// keep underscored methods of those methods and intercept calls to them
 		// here so they can be called either way on the model instance.
 		if (in_array($method, $underscored))

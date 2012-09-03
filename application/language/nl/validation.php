@@ -15,6 +15,7 @@ return array(
 	"alpha"          => "Het :attribute mag alleen letters bevatten.",
 	"alpha_dash"     => "Het :attribute mag alleen letters, nummers, onderstreep(_) en strepen(-) bevatten.",
 	"alpha_num"      => "Het :attribute mag alleen letters en nummers",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => "Het :attribute moet een datum voor :date zijn.",
 	"between"        => array(
 		"numeric" => "Het :attribute moet tussen :min en :max zijn.",
@@ -22,6 +23,10 @@ return array(
 		"string"  => "Het :attribute moet tussen :min en :max tekens zijn.",
 	),
 	"confirmed"      => "Het :attribute bevestiging komt niet overeen.",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => "Het :attribute en :other moeten verschillend zijn.",
 	"email"          => "Het :attribute formaat is ongeldig.",
 	"exists"         => "Het gekozen :attribute is al ingebruik.",

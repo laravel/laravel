@@ -179,6 +179,8 @@ abstract class Controller {
 		// controllers with much less code than would be usual.
 		foreach ($parameters as $key => $value)
 		{
+			if ( ! is_string($value)) continue;
+
 			$search = '(:'.($key + 1).')';
 
 			$destination = str_replace($search, $value, $destination, $count);

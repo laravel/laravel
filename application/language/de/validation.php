@@ -24,6 +24,7 @@ return array(
 	"alpha"          => ":attribute darf nur Buchstaben beinhalten.",
 	"alpha_dash"     => ":attribute sollte nur aus Buchstaben, Nummern und Bindestrichen bestehen.",
 	"alpha_num"      => ":attribute sollte nur aus Buchstaben und Nummern bestehen.",
+	"array"          => ":attribute muss ausgew&auml;hlte Elemente haben.",
 	"before"         => ":attribute muss ein Datum vor dem :date sein.",
 	"between"        => array(
 		"numeric" => ":attribute muss zwischen :min und :max liegen.",
@@ -31,6 +32,10 @@ return array(
 		"string"  => ":attribute muss zwischen :min und :max Zeichen lang sein.",
 	),
 	"confirmed"      => ":attribute stimmt nicht mit der Best&auml;tigung &uuml;berein.",
+	"count"          => ":attribute muss genau :count ausgew&auml;hlte Elemente haben.",
+	"countbetween"   => ":attribute muss zwischen :min und :max ausgew&auml;hlte Elemente haben.",
+	"countmax"       => ":attribute muss weniger als :max ausgew&auml;hlte Elemente haben.",
+	"countmin"       => ":attribute muss mindestens :min ausgew&auml;hlte Elemente haben.",
 	"different"      => ":attribute und :other m&uuml;ssen verschieden sein.",
 	"email"          => ":attribute ist keine g&uuml;ltige Email-Adresse.",
 	"exists"         => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
