@@ -132,6 +132,11 @@ Need to maintain creation and update timestamps on your database records? With E
 
 Next, add **created_at** and **updated_at** date columns to your table. Now, whenever you save the model, the creation and update timestamps will be set automatically. You're welcome.
 
+In some cases it may be useful to update the **updated_at** date column without actually modifying any data within the model. Simply use the **touch** method, which will also automatically save the changes immediately:
+
+	$comment = Comment::find(1);
+	$comment->touch();
+
 > **Note:** You can change the default timezone of your application in the **application/config/application.php** file.
 
 <a name="relationships"></a>
