@@ -268,7 +268,7 @@ Or, as usual, you may retrieve the relationship through the dynamic roles proper
 
 	$roles = User::find(1)->roles;
 
-As you may have noticed, the default name of the intermediate table is the singular names of the two related models arranged alphabetically and concatenated by an underscore. However, you are free to specify your own table name. Simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
+As you may have noticed, the default name of the intermediate table is the singular names of the two related models arranged alphabetically and concatenated by an underscore. However, you are free to specify your own table name. Simply pass the table name in the second parameter to the **has\_many\_and\_belongs\_to** method:
 
 	class User extends Eloquent {
 
@@ -287,6 +287,17 @@ By default only certain fields from the pivot table will be returned (the two **
 	     {
 	          return $this->has_many_and_belongs_to('Role', 'user_roles')->with('column');
 	     }
+
+	}
+
+A special relationship is the many-to-many relationship on the same table. Say you have a "user\_user" table that connects users with their buddies (which are also users). Here you can include the two connecting columns as the third and fourth parameter to the **has\_many\_and\_belongs\_to** method:
+
+	class User extends Eloquent {
+
+		public function buddies()
+		{
+			return $this->has_many_and_belongs_to('User', 'user_user', 'user_id', 'buddy_id');
+		}
 
 	}
 
