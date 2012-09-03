@@ -119,9 +119,6 @@ class Belongs_To extends Relationship {
 	
 	public function bind($id)
 	{
-		if((int) $this->foreign_value() === (int) $id)
-			return $this->base;
-
 		$this->base->fill(array($this->foreign => $id))->save();
 
 		return $this->base;
