@@ -604,29 +604,35 @@ abstract class Model {
 
 		foreach ($this->relationships as $name => $models)
 		{
-			// If the relationship is not a "to-many" relationship, we can just
-			// to_array the related model and add it as an attribute to the
-			// array of existing regular attributes we gathered.
-			if ($models instanceof Model)
+			// If the relationship exists in the array of "hidden" attributes/relationships,
+			// it will not be added to the array so we can easily exclude the relationship
+			// probably when sending data as json and trying to keep it small.
+			if ( ! in_array($name, static::$hidden)) 
 			{
-				$attributes[$name] = $models->to_array();
-			}
-
-			// If the relationship is a "to-many" relationship we need to spin
-			// through each of the related models and add each one with the
-			// to_array method, keying them both by name and ID.
-			elseif (is_array($models))
-			{
-				$attributes[$name] = array();
-
-				foreach ($models as $id => $model)
+				// If the relationship is not a "to-many" relationship, we can just
+				// to_array the related model and add it as an attribute to the
+				// array of existing regular attributes we gathered.
+				if ($models instanceof Model)
 				{
-					$attributes[$name][$id] = $model->to_array();
+					$attributes[$name] = $models->to_array();
 				}
-			}
-			elseif (is_null($models))
-			{
-				$attributes[$name] = $models;
+
+				// If the relationship is a "to-many" relationship we need to spin
+				// through each of the related models and add each one with the
+				// to_array method, keying them both by name and ID.
+				elseif (is_array($models))
+				{
+					$attributes[$name] = array();
+
+					foreach ($models as $id => $model)
+					{
+						$attributes[$name][$id] = $model->to_array();
+					}
+				}
+				elseif (is_null($models))
+				{
+					$attributes[$name] = $models;
+				}
 			}
 		}
 
