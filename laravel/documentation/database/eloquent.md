@@ -137,6 +137,13 @@ In some cases it may be useful to update the **updated_at** date column without 
 	$comment = Comment::find(1);
 	$comment->touch();
 
+You can also use the **timestamp** function to update the **updated_at** date column without saving the model immediately. Note that if you are actually modifying the model's data this is handled behind the scenes:
+
+	$comment = Comment::find(1);
+	$comment->timestamp();
+	//do something else here, but not modifying the $comment model data
+	$comment->save();
+
 > **Note:** You can change the default timezone of your application in the **application/config/application.php** file.
 
 <a name="relationships"></a>
