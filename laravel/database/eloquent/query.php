@@ -33,8 +33,8 @@ class Query {
 	 * @var array
 	 */
 	public $passthru = array(
-		'lists', 'only', 'insert', 'insert_get_id', 'update', 'increment',
-		'delete', 'decrement', 'count', 'min', 'max', 'avg', 'sum',
+		'lists', 'only', 'insert', 'insert_get_id', 'update',
+		'delete', 'count', 'min', 'max', 'avg', 'sum',
 	);
 
 	/**
@@ -93,6 +93,34 @@ class Query {
 		$paginator->results = $this->hydrate($this->model, $paginator->results);
 
 		return $paginator;
+	}
+
+	/**
+	 * Increment the value of a column by a given amount.
+	 *
+	 * @param  string  $column
+	 * @param  int     $amount
+	 * @return int
+	 */
+	public function increment($column, $amount = 1)
+	{
+		$this->where($this->model->key(), '=', $this->model->get_key());
+
+		return $this->table->increment($column, $amount);
+	}
+
+	/**
+	 * Decrement the value of a column by a given amount.
+	 *
+	 * @param  string  $column
+	 * @param  int     $amount
+	 * @return int
+	 */
+	public function decrement($column, $amount = 1)
+	{
+		$this->where($this->model->key(), '=', $this->model->get_key());
+
+		return $this->table->decrement($column, $amount);
 	}
 
 	/**
