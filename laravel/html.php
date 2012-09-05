@@ -38,8 +38,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
-		return htmlentities($value, ENT_QUOTES, static::$encoding, false);
+		return htmlentities($value, ENT_QUOTES, static::get_encoding(), false);
 	}
 
 	/**
@@ -50,8 +49,7 @@ class HTML {
 	 */
 	public static function decode($value)
 	{
-		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
-		return html_entity_decode($value, ENT_QUOTES, static::$encoding);
+		return html_entity_decode($value, ENT_QUOTES, static::get_encoding());
 	}
 
 	/**
@@ -64,8 +62,7 @@ class HTML {
 	 */
 	public static function specialchars($value)
 	{
-		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
-		return htmlspecialchars($value, ENT_QUOTES, static::$encoding, false);
+		return htmlspecialchars($value, ENT_QUOTES, static::get_encoding(), false);
 	}
 
 	/**
@@ -415,6 +412,18 @@ class HTML {
 		}
 
 		return $safe;
+	}
+
+	/**
+	 * Get the appliction.encoding without needing to request it from Config::get() each time.
+	 *
+	 * @return string
+	 */
+	public static function get_encoding(){
+
+		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
+
+		return static::$encoding;
 	}
 
 	/**
