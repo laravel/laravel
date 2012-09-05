@@ -419,8 +419,8 @@ class HTML {
 	 *
 	 * @return string
 	 */
-	public static function get_encoding(){
-
+	protected static function get_encoding()
+	{
 		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
 
 		return static::$encoding;
