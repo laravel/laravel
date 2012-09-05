@@ -3,6 +3,7 @@
 use Closure;
 use Laravel\Bundle;
 use Laravel\Request;
+use Laravel\Str;
 
 class Filter {
 
@@ -14,7 +15,7 @@ class Filter {
 	public static $filters = array();
 
 	/**
-	 * The route filters that are based on pattern.
+	 * The route filters that are based on a pattern.
 	 *
 	 * @var array
 	 */
@@ -84,7 +85,19 @@ class Filter {
 	 */
 	public static function parse($filters)
 	{
-		return (is_string($filters)) ? explode('|', $filters) : (array) $filters;
+		if (is_string($filters))
+		{
+			return explode('|', $filters);
+		}
+
+		if (is_callable($filters))
+		{
+			return array(
+				Str::random(6) => $filters
+			);
+		}
+
+		return (array) $filters;
 	}
 
 	/**
@@ -99,18 +112,26 @@ class Filter {
 	{
 		foreach ($collections as $collection)
 		{
-			foreach ($collection->filters as $filter)
+			foreach ($collection->filters as $key => $filter)
 			{
-				list($filter, $parameters) = $collection->get($filter);
+				if (is_callable($filter))
+				{
+					list (, $parameters) = $collection->get($key);
+					$callback = $filter;
+				}
+				else
+				{
+					list($filter, $parameters) = $collection->get($filter);
 
-				// We will also go ahead and start the bundle for the developer. This allows
-				// the developer to specify bundle filters on routes without starting the
-				// bundle manually, and performance is improved by lazy-loading.
-				Bundle::start(Bundle::name($filter));
+					// We will also go ahead and start the bundle for the developer. This allows
+					// the developer to specify bundle filters on routes without starting the
+					// bundle manually, and performance is improved by lazy-loading.
+					Bundle::start(Bundle::name($filter));
 
-				if ( ! isset(static::$filters[$filter])) continue;
+					if ( ! isset(static::$filters[$filter])) continue;
 
-				$callback = static::$filters[$filter];
+					$callback = static::$filters[$filter];
+				}
 
 				// Parameters may be passed into filters by specifying the list of parameters
 				// as an array, or by registering a Closure which will return the array of
