@@ -1,9 +1,0 @@
-<phpunit colors="true"
-         bootstrap="/Users/taylor/Code/Laravel/framework/laravel/tests/phpunit.php"
-         backupGlobals="false">
-	<testsuites>
-		<testsuite name="Test Suite">
-			<directory suffix=".test.php">/Users/taylor/Code/Laravel/framework/laravel/tests/cases</directory>
-		</testsuite>
-	</testsuites>
-</phpunit>
