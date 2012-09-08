@@ -188,19 +188,20 @@ class Bundle {
 	public static function handles($uri)
 	{
 		$uri = rtrim($uri, '/').'/';
-		$bundle = NULL;
+		$bundle = null;
 
 		foreach (static::$bundles as $key => $value)
 		{
 			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/') or $value['handles'] == '/')
 			{
-				if(strlen($bundle) < strlen($key)) {
+				if (strlen($bundle) < strlen($key))
+				{
 					$bundle = $key;
 				}
 			}
 		}
 
-		return isset($bundle) ? $bundle : DEFAULT_BUNDLE;
+		return $bundle ?: DEFAULT_BUNDLE;
 	}
 
 	/**
