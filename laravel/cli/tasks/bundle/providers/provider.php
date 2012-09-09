@@ -73,7 +73,7 @@ abstract class Provider {
 		// zip that was put in the storage directory.
 		if ($remote === false)
 		{
-			throw new \Exception("Error downloading bundle [{$bundle}].");
+			throw new \Exception("Error downloading bundle.");
 		}
 
 		return $remote;
