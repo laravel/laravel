@@ -38,7 +38,7 @@ class HTML {
 	 */
 	public static function entities($value)
 	{
-		return htmlentities($value, ENT_QUOTES, static::get_encoding(), false);
+		return htmlentities($value, ENT_QUOTES, static::encoding(), false);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class HTML {
 	 */
 	public static function decode($value)
 	{
-		return html_entity_decode($value, ENT_QUOTES, static::get_encoding());
+		return html_entity_decode($value, ENT_QUOTES, static::encoding());
 	}
 
 	/**
@@ -62,7 +62,7 @@ class HTML {
 	 */
 	public static function specialchars($value)
 	{
-		return htmlspecialchars($value, ENT_QUOTES, static::get_encoding(), false);
+		return htmlspecialchars($value, ENT_QUOTES, static::encoding(), false);
 	}
 
 	/**
@@ -419,8 +419,8 @@ class HTML {
 	 *
 	 * @return string
 	 */
-	protected static function get_encoding()
-	{
+	protected static function encoding()
+	{	
 		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
 
 		return static::$encoding;
