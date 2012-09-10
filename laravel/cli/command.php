@@ -125,7 +125,7 @@ class Command {
 		// the requested method may be executed.
 		if (file_exists($path = Bundle::path($bundle).'tasks/'.$task.EXT))
 		{
-			require $path;
+			require_once $path;
 
 			$task = static::format($bundle, $task);
 
