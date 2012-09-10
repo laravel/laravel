@@ -420,10 +420,8 @@ class HTML {
 	 * @return string
 	 */
 	protected static function encoding()
-	{	
-		if(static::$encoding===null) static::$encoding = Config::get('application.encoding');
-
-		return static::$encoding;
+	{
+		return static::$encoding ?: static::$encoding = Config::get('application.encoding');
 	}
 
 	/**
