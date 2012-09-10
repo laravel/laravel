@@ -453,6 +453,16 @@ abstract class Model {
 	}
 
 	/**
+	 *Updates the timestamp on the model and immediately saves it.
+	 *
+	 * @return void
+	 */
+	public function touch(){
+		$this->timestamp();
+		$this->save();
+	}
+
+	/**
 	 * Get a new fluent query builder instance for the model.
 	 *
 	 * @return Query
