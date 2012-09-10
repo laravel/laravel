@@ -51,6 +51,18 @@ class Query {
 	}
 
 	/**
+	 * Find a record by the primary key.
+	 *
+	 * @param  int     $id
+	 * @param  array   $columns
+	 * @return object
+	 */
+	public function find($id, $columns = array('*'))
+	{
+		return $this->where($this->model->key(), '=', $id)->first($columns);
+	}
+
+	/**
 	 * Get the first model result for the query.
 	 *
 	 * @param  array  $columns
@@ -93,6 +105,18 @@ class Query {
 		$paginator->results = $this->hydrate($this->model, $paginator->results);
 
 		return $paginator;
+	}
+
+	/**
+	 * Insert an array of values into the database table and return the ID.
+	 *
+	 * @param  array   $values
+	 * @param  string  $column
+	 * @return int
+	 */
+	public function insert_get_id($values, $column = 'id')
+	{
+		return $this->table->insert_get_id($values, $this->model->key());
 	}
 
 	/**
