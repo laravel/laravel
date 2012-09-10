@@ -65,7 +65,7 @@ class Paginator {
 	 *
 	 * @var string
 	 */
-	protected $dots = '<span class="dots">...</span>';
+	protected $dots = '<li class="dots disabled"><a href="#">...</a></li>';
 
 	/**
 	 * Create a new Paginator instance.
