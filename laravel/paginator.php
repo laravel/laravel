@@ -300,7 +300,7 @@ class Paginator {
 		// the "first" element should be a span instead of a link.
 		if ($disabled($this->page, $this->last))
 		{
-			return '<li'.HTML::attributes(array('class'=>"{$class} disabled")).'><a href="#">'.$text.'</a>';
+			return '<li'.HTML::attributes(array('class'=>"{$class} disabled")).'><a href="#">'.$text.'</a></li>';
 		}
 		else
 		{
@@ -372,7 +372,7 @@ class Paginator {
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return '<li'.HTML::attributes(compact($class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
+		return '<li'.HTML::attributes(array('class' => $class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
 	}
 
 	/**
