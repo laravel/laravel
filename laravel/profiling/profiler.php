@@ -15,7 +15,7 @@ class Profiler {
 	 * @var array
 	 */
 	protected static $data = array('queries' => array(), 'logs' => array(), 'timers' => array());
-	
+
 	/**
 	 * Get the rendered contents of the Profiler.
 	 *
@@ -60,7 +60,7 @@ class Profiler {
 		{
 			$name = $name.uniqid();
 		}
-		
+
 		// Push the time into the timers array for display
 		static::$data['timers'][$name]['start'] = $start;
 		static::$data['timers'][$name]['end'] = $end;
@@ -130,6 +130,9 @@ class Profiler {
 	 */
 	public static function log($type, $message)
 	{
+		if (is_array($message) || is_object($message))
+			$message = var_export($message, true);
+
 		static::$data['logs'][] = array($type, $message);
 	}
 
@@ -170,7 +173,7 @@ class Profiler {
 
 		Event::listen('laravel.query', function($sql, $bindings, $time)
 		{
-			Profiler::query($sql, $bindings, $time);			
+			Profiler::query($sql, $bindings, $time);
 		});
 
 		// We'll attach the profiler to the "done" event so that we can easily

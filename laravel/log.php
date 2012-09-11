@@ -69,6 +69,9 @@ class Log {
 	 */
 	protected static function format($type, $message)
 	{
+		if (is_array($message) || is_object($message))
+			$message = var_export($message, true);
+
 		return date('Y-m-d H:i:s').' '.Str::upper($type)." - {$message}".PHP_EOL;
 	}
 
