@@ -166,7 +166,7 @@ class Postgres extends Grammar {
 
 		$columns = $this->columnize($command->columns);
 
-		return "CREATE INDEX {$name} ON ".$this->wrap($table)." USING gin({$columns})";
+		return "CREATE INDEX {$name} ON ".$this->wrap($table)." USING gin(to_tsvector('english', {$columns}))";
 	}
 
 	/**
