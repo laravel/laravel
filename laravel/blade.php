@@ -266,7 +266,7 @@ class Blade {
 					{
 						$value = str_replace(
 							'@'.$matches[1].$matches[2].$condition,
-							'<?php if( ! '.$condition.' ): ?>',
+							'<?php if ( ! '.$condition.' ): ?>',
 							$value
 						);
 					}
@@ -285,7 +285,7 @@ class Blade {
 					{
 						$value = str_replace(
 							'@'.$matches[1].$matches[2].$condition,
-							'<?php '.$matches[1].$condition.': ?>',
+							'<?php '.$matches[1].' '.$condition.': ?>',
 							$value
 						);
 					}
