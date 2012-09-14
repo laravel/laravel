@@ -77,6 +77,7 @@ return array(
 	| The default character encoding used by your application. This encoding
 	| will be used by the Str, Text, Form, and any other classes that need
 	| to know what type of encoding to use for your awesome application.
+	| For a list of valid timezone values: http://www.php.net/manual/en/timezones.php
 	|
 	*/
 
