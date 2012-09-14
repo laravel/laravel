@@ -367,7 +367,7 @@ class HTML {
 			$html .= '<dd>'.static::entities($description).'</dd>';
 		}
 		
-		return '<dl'.static::attributes($attributes).'>'.$html.'</'.$type.'>';
+		return '<dl'.static::attributes($attributes).'>'.$html.'</dl>';
 	}
 
 	/**
