@@ -79,7 +79,8 @@ class Response {
 	}
 
 	/**
-	 * Create a new JSON response.
+	 * Create a new JSON response.  If a callback is specified in the url
+	 * then a JSONP format response is sent.
 	 *
 	 * <code>
 	 *		// Create a response instance with JSON
@@ -93,9 +94,19 @@ class Response {
 	 */
 	public static function json($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json; charset=utf-8';
+		// Check if callback function is specified
+		$callback = Input::get('callback');
 
-		return new static(json_encode($data), $status, $headers);
+		if ($callback)
+		{
+			$headers['Content-Type'] = 'application/javascript';
+			return new static($callback . '(' . json_encode($data) . ')', $status, $headers);
+		}
+		else
+		{
+			$headers['Content-Type'] = 'application/json';
+			return new static(json_encode($data), $status, $headers);
+		}
 	}
 
 	/**
