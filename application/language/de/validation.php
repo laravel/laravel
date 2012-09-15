@@ -22,8 +22,8 @@ return array(
 	"active_url"     => ":attribute ist keine g&uuml;ltige URL.",
 	"after"          => ":attribute muss ein Datum nach dem :date sein.",
 	"alpha"          => ":attribute darf nur Buchstaben beinhalten.",
-	"alpha_dash"     => ":attribute sollte nur aus Buchstaben, Nummern und Bindestrichen bestehen.",
-	"alpha_num"      => ":attribute sollte nur aus Buchstaben und Nummern bestehen.",
+	"alpha_dash"     => ":attribute darf nur aus Buchstaben, Nummern und Bindestrichen bestehen.",
+	"alpha_num"      => ":attribute darf nur aus Buchstaben und Nummern bestehen.",
 	"array"          => ":attribute muss ausgew&auml;hlte Elemente haben.",
 	"before"         => ":attribute muss ein Datum vor dem :date sein.",
 	"between"        => array(
@@ -57,7 +57,7 @@ return array(
 	),
 	"not_in"         => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
 	"numeric"        => ":attribute muss eine Zahl sein.",
-	"required"       => ":attribute muss aufgef&uuml;llt sein.",
+	"required"       => ":attribute muss ausgef&uuml;llt sein.",
 	"same"           => ":attribute und :other m&uuml;ssen &uuml;bereinstimmen.",
 	"size"           => array(
 		"numeric" => ":attribute muss gleich :size sein.",
