@@ -57,7 +57,7 @@ return array(
 	),
 	"not_in"         => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
 	"numeric"        => ":attribute muss eine Zahl sein.",
-	"required"       => ":attribute muss aufgef&uuml;llt sein.",
+	"required"       => ":attribute muss ausgef&uuml;llt sein.",
 	"same"           => ":attribute und :other m&uuml;ssen &uuml;bereinstimmen.",
 	"size"           => array(
 		"numeric" => ":attribute muss gleich :size sein.",
