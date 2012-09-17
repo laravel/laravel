@@ -189,7 +189,7 @@ class URL {
 
 		if ( ! is_null($route))
 		{
-			return static::explicit($route, $action, $parameters);
+			return static::explicit($route, $parameters);
 		}
 		// If no route was found that handled the given action, we'll just
 		// generate the URL using the typical controller routing setup
@@ -204,11 +204,10 @@ class URL {
 	 * Generate an action URL from a route definition
 	 *
 	 * @param  array   $route
-	 * @param  string  $action
 	 * @param  array   $parameters
 	 * @return string
 	 */
-	protected static function explicit($route, $action, $parameters)
+	protected static function explicit($route, $parameters)
 	{
 		$https = array_get(current($route), 'https', null);
 
