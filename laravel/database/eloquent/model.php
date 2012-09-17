@@ -728,7 +728,7 @@ abstract class Model {
 			if (array_key_exists($key, $this->$source)) return !empty($this->{$source}[$key]);
 		}
 		
-		if (method_exists($this, $key)) return true;
+		return false;
 	}
 
 	/**
