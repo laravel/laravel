@@ -741,7 +741,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			unset($this->$source[$key]);
+			unset($this->{$source}[$key]);
 		}
 	}
 
