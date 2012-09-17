@@ -77,6 +77,21 @@ class URL {
 	}
 
 	/**
+	 * Get the canonical URL of the current page.
+	 * 
+	 * @return string
+	 */
+	public static function canonical()
+	{
+		$route = Request::route();
+
+		// TODO: Determine this based on how the route was registered
+		$https = null;
+
+		return static::to(static::transpose($route->uri, $route->parameters), $https);
+	}
+
+	/**
 	 * Generate an application URL.
 	 *
 	 * <code>
