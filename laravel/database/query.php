@@ -509,7 +509,7 @@ class Query {
 	 * @param  string  $direction
 	 * @return Query
 	 */
-	public function order_by($column, $direction = 'asc')
+	public function order_by($column = 'order_by', $direction = 'asc')
 	{
 		$this->orderings[] = compact('column', 'direction');
 		return $this;
