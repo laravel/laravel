@@ -227,6 +227,29 @@ class Str {
 
 		return static::$pluralizer ?: static::$pluralizer = new Pluralizer($config);
 	}
+        
+        /**
+	 * Get the possessive form of the given word.
+	 *
+	 * <code>
+	 *		// Returns the possessive form of "John"
+	 *		$plural = Str::possessive('John', 10);
+	 * </code>
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function possessive($value)
+	{
+                // append an apostrophe to indicate possession
+                $value .= '\'';
+                
+                // append an s for all strings that do not end with the letter s
+                if($value[strlen($value)-2] != 's')
+                    $value .= 's';
+                
+                return $value;
+	}
 
 	/**
 	 * Generate a URL friendly "slug" from a given string.
