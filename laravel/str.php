@@ -3,13 +3,32 @@
 class Str {
 
 	/**
+	 * The registered custom macros.
+	 *
+	 * @var array
+	 */
+	public static $macros = array();
+        
+ 	/**
 	 * The pluralizer instance.
 	 *
 	 * @var Pluralizer
 	 */
 	public static $pluralizer;
-
+        
 	/**
+	 * Registers a custom macro.
+	 *
+	 * @param  string   $name
+	 * @param  Closure  $macro
+	 * @return void
+	 */
+	public static function macro($name, $macro)
+	{
+		static::$macros[$name] = $macro;
+	}
+        
+        /**
 	 * Get the default string encoding for the application.
 	 *
 	 * This method is simply a short-cut to Config::get('application.encoding').
@@ -370,6 +389,23 @@ class Str {
 			default:
 				throw new \Exception("Invalid random string type [$type].");
 		}
+	}
+        
+        /**
+	 * Dynamically handle calls to custom macros.
+	 *
+	 * @param  string  $method
+	 * @param  array   $parameters
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+	    if (isset(static::$macros[$method]))
+	    {
+	        return call_user_func_array(static::$macros[$method], $parameters);
+	    }
+
+	    throw new \Exception("Method [$method] does not exist.");
 	}
 
 }
