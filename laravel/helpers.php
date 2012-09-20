@@ -41,6 +41,30 @@ function dd($value)
 }
 
 /**
+ * Dump and Continue - Dump the given values and continue script execution.
+ *
+ * <code>
+ *		// Dump a single value
+ *		dc($value);
+ *
+ *		// Dump multiple values
+ *		dc($value1, $value2, $value3);
+ * </code>
+ *
+ * @return void
+ */
+function dc()
+{
+	echo "<pre>";
+	$values = func_get_args();
+	foreach ( $values as $value )
+	{
+		var_dump($value);
+	}
+	echo "</pre>";
+}
+
+/**
  * Get an item from an array using "dot" notation.
  *
  * <code>
@@ -584,7 +608,7 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
-	
+
 /**
  * Calculate the human-readable file size (with proper units).
  *
