@@ -27,15 +27,27 @@ function __($key, $replacements = array(), $language = null)
 }
 
 /**
- * Dump the given value and kill the script.
+ * Dump and Die - Dump the given values and kill the script.
+ *
+ * <code>
+ *		// Dump a single value
+ *		dd($value);
+ *
+ *		// Dump multiple values
+ *		dd($value1, $value2, $value3);
+ * </code>
  *
  * @param  mixed  $value
  * @return void
  */
-function dd($value)
+function dd()
 {
 	echo "<pre>";
-	var_dump($value);
+	$values = func_get_args();
+	foreach ( $values as $value )
+	{
+		var_dump($value);
+	}
 	echo "</pre>";
 	die;
 }
@@ -584,7 +596,7 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
-	
+
 /**
  * Calculate the human-readable file size (with proper units).
  *
