@@ -30,14 +30,16 @@ function __($key, $replacements = array(), $language = null)
  * Dump the given value and kill the script.
  *
  * @param  mixed  $value
+ * @param  bool   $die
  * @return void
  */
-function dd($value)
+function dd($value, $die = true)
 {
 	echo "<pre>";
 	var_dump($value);
 	echo "</pre>";
-	die;
+	if ( $die )
+		die;
 }
 
 /**
@@ -584,7 +586,7 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
-	
+
 /**
  * Calculate the human-readable file size (with proper units).
  *
