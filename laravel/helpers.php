@@ -27,7 +27,27 @@ function __($key, $replacements = array(), $language = null)
 }
 
 /**
- * Dump and Die - Dump the given values and kill the script.
+ * Dump and Continue - Dump the given values and continue script execution.
+ *
+ * <code>
+ *		// Dump a single value
+ *		dc($value);
+ *
+ *		// Dump multiple values
+ *		dc($value1, $value2, $value3);
+ * </code>
+ *
+ * @return void
+ */
+function dc()
+{
+    echo '<pre>';
+    call_user_func_array('var_dump', func_get_args()); // equivilent to call_user_func_array('var_dump', array(1, 2, 3)); which is the same as var_dump(1, 2, 3);
+    echo '</pre>';
+}
+
+/**
+ * Dump the given value and kill the script.
  *
  * <code>
  *		// Dump a single value
@@ -37,19 +57,12 @@ function __($key, $replacements = array(), $language = null)
  *		dd($value1, $value2, $value3);
  * </code>
  *
- * @param  mixed  $value
  * @return void
  */
 function dd()
 {
-	echo "<pre>";
-	$values = func_get_args();
-	foreach ( $values as $value )
-	{
-		var_dump($value);
-	}
-	echo "</pre>";
-	die;
+    call_user_func_array('dc', func_get_args());
+    die();
 }
 
 /**
