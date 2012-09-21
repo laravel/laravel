@@ -12,7 +12,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-Almost every interactive web application needs to validate data. For instance, a registration form probably requires the password to be confirmed. Maybe the e-mail address must be unique. Validating data can be a cumbersome process. Thankfully, it isn't in Laravel. The Validator class provides as awesome array of validation helpers to make validating your data a breeze. Let's walk through an example:
+Almost every interactive web application needs to validate data. For instance, a registration form probably requires the password to be confirmed. Maybe the e-mail address must be unique. Validating data can be a cumbersome process. Thankfully, it isn't in Laravel. The Validator class provides an awesome array of validation helpers to make validating your data a breeze. Let's walk through an example:
 
 #### Get an array of data you want to validate:
 
@@ -62,6 +62,9 @@ Now you are familiar with the basic usage of the Validator class. You're ready t
 #### Validate that an attribute is present and is not an empty string:
 
 	'name' => 'required'
+
+#### Validate that an attribute is present, when another attribute is present:
+	'last_name' => 'required_with:first_name'
 
 <a name="rule-alpha"></a>
 ### Alpha, Alpha Numeric, & Alpha Dash
@@ -304,7 +307,26 @@ Once you have performed your validation, you need an easy way to get the errors 
 
 Great! So, we have two simple registration routes. One to handle displaying the form, and one to handle the posting of the form. In the POST route, we run some validation over the input. If the validation fails, we redirect back to the registration form and flash the validation errors to the session so they will be available for us to display.
 
-**But, notice we are not explicitly binding the errors to the view in our GET route**. However, an errors variable will still be available in the view. Laravel intelligently determines if errors exist in the session, and if they do, binds them to the view for you. If no errors exist in the session, an empty message container will still be bound to the view. In your views, this allows you to always assume you have a message container available via the errors variable. We love making your life easier.
+**But, notice we are not explicitly binding the errors to the view in our GET route**. However, an errors variable ($errors) will still be available in the view. Laravel intelligently determines if errors exist in the session, and if they do, binds them to the view for you. If no errors exist in the session, an empty message container will still be bound to the view. In your views, this allows you to always assume you have a message container available via the errors variable. We love making your life easier.
+
+For example, if email address validation failed, we can look for 'email' within the $errors session var.
+
+	$errors->has('email')
+
+Using Blade, we can then conditionally add error messages to our view.
+
+	{{ $errors->has('email') ? 'Invalid Email Address' : 'Condition is false. Can be left blank' }}
+
+This will also work great when we need to conditionally add classes when using something like Twitter Bootstrap.
+For example, if the email address failed validation, we may want to add the "error" class from Bootstrap to our *div class="control-group"* statement.
+
+	<div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
+	
+When the validation fails, our rendered view will have the appended *error* class.
+
+	<div class="control-group error">
+	
+
 
 <a name="custom-error-messages"></a>
 ## Custom Error Messages
@@ -344,7 +366,7 @@ In the example above, the custom required message will be used for the email att
 
 However, if you are using many custom error messages, specifying inline may become cumbersome and messy. For that reason, you can specify your custom messages in the **custom** array within the validation language file:
 
-#### Adding custom error messages to the validation langauge file:
+#### Adding custom error messages to the validation language file:
 
 	'custom' => array(
 		'email_required' => 'We need to know your e-mail address!',
@@ -395,7 +417,7 @@ As mentioned above, you may even specify and receive a list of parameters in you
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{
 	    return $value == $parameters[0];
-	}
+	});
 
 In this case, the parameters argument of your validation rule would receive an array containing one element: "yes".
 

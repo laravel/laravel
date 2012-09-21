@@ -28,7 +28,7 @@ class Log {
 	 * Write a message to the log file.
 	 *
 	 * <code>
-	 *		// Write an "error" messge to the log file
+	 *		// Write an "error" message to the log file
 	 *		Log::write('error', 'Something went horribly wrong!');
 	 *
 	 *		// Write an "error" message using the class' magic method
@@ -51,7 +51,7 @@ class Log {
 
 		// If there aren't listeners on the log event, we'll just write to the
 		// log files using the default conventions, writing one log file per
-		// day so they files don't get too crowded.
+		// day so the files don't get too crowded.
 		else
 		{
 			$message = static::format($type, $message);
@@ -64,7 +64,8 @@ class Log {
 	 * Format a log message for logging.
 	 *
 	 * @param  string  $type
-	 * @param  
+	 * @param  string  $message
+	 * @return string
 	 */
 	protected static function format($type, $message)
 	{

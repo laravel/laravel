@@ -55,7 +55,7 @@ class Router {
 	public static $group;
 
 	/**
-	 * The "handes" clause for the bundle currently being routed.
+	 * The "handles" clause for the bundle currently being routed.
 	 *
 	 * @var string
 	 */
@@ -75,7 +75,7 @@ class Router {
 	 */
 	public static $patterns = array(
 		'(:num)' => '([0-9]+)',
-		'(:any)' => '([a-zA-Z0-9\.\-_%]+)',
+		'(:any)' => '([a-zA-Z0-9\.\-_%=]+)',
 		'(:all)' => '(.*)',
 	);
 
@@ -86,7 +86,7 @@ class Router {
 	 */
 	public static $optional = array(
 		'/(:num?)' => '(?:/([0-9]+)',
-		'/(:any?)' => '(?:/([a-zA-Z0-9\.\-_%]+)',
+		'/(:any?)' => '(?:/([a-zA-Z0-9\.\-_%=]+)',
 		'/(:all?)' => '(?:/(.*)',
 	);
 
@@ -206,7 +206,12 @@ class Router {
 				continue;
 			}
 
-			$uri = str_replace('(:bundle)', static::$bundle, $uri);
+			$uri = ltrim(str_replace('(:bundle)', static::$bundle, $uri), '/');
+			
+			if($uri == '')
+			{
+				$uri = '/';
+			}
 
 			// If the URI begins with a wildcard, we want to add this route to the
 			// array of "fallback" routes. Fallback routes are always processed
@@ -292,7 +297,7 @@ class Router {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controller
+	 * @param  string|array  $controllers
 	 * @param  string|array  $defaults
 	 * @param  bool          $https
 	 * @return void
@@ -303,7 +308,7 @@ class Router {
 		{
 			list($bundle, $controller) = Bundle::parse($identifier);
 
-			// First we need to replace the dots with slashes in thte controller name
+			// First we need to replace the dots with slashes in the controller name
 			// so that it is in directory format. The dots allow the developer to use
 			// a cleaner syntax when specifying the controller. We will also grab the
 			// root URI for the controller's bundle.
@@ -311,7 +316,7 @@ class Router {
 
 			$root = Bundle::option($bundle, 'handles');
 
-			// If the controller is a "home" controller, we'll need to also build a
+			// If the controller is a "home" controller, we'll need to also build an
 			// index method route for the controller. We'll remove "home" from the
 			// route root and setup a route to point to the index method.
 			if (ends_with($controller, 'home'))
@@ -428,7 +433,7 @@ class Router {
 
 		// To find the route, we'll simply spin through the routes looking
 		// for a route with a "uses" key matching the action, and if we
-		// find one we cache and return it.
+		// find one, we cache and return it.
 		foreach (static::routes() as $method => $routes)
 		{
 			foreach ($routes as $key => $value)
@@ -484,7 +489,7 @@ class Router {
 	{
 		foreach (static::method($method) as $route => $action)
 		{
-			// We only need to check routes with regular expression since all other
+			// We only need to check routes with regular expression since all others
 			// would have been able to be matched by the search for literal matches
 			// we just did before we started searching.
 			if (str_contains($route, '('))

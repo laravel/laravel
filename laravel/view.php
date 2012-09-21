@@ -168,7 +168,7 @@ class View implements ArrayAccess {
 	{
 		$directory = str_finish($directory, DS);
 
-		// Views may have either the default PHP file extension of the "Blade"
+		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
 		if (file_exists($path = $directory.$view.EXT))
@@ -255,7 +255,7 @@ class View implements ArrayAccess {
 	 *		});
 	 * </code>
 	 *
-	 * @param  string|array  $view
+	 * @param  string|array  $views
 	 * @param  Closure       $composer
 	 * @return void
 	 */
@@ -296,7 +296,7 @@ class View implements ArrayAccess {
 		}
 
 		// If there is no data in the array, we will render the contents of
-		// the "empty" view. Alternative, the "empty view" can be a raw
+		// the "empty" view. Alternatively, the "empty view" can be a raw
 		// string that is prefixed with "raw|" for convenience.
 		else
 		{
@@ -549,6 +549,22 @@ class View implements ArrayAccess {
 	public function __toString()
 	{
 		return $this->render();
+	}
+
+	/**
+	 * Magic Method for handling dynamic functions.
+	 *
+	 * This method handles calls to dynamic with helpers.
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos($method, 'with_') === 0)
+		{
+			$key = substr($method, 5);
+			return $this->with($key, $parameters[0]);
+		}
+
+		throw new \Exception("Method [$method] is not defined on the View class.");
 	}
 
 }

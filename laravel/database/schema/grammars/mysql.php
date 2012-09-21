@@ -37,7 +37,7 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Geenrate the SQL statements for a table modification command.
+	 * Generate the SQL statements for a table modification command.
 	 *
 	 * @param  Table   $table
 	 * @param  Fluent  $command
@@ -47,7 +47,7 @@ class MySQL extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the
+		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
@@ -99,7 +99,7 @@ class MySQL extends Grammar {
 	 */
 	protected function unsigned(Table $table, Fluent $column)
 	{
-		if ($column->type == 'integer' && $column->unsigned)
+		if ($column->type == 'integer' && ($column->unsigned || $column->increment))
 		{
 			return ' UNSIGNED';
 		}
@@ -128,7 +128,7 @@ class MySQL extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+			return " DEFAULT '".$this->default_value($column->default)."'";
 		}
 	}
 
@@ -143,7 +143,7 @@ class MySQL extends Grammar {
 	{
 		if ($column->type == 'integer' and $column->increment)
 		{
-			return ' UNSIGNED AUTO_INCREMENT PRIMARY KEY';
+			return ' AUTO_INCREMENT PRIMARY KEY';
 		}
 	}
 
@@ -213,15 +213,15 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop table command.
+	 * Generate the SQL statement for a rename table command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop(Table $table, Fluent $command)
+	public function rename(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'RENAME TABLE '.$this->wrap($table).' TO '.$this->wrap($command->name);
 	}
 
 	/**
@@ -260,7 +260,7 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -284,7 +284,7 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -311,7 +311,7 @@ class MySQL extends Grammar {
 	 * Drop a foreign key constraint from the table.
 	 *
 	 * @param  Table   $table
-	 * @param  Fluent  $fluent
+	 * @param  Fluent  $command
 	 * @return string
 	 */
 	public function drop_foreign(Table $table, Fluent $command)
@@ -353,7 +353,7 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the data-type definintion for a decimal.
+	 * Generate the data-type definition for a decimal.
 	 *
 	 * @param  Fluent  $column
 	 * @return string
@@ -371,7 +371,7 @@ class MySQL extends Grammar {
 	 */
 	protected function type_boolean(Fluent $column)
 	{
-		return 'TINYINT';
+		return 'TINYINT(1)';
 	}
 
 	/**

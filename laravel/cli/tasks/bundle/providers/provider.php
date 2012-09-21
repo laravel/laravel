@@ -27,7 +27,7 @@ abstract class Provider {
 
 		// When installing a bundle from a Zip archive, we'll first clone
 		// down the bundle zip into the bundles "working" directory so
-		// we have a spot to do all of our bundle extration work.
+		// we have a spot to do all of our bundle extraction work.
 		$target = $work.'laravel-bundle.zip';
 
 		File::put($target, $this->download($url));
@@ -49,7 +49,7 @@ abstract class Provider {
 
 		// Once we have the latest modified directory, we should be
 		// able to move its contents over into the bundles folder
-		// so the bundle will be usable by the develoepr.
+		// so the bundle will be usable by the developer.
 		File::mvdir($latest, $path);
 
 		File::rmdir($work.'zip');
@@ -73,7 +73,7 @@ abstract class Provider {
 		// zip that was put in the storage directory.
 		if ($remote === false)
 		{
-			throw new \Exception("Error downloading bundle [{$bundle}].");
+			throw new \Exception("Error downloading the requested bundle.");
 		}
 
 		return $remote;

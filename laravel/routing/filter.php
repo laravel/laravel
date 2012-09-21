@@ -14,7 +14,7 @@ class Filter {
 	public static $filters = array();
 
 	/**
-	 * The route filters that are based on pattern.
+	 * The route filters that are based on a pattern.
 	 *
 	 * @var array
 	 */

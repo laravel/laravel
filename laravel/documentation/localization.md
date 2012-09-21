@@ -33,7 +33,7 @@ Next, you should create a corresponding **marketing.php** file within the **appl
 
 Nice! Now you know how to get started setting up your language files and directories. Let's keep localizing!
 
-<a name="basics"></a>
+<a name="get"></a>
 ## Retrieving A Language Line
 
 #### Retrieving a language line:
@@ -55,7 +55,7 @@ Need to retrieve the line in a language other than your default? Not a problem. 
 <a name="replace"></a>
 ## Place Holders & Replacements
 
-Now, let's work on our welcome message. "Welcome to our website!" is a pretty generic message. It would be helpful to be able to specify the name of the person we are welcoming. But, creating a language line for each user of our application would be time-consuming and ridiculous. Thankfully, you don't have to. You can specify "place-holders" within your language lines. Place-holders are preceeded by a colon:
+Now, let's work on our welcome message. "Welcome to our website!" is a pretty generic message. It would be helpful to be able to specify the name of the person we are welcoming. But, creating a language line for each user of our application would be time-consuming and ridiculous. Thankfully, you don't have to. You can specify "place-holders" within your language lines. Place-holders are preceded by a colon:
 
 #### Creating a language line with place-holders:
 

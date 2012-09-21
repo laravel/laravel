@@ -119,6 +119,7 @@ class Request {
 	/**
 	 * Determine if the request accepts a given content type.
 	 *
+	 * @param  string  $type
 	 * @return bool
 	 */
 	public static function accepts($type)
@@ -176,6 +177,16 @@ class Request {
 	public static function referrer()
 	{
 		return static::foundation()->headers->get('referer');
+	}
+	
+	/**
+	 * Get the timestamp of the time when the request was started.
+	 *
+	 * @return int
+	 */
+	public static function time()
+	{
+		return (int) LARAVEL_START;
 	}
 
 	/**

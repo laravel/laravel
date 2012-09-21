@@ -1,7 +1,7 @@
 <?php namespace Laravel;
 
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Response as FoundationResponse;
+use Symfony\Component\HttpFoundation\LaravelResponse as FoundationResponse;
 
 class Response {
 
@@ -93,7 +93,7 @@ class Response {
 	 */
 	public static function json($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json';
+		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
 		return new static(json_encode($data), $status, $headers);
 	}
@@ -106,14 +106,14 @@ class Response {
 	 *		return Response::eloquent($data, 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  Eloquenet|array  $data
+	 * @param  Eloquent|array   $data
 	 * @param  int              $status
 	 * @param  array            $headers
 	 * @return Response
 	 */
 	public static function eloquent($data, $status = 200, $headers = array())
 	{
-		$headers['Content-Type'] = 'application/json';
+		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
 		return new static(eloquent_to_json($data), $status, $headers);
 	}
@@ -239,7 +239,7 @@ class Response {
 	public function render()
 	{
 		// If the content is a stringable object, we'll go ahead and call
-		// to toString method so that we can get the string content of
+		// the toString method so that we can get the string content of
 		// the content object. Otherwise we'll just cast to string.
 		if (str_object($this->content))
 		{

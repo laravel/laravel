@@ -218,9 +218,11 @@ abstract class Model {
 	{
 		$model = new static(array(), true);
 
-		if (static::$timestamps) $attributes['updated_at'] = new \DateTime;
+		$model->fill($attributes);
 
-		return $model->query()->where($model->key(), '=', $id)->update($attributes);
+		if (static::$timestamps) $model->timestamp();
+
+		return $model->query()->where($model->key(), '=', $id)->update($model->attributes);
 	}
 
 	/**
@@ -253,27 +255,7 @@ abstract class Model {
 	 */
 	public function _with($includes)
 	{
-		$includes = (array) $includes;
-
-		$all_includes = array();
-
-		foreach($includes as $include)
-		{
-			$nested = explode('.', $include);
-
-			$inc = array();
-
-			foreach($nested as $relation)
-			{
-				$inc[] = $relation;
-
-				$all_includes[] = implode('.', $inc);
-			}
-
-		}
-
-		//remove duplicates and reset the array keys.
-		$this->includes = array_values(array_unique($all_includes));
+		$this->includes = (array) $includes;
 
 		return $this;
 	}
@@ -463,11 +445,21 @@ abstract class Model {
 	 *
 	 * @return void
 	 */
-	protected function timestamp()
+	public function timestamp()
 	{
 		$this->updated_at = new \DateTime;
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
+	}
+
+	/**
+	 *Updates the timestamp on the model and immediately saves it.
+	 *
+	 * @return void
+	 */
+	public function touch(){
+		$this->timestamp();
+		$this->save();
 	}
 
 	/**
@@ -500,7 +492,7 @@ abstract class Model {
 	 */
 	public function changed($attribute)
 	{
-		return array_get($this->attributes, $attribute) !== array_get($this->original, $attribute);
+		return array_get($this->attributes, $attribute) != array_get($this->original, $attribute);
 	}
 
 	/**
@@ -635,6 +627,8 @@ abstract class Model {
 			// to_array method, keying them both by name and ID.
 			elseif (is_array($models))
 			{
+				$attributes[$name] = array();
+
 				foreach ($models as $id => $model)
 				{
 					$attributes[$name][$id] = $model->to_array();

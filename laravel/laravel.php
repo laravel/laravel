@@ -54,7 +54,7 @@ register_shutdown_function(function()
 |--------------------------------------------------------------------------
 |
 | By setting error reporting to -1, we essentially force PHP to report
-| every error, and this is guranteed to show every error on future
+| every error, and this is guaranteed to show every error on future
 | releases of PHP. This allows everything to be fixed early!
 |
 */
@@ -109,6 +109,48 @@ Routing\Router::register('*', '(:all)', function()
 
 /*
 |--------------------------------------------------------------------------
+| Gather The URI And Locales
+|--------------------------------------------------------------------------
+|
+| When routing, we'll need to grab the URI and the supported locales for
+| the route so we can properly set the language and route the request
+| to the proper end-point in the application.
+|
+*/
+
+$uri = URI::current();
+
+$languages = Config::get('application.languages', array());
+
+$languages[] = Config::get('application.language');
+
+/*
+|--------------------------------------------------------------------------
+| Set The Locale Based On The Route
+|--------------------------------------------------------------------------
+|
+| If the URI starts with one of the supported languages, we will set
+| the default lagnauge to match that URI segment and shorten the
+| URI we'll pass to the router to not include the lang segment.
+|
+*/
+
+foreach ($languages as $language)
+{
+	if (starts_with($uri, $language))
+	{
+		Config::set('application.language', $language);
+
+		$uri = trim(substr($uri, strlen($language)), '/'); break;
+	}
+}
+
+if ($uri == '') $uri = '/';
+
+URI::$uri = $uri;
+
+/*
+|--------------------------------------------------------------------------
 | Route The Incoming Request
 |--------------------------------------------------------------------------
 |
@@ -117,8 +159,6 @@ Routing\Router::register('*', '(:all)', function()
 | of the Response object that we can send back to the browser
 |
 */
-
-$uri = URI::current();
 
 Request::$route = Routing\Router::route(Request::method(), $uri);
 
@@ -143,7 +183,7 @@ $response->render();
 |--------------------------------------------------------------------------
 |
 | If a session driver has been configured, we will save the session to
-| storage so it is avaiable for the next request. This will also set
+| storage so it is available for the next request. This will also set
 | the session cookie in the cookie jar to be sent to the user.
 |
 */
@@ -172,10 +212,24 @@ $response->send();
 | And We're Done!
 |--------------------------------------------------------------------------
 |
-| Raise the "done" event so extra output can be attached to the response
+| Raise the "done" event so extra output can be attached to the response.
 | This allows the adding of debug toolbars, etc. to the view, or may be
 | used to do some kind of logging by the application.
 |
 */
 
 Event::fire('laravel.done', array($response));
+
+/*
+|--------------------------------------------------------------------------
+| Finish the request for PHP-FastCGI
+|--------------------------------------------------------------------------
+|
+| Stopping the PHP process for PHP-FastCGI users to speed up some
+| PHP queries. Acceleration is possible when there are actions in the
+| process of script execution that do not affect server response.
+| For example, saving the session in memcached can occur after the page
+| has been formed and passed to a web server.
+*/
+
+$response->foundation->finish();

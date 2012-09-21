@@ -7,37 +7,50 @@ class Eloquent extends Driver {
 	 *
 	 * If the user is a guest, null should be returned.
 	 *
-	 * @param  int         $id
+	 * @param  int|object  $token
 	 * @return mixed|null
 	 */
-	public function retrieve($id)
+	public function retrieve($token)
 	{
-		if (filter_var($id, FILTER_VALIDATE_INT) !== false)
+		// We return an object here either if the passed token is an integer (ID)
+		// or if we are passed a model object of the correct type
+		if (filter_var($token, FILTER_VALIDATE_INT) !== false)
 		{
-			return $this->model()->find($id);
+			return $this->model()->find($token);
+		}
+		else if (get_class($token) == Config::get('auth.model'))
+		{
+			return $token;
 		}
 	}
 
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array  $arguments
+	 * @param  array $arguments
 	 * @return void
 	 */
 	public function attempt($arguments = array())
 	{
-		$username = Config::get('auth.username');
+		$user = $this->model()->where(function($query) use($arguments)
+		{
+			$username = Config::get('auth.username');
+			
+			$query->where($username, '=', $arguments['username']);
 
-		$user = $this->model()->where($username, '=', $arguments['username'])->first();
+			foreach(array_except($arguments, array('username', 'password', 'remember')) as $column => $val)
+			{
+			    $query->where($column, '=', $val);
+			}
+		})->first();
 
-		// This driver uses a basic username and password authentication scheme
-		// so if the credentials match what is in the database we will just
+		// If the credentials match what is in the database we will just
 		// log the user into the application and remember them if asked.
 		$password = $arguments['password'];
 
 		$password_field = Config::get('auth.password', 'password');
 
-		if ( ! is_null($user) and Hash::check($password, $user->get_attribute($password_field)))
+		if ( ! is_null($user) and Hash::check($password, $user->{$password_field}))
 		{
 			return $this->login($user->id, array_get($arguments, 'remember'));
 		}

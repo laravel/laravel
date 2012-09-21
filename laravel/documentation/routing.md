@@ -4,7 +4,7 @@
 
 - [The Basics](#the-basics)
 - [Wildcards](#wildcards)
-- [The 404 Events](#the-404-event)
+- [The 404 Event](#the-404-event)
 - [Filters](#filters)
 - [Pattern Filters](#pattern-filters)
 - [Global Filters](#global-filters)
@@ -78,6 +78,13 @@ In the following example the first parameter is the route that you're "registeri
 		//
 	});
 
+#### Catching the remaining URI without limitations:
+
+	Route::get('files/(:all)', function($path)
+	{
+		//
+	});
+
 #### Allowing a URI segment to be optional:
 
 	Route::get('page/(:any?)', function($page = 'index')
@@ -99,14 +106,14 @@ If a request enters your application but does not match any existing route, the 
 
 You are free to change this to fit the needs of your application!
 
-*Futher Reading:*
+*Further Reading:*
 
 - *[Events](/docs/events)*
 
 <a name="filters"></a>
 ## Filters
 
-Route filters may be run before or after a route is executed. If a "before" filter returns a value, that value is considered the response to the request and the route is not executed, which is conveniont when implementing authentication filters, etc. Filters are typically defined in **application/routes.php**.
+Route filters may be run before or after a route is executed. If a "before" filter returns a value, that value is considered the response to the request and the route is not executed, which is convenient when implementing authentication filters, etc. Filters are typically defined in **application/routes.php**.
 
 #### Registering a filter:
 
@@ -151,6 +158,15 @@ Sometimes you may want to attach a filter to all requests that begin with a give
 #### Defining a URI pattern based filter:
 
 	Route::filter('pattern: admin/*', 'auth');
+
+Optionally you can register filters directly when attaching filters to a given URI by supplying an array with the name of the filter and a callback.
+
+#### Defining a filter and URI pattern based filter in one:
+
+    Route::filter('pattern: admin/*', array('name' => 'auth', function()
+    {
+        // 
+    }));
 
 <a name="global-filters"></a>
 ## Global Filters

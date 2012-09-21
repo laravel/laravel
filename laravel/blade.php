@@ -68,7 +68,7 @@ class Blade {
 			// Once the view has been compiled, we can simply set the path to the
 			// compiled view on the view instance and call the typical "get"
 			// method on the view to evaluate the compiled PHP view.
-			return $view->get();
+			return ltrim($view->get());
 		});
 	}
 
@@ -95,7 +95,6 @@ class Blade {
 	 *
 	 * @param  string  $view
 	 * @param  string  $path
-	 * @param  string  $compiled
 	 * @return bool
 	 */
 	public static function expired($view, $path)
@@ -278,7 +277,7 @@ class Blade {
 	 */
 	protected static function compile_structure_closings($value)
 	{
-		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile|break)(\s*)/';
+		$pattern = '/(\s*)@(endif|endforeach|endfor|endwhile)(\s*)/';
 
 		return preg_replace($pattern, '$1<?php $2; ?>$3', $value);
 	}

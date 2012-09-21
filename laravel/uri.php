@@ -68,7 +68,7 @@ class URI {
 	}
 
 	/**
-	 * Get a specific segment of the request URI via an one-based index.
+	 * Get a specific segment of the request URI via a one-based index.
 	 *
 	 * <code>
 	 *		// Get the first segment of the request URI
