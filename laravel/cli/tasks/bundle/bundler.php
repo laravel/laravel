@@ -62,6 +62,43 @@ class Bundler extends Task {
 	}
 
 	/**
+	 * Uninstall the given bundles from the application.
+	 *
+	 * @param  array  $bundles
+	 * @return void
+	 */
+	public function uninstall($bundles)
+	{
+		if (count($bundles) == 0)
+		{
+			throw new \Exception("Tell me what bundle to uninstall.");
+		}
+
+		foreach ($bundles as $name)
+		{
+			if ( ! Bundle::exists($name))
+			{
+				echo "Bundle [{$name}] is not installed.";
+				continue;
+			}
+
+			echo "Uninstalling [{$name}]...".PHP_EOL;
+			$migrator = IoC::resolve('task: migrate');
+			$migrator->reset($name);
+
+			$publisher = IoC::resolve('bundle.publisher');
+			$publisher->unpublish($name);
+
+			$location = Bundle::path($name);
+			File::rmdir($location);
+
+			echo "Bundle [{$name}] has been uninstalled!".PHP_EOL;
+		}
+
+		echo "Now, you have to remove those bundle from your application/bundles.php".PHP_EOL;
+	}
+
+	/**
 	 * Upgrade the given bundles for the application.
 	 *
 	 * @param  array  $bundles
@@ -157,6 +194,19 @@ class Bundler extends Task {
 		if (count($bundles) == 0) $bundles = Bundle::names();
 
 		array_walk($bundles, array(IoC::resolve('bundle.publisher'), 'publish'));
+	}
+
+	/**
+	 * Delete bundle assets from the public directory.
+	 *
+	 * @param  array  $bundles
+	 * @return void
+	 */
+	public function unpublish($bundles)
+	{
+		if (count($bundles) == 0) $bundles = Bundle::names();
+
+		array_walk($bundles, array(IoC::resolve('bundle.publisher'), 'unpublish'));
 	}
 
 	/**
