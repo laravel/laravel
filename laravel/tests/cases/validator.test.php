@@ -495,7 +495,10 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(Validator::make($input, $rules)->valid());
 
 		$input['date'] = '2009-02-15 15:16:17';
-		$rules = array('date' => 'date_format:Y-m-d H\\:i\\:s');
+		$rules['date'] = 'date_format:Y-m-d H\\:i\\:s';
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$rules['date'] = 'date_format:"Y-m-d H:i:s"';
 		$this->assertTrue(Validator::make($input, $rules)->valid());
 
 		$input['date'] = '2009-02-15';
