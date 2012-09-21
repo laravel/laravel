@@ -42,7 +42,7 @@ function __($key, $replacements = array(), $language = null)
 function dc()
 {
     echo '<pre>';
-    call_user_func_array('var_dump', func_get_args()); // equivilent to call_user_func_array('var_dump', array(1, 2, 3)); which is the same as var_dump(1, 2, 3);
+    call_user_func_array('var_dump', func_get_args());
     echo '</pre>';
 }
 
