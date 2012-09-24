@@ -57,10 +57,10 @@ The fluent table builder's methods allow you to add columns without using vendor
 
 Command  | Description
 ------------- | -------------
-`$table->increments('id');`  |  Incrementing ID to the table
+`$table->increments('id',10);`  |  Incrementing ID to the table with a length
 `$table->string('email');`  |  VARCHAR equivalent column
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length
-`$table->integer('votes');`  |  INTEGER equivalent to the table
+`$table->integer('votes',false,10);`  |  INTEGER equivalent to the table with autoincrement flage and the length
 `$table->float('amount');`  |  FLOAT equivalent to the table
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
@@ -72,6 +72,7 @@ Command  | Description
 `->nullable()`  |  Designate that the column allows NULL values
 `->default($value)`  |  Declare a default value for a column
 `->unsigned()`  |  Set INTEGER to UNSIGNED
+`->length($value)`  |  Set the length of (INTEGER and VARCHAR)
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 
