@@ -60,7 +60,7 @@ Command  | Description
 `$table->increments('id',10);`  |  Incrementing ID to the table with a length
 `$table->string('email');`  |  VARCHAR equivalent column
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length
-`$table->integer('votes',false,10);`  |  INTEGER equivalent to the table with autoincrement flage and the length
+`$table->integer('votes',10,false);`  |  INTEGER equivalent to the table with length and the autoincrement flage 
 `$table->float('amount');`  |  FLOAT equivalent to the table
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
