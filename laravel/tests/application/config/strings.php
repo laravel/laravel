@@ -8,7 +8,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| This array contains the singular and plural forms of words. It's used by
-	| the "singular" and "plural" methods on the Str class to convert a given
+	| the "singular" and "plural" methods in the Str class to convert a given
 	| word from singular to plural and vice versa.
 	|
 	| Note that the regular expressions are only for inflecting English words.
@@ -95,6 +95,9 @@ return array(
 		'series',
 		'sheep',
 		'species',
+		'moose',
+		'chassis',
+		'traffic',
 	),
 
 	/*

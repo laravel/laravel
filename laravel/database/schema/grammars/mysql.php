@@ -338,7 +338,7 @@ class MySQL extends Grammar {
 	 */
 	protected function type_integer(Fluent $column)
 	{
-		return 'INT';
+		return 'INT('.$column->length.')';
 	}
 
 	/**

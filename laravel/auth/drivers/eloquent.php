@@ -50,7 +50,7 @@ class Eloquent extends Driver {
 
 		$password_field = Config::get('auth.password', 'password');
 
-		if ( ! is_null($user) and Hash::check($password, $user->get_attribute($password_field)))
+		if ( ! is_null($user) and Hash::check($password, $user->{$password_field}))
 		{
 			return $this->login($user->id, array_get($arguments, 'remember'));
 		}
