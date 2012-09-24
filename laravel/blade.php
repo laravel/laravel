@@ -68,7 +68,7 @@ class Blade {
 			// Once the view has been compiled, we can simply set the path to the
 			// compiled view on the view instance and call the typical "get"
 			// method on the view to evaluate the compiled PHP view.
-			return $view->get();
+			return ltrim($view->get());
 		});
 	}
 

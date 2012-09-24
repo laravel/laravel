@@ -84,6 +84,8 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		Request::foundation()->server->add(array('HTTPS' => 'on'));
 
 		$this->assertEquals('https://localhost/image.jpg', URL::to_asset('image.jpg'));
+
+		Request::foundation()->server->add(array('HTTPS' => 'off'));
 	}
 
 	/**
@@ -101,6 +103,28 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://localhost/index.php/url/test/taylor', URL::to_route('url-test-2', array('taylor')));
 		$this->assertEquals('https://localhost/index.php/url/secure/taylor', URL::to_route('url-test-3', array('taylor')));
 		$this->assertEquals('http://localhost/index.php/url/test/taylor/otwell', URL::to_route('url-test-2', array('taylor', 'otwell')));
+	}
+
+
+	/**
+	 * Test language based URL generation.
+	 *
+	 * @group laravel
+	 */
+	public function testUrlsGeneratedWithLanguages()
+	{
+		Config::set('application.languages', array('sp', 'fr'));
+		Config::set('application.language', 'sp');
+		$this->assertEquals('http://localhost/index.php/sp/foo', URL::to('foo'));
+		$this->assertEquals('http://localhost/foo.jpg', URL::to_asset('foo.jpg'));
+
+		Config::set('application.index', '');
+		$this->assertEquals('http://localhost/sp/foo', URL::to('foo'));
+
+		Config::set('application.index', 'index.php');
+		Config::set('application.language', 'en');
+		$this->assertEquals('http://localhost/index.php/foo', URL::to('foo'));
+		Config::set('application.languages', array());
 	}
 
 }
