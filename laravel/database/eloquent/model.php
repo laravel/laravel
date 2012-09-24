@@ -544,7 +544,7 @@ abstract class Model {
 	 */
 	public function get_key()
 	{
-		return $this->get_attribute(static::$key);
+		return get_array($this->original, static::$key);
 	}
 
 	/**
@@ -721,7 +721,7 @@ abstract class Model {
 		{
 			if (array_key_exists($key, $this->$source)) return true;
 		}
-		
+
 		if (method_exists($this, $key)) return true;
 	}
 
