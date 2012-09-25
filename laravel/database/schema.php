@@ -75,12 +75,7 @@ class Schema {
 		// PDOException if table does not exist
 		try 
 		{
-			if ($connection->pdo->prepare($statement)) 
-			{
-				return true;
-			}
-
-			return false;
+			return (bool) $connection->pdo->prepare($statement);
 		} 
 		catch (\PDOException $e)
 	   	{
