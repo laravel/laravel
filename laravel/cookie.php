@@ -80,7 +80,7 @@ class Cookie {
 			$expiration = time() + ($expiration * 60);
 		}
 
-		$value = sha1($value.Config::get('application.key')).'+'.$value;
+		$value = static::hash($value).'+'.$value;
 
 		// If the secure option is set to true, yet the request is not over HTTPS
 		// we'll throw an exception to let the developer know that they are
@@ -128,6 +128,17 @@ class Cookie {
 	}
 
 	/**
+	 * Hash the given cookie value.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function hash($value)
+	{
+		return hash_hmac('sha1', $value, Config::get('application.key'));
+	}
+
+	/**
 	 * Parse a hash fingerprinted cookie value.
 	 *
 	 * @param  string  $value
@@ -142,7 +153,7 @@ class Cookie {
 		// ahead and throw exceptions now since there the cookie is invalid.
 		if ( ! (count($segments) >= 2))
 		{
-			throw new \Exception("Cookie was not set by application.");
+			return null;
 		}
 
 		$value = implode('+', array_slice($segments, 1));
@@ -150,12 +161,12 @@ class Cookie {
 		// Now we will check if the SHA-1 hash present in the first segment matches
 		// the ShA-1 hash of the rest of the cookie value, since the hash should
 		// have been set when the cookie was first created by the application.
-		if ($segments[0] == sha1($value.Config::get('application.key')))
+		if ($segments[0] == static::hash($value))
 		{
 			return $value;
 		}
 
-		throw new \Exception("Cookie has been modified by client.");
+		return null;
 	}
 
 }
