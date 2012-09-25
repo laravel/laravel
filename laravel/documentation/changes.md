@@ -45,6 +45,7 @@
 ## Laravel 3.2.8
 
 - Fix double slash bug in URLs when using languages and no "index.php".
+- Fix possible security issue in Auth "remember me" cookies.
 
 <a name="upgrade-3.2.8"></a>
 ### Upgrading From 3.2.7
