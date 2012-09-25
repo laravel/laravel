@@ -44,9 +44,14 @@ class Cookie {
 	 */
 	public static function get($name, $default = null)
 	{
-		if (isset(static::$jar[$name])) return static::$jar[$name]['value'];
+		if (isset(static::$jar[$name])) return static::parse(static::$jar[$name]['value']);
 
-		return array_get(Request::foundation()->cookies->all(), $name, $default);
+		if ( ! is_null($value = Request::foundation()->cookies->get($name)))
+		{
+			return static::parse($value);
+		}
+
+		return value($default);
 	}
 
 	/**
@@ -74,6 +79,8 @@ class Cookie {
 		{
 			$expiration = time() + ($expiration * 60);
 		}
+
+		$value = sha1($value.Config::get('application.key')).'+'.$value;
 
 		// If the secure option is set to true, yet the request is not over HTTPS
 		// we'll throw an exception to let the developer know that they are
@@ -118,6 +125,37 @@ class Cookie {
 	public static function forget($name, $path = '/', $domain = null, $secure = false)
 	{
 		return static::put($name, null, -2000, $path, $domain, $secure);
+	}
+
+	/**
+	 * Parse a hash fingerprinted cookie value.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function parse($value)
+	{
+		$segments = explode('+', $value);
+
+		// First we will make sure the cookie actually has enough segments to even
+		// be valid as being set by the application. If it does not we will go
+		// ahead and throw exceptions now since there the cookie is invalid.
+		if ( ! (count($segments) >= 2))
+		{
+			throw new \Exception("Cookie was not set by application.");
+		}
+
+		$value = implode('+', array_slice($segments, 1));
+
+		// Now we will check if the SHA-1 hash present in the first segment matches
+		// the ShA-1 hash of the rest of the cookie value, since the hash should
+		// have been set when the cookie was first created by the application.
+		if ($segments[0] == sha1($value.Config::get('application.key')))
+		{
+			return $value;
+		}
+
+		throw new \Exception("Cookie has been modified by client.");
 	}
 
 }
