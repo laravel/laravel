@@ -371,6 +371,18 @@ class Table {
 	}
 
 	/**
+	 * Add an enum column to the table.
+	 *
+	 * @param string $name
+	 * @param array $enum_values
+	 * @return Fluent
+	 */
+	public function enum($name, $enum_values)
+	{
+		return $this->column(__FUNCTION__, compact('name', 'enum_values'));
+	}
+
+	/**
 	 * Set the database connection for the table operation.
 	 *
 	 * @param  string  $connection

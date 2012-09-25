@@ -418,4 +418,15 @@ class MySQL extends Grammar {
 		return 'BLOB';
 	}
 
+	protected function type_enum(Fluent $column)
+	{
+		$enum = 'ENUM (';
+		foreach( $column->enum_values as $e )
+		{
+			$enum .= "'$e'";
+		}
+		$enum .= ')';
+		return $enum;
+	}
+
 }
