@@ -146,6 +146,12 @@ class Migrator extends Task {
 	 */
 	public function install()
 	{
+		if (Schema::exists('laravel_migrations'))
+		{
+			echo "Migration table already exists.";
+			return;
+		}
+
 		Schema::table('laravel_migrations', function($table)
 		{
 			$table->create();
