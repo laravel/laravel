@@ -45,6 +45,13 @@ class View implements ArrayAccess {
 	public static $cache = array();
 
 	/**
+	 * THe last view to be rendered.
+	 *
+	 * @var string
+	 */
+	public static $last;
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -387,6 +394,8 @@ class View implements ArrayAccess {
 	 */
 	protected function load()
 	{
+		static::$last = array('name' => $this->view, 'path' => $this->path);
+
 		if (isset(static::$cache[$this->path]))
 		{
 			return static::$cache[$this->path];
