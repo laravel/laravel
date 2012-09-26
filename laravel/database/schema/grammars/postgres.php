@@ -404,4 +404,15 @@ class Postgres extends Grammar {
 		return 'BYTEA';
 	}
 
+	/**
+	 * Generate the data-type defintion for an enum.
+	 *
+	 * @param Fluent $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		return 'ENUM ("' . implode( '", "', $column->enum_values ) . '")';
+	}
+
 }
