@@ -9,17 +9,22 @@ class Str {
 	 */
 	public static $pluralizer;
 
-	/**
-	 * Get the default string encoding for the application.
-	 *
-	 * This method is simply a short-cut to Config::get('application.encoding').
-	 *
-	 * @return string
-	 */
-	public static function encoding()
-	{
-		return Config::get('application.encoding');
-	}
+    /**
+     * Cache application encoding locally to save expensive calls to Config::get().
+     *
+     * @var string
+     */
+    public static $encoding = null;
+
+    /**
+     * Get the appliction.encoding without needing to request it from Config::get() each time.
+     *
+     * @return string
+     */
+    protected static function encoding()
+    {
+        return static::$encoding ?: static::$encoding = Config::get('application.encoding');
+    }
 
 	/**
 	 * Get the length of a string.
