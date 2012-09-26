@@ -374,7 +374,7 @@ class View implements ArrayAccess {
 		// us do something like run the contents through Jade, etc.
 		if (Event::listeners('view.filter'))
 		{
-			return Event::first('view.filter', $content);
+			return Event::first('view.filter', array($content, $this->path));
 		}
 
 		return $content;
