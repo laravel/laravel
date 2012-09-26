@@ -367,7 +367,17 @@ class View implements ArrayAccess {
 			ob_get_clean(); throw $e;
 		}
 
-		return ob_get_clean();
+		$content = ob_get_clean();
+
+		// The view filter event gives us a last chance to modify the
+		// evaluated contents of the view and return them. This lets
+		// us do something like run the contents through Jade, etc.
+		if (Event::listeners('view.filter'))
+		{
+			return Event::first('view.filter', $content);
+		}
+
+		return $content;
 	}
 
 	/**
