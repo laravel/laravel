@@ -105,17 +105,17 @@ class Migrator extends Task {
 
 		// If bundles supplied, filter migrations to rollback only bundles'
 		// migrations.
-    if (count($arguments) > 0)
-    {
-      $bundles = $arguments;
-
-      if ( ! is_array($bundles)) $bundles = array($bundles);
-
-      $migrations = array_filter($migrations, function($migration) use ($bundles)
-      {
-      	return in_array($migration['bundle'], $bundles);
-      });
-    }
+		if (count($arguments) > 0)
+		{
+			$bundles = $arguments;
+			
+			if ( ! is_array($bundles)) $bundles = array($bundles);
+			
+			$migrations = array_filter($migrations, function($migration) use ($bundles)
+			{
+				return in_array($migration['bundle'], $bundles);
+			});
+		}
 
 		if (count($migrations) == 0)
 		{
