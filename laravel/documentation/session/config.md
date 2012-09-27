@@ -84,6 +84,23 @@ All you need to do now is set the driver in the **application/config/session.php
 
 	'driver' => 'database'
 
+<a name="database_connection"></a>
+## Database connection
+
+To use a different database connection for you're sessions.
+
+First, choise witch connection you want to use; or create one.
+
+This is done in [configure database connections](/docs/database/config)
+
+In the **application/config/session.php** file, change the option:
+	'database_connection' => null,
+
+To a connection of you're choice;
+	'database_connection' => 'my_awesome_app_sessions',
+
+Watchout! If you want to create the database table by using artisan, please be aware that you have to set this option before creating the table with artisan. You can find how to create the session table with artisan in the section above.
+
 <a name="memcached"></a>
 ## Memcached Sessions
 
