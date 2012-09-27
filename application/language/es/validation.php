@@ -67,7 +67,7 @@ return array(
 		"file"    => ":attribute debe tener un tamaño de :size kilobytes.",
 		"string"  => ":attribute debe tener una longitud de :size caracteres.",
 	),
-	"unique"         => ":attribute ya ha sido tomado.",
+	"unique"         => ":attribute ya existe.",
 	"url"            => "El formato de :attribute es inválido.",
 
 	/*
