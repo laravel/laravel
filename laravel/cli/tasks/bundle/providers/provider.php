@@ -55,7 +55,7 @@ abstract class Provider {
 		File::rmdir($work.'zip');
 
 		$zip->close();
-		@unlink($target);
+		File::delete($target);
 	}
 
 	/**
