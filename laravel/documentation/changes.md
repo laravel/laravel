@@ -47,6 +47,7 @@
 ## Laravel 3.2.9
 
 - Always log exceptions even when there are "logger" event listeners.
+- Fix nasty view exception messages.
 
 <a name="upgrade-3.2.9"></a>
 ### Upgrading From 3.2.8
