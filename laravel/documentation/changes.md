@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.10](#3.2.10)
+- [Upgrading From 3.2.9](#upgrade-3.2.10)
 - [Laravel 3.2.9](#3.2.9)
 - [Upgrading From 3.2.8](#upgrade-3.2.9)
 - [Laravel 3.2.8](#3.2.8)
@@ -42,6 +44,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.10"></a>
+## Laravel 3.2.10
+
+- Fix bug in Eloquent model.
+
+<a name="upgrade-3.2.9"></a>
+### Upgrading From 3.2.9
+
+- Replace the **laravel** folder.
 
 <a name="3.2.9"></a>
 ## Laravel 3.2.9

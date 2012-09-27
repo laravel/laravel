@@ -3,7 +3,7 @@
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Laravel
- * @version  3.2.9
+ * @version  3.2.10
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  * @link     http://laravel.com
  */
