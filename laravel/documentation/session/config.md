@@ -6,6 +6,7 @@
 - [Cookie Sessions](#cookie)
 - [File System Sessions](#file)
 - [Database Sessions](#database)
+- [Database Connection](#database_connection)
 - [Memcached Sessions](#memcached)
 - [Redis Sessions](#redis)
 - [In-Memory Sessions](#memory)
@@ -94,9 +95,11 @@ First, choise witch connection you want to use; or create one.
 This is done in [configure database connections](/docs/database/config)
 
 In the **application/config/session.php** file, change the option:
+
 	'database_connection' => null,
 
 To a connection of you're choice;
+
 	'database_connection' => 'my_awesome_app_sessions',
 
 Watchout! If you want to create the database table by using artisan, please be aware that you have to set this option before creating the table with artisan. You can find how to create the session table with artisan in the section above.
