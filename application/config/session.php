@@ -23,7 +23,7 @@ return array(
 	| Session Database Connection
 	|--------------------------------------------------------------------------
 	|
-	| The database connection, define wich connection you want to use.
+	| The database connection, define which connection you want to use.
 	| You can find different connections, or create a new connection inside
 	| 'application/config/database.php'.
 	| This option will only be used when you set the 'driver' to 'database'
