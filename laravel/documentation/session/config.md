@@ -90,7 +90,7 @@ All you need to do now is set the driver in the **application/config/session.php
 
 To use a different database connection for your sessions.
 
-First, choise which connection you want to use; or create one.
+First, choose which connection you want to use; or create one.
 
 This is done in [configure database connections](/docs/database/config)
 
