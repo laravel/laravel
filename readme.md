@@ -27,7 +27,7 @@ enjoy, not something that is painful. Enjoy the fresh air.
 
 Route::get('/', function()
 {
-	return "Hello World!":
+	return "Hello World!";
 });
 ```
 

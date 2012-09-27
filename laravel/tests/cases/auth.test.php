@@ -269,7 +269,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(isset(Cookie::$jar['laravel_auth_drivers_fluent_remember']));
 
-		$cookie = Cookie::$jar['laravel_auth_drivers_fluent_remember']['value'];
+		$cookie = Cookie::get('laravel_auth_drivers_fluent_remember');
 		$cookie = explode('|', Crypter::decrypt($cookie));
 		$this->assertEquals(1, $cookie[0]);
 		$this->assertEquals('foo', Cookie::$jar['laravel_auth_drivers_fluent_remember']['path']);
@@ -293,9 +293,6 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$data = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 1;
 
 		Auth::logout();
-
-		// A workaround since Cookie will is only stored in memory, until Response class is called.
-		Auth::driver()->token = null;
 
 		$this->assertNull(Auth::user());
 
