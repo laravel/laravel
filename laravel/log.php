@@ -49,15 +49,9 @@ class Log {
 			Event::fire('laravel.log', array($type, $message));
 		}
 
-		// If there aren't listeners on the log event, we'll just write to the
-		// log files using the default conventions, writing one log file per
-		// day so the files don't get too crowded.
-		else
-		{
-			$message = static::format($type, $message);
+		$message = static::format($type, $message);
 
-			File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
-		}
+		File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
 	}
 
 	/**

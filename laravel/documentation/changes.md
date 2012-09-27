@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.9](#3.2.9)
+- [Upgrading From 3.2.8](#upgrade-3.2.9)
 - [Laravel 3.2.8](#3.2.8)
 - [Upgrading From 3.2.7](#upgrade-3.2.8)
 - [Laravel 3.2.7](#3.2.7)
@@ -40,6 +42,17 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.9"></a>
+## Laravel 3.2.9
+
+- Always log exceptions even when there are "logger" event listeners.
+- Fix nasty view exception messages.
+
+<a name="upgrade-3.2.9"></a>
+### Upgrading From 3.2.8
+
+- Replace the **laravel** folder.
 
 <a name="3.2.8"></a>
 ## Laravel 3.2.8
