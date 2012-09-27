@@ -90,7 +90,7 @@ class Runner extends Task {
 
 		passthru('phpunit --configuration '.$esc_path, $status);
 
-		@unlink($path);
+		File::delete($path);
 
 		// Pass through the exit status
 		exit($status);
