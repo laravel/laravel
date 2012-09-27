@@ -70,7 +70,13 @@ class Session {
 				return new Session\Drivers\Cookie;
 
 			case 'database':
-				return new Session\Drivers\Database(Database::connection());
+				$config_connection = Config::get('session.database_connection');
+				$connection = null;
+
+				if (!is_null($config_connection) and is_string($config_connection))
+					$connection = $config_connection;
+
+				return new Session\Drivers\Database(Database::connection($connection));
 
 			case 'file':
 				return new Session\Drivers\File(path('storage').'sessions'.DS);

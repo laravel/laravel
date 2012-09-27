@@ -20,6 +20,21 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Session Database Connection
+	|--------------------------------------------------------------------------
+	|
+	| The database connection, define wich connection you want to use.
+	| You can find different connections, or create a new connection inside
+	| 'application/config/database.php'.
+	| This option will only be used when you set the 'driver' to 'database'
+	| If you want to use the default connection, just leave the option value
+	| as 'null' (not a string ;) )
+	*/
+
+	'database_connection' => null,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Session Database
 	|--------------------------------------------------------------------------
 	|
