@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use File as f;
+
 class File extends Driver {
 
 	/**
@@ -94,14 +96,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		if (file_exists($this->path.$key)) @unlink($this->path.$key);
-		
-		// If apc.stat is disabled, we need to tell APC to remove the files from
-		// its opcode cache.
-		if (function_exists('apc_delete_file'))
-		{
-			@apc_delete_file($this->path.$key);
-		}
+		f::delete($this->path.$key);
 	}
 
 }
