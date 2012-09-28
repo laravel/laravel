@@ -435,7 +435,7 @@ class Blade {
 	 */
 	public static function matcher($function)
 	{
-		return '/(\s*)@'.$function.'(\s*\(.*\))/';
+		return '/([^\S\n]*)@'.$function.'(\s*\(.*\))/';
 	}
 
 	/**
