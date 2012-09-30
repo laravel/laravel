@@ -176,9 +176,23 @@ class Query {
 		// Constraints may be specified in-line for the eager load by passing
 		// a Closure as the value portion of the eager load. We can use the
 		// query builder's nested query support to add the constraints.
-		if ( ! is_null($constraints))
+		// You can also apply query-methods like select(), take() etc on
+		// the eager load by passing in an array with keys 'where' and
+		// 'aggregate' (both having Closures as values) as the value portion
+		// of eager load. The where conditions for eager load go in Closure under
+		// 'where' key and aggregating conditions go in the closure under the
+		// 'aggregate' key of the array passed.
+		if ($constraints instanceof \Closure)
 		{
 			$query->table->where_nested($constraints);
+		}
+		elseif(is_array($constraints))
+		{
+			if( ($where = array_get($constraints, 'where')) instanceof \Closure )
+				$query->table->where_nested($where);
+
+			if( ($aggregator = array_get($constraints, 'aggregate')) instanceof \Closure )
+				$aggregator($query->table);
 		}
 
 		$query->initialize($results, $relationship);
