@@ -268,6 +268,15 @@ class Query {
 	{
 		return Database::connection($this->model->connection());
 	}
+	
+	/**
+	* Get column name with $model->table() prepended to it
+	* @return string
+	*/
+	public function column($name)
+	{
+		return $this->model->table() . '.' . $name;
+	}
 
 	/**
 	 * Handle dynamic method calls to the query.
