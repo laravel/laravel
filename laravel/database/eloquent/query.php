@@ -192,7 +192,7 @@ class Query {
 				$query->table->where_nested($where);
 
 			if( ($aggregator = array_get($constraints, 'aggregate')) instanceof \Closure )
-				$aggregator($query->table);
+				$aggregator($query);
 		}
 
 		$query->initialize($results, $relationship);
