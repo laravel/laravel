@@ -31,7 +31,7 @@ return array(
 		"file"    => ":attribute måste vara mellan :min till :max kilobytes stor.",
 		"string"  => ":attribute måste inehålla :min till :max tecken.",
 	),
-	"confirmed"      => ":attribute bekräftelsen machar inte.",
+	"confirmed"      => ":attribute bekräftelsen matchar inte.",
 	"count"          => ":attribute måste exakt ha :count valda element.",
 	"countbetween"   => ":attribute får endast ha :min till :max valda element.",
 	"countmax"       => ":attribute får max ha :max valda element.",
