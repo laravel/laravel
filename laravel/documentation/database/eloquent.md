@@ -261,7 +261,7 @@ Many-to-many relationships are the most complicated of the three relationships. 
 	user_id - INTEGER
 	role_id - INTEGER
 
-Tables contain many records and are consequently plural. Pivot tables used in **has\_many\_and\_belongs\_to** relationships are named by combining the singular names of the two related models arranged alphabetically and concatenated them with an underscore.
+Tables contain many records and are consequently plural. Pivot tables used in **has\_many\_and\_belongs\_to** relationships are named by combining the singular names of the two related models arranged alphabetically and concatenating them with an underscore.
 
 Now you're ready to define the relationship on your models using the **has\_many\_and\_belongs\_to** method:
 
