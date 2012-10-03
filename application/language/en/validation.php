@@ -36,6 +36,7 @@ return array(
 	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
 	"countmax"       => "The :attribute must have less than :max selected elements.",
 	"countmin"       => "The :attribute must have at least :min selected elements.",
+	"date_format"	 => "The :attribute must have a valid date format.",
 	"different"      => "The :attribute and :other must be different.",
 	"email"          => "The :attribute format is invalid.",
 	"exists"         => "The selected :attribute is invalid.",

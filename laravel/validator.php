@@ -759,6 +759,19 @@ class Validator {
 	}
 
 	/**
+	 * Validate the date conforms to a given format.
+	 * 
+	 * @param  string  $attribute
+	 * @param  mixed   $value
+	 * @param  array   $parameters
+	 * @return bool
+	 */
+	protected function validate_date_format($attribute, $value, $parameters)
+	{
+		return date_create_from_format($parameters[0], $value) !== false;
+	}
+
+	/**
 	 * Get the proper error message for an attribute and rule.
 	 *
 	 * @param  string  $attribute

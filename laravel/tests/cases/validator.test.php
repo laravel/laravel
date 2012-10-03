@@ -484,6 +484,28 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the date_format validation rule.
+	 *
+	 * @group laravel
+	 */
+	public function testTheDateFormatRule()
+	{
+		$input = array('date' => '15-Feb-2009');
+		$rules = array('date' => 'date_format:j-M-Y');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '2009-02-15,15:16:17';
+		$rules['date'] = 'date_format:"Y-m-d,H:i:s"';
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '2009-02-15';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '15:16:17';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+	}
+
+	/**
 	 * Test that the validator sets the correct messages.
 	 *
 	 * @group laravel
