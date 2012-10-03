@@ -29,6 +29,13 @@ class Redis {
 	 * @var resource
 	 */
 	protected $connection;
+	
+	/**
+	 * persist database connection
+	 *
+	 * @var boolean
+	 */
+	protected $persist;
 
 	/**
 	 * The active Redis database instances.
@@ -45,11 +52,12 @@ class Redis {
 	 * @param  int     $database
 	 * @return void
 	 */
-	public function __construct($host, $port, $database = 0)
+	public function __construct($host, $port, $database = 0, $persist = false)
 	{
 		$this->host = $host;
 		$this->port = $port;
 		$this->database = $database;
+		$this->persist = $persist;
 	}
 
 	/**
@@ -78,8 +86,11 @@ class Redis {
 			}
 
 			extract($config);
+			
+			if(!isset($persist))
+				$persist = false;
 
-			static::$databases[$name] = new static($host, $port, $database);
+			static::$databases[$name] = new static($host, $port, $database, $persist);
 		}
 
 		return static::$databases[$name];
@@ -145,8 +156,11 @@ class Redis {
 	protected function connect()
 	{
 		if ( ! is_null($this->connection)) return $this->connection;
-
-		$this->connection = @fsockopen($this->host, $this->port, $error, $message);		
+		
+		if($this->persist)
+			$this->connection = @pfsockopen($this->host, $this->port, $error, $message);	
+		else
+			$this->connection = @fsockopen($this->host, $this->port, $error, $message);		
 
 		if ($this->connection === false)
 		{
@@ -287,7 +301,8 @@ class Redis {
 	{
 		if ($this->connection)
 		{
-			fclose($this->connection);
+			if(!$this->persist)
+				fclose($this->connection);
 		}
 	}
 
