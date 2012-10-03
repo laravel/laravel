@@ -29,7 +29,7 @@ return array(
 	"between"        => array(
 		"numeric" => ":attribute m&aring;ste vara ett nummer mellan :min och :max.",
 		"file"    => ":attribute m&aring;ste vara mellan :min till :max kilobytes stor.",
-		"string"  => ":attribute m&aring;ste ineh&aring;lla :min till :max tecken.",
+		"string"  => ":attribute m&aring;ste inneh&aring;lla :min till :max tecken.",
 	),
 	"confirmed"      => ":attribute bekr&auml;ftelsen matchar inte.",
 	"count"          => ":attribute m&aring;ste exakt ha :count valda element.",
