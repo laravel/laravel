@@ -127,4 +127,8 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		Config::set('application.languages', array());
 	}
 
+	public function testProtocollessURLs() {
+		$this->assertTrue(URL::valid('//laravel.com'));
+	}
+
 }
