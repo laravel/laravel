@@ -330,6 +330,10 @@ class URL {
 	 */
 	public static function valid($url)
 	{
+		if (starts_with($url, '//')) {
+			return filter_var('http:' . $url, FILTER_VALIDATE_URL) !== false;
+		}
+
 		return filter_var($url, FILTER_VALIDATE_URL) !== false;
 	}
 
