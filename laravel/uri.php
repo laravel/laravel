@@ -101,5 +101,19 @@ class URI {
 
 		static::$segments = array_diff($segments, array(''));
 	}
-
+	
+	/**
+	 * Returns the last segment in URL.
+	 *
+	 * 
+	 * @return void
+	 */
+	public static function last()
+	{
+		
+		$uri = Request::getUri();
+		$last = explode('/', $uri);
+ 		
+ 		return static::$segments = end($last);
+	}
 }
