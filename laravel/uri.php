@@ -103,9 +103,7 @@ class URI {
 	}
 	
 	/**
-	 * Returns the last segment in URL.
-	 *
-	 * 
+	 * Returns the last segment in URI.
 	 * @return void
 	 */
 	public static function last()
