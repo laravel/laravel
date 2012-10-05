@@ -328,14 +328,18 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
-		foreach ($parents as &$parent)
+		$children_hash = array();
+		foreach ($children as $child)
 		{
-			$matching = array_filter($children, function($v) use (&$parent, $foreign)
-			{
-				return $v->pivot->$foreign == $parent->get_key();
-			});
+			$children_hash[$child->pivot->$foreign][] = $child;
+		}
 
-			$parent->relationships[$relationship] = array_values($matching);
+		foreach ($parents as $parent)
+		{
+			if (array_key_exists($parent->get_key(), $children_hash))
+			{
+				$parent->relationships[$relationship] = $children_hash[$parent->get_key()];
+			}
 		}
 	}
 
