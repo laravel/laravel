@@ -370,7 +370,16 @@ class Paginator {
 	 */
 	protected function link($page, $text, $class)
 	{
-		$query = '?page='.$page.$this->appendage($this->appends);
+		// Get all GET parameters
+		$current_query = Input::get();
+		
+		// Remove the 'page' index if present
+		unset($current_query['page']);
+
+		// Verify if exists any GET parameters in the URL
+		// If present the link must return the old GET parameters and then the page parameter
+		$query  = empty($current_query) ? '?' : '?'.http_build_query($current_query).'&';
+		$query .= 'page='.$page.$this->appendage($this->appends);
 
 		return '<li'.HTML::attributes(array('class' => $class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
 	}
