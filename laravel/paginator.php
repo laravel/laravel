@@ -243,16 +243,19 @@ class Paginator {
 	 *
 	 *		// Create the "previous" pagination element with custom text
 	 *		echo $paginator->previous('Go Back');
+	 *		
+	 *		// Create an independent "previous" link with custom text and attributes
+	 *		echo $paginator->previous('Go Back', true, array('class' => 'awesome'))
 	 * </code>
 	 *
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function previous($text = null)
+	public function previous($text = null, $independent = false, $attributes = array())
 	{
 		$disabled = function($page) { return $page <= 1; };
 
-		return $this->element(__FUNCTION__, $this->page - 1, $text, $disabled);
+		return $this->element(__FUNCTION__, $this->page - 1, $text, $disabled, $independent);
 	}
 
 	/**
@@ -264,16 +267,19 @@ class Paginator {
 	 *
 	 *		// Create the "next" pagination element with custom text
 	 *		echo $paginator->next('Skip Forwards');
+	 *
+	 *		// Create an independent "next" link with custom text and attributes
+	 *		echo $paginator->next('Skip Forwards', true, array('class' => 'awesome'))
 	 * </code>
 	 *
 	 * @param  string  $text
 	 * @return string
 	 */
-	public function next($text = null)
+	public function next($text = null, $independent = false, $attributes = array())
 	{
 		$disabled = function($page, $last) { return $page >= $last; };
 
-		return $this->element(__FUNCTION__, $this->page + 1, $text, $disabled);
+		return $this->element(__FUNCTION__, $this->page + 1, $text, $disabled, $independent, $attributes);
 	}
 
 	/**
@@ -283,9 +289,11 @@ class Paginator {
 	 * @param  int      $page
 	 * @param  string   $text
 	 * @param  Closure  $disabled
+	 * @param  boolean  $independent
+	 * @param  array    $attributes
 	 * @return string
 	 */
-	protected function element($element, $page, $text, $disabled)
+	protected function element($element, $page, $text, $disabled, $independent = false, $attributes = array())
 	{
 		$class = "{$element}_page";
 
@@ -300,11 +308,20 @@ class Paginator {
 		// the "first" element should be a span instead of a link.
 		if ($disabled($this->page, $this->last))
 		{
-			return '<li'.HTML::attributes(array('class'=>"{$class} disabled")).'><a href="#">'.$text.'</a></li>';
+			if(! $independent)
+			{
+				return '<li'.HTML::attributes(array('class'=>"{$class} disabled")).'>' .
+						'<a href="#"'.HTML::attributes($attributes).'>'.$text.'</a>' .
+					'</li>';
+			}
+			else
+			{
+				return '<a href="#"'.HTML::attributes($attributes).'>'.$text.'</a>';
+			}
 		}
 		else
 		{
-			return $this->link($page, $text, $class);
+			return $this->link($page, $text, $class, $independent, $attributes);
 		}
 	}
 
@@ -366,13 +383,24 @@ class Paginator {
 	 * @param  int     $page
 	 * @param  string  $text
 	 * @param  string  $class
+	 * @param  boolean $independent
+	 * @param  array   $attributes
 	 * @return string
 	 */
-	protected function link($page, $text, $class)
+	protected function link($page, $text, $class, $independent, $attributes = array())
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return '<li'.HTML::attributes(array('class' => $class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
+		if(! $independent)
+		{
+			return '<li'.HTML::attributes(array('class' => $class)).'>' .
+					HTML::link(URI::current().$query, $text, $attributes, Request::secure()) .
+				'</li>';
+		}
+		else
+		{
+			return HTML::link(URI::current().$query, $text, $attributes, Request::secure());
+		}
 	}
 
 	/**
