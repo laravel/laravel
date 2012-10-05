@@ -387,7 +387,7 @@ class Paginator {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	protected function link($page, $text, $class, $independent, $attributes = array())
+	protected function link($page, $text, $class, $independent = false, $attributes = array())
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
