@@ -89,13 +89,14 @@ class Response {
 	 * @param  mixed     $data
 	 * @param  int       $status
 	 * @param  array     $headers
+	 * @param  int       $jsonOptions
 	 * @return Response
 	 */
-	public static function json($data, $status = 200, $headers = array())
+	public static function json($data, $status = 200, $headers = array(), $jsonOptions = 0)
 	{
 		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
-		return new static(json_encode($data), $status, $headers);
+		return new static(json_encode($data, $jsonOptions), $status, $headers);
 	}
 
 	/**
