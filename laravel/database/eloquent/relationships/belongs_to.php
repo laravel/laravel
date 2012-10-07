@@ -87,17 +87,18 @@ class Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
-		$parents_hash = array();
+		$dictionary = array();
+
 		foreach ($parents as $parent)
 		{
-			$parents_hash[$parent->get_key()] = $parent;
+			$dictionary[$parent->get_key()] = $parent;
 		}
 
 		foreach ($children as $child)
 		{
-			if (array_key_exists($child->$foreign, $parents_hash))
+			if (array_key_exists($child->$foreign, $dictionary))
 			{
-				$child->relationships[$relationship] = $parents_hash[$child->$foreign];
+				$child->relationships[$relationship] = $dictionary[$child->$foreign];
 			}
 		}
 	}
