@@ -36,7 +36,7 @@ return array(
 	"countbetween"   => "Polje :attribute mora imati izmedju :min i :max odabranih elemenata.",
 	"countmax"       => "Polje :attribute mora imati manje od :max odabranih elemenata.",
 	"countmin"       => "Polje :attribute mora imati najmanje :min odabranih elemenata.",
-	"different"      => "Polja :attribute i :other moraju biti različiti.",
+	"different"      => "Polja :attribute i :other moraju biti različita.",
 	"email"          => "Format polja :attribute nije validan.",
 	"exists"         => "Odabrano polje :attribute nije validno.",
 	"image"          => "Polje :attribute mora biti slika.",

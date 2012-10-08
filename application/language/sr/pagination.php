@@ -14,6 +14,6 @@ return array(
 	*/
 
 	'previous' => '&laquo; Nazad',
-	'next'     => 'Dalje &raquo;',
+	'next'     => 'Napred &raquo;',
 
 );
