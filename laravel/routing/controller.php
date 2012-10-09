@@ -146,7 +146,7 @@ abstract class Controller {
 		// parameter.  As in the restful route "PUT /news/15" where you want to update
 		// a news item with an id of 15.  So put the id at the begining of the paramters
 		// list and change the method to index.		
-		if (is_int($method)) {
+		if (preg_match('/^\d+$/', $method)) {
 			array_unshift($parameters, $method);
 			$method = 'index';
 		}
