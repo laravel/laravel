@@ -141,6 +141,15 @@ abstract class Controller {
 		Bundle::start($bundle);
 
 		list($name, $method) = explode('@', $destination);
+		
+		// If the method (the controller action) is a number, it was meant to be a
+		// parameter.  As in the restful route "PUT /news/15" where you want to update
+		// a news item with an id of 15.  So put the id at the begining of the paramters
+		// list and change the method to index.		
+		if (is_numeric($method)) {
+			array_unshift($parameters, $method);
+			$method = 'index';
+		}
 
 		$controller = static::resolve($bundle, $name);
 
