@@ -17,6 +17,13 @@ class Validator {
 	public $errors;
 
 	/**
+	 * The post-validation error messages.
+	 *
+	 * @var array
+	 */
+	protected $flattenedErrors = array();
+
+	/**
 	 * The validation rules.
 	 *
 	 * @var array
@@ -186,6 +193,8 @@ class Validator {
 		if ($validatable and ! $this->{'validate_'.$rule}($attribute, $value, $parameters, $this))
 		{
 			$this->error($attribute, $rule, $parameters);
+			$m = $this->flatError($attribute, $rule, $parameters);
+			array_push($this->flattenedErrors , $m);
 		}
 	}
 
@@ -215,6 +224,39 @@ class Validator {
 	protected function implicit($rule)
 	{
 		return $rule == 'required' or $rule == 'accepted' or $rule == 'required_with';
+	}
+
+	/**
+	 * Flattened errors accessor method
+	 *
+	 * @return void
+	 */
+	public function flattenedErrors($data = array())
+	{
+		if(empty($data))
+		{
+			return $this->flattenedErrors;
+		}
+		else
+		{
+			array_push($data);
+		}
+		
+	}
+
+	/**
+	 * Add an error message to the validator's flattened collection of messages.
+	 *
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return void
+	 */
+	protected function flatError($attribute, $rule, $parameters)
+	{
+		$message = $this->replace($this->message($attribute, $rule), $attribute, $rule, $parameters);
+
+		return $message;
 	}
 
 	/**
