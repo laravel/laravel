@@ -141,17 +141,22 @@ abstract class Controller {
 		Bundle::start($bundle);
 
 		list($name, $method) = explode('@', $destination);
+
+		$controller = static::resolve($bundle, $name);
 		
-		// If the method (the controller action) is a number, it was meant to be a
-		// parameter.  As in the restful route "PUT /news/15" where you want to update
-		// a news item with an id of 15.  So put the id at the begining of the paramters
-		// list and change the method to index.		
-		if (preg_match('/^\d+$/', $method)) {
+		// Support restful routes like "PUT /news/15" where you want to update
+		// a news item with an id of 15.  So check if we've detected the method to
+		// be a number and that we intend to do restful routes and that the dev
+		// didn't legitimately name their method "put_15".  If we pass all that, 
+		// call the index method and move "15" into the first parameter.
+		if (preg_match('/^\d+$/', $method) 
+			&& $controller->restful
+			&& !method_exists($controller, strtolower(Request::method()).'_'.$method)) {
+			
+			// Make the first parameter the method name
 			array_unshift($parameters, $method);
 			$method = 'index';
 		}
-
-		$controller = static::resolve($bundle, $name);
 
 		// For convenience we will set the current controller and action on the
 		// Request's route instance so they can be easily accessed from the
