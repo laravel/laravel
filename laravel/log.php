@@ -48,10 +48,12 @@ class Log {
 		{
 			Event::fire('laravel.log', array($type, $message));
 		}
+		else
+		{
+			$message = static::format($type, $message);
 
-		$message = static::format($type, $message);
-
-		File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
+			File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
+		}
 	}
 
 	/**
