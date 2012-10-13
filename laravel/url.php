@@ -114,9 +114,14 @@ class URL {
 			$root .= '/'.Config::get('application.index');
 		}
 
-		if ( ! $asset and $locale and count(Config::get('application.languages')) > 0)
+		$languages = Config::get('application.languages');
+
+		if ( ! $asset and $locale and count($languages) > 0)
 		{
-			$root .= '/'.Config::get('application.language');
+			if (in_array($default = Config::get('application.language'), $languages))
+			{
+				$root = rtrim($root, '/').'/'.$default;
+			}
 		}
 
 		// Since SSL is not often used while developing the application, we allow the

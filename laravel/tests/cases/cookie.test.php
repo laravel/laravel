@@ -67,7 +67,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testHasMethodIndicatesIfCookieInSet()
 	{
-		Cookie::$jar['foo'] = array('value' => 'bar');
+		Cookie::$jar['foo'] = array('value' => Cookie::hash('bar').'+bar');
 		$this->assertTrue(Cookie::has('foo'));
 		$this->assertFalse(Cookie::has('bar'));
 
@@ -82,7 +82,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testGetMethodCanReturnValueOfCookies()
 	{
-		Cookie::$jar['foo'] = array('value' => 'bar');
+		Cookie::$jar['foo'] = array('value' => Cookie::hash('bar').'+bar');
 		$this->assertEquals('bar', Cookie::get('foo'));
 
 		Cookie::put('bar', 'baz');
@@ -97,7 +97,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	public function testForeverShouldUseATonOfMinutes()
 	{
 		Cookie::forever('foo', 'bar');
-		$this->assertEquals('bar', Cookie::$jar['foo']['value']);
+		$this->assertEquals(Cookie::hash('bar').'+bar', Cookie::$jar['foo']['value']);
 
 		// Shouldn't be able to test this cause while we indicate -2000 seconds 
 		// cookie expiration store timestamp.

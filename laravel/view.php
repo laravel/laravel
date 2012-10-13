@@ -45,6 +45,13 @@ class View implements ArrayAccess {
 	public static $cache = array();
 
 	/**
+	 * THe last view to be rendered.
+	 *
+	 * @var string
+	 */
+	public static $last;
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -367,7 +374,17 @@ class View implements ArrayAccess {
 			ob_get_clean(); throw $e;
 		}
 
-		return ob_get_clean();
+		$content = ob_get_clean();
+
+		// The view filter event gives us a last chance to modify the
+		// evaluated contents of the view and return them. This lets
+		// us do something like run the contents through Jade, etc.
+		if (Event::listeners('view.filter'))
+		{
+			return Event::first('view.filter', array($content, $this->path));
+		}
+
+		return $content;
 	}
 
 	/**
@@ -377,6 +394,8 @@ class View implements ArrayAccess {
 	 */
 	protected function load()
 	{
+		static::$last = array('name' => $this->view, 'path' => $this->path);
+
 		if (isset(static::$cache[$this->path]))
 		{
 			return static::$cache[$this->path];
