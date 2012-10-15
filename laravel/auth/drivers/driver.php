@@ -128,7 +128,7 @@ abstract class Driver {
 
 		Session::forget($this->token());
 
-    $this->token = null;
+		$this->token = null;
 	}
 
 	/**

@@ -457,7 +457,8 @@ abstract class Model {
 	 *
 	 * @return void
 	 */
-	public function touch(){
+	public function touch()
+	{
 		$this->timestamp();
 		$this->save();
 	}
