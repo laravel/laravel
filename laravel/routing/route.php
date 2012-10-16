@@ -129,7 +129,7 @@ class Route {
 		// sure we have a valid Response instance.
 		$response = Response::prepare($response);
 
-		Filter::run($this->filters('after'), array($response));
+		Filter::run($this->filters('after'), array(&$response));
 
 		return $response;
 	}
