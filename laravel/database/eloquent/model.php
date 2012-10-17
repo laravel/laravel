@@ -369,9 +369,9 @@ abstract class Model {
 	/**
 	 * Save the model instance to the database.
 	 *
-	 * @return bool
+	 * @return bool or $id
 	 */
-	public function save()
+	public function save($returnId = null)
 	{
 		if ( ! $this->dirty()) return true;
 
@@ -418,7 +418,16 @@ abstract class Model {
 			$this->fire_event('saved');
 		}
 
-		return $result;
+		// Returns id of saved item, if set to true
+		if ($returnId)
+		{
+			return $id;
+		}
+		else
+		{
+			return $result;
+		}
+			
 	}
 
 	/**
