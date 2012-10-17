@@ -369,9 +369,9 @@ abstract class Model {
 	/**
 	 * Save the model instance to the database.
 	 *
-	 * @return bool
+	 * @return bool or $id
 	 */
-	public function save()
+	public function save($returnId = null)
 	{
 		if ( ! $this->dirty()) return true;
 
@@ -418,7 +418,16 @@ abstract class Model {
 			$this->fire_event('saved');
 		}
 
-		return $result;
+		// Returns id of saved item, if set to true
+		if ($returnId)
+		{
+			return $id;
+		}
+		else
+		{
+			return $result;
+		}
+			
 	}
 
 	/**
@@ -450,6 +459,16 @@ abstract class Model {
 		$this->updated_at = new \DateTime;
 
 		if ( ! $this->exists) $this->created_at = $this->updated_at;
+	}
+
+	/**
+	 *Updates the timestamp on the model and immediately saves it.
+	 *
+	 * @return void
+	 */
+	public function touch(){
+		$this->timestamp();
+		$this->save();
 	}
 
 	/**
@@ -518,7 +537,7 @@ abstract class Model {
 
 		foreach ($this->attributes as $key => $value)
 		{
-			if ( ! isset($this->original[$key]) or $value !== $this->original[$key])
+			if ( ! array_key_exists($key, $this->original) or $value != $this->original[$key])
 			{
 				$dirty[$key] = $value;
 			}
@@ -534,7 +553,7 @@ abstract class Model {
 	 */
 	public function get_key()
 	{
-		return $this->get_attribute(static::$key);
+		return array_get($this->attributes, static::$key);
 	}
 
 	/**
@@ -711,7 +730,7 @@ abstract class Model {
 		{
 			if (array_key_exists($key, $this->$source)) return true;
 		}
-		
+
 		if (method_exists($this, $key)) return true;
 	}
 
