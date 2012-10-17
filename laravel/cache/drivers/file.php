@@ -98,7 +98,7 @@ class File extends Driver {
 	}
 
 	/**
-	 * Delete all items from the cache.
+	 * Flush the entire cache.
 	 *
 	 * @return void
 	 */
