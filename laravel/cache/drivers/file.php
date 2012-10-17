@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use FilesystemIterator as fIterator;
+
 class File extends Driver {
 
 	/**
@@ -104,19 +106,12 @@ class File extends Driver {
 	 */
 	public function flush()
 	{
-		// The function deletes all files from '/storage/cache' directory
-		// we should make sure it does not delete certain files
-		// such as .gitignore
-		$ignored_files = array(
-			'.gitignore',
-			);
+		$items = new fIterator($this->path);
 
-		$dir = opendir($this->path);
-		while($file = readdir($dir))
+		foreach($items as $item)
 		{
-			if(! is_dir($file) AND ! in_array($file, $ignored_files))	
-				@unlink($this->path.$file);
+			// Delete files, skipping filenames started with dot
+			if(substr($item->getFileName(), 0, 1) !== '.') @unlink($item->getRealPath());
 		}
-		closedir($dir);
 	}
 }
