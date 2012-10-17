@@ -141,7 +141,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 		if (count($detach) > 0)
 		{
-			$this->detach(array_diff($current, $ids));
+			$this->detach($detach);
 		}
 	}
 
