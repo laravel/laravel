@@ -114,7 +114,7 @@ class File extends Driver {
 		$dir = opendir($this->path);
 		while($file = readdir($dir))
 		{
-			if(! is_dir($file) AND ! in_array($file, $ignore_files))	
+			if(! is_dir($file) AND ! in_array($file, $ignored_files))	
 				@unlink($this->path.$file);
 		}
 		closedir($dir);
