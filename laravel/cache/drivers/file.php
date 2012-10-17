@@ -97,4 +97,26 @@ class File extends Driver {
 		if (file_exists($this->path.$key)) @unlink($this->path.$key);
 	}
 
+	/**
+	 * Delete all items from the cache.
+	 *
+	 * @return void
+	 */
+	public function flush()
+	{
+		// The function deletes all files from '/storage/cache' directory
+		// we should make sure it does not delete certain files
+		// such as .gitignore
+		$ignored_files = array(
+			'.gitignore',
+			);
+
+		$dir = opendir($this->path);
+		while($file = readdir($dir))
+		{
+			if(! is_dir($file) AND ! in_array($file, $ignore_files))	
+				@unlink($this->path.$file);
+		}
+		closedir($dir);
+	}
 }

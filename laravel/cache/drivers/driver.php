@@ -110,4 +110,11 @@ abstract class Driver {
 		return time() + ($minutes * 60);
 	}
 
+	/**
+	 * Delete all items from the cache.
+	 *
+	 * @return void
+	 */
+	abstract public function flush();
+
 }
