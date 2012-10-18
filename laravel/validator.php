@@ -355,7 +355,7 @@ class Validator {
 	 */
 	protected function validate_integer($attribute, $value)
 	{
-		return filter_var($value, FILTER_VALIDATE_INT) !== false;
+		return ctype_digit ($value);
 	}
 
 	/**
@@ -605,7 +605,7 @@ class Validator {
 	 */
 	protected function validate_alpha($attribute, $value)
 	{
-		return preg_match('/^([a-z])+$/i', $value);
+		return ctype_alpha($value);
 	}
 
 	/**
@@ -617,7 +617,7 @@ class Validator {
 	 */
 	protected function validate_alpha_num($attribute, $value)
 	{
-		return preg_match('/^([a-z0-9])+$/i', $value);
+		return ctype_alnum($value);
 	}
 
 	/**
