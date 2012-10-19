@@ -553,14 +553,24 @@ class Query {
 
 	/**
 	 * Find a record by the primary key.
+	 * Examples:
+	 * DB::('countries')->find($id) or
+	 * DB::('countries')->find($id, array $columns) or
+	 * DB::('countries')->find($id, 'countries.isocode') -- this passing a primary key field if not the default "id"
 	 *
 	 * @param  int     $id
-	 * @param  array   $columns
+	 * @param  mixed   array $columns / string $pkey primary key
+	 * @param  string  $pkey
 	 * @return object
 	 */
-	public function find($id, $columns = array('*'))
+	public function find($id, $columns = array('*'), $pkey = 'id')
 	{
-		return $this->where('id', '=', $id)->first($columns);
+		if(is_string($columns)){
+			$pkey = $scolumns; //overide primary key when $column is handled as primary key
+			$columns = array('*');
+		}
+
+		return $this->where($pkey, '=', $id)->first($columns);
 	}
 
 	/**

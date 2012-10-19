@@ -333,7 +333,7 @@ abstract class Model {
 	 * @param  string        $table
 	 * @param  string        $foreign
 	 * @param  string        $other
-	 * @return Relationship
+	 * @return Has_Many_And_Belongs_To
 	 */
 	public function has_many_and_belongs_to($model, $table = null, $foreign = null, $other = null)
 	{
