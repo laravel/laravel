@@ -556,12 +556,11 @@ class Query {
 	 *
 	 * @param  int     $id
 	 * @param  array   $columns
-	 * @param  string  $pkey
 	 * @return object
 	 */
-	public function find($id, $columns = array('*'), $pkey = 'id')
+	public function find($id, $columns = array('*'))
 	{
-		return $this->where($pkey, '=', $id)->first($columns);
+		return $this->where('id', '=', $id)->first($columns);
 	}
 
 	/**
