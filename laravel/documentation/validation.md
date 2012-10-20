@@ -8,6 +8,7 @@
 - [Validation Walkthrough](#validation-walkthrough)
 - [Custom Error Messages](#custom-error-messages)
 - [Custom Validation Rules](#custom-validation-rules)
+- [User Friendly Validation Attributes](#user-friendly-validation-attributes)
 
 <a name="the-basics"></a>
 ## The Basics
@@ -23,6 +24,16 @@ Almost every interactive web application needs to validate data. For instance, a
 	$rules = array(
 		'name'  => 'required|max:50',
 		'email' => 'required|email|unique:users',
+	);
+
+Rules for array based form names can be defined by using a dot notation:
+
+	<input type="text" name="customer[name]" />
+	<input type="text" name="customer[email]" />
+
+	$rules = array(
+		'customer.name'  => 'required|max:50',
+		'customer.email' => 'required|email|unique:users',
 	);
 
 #### Create a Validator instance and validate the data:
@@ -257,6 +268,13 @@ Laravel makes working with your error messages a cinch using a simple error coll
 		// The e-mail attribute has errors...
 	}
 
+Array based form names can be queried by using a dot notation:
+
+	if ($validation->errors->has('customer.email'))
+	{
+		// The e-mail attribute has errors...
+	}
+
 #### Retrieve the first error message for an attribute:
 
 	echo $validation->errors->first('email');
@@ -451,3 +469,40 @@ Next, let's take our "awesome" rule and define it in our new class:
 Notice that the method is named using the **validate_rule** naming convention. The rule is named "awesome" so the method must be named "validate_awesome". This is one way in which registering your custom rules and extending the Validator class are different. Validator classes simply need to return true or false. That's it!
 
 Keep in mind that you'll still need to create a custom message for any validation rules that you create.  The method for doing so is the same no matter how you define your rule!
+
+<a name="user-friendly-validation-attributes"></a>
+## User Friendly Validation Attributes
+
+The **language/en/validation.php** file contains a PHP array to swap attribute place-holders with something more reader friendly such as "E-Mail Address" instead of "email".
+
+The Validator class will automatically search this array of lines it is attempting to replace the :attribute place-holder in messages.
+
+#### Adding an entry for your attribute in the **language/en/validation.php** file:
+
+	'attributes' => array(
+		'email' => 'E-Mail Address',
+		'name' => 'Username ',
+		'location' => 'Geographic Location',
+	),
+
+Array based form names can be defined by nesting arrays:
+
+	<input type="text" name="job[contact][name]" />
+	<input type="text" name="job[contact][email]" />
+	<input type="text" name="job[company]" />
+	<input type="text" name="job[title]" />
+	<input type="text" name="job[location]" />
+	<input type="text" name="job[url]" />
+
+	'attributes' => array(
+		'job' => array(
+			'contact' => array(
+				'name' => 'Contact Name',
+				'email' => 'Contact Email',
+			),
+			'company' => 'Company Name',
+			'title' => 'Job Title',
+			'location' => 'Job Location',
+			'url' => 'Job Posting URL',
+		),
+	),
