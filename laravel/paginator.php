@@ -393,7 +393,7 @@ class Paginator {
 			return $this->appendage = '';
 		}
 
-		return $this->appendage = '&'.http_build_query($appends);
+		return $this->appendage = e('&').http_build_query($appends);
 	}
 
 	/**
