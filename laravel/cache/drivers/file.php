@@ -1,6 +1,6 @@
 <?php namespace Laravel\Cache\Drivers;
 
-use FilesystemIterator as fIterator;
+use FilesystemIterator;
 
 class File extends Driver {
 
@@ -106,7 +106,7 @@ class File extends Driver {
 	 */
 	public function flush()
 	{
-		$items = new fIterator($this->path);
+		$items = new FilesystemIterator($this->path);
 
 		foreach($items as $item)
 		{
