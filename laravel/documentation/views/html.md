@@ -70,7 +70,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a link to a named route with wildcard values:
 
-	$url = HTML::link_to_route('profile', array($username));
+	$url = HTML::link_to_route('profile', 'User Profile', array($username));
 
 *Further Reading:*
 
