@@ -25,6 +25,16 @@ class Exception extends \Exception {
 	}
 
 	/**
+	 * Get the inner exception.
+	 *
+	 * @return Exception
+	 */
+	public function getInner()
+	{
+		return $this->inner;
+	}
+
+	/**
 	 * Set the exception message to include the SQL and bindings.
 	 *
 	 * @param  string  $sql
