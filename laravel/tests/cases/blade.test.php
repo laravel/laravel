@@ -13,9 +13,11 @@ class BladeTest extends PHPUnit_Framework_TestCase {
 	{
 		$blade1 = '{{$a}}';
 		$blade2 = '{{e($a)}}';
+		$blade3 = '{{raw($a)}}';
 
 		$this->assertEquals('<?php echo $a; ?>', Blade::compile_string($blade1));
 		$this->assertEquals('<?php echo e($a); ?>', Blade::compile_string($blade2));
+		$this->assertEquals('<?php echo raw($a); ?>', Blade::compile_string($blade3));
 	}
 
 	/**

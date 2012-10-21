@@ -14,6 +14,19 @@ function e($value)
 }
 
 /**
+ * Decode HTML entities to characters.
+ *
+ * The encoding specified in the application configuration file will be used.
+ *
+ * @param  string  $value
+ * @return string
+ */
+function raw($value)
+{
+	return Laravel\HTML::decode($value);
+}
+
+/**
  * Retrieve a language line.
  *
  * @param  string  $key
