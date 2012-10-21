@@ -331,6 +331,8 @@ class File {
 	 */
 	public static function latest($directory, $options = fIterator::SKIP_DOTS)
 	{
+		$latest = null;
+
 		$time = 0;
 
 		$items = new fIterator($directory, $options);
