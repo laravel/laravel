@@ -42,12 +42,8 @@ class Log {
 	public static function write($type, $message)
 	{
 		// If there is a listener for the log event, we'll delegate the logging
-		// to the event and not write to the log files. This allows for quick
-		// swapping of log implementations for debugging.
-		if (Event::listeners('laravel.log'))
-		{
-			Event::fire('laravel.log', array($type, $message));
-		}
+		// to the event for debugging.
+		Event::fire('laravel.log', array($type, $message));
 
 		$message = static::format($type, $message);
 
