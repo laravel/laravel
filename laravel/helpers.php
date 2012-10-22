@@ -280,12 +280,23 @@ function array_except($array, $keys)
  */
 function eloquent_to_json($models)
 {
+	return json_encode(eloquent_to_array($models));
+}
+
+/**
+ * Transform Eloquent models to an array.
+ *
+ * @param  Eloquent|array  $models
+ * @return object
+ */
+function eloquent_to_array($models)
+{
 	if ($models instanceof Laravel\Database\Eloquent\Model)
 	{
-		return json_encode($models->to_array());
+		return $models->to_array();
 	}
 
-	return json_encode(array_map(function($m) { return $m->to_array(); }, $models));
+	return array_map(function($m) { return $m->to_array(); }, $models);
 }
 
 /**
