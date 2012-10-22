@@ -69,6 +69,12 @@ When working with JavaScript MVC frameworks like Backbone.js, you will need to g
 
 	$size = Input::file('picture.size');
 
+> **Note:** In order to use file uploads, you must use `Form::open_for_files()` or manually enable `multipart/form-data`.
+
+*Further Reading:*
+
+- *[Openning Forms](/docs/views/forms#opening-a-form)*
+
 <a name="old-input"></a>
 ## Old Input
 
