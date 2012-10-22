@@ -73,7 +73,7 @@ When working with JavaScript MVC frameworks like Backbone.js, you will need to g
 
 *Further Reading:*
 
-- *[Openning Forms](/docs/views/forms#opening-a-form)*
+- *[Opening Forms](/docs/views/forms#opening-a-form)*
 
 <a name="old-input"></a>
 ## Old Input
