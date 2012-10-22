@@ -45,9 +45,15 @@ class Log {
 		// to the event for debugging.
 		Event::fire('laravel.log', array($type, $message));
 
-		$message = static::format($type, $message);
+		$threshold = (array) Config::get('application.logger_treshold', array());
 
-		File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
+		switch (true)
+		{
+			case empty($treshold) :
+			case in_array($type, $treshold) :
+				File::append(path('storage').'logs/'.date('Y-m-d').'.log', static::format($type, $message));
+				break;
+		}
 	}
 
 	/**
