@@ -46,7 +46,7 @@ If you are having problems installing, try the following:
 <a name="server-configuration"></a>
 ## Server Configuration
 
-Like most web-development frameworks, Laravel is designed to protect your application code, bundles, and local storage by placing only files that are necessarily public in the web server's DocumentRoot. This prevents some types of server misconfiguration from making your code (including database passwords and other configuration data) accessible through the web server. It's best to be safe. 
+Like most web-development frameworks, Laravel is designed to protect your application code, bundles, and local storage by placing only files that are necessarily public in the web server's DocumentRoot. This prevents some types of server misconfiguration from making your code (including database passwords and other configuration data) accessible through the web server. It's best to be safe.
 
 In this example let's imagine that we installed Laravel to the directory **/Users/JonSnow/Sites/MySite**.
 
@@ -98,10 +98,11 @@ Isn't it easy? Of course, you are free to create as many environments as you wis
 <a name="cleaner-urls"></a>
 ## Cleaner URLs
 
-Most likely, you do not want your application URLs to contain "index.php". You can remove it using HTTP rewrite rules. If you are using Apache to serve your application, make sure to enable mod_rewrite and create a **.htaccess** file like this one in your **public** directory:
+Most likely, you do not want your application URLs to contain "index.php". You can remove it using HTTP rewrite rules. Laravel ships with a default **.htaccess** file that contains Apache directives to remove the "index.php" from the URL. Make sure to enable mod_rewrite in Apache. Some alternative Apache directives:
 
 	<IfModule mod_rewrite.c>
 	     RewriteEngine on
+	     RewriteBase /
 
 	     RewriteCond %{REQUEST_FILENAME} !-f
 	     RewriteCond %{REQUEST_FILENAME} !-d
@@ -113,6 +114,7 @@ Is the .htaccess file above not working for you? Try this one:
 
 	Options +FollowSymLinks
 	RewriteEngine on
+	RewriteBase /
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d

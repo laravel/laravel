@@ -10,7 +10,8 @@
 
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
-	RewriteEngine On
+	RewriteEngine on
+	RewriteBase /
 </IfModule>
 
 # For all files not found in the file system, reroute the request to the
