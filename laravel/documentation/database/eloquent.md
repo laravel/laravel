@@ -245,21 +245,23 @@ You may be wondering: _If the dynamic properties return the relationship and req
 
 Many-to-many relationships are the most complicated of the three relationships. But don't worry, you can do this. For example, assume a User has many Roles, but a Role can also belong to many Users. Three database tables must be created to accomplish this relationship: a **users** table, a **roles** table, and a **role_user** table. The structure for each table looks like this:
 
-**Users:**
+**users:**
 
 	id    - INTEGER
 	email - VARCHAR
 
-**Roles:**
+**roles:**
 
 	id   - INTEGER
 	name - VARCHAR
 
-**Role_User:**
+**role_user:**
 
     id      - INTEGER
 	user_id - INTEGER
 	role_id - INTEGER
+
+Tables contain many records and are consequently plural. Pivot tables used in **has\_many\_and\_belongs\_to** relationships are named by combining the singular names of the two related models arranged alphabetically and concatenating them with an underscore.
 
 Now you're ready to define the relationship on your models using the **has\_many\_and\_belongs\_to** method:
 
@@ -280,7 +282,7 @@ Or, as usual, you may retrieve the relationship through the dynamic roles proper
 
 	$roles = User::find(1)->roles;
 
-As you may have noticed, the default name of the intermediate table is the singular names of the two related models arranged alphabetically and concatenated by an underscore. However, you are free to specify your own table name. Simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
+If your table names don't follow conventions, simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
 
 	class User extends Eloquent {
 
