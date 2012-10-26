@@ -16,7 +16,7 @@
 
 If you are using the Auth class, you are strongly encouraged to hash and salt all passwords. Web development must be done responsibly. Salted, hashed passwords make a rainbow table attack against your user's passwords impractical.
 
-Salting and hashing passwords is done using the **Hash** class. The Hash class is uses the **bcrypt** hashing algorithm. Check out this example:
+Salting and hashing passwords is done using the **Hash** class. The Hash class uses the **bcrypt** hashing algorithm. Check out this example:
 
 	$password = Hash::make('secret');
 
