@@ -579,9 +579,8 @@ class Validator {
 	 */
 	protected function validate_active_url($attribute, $value)
 	{
-		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
-
-		return (trim($url) !== '') ? checkdnsrr($url) : false;
+		$url = parse_url($value);
+		return isset($url['host']) ? checkdnsrr($url['host'], 'ANY') : false;
 	}
 
 	/**
