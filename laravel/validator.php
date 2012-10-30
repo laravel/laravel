@@ -581,7 +581,7 @@ class Validator {
 	{
 		$url = str_replace(array('http://', 'https://', 'ftp://'), '', Str::lower($value));
 
-		return (trim($url) !== '') ? checkdnsrr($url) : false;
+		return (trim($url) !== '') ? checkdnsrr($url, 'ANY') : false;
 	}
 
 	/**
