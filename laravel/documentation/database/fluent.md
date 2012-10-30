@@ -114,6 +114,26 @@ The suite of **where_null** methods makes checking for NULL values a piece of ca
 		->or_where_not_null('updated_at')
 		->get();
 
+### where\_between, where\_not\_between, or\_where\_between, and or\_where\_not\_between
+
+The suite of **where_between** methods makes checking if values fall BETWEEN a minimum and maximum super easy :
+	
+	return DB::table('users')->where_between($column, $min, $max)->get();	
+
+	return DB::table('users')->where_between('updated_at', '2000-10-10', '2012-10-10')->get();
+
+	return DB::table('users')->where_not_between('updated_at', '2000-10-10', '2012-01-01')->get();
+
+	return DB::table('users')
+		->where('email', '=', 'example@gmail.com')
+		->or_where_between('updated_at', '2000-10-10', '2012-01-01')
+		->get();
+
+	return DB::table('users')
+		->where('email', '=', 'example@gmail.com')
+		->or_where_not_between('updated_at', '2000-10-10', '2012-01-01')
+		->get();
+
 <a name="nested-where"></a>
 ## Nested Where Clauses
 
