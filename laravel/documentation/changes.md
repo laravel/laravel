@@ -51,6 +51,7 @@
 ## Laravel 3.2.11
 
 - Improve performance of Eloquent eager load matching.
+- Check `gethostname` on environment detection.
 
 <a name="upgrade-3.2.11"></a>
 ### Upgrading From 3.2.10
