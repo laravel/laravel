@@ -75,7 +75,7 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  array  $attributes
+	 * @param  mixed  $attributes
 	 * @param  array  $rules
 	 * @param  array  $messages
 	 * @return void
@@ -89,7 +89,7 @@ class Validator {
 
 		$this->rules = $rules;
 		$this->messages = $messages;
-		$this->attributes = $attributes;
+		$this->attributes = (is_object($attributes)) ? get_object_vars($attributes) : $attributes;
 	}
 
 	/**
