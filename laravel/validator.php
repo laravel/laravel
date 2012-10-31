@@ -89,7 +89,7 @@ class Validator {
 
 		$this->rules = $rules;
 		$this->messages = $messages;
-		$this->attributes = $attributes;
+		$this->attributes = (is_object($attributes)) ? get_object_vars($attributes) : $attributes;
 	}
 
 	/**
