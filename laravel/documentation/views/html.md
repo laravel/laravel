@@ -21,11 +21,11 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Converting a string to its entity representation:
 
-	echo HTML::entities('<script>alert('hi');</script>');
+	echo HTML::entities('<script>alert(\'hi\');</script>');
 
 #### Using the "e" global helper:
 
-	echo e('<script>alert('hi');</script>');
+	echo e('<script>alert(\'hi\');</script>');
 
 <a name="scripts-and-style-sheets"></a>
 ## Scripts And Style Sheets
@@ -70,7 +70,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a link to a named route with wildcard values:
 
-	$url = HTML::link_to_route('profile', array($username));
+	$url = HTML::link_to_route('profile', 'User Profile', array($username));
 
 *Further Reading:*
 
