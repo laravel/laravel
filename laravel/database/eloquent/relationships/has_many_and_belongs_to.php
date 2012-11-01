@@ -121,6 +121,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	public function sync($ids)
 	{
 		$current = $this->pivot()->lists($this->other_key());
+		$ids = (array) $ids;
 
 		// First we need to attach any of the associated models that are not currently
 		// in the joining table. We'll spin through the given IDs, checking to see
@@ -140,7 +141,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 		if (count($detach) > 0)
 		{
-			$this->detach(array_diff($current, $ids));
+			$this->detach($detach);
 		}
 	}
 
@@ -328,14 +329,19 @@ class Has_Many_And_Belongs_To extends Relationship {
 	{
 		$foreign = $this->foreign_key();
 
-		foreach ($parents as &$parent)
-		{
-			$matching = array_filter($children, function($v) use (&$parent, $foreign)
-			{
-				return $v->pivot->$foreign == $parent->get_key();
-			});
+		$dictionary = array();
 
-			$parent->relationships[$relationship] = array_values($matching);
+		foreach ($children as $child)
+		{
+			$dictionary[$child->pivot->$foreign][] = $child;
+		}
+
+		foreach ($parents as $parent)
+		{
+			if (array_key_exists($key = $parent->get_key(), $dictionary))
+			{
+				$parent->relationships[$relationship] = $dictionary[$key];
+			}
 		}
 	}
 
