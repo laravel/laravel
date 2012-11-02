@@ -260,6 +260,12 @@ class View implements ArrayAccess {
 	 *		{
 	 *			$view['title'] = 'Home';
 	 *		});
+	 * 
+	 *		// Register a composer for the named view "dashboard" 
+	 *		View::composer('name: dashboard', function($view)
+	 *		{
+	 *			$view['welcome_message'] = 'Welcome to the dashboard';
+	 *		});
 	 * </code>
 	 *
 	 * @param  string|array  $views
@@ -272,6 +278,10 @@ class View implements ArrayAccess {
 
 		foreach ($views as $view)
 		{
+			if (starts_with($view, 'name: ') and array_key_exists($name = substr($view, 6), static::$names))
+			{
+				$view = static::$names[$name];
+			}
 			Event::listen("laravel.composing: {$view}", $composer);
 		}
 	}
