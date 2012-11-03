@@ -69,6 +69,7 @@ Command  | Description
 `$table->timestamps();`  |  Adds **created\_at** and **updated\_at** columns
 `$table->text('description');`  |  TEXT equivalent to the table
 `$table->blob('data');`  |  BLOB equivalent to the table
+`$table->enum('data', array('yes', 'no'));`  |  Adds an ENUM with 'yes' and 'no' (MySQL and Postresql only)
 `->nullable()`  |  Designate that the column allows NULL values
 `->default($value)`  |  Declare a default value for a column
 `->unsigned()`  |  Set INTEGER to UNSIGNED

@@ -418,4 +418,15 @@ class MySQL extends Grammar {
 		return 'BLOB';
 	}
 
+	/**
+	 * Generate the data-type defintion for an enum.
+	 *
+	 * @param Fluent $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		return 'ENUM ("' . implode( '", "', $column->enum_values ) . '")';
+	}
+
 }
