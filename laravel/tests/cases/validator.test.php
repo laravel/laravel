@@ -239,6 +239,36 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(Validator::make($_FILES, $rules)->valid());
 	}
 
+  /**
+   * Test the match rule using a basic Regular Expression.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRule()
+  {
+    $input = array('some_date' => '2012-11-04');
+    $rules = array('some_date' => 'match:/^\d{4}\-\d{2}\-\d{2}$/');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('some_date' => '04-11-2012');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
+  /**
+   * Test the match rule using a Regular Expression containing a comma.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRuleContainingAComma()
+  {
+    $input = array('some_date' => '1234');
+    $rules = array('some_date' => 'match:/^\d{2,4}$/');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('some_date' => '12345');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
 	/**
 	 * Test the between validation rule.
 	 *
