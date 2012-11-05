@@ -9,17 +9,22 @@ class Str {
 	 */
 	public static $pluralizer;
 
-	/**
-	 * Get the default string encoding for the application.
-	 *
-	 * This method is simply a short-cut to Config::get('application.encoding').
-	 *
-	 * @return string
-	 */
-	public static function encoding()
-	{
-		return Config::get('application.encoding');
-	}
+    /**
+     * Cache application encoding locally to save expensive calls to Config::get().
+     *
+     * @var string
+     */
+    public static $encoding = null;
+
+    /**
+     * Get the appliction.encoding without needing to request it from Config::get() each time.
+     *
+     * @return string
+     */
+    protected static function encoding()
+    {
+        return static::$encoding ?: static::$encoding = Config::get('application.encoding');
+    }
 
 	/**
 	 * Get the length of a string.
@@ -128,6 +133,31 @@ class Str {
 		}
 
 		return substr($value, 0, $limit).$end;
+	}
+
+	/**
+	 * Limit the number of chracters in a string including custom ending
+	 * 
+	 * <code>
+	 *		// Returns "Taylor..."
+	 *		echo Str::limit_exact('Taylor Otwell', 9);
+	 *
+	 *		// Limit the number of characters and append a custom ending
+	 *		echo Str::limit_exact('Taylor Otwell', 9, '---');
+	 * </code>
+	 * 
+	 * @param  string  $value
+	 * @param  int     $limit
+	 * @param  string  $end
+	 * @return string
+	 */
+	public static function limit_exact($value, $limit = 100, $end = '...')
+	{
+		if (static::length($value) <= $limit) return $value;
+
+		$limit -= static::length($end);
+
+		return static::limit($value, $limit, $end);
 	}
 
 	/**

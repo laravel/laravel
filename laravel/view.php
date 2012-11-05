@@ -45,6 +45,13 @@ class View implements ArrayAccess {
 	public static $cache = array();
 
 	/**
+	 * THe last view to be rendered.
+	 *
+	 * @var string
+	 */
+	public static $last;
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -118,6 +125,11 @@ class View implements ArrayAccess {
 	 */
 	public static function exists($view, $return_path = false)
 	{
+		if (starts_with($view, 'name: ') and array_key_exists($name = substr($view, 6), static::$names))
+		{
+			$view = static::$names[$name];
+		}
+		
 		list($bundle, $view) = Bundle::parse($view);
 
 		$view = str_replace('.', '/', $view);
@@ -163,7 +175,7 @@ class View implements ArrayAccess {
 	{
 		$directory = str_finish($directory, DS);
 
-		// Views may have either the default PHP file extension of the "Blade"
+		// Views may have either the default PHP file extension or the "Blade"
 		// extension, so we will need to check for both in the view path
 		// and return the first one we find for the given view.
 		if (file_exists($path = $directory.$view.EXT))
@@ -250,7 +262,7 @@ class View implements ArrayAccess {
 	 *		});
 	 * </code>
 	 *
-	 * @param  string|array  $view
+	 * @param  string|array  $views
 	 * @param  Closure       $composer
 	 * @return void
 	 */
@@ -291,7 +303,7 @@ class View implements ArrayAccess {
 		}
 
 		// If there is no data in the array, we will render the contents of
-		// the "empty" view. Alternative, the "empty view" can be a raw
+		// the "empty" view. Alternatively, the "empty view" can be a raw
 		// string that is prefixed with "raw|" for convenience.
 		else
 		{
@@ -362,7 +374,17 @@ class View implements ArrayAccess {
 			ob_get_clean(); throw $e;
 		}
 
-		return ob_get_clean();
+		$content = ob_get_clean();
+
+		// The view filter event gives us a last chance to modify the
+		// evaluated contents of the view and return them. This lets
+		// us do something like run the contents through Jade, etc.
+		if (Event::listeners('view.filter'))
+		{
+			return Event::first('view.filter', array($content, $this->path));
+		}
+
+		return $content;
 	}
 
 	/**
@@ -372,6 +394,8 @@ class View implements ArrayAccess {
 	 */
 	protected function load()
 	{
+		static::$last = array('name' => $this->view, 'path' => $this->path);
+
 		if (isset(static::$cache[$this->path]))
 		{
 			return static::$cache[$this->path];
@@ -544,6 +568,22 @@ class View implements ArrayAccess {
 	public function __toString()
 	{
 		return $this->render();
+	}
+
+	/**
+	 * Magic Method for handling dynamic functions.
+	 *
+	 * This method handles calls to dynamic with helpers.
+	 */
+	public function __call($method, $parameters)
+	{
+		if (strpos($method, 'with_') === 0)
+		{
+			$key = substr($method, 5);
+			return $this->with($key, $parameters[0]);
+		}
+
+		throw new \Exception("Method [$method] is not defined on the View class.");
 	}
 
 }

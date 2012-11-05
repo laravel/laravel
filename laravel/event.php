@@ -125,7 +125,7 @@ class Event {
 	}
 
 	/**
-	 * Fire an event and return the the first response.
+	 * Fire an event and return the first response.
 	 *
 	 * Execution will be halted after the first valid response is found.
 	 *
@@ -176,7 +176,7 @@ class Event {
 	 *		$responses = Event::fire(array('start', 'loading'), $parameters);
 	 * </code>
 	 *
-	 * @param  string|array  $event
+	 * @param  string|array  $events
 	 * @param  array         $parameters
 	 * @param  bool          $halt
 	 * @return array

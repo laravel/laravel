@@ -140,6 +140,25 @@ class Migrator extends Task {
 	}
 
 	/**
+	 * Reset the database to pristine state and run all migrations
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	public function rebuild()
+	{
+		// Clean the database
+		$this->reset();
+
+		echo PHP_EOL;
+
+		// Re-run all migrations
+		$this->migrate();
+
+		echo 'The database was successfully rebuilt'.PHP_EOL;
+	}
+
+	/**
 	 * Install the database tables used by the migration system.
 	 *
 	 * @return void
@@ -151,7 +170,7 @@ class Migrator extends Task {
 			$table->create();
 
 			// Migrations can be run for a specific bundle, so we'll use
-			// the bundle name and string migration name as an unique ID
+			// the bundle name and string migration name as a unique ID
 			// for the migrations, allowing us to easily identify which
 			// migrations have been run for each bundle.
 			$table->string('bundle', 50);
@@ -206,7 +225,7 @@ class Migrator extends Task {
 
 		// Once the migration has been created, we'll return the
 		// migration file name so it can be used by the task
-		// consumer if necessary for futher work.
+		// consumer if necessary for further work.
 		return $file;
 	}
 
@@ -223,7 +242,7 @@ class Migrator extends Task {
 
 		$prefix = Bundle::class_prefix($bundle);
 
-		// The class name is formatted simialrly to tasks and controllers,
+		// The class name is formatted similarly to tasks and controllers,
 		// where the bundle name is prefixed to the class if it is not in
 		// the default "application" bundle.
 		$class = $prefix.Str::classify($migration);

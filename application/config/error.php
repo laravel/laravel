@@ -9,7 +9,7 @@ return array(
 	|
 	| Here you simply specify the error levels that should be ignored by the
 	| Laravel error handler. These levels will still be logged; however, no
-	| information about about them will be displayed.
+	| information about them will be displayed.
 	|
 	*/
 
@@ -56,7 +56,7 @@ return array(
 	| logging is enabled. 
 	|
 	| You may log the error message however you like; however, a simple log
-	| solution has been setup for you which will log all error messages to
+	| solution has been set up for you which will log all error messages to
 	| text files within the application storage directory.
 	|
 	*/

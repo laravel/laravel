@@ -25,7 +25,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Geenrate the SQL statements for a table modification command.
+	 * Generate the SQL statements for a table modification command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -35,7 +35,7 @@ class Postgres extends Grammar {
 	{
 		$columns = $this->columns($table);
 
-		// Once we the array of column definitions, we need to add "add" to the
+		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
 		$columns = implode(', ', array_map(function($column)
@@ -101,7 +101,7 @@ class Postgres extends Grammar {
 	{
 		if ( ! is_null($column->default))
 		{
-			return " DEFAULT '".$column->default."'";
+			return " DEFAULT '".$this->default_value($column->default)."'";
 		}
 	}
 
@@ -199,15 +199,15 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop table command.
+	 * Generate the SQL statement for a rename table command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
 	 * @return string
 	 */
-	public function drop(Table $table, Fluent $command)
+	public function rename(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'ALTER TABLE '.$this->wrap($table).' RENAME TO '.$this->wrap($command->name);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop unqique key command.
+	 * Generate the SQL statement for a drop unique key command.
 	 *
 	 * @param  Table    $table
 	 * @param  Fluent   $command
@@ -297,12 +297,12 @@ class Postgres extends Grammar {
 	 * Drop a foreign key constraint from the table.
 	 *
 	 * @param  Table   $table
-	 * @param  Fluent  $fluent
+	 * @param  Fluent  $command
 	 * @return string
 	 */
 	public function drop_foreign(Table $table, Fluent $command)
 	{
-		return $this->drop_constraint($table, $command);		
+		return $this->drop_constraint($table, $command);
 	}
 
 	/**
@@ -339,7 +339,7 @@ class Postgres extends Grammar {
 	}
 
 	/**
-	 * Generate the data-type definintion for a decimal.
+	 * Generate the data-type definition for a decimal.
 	 *
 	 * @param  Fluent  $column
 	 * @return string

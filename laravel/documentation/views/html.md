@@ -15,17 +15,17 @@
 <a name="entities"></a>
 ## Entities
 
-When displaying user input in your Views, it is important to convert all characters which have signifance in HTML to their "entity" representation.
+When displaying user input in your Views, it is important to convert all characters which have significance in HTML to their "entity" representation.
 
 For example, the < symbol should be converted to its entity representation. Converting HTML characters to their entity representation helps protect your application from cross-site scripting:
 
 #### Converting a string to its entity representation:
 
-	echo HTML::entities('<script>alert('hi');</script>');
+	echo HTML::entities('<script>alert(\'hi\');</script>');
 
 #### Using the "e" global helper:
 
-	echo e('<script>alert('hi');</script>');
+	echo e('<script>alert(\'hi\');</script>');
 
 <a name="scripts-and-style-sheets"></a>
 ## Scripts And Style Sheets
@@ -70,7 +70,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a link to a named route with wildcard values:
 
-	$url = HTML::link_to_route('profile', array($username));
+	$url = HTML::link_to_route('profile', 'User Profile', array($username));
 
 *Further Reading:*
 
@@ -85,7 +85,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 ### Generating a link to a controller action with wildcard values:
 
-	echo HTML::link_to_action('user@profile', array($username));
+	echo HTML::link_to_action('user@profile', 'User Profile', array($username));
 
 <a name="mail-to-links"></a>
 ## Mail-To Links
@@ -119,6 +119,8 @@ The "mailto" method on the HTML class obfuscates the given e-mail address so it 
 	echo HTML::ol(array('Get Peanut Butter', 'Get Chocolate', 'Feast'));
 
 	echo HTML::ul(array('Ubuntu', 'Snow Leopard', 'Windows'));
+	
+	echo HTML::dl(array('Ubuntu' => 'An operating system by Canonical', 'Windows' => 'An operating system by Microsoft'));
 
 <a name="custom-macros"></a>
 ## Custom Macros

@@ -47,7 +47,7 @@ class Paginator {
 	/**
 	 * The compiled appendage that will be appended to the links.
 	 *
-	 * This consists of a sprintf format  with a page place-holder and query string.
+	 * This consists of a sprintf format with a page place-holder and query string.
 	 *
 	 * @var string
 	 */
@@ -65,7 +65,7 @@ class Paginator {
 	 *
 	 * @var string
 	 */
-	protected $dots = '<span class="dots">...</span>';
+	protected $dots = '<li class="dots disabled"><a href="#">...</a></li>';
 
 	/**
 	 * Create a new Paginator instance.
@@ -183,7 +183,7 @@ class Paginator {
 			$links = $this->slider($adjacent);
 		}
 
-		$content = $this->previous().' '.$links.' '.$this->next();
+		$content = '<ul>' . $this->previous() . $links . $this->next() . '</ul>';
 
 		return '<div class="pagination">'.$content.'</div>';
 	}
@@ -300,7 +300,7 @@ class Paginator {
 		// the "first" element should be a span instead of a link.
 		if ($disabled($this->page, $this->last))
 		{
-			return HTML::span($text, array('class' => "{$class} disabled"));
+			return '<li'.HTML::attributes(array('class'=>"{$class} disabled")).'><a href="#">'.$text.'</a></li>';
 		}
 		else
 		{
@@ -349,7 +349,7 @@ class Paginator {
 		{
 			if ($this->page == $page)
 			{
-				$pages[] = HTML::span($page, array('class' => 'current'));
+				$pages[] = '<li class="active"><a href="#">'.$page.'</a></li>';
 			}
 			else
 			{
@@ -372,7 +372,7 @@ class Paginator {
 	{
 		$query = '?page='.$page.$this->appendage($this->appends);
 
-		return HTML::link(URI::current().$query, $text, compact('class'), Request::secure());
+		return '<li'.HTML::attributes(array('class' => $class)).'>'. HTML::link(URI::current().$query, $text, array(), Request::secure()).'</li>';
 	}
 
 	/**
