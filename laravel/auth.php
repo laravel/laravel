@@ -57,6 +57,9 @@ class Auth {
 			case 'eloquent':
 				return new Auth\Drivers\Eloquent(Config::get('auth.model'));
 
+			case 'redis':
+				return new Auth\Drivers\Redis(\Laravel\Redis::db());
+
 			default:
 				throw new \Exception("Auth driver {$driver} is not supported.");
 		}
