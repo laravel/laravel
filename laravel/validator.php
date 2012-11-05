@@ -1136,7 +1136,9 @@ class Validator {
 		// "max:3" specifies that the value may only be 3 characters long.
 		if (($colon = strpos($rule, ':')) !== false)
 		{
-			$parameters = str_getcsv(substr($rule, $colon + 1));
+      $parameters = substr($rule, 0, $colon) == 'match'
+        ? array(substr($rule, $colon + 1))
+        : str_getcsv(substr($rule, $colon + 1));
 		}
 
 		return array(is_numeric($colon) ? substr($rule, 0, $colon) : $rule, $parameters);
