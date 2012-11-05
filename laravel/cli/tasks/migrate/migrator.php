@@ -5,6 +5,7 @@ use Laravel\File;
 use Laravel\Bundle;
 use Laravel\CLI\Tasks\Task;
 use Laravel\Database\Schema;
+use Laravel\Config;
 
 class Migrator extends Task {
 
@@ -165,7 +166,7 @@ class Migrator extends Task {
 	 */
 	public function install()
 	{
-		Schema::table('laravel_migrations', function($table)
+		Schema::table(Config::get('migrations.table', 'laravel_migrations'), function($table)
 		{
 			$table->create();
 
