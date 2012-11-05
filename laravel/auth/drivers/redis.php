@@ -55,7 +55,6 @@ class Redis extends Driver {
 	{
 		if (filter_var($token, FILTER_VALIDATE_INT) !== false)
 		{
-		if (filter_var($token, FILTER_VALIDATE_INT) !== false)
 			$userkey = $this->redis->keys("user:" . $token . "*");
 			$user = $this->user_to_array($userkey);
 			return $user;
@@ -70,7 +69,7 @@ class Redis extends Driver {
 	 */
 	public function attempt($arguments = array())
 	{
-		//найти юзера по имени, если не найден, вернет пустой массив
+		// search a user by name, if not found, returns an empty array
 		$userkey = $this->redis->keys("user*" . $arguments['username']);
 		$user = $this->user_to_array($userkey);
 		$password = $arguments['password'];
