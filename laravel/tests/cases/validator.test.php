@@ -262,7 +262,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
   public function testTheMatchRuleContainingAComma()
   {
     $input = array('some_date' => '1234');
-    $rules = array('some_date' => 'match:/^\d{2,4}$/');
+    $rules = array('some_date' => 'match:"/^\d{2,4}$/"');
     $this->assertTrue(Validator::make($input, $rules)->valid());
 
     $input = array('some_date' => '12345');
