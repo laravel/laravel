@@ -690,8 +690,6 @@ class Query {
 			$sql = "SELECT {$aggregator}({$this->grammar->columnize($columns)}) FROM ({$this->grammar->select($this)}) AS aggregate";
 		}
 
-		$sql = $this->grammar->select($this);
-
 		$result = $this->connection->only($sql, $this->bindings);
 
 		// Reset the aggregate so more queries can be performed using the same
