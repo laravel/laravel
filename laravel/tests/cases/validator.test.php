@@ -239,6 +239,76 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(Validator::make($_FILES, $rules)->valid());
 	}
 
+  /**
+   * Test the match rule using a basic Regular Expression.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRule()
+  {
+    $input = array('some_date' => '2012-11-04');
+    $rules = array('some_date' => 'match:/^\d{4}\-\d{2}\-\d{2}$/');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('some_date' => '04-11-2012');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
+  /**
+   * Test the match rule handles commas.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRuleHandlesCommas()
+  {
+    $input = array('some_date' => '1234');
+    $rules = array('some_date' => 'match:"/^\d{2,4}$/"');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    // Same again, using the array syntax.
+    $rules = array('some_date' => array('match:"/^\d{2,4}$/"'));
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('some_date' => '12345');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
+  /**
+   * Test the match rule handles pipes.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRuleHandlesPipes()
+  {
+    $input = array('color' => 'green');
+    $rules = array('color' => array('match:/^(red|green|blue)$/'));
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('color' => 'yellow');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
+  /**
+   * Test the match rule handles colons.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRuleHandlesColons()
+  {
+    $input = array('color' => 'red');
+    $rules = array('color' => 'match:/^(?:red)$/');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    // Test with multiple rules.
+    $rules = array('color' => 'match:/^(?:red)$/|size:3');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    // Failing regular expression match.
+    $rules = array('color' => 'match:/^(?:red)$/');
+    $input = array('color' => 'reddish');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
 	/**
 	 * Test the between validation rule.
 	 *
