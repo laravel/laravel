@@ -164,7 +164,7 @@ The *match* rule validates that an attribute matches a given regular expression.
 
     'username' => 'match:/[a-z]+/',
     'password' => 'match:"/^[a-z0-9]{10,20}$/"',
-    'color'    => array('match:/^(?:red|green|blue)$/')
+    'color'    => array('match:/^(red|green|blue)$/')
 
 > **Note:** Regular expressions containing a comma must be wrapped in
 > double-quotes. Regular expressions containing a pipe (`|`) must use the
