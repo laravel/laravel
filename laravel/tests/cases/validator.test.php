@@ -299,6 +299,12 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
     $rules = array('color' => 'match:/^(?:red)$/');
     $this->assertTrue(Validator::make($input, $rules)->valid());
 
+    // Test with multiple rules.
+    $rules = array('color' => 'match:/^(?:red)$/|size:3');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    // Failing regular expression match.
+    $rules = array('color' => 'match:/^(?:red)$/');
     $input = array('color' => 'reddish');
     $this->assertFalse(Validator::make($input, $rules)->valid());
   }
