@@ -281,10 +281,25 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
   public function testTheMatchRuleHandlesPipes()
   {
     $input = array('color' => 'green');
-    $rules = array('color' => array('match:/^(?:red|green|blue)$/'));
+    $rules = array('color' => array('match:/^(red|green|blue)$/'));
     $this->assertTrue(Validator::make($input, $rules)->valid());
 
-    $input = array('some_date' => 'yellow');
+    $input = array('color' => 'yellow');
+    $this->assertFalse(Validator::make($input, $rules)->valid());
+  }
+
+  /**
+   * Test the match rule handles colons.
+   *
+   * @group laravel
+   */
+  public function testTheMatchRuleHandlesColons()
+  {
+    $input = array('color' => 'red');
+    $rules = array('color' => 'match:/^(?:red)$/');
+    $this->assertTrue(Validator::make($input, $rules)->valid());
+
+    $input = array('color' => 'reddish');
     $this->assertFalse(Validator::make($input, $rules)->valid());
   }
 
