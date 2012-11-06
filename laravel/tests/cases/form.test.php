@@ -1,6 +1,6 @@
 <?php
 
-class TestForm extends PHPUnit_Framework_TestCase {
+class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
@@ -10,11 +10,6 @@ class TestForm extends PHPUnit_Framework_TestCase {
 		URL::$base = null;
 		Config::set('application.url', 'http://localhost');
 	}
-
-	/**
-	 * Tear down the test environment.
-	 */
-	public function tearDown(){}
 
 	/**
 	 * Test the compilation of opening a form
