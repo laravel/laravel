@@ -15,6 +15,7 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		Router::$uses = array();
 		Router::$fallback = array();
 		Config::set('application.url', 'http://localhost');
+		Config::set('application.index', 'index.php');
 	}
 
 	/**
