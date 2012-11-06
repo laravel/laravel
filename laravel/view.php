@@ -52,6 +52,13 @@ class View implements ArrayAccess {
 	public static $last;
 
 	/**
+	 * The render operations taking place.
+	 *
+	 * @var int
+	 */
+	public static $render_count = 0;
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -327,7 +334,11 @@ class View implements ArrayAccess {
 	 */
 	public function render()
 	{
+		static::$render_count++;
+
 		Event::fire("laravel.composing: {$this->view}", array($this));
+
+		$contents = null;
 
 		// If there are listeners to the view engine event, we'll pass them
 		// the view so they can render it according to their needs, which
@@ -336,10 +347,19 @@ class View implements ArrayAccess {
 		{
 			$result = Event::until(static::engine, array($this));
 
-			if ( ! is_null($result)) return $result;
+			if ( ! is_null($result)) $contents = $result;
 		}
 
-		return $this->get();
+		if (is_null($contents)) $contents = $this->get();
+
+		static::$render_count--;
+
+		if (static::$render_count == 0)
+		{
+			Section::$sections = array();
+		}
+
+		return $contents;
 	}
 
 	/**

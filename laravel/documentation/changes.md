@@ -2,6 +2,8 @@
 
 ## Contents
 
+- [Laravel 3.2.12](#3.2.12)
+- [Upgrading From 3.2.11](#upgrade-3.2.12)
 - [Laravel 3.2.11](#3.2.11)
 - [Upgrading From 3.2.10](#upgrade-3.2.11)
 - [Laravel 3.2.10](#3.2.10)
@@ -46,6 +48,16 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.12"></a>
+## Laravel 3.2.12
+
+- Clear sections on a complete render operation.
+
+<a name="upgrade-3.2.12"></a>
+### Upgrading From 3.2.11
+
+- Replace the **laravel** folder.
 
 <a name="3.2.11"></a>
 ## Laravel 3.2.11
