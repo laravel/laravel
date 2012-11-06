@@ -9,6 +9,15 @@ class FormTest extends PHPUnit_Framework_TestCase {
 	{
 		URL::$base = null;
 		Config::set('application.url', 'http://localhost');
+		Config::set('application.index', 'index.php');
+	}
+	/**
+	 * Destroy the test enviornment.
+	 */
+	public function tearDown()
+	{
+		Config::set('application.url', '');
+		Config::set('application.index', 'index.php');
 	}
 
 	/**

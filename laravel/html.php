@@ -173,6 +173,8 @@ class HTML {
 	public static function link_to_asset($url, $title = null, $attributes = array(), $https = null)
 	{
 		$url = URL::to_asset($url, $https);
+		
+		if (is_null($title)) $title = $url;
 
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
