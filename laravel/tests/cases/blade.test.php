@@ -117,5 +117,4 @@ class BladeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("<?php echo render(Config::get('application.default_view', 'user.profile')); ?>", Blade::compile_string($blade2));
 
 	}
-
 }
