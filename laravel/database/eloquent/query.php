@@ -141,14 +141,6 @@ class Query {
 			}
 		}
 
-		// The many to many relationships may have pivot table column on them
-		// so we will call the "clean" method on the relationship to remove
-		// any pivot columns that are on the model.
-		if ($this instanceof Relationships\Has_Many_And_Belongs_To)
-		{
-			$this->hydrate_pivot($models);
-		}
-
 		return $models;
 	}
 
