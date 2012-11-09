@@ -354,6 +354,10 @@ Alternatively, you can use the `sync` method, which accepts an array of IDs to "
 
 	$user->roles()->sync(array(1, 2, 3));
 
+The `sync` method can also accept an associative array. The keys correspond to IDs to sync. Values are an array of attributes to sync with each ID.
+
+	$user->roles()->sync(array(1 => array('expires' => $expires), 2 => array('expires' => $tomorrow), 3 => array('expires' => $never)));
+
 <a name="intermediate-tables"></a>
 ## Working With Intermediate Tables
 
