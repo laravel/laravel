@@ -2,7 +2,7 @@
 
 use Laravel\Database\Eloquent\Model;
 
-class Has_One_Or_Many extends Relationship {
+abstract class Has_One_Or_Many extends Relationship {
 
 	/**
 	 * Insert a new record for the association.
