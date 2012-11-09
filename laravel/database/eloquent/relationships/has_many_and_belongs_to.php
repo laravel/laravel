@@ -99,6 +99,20 @@ class Has_Many_And_Belongs_To extends Relationship {
 	}
 
 	/**
+	 * Update an existing record's attributes in the joining table of the association
+	 *
+	 * @param  Model|int    $id
+	 * @param  array  $attributes
+	 * @return bool
+	 */
+	public function update($id, $attributes = array())
+	{
+		if ($id instanceof Model) $id = $id->get_key();
+
+		return $this->update_joining($id, $attributes);
+	}
+
+	/**
 	 * Detach a record from the joining table of the association.
 	 *
 	 * @param  array|Model|int   $ids
@@ -126,13 +140,35 @@ class Has_Many_And_Belongs_To extends Relationship {
 		// First we need to attach any of the associated models that are not currently
 		// in the joining table. We'll spin through the given IDs, checking to see
 		// if they exist in the array of current ones, and if not we insert.
-		foreach ($ids as $id)
+		foreach ($ids as $id => $attributes)
 		{
+			if ( is_object($attributes))
+				$attributes = (array) $attributes;
+
+			// If the value is not an array, then we were passed a simple list of ids
+			if ( ! is_array($attributes))
+			{
+				$id = $attributes;
+				$attributes = array();
+			}
+
+			// If the id does not exist, add it
 			if ( ! in_array($id, $current))
 			{
-				$this->attach($id);
+				$this->attach($id, $attributes);
+			}
+
+			// If the id does exist, update the attributes
+			else
+			{
+				$this->update($id, $attributes);
 			}
 		}
+
+		// Check to see if the first element's value is an array. If it is, assume
+		// that all elements follow the same convention (i.e. id => attributes)
+		if (count($ids) > 0 && (is_array(reset($ids)) || is_object(reset($ids))))
+			$ids = array_keys($ids);
 
 		// Next we will take the difference of the current and given IDs and detach
 		// all of the entities that exists in the current array but are not in
@@ -214,6 +250,25 @@ class Has_Many_And_Belongs_To extends Relationship {
 		}
 
 		return $this->joining_table()->insert($attributes);
+	}
+
+	/**
+	 * Update an existing record's attributes in the joining table of the association
+	 *
+	 * @param  array  $attributes
+	 * @return void
+	 */
+	protected function update_joining($id, $attributes)
+	{
+		if (Pivot::$timestamps)
+		{
+			$attributes['updated_at'] = new \DateTime;
+		}
+
+		return $this->joining_table()
+			->where($this->foreign_key(), '=', $this->base->get_key())
+			->where($this->other_key(), '=', $id)
+			->update($attributes);
 	}
 
 	/**
