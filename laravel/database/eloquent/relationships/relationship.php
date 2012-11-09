@@ -119,4 +119,11 @@ abstract class Relationship extends Query {
 		return array_unique($keys);
 	}
 
+	/**
+	 * Get the properly hydrated results for the relationship.
+	 *
+	 * @return mixed
+	 */
+	abstract public function results();
+
 }
