@@ -53,7 +53,7 @@ class URI {
 	 */
 	protected static function format($uri)
 	{
-		return trim($uri, '/') ?: '/';
+		return ($uri == '/') ? '/' : preg_replace('/^\/|\/$/', '', $uri);
 	}
 
 	/**
