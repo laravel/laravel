@@ -53,7 +53,7 @@ class URI {
 	 */
 	protected static function format($uri)
 	{
-		if (strpos($uri,'//') === false) {
+		if (strpos($uri, '//') === false) {
 			return trim($uri, '/') ?: '/';
 		}
 	}
