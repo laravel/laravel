@@ -61,11 +61,8 @@ class URITest extends PHPUnit_Framework_TestCase {
 	public function requestUriProvider()
 	{
 		return array(
-			array('/user', 'user'),
-			array('/user/', 'user'),
 			array('', '/'),
 			array('/', '/'),
-			array('//', '/'),
 			array('/user', 'user'),
 			array('/user/', 'user'),
 			array('/user/profile', 'user/profile'),
