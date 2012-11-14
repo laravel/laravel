@@ -35,7 +35,7 @@ abstract class Connector {
 	{
 		$options = (isset($config['options'])) ? $config['options'] : array();
 
-		return $this->options + $options;
+		return $options + $this->options;
 	}
 
 }
