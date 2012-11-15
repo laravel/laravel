@@ -161,7 +161,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 			// If the id does exist, update the attributes
 			else
 			{
-				$this->update($id, $attributes);
+				if (count($attributes))
+					$this->update($id, $attributes);
 			}
 		}
 
