@@ -114,6 +114,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 
 	/**
 	 * Sync the joining table with the array of given IDs.
+	 * Optionally associate an array of attributes to each ID to be added to the joining table.
 	 *
 	 * @param  array  $ids
 	 * @return bool
@@ -126,11 +127,22 @@ class Has_Many_And_Belongs_To extends Relationship {
 		// First we need to attach any of the associated models that are not currently
 		// in the joining table. We'll spin through the given IDs, checking to see
 		// if they exist in the array of current ones, and if not we insert.
-		foreach ($ids as $id)
+		// If the ID has an associative array associated with it, we insert the array as join table attributes.
+		foreach ($ids as $key => $value)
 		{
-			if ( ! in_array($id, $current))
+			if ( ! is_array($value) ) 
 			{
-				$this->attach($id);
+				if ( ! in_array($value, $current))
+				{
+					$this->attach($value);
+				}
+			} 
+			else 
+			{
+				if ( ! in_array($key, $current))
+				{
+					$this->attach($key, $value);
+				}
 			}
 		}
 
