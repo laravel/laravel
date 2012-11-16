@@ -184,7 +184,20 @@ class Blade {
 	 */
 	protected static function compile_comments($value)
 	{
-		return preg_replace('/\{\{--((.|\s)*?)--\}\}/', '<?php /* $1 */ ?>', $value);
+    $items = explode('{{--', $value);
+
+    foreach ($items as &$item)
+    {
+      $pos = strpos($item, '--}}');
+
+      if ($pos !== false)
+      {
+        $item = '<?php /* ' . substr_replace($item, ' */ ?>', $pos, 4);
+      }
+
+    }
+
+    return implode('', $items);
 	}
 
 	/**
