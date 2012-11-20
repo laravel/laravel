@@ -105,6 +105,13 @@ class Query {
 	 * @var array
 	 */
 	public $bindings = array();
+	
+	/**
+	 * The transforms to apply to each row 
+	 * 
+	 * @var transforms
+	 */
+	public $transform = NULL;
 
 	/**
 	 * Create a new query instance.
@@ -119,6 +126,18 @@ class Query {
 		$this->from = $table;
 		$this->grammar = $grammar;
 		$this->connection = $connection;
+	}
+	
+	/**
+	 * Transforms the result set into the structure specified by the 
+	 * associative array of functions specified.
+	 * 
+	 * @param array $transforms
+	 * @return \Laravel\Database\Query
+	 */
+	public function transform($transforms) { 
+		$this->transform = $transforms;
+		return $this;
 	}
 
 	/**
@@ -706,7 +725,7 @@ class Query {
 
 		$sql = $this->grammar->select($this);
 
-		$results = $this->connection->query($sql, $this->bindings);
+		$results = $this->connection->query($sql, $this->bindings, $this->transform);
 
 		// If the query has an offset and we are using the SQL Server grammar,
 		// we need to spin through the results and remove the "rownum" from
