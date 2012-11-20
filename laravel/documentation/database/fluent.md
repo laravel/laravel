@@ -268,3 +268,22 @@ When you want to delete records from your database, simply call the **delete** m
 Want to quickly delete a record by its ID? No problem. Just pass the ID into the delete method:
 
 	$affected = DB::table('users')->delete(1);
+	
+<a name="transformation"></a> 
+## Transforming Results
+
+Result transformation can be used to reformat your result set as it is read from the database. If you're not using Eloquent, it is also a concise and functional way to resolve one-to-many relationships or combine multiple columns into composite values.
+	
+	$usersTransform = array( 
+		"id" => "id", 		//a string will copy the value in that column
+		"name" => "name",
+		"earlyAdopter" => function($userRow) { return $userRow['id'] < 10 },
+		"phoneNumbers" => function($userRow) { 
+			//get all phone numbers associated with this user row
+			return DB::table('phone').where('user_id','=',$userRow['id']).get();
+		}
+	);
+		 
+	$users = DB::table('users')
+			->transform($usersTransform)
+			->get(array('id','name'));
