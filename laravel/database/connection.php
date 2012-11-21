@@ -322,6 +322,12 @@ class Connection {
 					}
 				}
 				
+				//if style is configured to be stdClass, convert from assoc
+				if($style == PDO::FETCH_CLASS) 
+				{ 
+					$transformRow = (object) $transformRow;
+				} 
+				
 				//append the transformed row
 				$results[] = $transformRow;
 			}
