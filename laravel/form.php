@@ -77,7 +77,7 @@ class Form {
 			$append = static::hidden(Request::spoofer, $method);
 		}
 
-		return '<form'.HTML::attributes($attributes).'>'.$append;
+		return '<form'.HTML::attributes($attributes).'/>'.$append;
 	}
 
 	/**
