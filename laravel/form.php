@@ -77,7 +77,7 @@ class Form {
 			$append = static::hidden(Request::spoofer, $method);
 		}
 
-		return '<form'.HTML::attributes($attributes).'/>'.$append;
+		return '<form'.HTML::attributes($attributes).'>'.$append;
 	}
 
 	/**
@@ -218,7 +218,7 @@ class Form {
 
 		$attributes = array_merge($attributes, compact('type', 'name', 'value', 'id'));
 
-		return '<input'.HTML::attributes($attributes).'>';
+		return '<input'.HTML::attributes($attributes).'/>';
 	}
 
 	/**
