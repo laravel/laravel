@@ -972,7 +972,7 @@ class Validator {
 	 */
 	protected function replace_same($message, $attribute, $rule, $parameters)
 	{
-		return str_replace(':other', $parameters[0], $message);
+		return str_replace(':other', $this->attribute($parameters[0]), $message);
 	}
 
 	/**
@@ -986,7 +986,7 @@ class Validator {
 	 */
 	protected function replace_different($message, $attribute, $rule, $parameters)
 	{
-		return str_replace(':other', $parameters[0], $message);
+		return str_replace(':other', $this->attribute($parameters[0]), $message);
 	}
 
 	/**
