@@ -615,6 +615,9 @@ abstract class Model {
 
 		foreach ($this->relationships as $name => $models)
 		{
+			// Relationships can be marked as "hidden", too.
+			if (in_array($name, static::$hidden)) continue;
+
 			// If the relationship is not a "to-many" relationship, we can just
 			// to_array the related model and add it as an attribute to the
 			// array of existing regular attributes we gathered.
