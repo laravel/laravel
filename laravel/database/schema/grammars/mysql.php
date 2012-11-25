@@ -77,10 +77,15 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'after');
 
 			foreach ($elements as $element)
 			{
+				if ($element === 'after' and ! isset($column->attributes['after']))
+				{
+					continue;
+				}
+
 				$sql .= $this->$element($table, $column);
 			}
 
@@ -115,6 +120,18 @@ class MySQL extends Grammar {
 	protected function nullable(Table $table, Fluent $column)
 	{
 		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+	}
+
+	/**
+	 * Specify adding a column after another in a table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function after(Table $table, Fluent $column)
+	{
+		return ' AFTER '.$column->attributes['after'];
 	}
 
 	/**
@@ -223,6 +240,8 @@ class MySQL extends Grammar {
 	{
 		return 'RENAME TABLE '.$this->wrap($table).' TO '.$this->wrap($command->name);
 	}
+
+
 
 	/**
 	 * Generate the SQL statement for a drop column command.
