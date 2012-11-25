@@ -241,8 +241,6 @@ class MySQL extends Grammar {
 		return 'RENAME TABLE '.$this->wrap($table).' TO '.$this->wrap($command->name);
 	}
 
-
-
 	/**
 	 * Generate the SQL statement for a drop column command.
 	 *
