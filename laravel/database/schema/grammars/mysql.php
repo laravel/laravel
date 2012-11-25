@@ -81,11 +81,6 @@ class MySQL extends Grammar {
 
 			foreach ($elements as $element)
 			{
-				if ($element === 'after' and ! isset($column->attributes['after']))
-				{
-					continue;
-				}
-
 				$sql .= $this->$element($table, $column);
 			}
 
@@ -131,6 +126,11 @@ class MySQL extends Grammar {
 	 */
 	protected function after(Table $table, Fluent $column)
 	{
+		if ( ! isset($column->attributes['after']))
+		{
+			return '';
+		}
+
 		return ' AFTER '.$column->attributes['after'];
 	}
 
