@@ -72,6 +72,7 @@ Command  | Description
 `->nullable()`  |  Designate that the column allows NULL values
 `->default($value)`  |  Declare a default value for a column
 `->unsigned()`  |  Set INTEGER to UNSIGNED
+`->after('col_name')`  |  Add the column AFTER another column
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 
