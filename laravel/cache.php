@@ -79,6 +79,9 @@ class Cache {
 			case 'database':
 				return new Cache\Drivers\Database(Config::get('cache.key'));
 
+            case 'blackhole':
+                return new Cache\Drivers\Blackhole();
+
 			default:
 				throw new \Exception("Cache driver {$driver} is not supported.");
 		}
