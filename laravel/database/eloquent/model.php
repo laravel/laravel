@@ -468,7 +468,7 @@ abstract class Model {
 	 *
 	 * @return Query
 	 */
-	protected function query()
+	protected function _query()
 	{
 		return new Query($this);
 	}
@@ -762,7 +762,7 @@ abstract class Model {
 			return static::$$method;
 		}
 
-		$underscored = array('with', 'find');
+		$underscored = array('with', 'find', 'query');
 
 		// Some methods need to be accessed both staticly and non-staticly so we'll
 		// keep underscored methods of those methods and intercept calls to them
