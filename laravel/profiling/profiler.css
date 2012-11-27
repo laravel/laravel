@@ -1,3 +1,8 @@
+.anbu * {
+	color: black;
+	border: 0 !important;
+}
+
 .anbu
 {
 	font-family:Helvetica, "Helvetica Neue", Arial, sans-serif !important;
