@@ -6,20 +6,20 @@ var anbu = {
 	// the DOM every time they are used.
 
 	el: {
-		main: $('.anbu'),
-		close: $('#anbu-close'),
-		zoom: $('#anbu-zoom'),
-		hide: $('#anbu-hide'),
-		show: $('#anbu-show'),
-		tab_pane: $('.anbu-tab-pane'),
-		hidden_tab_pane: $('.anbu-tab-pane:visible'),
-		tab: $('.anbu-tab'),
-		tabs: $('.anbu-tabs'),
-		tab_links: $('.anbu-tabs a'),
-		window: $('.anbu-window'),
-		closed_tabs: $('#anbu-closed-tabs'),
-		open_tabs: $('#anbu-open-tabs'),
-		content_area: $('.anbu-content-area')
+		main: jQuery('.anbu'),
+		close: jQuery('#anbu-close'),
+		zoom: jQuery('#anbu-zoom'),
+		hide: jQuery('#anbu-hide'),
+		show: jQuery('#anbu-show'),
+		tab_pane: jQuery('.anbu-tab-pane'),
+		hidden_tab_pane: jQuery('.anbu-tab-pane:visible'),
+		tab: jQuery('.anbu-tab'),
+		tabs: jQuery('.anbu-tabs'),
+		tab_links: jQuery('.anbu-tabs a'),
+		window: jQuery('.anbu-window'),
+		closed_tabs: jQuery('#anbu-closed-tabs'),
+		open_tabs: jQuery('#anbu-open-tabs'),
+		content_area: jQuery('.anbu-content-area')
 	},
 
 	// CLASS ATTRIBUTES
@@ -30,7 +30,7 @@ var anbu = {
 	is_zoomed: false,
 
 	// initial height of content area
-	small_height: $('.anbu-content-area').height(),
+	small_height: jQuery('.anbu-content-area').height(),
 
 	// the name of the active tab css
 	active_tab: 'anbu-active-tab',
@@ -76,7 +76,7 @@ var anbu = {
 			event.preventDefault();
 		});
 		anbu.el.tab.click(function(event) {
-			anbu.clicked_tab($(this));
+			anbu.clicked_tab(jQuery(this));
 			event.preventDefault();
 		});
 
@@ -104,8 +104,8 @@ var anbu = {
 	open_window: function(tab) {
 
 		// can't directly assign this line, but it works
-		$('.anbu-tab-pane:visible').fadeOut(200);
-		$('.' + tab.attr(anbu.tab_data)).delay(220).fadeIn(300);
+		jQuery('.anbu-tab-pane:visible').fadeOut(200);
+		jQuery('.' + tab.attr(anbu.tab_data)).delay(220).fadeIn(300);
 		anbu.el.tab_links.removeClass(anbu.active_tab);
 		tab.addClass(anbu.active_tab);
 		anbu.el.window.slideDown(300);
@@ -178,7 +178,7 @@ var anbu = {
 			anbu.is_zoomed = false;
 		} else {
 			// the 6px is padding on the top of the window
-			height = ($(window).height() - anbu.el.tabs.height() - 6) + 'px';
+			height = (jQuery(window).height() - anbu.el.tabs.height() - 6) + 'px';
 			anbu.is_zoomed = true;
 		}
 

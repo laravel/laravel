@@ -10,7 +10,7 @@
  */
 function e($value)
 {
-	return Laravel\HTML::entities($value);
+	return HTML::entities($value);
 }
 
 /**
@@ -23,7 +23,7 @@ function e($value)
  */
 function __($key, $replacements = array(), $language = null)
 {
-	return Laravel\Lang::line($key, $replacements, $language);
+	return Lang::line($key, $replacements, $language);
 }
 
 /**
@@ -316,10 +316,10 @@ function head($array)
  *
  * <code>
  *		// Create a URL to a location within the application
- *		$url = path('user/profile');
+ *		$url = url('user/profile');
  *
  *		// Create a HTTPS URL to a location within the application
- *		$url = path('user/profile', true);
+ *		$url = url('user/profile', true);
  * </code>
  *
  * @param  string  $url

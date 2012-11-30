@@ -44,7 +44,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		$this->joining = $table ?: $this->joining($model, $associated);
 
 		// If the Pivot table is timestamped, we'll set the timestamp columns to be
-		// fetched when the pivot table models are fetched by the developer, or else
+		// fetched when the pivot table models are fetched by the developer else
 		// the ID will be the only "extra" column fetched in by default.
 		if (Pivot::$timestamps)
 		{
@@ -61,8 +61,6 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * By default, the name is the models sorted and joined with underscores.
 	 *
-	 * @param  Model   $model
-	 * @param  string  $associated
 	 * @return string
 	 */
 	protected function joining($model, $associated)
@@ -87,12 +85,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record into the joining table of the association.
 	 *
-	 * @param  int    $id
+	 * @param  Model|int    $id
 	 * @param  array  $attributes
 	 * @return bool
 	 */
 	public function attach($id, $attributes = array())
 	{
+		if ($id instanceof Model) $id = $id->get_key();
+		
 		$joining = array_merge($this->join_record($id), $attributes);
 
 		return $this->insert_joining($joining);
@@ -101,12 +101,13 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Detach a record from the joining table of the association.
 	 *
-	 * @param  int   $ids
+	 * @param  array|Model|int   $ids
 	 * @return bool
 	 */
 	public function detach($ids)
 	{
-		if ( ! is_array($ids)) $ids = array($ids);
+		if ($ids instanceof Model) $ids = array($ids->get_key());
+		elseif ( ! is_array($ids)) $ids = array($ids);
 
 		return $this->pivot()->where_in($this->other_key(), $ids)->delete();
 	}
@@ -120,6 +121,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	public function sync($ids)
 	{
 		$current = $this->pivot()->lists($this->other_key());
+		$ids = (array) $ids;
 
 		// First we need to attach any of the associated models that are not currently
 		// in the joining table. We'll spin through the given IDs, checking to see
@@ -133,13 +135,13 @@ class Has_Many_And_Belongs_To extends Relationship {
 		}
 
 		// Next we will take the difference of the current and given IDs and detach
-		// all of the entities that exist in the current array but are not in
+		// all of the entities that exists in the current array but are not in
 		// the array of IDs given to the method, finishing the sync.
 		$detach = array_diff($current, $ids);
 
 		if (count($detach) > 0)
 		{
-			$this->detach(array_diff($current, $ids));
+			$this->detach($detach);
 		}
 	}
 
@@ -319,9 +321,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  string  $relationship
-	 * @param  array   $parents
-	 * @param  array   $children
+	 * @param  array  $parents
+	 * @param  array  $children
 	 * @return void
 	 */
 	public function match($relationship, &$parents, $children)
@@ -335,13 +336,11 @@ class Has_Many_And_Belongs_To extends Relationship {
 			$dictionary[$child->pivot->$foreign][] = $child;
 		}
 
-		foreach ($parents as &$parent)
+		foreach ($parents as $parent)
 		{
-			$parent_key = $parent->get_key();
-
-			if (isset($dictionary[$parent_key]))
+			if (array_key_exists($key = $parent->get_key(), $dictionary))
 			{
-				$parent->relationships[$relationship] = $dictionary[$parent_key];
+				$parent->relationships[$relationship] = $dictionary[$key];
 			}
 		}
 	}
@@ -386,7 +385,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the columns on the joining table that should be fetched.
 	 *
-	 * @param  array         $columns
+	 * @param  array         $column
 	 * @return Relationship
 	 */
 	public function with($columns)

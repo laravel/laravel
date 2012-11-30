@@ -78,6 +78,13 @@ In the following example the first parameter is the route that you're "registeri
 		//
 	});
 
+#### Catching the remaining URI without limitations:
+
+	Route::get('files/(:all)', function($path)
+	{
+		//
+	});
+
 #### Allowing a URI segment to be optional:
 
 	Route::get('page/(:any?)', function($page = 'index')
@@ -287,6 +294,8 @@ Most likely, you just want to register all of the controllers in your applicatio
 The **Controller::detect** method simply returns an array of all of the controllers defined for the application.
 
 If you wish to automatically detect the controllers in a bundle, just pass the bundle name to the method. If no bundle is specified, the application folder's controller directory will be searched.
+
+> **Note:** It is important to note that this method gives you no control over the order in which controllers are loaded. Controller::detect() should only be used to Route controllers in very small sites. "Manually" routing controllers gives you much more control, is more self-documenting, and is certainly advised.
 
 #### Register all controllers for the "admin" bundle:
 

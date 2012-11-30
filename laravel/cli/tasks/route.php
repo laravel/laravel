@@ -14,7 +14,7 @@ class Route extends Task {
 	 */
 	public function call($arguments = array())
 	{
-		if ( ! count($arguments) == 2)
+		if ( count($arguments) != 2)
 		{
 			throw new \Exception("Please specify a request method and URI.");
 		}
@@ -41,7 +41,7 @@ class Route extends Task {
 		// We'll call the router using the method and URI specified by
 		// the developer on the CLI. If a route is found, we will not
 		// run the filters, but simply dump the result.
-		$route = Router::route(Request::method(), URI::current());
+		$route = Router::route(Request::method(), $_SERVER['REQUEST_URI']);
 
 		if ( ! is_null($route))
 		{

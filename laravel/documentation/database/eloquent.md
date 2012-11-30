@@ -132,6 +132,18 @@ Need to maintain creation and update timestamps on your database records? With E
 
 Next, add **created_at** and **updated_at** date columns to your table. Now, whenever you save the model, the creation and update timestamps will be set automatically. You're welcome.
 
+In some cases it may be useful to update the **updated_at** date column without actually modifying any data within the model. Simply use the **touch** method, which will also automatically save the changes immediately:
+
+	$comment = Comment::find(1);
+	$comment->touch();
+
+You can also use the **timestamp** function to update the **updated_at** date column without saving the model immediately. Note that if you are actually modifying the model's data this is handled behind the scenes:
+
+	$comment = Comment::find(1);
+	$comment->timestamp();
+	//do something else here, but not modifying the $comment model data
+	$comment->save();
+
 > **Note:** You can change the default timezone of your application in the **application/config/application.php** file.
 
 <a name="relationships"></a>
@@ -233,21 +245,23 @@ You may be wondering: _If the dynamic properties return the relationship and req
 
 Many-to-many relationships are the most complicated of the three relationships. But don't worry, you can do this. For example, assume a User has many Roles, but a Role can also belong to many Users. Three database tables must be created to accomplish this relationship: a **users** table, a **roles** table, and a **role_user** table. The structure for each table looks like this:
 
-**Users:**
+**users:**
 
 	id    - INTEGER
 	email - VARCHAR
 
-**Roles:**
+**roles:**
 
 	id   - INTEGER
 	name - VARCHAR
 
-**Role_User:**
+**role_user:**
 
     id      - INTEGER
 	user_id - INTEGER
 	role_id - INTEGER
+
+Tables contain many records and are consequently plural. Pivot tables used in **has\_many\_and\_belongs\_to** relationships are named by combining the singular names of the two related models arranged alphabetically and concatenating them with an underscore.
 
 Now you're ready to define the relationship on your models using the **has\_many\_and\_belongs\_to** method:
 
@@ -268,7 +282,7 @@ Or, as usual, you may retrieve the relationship through the dynamic roles proper
 
 	$roles = User::find(1)->roles;
 
-As you may have noticed, the default name of the intermediate table is the singular names of the two related models arranged alphabetically and concatenated by an underscore. However, you are free to specify your own table name. Simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
+If your table names don't follow conventions, simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
 
 	class User extends Eloquent {
 
@@ -299,7 +313,7 @@ Let's assume you have a **Post** model that has many comments. Often you may wan
 
 	$post = Post::find(1);
 
-	$post->comments()->insert($comment);
+	$comment = $post->comments()->insert($comment);
 
 When inserting related models through their parent model, the foreign key will automatically be set. So, in this case, the "post_id" was automatically set to "1" on the newly inserted comment.
 
@@ -323,7 +337,7 @@ This is even more helpful when working with many-to-many relationships. For exam
 
 	$user = User::find(1);
 
-	$user->roles()->insert($role);
+	$role = $user->roles()->insert($role);
 
 Now, when the Role is inserted, not only is the Role inserted into the "roles" table, but a record in the intermediate table is also inserted for you. It couldn't be easier!
 

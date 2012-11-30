@@ -5,6 +5,7 @@
 - [The Basics](#the-basics)
 - [Sections](#sections)
 - [Blade Template Engine](#blade-template-engine)
+- [Blade Control Structures](#blade-control-structures)
 - [Blade Layouts](#blade-layouts)
 
 <a name="the-basics"></a>
@@ -63,7 +64,7 @@ Blade makes writing your views pure bliss. To create a blade view, simply name y
 
 #### Echoing a variable using Blade:
 
-	Hello, {{$name}}.
+	Hello, {{ $name }}.
 
 #### Echoing function results using Blade:
 
@@ -80,15 +81,46 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 
 	@render('admin.list')
 
-#### Creating loops using Blade:
+#### Blade comments:
 
-	<h1>Comments</h1>
+	{{-- This is a comment --}}
+
+	{{--
+		This is a
+		multi-line
+		comment.
+	--}}
+
+> **Note:** Unlike HTML comments, Blade comments are not visible in the HTML source.
+
+<a name='blade-control-structures'></a>
+## Blade Control Structures
+
+#### For Loop:
+
+	@for ($i = 0; $i <= count($comments); $i++)
+		The comment body is {{ $comments[$i] }}
+	@endfor
+
+#### Foreach Loop:
 
 	@foreach ($comments as $comment)
-		The comment body is {{$comment->body}}.
+		The comment body is {{ $comment->body }}.
 	@endforeach
 
-#### Other Blade control structures:
+#### While Loop:
+
+	@while ($something)
+		I am still looping!
+	@endwhile
+
+#### If Statement:
+
+	@if ( $message == true )
+		I'm displaying the message!
+	@endif
+
+#### If Else Statement:
 
 	@if (count($comments) > 0)
 		I have comments!
@@ -96,15 +128,17 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 		I have no comments!
 	@endif
 
-	@for ($i =0; $i < count($comments) - 1; $i++)
-		The comment body is {{$comments[$i]}}
-	@endfor
+#### Else If Statement:
 
-	@while ($something)
-		I am still looping!
-	@endwhile
+	@if ( $message == 'success' )
+		It was a success!
+	@elseif ( $message == 'error' )
+		An error occurred.
+	@else
+		Did it work?
+	@endif
 
-#### The "for-else" control structure:
+#### For Else Statement:
 
 	@forelse ($posts as $post)
 		{{ $post->body }}
@@ -112,34 +146,17 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 		There are not posts in the array!
 	@endforelse
 
-<a name="blade-unless"></a>
-#### The "unless" control structure:
+#### Unless Statement:
 
 	@unless(Auth::check())
-		{{ HTML::link_to_route('login', 'Login'); }}
+		Login
 	@endunless
 
-	// Equivalent...
+	// Equivalent to...
 
 	<?php if ( ! Auth::check()): ?>
-		...
+		Login
 	<?php endif; ?>
-
-<a name="blade-comments"></a>
-#### Blade comments:
-
-	@if ($check)
-		{{-- This is a comment --}}
-		...
-	@endif
-	
-	{{--
-		This is
-		a multi-line
-		comment.
-	--}}
-
-> **Note:** Blade comments, unlike HTML comments, are not visible in the HTML source.
 
 <a name="blade-layouts"></a>
 ## Blade Layouts
@@ -173,7 +190,9 @@ Great! Now, we can simply return the "profile" view from our route:
 
 The profile view will automatically use the "master" template thanks to Blade's **@layout** expression.
 
-**Important:** The **@layout** call must always be on the very first line of the file, with no leading whitespaces or newline breaks.
+> **Important:** The **@layout** call must always be on the very first line of the file, with no leading whitespaces or newline breaks.
+
+#### Appending with @parent
 
 Sometimes you may want to only append to a section of a layout rather than overwrite it. For example, consider the navigation list in our "master" layout. Let's assume we just want to append a new list item. Here's how to do it:
 
@@ -188,4 +207,4 @@ Sometimes you may want to only append to a section of a layout rather than overw
 		Welcome to the profile page!
 	@endsection
 
-Notice the **@parent** Blade construct? It will be replaced with the contents of the layout's navigation section, providing you with a beautiful and powerful method of performing layout extension and inheritance.
+**@parent** will be replaced with the contents of the layout's *navigation* section, providing you with a beautiful and powerful method of performing layout extension and inheritance.

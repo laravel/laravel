@@ -124,7 +124,7 @@ You may discover the need to group portions of a WHERE clause within parentheses
 		->or_where(function($query)
 		{
 			$query->where('age', '>', 25);
-			$query->where('votes' '>', 100);
+			$query->where('votes', '>', 100);
 		})
 		->get();
 

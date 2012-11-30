@@ -79,25 +79,26 @@ class Belongs_To extends Relationship {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  string  $relationship
-	 * @param  array   $children
-	 * @param  array   $parents
+	 * @param  array  $children
+	 * @param  array  $parents
 	 * @return void
 	 */
 	public function match($relationship, &$children, $parents)
 	{
 		$foreign = $this->foreign_key();
 
-		foreach ($children as &$child)
-		{
-			$parent = array_first($parents, function($k, $v) use (&$child, $foreign)
-			{
-				return $v->get_key() == $child->$foreign;
-			});
+		$dictionary = array();
 
-			if ( ! is_null($parent))
+		foreach ($parents as $parent)
+		{
+			$dictionary[$parent->get_key()] = $parent;
+		}
+
+		foreach ($children as $child)
+		{
+			if (array_key_exists($child->$foreign, $dictionary))
 			{
-				$child->relationships[$relationship] = $parent;
+				$child->relationships[$relationship] = $dictionary[$child->$foreign];
 			}
 		}
 	}

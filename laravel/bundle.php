@@ -191,7 +191,7 @@ class Bundle {
 
 		foreach (static::$bundles as $key => $value)
 		{
-			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/'))
+			if (isset($value['handles']) and starts_with($uri, $value['handles'].'/') or $value['handles'] == '/')
 			{
 				return $key;
 			}
@@ -459,6 +459,18 @@ class Bundle {
 	public static function names()
 	{
 		return array_keys(static::$bundles);
+	}
+
+	/**
+	 * Expand given bundle path of form "[bundle::]path/...".
+	 *
+	 * @param  string  $path
+	 * @return string
+	 */
+	public static function expand($path)
+	{
+		list($bundle, $element) = static::parse($path);
+		return static::path($bundle).$element;
 	}
 
 }

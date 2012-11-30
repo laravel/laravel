@@ -40,6 +40,7 @@ return array(
 	"alpha"          => ":attributeはアルファベッドのみがご利用できます。",
 	"alpha_dash"     => ":attributeは英数字とダッシュ(-)及び下線(_)がご利用できます。",
 	"alpha_num"      => ":attributeは英数字がご利用できます。",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => ":attributeには、:date以前の日付をご利用ください。",
 	"between"        => array(
 		"numeric" => ":attributeは、:minから、:maxまでの数字をご指定ください。",
@@ -47,6 +48,10 @@ return array(
 		"string"  => ":attributeは、:min文字から:max文字の間でご指定ください。",
 	),
 	"confirmed"      => ":attributeと、確認フィールドとが、一致していません。",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => ":attributeと:otherには、異なった内容を指定してください。",
 	"email"          => ":attributeには正しいメールアドレスの形式をご指定ください。",
 	"exists"         => "選択された:attributeは正しくありません。",

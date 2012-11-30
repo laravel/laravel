@@ -225,18 +225,6 @@ class MySQL extends Grammar {
 	}
 
 	/**
-	 * Generate the SQL statement for a drop table command.
-	 *
-	 * @param  Table    $table
-	 * @param  Fluent   $command
-	 * @return string
-	 */
-	public function drop(Table $table, Fluent $command)
-	{
-		return 'DROP TABLE '.$this->wrap($table);
-	}
-
-	/**
 	 * Generate the SQL statement for a drop column command.
 	 *
 	 * @param  Table    $table
@@ -383,7 +371,7 @@ class MySQL extends Grammar {
 	 */
 	protected function type_boolean(Fluent $column)
 	{
-		return 'TINYINT';
+		return 'TINYINT(1)';
 	}
 
 	/**

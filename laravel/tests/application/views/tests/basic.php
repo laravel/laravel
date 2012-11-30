@@ -1,0 +1,1 @@
+<?php echo $name; ?> is <?php echo $age; ?>

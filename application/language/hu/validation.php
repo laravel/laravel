@@ -24,6 +24,7 @@ return array(
 	"alpha"          => "A(z) :attribute csak betűket tartalmazhat.",
 	"alpha_dash"     => "A(z) :attribute betűket, számokat és kötőjeleket tartalmazhat.",
 	"alpha_num"      => "A(z) :attribute csak betűket és számokat tartalmazhat.",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => "A :attribute :date előtti dátum kell legyen.",
 	"between"        => array(
 		"numeric" => "A(z) :attribute :min - :max közötti érték kell legyen.",
@@ -31,6 +32,10 @@ return array(
 		"string"  => "A(z) :attribute :min - :max karakterhossz között kell legyen",
 	),
 	"confirmed"      => "A(z) :attribute megerősítése nem egyezett meg.",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => "A(z) :attribute és :other különböző kell legyen.",
 	"email"          => "A(z) :attribute formátuma nem megfelelő.",
 	"exists"         => "A(z) választott :attribute nem megfelelő.",

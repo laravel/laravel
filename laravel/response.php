@@ -1,7 +1,7 @@
 <?php namespace Laravel;
 
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Response as FoundationResponse;
+use Symfony\Component\HttpFoundation\LaravelResponse as FoundationResponse;
 
 class Response {
 

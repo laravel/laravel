@@ -28,8 +28,16 @@ class SQLServer extends Connector {
 		// also be used to connect to Azure SQL Server databases. The port is defined
 		// directly after the server name, so we'll create that first.
 		$port = (isset($port)) ? ','.$port : '';
-
-		$dsn = "sqlsrv:Server={$host}{$port};Database={$database}";
+		
+		//check for dblib for mac users connecting to mssql (utilizes freetds)
+		if (!empty($dsn_type) and $dsn_type == 'dblib')
+		{
+			$dsn = "dblib:host={$host}{$port};dbname={$database}";
+		}
+		else
+		{
+			$dsn = "sqlsrv:Server={$host}{$port};Database={$database}";
+		}
 
 		return new PDO($dsn, $username, $password, $this->options($config));
 	}

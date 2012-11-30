@@ -38,6 +38,14 @@ Now you can call the "run" method of your task via the command-line. You can eve
 
 	php artisan notify taylor
 
+#### Calling a task from your application:
+
+	Command::run(array('notify'));
+
+#### Calling a task from your application with arguements:
+
+	Command::run(array('notify', 'taylor'));
+
 Remember, you can call specific methods on your task, so, let's add an "urgent" method to the notify task:
 
 #### Adding a method to the task:

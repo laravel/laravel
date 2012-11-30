@@ -45,6 +45,20 @@ class View implements ArrayAccess {
 	public static $cache = array();
 
 	/**
+	 * THe last view to be rendered.
+	 *
+	 * @var string
+	 */
+	public static $last;
+
+	/**
+	 * The render operations taking place.
+	 *
+	 * @var int
+	 */
+	public static $render_count = 0;
+
+	/**
 	 * The Laravel view loader event name.
 	 *
 	 * @var string
@@ -320,7 +334,11 @@ class View implements ArrayAccess {
 	 */
 	public function render()
 	{
+		static::$render_count++;
+
 		Event::fire("laravel.composing: {$this->view}", array($this));
+
+		$contents = null;
 
 		// If there are listeners to the view engine event, we'll pass them
 		// the view so they can render it according to their needs, which
@@ -329,10 +347,19 @@ class View implements ArrayAccess {
 		{
 			$result = Event::until(static::engine, array($this));
 
-			if ( ! is_null($result)) return $result;
+			if ( ! is_null($result)) $contents = $result;
 		}
 
-		return $this->get();
+		if (is_null($contents)) $contents = $this->get();
+
+		static::$render_count--;
+
+		if (static::$render_count == 0)
+		{
+			Section::$sections = array();
+		}
+
+		return $contents;
 	}
 
 	/**
@@ -367,7 +394,17 @@ class View implements ArrayAccess {
 			ob_get_clean(); throw $e;
 		}
 
-		return ob_get_clean();
+		$content = ob_get_clean();
+
+		// The view filter event gives us a last chance to modify the
+		// evaluated contents of the view and return them. This lets
+		// us do something like run the contents through Jade, etc.
+		if (Event::listeners('view.filter'))
+		{
+			return Event::first('view.filter', array($content, $this->path));
+		}
+
+		return $content;
 	}
 
 	/**
@@ -377,6 +414,8 @@ class View implements ArrayAccess {
 	 */
 	protected function load()
 	{
+		static::$last = array('name' => $this->view, 'path' => $this->path);
+
 		if (isset(static::$cache[$this->path]))
 		{
 			return static::$cache[$this->path];

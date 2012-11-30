@@ -24,6 +24,7 @@ return array(
 	"alpha"          => "القيمة :attribute يمكنها أن تحتوي على أحرف فقط.",
 	"alpha_dash"     => "القيمة :attribute يمكنها أن تحتوي على أحرف و أرقام و إشارة الناقص فقط.",
 	"alpha_num"      => "القيمة :attribute يمكنها أن تحتوي على أحرف و أرقام فقط.",
+	"array"          => "The :attribute must have selected elements.",
 	"before"         => "القيمة :attribute يجب أن تكون قبل تاريخ :date.",
 	"between"        => array(
 		"numeric" => "القيمة :attribute يجب أن تكون بين :min و :max.",
@@ -31,6 +32,10 @@ return array(
 		"string"  => "النص :attribute يجب أن يكون بطول من :min إلى :max حرف.",
 	),
 	"confirmed"      => "القيمة :attribute التأكيدية غير مطابقة.",
+	"count"          => "The :attribute must have exactly :count selected elements.",
+	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
+	"countmax"       => "The :attribute must have less than :max selected elements.",
+	"countmin"       => "The :attribute must have at least :min selected elements.",
 	"different"      => "القيمتان :attribute و :other يجب أن تختلفان.",
 	"email"          => "القيمة :attribute تمثل بريد إلكتروني غير صحيح.",
 	"exists"         => "القيمة المختارة :attribute غير موجودة.",

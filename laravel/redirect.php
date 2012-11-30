@@ -165,4 +165,23 @@ class Redirect extends Response {
 		return $this->with('errors', $errors);
 	}
 
+	/**
+	 * Send the headers and content of the response to the browser.
+	 *
+	 * @return void
+	 */
+	public function send()
+	{
+		// Dump all output buffering, this ensures
+		// that symphony will send our redirect headers
+		// properly if we've outputted any content from
+		// within Laravel.
+		while (ob_get_level() > 0)
+		{
+			ob_end_clean();
+		}
+
+		return parent::send();
+	}
+
 }
