@@ -56,6 +56,25 @@ class Database {
 	}
 
 	/**
+	 * Clears the given connection from the array which holds the
+	 * connection states and forces Laravel's connection method
+	 * to reconnect.
+	 *
+	 * @param  string $connection
+	 * @return Database\Connection
+	 */
+	public static function reconnect($connection = null)
+	{
+		if (is_null($connection)) $connection = Config::get('database.default');
+
+		// unset the previous connection
+		unset(static::$connections[$connection]);
+
+		// now force a new connection and return it
+		return static::connection($connection);
+	}
+
+	/**
 	 * Get a PDO database connection for a given database configuration.
 	 *
 	 * @param  array  $config
@@ -134,7 +153,7 @@ class Database {
 	{
 		return Database\Connection::$queries;
 	}
-	
+
 	/**
 	 * Get the last query that was executed.
 	 *
