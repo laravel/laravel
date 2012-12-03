@@ -214,7 +214,7 @@ class Validator {
 	 */
 	protected function implicit($rule)
 	{
-		return $rule == 'required' or $rule == 'accepted' or $rule == 'required_with';
+		return $rule == 'required' or $rule == 'accepted' or $rule == 'required_with' or $rule == 'required_unless';
 	}
 
 	/**
@@ -277,6 +277,26 @@ class Validator {
 
 		return true;
 	}
+	
+	/**
+	     * Validate that an attribute exists in the attributes array, if an
+	     * attribute does not exist in the attributes array.
+	     *
+	     * @param  string  $attribute
+	     * @param  mixed   $value
+	     * @param  array   $parameters
+	     * @return bool
+	     */
+	    protected function validate_required_unless($attribute, $value, $parameters)
+	    {
+	        $other = $parameters[0];
+
+	            if (($this->attributes[$other]!="" && $this->validate_required($other, $this->attributes[$other])) || $this->validate_required($attribute, $this->attributes[$attribute])){
+	                return true;
+	            } else {
+	                return false;
+	            }
+	    }
 
 	/**
 	 * Validate that an attribute has a matching confirmation attribute.
