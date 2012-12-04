@@ -25,7 +25,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 *
 	 * @var array
 	 */
-	protected $with = array('id');
+	protected $with = array();
 
 	/**
 	 * Create a new many to many relationship instance.
