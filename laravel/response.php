@@ -103,7 +103,7 @@ class Response {
 	 *
 	 * <code>
 	 *		// Create a response instance with JSONP
-	 *		return Response::jsonp($data, 200, array('header' => 'value'));
+	 *		return Response::jsonp('myFunctionCall', $data, 200, array('header' => 'value'));
 	 * </code>
 	 *
 	 * @param  mixed     $data
@@ -111,11 +111,11 @@ class Response {
 	 * @param  array     $headers
 	 * @return Response
 	 */
-	public static function jsonp($data, $status = 200, $headers = array())
+	public static function jsonp($callback, $data, $status = 200, $headers = array())
 	{
 		$headers['Content-Type'] = 'application/javascript; charset=utf-8';
 
-		return new static(json_encode($data), $status, $headers);
+		return new static($callback.'('.json_encode($data).')', $status, $headers);
 	}
 
 	/**

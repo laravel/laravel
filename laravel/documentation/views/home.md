@@ -64,7 +64,7 @@ Sometimes you will need a little more control over the response sent to the brow
 
 #### Returning a JSONP response:
 
-	return Response::jsonp(array('name' => 'Batman'));
+	return Response::jsonp('myCallback', array('name' => 'Batman'));
 
 #### Returning Eloquent models as JSON:
 
