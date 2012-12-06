@@ -77,7 +77,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'after');
 
 			foreach ($elements as $element)
 			{
@@ -115,6 +115,23 @@ class MySQL extends Grammar {
 	protected function nullable(Table $table, Fluent $column)
 	{
 		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+	}
+
+	/**
+	 * Specify adding a column after another in a table.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function after(Table $table, Fluent $column)
+	{
+		if ( ! isset($column->attributes['after']))
+		{
+			return '';
+		}
+
+		return ' AFTER '.$column->attributes['after'];
 	}
 
 	/**
