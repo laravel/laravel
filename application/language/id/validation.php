@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -24,7 +24,7 @@ return array(
 	"alpha"          => "Isian :attribute hanya boleh berisi huruf.",
 	"alpha_dash"     => "Isian :attribute hanya boleh berisi huruf, angka, dan strip.",
 	"alpha_num"      => "Isian :attribute hanya boleh berisi huruf dan angka.",
-	"array"          => "The :attribute must have selected elements.",
+	"array"          => "Isian :attribute harus dipilih salah satu.",
 	"before"         => "Isian :attribute harus tanggal sebelum :date.",
 	"between"        => array(
 		"numeric" => "Isian :attribute harus antara :min - :max.",
@@ -32,14 +32,14 @@ return array(
 		"string"  => "Isian :attribute harus antara  :min - :max karakter.",
 	),
 	"confirmed"      => "Konfirmasi :attribute tidak cocok.",
-	"count"          => "The :attribute must have exactly :count selected elements.",
-	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
-	"countmax"       => "The :attribute must have less than :max selected elements.",
-	"countmin"       => "The :attribute must have at least :min selected elements.",
+	"count"          => "Isian :attribute harus dipilih tepat :count.",
+	"countbetween"   => "Isian :attribute harus dipilih antara :min dan :max.",
+	"countmax"       => "Maksimal :attribute yang bisa dipilih adalah :max.",
+	"countmin"       => "Minimum :attribute yang harus dipilih adalah :min.",
 	"different"      => "Isian :attribute dan :other harus berbeda.",
 	"email"          => "Format isian :attribute tidak valid.",
 	"exists"         => "Isian :attribute yang dipilih tidak valid.",
-	"image"          => ":attribute harus berupa gambar.",
+	"image"          => "Isian :attribute harus berupa gambar.",
 	"in"             => "Isian :attribute yang dipilih tidak valid.",
 	"integer"        => "Isian :attribute harus merupakan bilangan.",
 	"ip"             => "Isian :attribute harus alamat IP yang valid.",
