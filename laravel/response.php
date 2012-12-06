@@ -115,7 +115,7 @@ class Response {
 	{
 		$headers['Content-Type'] = 'application/javascript; charset=utf-8';
 
-		return new static($callback.'('.json_encode($data).')', $status, $headers);
+		return new static($callback.'('.json_encode($data).');', $status, $headers);
 	}
 
 	/**
