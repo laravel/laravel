@@ -425,7 +425,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	{
 		$table = $this->wrap_table($query->from);
 
-		return trim("DELETE FROM {$table} ".$this->wheres($query));
+		return trim("DELETE {$table} FROM {$table} ".$this->joins($query).' '.$this->wheres($query)));
 	}
 
 	/**
