@@ -62,6 +62,13 @@ Sometimes you may need to determine if the current URI is a given string, or beg
 		// This request is over HTTPS!
 	}
 
+#### Determining if the current request is a POST request:
+
+	if (Request::is_post())
+	{
+		// This request is a POST request!
+	}
+
 #### Determining if the current request is an AJAX request:
 
 	if (Request::ajax())

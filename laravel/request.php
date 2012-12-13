@@ -46,6 +46,16 @@ class Request {
 	}
 
 	/**
+	 *  Determine if the current request is a POST request.
+	 *
+	 * @return string
+	 */
+	public static function is_post()
+	{
+		return static::method() == 'POST';
+	}
+
+	/**
 	 * Get a header from the request.
 	 *
 	 * <code>
