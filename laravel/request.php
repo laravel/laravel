@@ -46,6 +46,18 @@ class Request {
 	}
 
 	/**
+	 *  Determine if the current request is a POST request.
+	 *
+	 * @return string
+	 */
+	public static function is_post()
+	{
+		$method = static::foundation()->getMethod();
+
+		return ($method == 'POST') ? true : false;
+	}
+
+	/**
 	 * Get a header from the request.
 	 *
 	 * <code>
