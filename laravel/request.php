@@ -52,9 +52,7 @@ class Request {
 	 */
 	public static function is_post()
 	{
-		$method = static::foundation()->getMethod();
-
-		return ($method == 'POST') ? true : false;
+		return static::method() == 'POST';
 	}
 
 	/**
