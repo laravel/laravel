@@ -27,6 +27,19 @@ function __($key, $replacements = array(), $language = null)
 }
 
 /**
+ * Dump the given value but don't kill the script.
+ *
+ * @param  mixed  $value
+ * @return void
+ */
+function d($value)
+{
+	echo "<pre>";
+	var_dump($value);
+	echo "</pre>";
+}
+
+/**
  * Dump the given value and kill the script.
  *
  * @param  mixed  $value
