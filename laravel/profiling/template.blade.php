@@ -16,7 +16,7 @@
 									{{ $log[0] }}
 								</td>
 								<td>
-									{{ $log[1] }}
+									{{ var_dump($log[1]) }}
 								</td>
 						@endforeach
 						</tr>
