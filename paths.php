@@ -132,7 +132,12 @@ foreach ($paths as $name => $path)
  */
 function path($path)
 {
-	return $GLOBALS['laravel_paths'][$path];
+    // Make sure the variable exists
+    if (isset($GLOBALS['laravel_paths'][$path])) {
+	    return $GLOBALS['laravel_paths'][$path];
+    } else {
+        return '';
+    }
 }
 
 /**
