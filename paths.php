@@ -122,17 +122,23 @@ foreach ($paths as $name => $path)
 
 /**
  * A global path helper function.
- * 
+ *
  * <code>
  *     $storage = path('storage');
  * </code>
- * 
- * @param  string  $path
- * @return string
+ *
+ * @param $path
+ * @return mixed
+ * @throws Exception
  */
 function path($path)
 {
-	return $GLOBALS['laravel_paths'][$path];
+    // Make sure the variable exists
+    if (isset($GLOBALS['laravel_paths'][$path])) {
+	    return $GLOBALS['laravel_paths'][$path];
+    } else {
+        throw new Exception('Path "' . $path . '" is not set in $GLOBALS');
+    }
 }
 
 /**
