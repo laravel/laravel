@@ -197,8 +197,12 @@ class Blade {
 	 */
 	protected static function compile_echos($value)
 	{
+		$value = preg_replace('/\{\{\{(.+?)\}\}\}/', '<?php echo e($1); ?>', $value);
+		
 		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
+		
 	}
+
 
 	/**
 	 * Rewrites Blade "for else" statements into valid PHP.
