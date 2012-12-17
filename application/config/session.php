@@ -76,10 +76,12 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The name that should be given to the session cookie.
+	| Avoid using an underscore "_" in the cookie name, as some browesers (i.e. IE)
+	| dont always accept cookies with an underscore
 	|
 	*/
 
-	'cookie' => 'laravel_session',
+	'cookie' => 'laravelSession',
 
 	/*
 	|--------------------------------------------------------------------------
