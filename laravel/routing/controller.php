@@ -111,6 +111,10 @@ abstract class Controller {
 			}
 		}
 
+		// This will normalize the results of the controllers between different
+		// filesystems, while retaining the expected behaviour.
+		rsort($controllers, SORT_STRING | SORT_FLAG_CASE);
+
 		return $controllers;
 	}
 
