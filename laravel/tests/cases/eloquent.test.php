@@ -272,7 +272,7 @@ class EloquentTest extends PHPUnit_Framework_TestCase {
 
 		$model->relationships['one'] = new Model(array('foo' => 'bar', 'password' => 'hidden'));
 		$model->relationships['many'] = array($first, $second, $third);
-		$model->relationships['hidden'] = new Model(array('should' => 'visible'));
+		$model->relationships['hidden'] = new Model(array('should' => 'not_visible'));
 		$model->relationships['null'] = null;
 
 		$this->assertEquals(array(
@@ -283,7 +283,6 @@ class EloquentTest extends PHPUnit_Framework_TestCase {
 				array('second' => 'bar'),
 				array('third' => 'baz'),
 			),
-			'hidden' => array('should' => 'visible'),
 			'null' => null,
 		), $model->to_array());
 

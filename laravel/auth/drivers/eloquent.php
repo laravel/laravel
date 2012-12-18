@@ -52,7 +52,7 @@ class Eloquent extends Driver {
 
 		if ( ! is_null($user) and Hash::check($password, $user->{$password_field}))
 		{
-			return $this->login($user->id, array_get($arguments, 'remember'));
+			return $this->login($user->get_key(), array_get($arguments, 'remember'));
 		}
 
 		return false;

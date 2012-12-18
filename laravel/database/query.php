@@ -342,6 +342,67 @@ class Query {
 	{
 		return $this->where_not_in($column, $values, 'OR');
 	}
+	
+	/**
+	 * Add a BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @param  string  $connector 
+	 * @param  boolean $not       
+	 * @return Query
+	 */
+	public function where_between($column, $min, $max, $connector = 'AND', $not = false)
+	{
+		$type = ($not) ? 'where_not_between' : 'where_between';
+
+		$this->wheres[] = compact('type', 'column', 'min', 'max', 'connector');
+
+		$this->bindings[] = $min;
+		$this->bindings[] = $max;
+
+		return $this;
+	}
+
+	/**
+	 * Add a OR BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function or_where_between($column, $min, $max)
+	{
+		return $this->where_between($column, $min, $max, 'OR');
+	}
+
+	/**
+	 * Add a NOT BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function where_not_between($column, $min, $max, $connector = 'AND')
+	{
+		return $this->where_between($column, $min, $max, $connector, true);
+	}
+
+	/**
+	 * Add a OR NOT BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function or_where_not_between($column, $min, $max)
+	{
+		return $this->where_not_between($column, $min, $max, 'OR');
+	}
 
 	/**
 	 * Add a where null condition to the query.

@@ -196,11 +196,11 @@ Many times, when updating a record, you want to use the unique rule, but exclude
 
 #### Validate that a date attribute is before a given date:
 
-	'birthdate' => 'before:1986-28-05';
+	'birthdate' => 'before:1986-05-28';
 
 #### Validate that a date attribute is after a given date:
 
-	'birthdate' => 'after:1986-28-05';
+	'birthdate' => 'after:1986-05-28';
 
 > **Note:** The **before** and **after** validation rules use the **strtotime** PHP function to convert your date to something the rule can understand.
 

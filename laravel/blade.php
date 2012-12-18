@@ -303,7 +303,7 @@ class Blade {
 	{
 		$pattern = '/(\s*)@unless(\s*\(.*\))/';
 
-		return preg_replace($pattern, '$1<?php if( ! ($2)): ?>', $value);
+		return preg_replace($pattern, '$1<?php if ( ! ($2)): ?>', $value);
 	}
 
 	/**

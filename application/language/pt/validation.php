@@ -32,11 +32,11 @@ return array(
 	),
 	"confirmed"      => "O :attribute confirmação não coincide.",
 	"different"      => "O :attribute e :other devem ser diferentes.",
-	"email"          => "O :attribute não é um e-mail válido",
+	"email"          => "O :attribute não é um e-mail válido.",
 	"exists"         => "O :attribute selecionado é inválido.",
 	"image"          => "O :attribute deve ser uma imagem.",
 	"in"             => "O :attribute selecionado é inválido.",
-	"integer"        => "O :attribute deve ser um inteiro",
+	"integer"        => "O :attribute deve ser um inteiro.",
 	"ip"             => "O :attribute deve ser um endereço IP válido.",
 	"match"          => "O formato :attribute é inválido.",
 	"max"            => array(
@@ -53,13 +53,13 @@ return array(
 	"not_in"         => "O :attribute selecionado é inválido.",
 	"numeric"        => "O :attribute deve ser um número.",
 	"required"       => "O campo :attribute deve ser preenchido.",
-	"same"           => "O :attribute e :other devem ser iguais",
+	"same"           => "O :attribute e :other devem ser iguais.",
 	"size"           => array(
 		"numeric" => "O :attribute deve ser :size.",
 		"file"    => "O :attribute deve ter :size kilobyte.",
 		"string"  => "O :attribute deve ter :size caracteres.",
 	),
-	"unique"         => "O :attribute já existe",
+	"unique"         => "Este :attribute já existe.",
 	"url"            => "O formato :attribute é inválido.",
 
 	/*

@@ -247,7 +247,7 @@ class Request {
 			// we will simply return the environment for that URI pattern.
 			foreach ($patterns as $pattern)
 			{
-				if (Str::is($pattern, $uri))
+				if (Str::is($pattern, $uri) or $pattern == gethostname())
 				{
 					return $environment;
 				}

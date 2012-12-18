@@ -140,6 +140,25 @@ class Migrator extends Task {
 	}
 
 	/**
+	 * Reset the database to pristine state and run all migrations
+	 *
+	 * @param  array  $arguments
+	 * @return void
+	 */
+	public function rebuild()
+	{
+		// Clean the database
+		$this->reset();
+
+		echo PHP_EOL;
+
+		// Re-run all migrations
+		$this->migrate();
+
+		echo 'The database was successfully rebuilt'.PHP_EOL;
+	}
+
+	/**
 	 * Install the database tables used by the migration system.
 	 *
 	 * @return void
