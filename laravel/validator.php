@@ -864,6 +864,20 @@ class Validator {
 	}
 
 	/**
+	 * Replace all place-holders for the required_with rule.
+	 *
+	 * @param  string  $message
+	 * @param  string  $attribute
+	 * @param  string  $rule
+	 * @param  array   $parameters
+	 * @return string
+	 */
+	protected function replace_required_with($message, $attribute, $rule, $parameters)
+	{
+		return str_replace(':field', $this->attribute($parameters[0]), $message);
+	}
+
+	/**
 	 * Replace all place-holders for the between rule.
 	 *
 	 * @param  string  $message
