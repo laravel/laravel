@@ -41,7 +41,7 @@ class Route extends Task {
 		// We'll call the router using the method and URI specified by
 		// the developer on the CLI. If a route is found, we will not
 		// run the filters, but simply dump the result.
-		$route = Router::route(Request::method(), $_SERVER['REQUEST_URI']);
+		$route = Router::route($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
 		if ( ! is_null($route))
 		{
