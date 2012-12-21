@@ -79,6 +79,13 @@ class Query {
 	public $havings;
 
 	/**
+	* The PARTITION BY clauses.
+	*
+	* @var array
+	*/
+	public $partitions;
+
+	/**
 	 * The ORDER BY clauses.
 	 *
 	 * @var array
@@ -574,6 +581,18 @@ class Query {
 	{
 		$this->orderings[] = compact('column', 'direction');
 		return $this;
+	}
+
+	/**
+	* Add a partition by to the query.
+	*
+	* @param  string  $column
+	* @return Query
+	*/
+	public function partition_by($column)
+	{
+	$this->partitions[] = compact('column');
+	return $this;
 	}
 
 	/**

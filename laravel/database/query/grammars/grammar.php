@@ -19,7 +19,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected $components = array(
 		'aggregate', 'selects', 'from', 'joins', 'wheres',
-		'groupings', 'havings', 'orderings', 'limit', 'offset',
+		'groupings', 'havings', 'partitions', 'orderings', 'limit', 'offset',
 	);
 
 	/**
@@ -329,6 +329,22 @@ class Grammar extends \Laravel\Database\Grammar {
 		}
 
 		return 'HAVING '.preg_replace('/AND /', '', implode(' ', $sql), 1);
+	}
+
+	/**
+	* Compile the PARTITION BY clause for a query.
+	*
+	* @param  Query   $query
+	* @return string
+	*/
+	protected function partitions(Query $query)
+	{
+	foreach ($query->partitions as $partition)
+	{
+	  $sql[] = $this->wrap($partition['column']);
+	}
+
+	return 'PARTITION BY '.implode(', ', $sql);
 	}
 
 	/**

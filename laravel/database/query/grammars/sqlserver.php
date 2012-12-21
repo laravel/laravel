@@ -31,7 +31,7 @@ class SQLServer extends Grammar {
 		// SQL Server does not currently implement an "OFFSET" type keyword, so we
 		// actually have to generate the ANSI standard SQL for doing offset like
 		// functionality. OFFSET is in SQL Server 2012, however.
-		if ($query->offset > 0)
+		if (($query->offset > 0) || (isset($sql['partitions'])) )
 		{
 			return $this->ansi_offset($query, $sql);
 		}
@@ -57,7 +57,7 @@ class SQLServer extends Grammar {
 		// Instead of using a "LIMIT" keyword, SQL Server uses the TOP keyword
 		// within the SELECT statement. So, if we have a limit, we will add
 		// it to the query here if there is not an OFFSET present.
-		if ($query->limit > 0 and $query->offset <= 0)
+		if ($query->limit > 0 and $query->offset <= 0 and !$query->partitions)
 		{
 			$select .= 'TOP '.$query->limit.' ';
 		}
@@ -81,15 +81,21 @@ class SQLServer extends Grammar {
 		{
 			$components['orderings'] = 'ORDER BY (SELECT 0)';
 		}
+		$partitions='';
+		if ( isset($components['partitions']))
+		{
+		  $partitions= $components['partitions'].' ';
+		}
 
 		// We need to add the row number to the query so we can compare it to
 		// the offset and limit values given for the statement. So we'll add
 		// an expression to the select for the row number.
 		$orderings = $components['orderings'];
 
-		$components['selects'] .= ", ROW_NUMBER() OVER ({$orderings}) AS RowNum";
+		$components['selects'] .= ", ROW_NUMBER() OVER ({$partitions}{$orderings}) AS RowNum";
 
 		unset($components['orderings']);
+		unset($components['partitions']);
 
 		$start = $query->offset + 1;
 
