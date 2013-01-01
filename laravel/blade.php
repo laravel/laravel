@@ -22,6 +22,7 @@ class Blade {
 		'endunless',
 		'includes',
 		'render_each',
+        'render_with_vars',
 		'render',
 		'yields',
 		'yield_sections',
@@ -342,6 +343,14 @@ class Blade {
 
 		return preg_replace($pattern, '$1<?php echo render$2; ?>', $value);
 	}
+
+    protected static function compile_render_with_vars($value)
+    {
+        $pattern = static::matcher('render_with_vars');
+
+        $text = preg_replace($pattern, '$1<?php echo view$2->render(); ?>', $value);
+        return $text;
+    }
 
 	/**
 	 * Rewrites Blade @render_each statements into valid PHP.
