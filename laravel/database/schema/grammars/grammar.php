@@ -59,7 +59,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function drop(Table $table, Fluent $command)
 	{
-		return 'DROP TABLE '.$this->wrap($table);
+		return 'DROP TABLE '.$this->wrap($table) . ' CASCADE';
 	}
 
 	/**
