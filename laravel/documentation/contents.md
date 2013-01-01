@@ -15,7 +15,7 @@
 	- [Filters](/docs/routing#filters)
 	- [Pattern Filters](/docs/routing#pattern-filters)
 	- [Global Filters](/docs/routing#global-filters)
-	- [Route Groups](/docs/routing#groups)
+	- [Route Groups](/docs/routing#route-groups)
 	- [Named Routes](/docs/routing#named-routes)
 	- [HTTPS Routes](/docs/routing#https-routes)
 	- [Bundle Routes](/docs/routing#bundle-routes)

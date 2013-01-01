@@ -81,6 +81,10 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 
 	@render('admin.list')
 
+If you don't want to inherit data from the current view but still want to use specific variables that you pass in manually you can use  **@render_with_vars**. This allows you to encapsulate these variables and for example setup recursion right in your views as you can set the same variale name as in the parent view.
+
+	@render_with_vars('admin.list')->with('items', $item->children)
+	
 #### Blade comments:
 
 	{{-- This is a comment --}}
