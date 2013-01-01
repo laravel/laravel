@@ -117,4 +117,18 @@ class BladeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("<?php echo render(Config::get('application.default_view', 'user.profile')); ?>", Blade::compile_string($blade2));
 
 	}
+	
+	/**
+	 * Test the compilation of render_with_vars statements.
+	 *
+	 * @group laravel
+	 */
+	public function testRendersWithVarsAreCompiledCorrectly()
+	{
+		$blade1 = "@render_with_vars('user.profile')->with('test', $test)";
+		$blade2 = "@render_with_vars(Config::get('application.default_view', 'user.profile'))->with('test', $test)";
+		
+		$this->assertEquals("<?php echo view('user.profile')->with('test', $test)->render(); ?>", Blade::compile_string($blade1));
+		$this->assertEquals("<?php echo view(Config::get('application.default_view', 'user.profile'))->with('test', $test)->render(); ?>", Blade::compile_string($blade2));
+	}
 }
