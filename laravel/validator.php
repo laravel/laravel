@@ -1134,7 +1134,14 @@ class Validator {
 		// The format for specifying validation rules and parameters follows a
 		// {rule}:{parameters} formatting convention. For instance, the rule
 		// "max:3" specifies that the value may only be 3 characters long.
-		if (($colon = strpos($rule, ':')) !== false)
+		$colon = strpos($rule, ':');
+        
+        // match: ruleset can contains commas in one rule so it needs to
+        // be handled a little differently than other rulesets
+        if (strpos($rule, 'match:') === 0)
+        {
+            $parameters[] = substr($rule, $colon + 1);
+        } elseif ($colon !== false)
 		{
 			$parameters = str_getcsv(substr($rule, $colon + 1));
 		}
