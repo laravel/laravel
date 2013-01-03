@@ -119,6 +119,10 @@
 	</ul>
 </div>
 
-<script>window.jQuery || document.write("<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'>\x3C/script>")</script>
-<script>{{ file_get_contents(path('sys').'profiling/profiler.js') }}</script>
+@if (Config::get('application.profiler_js_src'))
+	<script>{{ file_get_contents(Config::get('application.profiler_js_src')) }}</script>
+@else
+	<script>window.jQuery || document.write("<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'>\x3C/script>")</script>
+	<script>{{ file_get_contents(path('sys').'profiling/profiler.js') }}</script>
+@endif
 <!-- /ANBU - LARAVEL PROFILER -->
