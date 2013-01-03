@@ -681,6 +681,7 @@ EOT;
             // Like age, integer, and nullable
             @list($field, $type, $setting) = explode(':', $arg);
             @list($type, $length) = explode('=', $type);
+//             @list($precision, $scale) = explode(',', $length);
             
             if ( !$type ) {
                 echo "There was an error in your formatting. Please try again. Did you specify both a field and data type for each? age:int\n";

@@ -6,8 +6,9 @@ class Import_Controller extends Base_Controller {
 
 	public function get_index()
     {
-    	$table_name = 'laravel_migrations';
-    	$columns = DB::query("select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = '{$table_name}'");
+    	$table_name = 'source';
+    	$columns = DB::query("select column_name, data_type, character_maximum_length, numeric_precision, numeric_scale
+    			 from INFORMATION_SCHEMA.COLUMNS where table_name = '{$table_name}'");
     	$forbidden_fields = array('id', 'created_at', 'updated_at');
     	$fields_list = array();
     	foreach ($columns as $column) {
@@ -20,8 +21,19 @@ class Import_Controller extends Base_Controller {
     					$data_type = 'string';
     				break;
     				
+    				case 'decimal':
+    				case 'numeric':
+    					$data_type = 'decimal';
+    					if (!empty($column->numeric_precision)) {
+    						$data_type .= '=' . $column->numeric_precision;
+    					}
+    					if (!empty($column->numeric_scale)) {
+    						$data_type .= ', ' . $column->numeric_scale;
+    					}
+    				break;
+    				
     				default:
-    					;
+    					$data_type = $column->data_type;
     				break;
     			}
     			
