@@ -54,6 +54,12 @@ You now have a fluent query builder for the "users" table. Using this query buil
 
 	$user = DB::table('users')->get(array('id', 'email as user_email'));
 
+#### Retrieving an array with the values of a given column:
+
+    $users = DB::table('users')->take(10)->lists('email', 'id');
+
+> **Note:** Second parameter is optional
+
 #### Selecting distinct results from the database:
 
 	$user = DB::table('users')->distinct()->get();
