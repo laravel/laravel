@@ -231,7 +231,7 @@ class URL {
 	}
 
 	/**
-	 * Generate an application URL to an asset.
+	 * Generate an application URL to an asset. Supports relative URLs for external resources.
 	 *
 	 * @param  string  $url
 	 * @param  bool    $https
@@ -239,7 +239,10 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (static::valid($url)) return $url;
+		if (static::valid($url) or starts_with($url, '//'))
+		{
+			return $url;
+		}
 
 		// If a base asset URL is defined in the configuration, use that and don't
 		// try and change the HTTP protocol. This allows the delivery of assets
