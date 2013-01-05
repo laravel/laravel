@@ -87,7 +87,9 @@ class Runner extends Task {
 		// fix the spaced directories problem when using the command line
 		// strings with spaces inside should be wrapped in quotes.
 		$esc_path = escapeshellarg($path);
-
+		
+		// Preserve environment always
+        	if ($env = Request::env()) putenv("LARAVEL_ENV={$env}");
 		passthru('phpunit --configuration '.$esc_path, $status);
 
 		@unlink($path);
