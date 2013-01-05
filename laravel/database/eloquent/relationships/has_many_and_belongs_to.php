@@ -346,6 +346,25 @@ class Has_Many_And_Belongs_To extends Relationship {
 	}
 
 	/**
+	 * Hydrate an array of models from the given results.
+	 *
+	 * @param  Model  $model
+	 * @param  array  $results
+	 * @return array
+	 */
+	public function hydrate($model, $results)
+	{
+		$models = parent::hydrate($model, $results);
+
+		// The many to many relationships may have pivot table column on them
+		// so we will call the "clean" method on the relationship to remove
+		// any pivot columns that are on the model.
+		$this->hydrate_pivot($models);
+
+		return $models;
+	}
+
+	/**
 	 * Hydrate the Pivot model on an array of results.
 	 *
 	 * @param  array  $results
