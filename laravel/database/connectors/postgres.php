@@ -48,7 +48,7 @@ class Postgres extends Connector {
 		// the database to set the search path.
 		if (isset($config['schema']))
 		{
-			$connection->prepare("SET search_path TO '{$config['schema']}'")->execute();
+			$connection->prepare("SET search_path TO {$config['schema']}")->execute();
 		}
 
 		return $connection;
