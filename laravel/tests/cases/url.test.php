@@ -106,6 +106,26 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://localhost/index.php/url/test/taylor/otwell', URL::to_route('url-test-2', array('taylor', 'otwell')));
 	}
 
+	/**
+	 * Test the URL::to_language method.
+	 *
+	 * @group laravel
+	 */
+	public function testToLanguageMethodGeneratesURLsToDifferentLanguage()
+	{
+		URI::$uri = 'foo/bar';
+		Config::set('application.languages', array('sp', 'fr'));
+		Config::set('application.language', 'sp');
+
+		$this->assertEquals('http://localhost/index.php/fr/foo/bar', URL::to_language('fr'));
+		$this->assertEquals('http://localhost/index.php/fr/', URL::to_language('fr', true));
+
+		Config::set('application.index', '');
+		$this->assertEquals('http://localhost/fr/foo/bar', URL::to_language('fr'));
+
+		$this->assertEquals('http://localhost/sp/foo/bar', URL::to_language('en'));
+	}
+
 
 	/**
 	 * Test language based URL generation.
