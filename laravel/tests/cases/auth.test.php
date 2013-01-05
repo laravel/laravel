@@ -17,6 +17,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$_SERVER['auth.login.stub'] = null;
+		$_SERVER['test.user.login'] = null;
+		$_SERVER['test.user.logout'] = null;
+
 		Cookie::$jar = array();
 		Config::$items = array();
 		Auth::driver()->user = null;
@@ -30,6 +33,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function tearDown()
 	{
 		$_SERVER['auth.login.stub'] = null;
+		$_SERVER['test.user.login'] = null;
+		$_SERVER['test.user.logout'] = null;
+		
 		Cookie::$jar = array();
 		Config::$items = array();
 		Auth::driver()->user = null;
@@ -298,6 +304,37 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertFalse(isset(Session::$instance->session['data']['laravel_auth_drivers_fluent_login']));
 		$this->assertTrue(Cookie::$jar['laravel_auth_drivers_fluent_remember']['expiration'] < time());
+	}
+
+	/**
+	 * Test `laravel.auth: login` and `laravel.auth: logout` is called properly
+	 *
+	 * @group laravel
+	 */
+	public function testAuthEventIsCalledProperly()
+	{
+		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
+
+		Event::listen('laravel.auth: login', function ()
+		{
+			$_SERVER['test.user.login'] = 'foo';
+		});
+
+		Event::listen('laravel.auth: logout', function ()
+		{
+			$_SERVER['test.user.logout'] = 'foo';
+		});
+
+		$this->assertNull($_SERVER['test.user.login']);
+		$this->assertNull($_SERVER['test.user.logout']);
+		
+		Auth::login(1, true);
+
+		$this->assertEquals('foo', $_SERVER['test.user.login']);
+
+		Auth::logout();
+
+		$this->assertEquals('foo', $_SERVER['test.user.logout']);
 	}
 
 }
