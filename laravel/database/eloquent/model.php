@@ -711,10 +711,10 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->$source)) return true;
+			if (array_key_exists($key, $this->{$source})) return ! empty($this->{$source}[$key]);
 		}
 
-		if (method_exists($this, $key)) return true;
+		return false;
 	}
 
 	/**
@@ -727,7 +727,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			unset($this->$source[$key]);
+			unset($this->{$source}[$key]);
 		}
 	}
 
