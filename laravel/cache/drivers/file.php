@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use FilesystemIterator;
+
 class File extends Driver {
 
 	/**
@@ -97,4 +99,19 @@ class File extends Driver {
 		if (file_exists($this->path.$key)) @unlink($this->path.$key);
 	}
 
+	/**
+	 * Flush the entire cache.
+	 *
+	 * @return void
+	 */
+	public function flush()
+	{
+		$items = new FilesystemIterator($this->path);
+
+		foreach($items as $item)
+		{
+			// Delete files, skipping filenames started with dot
+			if(substr($item->getFileName(), 0, 1) !== '.') @unlink($item->getRealPath());
+		}
+	}
 }

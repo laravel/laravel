@@ -109,5 +109,4 @@ abstract class Driver {
 	{
 		return time() + ($minutes * 60);
 	}
-
 }
