@@ -95,7 +95,7 @@ class Section {
 	{
 		if (isset(static::$sections[$section]))
 		{
-			static::$sections[$section] = str_replace('@parent', $content, static::$sections[$section]);
+			static::$sections[$section] = str_replace('@parent', static::$sections[$section], $content);
 		}
 		else
 		{
