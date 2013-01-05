@@ -273,6 +273,34 @@ function array_except($array, $keys)
 }
 
 /**
+ * Transform PHP array to a XML document
+ *
+ * @param array $array The PHP array to transform
+ * @return string The xml
+ */
+function array_to_xml($array, $xml = false){
+	
+	if ($xml === false)
+	{
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="'.Config::get('application.encoding').'"?><response/>');
+	}
+	
+	foreach($array as $key => $value)
+	{
+		if (is_array($value))
+		{
+			array_to_xml($value, $xml->addChild($key));
+		}
+		else
+		{
+			$xml->addChild($key, $value);
+		}
+	}
+	
+	return $xml->asXML();
+}
+
+/**
  * Transform Eloquent models to a JSON object.
  *
  * @param  Eloquent|array  $models
