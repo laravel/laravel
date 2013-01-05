@@ -36,11 +36,13 @@ Eloquent makes a few basic assumptions about your database structure:
 - Each table should have a primary key named **id**.
 - Each table name should be the plural form of its corresponding model name.
 
-Sometimes you may wish to use a table name other than the plural form of your model. No problem. Just add a static **table** property your model:
+Sometimes you may wish to use a table name other than the plural form of your model, or a diffrent primary key column. No problem. Just add a static **table** property your model:
 
 	class User extends Eloquent {
 
 	     public static $table = 'my_users';
+
+	     public static $key = 'my_primary_key';
 
 	}
 
