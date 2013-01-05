@@ -75,7 +75,7 @@ class Connection {
 
 		if (isset(\Laravel\Database::$registrar[$this->driver()]))
 		{
-			\Laravel\Database::$registrar[$this->driver()]['query']();
+			return $this->grammar = \Laravel\Database::$registrar[$this->driver()]['query']();
 		}
 
 		switch ($this->driver())
