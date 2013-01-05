@@ -197,6 +197,8 @@ class Blade {
 	 */
 	protected static function compile_echos($value)
 	{
+		$value = preg_replace('/\{\{\{(.+?)\}\}\}/', '<?php echo HTML::entities($1); ?>', $value);
+
 		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
 	}
 

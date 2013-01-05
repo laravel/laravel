@@ -119,4 +119,17 @@ abstract class Relationship extends Query {
 		return array_unique($keys);
 	}
 
+	/**
+	 * The relationships that should be eagerly loaded by the query.
+	 *
+	 * @param  array  $includes
+	 * @return Relationship
+	 */
+	public function with($includes)
+	{
+		$this->model->includes = (array) $includes;
+
+		return $this;
+	}
+
 }

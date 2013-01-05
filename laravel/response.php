@@ -89,14 +89,16 @@ class Response {
 	 * @param  mixed     $data
 	 * @param  int       $status
 	 * @param  array     $headers
+   * @param  int       $json_options
 	 * @return Response
 	 */
-	public static function json($data, $status = 200, $headers = array())
+	public static function json($data, $status = 200, $headers = array(), $json_options = 0)
 	{
 		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
-		return new static(json_encode($data), $status, $headers);
+		return new static(json_encode($data, $json_options), $status, $headers);
 	}
+	
 
 	/**
 	 * Create a new response of JSON'd Eloquent models.

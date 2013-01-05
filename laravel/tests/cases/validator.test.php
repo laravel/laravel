@@ -666,4 +666,24 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expect, $v->errors->first('test_attribute'));
 	}
 
+    /**
+     * Test required_with attribute names are replaced.
+     *
+     * @group laravel
+     */
+    public function testRequiredWithAttributesAreReplaced()
+    {
+        $lang = require path('app').'language/en/validation.php';
+
+        $data = array('first_name' => 'Taylor', 'last_name' => '');
+
+        $rules = array('first_name' => 'required', 'last_name' => 'required_with:first_name');
+
+        $v = Validator::make($data, $rules);
+        $v->valid();
+
+        $expect = str_replace(array(':attribute', ':field'), array('last name', 'first name'), $lang['required_with']);
+        $this->assertEquals($expect, $v->errors->first('last_name'));
+    }
+
 }

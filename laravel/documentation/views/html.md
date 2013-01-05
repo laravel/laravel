@@ -40,7 +40,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a reference to a CSS file using a given media type:
 
-	echo HTML::style('css/common.css', 'print');
+	echo HTML::style('css/common.css', array('media' => 'print'));
 
 *Further Reading:*
 
