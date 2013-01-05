@@ -29,6 +29,26 @@ class Publisher {
 	}
 
 	/**
+	 * Delete a bundle's assets from the public directory
+	 *
+	 * @param  string  $bundle
+	 * @return void
+	 */
+	public function unpublish($bundle)
+	{
+		if ( ! Bundle::exists($bundle))
+		{
+			echo "Bundle [$bundle] is not registered.";
+
+			return;
+		}
+
+		File::rmdir(path('public').'bundles'.DS.$bundle);
+
+		echo "Assets deleted for bundle [$bundle].".PHP_EOL;
+	}
+
+	/**
 	 * Copy the contents of a bundle's assets to the public folder.
 	 *
 	 * @param  string  $source
