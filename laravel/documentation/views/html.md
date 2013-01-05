@@ -87,6 +87,17 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 	echo HTML::link_to_action('user@profile', 'User Profile', array($username));
 
+<a name="links-to-a-different-language"></a>
+## Links To A Different Language
+
+#### Generating a link to the same page in another language:
+
+	echo HTML::link_to_language('fr');
+
+#### Generating a link to your home page another language
+
+	echo HTML::link_to_language('fr', true);
+
 <a name="mail-to-links"></a>
 ## Mail-To Links
 

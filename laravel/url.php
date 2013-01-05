@@ -295,6 +295,31 @@ class URL {
 	}
 
 	/**
+	 * Get the URL to switch language, keeping the current page or not
+	 *
+	 * @param  string  $language  The new language
+	 * @param  boolean $reset     Whether navigation should be reset
+	 * @return string             An URL
+	 */
+	public static function to_language($language, $reset = false)
+	{
+		// Get the url to use as base
+		$url = $reset ? URL::home() : URL::to(URI::current());
+
+		// Validate the language
+		if (!in_array($language, Config::get('application.languages')))
+		{
+			return $url;
+		}
+
+		// Get the language we're switching from and the one we're going to
+		$from = '/'.Config::get('application.language').'/';
+		$to   = '/'.$language.'/';
+
+		return str_replace($from, $to, $url);
+	}
+
+	/**
 	 * Substitute the parameters in a given URI.
 	 *
 	 * @param  string  $uri
