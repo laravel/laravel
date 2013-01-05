@@ -6,6 +6,7 @@
 - [Cookie Sessions](#cookie)
 - [File System Sessions](#file)
 - [Database Sessions](#database)
+- [Database Connection](#database_connection)
 - [Memcached Sessions](#memcached)
 - [Redis Sessions](#redis)
 - [In-Memory Sessions](#memory)
@@ -83,6 +84,25 @@ If you would like to use a different table name, simply change the **table** opt
 All you need to do now is set the driver in the **application/config/session.php** file:
 
 	'driver' => 'database'
+
+<a name="database_connection"></a>
+## Database connection
+
+To use a different database connection for your sessions.
+
+First, choose which connection you want to use; or create one.
+
+This is done in [configure database connections](/docs/database/config)
+
+In the **application/config/session.php** file, change the option:
+
+	'database_connection' => null,
+
+To a connection of you're choice;
+
+	'database_connection' => 'my_awesome_app_sessions',
+
+Watchout! If you want to create the database table by using artisan, please be aware that you have to set this option before creating the table with artisan. You can find how to create the session table with artisan in the section above.
 
 <a name="memcached"></a>
 ## Memcached Sessions
