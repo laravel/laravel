@@ -176,7 +176,7 @@ class Connection {
 	 * @param  array   $bindings
 	 * @return array
 	 */
-	public function query($sql, $bindings = array())
+	public function query($sql, $bindings = array(), $transform = NULL)
 	{
 		$sql = trim($sql);
 
@@ -187,7 +187,7 @@ class Connection {
 		// and deletes we will return the affected row count.
 		if (stripos($sql, 'select') === 0 || stripos($sql, 'show') === 0)
 		{
-			return $this->fetch($statement, Config::get('database.fetch'));
+			return $this->fetch($statement, Config::get('database.fetch'), $transform);
 		}
 		elseif (stripos($sql, 'update') === 0 or stripos($sql, 'delete') === 0)
 		{
@@ -283,18 +283,56 @@ class Connection {
 	 * @param  int           $style
 	 * @return array
 	 */
-	protected function fetch($statement, $style)
+	protected function fetch($statement, $style, $transform = NULL)
 	{
-		// If the fetch style is "class", we'll hydrate an array of PHP
-		// stdClass objects as generic containers for the query rows,
-		// otherwise we'll just use the fetch style value.
-		if ($style === PDO::FETCH_CLASS)
+		if($transform == NULL) 
 		{
-			return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
-		}
-		else
-		{
-			return $statement->fetchAll($style);
+			//Use PDOStatement::fetchAll if no transform is necessary
+			 
+			// If the fetch style is "class", we'll hydrate an array of PHP
+			// stdClass objects as generic containers for the query rows,
+			// otherwise we'll just use the fetch style value.
+			if ($style === PDO::FETCH_CLASS)
+			{
+				return $statement->fetchAll(PDO::FETCH_CLASS, 'stdClass');
+			}
+			else
+			{
+				return $statement->fetchAll($style);
+			}
+		} else { 
+			$results = array(); 
+			while($row = $statement->fetch(PDO::FETCH_ASSOC)) 
+			{ 
+				$transformRow = array();	
+
+				//loop through $transform to get our new key names and values
+				foreach($transform as $key => $transformFn) 
+				{ 
+					//check the type of $transformFn
+					if(is_callable($transformFn)) 
+					{
+						//if the value's a closure, execute it
+						$transformRow[$key] = $transformFn($row);
+					} 
+					else if(is_string($transformFn))
+					{ 
+						//if the value's a string, just copy the column value
+						$transformRow[$key] = $row[$transformFn];
+					}
+				}
+				
+				//if style is configured to be stdClass, convert from assoc
+				if($style == PDO::FETCH_CLASS) 
+				{ 
+					$transformRow = (object) $transformRow;
+				} 
+				
+				//append the transformed row
+				$results[] = $transformRow;
+			}
+			
+			return $results;
 		}
 	}
 
