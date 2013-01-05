@@ -22,6 +22,9 @@ class Exception extends \Exception {
 		$this->inner = $inner;
 
 		$this->setMessage($sql, $bindings);
+		
+		// Set the exception code
+		$this->code = $inner->getCode();
 	}
 
 	/**
@@ -47,5 +50,5 @@ class Exception extends \Exception {
 
 		$this->message .= "\n\nSQL: ".$sql."\n\nBindings: ".var_export($bindings, true);
 	}
-
+	
 }
