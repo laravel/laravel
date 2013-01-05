@@ -24,7 +24,9 @@ class Postgres extends Connector {
 	{
 		extract($config);
 
-		$dsn = "pgsql:host={$host};dbname={$database}";
+		$host_dsn = isset($host) ? 'host='.$host.';' : '';
+
+		$dsn = "pgsql:{$host_dsn}dbname={$database}";
 
 		// The developer has the freedom of specifying a port for the PostgresSQL
 		// database or the default port (5432) will be used by PDO to create the
