@@ -239,7 +239,7 @@ class URL {
 	 */
 	public static function to_asset($url, $https = null)
 	{
-		if (static::valid($url)) return $url;
+		if (static::valid($url) or starts_with($url, '//')) return $url;
 
 		// If a base asset URL is defined in the configuration, use that and don't
 		// try and change the HTTP protocol. This allows the delivery of assets
