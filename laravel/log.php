@@ -42,16 +42,18 @@ class Log {
 	public static function write($type, $message)
 	{
 		// If there is a listener for the log event, we'll delegate the logging
-		// to the event and not write to the log files. This allows for quick
-		// swapping of log implementations for debugging.
-		if (Event::listeners('laravel.log'))
+		// to the event for debugging.
+		Event::fire('laravel.log', array($type, $message));
+
+		$threshold = (array) Config::get('application.logger_treshold', array());
+
+		switch (true)
 		{
-			Event::fire('laravel.log', array($type, $message));
+			case empty($treshold) :
+			case in_array($type, $treshold) :
+				File::append(path('storage').'logs/'.date('Y-m-d').'.log', static::format($type, $message));
+				break;
 		}
-
-		$message = static::format($type, $message);
-
-		File::append(path('storage').'logs/'.date('Y-m-d').'.log', $message);
 	}
 
 	/**

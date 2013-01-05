@@ -139,6 +139,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Logger Threshold
+	|--------------------------------------------------------------------------
+	|
+	| Here, you can specify which log threshold should be added logs file when
+	| Logger Class log any message, for example a Log::info() might not be useful
+	| in production environment but it's might be useful in development.
+	|
+	*/
+
+	'logger_threshold' => null,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Class Aliases
 	|--------------------------------------------------------------------------
 	|
