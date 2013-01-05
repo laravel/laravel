@@ -60,6 +60,30 @@ class Schema {
 	}
 
 	/**
+	 * Determine whether or not a table exists in schema
+	 * @param  string  $table
+	 * @param  string  $connection
+	 * @return boolean
+	 */
+	public static function exists($table, $connection = null)
+	{
+		$connection = DB::connection($connection);
+		$grammar    = static::grammar($connection);
+		$statement  = $grammar->exists($table);
+
+		// Try to prepare statement, returns false or 
+		// PDOException if table does not exist
+		try 
+		{
+			return (bool) $connection->pdo->prepare($statement);
+		} 
+		catch (\PDOException $e)
+	   	{
+			return false;
+		}
+	}
+
+	/**
 	 * Drop a database table from the schema.
 	 *
 	 * @param  string  $table

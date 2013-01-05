@@ -123,4 +123,13 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 		return strval($value);
 	}
 
+	/**
+	 * Return statement used for determining if a table exists
+	 * @param  string  $table
+	 * @return string
+	 */
+	public function exists($table)
+	{
+		return "SELECT 1 FROM ".$this->wrap($table);
+	}
 }
