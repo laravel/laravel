@@ -2,6 +2,7 @@
 
 use Laravel\Request;
 use Laravel\Database as DB;
+use Laravel\Config;
 
 class Database {
 
@@ -78,7 +79,7 @@ class Database {
 	 */
 	protected function table()
 	{
-		return DB::connection(Request::server('cli.db'))->table('laravel_migrations');
+		return DB::connection(Request::server('cli.db'))->table(Config::get('migrations.table', 'laravel_migrations'));
 	}
 
 }
