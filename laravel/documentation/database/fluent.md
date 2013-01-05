@@ -9,6 +9,7 @@
 - [Dynamic Where Clauses](#dynamic)
 - [Table Joins](#joins)
 - [Ordering Results](#ordering)
+- [Grouping Results](#grouping)
 - [Skip & Take](#limit)
 - [Aggregates](#aggregates)
 - [Expressions](#expressions)
@@ -184,6 +185,13 @@ Of course, you may sort on as many columns as you wish:
 		->order_by('email', 'desc')
 		->order_by('name', 'asc')
 		->get();
+
+<a name="grouping"></a>
+## Grouping Results
+
+You can easily group the results of your query using the **group_by** method:
+
+	return DB::table(...)->group_by('email')->get();
 
 <a name="limit"></a>
 ## Skip & Take
