@@ -301,7 +301,7 @@ class Validator {
 	 */
 	protected function validate_accepted($attribute, $value)
 	{
-		return $this->validate_required($attribute, $value) and ($value == 'yes' or $value == '1');
+		return $this->validate_required($attribute, $value) and ($value == 'yes' or $value == '1' or $value == 'on');
 	}
 
 	/**
