@@ -51,6 +51,22 @@ class Query {
 	}
 
 	/**
+	 * Find a model by its primary key.
+	 * 
+	 * @param  mixed  $id
+	 * @param  array  $columns
+	 * @return mixed
+	 */
+	public function find($id, $columns = array('*'))
+	{
+		$model = $this->model;
+
+		$this->table->where($model::$key, '=', $id);
+
+		return $this->first($columns);
+	}
+
+	/**
 	 * Get the first model result for the query.
 	 *
 	 * @param  array  $columns
