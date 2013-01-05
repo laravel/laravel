@@ -27,17 +27,42 @@ function __($key, $replacements = array(), $language = null)
 }
 
 /**
- * Dump the given value and kill the script.
+ * Dump and Continue - Dump the given values and continue script execution.
  *
- * @param  mixed  $value
+ * <code>
+ *		// Dump a single value
+ *		dc($value);
+ *
+ *		// Dump multiple values
+ *		dc($value1, $value2, $value3);
+ * </code>
+ *
  * @return void
  */
-function dd($value)
+function dc()
 {
-	echo "<pre>";
-	var_dump($value);
-	echo "</pre>";
-	die;
+    echo '<pre>';
+    call_user_func_array('var_dump', func_get_args());
+    echo '</pre>';
+}
+
+/**
+ * Dump the given value and kill the script.
+ *
+ * <code>
+ *		// Dump a single value
+ *		dd($value);
+ *
+ *		// Dump multiple values
+ *		dd($value1, $value2, $value3);
+ * </code>
+ *
+ * @return void
+ */
+function dd()
+{
+    call_user_func_array('dc', func_get_args());
+    die();
 }
 
 /**
@@ -584,7 +609,7 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
-	
+
 /**
  * Calculate the human-readable file size (with proper units).
  *
