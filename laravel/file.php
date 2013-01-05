@@ -66,6 +66,13 @@ class File {
 	public static function delete($path)
 	{
 		if (static::exists($path)) return @unlink($path);
+		
+		// If apc.stat is disabled, we need to tell APC to remove the files from
+		// its opcode cache.
+		if (function_exists('apc_delete_file'))
+		{
+			@apc_delete_file($path);
+		}
 	}
 
 	/**
@@ -269,7 +276,7 @@ class File {
 			{
 				if(! copy($item->getRealPath(), $location)) return false;
 
-				if ($delete) @unlink($item->getRealPath());
+				if ($delete) static::delete($item->getRealPath());
 			}
 		}
 
@@ -303,7 +310,7 @@ class File {
 			}
 			else
 			{
-				@unlink($item->getRealPath());
+				static::delete($item->getRealPath());
 			}
 		}
 

@@ -1,5 +1,7 @@
 <?php namespace Laravel\Session\Drivers;
 
+use File as f;
+
 class File extends Driver implements Sweeper {
 
 	/**
@@ -57,10 +59,7 @@ class File extends Driver implements Sweeper {
 	 */
 	public function delete($id)
 	{
-		if (file_exists($this->path.$id))
-		{
-			@unlink($this->path.$id);
-		}
+		f::delete($this->path.$id);
 	}
 
 	/**

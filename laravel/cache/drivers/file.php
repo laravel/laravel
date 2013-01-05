@@ -1,5 +1,7 @@
 <?php namespace Laravel\Cache\Drivers;
 
+use File as f;
+
 class File extends Driver {
 
 	/**
@@ -94,7 +96,7 @@ class File extends Driver {
 	 */
 	public function forget($key)
 	{
-		if (file_exists($this->path.$key)) @unlink($this->path.$key);
+		f::delete($this->path.$key);
 	}
 
 }
