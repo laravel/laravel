@@ -79,6 +79,9 @@ class Cache {
 			case 'database':
 				return new Cache\Drivers\Database(Config::get('cache.key'));
 
+			case 'wincache':
+				return new Cache\Drivers\WinCache(Config::get('cache.key'));
+
 			default:
 				throw new \Exception("Cache driver {$driver} is not supported.");
 		}
