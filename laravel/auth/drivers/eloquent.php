@@ -18,7 +18,7 @@ class Eloquent extends Driver {
 		{
 			return $this->model()->find($token);
 		}
-		else if (get_class($token) == Config::get('auth.model'))
+		else if (is_object($token) and get_class($token) == Config::get('auth.model'))
 		{
 			return $token;
 		}
