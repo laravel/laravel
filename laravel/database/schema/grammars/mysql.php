@@ -33,6 +33,16 @@ class MySQL extends Grammar {
 			$sql .= ' ENGINE = '.$table->engine;
 		}
 
+		if ( ! is_null($table->charset))
+		{
+			$sql .= ' DEFAULT CHARACTER SET = '.$table->charset;
+		}
+
+		if ( ! is_null($table->collation))
+		{
+			$sql .= ' COLLATE = '.$table->collation;
+		}
+
 		return $sql;
 	}
 
@@ -77,7 +87,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'charset', 'collate', 'nullable', 'defaults', 'incrementer');
 
 			foreach ($elements as $element)
 			{
@@ -144,6 +154,42 @@ class MySQL extends Grammar {
 		if ($column->type == 'integer' and $column->increment)
 		{
 			return ' AUTO_INCREMENT PRIMARY KEY';
+		}
+	}
+
+	/**
+	 * Get the SQL syntax for specifying a column's character set.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function charset(Table $table, Fluent $column)
+	{
+		// Character sets only apply to text-based columns.  There are other MySQL
+		// column types that are supported (char, enum, set) but these aren't
+		// (yet) supported by Laravel.
+		if (in_array($column->type, array('string', 'text')) && $column->charset)
+		{
+			return ' CHARACTER SET '.$column->charset;
+		}
+	}
+
+	/**
+	 * Get the SQL syntax for specifying a column's character set.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function collate(Table $table, Fluent $column)
+	{
+		// Character sets only apply to text-based columns.  There are other MySQL
+		// column types that are supported (char, enum, set) but these aren't
+		// (yet) supported by Laravel.
+		if (in_array($column->type, array('string', 'text')) && $column->collate)
+		{
+			return ' COLLATE '.$column->collate;
 		}
 	}
 
