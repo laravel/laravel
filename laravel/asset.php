@@ -231,7 +231,7 @@ class Asset_Container {
 		{
 			$assets .= $this->asset($group, $name);
 		}
-		
+
 		return $assets;
 	}
 
@@ -247,14 +247,6 @@ class Asset_Container {
 		if ( ! isset($this->assets[$group][$name])) return '';
 
 		$asset = $this->assets[$group][$name];
-
-		// If the bundle source is not a complete URL, we will go ahead and prepend
-		// the bundle's asset path to the source provided with the asset. This will
-		// ensure that we attach the correct path to the asset.
-		if (filter_var($asset['source'], FILTER_VALIDATE_URL) === false)
-		{
-			$asset['source'] = $this->path($asset['source']);
-		}
 
 		return HTML::$group($asset['source'], $asset['attributes']);
 	}
@@ -276,7 +268,7 @@ class Asset_Container {
 				$this->evaluate_asset($asset, $value, $original, $sorted, $assets);
 			}
 		}
-		
+
 		return $sorted;
 	}
 
@@ -319,7 +311,7 @@ class Asset_Container {
 
 				unset($assets[$asset]['dependencies'][$key]);
 			}
-		}		
+		}
 	}
 
 	/**
