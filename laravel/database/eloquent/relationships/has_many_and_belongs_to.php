@@ -116,9 +116,10 @@ class Has_Many_And_Belongs_To extends Relationship {
 	 * Sync the joining table with the array of given IDs.
 	 *
 	 * @param  array  $ids
+	 * @param  array  $attributes
 	 * @return bool
 	 */
-	public function sync($ids)
+	public function sync($ids, $attributes)
 	{
 		$current = $this->pivot()->lists($this->other_key());
 		$ids = (array) $ids;
@@ -130,7 +131,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 		{
 			if ( ! in_array($id, $current))
 			{
-				$this->attach($id);
+				$this->attach($id, $attributes);
 			}
 		}
 
