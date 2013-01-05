@@ -248,11 +248,12 @@ class Table {
 	 * Add an auto-incrementing integer to the table.
 	 *
 	 * @param  string  $name
+	 * @param  int     $length
 	 * @return Fluent
 	 */
-	public function increments($name)
+	public function increments($name,$length=10)
 	{
-		return $this->integer($name, true);
+		return $this->integer($name, $length, true);
 	}
 
 	/**
@@ -271,12 +272,13 @@ class Table {
 	 * Add an integer column to the table.
 	 *
 	 * @param  string  $name
+	 * @param  int    $length
 	 * @param  bool    $increment
 	 * @return Fluent
 	 */
-	public function integer($name, $increment = false)
+	public function integer($name, $length = 10, $increment = false)
 	{
-		return $this->column(__FUNCTION__, compact('name', 'increment'));
+		return $this->column(__FUNCTION__, compact('name', 'length', 'increment'));
 	}
 
 	/**
