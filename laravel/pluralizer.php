@@ -67,7 +67,7 @@ class Pluralizer {
 	 */
 	public function plural($value, $count = 2)
 	{
-		if ((int) $count == 1) return $value;
+		if ($count == 1) return $value;
 
 		// First we'll check the cache of inflected values. We cache each word that
 		// is inflected so we don't have to spin through the regular expressions
