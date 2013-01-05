@@ -65,6 +65,7 @@
 	- [Upgrading Bundles](/docs/bundles#upgrading-bundles)
 - [Class Auto Loading](/docs/loading)
 - [Errors & Logging](/docs/logging)
+- [Profiler](/docs/profiler)
 - [Runtime Configuration](/docs/config)
 - [Examining Requests](/docs/requests)
 - [Generating URLs](/docs/urls)
