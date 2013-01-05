@@ -296,7 +296,7 @@ class Str {
 	 */
 	public static function classify($value)
 	{
-		$search = array('_', '-', '.');
+		$search = array('_', '-', '.', '/');
 
 		return str_replace(' ', '_', static::title(str_replace($search, ' ', $value)));
 	}
