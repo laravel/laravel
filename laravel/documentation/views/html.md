@@ -55,7 +55,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a link that should use HTTPS:
 
-	echo HTML::secure_link('user/profile', 'User Profile');
+	echo HTML::link_to_secure('user/profile', 'User Profile');
 
 #### Generating a link and specifying extra HTML attributes:
 
@@ -119,7 +119,7 @@ The "mailto" method on the HTML class obfuscates the given e-mail address so it 
 	echo HTML::ol(array('Get Peanut Butter', 'Get Chocolate', 'Feast'));
 
 	echo HTML::ul(array('Ubuntu', 'Snow Leopard', 'Windows'));
-	
+
 	echo HTML::dl(array('Ubuntu' => 'An operating system by Canonical', 'Windows' => 'An operating system by Microsoft'));
 
 <a name="custom-macros"></a>
