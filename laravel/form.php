@@ -451,6 +451,8 @@ class Form {
 
 		$attributes = array('value' => HTML::entities($value), 'selected' => $selected);
 
+		if(!$value) $attributes['disabled'] = 'disabled';
+
 		return '<option'.HTML::attributes($attributes).'>'.HTML::entities($display).'</option>';
 	}
 
