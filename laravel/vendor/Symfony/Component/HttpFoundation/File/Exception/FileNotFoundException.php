@@ -14,14 +14,14 @@ namespace Symfony\Component\HttpFoundation\File\Exception;
 /**
  * Thrown when a file was not found
  *
- * @author Bernhard Schussek <bernhard.schussek@symfony.com>
+ * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class FileNotFoundException extends FileException
 {
     /**
      * Constructor.
      *
-     * @param string $path  The path to the file that was not found
+     * @param string $path The path to the file that was not found
      */
     public function __construct($path)
     {

@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpFoundation\Session\Storage;
 
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
  * MockArraySessionStorage mocks the session for unit tests.
@@ -53,13 +54,25 @@ class MockArraySessionStorage implements SessionStorageInterface
     protected $data = array();
 
     /**
+     * @var MetadataBag
+     */
+    protected $metadataBag;
+
+    /**
+     * @var array
+     */
+    protected $bags;
+
+    /**
      * Constructor.
      *
-     * @param string $name Session name
+     * @param string      $name    Session name
+     * @param MetadataBag $metaBag MetadataBag instance.
      */
-    public function __construct($name = 'MOCKSESSID')
+    public function __construct($name = 'MOCKSESSID', MetadataBag $metaBag = null)
     {
         $this->name = $name;
+        $this->setMetadataBag($metaBag);
     }
 
     /**
@@ -90,16 +103,16 @@ class MockArraySessionStorage implements SessionStorageInterface
         return true;
     }
 
-
     /**
      * {@inheritdoc}
      */
-    public function regenerate($destroy = false)
+    public function regenerate($destroy = false, $lifetime = null)
     {
         if (!$this->started) {
             $this->start();
         }
 
+        $this->metadataBag->stampNew($lifetime);
         $this->id = $this->generateId();
 
         return true;
@@ -146,6 +159,9 @@ class MockArraySessionStorage implements SessionStorageInterface
      */
     public function save()
     {
+        if (!$this->started || $this->closed) {
+            throw new \RuntimeException("Trying to save a session that was not started yet or was already closed");
+        }
         // nothing to do since we don't persist the session data
         $this->closed = false;
     }
@@ -192,6 +208,38 @@ class MockArraySessionStorage implements SessionStorageInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isStarted()
+    {
+        return $this->started;
+    }
+
+    /**
+     * Sets the MetadataBag.
+     *
+     * @param MetadataBag $bag
+     */
+    public function setMetadataBag(MetadataBag $bag = null)
+    {
+        if (null === $bag) {
+            $bag = new MetadataBag();
+        }
+
+        $this->metadataBag = $bag;
+    }
+
+    /**
+     * Gets the MetadataBag.
+     *
+     * @return MetadataBag
+     */
+    public function getMetadataBag()
+    {
+        return $this->metadataBag;
+    }
+
+    /**
      * Generates a session ID.
      *
      * This doesn't need to be particularly cryptographically secure since this is just
@@ -206,7 +254,9 @@ class MockArraySessionStorage implements SessionStorageInterface
 
     protected function loadSession()
     {
-        foreach ($this->bags as $bag) {
+        $bags = array_merge($this->bags, array($this->metadataBag));
+
+        foreach ($bags as $bag) {
             $key = $bag->getStorageKey();
             $this->data[$key] = isset($this->data[$key]) ? $this->data[$key] : array();
             $bag->initialize($this->data[$key]);

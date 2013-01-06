@@ -23,26 +23,26 @@ interface SessionBagInterface
      *
      * @return string
      */
-    function getName();
+    public function getName();
 
     /**
      * Initializes the Bag
      *
      * @param array $array
      */
-    function initialize(array &$array);
+    public function initialize(array &$array);
 
     /**
      * Gets the storage key for this bag.
      *
      * @return string
      */
-    function getStorageKey();
+    public function getStorageKey();
 
     /**
      * Clears out data from bag.
      *
      * @return mixed Whatever data was contained.
      */
-    function clear();
+    public function clear();
 }

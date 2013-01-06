@@ -31,13 +31,13 @@ class Cookie
     /**
      * Constructor.
      *
-     * @param string                    $name       The name of the cookie
-     * @param string                    $value      The value of the cookie
-     * @param integer|string|\DateTime  $expire     The time the cookie expires
-     * @param string                    $path       The path on the server in which the cookie will be available on
-     * @param string                    $domain     The domain that the cookie is available to
-     * @param Boolean                   $secure     Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     * @param Boolean                   $httpOnly   Whether the cookie will be made accessible only through the HTTP protocol
+     * @param string                   $name     The name of the cookie
+     * @param string                   $value    The value of the cookie
+     * @param integer|string|\DateTime $expire   The time the cookie expires
+     * @param string                   $path     The path on the server in which the cookie will be available on
+     * @param string                   $domain   The domain that the cookie is available to
+     * @param Boolean                  $secure   Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     * @param Boolean                  $httpOnly Whether the cookie will be made accessible only through the HTTP protocol
      *
      * @api
      */
@@ -72,6 +72,11 @@ class Cookie
         $this->httpOnly = (Boolean) $httpOnly;
     }
 
+    /**
+     * Returns the cookie as a string.
+     *
+     * @return string The cookie
+     */
     public function __toString()
     {
         $str = urlencode($this->getName()).'=';

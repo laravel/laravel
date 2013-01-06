@@ -231,7 +231,7 @@ class ResponseHeaderBag extends HeaderBag
             throw new \InvalidArgumentException(sprintf('The disposition must be either "%s" or "%s".', self::DISPOSITION_ATTACHMENT, self::DISPOSITION_INLINE));
         }
 
-        if (!$filenameFallback) {
+        if ('' == $filenameFallback) {
             $filenameFallback = $filename;
         }
 
@@ -246,14 +246,14 @@ class ResponseHeaderBag extends HeaderBag
         }
 
         // path separators aren't allowed in either.
-        if (preg_match('#[/\\\\]#', $filename) || preg_match('#[/\\\\]#', $filenameFallback)) {
+        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\') || false !== strpos($filenameFallback, '/') || false !== strpos($filenameFallback, '\\')) {
             throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
         }
 
-        $output = sprintf('%s; filename="%s"', $disposition, str_replace(array('\\', '"'), array('\\\\', '\\"'), $filenameFallback));
+        $output = sprintf('%s; filename="%s"', $disposition, str_replace('"', '\\"', $filenameFallback));
 
-        if ($filename != $filenameFallback) {
-            $output .= sprintf("; filename*=utf-8''%s", str_replace(array("'", '(', ')', '*'), array('%27', '%28', '%29', '%2A'), urlencode($filename)));
+        if ($filename !== $filenameFallback) {
+            $output .= sprintf("; filename*=utf-8''%s", rawurlencode($filename));
         }
 
         return $output;

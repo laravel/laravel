@@ -42,7 +42,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
      */
     public function open($savePath, $sessionName)
     {
-        $return = (bool)$this->handler->open($savePath, $sessionName);
+        $return = (bool) $this->handler->open($savePath, $sessionName);
 
         if (true === $return) {
             $this->active = true;

@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpFoundation\Session;
 
+use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
+
 /**
  * Interface for the session.
  *
@@ -27,7 +29,7 @@ interface SessionInterface
      *
      * @api
      */
-    function start();
+    public function start();
 
     /**
      * Returns the session ID.
@@ -36,7 +38,7 @@ interface SessionInterface
      *
      * @api
      */
-    function getId();
+    public function getId();
 
     /**
      * Sets the session ID
@@ -45,7 +47,7 @@ interface SessionInterface
      *
      * @api
      */
-    function setId($id);
+    public function setId($id);
 
     /**
      * Returns the session name.
@@ -54,7 +56,7 @@ interface SessionInterface
      *
      * @api
      */
-    function getName();
+    public function getName();
 
     /**
      * Sets the session name.
@@ -63,7 +65,7 @@ interface SessionInterface
      *
      * @api
      */
-    function setName($name);
+    public function setName($name);
 
     /**
      * Invalidates the current session.
@@ -71,23 +73,32 @@ interface SessionInterface
      * Clears all session attributes and flashes and regenerates the
      * session and deletes the old session from persistence.
      *
+     * @param integer $lifetime Sets the cookie lifetime for the session cookie. A null value
+     *                          will leave the system settings unchanged, 0 sets the cookie
+     *                          to expire with browser session. Time is in seconds, and is
+     *                          not a Unix timestamp.
+     *
      * @return Boolean True if session invalidated, false if error.
      *
      * @api
      */
-    function invalidate();
+    public function invalidate($lifetime = null);
 
     /**
      * Migrates the current session to a new session id while maintaining all
      * session attributes.
      *
-     * @param Boolean $destroy Whether to delete the old session or leave it to garbage collection.
+     * @param Boolean $destroy  Whether to delete the old session or leave it to garbage collection.
+     * @param integer $lifetime Sets the cookie lifetime for the session cookie. A null value
+     *                          will leave the system settings unchanged, 0 sets the cookie
+     *                          to expire with browser session. Time is in seconds, and is
+     *                          not a Unix timestamp.
      *
      * @return Boolean True if session migrated, false if error.
      *
      * @api
      */
-    function migrate($destroy = false);
+    public function migrate($destroy = false, $lifetime = null);
 
     /**
      * Force the session to be saved and closed.
@@ -96,7 +107,7 @@ interface SessionInterface
      * the session will be automatically saved at the end of
      * code execution.
      */
-    function save();
+    public function save();
 
     /**
      * Checks if an attribute is defined.
@@ -107,7 +118,7 @@ interface SessionInterface
      *
      * @api
      */
-    function has($name);
+    public function has($name);
 
     /**
      * Returns an attribute.
@@ -119,7 +130,7 @@ interface SessionInterface
      *
      * @api
      */
-    function get($name, $default = null);
+    public function get($name, $default = null);
 
     /**
      * Sets an attribute.
@@ -129,7 +140,7 @@ interface SessionInterface
      *
      * @api
      */
-    function set($name, $value);
+    public function set($name, $value);
 
     /**
      * Returns attributes.
@@ -138,14 +149,14 @@ interface SessionInterface
      *
      * @api
      */
-    function all();
+    public function all();
 
     /**
      * Sets attributes.
      *
      * @param array $attributes Attributes
      */
-    function replace(array $attributes);
+    public function replace(array $attributes);
 
     /**
      * Removes an attribute.
@@ -156,12 +167,42 @@ interface SessionInterface
      *
      * @api
      */
-    function remove($name);
+    public function remove($name);
 
     /**
      * Clears all attributes.
      *
      * @api
      */
-    function clear();
+    public function clear();
+
+    /**
+     * Checks if the session was started.
+     *
+     * @return Boolean
+     */
+    public function isStarted();
+
+    /**
+     * Registers a SessionBagInterface with the session.
+     *
+     * @param SessionBagInterface $bag
+     */
+    public function registerBag(SessionBagInterface $bag);
+
+    /**
+     * Gets a bag instance by name.
+     *
+     * @param string $name
+     *
+     * @return SessionBagInterface
+     */
+    public function getBag($name);
+
+    /**
+     * Gets session meta.
+     *
+     * @return MetadataBag
+     */
+    public function getMetadataBag();
 }
