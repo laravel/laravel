@@ -205,6 +205,14 @@ Many times, when updating a record, you want to use the unique rule, but exclude
 
 > **Note:** The **before** and **after** validation rules use the **strtotime** PHP function to convert your date to something the rule can understand.
 
+#### Validate that a date attribute conforms to a given format:
+
+    'start_date' => 'date_format:H\\:i'),
+
+> **Note:** The backslash escapes the colon so that it does not count as a parameter separator.
+
+The formatting options for the date format are described in the [PHP documentation](http://php.net/manual/en/datetime.createfromformat.php#refsect1-datetime.createfromformat-parameters).
+
 <a name="rule-email"></a>
 ### E-Mail Addresses
 
