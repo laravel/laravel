@@ -33,14 +33,21 @@ class Log {
 	 *
 	 *		// Write an "error" message using the class' magic method
 	 *		Log::error('Something went horribly wrong!');
+	 *
+	 *		// Log an arrays data
+	 *		Log::write('info', array('name' => 'Sawny', 'passwd' => '1234', array(1337, 21, 0)), true);
+	 *      //Result: Array ( [name] => Sawny [passwd] => 1234 [0] => Array ( [0] => 1337 [1] => 21 [2] => 0 ) )
+	 *      //If we had omit the third parameter the result had been: Array
 	 * </code>
 	 *
 	 * @param  string  $type
 	 * @param  string  $message
 	 * @return void
 	 */
-	public static function write($type, $message)
+	public static function write($type, $message, $pretty_print = false)
 	{
+		$message = ($pretty_print) ? print_r($message, true) : $message;
+
 		// If there is a listener for the log event, we'll delegate the logging
 		// to the event and not write to the log files. This allows for quick
 		// swapping of log implementations for debugging.
@@ -75,11 +82,18 @@ class Log {
 	 *
 	 *		// Write a "warning" message to the log file
 	 *		Log::warning('This is a warning!');
+	 *
+	 *		// Log an arrays data
+	 *		Log::info(array('name' => 'Sawny', 'passwd' => '1234', array(1337, 21, 0)), true);
+	 *      //Result: Array ( [name] => Sawny [passwd] => 1234 [0] => Array ( [0] => 1337 [1] => 21 [2] => 0 ) )
+	 *      //If we had omit the second parameter the result had been: Array
 	 * </code>
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-		static::write($method, $parameters[0]);
+		$parameters[1] = (empty($parameters[1])) ? false : $parameters[1];
+
+		static::write($method, $parameters[0], $parameters[1]);
 	}
 
 }
