@@ -787,7 +787,7 @@ class Query {
 	 * @param  array  $values
 	 * @return bool
 	 */
-	public function insert($values)
+	public function insert($values, $ignore = false)
 	{
 		// Force every insert to be treated like a batch insert to make creating
 		// the binding array simpler since we can just spin through the inserted
@@ -804,7 +804,7 @@ class Query {
 			$bindings = array_merge($bindings, array_values($value));
 		}
 
-		$sql = $this->grammar->insert($this, $values);
+		$sql = $this->grammar->insert($this, $values, $ignore);
 
 		return $this->connection->query($sql, $bindings);
 	}

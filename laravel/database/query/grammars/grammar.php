@@ -378,7 +378,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 * @param  array   $values
 	 * @return string
 	 */
-	public function insert(Query $query, $values)
+	public function insert(Query $query, $values, $ignore = false)
 	{
 		$table = $this->wrap_table($query->from);
 
@@ -399,7 +399,9 @@ class Grammar extends \Laravel\Database\Grammar {
 
 		$parameters = implode(', ', array_fill(0, count($values), "($parameters)"));
 
-		return "INSERT INTO {$table} ({$columns}) VALUES {$parameters}";
+		$ignore = ($ignore) ? 'IGNORE ' : null;
+
+		return "INSERT {$ignore}INTO {$table} ({$columns}) VALUES {$parameters}";
 	}
 
 	/**
