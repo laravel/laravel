@@ -30,6 +30,13 @@ class Validator {
 	 */
 	protected $messages = array();
 
+    /**
+     * The validation labels.
+     *
+     * @var array
+     */
+    protected $labels = array();
+
 	/**
 	 * The database connection that should be used by the validator.
 	 *
@@ -80,7 +87,7 @@ class Validator {
 	 * @param  array  $messages
 	 * @return void
 	 */
-	public function __construct($attributes, $rules, $messages = array())
+	public function __construct($attributes, $rules, $messages = array(), $labels = array())
 	{
 		foreach ($rules as $key => &$rule)
 		{
@@ -88,7 +95,8 @@ class Validator {
 		}
 
 		$this->rules = $rules;
-		$this->messages = $messages;
+		$this->messages = ($messages) ?: array();
+        $this->labels = ($labels) ?: array();
 		$this->attributes = (is_object($attributes)) ? get_object_vars($attributes) : $attributes;
 	}
 
@@ -100,9 +108,9 @@ class Validator {
 	 * @param  array      $messages
 	 * @return Validator
 	 */
-	public static function make($attributes, $rules, $messages = array())
+	public static function make($attributes, $rules, $messages = array(), $labels = array())
 	{
-		return new static($attributes, $rules, $messages);
+		return new static($attributes, $rules, $messages, $labels);
 	}
 
 	/**
@@ -1116,7 +1124,11 @@ class Validator {
 		// of the attribute name in the message.
 		$line = "{$bundle}validation.attributes.{$attribute}";
 
-		if (Lang::has($line, $this->language))
+		if (array_key_exists($attribute, $this->labels))
+        {
+            return $this->labels[$attribute];
+        }
+        elseif (Lang::has($line, $this->language))
 		{
 			return Lang::line($line)->get($this->language);
 		}
