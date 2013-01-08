@@ -23,7 +23,7 @@ To create a task create a new class in your **application/tasks** directory. The
 
 		public function run($arguments)
 		{
-			// Do awesome notifying...
+			// Do awesome notifying…
 		}
 
 	}
@@ -54,7 +54,7 @@ Remember, you can call specific methods on your task, so, let's add an "urgent" 
 
 		public function run($arguments)
 		{
-			// Do awesome notifying...
+			// Do awesome notifying…
 		}
 
 		public function urgent($arguments)

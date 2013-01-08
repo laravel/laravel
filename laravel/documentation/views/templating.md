@@ -152,7 +152,7 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 		Login
 	@endunless
 
-	// Equivalent to...
+	// Equivalent to…
 
 	<?php if ( ! Auth::check()): ?>
 		Login

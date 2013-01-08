@@ -28,7 +28,7 @@ Login to GitHub and visit the [Laravel Repository](https://github.com/laravel/la
 
 Open up Windows Explorer and create a new directory where you can make development changes to Laravel.
 
-- Right-click the Laravel directory to bring up the context menu. Click on **Git Clone...**
+- Right-click the Laravel directory to bring up the context menu. Click on **Git Clone…**
 - Git clone
   - **Url:** https://github.com/laravel/laravel.git
   - **Directory:** the directory that you just created in the previous step
@@ -73,7 +73,7 @@ Now that you have created your own branch and have switched to it, it's time to 
 
 Now that you have finished coding and testing your changes, it's time to commit them to your local repository:
 
--  Right-click the Laravel directory and goto **Git Commit -> "feature/localization-docs"...**
+-  Right-click the Laravel directory and goto **Git Commit -> "feature/localization-docs"…**
 - Commit
   - **Message:** Provide a brief explaination of what you added or changed
   - Click **Sign** - This tells the Laravel team know that you personally agree to your code being added to the Laravel core
@@ -85,7 +85,7 @@ Now that you have finished coding and testing your changes, it's time to commit 
 
 Now that your local repository has your committed changes, it's time to push (or sync) your new branch to your fork that is hosted in GitHub:
 
-- Right-click the Laravel directory and goto **Git Sync...**
+- Right-click the Laravel directory and goto **Git Sync…**
 - Git Syncronization
   - **Local Branch:** feature/localization-docs
   - **Remote Branch:** leave this blank
