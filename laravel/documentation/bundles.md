@@ -116,7 +116,7 @@ Each time a bundle is started, it fires an event. You can listen for the startin
 
 	Event::listen('laravel.started: admin', function()
 	{
-		// The "admin" bundle has started...
+		// The "admin" bundle has started…
 	});
 
 It is also possible to "disable" a bundle so that it will never be started.
