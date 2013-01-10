@@ -520,7 +520,7 @@ Or, mass-assignment may be accomplished using the **fill** method.
 
 	$user->save();
 
-By default, all attribute key/value pairs will be store during mass-assignment. However, it is possible to create a white-list of attributes that will be set. If the accessible attribute white-list is set then no attributes other than those specified will be set during mass-assignment.
+By default, all attribute key/value pairs will be stored during mass-assignment. However, it is possible to create a white-list of attributes that will be set. If the accessible attribute white-list is set then no attributes other than those specified will be set during mass-assignment.
 
 You can specify accessible attributes by assigning the **$accessible** static array. Each element contains the name of a white-listed attribute.
 
