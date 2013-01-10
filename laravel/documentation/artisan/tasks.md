@@ -42,7 +42,7 @@ Now you can call the "run" method of your task via the command-line. You can eve
 
 	Command::run(array('notify'));
 
-#### Calling a task from your application with arguements:
+#### Calling a task from your application with arguments:
 
 	Command::run(array('notify', 'taylor'));
 
