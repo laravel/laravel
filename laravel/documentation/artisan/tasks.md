@@ -10,7 +10,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-Laravel's command-line tool is called Artisan. Artisan can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that want. 
+Laravel's command-line tool is called Artisan. Artisan can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
 
 <a name="creating-tasks"></a>
 ## Creating & Running Tasks
@@ -23,7 +23,7 @@ To create a task create a new class in your **application/tasks** directory. The
 
 		public function run($arguments)
 		{
-			// Do awesome notifying...
+			// Do awesome notifying…
 		}
 
 	}
@@ -42,7 +42,7 @@ Now you can call the "run" method of your task via the command-line. You can eve
 
 	Command::run(array('notify'));
 
-#### Calling a task from your application with arguements:
+#### Calling a task from your application with arguments:
 
 	Command::run(array('notify', 'taylor'));
 
@@ -54,7 +54,7 @@ Remember, you can call specific methods on your task, so, let's add an "urgent" 
 
 		public function run($arguments)
 		{
-			// Do awesome notifying...
+			// Do awesome notifying…
 		}
 
 		public function urgent($arguments)

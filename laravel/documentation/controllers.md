@@ -140,7 +140,7 @@ Define the controller class and store it in **controllers/admin/panel.php**.
 <a name="controller-layouts"></a>
 ## Controller Layouts
 
-Full documentation on using layouts with Controllers [can be found on the Templating page](http://laravel.com/docs/views/templating).
+Full documentation on using layouts with Controllers [can be found on the Templating page](/docs/views/templating).
 
 <a name="restful-controllers"></a>
 ## RESTful Controllers

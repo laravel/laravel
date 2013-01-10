@@ -328,7 +328,7 @@ Add the following code above `Blade::sharpen()` in `application/start.php`..
 ## Laravel 3.1.4
 
 - Fixes Response header casing bug.
-- Fixes SQL "where in" (...) short-cut bug.
+- Fixes SQL "where in" (…) short-cut bug.
 
 <a name="upgrade-3.1.4"></a>
 ### Upgrading From 3.1.3

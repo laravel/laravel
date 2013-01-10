@@ -36,9 +36,9 @@ class HtmlTest extends PHPUnit_Framework_TestCase {
 		$html2 = HTML::script('http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js');
 		$html3 = HTML::script('foo.js', array('type' => 'text/javascript'));
 
-		$this->assertEquals('<script src="http://localhost/foo.js"></script>'."\n", $html1);
-		$this->assertEquals('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>'."\n", $html2);
-		$this->assertEquals('<script src="http://localhost/foo.js" type="text/javascript"></script>'."\n", $html3);
+		$this->assertEquals('<script src="http://localhost/foo.js"></script>'.PHP_EOL, $html1);
+		$this->assertEquals('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>'.PHP_EOL, $html2);
+		$this->assertEquals('<script src="http://localhost/foo.js" type="text/javascript"></script>'.PHP_EOL, $html3);
 	}
 
 	/**
@@ -52,9 +52,9 @@ class HtmlTest extends PHPUnit_Framework_TestCase {
 		$html2 = HTML::style('http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js');
 		$html3 = HTML::style('foo.css', array('media' => 'print'));
 
-		$this->assertEquals('<link href="http://localhost/foo.css" media="all" type="text/css" rel="stylesheet">'."\n", $html1);
-		$this->assertEquals('<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js" media="all" type="text/css" rel="stylesheet">'."\n", $html2);
-		$this->assertEquals('<link href="http://localhost/foo.css" media="print" type="text/css" rel="stylesheet">'."\n", $html3);
+		$this->assertEquals('<link href="http://localhost/foo.css" media="all" type="text/css" rel="stylesheet">'.PHP_EOL, $html1);
+		$this->assertEquals('<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js" media="all" type="text/css" rel="stylesheet">'.PHP_EOL, $html2);
+		$this->assertEquals('<link href="http://localhost/foo.css" media="print" type="text/css" rel="stylesheet">'.PHP_EOL, $html3);
 	}
 
 	/**

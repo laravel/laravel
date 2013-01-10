@@ -425,7 +425,7 @@ In this example, **only two queries will be executed**!
 
 	SELECT * FROM "books"
 
-	SELECT * FROM "authors" WHERE "id" IN (1, 2, 3, 4, 5, ...)
+	SELECT * FROM "authors" WHERE "id" IN (1, 2, 3, 4, 5, …)
 
 Obviously, wise use of eager loading can dramatically increase the performance of your application. In the example above, eager loading cut the execution time in half.
 

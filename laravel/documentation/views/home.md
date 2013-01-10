@@ -184,7 +184,7 @@ Now each time the "home" view is created, an instance of the View will be passed
 <a name="redirects"></a>
 ## Redirects
 
-It's important to note that both routes and controllers require responses to be returned with the 'return' directive. Instead of calling "Redirect::to()"" where you'd like to redirect the user. You'd instead use "return Redirect::to()". This distinction is important as it's different than most other PHP frameworks and it could be easy to accidentally overlook the importance of this practice.
+It's important to note that both routes and controllers require responses to be returned with the 'return' directive. Instead of calling "Redirect::to()" where you'd like to redirect the user. You'd instead use "return Redirect::to()". This distinction is important as it's different than most other PHP frameworks and it could be easy to accidentally overlook the importance of this practice.
 
 #### Redirecting to another URI:
 
