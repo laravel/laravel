@@ -10,7 +10,7 @@
 <a name="the-basics"></a>
 ## The Basics
 
-Laravel's command-line tool is called Artisan. Artisan can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that want. 
+Laravel's command-line tool is called Artisan. Artisan can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
 
 <a name="creating-tasks"></a>
 ## Creating & Running Tasks
