@@ -286,7 +286,7 @@ Laravel makes working with your error messages a cinch using a simple error coll
 
 	if ($validation->errors->has('email'))
 	{
-		// The e-mail attribute has errors...
+		// The e-mail attribute has errors…
 	}
 
 #### Retrieve the first error message for an attribute:
@@ -327,7 +327,7 @@ Once you have performed your validation, you need an easy way to get the errors 
 
 	Route::post('register', function()
 	{
-		$rules = array(...);
+		$rules = array(…);
 
 		$validation = Validator::make(Input::all(), $rules);
 
@@ -438,13 +438,13 @@ Or by adding an entry for your rule in the **language/en/validation.php** file:
 
 As mentioned above, you may even specify and receive a list of parameters in your custom rule:
 
-	// When building your rules array...
+	// When building your rules array…
 
 	$rules = array(
 	    'username' => 'required|awesome:yes',
 	);
 
-	// In your custom rule...
+	// In your custom rule…
 
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{

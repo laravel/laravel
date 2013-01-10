@@ -85,7 +85,7 @@ Services contain the *processes* of your application. So, let's keep using our T
 
 		public static function validate(Location $location)
 		{
-			// Validate the location instance...
+			// Validate the location instance…
 		}
 
 	}
@@ -104,7 +104,7 @@ Repositories are the data access layer of your application. They are responsible
 
 		public function save(Location $location, $user_id)
 		{
-			// Store the location for the given user ID...
+			// Store the location for the given user ID…
 		}
 
 	}
