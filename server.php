@@ -2,6 +2,8 @@
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+$uri = urldecode($uri);
+
 $requested = __DIR__.'/public'.$uri;
 
 // This file allows us to emulate Apache's "mod_rewrite" functionality from the
