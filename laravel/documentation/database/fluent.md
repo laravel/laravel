@@ -87,7 +87,7 @@ As you may have assumed, the **where** method will add to the query using an AND
 
 ### where\_in, where\_not\_in, or\_where\_in, and or\_where\_not\_in
 
-The suite of **where_in** methods allows you to easily construct queries that search an array of values:
+The suite of **where_in** methods allows you to easily construct queries that search for an array of values:
 
 	DB::table('users')->where_in('id', array(1, 2, 3))->get();
 
