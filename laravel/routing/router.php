@@ -33,6 +33,7 @@ class Router {
 		'DELETE' => array(),
 		'PATCH'  => array(),
 		'HEAD'   => array(),
+		'OPTIONS'=> array(),
 	);
 
 	/**
@@ -47,6 +48,7 @@ class Router {
 		'DELETE' => array(),
 		'PATCH'  => array(),
 		'HEAD'   => array(),
+		'OPTIONS'=> array(),
 	);
 
 	/**
@@ -97,7 +99,7 @@ class Router {
 	 *
 	 * @var array
 	 */
-	public static $methods = array('GET', 'POST', 'PUT', 'DELETE', 'HEAD');
+	public static $methods = array('GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS');
 
 	/**
 	 * Register a HTTPS route with the router.
