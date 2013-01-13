@@ -35,7 +35,7 @@ Sometimes you may need to determine if the current URI is a given string, or beg
 
 #### Determine if the current URI begins with "docs/":
 
-	if URI::is('docs/*'))
+	if (URI::is('docs/*'))
 	{
 		// The current URI begins with "docs/"!
 	}
