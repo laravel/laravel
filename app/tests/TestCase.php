@@ -9,11 +9,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
      */
     public function createApplication()
     {
-    	$unitTesting = true;
+        $unitTesting = true;
 
         $testEnvironment = 'testing';
 
-    	return require __DIR__.'/../../start.php';
+        $basePath = __DIR__.'/../..';
+
+        Illuminate\Workbench\Starter::start($basePath.'/workbench');
+
+        return require $basePath.'/start.php';
     }
 
 }
