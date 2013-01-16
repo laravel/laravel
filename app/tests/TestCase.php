@@ -18,6 +18,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         return require __DIR__.'/../../start.php';
     }
 
+    /**
+     * Starts the workbench.
+     *
+     * @return void
+     */
     public function startWorkbench()
     {
         if (is_dir($workbench = __DIR__.'/../../workbench'))
