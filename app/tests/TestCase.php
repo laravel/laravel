@@ -13,11 +13,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
         $testEnvironment = 'testing';
 
-        $basePath = __DIR__.'/../..';
+        $this->startWorkbench();
 
-        Illuminate\Workbench\Starter::start($basePath.'/workbench');
+        return require __DIR__.'/../../start.php';
+    }
 
-        return require $basePath.'/start.php';
+    public function startWorkbench()
+    {
+        if (is_dir($workbench = __DIR__.'/../../workbench'))
+        {
+            Illuminate\Workbench\Starter::start($workbench);
+        }
     }
 
 }
