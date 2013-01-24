@@ -29,6 +29,8 @@ require __DIR__.'/bootstrap/autoload.php';
 
 $app = require_once __DIR__.'/start.php';
 
+$app->boot();
+
 /*
 |--------------------------------------------------------------------------
 | Load The Artisan Console Application
