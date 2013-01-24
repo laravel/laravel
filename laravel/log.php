@@ -60,7 +60,7 @@ class Log {
 
 		foreach($trace as $item)
 		{
-			if ($item['class'] == __CLASS__)
+			if (isset($item['class']) AND $item['class'] == __CLASS__)
 			{
 				continue;
 			}
