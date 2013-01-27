@@ -1,4 +1,5 @@
 {
+	"name": "laravel/laravel",
 	"require": {
 		"laravel/framework": "4.0.*"
 	},
