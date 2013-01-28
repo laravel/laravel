@@ -11,7 +11,7 @@ class Fluent extends Driver {
 	 *
 	 * If the user is a guest, null should be returned.
 	 *
-	 * @param  int  $id
+	 * @param	int	$id
 	 * @return mixed|null
 	 */
 	public function retrieve($id)
@@ -25,7 +25,7 @@ class Fluent extends Driver {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array $arguments
+	 * @param	array $arguments
 	 * @return void
 	 */
 	public function attempt($arguments = array())
@@ -49,7 +49,7 @@ class Fluent extends Driver {
 	/**
 	 * Get the user from the database table.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return mixed
 	 */
 	protected function get_user($arguments)
@@ -59,12 +59,12 @@ class Fluent extends Driver {
 		return DB::table($table)->where(function($query) use($arguments)
 		{
 			$username = Config::get('auth.username');
-			
+
 			$query->where($username, '=', $arguments['username']);
 
 			foreach(array_except($arguments, array('username', 'password', 'remember')) as $column => $val)
 			{
-			    $query->where($column, '=', $val);
+					$query->where($column, '=', $val);
 			}
 		})->first();
 	}

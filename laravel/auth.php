@@ -19,7 +19,7 @@ class Auth {
 	/**
 	 * Get an authentication driver instance.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return Driver
 	 */
 	public static function driver($driver = null)
@@ -37,7 +37,7 @@ class Auth {
 	/**
 	 * Create a new authentication driver instance.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return Driver
 	 */
 	protected static function factory($driver)
@@ -65,8 +65,8 @@ class Auth {
 	/**
 	 * Register a third-party authentication driver.
 	 *
-	 * @param  string   $driver
-	 * @param  Closure  $resolver
+	 * @param	string	 $driver
+	 * @param	Closure	$resolver
 	 * @return void
 	 */
 	public static function extend($driver, Closure $resolver)

@@ -54,7 +54,7 @@ Once Memcached is installed on your server you must set the **driver** in the **
 Then, add your Memcached servers to the **servers** array:
 
 	'servers' => array(
-	     array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
+			 array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
 	)
 
 <a name="redis"></a>

@@ -20,7 +20,7 @@ class Asset {
 	 *		$container = Asset::container('footer');
 	 * </code>
 	 *
-	 * @param  string            $container
+	 * @param	string						$container
 	 * @return Asset_Container
 	 */
 	public static function container($container = 'default')
@@ -77,7 +77,7 @@ class Asset_Container {
 	/**
 	 * Create a new asset container instance.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function __construct($name)
@@ -103,10 +103,10 @@ class Asset_Container {
 	 *		Asset::add('jquery', 'js/jquery.js', null, array('defer'));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $source
-	 * @param  array   $dependencies
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$source
+	 * @param	array	 $dependencies
+	 * @param	array	 $attributes
 	 * @return Asset_Container
 	 */
 	public function add($name, $source, $dependencies = array(), $attributes = array())
@@ -119,10 +119,10 @@ class Asset_Container {
 	/**
 	 * Add a CSS file to the registered assets.
 	 *
-	 * @param  string           $name
-	 * @param  string           $source
-	 * @param  array            $dependencies
-	 * @param  array            $attributes
+	 * @param	string					 $name
+	 * @param	string					 $source
+	 * @param	array						$dependencies
+	 * @param	array						$attributes
 	 * @return Asset_Container
 	 */
 	public function style($name, $source, $dependencies = array(), $attributes = array())
@@ -140,10 +140,10 @@ class Asset_Container {
 	/**
 	 * Add a JavaScript file to the registered assets.
 	 *
-	 * @param  string           $name
-	 * @param  string           $source
-	 * @param  array            $dependencies
-	 * @param  array            $attributes
+	 * @param	string					 $name
+	 * @param	string					 $source
+	 * @param	array						$dependencies
+	 * @param	array						$attributes
 	 * @return Asset_Container
 	 */
 	public function script($name, $source, $dependencies = array(), $attributes = array())
@@ -156,7 +156,7 @@ class Asset_Container {
 	/**
 	 * Returns the full-path for an asset.
 	 *
-	 * @param  string  $source
+	 * @param	string	$source
 	 * @return string
 	 */
 	public function path($source)
@@ -167,7 +167,7 @@ class Asset_Container {
 	/**
 	 * Set the bundle that the container's assets belong to.
 	 *
-	 * @param  string           $bundle
+	 * @param	string					 $bundle
 	 * @return Asset_Container
 	 */
 	public function bundle($bundle)
@@ -179,11 +179,11 @@ class Asset_Container {
 	/**
 	 * Add an asset to the array of registered assets.
 	 *
-	 * @param  string  $type
-	 * @param  string  $name
-	 * @param  string  $source
-	 * @param  array   $dependencies
-	 * @param  array   $attributes
+	 * @param	string	$type
+	 * @param	string	$name
+	 * @param	string	$source
+	 * @param	array	 $dependencies
+	 * @param	array	 $attributes
 	 * @return void
 	 */
 	protected function register($type, $name, $source, $dependencies, $attributes)
@@ -198,7 +198,7 @@ class Asset_Container {
 	/**
 	 * Get the links to all of the registered CSS assets.
 	 *
-	 * @return  string
+	 * @return	string
 	 */
 	public function styles()
 	{
@@ -208,7 +208,7 @@ class Asset_Container {
 	/**
 	 * Get the links to all of the registered JavaScript assets.
 	 *
-	 * @return  string
+	 * @return	string
 	 */
 	public function scripts()
 	{
@@ -218,7 +218,7 @@ class Asset_Container {
 	/**
 	 * Get all of the registered assets for a given type / group.
 	 *
-	 * @param  string  $group
+	 * @param	string	$group
 	 * @return string
 	 */
 	protected function group($group)
@@ -231,15 +231,15 @@ class Asset_Container {
 		{
 			$assets .= $this->asset($group, $name);
 		}
-		
+
 		return $assets;
 	}
 
 	/**
 	 * Get the HTML link to a registered asset.
 	 *
-	 * @param  string  $group
-	 * @param  string  $name
+	 * @param	string	$group
+	 * @param	string	$name
 	 * @return string
 	 */
 	protected function asset($group, $name)
@@ -262,8 +262,8 @@ class Asset_Container {
 	/**
 	 * Sort and retrieve assets based on their dependencies
 	 *
-	 * @param   array  $assets
-	 * @return  array
+	 * @param	 array	$assets
+	 * @return	array
 	 */
 	protected function arrange($assets)
 	{
@@ -276,18 +276,18 @@ class Asset_Container {
 				$this->evaluate_asset($asset, $value, $original, $sorted, $assets);
 			}
 		}
-		
+
 		return $sorted;
 	}
 
 	/**
 	 * Evaluate an asset and its dependencies.
 	 *
-	 * @param  string  $asset
-	 * @param  string  $value
-	 * @param  array   $original
-	 * @param  array   $sorted
-	 * @param  array   $assets
+	 * @param	string	$asset
+	 * @param	string	$value
+	 * @param	array	 $original
+	 * @param	array	 $sorted
+	 * @param	array	 $assets
 	 * @return void
 	 */
 	protected function evaluate_asset($asset, $value, $original, &$sorted, &$assets)
@@ -319,7 +319,7 @@ class Asset_Container {
 
 				unset($assets[$asset]['dependencies'][$key]);
 			}
-		}		
+		}
 	}
 
 	/**
@@ -329,10 +329,10 @@ class Asset_Container {
 	 * not a reference to the owning asset itself. If the dependency doesn't exist, no
 	 * error or warning will be given. For the other cases, an exception is thrown.
 	 *
-	 * @param  string  $asset
-	 * @param  string  $dependency
-	 * @param  array   $original
-	 * @param  array   $assets
+	 * @param	string	$asset
+	 * @param	string	$dependency
+	 * @param	array	 $original
+	 * @param	array	 $assets
 	 * @return bool
 	 */
 	protected function dependency_is_valid($asset, $dependency, $original, $assets)

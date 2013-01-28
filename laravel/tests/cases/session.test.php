@@ -89,7 +89,7 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Assert that a session is new.
 	 *
-	 * @param  Payload  $payload
+	 * @param	Payload	$payload
 	 * @return void
 	 */
 	protected function verifyNewSession($payload)
@@ -281,7 +281,7 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 						->with($this->equalTo($expect), $this->equalTo($config), $this->equalTo(true));
 
 		$payload->save();
-		
+
 		$this->assertEquals($session['data'][':new:'], $payload->session['data'][':old:']);
 	}
 
@@ -373,7 +373,7 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 		$cookie = Cookie::$jar[Config::get('session.cookie')];
 
 		$this->assertEquals(Cookie::hash('foo').'+foo', $cookie['value']);
-		// Shouldn't be able to test this cause session.lifetime store number of minutes 
+		// Shouldn't be able to test this cause session.lifetime store number of minutes
 		// while cookie expiration store timestamp when it going to expired.
 		// $this->assertEquals(Config::get('session.lifetime'), $cookie['expiration']);
 		$this->assertEquals(Config::get('session.domain'), $cookie['domain']);
@@ -425,16 +425,16 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 	protected function getSession()
 	{
 		return array(
-			'id'            => 'foo',
+			'id'						=> 'foo',
 			'last_activity' => time(),
-			'data'          => array(
-				'name'       => 'Taylor',
-				'age'        => 25,
+			'data'					=> array(
+				'name'			 => 'Taylor',
+				'age'				=> 25,
 				'csrf_token' => 'bar',
-				':new:'      => array(
+				':new:'			=> array(
 						'votes' => 10,
 				),
-				':old:'      => array(
+				':old:'			=> array(
 						'state' => 'AR',
 				),
 		));

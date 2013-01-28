@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -18,47 +18,47 @@ return array(
 	|
 	*/
 
-	"accepted"       => "The :attribute must be accepted.",
-	"active_url"     => "The :attribute is not a valid URL.",
-	"alpha"          => "The :attribute may only contain letters.",
-	"alpha_dash"     => "The :attribute may only contain letters, numbers, and dashes.",
-	"alpha_num"      => "The :attribute may only contain letters and numbers.",
-	"between"        => array(
+	"accepted"			 => "The :attribute must be accepted.",
+	"active_url"		 => "The :attribute is not a valid URL.",
+	"alpha"					=> "The :attribute may only contain letters.",
+	"alpha_dash"		 => "The :attribute may only contain letters, numbers, and dashes.",
+	"alpha_num"			=> "The :attribute may only contain letters and numbers.",
+	"between"				=> array(
 		"numeric" => "The :attribute must be between :min - :max.",
-		"file"    => "The :attribute must be between :min - :max kilobytes.",
-		"string"  => "The :attribute must be between :min - :max characters.",
+		"file"		=> "The :attribute must be between :min - :max kilobytes.",
+		"string"	=> "The :attribute must be between :min - :max characters.",
 	),
-	"confirmed"      => "The :attribute confirmation does not match.",
-	"different"      => "The :attribute and :other must be different.",
-	"email"          => "The :attribute format is invalid.",
-	"exists"         => "The selected :attribute is invalid.",
-	"image"          => "The :attribute must be an image.",
-	"in"             => "The selected :attribute is invalid.",
-	"integer"        => "The :attribute must be an integer.",
-	"ip"             => "The :attribute must be a valid IP address.",
-	"max"            => array(
+	"confirmed"			=> "The :attribute confirmation does not match.",
+	"different"			=> "The :attribute and :other must be different.",
+	"email"					=> "The :attribute format is invalid.",
+	"exists"				 => "The selected :attribute is invalid.",
+	"image"					=> "The :attribute must be an image.",
+	"in"						 => "The selected :attribute is invalid.",
+	"integer"				=> "The :attribute must be an integer.",
+	"ip"						 => "The :attribute must be a valid IP address.",
+	"max"						=> array(
 		"numeric" => "The :attribute must be less than :max.",
-		"file"    => "The :attribute must be less than :max kilobytes.",
-		"string"  => "The :attribute must be less than :max characters.",
+		"file"		=> "The :attribute must be less than :max kilobytes.",
+		"string"	=> "The :attribute must be less than :max characters.",
 	),
-	"mimes"          => "The :attribute must be a file of type: :values.",
-	"min"            => array(
+	"mimes"					=> "The :attribute must be a file of type: :values.",
+	"min"						=> array(
 		"numeric" => "The :attribute must be at least :min.",
-		"file"    => "The :attribute must be at least :min kilobytes.",
-		"string"  => "The :attribute must be at least :min characters.",
+		"file"		=> "The :attribute must be at least :min kilobytes.",
+		"string"	=> "The :attribute must be at least :min characters.",
 	),
-	"not_in"         => "The selected :attribute is invalid.",
-	"numeric"        => "The :attribute must be a number.",
-	"required"       => "The :attribute field is required.",
-    "required_with"  => "The :attribute field is required with :field",
-	"same"           => "The :attribute and :other must match.",
-	"size"           => array(
+	"not_in"				 => "The selected :attribute is invalid.",
+	"numeric"				=> "The :attribute must be a number.",
+	"required"			 => "The :attribute field is required.",
+		"required_with"	=> "The :attribute field is required with :field",
+	"same"					 => "The :attribute and :other must match.",
+	"size"					 => array(
 		"numeric" => "The :attribute must be :size.",
-		"file"    => "The :attribute must be :size kilobyte.",
-		"string"  => "The :attribute must be :size characters.",
+		"file"		=> "The :attribute must be :size kilobyte.",
+		"string"	=> "The :attribute must be :size characters.",
 	),
-	"unique"         => "The :attribute has already been taken.",
-	"url"            => "The :attribute format is invalid.",
+	"unique"				 => "The :attribute has already been taken.",
+	"url"						=> "The :attribute format is invalid.",
 
 	/*
 	|--------------------------------------------------------------------------

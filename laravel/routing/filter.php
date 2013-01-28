@@ -38,8 +38,8 @@ class Filter {
 	 *		Filter::register('before', array('Class', 'method'));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  mixed   $callback
+	 * @param	string	$name
+	 * @param	mixed	 $callback
 	 * @return void
 	 */
 	public static function register($name, $callback)
@@ -67,8 +67,8 @@ class Filter {
 	 *
 	 * This is convenient for shortening filters that are registered by bundles.
 	 *
-	 * @param  string  $filter
-	 * @param  string  $alias
+	 * @param	string	$filter
+	 * @param	string	$alias
 	 * @return void
 	 */
 	public static function alias($filter, $alias)
@@ -79,7 +79,7 @@ class Filter {
 	/**
 	 * Parse a filter definition into an array of filters.
 	 *
-	 * @param  string|array  $filters
+	 * @param	string|array	$filters
 	 * @return array
 	 */
 	public static function parse($filters)
@@ -90,9 +90,9 @@ class Filter {
 	/**
 	 * Call a filter or set of filters.
 	 *
-	 * @param  array   $collections
-	 * @param  array   $pass
-	 * @param  bool    $override
+	 * @param	array	 $collections
+	 * @param	array	 $pass
+	 * @param	bool		$override
 	 * @return mixed
 	 */
 	public static function run($collections, $pass = array(), $override = false)
@@ -125,7 +125,7 @@ class Filter {
 				if ( ! is_null($response) and $override)
 				{
 					return $response;
-				}				
+				}
 			}
 		}
 	}
@@ -172,8 +172,8 @@ class Filter_Collection {
 	/**
 	 * Create a new filter collection instance.
 	 *
-	 * @param  string|array  $filters
-	 * @param  mixed         $parameters
+	 * @param	string|array	$filters
+	 * @param	mixed				 $parameters
 	 * @return void
 	 */
 	public function __construct($filters, $parameters = null)
@@ -185,7 +185,7 @@ class Filter_Collection {
 	/**
 	 * Parse the filter string, returning the filter name and parameters.
 	 *
-	 * @param  string  $filter
+	 * @param	string	$filter
 	 * @return array
 	 */
 	public function get($filter)
@@ -241,7 +241,7 @@ class Filter_Collection {
 	/**
 	 * Determine if this collection's filters apply to a given method.
 	 *
-	 * @param  string  $method
+	 * @param	string	$method
 	 * @return bool
 	 */
 	public function applies($method)
@@ -277,7 +277,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->except(array('index', 'home'));
 	 * </code>
 	 *
-	 * @param  array              $methods
+	 * @param	array							$methods
 	 * @return Filter_Collection
 	 */
 	public function except($methods)
@@ -297,7 +297,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'auth')->only(array('index', 'home'));
 	 * </code>
 	 *
-	 * @param  array              $methods
+	 * @param	array							$methods
 	 * @return Filter_Collection
 	 */
 	public function only($methods)
@@ -317,7 +317,7 @@ class Filter_Collection {
 	 *		$this->filter('before', 'csrf')->on(array('post', 'put'));
 	 * </code>
 	 *
-	 * @param  array              $methods
+	 * @param	array							$methods
 	 * @return Filter_Collection
 	 */
 	public function on($methods)

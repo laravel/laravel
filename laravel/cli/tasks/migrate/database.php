@@ -8,9 +8,9 @@ class Database {
 	/**
 	 * Log a migration in the migration table.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $name
-	 * @param  int     $batch
+	 * @param	string	$bundle
+	 * @param	string	$name
+	 * @param	int		 $batch
 	 * @return void
 	 */
 	public function log($bundle, $name, $batch)
@@ -21,8 +21,8 @@ class Database {
 	/**
 	 * Delete a row from the migration table.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $name
+	 * @param	string	$bundle
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function delete($bundle, $name)
@@ -53,7 +53,7 @@ class Database {
 	/**
 	 * Get all of the migrations that have run for a bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return array
 	 */
 	public function ran($bundle)

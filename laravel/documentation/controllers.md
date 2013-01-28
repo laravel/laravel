@@ -33,7 +33,7 @@ Controller classes should be stored in **application/controllers** and should ex
 
 	}
 
-**Actions** are the name of controller methods that are intended to be web-accessible.  Actions should be prefixed with "action\_". All other methods, regardless of scope, will not be web-accessible.
+**Actions** are the name of controller methods that are intended to be web-accessible.	Actions should be prefixed with "action\_". All other methods, regardless of scope, will not be web-accessible.
 
 > **Note:** The Base\_Controller class extends the main Laravel Controller class, and gives you a convenient place to put methods that are common to many controllers.
 
@@ -73,12 +73,12 @@ But, how do you register a bundle controller with the router? It's simple. Here'
 
 Great! Now we can access our "admin" bundle's home controller from the web!
 
-> **Note:** Throughout Laravel the double-colon syntax is used to denote bundles.  More information on bundles can be found in the [bundle documentation](/docs/bundles).
+> **Note:** Throughout Laravel the double-colon syntax is used to denote bundles.	More information on bundles can be found in the [bundle documentation](/docs/bundles).
 
 <a name="action-filters"></a>
 ## Action Filters
 
-Action filters are methods that can be run before or after a controller action.  With Laravel you don't only have control over which filters are assigned to which actions.  But, you can also choose which http verbs (post, get, put, and delete) will activate a filter.
+Action filters are methods that can be run before or after a controller action.	With Laravel you don't only have control over which filters are assigned to which actions.	But, you can also choose which http verbs (post, get, put, and delete) will activate a filter.
 
 You can assign "before" and "after" filters to controller actions within the controller's constructor.
 
@@ -86,25 +86,25 @@ You can assign "before" and "after" filters to controller actions within the con
 
 	$this->filter('before', 'auth');
 
-In this example the 'auth' filter will be run before every action within this controller.  The auth action comes out-of-the-box with Laravel and can be found in **application/routes.php**.  The auth filter verifies that a user is logged in and redirects them to 'login' if they are not.
+In this example the 'auth' filter will be run before every action within this controller.	The auth action comes out-of-the-box with Laravel and can be found in **application/routes.php**.	The auth filter verifies that a user is logged in and redirects them to 'login' if they are not.
 
 #### Attaching a filter to only some actions:
 
 	$this->filter('before', 'auth')->only(array('index', 'list'));
 
-In this example the auth filter will be run before the action_index() or action_list() methods are run.  Users must be logged in before having access to these pages.  However, no other actions within this controller require an authenticated session.
+In this example the auth filter will be run before the action_index() or action_list() methods are run.	Users must be logged in before having access to these pages.	However, no other actions within this controller require an authenticated session.
 
 #### Attaching a filter to all except a few actions:
 
 	$this->filter('before', 'auth')->except(array('add', 'posts'));
 
-Much like the previous example, this declaration ensures that the auth filter is run on only some of this controller's actions.  Instead of declaring to which actions the filter applies we are instead declaring the actions that will not require authenticated sessions.  It can sometimes be safer to use the 'except' method as it's possible to add new actions to this controller and to forget to add them to only().  This could potentially lead your controller's action being unintentionally accessible by users who haven't been authenticated.
+Much like the previous example, this declaration ensures that the auth filter is run on only some of this controller's actions.	Instead of declaring to which actions the filter applies we are instead declaring the actions that will not require authenticated sessions.	It can sometimes be safer to use the 'except' method as it's possible to add new actions to this controller and to forget to add them to only().	This could potentially lead your controller's action being unintentionally accessible by users who haven't been authenticated.
 
 #### Attaching a filter to run on POST:
 
 	$this->filter('before', 'csrf')->on('post');
 
-This example shows how a filter can be run only on a specific http verb.  In this case we're running the csrf filter only when a form post is made.  The csrf filter is designed to prevent form posts from other systems (spam bots for example) and comes by default with Laravel.  You can find the csrf filter in **application/routes.php**.
+This example shows how a filter can be run only on a specific http verb.	In this case we're running the csrf filter only when a form post is made.	The csrf filter is designed to prevent form posts from other systems (spam bots for example) and comes by default with Laravel.	You can find the csrf filter in **application/routes.php**.
 
 *Further Reading:*
 

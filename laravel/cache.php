@@ -29,7 +29,7 @@ class Cache {
 	 *		$driver = Cache::driver('memcached');
 	 * </code>
 	 *
-	 * @param  string        $driver
+	 * @param	string				$driver
 	 * @return Cache\Drivers\Driver
 	 */
 	public static function driver($driver = null)
@@ -47,7 +47,7 @@ class Cache {
 	/**
 	 * Create a new cache driver instance.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return Cache\Drivers\Driver
 	 */
 	protected static function factory($driver)
@@ -90,8 +90,8 @@ class Cache {
 	/**
 	 * Register a third-party cache driver.
 	 *
-	 * @param  string   $driver
-	 * @param  Closure  $resolver
+	 * @param	string	 $driver
+	 * @param	Closure	$resolver
 	 * @return void
 	 */
 	public static function extend($driver, Closure $resolver)

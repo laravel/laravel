@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -14,6 +14,6 @@ return array(
 	*/
 
 	'previous' => '&laquo; Zur&uuml;ck',
-	'next'     => 'Weiter &raquo;',
+	'next'		 => 'Weiter &raquo;',
 
 );

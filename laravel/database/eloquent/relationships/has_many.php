@@ -15,7 +15,7 @@ class Has_Many extends Has_One_Or_Many {
 	/**
 	 * Sync the association table with an array of models.
 	 *
-	 * @param  mixed  $models
+	 * @param	mixed	$models
 	 * @return bool
 	 */
 	public function save($models)
@@ -68,8 +68,8 @@ class Has_Many extends Has_One_Or_Many {
 	/**
 	 * Initialize a relationship on an array of parent models.
 	 *
-	 * @param  array   $parents
-	 * @param  string  $relationship
+	 * @param	array	 $parents
+	 * @param	string	$relationship
 	 * @return void
 	 */
 	public function initialize(&$parents, $relationship)
@@ -83,8 +83,8 @@ class Has_Many extends Has_One_Or_Many {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  array  $parents
-	 * @param  array  $children
+	 * @param	array	$parents
+	 * @param	array	$children
 	 * @return void
 	 */
 	public function match($relationship, &$parents, $children)

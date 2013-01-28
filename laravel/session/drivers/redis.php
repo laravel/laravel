@@ -12,7 +12,7 @@ class Redis extends Driver {
 	/**
 	 * Create a new Redis session driver.
 	 *
-	 * @param  Laravel\Cache\Drivers\Redis  $redis
+	 * @param	Laravel\Cache\Drivers\Redis	$redis
 	 * @return void
 	 */
 	public function __construct(\Laravel\Cache\Drivers\Redis $redis)
@@ -25,7 +25,7 @@ class Redis extends Driver {
 	 *
 	 * If no session is found for the ID, null will be returned.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return array
 	 */
 	public function load($id)
@@ -36,9 +36,9 @@ class Redis extends Driver {
 	/**
 	 * Save a given session to storage.
 	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @param  bool   $exists
+	 * @param	array	$session
+	 * @param	array	$config
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	public function save($session, $config, $exists)
@@ -49,7 +49,7 @@ class Redis extends Driver {
 	/**
 	 * Delete a session from storage by a given ID.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	public function delete($id)

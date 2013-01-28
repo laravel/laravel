@@ -54,7 +54,7 @@
 			"description": "Delete all bundles' assets from the public directory.",
 			"command": "php artisan bundle:unpublish"
 		}
-	},	
+	},
 	"Unit Testing": {
 		"test": {
 			"description": "Run the application's tests.",

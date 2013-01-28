@@ -17,7 +17,7 @@ class Postgres extends Connector {
 	/**
 	 * Establish a PDO database connection.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return PDO
 	 */
 	public function connect($config)

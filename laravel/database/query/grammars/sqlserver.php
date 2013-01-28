@@ -21,7 +21,7 @@ class SQLServer extends Grammar {
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	public function select(Query $query)
@@ -45,7 +45,7 @@ class SQLServer extends Grammar {
 	/**
 	 * Compile the SELECT clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function selects(Query $query)
@@ -68,8 +68,8 @@ class SQLServer extends Grammar {
 	/**
 	 * Generate the ANSI standard SQL for an offset clause.
 	 *
-	 * @param  Query  $query
-	 * @param  array  $components
+	 * @param	Query	$query
+	 * @param	array	$components
 	 * @return array
 	 */
 	protected function ansi_offset(Query $query, $components)
@@ -118,7 +118,7 @@ class SQLServer extends Grammar {
 	/**
 	 * Compile the LIMIT clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function limit(Query $query)
@@ -129,7 +129,7 @@ class SQLServer extends Grammar {
 	/**
 	 * Compile the OFFSET clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function offset(Query $query)

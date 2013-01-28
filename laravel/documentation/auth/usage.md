@@ -38,7 +38,7 @@ Logging a user into your application is simple using the **attempt** method on t
 
 	if (Auth::attempt($credentials))
 	{
-	     return Redirect::to('user/profile');
+			 return Redirect::to('user/profile');
 	}
 
 If the user's credentials are valid, the user ID will be stored in the session and the user will be considered "logged in" on subsequent requests to your application.
@@ -47,7 +47,7 @@ To determine if the user of your application is logged in, call the **check** me
 
 	if (Auth::check())
 	{
-	     return "You're logged in!";
+			 return "You're logged in!";
 	}
 
 Use the **login** method to login a user without checking their credentials, such as after a user first registers to use your application. Just pass the user's ID:

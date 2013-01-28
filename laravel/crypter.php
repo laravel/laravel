@@ -28,7 +28,7 @@ class Crypter {
 	 *
 	 * The string will be encrypted using the AES-256 scheme and will be base64 encoded.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function encrypt($value)
@@ -45,7 +45,7 @@ class Crypter {
 	/**
 	 * Decrypt a string using Mcrypt.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function decrypt($value)
@@ -111,7 +111,7 @@ class Crypter {
 	/**
 	 * Add PKCS7 compatible padding on the given value.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function pad($value)
@@ -124,7 +124,7 @@ class Crypter {
 	/**
 	 * Remove the PKCS7 compatible padding from the given value.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function unpad($value)

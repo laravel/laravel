@@ -101,8 +101,8 @@ abstract class Model {
 	/**
 	 * Create a new Eloquent model instance.
 	 *
-	 * @param  array  $attributes
-	 * @param  bool   $exists
+	 * @param	array	$attributes
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	public function __construct($attributes = array(), $exists = false)
@@ -115,8 +115,8 @@ abstract class Model {
 	/**
 	 * Hydrate the model with an array of attributes.
 	 *
-	 * @param  array  $attributes
-	 * @param  bool   $raw
+	 * @param	array	$attributes
+	 * @param	bool	 $raw
 	 * @return Model
 	 */
 	public function fill(array $attributes, $raw = false)
@@ -169,7 +169,7 @@ abstract class Model {
 	 *
 	 * No mutators or accessibility checks will be accounted for.
 	 *
-	 * @param  array  $attributes
+	 * @param	array	$attributes
 	 * @return Model
 	 */
 	public function fill_raw(array $attributes)
@@ -180,7 +180,7 @@ abstract class Model {
 	/**
 	 * Set the accessible attributes for the given model.
 	 *
-	 * @param  array  $attributes
+	 * @param	array	$attributes
 	 * @return void
 	 */
 	public static function accessible($attributes = null)
@@ -195,7 +195,7 @@ abstract class Model {
 	 *
 	 * If save is successful, the model will be returned, otherwise false.
 	 *
-	 * @param  array        $attributes
+	 * @param	array				$attributes
 	 * @return Model|false
 	 */
 	public static function create($attributes)
@@ -210,8 +210,8 @@ abstract class Model {
 	/**
 	 * Update a model instance in the database.
 	 *
-	 * @param  mixed  $id
-	 * @param  array  $attributes
+	 * @param	mixed	$id
+	 * @param	array	$attributes
 	 * @return int
 	 */
 	public static function update($id, $attributes)
@@ -238,7 +238,7 @@ abstract class Model {
 	/**
 	 * The relationships that should be eagerly loaded by the query.
 	 *
-	 * @param  array  $includes
+	 * @param	array	$includes
 	 * @return Model
 	 */
 	public function _with($includes)
@@ -251,8 +251,8 @@ abstract class Model {
 	/**
 	 * Get the query for a one-to-one association.
 	 *
-	 * @param  string        $model
-	 * @param  string        $foreign
+	 * @param	string				$model
+	 * @param	string				$foreign
 	 * @return Relationship
 	 */
 	public function has_one($model, $foreign = null)
@@ -263,8 +263,8 @@ abstract class Model {
 	/**
 	 * Get the query for a one-to-many association.
 	 *
-	 * @param  string        $model
-	 * @param  string        $foreign
+	 * @param	string				$model
+	 * @param	string				$foreign
 	 * @return Relationship
 	 */
 	public function has_many($model, $foreign = null)
@@ -275,9 +275,9 @@ abstract class Model {
 	/**
 	 * Get the query for a one-to-one / many association.
 	 *
-	 * @param  string        $type
-	 * @param  string        $model
-	 * @param  string        $foreign
+	 * @param	string				$type
+	 * @param	string				$model
+	 * @param	string				$foreign
 	 * @return Relationship
 	 */
 	protected function has_one_or_many($type, $model, $foreign)
@@ -295,8 +295,8 @@ abstract class Model {
 	/**
 	 * Get the query for a one-to-one (inverse) relationship.
 	 *
-	 * @param  string        $model
-	 * @param  string        $foreign
+	 * @param	string				$model
+	 * @param	string				$foreign
 	 * @return Relationship
 	 */
 	public function belongs_to($model, $foreign = null)
@@ -317,10 +317,10 @@ abstract class Model {
 	/**
 	 * Get the query for a many-to-many relationship.
 	 *
-	 * @param  string        $model
-	 * @param  string        $table
-	 * @param  string        $foreign
-	 * @param  string        $other
+	 * @param	string				$model
+	 * @param	string				$table
+	 * @param	string				$foreign
+	 * @param	string				$other
 	 * @return Has_Many_And_Belongs_To
 	 */
 	public function has_many_and_belongs_to($model, $table = null, $foreign = null, $other = null)
@@ -476,7 +476,7 @@ abstract class Model {
 	/**
 	 * Determine if a given attribute has changed from its original state.
 	 *
-	 * @param  string  $attribute
+	 * @param	string	$attribute
 	 * @return bool
 	 */
 	public function changed($attribute)
@@ -539,7 +539,7 @@ abstract class Model {
 	/**
 	 * Set the value of the primary key for the model.
 	 *
-	 * @param  int   $value
+	 * @param	int	 $value
 	 * @return void
 	 */
 	public function set_key($value)
@@ -550,7 +550,7 @@ abstract class Model {
 	/**
 	 * Get a given attribute from the model.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 */
 	public function get_attribute($key)
 	{
@@ -560,8 +560,8 @@ abstract class Model {
 	/**
 	 * Set an attribute's value on the model.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function set_attribute($key, $value)
@@ -572,7 +572,7 @@ abstract class Model {
 	/**
 	 * Remove an attribute from the model.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 */
 	final public function purge($key)
 	{
@@ -638,7 +638,7 @@ abstract class Model {
 	/**
 	 * Fire a given event for the model.
 	 *
-	 * @param  string  $event
+	 * @param	string	$event
 	 * @return array
 	 */
 	protected function fire_event($event)
@@ -651,7 +651,7 @@ abstract class Model {
 	/**
 	 * Handle the dynamic retrieval of attributes and associations.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	public function __get($key)
@@ -692,8 +692,8 @@ abstract class Model {
 	/**
 	 * Handle the dynamic setting of attributes.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function __set($key, $value)
@@ -704,7 +704,7 @@ abstract class Model {
 	/**
 	 * Determine if an attribute exists on the model.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function __isset($key)
@@ -720,7 +720,7 @@ abstract class Model {
 	/**
 	 * Remove an attribute from the model.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function __unset($key)
@@ -734,8 +734,8 @@ abstract class Model {
 	/**
 	 * Handle dynamic method calls on the model.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public function __call($method, $parameters)
@@ -784,8 +784,8 @@ abstract class Model {
 	/**
 	 * Dynamically handle static method calls on the model.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)

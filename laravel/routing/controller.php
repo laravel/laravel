@@ -66,8 +66,8 @@ abstract class Controller {
 	/**
 	 * Detect all of the controllers for a given bundle.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $directory
+	 * @param	string	$bundle
+	 * @param	string	$directory
 	 * @return array
 	 */
 	public static function detect($bundle = DEFAULT_BUNDLE, $directory = null)
@@ -125,8 +125,8 @@ abstract class Controller {
 	 *		$response = Controller::call('user.admin@profile', array($username));
 	 * </code>
 	 *
-	 * @param  string    $destination
-	 * @param  array     $parameters
+	 * @param	string		$destination
+	 * @param	array		 $parameters
 	 * @return Response
 	 */
 	public static function call($destination, $parameters = array())
@@ -168,8 +168,8 @@ abstract class Controller {
 	/**
 	 * Replace all back-references on the given destination.
 	 *
-	 * @param  string  $destination
-	 * @param  array   $parameters
+	 * @param	string	$destination
+	 * @param	array	 $parameters
 	 * @return array
 	 */
 	protected static function references(&$destination, &$parameters)
@@ -194,8 +194,8 @@ abstract class Controller {
 	/**
 	 * Resolve a bundle and controller name to a controller instance.
 	 *
-	 * @param  string      $bundle
-	 * @param  string      $controller
+	 * @param	string			$bundle
+	 * @param	string			$controller
 	 * @return Controller
 	 */
 	public static function resolve($bundle, $controller)
@@ -232,8 +232,8 @@ abstract class Controller {
 	/**
 	 * Load the file for a given controller.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $controller
+	 * @param	string	$bundle
+	 * @param	string	$controller
 	 * @return bool
 	 */
 	protected static function load($bundle, $controller)
@@ -253,8 +253,8 @@ abstract class Controller {
 	/**
 	 * Format a bundle and controller identifier into the controller's class name.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $controller
+	 * @param	string	$bundle
+	 * @param	string	$controller
 	 * @return string
 	 */
 	protected static function format($bundle, $controller)
@@ -265,8 +265,8 @@ abstract class Controller {
 	/**
 	 * Execute a controller method with the given parameters.
 	 *
-	 * @param  string    $method
-	 * @param  array     $parameters
+	 * @param	string		$method
+	 * @param	array		 $parameters
 	 * @return Response
 	 */
 	public function execute($method, $parameters = array())
@@ -304,8 +304,8 @@ abstract class Controller {
 	 * from the controller action will not be changed in any way before it
 	 * is returned to the consumer.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public function response($method, $parameters = array())
@@ -346,9 +346,9 @@ abstract class Controller {
 	 *		$this->filter('after', 'foo|bar')->only(array('user', 'profile'));
 	 * </code>
 	 *
-	 * @param  string             $event
-	 * @param  string|array       $filters
-	 * @param  mixed              $parameters
+	 * @param	string						 $event
+	 * @param	string|array			 $filters
+	 * @param	mixed							$parameters
 	 * @return Filter_Collection
 	 */
 	protected function filter($event, $filters, $parameters = null)
@@ -361,8 +361,8 @@ abstract class Controller {
 	/**
 	 * Get an array of filter names defined for the destination.
 	 *
-	 * @param  string  $event
-	 * @param  string  $method
+	 * @param	string	$event
+	 * @param	string	$method
 	 * @return array
 	 */
 	protected function filters($event, $method)
@@ -407,7 +407,7 @@ abstract class Controller {
 	/**
 	 * This function is called after the action is executed.
 	 *
-	 * @param  Response  $response
+	 * @param	Response	$response
 	 * @return void
 	 */
 	public function after($response) {}

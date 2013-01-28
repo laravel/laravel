@@ -513,7 +513,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	public function testCorrectMessagesAreSet()
 	{
 		$lang = require path('app').'language/en/validation.php';
-	
+
 		$input = array('email' => 'example-foo');
 		$rules = array('name' => 'required', 'email' => 'required|email');
 		$v = Validator::make($input, $rules);
@@ -558,7 +558,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	public function testNumericSizeReplacementsAreMade()
 	{
 		$lang = require path('app').'language/en/validation.php';
-		
+
 		$input = array('amount' => 100);
 		$rules = array('amount' => 'numeric|size:80');
 		$v = Validator::make($input, $rules);
@@ -592,7 +592,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	public function testStringSizeReplacementsAreMade()
 	{
 		$lang = require path('app').'language/en/validation.php';
-		
+
 		$input = array('amount' => '100');
 		$rules = array('amount' => 'size:80');
 		$v = Validator::make($input, $rules);
@@ -626,7 +626,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	public function testFileSizeReplacementsAreMade()
 	{
 		$lang = require path('app').'language/en/validation.php';
-		
+
 		$_FILES['amount']['tmp_name'] = 'foo';
 		$_FILES['amount']['size'] = 10000;
 		$rules = array('amount' => 'size:80');
@@ -688,24 +688,24 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expect, $v->errors->first('test_attribute'));
 	}
 
-    /**
-     * Test required_with attribute names are replaced.
-     *
-     * @group laravel
-     */
-    public function testRequiredWithAttributesAreReplaced()
-    {
-        $lang = require path('app').'language/en/validation.php';
+		/**
+		 * Test required_with attribute names are replaced.
+		 *
+		 * @group laravel
+		 */
+		public function testRequiredWithAttributesAreReplaced()
+		{
+				$lang = require path('app').'language/en/validation.php';
 
-        $data = array('first_name' => 'Taylor', 'last_name' => '');
+				$data = array('first_name' => 'Taylor', 'last_name' => '');
 
-        $rules = array('first_name' => 'required', 'last_name' => 'required_with:first_name');
+				$rules = array('first_name' => 'required', 'last_name' => 'required_with:first_name');
 
-        $v = Validator::make($data, $rules);
-        $v->valid();
+				$v = Validator::make($data, $rules);
+				$v->valid();
 
-        $expect = str_replace(array(':attribute', ':field'), array('last name', 'first name'), $lang['required_with']);
-        $this->assertEquals($expect, $v->errors->first('last_name'));
-    }
+				$expect = str_replace(array(':attribute', ':field'), array('last name', 'first name'), $lang['required_with']);
+				$this->assertEquals($expect, $v->errors->first('last_name'));
+		}
 
 }

@@ -15,7 +15,7 @@ if(! IoC::registered('task: migrate'))
 		$resolver = new Tasks\Migrate\Resolver($database);
 
 		return new Tasks\Migrate\Migrator($resolver, $database);
-	});	
+	});
 }
 
 
@@ -128,7 +128,7 @@ if(! IoC::registered('bundle.provider: github'))
 }
 
 /**
- * The "help" task provides information about 
+ * The "help" task provides information about
  * artisan usage.
  */
 if(! IoC::registered('task: help'))

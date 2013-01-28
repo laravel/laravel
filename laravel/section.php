@@ -27,8 +27,8 @@ class Section {
 	 *		Section::start('header', '<title>Laravel</title>');
 	 * </code>
 	 *
-	 * @param  string          $section
-	 * @param  string|Closure  $content
+	 * @param	string					$section
+	 * @param	string|Closure	$content
 	 * @return void
 	 */
 	public static function start($section, $content = '')
@@ -53,8 +53,8 @@ class Section {
 	 *		Section::inject('header', '<title>Laravel</title>');
 	 * </code>
 	 *
-	 * @param  string  $section
-	 * @param  string  $content
+	 * @param	string	$section
+	 * @param	string	$content
 	 * @return void
 	 */
 	public static function inject($section, $content)
@@ -87,8 +87,8 @@ class Section {
 	/**
 	 * Extend the content in a given section.
 	 *
-	 * @param  string  $section
-	 * @param  string  $content
+	 * @param	string	$section
+	 * @param	string	$content
 	 * @return void
 	 */
 	protected static function extend($section, $content)
@@ -106,8 +106,8 @@ class Section {
 	/**
 	 * Append content to a given section.
 	 *
-	 * @param  string  $section
-	 * @param  string  $content
+	 * @param	string	$section
+	 * @param	string	$content
 	 * @return void
 	 */
 	public static function append($section, $content)
@@ -125,7 +125,7 @@ class Section {
 	/**
 	 * Get the string contents of a section.
 	 *
-	 * @param  string  $section
+	 * @param	string	$section
 	 * @return string
 	 */
 	public static function yield($section)

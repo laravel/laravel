@@ -5,7 +5,7 @@
  *
  * The encoding specified in the application configuration file will be used.
  *
- * @param  string  $value
+ * @param	string	$value
  * @return string
  */
 function e($value)
@@ -16,9 +16,9 @@ function e($value)
 /**
  * Retrieve a language line.
  *
- * @param  string  $key
- * @param  array   $replacements
- * @param  string  $language
+ * @param	string	$key
+ * @param	array	 $replacements
+ * @param	string	$language
  * @return string
  */
 function __($key, $replacements = array(), $language = null)
@@ -29,7 +29,7 @@ function __($key, $replacements = array(), $language = null)
 /**
  * Dump the given value and kill the script.
  *
- * @param  mixed  $value
+ * @param	mixed	$value
  * @return void
  */
 function dd($value)
@@ -51,9 +51,9 @@ function dd($value)
  *		$name = array_get($array, 'user.name', 'Taylor');
  * </code>
  *
- * @param  array   $array
- * @param  string  $key
- * @param  mixed   $default
+ * @param	array	 $array
+ * @param	string	$key
+ * @param	mixed	 $default
  * @return mixed
  */
 function array_get($array, $key, $default = null)
@@ -90,9 +90,9 @@ function array_get($array, $key, $default = null)
  *		array_set($array, 'user.name.first', 'Michael');
  * </code>
  *
- * @param  array   $array
- * @param  string  $key
- * @param  mixed   $value
+ * @param	array	 $array
+ * @param	string	$key
+ * @param	mixed	 $value
  * @return void
  */
 function array_set(&$array, $key, $value)
@@ -134,8 +134,8 @@ function array_set(&$array, $key, $value)
  *		array_forget($array, 'user.name.first');
  * </code>
  *
- * @param  array   $array
- * @param  string  $key
+ * @param	array	 $array
+ * @param	string	$key
  * @return void
  */
 function array_forget(&$array, $key)
@@ -176,9 +176,9 @@ function array_forget(&$array, $key)
  *		$value = array_first($array, function($k, $v) {return $v == 'Taylor'}, 'Default');
  * </code>
  *
- * @param  array    $array
- * @param  Closure  $callback
- * @param  mixed    $default
+ * @param	array		$array
+ * @param	Closure	$callback
+ * @param	mixed		$default
  * @return mixed
  */
 function array_first($array, $callback, $default = null)
@@ -194,7 +194,7 @@ function array_first($array, $callback, $default = null)
 /**
  * Recursively remove slashes from array keys and values.
  *
- * @param  array  $array
+ * @param	array	$array
  * @return array
  */
 function array_strip_slashes($array)
@@ -224,7 +224,7 @@ function array_strip_slashes($array)
 /**
  * Divide an array into two arrays. One with keys and the other with values.
  *
- * @param  array  $array
+ * @param	array	$array
  * @return array
  */
 function array_divide($array)
@@ -235,8 +235,8 @@ function array_divide($array)
 /**
  * Pluck an array of values from an array.
  *
- * @param  array   $array
- * @param  string  $key
+ * @param	array	 $array
+ * @param	string	$key
  * @return array
  */
 function array_pluck($array, $key)
@@ -251,8 +251,8 @@ function array_pluck($array, $key)
 /**
  * Get a subset of the items from the given array.
  *
- * @param  array  $array
- * @param  array  $keys
+ * @param	array	$array
+ * @param	array	$keys
  * @return array
  */
 function array_only($array, $keys)
@@ -263,8 +263,8 @@ function array_only($array, $keys)
 /**
  * Get all of the given array except for a specified array of items.
  *
- * @param  array  $array
- * @param  array  $keys
+ * @param	array	$array
+ * @param	array	$keys
  * @return array
  */
 function array_except($array, $keys)
@@ -275,7 +275,7 @@ function array_except($array, $keys)
 /**
  * Transform Eloquent models to a JSON object.
  *
- * @param  Eloquent|array  $models
+ * @param	Eloquent|array	$models
  * @return object
  */
 function eloquent_to_json($models)
@@ -303,7 +303,7 @@ function magic_quotes()
  *
  * This is simply a convenient wrapper around the "reset" method.
  *
- * @param  array  $array
+ * @param	array	$array
  * @return mixed
  */
 function head($array)
@@ -322,8 +322,8 @@ function head($array)
  *		$url = url('user/profile', true);
  * </code>
  *
- * @param  string  $url
- * @param  bool    $https
+ * @param	string	$url
+ * @param	bool		$https
  * @return string
  */
 function url($url = '', $https = null)
@@ -334,8 +334,8 @@ function url($url = '', $https = null)
 /**
  * Generate an application URL to an asset.
  *
- * @param  string  $url
- * @param  bool    $https
+ * @param	string	$url
+ * @param	bool		$https
  * @return string
  */
 function asset($url, $https = null)
@@ -354,8 +354,8 @@ function asset($url, $https = null)
  *		$url = action('user@profile', array('taylor'));
  * </code>
  *
- * @param  string  $action
- * @param  array   $parameters
+ * @param	string	$action
+ * @param	array	 $parameters
  * @return string
  */
 function action($action, $parameters = array())
@@ -374,8 +374,8 @@ function action($action, $parameters = array())
  *		$url = route('profile', array($username));
  * </code>
  *
- * @param  string  $name
- * @param  array   $parameters
+ * @param	string	$name
+ * @param	array	 $parameters
  * @return string
  */
 function route($name, $parameters = array())
@@ -386,8 +386,8 @@ function route($name, $parameters = array())
 /**
  * Determine if a given string begins with a given value.
  *
- * @param  string  $haystack
- * @param  string  $needle
+ * @param	string	$haystack
+ * @param	string	$needle
  * @return bool
  */
 function starts_with($haystack, $needle)
@@ -398,8 +398,8 @@ function starts_with($haystack, $needle)
 /**
  * Determine if a given string ends with a given value.
  *
- * @param  string  $haystack
- * @param  string  $needle
+ * @param	string	$haystack
+ * @param	string	$needle
  * @return bool
  */
 function ends_with($haystack, $needle)
@@ -410,8 +410,8 @@ function ends_with($haystack, $needle)
 /**
  * Determine if a given string contains a given sub-string.
  *
- * @param  string        $haystack
- * @param  string|array  $needle
+ * @param	string				$haystack
+ * @param	string|array	$needle
  * @return bool
  */
 function str_contains($haystack, $needle)
@@ -427,8 +427,8 @@ function str_contains($haystack, $needle)
 /**
  * Cap a string with a single instance of the given string.
  *
- * @param  string  $value
- * @param  string  $cap
+ * @param	string	$value
+ * @param	string	$cap
  * @return string
  */
 function str_finish($value, $cap)
@@ -439,7 +439,7 @@ function str_finish($value, $cap)
 /**
  * Determine if the given object has a toString method.
  *
- * @param  object  $value
+ * @param	object	$value
  * @return bool
  */
 function str_object($value)
@@ -450,8 +450,8 @@ function str_object($value)
 /**
  * Get the root namespace of a given class.
  *
- * @param  string  $class
- * @param  string  $separator
+ * @param	string	$class
+ * @param	string	$separator
  * @return string
  */
 function root_namespace($class, $separator = '\\')
@@ -467,7 +467,7 @@ function root_namespace($class, $separator = '\\')
  *
  * The basename is considered to be the name of the class minus all namespaces.
  *
- * @param  object|string  $class
+ * @param	object|string	$class
  * @return string
  */
 function class_basename($class)
@@ -482,7 +482,7 @@ function class_basename($class)
  *
  * If the given item is a Closure the result of the Closure will be returned.
  *
- * @param  mixed  $value
+ * @param	mixed	$value
  * @return mixed
  */
 function value($value)
@@ -493,7 +493,7 @@ function value($value)
 /**
  * Short-cut for constructor method chaining.
  *
- * @param  mixed  $object
+ * @param	mixed	$object
  * @return mixed
  */
 function with($object)
@@ -504,7 +504,7 @@ function with($object)
 /**
  * Determine if the current version of PHP is at least the supplied version.
  *
- * @param  string  $version
+ * @param	string	$version
  * @return bool
  */
 function has_php($version)
@@ -515,8 +515,8 @@ function has_php($version)
 /**
  * Get a view instance.
  *
- * @param  string  $view
- * @param  array   $data
+ * @param	string	$view
+ * @param	array	 $data
  * @return View
  */
 function view($view, $data = array())
@@ -529,8 +529,8 @@ function view($view, $data = array())
 /**
  * Render the given view.
  *
- * @param  string  $view
- * @param  array   $data
+ * @param	string	$view
+ * @param	array	 $data
  * @return string
  */
 function render($view, $data = array())
@@ -543,10 +543,10 @@ function render($view, $data = array())
 /**
  * Get the rendered contents of a partial from a loop.
  *
- * @param  string  $partial
- * @param  array   $data
- * @param  string  $iterator
- * @param  string  $empty
+ * @param	string	$partial
+ * @param	array	 $data
+ * @param	string	$iterator
+ * @param	string	$empty
  * @return string
  */
 function render_each($partial, array $data, $iterator, $empty = 'raw|')
@@ -557,7 +557,7 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
 /**
  * Get the string contents of a section.
  *
- * @param  string  $section
+ * @param	string	$section
  * @return string
  */
 function yield($section)
@@ -568,8 +568,8 @@ function yield($section)
 /**
  * Get a CLI option from the argv $_SERVER variable.
  *
- * @param  string  $option
- * @param  mixed   $default
+ * @param	string	$option
+ * @param	mixed	 $default
  * @return string
  */
 function get_cli_option($option, $default = null)
@@ -584,11 +584,11 @@ function get_cli_option($option, $default = null)
 
 	return value($default);
 }
-	
+
 /**
  * Calculate the human-readable file size (with proper units).
  *
- * @param  int     $size
+ * @param	int		 $size
  * @return string
  */
 function get_file_size($size)

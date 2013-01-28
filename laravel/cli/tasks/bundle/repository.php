@@ -12,7 +12,7 @@ class Repository {
 	/**
 	 * Get the decoded JSON information for a bundle.
 	 *
-	 * @param  string|int  $bundle
+	 * @param	string|int	$bundle
 	 * @return array
 	 */
 	public function get($bundle)

@@ -5,8 +5,8 @@ class Error {
 	/**
 	 * Handle an exception and display the exception report.
 	 *
-	 * @param  Exception  $exception
-	 * @param  bool       $trace
+	 * @param	Exception	$exception
+	 * @param	bool			 $trace
 	 * @return void
 	 */
 	public static function exception($exception, $trace = true)
@@ -42,8 +42,8 @@ class Error {
 			if ($trace)
 			{
 				$response_body .= "
-				  <h3>Stack Trace:</h3>
-				  <pre>".$exception->getTraceAsString()."</pre></html>";
+					<h3>Stack Trace:</h3>
+					<pre>".$exception->getTraceAsString()."</pre></html>";
 			}
 
 			$response = Response::make($response_body, 500);
@@ -69,10 +69,10 @@ class Error {
 	/**
 	 * Handle a native PHP error as an ErrorException.
 	 *
-	 * @param  int     $code
-	 * @param  string  $error
-	 * @param  string  $file
-	 * @param  int     $line
+	 * @param	int		 $code
+	 * @param	string	$error
+	 * @param	string	$file
+	 * @param	int		 $line
 	 * @return void
 	 */
 	public static function native($code, $error, $file, $line)
@@ -115,7 +115,7 @@ class Error {
 	/**
 	 * Log an exception.
 	 *
-	 * @param  Exception  $exception
+	 * @param	Exception	$exception
 	 * @return void
 	 */
 	public static function log($exception)

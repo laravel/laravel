@@ -48,7 +48,7 @@ class URI {
 	/**
 	 * Format a given URI.
 	 *
-	 * @param  string  $uri
+	 * @param	string	$uri
 	 * @return string
 	 */
 	protected static function format($uri)
@@ -59,7 +59,7 @@ class URI {
 	/**
 	 * Determine if the current URI matches a given pattern.
 	 *
-	 * @param  string  $pattern
+	 * @param	string	$pattern
 	 * @return bool
 	 */
 	public static function is($pattern)
@@ -78,8 +78,8 @@ class URI {
 	 *		$segment = URI::segment(2, 'Taylor');
 	 * </code>
 	 *
-	 * @param  int     $index
-	 * @param  mixed   $default
+	 * @param	int		 $index
+	 * @param	mixed	 $default
 	 * @return string
 	 */
 	public static function segment($index, $default = null)
@@ -92,7 +92,7 @@ class URI {
 	/**
 	 * Set the URI segments for the request.
 	 *
-	 * @param  string  $uri
+	 * @param	string	$uri
 	 * @return void
 	 */
 	protected static function segments($uri)

@@ -22,7 +22,7 @@
 						</tr>
 					</table>
 				@else
-					<span class="anbu-empty">There are no log entries.</span>				
+					<span class="anbu-empty">There are no log entries.</span>
 				@endif
 			</div>
 
@@ -87,9 +87,9 @@
 									<td>&nbsp;</td>
 								</tr>
 							@endif
-							
+
 							@endforeach
-						</table>			
+						</table>
 				@else
 					<span class="anbu-empty">There have been no checkpoints set.</span>
 				@endif
@@ -100,7 +100,7 @@
 	<ul id="anbu-open-tabs" class="anbu-tabs">
 		<li><a data-anbu-tab="anbu-log" class="anbu-tab" href="#">Log <span class="anbu-count">{{ count($logs) }}</span></a></li>
 		<li>
-			<a data-anbu-tab="anbu-sql" class="anbu-tab" href="#">SQL 
+			<a data-anbu-tab="anbu-sql" class="anbu-tab" href="#">SQL
 				<span class="anbu-count">{{ count($queries) }}</span>
 				@if (count($queries))
 				<span class="anbu-count">{{ array_sum(array_map(function($q) { return $q[1]; }, $queries)) }}ms</span>

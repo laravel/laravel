@@ -260,13 +260,13 @@
 
 Add the following entry to the `aliases` array in `config/application.php`..
 
-	'Profiler'   => 'Laravel\\Profiling\\Profiler',
+	'Profiler'	 => 'Laravel\\Profiling\\Profiler',
 
 Add the following code above `Blade::sharpen()` in `application/start.php`..
 
 	if (Config::get('application.profiler'))
 	{
-	    Profiler::attach();
+			Profiler::attach();
 	}
 
 - Upgrade the **paths.php** file.

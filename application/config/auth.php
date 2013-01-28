@@ -37,7 +37,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Here you may specify the database column that should be considered the
-	| "password" for your users. Typically, this will be "password" but, 
+	| "password" for your users. Typically, this will be "password" but,
 	| again, you're free to change the value to anything you see fit.
 	|
 	*/

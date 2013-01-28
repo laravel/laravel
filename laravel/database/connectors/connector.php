@@ -18,7 +18,7 @@ abstract class Connector {
 	/**
 	 * Establish a PDO database connection.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return PDO
 	 */
 	abstract public function connect($config);
@@ -28,7 +28,7 @@ abstract class Connector {
 	 *
 	 * Developer specified options will override the default connection options.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return array
 	 */
 	protected function options($config)

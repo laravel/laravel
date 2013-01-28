@@ -38,7 +38,7 @@ class Session {
 	/**
 	 * Create the session payload instance for the request.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return void
 	 */
 	public static function start($driver)
@@ -49,7 +49,7 @@ class Session {
 	/**
 	 * Create a new session driver instance.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return Session\Drivers\Driver
 	 */
 	public static function factory($driver)
@@ -122,8 +122,8 @@ class Session {
 	/**
 	 * Register a third-party cache driver.
 	 *
-	 * @param  string   $driver
-	 * @param  Closure  $resolver
+	 * @param	string	 $driver
+	 * @param	Closure	$resolver
 	 * @return void
 	 */
 	public static function extend($driver, Closure $resolver)

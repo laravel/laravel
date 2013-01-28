@@ -1,7 +1,7 @@
 <?php
 
 class TemplateStub {
-	
+
 	public function __toString()
 	{
 		return 'TemplateStub';

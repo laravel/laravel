@@ -53,8 +53,8 @@ class Request {
 	 *		$referer = Request::header('referer');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public static function header($key, $default = null)
@@ -75,8 +75,8 @@ class Request {
 	/**
 	 * Get an item from the $_SERVER array.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return string
 	 */
 	public static function server($key = null, $default = null)
@@ -97,7 +97,7 @@ class Request {
 	/**
 	 * Get the requestor's IP address.
 	 *
-	 * @param  mixed   $default
+	 * @param	mixed	 $default
 	 * @return string
 	 */
 	public static function ip($default = '0.0.0.0')
@@ -119,7 +119,7 @@ class Request {
 	/**
 	 * Determine if the request accepts a given content type.
 	 *
-	 * @param  string  $type
+	 * @param	string	$type
 	 * @return bool
 	 */
 	public static function accepts($type)
@@ -178,7 +178,7 @@ class Request {
 	{
 		return static::foundation()->headers->get('referer');
 	}
-	
+
 	/**
 	 * Get the timestamp of the time when the request was started.
 	 *
@@ -212,7 +212,7 @@ class Request {
 	/**
 	 * Set the Laravel environment for the current request.
 	 *
-	 * @param  string  $env
+	 * @param	string	$env
 	 * @return void
 	 */
 	public static function set_env($env)
@@ -223,7 +223,7 @@ class Request {
 	/**
 	 * Determine the current request environment.
 	 *
-	 * @param  string  $env
+	 * @param	string	$env
 	 * @return bool
 	 */
 	public static function is_env($env)
@@ -234,8 +234,8 @@ class Request {
 	/**
 	 * Detect the current environment from an environment configuration.
 	 *
-	 * @param  array        $environments
-	 * @param  string       $uri
+	 * @param	array				$environments
+	 * @param	string			 $uri
 	 * @return string|null
 	 */
 	public static function detect_env(array $environments, $uri)
@@ -278,8 +278,8 @@ class Request {
 	/**
 	 * Pass any other methods to the Symfony request.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)

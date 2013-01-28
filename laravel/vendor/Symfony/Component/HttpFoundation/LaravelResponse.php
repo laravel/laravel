@@ -10,31 +10,31 @@
 class LaravelResponse extends Response
 {
 
-    /**
-     * Sends HTTP headers and content.
-     *
-     * @return Response
-     *
-     * @api
-     */
-    public function send()
-    {
-        $this->sendHeaders();
-        $this->sendContent();
+		/**
+		 * Sends HTTP headers and content.
+		 *
+		 * @return Response
+		 *
+		 * @api
+		 */
+		public function send()
+		{
+				$this->sendHeaders();
+				$this->sendContent();
 
-        return $this;
-    }
+				return $this;
+		}
 
-    /**
-     * Finishes the request for PHP-FastCGI
-     *
-     * @return void
-     */
-    public function finish()
-    {
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
-        }
-    }
+		/**
+		 * Finishes the request for PHP-FastCGI
+		 *
+		 * @return void
+		 */
+		public function finish()
+		{
+				if (function_exists('fastcgi_finish_request')) {
+						fastcgi_finish_request();
+				}
+		}
 
 }

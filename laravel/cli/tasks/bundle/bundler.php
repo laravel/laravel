@@ -19,7 +19,7 @@ class Bundler extends Task {
 	/**
 	 * Create a new bundle manager task.
 	 *
-	 * @param  Repository  $repository
+	 * @param	Repository	$repository
 	 * @return void
 	 */
 	public function __construct($repository)
@@ -30,7 +30,7 @@ class Bundler extends Task {
 	/**
 	 * Install the given bundles into the application.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function install($bundles)
@@ -64,7 +64,7 @@ class Bundler extends Task {
 	/**
 	 * Uninstall the given bundles from the application.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function uninstall($bundles)
@@ -101,7 +101,7 @@ class Bundler extends Task {
 	/**
 	 * Upgrade the given bundles for the application.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function upgrade($bundles)
@@ -146,7 +146,7 @@ class Bundler extends Task {
 	/**
 	 * Gather all of the bundles from the bundle repository.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return array
 	 */
 	protected function get($bundles)
@@ -186,7 +186,7 @@ class Bundler extends Task {
 	/**
 	 * Publish bundle assets to the public directory.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function publish($bundles)
@@ -199,7 +199,7 @@ class Bundler extends Task {
 	/**
 	 * Delete bundle assets from the public directory.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function unpublish($bundles)
@@ -212,8 +212,8 @@ class Bundler extends Task {
 	/**
 	 * Install a bundle using a provider.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $path
+	 * @param	string	$bundle
+	 * @param	string	$path
 	 * @return void
 	 */
 	protected function download($bundle, $path)
@@ -226,7 +226,7 @@ class Bundler extends Task {
 	/**
 	 * Retrieve a bundle from the repository.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return array
 	 */
 	protected function retrieve($bundle)
@@ -244,7 +244,7 @@ class Bundler extends Task {
 	/**
 	 * Return the path for a given bundle.
 	 *
-	 * @param  array   $bundle
+	 * @param	array	 $bundle
 	 * @return string
 	 */
 	protected function path($bundle)

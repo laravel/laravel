@@ -83,7 +83,7 @@ abstract class Driver {
 	/**
 	 * Get the given application user by ID.
 	 *
-	 * @param  int    $id
+	 * @param	int		$id
 	 * @return mixed
 	 */
 	abstract public function retrieve($id);
@@ -91,7 +91,7 @@ abstract class Driver {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	abstract public function attempt($arguments = array());
@@ -101,8 +101,8 @@ abstract class Driver {
 	 *
 	 * The token is typically a numeric ID for the user.
 	 *
-	 * @param  string  $token
-	 * @param  bool    $remember
+	 * @param	string	$token
+	 * @param	bool		$remember
 	 * @return bool
 	 */
 	public function login($token, $remember = false)
@@ -139,7 +139,7 @@ abstract class Driver {
 	/**
 	 * Store a user's token in the session.
 	 *
-	 * @param  string  $token
+	 * @param	string	$token
 	 * @return void
 	 */
 	protected function store($token)
@@ -150,7 +150,7 @@ abstract class Driver {
 	/**
 	 * Store a user's token in a long-lived cookie.
 	 *
-	 * @param  string  $token
+	 * @param	string	$token
 	 * @return void
 	 */
 	protected function remember($token)
@@ -181,9 +181,9 @@ abstract class Driver {
 	/**
 	 * Store an authentication cookie.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  int     $minutes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	protected function cookie($name, $value, $minutes)

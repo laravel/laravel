@@ -17,7 +17,7 @@ class Command {
 	 *		Command::run(array('migrate:rollback', 'bundle-name'))
 	 * </code>
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public static function run($arguments = array())
@@ -28,7 +28,7 @@ class Command {
 
 		// If the task exists within a bundle, we will start the bundle so that any
 		// dependencies can be registered in the application IoC container. If the
-		// task is registered in the container,  we'll resolve it.
+		// task is registered in the container,	we'll resolve it.
 		if (Bundle::exists($bundle))
 		{
 			Bundle::start($bundle);
@@ -57,7 +57,7 @@ class Command {
 	/**
 	 * Determine if the given command arguments are valid.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	protected static function validate($arguments)
@@ -71,7 +71,7 @@ class Command {
 	/**
 	 * Parse the task name to extract the bundle, task, and method.
 	 *
-	 * @param  string  $task
+	 * @param	string	$task
 	 * @return array
 	 */
 	protected static function parse($task)
@@ -104,8 +104,8 @@ class Command {
 	 *		$task = Command::resolve('bundle', 'foo');
 	 * </code>
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $task
+	 * @param	string	$bundle
+	 * @param	string	$task
 	 * @return object
 	 */
 	public static function resolve($bundle, $task)
@@ -136,7 +136,7 @@ class Command {
 	/**
 	 * Parse the command line arguments and return the results.
 	 *
-	 * @param  array  $argv
+	 * @param	array	$argv
 	 * @return array
 	 */
 	public static function options($argv)
@@ -184,8 +184,8 @@ class Command {
 	/**
 	 * Format a bundle and task into a task class name.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $task
+	 * @param	string	$bundle
+	 * @param	string	$task
 	 * @return string
 	 */
 	protected static function format($bundle, $task)

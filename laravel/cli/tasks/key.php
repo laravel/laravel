@@ -25,7 +25,7 @@ class Key extends Task {
 	/**
 	 * Generate a random key for the application.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function generate($arguments = array())

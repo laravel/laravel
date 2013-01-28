@@ -17,7 +17,7 @@ class SQLServer extends Connector {
 	/**
 	 * Establish a PDO database connection.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return PDO
 	 */
 	public function connect($config)
@@ -28,7 +28,7 @@ class SQLServer extends Connector {
 		// also be used to connect to Azure SQL Server databases. The port is defined
 		// directly after the server name, so we'll create that first.
 		$port = (isset($port)) ? ','.$port : '';
-		
+
 		//check for dblib for mac users connecting to mssql (utilizes freetds)
 		if (in_array('dblib',PDO::getAvailableDrivers()))
 		{

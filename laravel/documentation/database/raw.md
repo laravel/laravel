@@ -9,7 +9,7 @@
 <a name="the-bascis"></a>
 ## The Basics
 
-The **query** method is used to execute arbitrary, raw SQL against your database connection. 
+The **query** method is used to execute arbitrary, raw SQL against your database connection.
 
 #### Selecting records from the database:
 

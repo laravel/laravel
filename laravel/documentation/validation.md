@@ -21,7 +21,7 @@ Almost every interactive web application needs to validate data. For instance, a
 #### Define the validation rules for your data:
 
 	$rules = array(
-		'name'  => 'required|max:50',
+		'name'	=> 'required|max:50',
 		'email' => 'required|email|unique:users',
 	);
 
@@ -207,7 +207,7 @@ Many times, when updating a record, you want to use the unique rule, but exclude
 
 #### Validate that a date attribute conforms to a given format:
 
-    'start_date' => 'date_format:H\\:i'),
+		'start_date' => 'date_format:H\\:i'),
 
 > **Note:** The backslash escapes the colon so that it does not count as a parameter separator.
 
@@ -380,10 +380,10 @@ You may also use the **:other**, **:size**, **:min**, **:max**, and **:values** 
 #### Other validation message place-holders:
 
 	$messages = array(
-		'same'    => 'The :attribute and :other must match.',
-		'size'    => 'The :attribute must be exactly :size.',
+		'same'		=> 'The :attribute and :other must match.',
+		'size'		=> 'The :attribute must be exactly :size.',
 		'between' => 'The :attribute must be between :min - :max.',
-		'in'      => 'The :attribute must be one of the following types: :values',
+		'in'			=> 'The :attribute must be one of the following types: :values',
 	);
 
 So, what if you need to specify a custom required message, but only for the email attribute? No problem. Just specify the message using an **attribute_rule** naming convention:
@@ -413,7 +413,7 @@ Laravel provides a number of powerful validation rules. However, it's very likel
 
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{
-	    return $value == 'awesome';
+			return $value == 'awesome';
 	});
 
 In this example we're registering a new validation rule with the validator. The rule receives three arguments. The first is the name of the attribute being validated, the second is the value of the attribute being validated, and the third is an array of parameters that were specified for the rule.
@@ -421,13 +421,13 @@ In this example we're registering a new validation rule with the validator. The 
 Here is how your custom validation rule looks when called:
 
 	$rules = array(
-    	'username' => 'required|awesome',
+			'username' => 'required|awesome',
 	);
 
 Of course, you will need to define an error message for your new rule. You can do this either in an ad-hoc messages array:
 
 	$messages = array(
-    	'awesome' => 'The attribute value must be awesome!',
+			'awesome' => 'The attribute value must be awesome!',
 	);
 
 	$validator = Validator::make(Input::get(), $rules, $messages);
@@ -441,14 +441,14 @@ As mentioned above, you may even specify and receive a list of parameters in you
 	// When building your rules array…
 
 	$rules = array(
-	    'username' => 'required|awesome:yes',
+			'username' => 'required|awesome:yes',
 	);
 
 	// In your custom rule…
 
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{
-	    return $value == $parameters[0];
+			return $value == $parameters[0];
 	});
 
 In this case, the parameters argument of your validation rule would receive an array containing one element: "yes".
@@ -473,13 +473,13 @@ Next, let's take our "awesome" rule and define it in our new class:
 
 	class Validator extends Laravel\Validator {
 
-	    public function validate_awesome($attribute, $value, $parameters)
-	    {
-	        return $value == 'awesome';
-	    }
+			public function validate_awesome($attribute, $value, $parameters)
+			{
+					return $value == 'awesome';
+			}
 
 	}
 
 Notice that the method is named using the **validate_rule** naming convention. The rule is named "awesome" so the method must be named "validate_awesome". This is one way in which registering your custom rules and extending the Validator class are different. Validator classes simply need to return true or false. That's it!
 
-Keep in mind that you'll still need to create a custom message for any validation rules that you create.  The method for doing so is the same no matter how you define your rule!
+Keep in mind that you'll still need to create a custom message for any validation rules that you create.	The method for doing so is the same no matter how you define your rule!

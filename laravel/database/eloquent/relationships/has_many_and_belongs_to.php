@@ -30,11 +30,11 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Create a new many to many relationship instance.
 	 *
-	 * @param  Model   $model
-	 * @param  string  $associated
-	 * @param  string  $table
-	 * @param  string  $foreign
-	 * @param  string  $other
+	 * @param	Model	 $model
+	 * @param	string	$associated
+	 * @param	string	$table
+	 * @param	string	$foreign
+	 * @param	string	$other
 	 * @return void
 	 */
 	public function __construct($model, $associated, $table, $foreign, $other)
@@ -85,14 +85,14 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record into the joining table of the association.
 	 *
-	 * @param  Model|int    $id
-	 * @param  array  $attributes
+	 * @param	Model|int		$id
+	 * @param	array	$attributes
 	 * @return bool
 	 */
 	public function attach($id, $attributes = array())
 	{
 		if ($id instanceof Model) $id = $id->get_key();
-		
+
 		$joining = array_merge($this->join_record($id), $attributes);
 
 		return $this->insert_joining($joining);
@@ -101,7 +101,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Detach a record from the joining table of the association.
 	 *
-	 * @param  array|Model|int   $ids
+	 * @param	array|Model|int	 $ids
 	 * @return bool
 	 */
 	public function detach($ids)
@@ -115,7 +115,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Sync the joining table with the array of given IDs.
 	 *
-	 * @param  array  $ids
+	 * @param	array	$ids
 	 * @return bool
 	 */
 	public function sync($ids)
@@ -148,8 +148,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record for the association.
 	 *
-	 * @param  Model|array  $attributes
-	 * @param  array        $joining
+	 * @param	Model|array	$attributes
+	 * @param	array				$joining
 	 * @return bool
 	 */
 	public function insert($attributes, $joining = array())
@@ -190,7 +190,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Create an array representing a new joining record for the association.
 	 *
-	 * @param  int    $id
+	 * @param	int		$id
 	 * @return array
 	 */
 	protected function join_record($id)
@@ -201,7 +201,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Insert a new record into the joining table of the association.
 	 *
-	 * @param  array  $attributes
+	 * @param	array	$attributes
 	 * @return void
 	 */
 	protected function insert_joining($attributes)
@@ -243,8 +243,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the SELECT clause on the query builder for the relationship.
 	 *
-	 * @param  string  $foreign
-	 * @param  string  $other
+	 * @param	string	$foreign
+	 * @param	string	$other
 	 * @return void
 	 */
 	protected function set_select($foreign, $other)
@@ -269,7 +269,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the JOIN clause on the query builder for the relationship.
 	 *
-	 * @param  string  $other
+	 * @param	string	$other
 	 * @return void
 	 */
 	protected function set_join($other)
@@ -282,7 +282,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the WHERE clause on the query builder for the relationship.
 	 *
-	 * @param  string  $foreign
+	 * @param	string	$foreign
 	 * @return void
 	 */
 	protected function set_where($foreign)
@@ -295,8 +295,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Initialize a relationship on an array of parent models.
 	 *
-	 * @param  array   $parents
-	 * @param  string  $relationship
+	 * @param	array	 $parents
+	 * @param	string	$relationship
 	 * @return void
 	 */
 	public function initialize(&$parents, $relationship)
@@ -310,7 +310,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the proper constraints on the relationship table for an eager load.
 	 *
-	 * @param  array  $results
+	 * @param	array	$results
 	 * @return void
 	 */
 	public function eagerly_constrain($results)
@@ -321,8 +321,8 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  array  $parents
-	 * @param  array  $children
+	 * @param	array	$parents
+	 * @param	array	$children
 	 * @return void
 	 */
 	public function match($relationship, &$parents, $children)
@@ -348,7 +348,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Hydrate the Pivot model on an array of results.
 	 *
-	 * @param  array  $results
+	 * @param	array	$results
 	 * @return void
 	 */
 	protected function hydrate_pivot(&$results)
@@ -385,7 +385,7 @@ class Has_Many_And_Belongs_To extends Relationship {
 	/**
 	 * Set the columns on the joining table that should be fetched.
 	 *
-	 * @param  array         $column
+	 * @param	array				 $column
 	 * @return Relationship
 	 */
 	public function with($columns)

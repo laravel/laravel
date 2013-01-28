@@ -30,9 +30,9 @@ Open up Windows Explorer and create a new directory where you can make developme
 
 - Right-click the Laravel directory to bring up the context menu. Click on **Git Clone…**
 - Git clone
-  - **Url:** https://github.com/laravel/laravel.git
-  - **Directory:** the directory that you just created in the previous step
-  - Click **OK**
+	- **Url:** https://github.com/laravel/laravel.git
+	- **Directory:** the directory that you just created in the previous step
+	- Click **OK**
 
 > **Note**: The reason you are cloning the original Laravel repository (and not the fork you made) is so you can always pull down the most recent changes from the Laravel repository to your local repository.
 
@@ -43,10 +43,10 @@ After the cloning process is complete, it's time to add the fork you made as a *
 
 - Right-click the Laravel directory and goto **TortoiseGit > Settings**
 - Goto the **Git/Remote** section. Add a new remote:
-  - **Remote**: fork
-  - **URL**: https://github.com/username/laravel.git
-  - Click **Add New/Save**
-  - Click **OK**
+	- **Remote**: fork
+	- **URL**: https://github.com/username/laravel.git
+	- Click **Add New/Save**
+	- Click **OK**
 
 Remember to replace *username* with your GitHub username. *This is case-sensitive*.
 
@@ -56,11 +56,11 @@ Remember to replace *username* with your GitHub username. *This is case-sensitiv
 Now you are ready to create a new branch for your new feature or bug-fix. When you create a new branch, use a self-descriptive naming convention. For example, if you are going to fix a bug in Eloquent, name your branch *bug/eloquent*. Or if you were going to make changes to the localization documentation, name your branch *feature/localization-docs*. A good naming convention will encourage organization and help others understand the purpose of your branch.
 
 - Right-click the Laravel directory and goto **TortoiseGit > Create Branch**
-  - **Branch:** feature/localization-docs
-  - **Base On Branch:** remotes/origin/develop
-  - **Check** *Track*
-  - **Check** *Switch to new branch*
-  - Click **OK**
+	- **Branch:** feature/localization-docs
+	- **Base On Branch:** remotes/origin/develop
+	- **Check** *Track*
+	- **Check** *Switch to new branch*
+	- Click **OK**
 
 This will create your new *feature/localization-docs* branch and switch you to it.
 
@@ -73,12 +73,12 @@ Now that you have created your own branch and have switched to it, it's time to 
 
 Now that you have finished coding and testing your changes, it's time to commit them to your local repository:
 
--  Right-click the Laravel directory and goto **Git Commit -> "feature/localization-docs"…**
+-	Right-click the Laravel directory and goto **Git Commit -> "feature/localization-docs"…**
 - Commit
-  - **Message:** Provide a brief explaination of what you added or changed
-  - Click **Sign** - This tells the Laravel team know that you personally agree to your code being added to the Laravel core
-  - **Changes made:** Check all changed/added files
-  - Click **OK**
+	- **Message:** Provide a brief explaination of what you added or changed
+	- Click **Sign** - This tells the Laravel team know that you personally agree to your code being added to the Laravel core
+	- **Changes made:** Check all changed/added files
+	- Click **OK**
 
 <a name="pushing-to-your-fork"></a>
 ## Pushing to your Fork
@@ -87,12 +87,12 @@ Now that your local repository has your committed changes, it's time to push (or
 
 - Right-click the Laravel directory and goto **Git Sync…**
 - Git Syncronization
-  - **Local Branch:** feature/localization-docs
-  - **Remote Branch:** leave this blank
-  - **Remote URL:** fork
-  - Click **Push**
-  - When asked for "username:" enter your GitHub *case-sensitive* username
-  - When asked for "password:" enter your GitHub *case-sensitive* account
+	- **Local Branch:** feature/localization-docs
+	- **Remote Branch:** leave this blank
+	- **Remote URL:** fork
+	- Click **Push**
+	- When asked for "username:" enter your GitHub *case-sensitive* username
+	- When asked for "password:" enter your GitHub *case-sensitive* account
 
 Your branch has been successfully pushed to your fork on GitHub.
 

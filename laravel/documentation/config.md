@@ -12,7 +12,7 @@
 Sometimes you may need to get and set configuration options at runtime. For this you'll use the **Config** class, which utilizes Laravel's "dot" syntax for accessing configuration files and items.
 
 <a name="retrieving-options"></a>
-##  Retrieving Options
+##	Retrieving Options
 
 #### Retrieve a configuration option:
 

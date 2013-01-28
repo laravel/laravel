@@ -14,7 +14,7 @@ class Resolver {
 	/**
 	 * Create a new instance of the migration resolver.
 	 *
-	 * @param  Database  $database
+	 * @param	Database	$database
 	 * @return void
 	 */
 	public function __construct(Database $database)
@@ -25,7 +25,7 @@ class Resolver {
 	/**
 	 * Resolve all of the outstanding migrations for a bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return array
 	 */
 	public function outstanding($bundle = null)
@@ -82,7 +82,7 @@ class Resolver {
 	/**
 	 * Resolve an array of migration instances.
 	 *
-	 * @param  array  $migrations
+	 * @param	array	$migrations
 	 * @return array
 	 */
 	protected function resolve($migrations)
@@ -141,7 +141,7 @@ class Resolver {
 	/**
 	 * Grab all of the migration filenames for a bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return array
 	 */
 	protected function migrations($bundle)

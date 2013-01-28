@@ -14,7 +14,7 @@ class Memory extends Driver {
 	 *
 	 * If no session is found for the ID, null will be returned.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return array
 	 */
 	public function load($id)
@@ -25,9 +25,9 @@ class Memory extends Driver {
 	/**
 	 * Save a given session to storage.
 	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @param  bool   $exists
+	 * @param	array	$session
+	 * @param	array	$config
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	public function save($session, $config, $exists)
@@ -38,7 +38,7 @@ class Memory extends Driver {
 	/**
 	 * Delete a session from storage by a given ID.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	public function delete($id)

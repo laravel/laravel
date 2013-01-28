@@ -13,13 +13,13 @@ class Messages {
 	 * Default format for message output.
 	 *
 	 * @var string
-	 */	
+	 */
 	public $format = ':message';
 
 	/**
 	 * Create a new Messages instance.
 	 *
-	 * @param  array  $messages
+	 * @param	array	$messages
 	 * @return void
 	 */
 	public function __construct($messages = array())
@@ -35,8 +35,8 @@ class Messages {
 	 *		$messages->add('email', 'The e-mail address is invalid.');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  string  $message
+	 * @param	string	$key
+	 * @param	string	$message
 	 * @return void
 	 */
 	public function add($key, $message)
@@ -47,8 +47,8 @@ class Messages {
 	/**
 	 * Determine if a key and message combination already exists.
 	 *
-	 * @param  string  $key
-	 * @param  string  $message
+	 * @param	string	$key
+	 * @param	string	$message
 	 * @return bool
 	 */
 	protected function unique($key, $message)
@@ -67,7 +67,7 @@ class Messages {
 	 *		echo $messages->has();
 	 * </code>
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key = null)
@@ -83,7 +83,7 @@ class Messages {
 	 *		$messages->format('email', '<p>this is my :message</p>');
 	 * </code>
 	 *
-	 * @param  string  $format
+	 * @param	string	$format
 	 */
 	public function format($format = ':message')
 	{
@@ -104,8 +104,8 @@ class Messages {
 	 *		echo $messages->first('email', '<p>:message</p>');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  string  $format
+	 * @param	string	$key
+	 * @param	string	$format
 	 * @return string
 	 */
 	public function first($key = null, $format = null)
@@ -128,8 +128,8 @@ class Messages {
 	 *		echo $messages->get('email', '<p>:message</p>');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  string  $format
+	 * @param	string	$key
+	 * @param	string	$format
 	 * @return array
 	 */
 	public function get($key, $format = null)
@@ -155,7 +155,7 @@ class Messages {
 	 *		$all = $messages->all('<p>:message</p>');
 	 * </code>
 	 *
-	 * @param  string  $format
+	 * @param	string	$format
 	 * @return array
 	 */
 	public function all($format = null)
@@ -175,8 +175,8 @@ class Messages {
 	/**
 	 * Format an array of messages.
 	 *
-	 * @param  array   $messages
-	 * @param  string  $format
+	 * @param	array	 $messages
+	 * @param	string	$format
 	 * @return array
 	 */
 	protected function transform($messages, $format)

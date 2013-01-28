@@ -32,7 +32,7 @@ class URL {
 	/**
 	 * Get the URL for the application root.
 	 *
-	 * @param  bool    $https
+	 * @param	bool		$https
 	 * @return string
 	 */
 	public static function home($https = null)
@@ -87,10 +87,10 @@ class URL {
 	 *		$url = URL::to('user/profile', true);
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  bool    $https
-	 * @param  bool    $asset
-	 * @param  bool    $locale
+	 * @param	string	$url
+	 * @param	bool		$https
+	 * @param	bool		$asset
+	 * @param	bool		$locale
 	 * @return string
 	 */
 	public static function to($url = '', $https = null, $asset = false, $locale = true)
@@ -104,7 +104,7 @@ class URL {
 		}
 
 		// Unless $https is specified (true or false), we maintain the current request
-		// security for any new links generated.  So https for all secure links.
+		// security for any new links generated.	So https for all secure links.
 		if (is_null($https)) $https = Request::secure();
 
 		$root = static::base();
@@ -142,7 +142,7 @@ class URL {
 	/**
 	 * Generate an application URL with HTTPS.
 	 *
-	 * @param  string  $url
+	 * @param	string	$url
 	 * @return string
 	 */
 	public static function to_secure($url = '')
@@ -161,8 +161,8 @@ class URL {
 	 *		$url = URL::to_action('user@profile', array('taylor'));
 	 * </code>
 	 *
-	 * @param  string  $action
-	 * @param  array   $parameters
+	 * @param	string	$action
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	public static function to_action($action, $parameters = array())
@@ -188,9 +188,9 @@ class URL {
 	/**
 	 * Generate an action URL from a route definition
 	 *
-	 * @param  array   $route
-	 * @param  string  $action
-	 * @param  array   $parameters
+	 * @param	array	 $route
+	 * @param	string	$action
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected static function explicit($route, $action, $parameters)
@@ -203,8 +203,8 @@ class URL {
 	/**
 	 * Generate an action URI by convention.
 	 *
-	 * @param  string  $action
-	 * @param  array   $parameters
+	 * @param	string	$action
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected static function convention($action, $parameters)
@@ -233,8 +233,8 @@ class URL {
 	/**
 	 * Generate an application URL to an asset.
 	 *
-	 * @param  string  $url
-	 * @param  bool    $https
+	 * @param	string	$url
+	 * @param	bool		$https
 	 * @return string
 	 */
 	public static function to_asset($url, $https = null)
@@ -273,8 +273,8 @@ class URL {
 	 *		$url = URL::to_route('profile', array($username));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  array   $parameters
+	 * @param	string	$name
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	public static function to_route($name, $parameters = array())
@@ -297,9 +297,9 @@ class URL {
 	/**
 	 * Get the URL to switch language, keeping the current page or not
 	 *
-	 * @param  string  $language  The new language
-	 * @param  boolean $reset     Whether navigation should be reset
-	 * @return string             An URL
+	 * @param	string	$language	The new language
+	 * @param	boolean $reset		 Whether navigation should be reset
+	 * @return string						 An URL
 	 */
 	public static function to_language($language, $reset = false)
 	{
@@ -314,7 +314,7 @@ class URL {
 
 		// Get the language we're switching from and the one we're going to
 		$from = '/'.Config::get('application.language').'/';
-		$to   = '/'.$language.'/';
+		$to	 = '/'.$language.'/';
 
 		return str_replace($from, $to, $url);
 	}
@@ -322,8 +322,8 @@ class URL {
 	/**
 	 * Substitute the parameters in a given URI.
 	 *
-	 * @param  string  $uri
-	 * @param  array   $parameters
+	 * @param	string	$uri
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	public static function transpose($uri, $parameters)
@@ -350,7 +350,7 @@ class URL {
 	/**
 	 * Determine if the given URL is valid.
 	 *
-	 * @param  string  $url
+	 * @param	string	$url
 	 * @return bool
 	 */
 	public static function valid($url)

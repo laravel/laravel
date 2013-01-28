@@ -61,10 +61,10 @@ class Route {
 	/**
 	 * Create a new Route instance.
 	 *
-	 * @param  string  $method
-	 * @param  string  $uri
-	 * @param  array   $action
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	string	$uri
+	 * @param	array	 $action
+	 * @param	array	 $parameters
 	 */
 	public function __construct($method, $uri, $action, $parameters = array())
 	{
@@ -86,8 +86,8 @@ class Route {
 	/**
 	 * Set the parameters array to the correct value.
 	 *
-	 * @param  array   $action
-	 * @param  array   $parameters
+	 * @param	array	 $action
+	 * @param	array	 $parameters
 	 * @return void
 	 */
 	protected function parameters($action, $parameters)
@@ -167,7 +167,7 @@ class Route {
 	/**
 	 * Get the filters that are attached to the route for a given event.
 	 *
-	 * @param  string  $event
+	 * @param	string	$event
 	 * @return array
 	 */
 	protected function filters($event)
@@ -262,7 +262,7 @@ class Route {
 	 *		$login = Request::route()->is('login');
 	 * </code>
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return bool
 	 */
 	public function is($name)
@@ -273,8 +273,8 @@ class Route {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controllers
-	 * @param  string|array  $defaults
+	 * @param	string|array	$controllers
+	 * @param	string|array	$defaults
 	 * @return void
 	 */
 	public static function controller($controllers, $defaults = 'index')
@@ -285,8 +285,8 @@ class Route {
 	/**
 	 * Register a secure controller with the router.
 	 *
-	 * @param  string|array  $controllers
-	 * @param  string|array  $defaults
+	 * @param	string|array	$controllers
+	 * @param	string|array	$defaults
 	 * @return void
 	 */
 	public static function secure_controller($controllers, $defaults = 'index')
@@ -297,8 +297,8 @@ class Route {
 	/**
 	 * Register a GET route with the router.
 	 *
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function get($route, $action)
@@ -309,8 +309,8 @@ class Route {
 	/**
 	 * Register a POST route with the router.
 	 *
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function post($route, $action)
@@ -321,8 +321,8 @@ class Route {
 	/**
 	 * Register a PUT route with the router.
 	 *
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function put($route, $action)
@@ -333,8 +333,8 @@ class Route {
 	/**
 	 * Register a DELETE route with the router.
 	 *
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function delete($route, $action)
@@ -345,8 +345,8 @@ class Route {
 	/**
 	 * Register a route that handles any request method.
 	 *
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function any($route, $action)
@@ -357,8 +357,8 @@ class Route {
 	/**
 	 * Register a group of routes that share attributes.
 	 *
-	 * @param  array    $attributes
-	 * @param  Closure  $callback
+	 * @param	array		$attributes
+	 * @param	Closure	$callback
 	 * @return void
 	 */
 	public static function group($attributes, Closure $callback)
@@ -369,8 +369,8 @@ class Route {
 	/**
 	 * Register many request URIs to a single action.
 	 *
-	 * @param  array  $routes
-	 * @param  mixed  $action
+	 * @param	array	$routes
+	 * @param	mixed	$action
 	 * @return void
 	 */
 	public static function share($routes, $action)
@@ -381,9 +381,9 @@ class Route {
 	/**
 	 * Register a HTTPS route with the router.
 	 *
-	 * @param  string        $method
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string				$method
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function secure($method, $route, $action)
@@ -394,8 +394,8 @@ class Route {
 	/**
 	 * Register a route filter.
 	 *
-	 * @param  string  $name
-	 * @param  mixed   $callback
+	 * @param	string	$name
+	 * @param	mixed	 $callback
 	 * @return void
 	 */
 	public static function filter($name, $callback)
@@ -406,8 +406,8 @@ class Route {
 	/**
 	 * Calls the specified route and returns its response.
 	 *
-	 * @param  string    $method
-	 * @param  string    $uri
+	 * @param	string		$method
+	 * @param	string		$uri
 	 * @return Response
 	 */
 	public static function forward($method, $uri)

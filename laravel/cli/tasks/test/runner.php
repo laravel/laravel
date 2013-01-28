@@ -11,7 +11,7 @@ class Runner extends Task {
 	 * The base directory where the tests will be executed.
 	 *
 	 * A phpunit.xml should also be stored in that directory.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $base_path;
@@ -19,7 +19,7 @@ class Runner extends Task {
 	/**
 	 * Run all of the unit tests for the application.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function run($bundles = array())
@@ -45,7 +45,7 @@ class Runner extends Task {
 	/**
 	 * Run the tests for a given bundle.
 	 *
-	 * @param  array  $bundles
+	 * @param	array	$bundles
 	 * @return void
 	 */
 	public function bundle($bundles = array())
@@ -67,7 +67,7 @@ class Runner extends Task {
 			{
 				$this->stub($path);
 
-				$this->test();				
+				$this->test();
 			}
 		}
 	}
@@ -83,7 +83,7 @@ class Runner extends Task {
 		// pointing to our requested configuration file. This allows
 		// us to flexibly run tests for any setup.
 		$path = 'phpunit.xml';
-		
+
 		// fix the spaced directories problem when using the command line
 		// strings with spaces inside should be wrapped in quotes.
 		$esc_path = escapeshellarg($path);
@@ -99,7 +99,7 @@ class Runner extends Task {
 	/**
 	 * Write a stub phpunit.xml file to the base directory.
 	 *
-	 * @param  string  $directory
+	 * @param	string	$directory
 	 * @return void
 	 */
 	protected function stub($directory)
@@ -122,8 +122,8 @@ class Runner extends Task {
 	/**
 	 * Swap the bootstrap file in the stub.
 	 *
-	 * @param  string  $stub
-	 * @param  string  $directory
+	 * @param	string	$stub
+	 * @param	string	$directory
 	 * @return string
 	 */
 	protected function swap_bootstrap($stub, $directory)
@@ -134,8 +134,8 @@ class Runner extends Task {
 	/**
 	 * Swap the directory in the stub.
 	 *
-	 * @param  string  $stub
-	 * @param  string  $directory
+	 * @param	string	$stub
+	 * @param	string	$directory
 	 * @return string
 	 */
 	protected function swap_directory($stub, $directory)

@@ -16,15 +16,15 @@ class URITest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Set this request's URI to the given string
-	 * 
-	 * @param string  $uri
+	 *
+	 * @param string	$uri
 	 */
 	protected function setRequestUri($uri)
 	{
 		// FIXME: Ugly hack, but old contents from previous requests seem to
 		// trip up the Foundation class.
 		$_FILES = array();
-		
+
 		$_SERVER['REQUEST_URI'] = $uri;
 		Request::$foundation = RequestFoundation::createFromGlobals();
 	}

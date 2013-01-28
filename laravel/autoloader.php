@@ -42,7 +42,7 @@ class Autoloader {
 	 *
 	 * This method is registered in the bootstrap file as an SPL auto-loader.
 	 *
-	 * @param  string  $class
+	 * @param	string	$class
 	 * @return void
 	 */
 	public static function load($class)
@@ -82,9 +82,9 @@ class Autoloader {
 	/**
 	 * Load a namespaced class from a given directory.
 	 *
-	 * @param  string  $class
-	 * @param  string  $namespace
-	 * @param  string  $directory
+	 * @param	string	$class
+	 * @param	string	$namespace
+	 * @param	string	$directory
 	 * @return void
 	 */
 	protected static function load_namespaced($class, $namespace, $directory)
@@ -95,8 +95,8 @@ class Autoloader {
 	/**
 	 * Attempt to resolve a class using the PSR-0 standard.
 	 *
-	 * @param  string  $class
-	 * @param  string  $directory
+	 * @param	string	$class
+	 * @param	string	$directory
 	 * @return void
 	 */
 	protected static function load_psr($class, $directory = null)
@@ -129,7 +129,7 @@ class Autoloader {
 	/**
 	 * Register an array of class to path mappings.
 	 *
-	 * @param  array  $mappings
+	 * @param	array	$mappings
 	 * @return void
 	 */
 	public static function map($mappings)
@@ -140,8 +140,8 @@ class Autoloader {
 	/**
 	 * Register a class alias with the auto-loader.
 	 *
-	 * @param  string  $class
-	 * @param  string  $alias
+	 * @param	string	$class
+	 * @param	string	$alias
 	 * @return void
 	 */
 	public static function alias($class, $alias)
@@ -152,7 +152,7 @@ class Autoloader {
 	/**
 	 * Register directories to be searched as a PSR-0 library.
 	 *
-	 * @param  string|array  $directory
+	 * @param	string|array	$directory
 	 * @return void
 	 */
 	public static function directories($directory)
@@ -165,8 +165,8 @@ class Autoloader {
 	/**
 	 * Map namespaces to directories.
 	 *
-	 * @param  array   $mappings
-	 * @param  string  $append
+	 * @param	array	 $mappings
+	 * @param	string	$append
 	 * @return void
 	 */
 	public static function namespaces($mappings, $append = '\\')
@@ -179,7 +179,7 @@ class Autoloader {
 	/**
 	 * Register underscored "namespaces" to directory mappings.
 	 *
-	 * @param  array  $mappings
+	 * @param	array	$mappings
 	 * @return void
 	 */
 	public static function underscored($mappings)
@@ -190,8 +190,8 @@ class Autoloader {
 	/**
 	 * Format an array of namespace to directory mappings.
 	 *
-	 * @param  array   $mappings
-	 * @param  string  $append
+	 * @param	array	 $mappings
+	 * @param	string	$append
 	 * @return array
 	 */
 	protected static function format_mappings($mappings, $append)
@@ -214,7 +214,7 @@ class Autoloader {
 	/**
 	 * Format an array of directories with the proper trailing slashes.
 	 *
-	 * @param  array  $directories
+	 * @param	array	$directories
 	 * @return array
 	 */
 	protected static function format($directories)
@@ -222,7 +222,7 @@ class Autoloader {
 		return array_map(function($directory)
 		{
 			return rtrim($directory, DS).DS;
-		
+
 		}, (array) $directories);
 	}
 

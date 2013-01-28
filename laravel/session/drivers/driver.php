@@ -7,7 +7,7 @@ abstract class Driver {
 	 *
 	 * If no session is found for the ID, null will be returned.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return array
 	 */
 	abstract public function load($id);
@@ -15,9 +15,9 @@ abstract class Driver {
 	/**
 	 * Save a given session to storage.
 	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @param  bool   $exists
+	 * @param	array	$session
+	 * @param	array	$config
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	abstract public function save($session, $config, $exists);
@@ -25,7 +25,7 @@ abstract class Driver {
 	/**
 	 * Delete a session from storage by a given ID.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	abstract public function delete($id);
@@ -68,7 +68,7 @@ abstract class Driver {
 		// going to happen on the first iteration.
 		do {
 
-			$session = $this->load($id = Str::random(40));			
+			$session = $this->load($id = Str::random(40));
 
 		} while ( ! is_null($session));
 

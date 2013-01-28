@@ -39,7 +39,7 @@ You now have a fluent query builder for the "users" table. Using this query buil
 #### Retrieving a single record from the database:
 
 	$user = DB::table('users')->first();
-	
+
 #### Retrieving a single record by its primary key:
 
 	$user = DB::table('users')->find($id);
@@ -56,7 +56,7 @@ You now have a fluent query builder for the "users" table. Using this query buil
 
 #### Retrieving an array with the values of a given column:
 
-    $users = DB::table('users')->take(10)->lists('email', 'id');
+		$users = DB::table('users')->take(10)->lists('email', 'id');
 
 > **Note:** Second parameter is optional
 
@@ -124,8 +124,8 @@ The suite of **where_null** methods makes checking for NULL values a piece of ca
 ### where\_between, where\_not\_between, or\_where\_between, and or\_where\_not\_between
 
 The suite of **where_between** methods makes checking if values fall BETWEEN a minimum and maximum super easy :
-	
-	return DB::table('users')->where_between($column, $min, $max)->get();	
+
+	return DB::table('users')->where_between($column, $min, $max)->get();
 
 	return DB::table('users')->where_between('updated_at', '2000-10-10', '2012-10-10')->get();
 

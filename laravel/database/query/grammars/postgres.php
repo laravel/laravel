@@ -7,9 +7,9 @@ class Postgres extends Grammar {
 	/**
 	 * Compile a SQL INSERT and get ID statement from a Query instance.
 	 *
-	 * @param  Query   $query
-	 * @param  array   $values
-	 * @param  string  $column
+	 * @param	Query	 $query
+	 * @param	array	 $values
+	 * @param	string	$column
 	 * @return string
 	 */
 	public function insert_get_id(Query $query, $values, $column)

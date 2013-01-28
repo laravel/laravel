@@ -35,8 +35,8 @@ class Connection {
 	/**
 	 * Create a new database connection instance.
 	 *
-	 * @param  PDO    $pdo
-	 * @param  array  $config
+	 * @param	PDO		$pdo
+	 * @param	array	$config
 	 * @return void
 	 */
 	public function __construct(PDO $pdo, $config)
@@ -56,7 +56,7 @@ class Connection {
 	 *		$users = DB::connection()->table('users')->get();
 	 * </code>
 	 *
-	 * @param  string  $table
+	 * @param	string	$table
 	 * @return Query
 	 */
 	public function table($table)
@@ -100,7 +100,7 @@ class Connection {
 	/**
 	 * Execute a callback wrapped in a database transaction.
 	 *
-	 * @param  callback  $callback
+	 * @param	callback	$callback
 	 * @return bool
 	 */
 	public function transaction($callback)
@@ -135,8 +135,8 @@ class Connection {
 	 *		$sum = DB::connection()->only('select sum(amount) from payments')
 	 * </code>
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
+	 * @param	string	$sql
+	 * @param	array	 $bindings
 	 * @return mixed
 	 */
 	public function only($sql, $bindings = array())
@@ -157,8 +157,8 @@ class Connection {
 	 *		$user = DB::connection()->first('select * from users where id = ?', array($id));
 	 * </code>
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
+	 * @param	string	$sql
+	 * @param	array	 $bindings
 	 * @return object
 	 */
 	public function first($sql, $bindings = array())
@@ -172,8 +172,8 @@ class Connection {
 	/**
 	 * Execute a SQL query and return an array of StdClass objects.
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
+	 * @param	string	$sql
+	 * @param	array	 $bindings
 	 * @return array
 	 */
 	public function query($sql, $bindings = array())
@@ -211,8 +211,8 @@ class Connection {
 	 *
 	 * The PDO statement and boolean result will be returned in an array.
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
+	 * @param	string	$sql
+	 * @param	array	 $bindings
 	 * @return array
 	 */
 	protected function execute($sql, $bindings = array())
@@ -279,8 +279,8 @@ class Connection {
 	/**
 	 * Fetch all of the rows for a given statement.
 	 *
-	 * @param  PDOStatement  $statement
-	 * @param  int           $style
+	 * @param	PDOStatement	$statement
+	 * @param	int					 $style
 	 * @return array
 	 */
 	protected function fetch($statement, $style)
@@ -301,9 +301,9 @@ class Connection {
 	/**
 	 * Log the query and fire the core query event.
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
-	 * @param  int     $start
+	 * @param	string	$sql
+	 * @param	array	 $bindings
+	 * @param	int		 $start
 	 * @return void
 	 */
 	protected function log($sql, $bindings, $start)

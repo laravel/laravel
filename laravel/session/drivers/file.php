@@ -12,7 +12,7 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Create a new File session driver instance.
 	 *
-	 * @param  string        $path
+	 * @param	string				$path
 	 * @return void
 	 */
 	public function __construct($path)
@@ -25,7 +25,7 @@ class File extends Driver implements Sweeper {
 	 *
 	 * If no session is found for the ID, null will be returned.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return array
 	 */
 	public function load($id)
@@ -39,9 +39,9 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Save a given session to storage.
 	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @param  bool   $exists
+	 * @param	array	$session
+	 * @param	array	$config
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	public function save($session, $config, $exists)
@@ -52,7 +52,7 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Delete a session from storage by a given ID.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	public function delete($id)
@@ -66,7 +66,7 @@ class File extends Driver implements Sweeper {
 	/**
 	 * Delete all expired sessions from persistent storage.
 	 *
-	 * @param  int   $expiration
+	 * @param	int	 $expiration
 	 * @return void
 	 */
 	public function sweep($expiration)
@@ -83,5 +83,5 @@ class File extends Driver implements Sweeper {
 			}
 		}
 	}
-	
+
 }

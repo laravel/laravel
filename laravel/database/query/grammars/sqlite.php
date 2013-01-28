@@ -8,7 +8,7 @@ class SQLite extends Grammar
 	/**
 	 * Compile the ORDER BY clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function orderings(Query $query)
@@ -26,8 +26,8 @@ class SQLite extends Grammar
 	 *
 	 * This method handles the compilation of single row inserts and batch inserts.
 	 *
-	 * @param  Query   $query
-	 * @param  array   $values
+	 * @param	Query	 $query
+	 * @param	array	 $values
 	 * @return string
 	 */
 	public function insert(Query $query, $values)

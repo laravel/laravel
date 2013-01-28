@@ -6,7 +6,7 @@ use Laravel\File;
 class Help extends Task {
 
 	/**
-	 * List available artisan commands. 
+	 * List available artisan commands.
 	 *
 	 * @return void
 	 */

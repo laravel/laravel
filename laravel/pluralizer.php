@@ -24,7 +24,7 @@ class Pluralizer {
 	/**
 	 * Create a new pluralizer instance.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return void
 	 */
 	public function __construct($config)
@@ -35,7 +35,7 @@ class Pluralizer {
 	/**
 	 * Get the singular form of the given word.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public function singular($value)
@@ -61,8 +61,8 @@ class Pluralizer {
 	/**
 	 * Get the plural form of the given word.
 	 *
-	 * @param  string  $value
-	 * @param  int     $count
+	 * @param	string	$value
+	 * @param	int		 $count
 	 * @return string
 	 */
 	public function plural($value, $count = 2)
@@ -90,9 +90,9 @@ class Pluralizer {
 	/**
 	 * Perform auto inflection on an English word.
 	 *
-	 * @param  string  $value
-	 * @param  array   $source
-	 * @param  array   $irregular
+	 * @param	string	$value
+	 * @param	array	 $source
+	 * @param	array	 $irregular
 	 * @return string
 	 */
 	protected function auto($value, $source, $irregular)

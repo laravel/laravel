@@ -163,10 +163,10 @@ Optionally you can register filters directly when attaching filters to a given U
 
 #### Defining a filter and URI pattern based filter in one:
 
-    Route::filter('pattern: admin/*', array('name' => 'auth', function()
-    {
-        // 
-    }));
+		Route::filter('pattern: admin/*', array('name' => 'auth', function()
+		{
+				//
+		}));
 
 <a name="global-filters"></a>
 ## Global Filters

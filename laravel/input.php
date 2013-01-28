@@ -35,7 +35,7 @@ class Input {
 	 *
 	 * If the input item is an empty string, false will be returned.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public static function has($key)
@@ -56,8 +56,8 @@ class Input {
 	 *		$email = Input::get('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public static function get($key = null, $default = null)
@@ -90,8 +90,8 @@ class Input {
 	 *		$email = Input::query('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public static function query($key = null, $default = null)
@@ -102,7 +102,7 @@ class Input {
 	/**
 	 * Get the JSON payload for the request.
 	 *
-	 * @param  bool    $as_array
+	 * @param	bool		$as_array
 	 * @return object
 	 */
 	public static function json($as_array = false)
@@ -123,7 +123,7 @@ class Input {
 	 *		$input = Input::only(array('username', 'email'));
 	 * </code>
 	 *
-	 * @param  array  $keys
+	 * @param	array	$keys
 	 * @return array
 	 */
 	public static function only($keys)
@@ -142,7 +142,7 @@ class Input {
 	 *		$input = Input::except(array('username', 'email'));
 	 * </code>
 	 *
-	 * @param  array  $keys
+	 * @param	array	$keys
 	 * @return array
 	 */
 	public static function except($keys)
@@ -153,7 +153,7 @@ class Input {
 	/**
 	 * Determine if the old input data contains an item.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public static function had($key)
@@ -172,8 +172,8 @@ class Input {
 	 *		$email = Input::old('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string          $key
-	 * @param  mixed           $default
+	 * @param	string					$key
+	 * @param	mixed					 $default
 	 * @return string
 	 */
 	public static function old($key = null, $default = null)
@@ -189,8 +189,8 @@ class Input {
 	 *		$picture = Input::file('picture');
 	 * </code>
 	 *
-	 * @param  string        $key
-	 * @param  mixed         $default
+	 * @param	string				$key
+	 * @param	mixed				 $default
 	 * @return UploadedFile
 	 */
 	public static function file($key = null, $default = null)
@@ -201,7 +201,7 @@ class Input {
 	/**
 	 * Determine if the uploaded data contains a file.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public static function has_file($key)
@@ -219,9 +219,9 @@ class Input {
 	 *		Input::upload('picture', 'path/to/photos', 'picture.jpg');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  string  $directory
-	 * @param  string  $name
+	 * @param	string	$key
+	 * @param	string	$directory
+	 * @param	string	$name
 	 * @return Symfony\Component\HttpFoundation\File\File
 	 */
 	public static function upload($key, $directory, $name = null)
@@ -245,8 +245,8 @@ class Input {
 	 *		Input::flash('except', array('password', 'social_number'));
 	 * </code>
 	 *
-	 * @param  string  $filter
-	 * @param  array   $keys
+	 * @param	string	$filter
+	 * @param	array	 $keys
 	 * @return void
 	 */
 	public static function flash($filter = null, $keys = array())
@@ -269,7 +269,7 @@ class Input {
 	/**
 	 * Merge new input into the current request's input array.
 	 *
-	 * @param  array  $input
+	 * @param	array	$input
 	 * @return void
 	 */
 	public static function merge(array $input)
@@ -280,7 +280,7 @@ class Input {
 	/**
 	 * Replace the input for the current request.
 	 *
-	 * @param  array  $input
+	 * @param	array	$input
 	 * @return void
 	 */
 	public static function replace(array $input)

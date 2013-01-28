@@ -36,8 +36,8 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Set one of the $_SERVER variables.
 	 *
-	 * @param string  $key
-	 * @param string  $value
+	 * @param string	$key
+	 * @param string	$value
 	 */
 	protected function setServerVar($key, $value)
 	{
@@ -48,7 +48,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Reinitialize the global request.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function restartRequest()
@@ -99,7 +99,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 		Cookie::forever('foo', 'bar');
 		$this->assertEquals(Cookie::hash('bar').'+bar', Cookie::$jar['foo']['value']);
 
-		// Shouldn't be able to test this cause while we indicate -2000 seconds 
+		// Shouldn't be able to test this cause while we indicate -2000 seconds
 		// cookie expiration store timestamp.
 		// $this->assertEquals(525600, Cookie::$jar['foo']['expiration']);
 
@@ -122,7 +122,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase {
 	{
 		Cookie::forget('bar', 'path', 'domain');
 
-		// Shouldn't be able to test this cause while we indicate -2000 seconds 
+		// Shouldn't be able to test this cause while we indicate -2000 seconds
 		// cookie expiration store timestamp.
 		//$this->assertEquals(-2000, Cookie::$jar['bar']['expiration']);
 

@@ -36,7 +36,7 @@ Laravel even provides a simple way to determine if a session item exists using t
 
 	if (Session::has('name'))
 	{
-	     $name = Session::get('name');
+			 $name = Session::get('name');
 	}
 
 <a name="forget"></a>
@@ -56,19 +56,19 @@ You can even remove all of the items from the session using the **flush** method
 The **flash** method stores an item in the session that will expire after the next request. It's useful for storing temporary data like status or error messages:
 
 	Session::flash('status', 'Welcome Back!');
-	
+
 Flash items that are expiring in subsequent requests can be retained for another request by using one of the **reflash** or **keep** methods:
 
 Retain all items for another request:
 
 	Session::reflash();
-	
+
 Retain an individual item for another request:
-	
+
 	Session::keep('status');
-	
+
 Retain several items for another request:
-	
+
 	Session::keep(array('status', 'other_item'));
 
 <a name="regeneration"></a>

@@ -19,8 +19,8 @@ class HTML {
 	/**
 	 * Registers a custom macro.
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $macro
+	 * @param	string	 $name
+	 * @param	Closure	$macro
 	 * @return void
 	 */
 	public static function macro($name, $macro)
@@ -33,7 +33,7 @@ class HTML {
 	 *
 	 * The encoding specified in the application configuration file will be used.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function entities($value)
@@ -44,7 +44,7 @@ class HTML {
 	/**
 	 * Convert entities to HTML characters.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function decode($value)
@@ -57,7 +57,7 @@ class HTML {
 	 *
 	 * The encoding specified in the application configuration file will be used.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function specialchars($value)
@@ -76,8 +76,8 @@ class HTML {
 	 *		echo HTML::script('js/jquery.js', array('defer'));
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function script($url, $attributes = array())
@@ -100,8 +100,8 @@ class HTML {
 	 *		echo HTML::style('css/common.css', array('media' => 'print'));
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function style($url, $attributes = array())
@@ -118,8 +118,8 @@ class HTML {
 	/**
 	 * Generate a HTML span.
 	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function span($value, $attributes = array())
@@ -138,10 +138,10 @@ class HTML {
 	 *		echo HTML::link('http://google.com', 'Google');
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  string  $title
-	 * @param  array   $attributes
-	 * @param  bool    $https
+	 * @param	string	$url
+	 * @param	string	$title
+	 * @param	array	 $attributes
+	 * @param	bool		$https
 	 * @return string
 	 */
 	public static function link($url, $title = null, $attributes = array(), $https = null)
@@ -156,9 +156,9 @@ class HTML {
 	/**
 	 * Generate a HTTPS HTML link.
 	 *
-	 * @param  string  $url
-	 * @param  string  $title
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	string	$title
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function link_to_secure($url, $title = null, $attributes = array())
@@ -171,16 +171,16 @@ class HTML {
 	 *
 	 * The application index page will not be added to asset links.
 	 *
-	 * @param  string  $url
-	 * @param  string  $title
-	 * @param  array   $attributes
-	 * @param  bool    $https
+	 * @param	string	$url
+	 * @param	string	$title
+	 * @param	array	 $attributes
+	 * @param	bool		$https
 	 * @return string
 	 */
 	public static function link_to_asset($url, $title = null, $attributes = array(), $https = null)
 	{
 		$url = URL::to_asset($url, $https);
-		
+
 		if (is_null($title)) $title = $url;
 
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
@@ -189,9 +189,9 @@ class HTML {
 	/**
 	 * Generate an HTTPS HTML link to an asset.
 	 *
-	 * @param  string  $url
-	 * @param  string  $title
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	string	$title
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function link_to_secure_asset($url, $title = null, $attributes = array())
@@ -212,10 +212,10 @@ class HTML {
 	 *		echo HTML::link_to_route('profile', 'Profile', array('taylor'));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $title
-	 * @param  array   $parameters
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$title
+	 * @param	array	 $parameters
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function link_to_route($name, $title = null, $parameters = array(), $attributes = array())
@@ -236,10 +236,10 @@ class HTML {
 	 *		echo HTML::link_to_action('user@profile', 'Profile', array('taylor'));
 	 * </code>
 	 *
-	 * @param  string  $action
-	 * @param  string  $title
-	 * @param  array   $parameters
-	 * @param  array   $attributes
+	 * @param	string	$action
+	 * @param	string	$title
+	 * @param	array	 $parameters
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function link_to_action($action, $title = null, $parameters = array(), $attributes = array())
@@ -250,9 +250,9 @@ class HTML {
 	/**
 	 * Generate an HTML link to a different language
 	 *
-	 * @param  string  $language
-	 * @param  string  $title
-	 * @param  array   $attributes
+	 * @param	string	$language
+	 * @param	string	$title
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function link_to_language($language, $title = null, $attributes = array())
@@ -265,9 +265,9 @@ class HTML {
 	 *
 	 * The E-Mail address will be obfuscated to protect it from spam bots.
 	 *
-	 * @param  string  $email
-	 * @param  string  $title
-	 * @param  array   $attributes
+	 * @param	string	$email
+	 * @param	string	$title
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function mailto($email, $title = null, $attributes = array())
@@ -284,7 +284,7 @@ class HTML {
 	/**
 	 * Obfuscate an e-mail address to prevent spam-bots from sniffing it.
 	 *
-	 * @param  string  $email
+	 * @param	string	$email
 	 * @return string
 	 */
 	public static function email($email)
@@ -295,9 +295,9 @@ class HTML {
 	/**
 	 * Generate an HTML image element.
 	 *
-	 * @param  string  $url
-	 * @param  string  $alt
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	string	$alt
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function image($url, $alt = '', $attributes = array())
@@ -310,8 +310,8 @@ class HTML {
 	/**
 	 * Generate an ordered list of items.
 	 *
-	 * @param  array   $list
-	 * @param  array   $attributes
+	 * @param	array	 $list
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function ol($list, $attributes = array())
@@ -322,8 +322,8 @@ class HTML {
 	/**
 	 * Generate an un-ordered list of items.
 	 *
-	 * @param  array   $list
-	 * @param  array   $attributes
+	 * @param	array	 $list
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function ul($list, $attributes = array())
@@ -334,9 +334,9 @@ class HTML {
 	/**
 	 * Generate an ordered or un-ordered list.
 	 *
-	 * @param  string  $type
-	 * @param  array   $list
-	 * @param  array   $attributes
+	 * @param	string	$type
+	 * @param	array	 $list
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	private static function listing($type, $list, $attributes = array())
@@ -373,8 +373,8 @@ class HTML {
 	/**
 	 * Generate a definition list.
 	 *
-	 * @param  array   $list
-	 * @param  array   $attributes
+	 * @param	array	 $list
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function dl($list, $attributes = array())
@@ -395,7 +395,7 @@ class HTML {
 	/**
 	 * Build a list of HTML attributes from an array.
 	 *
-	 * @param  array   $attributes
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function attributes($attributes)
@@ -421,7 +421,7 @@ class HTML {
 	/**
 	 * Obfuscate a string to prevent spam-bots from sniffing it.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function obfuscate($value)
@@ -464,18 +464,18 @@ class HTML {
 	/**
 	 * Dynamically handle calls to custom macros.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)
 	{
-	    if (isset(static::$macros[$method]))
-	    {
-	        return call_user_func_array(static::$macros[$method], $parameters);
-	    }
+			if (isset(static::$macros[$method]))
+			{
+					return call_user_func_array(static::$macros[$method], $parameters);
+			}
 
-	    throw new \Exception("Method [$method] does not exist.");
+			throw new \Exception("Method [$method] does not exist.");
 	}
 
 }

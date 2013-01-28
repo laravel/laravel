@@ -55,23 +55,23 @@ Sometimes you may need to specify the database connection on which the schema op
 
 The fluent table builder's methods allow you to add columns without using vendor specific SQL. Let's go over it's methods:
 
-Command  | Description
+Command	| Description
 ------------- | -------------
-`$table->increments('id');`  |  Incrementing ID to the table
-`$table->string('email');`  |  VARCHAR equivalent column
-`$table->string('name', 100);`  |  VARCHAR equivalent with a length
-`$table->integer('votes');`  |  INTEGER equivalent to the table
-`$table->float('amount');`  |  FLOAT equivalent to the table
-`$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale
-`$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table
-`$table->date('created_at');`  |  DATE equivalent to the table
-`$table->timestamp('added_on');`  |  TIMESTAMP equivalent to the table
-`$table->timestamps();`  |  Adds **created\_at** and **updated\_at** columns
-`$table->text('description');`  |  TEXT equivalent to the table
-`$table->blob('data');`  |  BLOB equivalent to the table
-`->nullable()`  |  Designate that the column allows NULL values
-`->default($value)`  |  Declare a default value for a column
-`->unsigned()`  |  Set INTEGER to UNSIGNED
+`$table->increments('id');`	|	Incrementing ID to the table
+`$table->string('email');`	|	VARCHAR equivalent column
+`$table->string('name', 100);`	|	VARCHAR equivalent with a length
+`$table->integer('votes');`	|	INTEGER equivalent to the table
+`$table->float('amount');`	|	FLOAT equivalent to the table
+`$table->decimal('amount', 5, 2);`	|	DECIMAL equivalent with a precision and scale
+`$table->boolean('confirmed');`	|	BOOLEAN equivalent to the table
+`$table->date('created_at');`	|	DATE equivalent to the table
+`$table->timestamp('added_on');`	|	TIMESTAMP equivalent to the table
+`$table->timestamps();`	|	Adds **created\_at** and **updated\_at** columns
+`$table->text('description');`	|	TEXT equivalent to the table
+`$table->blob('data');`	|	BLOB equivalent to the table
+`->nullable()`	|	Designate that the column allows NULL values
+`->default($value)`	|	Declare a default value for a column
+`->unsigned()`	|	Set INTEGER to UNSIGNED
 
 > **Note:** Laravel's "boolean" type maps to a small integer column on all database systems.
 
@@ -110,25 +110,25 @@ The Schema builder supports several types of indexes. There are two ways to add 
 
 If defining the indexes on a separate line is more your style, here are example of using each of the index methods:
 
-Command  | Description
+Command	| Description
 ------------- | -------------
-`$table->primary('id');`  |  Adding a primary key
-`$table->primary(array('fname', 'lname'));`  |  Adding composite keys
-`$table->unique('email');`  |  Adding a unique index
-`$table->fulltext('description');`  |  Adding a full-text index
-`$table->index('state');`  |  Adding a basic index
+`$table->primary('id');`	|	Adding a primary key
+`$table->primary(array('fname', 'lname'));`	|	Adding composite keys
+`$table->unique('email');`	|	Adding a unique index
+`$table->fulltext('description');`	|	Adding a full-text index
+`$table->index('state');`	|	Adding a basic index
 
 <a name="dropping-indexes"></a>
 ## Dropping Indexes
 
 To drop indexes you must specify the index's name. Laravel assigns a reasonable name to all indexes. Simply concatenate the table name and the names of the columns in the index, then append the type of the index. Let's take a look at some examples:
 
-Command  | Description
+Command	| Description
 ------------- | -------------
-`$table->drop_primary('users_id_primary');`  |  Dropping a primary key from the "users" table
-`$table->drop_unique('users_email_unique');`  |  Dropping a unique index from the "users" table
-`$table->drop_fulltext('profile_description_fulltext');`  |  Dropping a full-text index from the "profile" table
-`$table->drop_index('geo_state_index');`  |  Dropping a basic index from the "geo" table
+`$table->drop_primary('users_id_primary');`	|	Dropping a primary key from the "users" table
+`$table->drop_unique('users_email_unique');`	|	Dropping a unique index from the "users" table
+`$table->drop_fulltext('profile_description_fulltext');`	|	Dropping a full-text index from the "profile" table
+`$table->drop_index('geo_state_index');`	|	Dropping a basic index from the "geo" table
 
 <a name="foreign-keys"></a>
 ## Foreign Keys

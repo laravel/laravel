@@ -62,18 +62,18 @@ Next, you will need to create a session table. Below are some SQL statements to 
 ### SQLite
 
 	CREATE TABLE "sessions" (
-	     "id" VARCHAR PRIMARY KEY NOT NULL UNIQUE,
-	     "last_activity" INTEGER NOT NULL,
-	     "data" TEXT NOT NULL
+			 "id" VARCHAR PRIMARY KEY NOT NULL UNIQUE,
+			 "last_activity" INTEGER NOT NULL,
+			 "data" TEXT NOT NULL
 	);
 
 ### MySQL
 
 	CREATE TABLE `sessions` (
-	     `id` VARCHAR(40) NOT NULL,
-	     `last_activity` INT(10) NOT NULL,
-	     `data` TEXT NOT NULL,
-	     PRIMARY KEY (`id`)
+			 `id` VARCHAR(40) NOT NULL,
+			 `last_activity` INT(10) NOT NULL,
+			 `data` TEXT NOT NULL,
+			 PRIMARY KEY (`id`)
 	);
 
 If you would like to use a different table name, simply change the **table** option in the **application/config/session.php** file:

@@ -5,7 +5,7 @@ class File {
 	/**
 	 * Determine if a file exists.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return bool
 	 */
 	public static function exists($path)
@@ -24,8 +24,8 @@ class File {
 	 *		$contents = File::get(path('app').'routes'.EXT, 'Default Value');
 	 * </code>
 	 *
-	 * @param  string  $path
-	 * @param  mixed   $default
+	 * @param	string	$path
+	 * @param	mixed	 $default
 	 * @return string
 	 */
 	public static function get($path, $default = null)
@@ -36,8 +36,8 @@ class File {
 	/**
 	 * Write to a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $data
+	 * @param	string	$path
+	 * @param	string	$data
 	 * @return int
 	 */
 	public static function put($path, $data)
@@ -48,8 +48,8 @@ class File {
 	/**
 	 * Append to a file.
 	 *
-	 * @param  string  $path
-	 * @param  string  $data
+	 * @param	string	$path
+	 * @param	string	$data
 	 * @return int
 	 */
 	public static function append($path, $data)
@@ -60,7 +60,7 @@ class File {
 	/**
 	 * Delete a file.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return bool
 	 */
 	public static function delete($path)
@@ -71,8 +71,8 @@ class File {
 	/**
 	 * Move a file to a new location.
 	 *
-	 * @param  string  $path
-	 * @param  string  $target
+	 * @param	string	$path
+	 * @param	string	$target
 	 * @return void
 	 */
 	public static function move($path, $target)
@@ -83,8 +83,8 @@ class File {
 	/**
 	 * Copy a file to a new location.
 	 *
-	 * @param  string  $path
-	 * @param  string  $target
+	 * @param	string	$path
+	 * @param	string	$target
 	 * @return void
 	 */
 	public static function copy($path, $target)
@@ -95,7 +95,7 @@ class File {
 	/**
 	 * Extract the file extension from a file path.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return string
 	 */
 	public static function extension($path)
@@ -106,7 +106,7 @@ class File {
 	/**
 	 * Get the file type of a given file.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return string
 	 */
 	public static function type($path)
@@ -117,7 +117,7 @@ class File {
 	/**
 	 * Get the file size of a given file.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return int
 	 */
 	public static function size($path)
@@ -128,7 +128,7 @@ class File {
 	/**
 	 * Get the file's last modification time.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return int
 	 */
 	public static function modified($path)
@@ -147,8 +147,8 @@ class File {
 	 *		$mime = File::mime('ext', 'application/octet-stream');
 	 * </code>
 	 *
-	 * @param  string  $extension
-	 * @param  string  $default
+	 * @param	string	$extension
+	 * @param	string	$default
 	 * @return string
 	 */
 	public static function mime($extension, $default = 'application/octet-stream')
@@ -173,8 +173,8 @@ class File {
 	 *		$image = File::is(array('jpg', 'png', 'gif'), 'path/to/file');
 	 * </code>
 	 *
-	 * @param  array|string  $extensions
-	 * @param  string        $path
+	 * @param	array|string	$extensions
+	 * @param	string				$path
 	 * @return bool
 	 */
 	public static function is($extensions, $path)
@@ -200,8 +200,8 @@ class File {
 	/**
 	 * Create a new directory.
 	 *
-	 * @param  string  $path
-	 * @param  int     $chmod
+	 * @param	string	$path
+	 * @param	int		 $chmod
 	 * @return void
 	 */
 	public static function mkdir($path, $chmod = 0777)
@@ -212,9 +212,9 @@ class File {
 	/**
 	 * Move a directory from one location to another.
 	 *
-	 * @param  string  $source
-	 * @param  string  $destination
-	 * @param  int     $options
+	 * @param	string	$source
+	 * @param	string	$destination
+	 * @param	int		 $options
 	 * @return void
 	 */
 	public static function mvdir($source, $destination, $options = fIterator::SKIP_DOTS)
@@ -225,10 +225,10 @@ class File {
 	/**
 	 * Recursively copy directory contents to another directory.
 	 *
-	 * @param  string  $source
-	 * @param  string  $destination
-	 * @param  bool    $delete
-	 * @param  int     $options
+	 * @param	string	$source
+	 * @param	string	$destination
+	 * @param	bool		$delete
+	 * @param	int		 $options
 	 * @return void
 	 */
 	public static function cpdir($source, $destination, $delete = false, $options = fIterator::SKIP_DOTS)
@@ -282,8 +282,8 @@ class File {
 	/**
 	 * Recursively delete a directory.
 	 *
-	 * @param  string  $directory
-	 * @param  bool    $preserve
+	 * @param	string	$directory
+	 * @param	bool		$preserve
 	 * @return void
 	 */
 	public static function rmdir($directory, $preserve = false)
@@ -314,7 +314,7 @@ class File {
 	/**
 	 * Empty the specified directory of all files and folders.
 	 *
-	 * @param  string  $directory
+	 * @param	string	$directory
 	 * @return void
 	 */
 	public static function cleandir($directory)
@@ -325,8 +325,8 @@ class File {
 	/**
 	 * Get the most recently modified file in a directory.
 	 *
-	 * @param  string       $directory
-	 * @param  int          $options
+	 * @param	string			 $directory
+	 * @param	int					$options
 	 * @return SplFileInfo
 	 */
 	public static function latest($directory, $options = fIterator::SKIP_DOTS)
@@ -342,7 +342,7 @@ class File {
 		// with a UNIX timestamp greater than the latest one.
 		foreach ($items as $item)
 		{
-			if ($item->getMTime() > $time) 
+			if ($item->getMTime() > $time)
 			{
 				$latest = $item;
 				$time = $item->getMTime();
