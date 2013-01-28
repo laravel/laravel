@@ -20,53 +20,53 @@ namespace Symfony\Component\Console\Formatter;
  */
 interface OutputFormatterStyleInterface
 {
-    /**
-     * Sets style foreground color.
-     *
-     * @param   string  $color  color name
-     *
-     * @api
-     */
-    function setForeground($color = null);
+		/**
+		 * Sets style foreground color.
+		 *
+		 * @param	 string	$color	color name
+		 *
+		 * @api
+		 */
+		function setForeground($color = null);
 
-    /**
-     * Sets style background color.
-     *
-     * @param   string  $color  color name
-     *
-     * @api
-     */
-    function setBackground($color = null);
+		/**
+		 * Sets style background color.
+		 *
+		 * @param	 string	$color	color name
+		 *
+		 * @api
+		 */
+		function setBackground($color = null);
 
-    /**
-     * Sets some specific style option.
-     *
-     * @param   string  $option     option name
-     *
-     * @api
-     */
-    function setOption($option);
+		/**
+		 * Sets some specific style option.
+		 *
+		 * @param	 string	$option		 option name
+		 *
+		 * @api
+		 */
+		function setOption($option);
 
-    /**
-     * Unsets some specific style option.
-     *
-     * @param   string  $option     option name
-     */
-    function unsetOption($option);
+		/**
+		 * Unsets some specific style option.
+		 *
+		 * @param	 string	$option		 option name
+		 */
+		function unsetOption($option);
 
-    /**
-     * Sets multiple style options at once.
-     *
-     * @param   array   $options
-     */
-    function setOptions(array $options);
+		/**
+		 * Sets multiple style options at once.
+		 *
+		 * @param	 array	 $options
+		 */
+		function setOptions(array $options);
 
-    /**
-     * Applies the style to a given text.
-     *
-     * @param string $text The text to style
-     *
-     * @return string
-     */
-    function apply($text);
+		/**
+		 * Applies the style to a given text.
+		 *
+		 * @param string $text The text to style
+		 *
+		 * @return string
+		 */
+		function apply($text);
 }

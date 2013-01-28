@@ -9,7 +9,7 @@ class Publisher {
 	/**
 	 * Publish a bundle's assets to the public directory.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public function publish($bundle)
@@ -31,7 +31,7 @@ class Publisher {
 	/**
 	 * Delete a bundle's assets from the public directory
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public function unpublish($bundle)
@@ -51,19 +51,19 @@ class Publisher {
 	/**
 	 * Copy the contents of a bundle's assets to the public folder.
 	 *
-	 * @param  string  $source
-	 * @param  string  $destination
+	 * @param	string	$source
+	 * @param	string	$destination
 	 * @return void
 	 */
 	protected function move($source, $destination)
 	{
-		File::cpdir($source, $destination);	
+		File::cpdir($source, $destination);
 	}
 
 	/**
 	 * Get the "to" location of the bundle's assets.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	protected function to($bundle)
@@ -74,7 +74,7 @@ class Publisher {
 	/**
 	 * Get the "from" location of the bundle's assets.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	protected function from($bundle)

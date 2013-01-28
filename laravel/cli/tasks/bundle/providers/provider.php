@@ -7,8 +7,8 @@ abstract class Provider {
 	/**
 	 * Install the given bundle into the application.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $path
+	 * @param	string	$bundle
+	 * @param	string	$path
 	 * @return void
 	 */
 	abstract public function install($bundle, $path);
@@ -16,9 +16,9 @@ abstract class Provider {
 	/**
 	 * Install a bundle from by downloading a Zip.
 	 *
-	 * @param  string  $url
-	 * @param  array   $bundle
-	 * @param  string  $path
+	 * @param	string	$url
+	 * @param	array	 $bundle
+	 * @param	string	$path
 	 * @return void
 	 */
 	protected function zipball($url, $bundle, $path)
@@ -61,7 +61,7 @@ abstract class Provider {
 	/**
 	 * Download a remote zip archive from a URL.
 	 *
-	 * @param  string  $url
+	 * @param	string	$url
 	 * @return string
 	 */
 	protected function download($url)

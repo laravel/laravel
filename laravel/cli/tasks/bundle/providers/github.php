@@ -5,8 +5,8 @@ class Github extends Provider {
 	/**
 	 * Install the given bundle into the application.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $path
+	 * @param	string	$bundle
+	 * @param	string	$path
 	 * @return void
 	 */
 	public function install($bundle, $path)

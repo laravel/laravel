@@ -15,7 +15,7 @@ class Database extends Driver implements Sweeper {
 	/**
 	 * Create a new database session driver.
 	 *
-	 * @param  Connection  $connection
+	 * @param	Connection	$connection
 	 * @return void
 	 */
 	public function __construct(Connection $connection)
@@ -28,7 +28,7 @@ class Database extends Driver implements Sweeper {
 	 *
 	 * If no session is found for the ID, null will be returned.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return array
 	 */
 	public function load($id)
@@ -38,9 +38,9 @@ class Database extends Driver implements Sweeper {
 		if ( ! is_null($session))
 		{
 			return array(
-				'id'            => $session->id,
+				'id'						=> $session->id,
 				'last_activity' => $session->last_activity,
-				'data'          => unserialize($session->data)
+				'data'					=> unserialize($session->data)
 			);
 		}
 	}
@@ -48,9 +48,9 @@ class Database extends Driver implements Sweeper {
 	/**
 	 * Save a given session to storage.
 	 *
-	 * @param  array  $session
-	 * @param  array  $config
-	 * @param  bool   $exists
+	 * @param	array	$session
+	 * @param	array	$config
+	 * @param	bool	 $exists
 	 * @return void
 	 */
 	public function save($session, $config, $exists)
@@ -59,23 +59,23 @@ class Database extends Driver implements Sweeper {
 		{
 			$this->table()->where('id', '=', $session['id'])->update(array(
 				'last_activity' => $session['last_activity'],
-				'data'          => serialize($session['data']),
+				'data'					=> serialize($session['data']),
 			));
 		}
 		else
 		{
 			$this->table()->insert(array(
-				'id'            => $session['id'], 
-				'last_activity' => $session['last_activity'], 
-				'data'          => serialize($session['data'])
-			));			
+				'id'						=> $session['id'],
+				'last_activity' => $session['last_activity'],
+				'data'					=> serialize($session['data'])
+			));
 		}
 	}
 
 	/**
 	 * Delete a session from storage by a given ID.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	public function delete($id)
@@ -86,7 +86,7 @@ class Database extends Driver implements Sweeper {
 	/**
 	 * Delete all expired sessions from persistent storage.
 	 *
-	 * @param  int   $expiration
+	 * @param	int	 $expiration
 	 * @return void
 	 */
 	public function sweep($expiration)
@@ -101,7 +101,7 @@ class Database extends Driver implements Sweeper {
 	 */
 	private function table()
 	{
-		return $this->connection->table(Config::get('session.table'));		
+		return $this->connection->table(Config::get('session.table'));
 	}
-	
+
 }

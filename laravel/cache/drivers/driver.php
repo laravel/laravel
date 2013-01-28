@@ -5,7 +5,7 @@ abstract class Driver {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	abstract public function has($key);
@@ -21,8 +21,8 @@ abstract class Driver {
 	 *		$name = Cache::get('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public function get($key, $default = null)
@@ -33,7 +33,7 @@ abstract class Driver {
 	/**
 	 * Retrieve an item from the cache driver.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	abstract protected function retrieve($key);
@@ -46,9 +46,9 @@ abstract class Driver {
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
+	 * @param	string	$key
+	 * @param	mixed	 $value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	abstract public function put($key, $value, $minutes);
@@ -64,10 +64,10 @@ abstract class Driver {
 	 *		$count = Cache::remember('count', function() { return User::count(); }, 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
-	 * @param  int     $minutes
-	 * @param  string  $function
+	 * @param	string	$key
+	 * @param	mixed	 $default
+	 * @param	int		 $minutes
+	 * @param	string	$function
 	 * @return mixed
 	 */
 	public function remember($key, $default, $minutes, $function = 'put')
@@ -82,8 +82,8 @@ abstract class Driver {
 	/**
 	 * Get an item from the cache, or cache the default value forever.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public function sear($key, $default)
@@ -94,7 +94,7 @@ abstract class Driver {
 	/**
 	 * Delete an item from the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	abstract public function forget($key);
@@ -102,7 +102,7 @@ abstract class Driver {
 	/**
 	 * Get the expiration time as a UNIX timestamp.
 	 *
-	 * @param  int  $minutes
+	 * @param	int	$minutes
 	 * @return int
 	 */
 	protected function expiration($minutes)

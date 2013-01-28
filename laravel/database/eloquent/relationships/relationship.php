@@ -15,9 +15,9 @@ abstract class Relationship extends Query {
 	/**
 	 * Create a new has one or many association instance.
 	 *
-	 * @param  Model   $model
-	 * @param  string  $associated
-	 * @param  string  $foreign
+	 * @param	Model	 $model
+	 * @param	string	$associated
+	 * @param	string	$foreign
 	 * @return void
 	 */
 	public function __construct($model, $associated, $foreign)
@@ -59,8 +59,8 @@ abstract class Relationship extends Query {
 	/**
 	 * Get the foreign key name for the given model.
 	 *
-	 * @param  string  $model
-	 * @param  string  $foreign
+	 * @param	string	$model
+	 * @param	string	$foreign
 	 * @return string
 	 */
 	public static function foreign($model, $foreign = null)
@@ -81,7 +81,7 @@ abstract class Relationship extends Query {
 	/**
 	 * Get a freshly instantiated instance of the related model class.
 	 *
-	 * @param  array  $attributes
+	 * @param	array	$attributes
 	 * @return Model
 	 */
 	protected function fresh_model($attributes = array())
@@ -104,7 +104,7 @@ abstract class Relationship extends Query {
 	/**
 	 * Gather all the primary keys from a result set.
 	 *
-	 * @param  array  $results
+	 * @param	array	$results
 	 * @return array
 	 */
 	public function keys($results)
@@ -122,7 +122,7 @@ abstract class Relationship extends Query {
 	/**
 	 * The relationships that should be eagerly loaded by the query.
 	 *
-	 * @param  array  $includes
+	 * @param	array	$includes
 	 * @return Relationship
 	 */
 	public function with($includes)

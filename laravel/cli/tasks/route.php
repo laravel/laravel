@@ -9,7 +9,7 @@ class Route extends Task {
 	/**
 	 * Execute a route and dump the result.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function call($arguments = array())

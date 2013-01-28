@@ -19,8 +19,8 @@ class Memcached extends Sectionable {
 	/**
 	 * Create a new Memcached cache driver instance.
 	 *
-	 * @param  Memcached  $memcache
-	 * @param  string     $key
+	 * @param	Memcached	$memcache
+	 * @param	string		 $key
 	 * @return void
 	 */
 	public function __construct(\Memcached $memcache, $key)
@@ -32,7 +32,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key)
@@ -43,7 +43,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Retrieve an item from the cache driver.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	protected function retrieve($key)
@@ -68,9 +68,9 @@ class Memcached extends Sectionable {
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
+	 * @param	string	$key
+	 * @param	mixed	 $value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	public function put($key, $value, $minutes)
@@ -90,8 +90,8 @@ class Memcached extends Sectionable {
 	/**
 	 * Write an item to the cache that lasts forever.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function forever($key, $value)
@@ -111,7 +111,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Delete an item from the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function forget($key)
@@ -138,7 +138,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Delete an entire section from the cache.
 	 *
-	 * @param  string    $section
+	 * @param	string		$section
 	 * @return int|bool
 	 */
 	public function forget_section($section)
@@ -149,7 +149,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Get the current section ID for a given section.
 	 *
-	 * @param  string  $section
+	 * @param	string	$section
 	 * @return int
 	 */
 	protected function section_id($section)
@@ -163,7 +163,7 @@ class Memcached extends Sectionable {
 	/**
 	 * Get a section key name for a given section.
 	 *
-	 * @param  string  $section
+	 * @param	string	$section
 	 * @return string
 	 */
 	protected function section_key($section)
@@ -174,8 +174,8 @@ class Memcached extends Sectionable {
 	/**
 	 * Get a section item key for a given section and key.
 	 *
-	 * @param  string  $section
-	 * @param  string  $key
+	 * @param	string	$section
+	 * @param	string	$key
 	 * @return string
 	 */
 	protected function section_item_key($section, $key)

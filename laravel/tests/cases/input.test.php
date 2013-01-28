@@ -28,7 +28,7 @@ class InputTest extends PHPUnit_Framework_TestCase {
 	public function testAllMethodReturnsInputAndFiles()
 	{
 		Request::foundation()->request->add(array('name' => 'Taylor'));
-		
+
 		$_FILES = array('age' => 25);
 
 		$this->assertEquals(Input::all(), array('name' => 'Taylor', 'age' => 25));

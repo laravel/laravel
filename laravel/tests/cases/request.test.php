@@ -24,8 +24,8 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Set one of the $_SERVER variables.
 	 *
-	 * @param string  $key
-	 * @param string  $value
+	 * @param string	$key
+	 * @param string	$value
 	 */
 	protected function setServerVar($key, $value)
 	{
@@ -37,8 +37,8 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Set one of the $_POST variables.
 	 *
-	 * @param string  $key
-	 * @param string  $value
+	 * @param string	$key
+	 * @param string	$value
 	 */
 	protected function setPostVar($key, $value)
 	{
@@ -49,7 +49,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Reinitialize the global request.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function restartRequest()
@@ -120,7 +120,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public function testSecureMethodsIndicatesIfHTTPS()
 	{
 		$this->setServerVar('HTTPS', 'on');
-		
+
 		$this->assertTrue(Request::secure());
 
 		$this->setServerVar('HTTPS', 'off');
@@ -158,7 +158,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 
 		$input = array(Session::csrf_token => 'Taylor');
 		Request::foundation()->request->add($input);
-		
+
 		$this->assertFalse(Request::forged());
 	}
 

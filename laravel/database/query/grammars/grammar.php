@@ -25,7 +25,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a SQL SELECT statement from a Query instance.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	public function select(Query $query)
@@ -36,7 +36,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Generate the SQL for every component of the query.
 	 *
-	 * @param  Query  $query
+	 * @param	Query	$query
 	 * @return array
 	 */
 	final protected function components($query)
@@ -58,7 +58,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Concatenate an array of SQL segments, removing those that are empty.
 	 *
-	 * @param  array   $components
+	 * @param	array	 $components
 	 * @return string
 	 */
 	final protected function concatenate($components)
@@ -72,7 +72,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the SELECT clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function selects(Query $query)
@@ -87,7 +87,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile an aggregating SELECT clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function aggregate(Query $query)
@@ -108,7 +108,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the FROM clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function from(Query $query)
@@ -119,7 +119,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the JOIN clauses for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function joins(Query $query)
@@ -168,7 +168,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the WHERE clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	final protected function wheres(Query $query)
@@ -183,7 +183,7 @@ class Grammar extends \Laravel\Database\Grammar {
 			$sql[] = $where['connector'].' '.$this->{$where['type']}($where);
 		}
 
-		if  (isset($sql))
+		if	(isset($sql))
 		{
 			// We attach the boolean connector to every where segment just
 			// for convenience. Once we have built the entire clause we'll
@@ -195,7 +195,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a nested WHERE clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where_nested($where)
@@ -206,7 +206,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a simple WHERE clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where($where)
@@ -219,7 +219,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a WHERE IN clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where_in($where)
@@ -232,7 +232,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a WHERE NOT IN clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where_not_in($where)
@@ -244,8 +244,8 @@ class Grammar extends \Laravel\Database\Grammar {
 
 	/**
 	 * Compile a WHERE BETWEEN clause
-	 * 	
-	 * @param  array  $where
+	 *
+	 * @param	array	$where
 	 * @return string
 	 */
 	protected function where_between($where)
@@ -258,21 +258,21 @@ class Grammar extends \Laravel\Database\Grammar {
 
 	/**
 	 * Compile a WHERE NOT BETWEEN clause
-	 * @param  array $where 
-	 * @return string        
+	 * @param	array $where
+	 * @return string
 	 */
 	protected function where_not_between($where)
-	{		
+	{
 		$min = $this->parameter($where['min']);
 		$max = $this->parameter($where['max']);
-		
+
 		return $this->wrap($where['column']).' NOT BETWEEN '.$min.' AND '.$max;
 	}
 
 	/**
 	 * Compile a WHERE NULL clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where_null($where)
@@ -283,7 +283,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a WHERE NULL clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	protected function where_not_null($where)
@@ -294,7 +294,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a raw WHERE clause.
 	 *
-	 * @param  array   $where
+	 * @param	array	 $where
 	 * @return string
 	 */
 	final protected function where_raw($where)
@@ -305,7 +305,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the GROUP BY clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function groupings(Query $query)
@@ -316,7 +316,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the HAVING clause for a query.
 	 *
-	 * @param  Query  $query
+	 * @param	Query	$query
 	 * @return string
 	 */
 	protected function havings(Query $query)
@@ -334,7 +334,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the ORDER BY clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function orderings(Query $query)
@@ -350,7 +350,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the LIMIT clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function limit(Query $query)
@@ -361,7 +361,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile the OFFSET clause for a query.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	protected function offset(Query $query)
@@ -374,8 +374,8 @@ class Grammar extends \Laravel\Database\Grammar {
 	 *
 	 * This method handles the compilation of single row inserts and batch inserts.
 	 *
-	 * @param  Query   $query
-	 * @param  array   $values
+	 * @param	Query	 $query
+	 * @param	array	 $values
 	 * @return string
 	 */
 	public function insert(Query $query, $values)
@@ -405,9 +405,9 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a SQL INSERT and get ID statement from a Query instance.
 	 *
-	 * @param  Query   $query
-	 * @param  array   $values
-	 * @param  string  $column
+	 * @param	Query	 $query
+	 * @param	array	 $values
+	 * @param	string	$column
 	 * @return string
 	 */
 	public function insert_get_id(Query $query, $values, $column)
@@ -418,8 +418,8 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a SQL UPDATE statement from a Query instance.
 	 *
-	 * @param  Query   $query
-	 * @param  array   $values
+	 * @param	Query	 $query
+	 * @param	array	 $values
 	 * @return string
 	 */
 	public function update(Query $query, $values)
@@ -445,7 +445,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Compile a SQL DELETE statement from a Query instance.
 	 *
-	 * @param  Query   $query
+	 * @param	Query	 $query
 	 * @return string
 	 */
 	public function delete(Query $query)
@@ -458,8 +458,8 @@ class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Transform an SQL short-cuts into real SQL for PDO.
 	 *
-	 * @param  string  $sql
-	 * @param  array   $bindings
+	 * @param	string	$sql
+	 * @param	array	 $bindings
 	 * @return string
 	 */
 	public function shortcut($sql, &$bindings)
@@ -482,7 +482,7 @@ class Grammar extends \Laravel\Database\Grammar {
 
 					$sql = preg_replace('~\(\.\.\.\)~', "({$parameters})", $sql, 1);
 				}
-			}			
+			}
 		}
 
 		return trim($sql);

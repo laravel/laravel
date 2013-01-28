@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -18,54 +18,54 @@ return array(
 	|
 	*/
 
-	"accepted"       => ":attribute duhet të pranohet.",
-	"active_url"     => ":attribute nuk është URL valide.",
-	"after"          => ":attribute duhet të jetë datë pas :date.",
-	"alpha"          => ":attribute mund të përmbajë vetëm shkronja.",
-	"alpha_dash"     => ":attribute mund të përmbajë vetëm shkronja, numra dhe viza.",
-	"alpha_num"      => ":attribute mund të përmbajë vetëm shkronja dhe numra.",
-	"array"          => ":attribute duhet të ketë elemente të përzgjedhura.",
-	"before"         => ":attribute duhet të jetë datë para :date.",
-	"between"        => array(
+	"accepted"			 => ":attribute duhet të pranohet.",
+	"active_url"		 => ":attribute nuk është URL valide.",
+	"after"					=> ":attribute duhet të jetë datë pas :date.",
+	"alpha"					=> ":attribute mund të përmbajë vetëm shkronja.",
+	"alpha_dash"		 => ":attribute mund të përmbajë vetëm shkronja, numra dhe viza.",
+	"alpha_num"			=> ":attribute mund të përmbajë vetëm shkronja dhe numra.",
+	"array"					=> ":attribute duhet të ketë elemente të përzgjedhura.",
+	"before"				 => ":attribute duhet të jetë datë para :date.",
+	"between"				=> array(
 		"numeric" => ":attribute duhet të jetë në mes :min - :max.",
-		"file"    => ":attribute duhet të jetë në mes :min - :max kilobajtëve.",
-		"string"  => ":attribute duhet të jetë në mes :min - :max karaktereve.",
+		"file"		=> ":attribute duhet të jetë në mes :min - :max kilobajtëve.",
+		"string"	=> ":attribute duhet të jetë në mes :min - :max karaktereve.",
 	),
-	"confirmed"      => ":attribute konfirmimi nuk përputhet.",
-	"count"          => ":attributeduhet të ketë saktësisht :count elemente te përzgjedhura.",
-	"countbetween"   => ":attribute duhet të jetë në mes :min and :max elemente te përzgjedhura.",
-	"countmax"       => ":attribute duhet të ketë me pak se :max elemente te përzgjedhura.",
-	"countmin"       => ":attribute duhet të ketë së paku :min elemente te përzgjedhura.",
-	"different"      => ":attribute dhe :other duhet të jenë të ndryshme.",
-	"email"          => ":attribute formati është jo valid.",
-	"exists"         => ":attribute e përzgjedhur është jo valid.",
-	"image"          => ":attribute duhet të jetë imazh.",
-	"in"             => ":attribute e përzgjedhur është jo valid.",
-	"integer"        => ":attribute duhet të jete numër i plotë.",
-	"ip"             => ":attribute duhet të jetë një IP adresë e vlefshme.",
-	"match"          => ":attribute formati është i pavlefshëm.",
-	"max"            => array(
+	"confirmed"			=> ":attribute konfirmimi nuk përputhet.",
+	"count"					=> ":attributeduhet të ketë saktësisht :count elemente te përzgjedhura.",
+	"countbetween"	 => ":attribute duhet të jetë në mes :min and :max elemente te përzgjedhura.",
+	"countmax"			 => ":attribute duhet të ketë me pak se :max elemente te përzgjedhura.",
+	"countmin"			 => ":attribute duhet të ketë së paku :min elemente te përzgjedhura.",
+	"different"			=> ":attribute dhe :other duhet të jenë të ndryshme.",
+	"email"					=> ":attribute formati është jo valid.",
+	"exists"				 => ":attribute e përzgjedhur është jo valid.",
+	"image"					=> ":attribute duhet të jetë imazh.",
+	"in"						 => ":attribute e përzgjedhur është jo valid.",
+	"integer"				=> ":attribute duhet të jete numër i plotë.",
+	"ip"						 => ":attribute duhet të jetë një IP adresë e vlefshme.",
+	"match"					=> ":attribute formati është i pavlefshëm.",
+	"max"						=> array(
 		"numeric" => ":attribute duhet të jetë më e vogël se :max.",
-		"file"    => ":attribute duhet të jetë më e vogël se :max kilobytes.",
-		"string"  => ":attribute duhet të jetë më e vogël se :max characters.",
+		"file"		=> ":attribute duhet të jetë më e vogël se :max kilobytes.",
+		"string"	=> ":attribute duhet të jetë më e vogël se :max characters.",
 	),
-	"mimes"          => ":attribute duhet të jetë një fajll i tipit: :values.",
-	"min"            => array(
+	"mimes"					=> ":attribute duhet të jetë një fajll i tipit: :values.",
+	"min"						=> array(
 		"numeric" => ":attribute duhet të jetë së paku :min.",
-		"file"    => ":attribute duhet të jetë së paku :min kilobajt.",
-		"string"  => ":attribute duhet të jetë së paku :min karaktere.",
+		"file"		=> ":attribute duhet të jetë së paku :min kilobajt.",
+		"string"	=> ":attribute duhet të jetë së paku :min karaktere.",
 	),
-	"not_in"         => ":attribute e përzgjedhur është jo valid.",
-	"numeric"        => ":attribute duhet të jetë numër.",
-	"required"       => ":attribute fusha është e nevojshme.",
-	"same"           => ":attribute dhe :other duhet të përputhen.",
-	"size"           => array(
+	"not_in"				 => ":attribute e përzgjedhur është jo valid.",
+	"numeric"				=> ":attribute duhet të jetë numër.",
+	"required"			 => ":attribute fusha është e nevojshme.",
+	"same"					 => ":attribute dhe :other duhet të përputhen.",
+	"size"					 => array(
 		"numeric" => ":attribute duhet të jetë :size.",
-		"file"    => ":attribute duhet të jetë :size kilobajt.",
-		"string"  => ":attribute duhet të jetë :size karaktere.",
+		"file"		=> ":attribute duhet të jetë :size kilobajt.",
+		"string"	=> ":attribute duhet të jetë :size karaktere.",
 	),
-	"unique"         => ":attribute tashmë është marrë.",
-	"url"            => ":attribute formati është i pavlefshëm.",
+	"unique"				 => ":attribute tashmë është marrë.",
+	"url"						=> ":attribute formati është i pavlefshëm.",
 
 	/*
 	|--------------------------------------------------------------------------

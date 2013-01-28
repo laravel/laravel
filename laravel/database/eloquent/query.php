@@ -40,7 +40,7 @@ class Query {
 	/**
 	 * Creat a new query instance for a model.
 	 *
-	 * @param  Model  $model
+	 * @param	Model	$model
 	 * @return void
 	 */
 	public function __construct($model)
@@ -52,9 +52,9 @@ class Query {
 
 	/**
 	 * Find a model by its primary key.
-	 * 
-	 * @param  mixed  $id
-	 * @param  array  $columns
+	 *
+	 * @param	mixed	$id
+	 * @param	array	$columns
 	 * @return mixed
 	 */
 	public function find($id, $columns = array('*'))
@@ -69,7 +69,7 @@ class Query {
 	/**
 	 * Get the first model result for the query.
 	 *
-	 * @param  array  $columns
+	 * @param	array	$columns
 	 * @return mixed
 	 */
 	public function first($columns = array('*'))
@@ -82,7 +82,7 @@ class Query {
 	/**
 	 * Get all of the model results for the query.
 	 *
-	 * @param  array  $columns
+	 * @param	array	$columns
 	 * @return array
 	 */
 	public function get($columns = array('*'))
@@ -93,8 +93,8 @@ class Query {
 	/**
 	 * Get an array of paginated model results.
 	 *
-	 * @param  int        $per_page
-	 * @param  array      $columns
+	 * @param	int				$per_page
+	 * @param	array			$columns
 	 * @return Paginator
 	 */
 	public function paginate($per_page = null, $columns = array('*'))
@@ -114,8 +114,8 @@ class Query {
 	/**
 	 * Hydrate an array of models from the given results.
 	 *
-	 * @param  Model  $model
-	 * @param  array  $results
+	 * @param	Model	$model
+	 * @param	array	$results
 	 * @return array
 	 */
 	public function hydrate($model, $results)
@@ -171,9 +171,9 @@ class Query {
 	/**
 	 * Hydrate an eagerly loaded relationship on the model results.
 	 *
-	 * @param  array       $results
-	 * @param  string      $relationship
-	 * @param  array|null  $constraints
+	 * @param	array			 $results
+	 * @param	string			$relationship
+	 * @param	array|null	$constraints
 	 * @return void
 	 */
 	protected function load(&$results, $relationship, $constraints)
@@ -205,7 +205,7 @@ class Query {
 	/**
 	 * Gather the nested includes for a given relationship.
 	 *
-	 * @param  string  $relationship
+	 * @param	string	$relationship
 	 * @return array
 	 */
 	protected function nested_includes($relationship)
@@ -274,8 +274,8 @@ class Query {
 	/**
 	 * Handle dynamic method calls to the query.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public function __call($method, $parameters)

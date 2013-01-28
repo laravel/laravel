@@ -19,7 +19,7 @@ Each language directory may contain many different language files. Each language
 
 	return array(
 
-	     'welcome' => 'Welcome to our website!',
+			 'welcome' => 'Welcome to our website!',
 
 	);
 
@@ -27,7 +27,7 @@ Next, you should create a corresponding **marketing.php** file within the **appl
 
 	return array(
 
-	     'welcome' => 'Bienvenido a nuestro sitio web!',
+			 'welcome' => 'Bienvenido a nuestro sitio web!',
 
 	);
 

@@ -56,7 +56,7 @@
 		input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; }
 		button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
 		textarea { overflow: auto; vertical-align: top; resize: vertical; }
-		input:valid, textarea:valid {  }
+		input:valid, textarea:valid {	}
 		input:invalid, textarea:invalid { background-color: #f0dddd; }
 		table { border-collapse: collapse; border-spacing: 0; }
 		td { vertical-align: top; }

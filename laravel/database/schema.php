@@ -9,8 +9,8 @@ class Schema {
 	/**
 	 * Begin a fluent schema operation on a database table.
 	 *
-	 * @param  string   $table
-	 * @param  Closure  $callback
+	 * @param	string	 $table
+	 * @param	Closure	$callback
 	 * @return void
 	 */
 	public static function table($table, $callback)
@@ -23,8 +23,8 @@ class Schema {
 	/**
 	 * Create a new database table schema.
 	 *
-	 * @param  string   $table
-	 * @param  Closure  $callback
+	 * @param	string	 $table
+	 * @param	Closure	$callback
 	 * @return void
 	 */
 	public static function create($table, $callback)
@@ -44,8 +44,8 @@ class Schema {
 	/**
 	 * Rename a database table in the schema.
 	 *
-	 * @param  string  $table
-	 * @param  string  $new_name
+	 * @param	string	$table
+	 * @param	string	$new_name
 	 * @return void
 	 */
 	public static function rename($table, $new_name)
@@ -63,8 +63,8 @@ class Schema {
 	/**
 	 * Drop a database table from the schema.
 	 *
-	 * @param  string  $table
-	 * @param  string  $connection
+	 * @param	string	$table
+	 * @param	string	$connection
 	 * @return void
 	 */
 	public static function drop($table, $connection = null)
@@ -84,7 +84,7 @@ class Schema {
 	/**
 	 * Execute the given schema operation against the database.
 	 *
-	 * @param  Schema\Table  $table
+	 * @param	Schema\Table	$table
 	 * @return void
 	 */
 	public static function execute($table)
@@ -121,8 +121,8 @@ class Schema {
 	/**
 	 * Add any implicit commands to the schema table operation.
 	 *
-	 * @param   Schema\Table  $table
-	 * @return  void
+	 * @param	 Schema\Table	$table
+	 * @return	void
 	 */
 	protected static function implications($table)
 	{
@@ -161,7 +161,7 @@ class Schema {
 	/**
 	 * Create the appropriate schema grammar for the driver.
 	 *
-	 * @param  Connection  $connection
+	 * @param	Connection	$connection
 	 * @return Grammar
 	 */
 	public static function grammar(Connection $connection)

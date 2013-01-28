@@ -15,7 +15,7 @@ class Belongs_To extends Relationship {
 	/**
 	 * Update the parent model of the relationship.
 	 *
-	 * @param  Model|array  $attributes
+	 * @param	Model|array	$attributes
 	 * @return int
 	 */
 	public function update($attributes)
@@ -38,8 +38,8 @@ class Belongs_To extends Relationship {
 	/**
 	 * Initialize a relationship on an array of parent models.
 	 *
-	 * @param  array   $parents
-	 * @param  string  $relationship
+	 * @param	array	 $parents
+	 * @param	string	$relationship
 	 * @return void
 	 */
 	public function initialize(&$parents, $relationship)
@@ -53,7 +53,7 @@ class Belongs_To extends Relationship {
 	/**
 	 * Set the proper constraints on the relationship table for an eager load.
 	 *
-	 * @param  array  $results
+	 * @param	array	$results
 	 * @return void
 	 */
 	public function eagerly_constrain($results)
@@ -79,8 +79,8 @@ class Belongs_To extends Relationship {
 	/**
 	 * Match eagerly loaded child models to their parent models.
 	 *
-	 * @param  array  $children
-	 * @param  array  $parents
+	 * @param	array	$children
+	 * @param	array	$parents
 	 * @return void
 	 */
 	public function match($relationship, &$children, $parents)
@@ -112,13 +112,13 @@ class Belongs_To extends Relationship {
 	{
 		return $this->base->get_attribute($this->foreign);
 	}
-	
+
 	/**
 	* Bind an object over a belongs-to relation using its id.
 	*
 	* @return Eloquent
 	*/
-	
+
 	public function bind($id)
 	{
 		$this->base->fill(array($this->foreign => $id))->save();

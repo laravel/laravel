@@ -22,7 +22,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of opening a form
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testOpeningForm()
@@ -40,7 +40,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of opening a secure form
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testOpeningFormSecure()
@@ -58,7 +58,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of opening a form for files
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testOpeningFormForFile()
@@ -76,7 +76,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of opening a secure form for files
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testOpeningFormSecureForFile()
@@ -94,7 +94,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of closing a form
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testClosingForm()
@@ -104,7 +104,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form label
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormLabel()
@@ -118,7 +118,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form input
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormInput()
@@ -134,7 +134,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form text
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormText()
@@ -152,7 +152,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form password
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormPassword()
@@ -168,7 +168,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form hidden
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormHidden()
@@ -186,7 +186,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form search
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormSearch()
@@ -204,7 +204,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form email
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormEmail()
@@ -222,7 +222,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form telephone
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormTelephone()
@@ -240,7 +240,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form url
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormUrl()
@@ -258,7 +258,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form number
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormNumber()
@@ -276,7 +276,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form date
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormDate()
@@ -294,7 +294,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form file
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormFile()
@@ -310,7 +310,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form textarea
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormTextarea()
@@ -326,21 +326,21 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form select
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormSelect()
 	{
 		$select1 = array(
 			'foobar' => 'Foobar',
-			'hello'  => 'Hello World',
+			'hello'	=> 'Hello World',
 		);
 
 		$select2 = array(
 			'foo' => array(
 				'foobar' => 'Foobar',
 			),
-			'hello'  => 'Hello World',
+			'hello'	=> 'Hello World',
 		);
 
 		$form1 = Form::select('foo');
@@ -356,7 +356,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form checkbox
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormCheckbox()
@@ -374,7 +374,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form date
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormRadio()
@@ -392,7 +392,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form submit
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormSubmit()
@@ -406,7 +406,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form reset
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormReset()
@@ -420,7 +420,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form image
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormImage()
@@ -437,7 +437,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test the compilation of form button
-	 * 
+	 *
 	 * @group laravel
 	 */
 	public function testFormButton()

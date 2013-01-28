@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -18,54 +18,54 @@ return array(
 	|
 	*/
 
-	"accepted"       => ":attribute muss akzeptiert werden.",
-	"active_url"     => ":attribute ist keine g&uuml;ltige URL.",
-	"after"          => ":attribute muss ein Datum nach dem :date sein.",
-	"alpha"          => ":attribute darf nur Buchstaben beinhalten.",
-	"alpha_dash"     => ":attribute darf nur aus Buchstaben, Nummern und Bindestrichen bestehen.",
-	"alpha_num"      => ":attribute darf nur aus Buchstaben und Nummern bestehen.",
-	"array"          => ":attribute muss ausgew&auml;hlte Elemente haben.",
-	"before"         => ":attribute muss ein Datum vor dem :date sein.",
-	"between"        => array(
+	"accepted"			 => ":attribute muss akzeptiert werden.",
+	"active_url"		 => ":attribute ist keine g&uuml;ltige URL.",
+	"after"					=> ":attribute muss ein Datum nach dem :date sein.",
+	"alpha"					=> ":attribute darf nur Buchstaben beinhalten.",
+	"alpha_dash"		 => ":attribute darf nur aus Buchstaben, Nummern und Bindestrichen bestehen.",
+	"alpha_num"			=> ":attribute darf nur aus Buchstaben und Nummern bestehen.",
+	"array"					=> ":attribute muss ausgew&auml;hlte Elemente haben.",
+	"before"				 => ":attribute muss ein Datum vor dem :date sein.",
+	"between"				=> array(
 		"numeric" => ":attribute muss zwischen :min und :max liegen.",
-		"file"    => ":attribute muss zwischen :min und :max Kilobytes gro&szlig; sein.",
-		"string"  => ":attribute muss zwischen :min und :max Zeichen lang sein.",
+		"file"		=> ":attribute muss zwischen :min und :max Kilobytes gro&szlig; sein.",
+		"string"	=> ":attribute muss zwischen :min und :max Zeichen lang sein.",
 	),
-	"confirmed"      => ":attribute stimmt nicht mit der Best&auml;tigung &uuml;berein.",
-	"count"          => ":attribute muss genau :count ausgew&auml;hlte Elemente haben.",
-	"countbetween"   => ":attribute muss zwischen :min und :max ausgew&auml;hlte Elemente haben.",
-	"countmax"       => ":attribute muss weniger als :max ausgew&auml;hlte Elemente haben.",
-	"countmin"       => ":attribute muss mindestens :min ausgew&auml;hlte Elemente haben.",
-	"different"      => ":attribute und :other m&uuml;ssen verschieden sein.",
-	"email"          => ":attribute ist keine g&uuml;ltige Email-Adresse.",
-	"exists"         => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
-	"image"          => ":attribute muss ein Bild sein.",
-	"in"             => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
-	"integer"        => ":attribute muss eine ganze Zahl sein.",
-	"ip"             => ":attribute muss eine g&uuml;ltige IP-Adresse sein.",
-	"match"          => ":attribute hat ein ung&uuml;ltiges Format.",
-	"max"            => array(
+	"confirmed"			=> ":attribute stimmt nicht mit der Best&auml;tigung &uuml;berein.",
+	"count"					=> ":attribute muss genau :count ausgew&auml;hlte Elemente haben.",
+	"countbetween"	 => ":attribute muss zwischen :min und :max ausgew&auml;hlte Elemente haben.",
+	"countmax"			 => ":attribute muss weniger als :max ausgew&auml;hlte Elemente haben.",
+	"countmin"			 => ":attribute muss mindestens :min ausgew&auml;hlte Elemente haben.",
+	"different"			=> ":attribute und :other m&uuml;ssen verschieden sein.",
+	"email"					=> ":attribute ist keine g&uuml;ltige Email-Adresse.",
+	"exists"				 => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
+	"image"					=> ":attribute muss ein Bild sein.",
+	"in"						 => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
+	"integer"				=> ":attribute muss eine ganze Zahl sein.",
+	"ip"						 => ":attribute muss eine g&uuml;ltige IP-Adresse sein.",
+	"match"					=> ":attribute hat ein ung&uuml;ltiges Format.",
+	"max"						=> array(
 		"numeric" => ":attribute muss kleiner als :max sein.",
-		"file"    => ":attribute muss kleiner als :max Kilobytes gro&szlig; sein.",
-		"string"  => ":attribute muss k&uuml;rzer als :max Zeichen sein.",
+		"file"		=> ":attribute muss kleiner als :max Kilobytes gro&szlig; sein.",
+		"string"	=> ":attribute muss k&uuml;rzer als :max Zeichen sein.",
 	),
-	"mimes"          => ":attribute muss den Dateityp :values haben.",
-	"min"            => array(
+	"mimes"					=> ":attribute muss den Dateityp :values haben.",
+	"min"						=> array(
 		"numeric" => ":attribute muss gr&ouml;&szlig;er als :min sein.",
-		"file"    => ":attribute muss gr&ouml;&szlig;er als :min Kilobytes gro&szlig; sein.",
-		"string"  => ":attribute muss l&auml;nger als :min Zeichen sein.",
+		"file"		=> ":attribute muss gr&ouml;&szlig;er als :min Kilobytes gro&szlig; sein.",
+		"string"	=> ":attribute muss l&auml;nger als :min Zeichen sein.",
 	),
-	"not_in"         => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
-	"numeric"        => ":attribute muss eine Zahl sein.",
-	"required"       => ":attribute muss ausgef&uuml;llt sein.",
-	"same"           => ":attribute und :other m&uuml;ssen &uuml;bereinstimmen.",
-	"size"           => array(
+	"not_in"				 => "Der gew&auml;hlte Wert f&uuml;r :attribute ist ung&uuml;ltig.",
+	"numeric"				=> ":attribute muss eine Zahl sein.",
+	"required"			 => ":attribute muss ausgef&uuml;llt sein.",
+	"same"					 => ":attribute und :other m&uuml;ssen &uuml;bereinstimmen.",
+	"size"					 => array(
 		"numeric" => ":attribute muss gleich :size sein.",
-		"file"    => ":attribute muss :size Kilobyte gro&szlig; sein.",
-		"string"  => ":attribute muss :size Zeichen lang sein.",
+		"file"		=> ":attribute muss :size Kilobyte gro&szlig; sein.",
+		"string"	=> ":attribute muss :size Zeichen lang sein.",
 	),
-	"unique"         => ":attribute ist schon vergeben.",
-	"url"            => "Das Format von :attribute ist ung&uuml;ltig.",
+	"unique"				 => ":attribute ist schon vergeben.",
+	"url"						=> "Das Format von :attribute ist ung&uuml;ltig.",
 
 	/*
 	|--------------------------------------------------------------------------

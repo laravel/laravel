@@ -50,38 +50,38 @@ return array(
 	'connections' => array(
 
 		'sqlite' => array(
-			'driver'   => 'sqlite',
+			'driver'	 => 'sqlite',
 			'database' => 'application',
-			'prefix'   => '',
+			'prefix'	 => '',
 		),
 
 		'mysql' => array(
-			'driver'   => 'mysql',
-			'host'     => 'localhost',
+			'driver'	 => 'mysql',
+			'host'		 => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => 'password',
-			'charset'  => 'utf8',
-			'prefix'   => '',
+			'charset'	=> 'utf8',
+			'prefix'	 => '',
 		),
 
 		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
+			'driver'	 => 'pgsql',
+			'host'		 => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => 'password',
-			'charset'  => 'utf8',
-			'prefix'   => '',
+			'charset'	=> 'utf8',
+			'prefix'	 => '',
 		),
 
 		'sqlsrv' => array(
-			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
+			'driver'	 => 'sqlsrv',
+			'host'		 => 'localhost',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => 'password',
-			'prefix'   => '',
+			'prefix'	 => '',
 		),
 
 	),

@@ -19,7 +19,7 @@ class Cookie {
 	/**
 	 * Determine if a cookie exists.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return bool
 	 */
 	public static function has($name)
@@ -38,8 +38,8 @@ class Cookie {
 	 *		$favorite = Cookie::get('framework', 'Laravel');
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  mixed   $default
+	 * @param	string	$name
+	 * @param	mixed	 $default
 	 * @return string
 	 */
 	public static function get($name, $default = null)
@@ -65,12 +65,12 @@ class Cookie {
 	 *		Cookie::put('favorite', 'Laravel', 20);
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  int     $expiration
-	 * @param  string  $path
-	 * @param  string  $domain
-	 * @param  bool    $secure
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	int		 $expiration
+	 * @param	string	$path
+	 * @param	string	$domain
+	 * @param	bool		$secure
 	 * @return void
 	 */
 	public static function put($name, $value, $expiration = 0, $path = '/', $domain = null, $secure = false)
@@ -101,11 +101,11 @@ class Cookie {
 	 *		Cookie::forever('favorite', 'Blue');
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  string  $path
-	 * @param  string  $domain
-	 * @param  bool    $secure
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	string	$path
+	 * @param	string	$domain
+	 * @param	bool		$secure
 	 * @return bool
 	 */
 	public static function forever($name, $value, $path = '/', $domain = null, $secure = false)
@@ -116,10 +116,10 @@ class Cookie {
 	/**
 	 * Delete a cookie.
 	 *
-	 * @param  string  $name
-	 * @param  string  $path
-	 * @param  string  $domain
-	 * @param  bool    $secure
+	 * @param	string	$name
+	 * @param	string	$path
+	 * @param	string	$domain
+	 * @param	bool		$secure
 	 * @return bool
 	 */
 	public static function forget($name, $path = '/', $domain = null, $secure = false)
@@ -130,7 +130,7 @@ class Cookie {
 	/**
 	 * Hash the given cookie value.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function hash($value)
@@ -141,7 +141,7 @@ class Cookie {
 	/**
 	 * Parse a hash fingerprinted cookie value.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function parse($value)

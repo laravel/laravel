@@ -19,8 +19,8 @@ class Form {
 	/**
 	 * Registers a custom macro.
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $macro
+	 * @param	string	 $name
+	 * @param	Closure	$macro
 	 * @return void
 	 */
 	public static function macro($name, $macro)
@@ -45,17 +45,17 @@ class Form {
 	 *		echo Form::open('user/profile', 'post', array('class' => 'profile'));
 	 * </code>
 	 *
-	 * @param  string   $action
-	 * @param  string   $method
-	 * @param  array    $attributes
-	 * @param  bool     $https
+	 * @param	string	 $action
+	 * @param	string	 $method
+	 * @param	array		$attributes
+	 * @param	bool		 $https
 	 * @return string
 	 */
 	public static function open($action = null, $method = 'POST', $attributes = array(), $https = null)
 	{
 		$method = strtoupper($method);
 
-		$attributes['method'] =  static::method($method);
+		$attributes['method'] =	static::method($method);
 
 		$attributes['action'] = static::action($action, $https);
 
@@ -83,7 +83,7 @@ class Form {
 	/**
 	 * Determine the appropriate request method to use for a form.
 	 *
-	 * @param  string  $method
+	 * @param	string	$method
 	 * @return string
 	 */
 	protected static function method($method)
@@ -96,8 +96,8 @@ class Form {
 	 *
 	 * If no action is specified, the current request URI will be used.
 	 *
-	 * @param  string   $action
-	 * @param  bool     $https
+	 * @param	string	 $action
+	 * @param	bool		 $https
 	 * @return string
 	 */
 	protected static function action($action, $https)
@@ -110,9 +110,9 @@ class Form {
 	/**
 	 * Open a HTML form with a HTTPS action URI.
 	 *
-	 * @param  string  $action
-	 * @param  string  $method
-	 * @param  array   $attributes
+	 * @param	string	$action
+	 * @param	string	$method
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function open_secure($action = null, $method = 'POST', $attributes = array())
@@ -123,10 +123,10 @@ class Form {
 	/**
 	 * Open a HTML form that accepts file uploads.
 	 *
-	 * @param  string  $action
-	 * @param  string  $method
-	 * @param  array   $attributes
-	 * @param  bool    $https
+	 * @param	string	$action
+	 * @param	string	$method
+	 * @param	array	 $attributes
+	 * @param	bool		$https
 	 * @return string
 	 */
 	public static function open_for_files($action = null, $method = 'POST', $attributes = array(), $https = null)
@@ -139,9 +139,9 @@ class Form {
 	/**
 	 * Open a HTML form that accepts file uploads with a HTTPS action URI.
 	 *
-	 * @param  string  $action
-	 * @param  string  $method
-	 * @param  array   $attributes
+	 * @param	string	$action
+	 * @param	string	$method
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function open_secure_for_files($action = null, $method = 'POST', $attributes = array())
@@ -177,9 +177,9 @@ class Form {
 	 *		echo Form::label('email', 'E-Mail Address');
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function label($name, $value, $attributes = array())
@@ -204,10 +204,10 @@ class Form {
 	 *		echo Form::input('text', 'email', 'example@gmail.com');
 	 * </code>
 	 *
-	 * @param  string  $type
-	 * @param  string  $name
-	 * @param  mixed   $value
-	 * @param  array   $attributes
+	 * @param	string	$type
+	 * @param	string	$name
+	 * @param	mixed	 $value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function input($type, $name, $value = null, $attributes = array())
@@ -224,9 +224,9 @@ class Form {
 	/**
 	 * Create a HTML text input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function text($name, $value = null, $attributes = array())
@@ -237,8 +237,8 @@ class Form {
 	/**
 	 * Create a HTML password input element.
 	 *
-	 * @param  string  $name
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function password($name, $attributes = array())
@@ -249,9 +249,9 @@ class Form {
 	/**
 	 * Create a HTML hidden input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function hidden($name, $value = null, $attributes = array())
@@ -262,9 +262,9 @@ class Form {
 	/**
 	 * Create a HTML search input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function search($name, $value = null, $attributes = array())
@@ -275,9 +275,9 @@ class Form {
 	/**
 	 * Create a HTML email input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function email($name, $value = null, $attributes = array())
@@ -288,9 +288,9 @@ class Form {
 	/**
 	 * Create a HTML telephone input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function telephone($name, $value = null, $attributes = array())
@@ -301,9 +301,9 @@ class Form {
 	/**
 	 * Create a HTML URL input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function url($name, $value = null, $attributes = array())
@@ -314,9 +314,9 @@ class Form {
 	/**
 	 * Create a HTML number input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function number($name, $value = null, $attributes = array())
@@ -327,9 +327,9 @@ class Form {
 	/**
 	 * Create a HTML date input element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function date($name, $value = null, $attributes = array())
@@ -340,8 +340,8 @@ class Form {
 	/**
 	 * Create a HTML file input element.
 	 *
-	 * @param  string  $name
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function file($name, $attributes = array())
@@ -352,9 +352,9 @@ class Form {
 	/**
 	 * Create a HTML textarea element.
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function textarea($name, $value = '', $attributes = array())
@@ -381,10 +381,10 @@ class Form {
 	 *		echo Form::select('sizes', array('S' => 'Small', 'L' => 'Large'), 'L');
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  array   $options
-	 * @param  string  $selected
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	array	 $options
+	 * @param	string	$selected
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function select($name, $options = array(), $selected = null, $attributes = array())
@@ -413,9 +413,9 @@ class Form {
 	/**
 	 * Create a HTML select element optgroup.
 	 *
-	 * @param  array   $options
-	 * @param  string  $label
-	 * @param  string  $selected
+	 * @param	array	 $options
+	 * @param	string	$label
+	 * @param	string	$selected
 	 * @return string
 	 */
 	protected static function optgroup($options, $label, $selected)
@@ -433,9 +433,9 @@ class Form {
 	/**
 	 * Create a HTML select element option.
 	 *
-	 * @param  string  $value
-	 * @param  string  $display
-	 * @param  string  $selected
+	 * @param	string	$value
+	 * @param	string	$display
+	 * @param	string	$selected
 	 * @return string
 	 */
 	protected static function option($value, $display, $selected)
@@ -465,10 +465,10 @@ class Form {
 	 *		echo Form::checkbox('terms', 'yes', true);
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  bool    $checked
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	bool		$checked
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function checkbox($name, $value = 1, $checked = false, $attributes = array())
@@ -487,10 +487,10 @@ class Form {
 	 *		echo Form::radio('drinks', 'Milk', true);
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  bool    $checked
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	bool		$checked
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function radio($name, $value = null, $checked = false, $attributes = array())
@@ -503,11 +503,11 @@ class Form {
 	/**
 	 * Create a checkable input element.
 	 *
-	 * @param  string  $type
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  bool    $checked
-	 * @param  array   $attributes
+	 * @param	string	$type
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	bool		$checked
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	protected static function checkable($type, $name, $value, $checked, $attributes)
@@ -522,8 +522,8 @@ class Form {
 	/**
 	 * Create a HTML submit input element.
 	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function submit($value = null, $attributes = array())
@@ -534,8 +534,8 @@ class Form {
 	/**
 	 * Create a HTML reset input element.
 	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function reset($value = null, $attributes = array())
@@ -551,9 +551,9 @@ class Form {
 	 *		echo Form::image('img/submit.png');
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  string  $name
-	 * @param  array   $attributes
+	 * @param	string	$url
+	 * @param	string	$name
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function image($url, $name = null, $attributes = array())
@@ -566,8 +566,8 @@ class Form {
 	/**
 	 * Create a HTML button element.
 	 *
-	 * @param  string  $value
-	 * @param  array   $attributes
+	 * @param	string	$value
+	 * @param	array	 $attributes
 	 * @return string
 	 */
 	public static function button($value = null, $attributes = array())
@@ -578,8 +578,8 @@ class Form {
 	/**
 	 * Determine the ID attribute for a form element.
 	 *
-	 * @param  string  $name
-	 * @param  array   $attributes
+	 * @param	string	$name
+	 * @param	array	 $attributes
 	 * @return mixed
 	 */
 	protected static function id($name, $attributes)
@@ -601,8 +601,8 @@ class Form {
 	/**
 	 * Dynamically handle calls to custom macros.
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $parameters)

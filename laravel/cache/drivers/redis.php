@@ -12,7 +12,7 @@ class Redis extends Driver {
 	/**
 	 * Create a new Redis cache driver instance.
 	 *
-	 * @param  Laravel\Redis  $redis
+	 * @param	Laravel\Redis	$redis
 	 * @return void
 	 */
 	public function __construct(\Laravel\Redis $redis)
@@ -23,7 +23,7 @@ class Redis extends Driver {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key)
@@ -34,7 +34,7 @@ class Redis extends Driver {
 	/**
 	 * Retrieve an item from the cache driver.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	protected function retrieve($key)
@@ -53,9 +53,9 @@ class Redis extends Driver {
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
+	 * @param	string	$key
+	 * @param	mixed	 $value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	public function put($key, $value, $minutes)
@@ -68,8 +68,8 @@ class Redis extends Driver {
 	/**
 	 * Write an item to the cache that lasts forever.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function forever($key, $value)
@@ -80,7 +80,7 @@ class Redis extends Driver {
 	/**
 	 * Delete an item from the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function forget($key)

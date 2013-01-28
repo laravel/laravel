@@ -100,12 +100,12 @@ Typically, a route or controller will request data from a model that the view ne
 
 #### Using magic methods to bind data:
 
-	$view->name  = 'James';
+	$view->name	= 'James';
 	$view->email = 'example@example.com';
 
 #### Using the ArrayAccess interface methods to bind data:
 
-	$view['name']  = 'James';
+	$view['name']	= 'James';
 	$view['email'] = 'example@example.com';
 
 <a name="nesting-views"></a>

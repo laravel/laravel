@@ -26,8 +26,8 @@ class Join {
 	/**
 	 * Create a new query join instance.
 	 *
-	 * @param  string  $type
-	 * @param  string  $table
+	 * @param	string	$type
+	 * @param	string	$table
 	 * @return void
 	 */
 	public function __construct($type, $table)
@@ -39,10 +39,10 @@ class Join {
 	/**
 	 * Add an ON clause to the join.
 	 *
-	 * @param  string  $column1
-	 * @param  string  $operator
-	 * @param  string  $column2
-	 * @param  string  $connector
+	 * @param	string	$column1
+	 * @param	string	$operator
+	 * @param	string	$column2
+	 * @param	string	$connector
 	 * @return Join
 	 */
 	public function on($column1, $operator, $column2, $connector = 'AND')
@@ -55,9 +55,9 @@ class Join {
 	/**
 	 * Add an OR ON clause to the join.
 	 *
-	 * @param  string  $column1
-	 * @param  string  $operator
-	 * @param  string  $column2
+	 * @param	string	$column1
+	 * @param	string	$operator
+	 * @param	string	$column2
 	 * @return Join
 	 */
 	public function or_on($column1, $operator, $column2)

@@ -12,7 +12,7 @@ class Memory extends Sectionable {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key)
@@ -23,7 +23,7 @@ class Memory extends Sectionable {
 	/**
 	 * Retrieve an item from the cache driver.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	protected function retrieve($key)
@@ -48,9 +48,9 @@ class Memory extends Sectionable {
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
+	 * @param	string	$key
+	 * @param	mixed	 $value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	public function put($key, $value, $minutes)
@@ -70,8 +70,8 @@ class Memory extends Sectionable {
 	/**
 	 * Write an item to the cache that lasts forever.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function forever($key, $value)
@@ -91,7 +91,7 @@ class Memory extends Sectionable {
 	/**
 	 * Delete an item from the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function forget($key)
@@ -118,7 +118,7 @@ class Memory extends Sectionable {
 	/**
 	 * Delete an entire section from the cache.
 	 *
-	 * @param  string    $section
+	 * @param	string		$section
 	 * @return int|bool
 	 */
 	public function forget_section($section)
@@ -139,8 +139,8 @@ class Memory extends Sectionable {
 	/**
 	 * Get a section item key for a given section and key.
 	 *
-	 * @param  string  $section
-	 * @param  string  $key
+	 * @param	string	$section
+	 * @param	string	$key
 	 * @return string
 	 */
 	protected function section_item_key($section, $key)

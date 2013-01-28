@@ -86,8 +86,8 @@ class View implements ArrayAccess {
 	 *		$view = new View('home.index', array('name' => 'Taylor'));
 	 * </code>
 	 *
-	 * @param  string  $view
-	 * @param  array   $data
+	 * @param	string	$view
+	 * @param	array	 $data
 	 * @return void
 	 */
 	public function __construct($view, $data = array())
@@ -126,8 +126,8 @@ class View implements ArrayAccess {
 	/**
 	 * Determine if the given view exists.
 	 *
-	 * @param  string       $view
-	 * @param  boolean      $return_path
+	 * @param	string			 $view
+	 * @param	boolean			$return_path
 	 * @return string|bool
 	 */
 	public static function exists($view, $return_path = false)
@@ -136,7 +136,7 @@ class View implements ArrayAccess {
 		{
 			$view = static::$names[$name];
 		}
-		
+
 		list($bundle, $view) = Bundle::parse($view);
 
 		$view = str_replace('.', '/', $view);
@@ -157,7 +157,7 @@ class View implements ArrayAccess {
 	/**
 	 * Get the path to a given view on disk.
 	 *
-	 * @param  string  $view
+	 * @param	string	$view
 	 * @return string
 	 */
 	protected function path($view)
@@ -173,9 +173,9 @@ class View implements ArrayAccess {
 	/**
 	 * Get the path to a view using the default folder convention.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $view
-	 * @param  string  $directory
+	 * @param	string	$bundle
+	 * @param	string	$view
+	 * @param	string	$directory
 	 * @return string
 	 */
 	public static function file($bundle, $view, $directory)
@@ -209,8 +209,8 @@ class View implements ArrayAccess {
 	 *		$view = View::make('home.index', array('name' => 'Taylor'));
 	 * </code>
 	 *
-	 * @param  string  $view
-	 * @param  array   $data
+	 * @param	string	$view
+	 * @param	array	 $data
 	 * @return View
 	 */
 	public static function make($view, $data = array())
@@ -229,8 +229,8 @@ class View implements ArrayAccess {
 	 *		$view = View::of('profile', array('name' => 'Taylor'));
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  array   $data
+	 * @param	string	$name
+	 * @param	array	 $data
 	 * @return View
 	 */
 	public static function of($name, $data = array())
@@ -249,8 +249,8 @@ class View implements ArrayAccess {
 	 *		$view = View::of('profile');
 	 * </code>
 	 *
-	 * @param  string  $view
-	 * @param  string  $name
+	 * @param	string	$view
+	 * @param	string	$name
 	 * @return void
 	 */
 	public static function name($view, $name)
@@ -269,8 +269,8 @@ class View implements ArrayAccess {
 	 *		});
 	 * </code>
 	 *
-	 * @param  string|array  $views
-	 * @param  Closure       $composer
+	 * @param	string|array	$views
+	 * @param	Closure			 $composer
 	 * @return void
 	 */
 	public static function composer($views, $composer)
@@ -286,10 +286,10 @@ class View implements ArrayAccess {
 	/**
 	 * Get the rendered contents of a partial from a loop.
 	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @param  string  $iterator
-	 * @param  string  $empty
+	 * @param	string	$view
+	 * @param	array	 $data
+	 * @param	string	$iterator
+	 * @param	string	$empty
 	 * @return string
 	 */
 	public static function render_each($view, array $data, $iterator, $empty = 'raw|')
@@ -440,7 +440,7 @@ class View implements ArrayAccess {
 		// All nested views and responses are evaluated before the main view.
 		// This allows the assets used by nested views to be added to the
 		// asset container before the main view is evaluated.
-		foreach ($data as $key => $value) 
+		foreach ($data as $key => $value)
 		{
 			if ($value instanceof View or $value instanceof Response)
 			{
@@ -462,9 +462,9 @@ class View implements ArrayAccess {
 	 *		$view = View::make('foo')->with('footer', View::make('partials.footer'));
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  string  $view
-	 * @param  array   $data
+	 * @param	string	$key
+	 * @param	string	$view
+	 * @param	array	 $data
 	 * @return View
 	 */
 	public function nest($key, $view, $data = array())
@@ -477,8 +477,8 @@ class View implements ArrayAccess {
 	 *
 	 * Bound data will be available to the view as variables.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return View
 	 */
 	public function with($key, $value = null)
@@ -500,8 +500,8 @@ class View implements ArrayAccess {
 	 *
 	 * Shared view data is accessible to every view created by the application.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return View
 	 */
 	public function shares($key, $value)
@@ -515,8 +515,8 @@ class View implements ArrayAccess {
 	 *
 	 * Shared view data is accessible to every view created by the application.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public static function share($key, $value)

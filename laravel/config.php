@@ -36,7 +36,7 @@ class Config {
 	 *		$exists = Config::has('application.timezone');
 	 * </code>
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public static function has($key)
@@ -60,8 +60,8 @@ class Config {
 	 *		$timezone = Config::get('application.timezone');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return array
 	 */
 	public static function get($key, $default = null)
@@ -99,8 +99,8 @@ class Config {
 	 *		Config::set('application.timezone', 'UTC');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public static function set($key, $value)
@@ -127,7 +127,7 @@ class Config {
 	 *
 	 * Configuration items are named using the {bundle}::{file}.{item} convention.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return array
 	 */
 	protected static function parse($key)
@@ -162,8 +162,8 @@ class Config {
 	/**
 	 * Load all of the configuration items from a configuration file.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $file
+	 * @param	string	$bundle
+	 * @param	string	$file
 	 * @return bool
 	 */
 	public static function load($bundle, $file)
@@ -189,8 +189,8 @@ class Config {
 	/**
 	 * Load the configuration items from a configuration file.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $file
+	 * @param	string	$bundle
+	 * @param	string	$file
 	 * @return array
 	 */
 	public static function file($bundle, $file)
@@ -214,7 +214,7 @@ class Config {
 	/**
 	 * Get the array of configuration paths that should be searched for a bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return array
 	 */
 	protected static function paths($bundle)

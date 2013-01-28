@@ -13,8 +13,8 @@ class Hash {
 	 *		$hash = Hash::make('secret', 12);
 	 * </code>
 	 *
-	 * @param  string  $value
-	 * @param  int     $rounds
+	 * @param	string	$value
+	 * @param	int		 $rounds
 	 * @return string
 	 */
 	public static function make($value, $rounds = 8)
@@ -41,8 +41,8 @@ class Hash {
 	/**
 	 * Determine if an unhashed value matches a Bcrypt hash.
 	 *
-	 * @param  string  $value
-	 * @param  string  $hash
+	 * @param	string	$value
+	 * @param	string	$hash
 	 * @return bool
 	 */
 	public static function check($value, $hash)

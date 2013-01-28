@@ -32,7 +32,7 @@ class BladeTest extends PHPUnit_Framework_TestCase {
 		$blade1 = "{{-- This is a comment --}}";
 		$blade2 = "{{--\nThis is a\nmulti-line\ncomment.\n--}}";
 
-		$this->assertEquals("<?php /*  This is a comment  */ ?>\n", Blade::compile_string($blade1));
+		$this->assertEquals("<?php /*	This is a comment	*/ ?>\n", Blade::compile_string($blade1));
 		$this->assertEquals("<?php /* \nThis is a\nmulti-line\ncomment.\n */ ?>\n", Blade::compile_string($blade2));
 	}
 

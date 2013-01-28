@@ -2,10 +2,10 @@
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
- * @package  Laravel
- * @version  3.2.13
- * @author   Taylor Otwell <taylorotwell@gmail.com>
- * @link     http://laravel.com
+ * @package	Laravel
+ * @version	3.2.13
+ * @author	 Taylor Otwell <taylorotwell@gmail.com>
+ * @link		 http://laravel.com
  */
 
 // --------------------------------------------------------------

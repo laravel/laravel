@@ -48,7 +48,7 @@ Laravel even gives you a simple way to determine if a cached item exists using t
 
 	if (Cache::has('name'))
 	{
-	     $name = Cache::get('name');
+			 $name = Cache::get('name');
 	}
 
 <a name="forget"></a>

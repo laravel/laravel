@@ -35,7 +35,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$_SERVER['auth.login.stub'] = null;
 		$_SERVER['test.user.login'] = null;
 		$_SERVER['test.user.logout'] = null;
-		
+
 		Cookie::$jar = array();
 		Config::$items = array();
 		Auth::driver()->user = null;
@@ -46,8 +46,8 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Set one of the $_SERVER variables.
 	 *
-	 * @param string  $key
-	 * @param string  $value
+	 * @param string	$key
+	 * @param string	$value
 	 */
 	protected function setServerVar($key, $value)
 	{
@@ -58,7 +58,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Reinitialize the global request.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function restartRequest()
@@ -126,7 +126,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testGuestReturnsFalseWhenUserIsSet()
 	{
 		$auth = new AuthUserReturnsDummy;
-		
+
 		$this->assertFalse($auth->guest());
 	}
 
@@ -150,7 +150,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testUserReturnsUserByID()
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
-		
+
 		Auth::login(1);
 
 		$this->assertEquals('Taylor Otwell', Auth::user()->name);
@@ -166,7 +166,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testNullReturnedWhenUserIDNotValidInteger()
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
-		
+
 		Auth::login('asdlkasd');
 
 		$this->assertNull(Auth::user());
@@ -187,7 +187,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 		$auth = new AuthLoginStub;
 
 		$this->assertEquals('Taylor Otwell', $auth->user()->name);
-		
+
 		$this->assertTrue($auth->user()->id === $_SERVER['auth.login.stub']['user']);
 	}
 
@@ -295,7 +295,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testLogoutMethodLogsOutUser()
 	{
 		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
-		
+
 		$data = Session::$instance->session['data']['laravel_auth_drivers_fluent_login'] = 1;
 
 		Auth::logout();
@@ -327,7 +327,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertNull($_SERVER['test.user.login']);
 		$this->assertNull($_SERVER['test.user.logout']);
-		
+
 		Auth::login(1, true);
 
 		$this->assertEquals('foo', $_SERVER['test.user.login']);
@@ -355,16 +355,16 @@ class AuthUserReturnsDummy extends Laravel\Auth\Drivers\Driver {
 
 	public function retrieve($id) { return null; }
 
-	public function attempt($arguments = array()) 
+	public function attempt($arguments = array())
 	{
-		return $this->login($arguments['username']); 
+		return $this->login($arguments['username']);
 	}
 
 }
 
 class AuthLoginStub extends Laravel\Auth\Drivers\Fluent {
-	
-	public function login($user, $remember = false) 
+
+	public function login($user, $remember = false)
 	{
 		if (is_null($remember)) $remember = false;
 
@@ -383,7 +383,7 @@ class AuthLoginStub extends Laravel\Auth\Drivers\Fluent {
 		$user = parent::retrieve($id);
 
 		$_SERVER['auth.login.stub'] = array(
-			'user'     => $user->id,
+			'user'		 => $user->id,
 			'remember' => false,
 		);
 

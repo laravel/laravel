@@ -8,8 +8,8 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Generate the SQL statement for creating a foreign key.
 	 *
-	 * @param  Table    $table
-	 * @param  Fluent  $command
+	 * @param	Table		$table
+	 * @param	Fluent	$command
 	 * @return string
 	 */
 	public function foreign(Table $table, Fluent $command)
@@ -53,8 +53,8 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Generate the SQL statement for a drop table command.
 	 *
-	 * @param  Table   $table
-	 * @param  Fluent  $command
+	 * @param	Table	 $table
+	 * @param	Fluent	$command
 	 * @return string
 	 */
 	public function drop(Table $table, Fluent $command)
@@ -65,8 +65,8 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Drop a constraint from the table.
 	 *
-	 * @param  Table   $table
-	 * @param  Fluent  $command
+	 * @param	Table	 $table
+	 * @param	Fluent	$command
 	 * @return string
 	 */
 	protected function drop_constraint(Table $table, Fluent $command)
@@ -77,7 +77,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Wrap a value in keyword identifiers.
 	 *
-	 * @param  Table|string  $value
+	 * @param	Table|string	$value
 	 * @return string
 	 */
 	public function wrap($value)
@@ -100,7 +100,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	/**
 	 * Get the appropriate data type definition for the column.
 	 *
-	 * @param  Fluent  $column
+	 * @param	Fluent	$column
 	 * @return string
 	 */
 	protected function type(Fluent $column)
@@ -110,7 +110,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 
 	/**
 	 * Format a value so that it can be used in SQL DEFAULT clauses.
-	 * @param  mixed   $value
+	 * @param	mixed	 $value
 	 * @return string
 	 */
 	protected function default_value($value)

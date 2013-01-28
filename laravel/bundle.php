@@ -36,8 +36,8 @@ class Bundle {
 	/**
 	 * Register the bundle for the application.
 	 *
-	 * @param  string  $bundle
-	 * @param  array   $config
+	 * @param	string	$bundle
+	 * @param	array	 $config
 	 * @return void
 	 */
 	public static function register($bundle, $config = array())
@@ -78,7 +78,7 @@ class Bundle {
 	 *
 	 * If the bundle has already been started, no action will be taken.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public static function start($bundle)
@@ -115,7 +115,7 @@ class Bundle {
 	/**
 	 * Load the "routes" file for a given bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public static function routes($bundle)
@@ -140,8 +140,8 @@ class Bundle {
 	/**
 	 * Register the auto-loading configuration for a bundle.
 	 *
-	 * @param  string  $bundle
-	 * @param  array   $config
+	 * @param	string	$bundle
+	 * @param	array	 $config
 	 * @return void
 	 */
 	protected static function autoloads($bundle, $config)
@@ -169,7 +169,7 @@ class Bundle {
 	/**
 	 * Disable a bundle for the current request.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public static function disable($bundle)
@@ -182,7 +182,7 @@ class Bundle {
 	 *
 	 * The default bundle is returned if no other bundle is assigned.
 	 *
-	 * @param  string  $uri
+	 * @param	string	$uri
 	 * @return string
 	 */
 	public static function handles($uri)
@@ -203,7 +203,7 @@ class Bundle {
 	/**
 	 * Determine if a bundle exists within the bundles directory.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return bool
 	 */
 	public static function exists($bundle)
@@ -214,7 +214,7 @@ class Bundle {
 	/**
 	 * Determine if a given bundle has been started for the request.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public static function started($bundle)
@@ -225,7 +225,7 @@ class Bundle {
 	/**
 	 * Determine if a given bundle has its routes file loaded.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return void
 	 */
 	public static function routed($bundle)
@@ -236,7 +236,7 @@ class Bundle {
 	/**
 	 * Get the identifier prefix for the bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	public static function prefix($bundle)
@@ -247,7 +247,7 @@ class Bundle {
 	/**
 	 * Get the class prefix for a given bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	public static function class_prefix($bundle)
@@ -266,7 +266,7 @@ class Bundle {
 	 *		$path = Bundle::path('application');
 	 * </code>
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	public static function path($bundle)
@@ -294,7 +294,7 @@ class Bundle {
 	/**
 	 * Return the root asset path for the given bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	public static function assets($bundle)
@@ -312,7 +312,7 @@ class Bundle {
 	 *		$bundle = Bundle::name('admin::home.index');
 	 * </code>
 	 *
-	 * @param  string  $identifier
+	 * @param	string	$identifier
 	 * @return string
 	 */
 	public static function name($identifier)
@@ -330,7 +330,7 @@ class Bundle {
 	 *		$bundle = Bundle::bundle('admin::home.index');
 	 * </code>
 	 *
-	 * @param  string  $identifier
+	 * @param	string	$identifier
 	 * @return string
 	 */
 	public static function element($identifier)
@@ -351,8 +351,8 @@ class Bundle {
 	 *		$identifier = Bundle::identifier('application', 'home.index');
 	 * </code>
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $element
+	 * @param	string	$bundle
+	 * @param	string	$element
 	 * @return string
 	 */
 	public static function identifier($bundle, $element)
@@ -363,7 +363,7 @@ class Bundle {
 	/**
 	 * Return the bundle name if it exists, else return the default bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return string
 	 */
 	public static function resolve($bundle)
@@ -382,7 +382,7 @@ class Bundle {
 	 *		$element = Bundle::parse('admin::user');
 	 * </code>
 	 *
-	 * @param  string  $identifier
+	 * @param	string	$identifier
 	 * @return array
 	 */
 	public static function parse($identifier)
@@ -413,7 +413,7 @@ class Bundle {
 	/**
 	 * Get the information for a given bundle.
 	 *
-	 * @param  string  $bundle
+	 * @param	string	$bundle
 	 * @return object
 	 */
 	public static function get($bundle)
@@ -424,9 +424,9 @@ class Bundle {
 	/**
 	 * Get an option for a given bundle.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $option
-	 * @param  mixed   $default
+	 * @param	string	$bundle
+	 * @param	string	$option
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public static function option($bundle, $option, $default = null)
@@ -464,7 +464,7 @@ class Bundle {
 	/**
 	 * Expand given bundle path of form "[bundle::]path/...".
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return string
 	 */
 	public static function expand($path)

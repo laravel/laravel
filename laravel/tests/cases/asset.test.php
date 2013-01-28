@@ -247,7 +247,7 @@ class AssetTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Get an asset container instance.
 	 *
-	 * @param  string           $name
+	 * @param	string					 $name
 	 * @return Asset_Container
 	 */
 	private function getContainer($name = 'foo')

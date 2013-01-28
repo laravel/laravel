@@ -19,7 +19,7 @@ abstract class Grammar {
 	/**
 	 * Create a new database grammar instance.
 	 *
-	 * @param  Connection  $connection
+	 * @param	Connection	$connection
 	 * @return void
 	 */
 	public function __construct(Connection $connection)
@@ -30,7 +30,7 @@ abstract class Grammar {
 	/**
 	 * Wrap a table in keyword identifiers.
 	 *
-	 * @param  string  $table
+	 * @param	string	$table
 	 * @return string
 	 */
 	public function wrap_table($table)
@@ -59,7 +59,7 @@ abstract class Grammar {
 	/**
 	 * Wrap a value in keyword identifiers.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public function wrap($value)
@@ -109,7 +109,7 @@ abstract class Grammar {
 	/**
 	 * Wrap a single string value in keyword identifiers.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected function wrap_value($value)
@@ -128,7 +128,7 @@ abstract class Grammar {
 	 *		$parameters = $grammar->parameterize(array(1, DB::raw('Taylor')));
 	 * </code>
 	 *
-	 * @param  array   $values
+	 * @param	array	 $values
 	 * @return string
 	 */
 	final public function parameterize($values)
@@ -147,7 +147,7 @@ abstract class Grammar {
 	 *		$value = $grammar->parameter(DB::raw('Taylor Otwell'));
 	 * </code>
 	 *
-	 * @param  mixed   $value
+	 * @param	mixed	 $value
 	 * @return string
 	 */
 	final public function parameter($value)
@@ -163,7 +163,7 @@ abstract class Grammar {
 	 *		$columns = $grammar->columnize(array('Taylor', 'Otwell'));
 	 * </code>
 	 *
-	 * @param  array   $columns
+	 * @param	array	 $columns
 	 * @return string
 	 */
 	final public function columnize($columns)

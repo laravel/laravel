@@ -12,7 +12,7 @@ class Manager extends Task {
 	/**
 	 * Generate the session table on the database.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function table($arguments = array())
@@ -48,7 +48,7 @@ class Manager extends Task {
 	/**
 	 * Sweep the expired sessions from storage.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function sweep($arguments = array())
@@ -71,7 +71,7 @@ class Manager extends Task {
 	/**
 	 * Set the session driver to a given value.
 	 *
-	 * @param  string  $driver
+	 * @param	string	$driver
 	 * @return void
 	 */
 	protected function driver($driver)

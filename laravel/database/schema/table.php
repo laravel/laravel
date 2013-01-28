@@ -42,7 +42,7 @@ class Table {
 	/**
 	 * Create a new schema table instance.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function __construct($name)
@@ -63,8 +63,8 @@ class Table {
 	/**
 	 * Create a new primary key on the table.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function primary($columns, $name = null)
@@ -75,8 +75,8 @@ class Table {
 	/**
 	 * Create a new unique index on the table.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function unique($columns, $name = null)
@@ -87,8 +87,8 @@ class Table {
 	/**
 	 * Create a new full-text index on the table.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function fulltext($columns, $name = null)
@@ -99,8 +99,8 @@ class Table {
 	/**
 	 * Create a new index on the table.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function index($columns, $name = null)
@@ -111,8 +111,8 @@ class Table {
 	/**
 	 * Add a foreign key constraint to the table.
 	 *
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function foreign($columns, $name = null)
@@ -123,9 +123,9 @@ class Table {
 	/**
 	 * Create a command for creating any index.
 	 *
-	 * @param  string        $type
-	 * @param  string|array  $columns
-	 * @param  string        $name
+	 * @param	string				$type
+	 * @param	string|array	$columns
+	 * @param	string				$name
 	 * @return Fluent
 	 */
 	public function key($type, $columns, $name)
@@ -148,7 +148,7 @@ class Table {
 	/**
 	 * Rename the database table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function rename($name)
@@ -169,7 +169,7 @@ class Table {
 	/**
 	 * Drop a column from the table.
 	 *
-	 * @param  string|array  $columns
+	 * @param	string|array	$columns
 	 * @return void
 	 */
 	public function drop_column($columns)
@@ -180,7 +180,7 @@ class Table {
 	/**
 	 * Drop a primary key from the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function drop_primary($name = null)
@@ -191,7 +191,7 @@ class Table {
 	/**
 	 * Drop a unique index from the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function drop_unique($name)
@@ -202,7 +202,7 @@ class Table {
 	/**
 	 * Drop a full-text index from the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function drop_fulltext($name)
@@ -213,7 +213,7 @@ class Table {
 	/**
 	 * Drop an index from the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function drop_index($name)
@@ -224,7 +224,7 @@ class Table {
 	/**
 	 * Drop a foreign key constraint from the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return void
 	 */
 	public function drop_foreign($name)
@@ -235,8 +235,8 @@ class Table {
 	/**
 	 * Create a command to drop any type of index.
 	 *
-	 * @param  string  $type
-	 * @param  string  $name
+	 * @param	string	$type
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	protected function drop_key($type, $name)
@@ -247,7 +247,7 @@ class Table {
 	/**
 	 * Add an auto-incrementing integer to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function increments($name)
@@ -258,8 +258,8 @@ class Table {
 	/**
 	 * Add a string column to the table.
 	 *
-	 * @param  string  $name
-	 * @param  int     $length
+	 * @param	string	$name
+	 * @param	int		 $length
 	 * @return Fluent
 	 */
 	public function string($name, $length = 200)
@@ -270,8 +270,8 @@ class Table {
 	/**
 	 * Add an integer column to the table.
 	 *
-	 * @param  string  $name
-	 * @param  bool    $increment
+	 * @param	string	$name
+	 * @param	bool		$increment
 	 * @return Fluent
 	 */
 	public function integer($name, $increment = false)
@@ -282,7 +282,7 @@ class Table {
 	/**
 	 * Add a float column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function float($name)
@@ -293,9 +293,9 @@ class Table {
 	/**
 	 * Add a decimal column to the table.
 	 *
-	 * @param  string  $name
-	 * @param  int     $precision
-	 * @param  int     $scale
+	 * @param	string	$name
+	 * @param	int		 $precision
+	 * @param	int		 $scale
 	 * @return Fluent
 	 */
 	public function decimal($name, $precision, $scale)
@@ -306,7 +306,7 @@ class Table {
 	/**
 	 * Add a boolean column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function boolean($name)
@@ -329,7 +329,7 @@ class Table {
 	/**
 	 * Add a date-time column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function date($name)
@@ -340,7 +340,7 @@ class Table {
 	/**
 	 * Add a timestamp column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function timestamp($name)
@@ -351,7 +351,7 @@ class Table {
 	/**
 	 * Add a text column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function text($name)
@@ -362,7 +362,7 @@ class Table {
 	/**
 	 * Add a blob column to the table.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Fluent
 	 */
 	public function blob($name)
@@ -373,7 +373,7 @@ class Table {
 	/**
 	 * Set the database connection for the table operation.
 	 *
-	 * @param  string  $connection
+	 * @param	string	$connection
 	 * @return void
 	 */
 	public function on($connection)
@@ -397,8 +397,8 @@ class Table {
 	/**
 	 * Create a new fluent command instance.
 	 *
-	 * @param  string  $type
-	 * @param  array   $parameters
+	 * @param	string	$type
+	 * @param	array	 $parameters
 	 * @return Fluent
 	 */
 	protected function command($type, $parameters = array())
@@ -411,8 +411,8 @@ class Table {
 	/**
 	 * Create a new fluent column instance.
 	 *
-	 * @param  string  $type
-	 * @param  array   $parameters
+	 * @param	string	$type
+	 * @param	array	 $parameters
 	 * @return Fluent
 	 */
 	protected function column($type, $parameters = array())

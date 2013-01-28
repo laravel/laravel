@@ -1,7 +1,7 @@
 <?php
 
 class HtmlTest extends PHPUnit_Framework_TestCase {
-	
+
 	/**
 	 * Setup the test environment
 	 */
@@ -158,7 +158,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('<a href="http://localhost/index.php/dashboard">http://localhost/index.php/dashboard</a>', $html1);
 		$this->assertEquals('<a href="http://localhost/index.php/dashboard">Foobar</a>', $html2);
-		$this->assertEquals('<a href="http://localhost/index.php/dashboard" class="btn">Foobar</a>', $html3);	
+		$this->assertEquals('<a href="http://localhost/index.php/dashboard" class="btn">Foobar</a>', $html3);
 	}
 
 	/**

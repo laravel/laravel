@@ -24,8 +24,8 @@ All of the database configuration options live in the **application/config/datab
 Of course, if you want to name your database something besides "application", you can modify the database option in the SQLite section of the **application/config/database.php** file:
 
 	'sqlite' => array(
-	     'driver'   => 'sqlite',
-	     'database' => 'your_database_name',
+			 'driver'	 => 'sqlite',
+			 'database' => 'your_database_name',
 	)
 
 If your application receives less than 100,000 hits per day, SQLite should be suitable for production use in your application. Otherwise, consider using MySQL or PostgreSQL.
@@ -53,18 +53,18 @@ The PDO connector class (**laravel/database/connectors/connector.php**) has a se
 An example of the MySQL system settings with added default PDO attributes:
 
 	'mysql' => array(
-		'driver'   => 'mysql',
-		'host'     => 'localhost',
+		'driver'	 => 'mysql',
+		'host'		 => 'localhost',
 		'database' => 'database',
 		'username' => 'root',
 		'password' => '',
-		'charset'  => 'utf8',
-		'prefix'   => '',
-		PDO::ATTR_CASE              => PDO::CASE_LOWER,
-		PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION,
-		PDO::ATTR_ORACLE_NULLS      => PDO::NULL_NATURAL,
+		'charset'	=> 'utf8',
+		'prefix'	 => '',
+		PDO::ATTR_CASE							=> PDO::CASE_LOWER,
+		PDO::ATTR_ERRMODE					 => PDO::ERRMODE_EXCEPTION,
+		PDO::ATTR_ORACLE_NULLS			=> PDO::NULL_NATURAL,
 		PDO::ATTR_STRINGIFY_FETCHES => false,
-		PDO::ATTR_EMULATE_PREPARES  => false,
+		PDO::ATTR_EMULATE_PREPARES	=> false,
 	),
 
 More about the PDO connection attributes can be found [in the PHP manual](http://php.net/manual/en/pdo.setattribute.php).

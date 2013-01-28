@@ -26,7 +26,7 @@ class Event {
 	/**
 	 * Determine if an event has any registered listeners.
 	 *
-	 * @param  string  $event
+	 * @param	string	$event
 	 * @return bool
 	 */
 	public static function listeners($event)
@@ -45,8 +45,8 @@ class Event {
 	 *		Event::listen('event', array($object, 'method'));
 	 * </code>
 	 *
-	 * @param  string  $event
-	 * @param  mixed   $callback
+	 * @param	string	$event
+	 * @param	mixed	 $callback
 	 * @return void
 	 */
 	public static function listen($event, $callback)
@@ -57,8 +57,8 @@ class Event {
 	/**
 	 * Override all callbacks for a given event with a new callback.
 	 *
-	 * @param  string  $event
-	 * @param  mixed   $callback
+	 * @param	string	$event
+	 * @param	mixed	 $callback
 	 * @return void
 	 */
 	public static function override($event, $callback)
@@ -71,9 +71,9 @@ class Event {
 	/**
 	 * Add an item to an event queue for processing.
 	 *
-	 * @param  string  $queue
-	 * @param  string  $key
-	 * @param  mixed   $data
+	 * @param	string	$queue
+	 * @param	string	$key
+	 * @param	mixed	 $data
 	 * @return void
 	 */
 	public static function queue($queue, $key, $data = array())
@@ -84,8 +84,8 @@ class Event {
 	/**
 	 * Register a queue flusher callback.
 	 *
-	 * @param  string  $queue
-	 * @param  mixed   $callback
+	 * @param	string	$queue
+	 * @param	mixed	 $callback
 	 * @return void
 	 */
 	public static function flusher($queue, $callback)
@@ -96,7 +96,7 @@ class Event {
 	/**
 	 * Clear all event listeners for a given event.
 	 *
-	 * @param  string  $event
+	 * @param	string	$event
 	 * @return void
 	 */
 	public static function clear($event)
@@ -115,8 +115,8 @@ class Event {
 	 *		$response = Event::first('start', array('Laravel', 'Framework'));
 	 * </code>
 	 *
-	 * @param  string  $event
-	 * @param  array   $parameters
+	 * @param	string	$event
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function first($event, $parameters = array())
@@ -129,8 +129,8 @@ class Event {
 	 *
 	 * Execution will be halted after the first valid response is found.
 	 *
-	 * @param  string  $event
-	 * @param  array   $parameters
+	 * @param	string	$event
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function until($event, $parameters = array())
@@ -141,7 +141,7 @@ class Event {
 	/**
 	 * Flush an event queue, firing the flusher for each payload.
 	 *
-	 * @param  string  $queue
+	 * @param	string	$queue
 	 * @return void
 	 */
 	public static function flush($queue)
@@ -176,9 +176,9 @@ class Event {
 	 *		$responses = Event::fire(array('start', 'loading'), $parameters);
 	 * </code>
 	 *
-	 * @param  string|array  $events
-	 * @param  array         $parameters
-	 * @param  bool          $halt
+	 * @param	string|array	$events
+	 * @param	array				 $parameters
+	 * @param	bool					$halt
 	 * @return array
 	 */
 	public static function fire($events, $parameters = array(), $halt = false)

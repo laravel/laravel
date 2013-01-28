@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -18,54 +18,54 @@ return array(
 	|
 	*/
 
-	"accepted"       => "Трябва да приемете :attribute.",
-	"active_url"     => "Полето :attribute не е валиден URL адрес.",
-	"after"          => "Полето :attribute трябва да бъде дата след :date.",
-	"alpha"          => "Полето :attribute трябва да съдържа само букви.",
-	"alpha_dash"     => "Полето :attribute трябва да съдържа само букви, цифри, долна черта и тире.",
-	"alpha_num"      => "Полето :attribute трябва да съдържа само букви и цифри.",
-	"array"          => "Полето :attribute трябва да има избрани елементи.",
-	"before"         => "Полето :attribute трябва да бъде дата преди :date.",
-	"between"        => array(
+	"accepted"			 => "Трябва да приемете :attribute.",
+	"active_url"		 => "Полето :attribute не е валиден URL адрес.",
+	"after"					=> "Полето :attribute трябва да бъде дата след :date.",
+	"alpha"					=> "Полето :attribute трябва да съдържа само букви.",
+	"alpha_dash"		 => "Полето :attribute трябва да съдържа само букви, цифри, долна черта и тире.",
+	"alpha_num"			=> "Полето :attribute трябва да съдържа само букви и цифри.",
+	"array"					=> "Полето :attribute трябва да има избрани елементи.",
+	"before"				 => "Полето :attribute трябва да бъде дата преди :date.",
+	"between"				=> array(
 		"numeric" => "Полето :attribute трябва да бъде между :min и :max.",
-		"file"    => "Полето :attribute трябва да бъде между :min и :max килобайта.",
-		"string"  => "Полето :attribute трябва да бъде между :min и :max знака.",
+		"file"		=> "Полето :attribute трябва да бъде между :min и :max килобайта.",
+		"string"	=> "Полето :attribute трябва да бъде между :min и :max знака.",
 	),
-	"confirmed"      => "Полето :attribute не е потвърдено.",
-	"count"          => "Полето :attribute трябва да има точно :count избрани елементи.",
-	"countbetween"   => "Полето :attribute трябва да има от :min до :max избрани елементи.",
-	"countmax"       => "Полето :attribute трябва да има по-малко от :max избрани елементи.",
-	"countmin"       => "Полето :attribute трябва да има минимум :min избрани елементи.",
-	"different"      => "Полетата :attribute и :other трябва да са различни.",
-	"email"          => "Полето :attribute е с невалиден формат.",
-	"exists"         => "Избраната стойност на :attribute вече съществува.",
-	"image"          => "Полето :attribute трябва да бъде изображение.",
-	"in"             => "Стойността на :attribute е невалидна.",
-	"integer"        => "Полето :attribute трябва да бъде цяло число.",
-	"ip"             => "Полето :attribute трябва да бъде IP адрес.",
-	"match"          => "Полето :attribute е с невалиден формат.",
-	"max"            => array(
+	"confirmed"			=> "Полето :attribute не е потвърдено.",
+	"count"					=> "Полето :attribute трябва да има точно :count избрани елементи.",
+	"countbetween"	 => "Полето :attribute трябва да има от :min до :max избрани елементи.",
+	"countmax"			 => "Полето :attribute трябва да има по-малко от :max избрани елементи.",
+	"countmin"			 => "Полето :attribute трябва да има минимум :min избрани елементи.",
+	"different"			=> "Полетата :attribute и :other трябва да са различни.",
+	"email"					=> "Полето :attribute е с невалиден формат.",
+	"exists"				 => "Избраната стойност на :attribute вече съществува.",
+	"image"					=> "Полето :attribute трябва да бъде изображение.",
+	"in"						 => "Стойността на :attribute е невалидна.",
+	"integer"				=> "Полето :attribute трябва да бъде цяло число.",
+	"ip"						 => "Полето :attribute трябва да бъде IP адрес.",
+	"match"					=> "Полето :attribute е с невалиден формат.",
+	"max"						=> array(
 		"numeric" => "Полето :attribute трябва да бъде по-малко от :max.",
-		"file"    => "Полето :attribute трябва да бъде по-малко от :max килобайта.",
-		"string"  => "Полето :attribute трябва да бъде по-малко от :max знака.",
+		"file"		=> "Полето :attribute трябва да бъде по-малко от :max килобайта.",
+		"string"	=> "Полето :attribute трябва да бъде по-малко от :max знака.",
 	),
-	"mimes"          => "Полето :attribute трябва да бъде файл от тип: :values.",
-	"min"            => array(
+	"mimes"					=> "Полето :attribute трябва да бъде файл от тип: :values.",
+	"min"						=> array(
 		"numeric" => "Полето :attribute трябва да бъде минимум :min.",
-		"file"    => "Полето :attribute трябва да бъде минимум :min килобайта.",
-		"string"  => "Полето :attribute трябва да бъде минимум :min знака.",
+		"file"		=> "Полето :attribute трябва да бъде минимум :min килобайта.",
+		"string"	=> "Полето :attribute трябва да бъде минимум :min знака.",
 	),
-	"not_in"         => "Стойността на :attribute е невалидна.",
-	"numeric"        => "Полето :attribute трябва да бъде число.",
-	"required"       => "Полето :attribute е задължително.",
-	"same"           => "Стойностите на :attribute и :other трябва да съвпадат.",
-	"size"           => array(
+	"not_in"				 => "Стойността на :attribute е невалидна.",
+	"numeric"				=> "Полето :attribute трябва да бъде число.",
+	"required"			 => "Полето :attribute е задължително.",
+	"same"					 => "Стойностите на :attribute и :other трябва да съвпадат.",
+	"size"					 => array(
 		"numeric" => "Полето :attribute трябва да бъде :size.",
-		"file"    => "Полето :attribute трябва да бъде :size килобайта.",
-		"string"  => "Полето :attribute трябва да бъде :size знака.",
+		"file"		=> "Полето :attribute трябва да бъде :size килобайта.",
+		"string"	=> "Полето :attribute трябва да бъде :size знака.",
 	),
-	"unique"         => "Стойността на :attribute вече съществува.",
-	"url"            => "Полето :attribute е с невалиден формат.",
+	"unique"				 => "Стойността на :attribute вече съществува.",
+	"url"						=> "Полето :attribute е с невалиден формат.",
 
 	/*
 	|--------------------------------------------------------------------------

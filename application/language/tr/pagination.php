@@ -1,12 +1,12 @@
-<?php 
+<?php
 
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
- * @package  Language
- * @version  3.2.3
- * @author   Sinan Eldem <sinan@sinaneldem.com.tr>
- * @link     http://sinaneldem.com.tr
+ * @package	Language
+ * @version	3.2.3
+ * @author	 Sinan Eldem <sinan@sinaneldem.com.tr>
+ * @link		 http://sinaneldem.com.tr
  */
 
 return array(
@@ -23,6 +23,6 @@ return array(
 	*/
 
 	'previous' => '&laquo; Önceki',
-	'next'     => 'Sonraki &raquo;',
+	'next'		 => 'Sonraki &raquo;',
 
 );

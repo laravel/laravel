@@ -19,9 +19,9 @@ class IoC {
 	/**
 	 * Register an object and its resolver.
 	 *
-	 * @param  string   $name
-	 * @param  mixed    $resolver
-	 * @param  bool     $singleton
+	 * @param	string	 $name
+	 * @param	mixed		$resolver
+	 * @param	bool		 $singleton
 	 * @return void
 	 */
 	public static function register($name, $resolver = null, $singleton = false)
@@ -34,7 +34,7 @@ class IoC {
 	/**
 	 * Determine if an object has been registered in the container.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return bool
 	 */
 	public static function registered($name)
@@ -47,8 +47,8 @@ class IoC {
 	 *
 	 * Singletons will only be instantiated the first time they are resolved.
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $resolver
+	 * @param	string	 $name
+	 * @param	Closure	$resolver
 	 * @return void
 	 */
 	public static function singleton($name, $resolver = null)
@@ -64,8 +64,8 @@ class IoC {
 	 *		IoC::instance('mailer', new Mailer);
 	 * </code>
 	 *
-	 * @param  string  $name
-	 * @param  mixed   $instance
+	 * @param	string	$name
+	 * @param	mixed	 $instance
 	 * @return void
 	 */
 	public static function instance($name, $instance)
@@ -84,8 +84,8 @@ class IoC {
 	 *		$mailer = IoC::resolve('mailer', array('test'));
 	 * </code>
 	 *
-	 * @param  string  $type
-	 * @param  array   $parameters
+	 * @param	string	$type
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public static function resolve($type, $parameters = array())
@@ -138,8 +138,8 @@ class IoC {
 	/**
 	 * Instantiate an instance of the given type.
 	 *
-	 * @param  string  $type
-	 * @param  array   $parameters
+	 * @param	string	$type
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	protected static function build($type, $parameters = array())
@@ -180,7 +180,7 @@ class IoC {
 	/**
 	 * Resolve all of the dependencies from the ReflectionParameters.
 	 *
-	 * @param  array  $parameters
+	 * @param	array	$parameters
 	 * @return array
 	 */
 	protected static function dependencies($parameters)

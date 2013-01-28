@@ -33,7 +33,7 @@ class Payload {
 	/**
 	 * Create a new session payload instance.
 	 *
-	 * @param  Driver  $driver
+	 * @param	Driver	$driver
 	 * @return void
 	 */
 	public function __construct(Driver $driver)
@@ -44,7 +44,7 @@ class Payload {
 	/**
 	 * Load the session for the current request.
 	 *
-	 * @param  string  $id
+	 * @param	string	$id
 	 * @return void
 	 */
 	public function load($id)
@@ -67,7 +67,7 @@ class Payload {
 		if ( ! $this->has(Session::csrf_token))
 		{
 			$this->put(Session::csrf_token, Str::random(40));
-		}		
+		}
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Payload {
 	 *
 	 * The session is considered valid if it exists and has not expired.
 	 *
-	 * @param  array  $session
+	 * @param	array	$session
 	 * @return bool
 	 */
 	protected static function expired($session)
@@ -88,7 +88,7 @@ class Payload {
 	/**
 	 * Determine if the session or flash data contains an item.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key)
@@ -109,8 +109,8 @@ class Payload {
 	 *		$name = Session::get('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $default
+	 * @param	string	$key
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public function get($key, $default = null)
@@ -144,8 +144,8 @@ class Payload {
 	 *		Session::put('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function put($key, $value)
@@ -163,8 +163,8 @@ class Payload {
 	 *		Session::flash('name', 'Taylor');
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function flash($key, $value)
@@ -195,7 +195,7 @@ class Payload {
 	 *		Session::keep(array('name', 'email'));
 	 * </code>
 	 *
-	 * @param  string|array  $keys
+	 * @param	string|array	$keys
 	 * @return void
 	 */
 	public function keep($keys)
@@ -209,7 +209,7 @@ class Payload {
 	/**
 	 * Remove an item from the session data.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function forget($key)
@@ -313,7 +313,7 @@ class Payload {
 	 *
 	 * If the session driver is a sweeper, it must clean up expired sessions
 	 * from time to time. This method triggers garbage collection.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function sweep()
@@ -339,7 +339,7 @@ class Payload {
 	/**
 	 * Send the session ID cookie to the browser.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return void
 	 */
 	protected function cookie($config)
@@ -348,7 +348,7 @@ class Payload {
 
 		$minutes = ( ! $expire_on_close) ? $lifetime : 0;
 
-		Cookie::put($cookie, $this->session['id'], $minutes, $path, $domain, $secure);	
+		Cookie::put($cookie, $this->session['id'], $minutes, $path, $domain, $secure);
 	}
 
 }

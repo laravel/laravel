@@ -70,11 +70,11 @@ class Paginator {
 	/**
 	 * Create a new Paginator instance.
 	 *
-	 * @param  array  $results
-	 * @param  int    $page
-	 * @param  int    $total
-	 * @param  int    $per_page
-	 * @param  int    $last
+	 * @param	array	$results
+	 * @param	int		$page
+	 * @param	int		$total
+	 * @param	int		$per_page
+	 * @param	int		$last
 	 * @return void
 	 */
 	protected function __construct($results, $page, $total, $per_page, $last)
@@ -89,9 +89,9 @@ class Paginator {
 	/**
 	 * Create a new Paginator instance.
 	 *
-	 * @param  array      $results
-	 * @param  int        $total
-	 * @param  int        $per_page
+	 * @param	array			$results
+	 * @param	int				$total
+	 * @param	int				$per_page
 	 * @return Paginator
 	 */
 	public static function make($results, $total, $per_page)
@@ -106,8 +106,8 @@ class Paginator {
 	/**
 	 * Get the current page from the request query string.
 	 *
-	 * @param  int  $total
-	 * @param  int  $per_page
+	 * @param	int	$total
+	 * @param	int	$per_page
 	 * @return int
 	 */
 	public static function page($total, $per_page)
@@ -131,7 +131,7 @@ class Paginator {
 	 *
 	 * A valid page must be greater than or equal to one and a valid integer.
 	 *
-	 * @param  int   $page
+	 * @param	int	 $page
 	 * @return bool
 	 */
 	protected static function valid($page)
@@ -160,7 +160,7 @@ class Paginator {
 	 *		echo $paginator->links(5);
 	 * </code>
 	 *
-	 * @param  int     $adjacent
+	 * @param	int		 $adjacent
 	 * @return string
 	 */
 	public function links($adjacent = 3)
@@ -202,7 +202,7 @@ class Paginator {
 	 *		echo $paginator->slider(5);
 	 * </code>
 	 *
-	 * @param  int     $adjacent
+	 * @param	int		 $adjacent
 	 * @return string
 	 */
 	public function slider($adjacent = 3)
@@ -245,7 +245,7 @@ class Paginator {
 	 *		echo $paginator->previous('Go Back');
 	 * </code>
 	 *
-	 * @param  string  $text
+	 * @param	string	$text
 	 * @return string
 	 */
 	public function previous($text = null)
@@ -266,7 +266,7 @@ class Paginator {
 	 *		echo $paginator->next('Skip Forwards');
 	 * </code>
 	 *
-	 * @param  string  $text
+	 * @param	string	$text
 	 * @return string
 	 */
 	public function next($text = null)
@@ -279,10 +279,10 @@ class Paginator {
 	/**
 	 * Create a chronological pagination element, such as a "previous" or "next" link.
 	 *
-	 * @param  string   $element
-	 * @param  int      $page
-	 * @param  string   $text
-	 * @param  Closure  $disabled
+	 * @param	string	 $element
+	 * @param	int			$page
+	 * @param	string	 $text
+	 * @param	Closure	$disabled
 	 * @return string
 	 */
 	protected function element($element, $page, $text, $disabled)
@@ -333,8 +333,8 @@ class Paginator {
 	 *
 	 * For the current page, an HTML span element will be generated instead of a link.
 	 *
-	 * @param  int     $start
-	 * @param  int     $end
+	 * @param	int		 $start
+	 * @param	int		 $end
 	 * @return string
 	 */
 	protected function range($start, $end)
@@ -363,9 +363,9 @@ class Paginator {
 	/**
 	 * Create a HTML page link.
 	 *
-	 * @param  int     $page
-	 * @param  string  $text
-	 * @param  string  $class
+	 * @param	int		 $page
+	 * @param	string	$text
+	 * @param	string	$class
 	 * @return string
 	 */
 	protected function link($page, $text, $class)
@@ -378,7 +378,7 @@ class Paginator {
 	/**
 	 * Create the "appendage" to be attached to every pagination link.
 	 *
-	 * @param  array   $appends
+	 * @param	array	 $appends
 	 * @return string
 	 */
 	protected function appendage($appends)
@@ -399,7 +399,7 @@ class Paginator {
 	/**
 	 * Set the items that should be appended to the link query strings.
 	 *
-	 * @param  array      $values
+	 * @param	array			$values
 	 * @return Paginator
 	 */
 	public function appends($values)
@@ -411,7 +411,7 @@ class Paginator {
 	/**
 	 * Set the language that should be used when creating the pagination links.
 	 *
-	 * @param  string     $language
+	 * @param	string		 $language
 	 * @return Paginator
 	 */
 	public function speaks($language)

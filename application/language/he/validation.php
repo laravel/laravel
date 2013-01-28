@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -21,54 +21,54 @@ return array(
 	|
 	*/
 
-	"accepted"       => "חובה להסכים ל-:attribute.",
-	"active_url"     => "הערך :attribute חייב להכיל כתובת אינטרנט פעילה.",
-	"after"          => "הערך :attribute חייב להכיל תאריך אחרי :date.",
-	"alpha"          => "הערך :attribute יכול להכיל רק אותיות.",
-	"alpha_dash"     => "הערך :attribute יכול להכיל רק אותיות, מספרים ומקפים.",
-	"alpha_num"      => "הערך :attribute יכול להכיל רק אותיות ומספרים.",
-	"array"          => "The :attribute must have selected elements.",
-	"before"         => "הערך :attribute חייב להכיל תאריך לפני :date.",
-	"between"        => array(
+	"accepted"			 => "חובה להסכים ל-:attribute.",
+	"active_url"		 => "הערך :attribute חייב להכיל כתובת אינטרנט פעילה.",
+	"after"					=> "הערך :attribute חייב להכיל תאריך אחרי :date.",
+	"alpha"					=> "הערך :attribute יכול להכיל רק אותיות.",
+	"alpha_dash"		 => "הערך :attribute יכול להכיל רק אותיות, מספרים ומקפים.",
+	"alpha_num"			=> "הערך :attribute יכול להכיל רק אותיות ומספרים.",
+	"array"					=> "The :attribute must have selected elements.",
+	"before"				 => "הערך :attribute חייב להכיל תאריך לפני :date.",
+	"between"				=> array(
 		"numeric" => "הערך :attribute חייב להיות בין :min ל-:max.",
-		"file"    => "הערך :attribute חייב לשקול בין :min ל-:max ק&quot;ב.",
-		"string"  => "הערך :attribute חייב להכיל בין :min ל-:max תווים.",
+		"file"		=> "הערך :attribute חייב לשקול בין :min ל-:max ק&quot;ב.",
+		"string"	=> "הערך :attribute חייב להכיל בין :min ל-:max תווים.",
 	),
-	"confirmed"      => "הערכים של :attribute חייבים להיות זהים.",
-	"count"          => "The :attribute must have exactly :count selected elements.",
-	"countbetween"   => "The :attribute must have between :min and :max selected elements.",
-	"countmax"       => "The :attribute must have less than :max selected elements.",
-	"countmin"       => "The :attribute must have at least :min selected elements.",
-	"different"      => "הערכים של :attribute ו-:other חייבים להיות שונים.",
-	"email"          => "הערך :attribute חייב להכיל כתובת אימייל תקינה.",
-	"exists"         => "הערך :attribute לא קיים.",
-	"image"          => "הערך :attribute חייב להיות תמונה.",
-	"in"             => "הערך :attribute חייב להיות ברשימה המאשרת.",
-	"integer"        => "הערך :attribute חייב להיות מספר שלם.",
-	"ip"             => "הערך :attribute חייב להיות כתובת IP תקינה.",
-	"match"          => "התבנית של הערך :attribute אינה תקינה.",
-	"max"            => array(
+	"confirmed"			=> "הערכים של :attribute חייבים להיות זהים.",
+	"count"					=> "The :attribute must have exactly :count selected elements.",
+	"countbetween"	 => "The :attribute must have between :min and :max selected elements.",
+	"countmax"			 => "The :attribute must have less than :max selected elements.",
+	"countmin"			 => "The :attribute must have at least :min selected elements.",
+	"different"			=> "הערכים של :attribute ו-:other חייבים להיות שונים.",
+	"email"					=> "הערך :attribute חייב להכיל כתובת אימייל תקינה.",
+	"exists"				 => "הערך :attribute לא קיים.",
+	"image"					=> "הערך :attribute חייב להיות תמונה.",
+	"in"						 => "הערך :attribute חייב להיות ברשימה המאשרת.",
+	"integer"				=> "הערך :attribute חייב להיות מספר שלם.",
+	"ip"						 => "הערך :attribute חייב להיות כתובת IP תקינה.",
+	"match"					=> "התבנית של הערך :attribute אינה תקינה.",
+	"max"						=> array(
 		"numeric" => "הערך :attribute חייב להיות פחות מ-:max.",
-		"file"    => "הערך :attribute חייב לשקול פחות מ-:max ק&quotב.",
-		"string"  => "הערך :attribute חייב להכיל פחות מ-:max תווים.",
+		"file"		=> "הערך :attribute חייב לשקול פחות מ-:max ק&quotב.",
+		"string"	=> "הערך :attribute חייב להכיל פחות מ-:max תווים.",
 	),
-	"mimes"          => "הערך :attribute חייב להיות קובץ מסוג: :values.",
-	"min"            => array(
+	"mimes"					=> "הערך :attribute חייב להיות קובץ מסוג: :values.",
+	"min"						=> array(
 		"numeric" => "הערך :attribute חייב להיות לפחות :min.",
-		"file"    => "הערך :attribute חייב לשקול לפחות :min ק&quot;ב.",
-		"string"  => "הערך :attribute חייב להכיל לפחות :min תווים.",
+		"file"		=> "הערך :attribute חייב לשקול לפחות :min ק&quot;ב.",
+		"string"	=> "הערך :attribute חייב להכיל לפחות :min תווים.",
 	),
-	"not_in"         => "הערך :attribute נמצא ברשימה השחורה.",
-	"numeric"        => "הערך :attribute חייב להיות מספר.",
-	"required"       => "חובה למלא את הערך :attribute.",
-	"same"           => "הערכים :attribute ו-:other חייבים להיות זהים.",
-	"size"           => array(
+	"not_in"				 => "הערך :attribute נמצא ברשימה השחורה.",
+	"numeric"				=> "הערך :attribute חייב להיות מספר.",
+	"required"			 => "חובה למלא את הערך :attribute.",
+	"same"					 => "הערכים :attribute ו-:other חייבים להיות זהים.",
+	"size"					 => array(
 		"numeric" => "הערך :attribute חייב להיות :size.",
-		"file"    => "הערך :attribute חייב לשקול :size ק&quot;ב.",
-		"string"  => "הערך :attribute חייב להכיל :size תווים.",
+		"file"		=> "הערך :attribute חייב לשקול :size ק&quot;ב.",
+		"string"	=> "הערך :attribute חייב להכיל :size תווים.",
 	),
-	"unique"         => "הערך :attribute כבר קיים.",
-	"url"            => "הערך :attribute חייב להכיל כתובת אינטרנט תקינה.",
+	"unique"				 => "הערך :attribute כבר קיים.",
+	"url"						=> "הערך :attribute חייב להכיל כתובת אינטרנט תקינה.",
 
 	/*
 	|--------------------------------------------------------------------------

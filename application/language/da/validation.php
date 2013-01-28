@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -18,54 +18,54 @@ return array(
 	|
 	*/
 
-	"accepted"       => ":attribute skal accepteres.",
-	"active_url"     => ":attribute er ikke en gyldig URL.",
-	"after"          => ":attribute skal v&aelig;re en dato efter :date.",
-	"alpha"          => ":attribute m&aring; kun indeholde bogstaver.",
-	"alpha_dash"     => ":attribute m&aring; kun indeholde bogstaver, numre, og skr&aring;streg.",
-	"alpha_num"      => ":attribute m&aring; kun indeholde bogstaver og numre.",
-	"array"          => ":attribute skal have valgte elementer.",
-	"before"         => ":attribute skal have en dato f&oslash;r :date.",
-	"between"        => array(
+	"accepted"			 => ":attribute skal accepteres.",
+	"active_url"		 => ":attribute er ikke en gyldig URL.",
+	"after"					=> ":attribute skal v&aelig;re en dato efter :date.",
+	"alpha"					=> ":attribute m&aring; kun indeholde bogstaver.",
+	"alpha_dash"		 => ":attribute m&aring; kun indeholde bogstaver, numre, og skr&aring;streg.",
+	"alpha_num"			=> ":attribute m&aring; kun indeholde bogstaver og numre.",
+	"array"					=> ":attribute skal have valgte elementer.",
+	"before"				 => ":attribute skal have en dato f&oslash;r :date.",
+	"between"				=> array(
 		"numeric" => ":attribute skal v&aelig;re mellem :min - :max.",
-		"file"    => ":attribute skal v&aelig;re mellem :min - :max kilobytes.",
-		"string"  => ":attribute skal v&aelig;re mellem :min - :max karakterer.",
+		"file"		=> ":attribute skal v&aelig;re mellem :min - :max kilobytes.",
+		"string"	=> ":attribute skal v&aelig;re mellem :min - :max karakterer.",
 	),
-	"confirmed"      => ":attribute bekr&aelig;ftelse stemmer ikke overens.",
-	"count"          => ":attribute skal v&aelig;re pr&aelig;cis :count valgte elementer.",
-	"countbetween"   => ":attribute skal v&aelig;re mellem :min and :max valgte elementer.",
-	"countmax"       => ":attribute skal have mindre end :max valgte elementer.",
-	"countmin"       => ":attribute skal have minimum :min valgte elementer.",
-	"different"      => ":attribute og :other skal v&aelig;re forskellige.",
-	"email"          => "Formatet for :attribute er ugyldigt.",
-	"exists"         => "Den valgte :attribute er ugyldig.",
-	"image"          => ":attribute skal v&aelig;re et billede.",
-	"in"             => "Den valgte :attribute er ugyldig.",
-	"integer"        => ":attribute m&aring; kun indeholde tal.",
-	"ip"             => ":attribute skal v&aelig;re en gyldig IP adresse.",
-	"match"          => "Formatet for :attribute er ugyldigt.",
-	"max"            => array(
+	"confirmed"			=> ":attribute bekr&aelig;ftelse stemmer ikke overens.",
+	"count"					=> ":attribute skal v&aelig;re pr&aelig;cis :count valgte elementer.",
+	"countbetween"	 => ":attribute skal v&aelig;re mellem :min and :max valgte elementer.",
+	"countmax"			 => ":attribute skal have mindre end :max valgte elementer.",
+	"countmin"			 => ":attribute skal have minimum :min valgte elementer.",
+	"different"			=> ":attribute og :other skal v&aelig;re forskellige.",
+	"email"					=> "Formatet for :attribute er ugyldigt.",
+	"exists"				 => "Den valgte :attribute er ugyldig.",
+	"image"					=> ":attribute skal v&aelig;re et billede.",
+	"in"						 => "Den valgte :attribute er ugyldig.",
+	"integer"				=> ":attribute m&aring; kun indeholde tal.",
+	"ip"						 => ":attribute skal v&aelig;re en gyldig IP adresse.",
+	"match"					=> "Formatet for :attribute er ugyldigt.",
+	"max"						=> array(
 		"numeric" => ":attribute skal v&aelig;re mindre end :max.",
-		"file"    => ":attribute skal v&aelig;re mindre end :max kilobytes.",
-		"string"  => ":attribute skal v&aelig;re mindre end :max karakterer.",
+		"file"		=> ":attribute skal v&aelig;re mindre end :max kilobytes.",
+		"string"	=> ":attribute skal v&aelig;re mindre end :max karakterer.",
 	),
-	"mimes"          => ":attribute skal have filtypen type: :values.",
-	"min"            => array(
+	"mimes"					=> ":attribute skal have filtypen type: :values.",
+	"min"						=> array(
 		"numeric" => ":attribute ska minimum v&aelig;re :min.",
-		"file"    => ":attribute skal v&aelig;re mindst :min kilobytes.",
-		"string"  => ":attribute skal v&aelig;re mindst :min karakterer.",
+		"file"		=> ":attribute skal v&aelig;re mindst :min kilobytes.",
+		"string"	=> ":attribute skal v&aelig;re mindst :min karakterer.",
 	),
-	"not_in"         => "Den valgte :attribute er ugyldig.",
-	"numeric"        => ":attribute skal v&aelig;re et nummer.",
-	"required"       => ":attribute er kr&aelig;vet.",
-	"same"           => ":attribute og :other stemmer ikke overens.",
-	"size"           => array(
+	"not_in"				 => "Den valgte :attribute er ugyldig.",
+	"numeric"				=> ":attribute skal v&aelig;re et nummer.",
+	"required"			 => ":attribute er kr&aelig;vet.",
+	"same"					 => ":attribute og :other stemmer ikke overens.",
+	"size"					 => array(
 		"numeric" => ":attribute skal v&aelig;re :size.",
-		"file"    => ":attribute skal v&aelig;re :size kilobyte.",
-		"string"  => ":attribute skal v&aelig;re :size karakterer.",
+		"file"		=> ":attribute skal v&aelig;re :size kilobyte.",
+		"string"	=> ":attribute skal v&aelig;re :size karakterer.",
 	),
-	"unique"         => ":attribute er allerede optaget.",
-	"url"            => ":attribute formatet er ugyldigt.",
+	"unique"				 => ":attribute er allerede optaget.",
+	"url"						=> ":attribute formatet er ugyldigt.",
 
 	/*
 	|--------------------------------------------------------------------------

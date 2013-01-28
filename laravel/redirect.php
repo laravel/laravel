@@ -5,8 +5,8 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response to application root.
 	 *
-	 * @param  int       $status
-	 * @param  bool      $https
+	 * @param	int			 $status
+	 * @param	bool			$https
 	 * @return Redirect
 	 */
 	public static function home($status = 302, $https = null)
@@ -17,7 +17,7 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response to the HTTP referrer.
 	 *
-	 * @param  int       $status
+	 * @param	int			 $status
 	 * @return Redirect
 	 */
 	public static function back($status = 302)
@@ -36,9 +36,9 @@ class Redirect extends Response {
 	 *		return Redirect::to('user/profile', 301);
 	 * </code>
 	 *
-	 * @param  string    $url
-	 * @param  int       $status
-	 * @param  bool      $https
+	 * @param	string		$url
+	 * @param	int			 $status
+	 * @param	bool			$https
 	 * @return Redirect
 	 */
 	public static function to($url, $status = 302, $https = null)
@@ -49,8 +49,8 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response to a HTTPS URL.
 	 *
-	 * @param  string    $url
-	 * @param  int       $status
+	 * @param	string		$url
+	 * @param	int			 $status
 	 * @return Redirect
 	 */
 	public static function to_secure($url, $status = 302)
@@ -61,9 +61,9 @@ class Redirect extends Response {
 	/**
 	 * Create a redirect response to a controller action.
 	 *
-	 * @param  string    $action
-	 * @param  array     $parameters
-	 * @param  int       $status
+	 * @param	string		$action
+	 * @param	array		 $parameters
+	 * @param	int			 $status
 	 * @return Redirect
 	 */
 	public static function to_action($action, $parameters = array(), $status = 302)
@@ -82,9 +82,9 @@ class Redirect extends Response {
 	 *		return Redirect::to_route('profile', array($username));
 	 * </code>
 	 *
-	 * @param  string    $route
-	 * @param  array     $parameters
-	 * @param  int       $status
+	 * @param	string		$route
+	 * @param	array		 $parameters
+	 * @param	int			 $status
 	 * @return Redirect
 	 */
 	public static function to_route($route, $parameters = array(), $status = 302)
@@ -102,8 +102,8 @@ class Redirect extends Response {
 	 *		return Redirect::to('profile')->with('message', 'Welcome Back!');
 	 * </code>
 	 *
-	 * @param  string          $key
-	 * @param  mixed           $value
+	 * @param	string					$key
+	 * @param	mixed					 $value
 	 * @return Redirect
 	 */
 	public function with($key, $value)
@@ -134,8 +134,8 @@ class Redirect extends Response {
 	 *		return Redirect::to('login')->with_input('except', array('password', 'ssn'));
 	 * </code>
 	 *
-	 * @param  string    $filter
-	 * @param  array     $items
+	 * @param	string		$filter
+	 * @param	array		 $items
 	 * @return Redirect
 	 */
 	public function with_input($filter = null, $items = array())
@@ -155,7 +155,7 @@ class Redirect extends Response {
 	 *		return Redirect::to('register')->with_errors($validator);
 	 * </code>
 	 *
-	 * @param  Validator|Messages  $container
+	 * @param	Validator|Messages	$container
 	 * @return Redirect
 	 */
 	public function with_errors($container)

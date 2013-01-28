@@ -64,7 +64,7 @@ class DatabaseConnectStub extends Laravel\Database {
 }
 
 class PDOStub extends PDO {
-	
+
 	public $laravel_config;
 
 	public function __construct($config) { $this->laravel_config = $config; }

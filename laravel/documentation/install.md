@@ -46,7 +46,7 @@ If you are having problems installing, try the following:
 <a name="server-configuration"></a>
 ## Server Configuration
 
-Like most web-development frameworks, Laravel is designed to protect your application code, bundles, and local storage by placing only files that are necessarily public in the web server's DocumentRoot. This prevents some types of server misconfiguration from making your code (including database passwords and other configuration data) accessible through the web server. It's best to be safe. 
+Like most web-development frameworks, Laravel is designed to protect your application code, bundles, and local storage by placing only files that are necessarily public in the web server's DocumentRoot. This prevents some types of server misconfiguration from making your code (including database passwords and other configuration data) accessible through the web server. It's best to be safe.
 
 In this example let's imagine that we installed Laravel to the directory **/Users/JonSnow/Sites/MySite**.
 
@@ -66,7 +66,7 @@ While pointing the DocumentRoot to the public folder is a commonly used best-pra
 
 All of the configuration provided are located in your applications config/ directory. We recommend that you read through these files just to get a basic understanding of the options available to you. Pay special attention to the **application/config/application.php** file as it contains the basic configuration options for your application.
 
-It's **extremely** important that you change the **application key** option before working on your site. This key is used throughout the framework for encryption, hashing, etc. It lives in the **config/application.php** file and should be set to a random, 32 character string. A standards-compliant application key can be automatically generated using the Artisan command-line utility.  More information can be found in the [Artisan command index](/docs/artisan/commands).
+It's **extremely** important that you change the **application key** option before working on your site. This key is used throughout the framework for encryption, hashing, etc. It lives in the **config/application.php** file and should be set to a random, 32 character string. A standards-compliant application key can be automatically generated using the Artisan command-line utility.	More information can be found in the [Artisan command index](/docs/artisan/commands).
 
 > **Note:** If you are using mod_rewrite, you should set the index option to an empty string.
 
@@ -101,12 +101,12 @@ Isn't it easy? Of course, you are free to create as many environments as you wis
 Most likely, you do not want your application URLs to contain "index.php". You can remove it using HTTP rewrite rules. If you are using Apache to serve your application, make sure to enable mod_rewrite and create a **.htaccess** file like this one in your **public** directory:
 
 	<IfModule mod_rewrite.c>
-	     RewriteEngine on
+			 RewriteEngine on
 
-	     RewriteCond %{REQUEST_FILENAME} !-f
-	     RewriteCond %{REQUEST_FILENAME} !-d
+			 RewriteCond %{REQUEST_FILENAME} !-f
+			 RewriteCond %{REQUEST_FILENAME} !-d
 
-	     RewriteRule ^(.*)$ index.php/$1 [L]
+			 RewriteRule ^(.*)$ index.php/$1 [L]
 	</IfModule>
 
 Is the .htaccess file above not working for you? Try this one:

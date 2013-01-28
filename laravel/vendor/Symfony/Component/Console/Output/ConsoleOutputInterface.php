@@ -21,10 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface ConsoleOutputInterface extends OutputInterface
 {
-    /**
-     * @return OutputInterface
-     */
-    public function getErrorOutput();
+		/**
+		 * @return OutputInterface
+		 */
+		public function getErrorOutput();
 
-    public function setErrorOutput(OutputInterface $error);
+		public function setErrorOutput(OutputInterface $error);
 }

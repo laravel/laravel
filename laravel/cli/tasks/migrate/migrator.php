@@ -25,8 +25,8 @@ class Migrator extends Task {
 	/**
 	 * Create a new instance of the Migrator CLI task.
 	 *
-	 * @param  Resolver  $resolver
-	 * @param  Database  $database
+	 * @param	Resolver	$resolver
+	 * @param	Database	$database
 	 * @return void
 	 */
 	public function __construct(Resolver $resolver, Database $database)
@@ -38,7 +38,7 @@ class Migrator extends Task {
 	/**
 	 * Run a database migration command.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function run($arguments = array())
@@ -60,8 +60,8 @@ class Migrator extends Task {
 	/**
 	 * Run the outstanding migrations for a given bundle.
 	 *
-	 * @param  string  $bundle
-	 * @param  int     $version
+	 * @param	string	$bundle
+	 * @param	int		 $version
 	 * @return void
 	 */
 	public function migrate($bundle = null, $version = null)
@@ -96,7 +96,7 @@ class Migrator extends Task {
 	/**
 	 * Rollback the latest migration command.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return bool
 	 */
 	public function rollback($arguments = array())
@@ -108,9 +108,9 @@ class Migrator extends Task {
 		if (count($arguments) > 0)
 		{
 			$bundles = $arguments;
-			
+
 			if ( ! is_array($bundles)) $bundles = array($bundles);
-			
+
 			$migrations = array_filter($migrations, function($migration) use ($bundles)
 			{
 				return in_array($migration['bundle'], $bundles);
@@ -145,7 +145,7 @@ class Migrator extends Task {
 	/**
 	 * Rollback all of the executed migrations.
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function reset($arguments = array())
@@ -156,7 +156,7 @@ class Migrator extends Task {
 	/**
 	 * Reset the database to pristine state and run all migrations
 	 *
-	 * @param  array  $arguments
+	 * @param	array	$arguments
 	 * @return void
 	 */
 	public function rebuild()
@@ -206,7 +206,7 @@ class Migrator extends Task {
 	/**
 	 * Generate a new migration file.
 	 *
-	 * @param  array   $arguments
+	 * @param	array	 $arguments
 	 * @return string
 	 */
 	public function make($arguments = array())
@@ -246,8 +246,8 @@ class Migrator extends Task {
 	/**
 	 * Get the stub migration with the proper class name.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $migration
+	 * @param	string	$bundle
+	 * @param	string	$migration
 	 * @return string
 	 */
 	protected function stub($bundle, $migration)
@@ -267,7 +267,7 @@ class Migrator extends Task {
 	/**
 	 * Get the migration bundle and name for display.
 	 *
-	 * @param  array   $migration
+	 * @param	array	 $migration
 	 * @return string
 	 */
 	protected function display($migration)

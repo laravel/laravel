@@ -34,7 +34,7 @@ Sometimes you may wish to manually map a class to its related file. This is the 
 #### Registering a class to file mapping with the auto-loader:
 
 	Autoloader::map(array(
-		'User'    => path('app').'models/user.php',
+		'User'		=> path('app').'models/user.php',
 		'Contact' => path('app').'models/contact.php',
 	));
 

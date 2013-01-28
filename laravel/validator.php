@@ -75,9 +75,9 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  mixed  $attributes
-	 * @param  array  $rules
-	 * @param  array  $messages
+	 * @param	mixed	$attributes
+	 * @param	array	$rules
+	 * @param	array	$messages
 	 * @return void
 	 */
 	public function __construct($attributes, $rules, $messages = array())
@@ -95,9 +95,9 @@ class Validator {
 	/**
 	 * Create a new validator instance.
 	 *
-	 * @param  array      $attributes
-	 * @param  array      $rules
-	 * @param  array      $messages
+	 * @param	array			$attributes
+	 * @param	array			$rules
+	 * @param	array			$messages
 	 * @return Validator
 	 */
 	public static function make($attributes, $rules, $messages = array())
@@ -108,8 +108,8 @@ class Validator {
 	/**
 	 * Register a custom validator.
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $validator
+	 * @param	string	 $name
+	 * @param	Closure	$validator
 	 * @return void
 	 */
 	public static function register($name, $validator)
@@ -167,8 +167,8 @@ class Validator {
 	/**
 	 * Evaluate an attribute against a validation rule.
 	 *
-	 * @param  string  $attribute
-	 * @param  string  $rule
+	 * @param	string	$attribute
+	 * @param	string	$rule
 	 * @return void
 	 */
 	protected function check($attribute, $rule)
@@ -196,9 +196,9 @@ class Validator {
 	 * being checked must implicitly validate "required", such as the "required"
 	 * rule or the "accepted" rule.
 	 *
-	 * @param  string  $rule
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$rule
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validatable($rule, $attribute, $value)
@@ -209,7 +209,7 @@ class Validator {
 	/**
 	 * Determine if a given rule implies that the attribute is required.
 	 *
-	 * @param  string  $rule
+	 * @param	string	$rule
 	 * @return bool
 	 */
 	protected function implicit($rule)
@@ -220,9 +220,9 @@ class Validator {
 	/**
 	 * Add an error message to the validator's collection of messages.
 	 *
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return void
 	 */
 	protected function error($attribute, $rule, $parameters)
@@ -235,8 +235,8 @@ class Validator {
 	/**
 	 * Validate that a required attribute exists in the attributes array.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_required($attribute, $value)
@@ -261,15 +261,15 @@ class Validator {
 	 * Validate that an attribute exists in the attributes array, if another
 	 * attribute exists in the attributes array.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_required_with($attribute, $value, $parameters)
 	{
 		$other = $parameters[0];
-		$other_value = array_get($this->attributes, $other);		
+		$other_value = array_get($this->attributes, $other);
 
 		if ($this->validate_required($other, $other_value))
 		{
@@ -282,8 +282,8 @@ class Validator {
 	/**
 	 * Validate that an attribute has a matching confirmation attribute.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_confirmed($attribute, $value)
@@ -296,8 +296,8 @@ class Validator {
 	 *
 	 * This validation rule implies the attribute is "required".
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_accepted($attribute, $value)
@@ -308,9 +308,9 @@ class Validator {
 	/**
 	 * Validate that an attribute is the same as another attribute.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_same($attribute, $value, $parameters)
@@ -323,9 +323,9 @@ class Validator {
 	/**
 	 * Validate that an attribute is different from another attribute.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_different($attribute, $value, $parameters)
@@ -338,8 +338,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is numeric.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_numeric($attribute, $value)
@@ -350,8 +350,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is an integer.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_integer($attribute, $value)
@@ -362,9 +362,9 @@ class Validator {
 	/**
 	 * Validate the size of an attribute.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_size($attribute, $value, $parameters)
@@ -375,9 +375,9 @@ class Validator {
 	/**
 	 * Validate the size of an attribute is between a set of values.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_between($attribute, $value, $parameters)
@@ -390,9 +390,9 @@ class Validator {
 	/**
 	 * Validate the size of an attribute is greater than a minimum value.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_min($attribute, $value, $parameters)
@@ -403,9 +403,9 @@ class Validator {
 	/**
 	 * Validate the size of an attribute is less than a maximum value.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_max($attribute, $value, $parameters)
@@ -416,8 +416,8 @@ class Validator {
 	/**
 	 * Get the size of an attribute.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return mixed
 	 */
 	protected function size($attribute, $value)
@@ -443,9 +443,9 @@ class Validator {
 	/**
 	 * Validate an attribute is contained within a list of values.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_in($attribute, $value, $parameters)
@@ -456,9 +456,9 @@ class Validator {
 	/**
 	 * Validate an attribute is not contained within a list of values.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_not_in($attribute, $value, $parameters)
@@ -471,9 +471,9 @@ class Validator {
 	 *
 	 * If a database column is not specified, the attribute will be used.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_unique($attribute, $value, $parameters)
@@ -504,9 +504,9 @@ class Validator {
 	/**
 	 * Validate the existence of an attribute value in a database table.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_exists($attribute, $value, $parameters)
@@ -538,8 +538,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is a valid IP.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_ip($attribute, $value)
@@ -550,8 +550,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is a valid e-mail address.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_email($attribute, $value)
@@ -562,8 +562,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is a valid URL.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_url($attribute, $value)
@@ -574,8 +574,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is an active URL.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_active_url($attribute, $value)
@@ -588,8 +588,8 @@ class Validator {
 	/**
 	 * Validate the MIME type of a file is an image MIME type.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_image($attribute, $value)
@@ -600,8 +600,8 @@ class Validator {
 	/**
 	 * Validate that an attribute contains only alphabetic characters.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_alpha($attribute, $value)
@@ -612,8 +612,8 @@ class Validator {
 	/**
 	 * Validate that an attribute contains only alpha-numeric characters.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_alpha_num($attribute, $value)
@@ -624,8 +624,8 @@ class Validator {
 	/**
 	 * Validate that an attribute contains only alpha-numeric characters, dashes, and underscores.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_alpha_dash($attribute, $value)
@@ -636,9 +636,9 @@ class Validator {
 	/**
 	 * Validate that an attribute passes a regular expression check.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_match($attribute, $value, $parameters)
@@ -649,9 +649,9 @@ class Validator {
 	/**
 	 * Validate the MIME type of a file upload attribute is in a set of MIME types.
 	 *
-	 * @param  string  $attribute
-	 * @param  array   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	array	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_mimes($attribute, $value, $parameters)
@@ -672,8 +672,8 @@ class Validator {
 	/**
 	 * Validate that an attribute is an array
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
 	 * @return bool
 	 */
 	protected function validate_array($attribute, $value)
@@ -684,9 +684,9 @@ class Validator {
 	/**
 	 * Validate that an attribute of type array has a specific count
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_count($attribute, $value, $parameters)
@@ -697,9 +697,9 @@ class Validator {
 	/**
 	 * Validate that an attribute of type array has a minimum of elements.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_countmin($attribute, $value, $parameters)
@@ -710,9 +710,9 @@ class Validator {
 	/**
 	 * Validate that an attribute of type array has a maximum of elements.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_countmax($attribute, $value, $parameters)
@@ -723,9 +723,9 @@ class Validator {
 	/**
 	 * Validate that an attribute of type array has elements between max and min.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_countbetween($attribute, $value, $parameters)
@@ -736,9 +736,9 @@ class Validator {
 	/**
 	 * Validate the date is before a given date.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_before($attribute, $value, $parameters)
@@ -749,9 +749,9 @@ class Validator {
 	/**
 	 * Validate the date is after a given date.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_after($attribute, $value, $parameters)
@@ -761,10 +761,10 @@ class Validator {
 
 	/**
 	 * Validate the date conforms to a given format.
-	 * 
-	 * @param  string  $attribute
-	 * @param  mixed   $value
-	 * @param  array   $parameters
+	 *
+	 * @param	string	$attribute
+	 * @param	mixed	 $value
+	 * @param	array	 $parameters
 	 * @return bool
 	 */
 	protected function validate_date_format($attribute, $value, $parameters)
@@ -775,8 +775,8 @@ class Validator {
 	/**
 	 * Get the proper error message for an attribute and rule.
 	 *
-	 * @param  string  $attribute
-	 * @param  string  $rule
+	 * @param	string	$attribute
+	 * @param	string	$rule
 	 * @return string
 	 */
 	protected function message($attribute, $rule)
@@ -827,9 +827,9 @@ class Validator {
 	/**
 	 * Get the proper error message for an attribute and size rule.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $attribute
-	 * @param  string  $rule
+	 * @param	string	$bundle
+	 * @param	string	$attribute
+	 * @param	string	$rule
 	 * @return string
 	 */
 	protected function size_message($bundle, $attribute, $rule)
@@ -859,10 +859,10 @@ class Validator {
 	/**
 	 * Replace all error message place-holders with actual values.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace($message, $attribute, $rule, $parameters)
@@ -880,10 +880,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the required_with rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_required_with($message, $attribute, $rule, $parameters)
@@ -894,10 +894,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the between rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_between($message, $attribute, $rule, $parameters)
@@ -908,10 +908,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the size rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_size($message, $attribute, $rule, $parameters)
@@ -922,10 +922,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the min rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_min($message, $attribute, $rule, $parameters)
@@ -936,10 +936,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the max rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_max($message, $attribute, $rule, $parameters)
@@ -950,10 +950,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the in rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_in($message, $attribute, $rule, $parameters)
@@ -964,10 +964,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the not_in rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_not_in($message, $attribute, $rule, $parameters)
@@ -978,10 +978,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the mimes rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_mimes($message, $attribute, $rule, $parameters)
@@ -992,10 +992,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the same rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_same($message, $attribute, $rule, $parameters)
@@ -1006,10 +1006,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the different rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_different($message, $attribute, $rule, $parameters)
@@ -1020,10 +1020,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the before rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_before($message, $attribute, $rule, $parameters)
@@ -1034,10 +1034,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the after rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_after($message, $attribute, $rule, $parameters)
@@ -1048,10 +1048,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the count rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_count($message, $attribute, $rule, $parameters)
@@ -1062,10 +1062,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the countmin rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_countmin($message, $attribute, $rule, $parameters)
@@ -1076,10 +1076,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the countmax rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_countmax($message, $attribute, $rule, $parameters)
@@ -1090,10 +1090,10 @@ class Validator {
 	/**
 	 * Replace all place-holders for the between rule.
 	 *
-	 * @param  string  $message
-	 * @param  string  $attribute
-	 * @param  string  $rule
-	 * @param  array   $parameters
+	 * @param	string	$message
+	 * @param	string	$attribute
+	 * @param	string	$rule
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function replace_countbetween($message, $attribute, $rule, $parameters)
@@ -1104,7 +1104,7 @@ class Validator {
 	/**
 	 * Get the displayable name for a given attribute.
 	 *
-	 * @param  string  $attribute
+	 * @param	string	$attribute
 	 * @return string
 	 */
 	protected function attribute($attribute)
@@ -1133,8 +1133,8 @@ class Validator {
 	/**
 	 * Determine if an attribute has a rule assigned to it.
 	 *
-	 * @param  string  $attribute
-	 * @param  array   $rules
+	 * @param	string	$attribute
+	 * @param	array	 $rules
 	 * @return bool
 	 */
 	protected function has_rule($attribute, $rules)
@@ -1152,7 +1152,7 @@ class Validator {
 	/**
 	 * Extract the rule name and parameters from a rule.
 	 *
-	 * @param  string  $rule
+	 * @param	string	$rule
 	 * @return array
 	 */
 	protected function parse($rule)
@@ -1175,7 +1175,7 @@ class Validator {
 	 *
 	 * The bundle determines which bundle the language lines will be loaded from.
 	 *
-	 * @param  string     $bundle
+	 * @param	string		 $bundle
 	 * @return Validator
 	 */
 	public function bundle($bundle)
@@ -1187,7 +1187,7 @@ class Validator {
 	/**
 	 * Set the language that should be used when retrieving error messages.
 	 *
-	 * @param  string     $language
+	 * @param	string		 $language
 	 * @return Validator
 	 */
 	public function speaks($language)
@@ -1199,7 +1199,7 @@ class Validator {
 	/**
 	 * Set the database connection that should be used by the validator.
 	 *
-	 * @param  Database\Connection  $connection
+	 * @param	Database\Connection	$connection
 	 * @return Validator
 	 */
 	public function connection(Database\Connection $connection)

@@ -33,7 +33,7 @@ class Database {
 	 *		$connection = DB::connection('mysql');
 	 * </code>
 	 *
-	 * @param  string      $connection
+	 * @param	string			$connection
 	 * @return Database\Connection
 	 */
 	public static function connection($connection = null)
@@ -58,7 +58,7 @@ class Database {
 	/**
 	 * Get a PDO database connection for a given database configuration.
 	 *
-	 * @param  array  $config
+	 * @param	array	$config
 	 * @return PDO
 	 */
 	protected static function connect($config)
@@ -69,7 +69,7 @@ class Database {
 	/**
 	 * Create a new database connector instance.
 	 *
-	 * @param  string     $driver
+	 * @param	string		 $driver
 	 * @return Database\Connectors\Connector
 	 */
 	protected static function connector($driver)
@@ -103,8 +103,8 @@ class Database {
 	/**
 	 * Begin a fluent query against a table.
 	 *
-	 * @param  string          $table
-	 * @param  string          $connection
+	 * @param	string					$table
+	 * @param	string					$connection
 	 * @return Database\Query
 	 */
 	public static function table($table, $connection = null)
@@ -117,20 +117,20 @@ class Database {
 	 *
 	 * Database expressions are used to inject raw SQL into a fluent query.
 	 *
-	 * @param  string      $value
+	 * @param	string			$value
 	 * @return Expression
 	 */
 	public static function raw($value)
 	{
 		return new Expression($value);
 	}
-	
+
 	/**
 	 * Escape a string for usage in a query.
 	 *
 	 * This uses the correct quoting mechanism for the default database connection.
 	 *
-	 * @param  string      $value
+	 * @param	string			$value
 	 * @return string
 	 */
 	public static function escape($value)
@@ -147,7 +147,7 @@ class Database {
 	{
 		return Database\Connection::$queries;
 	}
-	
+
 	/**
 	 * Get the last query that was executed.
 	 *
@@ -163,10 +163,10 @@ class Database {
 	/**
 	 * Register a database connector and grammars.
 	 *
-	 * @param  string   $name
-	 * @param  Closure  $connector
-	 * @param  Closure  $query
-	 * @param  Closure  $schema
+	 * @param	string	 $name
+	 * @param	Closure	$connector
+	 * @param	Closure	$query
+	 * @param	Closure	$schema
 	 * @return void
 	 */
 	public static function extend($name, Closure $connector, $query = null, $schema = null)

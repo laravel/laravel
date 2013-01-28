@@ -27,12 +27,12 @@ class Router {
 	 * @var array
 	 */
 	public static $routes = array(
-		'GET'    => array(),
-		'POST'   => array(),
-		'PUT'    => array(),
+		'GET'		=> array(),
+		'POST'	 => array(),
+		'PUT'		=> array(),
 		'DELETE' => array(),
-		'PATCH'  => array(),
-		'HEAD'   => array(),
+		'PATCH'	=> array(),
+		'HEAD'	 => array(),
 		'OPTIONS'=> array(),
 	);
 
@@ -42,12 +42,12 @@ class Router {
 	 * @var array
 	 */
 	public static $fallback = array(
-		'GET'    => array(),
-		'POST'   => array(),
-		'PUT'    => array(),
+		'GET'		=> array(),
+		'POST'	 => array(),
+		'PUT'		=> array(),
 		'DELETE' => array(),
-		'PATCH'  => array(),
-		'HEAD'   => array(),
+		'PATCH'	=> array(),
+		'HEAD'	 => array(),
 		'OPTIONS'=> array(),
 	);
 
@@ -104,9 +104,9 @@ class Router {
 	/**
 	 * Register a HTTPS route with the router.
 	 *
-	 * @param  string        $method
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string				$method
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function secure($method, $route, $action)
@@ -126,8 +126,8 @@ class Router {
 	 *		Router::share(array(array('GET', '/'), array('POST', '/')), 'home@index');
 	 * </code>
 	 *
-	 * @param  array  $routes
-	 * @param  mixed  $action
+	 * @param	array	$routes
+	 * @param	mixed	$action
 	 * @return void
 	 */
 	public static function share($routes, $action)
@@ -141,8 +141,8 @@ class Router {
 	/**
 	 * Register a group of routes that share attributes.
 	 *
-	 * @param  array    $attributes
-	 * @param  Closure  $callback
+	 * @param	array		$attributes
+	 * @param	Closure	$callback
 	 * @return void
 	 */
 	public static function group($attributes, Closure $callback)
@@ -171,9 +171,9 @@ class Router {
 	 *		Router::register(array('GET', '/', 'GET /home'), function() {return 'Home!';});
 	 * </code>
 	 *
-	 * @param  string        $method
-	 * @param  string|array  $route
-	 * @param  mixed         $action
+	 * @param	string				$method
+	 * @param	string|array	$route
+	 * @param	mixed				 $action
 	 * @return void
 	 */
 	public static function register($method, $route, $action)
@@ -211,7 +211,7 @@ class Router {
 			}
 
 			$uri = ltrim(str_replace('(:bundle)', static::$bundle, $uri), '/');
-			
+
 			if($uri == '')
 			{
 				$uri = '/';
@@ -241,7 +241,7 @@ class Router {
 			{
 				$routes[$method][$uri] = static::action($action);
 			}
-			
+
 			// If a group is being registered, we'll merge all of the group
 			// options into the action, giving preference to the action
 			// for options that are specified in both.
@@ -263,7 +263,7 @@ class Router {
 	/**
 	 * Convert a route action to a valid action array.
 	 *
-	 * @param  mixed  $action
+	 * @param	mixed	$action
 	 * @return array
 	 */
 	protected static function action($action)
@@ -289,8 +289,8 @@ class Router {
 	/**
 	 * Register a secure controller with the router.
 	 *
-	 * @param  string|array  $controllers
-	 * @param  string|array  $defaults
+	 * @param	string|array	$controllers
+	 * @param	string|array	$defaults
 	 * @return void
 	 */
 	public static function secure_controller($controllers, $defaults = 'index')
@@ -301,9 +301,9 @@ class Router {
 	/**
 	 * Register a controller with the router.
 	 *
-	 * @param  string|array  $controllers
-	 * @param  string|array  $defaults
-	 * @param  bool          $https
+	 * @param	string|array	$controllers
+	 * @param	string|array	$defaults
+	 * @param	bool					$https
 	 * @return void
 	 */
 	public static function controller($controllers, $defaults = 'index', $https = null)
@@ -352,9 +352,9 @@ class Router {
 	/**
 	 * Register a route for the root of a controller.
 	 *
-	 * @param  string  $identifier
-	 * @param  string  $controller
-	 * @param  string  $root
+	 * @param	string	$identifier
+	 * @param	string	$controller
+	 * @param	string	$root
 	 * @return void
 	 */
 	protected static function root($identifier, $controller, $root)
@@ -384,7 +384,7 @@ class Router {
 	/**
 	 * Find a route by the route's assigned name.
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return array
 	 */
 	public static function find($name)
@@ -420,7 +420,7 @@ class Router {
 	/**
 	 * Find the route that uses the given action.
 	 *
-	 * @param  string  $action
+	 * @param	string	$action
 	 * @return array
 	 */
 	public static function uses($action)
@@ -453,8 +453,8 @@ class Router {
 	/**
 	 * Search the routes for the route matching a method and URI.
 	 *
-	 * @param  string   $method
-	 * @param  string   $uri
+	 * @param	string	 $method
+	 * @param	string	 $uri
 	 * @return Route
 	 */
 	public static function route($method, $uri)
@@ -485,8 +485,8 @@ class Router {
 	/**
 	 * Iterate through every route to find a matching route.
 	 *
-	 * @param  string  $method
-	 * @param  string  $uri
+	 * @param	string	$method
+	 * @param	string	$uri
 	 * @return Route
 	 */
 	protected static function match($method, $uri)
@@ -514,7 +514,7 @@ class Router {
 	/**
 	 * Translate route URI wildcards into regular expressions.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return string
 	 */
 	protected static function wildcards($key)
@@ -564,7 +564,7 @@ class Router {
 	/**
 	 * Grab all of the routes for a given request method.
 	 *
-	 * @param  string  $method
+	 * @param	string	$method
 	 * @return array
 	 */
 	public static function method($method)
@@ -587,8 +587,8 @@ class Router {
 	/**
 	 * Get a string repeating a URI pattern any number of times.
 	 *
-	 * @param  string  $pattern
-	 * @param  int     $times
+	 * @param	string	$pattern
+	 * @param	int		 $times
 	 * @return string
 	 */
 	protected static function repeat($pattern, $times)

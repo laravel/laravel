@@ -41,7 +41,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 	public function testViewIsCreatedWithCorrectPath()
 	{
 		$view = new View('home.index');
-		
+
 		$this->assertEquals(
 			str_replace(DS, '/', path('app')).'views/home/index.php',
 			str_replace(DS, '/', $view->path)

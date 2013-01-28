@@ -22,9 +22,9 @@ class Response {
 	/**
 	 * Create a new response instance.
 	 *
-	 * @param  mixed  $content
-	 * @param  int    $status
-	 * @param  array  $headers
+	 * @param	mixed	$content
+	 * @param	int		$status
+	 * @param	array	$headers
 	 * @return void
 	 */
 	public function __construct($content, $status = 200, $headers = array())
@@ -48,9 +48,9 @@ class Response {
 	 *		return Response::make(json_encode($user), 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  mixed     $content
-	 * @param  int       $status
-	 * @param  array     $headers
+	 * @param	mixed		 $content
+	 * @param	int			 $status
+	 * @param	array		 $headers
 	 * @return Response
 	 */
 	public static function make($content, $status = 200, $headers = array())
@@ -69,8 +69,8 @@ class Response {
 	 *		return Response::view('home.index', array('name' => 'Taylor'));
 	 * </code>
 	 *
-	 * @param  string    $view
-	 * @param  array     $data
+	 * @param	string		$view
+	 * @param	array		 $data
 	 * @return Response
 	 */
 	public static function view($view, $data = array())
@@ -86,10 +86,10 @@ class Response {
 	 *		return Response::json($data, 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  mixed     $data
-	 * @param  int       $status
-	 * @param  array     $headers
-   * @param  int       $json_options
+	 * @param	mixed		 $data
+	 * @param	int			 $status
+	 * @param	array		 $headers
+	 * @param	int			 $json_options
 	 * @return Response
 	 */
 	public static function json($data, $status = 200, $headers = array(), $json_options = 0)
@@ -98,7 +98,7 @@ class Response {
 
 		return new static(json_encode($data, $json_options), $status, $headers);
 	}
-	
+
 
 	/**
 	 * Create a new JSONP response.
@@ -108,9 +108,9 @@ class Response {
 	 *		return Response::jsonp('myFunctionCall', $data, 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  mixed     $data
-	 * @param  int       $status
-	 * @param  array     $headers
+	 * @param	mixed		 $data
+	 * @param	int			 $status
+	 * @param	array		 $headers
 	 * @return Response
 	 */
 	public static function jsonp($callback, $data, $status = 200, $headers = array())
@@ -128,9 +128,9 @@ class Response {
 	 *		return Response::eloquent($data, 200, array('header' => 'value'));
 	 * </code>
 	 *
-	 * @param  Eloquent|array   $data
-	 * @param  int              $status
-	 * @param  array            $headers
+	 * @param	Eloquent|array	 $data
+	 * @param	int							$status
+	 * @param	array						$headers
 	 * @return Response
 	 */
 	public static function eloquent($data, $status = 200, $headers = array())
@@ -155,8 +155,8 @@ class Response {
 	 *		return Response::error('404', array('message' => 'Not Found'));
 	 * </code>
 	 *
-	 * @param  int       $code
-	 * @param  array     $data
+	 * @param	int			 $code
+	 * @param	array		 $data
 	 * @return Response
 	 */
 	public static function error($code, $data = array())
@@ -175,9 +175,9 @@ class Response {
 	 *		return Response::download('path/to/file.jpg', 'your_file.jpg');
 	 * </code>
 	 *
-	 * @param  string    $path
-	 * @param  string    $name
-	 * @param  array     $headers
+	 * @param	string		$path
+	 * @param	string		$name
+	 * @param	array		 $headers
 	 * @return Response
 	 */
 	public static function download($path, $name = null, $headers = array())
@@ -188,13 +188,13 @@ class Response {
 		// us so that the developer has the chance to override any of these
 		// default headers with header values of their own liking.
 		$headers = array_merge(array(
-			'Content-Description'       => 'File Transfer',
-			'Content-Type'              => File::mime(File::extension($path)),
+			'Content-Description'			 => 'File Transfer',
+			'Content-Type'							=> File::mime(File::extension($path)),
 			'Content-Transfer-Encoding' => 'binary',
-			'Expires'                   => 0,
-			'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-			'Pragma'                    => 'public',
-			'Content-Length'            => File::size($path),
+			'Expires'									 => 0,
+			'Cache-Control'						 => 'must-revalidate, post-check=0, pre-check=0',
+			'Pragma'										=> 'public',
+			'Content-Length'						=> File::size($path),
 		), $headers);
 
 		// Once we create the response, we need to set the content disposition
@@ -210,7 +210,7 @@ class Response {
 	/**
 	 * Create the proper Content-Disposition header.
 	 *
-	 * @param  string  $file
+	 * @param	string	$file
 	 * @return string
 	 */
 	public function disposition($file)
@@ -223,7 +223,7 @@ class Response {
 	/**
 	 * Prepare a response from the given value.
 	 *
-	 * @param  mixed     $response
+	 * @param	mixed		 $response
 	 * @return Response
 	 */
 	public static function prepare($response)
@@ -315,8 +315,8 @@ class Response {
 	/**
 	 * Add a header to the array of response headers.
 	 *
-	 * @param  string    $name
-	 * @param  string    $value
+	 * @param	string		$name
+	 * @param	string		$value
 	 * @return Response
 	 */
 	public function header($name, $value)
@@ -339,7 +339,7 @@ class Response {
 	/**
 	 * Get / set the response status code.
 	 *
-	 * @param  int    $status
+	 * @param	int		$status
 	 * @return mixed
 	 */
 	public function status($status = null)

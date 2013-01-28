@@ -23,7 +23,7 @@ For instance, perhaps you are writing a blog. You will likely want to have a "Po
 <a name="libraries"></a>
 ## Libraries
 
-Libraries are classes that perform tasks that aren't specific to your application. For instance, consider a PDF generation library that converts HTML. That task, although complicated, is not specific to your application, so it is considered a "library". 
+Libraries are classes that perform tasks that aren't specific to your application. For instance, consider a PDF generation library that converts HTML. That task, although complicated, is not specific to your application, so it is considered a "library".
 
 Creating a library is as easy as creating a class and storing it in the libraries folder. In the following example, we will create a simple library with a method that echos the text that is passed to it. We create the **printer.php** file in the libraries folder with the following code.
 
@@ -36,7 +36,7 @@ Creating a library is as easy as creating a class and storing it in the librarie
 		}
 	}
 
-You can now call Printer::write('this text is being echod from the write method!') from anywhere within your application.  
+You can now call Printer::write('this text is being echod from the write method!') from anywhere within your application.
 
 <a name="auto-loading"></a>
 ## Auto Loading
@@ -50,14 +50,14 @@ We've all head the mantra: "controllers should be thin!" But, how do we apply th
 
 What if we just totally scrapped the "models" directory? Let's name it something more useful. In fact, let's just give it the same as our application. Perhaps are our satellite tracking site is named "Trackler", so let's create a "trackler" directory within the application folder.
 
-Great! Next, let's break our classes into "entities", "services", and "repositories". So, we'll create each of those three directories within our  "trackler" folder. Let's explore each one:
+Great! Next, let's break our classes into "entities", "services", and "repositories". So, we'll create each of those three directories within our	"trackler" folder. Let's explore each one:
 
 ### Entities
 
 Think of entities as the data containers of your application. They primarily just contain properties. So, in our application, we may have a "Location" entity which has "latitude" and "longitude" properties. It could look something like this:
 
 	<?php namespace Trackler\Entities;
-	
+
 	class Location {
 
 		public $latitude;

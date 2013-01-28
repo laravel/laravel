@@ -12,7 +12,7 @@ class APC extends Driver {
 	/**
 	 * Create a new APC cache driver instance.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function __construct($key)
@@ -23,7 +23,7 @@ class APC extends Driver {
 	/**
 	 * Determine if an item exists in the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return bool
 	 */
 	public function has($key)
@@ -34,7 +34,7 @@ class APC extends Driver {
 	/**
 	 * Retrieve an item from the cache driver.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return mixed
 	 */
 	protected function retrieve($key)
@@ -53,9 +53,9 @@ class APC extends Driver {
 	 *		Cache::put('name', 'Taylor', 15);
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  int     $minutes
+	 * @param	string	$key
+	 * @param	mixed	 $value
+	 * @param	int		 $minutes
 	 * @return void
 	 */
 	public function put($key, $value, $minutes)
@@ -66,8 +66,8 @@ class APC extends Driver {
 	/**
 	 * Write an item to the cache that lasts forever.
 	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
+	 * @param	string	$key
+	 * @param	mixed	 $value
 	 * @return void
 	 */
 	public function forever($key, $value)
@@ -78,7 +78,7 @@ class APC extends Driver {
 	/**
 	 * Delete an item from the cache.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return void
 	 */
 	public function forget($key)

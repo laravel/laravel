@@ -40,9 +40,9 @@ class Redis {
 	/**
 	 * Create a new Redis connection instance.
 	 *
-	 * @param  string  $host
-	 * @param  string  $port
-	 * @param  int     $database
+	 * @param	string	$host
+	 * @param	string	$port
+	 * @param	int		 $database
 	 * @return void
 	 */
 	public function __construct($host, $port, $database = 0)
@@ -65,7 +65,7 @@ class Redis {
 	 *		$reids = Redis::db('redis_2');
 	 * </code>
 	 *
-	 * @param  string  $name
+	 * @param	string	$name
 	 * @return Redis
 	 */
 	public static function db($name = 'default')
@@ -96,8 +96,8 @@ class Redis {
 	 *		$list = Redis::db()->run('lrange', array(0, 5));
 	 * </code>
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return mixed
 	 */
 	public function run($method, $parameters)
@@ -112,7 +112,7 @@ class Redis {
 	/**
 	 * Parse and return the response from the Redis database.
 	 *
-	 * @param  string  $response
+	 * @param	string	$response
 	 * @return mixed
 	 */
 	protected function parse($response)
@@ -121,17 +121,17 @@ class Redis {
 		{
 			case '-':
 				throw new \Exception('Redis error: '.substr(trim($response), 4));
-			
+
 			case '+':
 			case ':':
 				return $this->inline($response);
-			
+
 			case '$':
 				return $this->bulk($response);
-			
+
 			case '*':
 				return $this->multibulk($response);
-			
+
 			default:
 				throw new \Exception("Unknown Redis response: ".substr($response, 0, 1));
 		}
@@ -146,7 +146,7 @@ class Redis {
 	{
 		if ( ! is_null($this->connection)) return $this->connection;
 
-		$this->connection = @fsockopen($this->host, $this->port, $error, $message);		
+		$this->connection = @fsockopen($this->host, $this->port, $error, $message);
 
 		if ($this->connection === false)
 		{
@@ -163,22 +163,22 @@ class Redis {
 	 *
 	 * Redis protocol states that a command should conform to the following format:
 	 *
-	 *     *<number of arguments> CR LF
-	 *     $<number of bytes of argument 1> CR LF
-	 *     <argument data> CR LF
-	 *     ...
-	 *     $<number of bytes of argument N> CR LF
-	 *     <argument data> CR LF
+	 *		 *<number of arguments> CR LF
+	 *		 $<number of bytes of argument 1> CR LF
+	 *		 <argument data> CR LF
+	 *		 ...
+	 *		 $<number of bytes of argument N> CR LF
+	 *		 <argument data> CR LF
 	 *
 	 * More information regarding the Redis protocol: http://redis.io/topics/protocol
 	 *
-	 * @param  string  $method
-	 * @param  array   $parameters
+	 * @param	string	$method
+	 * @param	array	 $parameters
 	 * @return string
 	 */
 	protected function command($method, $parameters)
 	{
-		$command  = '*'.(count($parameters) + 1).CRLF;
+		$command	= '*'.(count($parameters) + 1).CRLF;
 
 		$command .= '$'.strlen($method).CRLF;
 
@@ -195,7 +195,7 @@ class Redis {
 	/**
 	 * Parse and handle an inline response from the Redis database.
 	 *
-	 * @param  string  $response
+	 * @param	string	$response
 	 * @return string
 	 */
 	protected function inline($response)
@@ -206,7 +206,7 @@ class Redis {
 	/**
 	 * Parse and handle a bulk response from the Redis database.
 	 *
-	 * @param  string  $head
+	 * @param	string	$head
 	 * @return string
 	 */
 	protected function bulk($head)
@@ -242,7 +242,7 @@ class Redis {
 	/**
 	 * Parse and handle a multi-bulk reply from the Redis database.
 	 *
-	 * @param  string  $head
+	 * @param	string	$head
 	 * @return array
 	 */
 	protected function multibulk($head)

@@ -17,7 +17,7 @@ class Fluent {
 	 *		$fluent = new Fluent(array('name' => 'Taylor'));
 	 * </code>
 	 *
-	 * @param  array  $attributes
+	 * @param	array	$attributes
 	 * @return void
 	 */
 	public function __construct($attributes = array())
@@ -31,8 +31,8 @@ class Fluent {
 	/**
 	 * Get an attribute from the fluent container.
 	 *
-	 * @param  string  $attribute
-	 * @param  mixed   $default
+	 * @param	string	$attribute
+	 * @param	mixed	 $default
 	 * @return mixed
 	 */
 	public function get($attribute, $default = null)

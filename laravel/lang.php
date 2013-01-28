@@ -42,9 +42,9 @@ class Lang {
 	/**
 	 * Create a new Lang instance.
 	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
-	 * @param  string  $language
+	 * @param	string	$key
+	 * @param	array	 $replacements
+	 * @param	string	$language
 	 * @return void
 	 */
 	protected function __construct($key, $replacements = array(), $language = null)
@@ -68,9 +68,9 @@ class Lang {
 	 *		$line = Lang::line('validation.required', array('attribute' => 'email'));
 	 * </code>
 	 *
-	 * @param  string  $key
-	 * @param  array   $replacements
-	 * @param  string  $language
+	 * @param	string	$key
+	 * @param	array	 $replacements
+	 * @param	string	$language
 	 * @return Lang
 	 */
 	public static function line($key, $replacements = array(), $language = null)
@@ -83,8 +83,8 @@ class Lang {
 	/**
 	 * Determine if a language line exists.
 	 *
-	 * @param  string  $key
-	 * @param  string  $language
+	 * @param	string	$key
+	 * @param	string	$language
 	 * @return bool
 	 */
 	public static function has($key, $language = null)
@@ -106,8 +106,8 @@ class Lang {
 	 *		$line = Lang::line('validation.required')->get(null, 'Default');
 	 * </code>
 	 *
-	 * @param  string  $language
-	 * @param  string  $default
+	 * @param	string	$language
+	 * @param	string	$default
 	 * @return string
 	 */
 	public function get($language = null, $default = null)
@@ -152,7 +152,7 @@ class Lang {
 	 *
 	 * Language lines follow a {bundle}::{file}.{line} naming convention.
 	 *
-	 * @param  string  $key
+	 * @param	string	$key
 	 * @return array
 	 */
 	protected function parse($key)
@@ -179,9 +179,9 @@ class Lang {
 	/**
 	 * Load all of the language lines from a language file.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $language
-	 * @param  string  $file
+	 * @param	string	$bundle
+	 * @param	string	$language
+	 * @param	string	$file
 	 * @return bool
 	 */
 	public static function load($bundle, $language, $file)
@@ -204,9 +204,9 @@ class Lang {
 	/**
 	 * Load a language array from a language file.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $language
-	 * @param  string  $file
+	 * @param	string	$bundle
+	 * @param	string	$language
+	 * @param	string	$file
 	 * @return array
 	 */
 	public static function file($bundle, $language, $file)
@@ -229,9 +229,9 @@ class Lang {
 	/**
 	 * Get the path to a bundle's language file.
 	 *
-	 * @param  string  $bundle
-	 * @param  string  $language
-	 * @param  string  $file
+	 * @param	string	$bundle
+	 * @param	string	$language
+	 * @param	string	$file
 	 * @return string
 	 */
 	protected static function path($bundle, $language, $file)

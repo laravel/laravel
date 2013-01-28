@@ -40,9 +40,9 @@ Sometimes you may wish to use a table name other than the plural form of your mo
 
 	class User extends Eloquent {
 
-	     public static $table = 'my_users';
+			 public static $table = 'my_users';
 
-	     public static $key = 'my_primary_key';
+			 public static $key = 'my_primary_key';
 
 	}
 
@@ -65,7 +65,7 @@ Need to retrieve an entire table? Just use the static **all** method:
 
 	foreach ($users as $user)
 	{
-	     echo $user->email;
+			 echo $user->email;
 	}
 
 Of course, retrieving an entire table isn't very helpful. Thankfully, **every method that is available through the fluent query builder is available in Eloquent**. Just begin querying your model with a static call to one of the [query builder](/docs/database/fluent) methods, and execute the query using the **get** or **first** method. The get method will return an array of models, while the first method will return a single model:
@@ -128,7 +128,7 @@ Need to maintain creation and update timestamps on your database records? With E
 
 	class User extends Eloquent {
 
-	     public static $timestamps = true;
+			 public static $timestamps = true;
 
 	}
 
@@ -166,10 +166,10 @@ A one-to-one relationship is the most basic form of relationship. For example, l
 
 	class User extends Eloquent {
 
-	     public function phone()
-	     {
-	          return $this->has_one('Phone');
-	     }
+			 public function phone()
+			 {
+						return $this->has_one('Phone');
+			 }
 
 	}
 
@@ -195,10 +195,10 @@ What if you need to retrieve a phone's user? Since the foreign key (**user\_id**
 
 	class Phone extends Eloquent {
 
-	     public function user()
-	     {
-	          return $this->belongs_to('User');
-	     }
+			 public function user()
+			 {
+						return $this->belongs_to('User');
+			 }
 
 	}
 
@@ -215,10 +215,10 @@ Assume a blog post has many comments. It's easy to define this relationship usin
 
 	class Post extends Eloquent {
 
-	     public function comments()
-	     {
-	          return $this->has_many('Comment');
-	     }
+			 public function comments()
+			 {
+						return $this->has_many('Comment');
+			 }
 
 	}
 
@@ -249,17 +249,17 @@ Many-to-many relationships are the most complicated of the three relationships. 
 
 **users:**
 
-	id    - INTEGER
+	id		- INTEGER
 	email - VARCHAR
 
 **roles:**
 
-	id   - INTEGER
+	id	 - INTEGER
 	name - VARCHAR
 
 **role_user:**
 
-    id      - INTEGER
+		id			- INTEGER
 	user_id - INTEGER
 	role_id - INTEGER
 
@@ -269,10 +269,10 @@ Now you're ready to define the relationship on your models using the **has\_many
 
 	class User extends Eloquent {
 
-	     public function roles()
-	     {
-	          return $this->has_many_and_belongs_to('Role');
-	     }
+			 public function roles()
+			 {
+						return $this->has_many_and_belongs_to('Role');
+			 }
 
 	}
 
@@ -288,10 +288,10 @@ If your table names don't follow conventions, simply pass the table name in the 
 
 	class User extends Eloquent {
 
-	     public function roles()
-	     {
-	          return $this->has_many_and_belongs_to('Role', 'user_roles');
-	     }
+			 public function roles()
+			 {
+						return $this->has_many_and_belongs_to('Role', 'user_roles');
+			 }
 
 	}
 
@@ -299,10 +299,10 @@ By default only certain fields from the pivot table will be returned (the two **
 
 	class User extends Eloquent {
 
-	     public function roles()
-	     {
-	          return $this->has_many_and_belongs_to('Role', 'user_roles')->with('column');
-	     }
+			 public function roles()
+			 {
+						return $this->has_many_and_belongs_to('Role', 'user_roles')->with('column');
+			 }
 
 	}
 
@@ -398,10 +398,10 @@ Eager loading exists to alleviate the N + 1 query problem. Exactly what is this 
 
 	class Book extends Eloquent {
 
-	     public function author()
-	     {
-	          return $this->belongs_to('Author');
-	     }
+			 public function author()
+			 {
+						return $this->belongs_to('Author');
+			 }
 
 	}
 
@@ -409,7 +409,7 @@ Now, examine the following code:
 
 	foreach (Book::all() as $book)
 	{
-	     echo $book->author->name;
+			 echo $book->author->name;
 	}
 
 How many queries will be executed? Well, one query will be executed to retrieve all of the books from the table. However, another query will be required for each book to retrieve the author. To display the author name for 25 books would require **26 queries**. See how the queries can add up fast?
@@ -418,7 +418,7 @@ Thankfully, you can eager load the author models using the **with** method. Simp
 
 	foreach (Book::with('author')->get() as $book)
 	{
-	     echo $book->author->name;
+			 echo $book->author->name;
 	}
 
 In this example, **only two queries will be executed**!
@@ -443,12 +443,12 @@ If you find yourself eager loading the same models often, you may want to use **
 
 	class Book extends Eloquent {
 
-	     public $includes = array('author');
+			 public $includes = array('author');
 
-	     public function author()
-	     {
-	          return $this->belongs_to('Author');
-	     }
+			 public function author()
+			 {
+						return $this->belongs_to('Author');
+			 }
 
 	}
 
@@ -456,7 +456,7 @@ If you find yourself eager loading the same models often, you may want to use **
 
 	foreach (Book::all() as $book)
 	{
-	     echo $book->author->name;
+			 echo $book->author->name;
 	}
 
 > **Note:** Using **with** will override a models **$includes**.
@@ -477,7 +477,7 @@ In this example, we're eager loading the posts for the users, but only if the po
 <a name="getter-and-setter-methods"></a>
 ## Getter & Setter Methods
 
-Setters allow you to handle attribute assignment with custom methods.  Define a setter by appending "set_" to the intended attribute's name.
+Setters allow you to handle attribute assignment with custom methods.	Define a setter by appending "set_" to the intended attribute's name.
 
 	public function set_password($password)
 	{

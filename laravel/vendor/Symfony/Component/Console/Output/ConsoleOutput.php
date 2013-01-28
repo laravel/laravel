@@ -20,11 +20,11 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
  *
  * This class is a convenient wrapper around `StreamOutput`.
  *
- *     $output = new ConsoleOutput();
+ *		 $output = new ConsoleOutput();
  *
  * This is equivalent to:
  *
- *     $output = new StreamOutput(fopen('php://stdout', 'w'));
+ *		 $output = new StreamOutput(fopen('php://stdout', 'w'));
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -32,52 +32,52 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
  */
 class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
 {
-    private $stderr;
+		private $stderr;
 
-    /**
-     * Constructor.
-     *
-     * @param integer         $verbosity The verbosity level (self::VERBOSITY_QUIET, self::VERBOSITY_NORMAL,
-     *                                   self::VERBOSITY_VERBOSE)
-     * @param Boolean         $decorated Whether to decorate messages or not (null for auto-guessing)
-     * @param OutputFormatter $formatter Output formatter instance
-     *
-     * @api
-     */
-    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
-    {
-        parent::__construct(fopen('php://stdout', 'w'), $verbosity, $decorated, $formatter);
-        $this->stderr = new StreamOutput(fopen('php://stderr', 'w'), $verbosity, $decorated, $formatter);
-    }
+		/**
+		 * Constructor.
+		 *
+		 * @param integer				 $verbosity The verbosity level (self::VERBOSITY_QUIET, self::VERBOSITY_NORMAL,
+		 *																	 self::VERBOSITY_VERBOSE)
+		 * @param Boolean				 $decorated Whether to decorate messages or not (null for auto-guessing)
+		 * @param OutputFormatter $formatter Output formatter instance
+		 *
+		 * @api
+		 */
+		public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = null, OutputFormatterInterface $formatter = null)
+		{
+				parent::__construct(fopen('php://stdout', 'w'), $verbosity, $decorated, $formatter);
+				$this->stderr = new StreamOutput(fopen('php://stderr', 'w'), $verbosity, $decorated, $formatter);
+		}
 
-    public function setDecorated($decorated)
-    {
-        parent::setDecorated($decorated);
-        $this->stderr->setDecorated($decorated);
-    }
+		public function setDecorated($decorated)
+		{
+				parent::setDecorated($decorated);
+				$this->stderr->setDecorated($decorated);
+		}
 
-    public function setFormatter(OutputFormatterInterface $formatter)
-    {
-        parent::setFormatter($formatter);
-        $this->stderr->setFormatter($formatter);
-    }
+		public function setFormatter(OutputFormatterInterface $formatter)
+		{
+				parent::setFormatter($formatter);
+				$this->stderr->setFormatter($formatter);
+		}
 
-    public function setVerbosity($level)
-    {
-        parent::setVerbosity($level);
-        $this->stderr->setVerbosity($level);
-    }
+		public function setVerbosity($level)
+		{
+				parent::setVerbosity($level);
+				$this->stderr->setVerbosity($level);
+		}
 
-    /**
-     * @return OutputInterface
-     */
-    public function getErrorOutput()
-    {
-        return $this->stderr;
-    }
+		/**
+		 * @return OutputInterface
+		 */
+		public function getErrorOutput()
+		{
+				return $this->stderr;
+		}
 
-    public function setErrorOutput(OutputInterface $error)
-    {
-        $this->stderr = $error;
-    }
+		public function setErrorOutput(OutputInterface $error)
+		{
+				$this->stderr = $error;
+		}
 }

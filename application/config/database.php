@@ -62,39 +62,39 @@ return array(
 	'connections' => array(
 
 		'sqlite' => array(
-			'driver'   => 'sqlite',
+			'driver'	 => 'sqlite',
 			'database' => 'application',
-			'prefix'   => '',
+			'prefix'	 => '',
 		),
 
 		'mysql' => array(
-			'driver'   => 'mysql',
-			'host'     => '127.0.0.1',
+			'driver'	 => 'mysql',
+			'host'		 => '127.0.0.1',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
+			'charset'	=> 'utf8',
+			'prefix'	 => '',
 		),
 
 		'pgsql' => array(
-			'driver'   => 'pgsql',
-			'host'     => '127.0.0.1',
+			'driver'	 => 'pgsql',
+			'host'		 => '127.0.0.1',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
+			'charset'	=> 'utf8',
+			'prefix'	 => '',
+			'schema'	 => 'public',
 		),
 
 		'sqlsrv' => array(
-			'driver'   => 'sqlsrv',
-			'host'     => '127.0.0.1',
+			'driver'	 => 'sqlsrv',
+			'host'		 => '127.0.0.1',
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
-			'prefix'   => '',
+			'prefix'	 => '',
 		),
 
 	),
@@ -115,8 +115,8 @@ return array(
 	'redis' => array(
 
 		'default' => array(
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
+			'host'		 => '127.0.0.1',
+			'port'		 => 6379,
 			'database' => 0
 		),
 

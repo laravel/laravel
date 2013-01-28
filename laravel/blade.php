@@ -82,7 +82,7 @@ class Blade {
 	 * 		});
 	 * </code>
 	 *
-	 * @param  Closure  $compiler
+	 * @param	Closure	$compiler
 	 * @return void
 	 */
 	public static function extend(Closure $compiler)
@@ -93,8 +93,8 @@ class Blade {
 	/**
 	 * Determine if a view is "expired" and needs to be re-compiled.
 	 *
-	 * @param  string  $view
-	 * @param  string  $path
+	 * @param	string	$view
+	 * @param	string	$path
 	 * @return bool
 	 */
 	public static function expired($view, $path)
@@ -105,7 +105,7 @@ class Blade {
 	/**
 	 * Compiles the specified file containing Blade pseudo-code into valid PHP.
 	 *
-	 * @param  string  $path
+	 * @param	string	$path
 	 * @return string
 	 */
 	public static function compile($view)
@@ -116,8 +116,8 @@ class Blade {
 	/**
 	 * Compiles the given string containing Blade pseudo-code into valid PHP.
 	 *
-	 * @param  string  $value
-	 * @param  View    $view
+	 * @param	string	$value
+	 * @param	View		$view
 	 * @return string
 	 */
 	public static function compile_string($value, $view = null)
@@ -135,7 +135,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "@layout" expressions into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_layouts($value)
@@ -166,7 +166,7 @@ class Blade {
 	/**
 	 * Extract a variable value out of a Blade expression.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function extract($value, $expression)
@@ -179,7 +179,7 @@ class Blade {
 	/**
 	 * Rewrites Blade comments into PHP comments.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_comments($value)
@@ -192,7 +192,7 @@ class Blade {
 	/**
 	 * Rewrites Blade echo statements into PHP echo statements.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_echos($value)
@@ -205,7 +205,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "for else" statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_forelse($value)
@@ -239,7 +239,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "empty" statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_empty($value)
@@ -250,7 +250,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "forelse" endings into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_endforelse($value)
@@ -261,7 +261,7 @@ class Blade {
 	/**
 	 * Rewrites Blade structure openings into PHP structure openings.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_structure_openings($value)
@@ -274,7 +274,7 @@ class Blade {
 	/**
 	 * Rewrites Blade structure closings into PHP structure closings.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_structure_closings($value)
@@ -287,7 +287,7 @@ class Blade {
 	/**
 	 * Rewrites Blade else statements into PHP else statements.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_else($value)
@@ -298,7 +298,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "unless" statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_unless($value)
@@ -311,7 +311,7 @@ class Blade {
 	/**
 	 * Rewrites Blade "unless" endings into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_endunless($value)
@@ -322,7 +322,7 @@ class Blade {
 	/**
 	 * Rewrites Blade @include statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_includes($value)
@@ -335,7 +335,7 @@ class Blade {
 	/**
 	 * Rewrites Blade @render statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_render($value)
@@ -348,7 +348,7 @@ class Blade {
 	/**
 	 * Rewrites Blade @render_each statements into valid PHP.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_render_each($value)
@@ -363,7 +363,7 @@ class Blade {
 	 *
 	 * The Blade @yield statement is a shortcut to the Section::yield method.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_yields($value)
@@ -390,7 +390,7 @@ class Blade {
 	 *
 	 * The Blade @section statement is a shortcut to the Section::start method.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_section_start($value)
@@ -405,7 +405,7 @@ class Blade {
 	 *
 	 * The Blade @endsection statement is a shortcut to the Section::stop method.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_section_end($value)
@@ -416,7 +416,7 @@ class Blade {
 	/**
 	 * Execute user defined compilers.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	protected static function compile_extensions($value)
@@ -427,12 +427,12 @@ class Blade {
 		}
 
 		return $value;
-	}	
+	}
 
 	/**
 	 * Get the regular expression for a generic Blade function.
 	 *
-	 * @param  string  $function
+	 * @param	string	$function
 	 * @return string
 	 */
 	public static function matcher($function)
@@ -443,7 +443,7 @@ class Blade {
 	/**
 	 * Get the fully qualified path for a compiled view.
 	 *
-	 * @param  string  $view
+	 * @param	string	$view
 	 * @return string
 	 */
 	public static function compiled($path)

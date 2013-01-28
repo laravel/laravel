@@ -18,7 +18,7 @@ function doc_root()
 /**
  * Get the parsed Markdown contents of a given page.
  *
- * @param  string  $page
+ * @param	string	$page
  * @return string
  */
 function document($page)
@@ -29,7 +29,7 @@ function document($page)
 /**
  * Determine if a documentation page exists.
  *
- * @param  string  $page
+ * @param	string	$page
  * @return bool
  */
 function document_exists($page)
@@ -58,8 +58,8 @@ Route::get('(:bundle)', function()
 /**
  * Handle documentation routes for sections and pages.
  *
- * @param  string  $section
- * @param  string  $page
+ * @param	string	$section
+ * @param	string	$page
  * @return mixed
  */
 Route::get('(:bundle)/(:any)/(:any?)', function($section, $page = null)

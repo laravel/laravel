@@ -53,7 +53,7 @@ return array(
 	| Because of the various ways of managing error logging, you get complete
 	| flexibility to manage error logging as you see fit. This function will
 	| be called anytime an error occurs within your application and error
-	| logging is enabled. 
+	| logging is enabled.
 	|
 	| You may log the error message however you like; however, a simple log
 	| solution has been set up for you which will log all error messages to

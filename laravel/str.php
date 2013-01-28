@@ -9,22 +9,22 @@ class Str {
 	 */
 	public static $pluralizer;
 
-    /**
-     * Cache application encoding locally to save expensive calls to Config::get().
-     *
-     * @var string
-     */
-    public static $encoding = null;
+		/**
+		 * Cache application encoding locally to save expensive calls to Config::get().
+		 *
+		 * @var string
+		 */
+		public static $encoding = null;
 
-    /**
-     * Get the appliction.encoding without needing to request it from Config::get() each time.
-     *
-     * @return string
-     */
-    protected static function encoding()
-    {
-        return static::$encoding ?: static::$encoding = Config::get('application.encoding');
-    }
+		/**
+		 * Get the appliction.encoding without needing to request it from Config::get() each time.
+		 *
+		 * @return string
+		 */
+		protected static function encoding()
+		{
+				return static::$encoding ?: static::$encoding = Config::get('application.encoding');
+		}
 
 	/**
 	 * Get the length of a string.
@@ -37,7 +37,7 @@ class Str {
 	 *		$length = Str::length('Τάχιστη')
 	 * </code>
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return int
 	 */
 	public static function length($value)
@@ -56,7 +56,7 @@ class Str {
 	 *		$lower = Str::lower('Τάχιστη');
 	 * </code>
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function lower($value)
@@ -75,7 +75,7 @@ class Str {
 	 *		$upper = Str::upper('Τάχιστη');
 	 * </code>
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function upper($value)
@@ -94,7 +94,7 @@ class Str {
 	 *		$title = Str::title('νωθρού κυνός');
 	 * </code>
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function title($value)
@@ -118,9 +118,9 @@ class Str {
 	 *		echo Str::limit('Taylor Otwell', 3, '---');
 	 * </code>
 	 *
-	 * @param  string  $value
-	 * @param  int     $limit
-	 * @param  string  $end
+	 * @param	string	$value
+	 * @param	int		 $limit
+	 * @param	string	$end
 	 * @return string
 	 */
 	public static function limit($value, $limit = 100, $end = '...')
@@ -137,7 +137,7 @@ class Str {
 
 	/**
 	 * Limit the number of chracters in a string including custom ending
-	 * 
+	 *
 	 * <code>
 	 *		// Returns "Taylor..."
 	 *		echo Str::limit_exact('Taylor Otwell', 9);
@@ -145,10 +145,10 @@ class Str {
 	 *		// Limit the number of characters and append a custom ending
 	 *		echo Str::limit_exact('Taylor Otwell', 9, '---');
 	 * </code>
-	 * 
-	 * @param  string  $value
-	 * @param  int     $limit
-	 * @param  string  $end
+	 *
+	 * @param	string	$value
+	 * @param	int		 $limit
+	 * @param	string	$end
 	 * @return string
 	 */
 	public static function limit_exact($value, $limit = 100, $end = '...')
@@ -171,9 +171,9 @@ class Str {
 	 *		echo Str::words('This is a sentence.', 3, '---');
 	 * </code>
 	 *
-	 * @param  string  $value
-	 * @param  int     $words
-	 * @param  string  $end
+	 * @param	string	$value
+	 * @param	int		 $words
+	 * @param	string	$end
 	 * @return string
 	 */
 	public static function words($value, $words = 100, $end = '...')
@@ -193,7 +193,7 @@ class Str {
 	/**
 	 * Get the singular form of the given word.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function singular($value)
@@ -212,8 +212,8 @@ class Str {
 	 *		$plural = Str::plural('octocat', 1);
 	 * </code>
 	 *
-	 * @param  string  $value
-	 * @param  int     $count
+	 * @param	string	$value
+	 * @param	int		 $count
 	 * @return string
 	 */
 	public static function plural($value, $count = 2)
@@ -244,8 +244,8 @@ class Str {
 	 *		$slug = Str::slug('This is my blog post!', '_');
 	 * </code>
 	 *
-	 * @param  string  $title
-	 * @param  string  $separator
+	 * @param	string	$title
+	 * @param	string	$separator
 	 * @return string
 	 */
 	public static function slug($title, $separator = '-')
@@ -266,7 +266,7 @@ class Str {
 	 *
 	 * This is helpful for converting UTF-8 strings for usage in URLs, etc.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function ascii($value)
@@ -291,7 +291,7 @@ class Str {
 	 *		$class = Str::classify('taylor otwell')
 	 * </code>
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return string
 	 */
 	public static function classify($value)
@@ -304,7 +304,7 @@ class Str {
 	/**
 	 * Return the "URI" style segments in a given string.
 	 *
-	 * @param  string  $value
+	 * @param	string	$value
 	 * @return array
 	 */
 	public static function segments($value)
@@ -323,8 +323,8 @@ class Str {
 	 *		echo Str::random(16, 'alpha');
 	 * <code>
 	 *
-	 * @param  int	   $length
-	 * @param  string  $type
+	 * @param	int		 $length
+	 * @param	string	$type
 	 * @return string
 	 */
 	public static function random($length, $type = 'alnum')
@@ -335,8 +335,8 @@ class Str {
 	/**
 	 * Determine if a given string matches a given pattern.
 	 *
-	 * @param  string  $pattern
-	 * @param  string  $value
+	 * @param	string	$pattern
+	 * @param	string	$value
 	 * @return bool
 	 */
 	public static function is($pattern, $value)
@@ -359,7 +359,7 @@ class Str {
 	/**
 	 * Get the character pool for a given type of random string.
 	 *
-	 * @param  string  $type
+	 * @param	string	$type
 	 * @return string
 	 */
 	protected static function pool($type)

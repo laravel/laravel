@@ -7,7 +7,7 @@ class Eloquent extends Driver {
 	 *
 	 * If the user is a guest, null should be returned.
 	 *
-	 * @param  int|object  $token
+	 * @param	int|object	$token
 	 * @return mixed|null
 	 */
 	public function retrieve($token)
@@ -27,7 +27,7 @@ class Eloquent extends Driver {
 	/**
 	 * Attempt to log a user into the application.
 	 *
-	 * @param  array $arguments
+	 * @param	array $arguments
 	 * @return void
 	 */
 	public function attempt($arguments = array())
@@ -35,12 +35,12 @@ class Eloquent extends Driver {
 		$user = $this->model()->where(function($query) use($arguments)
 		{
 			$username = Config::get('auth.username');
-			
+
 			$query->where($username, '=', $arguments['username']);
 
 			foreach(array_except($arguments, array('username', 'password', 'remember')) as $column => $val)
 			{
-			    $query->where($column, '=', $val);
+					$query->where($column, '=', $val);
 			}
 		})->first();
 
