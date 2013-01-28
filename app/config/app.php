@@ -97,6 +97,7 @@ return array(
 		'Illuminate\Database\MigrationServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
 		'Illuminate\Foundation\Providers\PublisherServiceProvider',
+		'Illuminate\Queue\QueueServiceProvider',
 		'Illuminate\Redis\RedisServiceProvider',
 		'Illuminate\Database\SeedServiceProvider',
 		'Illuminate\Foundation\Providers\ServerServiceProvider',
