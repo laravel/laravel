@@ -1,4 +1,4 @@
-<?php namespace Laravel\Session\Drivers; use Laravel\Crypter, Laravel\Cookie as C;
+<?php namespace Laravel\Session\Drivers; use Laravel\Config, Laravel\Crypter, Laravel\Cookie as C;
 
 class Cookie extends Driver {
 
@@ -38,6 +38,8 @@ class Cookie extends Driver {
 		extract($config, EXTR_SKIP);
 
 		$payload = Crypter::encrypt(serialize($session));
+		$path = Config::get('session.path');
+		$domain = Config::get('session.domain');
 
 		C::put(Cookie::payload, $payload, $lifetime, $path, $domain);
 	}
