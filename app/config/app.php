@@ -142,7 +142,7 @@ return array(
 		'Auth'            => 'Illuminate\Support\Facades\Auth',
 		'Blade'           => 'Illuminate\Support\Facades\Blade',
 		'Cache'           => 'Illuminate\Support\Facades\Cache',
-		'ClassLoader'     => 'Illuminate\Foundation\ClassLoader',
+		'ClassLoader'     => 'Illuminate\Support\ClassLoader',
 		'Config'          => 'Illuminate\Support\Facades\Config',
 		'Controller'      => 'Illuminate\Routing\Controllers\Controller',
 		'Cookie'          => 'Illuminate\Support\Facades\Cookie',
