@@ -43,4 +43,21 @@ return array(
 
 	'table' => 'users',
 
+	/*
+	|--------------------------------------------------------------------------
+	| Password Reminder Settings
+	|--------------------------------------------------------------------------
+	|
+	| Here you may set the settings for password reminders, including a view
+	| that should be used as your password reminder e-mail. You will also
+	| be able to set the name of the table that holds the reset tokens.
+	|
+	*/
+
+	'reminder' => array(
+
+		'email' => 'auth.password', 'table' => 'password_reminders',
+
+	),
+
 );
