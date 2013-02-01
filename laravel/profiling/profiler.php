@@ -148,9 +148,8 @@ class Profiler {
 			$binding = Database::escape($binding);
 
 			$sql = preg_replace('/\?/', $binding, $sql, 1);
-			$sql = htmlspecialchars($sql);
 		}
-
+		$sql = htmlspecialchars($sql);
 		static::$data['queries'][] = array($sql, $time);
 	}
 
