@@ -24,9 +24,9 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$app->instance('path', $appPath = __DIR__.'/app');
+$app->instance('path', $appPath = __DIR__.'/../app');
 
-$app->instance('path.base', __DIR__);
+$app->instance('path.base', __DIR__.'/..');
 
 /*
 |--------------------------------------------------------------------------
