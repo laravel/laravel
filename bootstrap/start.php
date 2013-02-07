@@ -15,18 +15,21 @@ $app = new Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
-| Define The Application Path
+| Bind Paths
 |--------------------------------------------------------------------------
 |
-| Here we just defined the path to the application directory. Most likely
-| you will never need to change this value as the default setup should
-| work perfectly fine for the vast majority of all our applications.
+| Here we are binding the paths configured in paths.php to the app. You
+| should not be changing these here but rather in paths.php.
 |
 */
 
-$app->instance('path', $appPath = __DIR__.'/app');
+$paths = require __DIR__.'/paths.php';
 
-$app->instance('path.base', __DIR__);
+$app->instance('path', $appPath = $paths['app']);
+
+$app->instance('path.base', $paths['base']);
+
+$app->instance('path.public', $paths['public']);
 
 /*
 |--------------------------------------------------------------------------
