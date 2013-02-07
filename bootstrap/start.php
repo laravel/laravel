@@ -15,24 +15,6 @@ $app = new Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
-| Bind Paths
-|--------------------------------------------------------------------------
-|
-| Here we are binding the paths configured in paths.php to the app. You
-| should not be changing these here but rather in paths.php.
-|
-*/
-
-$paths = require __DIR__.'/paths.php';
-
-$app->instance('path', $appPath = $paths['app']);
-
-$app->instance('path.base', $paths['base']);
-
-$app->instance('path.public', $paths['public']);
-
-/*
-|--------------------------------------------------------------------------
 | Detect The Application Environment
 |--------------------------------------------------------------------------
 |
@@ -47,6 +29,25 @@ $env = $app->detectEnvironment(array(
 	'local' => array('your-machine-name'),
 
 ));
+
+/*
+|--------------------------------------------------------------------------
+| Bind Paths
+|--------------------------------------------------------------------------
+|
+| Here we are binding the paths configured in paths.php to the app. You
+| should not be changing these here. If you need to change these you
+| may do so within the paths.php file and they will be bound here.
+|
+*/
+
+$paths = require __DIR__.'/paths.php';
+
+$app->instance('path', $appPath = $paths['app']);
+
+$app->instance('path.base', $paths['base']);
+
+$app->instance('path.public', $paths['public']);
 
 /*
 |--------------------------------------------------------------------------

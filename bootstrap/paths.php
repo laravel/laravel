@@ -20,20 +20,22 @@ return array(
 	| Public Path
 	|--------------------------------------------------------------------------
 	|
-	| We understand that not all hosting environments allow flexibility with
-	| public paths. That's why we allow you to change where your public path
-	| is below.
+	| The public path contains the assets for your web application, such as
+	| your JavaScript and CSS files, and also contains the primary entry
+	| point for web requests into these applications from the outside.
 	|
 	*/
 
 	'public' => __DIR__.'/../public',
 
 	/*
-	|-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-	| Base Path
-	|-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+	|--------------------------------------------------------------------------
+	| Public Path
+	|--------------------------------------------------------------------------
 	|
-	| You probably shouldn't be editing this.
+	| The base path is the root of the Laravel installation. Most likely you
+	| will not need to change this value. But, if for some wild reason it
+	| is necessary you will do so here, just proceed with some caution.
 	|
 	*/
 
