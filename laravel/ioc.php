@@ -172,7 +172,7 @@ class IoC {
 			return new $type;
 		}
 
-		$dependencies = static::dependencies($constructor->getParameters());
+		$dependencies = static::dependencies($constructor->getParameters(), $parameters);
 
 		return $reflector->newInstanceArgs($dependencies);
 	}
@@ -181,9 +181,10 @@ class IoC {
 	 * Resolve all of the dependencies from the ReflectionParameters.
 	 *
 	 * @param  array  $parameters
+	 * @param  array  $arguments that might have been passed into our resolve
 	 * @return array
 	 */
-	protected static function dependencies($parameters)
+	protected static function dependencies($parameters, $arguments)
 	{
 		$dependencies = array();
 
@@ -191,18 +192,43 @@ class IoC {
 		{
 			$dependency = $parameter->getClass();
 
-			// If the class is null, it means the dependency is a string or some other
-			// primitive type, which we can not resolve since it is not a class and
-			// we'll just bomb out with an error since we have nowhere to go.
-			if (is_null($dependency))
+			// If the person passed in some parameters to the class
+			// then we should probably use those instead of trying 
+			// to resolve a new instance of the class
+			if (count($arguments) > 0)
 			{
-				throw new \Exception("Unresolvable dependency resolving [$parameter].");
+				$dependencies[] = array_shift($arguments);
 			}
-
-			$dependencies[] = static::resolve($dependency->name);
+			else if (is_null($dependency))
+			{
+				$dependency[] = static::resolveNonClass($parameter);
+			}
+			else
+			{
+				$dependencies[] = static::resolve($dependency->name);				
+			}
 		}
 
 		return (array) $dependencies;
 	}
+
+	/**
+	 * Resolves optional parameters for our dependency injection
+	 * pretty much took backport straight from L4's Illuminate\Container
+	 *
+	 * @param ReflectionParameter
+	 * @return default value
+	 */
+	protected static function resolveNonClass($parameter)
+	{
+		if ($parameter->isDefaultValueAvailable())
+		{
+			return $parameter->getDefaultValue();
+		}
+		else
+		{
+			throw new \Exception("Unresolvable dependency resolving [$parameter].");
+		}
+	}	
 
 }
