@@ -30,7 +30,7 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Public Path
+	| Base Path
 	|--------------------------------------------------------------------------
 	|
 	| The base path is the root of the Laravel installation. Most likely you
