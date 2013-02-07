@@ -41,13 +41,7 @@ $env = $app->detectEnvironment(array(
 |
 */
 
-$paths = require __DIR__.'/paths.php';
-
-$app->instance('path', $appPath = $paths['app']);
-
-$app->instance('path.base', $paths['base']);
-
-$app->instance('path.public', $paths['public']);
+$app->bindInstallPaths(require __DIR__.'/paths.php');
 
 /*
 |--------------------------------------------------------------------------
