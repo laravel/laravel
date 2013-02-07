@@ -151,7 +151,6 @@ return array(
 		'DB'              => 'Illuminate\Support\Facades\DB',
 		'Eloquent'        => 'Illuminate\Database\Eloquent\Model',
 		'Event'           => 'Illuminate\Support\Facades\Event',
-		'EventSubscriber' => 'Illuminate\Events\Subscriber',
 		'File'            => 'Illuminate\Support\Facades\File',
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
 		'Input'           => 'Illuminate\Support\Facades\Input',
