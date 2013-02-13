@@ -35,6 +35,7 @@ return array(
 	"exists"          => "The selected :attribute is invalid.",
 	"image"           => "The :attribute must be an image.",
 	"in"              => "The selected :attribute is invalid.",
+	"not_in"          => "The selected :attribute is invalid.",
 	"integer"         => "The :attribute must be an integer.",
 	"ip"              => "The :attribute must be a valid IP address.",
 	"match"           => "The :attribute format is invalid.",
