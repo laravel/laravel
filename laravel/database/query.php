@@ -776,7 +776,7 @@ class Query {
 		// Now we're ready to get the actual pagination results from the table
 		// using the for_page and get methods. The "for_page" method provides
 		// a convenient way to set the paging limit and offset.
-		$results = $this->for_page($page, $per_page)->get($columns);
+		$results = $total===0? null: $this->for_page($page, $per_page)->get($columns);
 
 		return Paginator::make($results, $total, $per_page);
 	}
