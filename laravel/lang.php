@@ -40,6 +40,13 @@ class Lang {
 	const loader = 'laravel.language.loader';
 
 	/**
+	 * A cache for our language file.
+	 *
+	 * @var array
+	 */
+	protected static $lang_cache = array();
+
+	/**
 	 * Create a new Lang instance.
 	 *
 	 * @param  string  $key
@@ -112,6 +119,12 @@ class Lang {
 	 */
 	public function get($language = null, $default = null)
 	{
+		// if we have a cached version of the key, return it
+		if(isset(static::$lang_cache[$this->key]))
+		{
+			return static::$lang_cache[$this->key];
+		}
+
 		// If no default value is specified by the developer, we'll just return the
 		// key of the language line. This should indicate which language line we
 		// were attempting to render and is better than giving nothing back.
@@ -126,6 +139,7 @@ class Lang {
 		// file exists and that file does not actually contain any lines.
 		if ( ! static::load($bundle, $language, $file))
 		{
+			static::$lang_cache[$this->key] = $default;
 			return value($default);
 		}
 
@@ -143,6 +157,8 @@ class Lang {
 				$line = str_replace(':'.$key, $value, $line);
 			}
 		}
+
+		static::$lang_cache[$this->key] = $line;
 
 		return $line;
 	}
