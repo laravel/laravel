@@ -21,7 +21,7 @@ class Log {
 	 */
 	protected static function exception_line($e)
 	{
-		return $e->getMessage().' in '.$e->getFile().' on line '.$e->getLine();
+		return $e->getMessage().' in '.$e->getFile().' on line '.$e->getLine().'. Trace:'.$e->getTraceAsString();
 	}
 
 	/**
