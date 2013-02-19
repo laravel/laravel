@@ -566,7 +566,7 @@ abstract class Model {
 	 */
 	public function get_attribute($key)
 	{
-		return array_get($this->attributes, $key);
+		return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
 	}
 
 	/**
