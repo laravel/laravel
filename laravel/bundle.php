@@ -397,14 +397,14 @@ class Bundle {
 
 		if (strpos($identifier, '::') !== false)
 		{
-			$element = explode('::', strtolower($identifier));
+			$element = explode('::', $identifier);
 		}
 		// If no bundle is in the identifier, we will insert the default bundle
 		// since classes like Config and Lang organize their items by bundle.
 		// The application folder essentially behaves as a default bundle.
 		else
 		{
-			$element = array(DEFAULT_BUNDLE, strtolower($identifier));
+			$element = array(DEFAULT_BUNDLE, $identifier);
 		}
 
 		return static::$elements[$identifier] = $element;
