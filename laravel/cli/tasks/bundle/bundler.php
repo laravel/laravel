@@ -78,7 +78,7 @@ class Bundler extends Task {
 		{
 			if ( ! Bundle::exists($name))
 			{
-				echo "Bundle [{$name}] is not installed.";
+				echo "Bundle [{$name}] is not installed.".PHP_EOL;
 				continue;
 			}
 
@@ -112,7 +112,7 @@ class Bundler extends Task {
 		{
 			if ( ! Bundle::exists($name))
 			{
-				echo "Bundle [{$name}] is not installed!";
+				echo "Bundle [{$name}] is not installed!".PHP_EOL;
 
 				continue;
 			}
