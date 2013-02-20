@@ -39,7 +39,7 @@ class Bundler extends Task {
 		{
 			if (Bundle::exists($bundle['name']))
 			{
-				echo "Bundle {$bundle['name']} is already installed.";
+				echo "Bundle {$bundle['name']} is already installed.".PHP_EOL;
 
 				continue;
 			}
