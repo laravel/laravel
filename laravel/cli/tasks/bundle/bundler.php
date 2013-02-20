@@ -51,7 +51,7 @@ class Bundler extends Task {
 			// Each bundle provider implements the Provider interface and
 			// is responsible for retrieving the bundle source from its
 			// hosting party and installing it into the application.
-			$path = path('bundle').$this->path($bundle);
+			$path = Bundle::path($bundle['name']);
 
 			echo "Fetching [{$bundle['name']}]...";
 
@@ -240,16 +240,4 @@ class Bundler extends Task {
 
 		return $response;
 	}
-
-	/**
-	 * Return the path for a given bundle.
-	 *
-	 * @param  array   $bundle
-	 * @return string
-	 */
-	protected function path($bundle)
-	{
-		return array_get($bundle, 'path', $bundle['name']);
-	}
-
 }
