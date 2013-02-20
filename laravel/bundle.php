@@ -208,7 +208,7 @@ class Bundle {
 	 */
 	public static function exists($bundle)
 	{
-		return $bundle == DEFAULT_BUNDLE or File::exists(static::path($bundle));
+		return $bundle == DEFAULT_BUNDLE or File::exists(static::path(strtolower($bundle)));
 	}
 
 	/**
