@@ -37,7 +37,6 @@ return array(
 	"in"              => "The selected :attribute is invalid.",
 	"integer"         => "The :attribute must be an integer.",
 	"ip"              => "The :attribute must be a valid IP address.",
-	"match"           => "The :attribute format is invalid.",
 	"max"             => array(
 		"numeric"     => "The :attribute must be less than :max.",
 		"file"        => "The :attribute must be less than :max kilobytes.",
@@ -51,6 +50,7 @@ return array(
 	),
 	"notin"           => "The selected :attribute is invalid.",
 	"numeric"         => "The :attribute must be a number.",
+	"regex"           => "The :attribute format is invalid.",
 	"required"        => "The :attribute field is required.",
 	"required_with"   => "The :attribute field is required when :values is present.",
 	"same"            => "The :attribute and :other must match.",
