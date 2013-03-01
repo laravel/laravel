@@ -38,18 +38,13 @@ class Key extends Task {
 
 		$config = File::get($this->path);
 
-		$config = str_replace("'key' => '',", "'key' => '{$key}',", $config, $count);
+		$config = preg_replace("/('key'\s\=>\s'.*')/", "'key' => '{$key}'", $config, 1, $count);
 
 		File::put($this->path, $config);
 
-		if ($count > 0)
-		{
-			echo "Configuration updated with secure key!";
-		}
-		else
-		{
-			echo "An application key already exists!";
-		}
+
+		echo "Configuration updated with secure key!";
+
 
 		echo PHP_EOL;
 	}
