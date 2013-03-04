@@ -58,11 +58,11 @@ App::error(function(Exception $exception, $code)
 |--------------------------------------------------------------------------
 |
 | Here you may add any handlers which observe all logging events for your
-| application. You may choose to add any custom logic here.
+| application. You may choose to add any custom logging logic here.
 |
 */
 
-Log::logging(function($level, array $parameters = array())
+Log::listen(function($level, array $parameters = array())
 {
 
 });
