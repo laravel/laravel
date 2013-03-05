@@ -11,7 +11,7 @@ return array(
 	| API, giving you convenient access to each back-end using the same
 	| syntax for each one. Here you may set the default queue driver.
 	|
-	| Supported: "sync", "beanstalkd"
+	| Supported: "sync", "beanstalkd", "sqs"
 	|
 	*/
 
