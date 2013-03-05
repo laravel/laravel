@@ -54,6 +54,21 @@ App::error(function(Exception $exception, $code)
 
 /*
 |--------------------------------------------------------------------------
+| Logging Handler
+|--------------------------------------------------------------------------
+|
+| Here you may add any handlers which observe all logging events for your
+| application. You may choose to add any custom logging logic here.
+|
+*/
+
+Log::listen(function($level, $message, array $context = array())
+{
+
+});
+
+/*
+|--------------------------------------------------------------------------
 | Require The Filters File
 |--------------------------------------------------------------------------
 |
