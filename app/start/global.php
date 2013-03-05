@@ -62,7 +62,7 @@ App::error(function(Exception $exception, $code)
 |
 */
 
-Log::listen(function($level, array $parameters = array())
+Log::listen(function($level, $message, array $context = array())
 {
 
 });
