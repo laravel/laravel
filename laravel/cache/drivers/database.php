@@ -49,7 +49,7 @@ class Database extends Driver {
 		{
 			if (time() >= $cache->expiration) return $this->forget($key);
 
-			return unserialize($cache->value);
+			return json_decode($cache->value);
 		}
 	}
 
@@ -70,7 +70,7 @@ class Database extends Driver {
 	{
 		$key = $this->key.$key;
 
-		$value = serialize($value);
+		$value = json_encode($value);
 
 		$expiration = $this->expiration($minutes);
 
