@@ -134,7 +134,7 @@ class IoCTest extends PHPUnit_Framework_TestCase {
 	public function testClassTwoResolvesClassOneDependency()
 	{
 		$test = IoC::resolve('TestClassTwoForIoC');
-		$this->assertInstanceOf('TestClassOneForIoC', $test->TestClassOneForIoC);
+		$this->assertInstanceOf('TestClassOneForIoC', $test->class_one);
 	}
 
 	/**
