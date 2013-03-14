@@ -122,4 +122,17 @@ return array(
 
 	'domain' => null,
 
+	/*
+	|--------------------------------------------------------------------------
+	| Session Payload Cookie Name
+	|--------------------------------------------------------------------------
+	|
+	| When using the "cookie" session driver, you may configure the name of
+	| the cookie used as the session "payload". This cookie actually has
+	| the encrypted session data stored within it for the application.
+	|
+	*/
+
+	'payload' => 'laravel_payload',
+
 );
