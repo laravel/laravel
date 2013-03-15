@@ -82,7 +82,7 @@ Of course, retrieving an entire table isn't very helpful. Thankfully, **every me
 
 The lists method will return an array with the values of a given column. For example, let's say that you want to get an array of IDs for all users. Just pass the column name to the lists method.
 
-    $users = User::all()->lists('id');
+    $users = User::lists('id');
 
 <a name="aggregates"></a>
 ## Aggregates
