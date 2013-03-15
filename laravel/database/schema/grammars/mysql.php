@@ -46,6 +46,7 @@ class MySQL extends Grammar {
 	public function add(Table $table, Fluent $command)
 	{
 		$columns = $this->columns($table);
+		$changes = $this->changes($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
@@ -56,7 +57,14 @@ class MySQL extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		// The column changes need a CHANGE instead of an AND
+		$changes = implode(', ', array_map(function($column)
+		{
+			return 'CHANGE '.$column;
+
+		}, $changes));
+
+		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
 	}
 
 	/**
@@ -77,7 +85,7 @@ class MySQL extends Grammar {
 			// types to the correct types.
 			$sql = $this->wrap($column).' '.$this->type($column);
 
-			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer');
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'after');
 
 			foreach ($elements as $element)
 			{
@@ -88,6 +96,36 @@ class MySQL extends Grammar {
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Create the individual definitions for changes to columns.
+	 *
+	 * @param  Table $table
+	 * @return array
+	 */
+	protected function changes(Table $table)
+	{
+		$changes = array();
+
+		foreach ($table->changes as $column)
+		{
+			// Start out with the old name, the new name (those can be the same), and the type.
+			$sql = $this->wrap($column->from).' '.$this->wrap($column).' '.$this->type($column);
+
+			// This is just pretty much the same as above, since the change statement
+			// also simply takes a column_definition.
+			$elements = array('unsigned', 'nullable', 'defaults', 'incrementer', 'after');
+
+			foreach ($elements as $element)
+			{
+				$sql .= $this->$element($table, $column);
+			}
+
+			$changes[] = $sql;
+		}
+
+		return $changes;
 	}
 
 	/**
@@ -102,6 +140,21 @@ class MySQL extends Grammar {
 		if ($column->type == 'integer' && ($column->unsigned || $column->increment))
 		{
 			return ' UNSIGNED';
+		}
+	}
+
+	/**
+	 * Get the SQL syntax for indicating after which column a column should be added.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function after(Table $table, Fluent $column)
+	{
+		if ($column->after)
+		{
+			return ' AFTER ' . $this->wrap($column->after);
 		}
 	}
 

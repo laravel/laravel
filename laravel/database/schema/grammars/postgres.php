@@ -34,6 +34,7 @@ class Postgres extends Grammar {
 	public function add(Table $table, Fluent $command)
 	{
 		$columns = $this->columns($table);
+		$changes = $this->changes($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
@@ -44,7 +45,11 @@ class Postgres extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		// The changes function outputs full commands for each column change, so
+		// we only need to join them with commas.
+		$changes = implode(', ', $changes);
+
+		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
 	}
 
 	/**
@@ -79,6 +84,52 @@ class Postgres extends Grammar {
 	}
 
 	/**
+	 * Create the individual definitions for changes to columns.
+	 *
+	 * @param  Table $table
+	 * @return array
+	 */
+	protected function changes(Table $table)
+	{
+		$changes = array();
+
+		foreach ($table->changes as $column)
+		{
+			// Postgres has a whole bunch of different commands to change columns.
+			// Start out with a rename if appropriate.
+			if ($column->from != $column->name)
+			{
+				$changes[] = 'RENAME COLUMN '.$this->wrap($column->from).' TO '.$this->wrap($column);
+			}
+
+			// No way at the moment to figure out if the type changed, so always
+			// issue a change for that.
+			$changes[] = 'ALTER COLUMN '.$this->wrap($column).' TYPE '.$this->type($column);
+
+			$elements = array('alter_nullable', 'alter_defaults');
+
+			foreach ($elements as $element)
+			{
+				$changes[] = $this->$element($table, $column);
+			}
+		}
+
+		return $changes;
+	}
+
+	/**
+	 * Get the SQL syntax for changing if a column is nullable.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function alter_nullable(Table $table, Fluent $column)
+	{
+		return 'ALTER COLUMN'.$this->wrap($column).($column->nullable ? ' DROP' : ' SET').' NOT NULL';
+	}
+
+	/**
 	 * Get the SQL syntax for indicating if a column is nullable.
 	 *
 	 * @param  Table   $table
@@ -88,6 +139,29 @@ class Postgres extends Grammar {
 	protected function nullable(Table $table, Fluent $column)
 	{
 		return ($column->nullable) ? ' NULL' : ' NOT NULL';
+	}
+
+	/**
+	 * Get the SQL syntax for changing a column's default value.
+	 *
+	 * @param  Table   $table
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function alter_defaults(Table $table, Fluent $column)
+	{
+		$sql = 'ALTER COLUMN'.$this->wrap($column);
+
+		if ( ! is_null($column->default))
+		{
+			$sql .= ' SET' . $this->defaults($table, $column);
+		}
+		else
+		{
+			$sql .= ' DROP DEFAULT';
+		}
+
+		return $sql;
 	}
 
 	/**

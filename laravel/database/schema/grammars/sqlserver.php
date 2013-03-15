@@ -41,6 +41,7 @@ class SQLServer extends Grammar {
 	public function add(Table $table, Fluent $command)
 	{
 		$columns = $this->columns($table);
+		$changes = $this->changes($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
 		// front of each definition, then we'll concatenate the definitions
@@ -51,7 +52,14 @@ class SQLServer extends Grammar {
 
 		}, $columns));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
+		// The column changes need a CHANGE instead of an AND
+		$changes = implode(', ', array_map(function($column)
+		{
+			return 'ALTER COLUMN '.$column;
+
+		}, $changes));
+
+		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
 	}
 
 	/**
@@ -83,6 +91,31 @@ class SQLServer extends Grammar {
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Create the individual definitions for changes to columns.
+	 *
+	 * @param  Table $table
+	 * @return array
+	 */
+	protected function changes(Table $table)
+	{
+		$changes = array();
+
+		foreach ($table->changes as $column)
+		{
+			// Start out with the name and the type. SQL Server does not allow
+			// renaming of columns.
+			$sql = $this->wrap($column).' '.$this->type($column);
+
+			// Only the nullable property can be changed on columns.
+			$sql .= $this->nullable($table, $column);
+
+			$changes[] = $sql;
+		}
+
+		return $changes;
 	}
 
 	/**

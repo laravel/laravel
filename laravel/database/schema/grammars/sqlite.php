@@ -70,6 +70,8 @@ class SQLite extends Grammar {
 			$sql[] = 'ALTER TABLE '.$this->wrap($table).' '.$column;
 		}
 
+		// (Note: SQLite does not allow changing existing columns.)
+
 		return (array) $sql;
 	}
 
