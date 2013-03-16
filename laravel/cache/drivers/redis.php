@@ -9,14 +9,22 @@ class Redis extends Driver {
 	 */
 	protected $redis;
 
+    /**
+     * The cache key from the cache configuration file.
+     *
+     * @var string
+     */
+    protected $key;
+
 	/**
 	 * Create a new Redis cache driver instance.
 	 *
 	 * @param  Laravel\Redis  $redis
 	 * @return void
 	 */
-	public function __construct(\Laravel\Redis $redis)
+	public function __construct(\Laravel\Redis $redis, $key)
 	{
+        $this->key = $key;
 		$this->redis = $redis;
 	}
 
@@ -28,7 +36,7 @@ class Redis extends Driver {
 	 */
 	public function has($key)
 	{
-		return ( ! is_null($this->redis->get($key)));
+		return ( ! is_null($this->redis->get($this->key.$key)));
 	}
 
 	/**
@@ -39,7 +47,7 @@ class Redis extends Driver {
 	 */
 	protected function retrieve($key)
 	{
-		if ( ! is_null($cache = $this->redis->get($key)))
+		if ( ! is_null($cache = $this->redis->get($this->key.$key)))
 		{
 			return unserialize($cache);
 		}
@@ -62,7 +70,7 @@ class Redis extends Driver {
 	{
 		$this->forever($key, $value);
 
-		$this->redis->expire($key, $minutes * 60);
+		$this->redis->expire($this->key.$key, $minutes * 60);
 	}
 
 	/**
@@ -74,7 +82,7 @@ class Redis extends Driver {
 	 */
 	public function forever($key, $value)
 	{
-		$this->redis->set($key, serialize($value));
+		$this->redis->set($this->key.$key, serialize($value));
 	}
 
 	/**
@@ -85,7 +93,7 @@ class Redis extends Driver {
 	 */
 	public function forget($key)
 	{
-		$this->redis->del($key);
+		$this->redis->del($this->key.$key);
 	}
 
 }
