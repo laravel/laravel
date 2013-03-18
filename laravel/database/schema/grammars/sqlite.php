@@ -350,4 +350,16 @@ class SQLite extends Grammar {
 		return 'BLOB';
 	}
 
+	/**
+	 * Generate the data-type definition for an enum.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		// Since SQLite does not support enums, we will have to use a VARCHAR instead.
+		return $this->type_string($column);
+	}
+
 }

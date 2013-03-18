@@ -455,4 +455,19 @@ class SQLServer extends Grammar {
 		return 'VARBINARY(MAX)';
 	}
 
+	/**
+	 * Generate the data-type definition for an enum.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		// Strangely, SQL Server does not have an enum type, so we'll use a string
+		// with the maximum enum value length as the string length...
+		$column->length = max(array_map('strlen', $column->values));
+
+		return $this->type_string($column);
+	}
+
 }

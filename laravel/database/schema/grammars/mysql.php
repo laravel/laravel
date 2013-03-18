@@ -2,6 +2,7 @@
 
 use Laravel\Fluent;
 use Laravel\Database\Schema\Table;
+use Laravel\Database;
 
 class MySQL extends Grammar {
 
@@ -469,6 +470,21 @@ class MySQL extends Grammar {
 	protected function type_blob(Fluent $column)
 	{
 		return 'BLOB';
+	}
+
+	/**
+	 * Generate the data-type definition for an enum.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		$values = implode(', ', array_map(function($value) {
+			return Database::escape($value);
+		}, $column->values));
+
+		return 'ENUM('.$values.')';
 	}
 
 }

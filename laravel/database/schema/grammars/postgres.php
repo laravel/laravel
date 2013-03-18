@@ -478,4 +478,19 @@ class Postgres extends Grammar {
 		return 'BYTEA';
 	}
 
+	/**
+	 * Generate the data-type definition for an enum.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		$values = implode(', ', array_map(function($value) {
+			return Database::escape($value);
+		}, $column->values));
+
+		return 'ENUM('.$values.')';
+	}
+
 }
