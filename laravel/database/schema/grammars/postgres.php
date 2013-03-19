@@ -37,17 +37,15 @@ class Postgres extends Grammar {
 		$changes = $this->changes($table);
 
 		// Once we have the array of column definitions, we need to add "add" to the
-		// front of each definition, then we'll concatenate the definitions
+		// front of each new column, definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
-		$columns = implode(', ', array_map(function($column)
-		{
-			return 'ADD COLUMN '.$column;
+		$columns = implode(', ', array_merge(
+			array_map(function($column) {
+				return 'ADD COLUMN '.$column;
 
-		}, $columns));
-
-		// The changes function outputs full commands for each column change, so
-		// we only need to join them with commas.
-		$changes = implode(', ', $changes);
+			}, $columns),
+			$changes
+		));
 
 		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
 	}

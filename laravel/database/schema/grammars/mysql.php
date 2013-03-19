@@ -49,23 +49,21 @@ class MySQL extends Grammar {
 		$columns = $this->columns($table);
 		$changes = $this->changes($table);
 
-		// Once we have the array of column definitions, we need to add "add" to the
+		// Once we have the array of column definitions, we need to add "add" or "change" to the
 		// front of each definition, then we'll concatenate the definitions
 		// using commas like normal and generate the SQL.
-		$columns = implode(', ', array_map(function($column)
-		{
-			return 'ADD '.$column;
+		$columns = implode(', ', array_merge(
+			array_map(function($column) {
+				return 'ADD '.$column;
 
-		}, $columns));
+			}, $columns),
+			array_map(function($column) {
+				return 'CHANGE '.$column;
 
-		// The column changes need a CHANGE instead of an AND
-		$changes = implode(', ', array_map(function($column)
-		{
-			return 'CHANGE '.$column;
+			}, $changes)
+		));
 
-		}, $changes));
-
-		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
