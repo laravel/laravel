@@ -47,7 +47,7 @@ class Postgres extends Grammar {
 			$changes
 		));
 
-		return 'ALTER TABLE '.$this->wrap($table).' '.implode(', ', array($columns, $changes));
+		return 'ALTER TABLE '.$this->wrap($table).' '.$columns;
 	}
 
 	/**
