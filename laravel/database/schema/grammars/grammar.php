@@ -14,7 +14,7 @@ abstract class Grammar extends \Laravel\Database\Grammar {
 	 */
 	public function foreign(Table $table, Fluent $command)
 	{
-		$name = $command->name;
+		$name = $this->wrap_table($command->name);
 
 		// We need to wrap both of the table names in quoted identifiers to protect
 		// against any possible keyword collisions, both the table on which the
