@@ -90,6 +90,7 @@ return array(
 		'Illuminate\Queue\QueueServiceProvider',
 		'Illuminate\Redis\RedisServiceProvider',
 		'Illuminate\Auth\Reminders\ReminderServiceProvider',
+		'Illuminate\Foundation\Providers\RouteListServiceProvider',
 		'Illuminate\Database\SeedServiceProvider',
 		'Illuminate\Foundation\Providers\ServerServiceProvider',
 		'Illuminate\Session\SessionServiceProvider',
