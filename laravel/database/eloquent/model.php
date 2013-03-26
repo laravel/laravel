@@ -675,7 +675,7 @@ abstract class Model {
 		// If the item is not a loaded relationship, it may be a relationship
 		// that hasn't been loaded yet. If it is, we will lazy load it and
 		// set the value of the relationship in the relationship array.
-		elseif (method_exists($this, $key))
+		elseif (method_exists($this, $key) && is_object($this->$key))
 		{
 			return $this->relationships[$key] = $this->$key()->results();
 		}
