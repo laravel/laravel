@@ -162,11 +162,12 @@ class Form {
 	/**
 	 * Generate a hidden field containing the current CSRF token.
 	 *
+	 * @param array $attributes
 	 * @return string
 	 */
-	public static function token()
+	public static function token($attributes = array())
 	{
-		return static::input('hidden', Session::csrf_token, Session::token());
+		return self::hidden(Session::csrf_token, Session::token(), $attributes);
 	}
 
 	/**
