@@ -818,9 +818,7 @@ class Validator {
 		// message from the validation language file.
 		else
 		{
-			$line = "{$bundle}validation.{$rule}";
-
-			return Lang::line($line)->get($this->language);
+			return $this->get_message_from_configuration($bundle, "validation.{$rule}");
 		}
 	}
 
@@ -853,7 +851,30 @@ class Validator {
 			$line = 'string';
 		}
 
-		return Lang::line("{$bundle}validation.{$rule}.{$line}")->get($this->language);
+		return $this->get_message_from_configuration($bundle, "validation.{$rule}.{$line}");
+	}
+	
+	/**
+	 * Get the proper error message for the specified language and
+	 * boundle that is defined in the configurations files. 
+	 *
+	 * @param  string  $bundle
+	 * @param  string  $line
+	 * @return string
+	 */
+	protected function get_message_from_configuration($bundle, $line)
+	{
+		if (Lang::has($bundle.$line, $this->language))
+		{
+			return Lang::line($bundle.$line)->get($this->language);	
+		}
+		// If no message exists for the indicated bundle 
+		// then the message is obtained from the main validation file
+		// of the laravel application
+		else
+		{
+			return Lang::line($line)->get($this->language);
+		}
 	}
 
 	/**
