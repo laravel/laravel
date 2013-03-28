@@ -39,7 +39,7 @@ class Cookie extends Driver {
 
 		$payload = Crypter::encrypt(serialize($session));
 
-		C::put(Cookie::payload, $payload, $lifetime, $path, $domain);
+		C::put(Cookie::payload, $payload, $lifetime, $path, $domain, $secure);
 	}
 
 	/**
