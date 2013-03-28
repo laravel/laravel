@@ -215,7 +215,7 @@ abstract class Driver {
 	 */
 	protected function recaller()
 	{
-		return $this->name().'_remember';
+		return Config::get('auth.cookie', $this->name().'_remember');
 	}
 
 	/**
