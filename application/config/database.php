@@ -86,6 +86,7 @@ return array(
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
+			PDO::ATTR_TIMEOUT => 2,
 		),
 
 		'sqlsrv' => array(
