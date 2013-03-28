@@ -280,17 +280,21 @@ class Query {
 	 */
 	public function __call($method, $parameters)
 	{
-		$result = call_user_func_array(array($this->table, $method), $parameters);
+		if (method_exists($this->model, $scope = 'scope_'.strtolower($method)))
+		{
+			array_unshift($parameters, $this);
+
+			call_user_func_array(array($this->model, $scope), $parameters);
+		}
+		else
+		{
+			$result = call_user_func_array(array($this->table, $method), $parameters);
+		}
 
 		// Some methods may get their results straight from the fluent query
 		// builder such as the aggregate methods. If the called method is
 		// one of these, we will just return the result straight away.
-		if (in_array($method, $this->passthru))
-		{
-			return $result;
-		}
-
-		return $this;
+		return in_array($method, $this->passthru) ? $result : $this;
 	}
 
 }
