@@ -76,6 +76,13 @@ There are a variety of methods to assist you in building where clauses. The most
 		->or_where('email', '=', 'example@gmail.com')
 		->first();
 
+To do the equivalent of an AND where, simply chain the query with another where:
+
+	return DB::table('users')
+		->where('id', '=', 1)
+		->where('activated', '=', 1)
+		->first();
+
 Of course, you are not limited to simply checking equality. You may also use **greater-than**, **less-than**, **not-equal**, and **like**:
 
 	return DB::table('users')
