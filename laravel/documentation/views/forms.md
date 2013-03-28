@@ -83,6 +83,14 @@ Laravel provides an easy method of protecting your application from cross-site r
 
 	echo Form::label('email', 'E-Mail Address', array('class' => 'awesome'));
 
+#### Turning off HTML escaping of label contents:
+
+	echo Form::label('confirm', 'Are you <strong>sure</strong> you want to proceed?', null, false);
+	
+You can pass ```false``` as the optional fourth argument to disable automatic HTML escaping of the label content.
+
+
+
 > **Note:** After creating a label, any form element you create with a name matching the label name will automatically receive an ID matching the label name as well.
 
 <a name="text"></a>
