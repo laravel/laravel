@@ -179,9 +179,9 @@ Now each time the "home" view is created, an instance of the View will be passed
 		//
 	});
 
-#### Register a composer that handles all views in "home" directory:
+#### Register a composer that handles all views in "mobile" directory:
 
-	View::composer(array('home.', 'profile'), function($view)
+	View::composer('mobile.', function($view)
 	{
 		//
 	});
