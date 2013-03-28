@@ -375,7 +375,7 @@ abstract class Model {
 		// fluent query instance. We'll set the where condition automatically.
 		if ($this->exists)
 		{
-			$query = $this->query()->where(static::$key, '=', $this->get_key());
+			$query = $this->query()->where(static::$key, '=', $this->get_original_key());
 
 			$result = $query->update($this->get_dirty()) === 1;
 
@@ -534,6 +534,15 @@ abstract class Model {
 	public function get_key()
 	{
 		return array_get($this->attributes, static::$key);
+	}
+
+	/**
+	 * Get the original value of the key, even if it was changed.
+	 * 
+	 * @return int
+	 */
+	public function get_original_key() {
+		return array_get($this->original, self::$key, $this->get_key());
 	}
 
 	/**
