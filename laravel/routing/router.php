@@ -211,7 +211,7 @@ class Router {
 			}
 
 			$uri = ltrim(str_replace('(:bundle)', static::$bundle, $uri), '/');
-			
+			$uri = rawurlencode($uri);
 			if($uri == '')
 			{
 				$uri = '/';
