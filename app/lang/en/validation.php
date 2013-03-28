@@ -38,9 +38,9 @@ return array(
 	"integer"         => "The :attribute must be an integer.",
 	"ip"              => "The :attribute must be a valid IP address.",
 	"max"             => array(
-		"numeric"     => "The :attribute must be less than :max.",
-		"file"        => "The :attribute must be less than :max kilobytes.",
-		"string"      => "The :attribute must be less than :max characters.",
+		"numeric"     => "The :attribute may not be greater than :max.",
+		"file"        => "The :attribute may not be greater than :max kilobytes.",
+		"string"      => "The :attribute may not be greater than :max characters.",
 	),
 	"mimes"           => "The :attribute must be a file of type: :values.",
 	"min"             => array(
