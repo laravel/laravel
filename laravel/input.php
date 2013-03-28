@@ -40,6 +40,8 @@ class Input {
 	 */
 	public static function has($key)
 	{
+		if (is_array(static::get($key))) return true;
+
 		return trim((string) static::get($key)) !== '';
 	}
 
