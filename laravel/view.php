@@ -335,7 +335,14 @@ class View implements ArrayAccess {
 	public function render()
 	{
 		static::$render_count++;
+		
+		// Fire events for rendering a view inside nested directories
+		for($dirs = explode( ".", $this->view ), $used = "", $i=0; $i<count($dirs)-1; $i++ ) {
+			$used .= $dirs[$i].".";
+			Event::fire("laravel.composing: {$used}", array($this));
+		}
 
+		// Fire original view event
 		Event::fire("laravel.composing: {$this->view}", array($this));
 
 		$contents = null;
