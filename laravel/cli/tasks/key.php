@@ -38,7 +38,7 @@ class Key extends Task {
 
 		$config = File::get($this->path);
 
-		$config = str_replace("'key' => '',", "'key' => '{$key}',", $config, $count);
+		$config = str_replace(array("'key' => 'YourSecretKeyGoesHere!'", "'key' => ''"), "'key' => '{$key}'", $config, $count);
 
 		File::put($this->path, $config);
 
