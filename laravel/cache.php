@@ -74,7 +74,7 @@ class Cache {
 				return new Cache\Drivers\Memory;
 
 			case 'redis':
-				return new Cache\Drivers\Redis(Redis::db());
+				return new Cache\Drivers\Redis(Redis::db(), Config::get('cache.key'));
 
 			case 'database':
 				return new Cache\Drivers\Database(Config::get('cache.key'));

@@ -26,10 +26,10 @@ return array(
 	| Cache Key
 	|--------------------------------------------------------------------------
 	|
-	| This key will be prepended to item keys stored using Memcached and APC
-	| to prevent collisions with other applications on the server. Since the
-	| memory based stores could be shared by other applications, we need to
-	| be polite and use a prefix to uniquely identify our items.
+	| This key will be prepended to item keys stored using Memcached, Redis
+	| and APC to prevent collisions with other applications on the server. 
+	| Since the memory based stores could be shared by other applications, 
+	| we need to be polite and use a prefix to uniquely identify our items.
 	|
 	*/
 
