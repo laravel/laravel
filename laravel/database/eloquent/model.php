@@ -702,7 +702,7 @@ abstract class Model {
 	}
 
 	/**
-	 * Determine if an attribute exists on the model.
+	 * Determine if an attribute exists and is not NULL on the model.
 	 *
 	 * @param  string  $key
 	 * @return bool
@@ -711,7 +711,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->{$source})) return ! empty($this->{$source}[$key]);
+			if (array_key_exists($key, $this->{$source}) && $this->{$source}[$key] !== null) return true;
 		}
 
 		return false;
