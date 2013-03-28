@@ -129,7 +129,7 @@ class Schema {
 		// If the developer has specified columns for the table and the table is
 		// not being created, we'll assume they simply want to add the columns
 		// to the table and generate the add command.
-		if (count($table->columns) > 0 and ! $table->creating())
+		if ((count($table->columns) > 0 or count($table->changes) > 0) and ! $table->creating())
 		{
 			$command = new Fluent(array('type' => 'add'));
 
@@ -139,7 +139,7 @@ class Schema {
 		// For some extra syntax sugar, we'll check for any implicit indexes
 		// on the table since the developer may specify the index type on
 		// the fluent column declaration for convenience.
-		foreach ($table->columns as $column)
+		foreach (array_merge($table->columns, $table->changes) as $column)
 		{
 			foreach (array('primary', 'unique', 'fulltext', 'index') as $key)
 			{

@@ -33,6 +33,13 @@ class Table {
 	public $columns = array();
 
 	/**
+	 * The columns that should be changed on the table.
+	 *
+	 * @var array
+	 */
+	public $changes = array();
+
+	/**
 	 * The commands that should be executed on the table.
 	 *
 	 * @var array
@@ -262,9 +269,9 @@ class Table {
 	 * @param  int     $length
 	 * @return Fluent
 	 */
-	public function string($name, $length = 200)
+	public function string($name, $length = 200, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name', 'length'));
+		return $this->column(__FUNCTION__, compact('name', 'length', 'from'));
 	}
 
 	/**
@@ -274,9 +281,9 @@ class Table {
 	 * @param  bool    $increment
 	 * @return Fluent
 	 */
-	public function integer($name, $increment = false)
+	public function integer($name, $increment = false, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name', 'increment'));
+		return $this->column(__FUNCTION__, compact('name', 'increment', 'from'));
 	}
 
 	/**
@@ -285,9 +292,9 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function float($name)
+	public function float($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
 	}
 
 	/**
@@ -298,9 +305,9 @@ class Table {
 	 * @param  int     $scale
 	 * @return Fluent
 	 */
-	public function decimal($name, $precision, $scale)
+	public function decimal($name, $precision, $scale, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name', 'precision', 'scale'));
+		return $this->column(__FUNCTION__, compact('name', 'precision', 'scale', 'from'));
 	}
 
 	/**
@@ -309,9 +316,9 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function boolean($name)
+	public function boolean($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
 	}
 
 	/**
@@ -332,9 +339,9 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function date($name)
+	public function date($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
 	}
 
 	/**
@@ -343,9 +350,9 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function timestamp($name)
+	public function timestamp($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
 	}
 
 	/**
@@ -354,9 +361,9 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function text($name)
+	public function text($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
 	}
 
 	/**
@@ -365,9 +372,22 @@ class Table {
 	 * @param  string  $name
 	 * @return Fluent
 	 */
-	public function blob($name)
+	public function blob($name, $from = null)
 	{
-		return $this->column(__FUNCTION__, compact('name'));
+		return $this->column(__FUNCTION__, compact('name', 'from'));
+	}
+
+	/**
+	 * Add an enum column to the table.
+	 *
+	 * @param  string       $name
+	 * @param  array        $values
+	 * @param  string|bool  $from
+	 * @return Fluent
+	 */
+	public function enum($name, array $values, $from = null)
+	{
+		return $this->column(__FUNCTION__, compact('name', 'values', 'from'));
 	}
 
 	/**
@@ -418,6 +438,16 @@ class Table {
 	protected function column($type, $parameters = array())
 	{
 		$parameters = array_merge(compact('type'), $parameters);
+
+		if (isset($parameters['from']))
+		{
+			if ($parameters['from'] === true)
+			{
+				$parameters['from'] = $parameters['name'];
+			}
+
+			return $this->changes[] = new Fluent($parameters);
+		}
 
 		return $this->columns[] = new Fluent($parameters);
 	}

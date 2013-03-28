@@ -70,6 +70,8 @@ class SQLite extends Grammar {
 			$sql[] = 'ALTER TABLE '.$this->wrap($table).' '.$column;
 		}
 
+		// (Note: SQLite does not allow changing existing columns.)
+
 		return (array) $sql;
 	}
 
@@ -346,6 +348,18 @@ class SQLite extends Grammar {
 	protected function type_blob(Fluent $column)
 	{
 		return 'BLOB';
+	}
+
+	/**
+	 * Generate the data-type definition for an enum.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
+	protected function type_enum(Fluent $column)
+	{
+		// Since SQLite does not support enums, we will have to use a VARCHAR instead.
+		return $this->type_string($column);
 	}
 
 }
