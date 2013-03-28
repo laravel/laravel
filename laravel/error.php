@@ -54,7 +54,7 @@ class Error {
 		// Using events gives the developer more freedom.
 		else
 		{
-			$response = Event::first('500');
+			$response = Event::first('500', $exception);
 
 			$response = Response::prepare($response);
 		}

@@ -75,7 +75,8 @@ class Connection {
 
 		if (isset(\Laravel\Database::$registrar[$this->driver()]))
 		{
-			return $this->grammar = \Laravel\Database::$registrar[$this->driver()]['query']();
+			$resolver = \Laravel\Database::$registrar[$this->driver()]['query'];
+			return $this->grammar = $resolver($this);
 		}
 
 		switch ($this->driver())
@@ -308,7 +309,7 @@ class Connection {
 	 */
 	protected function log($sql, $bindings, $start)
 	{
-		$time = number_format((microtime(true) - $start) * 1000, 2);
+		$time = (microtime(true) - $start) * 1000;
 
 		Event::fire('laravel.query', array($sql, $bindings, $time));
 
