@@ -427,7 +427,7 @@ class Blade {
 		}
 
 		return $value;
-	}	
+	}
 
 	/**
 	 * Get the regular expression for a generic Blade function.
@@ -437,7 +437,7 @@ class Blade {
 	 */
 	public static function matcher($function)
 	{
-		return '/(\s*)@'.$function.'(\s*\(.*\))/';
+		return '/(\s*)@'.$function.'(\s*\([^)]*\))/';
 	}
 
 	/**
