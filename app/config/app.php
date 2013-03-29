@@ -43,6 +43,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Routable Locales
+	|--------------------------------------------------------------------------
+	|
+	| Here you may list the locales that are "routable" for your application.
+	| When a request with a URI beginning with one of the locales is sent
+	| to the application, the "default" locale will be set accordingly.
+	|
+	*/
+
+	'locales' => array(),
+
+	/*
+	|--------------------------------------------------------------------------
 	| Encryption Key
 	|--------------------------------------------------------------------------
 	|
