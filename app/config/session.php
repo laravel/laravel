@@ -42,7 +42,7 @@ return array(
 	|
 	*/
 
-	'files' => __DIR__.'/../storage/sessions',
+	'files' => storage_path().'/sessions',
 
 	/*
 	|--------------------------------------------------------------------------
