@@ -97,4 +97,14 @@ class File extends Driver {
 		if (file_exists($this->path.$key)) @unlink($this->path.$key);
 	}
 
+	/**
+	 * Flush the entire cache.
+	 *
+	 * @return void
+	 */
+	public function flush()
+	{
+		array_map('unlink', glob($this->path.'*'));
+	}
+
 }
