@@ -43,7 +43,8 @@ try
 }
 catch (\Exception $e)
 {
-	echo $e->getMessage();
+	echo $e->getMessage().PHP_EOL;
+	exit(1);
 }
 
 echo PHP_EOL;
