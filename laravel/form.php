@@ -231,7 +231,7 @@ class Form {
 	 * @param  array   $attributes
 	 * @return string
 	 */
-	public static function text($name, $value = null, $attributes = array())
+	public static function text($name, $attributes = array(), $value = null)
 	{
 		return static::input('text', $name, $value, $attributes);
 	}
