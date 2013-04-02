@@ -28,6 +28,7 @@ class TestClassTwoForIoC
 	}
 }
 
+use \Laravel\IoC as IoC;
 
 class IoCTest extends PHPUnit_Framework_TestCase {
 
@@ -149,5 +150,18 @@ class IoCTest extends PHPUnit_Framework_TestCase {
 		$class_two = IoC::resolve('TestClassTwoForIoC', array($class_one));
 		$this->assertEquals(42, $class_two->class_one->test_variable);
 	}
+
+    public function testCanUnregisterRegistered()
+    {
+        $testClass = 'test';
+
+        IoC::register($testClass, function() {});
+
+        $this->assertTrue(IoC::registered($testClass));
+
+        IoC::unregister($testClass);
+
+        $this->assertFalse(IoC::registered($testClass));
+    }
 
 }
