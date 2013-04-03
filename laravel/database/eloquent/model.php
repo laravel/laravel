@@ -269,7 +269,7 @@ abstract class Model {
 	 */
 	public function has_one($model, $foreign = null)
 	{
-		return $this->has_one_or_many(__FUNCTION__, $model, $foreign);
+		return new RelationShips\Has_One($this, $model, $foreign);
 	}
 
 	/**
@@ -281,7 +281,7 @@ abstract class Model {
 	 */
 	public function has_many($model, $foreign = null)
 	{
-		return $this->has_one_or_many(__FUNCTION__, $model, $foreign);
+		return new Relationships\Has_Many($this, $model, $foreign);
 	}
 
 	/**
