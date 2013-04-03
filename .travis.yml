@@ -1,6 +1,0 @@
-language: php
-
-php:
-  - 5.3
-
-script: "php artisan test:core"
