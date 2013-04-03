@@ -53,6 +53,7 @@ return array(
 	"regex"           => "The :attribute format is invalid.",
 	"required"        => "The :attribute field is required.",
 	"required_with"   => "The :attribute field is required when :values is present.",
+	"required_without" => "The :attribute field is required when :values is not present.",
 	"same"            => "The :attribute and :other must match.",
 	"size"            => array(
 		"numeric"    => "The :attribute must be :size.",
