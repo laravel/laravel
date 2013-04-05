@@ -574,7 +574,7 @@ function yield($section)
  */
 function get_cli_option($option, $default = null)
 {
-	foreach (Request::foundation()->server->get('argv') as $argument)
+	foreach (Laravel\Request::foundation()->server->get('argv') as $argument)
 	{
 		if (starts_with($argument, "--{$option}="))
 		{
