@@ -118,7 +118,9 @@ class Paginator {
 		// than the last page. For example, if the current page is not an integer or
 		// less than one, one will be returned. If the current page is greater than
 		// the last page, the last page will be returned.
-		if (is_numeric($page) and $page > $last = ceil($total / $per_page))
+		// If the keywork "last" is passed, then return the last page
+		$last = ceil($total / $per_page);
+		if ((is_numeric($page) and $page > $last) or Str::lower($page) == "last")
 		{
 			return ($last > 0) ? $last : 1;
 		}
