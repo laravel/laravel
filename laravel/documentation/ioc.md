@@ -47,3 +47,12 @@ Now that we have SwiftMailer registered in the container, we can resolve it usin
 	$mailer = IoC::resolve('mailer');
 
 > **Note:** You may also [register controllers in the container](/docs/controllers#dependency-injection).
+
+<a name="unregister"></a>
+## Unregister an existing instance
+
+For test purposes sometimes you need to unregister some container.
+
+#### Unregister example mail class:
+
+    IoC::unregister('mailer');
