@@ -76,7 +76,7 @@ Now that you have finished coding and testing your changes, it's time to commit 
 -  Right-click the Laravel directory and goto **Git Commit -> "feature/localization-docs"…**
 - Commit
   - **Message:** Provide a brief explaination of what you added or changed
-  - Click **Sign** - This tells the Laravel team know that you personally agree to your code being added to the Laravel core
+  - Click **Sign** - This lets the Laravel team know that you personally agree to your code being added to the Laravel core
   - **Changes made:** Check all changed/added files
   - Click **OK**
 
