@@ -52,7 +52,7 @@ class IoC {
 	 */
 	public static function registered($name)
 	{
-		return array_key_exists($name, static::$registry);
+		return array_key_exists($name, static::$registry) || array_key_exists($name, static::$singletons);
 	}
 
 	/**
