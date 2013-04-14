@@ -13,7 +13,6 @@
 		]
 	},
 	"scripts": {
-		"pre-update-cmd": "rm bootstrap/compiled.php",
 		"post-update-cmd": "php artisan optimize"
 	},
 	"minimum-stability": "dev"
