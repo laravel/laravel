@@ -69,6 +69,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| SSL Link Generation
+	|--------------------------------------------------------------------------
+	|
+	| This option enables or disables the generation of SSL links in your
+	| application. If set to false, all attempts to generate SSL links will
+	| result in normal non-SSL links.
+	|
+	*/
+
+	'ssl' => true,
+
+	/*
+	|--------------------------------------------------------------------------
 	| Autoloaded Service Providers
 	|--------------------------------------------------------------------------
 	|
