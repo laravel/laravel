@@ -189,6 +189,11 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$rules = array('amount' => 'numeric|between:2,3');
 		$this->assertFalse(Validator::make($input, $rules)->valid());
 
+		// Negative numbers
+		$input = array('amount' => '-33.84');
+		$rules = array('amount' => 'numeric|between:-22,-34');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
 		// If no numeric rule is on the field, it is treated as a string
 		$input = array('amount' => '111');
 		$rules = array('amount' => 'between:1,3');
