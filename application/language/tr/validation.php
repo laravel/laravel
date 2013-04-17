@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
  * @package  Language
- * @version  3.2.3
+ * @version  3.x
  * @author   Sinan Eldem <sinan@sinaneldem.com.tr>
  * @link     http://sinaneldem.com.tr
  */
@@ -33,6 +33,7 @@ return array(
 	"alpha"          => ":attribute sadece harflerden oluşmalıdır.",
 	"alpha_dash"     => ":attribute sadece harfler, rakamlar ve tirelerden oluşmalıdır.",
 	"alpha_num"      => ":attribute sadece harfler ve rakamlar içermelidir.",
+	"array"          => ":attribute içinde seçili elemanlar bulunmalıdır.",
 	"before"         => ":attribute şundan daha önceki bir tarih olmalıdır :date.",
 	"between"        => array(
 		"numeric" => ":attribute :min - :max arasında olmalıdır.",
@@ -40,6 +41,11 @@ return array(
 		"string"  => ":attribute :min - :max arasında karakterden oluşmalıdır.",
 	),
 	"confirmed"      => ":attribute onayı eşleşmiyor.",
+	"count"          => ":attribute tam olarak :count elemana sahip olmalıdır.",
+	"countbetween"   => ":attribute :min ile :max arasında elemana sahip olmalıdır.",
+	"countmax"       => ":attribute :max sayısından az elemana sahip olmalıdır.",
+	"countmin"       => ":attribute en az :min elemana sahip olmalıdır.",
+	"date_format"	 => ":attribute geçerli bir tarih biçimi olmalıdır.",
 	"different"      => ":attribute ile :other birbirinden farklı olmalıdır.",
 	"email"          => ":attribute biçimi geçersiz.",
 	"exists"         => "Seçili :attribute geçersiz.",
@@ -62,6 +68,7 @@ return array(
 	"not_in"         => "Seçili :attribute geçersiz.",
 	"numeric"        => ":attribute rakam olmalıdır.",
 	"required"       => ":attribute alanı gereklidir.",
+	"required_with"   => ":attribute alanı :values varken zorunludur.",
 	"same"           => ":attribute ile :other eşleşmelidir.",
 	"size"           => array(
 		"numeric" => ":attribute :size olmalıdır.",
