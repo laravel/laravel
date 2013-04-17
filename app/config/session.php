@@ -11,7 +11,7 @@ return array(
 	| requests. By default we will use the light-weight cookie driver but
 	| you may specify any of the other wonderful drivers provided here.
 	|
-	| Supported: "native", "database", "apc",
+	| Supported: "native", "cookie", "database", "apc",
 	|            "memcached", "redis", "array"
 	|
 	*/
