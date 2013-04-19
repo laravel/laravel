@@ -13,6 +13,7 @@
 		]
 	},
 	"scripts": {
+		"pre-update-cmd": "php artisan optimize --remove",
 		"post-update-cmd": "php artisan optimize"
 	},
 	"minimum-stability": "dev"
