@@ -48,14 +48,6 @@ class Log {
 	{
 		$message = ($pretty_print) ? print_r($message, true) : $message;
 
-		// If there is a listener for the log event, we'll delegate the logging
-		// to the event and not write to the log files. This allows for quick
-		// swapping of log implementations for debugging.
-		if (Event::listeners('laravel.log'))
-		{
-			Event::fire('laravel.log', array($type, $message));
-		}
-
 		$trace=debug_backtrace();
 
 		foreach($trace as $item)
@@ -78,6 +70,14 @@ class Log {
 		else
 		{
 			$class = '';
+		}
+
+		// If there is a listener for the log event, we'll delegate the logging
+		// to the event and not write to the log files. This allows for quick
+		// swapping of log implementations for debugging.
+		if (Event::listeners('laravel.log'))
+		{
+			Event::fire('laravel.log', array($type, $class . $function . " - " . $message));
 		}
 
 		$message = static::format($type, $class . $function . ' - ' . $message);
