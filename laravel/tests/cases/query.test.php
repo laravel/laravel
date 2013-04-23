@@ -26,6 +26,22 @@ class QueryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test the lists method.
+	 *
+	 * @group laravel
+	 */
+	public function testLists()
+	{
+		$names = array('Taylor Otwell', 'Michael Hasselbring', 'Eric Barnes');
+
+		$this->assertEquals($this->query()->lists('name'), $names);
+		$this->assertEquals($this->query()->lists('name as his_name'), $names);
+		$this->assertEquals(
+			$this->query()->lists('name as his_name', 'email as his_email'),
+			array_combine(array('taylor@example.com', 'mikelbring@example.com', 'eric@example.com'), $names));
+	}
+
+	/**
 	 * Test the raw_where method.
 	 *
 	 * @group laravel
