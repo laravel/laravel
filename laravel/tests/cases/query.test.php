@@ -32,20 +32,13 @@ class QueryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testLists()
 	{
-		$this->assertEquals(
-			$this->query()->lists('name'),
-			array('Taylor Otwell', 'Michael Hasselbring', 'Eric Barnes'));
+		$names = array('Taylor Otwell', 'Michael Hasselbring', 'Eric Barnes');
 
-		$this->assertEquals(
-			$this->query()->lists('name as his_name'),
-			array('Taylor Otwell', 'Michael Hasselbring', 'Eric Barnes'));
-
+		$this->assertEquals($this->query()->lists('name'), $names);
+		$this->assertEquals($this->query()->lists('name as his_name'), $names);
 		$this->assertEquals(
 			$this->query()->lists('name as his_name', 'email as his_email'),
-			array(
-				'taylor@example.com' => 'Taylor Otwell',
-				'mikelbring@example.com' => 'Michael Hasselbring',
-				'eric@example.com' => 'Eric Barnes'));
+			array_combine(array('taylor@example.com', 'mikelbring@example.com', 'eric@example.com'), $names));
 	}
 
 	/**
