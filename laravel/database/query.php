@@ -668,27 +668,22 @@ class Query {
 
 		$results = $this->get($columns);
 
-		// First we will get the array of values for the requested column.
-		// Of course, this array will simply have numeric keys. After we
-		// have this array we will determine if we need to key the array
-		// by another column from the result set.
-		$values = array_map(function($row) use ($column)
-		{
-			return $row->$column;
+		$values = array();
 
-		}, $results);
-
-		// If a key was provided, we will extract an array of keys and
-		// set the keys on the array of values using the array_combine
-		// function provided by PHP, which should give us the proper
-		// array form to return from the method.
-		if ( ! is_null($key) && count($results))
+		foreach ($results as $result)
 		{
-			return array_combine(array_map(function($row) use ($key)
+			$result_vars = get_object_vars($result);
+
+			$result_value = array_shift($result_vars);
+			if (is_null($key))
 			{
-				return $row->$key;
-
-			}, $results), $values);
+				array_push($values, $result_value);
+			}
+			else
+			{
+				$result_key = array_shift($result_vars);
+				$values[$result_key] = $result_value;
+			}
 		}
 
 		return $values;
