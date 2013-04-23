@@ -34,7 +34,8 @@ class Query {
 	 */
 	public $passthru = array(
 		'lists', 'only', 'insert', 'insert_get_id', 'update', 'increment',
-		'delete', 'decrement', 'count', 'min', 'max', 'avg', 'sum',
+		'delete', 'decrement', 'count', 'min', 'max', 'avg', 'sum', 'exists',
+		'toSql',
 	);
 
 	/**
