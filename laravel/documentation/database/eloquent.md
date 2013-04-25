@@ -290,7 +290,7 @@ If your table names don't follow conventions, simply pass the table name in the 
 
 	     public function roles()
 	     {
-	          return $this->has_many_and_belongs_to('Role', 'user_roles');
+	          return $this->has_many_and_belongs_to('Role', 'role_user');
 	     }
 
 	}
