@@ -77,13 +77,21 @@ class JsonResponse extends Response
      */
     public function setData($data = array())
     {
+        // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
+        $flags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;
+        if (defined('JSON_NUMERIC_CHECK'))
+        {
+            // JSON_NUMERIC_CHECK is only defined in PHP 5.3.3, but we
+            // add it if it is available
+            $flags = $flags | JSON_NUMERIC_CHECK;
+        }
+
         // root should be JSON object, not array
         if (is_array($data) && 0 === count($data)) {
             $data = new \ArrayObject();
         }
 
-        // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
-        $this->data = json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+        $this->data = json_encode($data, $flags);
 
         return $this->update();
     }
