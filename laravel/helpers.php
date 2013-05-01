@@ -280,12 +280,20 @@ function array_except($array, $keys)
  */
 function eloquent_to_json($models)
 {
+	// JSON_NUMERIC_CHECK is only defined in PHP 5.3.3, but we
+    // add it if it is available
+	$flags = 0;
+	if (defined('JSON_NUMERIC_CHECK'))
+	{
+		$flags = JSON_NUMERIC_CHECK;
+	}
+
 	if ($models instanceof Laravel\Database\Eloquent\Model)
 	{
 		return json_encode($models->to_array());
 	}
 
-	return json_encode(array_map(function($m) { return $m->to_array(); }, $models));
+	return json_encode(array_map(function($m) { return $m->to_array(); }, $models), $flags);
 }
 
 /**
