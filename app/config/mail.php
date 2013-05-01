@@ -24,7 +24,7 @@ return array(
 	|
 	| Here you may provide the host address of the SMTP server used by your
 	| applications. A default option is provided that is compatible with
-	| the Postmark mail service, which will provide reliable delivery.
+	| the mailgun mail service, which will provide reliable delivery.
 	|
 	*/
 
@@ -37,7 +37,7 @@ return array(
 	|
 	| This is the SMTP port used by your application to delivery e-mails to
 	| users of your application. Like the host we have set this value to
-	| stay compatible with the Postmark e-mail application by default.
+	| stay compatible with the Mailgun e-mail application by default.
 	|
 	*/
 
@@ -62,7 +62,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Here you may specify the encryption protocol that should be used when
-	| the application send e-mail messages. A sensible default using the
+	| the application sends an e-mail message. A sensible default using the
 	| transport layer security protocol should provide great security.
 	|
 	*/
@@ -76,7 +76,7 @@ return array(
 	|
 	| If your SMTP server requires a username for authentication, you should
 	| set it here. This will get used to authenticate with your server on
-	| connection. You may also set the "password" value below this one.
+	| connection. You may also need to set the "password" value below.
 	|
 	*/
 

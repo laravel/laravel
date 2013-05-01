@@ -62,6 +62,8 @@ return array(
 	| This key is used by the Illuminate encrypter service and should be set
 	| to a random, long string, otherwise these encrypted values will not
 	| be safe. Make sure to change it before deploying any application!
+	| To quickly generate this key you can call "php artisan key:generate"
+	| from the command line.
 	|
 	*/
 
@@ -121,7 +123,7 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The service provider manifest is used by Laravel to lazy load service
-	| providers which are not needed for each request, as well to keep a
+	| providers which are not needed for each request, it also maintains a
 	| list of all of the services. Here, you may set its storage spot.
 	|
 	*/
