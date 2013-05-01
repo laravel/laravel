@@ -119,6 +119,19 @@ class UploadedFile extends File
     }
 
     /**
+     * Returns the original file extension
+     *
+     * It is extracted from the original file name that was uploaded.
+     * Then is should not be considered as a safe value.
+     *
+     * @return string The extension
+     */
+    public function getClientOriginalExtension()
+    {
+        return pathinfo($this->originalName, PATHINFO_EXTENSION);
+    }
+
+    /**
      * Returns the file mime type.
      *
      * It is extracted from the request from which the file has been uploaded.

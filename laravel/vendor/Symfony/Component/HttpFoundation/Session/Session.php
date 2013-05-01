@@ -259,6 +259,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function getFlashes()
     {
+        trigger_error('getFlashes() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         $all = $this->getBag($this->flashName)->all();
 
         $return = array();
@@ -282,6 +284,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function setFlashes($values)
     {
+        trigger_error('setFlashes() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         foreach ($values as $name => $value) {
             $this->getBag($this->flashName)->set($name, $value);
         }
@@ -297,6 +301,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function getFlash($name, $default = null)
     {
+        trigger_error('getFlash() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         $return = $this->getBag($this->flashName)->get($name);
 
         return empty($return) ? $default : reset($return);
@@ -310,6 +316,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function setFlash($name, $value)
     {
+        trigger_error('setFlash() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         $this->getBag($this->flashName)->set($name, $value);
     }
 
@@ -322,6 +330,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function hasFlash($name)
     {
+        trigger_error('hasFlash() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         return $this->getBag($this->flashName)->has($name);
     }
 
@@ -332,6 +342,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function removeFlash($name)
     {
+        trigger_error('removeFlash() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         $this->getBag($this->flashName)->get($name);
     }
 
@@ -342,6 +354,8 @@ class Session implements SessionInterface, \IteratorAggregate, \Countable
      */
     public function clearFlashes()
     {
+        trigger_error('clearFlashes() is deprecated since version 2.1 and will be removed in 2.3. Use the FlashBag instead.', E_USER_DEPRECATED);
+
         return $this->getBag($this->flashName)->clear();
     }
 }

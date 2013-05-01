@@ -28,17 +28,20 @@ class JsonResponse extends Response
      * @param integer $status  The response status code
      * @param array   $headers An array of response headers
      */
-    public function __construct($data = array(), $status = 200, $headers = array())
+    public function __construct($data = null, $status = 200, $headers = array())
     {
         parent::__construct('', $status, $headers);
 
+        if (null === $data) {
+            $data = new \ArrayObject();
+        }
         $this->setData($data);
     }
 
     /**
      * {@inheritDoc}
      */
-    public static function create($data = array(), $status = 200, $headers = array())
+    public static function create($data = null, $status = 200, $headers = array())
     {
         return new static($data, $status, $headers);
     }
@@ -49,6 +52,8 @@ class JsonResponse extends Response
      * @param string $callback
      *
      * @return JsonResponse
+     *
+     * @throws \InvalidArgumentException
      */
     public function setCallback($callback = null)
     {
@@ -77,11 +82,6 @@ class JsonResponse extends Response
      */
     public function setData($data = array())
     {
-        // root should be JSON object, not array
-        if (is_array($data) && 0 === count($data)) {
-            $data = new \ArrayObject();
-        }
-
         // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
         $this->data = json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
 

@@ -31,7 +31,7 @@ the HTTP specification.
 Loading
 -------
 
-If you are using PHP 5.3.x you must add the following to your autoloader:
+If you are not using Composer but are using PHP 5.3.x, you must add the following to your autoloader:
 
     // SessionHandlerInterface
     if (!interface_exists('SessionHandlerInterface')) {
@@ -43,4 +43,6 @@ Resources
 
 You can run the unit tests with the following command:
 
-    phpunit
+    $ cd path/to/Symfony/Component/HttpFoundation/
+    $ composer.phar install --dev
+    $ phpunit

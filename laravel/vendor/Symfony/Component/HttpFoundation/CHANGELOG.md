@@ -1,6 +1,20 @@
 CHANGELOG
 =========
 
+2.2.0
+-----
+
+ * fixed the Request::create() precedence (URI information always take precedence now)
+ * added Request::getTrustedProxies()
+ * deprecated Request::isProxyTrusted()
+ * [BC BREAK] JsonResponse does not turn a top level empty array to an object anymore, use an ArrayObject to enforce objects
+ * added a IpUtils class to check if an IP belongs to a CIDR
+ * added Request::getRealMethod() to get the "real" HTTP method (getMethod() returns the "intended" HTTP method)
+ * disabled _method request parameter support by default (call Request::enableHttpMethodParameterOverride() to
+   enable it, and Request::getHttpMethodParameterOverride() to check if it is supported)
+ * Request::splitHttpAcceptHeader() method is deprecated and will be removed in 2.3
+ * Deprecated Flashbag::count() and \Countable interface, will be removed in 2.3
+
 2.1.0
 -----
 
