@@ -55,6 +55,22 @@ App::error(function(Exception $exception, $code)
 
 /*
 |--------------------------------------------------------------------------
+| Maintenance Mode Handler
+|--------------------------------------------------------------------------
+|
+| The "down" Artisan command gives you the ability to put an application
+| into maintenance mode. Here, you will define what is displayed back
+| to the user if maintenace mode is in effect for this application.
+|
+*/
+
+App::down(function()
+{
+	return "We'll be right back!";
+});
+
+/*
+|--------------------------------------------------------------------------
 | Require The Filters File
 |--------------------------------------------------------------------------
 |
