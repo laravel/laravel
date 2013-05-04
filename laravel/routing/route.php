@@ -331,6 +331,18 @@ class Route {
 	}
 
 	/**
+	 * Register a PATCH route with the router.
+	 *
+	 * @param  string|array  $route
+	 * @param  mixed         $action
+	 * @return void
+	 */
+	public static function patch($route, $action)
+	{
+		Router::register('PATCH', $route, $action);
+	}
+
+	/**
 	 * Register a DELETE route with the router.
 	 *
 	 * @param  string|array  $route

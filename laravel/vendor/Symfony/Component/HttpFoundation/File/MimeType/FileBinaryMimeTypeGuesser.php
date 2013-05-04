@@ -45,7 +45,7 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
      */
     public static function isSupported()
     {
-        return !defined('PHP_WINDOWS_VERSION_BUILD');
+        return !defined('PHP_WINDOWS_VERSION_BUILD') && function_exists('passthru') && function_exists('escapeshellarg');
     }
 
     /**
@@ -77,7 +77,7 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
 
         $type = trim(ob_get_clean());
 
-        if (!preg_match('#^([a-z0-9\-]+/[a-z0-9\-]+)#i', $type, $match)) {
+        if (!preg_match('#^([a-z0-9\-]+/[a-z0-9\-\.]+)#i', $type, $match)) {
             // it's not a type, but an error message
             return null;
         }

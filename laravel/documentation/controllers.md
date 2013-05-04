@@ -98,7 +98,7 @@ In this example the auth filter will be run before the action_index() or action_
 
 	$this->filter('before', 'auth')->except(array('add', 'posts'));
 
-Much like the previous example, this declaration ensures that the auth filter is run on only some of this controller's actions.  Instead of declaring to which actions the filter applies we are instead declaring the actions that will not require authenticated sessions.  It can sometimes be safer to use the 'except' method as it's possible to add new actions to this controller and to forget to add them to only().  This could potentially lead your controller's action being unintentionally accessible by users who haven't been authenticated.
+Much like the previous example, this declaration ensures that the auth filter is run on only some of this controller's actions.  Instead of declaring to which actions the filter applies we are instead declaring the actions that will not require authenticated sessions.  It can sometimes be safer to use the 'except' method as it's possible to add new actions to this controller and to forget to add them to only().  This could potentially lead to your controller's action being unintentionally accessible by users who haven't been authenticated.
 
 #### Attaching a filter to run on POST:
 

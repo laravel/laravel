@@ -82,6 +82,10 @@ class Cookie {
 
 		$value = static::hash($value).'+'.$value;
 
+		// If the developer has explicitly disabled SLL, then we shouldn't force
+		// this cookie over SSL.
+		$secure = $secure && Config::get('application.ssl');
+
 		// If the secure option is set to true, yet the request is not over HTTPS
 		// we'll throw an exception to let the developer know that they are
 		// attempting to send a secure cookie over the insecure HTTP.

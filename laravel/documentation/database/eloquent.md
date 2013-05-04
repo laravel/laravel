@@ -284,7 +284,7 @@ Or, as usual, you may retrieve the relationship through the dynamic roles proper
 
 	$roles = User::find(1)->roles;
 
-If your table names don't follow conventions, simply pass the table name in the second parameter to the **has\_and\_belongs\_to\_many** method:
+If your table names don't follow conventions, simply pass the table name in the second parameter to the **has\_many\_and\_belongs\_to** method:
 
 	class User extends Eloquent {
 

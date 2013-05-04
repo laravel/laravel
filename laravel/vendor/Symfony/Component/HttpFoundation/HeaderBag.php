@@ -149,7 +149,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @param string       $key     The key
      * @param string|array $values  The value or an array of values
-     * @param Boolean      $replace Whether to replace the actual value of not (true by default)
+     * @param Boolean      $replace Whether to replace the actual value or not (true by default)
      *
      * @api
      */
@@ -223,7 +223,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      * @param string    $key     The parameter key
      * @param \DateTime $default The default value
      *
-     * @return null|\DateTime The filtered value
+     * @return null|\DateTime The parsed DateTime or the default value if the header does not exist
      *
      * @throws \RuntimeException When the HTTP header is not parseable
      *

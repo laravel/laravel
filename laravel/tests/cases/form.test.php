@@ -111,9 +111,11 @@ class FormTest extends PHPUnit_Framework_TestCase {
 	{
 		$form1 = Form::label('foo', 'Foobar');
 		$form2 = Form::label('foo', 'Foobar', array('class' => 'control-label'));
+		$form3 = Form::label('foo', 'Foobar <i>baz</i>', null, false);
 
 		$this->assertEquals('<label for="foo">Foobar</label>', $form1);
 		$this->assertEquals('<label for="foo" class="control-label">Foobar</label>', $form2);
+		$this->assertEquals('<label for="foo">Foobar <i>baz</i></label>', $form3);
 	}
 
 	/**

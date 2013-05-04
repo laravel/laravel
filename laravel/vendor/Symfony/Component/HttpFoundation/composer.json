@@ -19,11 +19,14 @@
         "php": ">=5.3.3"
     },
     "autoload": {
-        "psr-0": {
-            "Symfony\\Component\\HttpFoundation": "",
-            "SessionHandlerInterface": "Symfony/Component/HttpFoundation/Resources/stubs"
-        }
+        "psr-0": { "Symfony\\Component\\HttpFoundation\\": "" },
+        "classmap": [ "Symfony/Component/HttpFoundation/Resources/stubs" ]
     },
     "target-dir": "Symfony/Component/HttpFoundation",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.2-dev"
+        }
+    }
 }

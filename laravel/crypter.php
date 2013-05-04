@@ -138,7 +138,7 @@ class Crypter {
 			$pad = ord(substr($value, -1));
 		}
 
-		if ($pad and $pad < static::$block)
+		if ($pad and $pad <= static::$block)
 		{
 			// If the correct padding is present on the string, we will remove
 			// it and return the value. Otherwise, we'll throw an exception

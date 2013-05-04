@@ -27,17 +27,17 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * Array of SessionBagInterface
      *
-     * @var array
+     * @var SessionBagInterface[]
      */
     protected $bags;
 
     /**
-     * @var boolean
+     * @var Boolean
      */
     protected $started = false;
 
     /**
-     * @var boolean
+     * @var Boolean
      */
     protected $closed = false;
 
@@ -332,9 +332,9 @@ class NativeSessionStorage implements SessionStorageInterface
      * Registers save handler as a PHP session handler.
      *
      * To use internal PHP session save handlers, override this method using ini_set with
-     * session.save_handlers and session.save_path e.g.
+     * session.save_handler and session.save_path e.g.
      *
-     *     ini_set('session.save_handlers', 'files');
+     *     ini_set('session.save_handler', 'files');
      *     ini_set('session.save_path', /tmp');
      *
      * @see http://php.net/session-set-save-handler

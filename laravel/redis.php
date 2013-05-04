@@ -17,6 +17,13 @@ class Redis {
 	protected $port;
 
 	/**
+	 * The database password, if present.
+	 *
+	 * @var string
+	 */
+	protected $password;
+
+	/**
 	 * The database number the connection selects on load.
 	 *
 	 * @var int
@@ -45,10 +52,11 @@ class Redis {
 	 * @param  int     $database
 	 * @return void
 	 */
-	public function __construct($host, $port, $database = 0)
+	public function __construct($host, $port, $password = null, $database = 0)
 	{
 		$this->host = $host;
 		$this->port = $port;
+		$this->password = $password;
 		$this->database = $database;
 	}
 
@@ -79,7 +87,12 @@ class Redis {
 
 			extract($config);
 
-			static::$databases[$name] = new static($host, $port, $database);
+			if ( ! isset($password))
+			{
+				$password = null;
+			}
+
+			static::$databases[$name] = new static($host, $port, $password, $database);
 		}
 
 		return static::$databases[$name];
@@ -151,6 +164,11 @@ class Redis {
 		if ($this->connection === false)
 		{
 			throw new \Exception("Error making Redis connection: {$error} - {$message}");
+		}
+
+		if ( $this->password )
+		{
+			$this->auth($this->password);
 		}
 
 		$this->select($this->database);

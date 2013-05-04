@@ -88,7 +88,7 @@ class Runner extends Task {
 		// strings with spaces inside should be wrapped in quotes.
 		$esc_path = escapeshellarg($path);
 
-		passthru('phpunit --configuration '.$esc_path, $status);
+		passthru('LARAVEL_ENV='.Request::env().' phpunit --configuration '.$esc_path, $status);
 
 		@unlink($path);
 

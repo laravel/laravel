@@ -39,6 +39,8 @@ class Cookie
      * @param Boolean                  $secure   Whether the cookie should only be transmitted over a secure HTTPS connection from the client
      * @param Boolean                  $httpOnly Whether the cookie will be made accessible only through the HTTP protocol
      *
+     * @throws \InvalidArgumentException
+     *
      * @api
      */
     public function __construct($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true)

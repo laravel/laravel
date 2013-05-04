@@ -29,6 +29,8 @@ class RedirectResponse extends Response
      * @param integer $status  The status code (302 by default)
      * @param array   $headers The headers (Location is always set to the given url)
      *
+     * @throws \InvalidArgumentException
+     *
      * @see http://tools.ietf.org/html/rfc2616#section-10.3
      *
      * @api
@@ -72,6 +74,8 @@ class RedirectResponse extends Response
      * @param string  $url     The URL to redirect to
      *
      * @return RedirectResponse The current response.
+     *
+     * @throws \InvalidArgumentException
      */
     public function setTargetUrl($url)
     {

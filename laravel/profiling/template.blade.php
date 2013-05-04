@@ -36,7 +36,7 @@
 						@foreach ($queries as $query)
 							<tr>
 								<td class="anbu-table-first">
-									{{ $query[1] }}ms
+									{{ number_format($query[1], 2) }}ms
 								</td>
 								<td>
 									<pre>{{ $query[0] }}</pre>
@@ -103,7 +103,7 @@
 			<a data-anbu-tab="anbu-sql" class="anbu-tab" href="#">SQL 
 				<span class="anbu-count">{{ count($queries) }}</span>
 				@if (count($queries))
-				<span class="anbu-count">{{ array_sum(array_map(function($q) { return $q[1]; }, $queries)) }}ms</span>
+				<span class="anbu-count">{{ number_format(array_sum(array_pluck($queries, '1')), 2) }}ms</span>
 				@endif
 			</a>
 		</li>
