@@ -45,9 +45,9 @@ return array(
 	"ip"             => "Поле :attribute должно быть полным IP-адресом.",
 	"match"          => "Поле :attribute имеет неверный формат.",
 	"max"            => array(
-		"numeric" => "Поле :attribute должно быть меньше :max.",
-		"file"    => "Поле :attribute должно быть меньше :max Килобайт.",
-		"string"  => "Поле :attribute должно быть короче :max символов.",
+		"numeric" => "Поле :attribute должно быть не больше :max.",
+		"file"    => "Поле :attribute должно быть не больше :max Килобайт.",
+		"string"  => "Поле :attribute должно быть длиннее :max символов.",
 	),
 	"mimes"          => "Поле :attribute должно быть файлом одного из типов: :values.",
 	"min"            => array(
