@@ -200,7 +200,7 @@ class Migrator extends Task {
 			$table->primary(array('bundle', 'name'));
 		});
 
-		echo "Migration table created successfully.";
+		echo "Migration table created successfully.".PHP_EOL;
 	}
 
 	/**
