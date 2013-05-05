@@ -47,7 +47,7 @@ return array(
 	"max"            => array(
 		"numeric" => "Поле :attribute должно быть не больше :max.",
 		"file"    => "Поле :attribute должно быть не больше :max Килобайт.",
-		"string"  => "Поле :attribute должно быть длиннее :max символов.",
+		"string"  => "Поле :attribute должно быть не длиннее :max символов.",
 	),
 	"mimes"          => "Поле :attribute должно быть файлом одного из типов: :values.",
 	"min"            => array(
