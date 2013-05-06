@@ -183,7 +183,7 @@ abstract class Controller {
 
 			$search = '(:'.($key + 1).')';
 
-			$destination = str_replace($search, $value, $destination, $count);
+			$destination = str_replace($search, str_replace('-', '_', $value), $destination, $count);
 
 			if ($count > 0) unset($parameters[$key]);
 		}

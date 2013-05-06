@@ -223,7 +223,8 @@ class URL {
 		// We'll replace both dots and @ signs in the URI since both are used
 		// to specify the controller and action, and by convention should be
 		// translated into URI slashes for the URL.
-		$uri = $root.'/'.str_replace(array('.', '@'), '/', $action);
+		// We'll also replace underscores with dashes
+		$uri = $root.'/'.str_replace(array('.', '@'), '/', str_replace('_', '-', $action));
 
 		$uri = static::to(str_finish($uri, '/').$parameters);
 
