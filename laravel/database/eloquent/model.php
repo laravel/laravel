@@ -770,6 +770,7 @@ abstract class Model {
 		elseif (starts_with($method, 'set_'))
 		{
 			$this->set_attribute(substr($method, 4), $parameters[0]);
+			return $this;
 		}
 
 		// Finally we will assume that the method is actually the beginning of a
