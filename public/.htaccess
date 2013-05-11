@@ -1,9 +1,9 @@
 # Apache configuration file
-# http://httpd.apache.org/docs/2.2/mod/quickreference.html
+# http://httpd.apache.org/docs/current/mod/quickreference.html
 
 # Note: ".htaccess" files are an overhead for each request. This logic should
 # be placed in your Apache config whenever possible.
-# http://httpd.apache.org/docs/2.2/howto/htaccess.html
+# http://httpd.apache.org/docs/current/howto/htaccess.html
 
 # Turning on the rewrite engine is necessary for the following rules and
 # features. "+FollowSymLinks" must be enabled for this to work symbolically.
