@@ -110,7 +110,7 @@ class Belongs_To extends Relationship {
 	 */
 	public function foreign_value()
 	{
-		return $this->base->get_attribute($this->foreign);
+		return $this->base->{$this->foreign};
 	}
 	
 	/**
