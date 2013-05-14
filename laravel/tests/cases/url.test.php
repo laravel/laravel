@@ -65,6 +65,10 @@ class URLTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://localhost/index.php/x/y/Taylor', URL::to_action('x@y', array('Taylor')));
 		$this->assertEquals('http://localhost/index.php/foo/bar', URL::to_action('foo@baz'));
 		$this->assertEquals('http://localhost/index.php/foo/bar/Taylor', URL::to_action('foo@baz', array('Taylor')));
+
+		Route::controller('foo.bar');
+		$this->assertEquals('http://localhost/index.php/foo/bar/index', URL::to_action('foo.bar@index'));
+		$this->assertEquals('http://localhost/index.php/foo/bar/some-long-action-name', URL::to_action('foo.bar@some_long_action_name'));
 	}
 
 	/**

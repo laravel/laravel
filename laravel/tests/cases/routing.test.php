@@ -5,7 +5,7 @@ use Laravel\Routing\Router;
 class RoutingTest extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * Destroy the testing environment.
+	 * Initialize the test environment.
 	 */
 	public function setUp()
 	{
@@ -115,6 +115,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('home@(:1)', Router::route('GET', 'home/profile')->action['uses']);
 		$this->assertEquals('admin.panel@(:1)', Router::route('GET', 'admin/panel')->action['uses']);
 		$this->assertEquals('admin.panel@(:1)', Router::route('GET', 'admin/panel/show')->action['uses']);
+
+		$this->assertEquals('action_dashes_in_the_name', Router::route('GET', 'auth/dashes-in-the-name')->call());
 	}
 
 	/**

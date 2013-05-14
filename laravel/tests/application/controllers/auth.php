@@ -12,6 +12,11 @@ class Auth_Controller extends Controller {
 		return __FUNCTION__;
 	}
 
+	public function action_dashes_in_the_name()
+	{
+		return __FUNCTION__;
+	}
+
 	public function action_profile($name)
 	{
 		return $name;

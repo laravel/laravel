@@ -212,7 +212,7 @@ class Router {
 
 			$uri = ltrim(str_replace('(:bundle)', static::$bundle, $uri), '/');
 			
-			if($uri == '')
+			if ($uri == '')
 			{
 				$uri = '/';
 			}
