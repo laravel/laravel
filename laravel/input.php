@@ -160,6 +160,8 @@ class Input {
 	 */
 	public static function had($key)
 	{
+		if (is_array(static::old($key))) return true;
+
 		return trim((string) static::old($key)) !== '';
 	}
 
