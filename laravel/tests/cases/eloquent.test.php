@@ -134,6 +134,19 @@ class EloquentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test the Model::__set method allows chaining.
+	 *
+	 * @group laravel
+	 */
+	public function testAttributeMagicSetterMethodAllowsChaining()
+	{
+		$model = new Model;
+		$this->assertInstanceOf('Model', $model->set_foo('foo'));
+		$model->set_bar('bar')->set_baz('baz');
+		$this->assertEquals(array('foo' => 'foo', 'bar' => 'bar', 'baz' => 'baz'), $model->to_array());
+	}
+
+	/**
 	 * Test the Model::__get method.
 	 *
 	 * @group laravel
