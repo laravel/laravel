@@ -13,6 +13,8 @@
 
 $app = new Illuminate\Foundation\Application;
 
+$app->redirectIfTrailingSlash();
+
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
