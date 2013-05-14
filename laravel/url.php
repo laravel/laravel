@@ -355,6 +355,8 @@ class URL {
 	 */
 	public static function valid($url)
 	{
+		if (starts_with($url, '//')) return true;
+
 		return filter_var($url, FILTER_VALIDATE_URL) !== false;
 	}
 
