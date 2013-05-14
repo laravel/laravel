@@ -335,7 +335,7 @@ abstract class Model {
 	 */
 	public function push()
 	{
-		$this->save();
+		if (!$this->save()) return false;
 
 		// To sync all of the relationships to the database, we will simply spin through
 		// the relationships, calling the "push" method on each of the models in that
@@ -349,9 +349,11 @@ abstract class Model {
 
 			foreach ($models as $model)
 			{
-				$model->push();
+				if (!$model->push()) return false;
 			}
 		}
+
+		return true;
 	}
 
 	/**
