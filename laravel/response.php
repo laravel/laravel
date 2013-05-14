@@ -202,9 +202,14 @@ class Response {
 		// off to the HttpFoundation and let it create the header text.
 		$response = new static(File::get($path), 200, $headers);
 
-		$d = $response->disposition($name);
+		// If the Content-Disposition header has already been set by the
+		// merge above, then do not override it with out generated one.
+		if (!isset($headers['Content-Disposition'])) {
+			$d = $response->disposition($name);
+			$response = $response->header('Content-Disposition', $d);
+		}
 
-		return $response->header('Content-Disposition', $d);
+		return $response;
 	}
 
 	/**
