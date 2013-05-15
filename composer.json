@@ -17,10 +17,10 @@
 			"php artisan clear-compiled"
 		],
 		"post-install-cmd": [
-			"php artisan optimize"
+			"php artisan dump-autoload"
 		],
 		"post-update-cmd": [
-			"php artisan optimize"
+			"php artisan dump-autoload"
 		]
 	},
 	"config": {
