@@ -27,7 +27,7 @@ return array(
 	"countbetween"   => ":attribute moet tussen :min en :max geselecteerde elementen bevatten.",
 	"countmax"       => ":attribute moet minder dan :max geselecteerde elementen bevatten.",
 	"countmin"       => ":attribute moet minimaal :min geselecteerde elementen bevatten.",
-	"date_format"	 => ":attribute moet een geldige datum formaat bevatten.",
+	"date_format"    => ":attribute moet een geldig datum formaat bevatten.",
 	"different"      => ":attribute en :other moeten verschillend zijn.",
 	"email"          => ":attribute is geen geldig e-mailadres.",
 	"exists"         => ":attribute bestaat niet.",
