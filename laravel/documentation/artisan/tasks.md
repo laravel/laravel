@@ -41,6 +41,13 @@ Now you can call the "run" method of your task via the command-line. You can eve
 #### Calling a task from your application:
 
 	Command::run(array('notify'));
+	
+In order to run tasks with `Command::run()` you have to include the class to your application config file:
+
+	'aliases' => array(
+		'Command' => 'Laravel\\Cli\\Command',
+		[...]
+	),
 
 #### Calling a task from your application with arguments:
 
