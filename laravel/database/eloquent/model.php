@@ -335,7 +335,7 @@ abstract class Model {
 	 */
 	public function push()
 	{
-		$this->save();
+		if (!$this->save()) return false;
 
 		// To sync all of the relationships to the database, we will simply spin through
 		// the relationships, calling the "push" method on each of the models in that
@@ -349,9 +349,11 @@ abstract class Model {
 
 			foreach ($models as $model)
 			{
-				$model->push();
+				if (!$model->push()) return false;
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -441,7 +443,7 @@ abstract class Model {
 	}
 
 	/**
-	 *Updates the timestamp on the model and immediately saves it.
+	 * Updates the timestamp on the model and immediately saves it.
 	 *
 	 * @return void
 	 */
@@ -562,11 +564,12 @@ abstract class Model {
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $value
-	 * @return void
+	 * @return Model
 	 */
 	public function set_attribute($key, $value)
 	{
 		$this->attributes[$key] = $value;
+		return $this;
 	}
 
 	/**
@@ -769,7 +772,7 @@ abstract class Model {
 		}
 		elseif (starts_with($method, 'set_'))
 		{
-			$this->set_attribute(substr($method, 4), $parameters[0]);
+			return $this->set_attribute(substr($method, 4), $parameters[0]);
 		}
 
 		// Finally we will assume that the method is actually the beginning of a

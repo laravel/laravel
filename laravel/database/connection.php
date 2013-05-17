@@ -197,7 +197,7 @@ class Connection {
 		// For insert statements that use the "returning" clause, which is allowed
 		// by database systems such as Postgres, we need to actually return the
 		// real query result so the consumer can get the ID.
-		elseif (stripos($sql, 'insert') === 0 and stripos($sql, 'returning') !== false)
+		elseif (stripos($sql, 'insert') === 0 and stripos($sql, ') returning') !== false)
 		{
 			return $this->fetch($statement, Config::get('database.fetch'));
 		}

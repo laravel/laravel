@@ -154,7 +154,11 @@ if (magic_quotes())
 
 use Symfony\Component\HttpFoundation\LaravelRequest as RequestFoundation;
 
+RequestFoundation::enableHttpMethodParameterOverride();
+
 Request::$foundation = RequestFoundation::createFromGlobals();
+
+
 
 /*
 |--------------------------------------------------------------------------
