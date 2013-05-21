@@ -57,28 +57,6 @@ class Response {
 	{
 		return new static($content, $status, $headers);
 	}
-	
-	/**
-	 * Create a new response instance with status code.
-	 *
-	 * <code>
-	 *		// Create a response instance with a view
-	 *		return Response::view('home.no_such_page', 404);
-	 *
-	 *		// Create a response instance with a view and data
-	 *		return Response::view('item.no_such_page', 404, array('message' => 'Nothing found'), array('header' => 'value'));
-	 * </code>
-	 *
-	 * @param  string    $view
-	 * @param  int       $status
-	 * @param  array     $data
-	 * @param  array     $headers
-	 * @return Response
-	 */
-	public static function view_with_status($view, $status, $data = array(), $headers = array())
-	{
-		return new static(View::make($view, $data), $status, $headers);
-	}
 
 	/**
 	 * Create a new response instance containing a view.
