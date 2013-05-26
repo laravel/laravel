@@ -43,7 +43,7 @@ if (file_exists($compiled = __DIR__.'/compiled.php'))
 |
 */
 
-Patchwork\Utf8\Bootup::initMbString();
+Patchwork\Utf8\Bootup::initMbstring();
 
 /*
 |--------------------------------------------------------------------------
