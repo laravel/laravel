@@ -271,7 +271,7 @@ class Table {
 	 */
 	public function increments($name)
 	{
-		return $this->integer($name, true);
+		return $this->integer($name, 10, true);
 	}
 
 	/**
@@ -293,9 +293,9 @@ class Table {
 	 * @param  bool    $increment
 	 * @return Fluent
 	 */
-	public function integer($name, $increment = false)
+	public function integer($name, $length = 10, $increment = false)
 	{
-		return $this->column(__FUNCTION__, compact('name', 'increment'));
+		return $this->column(__FUNCTION__, compact('name', 'length', 'increment'));
 	}
 
 	/**
