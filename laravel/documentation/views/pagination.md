@@ -47,6 +47,8 @@ It's also possible to generate "next" and "previous" links:
 #### Generating simple "previous" and "next" links:
 
 	<?php echo $orders->previous().' '.$orders->next(); ?>
+	
+> **Note:** If you want to create a link to the last page, you can prepend `?page=last` to the URI
 
 *Further Reading:*
 
