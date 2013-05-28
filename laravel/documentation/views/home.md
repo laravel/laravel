@@ -179,6 +179,13 @@ Now each time the "home" view is created, an instance of the View will be passed
 		//
 	});
 
+#### Register a composer that handles all views in "mobile" directory:
+
+	View::composer('mobile.', function($view)
+	{
+		//
+	});
+
 > **Note:** A view can have more than one composer. Go wild!
 
 <a name="redirects"></a>
