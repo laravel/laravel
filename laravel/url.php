@@ -87,10 +87,10 @@ class URL {
 	 *		$url = URL::to('user/profile', true);
 	 * </code>
 	 *
-	 * @param  string  $url
-	 * @param  bool    $https
-	 * @param  bool    $asset
-	 * @param  bool    $locale
+	 * @param  string  		$url
+	 * @param  bool    		$https
+	 * @param  bool    		$asset
+	 * @param  bool|string  $locale
 	 * @return string
 	 */
 	public static function to($url = '', $https = null, $asset = false, $locale = true)
@@ -118,7 +118,7 @@ class URL {
 
 		if ( ! $asset and $locale and count($languages) > 0)
 		{
-			if (in_array($default = Config::get('application.language'), $languages))
+			if (in_array($default = (is_string($locale)) ? $locale : Config::get('application.language'), $languages))
 			{
 				$root = rtrim($root, '/').'/'.$default;
 			}
