@@ -119,6 +119,6 @@
 	</ul>
 </div>
 
-<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+<script>window.jQuery || document.write(unescape("%3Cscript src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'%3E%3C/script%3E"))</script>
 <script>{{ file_get_contents(path('sys').'profiling/profiler.js') }}</script>
 <!-- /ANBU - LARAVEL PROFILER -->
