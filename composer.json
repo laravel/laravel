@@ -1,4 +1,7 @@
 {
+    "name": "laravel/framework",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
 	"require": {
 		"laravel/framework": "4.1.*"
 	},
