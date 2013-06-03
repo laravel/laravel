@@ -11,6 +11,11 @@
             font-family:'Lato', sans-serif;
             text-align:center;
             color: #999;
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialiased;
+            -ms-font-smoothing: antialiased;
+            -o-font-smoothing: antialiased;
+            font-smoothing: antialiased;
         }
 
         .welcome {
