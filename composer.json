@@ -29,5 +29,6 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+	"license": "MIT"
 }
