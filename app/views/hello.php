@@ -23,7 +23,7 @@
            height: 300px;
            position: absolute;
            left: 50%;
-           top: 50%; 
+           top: 50%;
            margin-left: -150px;
            margin-top: -150px;
         }
