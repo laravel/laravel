@@ -375,6 +375,15 @@ Want to use an error message other than the default? Maybe you even want to use 
 
 Great! Now our custom message will be used anytime a required validation check fails. But, what is this **:attribute** stuff in our message? To make your life easier, the Validator class will replace the **:attribute** place-holder with the actual name of the attribute! It will even remove underscores from the attribute name.
 
+However, if you want to replace raw attribute name with something more reader friendly, you have two options:
+
+1. You may put attribute name with its description to the validation language file under `attributes` key.
+   All attributes descriptions in error messages with same name will be replaced site-wide.
+
+2. Sometimes, you do not want to change attribute description globally.
+   For example, attribute with name 'title' may has different meaning in different situations.
+   If it is your case, use `attributes` key of `$messages` argument. It is an array with same functionality as its analogue in the validation language file.
+
 You may also use the **:other**, **:size**, **:min**, **:max**, and **:values** place-holders when constructing your error messages:
 
 #### Other validation message place-holders:

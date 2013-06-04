@@ -681,10 +681,17 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$lang = require path('app').'language/en/validation.php';
 
 		$rules = array('test_attribute' => 'required');
+
 		$v = Validator::make(array(), $rules);
 		$v->valid();
 
 		$expect = str_replace(':attribute', 'attribute', $lang['required']);
+		$this->assertEquals($expect, $v->errors->first('test_attribute'));
+
+		$v = Validator::make(array(), $rules, array('attributes' => array('test_attribute' => 'foo')));
+		$v->valid();
+
+		$expect = str_replace(':attribute', 'foo', $lang['required']);
 		$this->assertEquals($expect, $v->errors->first('test_attribute'));
 	}
 
