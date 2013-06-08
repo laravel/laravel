@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laravel PHP Framework</title>
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}"  type="image/x-icon" />
     <style>
         @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 
