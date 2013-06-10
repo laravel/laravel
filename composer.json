@@ -20,7 +20,10 @@
 			"php artisan clear-compiled"
 		],
 		"post-install-cmd": [
-			"php artisan optimize"
+			"php artisan optimize",
+			"chmod 777 app/storage/views",
+			"chmod 777 app/storage/sessions",
+			"chmod 777 app/storage/meta"
 		],
 		"post-update-cmd": [
 			"php artisan optimize"
