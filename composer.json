@@ -17,7 +17,8 @@
 	},
 	"scripts": {
 		"post-install-cmd": [
-			"php artisan optimize"
+			"php artisan optimize",
+			"php artisan key:generate"
 		],
 		"pre-update-cmd": [
 			"php artisan clear-compiled"
