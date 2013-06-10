@@ -60,8 +60,9 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, long string, otherwise these encrypted values will not
+	| to a random, long string (maximum of 32 characters), otherwise these encrypted values will not
 	| be safe. Make sure to change it before deploying any application!
+	| To have Laravel generate a key for you, use the command 'php artisan key:generate'
 	|
 	*/
 
