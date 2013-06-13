@@ -30,8 +30,9 @@ return array(
 
 		'production' => array(
 			'host'     => '',
-			'username' => 'root',
+			'username' => '',
 			'password' => '',
+			'key'      => '',
 		),
 
 	),
