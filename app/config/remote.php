@@ -37,4 +37,21 @@ return array(
 
 	),
 
+	/*
+	|--------------------------------------------------------------------------
+	| Remote Server Groups
+	|--------------------------------------------------------------------------
+	|
+	| Here you may list connections under a single group name, which allows
+	| you to easily access all of the servers at once using a short name
+	| that is extremely easy to remember, such as "web" or "database".
+	|
+	*/
+
+	'groups' => array(
+
+		'web' => array('production')
+
+	),
+
 );
