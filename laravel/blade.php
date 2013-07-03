@@ -361,7 +361,7 @@ class Blade {
 	/**
 	 * Rewrites Blade @yield statements into Section statements.
 	 *
-	 * The Blade @yield statement is a shortcut to the Section::yield method.
+	 * The Blade @yield statement is a shortcut to the Section::_yield method.
 	 *
 	 * @param  string  $value
 	 * @return string
@@ -370,7 +370,7 @@ class Blade {
 	{
 		$pattern = static::matcher('yield');
 
-		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::yield$2; ?>', $value);
+		return preg_replace($pattern, '$1<?php echo \\Laravel\\Section::_yield$2; ?>', $value);
 	}
 
 	/**

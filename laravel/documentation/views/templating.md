@@ -44,7 +44,7 @@ View sections provide a simple way to inject content into layouts from nested vi
 #### Rendering the contents of a section:
 
 	<head>
-		<?php echo Section::yield('scripts'); ?>
+		<?php echo Section::_yield('scripts'); ?>
 	</head>
 
 #### Using Blade short-cuts to work with sections:
