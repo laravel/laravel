@@ -3,6 +3,8 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"require": {
+		"php": ">=5.3.7",
+		"ext-mcrypt": "*",
 		"laravel/framework": "4.0.*"
 	},
 	"autoload": {
