@@ -69,9 +69,10 @@ return array(
 	| Custom Validation Language Lines
 	|--------------------------------------------------------------------------
 	|
-	| Here you may specify custom validation messages for attributes using the
-	| convention "attribute.rule" to name the lines. This makes it quick to
-	| specify a specific custom language line for a given attribute rule.
+	| Here you may specify custom validation messages for attributes using an
+	| array with the rules and messages unther the name of the attribute. This 
+	| makes it quick to specify a specific custom language line for a given
+	| attribute rule.
 	|
 	*/
 
