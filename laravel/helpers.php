@@ -560,9 +560,9 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
  * @param  string  $section
  * @return string
  */
-function _yield($section)
+function yield_content($section)
 {
-	return Section::_yield($section);
+	return Section::yield_content($section);
 }
 
 /**
