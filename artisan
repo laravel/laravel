@@ -43,7 +43,7 @@ $app->boot();
 |
 */
 
-$artisan = \Artisan::getArtisan();
+$artisan = $app['artisan']->getArtisan();
 
 /*
 |--------------------------------------------------------------------------
