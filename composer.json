@@ -1,9 +1,9 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
+	"name": "shrimpwagon/laravel",
+	"description": "The Laravel Framework (shrimpwagon).",
 	"keywords": ["framework", "laravel"],
 	"require": {
-		"laravel/framework": "4.0.*"
+		"shrimpwagon/laravel-framework": "4.0.*"
 	},
 	"autoload": {
 		"classmap": [
