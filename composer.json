@@ -3,7 +3,7 @@
 	"description": "The Laravel Framework (shrimpwagon).",
 	"keywords": ["framework", "laravel"],
 	"require": {
-		"shrimpwagon/laravel-framework": "4.0.*"
+		"shrimpwagon/laravel-framework": "4.1.*"
 	},
 	"autoload": {
 		"classmap": [
