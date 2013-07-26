@@ -55,7 +55,7 @@ $paths['public'] = 'public';
 // --------------------------------------------------------------
 // The path to the public assets directory.
 // --------------------------------------------------------------
-$paths['asset'] = $paths['public'];
+$paths['asset'] = $paths['public'] . DIRECTORY_SEPARATOR . 'assets';
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 // END OF USER CONFIGURATION. HERE BE DRAGONS!
