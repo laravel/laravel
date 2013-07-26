@@ -23,7 +23,7 @@ class Publisher {
 
 		$path = Bundle::path($bundle);
 
-		$this->move($path.'public', path('public').'bundles'.DS.$bundle);
+		$this->move($path.'public', path('asset').'bundles'.DS.$bundle);
 
 		echo "Assets published for bundle [$bundle].".PHP_EOL;
 	}
@@ -43,7 +43,7 @@ class Publisher {
 			return;
 		}
 
-		File::rmdir(path('public').'bundles'.DS.$bundle);
+		File::rmdir(path('asset').'bundles'.DS.$bundle);
 
 		echo "Assets deleted for bundle [$bundle].".PHP_EOL;
 	}
@@ -68,7 +68,7 @@ class Publisher {
 	 */
 	protected function to($bundle)
 	{
-		return path('public').'bundles'.DS.$bundle.DS;
+		return path('asset').'bundles'.DS.$bundle.DS;
 	}
 
 	/**
