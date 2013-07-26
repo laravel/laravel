@@ -28,22 +28,22 @@ $environments = array(
 );
 
 // --------------------------------------------------------------
-// The path to the application directory.
+// The path to the private application directory.
 // --------------------------------------------------------------
 $paths['app'] = 'application';
 
 // --------------------------------------------------------------
-// The path to the Laravel directory.
+// The path to the private Laravel directory.
 // --------------------------------------------------------------
 $paths['sys'] = 'laravel';
 
 // --------------------------------------------------------------
-// The path to the bundles directory.
+// The path to the private bundles directory.
 // --------------------------------------------------------------
 $paths['bundle'] = 'bundles';
 
 // --------------------------------------------------------------
-// The path to the storage directory.
+// The path to the private storage directory.
 // --------------------------------------------------------------
 $paths['storage'] = 'storage';
 
@@ -51,6 +51,11 @@ $paths['storage'] = 'storage';
 // The path to the public directory.
 // --------------------------------------------------------------
 $paths['public'] = 'public';
+
+// --------------------------------------------------------------
+// The path to the public assets directory.
+// --------------------------------------------------------------
+$paths['asset'] = $paths['public'];
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 // END OF USER CONFIGURATION. HERE BE DRAGONS!
