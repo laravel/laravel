@@ -78,3 +78,24 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Prevent PHP sending view content on error
+|--------------------------------------------------------------------------
+|
+| If you have an error in your view (e.g. undefined variable) the responded
+| HTML will contain the content of the view until that position, the error
+| occurred. The reason is, that the buffer is flushing before the exception
+| hooks in which will be prevented by this little fix.
+|
+*/
+
+App::error(function(Exception $exception)
+{
+      if (Config::get('app.debug')) {
+            return;
+      }
+
+      @ob_clean();
+});
