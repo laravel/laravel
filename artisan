@@ -15,26 +15,30 @@
 $artisan_dir = getcwd();
 
 if (!file_exists($artisan_dir.'/bootstrap/autoload.php')) {
-    $found_path = false;
-    $separated = explode('/', $artisan_dir);
+    if (file_exists(__DIR__.'/bootstrap/autoload.php')) {
+        $artisan_dir = __DIR__;
+    } else {
+        $found_path = false;
+        $separated = explode('/', $artisan_dir);
 
-    while (!empty($separated)) {
-        array_pop($separated);
+        while (!empty($separated)) {
+            array_pop($separated);
 
-        $artisan_dir = implode('/', $separated);
+            $artisan_dir = implode('/', $separated);
 
-        if (file_exists($artisan_dir.'/bootstrap/autoload.php')) {
-            $found_path = true;
-            break;
+            if (file_exists($artisan_dir.'/bootstrap/autoload.php')) {
+                $found_path = true;
+                break;
+            }
         }
-    }
 
-    if (!$found_path) {
-        echo "Could not find a valid laravel installation\n";
-        exit(1);
-    }
+        if (!$found_path) {
+            echo "Could not find a valid laravel installation\n";
+            exit(1);
+        }
 
-    echo "Working directory: $artisan_dir\n";
+        echo "Working directory: $artisan_dir\n";
+    }
 }
 
 /*
