@@ -71,6 +71,23 @@ App::down(function()
 
 /*
 |--------------------------------------------------------------------------
+| My Shizzle
+|--------------------------------------------------------------------------
+|
+| My stoof to make dah L4 boss hard
+|
+*/
+
+// Register class loading for finding facade classes
+spl_autoload_register(function($class_name) {
+	include app_path().'/classes/' . str_replace('\\', '/', $class_name) . '.php';
+});
+
+// My Facades
+require app_path().'/facades.php';
+
+/*
+|--------------------------------------------------------------------------
 | Require The Filters File
 |--------------------------------------------------------------------------
 |
