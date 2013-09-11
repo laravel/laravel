@@ -2,6 +2,7 @@
 	"name": "shrimpwagon/laravel",
 	"description": "The Laravel Framework (shrimpwagon).",
 	"keywords": ["framework", "laravel"],
+	"license": "MIT",
 	"require": {
 		"shrimpwagon/laravel-framework": "4.1.*"
 	},
