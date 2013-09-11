@@ -1,10 +1,10 @@
 {
-	"name": "shrimpwagon/laravel",
-	"description": "The Laravel Framework (shrimpwagon).",
+	"name": "laravel/laravel",
+	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"shrimpwagon/laravel-framework": "4.1.*"
+		"laravel/framework": "4.0.*"
 	},
 	"autoload": {
 		"classmap": [
