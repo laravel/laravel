@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Laravel PHP Framework</title>
     <style>
-        @import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
+        @import url(//fonts.googleapis.com/css?family=Lato:700);
 
         body {
             margin:0;
@@ -15,31 +15,22 @@
 
         .welcome {
            width: 300px;
-           height: 300px;
+           height: 200px;
            position: absolute;
            left: 50%;
-           top: 50%; 
+           top: 50%;
            margin-left: -150px;
-           margin-top: -150px;
+           margin-top: -100px;
         }
 
         a, a:visited {
-            color:#FF5949;
+            display: block;
             text-decoration:none;
         }
 
-        a:hover {
-            text-decoration:underline;
-        }
-
-        ul li {
-            display:inline;
-            margin:0 1.2em;
-        }
-
-        p {
-            margin:2em 0;
-            color:#555;
+        h1 {
+            font-size: 32px;
+            margin: 16px 0 0 0;
         }
     </style>
 </head>
