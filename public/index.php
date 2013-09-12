@@ -26,7 +26,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 |--------------------------------------------------------------------------
 |
 | We need to illuminate PHP development, so let's turn on the lights.
-| This bootstrap the framework and gets it ready for use, then it
+| This bootstraps the framework and gets it ready for use, then it
 | will load up this application so that we can run it and send
 | the responses back to the browser and delight these users.
 |
@@ -53,7 +53,7 @@ $app->run();
 | Shutdown The Application
 |--------------------------------------------------------------------------
 |
-| Once the app has finished running. We will fire off the shutdown events
+| Once the app has finished running, we will fire off the shutdown events
 | so that any final work may be done by the application before we shut
 | down the process. This is the last thing to happen to the request.
 |

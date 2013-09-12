@@ -22,7 +22,7 @@ return array(
 	|
 	| Like the option above, your e-mail address is used when generating new
 	| workbench packages. The e-mail is placed in your composer.json file
-	| automatically whwen the package is created by the workbench tool.
+	| automatically after the package is created by the workbench tool.
 	|
 	*/
 
