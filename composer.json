@@ -4,8 +4,14 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.1.*"
 	},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/laravel/boris"
+        }
+    ],
 	"autoload": {
 		"classmap": [
 			"app/commands",
