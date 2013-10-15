@@ -17,6 +17,19 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
+	| Application Log Level
+	|--------------------------------------------------------------------------
+	|
+	| This log level defines wich of the seven logging levels defined in RFC 
+	| 5424 (debug, info, notice, warning, error, critical, and alert) to 
+	| display in your log files.
+	|
+	*/
+
+	'loglevel' => 'debug',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Application URL
 	|--------------------------------------------------------------------------
 	|
