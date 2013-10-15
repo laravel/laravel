@@ -33,7 +33,7 @@ ClassLoader::addDirectories(array(
 
 $logFile = 'log-'.php_sapi_name().'.txt';
 
-Log::useDailyFiles(storage_path().'/logs/'.$logFile, Config::get('app.loglevel'));
+Log::useDailyFiles(storage_path().'/logs/'.$logFile, 0, Config::get('app.loglevel'));
 
 /*
 |--------------------------------------------------------------------------
