@@ -55,6 +55,12 @@ return array(
 			'queue'   => 'your-queue-name',
 		),
 
+		'redis' => array(
+			'driver' => 'redis',
+			'host'   => 'localhost',
+			'queue'  => 'default'
+		),		
+
 	),
 
 );
