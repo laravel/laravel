@@ -57,7 +57,6 @@ return array(
 
 		'redis' => array(
 			'driver' => 'redis',
-			'host'   => 'localhost',
 			'queue'  => 'default'
 		),		
 
