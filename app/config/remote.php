@@ -33,6 +33,7 @@ return array(
 			'username' => '',
 			'password' => '',
 			'key'      => '',
+			'root'     => '/var/www',
 		),
 
 	),
