@@ -5,3 +5,4 @@
 - `composer update`.
 - Replace `public/index.php`, `artisan.php`.
 - Add new `expire_on_close` option to `session` configuration file.
+- Remove call to `redirectIfTrailingSlash` in `bootstrap/start.php` file.
