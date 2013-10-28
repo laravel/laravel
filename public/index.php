@@ -46,6 +46,4 @@ $app = require_once __DIR__.'/../bootstrap/start.php';
 |
 */
 
-use Symfony\Component\HttpFoundation\Request;
-
-$app->run(Request::createFromGlobals());
+$app->run();
