@@ -355,7 +355,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function limit(Query $query)
 	{
-		return 'LIMIT '.$query->limit;
+		return 'LIMIT '. (int) $query->limit;
 	}
 
 	/**
