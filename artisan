@@ -43,7 +43,7 @@ $app->boot();
 |
 */
 
-$artisan = Illuminate\Console\Application::start($app);
+$artisan = $app['artisan']->getArtisan();
 
 /*
 |--------------------------------------------------------------------------
