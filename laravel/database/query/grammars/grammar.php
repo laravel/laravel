@@ -366,7 +366,7 @@ class Grammar extends \Laravel\Database\Grammar {
 	 */
 	protected function offset(Query $query)
 	{
-		return 'OFFSET '.$query->offset;
+		return 'OFFSET '. (int) $query->offset;
 	}
 
 	/**
