@@ -59,7 +59,7 @@ class SQLServer extends Grammar {
 		// it to the query here if there is not an OFFSET present.
 		if ($query->limit > 0 and $query->offset <= 0)
 		{
-			$select .= 'TOP '.$query->limit.' ';
+			$select .= 'TOP '. (int) $query->limit.' ';
 		}
 
 		return $select.$this->columnize($query->selects);
