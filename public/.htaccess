@@ -1,5 +1,8 @@
 <IfModule mod_rewrite.c>
-    Options -MultiViews
+	<IfModule mod_negotiation.c>
+    	Options -MultiViews
+    </IfModule>
+
     RewriteEngine On
 
     # Redirect Trailing Slashes...
