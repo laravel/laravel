@@ -110,7 +110,7 @@ class Pluralizer {
 		// typically used regular expression matching approach.
 		foreach ($irregular as $irregular => $pattern)
 		{
-			if (preg_match($pattern = '/'.$pattern.'$/i', $value))
+			if (preg_match($pattern = '/^'.$pattern.'$/i', $value))
 			{
 				return preg_replace($pattern, $irregular, $value);
 			}
