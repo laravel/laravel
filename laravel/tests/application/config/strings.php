@@ -80,6 +80,7 @@ return array(
 		'person' => 'people',
 		'sex' => 'sexes',
 		'tooth' => 'teeth',
+		'one child' => 'many children'
 	),
 
 	'uncountable' => array(
