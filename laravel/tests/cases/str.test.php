@@ -98,6 +98,10 @@ class StrTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('users', Str::plural('user', 2));
 		$this->assertEquals('chassis', Str::plural('chassis', 2));
 		$this->assertEquals('traffic', Str::plural('traffic', 2));
+		$this->assertEquals('one child', Str::singular('one child'));
+		$this->assertEquals('one child', Str::singular('many children'));
+		$this->assertEquals('one child', Str::plural('one child', 1));
+		$this->assertEquals('many children', Str::plural('one child', 2));
 	}
 
 	/**
