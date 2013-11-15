@@ -11,3 +11,5 @@
 - Edit `app/controllers/BaseController.php` change `use Illuminate\Routing\Controllers\Controller;` to `use Illuminate\Routing\Controller;
 `
 - If you are overriding `missingMethod` in your controllers, add $method as the first parameter.
+- Password reminder system tweaked for greater developer freedom. Inspect stub controller by running `auth:reminders-controller` Artisan command.
+- Update `reminders.php` language file.
