@@ -10,6 +10,9 @@
   to use `Illuminate\Routing\Controller` and add `'SSH'             => 'Illuminate\Support\Facades\SSH',`
 - Edit `app/controllers/BaseController.php` change `use Illuminate\Routing\Controllers\Controller;` to `use Illuminate\Routing\Controller;
 `
+- Edit `app/config/app.php`; in `providers` add `'Illuminate\Remote\RemoteServiceProvider',`
+- Edit `app/config/app.php`; in `aliases` add `'SSH' => 'Illuminate\Support\Facades\SSH',`
+
 - If you are overriding `missingMethod` in your controllers, add $method as the first parameter.
 - Password reminder system tweaked for greater developer freedom. Inspect stub controller by running `auth:reminders-controller` Artisan command.
 - Update `reminders.php` language file.
