@@ -5,6 +5,7 @@
 - Update `composer.json` to require `"laravel/framework": "4.1.*"`
 - `composer update`.
 - Replace `public/index.php`, `artisan.php`.
+- Add new `app/config/remote.php` file.
 - Add new `expire_on_close` option to `session` configuration file.
 - Remove call to `redirectIfTrailingSlash` in `bootstrap/start.php` file.
 - Edit `app/config/app.php`; 
