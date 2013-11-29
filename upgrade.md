@@ -6,8 +6,11 @@
 - `composer update`.
 - Replace `public/index.php`, `artisan.php`.
 - Add new `app/config/remote.php` file.
-- Add new `expire_on_close` option to `session` configuration file.
+- Add new `expire_on_close` and `secure` options to `session` configuration file.
+- Add new `failed` queue job option to `queue` configuration file.
 - Remove call to `redirectIfTrailingSlash` in `bootstrap/start.php` file.
+- Edit `app/config/database.php` and update `redis.cluster` option to `false` to turn Redis clustering off by default.
+- Edit `app/config/view.php` and update `pagination` option to use bootstrap 3 as default pagination view.
 - Edit `app/config/app.php`; 
   - in `aliases` change `'Controller' => 'Illuminate\Routing\Controllers\Controller',`
   to use `Illuminate\Routing\Controller`.
