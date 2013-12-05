@@ -3,12 +3,12 @@
 ## Upgrading From 4.0 to 4.1
 
 - Update `composer.json` to require `"laravel/framework": "4.1.*"`
+- Remove call to `redirectIfTrailingSlash` in `bootstrap/start.php` file.
 - `composer update`.
 - Replace `public/index.php`, `artisan.php`.
 - Add new `app/config/remote.php` file.
 - Add new `expire_on_close` and `secure` options to `session` configuration file.
 - Add new `failed` queue job option to `queue` configuration file.
-- Remove call to `redirectIfTrailingSlash` in `bootstrap/start.php` file.
 - Edit `app/config/database.php` and update `redis.cluster` option to `false` to turn Redis clustering off by default.
 - Edit `app/config/view.php` and update `pagination` option to use bootstrap 3 as default pagination view.
 - Edit `app/config/app.php`; 
