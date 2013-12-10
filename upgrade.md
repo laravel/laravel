@@ -7,6 +7,18 @@
 - Replace `/public/index.php` with [this](https://github.com/laravel/laravel/blob/develop/public/index.php) file, and `/artisan` with [this](https://github.com/laravel/laravel/blob/develop/artisan) file.
 - Add new `app/config/remote.php` file from [here](https://github.com/laravel/laravel/blob/develop/app/config/remote.php)
 - Add new `expire_on_close` and `secure` options to `session` configuration file to match [this](https://github.com/laravel/laravel/blob/develop/app/config/session.php) file.
+- in `/app/start/global.php`, replace :
+  
+```
+$logFile = 'log-'.php_sapi_name().'.txt';
+
+Log::useDailyFiles(storage_path().'/logs/'.$logFile);
+```
+  By
+```
+Log::useFiles(storage_path().'/logs/laravel.log');
+```
+
 - Add new `failed` queue job option to `queue` configuration file to match [this](https://github.com/laravel/laravel/blob/develop/app/config/queue.php) file.
 - Edit `app/config/database.php` and update `redis.cluster` option to `false` to turn Redis clustering off by default.
 - Edit `app/config/view.php` and update `pagination` option to use bootstrap 3 as default pagination view (optional).
