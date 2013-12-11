@@ -20,6 +20,7 @@
 - Password reminder system tweaked for greater developer freedom. Inspect stub controller by running `auth:reminders-controller` Artisan command.
 - Update `reminders.php` language file to match [this](https://github.com/laravel/laravel/blob/master/app/lang/en/reminders.php) file.
 - If you are using http hosts to set the $env variable in bootstrap/start.php, these should be changed to machine names (as returned by PHP's gethostname() function).
+- `Route::getCurrentRoute()` has become `Route::current()`
 
 Finally,
 
