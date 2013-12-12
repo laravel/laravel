@@ -4,13 +4,13 @@
 
 - Update `composer.json` to require `"laravel/framework": "4.1.*"`
 - Remove call to `redirectIfTrailingSlash` in `/bootstrap/start.php` file.
-- Replace `/public/index.php` with [this](https://github.com/laravel/laravel/blob/develop/public/index.php) file, and `/artisan` with [this](https://github.com/laravel/laravel/blob/develop/artisan) file.
-- Add new `app/config/remote.php` file from [here](https://github.com/laravel/laravel/blob/develop/app/config/remote.php)
-- Add new `expire_on_close` and `secure` options to `session` configuration file to match [this](https://github.com/laravel/laravel/blob/develop/app/config/session.php) file.
-- Add new `failed` queue job option to `queue` configuration file to match [this](https://github.com/laravel/laravel/blob/develop/app/config/queue.php) file.
-- Edit `app/config/database.php` and update `redis.cluster` option to `false` to turn Redis clustering off by default.
-- Edit `app/config/view.php` and update `pagination` option to use bootstrap 3 as default pagination view (optional).
-- Edit `app/config/app.php` so the `aliases` and `providers` array match [this](https://github.com/laravel/laravel/blob/develop/app/config/app.php) file:
+- Replace `/public/index.php` with [this](https://github.com/laravel/laravel/blob/master/public/index.php) file, and `/artisan` with [this](https://github.com/laravel/laravel/blob/master/artisan) file.
+- Add new `app/config/remote.php` file from [here](https://github.com/laravel/laravel/blob/master/app/config/remote.php)
+- Add new [`expire_on_close`](https://github.com/laravel/laravel/blob/master/app/config/session.php#L34) and [`secure`](https://github.com/laravel/laravel/blob/master/app/config/session.php#L127-L138) options to `session` configuration file to match [this](https://github.com/laravel/laravel/blob/master/app/config/session.php) file.
+- Add new [`failed`](https://github.com/laravel/laravel/blob/master/app/config/queue.php#L65-L80) queue job option to `queue` configuration file to match [this](https://github.com/laravel/laravel/blob/master/app/config/queue.php) file.
+- Edit `app/config/database.php` and update [`redis.cluster`](https://github.com/laravel/laravel/blob/master/app/config/database.php#L114) option to `false` to turn Redis clustering off by default.
+- Edit `app/config/view.php` and update [`pagination`](https://github.com/laravel/laravel/blob/master/app/config/view.php#L29) option to use bootstrap 3 as default pagination view (optional).
+- Edit `app/config/app.php` so the `aliases` and `providers` array match [this](https://github.com/laravel/laravel/blob/master/app/config/app.php) file:
   - in `aliases` change `'Controller' => 'Illuminate\Routing\Controllers\Controller',`
   to use `Illuminate\Routing\Controller`.
   - in `providers` add `'Illuminate\Remote\RemoteServiceProvider',`.
