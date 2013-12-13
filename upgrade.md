@@ -23,4 +23,5 @@
 
 Finally,
 
+- Delete "bootstrap/compiled.php"
 - Run `composer update`
