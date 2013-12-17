@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\ClassLoader;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\App;
+
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader
