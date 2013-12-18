@@ -15,7 +15,7 @@
   to use `Illuminate\Routing\Controller`.
   - in `providers` add `'Illuminate\Remote\RemoteServiceProvider',`.
   - in `aliases` add `'SSH' => 'Illuminate\Support\Facades\SSH',`.
-- If `app/controllers/BaseController.php` has a use statement at the top, change `use Illuminate\Routing\Controllers\Controller;` to `use Illuminate\Routing\Controller;`. You may also remove this use statament, for you have registered a class alias for this.
+- If `app/controllers/BaseController.php` has a use statement at the top, change `use Illuminate\Routing\Controllers\Controller;` to `use Illuminate\Routing\Controller;`. You may also remove this use statement, for you have registered a class alias for this.
 - If you are overriding `missingMethod` in your controllers, add $method as the first parameter.
 - Password reminder system tweaked for greater developer freedom. Inspect stub controller by running `auth:reminders-controller` Artisan command.
 - Update `reminders.php` language file to match [this](https://github.com/laravel/laravel/blob/master/app/lang/en/reminders.php) file.
