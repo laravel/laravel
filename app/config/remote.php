@@ -12,7 +12,6 @@ return array(
 	| in the server list. Each connection will be manually accessible.
 	|
 	*/
-
 	'default' => 'production',
 
 	/*
@@ -25,18 +24,15 @@ return array(
 	| tasks on your servers, such as deploying out these applications.
 	|
 	*/
-
 	'connections' => array(
-
 		'production' => array(
 			'host'      => '',
 			'username'  => '',
 			'password'  => '',
 			'key'       => '',
 			'keyphrase' => '',
-			'root'      => '/var/www',
-		),
-
+			'root'      => '/var/www'
+		)
 	),
 
 	/*
@@ -49,11 +45,7 @@ return array(
 	| that is extremely easy to remember, such as "web" or "database".
 	|
 	*/
-
 	'groups' => array(
-
 		'web' => array('production')
-
-	),
-
+	)
 );
