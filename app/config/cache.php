@@ -14,7 +14,6 @@ return array(
 	| Supported: "file", "database", "apc", "memcached", "redis", "array"
 	|
 	*/
-
 	'driver' => 'file',
 
 	/*
@@ -27,7 +26,6 @@ return array(
 	| are free to change it to any other place on disk that you desire.
 	|
 	*/
-
 	'path' => storage_path().'/cache',
 
 	/*
@@ -40,7 +38,6 @@ return array(
 	| null the default database connection will be utilized for cache.
 	|
 	*/
-
 	'connection' => null,
 
 	/*
@@ -53,7 +50,6 @@ return array(
 	| been provided but you're free to change it however you deem fit.
 	|
 	*/
-
 	'table' => 'cache',
 
 	/*
@@ -66,11 +62,8 @@ return array(
 	| should contain a value for "host", "port", and "weight" options.
 	|
 	*/
-
 	'memcached' => array(
-
-		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
-
+		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100)
 	),
 
 	/*
@@ -83,7 +76,5 @@ return array(
 	| value to get prefixed to all our keys so we can avoid collisions.
 	|
 	*/
-
-	'prefix' => 'laravel',
-
+	'prefix' => 'laravel'
 );
