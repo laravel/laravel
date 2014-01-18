@@ -14,7 +14,6 @@ return array(
 	| Supported: "sync", "beanstalkd", "sqs", "iron"
 	|
 	*/
-
 	'default' => 'sync',
 
 	/*
@@ -27,17 +26,16 @@ return array(
 	| for each back-end shipped with Laravel. You are free to add more.
 	|
 	*/
-
 	'connections' => array(
 
 		'sync' => array(
-			'driver' => 'sync',
+			'driver' => 'sync'
 		),
 
 		'beanstalkd' => array(
 			'driver' => 'beanstalkd',
 			'host'   => 'localhost',
-			'queue'  => 'default',
+			'queue'  => 'default'
 		),
 
 		'sqs' => array(
@@ -45,21 +43,20 @@ return array(
 			'key'    => 'your-public-key',
 			'secret' => 'your-secret-key',
 			'queue'  => 'your-queue-url',
-			'region' => 'us-east-1',
+			'region' => 'us-east-1'
 		),
 
 		'iron' => array(
 			'driver'  => 'iron',
 			'project' => 'your-project-id',
 			'token'   => 'your-token',
-			'queue'   => 'your-queue-name',
+			'queue'   => 'your-queue-name'
 		),
 
 		'redis' => array(
 			'driver' => 'redis',
-			'queue'  => 'default',
-		),
-
+			'queue'  => 'default'
+		)
 	),
 
 	/*
@@ -72,11 +69,8 @@ return array(
 	| have failed. You may change them to any database / table you wish.
 	|
 	*/
-
 	'failed' => array(
-
-		'database' => 'mysql', 'table' => 'failed_jobs',
-
-	),
-
+		'database' => 'mysql', 
+		'table' => 'failed_jobs'
+	)
 );
