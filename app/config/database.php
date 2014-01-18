@@ -12,7 +12,6 @@ return array(
 	| array format for simplicity. Here you can tweak the fetch style.
 	|
 	*/
-
 	'fetch' => PDO::FETCH_CLASS,
 
 	/*
@@ -25,7 +24,6 @@ return array(
 	| you may use many connections at once using the Database library.
 	|
 	*/
-
 	'default' => 'mysql',
 
 	/*
@@ -43,13 +41,12 @@ return array(
 	| choice installed on your machine before you begin development.
 	|
 	*/
-
 	'connections' => array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
 			'database' => __DIR__.'/../database/production.sqlite',
-			'prefix'   => '',
+			'prefix'   => ''
 		),
 
 		'mysql' => array(
@@ -60,7 +57,7 @@ return array(
 			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
+			'prefix'    => ''
 		),
 
 		'pgsql' => array(
@@ -71,7 +68,7 @@ return array(
 			'password' => '',
 			'charset'  => 'utf8',
 			'prefix'   => '',
-			'schema'   => 'public',
+			'schema'   => 'public'
 		),
 
 		'sqlsrv' => array(
@@ -80,8 +77,8 @@ return array(
 			'database' => 'database',
 			'username' => 'root',
 			'password' => '',
-			'prefix'   => '',
-		),
+			'prefix'   => ''
+		)
 
 	),
 
@@ -95,7 +92,6 @@ return array(
 	| the migrations on disk haven't actually been run in the database.
 	|
 	*/
-
 	'migrations' => 'migrations',
 
 	/*
@@ -108,17 +104,12 @@ return array(
 	| such as APC or Memcached. Laravel makes it easy to dig right in.
 	|
 	*/
-
 	'redis' => array(
-
 		'cluster' => false,
-
 		'default' => array(
 			'host'     => '127.0.0.1',
 			'port'     => 6379,
-			'database' => 0,
-		),
-
-	),
-
+			'database' => 0
+		)
+	)
 );
