@@ -14,7 +14,6 @@ return array(
 	| Supported: "smtp", "mail", "sendmail"
 	|
 	*/
-
 	'driver' => 'smtp',
 
 	/*
@@ -27,7 +26,6 @@ return array(
 	| the Postmark mail service, which will provide reliable delivery.
 	|
 	*/
-
 	'host' => 'smtp.mailgun.org',
 
 	/*
@@ -40,7 +38,6 @@ return array(
 	| stay compatible with the Postmark e-mail application by default.
 	|
 	*/
-
 	'port' => 587,
 
 	/*
@@ -53,7 +50,6 @@ return array(
 	| used globally for all e-mails that are sent by your application.
 	|
 	*/
-
 	'from' => array('address' => null, 'name' => null),
 
 	/*
@@ -66,7 +62,6 @@ return array(
 	| transport layer security protocol should provide great security.
 	|
 	*/
-
 	'encryption' => 'tls',
 
 	/*
@@ -79,7 +74,6 @@ return array(
 	| connection. You may also set the "password" value below this one.
 	|
 	*/
-
 	'username' => null,
 
 	/*
@@ -92,7 +86,6 @@ return array(
 	| connection so that the application will be able to send messages.
 	|
 	*/
-
 	'password' => null,
 
 	/*
@@ -105,7 +98,6 @@ return array(
 	| been provided here, which will work well on most of your systems.
 	|
 	*/
-
 	'sendmail' => '/usr/sbin/sendmail -bs',
 
 	/*
@@ -118,7 +110,5 @@ return array(
 	| you may inspect the message. This is great for local development.
 	|
 	*/
-
-	'pretend' => false,
-
+	'pretend' => false
 );
