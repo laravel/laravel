@@ -15,7 +15,6 @@ return array(
 	|            "memcached", "redis", "array"
 	|
 	*/
-
 	'driver' => 'file',
 
 	/*
@@ -28,9 +27,7 @@ return array(
 	| to immediately expire on the browser closing, set that option.
 	|
 	*/
-
 	'lifetime' => 120,
-
 	'expire_on_close' => false,
 
 	/*
@@ -43,7 +40,6 @@ return array(
 	| location may be specified. This is only needed for file sessions.
 	|
 	*/
-
 	'files' => storage_path().'/sessions',
 
 	/*
@@ -56,7 +52,6 @@ return array(
 	| correspond to a connection in your database configuration options.
 	|
 	*/
-
 	'connection' => null,
 
 	/*
@@ -69,7 +64,6 @@ return array(
 	| provided for you; however, you are free to change this as needed.
 	|
 	*/
-
 	'table' => 'sessions',
 
 	/*
@@ -82,7 +76,6 @@ return array(
 	| happen on a given request. By default, the odds are 2 out of 100.
 	|
 	*/
-
 	'lottery' => array(2, 100),
 
 	/*
@@ -95,7 +88,6 @@ return array(
 	| new session cookie is created by the framework for every driver.
 	|
 	*/
-
 	'cookie' => 'laravel_session',
 
 	/*
@@ -108,7 +100,6 @@ return array(
 	| your application but you are free to change this when necessary.
 	|
 	*/
-
 	'path' => '/',
 
 	/*
@@ -121,7 +112,6 @@ return array(
 	| available to in your application. A sensible default has been set.
 	|
 	*/
-
 	'domain' => null,
 
 	/*
@@ -134,7 +124,5 @@ return array(
 	| the cookie from being sent to you if it can not be done securely.
 	|
 	*/
-
-	'secure' => false,
-
+	'secure' => false
 );
