@@ -12,7 +12,6 @@ return array(
 	| You may specify it now so it is used for all of your workbenches.
 	|
 	*/
-
 	'name' => '',
 
 	/*
@@ -25,7 +24,5 @@ return array(
 	| automatically after the package is created by the workbench tool.
 	|
 	*/
-
-	'email' => '',
-
+	'email' => ''
 );
