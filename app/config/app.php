@@ -12,7 +12,6 @@ return array(
 	| application. If disabled, a simple generic error page is shown.
 	|
 	*/
-
 	'debug' => true,
 
 	/*
@@ -25,7 +24,6 @@ return array(
 	| your application so that it is used when running Artisan tasks.
 	|
 	*/
-
 	'url' => 'http://localhost',
 
 	/*
@@ -38,7 +36,6 @@ return array(
 	| ahead and set this to a sensible default for you out of the box.
 	|
 	*/
-
 	'timezone' => 'UTC',
 
 	/*
@@ -51,7 +48,6 @@ return array(
 	| to any of the locales which will be supported by the application.
 	|
 	*/
-
 	'locale' => 'en',
 
 	/*
@@ -64,7 +60,6 @@ return array(
 	| will not be safe. Please do this before deploying an application!
 	|
 	*/
-
 	'key' => 'YourSecretKey!!!',
 
 	/*
@@ -77,9 +72,7 @@ return array(
 	| this array to grant expanded functionality to your applications.
 	|
 	*/
-
 	'providers' => array(
-
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
@@ -105,8 +98,7 @@ return array(
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-		'Illuminate\Workbench\WorkbenchServiceProvider',
-
+		'Illuminate\Workbench\WorkbenchServiceProvider'
 	),
 
 	/*
@@ -119,7 +111,6 @@ return array(
 	| list of all of the services. Here, you may set its storage spot.
 	|
 	*/
-
 	'manifest' => storage_path().'/meta',
 
 	/*
@@ -132,9 +123,7 @@ return array(
 	| the aliases are "lazy" loaded so they don't hinder performance.
 	|
 	*/
-
 	'aliases' => array(
-
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
 		'Auth'            => 'Illuminate\Support\Facades\Auth',
@@ -171,8 +160,6 @@ return array(
 		'Str'             => 'Illuminate\Support\Str',
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
-		'View'            => 'Illuminate\Support\Facades\View',
-
-	),
-
+		'View'            => 'Illuminate\Support\Facades\View'
+	)
 );
