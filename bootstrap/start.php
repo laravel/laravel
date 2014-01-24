@@ -37,7 +37,7 @@ $env = $app->detectEnvironment(array(
 |
 */
 
-$app['env.unitTesting'] = 'testing';
+$app['env.testing'] = 'testing';
 
 /*
 |--------------------------------------------------------------------------
