@@ -45,6 +45,19 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 
 /*
 |--------------------------------------------------------------------------
+| Include The Environment file
+|--------------------------------------------------------------------------
+|
+| Load an environment file locate at the root of this project, if any.
+| If the environment is production, .env.php will be loaded.
+| For any other environment, .env.{environment-name}.php will be loaded.
+|
+*/
+
+$app->loadEnvironmentFile();
+
+/*
+|--------------------------------------------------------------------------
 | Load The Application
 |--------------------------------------------------------------------------
 |
