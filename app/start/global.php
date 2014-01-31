@@ -31,7 +31,14 @@ ClassLoader::addDirectories(array(
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+if (Config::get('log.daily'))
+{
+	Log::useDailyFiles(Config::get('log.path').Config::get('log.file'), Config::get('log.keep',0));
+}
+else
+{
+	Log::useFiles(Config::get('log.path').Config::get('log.file'));
+}
 
 /*
 |--------------------------------------------------------------------------
