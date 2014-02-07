@@ -37,10 +37,7 @@ Route::filter('auth', function()
 {
 	if (Auth::guest())
 	{
-		if (Request::ajax())
-		{
-			return Response::make('', 401, array('HTTP/1.1 401 Unauthorized'));
-		}
+		if (Request::ajax()) App::abort(401);
 
 		return Redirect::guest('login');
 	}
