@@ -11,9 +11,13 @@ return array(
 	| stack traces will be shown on every error that occurs within your
 	| application. If disabled, a simple generic error page is shown.
 	|
+	| When enabling debug mode, it is possible sensitive information may be
+	| shown to the user.  Please only enable debug in a development
+	| environment accessible by authorized users only.
+	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
