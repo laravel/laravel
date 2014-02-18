@@ -50,8 +50,8 @@ return array(
 
 		'iron' => array(
 			'driver'  => 'iron',
-			'project' => 'your-project-id',
 			'token'   => 'your-token',
+			'project' => 'your-project-id',
 			'queue'   => 'your-queue-name',
 		),
 
