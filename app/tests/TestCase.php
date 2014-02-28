@@ -11,8 +11,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	{
 		$unitTesting = true;
 
-		$testEnvironment = 'testing';
-
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
 
