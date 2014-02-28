@@ -77,8 +77,9 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| Here you may specify custom validation messages for attributes using the
-	| convention "attribute.rule" to name the lines. This makes it quick to
-	| specify a specific custom language line for a given attribute rule.
+	| convention 'attribute' => array('rule' => 'custom message').
+	| This makes it quick to specify a specific custom language line
+	| for a given attribute rule.
 	|
 	*/
 
