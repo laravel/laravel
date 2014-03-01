@@ -54,4 +54,17 @@ return array(
 
 	'storage' => __DIR__.'/../app/storage',
 
+	/*
+	|--------------------------------------------------------------------------
+	| Configuration Path
+	|--------------------------------------------------------------------------
+	|
+	| The configuration path contains the configuration files of your Laravel
+	| application, for cache, database, session, etc... You may modify that 
+	| path here to accomodate your needs.
+	|
+	*/
+
+	'config' => __DIR__.'/../app/config',
+
 );
