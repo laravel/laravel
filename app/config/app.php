@@ -175,4 +175,54 @@ return array(
 
 	),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback concrete types for abstract entities
+    |--------------------------------------------------------------------------
+    |
+    | Here we register the fallback for all interfaces shipped with Laravel
+    | these bindings will be used as default bindings while resolving
+    | an abstract type which is not registered in the container
+    |
+    */
+
+    'fallbacks' => array(
+
+        // This might not be required but I am including it because this is a
+        // different case and can be discussed upon. People might have ideas for this.
+        'Illuminate\Support\Contracts\ResponsePreparerInterface'        => function($app) { return $app; },
+
+        // One can argue about this binding but model 'User' is shipped with Laravel
+        // so I don't see any point in not considering it a valid binding
+        'Illuminate\Auth\Reminders\RemindableInterface'                 => 'User',
+
+        'Illuminate\Auth\UserInterface'                                 => 'Illuminate\Auth\GenericUser',
+        'Illuminate\Auth\UserProviderInterface'                         => 'Illuminate\Auth\DatabaseUserProvider',
+        'Illuminate\Auth\Reminders\ReminderRepositoryInterface'         => 'Illuminate\Auth\Reminders\DatabaseReminderRepository',
+        'Illuminate\Cache\StoreInterface'                               => 'Illuminate\Cache\ArrayStore',
+        'Illuminate\Config\EnvironmentVariablesLoaderInterface'         => 'Illuminate\Config\FileEnvironmentVariablesLoader',
+        'Illuminate\Config\LoaderInterface'                             => 'Illuminate\Config\FileLoader',
+        'Illuminate\Database\ConnectionInterface'                       => 'Illuminate\Database\Connection',
+        'Illuminate\Database\ConnectionResolverInterface'               => 'Illuminate\Database\ConnectionResolver',
+        'Illuminate\Database\Connectors\ConnectorInterface'             => 'Illuminate\Database\Connectors\MySqlConnector',
+        'Illuminate\Database\Migrations\MigrationRepositoryInterface'   => 'Illuminate\Database\Migrations\DatabaseMigrationRepository',
+        'Illuminate\Exception\ExceptionDisplayerInterface'              => 'Illuminate\Exception\PlainDisplayer',
+        'Illuminate\Hashing\HasherInterface'                            => 'Illuminate\Hasher\BcryptHasher',
+        'Illuminate\Queue\Connectors\ConnectorInterface'                => 'Illuminate\Queue\Connectors\SyncConnector',
+        'Illuminate\Queue\Failed\FailedJobProviderInterface'            => 'Illuminate\Queue\Failed\DatabaseFailedJobProvider',
+        'Illuminate\Queue\QueueInterface'                               => 'Illuminate\Queue\SyncQueue',
+        'Illuminate\Remote\GatewayInterface'                            => 'Illuminate\Remote\SecLibGateway',
+        'Illuminate\Routing\Matching\ValidatorInterface'                => 'Illuminate\Routing\Matching\UriValidator',
+        'Illuminate\Routing\RouteFiltererInterface'                     => 'Illuminate\Routing\Router',
+        'Illuminate\Session\SessionInterface'                           => 'Illuminate\Session\Store',
+        'Illuminate\Support\Contracts\ArrayableInterface'               => 'Illuminate\Support\Collection',
+        'Illuminate\Support\Contracts\JsonableInterface'                => 'Illuminate\Support\Collection',
+        'Illuminate\Support\Contracts\MessageProviderInterface'         => 'Illuminate\Support\MessageBag',
+        'Illuminate\Support\Contracts\RenderableInterface'              => 'Illuminate\View\View',
+        'Illuminate\Translation\LoaderInterface'                        => 'Illuminate\Translation\FileLoader',
+        'Illuminate\Validation\PresenceVerifierInterface'               => 'Illuminate\Validation\DatabasePresenceVerifier',
+        'Illuminate\View\Compilers\CompilerInterface'                   => 'Illuminate\View\Compilers\BladeCompiler',
+        'Illuminate\View\Engines\EngineInterface'                       => 'Illuminate\View\Engines\PhpEngine',
+        'Illuminate\View\ViewFinderInterface'                           => 'Illuminate\View\FileViewFinder',
+    )
 );
