@@ -46,9 +46,10 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
+App::pushError(function(Exception $exception, $code)
 {
-	Log::error($exception);
+	$error = sprintf("Error %d on %s %s: %s", $code, Request::getMethod(), URL::current(), $exception);
+	Log::error($error);
 });
 
 /*
