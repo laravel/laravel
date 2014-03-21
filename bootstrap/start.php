@@ -18,17 +18,13 @@ $app = new Illuminate\Foundation\Application;
 | Detect The Application Environment
 |--------------------------------------------------------------------------
 |
-| Laravel takes a dead simple approach to your application environments
-| so you can just specify a machine name for the host that matches a
-| given environment, then we will automatically detect it for you.
+| Laravel takes a dead simple approach to your application environments.
+| In the environments.php file, just set a machine name for the host
+| that matches a given environment, we'll automatically detect it.
 |
 */
 
-$env = $app->detectEnvironment(array(
-
-	'local' => array('your-machine-name'),
-
-));
+$env = $app->detectEnvironment(require __DIR__.'/environments.php');
 
 /*
 |--------------------------------------------------------------------------
