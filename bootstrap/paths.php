@@ -60,8 +60,8 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| The configuration path contains the configuration files of your Laravel
-	| application, for cache, database, session, etc... You may modify that 
-	| path here to accomodate your needs.
+	| application, for cache, database, mail, session, etc... You can move
+	| or rename this configuration path here, to accomodate your needs.
 	|
 	*/
 
