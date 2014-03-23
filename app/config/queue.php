@@ -43,9 +43,10 @@ return array(
 
 		'sqs' => array(
 			'driver' => 'sqs',
+			'account'=> 'your-account-id',
 			'key'    => 'your-public-key',
 			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
+			'queue'  => 'default',
 			'region' => 'us-east-1',
 		),
 
