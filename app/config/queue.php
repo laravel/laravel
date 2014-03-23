@@ -11,7 +11,7 @@ return array(
 	| API, giving you convenient access to each back-end using the same
 	| syntax for each one. Here you may set the default queue driver.
 	|
-	| Supported: "sync", "beanstalkd", "sqs", "iron"
+	| Supported: "sync", "beanstalkd", "sqs", "iron", "rabbit"
 	|
 	*/
 
@@ -39,6 +39,15 @@ return array(
 			'host'   => 'localhost',
 			'queue'  => 'default',
 			'ttr'    => 60,
+		),
+
+		'rabbit' => array(
+			'driver'   => 'rabbit',
+			'host'     => 'localhost',
+			'port'     => '5672',
+			'username' => 'guest',
+			'password' => 'guest',
+			'queue'    => 'default',
 		),
 
 		'sqs' => array(
