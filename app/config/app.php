@@ -188,4 +188,19 @@ return array(
 
 	),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback concrete types for abstract entities
+    |--------------------------------------------------------------------------
+    |
+    | Here we can register a binding for any interface available to Laravel.
+    | This binding will be used as a fallback in case there is no other
+    | binding specified for respective interface.
+    |
+    */
+
+    'fallback' => array(
+
+        'Illuminate\Auth\Reminders\RemindableInterface'                 => 'User',
+    )
 );
