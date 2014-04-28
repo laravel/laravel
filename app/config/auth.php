@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ return array(
 	|
 	*/
 
-	'reminder' => array(
+	'reminder' => [
 
 		'email' => 'emails.auth.reminder',
 
@@ -66,6 +66,6 @@ return array(
 
 		'expire' => 60,
 
-	),
+	],
 
-);
+];

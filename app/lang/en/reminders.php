@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -21,4 +21,4 @@ return array(
 
 	"sent" => "Password reminder sent!",
 
-);
+];
