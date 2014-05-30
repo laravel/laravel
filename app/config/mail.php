@@ -35,7 +35,7 @@ return array(
 	| SMTP Host Port
 	|--------------------------------------------------------------------------
 	|
-	| This is the SMTP port used by your application to delivery e-mails to
+	| This is the SMTP port used by your application to deliver e-mails to
 	| users of your application. Like the host we have set this value to
 	| stay compatible with the Mailgun e-mail applications by default.
 	|
