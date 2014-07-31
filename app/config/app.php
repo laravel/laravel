@@ -95,6 +95,11 @@ return array(
 
 	'providers' => array(
 
+		'AppServiceProvider',
+		'ArtisanServiceProvider',
+		'ErrorServiceProvider',
+		'LogServiceProvider',
+
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
