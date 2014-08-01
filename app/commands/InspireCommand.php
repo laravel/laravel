@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Console\Command;
+use Illuminate\Foundation\Inspiring;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -18,7 +19,7 @@ class InspireCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Display an inpiring quote..';
+	protected $description = 'Display an inpiring quote.';
 
 	/**
 	 * Create a new command instance.
@@ -37,7 +38,7 @@ class InspireCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->comment('Inspiring Quote Here.');
+		$this->comment(Inspiring::quote());
 	}
 
 }
