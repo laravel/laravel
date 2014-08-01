@@ -95,11 +95,17 @@ return array(
 
 	'providers' => array(
 
+		/*
+		 * Application Service Providers...
+		 */
 		'AppServiceProvider',
 		'ArtisanServiceProvider',
 		'ErrorServiceProvider',
 		'LogServiceProvider',
 
+		/*
+		 * Laravel Framework Service Providers...
+		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
