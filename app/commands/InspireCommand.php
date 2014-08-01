@@ -38,7 +38,7 @@ class InspireCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->comment(Inspiring::quote());
+		$this->info(Inspiring::quote());
 	}
 
 }
