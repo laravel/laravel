@@ -1,4 +1,5 @@
 /bootstrap/compiled.php
+/app/routing/cache.php
 /vendor
 composer.phar
 composer.lock
