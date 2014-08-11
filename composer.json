@@ -4,8 +4,7 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.3.*",
-		"andrewsville/php-token-reflection": "~1.4"
+		"laravel/framework": "4.3.*"
 	},
 	"autoload": {
 		"classmap": [
