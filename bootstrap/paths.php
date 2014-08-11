@@ -69,5 +69,6 @@ return array(
 	'controllers' => __DIR__.'/../app/src/Http/Controllers',
 	'filters' => __DIR__.'/../app/src/Http/Filters',
 	'requests' => __DIR__.'/../app/src/Http/Requests',
+	'src' => __DIR__.'/../app/src',
 
 );
