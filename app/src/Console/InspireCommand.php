@@ -19,7 +19,7 @@ class InspireCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Display an inpiring quote.';
+	protected $description = 'Display an inpiring quote';
 
 	/**
 	 * Create a new command instance.
@@ -38,7 +38,7 @@ class InspireCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->info(Inspiring::quote());
+		$this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
 	}
 
 }

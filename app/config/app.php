@@ -98,10 +98,12 @@ return array(
 		/*
 		 * Application Service Providers...
 		 */
-		'AppServiceProvider',
-		'ArtisanServiceProvider',
-		'ErrorServiceProvider',
-		'LogServiceProvider',
+		'Providers\AppServiceProvider',
+		'Providers\ArtisanServiceProvider',
+		'Providers\ErrorServiceProvider',
+		'Providers\FilterServiceProvider',
+		'Providers\LogServiceProvider',
+		'Providers\RouteServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...
@@ -109,9 +111,7 @@ return array(
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
-		'Illuminate\Session\CommandsServiceProvider',
 		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-		'Illuminate\Routing\ControllerServiceProvider',
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
 		'Illuminate\Encryption\EncryptionServiceProvider',
@@ -132,7 +132,6 @@ return array(
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
-		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 	),
 

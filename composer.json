@@ -4,17 +4,18 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.3.*"
+		"laravel/framework": "4.3.*",
+		"andrewsville/php-token-reflection": "~1.4"
 	},
 	"autoload": {
 		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/database/migrations",
-			"app/database/seeds",
+			"app/database",
 			"app/src",
 			"app/tests/TestCase.php"
-		]
+		],
+		"psr-4": {
+			"App\\": "app/src/App/"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [

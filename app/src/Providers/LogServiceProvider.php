@@ -1,4 +1,4 @@
-<?php
+<?php namespace Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -11,7 +11,13 @@ class LogServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->setupLogging();
+		// Here we will configure the error logger setup for the application which
+		// is built on top of the wonderful Monolog library. By default we will
+		// build a basic log file setup which creates a single file for logs.
+
+		$this->app['log']->useFiles(
+			storage_path().'/logs/laravel.log'
+		);
 	}
 
 	/**
@@ -22,20 +28,6 @@ class LogServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		//
-	}
-
-	/**
-	 * Setup the logging facilities for the application.
-	 *
-	 * @return void
-	 */
-	protected function setupLogging()
-	{
-		// Here we will configure the error logger setup for the application which
-		// is built on top of the wonderful Monolog library. By default we will
-		// build a basic log file setup which creates a single file for logs.
-
-		Log::useFiles(storage_path().'/logs/laravel.log');
 	}
 
 }
