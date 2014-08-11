@@ -101,6 +101,7 @@ return array(
 		'Providers\AppServiceProvider',
 		'Providers\ArtisanServiceProvider',
 		'Providers\ErrorServiceProvider',
+		'Providers\EventServiceProvider',
 		'Providers\FilterServiceProvider',
 		'Providers\LogServiceProvider',
 		'Providers\RouteServiceProvider',
