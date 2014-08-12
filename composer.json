@@ -13,7 +13,7 @@
 			"app/tests/TestCase.php"
 		],
 		"psr-4": {
-			"App\\": "app/src/App/"
+			"App\\": "app/src/Core/"
 		}
 	},
 	"scripts": {
