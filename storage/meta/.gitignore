@@ -1,2 +1,3 @@
-*
-!.gitignore
+services.json
+routes.php
+services.php
