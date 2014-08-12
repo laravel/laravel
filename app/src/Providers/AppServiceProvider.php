@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider {
 
 	/**
-	 * Bootstrap the application events.
+	 * Bootstrap any necessary services.
 	 *
 	 * @return void
 	 */

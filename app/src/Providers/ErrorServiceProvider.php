@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class ErrorServiceProvider extends ServiceProvider {
 
 	/**
-	 * Bootstrap the application events.
+	 * Register any error handlers.
 	 *
 	 * @return void
 	 */

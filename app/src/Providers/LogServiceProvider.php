@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class LogServiceProvider extends ServiceProvider {
 
 	/**
-	 * Bootstrap the application events.
+	 * Configure the application's logging facilities.
 	 *
 	 * @return void
 	 */
