@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	public function map()
 	{
-		$this->get('/', 'HomeController@index');
+		require app_path().'/src/Http/routes.php';
 	}
 
 }
