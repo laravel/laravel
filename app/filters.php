@@ -13,7 +13,6 @@
 
 App::before(function($request)
 {
-
     
     if(Auth::check()){
         if(Auth::user()->is_active!=1){
@@ -21,6 +20,7 @@ App::before(function($request)
             return Redirect::guest('login')->with(array('mesaj' => 'true', 'title' => 'Üyeliğini Pasif Durumdadır.', 'text' => 'Üyeliğiniz Onay Beklemektedir.', 'type' => 'error'));;
         }
     }
+    
 });
 
 
