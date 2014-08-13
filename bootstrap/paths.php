@@ -72,6 +72,5 @@ return array(
 	'filters' => __DIR__.'/../app/http/filters',
 	'lang' => __DIR__.'/../app/lang',
 	'requests' => __DIR__.'/../app/http/requests',
-	'src' => __DIR__.'/../app/src',
 
 );
