@@ -66,8 +66,11 @@ return array(
 	*/
 
 	'commands' => __DIR__.'/../app/src/Console',
+	'config' => __DIR__.'/../app/config',
 	'controllers' => __DIR__.'/../app/src/Http/Controllers',
+	'database' => __DIR__.'/../app/database',
 	'filters' => __DIR__.'/../app/src/Http/Filters',
+	'lang' => __DIR__.'/../app/lang',
 	'requests' => __DIR__.'/../app/src/Http/Requests',
 	'src' => __DIR__.'/../app/src',
 
