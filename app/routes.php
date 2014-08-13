@@ -11,7 +11,27 @@
 |
 */
 
-Route::get('/', function()
+
+
+
+/* Ön kısım rotasyonları */
+
+Route::get('/','Frontend_HomeController@home');
+Route::get('makaledetay/{name}','Frontend_HomeController@detay');
+
+
+Route::get('login','Backend_LoginController@login');
+Route::get('admin','Backend_LoginController@login');
+Route::post('adminpost','Backend_LoginController@loginpost');
+Route::get('logout','Backend_LoginController@logout');
+
+
+/* Admin kısmı rotasyonları */
+Route::group(array('before' => 'auth'), function()
 {
-	return View::make('hello');
+	
+	Route::controller('ayarlar','Backend_AyarlarController');
+
+
 });
+
