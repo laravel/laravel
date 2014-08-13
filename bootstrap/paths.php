@@ -65,13 +65,13 @@ return array(
 	|
 	*/
 
-	'commands' => __DIR__.'/../app/src/Console',
+	'commands' => __DIR__.'/../app/console',
 	'config' => __DIR__.'/../app/config',
-	'controllers' => __DIR__.'/../app/src/Http/Controllers',
+	'controllers' => __DIR__.'/../app/http/controllers',
 	'database' => __DIR__.'/../app/database',
-	'filters' => __DIR__.'/../app/src/Http/Filters',
+	'filters' => __DIR__.'/../app/http/filters',
 	'lang' => __DIR__.'/../app/lang',
-	'requests' => __DIR__.'/../app/src/Http/Requests',
+	'requests' => __DIR__.'/../app/http/requests',
 	'src' => __DIR__.'/../app/src',
 
 );
