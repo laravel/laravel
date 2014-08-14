@@ -12,26 +12,23 @@
 */
 
 
+Route::get('/', function()
+{
+	return 'Ön Tasarım';
+});
 
 
-/* Ön kısım rotasyonları */
-
-Route::get('/','Frontend_HomeController@home');
-Route::get('makaledetay/{name}','Frontend_HomeController@detay');
-
-
+/* Public Rotasyonlar */
 Route::get('login','Backend_LoginController@login');
-Route::get('admin','Backend_LoginController@login');
-Route::post('adminpost','Backend_LoginController@loginpost');
 Route::get('logout','Backend_LoginController@logout');
+Route::post('loginpost','Backend_LoginController@loginpost')->before('csrf');
 
 
 /* Admin kısmı rotasyonları */
 Route::group(array('before' => 'auth'), function()
 {
-	
-	Route::controller('ayarlar','Backend_AyarlarController');
 
+	Route::controller('panel','Backend_PanelController');
 
 });
 
