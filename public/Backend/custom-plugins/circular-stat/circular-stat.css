@@ -1,0 +1,43 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Circular Stat Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+.circular-stat
+{
+    cursor: default;
+}
+
+.circular-stat, 
+.circular-stat .canvas-container
+{
+    display: inline-block;
+    line-height: 1;
+    font-size: 0;
+    vertical-align: middle;
+    position: relative;
+}
+
+.circular-stat .digit-container
+{
+    z-index: 10;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    vertical-align: middle;
+    width: 100%;
+}

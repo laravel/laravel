@@ -1,0 +1,50 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Main Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+ 
+/* Core Stylesheets
+================================================== */
+@import url("layout.css");
+@import url("widget.css");
+@import url("form.css");
+@import url("table.css");
+@import url("button.css");
+@import url("misc.css");
+@import url("utils.css");
+
+/* Elements Stylesheets
+================================================== */
+@import url("ui.css");
+@import url("icons.css");
+@import url("statistic.css");
+@import url("invoice.css");
+
+/* Extra Stylesheets
+================================================== */
+@import url("mail.css");
+@import url("profile.css");
+@import url("gallery.css");
+
+/* Plugin Stylesheets
+================================================== */
+@import url("plugins/elfinder.css");
+@import url("plugins/fullcalendar.css");
+
+/* IE Stylesheets
+================================================== */
+@import url("lt-ie9.css");
+
+/* Demo Stylesheets
+================================================== */
+@import url("demo.css");
+@import url("customizer.css");

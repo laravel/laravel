@@ -1,0 +1,424 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Statistic Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+ 
+/* Analytics Tab
+================================================== */
+
+.analytics-tab
+{
+    border: 1px solid #ccc;
+    background-color: #fff;
+    margin-bottom: 40px;
+}
+
+.analytics-tab .nav-tabs
+{
+    background-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.05) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(85%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05)));
+    background-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    margin: 0;
+    border-bottom-color: #ccc;
+}
+
+.analytics-tab .nav-tabs > li:first-child > a, 
+.analytics-tab .nav-tabs > li:first-child.active > a
+{
+    border-left: 0;
+}
+
+.analytics-tab .nav-tabs > li > a
+{
+    color: #666;
+    margin: 0;
+    padding: 10px 15px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.analytics-tab .nav-tabs > li.active > a
+{
+    border-color: transparent;
+    border-top: 2px solid #54b8ea;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    margin-top: -1px;
+    color: #444;
+}
+
+/* Analytics Tab Contents
+================================================== */
+
+.analytics-tab .tab-content
+{
+    overflow: visible;
+}
+
+.analytics-tab .tab-content .analytics-tab-header
+{
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    display: block;
+}
+
+.analytics-tab .tab-content .divider
+{
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+}
+
+.analytics-tab .tab-content .analytics-tab-header .btn-toolbar, 
+.analytics-tab .tab-content .analytics-tab-header .btn-group, 
+.analytics-tab .tab-content .analytics-tab-header .btn
+{
+    margin-bottom: 0;
+    margin-top: 0;
+    vertical-align: middle;
+}
+
+.analytics-tab .tab-content .analytics-tab-header .form-inline label
+{
+    margin-right: 6px;
+}
+
+.analytics-tab .tab-content .analytics-tab-header .control-group
+{
+    margin: 0;
+}
+
+.analytics-tab .tab-content .analytics-tab-header .row-fluid [class*="span"]
+{
+    min-height: 0;
+}
+
+.analytics-tab .tab-content .analytics-tab-content
+{
+    padding: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Statistic Boxes
+================================================== */
+
+.stats-container
+{
+    margin: 0;
+    margin-bottom: 20px;
+    list-style: none;
+    text-align: center;
+}
+
+.stats-container li
+{
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 5px;
+    position: relative;
+    margin-bottom: 10px;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+}
+
+.stats-container li:after, 
+.stats-container li:before
+{
+    content: ' ';
+    position: absolute;
+    display: block;
+    height: 1px;
+    bottom: -2px;
+    left: 3px;
+    right: 3px;
+    background-color: #fff;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.stats-container li:before
+{
+    bottom: -4px;
+    left: 6px;
+    right: 6px;
+}
+
+.stats-container > li > .stat
+{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    padding: 15px 20px;
+    color: #444;
+    text-decoration: none;
+    line-height: 1;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Base Stats
+================================================== */
+
+.stat
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+}
+
+/* Progress Stats
+================================================== */
+
+.stats-container > li > .stat.progress-stat
+{
+    text-align: left;
+    width: 265px;
+}
+
+.stat.progress-stat
+{
+    display: block;
+    margin-bottom: 15px;
+}
+
+.stat.progress-stat:last-child
+{
+    margin-bottom: 0;
+}
+
+.stat.progress-stat .progress
+{
+    margin: 0;
+}
+
+.stat.progress-stat .text
+{
+    display: block;
+    margin-bottom: 4px;
+}
+
+.stat.progress-stat .text > span
+{
+    float: right;
+}
+
+/* Summary Stats
+================================================== */
+
+.stat.summary .digit
+{
+    font-size: 24px;
+    padding: 4px 0;
+    line-height: 40px;
+    margin-left: 10px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: left;
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    text-shadow: 1px 1px #eee;
+}
+
+.stat.summary .text
+{
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 1;
+    text-shadow: none;
+    color: #666;
+}
+
+.stat.summary .sparkline, 
+.stat.summary .icon
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    vertical-align: top;
+}
+
+.stat.summary .sparkline
+{
+    padding: 10px 0;
+}
+
+.stat.summary .icon
+{
+    font-size: 32px;
+    text-align: center;
+    line-height: 40px;
+    margin: 4px 0;
+    width: 40px;
+    height: 40px;
+}
+
+.stat.summary .icon.icon-circle, 
+.stat.summary .icon.icon-square
+{
+    color: #fff;
+    font-size: 20px;
+    background-color: #666;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.stat.summary .icon.icon-circle
+{
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+
+/* Circle Stats
+================================================== */
+
+.stat.circular.inline .text
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    margin: 10px 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat.circular
+{
+    text-align: center;
+}
+
+.stat.circular .text
+{
+    font-size: 11px;
+    line-height: 1;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    text-transform: uppercase;
+}
+
+/* Flot Pie Labels 
+================================================== */
+
+.pieLabelBackground
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Flot
+================================================== */
+
+#flotTip
+{
+    padding: 3px 6px !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    background-color: #222 !important;
+    border: 1px solid #000 !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px !important;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.legend .legendColorBox > div
+{
+    padding: 0 !important;
+    border: none !important;
+}
+
+.legend .legendColorBox div
+{
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+/* Media Queries
+================================================== */
+
+@media (max-width: 767px)
+{
+    .analytics-tab .tab-content .analytics-tab-content [class*="span"]
+    {
+        margin-bottom: 10px;
+    }
+
+    .analytics-tab .tab-content .analytics-tab-content [class*="span"]:last-child
+    {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .analytics-tab .tab-content .analytics-tab-content
+    {
+        padding: 25px 20px;
+    }
+
+    .stats-container > li, 
+	.stats-container > li > .stat
+    {
+        display: block;
+        text-align: left;
+    }
+
+    .stat.circular .text
+    {
+        display: inline-block;
+        *display: inline;
+ /* IE7 inline-block hack */
+        *zoom: 1;
+        margin: 0 6px;
+    }
+}

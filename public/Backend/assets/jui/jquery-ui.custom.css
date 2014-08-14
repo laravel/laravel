@@ -1,0 +1,145 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - jquery-ui Custom Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ *
+ * This stylesheet contains styles for the custom build extended jquery-ui widgets.
+ *
+ */
+  
+/* UI-Slider
+================================================== */
+
+.ui-slider
+{
+    position: relative;
+}
+
+.ui-slider .ui-slider-handle-tooltip
+{
+    max-width: 200px;
+    width: auto !important;
+    height: auto !important;
+    padding: 1px 6px;
+    color: #ffffff;
+    font-size: 11px;
+    z-index: 3;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333;
+    border: 1px solid #000;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    -o-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ui-slider-horizontal .ui-slider-handle-tooltip
+{
+    bottom: 100%;
+    margin-bottom: 10px;
+    z-index: 4;
+}
+
+.ui-slider-horizontal .ui-slider-handle-tooltip:before
+{
+    content: ' ';
+    border: 4px solid transparent;
+    width: 0;
+    height: 0;
+    border-top-color: #333;
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -4px;
+}
+
+.ui-slider-horizontal .ui-slider-ticks
+{
+    position: relative;
+    top: 100%;
+    padding-top: 3px;
+}
+
+.ui-slider-horizontal .ui-slider-ticks span
+{
+    position: absolute;
+    height: 5px;
+    border-left: 1px solid #999;
+    font-size: 0;
+}
+
+.ui-slider-horizontal .ui-slider-ticks span ins
+{
+    float: left;
+    margin-left: -50%;
+    color: #999;
+    position: relative;
+    top: 100%;
+    font-size: 9px;
+    text-decoration: none;
+}
+
+.ui-slider-vertical .ui-slider-handle-tooltip
+{
+    right: 100%;
+    margin-right: 9px;
+}
+
+.ui-slider-vertical .ui-slider-handle-tooltip:before
+{
+    content: ' ';
+    border: 4px solid transparent;
+    width: 0;
+    height: 0;
+    border-left-color: #333;
+    position: absolute;
+    bottom: 50%;
+    margin-bottom: -4px;
+    right: -8px;
+}
+
+.ui-slider-vertical .ui-slider-ticks
+{
+    position: relative;
+    z-index: 3;
+    left: 100%;
+    height: 100%;
+    margin-left: 5px;
+}
+
+.ui-slider-vertical .ui-slider-ticks span
+{
+    position: absolute;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    width: 5px;
+    padding-top: 4px;
+    border-bottom: 1px solid #999;
+    font-size: 0;
+}
+
+.ui-slider-vertical .ui-slider-ticks span ins
+{
+    position: absolute;
+    color: #999;
+    left: 10px;
+    top: 0;
+    line-height: 1;
+    font-size: 9px;
+    text-decoration: none;
+}

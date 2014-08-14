@@ -1,0 +1,130 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Demo Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started: 
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+ 
+ul.icons-list, 
+ul.icons-list li, 
+ul.preloaders, 
+ul.preloaders li
+{
+    list-style-type: none;
+    margin: 0;
+}
+
+ul.preloaders li
+{
+    display: inline-block;
+    width: 32px; height: 32px;
+    text-align: center;
+    margin: 4px;
+}
+
+ul.icons-list li
+{
+    float: left;
+    display: block;
+    width: 33.3333%;
+    margin-bottom: 15px;
+}
+
+ul.icons-list li code
+{
+    color: #555;
+}
+
+ul.icons-list li > span
+{
+    font-size: 0;
+    color: #555;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    margin-right: 6px;
+}
+
+ul.icons-list.inverse li > span
+{
+    background-color: #444;
+    padding: 4px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+ul.icons-list li > span [class^="icon-"]
+{
+    font-size: 32px;
+    line-height: 1;
+}
+
+@media (max-width: 767px)
+{
+	
+    ul.icons-list li
+    {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px)
+{
+	
+    ul.icons-list li
+    {
+        width: 100%;
+    }
+}
+
+#demo-slider-08 > span
+{
+    height: 150px;
+    float: left;
+    margin-right: 50px;
+}
+
+/* Special grid styles
+-------------------------------------------------- */
+
+.show-grid
+{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.show-grid [class*="span"]
+{
+    background-color: #eee;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    min-height: 30px;
+    line-height: 30px;
+    margin-bottom: 5px;
+}
+
+.show-grid:hover [class*="span"]
+{
+    background: #ddd;
+}
+
+.show-grid .show-grid
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.show-grid .show-grid [class*="span"]
+{
+    background-color: #ccc;
+}

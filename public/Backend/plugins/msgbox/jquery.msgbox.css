@@ -1,0 +1,75 @@
+.jquery-msgbox
+{
+  background:url(images/background.png) repeat-x left bottom;
+  padding-bottom:55px;
+  font-style:normal;
+}
+
+.jquery-msgbox-wrapper
+{
+  padding:20px 20px 20px 100px;
+}
+
+.jquery-msgbox-buttons
+{
+  padding:15px;
+  text-align:right;
+  position:absolute;
+  bottom:0;
+  right:0;
+}
+
+.jquery-msgbox-buttons button,
+.jquery-msgbox-buttons input
+{
+  margin-left:10px;
+  min-width:85px;
+  padding:0 14px 2px;
+  height:24px;
+  cursor:pointer;
+}
+
+.jquery-msgbox-inputs
+{
+  margin-top:4px;
+}
+
+.jquery-msgbox-inputs input
+{
+  display:block;
+  padding:3px 2px;
+  border:1px solid #dddddd;
+  margin:3px 0 6px 0;
+  width:95%;
+}
+
+.jquery-msgbox-label
+{
+  font-weight:bold;
+  font-size:11px;
+}
+
+.jquery-msgbox-alert
+{
+  background: url(images/alert.png) no-repeat 20px 20px;
+}
+
+.jquery-msgbox-info
+{
+  background: url(images/info.png) no-repeat 20px 20px;
+}
+
+.jquery-msgbox-error
+{
+  background: url(images/error.png) no-repeat 20px 20px;
+}
+
+.jquery-msgbox-prompt
+{
+  background: url(images/question.png) no-repeat 20px 20px;
+}
+
+.jquery-msgbox-confirm
+{
+  background: url(images/confirm.png) no-repeat 20px 20px;
+}

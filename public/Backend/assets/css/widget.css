@@ -1,0 +1,1283 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Widget Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+ 
+/* Widget
+================================================== */
+
+.widget
+{
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.widget:after, 
+.widget:before
+{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 1px;
+    bottom: -2px;
+    left: 3px;
+    right: 3px;
+    background-color: #fff;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.widget:before
+{
+    bottom: -4px;
+    left: 6px;
+    right: 6px;
+}
+
+.widget.collapsed > *:not(.widget-header), 
+.widget.collapsed:after, 
+.widget.collapsed:before
+{
+    display: none;
+}
+
+/* Widget Header
+================================================== */
+
+.widget .widget-header
+{
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    background: #3a3a3a repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #4a4a4a, #3a3a3a);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4a4a4a), to(#3a3a3a));
+    background-image: -webkit-linear-gradient(top, #4a4a4a, #3a3a3a);
+    background-image: -o-linear-gradient(top, #4a4a4a, #3a3a3a);
+    background-image: -moz-linear-gradient(top, #4a4a4a, #3a3a3a);
+    background-image: linear-gradient(top, #4a4a4a, #3a3a3a);
+    border: 1px solid #000;
+    
+    font-weight: bold;
+    position: relative;
+    *zoom: 1;
+}
+
+.widget .widget-header.light
+{
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+    background: #f2f2f2 repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #fcfcfc, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fcfcfc), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #fcfcfc, #f2f2f2);
+    background-image: -o-linear-gradient(top, #fcfcfc, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #fcfcfc, #f2f2f2);
+    background-image: linear-gradient(top, #fcfcfc, #f2f2f2);
+    border-color: #ccc;
+}
+
+.widget .widget-header:before,
+.widget .widget-header:after
+{
+    display: table;
+    content: "";
+}
+
+.widget .widget-header:after
+{
+    clear: both;
+}
+
+.widget.collapsed .widget-header
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.widget .widget-header .title
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    color: #fff;
+    padding: 10px;
+}
+
+.widget .widget-header.light .title
+{
+    color: #444;
+}
+
+.widget .widget-header .title [class^="icon-"], 
+.widget .widget-header .title [class^="icol-"], 
+.widget .widget-header .title [class^="icos-"], 
+.widget .widget-header .title img
+{
+    margin-right: 4px;
+}
+
+.widget .widget-header .title img
+{
+    max-width: 16px;
+    max-height: 16px;
+}
+
+.widget .widget-header .title [class^="icon-"]
+{
+    font-size: 16px;
+    vertical-align: text-top;
+}
+
+/* Widget Header Toolbar
+================================================== */
+
+.widget .widget-header .toolbar
+{
+    float: right;
+    height: 100%;
+    position: relative;
+}
+
+.widget .widget-header .toolbar .btn .caret
+{
+    margin-top: 10px;
+}
+
+.widget .widget-header .toolbar > .btn, 
+.widget .widget-header .toolbar > .btn-group, 
+.widget .widget-header .toolbar > .btn-group > .btn
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+}
+
+.widget .widget-header .toolbar > .btn, 
+.widget .widget-header .toolbar > .btn-group > .btn
+{
+    color: #fff;
+    line-height: 20px;
+    font-weight: normal;
+    font-size: 11px;
+    padding: 9px 12px;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background: transparent;
+    border-width: 0 1px;
+    border-color: #222;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.1);
+    -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.1);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.widget .widget-header.light .toolbar > .btn, 
+.widget .widget-header.light .toolbar > .btn-group > .btn
+{
+    color: #444;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    border-color: #ccc;
+    -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1);
+    -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1);
+}
+
+.widget .widget-header .toolbar > .btn.disabled, 
+.widget .widget-header .toolbar > .btn[disabled], 
+.widget .widget-header .toolbar > .btn-group > .btn.disabled, 
+.widget .widget-header .toolbar > .btn-group > .btn[disabled]
+{
+    background: transparent !important;
+}
+
+.widget .widget-header .toolbar > .btn:active,
+.widget .widget-header .toolbar > .btn.active,
+.widget .widget-header .toolbar > .btn-group > .btn:active,
+.widget .widget-header .toolbar > .btn-group > .btn.active
+{
+    color: #fff;
+    background-color: #333;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.widget .widget-header.light .toolbar > .btn:active,
+.widget .widget-header.light .toolbar > .btn.active,
+.widget .widget-header.light .toolbar > .btn-group > .btn:active,
+.widget .widget-header.light .toolbar > .btn-group > .btn.active
+{
+    background-color: #eaeaea;
+    color: #444;
+}
+
+.widget .widget-header .toolbar .btn:last-child, 
+.widget .widget-header .toolbar .btn:last-of-type
+{
+    border-right: 0;
+}
+
+
+/* Widget Header Elements
+================================================== */
+
+.widget .widget-header .toolbar .ui-slider
+{
+    width: 150px;
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    margin: 15px 15px 0 0;
+    vertical-align: top;
+}
+
+.widget .widget-header .toolbar .progress
+{
+    width: 150px;
+    height: 13px;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    margin: 12px 12px 0 0;
+}
+
+.widget .widget-header .toolbar .progress .bar
+{
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: normal;
+}
+
+.widget .widget-header .toolbar .ibutton-container
+{
+    margin: 9px 9px 0 0;
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    vertical-align: top;
+}
+
+.widget .widget-header .toolbar .label, 
+.widget .widget-header .toolbar .badge
+{
+    top: 10px;
+    right: 8px;
+    position: relative;
+}
+
+/* Widget Toolbar
+================================================== */
+
+.widget > .toolbar, 
+.widget .widget-inner-wrap > .toolbar
+{
+    background: #fafafa repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(top, #ffffff, #f2f2f2);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2', GradientType=0);
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.widget > .toolbar + *, 
+.widget .widget-inner-wrap > .toolbar + *
+{
+    border-top: 0 !important;
+}
+
+.widget > .toolbar.collapse:not(.in)
+{
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+/* Widget Button Toolbar
+================================================== */
+
+.widget > .toolbar.btn-toolbar, 
+.widget .widget-inner-wrap > .toolbar.btn-toolbar
+{
+    position: relative;
+    margin: 0;
+}
+
+.widget > .toolbar.btn-toolbar .btn, 
+.widget .widget-inner-wrap > .toolbar.btn-toolbar .btn
+{
+    border-top: 0;
+    border-bottom: 0;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.widget > .toolbar.btn-toolbar .btn-group + .btn-group, 
+.widget .widget-inner-wrap > .toolbar.btn-toolbar .btn-group + .btn-group
+{
+    margin-left: 0;
+}
+
+.widget > .toolbar.btn-toolbar .btn:first-child, 
+.widget .widget-inner-wrap > .toolbar.btn-toolbar .btn:first-child
+{
+    border-left: 0;
+}
+
+/* Widget Form Toolbar
+================================================== */
+
+.widget > .toolbar.form-toolbar form
+{
+    padding: 8px;
+}
+
+/* Widget Containers
+================================================== */
+
+.widget .widget-content
+{
+    border: 1px solid #ccc;
+    position: relative;
+    padding: 25px;
+    background-color: #fff;
+}
+
+.widget .widget-header + .widget-content, 
+.widget .widget-content + .widget-content
+{
+    border-top: 0;
+}
+
+.widget .widget-content.form-container, 
+.widget .widget-content .form-container
+{
+    padding: 0;
+}
+
+.widget .widget-content.table-container, 
+.widget .widget-content .table-container
+{
+    border: 0;
+    padding: 0;
+}
+
+.widget .widget-content.no-padding
+{
+    padding: 0;
+}
+
+.widget .widget-content.no-border
+{
+    border: 0;
+}
+
+/* Widget Containers Content
+================================================== */
+
+.widget-content.table-container .table
+{
+    border: 1px solid #ccc;
+    margin: 0;
+}
+
+.widget > .toolbar + .table-container .table, 
+.widget .widget-inner-wrap > .toolbar + .table-container .table, 
+.widget .widget-header + .table-container .table, 
+.widget .table-container + .table-container .table
+{
+    border-top: 0;
+}
+
+/* Custom Widget Containers
+================================================== */
+
+.widget .accordion
+{
+    margin-bottom: 0;
+}
+
+.widget .accordion > .accordion-group:first-child
+{
+    border-top-width: 0;
+}
+
+/* Custom Widgets Shared Styles
+================================================== */
+
+.widget > .widget-content.shoppingcart, 
+.widget > .widget-content.news, 
+.widget > .widget-content.tweets, 
+.widget > .widget-content.chat-box, 
+.widget > .widget-content.summary-list, 
+.widget > .widget-content.task-list, 
+.widget > .widget-content.sortable-list, 
+.widget > .widget-content.gmap
+{
+    padding: 0;
+}
+
+.shoppingcart > ul, 
+.news > ul, 
+.tweets .tweet_list, 
+.chat-box > ul, 
+.summary-list > ul, 
+.task-list > ul, 
+.sortable-list > ul
+{
+    margin: 0;
+    list-style: none;
+}
+
+.shoppingcart ul li, 
+.tweets .tweet_list li, 
+.news ul li, 
+.summary-list ul li, 
+.sortable-list ul li, 
+.user-box, 
+.chat-box ul li
+{
+    *zoom: 1;
+    display: block;
+    position: relative;
+}
+
+.shoppingcart ul li:before,
+.shoppingcart ul li:after, 
+.tweets .tweet_list li:before,
+.tweets .tweet_list li:after, 
+.news ul li:before,
+.news ul li:after, 
+.summary-list ul li:before, 
+.summary-list ul li:after, 
+.sortable-list ul li:before, 
+.sortable-list ul li:after, 
+.user-box:after, 
+.user-box:before, 
+.chat-box ul li:before, 
+.chat-box ul li:after
+{
+    display: table;
+    content: "";
+}
+
+.tweets .tweet_list li:after, 
+.shoppingcart ul li:after, 
+.news ul li:after, 
+.summary-list ul li:after, 
+.sortable-list ul li:after, 
+.chat-box ul li:after, 
+.user-box:after
+{
+    clear: both;
+}
+
+.shoppingcart > ul li .thumbnail, 
+.news > ul li .thumbnail
+{
+    width: 64px;
+    float: left;
+}
+
+.shoppingcart > ul li .info, 
+.news > ul li .info
+{
+    margin-left: 84px;
+    display: block;
+}
+
+.shoppingcart > ul > li, 
+.news > ul > li, 
+.sortable-list > ul > li, 
+.chat-box > ul > li, 
+.tweets > .tweet_list > li
+{
+    padding: 15px;
+    margin: 0;
+    float: none;
+    border-bottom: 1px dotted #b1afac;
+    display: block;
+}
+
+.shoppingcart > ul > li:last-child, 
+.news > ul > li:last-child, 
+.sortable-list > ul > li:last-child, 
+.summary-list > ul li:last-child, 
+.task-list > ul li:last-child, 
+.chat-box > ul > li:last-child
+{
+    border-bottom: 0;
+}
+
+.widget-content.gmap img
+{
+    max-width: none;
+}
+
+/* Shopping Cart Widget
+================================================== */
+
+.shoppingcart > ul > li .info .name
+{
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.shoppingcart > ul > li .info .qty
+{
+    font-weight: bold;
+    display: block;
+    color: #95204e;
+}
+
+.shoppingcart > ul > li .actions
+{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    margin-top: -12px;
+    opacity: 0;
+    -moz-opacity: 0;
+    -webkit-transition: opacity 150ms linear;
+    -moz-transition: opacity 150ms linear;
+    -ms-transition: opacity 150ms linear;
+    -o-transition: opacity 150ms linear;
+    transition: opacity 150ms linear;
+}
+
+.shoppingcart > ul > li:hover .actions
+{
+    opacity: 1;
+    -moz-opacity: 1;
+}
+
+.shoppingcart > ul > li .actions ul
+{
+    margin: 0;
+}
+
+.shoppingcart > ul > li .actions ul, 
+.shoppingcart > ul > li .actions ul li
+{
+    float: left;
+}
+
+.shoppingcart > ul > li .actions li
+{
+    list-style: none;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 4px;
+    display: block;
+}
+
+.shoppingcart > ul > li .actions li a, 
+.shoppingcart > ul > li .actions li span
+{
+    color: #666;
+}
+
+.shoppingcart > ul > li.footer .price
+{
+    float: right;
+    font-size: 21px;
+    line-height: 28px;
+    font-weight: bold;
+}
+
+/* News Widget
+================================================== */
+
+.news > ul > li .head
+{
+    margin-bottom: 10px;
+    display: block;
+    clear: both;
+}
+
+.news > ul > li .head h2
+{
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.news > ul > li .head h2 a
+{
+    color: #444;
+    display: block;
+}
+
+.news > ul > li .head .date, 
+.news > ul > li .head .tags
+{
+    color: #999;
+    font-size: 11px;
+}
+
+.news > ul > li .head .tags
+{
+    font-style: italic;
+}
+
+.news > ul > li .head .tags:before
+{
+    content: '\2014 \00A0';
+}
+
+/* Shopping Cart Widget
+================================================== */
+
+.tweets > .tweet_list .tweet_avatar
+{
+    width: 52px;
+    float: left;
+    display: block;
+    padding: 4px;
+    line-height: 18px;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+}
+
+.tweets > .tweet_list .tweet_avatar img
+{
+    display: block;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tweets > .tweet_list .tweet_user
+{
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 4px;
+}
+
+.tweets > .tweet_list .tweet_user, 
+.tweets > .tweet_list .tweet_join, 
+.tweets > .tweet_list .tweet_time, 
+.tweets > .tweet_list .tweet_text
+{
+    display: block;
+    margin-left: 70px;
+}
+
+.tweets > .tweet_list .tweet_time, 
+.tweets > .tweet_list .tweet_time a
+{
+    color: #999;
+    font-size: 11px;
+}
+
+.tweets > .tweet_list .tweet_action
+{
+    float: right;
+    margin-left: 6px;
+    margin-top: 8px;
+    text-transform: capitalize;
+}
+
+/* Goal Widget
+================================================== */
+
+.widget > .widget-content.goal
+{
+    padding: 15px 25px;
+}
+
+.goal .goal-header
+{
+    padding: 0;
+}
+
+.goal .goal-header .info
+{
+    border-right: 1px dotted #ccc;
+    margin-right: -1px;
+    padding: 10px;
+    text-align: center;
+    font-size: 21px;
+    color: #555;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.goal .goal-header .info:last-child
+{
+    border-right: 0;
+    margin-right: 0;
+}
+
+.goal .goal-header .info small
+{
+    display: block;
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.goal .progress
+{
+    margin-bottom: 4px;
+}
+
+.goal .ticks
+{
+    margin: 0 0 10px 0;
+    list-style: none;
+    font-size: 11px;
+    min-height: 18px;
+    position: relative;
+}
+
+.goal .ticks li
+{
+    font-weight: bold;
+    position: absolute;
+    display: inline-block;
+    margin: 0;
+    text-align: left;
+}
+
+.goal .ticks li span
+{
+    left: -50%;
+    position: relative;
+}
+
+.goal .btn-toolbar
+{
+    margin-bottom: 0;
+}
+
+/* Task List Widget
+================================================== */
+
+.task-list > ul > li
+{
+    color: #444;
+    border-bottom: 1px solid #BAE0F2;
+    font-size: 0;
+    position: relative;
+    padding-right: 13px;
+}
+
+.task-list > ul > li .checkbox, 
+.task-list > ul > li .text
+{
+    display: block;
+    padding: 10px 13px;
+    font-size: 12px;
+    line-height: 21px;
+    margin: 0;
+}
+
+.task-list > ul > li .checkbox input[type="checkbox"], 
+.task-list > ul > li .checkbox .uniform-checker
+{
+    float: none;
+    margin: 0;
+}
+
+.task-list > ul > li .checkbox
+{
+    border-right: 1px solid #f4cfcf;
+    float: left;
+    width: 21px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+}
+
+.task-list > ul > li .text
+{
+    cursor: pointer;
+    position: relative;
+    height: 21px;
+    line-height: 21px;
+    border-left: 1px solid #f4cfcf;
+    margin-left: 50px;
+    padding-right: 0;
+}
+
+.task-list > ul > li.done
+{
+    background-color: #eaf8ff;
+    background-color: rgba(148, 219, 255, 0.2);
+}
+
+.task-list > ul > li.done .text
+{
+    text-decoration: line-through;
+}
+
+.task-list > ul > li .close
+{
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    display: none;
+}
+
+.task-list > ul > li:hover .close
+{
+    display: block;
+}
+
+.task-list > ul > li [class^="icon-"], 
+.task-list > ul > li [class^="icol-"], 
+.task-list > ul > li [class^="icos-"]
+{
+    font-size: 16px;
+    line-height: 1;
+    margin-right: 4px;
+}
+
+/* Summary List
+================================================== */
+
+.summary-list > ul > li
+{
+    color: #444;
+    border-bottom: 1px solid #ccc;
+    line-height: 21px;
+    font-size: 12px;
+    padding: 0 13px;
+}
+
+.summary-list > ul > li .key, 
+.summary-list > ul > li .val
+{
+    padding: 10px 0;
+    display: block;
+}
+
+.summary-list > ul > li .key
+{
+    width: 140px;
+    float: left;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.summary-list > ul > li .key [class^="icon-"], 
+.summary-list > ul > li .key [class^="icol-"], 
+.summary-list > ul > li .key [class^="icos-"], 
+.summary-list > ul > li .key [class*=" icon-"], 
+.summary-list > ul > li .key [class*=" icol-"], 
+.summary-list > ul > li .key [class*=" icos-"]
+{
+    font-size: 16px;
+    margin-right: 4px;
+    vertical-align: text-top;
+}
+
+.summary-list > ul > li > .val .up
+{
+    color: #468847;
+}
+
+.summary-list > ul > li > .val .down
+{
+    color: #b94a48;
+}
+
+.summary-list > ul > li .val
+{
+    margin-left: 150px;
+    position: relative;
+}
+
+/* Sortable List
+================================================== */
+
+.sortable-list > ul > li
+{
+    overflow: hidden;
+    padding: 9px 10px;
+    padding-left: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sortable-list > ul > li:before
+{
+    font-family: 'IcoMoon';
+    font-weight: normal;
+    font-style: normal;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    content: "\f0dc";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    font-size: 16px;
+    color: #666;
+    top: 50%;
+    left: 8px;
+    margin-top: -8px;
+    text-align: center;
+    line-height: 16px;
+}
+
+.sortable-list > ul > li.ui-sortable-helper
+{
+    border: 1px dotted #b1afac;
+    background-color: #fff;
+}
+
+.sortable-list > ul > li.placeholder
+{
+    background-color: #fafafa;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.sortable-list > ul > li.placeholder:before
+{
+    display: none;
+}
+
+.sortable-list > ul > li .thumbnail
+{
+    width: 48px;
+    float: left;
+}
+
+.sortable-list > ul > li .info
+{
+    margin-left: 68px;
+    display: block;
+}
+
+.sortable-list > ul > li .info .order
+{
+    font-weight: normal;
+    display: block;
+}
+
+/* User Widget
+================================================== */
+
+.user-box .thumbnail
+{
+    width: 150px;
+    float: left;
+}
+
+.user-box .info
+{
+    display: block;
+    margin-left: 175px;
+}
+
+.user-box .info .name
+{
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.user-box .info .name small
+{
+    font-size: 11px;
+    color: #888;
+    display: block;
+    font-weight: normal;
+}
+
+.user-box .info .attributes
+{
+    margin: 0 0 15px 0;
+}
+
+.user-box .info .attributes li
+{
+    margin: 0;
+    list-style: none;
+}
+
+.user-box .info .attributes li
+{
+    line-height: 21px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.user-box .info .attributes li [class^="icon-"], 
+.user-box .info .attributes li [class^="icos-"], 
+.user-box .info .attributes li [class^="icol-"]
+{
+    font-size: 16px;
+    line-height: 16px;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+/* Chat Box Widget
+================================================== */
+
+.chat-box > ul
+{
+    background: #fbfcfe;
+    padding-top: 15px;
+}
+
+.chat-box > ul > li
+{
+    padding: 0 15px;
+}
+
+.chat-box > ul > li
+{
+    margin-bottom: 15px;
+    border-bottom: 0;
+}
+
+.chat-box > ul > li .thumbnail
+{
+    width: 64px;
+    background-color: #fff;
+}
+
+.chat-box > ul > li .thumbnail, 
+.chat-box > ul > li.me .thumbnail
+{
+    float: left;
+}
+
+.chat-box > ul > li.others .thumbnail
+{
+    float: right;
+}
+
+.chat-box > ul > li .message
+{
+    border: 1px solid #c4cad3;
+    padding: 12px 16px;
+    position: relative;
+    background-color: #fff;
+    z-index: 1;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.chat-box > ul > li .message .name
+{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #08c;
+}
+
+.chat-box > ul > li .message .time
+{
+    font-size: 11px;
+    display: block;
+    color: #888;
+}
+
+.chat-box > ul > li .message:before, 
+.chat-box > ul > li .message:after
+{
+    content: '';
+    position: absolute;
+    top: 13px;
+    border: solid transparent;
+}
+
+.chat-box > ul > li .message:before
+{
+    border-width: 6px;
+}
+
+.chat-box > ul > li .message:after
+{
+    border-width: 7px;
+    top: 12px;
+}
+
+.chat-box > ul > li.me .message
+{
+    margin-left: 94px;
+}
+
+.chat-box > ul > li.others .message
+{
+    margin-right: 94px;
+    text-align: right;
+}
+
+.chat-box > ul > li.me .message:before
+{
+    left: -13px;
+    border-right-color: #000;
+}
+
+.chat-box > ul > li.me .message:after
+{
+    left: -14px;
+    border-right-color: #fff;
+}
+
+.chat-box > ul > li.others .message:before
+{
+    right: -13px;
+    border-left-color: #000;
+}
+
+.chat-box > ul > li.others .message:after
+{
+    right: -14px;
+    border-left-color: #fff;
+}
+
+.chat-box .message-form
+{
+    padding: 10px 15px;
+    border-top: 1px solid #ccc;
+    background: #fafafa repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(top, #ffffff, #f2f2f2);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2', GradientType=0);
+}
+
+.chat-box .message-form input[type="text"]
+{
+    margin: 0;
+}
+
+/* Media Queries
+================================================== */
+
+@media (max-width: 979px)
+{
+
+    .summary-list > ul > li .key
+    {
+        width: auto;
+        display: block;
+        float: none;
+        padding-top: 5px;
+        padding-bottom: 0;
+    }
+
+    .summary-list > ul > li .val
+    {
+        padding-top: 0;
+        padding-bottom: 5px;
+        margin-left: 24px;
+        display: block;
+    }
+}
+
+@media (max-width: 767px)
+{
+    .news > ul > li .thumbnail
+    {
+        max-width: 250px;
+        margin: auto;
+        width: auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+
+    .news > ul > li .info
+    {
+        margin-left: auto;
+    }
+
+    .news > ul > li .head h2 a
+    {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .goal .goal-header .info
+    {
+        border-right: 0;
+        border-bottom: 1px dotted #ccc;
+        margin-right: 0;
+    }
+
+    .goal .goal-header .info:last-child
+    {
+        border-bottom: 0;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .widget > .widget-content
+    {
+        padding: 16px 20px;
+    }
+
+    .user-box .thumbnail
+    {
+        width: 150px;
+        margin: auto;
+        margin-bottom: 10px;
+        float: none;
+    }
+
+    .user-box .info
+    {
+        margin-left: 0;
+    }
+}

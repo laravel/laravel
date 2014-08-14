@@ -12,11 +12,11 @@ Route::get('logout','Backend_LoginController@logout');
 Route::post('loginpost','Backend_LoginController@loginpost')->before('csrf');
 
 
-/* Admin kısmı rotasyonları */
+/*Private Rotasyonları */
 Route::group(array('before' => 'auth'), function()
 {
 
-	Route::controller('panel','Backend_PanelController');
+  Route::controller('panel','Backend_PanelController');
 
 });
 

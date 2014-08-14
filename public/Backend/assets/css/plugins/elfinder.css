@@ -1,0 +1,341 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - elFinder Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ */
+ 
+.elfinder
+{
+    background-color: #fff;
+}
+
+.elfinder, 
+.elfinder-contextmenu
+{
+    font-size: 16px;
+}
+
+.elfinder-contextmenu .elfinder-contextmenu-item
+{
+    padding: 6px 30px;
+}
+
+.elfinder-contextmenu .elfinder-contextmenu-item.ui-state-hover
+{
+    background-color: #08c;
+    color: #fff;
+}
+
+.elfinder .elfinder-navbar
+{
+    background: #f5f5f5;
+    border-right: 1px solid #e3e3e3;
+}
+
+.elfinder-navbar .ui-state-hover
+{
+    background: transparent;
+    border-color: transparent;
+}
+
+.elfinder-navbar .ui-state-active
+{
+    background: #08c;
+    border-color: #08c;
+    color: #fff;
+}
+
+.elfinder .elfinder-workzone
+{
+    border: solid #ccc;
+    border-width: 0 1px;
+}
+
+.elfinder .elfinder-path a:first-child
+{
+    margin-left: 0;
+}
+
+.elfinder .elfinder-path a
+{
+    margin: 0 5px;
+}
+
+.elfinder-toolbar, 
+.elfinder-statusbar
+{
+    background: #fafafa repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(top, #ffffff, #f2f2f2);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2', GradientType=0);
+    border: 1px solid #ccc;
+    color: #333;
+    line-height: normal;
+}
+
+.elfinder-statusbar
+{
+    padding: 5px 15px;
+}
+
+.elfinder-toolbar
+{
+    padding: 6px;
+}
+
+.elfinder-toolbar .elfinder-buttonset .elfinder-button
+{
+    display: inline-block;
+    *display: inline;
+	/* IE7 inline-block hack */
+    *zoom: 1;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+    *line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    *background-color: #e6e6e6;
+	/* Darken IE7 buttons by default so they stand out more given they won't have borders */
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+	border: 1px solid #bbbbbb;
+	*border: 0;
+	border-bottom-color: #a2a2a2;
+
+	*margin-left: .3em;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+}
+
+.elfinder-toolbar .elfinder-buttonset .elfinder-button:hover
+{
+	color: #333333;
+	text-decoration: none;
+	background-color: #e6e6e6;
+	*background-color: #d9d9d9;
+	/* Buttons in IE7 don't get borders, so darken on hover */
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
+}
+
+.elfinder-toolbar .elfinder-buttonset .elfinder-button:active
+{
+    background-color: #e6e6e6;
+    background-color: #d9d9d9 \9;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+}
+
+.elfinder-toolbar .elfinder-buttonset .elfinder-button.ui-state-disabled
+{
+    cursor: default;
+    background-color: #e6e6e6;
+    background-image: none;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.elfinder-toolbar-button-separator
+{
+    display: none;
+}
+
+.elfinder-toolbar .elfinder-buttonset
+{
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+    *margin-left: .3em;
+}
+
+.elfinder-toolbar .elfinder-buttonset > .elfinder-button
+{
+    position: relative;
+    margin-left: -1px;
+    font-size: 13px;
+}
+
+.elfinder-toolbar .elfinder-buttonset > .elfinder-button:first-child
+{
+    margin-left: 0;
+    -webkit-border-top-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.elfinder-toolbar .elfinder-buttonset > .elfinder-button:last-child
+{
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.elfinder-button-search
+{
+    margin: 1px 4px !important;
+    width: auto !important;
+}
+
+.elfinder-button-search input
+{
+    margin-bottom: 0;
+    padding: 3px 25px;
+    height: auto;
+    line-height: 16px;
+}
+
+.elfinder-cwd-view-icons .elfinder-cwd-file .ui-state-hover
+{
+    background-color: #ccc;
+}
+
+.elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-filename.ui-state-hover,
+.elfinder-cwd table td.ui-state-hover,
+.elfinder-button-menu .ui-state-hover
+{
+    background-color: #08c;
+    color: #fff;
+}
+
+.elfinder-cwd-view-icons .elfinder-cwd-filename
+{
+    padding: 2px 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.elfinder-cwd table th, 
+.elfinder-cwd table td
+{
+    line-height: 18px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+.elfinder-cwd table thead th, 
+.elfinder-cwd table thead td
+{
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
+.elfinder-cwd table tbody tr:nth-child(odd) td:not(.ui-state-hover),
+.elfinder-cwd table tbody tr:nth-child(odd) th:not(.ui-state-hover)
+{
+    background-color: #f9f9f9;
+}
+
+.std42-dialog .ui-dialog-content
+{
+    padding: 15px;
+}
+
+.std42-dialog .ui-dialog-titlebar
+{
+    padding: 9px 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.elfinder-dialog-error .ui-dialog-content, 
+.elfinder-dialog-confirm .ui-dialog-content
+{
+    padding-left: 56px;
+}
+
+.std42-dialog .ui-dialog-buttonpane
+{
+    border-top: 1px solid #ddd;
+}
+
+.std42-dialog .ui-dialog-buttonpane button
+{
+    padding: 4px 14px;
+}
+
+.std42-dialog .elfinder-file-edit
+{
+    display: block;
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.elfinder-button-menu
+{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    text-align: left;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #ffffff;
+    text-shadow: none;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+}

@@ -1,0 +1,177 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Fullcalendar Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ */
+ 
+.fc-header
+{
+    border-left: 1px solid #bbb;
+    border-right: 1px solid #bbb;
+    border-top: 1px solid #bbb;
+    background-color: #fcfcfc;
+    background-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.05) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(85%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05)));
+    background-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+}
+
+.fc-header-title h2
+{
+    font-size: 18px;
+    margin: 0;
+}
+
+.fc-state-default .fc-button-effect
+{
+    display: none;
+}
+
+.fc-header .fc-button
+{
+    margin-bottom: 0;
+    border: 0;
+    background: none;
+}
+
+.fc-header .fc-button .fc-button-content
+{
+    height: auto;
+    line-height: 40px;
+    display: block;
+    padding: 0 1em;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.fc-header-left .fc-button-inner
+{
+    border-left: 0;
+}
+
+.fc-header-right .fc-button-inner
+{
+    border-right: 0;
+}
+
+.fc-widget-header, .fc-widget-content
+{
+    border-color: #bbb;
+}
+
+.fc-state-hover .fc-button-inner
+{
+    color: #444 !important;
+}
+
+.fc-state-down .fc-button-inner, 
+.fc-state-active .fc-button-inner
+{
+    -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0 !important;
+}
+
+.fc-button-inner, 
+.fc-state-default .fc-button-inner, 
+.fc-state-hover .fc-button-inner, 
+.fc-state-down .fc-button-inner, 
+.fc-state-active .fc-button-inner, 
+.fc-state-disabled .fc-button-inner
+{
+    background: none;
+    border-bottom: 0;
+    border-top: 0;
+    border-color: #ccc;
+    color: #666;
+    text-transform: capitalize;
+}
+
+.fc-button-inner
+{
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    -ms-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+
+.fc-state-disabled .fc-button-inner
+{
+    color: #ccc;
+}
+
+.fc-button-content
+{
+    padding: 0.6em 1em;
+}
+
+.fc-header-space
+{
+    display: none;
+}
+
+.fc-event .fc-event-inner .fc-event-title, 
+.fc-event .fc-event-inner .fc-event-time
+{
+    padding-left: 5px;
+}
+
+.fc-event-skin
+{
+    border-color: #2453a3;
+    background: #2964c7 repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #2c74de, #2964c7);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2c74de), to(#2964c7));
+    background-image: -webkit-linear-gradient(top, #2c74de, #2964c7);
+    background-image: -o-linear-gradient(top, #2c74de, #2964c7);
+    background-image: -moz-linear-gradient(top, #2c74de, #2964c7);
+    background-image: linear-gradient(top, #2c74de, #2964c7);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+}
+
+@media (max-width: 767px)
+{
+    .fc-header .fc-header-left, 
+	.fc-header .fc-header-right, 
+	.fc-header .fc-header-center
+    {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .fc-header .fc-header-center
+    {
+        border: 1px solid #ccc;
+        border-width: 1px 0;
+    }
+
+    .fc-header .fc-header-title
+    {
+        text-align: center;
+        display: block;
+    }
+
+    .fc-header .fc-button-inner
+    {
+        border-left: 0;
+        border-right: 1px solid #ccc;
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/app/database/migrations/2014_07_20_151627_create_users_table.php</file>
+            <file>file:/C:/xampp/htdocs/app/config/database.php</file>
+            <file>file:/C:/xampp/htdocs/app/views/Backend/login.blade.php</file>
+            <file>file:/C:/xampp/htdocs/app/models/User.php</file>
+            <file>file:/C:/xampp/htdocs/app/controllers/Backend/LoginController.php</file>
+            <file>file:/C:/xampp/htdocs/app/database/seeds/DatabaseSeeder.php</file>
+        </group>
+    </open-files>
+</project-private>

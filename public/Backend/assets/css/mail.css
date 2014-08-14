@@ -1,0 +1,141 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Mail Page Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+.mail
+{
+    position: relative;
+}
+
+.mail:after, 
+.mail:before
+{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 1px;
+    bottom: -2px;
+    left: 3px;
+    right: 3px;
+    background-color: #fff;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #d3d3d3;
+    border-top: 0;
+}
+
+.mail:before
+{
+    bottom: -4px;
+    left: 6px;
+    right: 6px;
+}
+
+.mail .navbar
+{
+    margin-bottom: 0;
+}
+
+.mail .navbar .navbar-inner
+{
+    padding: 0 5px;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.mail .navbar .navbar-inner .btn-toolbar
+{
+    margin: 0;
+}
+
+.mail .navbar .nav [class^="icon-"], 
+.mail .navbar .nav [class*=" icon-"], 
+.mail .navbar .nav [class^="icol-"], 
+.mail .navbar .nav [class*=" icol-"], 
+.mail .navbar .nav [class^="icos-"], 
+.mail .navbar .nav [class*=" icos-"]
+{
+    margin-right: 4px;
+    font-size: 16px;
+}
+
+.mail .mail-pages
+{
+    background-color: #fff;
+}
+
+.mail .mail-pages .table
+{
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.mail .mail-modal
+{
+    background: #fff url(../images/layout/mail-stripes.png) repeat-x left top;
+    border-top: 0;
+    padding-top: 6px;
+}
+
+.mail .mail-modal, 
+.mail .mail-modal .modal-header
+{
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topleft: 0;
+    -moz-border-radius-topright: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.mail .mail-modal form
+{
+    margin-bottom: 0;
+}
+
+.mail .mail-modal .view-mail-header
+{
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #ccc;
+}
+
+.mail .mail-modal .view-mail-header .view-mail-label
+{
+    font-weight: bold;
+    color: #aaa;
+}
+
+@media (max-width: 979px)
+{
+    .mail .navbar .nav-collapse.collapse
+    {
+        float: none;
+        padding-top: 4px;
+    }
+}
+
+@media 
+only screen and (-webkit-min-device-pixel-ratio: 1.5), 
+only screen and (-moz-min-device-pixel-ratio: 1.5), 
+only screen and (-o-min-device-pixel-ratio: 3/2), 
+only screen and (min-device-pixel-ratio: 1.5)
+{
+    .mail .mail-modal
+    {
+        background-image: url(../images/@2x/layout/mail-stripes.png);
+    }
+}

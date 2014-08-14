@@ -1,0 +1,251 @@
+/*
+ * MoonCake v1.3.1 - Pick List Plugin Stylsheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ * 'Highly configurable' mutable plugin boilerplate
+ * Author: @markdalgleish
+ * Further changes, comments: @addyosmani
+ * Licensed under the MIT license
+ *
+ */
+
+/* Picklist Clearfix
+================================================== */
+
+.pickList:before,
+.pickList:after
+{
+    display: table;
+    content: "";
+}
+
+.pickList:after
+{
+    clear: both;
+}
+
+/* Picklist Container
+================================================== */
+
+.pickList
+{
+    position: relative;
+    *zoom: 1;
+}
+
+.pickList .pickList_listContainer.pickList_sourceListContainer
+{
+    width: 50%;
+    float: left;
+    margin-right: -40px;
+}
+
+.pickList .pickList_listContainer.pickList_sourceListContainer > div
+{
+    margin-right: 40px;
+}
+
+.pickList .pickList_listContainer.pickList_targetListContainer
+{
+    width: 50%;
+    float: right;
+    margin-left: -40px;
+}
+
+.pickList .pickList_listContainer.pickList_targetListContainer > div
+{
+    margin-left: 40px;
+}
+
+.pickList .pickList_controlsContainer
+{
+    width: 40px;
+    padding: 0 20px;
+    position: absolute;
+    left: 50%;
+    top: 63px;
+    margin-left: -40px;
+}
+
+/* Picklist Buttons
+================================================== */
+
+.pickList .pickList_controlsContainer .btn
+{
+    display: block;
+    margin: 3px auto;
+    width: 100%;
+    color: #555;
+    font-size: 12px;
+}
+
+.pickList .pickList_controlsContainer .btn [class^="icon-"], 
+.pickList .pickList_controlsContainer .btn [class*=" icon-"]
+{
+    font-size: 12px;
+}
+
+.pickList .pickList_controlsContainer button:active
+{;
+}
+
+.pickList .pickList_controlsContainer button:disabled
+{;
+}
+
+/* Picklist Items
+================================================== */
+
+.pickList .pickList_listContainer ul, 
+.pickList .pickList_listContainer ul li
+{
+    margin: 0;
+    list-style: none;
+}
+
+.pickList .pickList_listLabel
+{
+    color: #888;
+    display: block;
+    margin-bottom: 9px;
+}
+
+.pickList .pickList_list
+{
+    border: 1px solid #ccc;
+    height: 200px;
+    overflow-y: auto;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.pickList .pickList_list .pickList_listItem
+{
+    cursor: default;
+    padding: 3px 6px;
+    line-height: 18px;
+    font-size: 12px;
+}
+
+.pickList .pickList_list .pickList_listItem:hover, 
+.pickList .pickList_list .pickList_listItem.pickList_selected
+{
+    background-color: #08c;
+    color: #fff;
+}
+
+.pickList .pickList_list .pickList_listItem:hover
+{
+    cursor: pointer;
+}
+
+/* Picklist Filter
+================================================== */
+
+.pickList .pickList_filter
+{
+    margin-bottom: 9px;
+}
+
+.pickList .pickList_filter input
+{
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Media Queries
+================================================== */
+
+@media (max-width: 767px)
+{
+    .pickList .pickList_controlsContainer
+    {
+        padding: 0 20px;
+    }
+
+    .pickList .pickList_listContainer.pickList_sourceListContainer
+    {
+        margin-right: -25px;
+    }
+
+    .pickList .pickList_listContainer.pickList_sourceListContainer > div
+    {
+        margin-right: 25px;
+    }
+
+    .pickList .pickList_listContainer.pickList_targetListContainer
+    {
+        margin-left: -25px;
+    }
+
+    .pickList .pickList_listContainer.pickList_targetListContainer > div
+    {
+        margin-left: 25px;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .pickList .pickList_listContainer.pickList_sourceListContainer, 
+	.pickList .pickList_listContainer.pickList_targetListContainer
+    {
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+
+    .pickList .pickList_listContainer.pickList_sourceListContainer > div, 
+	.pickList .pickList_listContainer.pickList_targetListContainer > div
+    {
+        margin: 0;
+    }
+
+    .pickList .pickList_controlsContainer
+    {
+        position: relative;
+        margin: 15px auto;
+        padding: 0;
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        left: auto;
+        top: auto;
+        *zoom: 1;
+    }
+
+    .pickList .pickList_controlsContainer:after, 
+	.pickList .pickList_controlsContainer:before
+    {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+
+    .pickList .pickList_controlsContainer:after
+    {
+        clear: both;
+    }
+
+    .pickList .pickList_controlsContainer .btn
+    {
+        width: 40px;
+        margin: 0 3px;
+        display: inline-block;
+    }
+}

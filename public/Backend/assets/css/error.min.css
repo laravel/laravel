@@ -1,0 +1,15 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Obfuscated Error Page Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+body{background:#fafafa url(../images/layout/bg/white_tiles.png);color:#444;font-size:14px;line-height:20px;padding:200px 0}#error-wrap{text-align:center;width:768px;margin:auto}#error-digits{margin:auto;margin-bottom:25px;display:inline-block}#error-digits>span{display:inline-block;font-size:96px;margin:5px;line-height:96px;font-weight:bold;background-color:#fff;padding:16px 32px;position:relative;border:1px solid #ccc;-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);-moz-box-shadow:0 5px 10px rgba(0,0,0,0.2);box-shadow:0 5px 10px rgba(0,0,0,0.2)}#error-digits>span:after,#error-digits>span:before{content:'';position:absolute;display:block;height:1px;bottom:-3px;left:3px;right:3px;background-color:#fff;border:1px solid #d3d3d3;border-top:0}#error-digits>span:before{bottom:-5px;left:6px;right:6px}#error-wrap h1{margin-bottom:15px;text-shadow:1px 1px #fff;color:#313131}#error-wrap p a{border-bottom:1px dotted #999;text-decoration:none}#error-form.form-search{padding:25px 0}#error-form.form-search .search-query{height:28px}#error-form.form-search .btn{line-height:28px}

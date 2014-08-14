@@ -1,0 +1,61 @@
+/*
+ * FullCalendar v1.5.4 Print Stylesheet
+ *
+ * Include this stylesheet on your page to get a more printer-friendly calendar.
+ * When including this stylesheet, use the media='print' attribute of the <link> tag.
+ * Make sure to include this stylesheet IN ADDITION to the regular fullcalendar.css.
+ *
+ * Copyright (c) 2011 Adam Shaw
+ * Dual licensed under the MIT and GPL licenses, located in
+ * MIT-LICENSE.txt and GPL-LICENSE.txt respectively.
+ *
+ * Date: Tue Sep 4 23:38:33 2012 -0700
+ *
+ */
+ 
+ 
+ /* Events
+-----------------------------------------------------*/
+ 
+.fc-event-skin {
+	background: none !important;
+	color: #000 !important;
+	}
+	
+/* horizontal events */
+	
+.fc-event-hori {
+	border-width: 0 0 1px 0 !important;
+	border-bottom-style: dotted !important;
+	border-bottom-color: #000 !important;
+	padding: 1px 0 0 0 !important;
+	}
+	
+.fc-event-hori .fc-event-inner {
+	border-width: 0 !important;
+	padding: 0 1px !important;
+	}
+	
+/* vertical events */
+	
+.fc-event-vert {
+	border-width: 0 0 0 1px !important;
+	border-left-style: dotted !important;
+	border-left-color: #000 !important;
+	padding: 0 1px 0 0 !important;
+	}
+	
+.fc-event-vert .fc-event-inner {
+	border-width: 0 !important;
+	padding: 1px 0 !important;
+	}
+	
+.fc-event-bg {
+	display: none !important;
+	}
+	
+.fc-event .ui-resizable-handle {
+	display: none !important;
+	}
+	
+	

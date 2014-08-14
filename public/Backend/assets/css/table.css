@@ -1,0 +1,547 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Table Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Resets
+================================================== */
+
+.table
+{
+    background-color: #fff;
+}
+
+.table th, .table td
+{
+    border-top-color: #ccc;
+}
+
+.table-bordered
+{
+    border-color: #ccc;
+}
+
+/* Fixed Table
+================================================== */
+
+.table-fixed
+{
+    table-layout: fixed;
+}
+
+.table-fixed td.nowrap, 
+.table-fixed th.nowrap
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Action Columns
+================================================== */
+
+table tr .action-col
+{
+    text-align: center;
+}
+
+/* Checkable Table Rows
+================================================== */
+
+.table-checkable .checkbox-column
+{
+    border-right: 1px solid #ccc;
+    text-align: center;
+    width: 24px;
+}
+
+.table-checkable .checkbox-column input[type="checkbox"], 
+.table-checkable .checkbox-column .uniform-checker
+{
+    margin: 0;
+}
+
+.table-checkable tbody tr.checked td
+{
+    background-color: #eaf8ff;
+    background-color: rgba(148, 219, 255, 0.2);
+}
+
+/* Detail View
+================================================== */
+
+.table-detail-view tbody tr th
+{
+    width: 150px;
+    border-right: 1px solid #ccc;
+    background-color: #f8f8f8;
+    background-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.05) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(85%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05)));
+    background-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.table-detail-view .btn-toolbar
+{
+    margin: 0;
+}
+
+/* DataTables Styling
+================================================== */
+
+.dataTables_wrapper .dt_header, 
+.dataTables_wrapper .dt_footer
+{
+    padding: 10px;
+    border: solid #ccc;
+    border-width: 0 1px 1px;
+}
+
+.dataTables_length {}
+
+.dataTables_length select
+{
+    width: 75px;
+    margin-right: 3px;
+}
+
+.dataTables_filter {}
+
+.dataTables_filter label
+{
+    float: right;
+}
+
+.dataTables_info
+{
+    padding-top: 9px;
+}
+
+.dataTables_paginate
+{
+    float: right;
+    margin: 0;
+}
+
+.dataTable
+{
+    clear: both;
+}
+
+.dataTable thead th:not(:last-child).sorting_asc, 
+.dataTable thead th:not(:last-child).sorting_desc, 
+.dataTable tbody tr td:not(:last-child).sorting_1
+{
+    border-right: 1px solid #ccc;
+}
+
+.dataTable thead th:not(:first-child).sorting_asc, 
+.dataTable thead th:not(:first-child).sorting_desc, 
+.dataTable tbody tr td:not(:first-child).sorting_1
+{
+    border-left: 1px solid #ccc;
+}
+
+.dataTable tbody tr.odd td.sorting_1
+{
+    background-color: #ededed;
+}
+
+.dataTable tbody tr.even td.sorting_1
+{
+    background-color: #f9f9f9;
+}
+
+.dataTable thead .sorting,
+.dataTable thead .sorting_asc,
+.dataTable thead .sorting_desc,
+.dataTable thead .sorting_asc_disabled,
+.dataTable thead .sorting_desc_disabled
+{
+    cursor: pointer;
+    *cursor: hand;
+    position: relative;
+    padding-right: 19px;
+    outline: none;
+}
+
+.dataTable thead .sorting
+{
+    background: url('../images/dt/sort.png') no-repeat center right;
+}
+
+.dataTable thead .sorting_asc
+{
+    background: url('../images/dt/sort_asc.png') no-repeat center right;
+}
+
+.dataTable thead .sorting_desc
+{
+    background: url('../images/dt/sort_desc.png') no-repeat center right;
+}
+
+.dataTable thead .sorting_asc_disabled
+{
+    background: url('../images/dt/sort_asc_d.png') no-repeat center right;
+}
+
+.dataTable thead .sorting_desc_disabled
+{
+    background: url('../images/dt/sort_desc_d.png') no-repeat center right;
+}
+
+.dataTable th:active
+{
+    outline: none;
+}
+
+.dataTable th:active
+{
+    outline: none;
+}
+
+/* Scrolling */
+.dataTables_scrollHead table
+{
+    margin-bottom: 0 !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dataTables_scrollHead table thead tr:last-child th:first-child,
+.dataTables_scrollHead table thead tr:last-child td:first-child
+{
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.dataTables_scrollBody table
+{
+    border-top: none;
+    margin-bottom: 0 !important;
+}
+
+.dataTables_scrollBody tbody tr:first-child th,
+.dataTables_scrollBody tbody tr:first-child td
+{
+    border-top: none;
+}
+
+.dataTables_scrollFoot table
+{
+    border-top: none;
+}
+
+/* DataTables Tabletools Styling
+================================================== */
+
+.dataTable tbody tr.active td,
+.dataTable tbody tr.active th
+{
+    background-color: #08C;
+    color: white;
+}
+
+.dataTable tbody tr.active:hover td,
+.dataTable tbody tr.active:hover th
+{
+    background-color: #0075b0 !important;
+}
+
+.table-striped.dataTable tbody tr.active:nth-child(odd) td,
+.table-striped.dataTable tbody tr.active:nth-child(odd) th
+{
+    background-color: #017ebc;
+}
+
+.DTTT_selectable tbody tr
+{
+    cursor: pointer;
+    *cursor: hand;
+}
+
+.DTTT .btn > span
+{
+    font-size: 11px;
+    display: inline-block;
+}
+
+.DTTT .btn > span [class^="icon-"], 
+.DTTT .btn > span [class^="icol-"], 
+.DTTT .btn > span [class^="icos-"]
+{
+    line-height: 1;
+    margin: 0 2px 0 0;
+    font-size: 16px;
+}
+
+.DTTT .btn:hover
+{
+    text-decoration: none !important;
+}
+
+.DTTT_dropdown.dropdown-menu a
+{
+    color: #333 !important;
+ /* needed only when demo_page.css is included */;
+}
+
+.DTTT_dropdown.dropdown-menu li:hover a
+{
+    background-color: #0088cc;
+    color: white !important;
+}
+
+/* TableTools information display */
+.DTTT_print_info.modal
+{
+    height: 150px;
+    margin-top: -75px;
+    text-align: center;
+}
+
+.DTTT_print_info h6
+{
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 28px;
+    margin: 1em;
+}
+
+.DTTT_print_info p
+{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/* DataTables Fixed Column Styling
+================================================== */
+
+.DTFC_ScrollWrapper .dataTables_scroll .dataTables_scrollHead table, 
+.DTFC_ScrollWrapper .dataTables_scroll .dataTables_scrollBody table {
+    border-left: 0;
+}
+
+.DTFC_LeftHeadWrapper table,
+.DTFC_LeftFootWrapper table,
+.DTFC_Cloned tr.even
+{
+    background-color: white;
+}
+
+.DTFC_LeftHeadWrapper table
+{
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.DTFC_LeftHeadWrapper table thead tr:last-child th:first-child,
+.DTFC_LeftHeadWrapper table thead tr:last-child td:first-child
+{
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.DTFC_LeftBodyWrapper table
+{
+    border-top: none;
+    margin-bottom: 0 !important;
+}
+
+.DTFC_LeftBodyWrapper tbody tr:first-child th,
+.DTFC_LeftBodyWrapper tbody tr:first-child td
+{
+    border-top: none;
+}
+
+.DTFC_LeftFootWrapper table
+{
+    border-top: none;
+}
+
+/* DataTables Filterable Column Styling
+================================================== */
+
+.filter_column,  
+.filterColumn
+{
+    display: block;
+}
+
+.filter_column input, 
+.filter_column select, 
+.filterColumn input, 
+.filterColumn select
+{
+    min-height: 28px;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.filter_column .search_init,  
+.filterColumn .search_init
+{
+    color: #999;
+}
+
+/* Responsive Tables (FlipScroll)
+================================================== */
+
+@media (max-width: 767px)
+{
+
+    .table-flipscroll th, 
+    .table td
+    {
+        margin: 0;
+        vertical-align: top;
+    }
+
+    .table-flipscroll
+    {
+        display: block;
+        position: relative;
+    }
+
+    .table-flipscroll thead
+    {
+        display: block;
+        float: left;
+    }
+
+    .table-flipscroll tbody
+    {
+        letter-spacing: -4px;
+        word-spacing: -4px;
+        display: block;
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-left: 1px solid #ccc;
+    }
+
+    .table-flipscroll thead tr
+    {
+        display: block;
+    }
+
+    .table-flipscroll th
+    {
+        display: block;
+        text-align: right;
+    }
+
+    .table-flipscroll thead tr th
+    {
+        border-top: 1px solid transparent;
+    }
+
+    .table-flipscroll thead tr td
+    {
+        border-top: 1px solid #ccc;
+    }
+
+    .table-flipscroll thead tr td:first-child, 
+    .table-flipscroll thead tr th:first-child, 
+    .table-flipscroll tbody tr td:first-child, 
+    .table-flipscroll tbody tr th:first-child
+    {
+        border-top: 0;
+    }
+
+    .table-flipscroll tbody tr
+    {
+        display: inline-block;
+        vertical-align: top;
+        border-left: 1px solid #ccc;
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+
+    .table-flipscroll tbody tr:first-child
+    {
+        border-left: 0;
+    }
+
+    .table-flipscroll td
+    {
+        display: block;
+        text-align: left;
+    }
+
+    .table-flipscroll th:first-child, 
+    .table td: first-child
+    {
+        border-top: none !important;
+    }
+
+    .table-flipscroll th:last-child
+    {
+        border-bottom: 1px solid transparent;
+    }
+
+    .table-flipscroll td:last-child
+    {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .table-bordered.table-flipscroll
+    {
+        border-left: 1px solid #ccc;
+    }
+
+    .table-bordered.table-flipscroll th, 
+    .table-bordered.table-flipscroll td
+    {
+        border-left: none;
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .table-checkable.table-flipscroll thead th.checkbox-column:first-child
+    {
+        border-right: 0;
+    }
+
+    .table-checkable.table-flipscroll tbody td.checkbox-column:first-child
+    {
+        border-left: 0;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .table-detail-view
+    {
+        table-layout: fixed !important;
+    }
+
+    .table-detail-view tbody tr th
+    {
+        width: auto;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}

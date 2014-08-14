@@ -1,0 +1,125 @@
+INPUT.miniColors {
+	margin-right: 4px;
+}
+
+.miniColors-selector {
+	position: absolute;
+	width: 175px;
+	height: 150px;
+	background: white;
+	border: solid 1px #bababa;
+	-moz-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	box-shadow: 0 0 6px rgba(0, 0, 0, .25);
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 999999;
+}
+
+.miniColors.opacity.miniColors-selector {
+	width: 200px;
+}
+
+.miniColors-selector.black {
+	background: black;
+	border-color: black;
+}
+
+.miniColors-colors {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 150px;
+	height: 150px;
+	background: url(images/colors.png) -40px 0 no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors.opacity .miniColors-colors {
+	left: 30px;
+}
+
+.miniColors-hues {
+	position: absolute;
+	top: 5px;
+	left: 160px;
+	width: 20px;
+	height: 150px;
+	background: url(images/colors.png) 0 0 no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors.opacity .miniColors-hues {
+	left: 185px;
+}
+
+.miniColors-opacity {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 20px;
+	height: 150px;
+	background: url(images/colors.png) -20px 0 no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors-colorPicker {
+	position: absolute;
+	width: 11px;
+	height: 11px;
+	border: 1px solid black;
+	-moz-border-radius: 11px;
+	-webkit-border-radius: 11px;
+	border-radius: 11px;
+}
+.miniColors-colorPicker-inner {
+	position: absolute;
+	top: 0;
+	left: 0; 
+	width: 7px;
+	height: 7px;
+	border: 2px solid white;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	border-radius: 9px;
+}
+
+.miniColors-huePicker,
+.miniColors-opacityPicker {
+	position: absolute;
+	left: -2px;
+	width: 22px;
+	height: 2px;
+	border: 1px solid black;
+	background: white;
+	margin-top: -1px;
+	border-radius: 2px;
+}
+
+.miniColors-trigger, 
+.miniColors-triggerWrap {
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+}
+
+.miniColors-triggerWrap {
+	background: url(images/trigger.png) -22px 0 no-repeat;
+}
+
+.miniColors-triggerWrap.disabled {
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+.miniColors-trigger {
+	vertical-align: middle;
+	outline: none;
+	background: url(images/trigger.png) 0 0 no-repeat;
+}
+
+.miniColors-triggerWrap.disabled .miniColors-trigger {
+	cursor: default;
+}

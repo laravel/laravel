@@ -1,0 +1,132 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Customizer Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Wrapper
+================================================== */
+
+#customizer
+{
+    position: fixed;
+    z-index: 10000;
+    bottom: 150px;
+    width: 235px;
+    left: -236px;
+    background-color: #fff;
+    padding: 5px;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -webkit-border-radius: 0 3px 0 0;
+    -moz-border-radius: 0 3px 0 0;
+    border-radius: 0 3px 0 0;
+
+    border: 1px solid #ccc;
+    border-left: 0;
+}
+
+#customizer #showButton
+{
+    cursor: pointer;
+    width: 40px; height: 40px;
+    background-color: #fff;
+    position: absolute;
+    right: -41px;
+    bottom: -1px;
+    border: 1px solid #ccc;
+    border-left: 0;
+    font-size: 24px;
+    text-align: center;
+    line-height: 40px;
+
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+}
+
+#customizer #layoutMode
+{
+    display: block;
+    padding: 5px 0;
+}
+
+#customizer #pattern-list
+{
+    background: url(../images/preloaders/1.gif) no-repeat center center;
+    min-height: 40px;
+}
+
+#customizer #pattern-list.patterns-loaded
+{
+    background-image: none;
+}
+
+#customizer #pattern-list ul, 
+#customizer #pattern-list li
+{
+    margin: 0;
+    list-style: none;
+}
+
+#customizer #pattern-list ul
+{
+    display: none;
+    float: left;
+}
+
+#customizer #pattern-list.patterns-loaded ul
+{
+    display: block;
+}
+
+#customizer #pattern-list ul li
+{
+    float: left;
+    width: 22px;
+    height: 22px;
+    margin: 2px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: block;
+}
+
+#style-changer
+{
+    position: fixed;
+    background-color: #fff;
+    bottom: 10px;
+    left: 0;
+    z-index: 10000;
+    border: 1px solid #ccc;
+}
+
+#style-changer a
+{
+    background: url(../images/vlabels.png) no-repeat left 10px;
+    width: 18px;
+    height: 116px;
+    padding: 9px;
+    display: block;
+}
+
+@media (max-width: 480px)
+{
+    #customizer, 
+    #style-changer
+    {
+        display: none;
+    }
+}

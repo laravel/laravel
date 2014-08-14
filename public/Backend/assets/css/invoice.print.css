@@ -1,0 +1,134 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Printable Invoice Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+ /* Hide template elements */
+#header, 
+#sidebar, 
+#main-header, 
+#footer, 
+#customizer, 
+#invoice-toolbar
+{
+	display: none;
+}
+
+ /* Invoice */
+
+.invoice .invoice-caption
+{
+	display: block;
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.invoice-header, 
+.invoice-sub
+{
+	border-bottom: 1px dotted #aaa;
+}
+
+.invoice-header .invoice-logo
+{
+	width: 260px;
+	float: left;
+	padding: 32px;
+}
+
+.invoice-header .invoice-company
+{
+	margin-left: 324px;
+	text-align: right;
+	display: block;
+	padding: 32px;
+	font-size: 11px;
+}
+
+.invoice-sub .invoice-to, 
+.invoice-sub .invoice-info
+{
+	width: 50%;
+	float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.invoice-sub .invoice-to
+{
+	padding: 16px 32px;
+}
+
+.invoice-sub .invoice-info
+{
+	padding: 16px 32px;
+	text-align: right;
+}
+
+.invoice-sub .invoice-info ul, 
+.invoice-sub .invoice-info ul li
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+.invoice-sub .invoice-info ul li span
+{
+	font-weight: normal;
+	width: 150px;
+	display: inline-block;
+}
+
+.invoice-sub .invoice-info .invoice-caption
+{
+	font-size: 21px;
+}
+
+.invoice-content .invoice-payments
+{
+	float: left;
+	display: inline-block;
+	padding: 8px 32px;
+	margin: 8px 0;
+}
+
+.invoice-content .invoice-total
+{
+	float: right;
+	font-size: 24px;
+	line-height: 1.5;
+	padding: 8px 32px;
+	margin: 8px 0;
+	display: inline-block;
+}
+
+.invoice-content .table
+{
+	border-bottom: 1px dotted #aaa;
+}
+
+.invoice-content .table th, 
+.invoice-content .table td
+{
+	padding: 10px 32px;
+}
+
+.invoice-content .table .invoice-table-total
+{
+	text-align: right;
+	font-weight: bold;
+}

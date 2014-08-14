@@ -1,0 +1,185 @@
+/*
+ * File:        TableTools.css
+ * Description: Styles for TableTools 2 with JUI theming
+ * Author:      Allan Jardine (www.sprymedia.co.uk)
+ * Language:    Javascript
+ * License:     LGPL / 3 point BSD
+ * Project:     DataTables
+ * 
+ * Copyright 2010 Allan Jardine, all rights reserved.
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * Notes:
+ *   Generally speaking, please refer to the TableTools.css file - this file contains basic
+ *   modifications to that 'master' stylesheet for ThemeRoller.
+ *
+ * CSS name space:
+ *   DTTT                  DataTables TableTools
+ *
+ * Colour dictionary:
+ *   Button border         #d0d0d0
+ *   Button border hover   #999999
+ *   Hover background      #f0f0f0
+ *   Action blue           #4b66d9
+ *
+ * Style sheet provides:
+ *   CONTAINER             TableTools container element and styles applying to all components
+ *   SELECTING             Row selection styles
+ *   COLLECTIONS           Drop down list (collection) styles
+ *   PRINTING              Print display styles
+ *   MISC                  Minor misc styles
+ */
+
+
+/*
+ * CONTAINER
+ * TableTools container element and styles applying to all components
+ */
+div.DTTT_container {
+	position: relative;
+	float: left;
+}
+
+.DTTT_button {
+	position: relative;
+	float: left;
+	margin-right: 3px;
+	padding: 3px 10px;
+	border: 1px solid #d0d0d0;
+	background-color: #fff;
+	color: #333 !important;
+	cursor: pointer;
+	*cursor: hand;
+}
+
+.DTTT_button::-moz-focus-inner { 
+	border: none !important;
+	padding: 0;
+}
+
+
+
+/*
+ * SELECTING
+ * Row selection styles
+ */
+table.DTTT_selectable tbody tr {
+	cursor: pointer;
+	*cursor: hand;
+}
+
+table.dataTable tr.DTTT_selected.odd {
+	background-color: #9FAFD1;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_1 {
+	background-color: #9FAFD1;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_2 {
+	background-color: #9FAFD1;
+}
+
+table.dataTable tr.DTTT_selected.odd td.sorting_3 {
+	background-color: #9FAFD1;
+}
+
+
+table.dataTable tr.DTTT_selected.even {
+	background-color: #B0BED9;
+}
+
+table.dataTable tr.DTTT_selected.even td.sorting_1 {
+	background-color: #B0BED9;
+}
+
+table.dataTable tr.DTTT_selected.even td.sorting_2 {
+	background-color: #B0BED9;
+}
+
+table.dataTable tr.DTTT_selected.even td.sorting_3 {
+	background-color: #B0BED9;
+}
+
+
+/*
+ * COLLECTIONS
+ * Drop down list (collection) styles
+ */
+
+div.DTTT_collection {
+	width: 150px;
+	background-color: #f3f3f3;
+	overflow: hidden;
+	z-index: 2002;
+	
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+div.DTTT_collection_background {
+	background: url(../images/background.png) repeat top left;
+	z-index: 2001;
+}
+
+div.DTTT_collection button.DTTT_button,
+div.DTTT_collection div.DTTT_button,
+div.DTTT_collection a.DTTT_button {
+	float: none;
+	width: 100%;
+	margin-bottom: -0.1em;
+}
+
+
+/*
+ * PRINTING
+ * Print display styles
+ */
+
+.DTTT_print_info {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 150px;
+	margin-left: -200px;
+	margin-top: -75px;
+	text-align: center;
+	background-color: #3f3f3f;
+	color: white;
+	padding: 10px 30px;
+	
+	opacity: 0.9;
+	
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.DTTT_print_info h6 {
+	font-weight: normal;
+	font-size: 28px;
+	line-height: 28px;
+	margin: 1em;
+}
+
+.DTTT_print_info p {
+	font-size: 14px;
+	line-height: 20px;
+}
+
+
+/*
+ * MISC
+ * Minor misc styles
+ */
+
+.DTTT_disabled {
+	color: #999;
+}
