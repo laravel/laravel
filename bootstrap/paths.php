@@ -71,6 +71,7 @@ return array(
 	'database' => __DIR__.'/../database',
 	'filters' => __DIR__.'/../app/Http/Filters',
 	'lang' => __DIR__.'/../lang',
+	'providers' => __DIR__.'/../app/Providers',
 	'requests' => __DIR__.'/../app/Http/Requests',
 
 );
