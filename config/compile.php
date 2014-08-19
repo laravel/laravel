@@ -14,7 +14,15 @@ return array(
 	*/
 
 	'files' => array(
-		//
+
+		__DIR__.'/../providers/AppServiceProvider.php',
+		__DIR__.'/../providers/ArtisanServiceProvider.php',
+		__DIR__.'/../providers/ErrorServiceProvider.php',
+		__DIR__.'/../providers/EventServiceProvider.php',
+		__DIR__.'/../providers/FilterServiceProvider.php',
+		__DIR__.'/../providers/LogServiceProvider.php',
+		__DIR__.'/../providers/RouteServiceProvider.php',
+
 	),
 
 	/*

@@ -65,12 +65,12 @@ return array(
 	|
 	*/
 
-	'commands' => __DIR__.'/../app/console',
-	'config' => __DIR__.'/../app/config',
-	'controllers' => __DIR__.'/../app/http/controllers',
-	'database' => __DIR__.'/../app/database',
-	'filters' => __DIR__.'/../app/http/filters',
-	'lang' => __DIR__.'/../app/lang',
-	'requests' => __DIR__.'/../app/http/requests',
+	'commands' => __DIR__.'/../app/Console',
+	'config' => __DIR__.'/../config',
+	'controllers' => __DIR__.'/../app/Http/Controllers',
+	'database' => __DIR__.'/../database',
+	'filters' => __DIR__.'/../app/Http/Filters',
+	'lang' => __DIR__.'/../lang',
+	'requests' => __DIR__.'/../app/Http/Requests',
 
 );

@@ -4,18 +4,22 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.3.*"
+		"laravel/framework": "4.3.*",
+		"phpunit/phpunit": "~4.0"
 	},
 	"autoload": {
 		"classmap": [
-			"app/console",
-			"app/database",
-			"app/http",
-			"app/tests/TestCase.php"
+			"app/Console",
+			"app/Http/Controllers",
+			"database",
+			"app/Http/Filters",
+			"app/Providers",
+			"app/Http/Requests",
+			"tests/TestCase.php"
 		],
 		"psr-4": {
-			"App\\": "app/core/",
-			"Providers\\": "app/providers/"
+			"App\\": "app/Core/",
+			"Providers\\": "app/Providers/"
 		}
 	},
 	"scripts": {
