@@ -25,6 +25,10 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		$this->app->booted(function()
 		{
+			// Once the application has booted, we will include the default routes
+			// file. This "namespace" helper will load the routes file within a
+			// route group which automatically sets the controller namespace.
+
 			$this->namespaced(function()
 			{
 				require app('path').'/Http/routes.php';
