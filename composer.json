@@ -9,17 +9,11 @@
 	},
 	"autoload": {
 		"classmap": [
-			"app/Console",
-			"app/Http/Controllers",
 			"database",
-			"app/Http/Filters",
-			"app/Providers",
-			"app/Http/Requests",
 			"tests/TestCase.php"
 		],
 		"psr-4": {
-			"App\\": "app/Core/",
-			"Providers\\": "app/Providers/"
+			"App\\": "app/"
 		}
 	},
 	"scripts": {

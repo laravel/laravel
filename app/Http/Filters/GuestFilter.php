@@ -1,4 +1,6 @@
-<?php
+<?php namespace App\Http\Filters;
+
+use Auth, Redirect;
 
 class GuestFilter {
 

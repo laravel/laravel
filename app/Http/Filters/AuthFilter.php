@@ -1,6 +1,7 @@
-<?php
+<?php namespace App\Http\Filters;
 
 use Illuminate\Http\Request;
+use Auth, Redirect, Response;
 
 class AuthFilter {
 

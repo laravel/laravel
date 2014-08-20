@@ -98,13 +98,13 @@ return array(
 		/*
 		 * Application Service Providers...
 		 */
-		'Providers\AppServiceProvider',
-		'Providers\ArtisanServiceProvider',
-		'Providers\ErrorServiceProvider',
-		'Providers\EventServiceProvider',
-		'Providers\FilterServiceProvider',
-		'Providers\LogServiceProvider',
-		'Providers\RouteServiceProvider',
+		'App\Providers\AppServiceProvider',
+		'App\Providers\ArtisanServiceProvider',
+		'App\Providers\ErrorServiceProvider',
+		'App\Providers\EventServiceProvider',
+		'App\Providers\FilterServiceProvider',
+		'App\Providers\LogServiceProvider',
+		'App\Providers\RouteServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...

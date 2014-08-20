@@ -1,4 +1,4 @@
-<?php namespace Providers;
+<?php namespace App\Providers;
 
 use Illuminate\Routing\RouteServiceProvider as ServiceProvider;
 
@@ -25,7 +25,10 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		$this->app->booted(function()
 		{
-			require app('path').'/routes.php';
+			$this->namespaced(function()
+			{
+				require app('path').'/Http/routes.php';
+			});
 		});
 	}
 
