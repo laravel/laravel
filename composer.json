@@ -4,7 +4,9 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.3.*",
+		"laravel/framework": "4.3.*"
+	},
+	"require-dev": {
 		"phpunit/phpunit": "~4.0"
 	},
 	"autoload": {
