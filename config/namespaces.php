@@ -26,6 +26,6 @@ return array(
 	|
 	*/
 
-	'controllers' => 'App\Http\Controllers',
+	'controllers' => 'App\\Http\\Controllers\\',
 
 );
