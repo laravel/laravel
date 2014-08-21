@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider {
 	public function scan()
 	{
 		return [
-			app_path().'/src',
+			app_path(),
 		];
 	}
 
