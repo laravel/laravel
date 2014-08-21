@@ -70,7 +70,7 @@ return array(
 	'controllers' => __DIR__.'/../app/Http/Controllers',
 	'database' => __DIR__.'/../database',
 	'filters' => __DIR__.'/../app/Http/Filters',
-	'lang' => __DIR__.'/../lang',
+	'lang' => __DIR__.'/../resources/lang',
 	'providers' => __DIR__.'/../app/Providers',
 	'requests' => __DIR__.'/../app/Http/Requests',
 
