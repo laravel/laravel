@@ -166,7 +166,6 @@ return array(
 		'Blade'           => 'Illuminate\Support\Facades\Blade',
 		'Cache'           => 'Illuminate\Support\Facades\Cache',
 		'Config'          => 'Illuminate\Support\Facades\Config',
-		'App\Http\Controllers\Controller' => 'Illuminate\Routing\Controller',
 		'Cookie'          => 'Illuminate\Support\Facades\Cookie',
 		'Crypt'           => 'Illuminate\Support\Facades\Crypt',
 		'DB'              => 'Illuminate\Support\Facades\DB',
