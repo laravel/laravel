@@ -1,0 +1,64 @@
+.prettyprint.theme-balupton {
+	font-size: 12px;
+	line-height: normal;
+	font-style: normal;
+	font-weight: normal;
+}
+.prettyprint.theme-balupton .com {
+	color: #008200; /* balupton green */
+}
+.prettyprint.theme-balupton .lit {
+	color: #066; /* google green */
+}
+.prettyprint.theme-balupton.lang-html .lit {
+	/* CSS Property Value */
+	color: #066; /* google green */
+}
+.prettyprint.theme-balupton.lang-html .kwd {
+	/* CSS Property Value Keyword */
+	color: #066; /* google green */
+	font-weight:bold;
+}
+.prettyprint.theme-balupton.lang-html .atv + .pln,
+.prettyprint.theme-balupton.lang-html .pun + .pln {
+	/* CSS Property Name */
+	color: blue;
+}
+.prettyprint.theme-balupton .atv,
+.prettyprint.theme-balupton .str {
+	color: blue;
+}
+.prettyprint.theme-balupton .atn {
+	color: gray;
+}
+.prettyprint.theme-balupton .pln {
+	color: black;
+}
+.prettyprint.theme-balupton .pun {
+	color: #666;
+}
+.prettyprint.theme-balupton .typ {
+	color: #606;
+}
+.prettyprint.theme-balupton .tag,
+.prettyprint.theme-balupton .kwd {
+	color: #006699;
+	font-weight: bold;
+}
+
+.prettyprint.theme-balupton.linenums {
+	-webkit-box-shadow: inset 47px 0 0 #fbfbfc, inset 48px 0 0 #ececf0;
+	 /*-moz-box-shadow: inset 49px 0 0 #fbfbfc, inset 50px 0 0 #ececf0;
+	      box-shadow: inset 49px 0 0 #fbfbfc, inset 50px 0 0 #ececf0;*/
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+.prettyprint.theme-balupton ol.linenums {
+	margin-left: 40px;
+	margin-bottom: 0;
+}
+.prettyprint.theme-balupton ol.linenums li {
+	padding-left: 12px;
+	color: #bebec5;
+	text-shadow: 0 1px 0 #fff;
+}

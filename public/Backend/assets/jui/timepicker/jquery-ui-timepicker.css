@@ -1,0 +1,49 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - jQuery-UI Timepicker Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+.ui-timepicker-div .ui-slider
+{
+    margin-top: 5px;
+}
+
+.ui-timepicker-div dl
+{
+    text-align: left;
+    padding: 8px 8px 0 8px;
+    margin: 0 0 15px 0;
+}
+
+.ui-timepicker-div dl dt
+{
+    height: 25px;
+    margin-bottom: -25px;
+}
+
+.ui-timepicker-div dl dd
+{
+    margin: 0 10px 8px 90px;
+}
+
+.ui-timepicker-div td
+{
+    font-size: 90%;
+}
+
+.ui-tpicker-grid-label
+{
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}

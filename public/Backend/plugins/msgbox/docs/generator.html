@@ -1,0 +1,477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>jQuery MsgBox &raquo; Generator</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+  <link rel="stylesheet" type="text/css" href="css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="css/global.css" />
+
+  <style type="text/css">
+    .filainput
+    {
+      margin:6px 0;
+      background:#ececec;
+    }
+
+    .filabutton
+    {
+      margin:6px 0;
+      background:#d3d3d3;
+    }
+    
+    .hastoc input,
+    .hastoc select,
+    .hastoc textarea
+    {
+      border:1px solid #c3c3c3;
+      padding:4px 0px;
+      font-family:verdana;
+      font-size:11px;
+      min-width:260px;
+    }
+        
+    .section
+    {
+      margin:0 0 5px;
+      padding:10px;
+      width:260px;
+      float:left;
+    }
+  
+  </style>
+
+  <script type="text/javascript" src="javascript/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="javascript/msgbox/jquery.msgbox.css" />
+  <script type="text/javascript" src="javascript/msgbox/jquery.msgbox.js"></script>
+    
+</head>
+
+<body>
+
+  <div id="top">
+    <div id="header">
+        <h1>jQuery MsgBox <span>Generator</span></h1>
+    </div>
+    <div style="background:#c3c3c3; padding:10px;">
+        <div class="jquery-msgbox" style="display: block; width: 420px; position:relative; margin: 20px auto; height: auto; z-index: 1; word-wrap: break-word; -moz-box-shadow: 0pt 0pt 15px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0pt 0pt 15px rgba(0, 0, 0, 0.5); box-shadow: 0pt 0pt 15px rgba(0, 0, 0, 0.5); -moz-border-radius: 6px;  -webkit-border-radius: 6px; border-radius: 6px; background-color: rgb(255, 255, 255);">
+          <div id="mswrapper" style="height: auto; min-height: 80px;" class="jquery-msgbox-wrapper jquery-msgbox-alert">
+            <form action="#" method="post" onsubmit="return false;">
+              <span id="msmessage"></span>
+              <div id="msinputs" class="jquery-msgbox-inputs"></div>
+              <div id="msbuttons" class="jquery-msgbox-buttons">
+                <button type="submit">Accept</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <div class="hastoc">
+
+    <div class="section">
+      <p><label>Type:
+      <select id="type" autocomplete="off">
+        <option value="alert">Alert</option>
+        <option value="confirm">Confirm</option>
+        <option value="info">Info</option>
+        <option value="prompt">Prompt</option>
+        <option value="error">Error</option>
+      </select>
+      </label></p>
+      <p><label><input type="checkbox" id="callback" value="1" autocomplete="off" style="min-width:0;"/> Add Callback function</label></p>
+    </div>
+
+    <div class="section">
+      <label>Message:
+        <textarea id="message" autocomplete="off"></textarea>
+      </label>
+    </div>
+      
+    <br clear="both"/>
+    
+    <div class="section">
+      <label>Inputs:
+        <select id="ninputs" disabled="disabled" autocomplete="off">
+          <option value="0">Default</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </label>
+    </div>
+
+
+    <div class="section">
+      <label>Buttons:
+        <select id="nbuttons" autocomplete="off">
+          <option value="0">Default</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+    </div>
+    
+    <br clear="both"/>
+  
+    <h2 id="title-inputs" style="display:none">Input Config:</h2>
+    <div id="moreinputs"></div>
+    <h2 id="title-buttons" style="display:none">Button Config:</h2>
+    <div id="morebuttons"></div>
+
+    <!--
+    <div id="moreinputs">
+      <div class="filainput">
+  <div class="section">
+        <label>Type:
+          <select class="type" rel="1">
+            <option value="text">Text</option>
+            <option value="password">Password</option>
+          </select>
+        </label>
+
+        <label>Label:<input type="text" class="label" rel="1"/></label>
+  </div>
+  <div class="section">
+        <label>Default Value:<input type="text" class="default" rel="1"/></label>
+
+        <label>Required:
+          <select class="required" rel="1">
+            <option value="false">False</option>
+            <option value="true">True</option>
+          </select>
+        </label>
+  </div>
+        <br clear="both"/>
+      </div>
+    </div>
+    
+    <div id="morebuttons">
+      <div class="filabutton">
+      <div class="section">
+        <label>Type:
+          <select class="type" rel="1">
+            <option value="submit">Submit</option>
+            <option value="cancel">Cancel</option>
+          </select>
+        </label>
+      </div>
+      <div class="section">
+        <label>Label:<input type="text" class="label" rel="1"/></label>
+      </div>
+      <br clear="both"/>
+    </div>
+    -->
+    
+    <div style="text-align:right; padding:10px;">
+      <button id="generar">Generate Code</button>
+    </div>
+    
+    
+    <script type="text/javascript">
+      var types = ['alert', 'info', 'error', 'prompt', 'confirm'];
+
+      $('#message').keyup(function() {
+        $('#msmessage').html($(this).val());
+      });
+      
+
+
+      $('#type').change(function() {
+        $.each(types, function(i, e) {
+          $('#mswrapper').removeClass('jquery-msgbox-'+e);
+        });
+        $('#mswrapper').addClass('jquery-msgbox-'+$(this).val());
+        
+        if (parseInt($('#nbuttons').val())==0)
+        {
+          if ($(this).val() == "confirm" || $(this).val() == "prompt")
+          {
+            agregarBotones([
+              {type: 'submit', value: 'Accept'},
+              {type: 'cancel', value: 'Cancel'}
+            ]);
+          }
+          else
+          {
+            agregarBotones([
+              {type: 'submit', value: 'Accept'}
+            ]);
+          }
+        }
+        
+        if ($(this).val() == "prompt")
+        {
+          $('#ninputs').removeAttr('disabled');
+          agregarInputs([
+            {type: 'text', name: 'prompt', value: ''}
+          ]);
+        }
+        else
+        {
+          $('#moreinputs').empty();
+          $('#msinputs').empty();
+          $('#ninputs').get(0).options.selectedIndex = 0;
+          $('#ninputs').attr('disabled', 'disabled');
+        }
+        
+      });
+      
+      
+      
+      $('#ninputs').change(function() {
+        valinput = parseInt($(this).val());
+        
+        if (!valinput)
+        {
+          $('#moreinputs').empty();
+          agregarInputs([
+            {type: 'text', name: 'prompt', value: ''}
+          ]);
+          $('#title-inputs').hide();
+        }
+        else
+        {
+          $('#title-inputs').show();
+          $('#moreinputs').empty();
+          var temporal = [];
+          for (i=1; i<=valinput; i++)
+          {
+            $('#moreinputs').append('<div class="filainput"><div class="section"><label>Type:<select class="type" rel="'+i+'"><option value="text">Text</option><option value="password">Password</option></select></label><label>Label:<input type="text" class="label" rel="'+i+'"/></label></div><div class="section"><label>Default Value:<input type="text" class="default" rel="'+i+'"/></label><label>Required:<select class="required" rel="'+i+'"><option value="false">False</option><option value="true">True</option></select></label></div><br clear="both"/></div>');
+            temporal.push ( {type: 'text', name: 'prompt', value: ''} );
+          }
+          agregarInputs(temporal);
+          
+        }
+      });
+      
+      $('.filainput .default').live('keyup', function(event) {
+        rel = $(this).attr('rel');
+        $('#msinputs input[rel='+rel+']').val($(this).val());
+      });
+
+      $('.filainput .label').live('keyup', function(event) {
+        rel = $(this).attr('rel');
+        $('#msinputs .jquery-msgbox-label[rel='+rel+']').html($(this).val());
+      });
+
+      $('.filainput .type').live('change', function(event) {
+        rel   = $(this).attr('rel');
+        type  = $(this).val();
+        val   = $('#msinputs input[rel='+rel+']').val();
+        $('#msinputs input[rel='+rel+']').replaceWith('<input rel="'+rel+'" type="'+type+'" value="'+val+'" autocomplete="off" />');
+      });
+      
+
+
+
+
+
+
+      $('#nbuttons').change(function() {
+        valbutton = parseInt($(this).val());
+        
+        if (valbutton == 0)
+        {
+          //default
+          $('#morebuttons').empty();
+
+          if ($('#type').val() == "confirm" || $('#type').val() == "prompt")
+          {
+            agregarBotones([
+              {type: 'submit', value: 'Accept'},
+              {type: 'cancel', value: 'Cancel'}
+            ]);
+          }
+          else
+          {
+            agregarBotones([
+              {type: 'submit', value: 'Accept'}
+            ]);
+          }
+          $('#title-buttons').hide();
+        }
+        else
+        {
+          $('#morebuttons').empty();
+          var temporal = [];
+          for (i=1; i<=valbutton; i++)
+          {
+            $('#morebuttons').append('<div class="filabutton"><div class="section"><label>Type:<select class="type" rel="'+i+'"><option value="submit">Submit</option><option value="cancel">Cancel</option></select></label></div><div class="section"><label>Label:<input type="text" class="label" value="{'+i+'}" rel="'+i+'"/></label></div><br clear="both"/>');
+            temporal.push ( {type: 'submit', value: '{'+i+'}'} );
+          }
+          agregarBotones(temporal);
+          $('#title-buttons').show();
+          
+        }
+      });
+
+      $('.filabutton .label').live('keyup', function(event) {
+        rel = $(this).attr('rel');
+        $('#msbuttons button[rel='+rel+']').html($(this).val());
+      });
+
+
+
+
+
+
+
+      function agregarBotones(buttons){
+        $('#msbuttons').empty();
+        $.each(buttons, function(i, button) {
+          if (button.type == 'submit')
+          {
+            $('#msbuttons').append($('<button type="submit" rel="'+(i+1)+'">'+button.value+'</button>'));
+          }
+          else if (button.type == 'cancel')
+          {
+            $('#msbuttons').append($('<button type="button" rel="'+(i+1)+'">'+button.value+'</button>'));
+          }
+        });
+      };
+      
+      
+      function agregarInputs(inputs){
+        $('#msinputs').empty();
+        $.each(inputs, function(i, input) {
+          if (input.type == 'text' || input.type == 'password')
+          {
+            iLabel = '<label rel="'+(i+1)+'"><span class="jquery-msgbox-label" rel="'+(i+1)+'"></span>';
+            fLabel = '</label>';
+            $('#msinputs').append($(iLabel+'<input rel="'+(i+1)+'" type="'+input.type+'" readonly="readonly" value="" autocomplete="off" />'+fLabel));
+          }
+        });
+      };
+      
+      
+      
+      
+      function addslashes(str) {
+        // http://phpjs.org/functions/addslashes:303
+        return (str+'').replace(/([\\'])/g, "\\$1");
+      }
+      
+      function nl2br(str, is_xhtml) {
+        // http://phpjs.org/functions/nl2br:480
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? ' ' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag);
+      }      
+      
+      
+      $('#generar').click(function(event){
+        
+        var text = addslashes( nl2br( $('#message').val() ) );
+        var type = $('#type').val() == 'alert' ? '' : '  type : \'' + $('#type').val() + '\'';
+        
+        
+        if (type)
+        {
+          options = ", {\n"+type;
+          
+          if ($('#type').val() == 'prompt')
+          {
+            var ninputs = parseInt($('#ninputs').val());
+            if (!ninputs==0)
+            {
+              options = options + ',' + "\n" + '  inputs : ['+"\n";
+              
+              total = $('.filainput .default').length -1;
+              
+              $('.filainput .default').each(function(i, e){
+                options = options + '    {type: \''+($($('.filainput .type').get(i)).val())+'\', label: \''+(addslashes($($('.filainput .label').get(i)).val()))+'\', value:\''+(addslashes($(e).val()))+'\', '+(($($('.filainput .required').get(i)).val()=="true")?'required : \'true\'':'')+'}'+(i==total?'':",\n");
+              });
+
+              options = options + "\n" + '  ]';
+            }
+          }
+         
+        }
+        else
+        {
+          options = '';
+        }
+        
+        
+        
+        var nbuttons = parseInt($('#nbuttons').val());
+        if (nbuttons!=0)
+        {
+          options = ( !options ? ",{\n" : options + ",\n" ) + '  buttons : ['+"\n";
+
+          total = $('.filabutton .label').length -1;
+          
+          $('.filabutton .label').each(function(i, e){
+            options = options + '    {type: \''+(addslashes($($('.filabutton .type').get(i)).val()))+'\', value:\''+(addslashes($(e).val()))+'\'}'+(i==total?'':",\n");
+          });
+
+          options = options + "\n" + '  ]' + "\n";
+        }
+        else
+        {
+          if (options)
+          {
+            options = options + "\n";
+          }
+        }
+        
+        if ($('#callback:checked').val())
+        {
+          var callback = '';
+          if ($('#type').val() == 'prompt')
+          {
+            total = $('.filainput .default').length -1;
+            if (total>0)
+            {
+              $('.filainput .default').each(function(i, e){
+                callback = callback + "e" + (i+1) + (i==total?'':", ");
+              });
+            }
+            else
+            {
+              callback = "e1";
+            }
+          }
+          else
+          {
+            callback = "buttonPressed";
+          }
+          if (!options)
+          {
+            options = options + ', {}';
+          }
+          else
+          {
+            options = options + "}";
+          }
+          options = options + ", function(" + callback + ") {\n  // your code here\n";
+        }
+
+
+        if (options)
+        {
+          options = options + '}';
+        }
+
+        
+        var code = '$.msgbox(\''+text+'\''+options+');';
+        
+        $.msgbox('<textarea style="width:99%; height:100px; border:1px solid #dedede;font-size:11px;">'+code+'</textarea>', {type:'info'});
+
+        event.preventDefault();
+      });
+      
+      
+    </script>
+    
+    </div><!--/hastoc-->
+  </div>
+</body>
+</html>

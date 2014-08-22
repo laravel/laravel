@@ -1,0 +1,137 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Image Gallery Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Base Gallery
+================================================== */
+
+.gallery > ul, 
+.gallery > ul > li
+{
+    margin: 0;
+    list-style: none;
+    display: block;
+}
+
+.gallery > ul
+{
+    margin: 0 -1%;
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery > ul > li
+{
+    margin: 0 1% 15px;
+    width: 31.033333%;
+    position: relative;
+    float: left;
+    overflow: hidden;
+}
+
+.gallery > ul > li > .actions
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -56px;
+    margin-top: -16px;
+    
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: alpha(opacity=0);
+
+    -webkit-transition: opacity 250ms ease-in-out;
+    -moz-transition: opacity 250ms ease-in-out;
+    -ms-transition: opacity 250ms ease-in-out;
+    -o-transition: opacity 250ms ease-in-out;
+    transition: opacity 250ms ease-in-out;
+}
+
+.gallery > ul > li:hover .actions
+{
+    opacity: 1;
+    -moz-opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.gallery > ul > li > .actions > a
+{
+    float: left;
+    display: block;
+    font-size: 12px;
+    line-height: 32px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    background-color: #000;
+    color: #fff;
+    margin: 0 2px;
+    -webkit-border-radius: 32px;
+    -moz-border-radius: 32px;
+    border-radius: 32px;
+}
+
+.gallery > ul > li > .actions > a:hover
+{
+    -webkit-transform: scale(1.75);
+    -moz-transform: scale(1.75);
+    -ms-transform: scale(1.75);
+    -o-transform: scale(1.75);
+    transform: scale(1.75);
+}
+
+/* Transitions
+================================================== */
+
+.gallery > ul > .tiled
+{
+    -webkit-transition-duration: 0.7s;
+    -moz-transition-duration: 0.7s;
+    -ms-transition-duration: 0.7s;
+    -o-transition-duration: 0.7s;
+    transition-duration: 0.7s;
+}
+
+.gallery > ul > .tiled
+{
+    -webkit-transition-property: left, right, top;
+    -moz-transition-property: left, right, top;
+    -ms-transition-property: left, right, top;
+    -o-transition-property: left, right, top;
+    transition-property: left, right, top;
+}
+
+@media (min-width: 1200px)
+{
+    .gallery > ul > li
+    {
+        width: 22.7%;
+    }
+}
+
+@media (max-width: 979px)
+{
+    .gallery > ul > li
+    {
+        width: 47.7%;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .gallery > ul > li
+    {
+        width: 97.7%;
+    }
+}

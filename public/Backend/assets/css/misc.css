@@ -1,0 +1,153 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Misc. Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Paper Stack Effect
+================================================== */
+
+.paper-stack
+{
+    position: relative;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+.paper-stack:after, 
+.paper-stack:before
+{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 1px;
+    bottom: -3px;
+    left: 3px;
+    right: 3px;
+    background-color: #fff;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #d3d3d3;
+    border-top: 0;
+}
+
+.paper-stack:before
+{
+    bottom: -5px;
+    left: 6px;
+    right: 6px;
+}
+
+/* Additional Icon Tweaks
+================================================== */
+
+.btn-group .btn-mini [class^="icol-"], 
+.btn-group .btn-mini [class*=" icol-"], 
+.btn-group .btn-small [class^="icol-"], 
+.btn-group .btn-small [class*=" icol-"]
+{
+    display: none;
+}
+
+.dropdown-menu a [class^="icon-"], 
+.dropdown-menu a [class^="icos-"], 
+.dropdown-menu a [class^="icol-"], 
+.dropdown-menu a [class*=" icon-"], 
+.dropdown-menu a [class*=" icos-"], 
+.dropdown-menu a [class*=" icol-"]
+{
+    margin-right: 4px;
+    font-size: 16px;
+}
+
+/* Placeholder
+================================================== */
+
+::-webkit-input-placeholder
+{
+    color: #999;
+}
+
+:-moz-placeholder
+{
+    color: #999;
+}
+
+input.placeholder, 
+textarea.placeholder
+{
+    color: #999;
+}
+
+/* Tweaks
+================================================== */
+
+.alert
+{
+    font-size: 13px;
+}
+
+code, pre
+{
+    font-size: 11px;
+}
+
+/* Sub Headings
+================================================== */
+
+
+h1.sub, 
+h2.sub, 
+h3.sub, 
+h4.sub, 
+h5.sub, 
+h6.sub
+{
+    line-height: 2em;
+    position: relative;
+    color: #444;
+    text-shadow: -1px -1px #f0f0f0;
+}
+
+h1.sub span, 
+h2.sub span, 
+h3.sub span, 
+h4.sub span, 
+h5.sub span, 
+h6.sub span
+{
+    display: inline-block;
+    *display: inline;
+ /* IE7 inline-block hack */
+    *zoom: 1;
+    position: relative;
+    font-size: 90%;
+    padding: 0 15px 0 0;
+    background: #fefefe;
+}
+
+h1.sub:before, 
+h2.sub:before, 
+h3.sub:before, 
+h4.sub:before, 
+h5.sub:before, 
+h6.sub:before
+{
+    content: '';
+    height: 1px;
+    top: 50%;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background-color: #ccc;
+}

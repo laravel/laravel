@@ -1,0 +1,259 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Form Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Form Widget Whitespace
+================================================== */
+
+.dropdown-menu form, 
+.dropdown-menu .form-search, 
+.dropdown-menu .form-horizontal, 
+.dropdown-menu .form-vertical, 
+.dropdown-menu .form-inline, 
+.widget form, 
+.widget .form-search, 
+.widget .form-horizontal, 
+.widget .form-vertical, 
+.widget .form-inline
+{
+    margin-bottom: 0;
+}
+
+.widget .form-container .control-group, 
+.widget .form-container .form-actions
+{
+    margin: 0;
+    position: relative;
+}
+
+.widget .form-container .control-group
+{
+    padding: 16px 20px;
+    border-top: 1px solid #ccc;
+}
+
+.widget .form-container fieldset legend
+{
+    border-top: 1px solid #ccc;
+}
+
+/* Form Tweaks
+================================================== */
+
+label
+{
+    cursor: pointer;
+}
+
+.help-block, 
+.help-inline
+{
+    color: #888;
+    font-size: 11px;
+}
+
+.help-inline + .help-block, 
+.help-block + .help-block
+{
+    margin-top: 9px;
+}
+
+.widget .form-container .form-horizontal .control-label
+{
+    text-align: left;
+    width: 120px;
+}
+
+.widget .form-container .form-horizontal .controls
+{
+    margin-left: 140px;
+}
+
+.widget .form-container .form-horizontal .form-actions
+{
+    padding-left: 160px;
+}
+
+textarea
+{
+    resize: none;
+    height: 6em;
+}
+
+textarea:focus, 
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="datetime"]:focus, 
+input[type="datetime-local"]:focus, 
+input[type="date"]:focus, 
+input[type="month"]:focus, 
+input[type="time"]:focus, 
+input[type="week"]:focus, 
+input[type="number"]:focus, 
+input[type="email"]:focus, 
+input[type="url"]:focus, 
+input[type="search"]:focus, 
+input[type="tel"]:focus, 
+input[type="color"]:focus, 
+.uneditable-input:focus
+{
+    outline: 0;
+}
+
+/* Form Customization
+================================================== */
+
+.widget .form-container legend
+{
+    margin-bottom: 0;
+    background: #fafafa repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(top, #ffffff, #f2f2f2);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#f2f2f2', GradientType=0);
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    line-height: 20px;
+    padding: 8px;
+    padding-left: 20px;
+    border: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Custom Form Elements
+================================================== */
+
+label .required
+{
+    color: #f00;
+    font-size: 11px;
+    vertical-align: text-top;
+}
+
+/* External Form Elements
+================================================== */
+
+.sheepit-form .control-group .close
+{
+    position: absolute;
+    top: 4px; right: 4px;
+}
+
+.select2-container[class*="span"]
+{
+    float: none;
+    margin-left: 0;
+    min-height: 0;
+}
+
+.control-group .controls .ui-slider
+{
+    margin: 11px;
+    margin-bottom: 21px;
+}
+
+.control-group .controls .ui-progressbar, 
+.control-group .controls .progress
+{
+    margin-top: 6px;
+}
+
+.control-group .controls .ui-spinner, 
+.control-group .controls .datepicker-inline
+{
+    margin-bottom: 9px;
+}
+
+.form-horizontal .control-group .controls .ui-spinner, 
+.form-horizontal .control-group .controls .datepicker-inline
+{
+    margin-bottom: 0;
+}
+
+.form-horizontal .fileinput-holder + .help-block, 
+.form-horizontal .ui-spinner + .help-block, 
+.form-horizontal .datepicker-inline + .help-block
+{
+    margin-top: 9px;
+}
+
+.control-group .controls .star-rating-control
+{
+    margin-top: 5px;
+    display: block;
+}
+
+.radio .ibutton-container, 
+.checkbox .ibutton-container
+{
+    margin-left: -18px;
+    vertical-align: middle;
+}
+
+.radio .uniform-radio, 
+.checkbox .uniform-checker
+{
+    float: left;
+    margin-left: -18px;
+}
+
+.form-search .radio .uniform-radio, 
+.form-search .radio .ibutton-container, 
+.form-search .checkbox .uniform-checker, 
+.form-search .checkbox .ibutton-container, 
+.form-inline .radio .uniform-radio, 
+.form-inline .radio .ibutton-container, 
+.form-inline .checkbox .uniform-checker, 
+.form-inline .checkbox .ibutton-container
+{
+    margin-right: 3px;
+    margin-left: 0;
+}
+
+.radio .uniform-radio input[type="radio"], 
+.checkbox .uniform-checker input[type="checkbox"]
+{
+    float: none;
+    margin: 0;
+}
+
+/* Media Queries
+================================================== */
+
+@media (max-width: 767px) {
+    .row-fluid .controls-row [class*="span"], 
+    .row-fluid .controls-row [class*="span"] + [class*="span"]
+    {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .widget .form-container .form-horizontal .form-actions
+    {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .widget .form-container .form-horizontal .controls
+    {
+        margin-left: 0;
+    }
+}

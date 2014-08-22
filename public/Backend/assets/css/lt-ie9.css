@@ -1,0 +1,187 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - IE < 9 Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* < IE 9 should always display the wide version
+================================================== */
+
+.lt-ie9 #wrapper, 
+.lt-ie9 #header
+{
+    min-width: 980px;
+}
+
+.lt-ie9 #header .navbar-inner .brand img
+{
+    max-width: none;
+}
+
+.lt-ie9 #header #header-right
+{
+    margin-left: 274px;
+}
+
+.lt-ie9 #header #header-right .navbar-search .search-query
+{
+    width: 210px;
+}
+
+.lt-ie9 #wrapper
+{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.lt-ie9 #wrapper #sidebar
+{
+    width: 285px;
+    padding-right: 1px;
+}
+
+.lt-ie9 #wrapper #main
+{
+    margin-left: 286px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation > ul > #sidebar-toggle-wrap
+{
+    padding: 5px;
+    padding-left: 6px;
+}
+
+/* Hidden Sidebar */
+.lt-ie9 #wrapper #content.sidebar-minimized #sidebar
+{
+    width: 70px;
+}
+
+.lt-ie9 #wrapper #content.sidebar-minimized #main
+{
+    margin-left: 70px;
+}
+
+.lt-ie9 #wrapper #content.sidebar-minimized #content-inner
+{
+    background-image: url(../images/layout/content-bg.png);
+    background-position: left top;
+}
+/* End Hidden Sidebar */
+
+.lt-ie9 #wrapper #content-inner
+{
+    border-top: 0;
+    background-image: url(../images/layout/content-bg-plain-gt1200.png);
+    background-position: left top;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation > ul > li
+{
+    max-width: 70px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation > ul > li .nav-title
+{
+    display: block;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation > ul > li > a, 
+.lt-ie9 #wrapper #sidebar #navigation > ul > li > span
+{
+    font-size: 32px;
+    padding: 6px 5px 11px 5px;
+    width: 58px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation > ul > li > .inner-nav
+{
+    left: 70px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation .inner-nav > li > a
+{
+    padding: 12px 17px 12px 30px;
+}
+
+.lt-ie9 #wrapper #sidebar #navigation
+{
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Form
+================================================== */
+
+.lt-ie9 .row-fluid input[class*="span"], 
+.lt-ie9 .row-fluid select[class*="span"], 
+.lt-ie9 .row-fluid textarea[class*="span"], 
+.lt-ie9 .row-fluid .uneditable-input[class*="span"], 
+.lt-ie9 .row-fluid .input-prepend [class*="span"], 
+.lt-ie9 .row-fluid .input-append [class*="span"]
+{
+    min-height: 18px;
+}
+
+/* DataTables Filter
+================================================== */
+
+.lt-ie9 .filter_column input, 
+.lt-ie9 .filter_column select, 
+.lt-ie9 .filterColumn input, 
+.lt-ie9 .filterColumn select {
+    min-height: 18px;
+}
+
+/* Gallery
+================================================== */
+
+.lt-ie9 .gallery > ul > li > .actions
+{
+    display: none;
+}
+
+.lt-ie9 .gallery > ul > li:hover .actions
+{
+    display: block;
+}
+
+/* Full Layout
+================================================== */
+
+.lt-ie9 #wrapper.full
+{
+    max-width: none;
+    margin: auto;
+    padding: 0;
+}
+
+.lt-ie9 #wrapper.full #header .navbar-inner .container
+{
+    max-width: none;
+}
+
+#wrapper.full #content-wrap #content, 
+#wrapper.full #content-outer, 
+#wrapper.full #content-inner
+{
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.lt-ie9 #wrapper.full #content-wrap
+{
+    padding: 69px 0 0;
+    border: 0;
+}

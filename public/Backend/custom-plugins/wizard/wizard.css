@@ -1,0 +1,303 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Wizard Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Wizard Navigation
+================================================== */
+
+.wizard-nav ul
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+.wizard-nav
+{
+    background: #fafafa repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(top, #ffffff, #f2f2f2);
+    position: relative;
+    border-bottom: 1px solid #bbb;
+    margin-bottom: -1px;
+}
+
+.wizard-nav
+{
+    *zoom: 1;
+}
+
+.wizard-nav:before,
+.wizard-nav:after
+{
+    display: table;
+    content: "";
+}
+
+.wizard-nav:after
+{
+    clear: both;
+}
+
+.wizard-nav ul li
+{
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0 25px;
+    cursor: pointer;
+    margin-right: -25px;
+    background: url(wizard-nav.png) no-repeat left -50px;
+    display: block;
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.wizard-nav ul li.disabled a, 
+.wizard-nav ul li.disabled span
+{
+    color: #aaa;
+}
+
+.wizard-nav ul li.disabled, 
+.wizard-nav ul li.disabled:hover
+{
+    background-position: left bottom;
+    cursor: default;
+}
+
+.wizard-nav ul li [class^="icon-"]
+{
+    font-size: 18px;
+    margin-right: 4px;
+}
+
+.wizard-nav ul li:first-child
+{
+    background-position: -25px -50px;
+    padding-left: 12px;
+}
+
+.wizard-nav ul li:last-child
+{
+    padding-right: 12px;
+    border-right: 1px solid #ccc;
+}
+
+.wizard-nav ul li:first-child.current, 
+.wizard-nav ul li:first-child:hover.current
+{
+    background-position: -25px top;
+}
+
+.wizard-nav ul li:first-child:hover
+{
+    background-position: -25px -100px;
+}
+
+.wizard-nav ul li.current, 
+.wizard-nav ul li.current:hover
+{
+    background-position: left top;
+}
+
+.wizard-nav ul li.current:first-child
+{
+    -webkit-box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.wizard-nav ul li:hover
+{
+    background-position: left -100px;
+    color: #555;
+}
+
+.wizard-nav ul li a, 
+.wizard-nav ul li span
+{
+    display: block;
+    line-height: 50px;
+    text-decoration: none;
+    padding: 0 16px;
+    color: #444;
+}
+
+/* Vertical Wizard
+================================================== */
+
+.wizard-form.wizard-form-vertical
+{
+    margin-left: 180px;
+    border-left: 1px solid #ccc;
+}
+
+.wizard-nav.wizard-nav-vertical
+{
+    position: absolute;
+    width: 180px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    border-bottom: 0;
+}
+
+.wizard-nav.wizard-nav-vertical ul
+{
+    float: none;
+}
+
+.wizard-nav.wizard-nav-vertical ul li
+{
+    display: block;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    background-position: -25px -50px;
+}
+
+.wizard-nav.wizard-nav-vertical ul li:hover
+{
+    background-position: -25px -100px;
+}
+
+.wizard-nav.wizard-nav-vertical ul li.current, 
+.wizard-nav.wizard-nav-vertical ul li.current:hover
+{
+    background-position: -25px top;
+}
+
+.wizard-nav.wizard-nav-vertical ul li:last-child
+{
+    border-right: 0;
+}
+
+/* Responsive Wizard
+================================================== */
+	
+.wizard-nav .responsive-prev-btn, 
+.wizard-nav .responsive-next-btn
+{
+    display: none;
+    top: 50%;
+    left: 10px;
+    margin-top: -14px;
+    position: absolute;
+}
+
+.wizard-nav .responsive-next-btn
+{
+    right: 10px;
+    left: auto;
+}
+
+@media (max-width: 767px)
+{
+	
+    .wizard-nav ul
+    {
+        width: 100%;
+    }
+
+    .wizard-nav ul li
+    {
+        display: none;
+    }
+
+    .wizard-nav ul li, 
+    .wizard-nav ul li:last-child, 
+	.wizard-nav ul li span, 
+	.wizard-nav ul li a
+    {
+        margin: 0;
+        padding: 0;
+    }
+
+    .wizard-nav ul li.current
+    {
+        display: block !important;
+        width: 100%;
+        text-align: center;
+    }
+
+    .wizard-nav ul li.current, 
+	.wizard-nav ul li.current:hover
+    {
+        background-position: -25px top;
+    }
+
+    .wizard-nav ul li.current
+    {
+        -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1) !important;
+        -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .wizard-nav ul li:first-child
+    {
+        padding-left: 0;
+    }
+
+    .wizard-nav ul li:last-child
+    {
+        border-right: 0;
+    }
+
+    .wizard-nav .responsive-prev-btn, 
+	.wizard-nav .responsive-next-btn
+    {
+        display: block;
+    }
+
+    .wizard-form.wizard-form-vertical
+    {
+        margin-left: 0;
+        border-left: none;
+    }
+
+    .wizard-nav.wizard-nav-vertical
+    {
+        position: relative;
+        width: auto;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        border-bottom: 1px solid #bbb;
+        margin: 0 0 -1px 0;
+    }
+
+    .wizard-nav.wizard-nav-vertical ul
+    {
+        float: left;
+    }
+
+    .wizard-nav.wizard-nav-vertical ul li
+    {
+        display: none;
+        float: left;
+        border-bottom: none;
+        background-position: -25px -50px;
+    }
+
+    .wizard-nav.wizard-nav-vertical ul li:hover
+    {
+        background-position: -25px -100px;
+    }
+}

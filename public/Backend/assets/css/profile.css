@@ -1,0 +1,219 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Mail Page Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Profile Page
+================================================== */
+
+.profile
+{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.profile
+{
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.profile:after, 
+.profile:before
+{
+    content: '';
+    position: absolute;
+    display: block;
+    height: 1px;
+    bottom: -3px;
+    left: 3px;
+    right: 3px;
+    background-color: #fff;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.profile:before
+{
+    bottom: -5px;
+    left: 6px;
+    right: 6px;
+}
+
+/* Profile Sidebar
+================================================== */
+
+.profile .profile-sidebar
+{
+    width: 200px;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+}
+
+.profile .profile-sidebar .thumbnail, 
+ .profile .profile-sidebar .nav
+{
+    background-color: #fff;
+}
+
+.profile .profile-sidebar .thumbnail
+{
+    margin-bottom: 10px;
+}
+
+.profile .profile-sidebar .nav
+{
+    margin-bottom: 0;
+}
+
+.profile .profile-sidebar .nav > li > a
+{
+    border-left: 0;
+    border-right: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+/* Profile Content
+================================================== */
+
+.profile .profile-head, 
+.profile .profile-content
+{
+    padding: 20px 20px 20px 240px;
+}
+
+.profile .profile-head
+{
+    background-color: #fefefe;
+    background-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.05) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(85%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05)));
+    background-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    border-bottom: 1px solid #ddd;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+
+.profile .profile-head .btn-toolbar
+{
+    margin-bottom: 0;
+}
+
+.profile .profile-username
+{
+    font-size: 21px;
+    margin: 0 0 10px 0;
+    line-height: 1;
+}
+
+.profile .profile-attributes, 
+.profile .profile-attributes li
+{
+    margin: 0;
+    list-style: none;
+    font-size: 11px;
+    color: #555;
+}
+
+.profile .profile-attributes li
+{
+    display: inline-block;
+    margin-right: 15px;
+    line-height: 16px;
+}
+
+.profile .profile-attributes li [class^="icon-"], 
+.profile .profile-attributes li [class^="icol-"], 
+.profile .profile-attributes li [class^="icos-"], 
+.profile .profile-attributes li [class*=" icon-"], 
+.profile .profile-attributes li [class*=" icol-"], 
+.profile .profile-attributes li [class*=" icos-"]
+{
+    font-size: 14px;
+    margin-right: 3px;
+    color: #444;
+}
+
+@media (max-width: 979px)
+{
+    .profile .profile-attributes li
+    {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .profile .profile-head .profile-info, 
+	.profile .profile-head .btn-toolbar
+    {
+        float: none;
+        display: block;
+    }
+}
+
+@media (max-width: 767px)
+{
+    .profile .profile-sidebar
+    {
+        position: relative;
+        display: block;
+        width: auto;
+        padding-bottom: 0;
+    }
+
+    .profile .profile-sidebar .thumbnail
+    {
+        float: left;
+        width: 200px;
+        margin-bottom: 0;
+    }
+
+    .profile .profile-sidebar .nav
+    {
+        margin-left: 220px;
+        float: none;
+    }
+
+    .profile .profile-head, 
+	.profile .profile-content
+    {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 480px)
+{
+    .profile .profile-sidebar .thumbnail
+    {
+        width: auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+
+    .profile .profile-sidebar .nav
+    {
+        margin-left: 0;
+        display: block;
+    }
+}

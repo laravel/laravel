@@ -1,0 +1,144 @@
+.ibutton-container {
+	position: relative;
+	height: 20px;
+	cursor: pointer;
+	overflow: hidden;
+	display: inline-block;
+
+	/* prevent text selection */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.ibutton-container input {
+	position: absolute;
+	top: 0; left: 0;
+	z-index: -100;
+
+	/* hide the element */
+	filter:alpha(opacity=0);
+	-moz-opacity: 0.0; 
+	opacity: 0.0;
+
+	/* allow checking of input if visible */
+	-moz-user-input: enabled  !important;
+}
+
+.ibutton-handle {
+	display: block;
+	height: 18px;
+	cursor: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	border: 1px solid #888;
+	
+	background: #fafafa repeat-x left bottom;
+	background-image: -ms-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+	background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: linear-gradient(top, #ffffff, #f2f2f2);
+
+	z-index: 3;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.ibutton-handle .ibutton-handle-inner
+{
+	display: block;
+	position: absolute;
+	width: 8px; height: 6px;
+	background: url(grip.png) no-repeat center center;
+	left: 50%; margin-left: -4px;
+	top: 50%; margin-top: -3px;
+}
+
+div.ibutton-label-on, 
+div.ibutton-label-off {
+	white-space: nowrap;
+	font-size: 10px;
+	line-height: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: inherit;
+	display: block;
+	position: absolute;
+	width: auto;
+	top: 0;
+	overflow: hidden;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+div.ibutton-label-on {
+	color: #60783f;
+	text-shadow: 0 1px #fff;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+	left: 0; padding-right: 3px;
+	margin-right: -3px;
+	z-index: 1; 
+	border: 1px solid #87aa5b;
+	background-color: #9fc46a;
+}
+
+div.ibutton-label-on span { padding: 0 5px; }
+
+div.ibutton-label-off {
+	color: #8f5247;
+	background-color: #dd7d6c;
+	text-shadow: 0 1px #fff;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+	text-align: right;
+	right: 0; left: 0;
+	border: 1px solid #b15b4d;
+}
+
+div.ibutton-label-off span { padding: 0 5px; }
+
+div.ibutton-label-on label, 
+div.ibutton-label-off label
+{
+	font-weight: bold;
+	margin: 0 !important;
+}
+
+/* create an outline when button gets focus via keyboard */
+.ibutton-container label {
+	cursor: inherit;
+	font-size: 1em !important;
+	display: inline;
+	margin: 0;
+}
+
+.ibutton-focus label {}
+
+.ibutton-focus div.ibutton-label-on span label {}
+
+/* change the styles of the handle when being dragged */
+.ibutton-active-handle .ibutton-handle {}
+
+.ibutton-disabled {
+	opacity: .75;
+	-moz-opacity: .75;
+	filter: alpha(opacity=75);
+}
+
+.ibutton-disabled .ibutton-handle {}
+
+.ibutton-disabled div.ibutton-label-on {}
+
+.ibutton-disabled div.ibutton-label-off {}

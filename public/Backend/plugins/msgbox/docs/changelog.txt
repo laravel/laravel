@@ -1,0 +1,22 @@
+1.3.5 (Aug 19 2012)
+* Fixed JS Error within IE7, IE8. 'class' is a reserved keyword.
+
+1.3.4 (Mar 17 2012)
+* Now you can add a class for a button.
+
+1.3.2 (Jun 21 2011)
+* Fixed custom types buttons.
+
+1.3 (Jun 29 2010)
+* Form options added
+* BugFixed: Safari Buttons.
+
+1.2 (Mar 29 2010)
+* BugFixed: isPlainObject doesn't exists in jquery 1.3.
+
+1.1 (Mar 17 2010)
+* Now you can press [Enter] to close the alert.
+* Config function has added.
+
+1.0 (Mar 14 2010)
+* First release with a version number.

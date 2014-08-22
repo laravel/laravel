@@ -1,0 +1,282 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - UI Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+
+/* Accordion
+================================================== */
+
+.accordion
+{
+    background-color: #fff;
+}
+
+.accordion .accordion-group:first-child
+{
+    border-top-width: 1px;
+}
+
+.accordion .accordion-group
+{
+    margin: 0;
+    border-top-width: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.accordion .accordion-group, 
+.accordion .accordion-inner
+{
+    border-color: #ccc;
+}
+
+.accordion .accordion-heading a, 
+.accordion .accordion-heading span
+{
+    color: #333;
+    text-decoration: none;
+    background-color: #fcfcfc;
+    background-image: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0) 85%, rgba(0,0,0,0.05) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(85%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05)));
+    background-image: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+    background-image: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0,0,0,0.05) 100%);
+}
+
+.accordion .accordion-heading:hover a, 
+.accordion .accordion-heading:hover span
+{
+    background-color: #fefefe;
+}
+
+/* Modal
+================================================== */
+
+.modal .modal-header
+{
+    background: #f8f8f8 repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #f8f8f8, #e8e8e8);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#e8e8e8));
+    background-image: -webkit-linear-gradient(top, #f8f8f8, #e8e8e8);
+    background-image: -o-linear-gradient(top, #f8f8f8, #e8e8e8);
+    background-image: -moz-linear-gradient(top, #f8f8f8, #e8e8e8);
+    background-image: linear-gradient(top, #f8f8f8, #e8e8e8);
+    text-shadow: 0 1px #fff;
+    font-weight: bold;
+    border-bottom: 1px solid #cdcdcd;
+    min-height: 20px;
+    line-height: 22px;
+    vertical-align: middle;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 8px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 1px 8px rgba(0, 0, 0, 0.1);
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+}
+
+.modal .modal-header .close
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    padding: 1px 4px;
+    margin: 0;
+}
+
+.modal .modal-header .close:hover
+{
+    border: 1px solid #888;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+.modal .modal-header .close:active
+{
+    background-color: #d0d0d0;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+}
+
+/* Progressbar
+================================================== */
+
+.progress .bar, 
+.progress.progress-info .bar
+{
+    border: 1px solid #1184be;
+}
+
+.progress.progress-success .bar
+{
+    border: 1px solid #54a754;
+}
+
+.progress.progress-danger .bar
+{
+    border: 1px solid #ca514e;
+}
+
+.progress.progress-warning .bar
+{
+    border: 1px solid #d59944;
+}
+
+.progress .bar
+{
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.progress.progress-mini
+{
+    height: 6px;
+}
+
+.progress.progress-small
+{
+    height: 12px;
+}
+
+.progress.progress-large
+{
+    height: 24px;
+}
+
+/* Header Tab Widgets
+================================================== */
+
+.widget .widget-header .toolbar .nav
+{
+    margin-bottom: 0;
+    border-bottom: 0;
+    border-left: 1px solid #222;
+}
+
+.widget .widget-header.light .toolbar .nav
+{
+    border-left-color: #ccc;
+}
+
+.widget .widget-header .toolbar .nav > li
+{
+    margin: 0;
+    float: left;
+}
+
+.widget .widget-header .toolbar .nav > li.dropdown:hover .caret, 
+.widget .widget-header .toolbar .nav > li.open .caret
+{
+    border-top-color: #ddd;
+}
+
+.widget .widget-header.light .toolbar .nav > li.dropdown:hover .caret, 
+.widget .widget-header.light .toolbar .nav > li.open .caret
+{
+    border-top-color: #aaa;
+}
+
+.widget .widget-header .toolbar .nav > li.active > a
+{
+    background-color: #333;
+    border-left-color: transparent;
+}
+
+.widget .widget-header .toolbar .nav > li > a
+{
+    background-color: transparent;
+    color: #fff;
+    font-size: 11px;
+    border: none;
+    font-weight: normal;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+    line-height: 18px;
+    outline: none;
+    border-left: 1px solid #555;
+    border-right: 1px solid #222;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.widget .widget-header.light .toolbar .nav > li > a
+{
+    color: #444;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #ccc;
+}
+
+.widget .widget-header.light .toolbar .nav > li.active > a
+{
+    background-color: #fff;
+}
+
+.widget .widget-header .toolbar .nav > li:last-child > a
+{
+    border-right: 0;
+}
+
+/* Tab Widgets
+================================================== */
+
+.widget > .nav.nav-tabs
+{
+    margin-bottom: 0;
+}
+
+.widget > .nav.nav-tabs > .active > a
+{
+    border-color: #cfcfcf;
+    border-bottom-color: transparent;
+}
+
+.widget > .nav.nav-tabs + .tab-content
+{
+    border-top-width: 0;
+}
+
+.widget .tab-content
+{
+    background: #fff;
+    border: 1px solid #cfcfcf;
+    border-top: 0;
+    padding: 16px;
+    clear: both;
+}
+
+/* Widget Alerts
+================================================== */
+
+.widget .widget-content.no-padding .alert, 
+.widget .form-container .alert, 
+.widget .table-container .alert
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.widget .widget-content.no-padding .alert + .alert, 
+.widget .form-container .alert + .alert, 
+.widget .table-container .alert + .alert, 
+.widget .form-container .alert + .control-group
+{
+    border-top: 0;
+}

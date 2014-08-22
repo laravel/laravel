@@ -1,0 +1,194 @@
+/*
+ * MoonCake v1.3.1 - Contact List Plugin Stylsheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ * 'Highly configurable' mutable plugin boilerplate
+ * Author: @markdalgleish
+ * Further changes, comments: @addyosmani
+ * Licensed under the MIT license
+ *
+ */
+ 
+.contact-list
+{
+    width: auto;
+    min-height: 250px;
+    display: block;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+}
+
+.contact-list ul
+{
+    list-style: none;
+    margin: 0;
+}
+
+.contact-list .contact-contents
+{
+    display: block;
+    position: relative;
+}
+
+.contact-list .contact-contents .contact-items-container
+{
+    overflow: auto;
+}
+
+.contact-list .contact-contents .contact-items
+{
+    display: block;
+    position: relative;
+}
+
+.contact-list .contact-contents .contact-items li
+{
+    float: left;
+    width: 100%;
+    margin: 0;
+}
+
+.contact-list .contact-contents .contact-items li .thumbnail
+{
+    width: 48px;
+    margin-right: 12px;
+    float: left;
+}
+
+.contact-list .contact-contents .contact-items ul li a
+{
+    padding: 5px 10px;
+    display: block;
+    font-size: 14px;
+    border-bottom: 1px solid #f3f3f3;
+    text-transform: capitalize;
+    *zoom: 1;
+}
+
+.contact-list .contact-contents .contact-items ul li a:before,
+.contact-list .contact-contents .contact-items ul li a:after
+{
+    display: table;
+    content: "";
+}
+
+.contact-list .contact-contents .contact-items ul li a:after
+{
+    clear: both;
+}
+
+.contact-list .contact-contents .contact-items ul li:last-child a
+{
+    border-bottom: 0;
+}
+
+.contact-list .contact-contents .contact-items ul li a:hover
+{
+    background: #f3faff;
+    border-color: #d5ebf9;
+    text-decoration: none;
+}
+
+.contact-list .contact-contents .title
+{
+    padding: 5px 0;
+    text-indent: 10px;
+    color: #444;
+    width: 100%;
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    border-width: 1px 0;
+}
+
+.contact-list .contact-contents .title, 
+.contact-list .contact-filter
+{
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+}
+
+.contact-list .contact-contents .title:hover
+{
+    text-decoration: none;
+}
+
+.contact-list .contact-nav
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-bottom: 0;
+    min-height: 250px;
+}
+
+.contact-list .contact-nav li a
+{
+    padding: 8px 12px 8px 11px;
+    line-height: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: #666;
+    border: 1px solid #ccc;
+    border-width: 1px 0 0 1px;
+    font-weight: bold;
+    display: block;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    background-repeat: repeat-x;
+    -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1), inset 0 1px 0 rgba(255, 255, 255, 1);
+    -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1), inset 0 1px 0 rgba(255, 255, 255, 1);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 1), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.contact-list .contact-nav li.selected a
+{
+    color: #ffffff;
+    border-color: #3f9dce;
+    border-bottom-color: #2a73b3;
+    background: #2ca3de repeat-x bottom left;
+    background-image: -moz-linear-gradient(top, #70ccfa, #2ca3de);
+    background-image: -ms-linear-gradient(top, #70ccfa, #2ca3de);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70ccfa), to(#2ca3de));
+    background-image: -webkit-linear-gradient(top, #70ccfa, #2ca3de);
+    background-image: -o-linear-gradient(top, #70ccfa, #2ca3de);
+    background-image: linear-gradient(top, #70ccfa, #2ca3de);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#70ccfa', endColorstr='#2ca3de', GradientType=0);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.33);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.33);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.33);
+}
+
+.contact-list .contact-filter
+{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 10;
+}
+
+.contact-list .contact-filter input
+{
+    width: 100%;
+}

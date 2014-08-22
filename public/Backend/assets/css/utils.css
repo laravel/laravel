@@ -1,0 +1,53 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ *
+ * MoonCake v1.3.1 - Utilities Stylesheet
+ *
+ * This file is part of MoonCake, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * July 28, 2012
+ * Last Update:
+ * December 07, 2012
+ *
+ */
+ 
+.bg-green
+{
+    background-color: #769f5d !important;
+}
+
+.bg-red
+{
+    background-color: #e95d3c !important;
+}
+
+.bg-orange
+{
+    background-color: #ffa200 !important;
+}
+
+.bg-blue
+{
+    background-color: #08c !important;
+}
+
+.text-nowrap
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-decoration: inherit;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:not(td):not(th):not(tr).text-nowrap
+{
+    max-width: 100%;
+    display: inline-block;
+}
