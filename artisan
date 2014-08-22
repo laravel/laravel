@@ -3,6 +3,46 @@
 
 /*
 |--------------------------------------------------------------------------
+| Find the laravel directory
+|--------------------------------------------------------------------------
+|
+| Find where laravel is located. With this you can copy this file
+| anywhere in your PATH to run "artisan" without "./" or "php" in front.
+| You cna also run artisan from any subfolder of your application.
+|
+*/
+
+$artisan_dir = getcwd();
+
+if (!file_exists($artisan_dir.'/bootstrap/autoload.php')) {
+    if (file_exists(__DIR__.'/bootstrap/autoload.php')) {
+        $artisan_dir = __DIR__;
+    } else {
+        $found_path = false;
+        $separated = explode('/', $artisan_dir);
+
+        while (!empty($separated)) {
+            array_pop($separated);
+
+            $artisan_dir = implode('/', $separated);
+
+            if (file_exists($artisan_dir.'/bootstrap/autoload.php')) {
+                $found_path = true;
+                break;
+            }
+        }
+
+        if (!$found_path) {
+            echo "Could not find a valid laravel installation\n";
+            exit(1);
+        }
+
+        echo "Working directory: $artisan_dir\n";
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
 | Register The Auto Loader
 |--------------------------------------------------------------------------
 |
@@ -13,7 +53,7 @@
 |
 */
 
-require __DIR__.'/bootstrap/autoload.php';
+require $artisan_dir.'/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +67,7 @@ require __DIR__.'/bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/bootstrap/start.php';
+$app = require_once $artisan_dir.'/bootstrap/start.php';
 
 /*
 |--------------------------------------------------------------------------
