@@ -1,6 +1,6 @@
 <?php namespace App\Providers;
 
-use App, Log, Exception;
+use App, Log, Exception, Request, URL;
 use Illuminate\Support\ServiceProvider;
 
 class ErrorServiceProvider extends ServiceProvider {
@@ -19,7 +19,8 @@ class ErrorServiceProvider extends ServiceProvider {
 		// shown, which includes a detailed stack trace during debug.
 		App::error(function(Exception $e)
 		{
-			Log::error($e);
+			$error = sprintf("Error %d on %s %s: %s", $code, Request::getMethod(), URL::current(), $exception);
+			Log::error($error); 
 		});
 	}
 
