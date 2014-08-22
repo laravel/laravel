@@ -6,6 +6,7 @@
     RewriteEngine On
 
     # Redirect Trailing Slashes...
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     # Handle Front Controller...
