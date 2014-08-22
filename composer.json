@@ -30,7 +30,8 @@
 		]
 	},
 	"config": {
-		"preferred-install": "dist"
+		"preferred-install": "dist",
+		"component-dir": "public/components"
 	},
 	"minimum-stability": "stable"
 }
