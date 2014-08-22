@@ -3,8 +3,9 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
+	"type": "project",
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.2.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -18,6 +19,7 @@
 	},
 	"scripts": {
 		"post-install-cmd": [
+			"php artisan clear-compiled",
 			"php artisan optimize"
 		],
 		"post-update-cmd": [
@@ -31,5 +33,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "stable"
 }
