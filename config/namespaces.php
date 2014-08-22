@@ -28,7 +28,7 @@ return array(
 
 	'console' => 'App\Console\\',
 
-	'controllers' => 'App\\Http\\Controllers\\',
+	'controllers' => 'App\Http\Controllers\\',
 
 	'filters' => 'App\Http\Filters\\',
 
