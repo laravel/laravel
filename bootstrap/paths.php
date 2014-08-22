@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'commands' => __DIR__.'/../app/Console',
+	'console' => __DIR__.'/../app/Console',
 	'config' => __DIR__.'/../config',
 	'controllers' => __DIR__.'/../app/Http/Controllers',
 	'database' => __DIR__.'/../database',

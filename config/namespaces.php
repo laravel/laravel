@@ -17,15 +17,23 @@ return array(
 
 	/*
 	|--------------------------------------------------------------------------
-	| Root Controller Namespace
+	| Generator Namespaces
 	|--------------------------------------------------------------------------
 	|
-	| This namespace will be automatically prepended to URLs generated via
-	| the URL generator for controller actions, allowing for the simple
-	| and convenient referencing of your namespaced controller class.
+	| These namespaces are utilized by the various class generator Artisan
+	| commands. You are free to change them to whatever you wish or not
+	| at all. The "app:name" command is the easiest way to set these.
 	|
 	*/
 
+	'console' => 'App\Console\\',
+
 	'controllers' => 'App\\Http\\Controllers\\',
+
+	'filters' => 'App\Http\Filters\\',
+
+	'providers' => 'App\Providers\\',
+
+	'requests' => 'App\Http\Requests\\',
 
 );
