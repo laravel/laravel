@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,42 +28,42 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'sync' => array(
+		'sync' => [
 			'driver' => 'sync',
-		),
+		],
 
-		'beanstalkd' => array(
+		'beanstalkd' => [
 			'driver' => 'beanstalkd',
 			'host'   => 'localhost',
 			'queue'  => 'default',
 			'ttr'    => 60,
-		),
+		],
 
-		'sqs' => array(
+		'sqs' => [
 			'driver' => 'sqs',
 			'key'    => 'your-public-key',
 			'secret' => 'your-secret-key',
 			'queue'  => 'your-queue-url',
 			'region' => 'us-east-1',
-		),
+		],
 
-		'iron' => array(
+		'iron' => [
 			'driver'  => 'iron',
 			'host'    => 'mq-aws-us-east-1.iron.io',
 			'token'   => 'your-token',
 			'project' => 'your-project-id',
 			'queue'   => 'your-queue-name',
 			'encrypt' => true,
-		),
+		],
 
-		'redis' => array(
+		'redis' => [
 			'driver' => 'redis',
 			'queue'  => 'default',
-		),
+		],
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -76,10 +76,8 @@ return array(
 	|
 	*/
 
-	'failed' => array(
-
+	'failed' => [
 		'database' => 'mysql', 'table' => 'failed_jobs',
+	],
 
-	),
-
-);
+];

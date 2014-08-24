@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'files' => array(
+	'files' => [
 
 		__DIR__.'/../app/Providers/AppServiceProvider.php',
 		__DIR__.'/../app/Providers/ArtisanServiceProvider.php',
@@ -23,7 +23,7 @@ return array(
 		__DIR__.'/../app/Providers/LogServiceProvider.php',
 		__DIR__.'/../app/Providers/RouteServiceProvider.php',
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -36,8 +36,8 @@ return array(
 	|
 	*/
 
-	'providers' => array(
+	'providers' => [
 		//
-	),
+	],
 
-);
+];

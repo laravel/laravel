@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -18,9 +18,9 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'mysql' => array(
+		'mysql' => [
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'homestead',
@@ -29,9 +29,9 @@ return array(
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
-		),
+		],
 
-		'pgsql' => array(
+		'pgsql' => [
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
 			'database' => 'homestead',
@@ -40,8 +40,8 @@ return array(
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
-		),
+		],
 
-	),
+	],
 
-);
+];

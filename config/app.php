@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'providers' => array(
+	'providers' => [
 
 		/*
 		 * Application Service Providers...
@@ -132,7 +132,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -158,7 +158,7 @@ return array(
 	|
 	*/
 
-	'aliases' => array(
+	'aliases' => [
 
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
@@ -195,6 +195,6 @@ return array(
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 
-	),
+	],
 
-);
+];
