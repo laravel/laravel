@@ -24,7 +24,7 @@ return [
 	|
 	| Many applications store files both locally and in the cloud. For this
 	| reason, you may specify a default "cloud" driver here. This driver
-	| will be bounc as the Cloud disk implementation in the container.
+	| will be bound as the Cloud disk implementation in the container.
 	|
 	*/
 
