@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -74,4 +74,4 @@ return array(
 	'providers' => __DIR__.'/../app/Providers',
 	'requests' => __DIR__.'/../app/Http/Requests',
 
-);
+];
