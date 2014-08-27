@@ -1,6 +1,6 @@
 <?php namespace App\Providers;
 
-use Illuminate\Contracts\Logging\Log;
+use Log;
 use Illuminate\Support\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider {
@@ -11,9 +11,9 @@ class LogServiceProvider extends ServiceProvider {
 	 * @param  Log  $log
 	 * @return void
 	 */
-	public function boot(Log $log)
+	public function boot()
 	{
-		$log->useFiles(storage_path().'/logs/laravel.log');
+		Log::useFiles(storage_path().'/logs/laravel.log');
 	}
 
 	/**
