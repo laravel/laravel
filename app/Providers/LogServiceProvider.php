@@ -8,7 +8,6 @@ class LogServiceProvider extends ServiceProvider {
 	/**
 	 * Configure the application's logging facilities.
 	 *
-	 * @param  Log  $log
 	 * @return void
 	 */
 	public function boot()

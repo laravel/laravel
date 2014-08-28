@@ -8,8 +8,6 @@ class ErrorServiceProvider extends ServiceProvider {
 	/**
 	 * Register any error handlers.
 	 *
-	 * @param  Handler  $handler
-	 * @param  Log  $log
 	 * @return void
 	 */
 	public function boot()
