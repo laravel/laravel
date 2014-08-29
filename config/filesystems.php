@@ -45,7 +45,7 @@ return [
 
 		'local' => [
 			'driver' => 'local',
-			'root'   => base_path(),
+			'root'   => storage_path().'/work',
 		],
 
 		's3' => [
