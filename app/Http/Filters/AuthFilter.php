@@ -11,7 +11,7 @@ class AuthFilter {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return mixed
 	 */
-	public function filter(Request $request)
+	public function filter(Route $route, Request $request)
 	{
 		if (Auth::guest())
 		{
