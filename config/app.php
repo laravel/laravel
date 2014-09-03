@@ -96,16 +96,6 @@ return [
 	'providers' => [
 
 		/*
-		 * Application Service Providers...
-		 */
-		'App\Providers\AppServiceProvider',
-		'App\Providers\ArtisanServiceProvider',
-		'App\Providers\ErrorServiceProvider',
-		'App\Providers\FilterServiceProvider',
-		'App\Providers\LogServiceProvider',
-		'App\Providers\RouteServiceProvider',
-
-		/*
 		 * Laravel Framework Service Providers...
 		 */
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
@@ -128,6 +118,16 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+
+		/*
+		 * Application Service Providers...
+		 */
+		'App\Providers\AppServiceProvider',
+		'App\Providers\ArtisanServiceProvider',
+		'App\Providers\ErrorServiceProvider',
+		'App\Providers\FilterServiceProvider',
+		'App\Providers\LogServiceProvider',
+		'App\Providers\RouteServiceProvider',
 
 	],
 
