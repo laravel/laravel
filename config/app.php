@@ -104,6 +104,7 @@ return [
 		'App\Providers\FilterServiceProvider',
 		'App\Providers\LogServiceProvider',
 		'App\Providers\RouteServiceProvider',
+        'App\Providers\ViewServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...
