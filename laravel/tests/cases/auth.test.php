@@ -17,6 +17,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$_SERVER['auth.login.stub'] = null;
+		$_SERVER['test.user.login'] = null;
+		$_SERVER['test.user.logout'] = null;
+
 		Cookie::$jar = array();
 		Config::$items = array();
 		Auth::driver()->user = null;
@@ -30,6 +33,9 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function tearDown()
 	{
 		$_SERVER['auth.login.stub'] = null;
+		$_SERVER['test.user.login'] = null;
+		$_SERVER['test.user.logout'] = null;
+		
 		Cookie::$jar = array();
 		Config::$items = array();
 		Auth::driver()->user = null;
@@ -269,7 +275,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(isset(Cookie::$jar['laravel_auth_drivers_fluent_remember']));
 
-		$cookie = Cookie::$jar['laravel_auth_drivers_fluent_remember']['value'];
+		$cookie = Cookie::get('laravel_auth_drivers_fluent_remember');
 		$cookie = explode('|', Crypter::decrypt($cookie));
 		$this->assertEquals(1, $cookie[0]);
 		$this->assertEquals('foo', Cookie::$jar['laravel_auth_drivers_fluent_remember']['path']);
@@ -294,13 +300,41 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 
 		Auth::logout();
 
-		// A workaround since Cookie will is only stored in memory, until Response class is called.
-		Auth::driver()->token = null;
-
 		$this->assertNull(Auth::user());
 
 		$this->assertFalse(isset(Session::$instance->session['data']['laravel_auth_drivers_fluent_login']));
 		$this->assertTrue(Cookie::$jar['laravel_auth_drivers_fluent_remember']['expiration'] < time());
+	}
+
+	/**
+	 * Test `laravel.auth: login` and `laravel.auth: logout` is called properly
+	 *
+	 * @group laravel
+	 */
+	public function testAuthEventIsCalledProperly()
+	{
+		Session::$instance = new Payload($this->getMock('Laravel\\Session\\Drivers\\Driver'));
+
+		Event::listen('laravel.auth: login', function ()
+		{
+			$_SERVER['test.user.login'] = 'foo';
+		});
+
+		Event::listen('laravel.auth: logout', function ()
+		{
+			$_SERVER['test.user.logout'] = 'foo';
+		});
+
+		$this->assertNull($_SERVER['test.user.login']);
+		$this->assertNull($_SERVER['test.user.logout']);
+		
+		Auth::login(1, true);
+
+		$this->assertEquals('foo', $_SERVER['test.user.login']);
+
+		Auth::logout();
+
+		$this->assertEquals('foo', $_SERVER['test.user.logout']);
 	}
 
 }

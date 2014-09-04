@@ -12,7 +12,7 @@
 /**
  * SessionHandlerInterface
  *
- * Provides forward compatability with PHP 5.4
+ * Provides forward compatibility with PHP 5.4
  *
  * Extensive documentation can be found at php.net, see links:
  *
@@ -36,7 +36,7 @@ interface SessionHandlerInterface
      *
      * @return boolean
      */
-    function open($savePath, $sessionName);
+    public function open($savePath, $sessionName);
 
     /**
      * Close session.
@@ -45,10 +45,12 @@ interface SessionHandlerInterface
      *
      * @return boolean
      */
-    function close();
+    public function close();
 
     /**
      * Read session.
+     *
+     * @param string $sessionId
      *
      * @see http://php.net/sessionhandlerinterface.read
      *
@@ -56,7 +58,7 @@ interface SessionHandlerInterface
      *
      * @return string String as stored in persistent storage or empty string in all other cases.
      */
-    function read($sessionId);
+    public function read($sessionId);
 
     /**
      * Commit session to storage.
@@ -68,7 +70,7 @@ interface SessionHandlerInterface
      *
      * @return boolean
      */
-    function write($sessionId, $data);
+    public function write($sessionId, $data);
 
     /**
      * Destroys this session.
@@ -81,7 +83,7 @@ interface SessionHandlerInterface
      *
      * @return boolean
      */
-    function destroy($sessionId);
+    public function destroy($sessionId);
 
     /**
      * Garbage collection for storage.
@@ -94,5 +96,5 @@ interface SessionHandlerInterface
      *
      * @return boolean
      */
-    function gc($lifetime);
+    public function gc($lifetime);
 }

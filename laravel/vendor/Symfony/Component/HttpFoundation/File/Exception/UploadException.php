@@ -14,7 +14,7 @@ namespace Symfony\Component\HttpFoundation\File\Exception;
 /**
  * Thrown when an error occurred during file upload
  *
- * @author Bernhard Schussek <bernhard.schussek@symfony.com>
+ * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class UploadException extends FileException
 {

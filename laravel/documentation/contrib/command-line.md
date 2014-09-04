@@ -88,8 +88,8 @@ Next, commit the changes to the repository:
 
 	# git commit -s -m "I added some more stuff to the Localization documentation."
 
-"- **-s** means that you are signing-off on your commit with your name. This tells the Laravel team know that you personally agree to your code being added to the Laravel core.
-"- **-m** is the message that goes with your commit. Provide a brief explanation of what you added or changed.
+- **-s** means that you are signing-off on your commit with your name. This tells the Laravel team know that you personally agree to your code being added to the Laravel core.
+- **-m** is the message that goes with your commit. Provide a brief explanation of what you added or changed.
 
 <a name="pushing-to-your-fork"></a>
 ## Pushing to your Fork

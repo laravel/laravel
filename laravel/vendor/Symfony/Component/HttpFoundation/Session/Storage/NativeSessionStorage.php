@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpFoundation\Session\Storage;
 
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\Proxy\NativeProxy;
 use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 use Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy;
@@ -46,16 +47,23 @@ class NativeSessionStorage implements SessionStorageInterface
     protected $saveHandler;
 
     /**
+     * @var MetadataBag
+     */
+    protected $metadataBag;
+
+    /**
      * Constructor.
      *
      * Depending on how you want the storage driver to behave you probably
-     * want top override this constructor entirely.
+     * want to override this constructor entirely.
      *
      * List of options for $options array with their defaults.
      * @see http://php.net/session.configuration for options
      * but we omit 'session.' from the beginning of the keys for convenience.
      *
-     * auto_start, "0"
+     * ("auto_start", is not supported as it tells PHP to start a session before
+     * PHP starts to execute user-land code. Setting during runtime has no effect).
+     *
      * cache_limiter, "nocache" (use "0" to prevent headers from being sent entirely).
      * cookie_domain, ""
      * cookie_httponly, ""
@@ -83,13 +91,12 @@ class NativeSessionStorage implements SessionStorageInterface
      * upload_progress.min-freq, "1"
      * url_rewriter.tags, "a=href,area=href,frame=src,form=,fieldset="
      *
-     * @param array  $options Session configuration options.
-     * @param object $handler SessionHandlerInterface.
+     * @param array       $options Session configuration options.
+     * @param object      $handler SessionHandlerInterface.
+     * @param MetadataBag $metaBag MetadataBag.
      */
-    public function __construct(array $options = array(), $handler = null)
+    public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null)
     {
-        // sensible defaults
-        ini_set('session.auto_start', 0); // by default we prefer to explicitly start the session using the class.
         ini_set('session.cache_limiter', ''); // disable by default because it's managed by HeaderBag (if used)
         ini_set('session.use_cookies', 1);
 
@@ -99,6 +106,7 @@ class NativeSessionStorage implements SessionStorageInterface
             register_shutdown_function('session_write_close');
         }
 
+        $this->setMetadataBag($metaBag);
         $this->setOptions($options);
         $this->setSaveHandler($handler);
     }
@@ -165,7 +173,7 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function setId($id)
     {
-        return $this->saveHandler->setId($id);
+        $this->saveHandler->setId($id);
     }
 
     /**
@@ -187,8 +195,16 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * {@inheritdoc}
      */
-    public function regenerate($destroy = false)
+    public function regenerate($destroy = false, $lifetime = null)
     {
+        if (null !== $lifetime) {
+            ini_set('session.cookie_lifetime', $lifetime);
+        }
+
+        if ($destroy) {
+            $this->metadataBag->stampNew();
+        }
+
         return session_regenerate_id($destroy);
     }
 
@@ -240,13 +256,45 @@ class NativeSessionStorage implements SessionStorageInterface
             throw new \InvalidArgumentException(sprintf('The SessionBagInterface %s is not registered.', $name));
         }
 
-        if (ini_get('session.auto_start') && !$this->started) {
-            $this->start();
-        } elseif ($this->saveHandler->isActive() && !$this->started) {
+        if ($this->saveHandler->isActive() && !$this->started) {
             $this->loadSession();
+        } elseif (!$this->started) {
+            $this->start();
         }
 
         return $this->bags[$name];
+    }
+
+    /**
+     * Sets the MetadataBag.
+     *
+     * @param MetadataBag $metaBag
+     */
+    public function setMetadataBag(MetadataBag $metaBag = null)
+    {
+        if (null === $metaBag) {
+            $metaBag = new MetadataBag();
+        }
+
+        $this->metadataBag = $metaBag;
+    }
+
+    /**
+     * Gets the MetadataBag.
+     *
+     * @return MetadataBag
+     */
+    public function getMetadataBag()
+    {
+        return $this->metadataBag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isStarted()
+    {
+        return $this->started;
     }
 
     /**
@@ -261,17 +309,20 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function setOptions(array $options)
     {
+        $validOptions = array_flip(array(
+            'cache_limiter', 'cookie_domain', 'cookie_httponly',
+            'cookie_lifetime', 'cookie_path', 'cookie_secure',
+            'entropy_file', 'entropy_length', 'gc_divisor',
+            'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character',
+            'hash_function', 'name', 'referer_check',
+            'serialize_handler', 'use_cookies',
+            'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
+            'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
+            'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags',
+        ));
+
         foreach ($options as $key => $value) {
-            if (in_array($key, array(
-                'auto_start', 'cache_limiter', 'cookie_domain', 'cookie_httponly',
-                'cookie_lifetime', 'cookie_path', 'cookie_secure',
-                'entropy_file', 'entropy_length', 'gc_divisor',
-                'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character',
-                'hash_function', 'name', 'referer_check',
-                'serialize_handler', 'use_cookies',
-                'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
-                'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
-                'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags'))) {
+            if (isset($validOptions[$key])) {
                 ini_set('session.'.$key, $value);
             }
         }
@@ -298,7 +349,7 @@ class NativeSessionStorage implements SessionStorageInterface
         if (!$saveHandler instanceof AbstractProxy && $saveHandler instanceof \SessionHandlerInterface) {
             $saveHandler = new SessionHandlerProxy($saveHandler);
         } elseif (!$saveHandler instanceof AbstractProxy) {
-            $saveHandler = new NativeProxy($saveHandler);
+            $saveHandler = new NativeProxy();
         }
 
         $this->saveHandler = $saveHandler;
@@ -335,7 +386,9 @@ class NativeSessionStorage implements SessionStorageInterface
             $session = &$_SESSION;
         }
 
-        foreach ($this->bags as $bag) {
+        $bags = array_merge($this->bags, array($this->metadataBag));
+
+        foreach ($bags as $bag) {
             $key = $bag->getStorageKey();
             $session[$key] = isset($session[$key]) ? $session[$key] : array();
             $bag->initialize($session[$key]);

@@ -43,7 +43,7 @@ Great! Now that we have an instance of the Redis client, we may issue any of the
 
 	$values = $redis->lrange('names', 5, 10);
 
-Notice the arguments to the comment are simply passed into the magic method. Of course, you are not required to use the magic methods, you may also pass commands to the server using the **run** method:
+Notice the arguments to the command are simply passed into the magic method. Of course, you are not required to use the magic methods, you may also pass commands to the server using the **run** method:
 
 	$values = $redis->run('lrange', array(5, 10));
 

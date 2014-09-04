@@ -39,24 +39,9 @@ class RedirectResponse extends Response
             throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
         }
 
-        $this->targetUrl = $url;
+        parent::__construct('', $status, $headers);
 
-        parent::__construct(
-            sprintf('<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="refresh" content="1;url=%1$s" />
-
-        <title>Redirecting to %1$s</title>
-    </head>
-    <body>
-        Redirecting to <a href="%1$s">%1$s</a>.
-    </body>
-</html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')),
-            $status,
-            array_merge($headers, array('Location' => $url))
-        );
+        $this->setTargetUrl($url);
 
         if (!$this->isRedirect()) {
             throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
@@ -66,7 +51,7 @@ class RedirectResponse extends Response
     /**
      * {@inheritDoc}
      */
-    static public function create($url = '', $status = 302, $headers = array())
+    public static function create($url = '', $status = 302, $headers = array())
     {
         return new static($url, $status, $headers);
     }
@@ -79,5 +64,39 @@ class RedirectResponse extends Response
     public function getTargetUrl()
     {
         return $this->targetUrl;
+    }
+
+    /**
+     * Sets the redirect target of this response.
+     *
+     * @param string  $url     The URL to redirect to
+     *
+     * @return RedirectResponse The current response.
+     */
+    public function setTargetUrl($url)
+    {
+        if (empty($url)) {
+            throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
+        }
+
+        $this->targetUrl = $url;
+
+        $this->setContent(
+            sprintf('<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="refresh" content="1;url=%1$s" />
+
+        <title>Redirecting to %1$s</title>
+    </head>
+    <body>
+        Redirecting to <a href="%1$s">%1$s</a>.
+    </body>
+</html>', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')));
+
+        $this->headers->set('Location', $url);
+
+        return $this;
     }
 }

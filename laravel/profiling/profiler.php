@@ -27,7 +27,7 @@ class Profiler {
 		// We only want to send the profiler toolbar if the request is not an AJAX
 		// request, as sending it on AJAX requests could mess up JSON driven API
 		// type applications, so we will not send anything in those scenarios.
-		if ( ! Request::ajax())
+		if ( ! Request::ajax() and Config::get('application.profiler') )
 		{
 			static::$data['memory'] = get_file_size(memory_get_usage(true));
 			static::$data['memory_peak'] = get_file_size(memory_get_peak_usage(true));
@@ -145,9 +145,10 @@ class Profiler {
 	{
 		foreach ($bindings as $binding)
 		{
-			$binding = Database::connection()->pdo->quote($binding);
+			$binding = Database::escape($binding);
 
 			$sql = preg_replace('/\?/', $binding, $sql, 1);
+			$sql = htmlspecialchars($sql);
 		}
 
 		static::$data['queries'][] = array($sql, $time);

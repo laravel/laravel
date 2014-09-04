@@ -55,6 +55,7 @@ Now you are familiar with the basic usage of the Validator class. You're ready t
 - [E-Mail Addresses](#rule-email)
 - [URLs](#rule-url)
 - [Uploads](#rule-uploads)
+- [Arrays](#rule-arrays)
 
 <a name="rule-required"></a>
 ### Required
@@ -196,13 +197,21 @@ Many times, when updating a record, you want to use the unique rule, but exclude
 
 #### Validate that a date attribute is before a given date:
 
-	'birthdate' => 'before:1986-28-05';
+	'birthdate' => 'before:1986-05-28';
 
 #### Validate that a date attribute is after a given date:
 
-	'birthdate' => 'after:1986-28-05';
+	'birthdate' => 'after:1986-05-28';
 
 > **Note:** The **before** and **after** validation rules use the **strtotime** PHP function to convert your date to something the rule can understand.
+
+#### Validate that a date attribute conforms to a given format:
+
+    'start_date' => 'date_format:H\\:i'),
+
+> **Note:** The backslash escapes the colon so that it does not count as a parameter separator.
+
+The formatting options for the date format are described in the [PHP documentation](http://php.net/manual/en/datetime.createfromformat.php#refsect1-datetime.createfromformat-parameters).
 
 <a name="rule-email"></a>
 ### E-Mail Addresses
@@ -245,6 +254,29 @@ The *mimes* rule validates that an uploaded file has a given MIME type. This rul
 
 	'picture' => 'image|max:100'
 
+<a name="rule-arrays"></a>
+### Arrays
+
+#### Validate that an attribute is an array
+
+	'categories' => 'array'
+
+#### Validate that an attribute is an array, and has exactly 3 elements
+
+	'categories' => 'array|count:3'
+
+#### Validate that an attribute is an array, and has between 1 and 3 elements
+
+	'categories' => 'array|countbetween:1,3'
+
+#### Validate that an attribute is an array, and has at least 2 elements
+
+	'categories' => 'array|countmin:2'
+
+#### Validate that an attribute is an array, and has at most 2 elements
+
+	'categories' => 'array|countmax:2'
+
 <a name="retrieving-error-messages"></a>
 ## Retrieving Error Messages
 
@@ -254,7 +286,7 @@ Laravel makes working with your error messages a cinch using a simple error coll
 
 	if ($validation->errors->has('email'))
 	{
-		// The e-mail attribute has errors...
+		// The e-mail attribute has errors…
 	}
 
 #### Retrieve the first error message for an attribute:
@@ -295,7 +327,7 @@ Once you have performed your validation, you need an easy way to get the errors 
 
 	Route::post('register', function()
 	{
-		$rules = array(...);
+		$rules = array(…);
 
 		$validation = Validator::make(Input::all(), $rules);
 
@@ -321,11 +353,11 @@ This will also work great when we need to conditionally add classes when using s
 For example, if the email address failed validation, we may want to add the "error" class from Bootstrap to our *div class="control-group"* statement.
 
 	<div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
-	
+
 When the validation fails, our rendered view will have the appended *error* class.
 
 	<div class="control-group error">
-	
+
 
 
 <a name="custom-error-messages"></a>
@@ -406,13 +438,13 @@ Or by adding an entry for your rule in the **language/en/validation.php** file:
 
 As mentioned above, you may even specify and receive a list of parameters in your custom rule:
 
-	// When building your rules array...
+	// When building your rules array…
 
 	$rules = array(
 	    'username' => 'required|awesome:yes',
 	);
 
-	// In your custom rule...
+	// In your custom rule…
 
 	Validator::register('awesome', function($attribute, $value, $parameters)
 	{

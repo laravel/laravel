@@ -24,55 +24,56 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 class MemcachedSessionHandler implements \SessionHandlerInterface
 {
     /**
-     * Memcached driver.
-     *
-     * @var \Memcached
+     * @var \Memcached Memcached driver.
      */
     private $memcached;
 
     /**
-     * Configuration options.
-     *
-     * @var array
+     * @var integer Time to live in seconds
      */
-    private $memcachedOptions;
+    private $ttl;
+
+    /**
+     * @var string Key prefix for shared environments.
+     */
+    private $prefix;
 
     /**
      * Constructor.
      *
-     * @param \Memcached $memcached        A \Memcached instance
-     * @param array      $memcachedOptions An associative array of Memcached options
-     * @param array      $options          Session configuration options.
+     * List of available options:
+     *  * prefix: The prefix to use for the memcached keys in order to avoid collision
+     *  * expiretime: The time to live in seconds
+     *
+     * @param \Memcached $memcached A \Memcached instance
+     * @param array      $options   An associative array of Memcached options
+     *
+     * @throws \InvalidArgumentException When unsupported options are passed
      */
-    public function __construct(\Memcached $memcached, array $memcachedOptions = array(), array $options = array())
+    public function __construct(\Memcached $memcached, array $options = array())
     {
         $this->memcached = $memcached;
 
-        // defaults
-        if (!isset($memcachedOptions['serverpool'])) {
-            $memcachedOptions['serverpool'][] = array(
-                'host' => '127.0.0.1',
-                'port' => 11211,
-                'weight' => 1);
+        if ($diff = array_diff(array_keys($options), array('prefix', 'expiretime'))) {
+            throw new \InvalidArgumentException(sprintf(
+                'The following options are not supported "%s"', implode(', ', $diff)
+            ));
         }
 
-        $memcachedOptions['expiretime'] = isset($memcachedOptions['expiretime']) ? (int)$memcachedOptions['expiretime'] : 86400;
-
-        $this->memcached->setOption(\Memcached::OPT_PREFIX_KEY, isset($memcachedOptions['prefix']) ? $memcachedOptions['prefix'] : 'sf2s');
-
-        $this->memcachedOptions = $memcachedOptions;
+        $this->ttl = isset($options['expiretime']) ? (int) $options['expiretime'] : 86400;
+        $this->prefix = isset($options['prefix']) ? $options['prefix'] : 'sf2s';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function open($savePath, $sessionName)
     {
-        return $this->memcached->addServers($this->memcachedOptions['serverpool']);
+        return true;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function close()
     {
@@ -80,51 +81,35 @@ class MemcachedSessionHandler implements \SessionHandlerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function read($sessionId)
     {
-        return $this->memcached->get($sessionId) ?: '';
+        return $this->memcached->get($this->prefix.$sessionId) ?: '';
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function write($sessionId, $data)
     {
-        return $this->memcached->set($sessionId, $data, $this->memcachedOptions['expiretime']);
+        return $this->memcached->set($this->prefix.$sessionId, $data, time() + $this->ttl);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function destroy($sessionId)
     {
-        return $this->memcached->delete($sessionId);
+        return $this->memcached->delete($this->prefix.$sessionId);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function gc($lifetime)
     {
         // not required here because memcached will auto expire the records anyhow.
         return true;
-    }
-
-    /**
-     * Adds a server to the memcached handler.
-     *
-     * @param array $server
-     */
-    protected function addServer(array $server)
-    {
-        if (array_key_exists('host', $server)) {
-            throw new \InvalidArgumentException('host key must be set');
-        }
-        $server['port'] = isset($server['port']) ? (int)$server['port'] : 11211;
-        $server['timeout'] = isset($server['timeout']) ? (int)$server['timeout'] : 1;
-        $server['presistent'] = isset($server['presistent']) ? (bool)$server['presistent'] : false;
-        $server['weight'] = isset($server['weight']) ? (bool)$server['weight'] : 1;
     }
 }

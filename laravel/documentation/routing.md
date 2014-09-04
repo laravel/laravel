@@ -295,6 +295,8 @@ The **Controller::detect** method simply returns an array of all of the controll
 
 If you wish to automatically detect the controllers in a bundle, just pass the bundle name to the method. If no bundle is specified, the application folder's controller directory will be searched.
 
+> **Note:** It is important to note that this method gives you no control over the order in which controllers are loaded. Controller::detect() should only be used to Route controllers in very small sites. "Manually" routing controllers gives you much more control, is more self-documenting, and is certainly advised.
+
 #### Register all controllers for the "admin" bundle:
 
 	Route::controller(Controller::detect('admin'));
@@ -330,7 +332,7 @@ This routing convention may not be desirable for every situation, so you may als
 <a name="cli-route-testing"></a>
 ## CLI Route Testing
 
-You may test your routes using Laravel's "Artisan" CLI. Simple specify the request method and URI you want to use. The route response will be var_dump'd back to the CLI.
+You may test your routes using Laravel's "Artisan" CLI. Simply specify the request method and URI you want to use. The route response will be var_dump'd back to the CLI.
 
 #### Calling a route via the Artisan CLI:
 

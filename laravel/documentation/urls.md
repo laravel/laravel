@@ -59,6 +59,17 @@ Sometimes you may need to generate a URL to a named route, but also need to spec
 
 	$url = URL::to_action('user@profile', array($username));
 
+<a name="urls-to-a-different-language"></a>
+## URLs To A Different Language
+
+#### Generating a URL to the same page in another language:
+
+	$url = URL::to_language('fr');
+
+#### Generating a URL to your home page in another language:
+
+	$url = URL::to_language('fr', true);
+
 <a name="urls-to-assets"></a>
 ## URLs To Assets
 

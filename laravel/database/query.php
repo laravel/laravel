@@ -342,6 +342,67 @@ class Query {
 	{
 		return $this->where_not_in($column, $values, 'OR');
 	}
+	
+	/**
+	 * Add a BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @param  string  $connector 
+	 * @param  boolean $not       
+	 * @return Query
+	 */
+	public function where_between($column, $min, $max, $connector = 'AND', $not = false)
+	{
+		$type = ($not) ? 'where_not_between' : 'where_between';
+
+		$this->wheres[] = compact('type', 'column', 'min', 'max', 'connector');
+
+		$this->bindings[] = $min;
+		$this->bindings[] = $max;
+
+		return $this;
+	}
+
+	/**
+	 * Add a OR BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function or_where_between($column, $min, $max)
+	{
+		return $this->where_between($column, $min, $max, 'OR');
+	}
+
+	/**
+	 * Add a NOT BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function where_not_between($column, $min, $max, $connector = 'AND')
+	{
+		return $this->where_between($column, $min, $max, $connector, true);
+	}
+
+	/**
+	 * Add a OR NOT BETWEEN condition to the query
+	 * 
+	 * @param  string  $column    
+	 * @param  mixed  $min       
+	 * @param  mixed  $max       
+	 * @return Query
+	 */
+	public function or_where_not_between($column, $min, $max)
+	{
+		return $this->where_not_between($column, $min, $max, 'OR');
+	}
 
 	/**
 	 * Add a where null condition to the query.
@@ -749,11 +810,11 @@ class Query {
 	}
 
 	/**
-	 * Insert an array of values into the database table and return the ID.
+	 * Insert an array of values into the database table and return the key.
 	 *
 	 * @param  array   $values
 	 * @param  string  $column
-	 * @return int
+	 * @return mixed
 	 */
 	public function insert_get_id($values, $column = 'id')
 	{
@@ -761,9 +822,16 @@ class Query {
 
 		$result = $this->connection->query($sql, array_values($values));
 
-		if ($this->grammar instanceof Postgres)
+		// If the key is not auto-incrementing, we will just return the inserted value
+		if (isset($values[$column]))
 		{
-			return (int) $result[0]->$column;
+			return $values[$column];
+		}
+		else if ($this->grammar instanceof Postgres)
+		{
+			$row = (array) $result[0];
+			
+			return (int) $row[$column];
 		}
 		else
 		{

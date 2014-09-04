@@ -180,6 +180,8 @@ class HTML {
 	public static function link_to_asset($url, $title = null, $attributes = array(), $https = null)
 	{
 		$url = URL::to_asset($url, $https);
+		
+		if (is_null($title)) $title = $url;
 
 		return '<a href="'.$url.'"'.static::attributes($attributes).'>'.static::entities($title).'</a>';
 	}
@@ -243,6 +245,19 @@ class HTML {
 	public static function link_to_action($action, $title = null, $parameters = array(), $attributes = array())
 	{
 		return static::link(URL::to_action($action, $parameters), $title, $attributes);
+	}
+
+	/**
+	 * Generate an HTML link to a different language
+	 *
+	 * @param  string  $language
+	 * @param  string  $title
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function link_to_language($language, $title = null, $attributes = array())
+	{
+		return static::link(URL::to_language($language), $title, $attributes);
 	}
 
 	/**
@@ -353,6 +368,28 @@ class HTML {
 		}
 
 		return '<'.$type.static::attributes($attributes).'>'.$html.'</'.$type.'>';
+	}
+
+	/**
+	 * Generate a definition list.
+	 *
+	 * @param  array   $list
+	 * @param  array   $attributes
+	 * @return string
+	 */
+	public static function dl($list, $attributes = array())
+	{
+		$html = '';
+
+		if (count($list) == 0) return $html;
+
+		foreach ($list as $term => $description)
+		{
+			$html .= '<dt>'.static::entities($term).'</dt>';
+			$html .= '<dd>'.static::entities($description).'</dd>';
+		}
+
+		return '<dl'.static::attributes($attributes).'>'.$html.'</dl>';
 	}
 
 	/**

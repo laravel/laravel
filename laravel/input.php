@@ -102,13 +102,14 @@ class Input {
 	/**
 	 * Get the JSON payload for the request.
 	 *
+	 * @param  bool    $as_array
 	 * @return object
 	 */
-	public static function json()
+	public static function json($as_array = false)
 	{
 		if ( ! is_null(static::$json)) return static::$json;
 
-		return static::$json = json_decode(Request::foundation()->getContent());
+		return static::$json = json_decode(Request::foundation()->getContent(), $as_array);
 	}
 
 	/**
@@ -221,7 +222,7 @@ class Input {
 	 * @param  string  $key
 	 * @param  string  $directory
 	 * @param  string  $name
-	 * @return bool
+	 * @return Symfony\Component\HttpFoundation\File\File
 	 */
 	public static function upload($key, $directory, $name = null)
 	{

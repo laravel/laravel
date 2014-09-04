@@ -6,6 +6,7 @@
 - [CSRF Protection](#csrf-protection)
 - [Labels](#labels)
 - [Text, Text Area, Password & Hidden Fields](#text)
+- [File Input](#file)
 - [Checkboxes and Radio Buttons](#checkboxes-and-radio-buttons)
 - [Drop-Down Lists](#drop-down-lists)
 - [Buttons](#buttons)
@@ -113,6 +114,13 @@ Laravel provides an easy method of protecting your application from cross-site r
 	echo Form::checkbox('name', 'value', true);
 
 > **Note:** The *radio* method has the same signature as the *checkbox* method. Two for one!
+
+<a name="file"></a>
+## File Input
+
+#### Generate a file input element:
+
+	echo Form::file('image');
 
 <a name="drop-down-lists"></a>
 ## Drop-Down Lists

@@ -38,14 +38,19 @@ class Has_One extends Has_One_Or_Many {
 	{
 		$foreign = $this->foreign_key();
 
-		foreach ($parents as &$parent)
-		{
-			$matching = array_first($children, function($k, $v) use (&$parent, $foreign)
-			{
-				return $v->$foreign == $parent->get_key();
-			});
+		$dictionary = array();
 
-			$parent->relationships[$relationship] = $matching;
+		foreach ($children as $child)
+		{
+			$dictionary[$child->$foreign] = $child;
+		}
+
+		foreach ($parents as $parent)
+		{
+			if (array_key_exists($key = $parent->get_key(), $dictionary))
+			{
+				$parent->relationships[$relationship] = $dictionary[$key];
+			}
 		}
 	}
 

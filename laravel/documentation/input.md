@@ -41,7 +41,7 @@ By default, *null* will be returned if the input item does not exist. However, y
 
 #### Determining if the input contains a given item:
 
-	if (Input::has('name')) ...
+	if (Input::has('name')) …
 
 > **Note:** The "has" method will return *false* if the input item is an empty string.
 
@@ -68,6 +68,12 @@ When working with JavaScript MVC frameworks like Backbone.js, you will need to g
 #### Retrieving a specific item from a $_FILES array:
 
 	$size = Input::file('picture.size');
+
+> **Note:** In order to use file uploads, you must use `Form::open_for_files()` or manually enable `multipart/form-data`.
+
+*Further Reading:*
+
+- *[Opening Forms](/docs/views/forms#opening-a-form)*
 
 <a name="old-input"></a>
 ## Old Input

@@ -16,7 +16,7 @@
 
 If you are using the Auth class, you are strongly encouraged to hash and salt all passwords. Web development must be done responsibly. Salted, hashed passwords make a rainbow table attack against your user's passwords impractical.
 
-Salting and hashing passwords is done using the **Hash** class. The Hash class is uses the **bcrypt** hashing algorithm. Check out this example:
+Salting and hashing passwords is done using the **Hash** class. The Hash class uses the **bcrypt** hashing algorithm. Check out this example:
 
 	$password = Hash::make('secret');
 
@@ -50,9 +50,9 @@ To determine if the user of your application is logged in, call the **check** me
 	     return "You're logged in!";
 	}
 
-Use the **login** method to login a user without checking their credentials, such as after a user first registers to use your application. Just pass your user object or the user's ID:
+Use the **login** method to login a user without checking their credentials, such as after a user first registers to use your application. Just pass the user's ID:
 
-	Auth::login($user);
+	Auth::login($user->id);
 
 	Auth::login(15);
 

@@ -243,6 +243,33 @@ class Grammar extends \Laravel\Database\Grammar {
 	}
 
 	/**
+	 * Compile a WHERE BETWEEN clause
+	 * 	
+	 * @param  array  $where
+	 * @return string
+	 */
+	protected function where_between($where)
+	{
+		$min = $this->parameter($where['min']);
+		$max = $this->parameter($where['max']);
+
+		return $this->wrap($where['column']).' BETWEEN '.$min.' AND '.$max;
+	}
+
+	/**
+	 * Compile a WHERE NOT BETWEEN clause
+	 * @param  array $where 
+	 * @return string        
+	 */
+	protected function where_not_between($where)
+	{		
+		$min = $this->parameter($where['min']);
+		$max = $this->parameter($where['max']);
+		
+		return $this->wrap($where['column']).' NOT BETWEEN '.$min.' AND '.$max;
+	}
+
+	/**
 	 * Compile a WHERE NULL clause.
 	 *
 	 * @param  array   $where

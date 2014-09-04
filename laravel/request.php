@@ -196,7 +196,7 @@ class Request {
 	 */
 	public static function cli()
 	{
-		return defined('STDIN');
+		return defined('STDIN') || (substr(PHP_SAPI, 0, 3) == 'cgi' && getenv('TERM'));
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Request {
 			// we will simply return the environment for that URI pattern.
 			foreach ($patterns as $pattern)
 			{
-				if (Str::is($pattern, $uri))
+				if (Str::is($pattern, $uri) or $pattern == gethostname())
 				{
 					return $environment;
 				}
