@@ -21,6 +21,7 @@ return [
 		__DIR__.'/../app/Providers/FilterServiceProvider.php',
 		__DIR__.'/../app/Providers/LogServiceProvider.php',
 		__DIR__.'/../app/Providers/RouteServiceProvider.php',
+		__DIR__.'/../app/Providers/ViewServiceProvider.php',
 
 	],
 
