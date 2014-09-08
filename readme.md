@@ -12,11 +12,11 @@ Laravel is accessible, yet powerful, providing powerful tools needed for large, 
 
 ## Official Documentation
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-### Contributing To Laravel
+## Contributing
 
-**All framework pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
 ### License
 
