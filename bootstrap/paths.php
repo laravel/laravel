@@ -73,5 +73,5 @@ return [
 	'lang' => __DIR__.'/../resources/lang',
 	'providers' => __DIR__.'/../app/Providers',
 	'requests' => __DIR__.'/../app/Http/Requests',
-
+	'views' => __DIR__.'/../resources/views',
 ];
