@@ -18,7 +18,16 @@ class CsrfFilter {
 	 */
 	public function filter(Route $route, Request $request)
 	{
-		if (Session::token() != $request->input('_token'))
+		if ($request->ajax())
+		{
+			$token = $request->header('X-CSRF-Token');
+		}
+		else
+		{
+			$token = $request->input('_token');
+		}
+		
+		if (Session::token() != $token)
 		{
 			throw new TokenMismatchException;
 		}
