@@ -5,7 +5,9 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"phpunit/phpunit": "*",
+		"way/generators": "~2.0"
 	},
 	"autoload": {
 		"classmap": [
