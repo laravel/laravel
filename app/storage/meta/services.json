@@ -1,0 +1,170 @@
+{
+    "providers": [
+        "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "Illuminate\\Auth\\AuthServiceProvider",
+        "Illuminate\\Cache\\CacheServiceProvider",
+        "Illuminate\\Session\\CommandsServiceProvider",
+        "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "Illuminate\\Routing\\ControllerServiceProvider",
+        "Illuminate\\Cookie\\CookieServiceProvider",
+        "Illuminate\\Database\\DatabaseServiceProvider",
+        "Illuminate\\Encryption\\EncryptionServiceProvider",
+        "Illuminate\\Filesystem\\FilesystemServiceProvider",
+        "Illuminate\\Hashing\\HashServiceProvider",
+        "Illuminate\\Html\\HtmlServiceProvider",
+        "Illuminate\\Log\\LogServiceProvider",
+        "Illuminate\\Mail\\MailServiceProvider",
+        "Illuminate\\Database\\MigrationServiceProvider",
+        "Illuminate\\Pagination\\PaginationServiceProvider",
+        "Illuminate\\Queue\\QueueServiceProvider",
+        "Illuminate\\Redis\\RedisServiceProvider",
+        "Illuminate\\Remote\\RemoteServiceProvider",
+        "Illuminate\\Auth\\Reminders\\ReminderServiceProvider",
+        "Illuminate\\Database\\SeedServiceProvider",
+        "Illuminate\\Session\\SessionServiceProvider",
+        "Illuminate\\Translation\\TranslationServiceProvider",
+        "Illuminate\\Validation\\ValidationServiceProvider",
+        "Illuminate\\View\\ViewServiceProvider",
+        "Illuminate\\Workbench\\WorkbenchServiceProvider"
+    ],
+    "eager": [
+        "Illuminate\\Cookie\\CookieServiceProvider",
+        "Illuminate\\Database\\DatabaseServiceProvider",
+        "Illuminate\\Encryption\\EncryptionServiceProvider",
+        "Illuminate\\Filesystem\\FilesystemServiceProvider",
+        "Illuminate\\Session\\SessionServiceProvider",
+        "Illuminate\\View\\ViewServiceProvider",
+        "Illuminate\\Workbench\\WorkbenchServiceProvider"
+    ],
+    "deferred": {
+        "artisan": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "command.changes": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "command.environment": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
+        "auth": "Illuminate\\Auth\\AuthServiceProvider",
+        "cache": "Illuminate\\Cache\\CacheServiceProvider",
+        "cache.store": "Illuminate\\Cache\\CacheServiceProvider",
+        "memcached.connector": "Illuminate\\Cache\\CacheServiceProvider",
+        "command.cache.clear": "Illuminate\\Cache\\CacheServiceProvider",
+        "command.session.database": "Illuminate\\Session\\CommandsServiceProvider",
+        "command.command.make": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "composer": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.dump-autoload": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.key.generate": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.up": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.down": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.optimize": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.clear-compiled": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "asset.publisher": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.asset.publish": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "config.publisher": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.config.publish": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "view.publisher": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.view.publish": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "migration.publisher": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.migrate.publish": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.routes": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.serve": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.tinker": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.queue.failed": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.queue.retry": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.queue.forget": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.queue.flush": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.queue.failed-table": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "command.controller.make": "Illuminate\\Routing\\ControllerServiceProvider",
+        "hash": "Illuminate\\Hashing\\HashServiceProvider",
+        "html": "Illuminate\\Html\\HtmlServiceProvider",
+        "form": "Illuminate\\Html\\HtmlServiceProvider",
+        "log": "Illuminate\\Log\\LogServiceProvider",
+        "mailer": "Illuminate\\Mail\\MailServiceProvider",
+        "swift.mailer": "Illuminate\\Mail\\MailServiceProvider",
+        "swift.transport": "Illuminate\\Mail\\MailServiceProvider",
+        "migrator": "Illuminate\\Database\\MigrationServiceProvider",
+        "migration.repository": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate.rollback": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate.reset": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate.refresh": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate.install": "Illuminate\\Database\\MigrationServiceProvider",
+        "migration.creator": "Illuminate\\Database\\MigrationServiceProvider",
+        "command.migrate.make": "Illuminate\\Database\\MigrationServiceProvider",
+        "paginator": "Illuminate\\Pagination\\PaginationServiceProvider",
+        "queue": "Illuminate\\Queue\\QueueServiceProvider",
+        "queue.worker": "Illuminate\\Queue\\QueueServiceProvider",
+        "queue.listener": "Illuminate\\Queue\\QueueServiceProvider",
+        "queue.failer": "Illuminate\\Queue\\QueueServiceProvider",
+        "command.queue.work": "Illuminate\\Queue\\QueueServiceProvider",
+        "command.queue.listen": "Illuminate\\Queue\\QueueServiceProvider",
+        "command.queue.restart": "Illuminate\\Queue\\QueueServiceProvider",
+        "command.queue.subscribe": "Illuminate\\Queue\\QueueServiceProvider",
+        "redis": "Illuminate\\Redis\\RedisServiceProvider",
+        "remote": "Illuminate\\Remote\\RemoteServiceProvider",
+        "auth.reminder": "Illuminate\\Auth\\Reminders\\ReminderServiceProvider",
+        "auth.reminder.repository": "Illuminate\\Auth\\Reminders\\ReminderServiceProvider",
+        "command.auth.reminders": "Illuminate\\Auth\\Reminders\\ReminderServiceProvider",
+        "seeder": "Illuminate\\Database\\SeedServiceProvider",
+        "command.seed": "Illuminate\\Database\\SeedServiceProvider",
+        "translator": "Illuminate\\Translation\\TranslationServiceProvider",
+        "translation.loader": "Illuminate\\Translation\\TranslationServiceProvider",
+        "validator": "Illuminate\\Validation\\ValidationServiceProvider",
+        "validation.presence": "Illuminate\\Validation\\ValidationServiceProvider"
+    },
+    "when": {
+        "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider": [
+
+        ],
+        "Illuminate\\Auth\\AuthServiceProvider": [
+
+        ],
+        "Illuminate\\Cache\\CacheServiceProvider": [
+
+        ],
+        "Illuminate\\Session\\CommandsServiceProvider": [
+
+        ],
+        "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider": [
+
+        ],
+        "Illuminate\\Routing\\ControllerServiceProvider": [
+
+        ],
+        "Illuminate\\Hashing\\HashServiceProvider": [
+
+        ],
+        "Illuminate\\Html\\HtmlServiceProvider": [
+
+        ],
+        "Illuminate\\Log\\LogServiceProvider": [
+
+        ],
+        "Illuminate\\Mail\\MailServiceProvider": [
+
+        ],
+        "Illuminate\\Database\\MigrationServiceProvider": [
+
+        ],
+        "Illuminate\\Pagination\\PaginationServiceProvider": [
+
+        ],
+        "Illuminate\\Queue\\QueueServiceProvider": [
+
+        ],
+        "Illuminate\\Redis\\RedisServiceProvider": [
+
+        ],
+        "Illuminate\\Remote\\RemoteServiceProvider": [
+
+        ],
+        "Illuminate\\Auth\\Reminders\\ReminderServiceProvider": [
+
+        ],
+        "Illuminate\\Database\\SeedServiceProvider": [
+
+        ],
+        "Illuminate\\Translation\\TranslationServiceProvider": [
+
+        ],
+        "Illuminate\\Validation\\ValidationServiceProvider": [
+
+        ]
+    }
+}
