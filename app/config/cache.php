@@ -64,6 +64,8 @@ return array(
 	| Now you may specify an array of your Memcached servers that should be
 	| used when utilizing the Memcached cache driver. All of the servers
 	| should contain a value for "host", "port", and "weight" options.
+	| For Unix sockets, set "host" to a socket path, like
+	| '/yourpath/to/memcached.sock' and set "port" to 0.
 	|
 	*/
 
