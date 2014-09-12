@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+		DB::table('stores')->delete();
+
+		Store::create(array('name' => 'MyStore'));
+
 	}
 
 }

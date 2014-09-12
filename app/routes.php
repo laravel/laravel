@@ -13,5 +13,8 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	$store = Store::first();
+
+	return "Store $store->name opened at $store->opened_at";
+
 });
