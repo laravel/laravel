@@ -17,10 +17,17 @@ class ErrorServiceProvider extends ServiceProvider {
 		// even register several error handlers to handle different types of
 		// exceptions. If nothing is returned, the default error view is
 		// shown, which includes a detailed stack trace during debug.
-		App::error(function(Exception $e)
+		App::error(function(Exception $e, $code)
 		{
-			$error = sprintf("Error %d on %s %s: %s", $code, Request::getMethod(), URL::current(), $exception);
-			Log::error($error); 
+			$error = sprintf("Error %d on %s %s, ", $code, Request::getMethod(), URL::current());
+
+			if ($code === 404) {
+				$error .= "referer: " . Request::header('referer', '-');
+			} else {
+				$error .= (string) $e;
+			}
+
+			Log::error($error);
 		});
 	}
 
