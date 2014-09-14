@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Requests\FileInputRequest;
 use Illuminate\Routing\Controller;
 
 class HomeController extends Controller {
@@ -22,4 +23,17 @@ class HomeController extends Controller {
 		return view('hello');
 	}
 
+    public function postWith(FileInputRequest $request)
+    {
+        print('Post with request object:');
+
+        dd($request->all());
+    }
+
+    public function postWithout()
+    {
+        print('Post without the request object:');
+
+        dd(\Input::all());
+    }
 }
