@@ -15,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider {
 	public function before()
 	{
 		URL::setRootControllerNamespace(
-			trim(config('namespaces.controller'), '\\')
+			trim(config('namespaces.controllers'), '\\')
 		);
 	}
 
