@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller {
 
@@ -20,6 +21,14 @@ class HomeController extends Controller {
 	public function index()
 	{
 		return view('hello');
+	}
+
+	public function store()
+	{
+
+		var_dump(Input::all());
+
+		var_dump(Input::get('file'));
 	}
 
 }
