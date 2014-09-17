@@ -12,3 +12,4 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::post('upload', 'HomeController@store');
