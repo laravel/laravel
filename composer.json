@@ -5,17 +5,19 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "~5.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0"
 	},
 	"autoload": {
 		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php"
-		]
+			"database",
+			"tests/TestCase.php"
+		],
+		"psr-4": {
+			"App\\": "app/"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
@@ -33,5 +35,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }
