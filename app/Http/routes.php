@@ -12,3 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+
+Route::post('/post-with', 'HomeController@postWith');
+
+Route::post('/post-without', 'HomeController@postWithout');

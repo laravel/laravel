@@ -11,8 +11,6 @@
 |
 */
 
-$env = $app->detectEnvironment([
-
-	'local' => ['homestead'],
-
-]);
+$env = $app->detectEnvironment(function() {
+    return 'local';
+});
