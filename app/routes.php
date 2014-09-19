@@ -10,8 +10,4 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+require_once __DIR__ . '/../src/routes.php';

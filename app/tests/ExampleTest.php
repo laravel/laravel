@@ -9,9 +9,17 @@ class ExampleTest extends TestCase {
 	 */
 	public function testBasicExample()
 	{
-		$crawler = $this->client->request('GET', '/');
+		$this->call('GET', '/search');
+	}
 
-		$this->assertTrue($this->client->getResponse()->isOk());
+	/**
+	* A basic functional test example.
+	*
+	* @return void
+	*/
+	public function testBasicExample2()
+	{
+		$this->call('GET', '/search');
 	}
 
 }
