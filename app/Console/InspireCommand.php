@@ -24,7 +24,7 @@ class InspireCommand extends Command {
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @return \App\Console\InspireCommand
 	 */
 	public function __construct()
 	{
