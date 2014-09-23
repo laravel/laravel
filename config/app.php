@@ -129,6 +129,10 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
+		/*
+		 * Dependency Service Providers...
+		 */
+
 	],
 
 	/*
