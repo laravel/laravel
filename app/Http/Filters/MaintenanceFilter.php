@@ -12,12 +12,12 @@ class MaintenanceFilter {
 	 */
 	protected $app;
 
-    /**
-     * The response factory implementation.
-     *
-     * @var ResponseFactory
-     */
-    protected $response;
+	/**
+	 * The response factory implementation.
+	 *
+	 * @var ResponseFactory
+	 */
+	protected $response;
 
 	/**
 	 * Create a new filter instance.

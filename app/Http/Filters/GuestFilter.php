@@ -11,12 +11,12 @@ class GuestFilter {
 	 */
 	protected $auth;
 
-    /**
-     * The response factory implementation.
-     *
-     * @var ResponseFactory
-     */
-    protected $response;
+	/**
+	 * The response factory implementation.
+	 *
+	 * @var ResponseFactory
+	 */
+	protected $response;
 
 	/**
 	 * Create a new filter instance.
@@ -25,7 +25,7 @@ class GuestFilter {
 	 * @return void
 	 */
 	public function __construct(Authenticator $auth,
-                                ResponseFacotry $response)
+								ResponseFacotry $response)
 	{
 		$this->auth = $auth;
 		$this->response = $response;
