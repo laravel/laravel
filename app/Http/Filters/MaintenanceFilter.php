@@ -1,7 +1,7 @@
 <?php namespace App\Http\Filters;
 
+use Illuminate\Http\Response;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class MaintenanceFilter {
 
@@ -13,22 +13,14 @@ class MaintenanceFilter {
 	protected $app;
 
 	/**
-	 * The response factory implementation.
-	 *
-	 * @var ResponseFactory
-	 */
-	protected $response;
-
-	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Application  $app
 	 * @return void
 	 */
-	public function __construct(Application $app, ResponseFactory $response)
+	public function __construct(Application $app)
 	{
 		$this->app = $app;
-		$this->response = $response;
 	}
 
 	/**
@@ -40,7 +32,7 @@ class MaintenanceFilter {
 	{
 		if ($this->app->isDownForMaintenance())
 		{
-			return $this->response->make('Be right back!', 503);
+			return new Response('Be right back!', 503);
 		}
 	}
 

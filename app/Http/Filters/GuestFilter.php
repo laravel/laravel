@@ -1,6 +1,6 @@
 <?php namespace App\Http\Filters;
 
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\RedirectResponse;
 
 class GuestFilter {
 
@@ -12,23 +12,14 @@ class GuestFilter {
 	protected $auth;
 
 	/**
-	 * The response factory implementation.
-	 *
-	 * @var ResponseFactory
-	 */
-	protected $response;
-
-	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Authenticator  $auth
 	 * @return void
 	 */
-	public function __construct(Authenticator $auth,
-								ResponseFacotry $response)
+	public function __construct(Authenticator $auth)
 	{
 		$this->auth = $auth;
-		$this->response = $response;
 	}
 
 	/**
@@ -40,7 +31,7 @@ class GuestFilter {
 	{
 		if ($this->auth->check())
 		{
-			return $this->response->redirectTo('/');
+			return new RedirectResponse(url('/'));
 		}
 	}
 
