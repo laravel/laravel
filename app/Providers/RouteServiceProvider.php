@@ -11,10 +11,11 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * Register any model bindings or pattern based filters.
 	 *
+	 * @param  Router  $router
 	 * @param  UrlGenerator  $url
 	 * @return void
 	 */
-	public function before(UrlGenerator $url)
+	public function before(Router $router, UrlGenerator $url)
 	{
 		$url->setRootControllerNamespace(
 			trim(config('namespaces.controllers'), '\\')
