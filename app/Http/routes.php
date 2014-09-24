@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+$router->get('/', 'HomeController@index');
