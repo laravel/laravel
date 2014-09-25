@@ -43,6 +43,20 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
+	| Composer Path
+	|--------------------------------------------------------------------------
+	|
+	| The composer path points to the directory holding your composer.json file.
+	| Most likely this will be the same as your base path & you will not need
+	| to change this value. However, if you prefer to keep your laravel out of
+	| your repository root then this will need to be changed.
+	| As with changing the base path, proceed with caution.
+	*/
+
+	'composer' => __DIR__.'/..',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Storage Path
 	|--------------------------------------------------------------------------
 	|
