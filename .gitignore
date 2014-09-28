@@ -1,4 +1,5 @@
 /vendor
+/.idea
 composer.phar
 composer.lock
 .env.*
