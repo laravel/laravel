@@ -17,19 +17,6 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Public Path
-	|--------------------------------------------------------------------------
-	|
-	| The public path contains the assets for your web application, such as
-	| your JavaScript and CSS files, and also contains the primary entry
-	| point for web requests into these applications from the outside.
-	|
-	*/
-
-	'public' => __DIR__.'/../public',
-
-	/*
-	|--------------------------------------------------------------------------
 	| Base Path
 	|--------------------------------------------------------------------------
 	|
@@ -43,6 +30,58 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
+	| Configuration Path
+	|--------------------------------------------------------------------------
+	|
+	| This path is used by the configuration loader to load the application
+	| configuration files. In general, you should'nt need to change this
+	| value; however, you can theoretically change the path from here.
+	|
+	*/
+
+	'config' => __DIR__.'/../config',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Database Path
+	|--------------------------------------------------------------------------
+	|
+	| This path is used by the migration generator and migration runner to
+	| know where to place your fresh database migration classes. You're
+	| free to modify the path but you probably will not ever need to.
+	|
+	*/
+
+	'database' => __DIR__.'/../database',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Language Path
+	|--------------------------------------------------------------------------
+	|
+	| This path is used by the language file loader to load your application
+	| language files. The purpose of these files is to store your strings
+	| that are translated into other languages for views, e-mails, etc.
+	|
+	*/
+
+	'lang' => __DIR__.'/../resources/lang',
+
+	/*
+	|--------------------------------------------------------------------------
+	| Public Path
+	|--------------------------------------------------------------------------
+	|
+	| The public path contains the assets for your web application, such as
+	| your JavaScript and CSS files, and also contains the primary entry
+	| point for web requests into these applications from the outside.
+	|
+	*/
+
+	'public' => __DIR__.'/../public',
+
+	/*
+	|--------------------------------------------------------------------------
 	| Storage Path
 	|--------------------------------------------------------------------------
 	|
@@ -53,25 +92,5 @@ return [
 	*/
 
 	'storage' => __DIR__.'/../storage',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Generator Paths
-	|--------------------------------------------------------------------------
-	|
-	| These paths are used by the various class generators and other pieces
-	| of the framework that need to determine where to store these types
-	| of classes. Of course, they may be changed to any path you wish.
-	|
-	*/
-
-	'console' => __DIR__.'/../app/Console',
-	'config' => __DIR__.'/../config',
-	'controllers' => __DIR__.'/../app/Http/Controllers',
-	'database' => __DIR__.'/../database',
-	'filters' => __DIR__.'/../app/Http/Filters',
-	'lang' => __DIR__.'/../resources/lang',
-	'providers' => __DIR__.'/../app/Providers',
-	'requests' => __DIR__.'/../app/Http/Requests',
 
 ];
