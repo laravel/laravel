@@ -15,17 +15,17 @@ return [
 	*/
 
 	'mailgun' => [
-		'domain' => '',
-		'secret' => '',
+		'domain'	=> '',
+		'secret'	=> '',
 	],
 
 	'mandrill' => [
-		'secret' => '',
+		'secret'	=> '',
 	],
 
 	'stripe' => [
-		'model'  => 'User',
-		'secret' => '',
+		'model'		=> 'User',
+		'secret'	=> '',
 	],
 
 ];
