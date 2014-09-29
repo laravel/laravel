@@ -47,40 +47,40 @@ return [
 	'connections' => [
 
 		'sqlite' => [
-			'driver'   => 'sqlite',
-			'database' => storage_path().'/database.sqlite',
-			'prefix'   => '',
+			'driver'	=> 'sqlite',
+			'database'	=> storage_path().'/database.sqlite',
+			'prefix'	=> '',
 		],
 
 		'mysql' => [
-			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'forge',
-			'username'  => 'forge',
-			'password'  => '',
-			'charset'   => 'utf8',
-			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
+			'driver'	=> 'mysql',
+			'host'		=> 'localhost',
+			'database'	=> 'forge',
+			'username'	=> 'forge',
+			'password'	=> '',
+			'charset'	=> 'utf8',
+			'collation'	=> 'utf8_unicode_ci',
+			'prefix'	=> '',
 		],
 
 		'pgsql' => [
-			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
-			'password' => '',
-			'charset'  => 'utf8',
-			'prefix'   => '',
-			'schema'   => 'public',
+			'driver'	=> 'pgsql',
+			'host'		=> 'localhost',
+			'database'	=> 'forge',
+			'username'	=> 'forge',
+			'password'	=> '',
+			'charset'	=> 'utf8',
+			'prefix'	=> '',
+			'schema'	=> 'public',
 		],
 
 		'sqlsrv' => [
-			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
-			'prefix'   => '',
+			'driver'	=> 'sqlsrv',
+			'host'		=> 'localhost',
+			'database'	=> 'database',
+			'username'	=> 'root',
+			'password'	=> '',
+			'prefix'	=> '',
 		],
 
 	],
@@ -114,9 +114,9 @@ return [
 		'cluster' => false,
 
 		'default' => [
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
-			'database' => 0,
+			'host'		=> '127.0.0.1',
+			'port'		=> 6379,
+			'database'	=> 0,
 		],
 
 	],
