@@ -44,24 +44,24 @@ return [
 	'disks' => [
 
 		'local' => [
-			'driver' => 'local',
-			'root'   => storage_path().'/work',
+			'driver'	=> 'local',
+			'root'		=> storage_path().'/work',
 		],
 
 		's3' => [
-			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'bucket' => 'your-bucket',
+			'driver'	=> 's3',
+			'key'		=> 'your-key',
+			'secret'	=> 'your-secret',
+			'bucket'	=> 'your-bucket',
 		],
 
 		'rackspace' => [
-			'driver'    => 'rackspace',
-			'username'  => 'your-username',
-			'key'       => 'your-key',
-			'container' => 'your-container',
-			'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
-			'region'    => 'IAD',
+			'driver'	=> 'rackspace',
+			'username'	=> 'your-username',
+			'key'		=> 'your-key',
+			'container'	=> 'your-container',
+			'endpoint'	=> 'https://identity.api.rackspacecloud.com/v2.0/',
+			'region'	=> 'IAD',
 		],
 
 	],
