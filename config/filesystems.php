@@ -53,7 +53,7 @@ return [
 			'key'      => 'your-key',
 			'secret'   => 'your-secret',
 			'bucket'   => 'your-bucket',
-			'base_url' => 'http://s3.amazonaws.com',
+			'base_url' => 'https://s3.amazonaws.com',
 		],
 
 		'rackspace' => [
