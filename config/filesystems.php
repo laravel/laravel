@@ -49,10 +49,11 @@ return [
 		],
 
 		's3' => [
-			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'bucket' => 'your-bucket',
+			'driver'   => 's3',
+			'key'      => 'your-key',
+			'secret'   => 'your-secret',
+			'bucket'   => 'your-bucket',
+			'base_url' => 'http://s3.amazonaws.com',
 		],
 
 		'rackspace' => [
