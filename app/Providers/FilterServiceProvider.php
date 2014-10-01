@@ -1,6 +1,6 @@
 <?php namespace App\Providers;
 
-use Illuminate\Routing\FilterServiceProvider as ServiceProvider;
+use Illuminate\Foundation\Support\Providers\FilterServiceProvider as ServiceProvider;
 
 class FilterServiceProvider extends ServiceProvider {
 
