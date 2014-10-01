@@ -29,6 +29,7 @@ return [
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
+			'log'       => true,
 		],
 
 		'pgsql' => [
@@ -39,6 +40,7 @@ return [
 			'password' => 'secret',
 			'charset'  => 'utf8',
 			'prefix'   => '',
+			'log'      => true,
 			'schema'   => 'public',
 		],
 
