@@ -1,7 +1,7 @@
-/vendor
-/.idea
-composer.phar
-composer.lock
 .env.*
+/.idea
+/vendor
 .DS_Store
 Thumbs.db
+composer.lock
+composer.phar
