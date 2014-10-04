@@ -11,4 +11,6 @@
 |
 */
 
+/** @var \Illuminate\Routing\Router $router */
+
 $router->get('/', 'HomeController@index');
