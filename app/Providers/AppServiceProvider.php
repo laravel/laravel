@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	protected $stack = [
 		'App\Http\Middleware\MaintenanceMiddleware',
-		'Illuminate\Cookie\Guard',
-		'Illuminate\Cookie\Queue',
+		'Illuminate\Cookie\Middleware\Guard',
+		'Illuminate\Cookie\Middleware\Queue',
 		'Illuminate\Session\Middleware\Reader',
 		'Illuminate\Session\Middleware\Writer',
 	];
