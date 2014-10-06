@@ -39,9 +39,9 @@ class AuthMiddleware implements Middleware {
 	/**
 	 * Handle an incoming request.
 	 *
-	 * @param  \Symfony\Component\HttpFoundation\Request  $request
+	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return mixed
 	 */
 	public function handle($request, Closure $next)
 	{

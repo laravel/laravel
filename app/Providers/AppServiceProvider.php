@@ -31,4 +31,21 @@ class AppServiceProvider extends ServiceProvider {
 		'Illuminate\Session\Middleware\Writer',
 	];
 
+	/**
+	 * Build the application stack based on the provider properties.
+	 *
+	 * @return void
+	 */
+	public function stack()
+	{
+		$this->app->stack(function(Stack $stack, Router $router)
+		{
+			return $stack
+				->middleware($this->stack)->then(function($request) use ($router)
+				{
+					return $router->dispatch($request);
+				});
+			});
+	}
+
 }
