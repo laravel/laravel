@@ -102,7 +102,6 @@ return [
 		'App\Providers\ArtisanServiceProvider',
 		'App\Providers\ErrorServiceProvider',
 		'App\Providers\EventServiceProvider',
-		'App\Providers\FilterServiceProvider',
 		'App\Providers\LogServiceProvider',
 		'App\Providers\RouteServiceProvider',
 

@@ -1,9 +1,11 @@
-<?php namespace App\Http\Filters;
+<?php namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Http\Response;
+use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Foundation\Application;
 
-class MaintenanceFilter {
+class MaintenanceMiddleware {
 
 	/**
 	 * The application implementation.
@@ -24,16 +26,20 @@ class MaintenanceFilter {
 	}
 
 	/**
-	 * Run the request filter.
+	 * Handle an incoming request.
 	 *
-	 * @return mixed
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request
+	 * @param  \Closure  $next
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function filter()
+	public function handle($request, Closure $next)
 	{
 		if ($this->app->isDownForMaintenance())
 		{
 			return new Response('Be right back!', 503);
 		}
+
+		return $next($request);
 	}
 
 }

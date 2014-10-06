@@ -1,11 +1,12 @@
-<?php namespace App\Http\Filters;
+<?php namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use Closure;
 use Illuminate\Routing\Route;
 use Illuminate\Contracts\Auth\Authenticator;
+use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
-class AuthFilter {
+class AuthMiddleware implements Middleware {
 
 	/**
 	 * The authenticator implementation.
@@ -36,13 +37,13 @@ class AuthFilter {
 	}
 
 	/**
-	 * Run the request filter.
+	 * Handle an incoming request.
 	 *
-	 * @param  \Illuminate\Routing\Route  $route
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return mixed
+	 * @param  \Symfony\Component\HttpFoundation\Request  $request
+	 * @param  \Closure  $next
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function filter(Route $route, Request $request)
+	public function handle($request, Closure $next)
 	{
 		if ($this->auth->guest())
 		{
@@ -55,6 +56,8 @@ class AuthFilter {
 				return $this->response->redirectGuest('auth/login');
 			}
 		}
+
+		return $next($request);
 	}
 
 }
