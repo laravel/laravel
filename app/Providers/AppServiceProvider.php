@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider {
 		'auth' => 'App\Http\Middleware\AuthMiddleware',
 		'auth.basic' => 'App\Http\Middleware\BasicAuthMiddleware',
 		'csrf' => 'App\Http\Middleware\CsrfMiddleware',
-		'guest' => 'App\Http\Middleware\GusetMiddleware',
+		'guest' => 'App\Http\Middleware\GuestMiddleware',
 	];
 
 	/**
