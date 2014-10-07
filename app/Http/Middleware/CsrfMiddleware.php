@@ -15,7 +15,7 @@ class CsrfMiddleware implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($request->session()->token() != $request->input('_token'))
+		if ($request->session()->token() !== $request->input('_token'))
 		{
 			throw new TokenMismatchException;
 		}
