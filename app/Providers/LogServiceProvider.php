@@ -8,7 +8,7 @@ class LogServiceProvider extends ServiceProvider {
 	/**
 	 * Configure the application's logging facilities.
 	 *
-	 * @param  Log  $log
+	 * @param  \Illuminate\Contracts\Logging\Log  $log
 	 * @return void
 	 */
 	public function boot(Log $log)
