@@ -18,6 +18,7 @@ return [
 		__DIR__.'/../app/Providers/AppServiceProvider.php',
 		__DIR__.'/../app/Providers/ArtisanServiceProvider.php',
 		__DIR__.'/../app/Providers/ErrorServiceProvider.php',
+		__DIR__.'/../app/Providers/EventServiceProvider.php',
 		__DIR__.'/../app/Providers/LogServiceProvider.php',
 		__DIR__.'/../app/Providers/RouteServiceProvider.php',
 
