@@ -2,6 +2,28 @@
 
 /*
 |--------------------------------------------------------------------------
+| Load Environment Variables
+|--------------------------------------------------------------------------
+|
+| Next we will load the environment variables for the application which
+| are stored in the ".env" file. These variables will be loaded into
+| the $_ENV and "putenv" facilities of PHP so they stay available.
+|
+*/
+
+try
+{
+	Dotenv::load(__DIR__.'/../');
+
+	Dotenv::required('APP_ENV');
+}
+catch (RuntimeException $e)
+{
+	die('Application environment not configured.'.PHP_EOL);
+}
+
+/*
+|--------------------------------------------------------------------------
 | Detect The Application Environment
 |--------------------------------------------------------------------------
 |
@@ -11,8 +33,7 @@
 |
 */
 
-$env = $app->detectEnvironment([
-
-	'local' => ['homestead'],
-
-]);
+$env = $app->detectEnvironment(function()
+{
+	return getenv('APP_ENV');
+});
