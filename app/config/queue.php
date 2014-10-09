@@ -60,6 +60,7 @@ return array(
 
 		'redis' => array(
 			'driver' => 'redis',
+			'connection' => 'default',
 			'queue'  => 'default',
 		),
 
