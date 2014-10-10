@@ -15,7 +15,7 @@ class CsrfMiddleware implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($request->method == 'GET' || $this->tokensMatch($request))
+		if ($request->method() == 'GET' || $this->tokensMatch($request))
 		{
 			return $next($request);
 		}
