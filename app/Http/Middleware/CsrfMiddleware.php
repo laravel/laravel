@@ -11,8 +11,10 @@ class CsrfMiddleware implements Middleware {
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
-	 * @throws TokenMismatchException
+	 * 
 	 * @return mixed
+	 * 
+	 * @throws TokenMismatchException
 	 */
 	public function handle($request, Closure $next)
 	{
