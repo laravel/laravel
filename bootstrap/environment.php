@@ -11,10 +11,13 @@
 |
 */
 
+if (is_file(__DIR__.'/../.env'))
+{
+	Dotenv::load(__DIR__.'/../', '.env');
+}
+
 try
 {
-	Dotenv::load(__DIR__.'/../');
-
 	Dotenv::required('APP_ENV');
 }
 catch (RuntimeException $e)
