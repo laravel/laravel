@@ -9,14 +9,14 @@ class BasicAuthMiddleware implements Middleware {
 	/**
 	 * The authenticator implementation.
 	 *
-	 * @var Authenticator
+	 * @var \Illuminate\Contracts\Auth\Authenticator
 	 */
 	protected $auth;
 
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  Authenticator  $auth
+	 * @param  \Illuminate\Contracts\Auth\Authenticator  $auth
 	 * @return void
 	 */
 	public function __construct(Authenticator $auth)

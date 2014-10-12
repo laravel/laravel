@@ -10,14 +10,14 @@ class MaintenanceMiddleware implements Middleware {
 	/**
 	 * The application implementation.
 	 *
-	 * @var Application
+	 * @var \Illuminate\Contracts\Foundation\Application
 	 */
 	protected $app;
 
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  Application  $app
+	 * @param  \Illuminate\Contracts\Foundation\Application  $app
 	 * @return void
 	 */
 	public function __construct(Application $app)
