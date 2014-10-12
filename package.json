@@ -15,6 +15,7 @@
     "gulp-sass": "^1.1.0",
     "gulp-shell": "^0.2.9",
     "gulp-uglify": "^1.0.1",
+    "gulp-util": "^3.0.1",
     "install": "^0.1.7",
     "npm": "^2.1.2",
     "require-dir": "^0.1.0",
