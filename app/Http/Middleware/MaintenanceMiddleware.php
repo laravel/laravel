@@ -5,7 +5,7 @@ use Illuminate\Http\Response;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Foundation\Application;
 
-class MaintenanceMiddleware {
+class MaintenanceMiddleware implements Middleware {
 
 	/**
 	 * The application implementation.
