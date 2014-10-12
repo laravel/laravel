@@ -4,11 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Laravel PHP Framework</title>
 	<style>
-		@import url(//fonts.googleapis.com/css?family=Lato:700);
 
 		body {
 			margin:0;
-			font-family:'Lato', sans-serif;
+			font-family: Arial, Helvetica, sans-serif;
 			text-align:center;
 			color: #999;
 		}
@@ -29,6 +28,7 @@
 
 		h1 {
 			font-size: 32px;
+			font-weight:normal;
 			margin: 16px 0 0 0;
 		}
 	</style>
