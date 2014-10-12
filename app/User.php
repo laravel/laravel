@@ -2,13 +2,13 @@
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Contracts\Auth\User as UserContract;
-use Illuminate\Contracts\Auth\Remindable as RemindableContract;
+use Illuminate\Auth\Reminders\CanResetPasswordTrait;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Model implements UserContract, RemindableContract {
+class User extends Model implements UserContract, CanResetPasswordContract {
 
-	use UserTrait, RemindableTrait;
+	use UserTrait, CanResetPasswordTrait;
 
 	/**
 	 * The database table used by the model.

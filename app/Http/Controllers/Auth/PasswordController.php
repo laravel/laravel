@@ -8,17 +8,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @Middleware("csrf")
  * @Middleware("guest")
  */
-class RemindersController {
+class PasswordController {
 
 	/**
-	 * The password reminder implementation.
+	 * The password broker implementation.
 	 *
 	 * @var PasswordBroker
 	 */
 	protected $passwords;
 
 	/**
-	 * Create a new password reminder controller instance.
+	 * Create a new password controller instance.
 	 *
 	 * @param  PasswordBroker  $passwords
 	 * @return void
@@ -29,33 +29,33 @@ class RemindersController {
 	}
 
 	/**
-	 * Display the password reminder view.
+	 * Display the form to request a password reset link.
 	 *
-	 * @Get("password/remind")
+	 * @Get("password/email")
 	 *
 	 * @return Response
 	 */
-	public function showReminderForm()
+	public function showResetRequestForm()
 	{
-		return view('password.remind');
+		return view('password.email');
 	}
 
 	/**
-	 * Handle a POST request to remind a user of their password.
+	 * Send a reset link to the given user.
 	 *
-	 * @Post("password/remind")
+	 * @Post("password/email")
 	 *
 	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function sendPasswordResetEmail(Request $request)
+	public function sendPasswordResetLink(Request $request)
 	{
-		switch ($response = $this->passwords->remind($request->only('email')))
+		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
 			case PasswordBroker::INVALID_USER:
 				return redirect()->back()->with('error', trans($response));
 
-			case PasswordBroker::REMINDER_SENT:
+			case PasswordBroker::RESET_LINK_SENT:
 				return redirect()->back()->with('status', trans($response));
 		}
 	}
@@ -79,7 +79,7 @@ class RemindersController {
 	}
 
 	/**
-	 * Handle a POST request to reset a user's password.
+	 * Reset the given user's password.
 	 *
 	 * @Post("password/reset")
 	 *
