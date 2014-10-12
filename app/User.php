@@ -3,7 +3,7 @@
 use Illuminate\Auth\UserTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\User as UserContract;
-use Illuminate\Auth\Reminders\CanResetPasswordTrait;
+use Illuminate\Auth\Passwords\CanResetPasswordTrait;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements UserContract, CanResetPasswordContract {
