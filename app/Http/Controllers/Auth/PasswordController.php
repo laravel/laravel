@@ -48,7 +48,7 @@ class PasswordController {
 	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function sendPasswordResetLink(Request $request)
+	public function sendResetLink(Request $request)
 	{
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
@@ -68,7 +68,7 @@ class PasswordController {
 	 * @param  string  $token
 	 * @return Response
 	 */
-	public function showPasswordResetForm($token = null)
+	public function showResetForm($token = null)
 	{
 		if (is_null($token))
 		{
