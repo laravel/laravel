@@ -11,8 +11,8 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * Register any model bindings or pattern based filters.
 	 *
-	 * @param  Router  $router
-	 * @param  UrlGenerator  $url
+	 * @param  \Illuminate\Routing\Router  $router
+	 * @param  \Illuminate\Contracts\Routing\UrlGenerator  $url
 	 * @return void
 	 */
 	public function before(Router $router, UrlGenerator $url)

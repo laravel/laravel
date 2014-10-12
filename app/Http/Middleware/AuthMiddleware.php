@@ -10,26 +10,25 @@ class AuthMiddleware implements Middleware {
 	/**
 	 * The authenticator implementation.
 	 *
-	 * @var Authenticator
+	 * @var \Illuminate\Contracts\Auth\Authenticator
 	 */
 	protected $auth;
 
 	/**
 	 * The response factory implementation.
 	 *
-	 * @var ResponseFactory
+	 * @var \Illuminate\Contracts\Routing\ResponseFactory
 	 */
 	protected $response;
 
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  Authenticator  $auth
-	 * @param  ResponseFactory  $response
+	 * @param  \Illuminate\Contracts\Auth\Authenticator  $auth
+	 * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
 	 * @return void
 	 */
-	public function __construct(Authenticator $auth,
-								ResponseFactory $response)
+	public function __construct(Authenticator $auth, ResponseFactory $response)
 	{
 		$this->auth = $auth;
 		$this->response = $response;

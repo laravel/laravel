@@ -10,8 +10,8 @@ class ErrorServiceProvider extends ServiceProvider {
 	/**
 	 * Register any error handlers.
 	 *
-	 * @param  Handler  $handler
-	 * @param  Log  $log
+	 * @param  \Illuminate\Contracts\Exception\Handler  $handler
+	 * @param  \Illuminate\Contracts\Logging\Log  $log
 	 * @return void
 	 */
 	public function boot(Handler $handler, Log $log)

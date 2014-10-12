@@ -13,11 +13,11 @@ class CsrfMiddleware implements Middleware {
 	 * @param  \Closure  $next
 	 * @return mixed
 	 * 
-	 * @throws TokenMismatchException
+	 * @throws \Illuminate\Session\TokenMismatchException
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($request->method() == 'GET' || $this->tokensMatch($request))
+		if ($request->method() === 'GET' || $this->tokensMatch($request))
 		{
 			return $next($request);
 		}
@@ -33,7 +33,7 @@ class CsrfMiddleware implements Middleware {
 	 */
 	protected function tokensMatch($request)
 	{
-		return $request->session()->token() == $request->input('_token');
+		return $request->session()->token() === $request->input('_token');
 	}
 
 }
