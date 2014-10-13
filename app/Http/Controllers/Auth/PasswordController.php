@@ -53,7 +53,7 @@ class PasswordController {
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
 			case PasswordBroker::INVALID_USER:
-				return redirect()->back()->with('error', trans($response));
+				return redirect()->back()->withErrors(['email' => trans($response)]);
 
 			case PasswordBroker::RESET_LINK_SENT:
 				return redirect()->back()->with('status', trans($response));
@@ -104,7 +104,7 @@ class PasswordController {
 			case PasswordBroker::INVALID_PASSWORD:
 			case PasswordBroker::INVALID_TOKEN:
 			case PasswordBroker::INVALID_USER:
-				return redirect()->back()->with('error', trans($response));
+				return redirect()->back()->withErrors(['email' => trans($response)]);
 
 			case PasswordBroker::PASSWORD_RESET:
 				return redirect()->to('/');
