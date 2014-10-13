@@ -7,9 +7,13 @@ $router->get('{handled?}', ['as' => 'home', function($handled = null)
 {
 	saveToSession('NO Exception', 'counter0');
 
-	if ($handled)
+	if ($handled === 'washandled')
 	{
 		$handled = 'An exception was handled in the last request!';
+	}
+	else
+	{
+		$handled = '';
 	}
 
 	return '<!doctype html>
