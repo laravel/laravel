@@ -1,4 +1,5 @@
 {
+  "private": true,
   "devDependencies": {
     "del": "^0.1.3",
     "gulp": "^3.8.8",
