@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider {
 		'Illuminate\Cookie\Middleware\Queue',
 		'Illuminate\Session\Middleware\Reader',
 		'Illuminate\Session\Middleware\Writer',
+		'Illuminate\View\Middleware\ErrorBinder',
 	];
 
 	/**
