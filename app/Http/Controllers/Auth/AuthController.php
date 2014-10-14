@@ -53,7 +53,7 @@ class AuthController {
 	{
 		// Registration form is valid, create user...
 
-		$this->auth->login($user);
+		$this->auth->login($request->all());
 
 		return redirect('/');
 	}
