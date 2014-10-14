@@ -26,7 +26,7 @@ return array(
 	| Here you may specify either the number of minutes that you wish the 
 	| session to be allowed to remain idle before it expires or that the
 	| session only expires immediately on the browser closing. If you set
-        | 'expire_on_close' to true, 'lifetime' will be ignored. 
+	| 'expire_on_close' to true, 'lifetime' will be ignored. 
 	|
 	*/
 
