@@ -1,5 +1,7 @@
 <?php
 
+/** @var Illuminate\Routing\Router $router */
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
