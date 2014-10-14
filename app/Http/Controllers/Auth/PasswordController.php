@@ -50,7 +50,9 @@ class PasswordController {
 	 */
 	public function sendResetLink(Request $request)
 	{
-		switch ($response = $this->passwords->sendResetLink($request->only('email')))
+		switch ($response = $this->passwords->sendResetLink($request->only('email'), function ($message) {
+			$message->subject('Password Reset');
+		}))
 		{
 			case PasswordBroker::INVALID_USER:
 				return redirect()->back()->with('error', trans($response));
