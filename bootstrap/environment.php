@@ -25,8 +25,8 @@ if (file_exists(__DIR__.'/../.env'))
 |--------------------------------------------------------------------------
 |
 | Laravel takes a dead simple approach to your application environments
-| so you can just specify a machine name for the host that matches a
-| given environment, then we will automatically detect it for you.
+| so you may simply return the environment from the Closure. We will
+| assume we are using the "APP_ENV" variable for this environment.
 |
 */
 
