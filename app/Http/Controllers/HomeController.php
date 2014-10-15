@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-class HomeController {
+use Illuminate\Routing\Controller;
+
+class HomeController extends Controller {
 
 	/*
 	|--------------------------------------------------------------------------
