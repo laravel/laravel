@@ -22,7 +22,7 @@ class CsrfMiddleware implements Middleware {
 			return $next($request);
 		}
 
-		throw new TokenMismatchException;
+		throw new TokenMismatchException("Token mismatch");
 	}
 
 	/**
