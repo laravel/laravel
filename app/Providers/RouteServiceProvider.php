@@ -6,7 +6,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider {
 
 	/**
-	 * The root controller namespace for URL generation.
+	 * The root namespace to assume when generating URLs to actions.
 	 *
 	 * @var string
 	 */
