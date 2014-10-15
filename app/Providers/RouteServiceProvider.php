@@ -28,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * Register any model bindings or pattern based filters.
 	 *
-	 * @param  Router  $router
+	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
 	public function before(Router $router)
@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider {
 	/**
 	 * Define the routes for the application.
 	 *
+	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
 	public function map(Router $router)
