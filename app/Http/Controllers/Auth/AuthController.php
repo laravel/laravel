@@ -6,7 +6,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 
 /**
- * @Middleware("csrf")
  * @Middleware("guest", except={"logout"})
  */
 class AuthController {

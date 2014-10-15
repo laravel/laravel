@@ -5,7 +5,6 @@ use Illuminate\Contracts\Auth\PasswordBroker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Middleware("csrf")
  * @Middleware("guest")
  */
 class PasswordController {
