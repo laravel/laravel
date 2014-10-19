@@ -63,7 +63,7 @@ class PasswordController extends Controller {
 	/**
 	 * Display the password reset view for the given token.
 	 *
-	 * @Get("password/reset")
+	 * @Get("password/reset/{token}")
 	 *
 	 * @param  string  $token
 	 * @return Response
