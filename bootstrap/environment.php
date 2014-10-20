@@ -11,9 +11,9 @@
 |
 */
 
-if (file_exists(__DIR__.'/../.env'))
+if (file_exists(__DIR__.'/../storage/app/.env'))
 {
-	Dotenv::load(__DIR__.'/../');
+	Dotenv::load(__DIR__.'/../storage/app/');
 
 	//Dotenv::required('APP_ENV');
 }
