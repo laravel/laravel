@@ -4,7 +4,7 @@ use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Session\TokenMismatchException;
 
-class ValidateCsrfToken implements Middleware {
+class CsrfTokenIsValid implements Middleware {
 
 	/**
 	 * Handle an incoming request.
