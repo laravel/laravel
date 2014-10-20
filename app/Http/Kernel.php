@@ -10,7 +10,7 @@ class Kernel extends HttpKernel {
 	 *
 	 * @var array
 	 */
-	protected $stack = [
+	protected $middleware = [
 		'App\Http\Middleware\MaintenanceMiddleware',
 		'Illuminate\Cookie\Middleware\Guard',
 		'Illuminate\Cookie\Middleware\Queue',
