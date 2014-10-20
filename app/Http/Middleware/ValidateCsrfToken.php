@@ -4,7 +4,7 @@ use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Session\TokenMismatchException;
 
-class CsrfMiddleware implements Middleware {
+class ValidateCsrfToken implements Middleware {
 
 	/**
 	 * Handle an incoming request.
@@ -12,7 +12,7 @@ class CsrfMiddleware implements Middleware {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
 	 * @return mixed
-	 * 
+	 *
 	 * @throws TokenMismatchException
 	 */
 	public function handle($request, Closure $next)

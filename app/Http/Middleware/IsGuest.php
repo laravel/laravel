@@ -2,10 +2,10 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Routing\Middleware;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
-class AuthMiddleware implements Middleware {
+class IsGuest implements Middleware {
 
 	/**
 	 * The Guard implementation.
@@ -15,24 +15,14 @@ class AuthMiddleware implements Middleware {
 	protected $auth;
 
 	/**
-	 * The response factory implementation.
-	 *
-	 * @var ResponseFactory
-	 */
-	protected $response;
-
-	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Guard  $auth
-	 * @param  ResponseFactory  $response
 	 * @return void
 	 */
-	public function __construct(Guard $auth,
-								ResponseFactory $response)
+	public function __construct(Guard $auth)
 	{
 		$this->auth = $auth;
-		$this->response = $response;
 	}
 
 	/**
@@ -44,16 +34,9 @@ class AuthMiddleware implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->auth->guest())
+		if ($this->auth->check())
 		{
-			if ($request->ajax())
-			{
-				return $this->response->make('Unauthorized', 401);
-			}
-			else
-			{
-				return $this->response->redirectGuest('auth/login');
-			}
+			return new RedirectResponse(url('/'));
 		}
 
 		return $next($request);
