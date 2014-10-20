@@ -5,7 +5,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Routing\ResponseFactory;
 
-class LoggedIn implements Middleware {
+class Authenticated implements Middleware {
 
 	/**
 	 * The Guard implementation.

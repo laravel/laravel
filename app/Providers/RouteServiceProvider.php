@@ -22,8 +22,8 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $middleware = [
-		'auth' => 'App\Http\Middleware\LoggedIn',
-		'auth.basic' => 'App\Http\Middleware\LoggedInWithBasicAuth',
+		'auth' => 'App\Http\Middleware\Authenticated',
+		'auth.basic' => 'App\Http\Middleware\AuthenticatedWithBasicAuth',
 		'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
 		'guest' => 'App\Http\Middleware\IsGuest',
 	];
