@@ -19,7 +19,7 @@ class ArtisanServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->commands('App\Console\InspireCommand');
+		$this->commands('App\Console\Commands\InspireCommand');
 	}
 
 	/**
@@ -29,7 +29,7 @@ class ArtisanServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['App\Console\InspireCommand'];
+		return ['App\Console\Commands\InspireCommand'];
 	}
 
 }

@@ -33,19 +33,3 @@ if (file_exists($compiledPath))
 {
 	require $compiledPath;
 }
-
-/*
-|--------------------------------------------------------------------------
-| Register The Workbench Loaders
-|--------------------------------------------------------------------------
-|
-| The Laravel workbench provides a convenient place to develop packages
-| when working locally. However we will need to load in the Composer
-| auto-load files for the packages so that these can be used here.
-|
-*/
-
-if (is_dir($workbench = __DIR__.'/../workbench'))
-{
-	Illuminate\Workbench\Starter::start($workbench);
-}

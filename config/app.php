@@ -98,9 +98,7 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		'App\Providers\AppServiceProvider',
 		'App\Providers\ArtisanServiceProvider',
-		'App\Providers\ErrorServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\LogServiceProvider',
 		'App\Providers\RouteServiceProvider',
