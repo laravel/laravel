@@ -2,9 +2,10 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Routing\Middleware;
 
-class BasicAuthMiddleware implements Middleware {
+class IsGuest implements Middleware {
 
 	/**
 	 * The Guard implementation.
@@ -33,7 +34,12 @@ class BasicAuthMiddleware implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		return $this->auth->basic() ?: $next($request);
+		if ($this->auth->check())
+		{
+			return new RedirectResponse(url('/'));
+		}
+
+		return $next($request);
 	}
 
 }

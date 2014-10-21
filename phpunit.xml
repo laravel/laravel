@@ -8,11 +8,13 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
->
+         syntaxCheck="false">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+    </php>
 </phpunit>
