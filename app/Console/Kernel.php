@@ -6,6 +6,15 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel {
 
 	/**
+	 * The Artisan commands provided by your application.
+	 *
+	 * @var array
+	 */
+	protected $commands = [
+		'App\Console\Commands\InspireCommand',
+	];
+
+	/**
 	 * Run the console application.
 	 *
 	 * @param  \Symfony\Component\Console\Input\InputInterface  $input
