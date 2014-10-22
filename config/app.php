@@ -99,7 +99,6 @@ return [
 		 * Application Service Providers...
 		 */
 		'App\Providers\EventServiceProvider',
-		'App\Providers\LogServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
 		/*
