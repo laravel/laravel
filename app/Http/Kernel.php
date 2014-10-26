@@ -25,6 +25,8 @@ class Kernel extends HttpKernel {
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
+	 *
+	 * @throws \Exception
 	 */
 	public function handle($request)
 	{
