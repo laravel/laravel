@@ -46,8 +46,22 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$response = $app->make('Illuminate\Contracts\Http\Kernel')->handle(
+$kernel = $app->make('Illuminate\Contracts\Http\Kernel');
+
+$response = $kernel->handle(
 	Illuminate\Http\Request::capture()
 );
 
 $response->send();
+
+/*
+|--------------------------------------------------------------------------
+| Shutdown The Application
+|--------------------------------------------------------------------------
+|
+| Once we've sent the response, we will terminate the application, allowing
+| any final work may be done by the application before we shut down.
+|
+*/
+
+$kernel->terminate();
