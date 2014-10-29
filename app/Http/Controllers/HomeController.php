@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Requests\FileUploadRequest;
 use Illuminate\Routing\Controller;
 
 class HomeController extends Controller {
@@ -20,7 +21,19 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('hello');
+		return view('index');
 	}
 
+
+	/**
+	 * @Post("/")
+	 */
+	public function store(FileUploadRequest $request)
+	{
+		return response()->json([
+			'fileName' => $request->file('myFile')->getClientOriginalName(),
+			'size' => $request->file('myFile')->getSize(),
+			'error' => $request->file('myFile')->getError(),
+		]);
+	}
 }
