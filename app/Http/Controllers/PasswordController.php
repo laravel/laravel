@@ -1,13 +1,9 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @Middleware("guest")
- */
 class PasswordController extends Controller {
 
 	/**
@@ -26,16 +22,16 @@ class PasswordController extends Controller {
 	public function __construct(PasswordBroker $passwords)
 	{
 		$this->passwords = $passwords;
+
+		$this->middleware('guest');
 	}
 
 	/**
 	 * Display the form to request a password reset link.
 	 *
-	 * @Get("password/email")
-	 *
 	 * @return Response
 	 */
-	public function showResetRequestForm()
+	public function getEmail()
 	{
 		return view('password.email');
 	}
@@ -43,12 +39,10 @@ class PasswordController extends Controller {
 	/**
 	 * Send a reset link to the given user.
 	 *
-	 * @Post("password/email")
-	 *
 	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function sendResetLink(Request $request)
+	public function postEmail(Request $request)
 	{
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
@@ -63,12 +57,10 @@ class PasswordController extends Controller {
 	/**
 	 * Display the password reset view for the given token.
 	 *
-	 * @Get("password/reset/{token}")
-	 *
 	 * @param  string  $token
 	 * @return Response
 	 */
-	public function showResetForm($token = null)
+	public function getReset($token = null)
 	{
 		if (is_null($token))
 		{
@@ -81,12 +73,10 @@ class PasswordController extends Controller {
 	/**
 	 * Reset the given user's password.
 	 *
-	 * @Post("password/reset")
-	 *
 	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function resetPassword(Request $request)
+	public function postReset(Request $request)
 	{
 		$credentials = $request->only(
 			'email', 'password', 'password_confirmation', 'token'
