@@ -6,17 +6,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider {
 
 	/**
-	 * The controllers to scan for route annotations.
-	 *
-	 * @var array
-	 */
-	protected $scan = [
-		'App\Http\Controllers\HomeController',
-		'App\Http\Controllers\Auth\AuthController',
-		'App\Http\Controllers\Auth\PasswordController',
-	];
-
-	/**
 	 * All of the application's route middleware keys.
 	 *
 	 * @var array
