@@ -1,8 +1,6 @@
-<?php namespace App\Http\Requests\Auth;
+<?php namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
-class RegisterRequest extends Request {
+class LoginRequest extends Request {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -12,8 +10,7 @@ class RegisterRequest extends Request {
 	public function rules()
 	{
 		return [
-			'email' => 'required|email|unique:users',
-			'password' => 'required|confirmed|min:8',
+			'email' => 'required', 'password' => 'required',
 		];
 	}
 
