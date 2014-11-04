@@ -3,7 +3,6 @@
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Filesystem\FilesystemManager;
 
 class SetupCommand extends Command {
 
@@ -48,6 +47,11 @@ class SetupCommand extends Command {
 		$this->call('key:generate');
 	}
 
+	/**
+	 * Remove composer.lock from gitignore file.
+	 *
+	 * @return void
+	 */
 	private function setupGitignore()
 	{
 		$content = $this->filesystem->get('.gitignore');
@@ -61,14 +65,17 @@ class SetupCommand extends Command {
 
 	/**
 	 * Setting up .env files.
+	 *
+	 * @return void
 	 */
 	private function setupEnv()
 	{
 		$from = '.env.example';
-		$to   = '/.env';
+		$to   = '.env';
 
 		if (!$this->filesystem->exists($to)) {
 			$this->filesystem->copy($from, $to);
 		}
 	}
+
 }
