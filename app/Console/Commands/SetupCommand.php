@@ -51,15 +51,12 @@ class SetupCommand extends Command {
 	private function setupGitignore()
 	{
 		$content = $this->filesystem->get('.gitignore');
-		$gitignore = [];
 
-		foreach (explode(PHP_EOL, $content) as $line) {
-			if ($line !== 'composer.lock') {
-				$gitignore[] = $line;
-			}
-		}
+		$lines = array_filter(explode(PHP_EOL, $content), function ($line) {
+			return $line !== 'composer.lock';
+		});
 
-		$this->filesystem->put('.gitignore', implode(PHP_EOL, $gitignore));
+		$this->filesystem->put('.gitignore', implode(PHP_EOL, $lines));
 	}
 
 	/**
