@@ -31,8 +31,7 @@
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
-			"php artisan key:generate",
-			"sed -i '/composer.lock/d' .gitignore"
+			"php artisan setup"
 		]
 	},
 	"config": {
