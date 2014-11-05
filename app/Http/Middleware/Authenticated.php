@@ -3,7 +3,6 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Routing\Middleware;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class Authenticated implements Middleware {
 
@@ -15,24 +14,14 @@ class Authenticated implements Middleware {
 	protected $auth;
 
 	/**
-	 * The response factory implementation.
-	 *
-	 * @var ResponseFactory
-	 */
-	protected $response;
-
-	/**
 	 * Create a new filter instance.
 	 *
 	 * @param  Guard  $auth
-	 * @param  ResponseFactory  $response
 	 * @return void
 	 */
-	public function __construct(Guard $auth,
-								ResponseFactory $response)
+	public function __construct(Guard $auth)
 	{
 		$this->auth = $auth;
-		$this->response = $response;
 	}
 
 	/**
@@ -48,11 +37,11 @@ class Authenticated implements Middleware {
 		{
 			if ($request->ajax())
 			{
-				return $this->response->make('Unauthorized', 401);
+				return response('Unauthorized.', 401);
 			}
 			else
 			{
-				return $this->response->redirectGuest('auth/login');
+				return redirect()->guest('auth/login');
 			}
 		}
 
