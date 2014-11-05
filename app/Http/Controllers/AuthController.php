@@ -23,7 +23,7 @@ class AuthController extends Controller {
 	{
 		$this->auth = $auth;
 
-		$this->middleware('guest', ['except' => 'logout']);
+		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
 	/**
