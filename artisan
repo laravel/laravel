@@ -40,7 +40,9 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 |
 */
 
-$status = $app->make('Illuminate\Contracts\Console\Kernel')->handle(
+$kernel = $app->make('Illuminate\Contracts\Console\Kernel');
+
+$status = $kernel->handle(
 	new Symfony\Component\Console\Input\ArgvInput,
 	new Symfony\Component\Console\Output\ConsoleOutput
 );
@@ -50,10 +52,11 @@ $status = $app->make('Illuminate\Contracts\Console\Kernel')->handle(
 | Shutdown The Application
 |--------------------------------------------------------------------------
 |
-| Once Artisan has finished running. We will fire off the shutdown events
-| so that any final work may be done by the application before we shut
-| down the process. This is the last thing to happen to the request.
+| Once Artisan is done running, we will terminate the application, allowing
+| any final work to be done by the application before we shut down.
 |
 */
+
+$kernel->terminate();
 
 exit($status);
