@@ -17,7 +17,7 @@ class VerifyCsrfToken implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($this->isReadOnly($request) || $this->tokensMatch($request))
+		if ($this->isReading($request) || $this->tokensMatch($request))
 		{
 			return $next($request);
 		}
@@ -42,9 +42,9 @@ class VerifyCsrfToken implements Middleware {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return bool
 	 */
-	protected function isReadOnly($request)
+	protected function isReading($request)
 	{
-		return in_array($request->method(), ['GET', 'OPTIONS']);
+		return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
 	}
 
 }
