@@ -1,14 +1,14 @@
 <?php namespace App;
 
-use Illuminate\Auth\UserTrait;
+use Illuminate\Auth\Authenticates;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passwords\ResetsPassword;
 use Illuminate\Contracts\Auth\User as UserContract;
-use Illuminate\Auth\Passwords\CanResetPasswordTrait;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements UserContract, CanResetPasswordContract {
 
-	use UserTrait, CanResetPasswordTrait;
+	use Authenticates, ResetsPassword;
 
 	/**
 	 * The database table used by the model.
