@@ -33,7 +33,7 @@ class VerifyCsrfToken implements Middleware {
 	 */
 	protected function tokensMatch($request)
 	{
-		return $request->session()->token() == $request->input('_token');
+		return $request->session()->token() === $request->input('_token');
 	}
 
 	/**
