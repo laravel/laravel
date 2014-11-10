@@ -17,7 +17,7 @@ class VerifyCsrfToken implements Middleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if ($request->method() == 'GET' || $this->tokensMatch($request))
+		if ($this->isReading($request) || $this->tokensMatch($request))
 		{
 			return $next($request);
 		}
@@ -33,7 +33,18 @@ class VerifyCsrfToken implements Middleware {
 	 */
 	protected function tokensMatch($request)
 	{
-		return $request->session()->token() == $request->input('_token');
+		return $request->session()->token() === $request->input('_token');
+	}
+
+	/**
+	 * Determine if the HTTP request uses a ‘read’ verb.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return bool
+	 */
+	protected function isReading($request)
+	{
+		return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
 	}
 
 }
