@@ -11,7 +11,7 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $middleware = [
-		'App\Http\Middleware\UnderMaintenance',
+		'Illuminate\Foundation\Http\Middleware\UnderMaintenance',
 		'Illuminate\Cookie\Middleware\EncryptCookies',
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
