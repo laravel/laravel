@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 */
 	protected $middleware = [
 		'auth' => 'App\Http\Middleware\Authenticated',
-		'auth.basic' => 'App\Http\Middleware\AuthenticatedWithBasicAuth',
+		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticatedWithBasicAuth',
 		'guest' => 'App\Http\Middleware\IsGuest',
 	];
 
