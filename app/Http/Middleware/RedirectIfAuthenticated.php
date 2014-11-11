@@ -5,7 +5,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Routing\Middleware;
 
-class IsGuest implements Middleware {
+class RedirectIfAuthenticated implements Middleware {
 
 	/**
 	 * The Guard implementation.
