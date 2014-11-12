@@ -17,6 +17,8 @@ class HomeController extends Controller {
 
 	public function index()
 	{
+		app()->config->set('session.driver', 'file');
+
 		return view('hello');
 	}
 
