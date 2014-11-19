@@ -19,24 +19,4 @@ class Kernel extends HttpKernel {
 		'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
 	];
 
-	/**
-	 * Handle an incoming HTTP request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function handle($request)
-	{
-		try
-		{
-			return parent::handle($request);
-		}
-		catch (Exception $e)
-		{
-			$this->reportException($e);
-
-			return $this->renderException($request, $e);
-		}
-	}
-
 }
