@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->artisan('inspire')
+		$schedule->command('inspire')
 				 ->hourly();
 	}
 
