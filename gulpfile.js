@@ -12,7 +12,7 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-	mix.sass("bootstrap.scss")
-		.phpUnit()
-		.publish("vendor/bower_components");
+    mix.sass("bootstrap.scss")
+       .phpUnit()
+       .publish("vendor/bower_components");
 });
