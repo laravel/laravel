@@ -24,6 +24,7 @@ $router->get('/', 'HomeController@index');
 |
 */
 
-$router->controller('auth', 'AuthController');
-
-$router->controller('password', 'PasswordController');
+$router->controllers([
+	'auth' => 'AuthController',
+	'password' => 'PasswordController',
+]);
