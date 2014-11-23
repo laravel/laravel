@@ -97,7 +97,7 @@ class PasswordController extends Controller {
 				return redirect()->back()->withErrors(['email' => trans($response)]);
 
 			case PasswordBroker::PASSWORD_RESET:
-				return redirect()->to('/');
+				return redirect()->to('/')->with('status', trans($response));
 		}
 	}
 
