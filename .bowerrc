@@ -1,6 +1,3 @@
 {
-  "directory": "vendor/bower_components",
-  "scripts": {
-    "postinstall": "gulp publish"
-  }
+  "directory": "vendor/bower_components"
 }
