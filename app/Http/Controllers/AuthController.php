@@ -75,7 +75,9 @@ class AuthController extends Controller {
 	 */
 	public function postLogin(LoginRequest $request)
 	{
-		if ($this->auth->attempt($request->only('email', 'password')))
+		$credentials = $request->only('email', 'password');
+
+		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
 			return redirect('/dashboard');
 		}
