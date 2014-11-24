@@ -27,6 +27,6 @@ elixir(function(mix) {
         )
        .publish(
             'font-awesome/fonts',
-            'public/css/vendor/fonts'
+            'public/css/fonts'
         );
 });
