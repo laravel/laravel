@@ -1,10 +1,9 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
 
 class AuthController extends Controller {
 
@@ -41,11 +40,17 @@ class AuthController extends Controller {
 	/**
 	 * Handle a registration request for the application.
 	 *
-	 * @param  RegisterRequest  $request
+	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function postRegister(RegisterRequest $request)
+	public function postRegister(Request $request)
 	{
+		$this->validate($request, [
+			'name' => 'required|max:255',
+			'email' => 'required|email|max:255|unique:users',
+			'password' => 'required|min:6|confirmed',
+		]);
+
 		$user = User::forceCreate([
 			'name' => $request->name,
 			'email' => $request->email,
@@ -70,11 +75,15 @@ class AuthController extends Controller {
 	/**
 	 * Handle a login request to the application.
 	 *
-	 * @param  LoginRequest  $request
+	 * @param  Request  $request
 	 * @return Response
 	 */
-	public function postLogin(LoginRequest $request)
+	public function postLogin(Request $request)
 	{
+		$this->validate($request, [
+			'email' => 'required', 'password' => 'required'
+		]);
+
 		$credentials = $request->only('email', 'password');
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
