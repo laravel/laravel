@@ -12,7 +12,7 @@
 				<form class="form-horizontal" role="form" method="POST" action="/auth/register">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group">
-						<label for="email" class="col-sm-3 control-label">Name</label>
+						<label for="name" class="col-sm-3 control-label">Name</label>
 						<div class="col-sm-6">
 							<input type="text" id="name" name="name" class="form-control" placeholder="Name" value="{{ old('name') }}">
 						</div>
@@ -30,7 +30,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="password" class="col-sm-3 control-label">Confirm Password</label>
+						<label for="password_confirmation" class="col-sm-3 control-label">Confirm Password</label>
 						<div class="col-sm-6">
 							<input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password">
 						</div>
