@@ -27,6 +27,6 @@ $router->get('/dashboard', 'DashboardController@index');
 */
 
 $router->controllers([
-	'auth' => 'AuthController',
-	'password' => 'PasswordController',
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
 ]);
