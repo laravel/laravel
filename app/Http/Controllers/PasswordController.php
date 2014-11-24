@@ -59,7 +59,7 @@ class PasswordController extends Controller {
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
 			case PasswordBroker::INVALID_USER:
-				return redirect()->back()->withErrors(['email' =>trans($response)]);
+				return redirect()->back()->withErrors(['email' => trans($response)]);
 
 			case PasswordBroker::RESET_LINK_SENT:
 				return redirect()->back()->with('status', trans($response));
