@@ -1,10 +1,19 @@
 <?php namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PasswordController extends Controller {
+
+	/**
+	 * The Guard implementation.
+	 *
+	 * @var Guard
+	 */
+	protected $auth;
 
 	/**
 	 * The password broker implementation.
@@ -19,8 +28,9 @@ class PasswordController extends Controller {
 	 * @param  PasswordBroker  $passwords
 	 * @return void
 	 */
-	public function __construct(PasswordBroker $passwords)
+	public function __construct(Guard $auth, PasswordBroker $passwords)
 	{
+		$this->auth = $auth;
 		$this->passwords = $passwords;
 
 		$this->middleware('guest');
@@ -33,7 +43,7 @@ class PasswordController extends Controller {
 	 */
 	public function getEmail()
 	{
-		return view('password.email');
+		return view('auth.password');
 	}
 
 	/**
@@ -44,6 +54,8 @@ class PasswordController extends Controller {
 	 */
 	public function postEmail(Request $request)
 	{
+		$this->validate($request, ['email' => 'required']);
+
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
 			case PasswordBroker::INVALID_USER:
@@ -67,7 +79,7 @@ class PasswordController extends Controller {
 			throw new NotFoundHttpException;
 		}
 
-		return view('password.reset')->with('token', $token);
+		return view('auth.reset')->with('token', $token);
 	}
 
 	/**
@@ -94,11 +106,26 @@ class PasswordController extends Controller {
 			case PasswordBroker::INVALID_PASSWORD:
 			case PasswordBroker::INVALID_TOKEN:
 			case PasswordBroker::INVALID_USER:
-				return redirect()->back()->withErrors(['email' => trans($response)]);
+				return redirect()->back()
+							->withInput($request->only('email'))
+							->withErrors(['email' => trans($response)]);
 
 			case PasswordBroker::PASSWORD_RESET:
-				return redirect()->to('/');
+				return $this->loginAndRedirect($request->email);
 		}
+	}
+
+	/**
+	 * Login the user with the given e-mail address and redirect home.
+	 *
+	 * @param  string  $email
+	 * @return Response
+	 */
+	protected function loginAndRedirect($email)
+	{
+		$this->auth->login(User::where('email', $email)->firstOrFail());
+
+		return redirect('/dashboard');
 	}
 
 }

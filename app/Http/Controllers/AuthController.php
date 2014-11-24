@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Contracts\Auth\Guard;
 
 use App\Http\Requests\LoginRequest;
@@ -45,11 +46,15 @@ class AuthController extends Controller {
 	 */
 	public function postRegister(RegisterRequest $request)
 	{
-		// Registration form is valid, create user...
+		$user = User::forceCreate([
+			'name' => $request->name,
+			'email' => $request->email,
+			'password' => bcrypt($request->password),
+		]);
 
 		$this->auth->login($user);
 
-		return redirect('/');
+		return redirect('/dashboard');
 	}
 
 	/**
@@ -72,12 +77,14 @@ class AuthController extends Controller {
 	{
 		if ($this->auth->attempt($request->only('email', 'password')))
 		{
-			return redirect('/');
+			return redirect('/dashboard');
 		}
 
-		return redirect('/auth/login')->withErrors([
-			'email' => 'These credentials do not match our records.',
-		]);
+		return redirect('/auth/login')
+					->withInput($request->only('email'))
+					->withErrors([
+						'email' => 'These credentials do not match our records.',
+					]);
 	}
 
 	/**

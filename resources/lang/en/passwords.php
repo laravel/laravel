@@ -19,7 +19,7 @@ return [
 
 	"token" => "This password reset token is invalid.",
 
-	"sent" => "Password reminder sent!",
+	"sent" => "Password reset link sent!",
 
 	"reset" => "Password has been reset!",
 
