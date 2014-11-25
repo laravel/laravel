@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -50,13 +50,11 @@ class PasswordController extends Controller {
 	/**
 	 * Send a reset link to the given user.
 	 *
-	 * @param  Request  $request
+	 * @param  EmailPasswordLinkRequest  $request
 	 * @return Response
 	 */
-	public function postEmail(Request $request)
+	public function postEmail(Requests\Auth\EmailPasswordLinkRequest $request)
 	{
-		$this->validate($request, ['email' => 'required']);
-
 		switch ($response = $this->passwords->sendResetLink($request->only('email')))
 		{
 			case PasswordBroker::INVALID_USER:
@@ -86,10 +84,10 @@ class PasswordController extends Controller {
 	/**
 	 * Reset the given user's password.
 	 *
-	 * @param  Request  $request
+	 * @param  ResetPasswordRequest  $request
 	 * @return Response
 	 */
-	public function postReset(Request $request)
+	public function postReset(Requests\Auth\ResetPasswordRequest $request)
 	{
 		$credentials = $request->only(
 			'email', 'password', 'password_confirmation', 'token'
