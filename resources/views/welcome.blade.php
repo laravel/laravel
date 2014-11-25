@@ -17,7 +17,7 @@
         <ol class="steps">
             <li class="steps__item">
                 <div class="body">
-                    <h2>Have a Look Around</h2>
+                    <h2>Go Exploring</h2>
 
                     <p>
                         Review <code>app/Http/routes.php</code> to learn how HTTP requests are
