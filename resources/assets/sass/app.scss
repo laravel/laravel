@@ -1,9 +1,11 @@
-$font-family-sans-serif: "Lato", Helvetica, Arial, sans-serif;
-
+@import "partials/variables";
 @import "bootstrap";
 @import "partials/auth";
 @import "partials/navigation";
+@import "partials/banner";
+
+@import "pages/welcome";
 
 .fa-btn {
-	margin-right: 10px;
+    margin-right: 10px;
 }
