@@ -45,7 +45,7 @@
 
             <li class="steps__item">
                 <div class="body">
-                    <h2>Harness Your Skills</h2>
+                    <h2>Master Your Tools</h2>
 
                     <p>
                         Ready to keep learning more about Laravel? Start here:
