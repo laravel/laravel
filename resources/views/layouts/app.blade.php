@@ -7,9 +7,6 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<!-- FavIcon -->
-	<link rel="icon" href="../../favicon.ico">
-
 	<!-- Application Title -->
 	<title>Laravel Application</title>
 
@@ -29,7 +26,7 @@
 <body>
 	<!-- Static navbar -->
 	<nav class="navbar navbar-default navbar-static-top" role="navigation">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 					<span class="sr-only">Toggle Navigation</span>
@@ -37,7 +34,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="/">Laravel</a>
 			</div>
 
 			<div id="navbar" class="navbar-collapse collapse">
@@ -63,13 +60,13 @@
 						<li><a href="/auth/register"><i class="fa fa-btn fa-user"></i>Register</a></li>
 					</ul>
 				@endif
-
 			</div>
 		</div>
 	</nav>
 
+	@yield('banner')
 
-	<div class="container-fluid">
+	<div class="container">
 		@yield('content')
 	</div>
 
