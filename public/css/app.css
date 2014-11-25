@@ -4635,6 +4635,9 @@ button.close {
 #welcome .jumbotron__header, .jumbotron h1 {
   font-weight: lighter; }
 
+#welcome h2 {
+  margin-bottom: 20px; }
+
 #welcome .steps {
   max-width: 80%;
   padding-left: 0;
