@@ -4634,6 +4634,9 @@ button.close {
   padding-left: 0;
   list-style: none;
   counter-reset: welcome-steps; }
+  @media (max-width: 991px) {
+    .steps {
+      max-width: 100%; } }
 
 .steps > .steps__item {
   margin-bottom: 2.5em;
@@ -4654,6 +4657,9 @@ button.close {
     font: bold 2em monospace;
     text-align: center;
     line-height: 49px; }
+    @media (max-width: 991px) {
+      .steps > .steps__item:before {
+        display: none; } }
   .steps > .steps__item .body {
     float: left; }
   .steps > .steps__item h2 {
