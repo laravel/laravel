@@ -32,7 +32,7 @@
 
             <li class="steps__item">
                 <div class="body">
-                    <h2>Master Your Tools</h2>
+                    <h2>Master Your Craft</h2>
 
                     <p>
                         Ready to keep learning more about Laravel? Start here:
