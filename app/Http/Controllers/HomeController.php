@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-class DashboardController extends Controller {
+class HomeController extends Controller {
 
 	/**
 	 * Create a new controller instance.

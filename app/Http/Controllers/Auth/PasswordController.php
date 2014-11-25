@@ -126,7 +126,7 @@ class PasswordController extends Controller {
 	{
 		$this->auth->login(User::where('email', $email)->firstOrFail());
 
-		return redirect('/dashboard');
+		return redirect('/home');
 	}
 
 }

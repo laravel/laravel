@@ -13,7 +13,7 @@
 
 $router->get('/', 'WelcomeController@index');
 
-$router->get('/dashboard', 'DashboardController@index');
+$router->get('/home', 'HomeController@index');
 
 /*
 |--------------------------------------------------------------------------

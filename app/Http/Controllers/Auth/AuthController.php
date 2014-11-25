@@ -59,7 +59,7 @@ class AuthController extends Controller {
 
 		$this->auth->login($user);
 
-		return redirect('/dashboard');
+		return redirect('/home');
 	}
 
 	/**
@@ -88,7 +88,7 @@ class AuthController extends Controller {
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
-			return redirect('/dashboard');
+			return redirect('/home');
 		}
 
 		return redirect('/auth/login')
