@@ -1,11 +1,8 @@
-@import "partials/variables";
+@import "variables";
 @import "bootstrap";
-@import "partials/auth";
+
+@import "partials/buttons";
 @import "partials/navigation";
-@import "partials/banner";
 
+@import "pages/auth";
 @import "pages/welcome";
-
-.fa-btn {
-    margin-right: 10px;
-}

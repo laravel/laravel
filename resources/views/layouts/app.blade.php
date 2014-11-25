@@ -64,11 +64,7 @@
 		</div>
 	</nav>
 
-	@yield('banner')
-
-	<div class="container">
-		@yield('content')
-	</div>
+	@yield('content')
 
 	<!-- Bootstrap JavaScript -->
 	<script src="/js/vendor/jquery.js"></script>

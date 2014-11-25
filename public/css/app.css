@@ -4605,43 +4605,49 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
-.forgot-password {
-  padding-top: 7px;
-  vertical-align: middle; }
+.fa-btn {
+  margin-right: 10px; }
 
 .navbar-avatar {
   border-radius: 999px;
   margin: -11px 10px -10px 0;
   padding: 0; }
 
-.jumbotron {
+.forgot-password {
+  padding-top: 7px;
+  vertical-align: middle; }
+
+#welcome .jumbotron {
   background: #F55430;
   color: #fde0da;
   margin-top: -20px; }
 
-.jumbotron__header, .jumbotron h1 {
+#welcome .jumbotron__header, .jumbotron h1 {
   font-weight: bold;
   color: white;
   margin-top: 0; }
 
-.jumbotron__body {
+#welcome .jumbotron__body {
   max-width: 80%;
   margin-bottom: 0;
   line-height: 1.6em; }
 
-.steps {
+#welcome .jumbotron__header, .jumbotron h1 {
+  font-weight: lighter; }
+
+#welcome .steps {
   max-width: 80%;
   padding-left: 0;
   list-style: none;
   counter-reset: welcome-steps; }
 
-.steps > .steps__item {
+#welcome .steps > .steps__item {
   margin-bottom: 2.5em;
   padding: 19px;
   border: 1px solid #eeeeee;
   border-radius: 4px;
   overflow: hidden; }
-  .steps > .steps__item:before {
+  #welcome .steps > .steps__item:before {
     content: counter(welcome-steps);
     counter-increment: welcome-steps;
     width: 50px;
@@ -4654,13 +4660,10 @@ button.close {
     font: bold 2em monospace;
     text-align: center;
     line-height: 49px; }
-  .steps > .steps__item .body {
+  #welcome .steps > .steps__item .body {
     float: left; }
-  .steps > .steps__item h2 {
+  #welcome .steps > .steps__item h2 {
     font-weight: bold;
     margin-top: 0; }
-  .steps > .steps__item p:last-child {
+  #welcome .steps > .steps__item p:last-child {
     margin-bottom: 0; }
-
-.fa-btn {
-  margin-right: 10px; }

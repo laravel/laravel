@@ -1,11 +1,35 @@
-.steps {
+#welcome .jumbotron {
+    background: $primary;
+    color: lighten($primary, 35%);
+    margin-top: -20px;
+}
+
+#welcome .jumbotron__header,
+.jumbotron h1 {
+    font-weight: bold;
+    color: white;
+    margin-top: 0;
+}
+
+#welcome .jumbotron__body {
+    max-width: 80%;
+    margin-bottom: 0;
+    line-height: 1.6em;
+}
+
+
+#welcome .jumbotron__header, .jumbotron h1 {
+    font-weight: lighter;
+}
+
+#welcome .steps {
     max-width: 80%;
     padding-left: 0;
     list-style: none;
     counter-reset: welcome-steps;
 }
 
-.steps > .steps__item {
+#welcome .steps > .steps__item {
     margin-bottom: 2.5em;
     padding: 19px;
     border: 1px solid $gray-lighter;
