@@ -1,5 +1,18 @@
 @extends('layouts.app')
 
+@section('banner')
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="jumbotron__header">Welcome to Laravel 5!</h1>
+
+        <p class="jumbotron__body">
+            Laravel is a web application framework with expressive, elegant syntax. We believe development
+            must be an enjoyable, creative experience to be truly fulfilling.
+        </p>
+    </div>
+</div>
+@stop
+
 @section('content')
 <div id="welcome">
     <div class="jumbotron">
