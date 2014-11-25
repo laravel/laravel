@@ -4625,7 +4625,8 @@ button.close {
 #welcome .jumbotron__header, .jumbotron h1 {
   font-weight: bold;
   color: white;
-  margin-top: 0; }
+  margin-top: 0;
+  margin-bottom: 30px; }
 
 #welcome .jumbotron__body {
   max-width: 80%;
