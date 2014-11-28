@@ -38,7 +38,7 @@
 							<button type="submit" class="btn btn-primary"><i class="fa fa-btn fa-sign-in"></i>Login</button>
 						</div>
 						<div class="col-sm-3">
-							<div class="forgot-password text-right"><a href="/password/email">Forgot Your Password?</a></div>
+							<div id="forgot-password-link" class="text-right"><a href="/password/email">Forgot Your Password?</a></div>
 						</div>
 					</div>
 				</form>

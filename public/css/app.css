@@ -4613,7 +4613,7 @@ button.close {
   margin: -11px 10px -10px 0;
   padding: 0; }
 
-.forgot-password {
+#forgot-password-link {
   padding-top: 7px;
   vertical-align: middle; }
 
