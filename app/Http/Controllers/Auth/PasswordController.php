@@ -19,7 +19,7 @@ class PasswordController extends Controller {
 	use ResetsPasswords;
 
 	/**
-	 * The path to send users after passwords are reset.
+	 * Where to redirect after password reset.
 	 *
 	 * @var string
 	 */
