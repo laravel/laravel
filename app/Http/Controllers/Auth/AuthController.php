@@ -18,4 +18,11 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+	/**
+	 * The path to send users after registration or login.
+	 *
+	 * @var string
+	 */
+	protected $redirectTo = '/home';
+
 }
