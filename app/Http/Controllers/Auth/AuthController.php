@@ -19,7 +19,7 @@ class AuthController extends Controller {
 	use AuthenticatesAndRegistersUsers;
 
 	/**
-	 * Where to redirect after registration or login.
+	 * Redirect path after registration or login.
 	 *
 	 * @var string
 	 */
