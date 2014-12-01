@@ -18,11 +18,4 @@ class PasswordController extends Controller {
 
 	use ResetsPasswords;
 
-	/**
-	 * Redirect path after password reset.
-	 *
-	 * @var string
-	 */
-	protected $redirectTo = '/home';
-
 }
