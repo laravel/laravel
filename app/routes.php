@@ -13,5 +13,21 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	var_dump('ALL CATEGORIES');
+	var_dump(Category::all()->toArray());
+
+	var_dump('A CHILDREN');
+	var_dump(Category::find(1)->children->toArray());
+
+	var_dump('B CHILDREN');
+	var_dump(Category::find(2)->children->toArray());
+
+	var_dump('CATEGORIES WITH AT LEAST ONE CHILDREN');
+	var_dump(Category::has('children')->get()->toArray());
+
+	$queries = DB::getQueryLog();
+	var_dump(end($queries));
+
+	var_dump('This should be the correct query');
+	var_dump("select * from 'categories' where (select count(*) from 'categories' as tableAlias where tableAlias.'parent_id' = 'categories'.'id') >= 1");
 });

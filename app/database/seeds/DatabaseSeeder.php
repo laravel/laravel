@@ -11,7 +11,32 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+		DB::table('categories')->truncate();
+
+		Category::create(array(
+			'name' => 'A',
+			'parent_id' => null
+		));
+
+		Category::create(array(
+			'name' => 'B',
+			'parent_id' => null
+		));
+
+		Category::create(array(
+			'name' => 'A-1',
+			'parent_id' => 1
+		));
+
+		Category::create(array(
+			'name' => 'A-2',
+			'parent_id' => 1
+		));
+
+		Category::create(array(
+			'name' => 'A-3',
+			'parent_id' => 1
+		));
 	}
 
 }
