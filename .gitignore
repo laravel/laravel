@@ -6,3 +6,5 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
+
+tests/_output/*
