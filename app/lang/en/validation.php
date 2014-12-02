@@ -102,5 +102,38 @@ return array(
 	*/
 
 	'attributes' => array(),
+	
+	/*
+	|--------------------------------------------------------------------------
+	| Custom Validation Value Names
+	|--------------------------------------------------------------------------
+	|
+	| The following language lines are are used to replace the value 
+	| in the message with names more reader friendly. for example, 
+	| when we use the validation rules "in: 1, 0" to represent the 
+	| user's gender, the error message is: 'Gender must be in ":values"', 
+	| Output when an error occurs is:'Gender must be in "1,0"', When 
+	| we specify the name for these value, the output will become more 
+	| readily appreciated: 'Gender must be in "male,female"'.
+	|
+	| example:
+	| 
+	| validation rule:  
+	|  
+	|  'gender' => 'required|in:0,1'
+	| 
+	| names:
+	| 
+	| 'values' => array(
+	| 	...
+	|	'gender' => array(
+	|		0 => 'female',
+	|		1 => 'male',
+	|	),    	
+	|	...
+	|  ),
+	*/
+
+	'values' => array(),
 
 );
