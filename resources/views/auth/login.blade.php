@@ -39,7 +39,6 @@
 						</div>
 						<div class="col-sm-3">
 							<div id="forgot-password-link" class="text-right"><a href="{{ url('password/email') }}">Forgot Your Password?</a></div>
-							
 						</div>
 					</div>
 				</form>
