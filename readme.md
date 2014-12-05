@@ -29,7 +29,7 @@ Yes I think I should explain the changes that I did:
     - Eloqent, Laravel's ORM does not support composite primary keys (which was horrific for me after discovering it this late). Hence, using surrogate keys (and unique constraints) is just a workaround so that we can easily leverage Eloquent models with our database tables. 
     - Some PHP ORMs support composite primary keys (such as Doctrine), but in the span of 1 week, speed is paramount. It's too risky for me to experiment with another ORM (with the fear of encountering implementation issues that take up time) rather than use the out-of-the-box Eloquent.
     -  the workaround is theoretically equivalent to the original model. The only drawback is that another index would have to be made for new unique constraint (in the original, they were primary keys - thus already indexed by nature), which will cause performance issues. 
-  - Feel free to change the direction of the implementation (composite primary keys or surrogate keys) if you feel that this is uncomfortable. I will go forward with what your decision. This is partly my mistake.
+  - Feel free to change the direction of the implementation (composite primary keys or surrogate keys) if you feel that this is uncomfortable. I will go forward with what your decision; this is partly my fault anyway.
 -  Timestamp fields were added to some tables
   - so that we can clear some data entry inquiries in the future
 
