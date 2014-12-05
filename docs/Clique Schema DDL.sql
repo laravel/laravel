@@ -1,16 +1,16 @@
-DROP DATABASE IF EXISTS OrgD;
+DROP DATABASE IF EXISTS clique;
 
 -- INTERNALS DATABASE
-CREATE DATABASE OrgD;
+CREATE DATABASE clique;
 
-CREATE TABLE OrgD.MemberStatusLookup (
+CREATE TABLE clique.MemberStatusLookup (
 	StatusId INT NOT NULL AUTO_INCREMENT,
 	Description VARCHAR(10) NOT NULL,
 
 	PRIMARY KEY(StatusId)
 );
 
-CREATE TABLE OrgD.Members (
+CREATE TABLE clique.Members (
 	StudentNo CHAR(10) NOT NULL,
 	FirstName VARCHAR(30) NOT NULL,
 	MiddleName VARCHAR(20) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE OrgD.Members (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.ContactNos (
+CREATE TABLE clique.ContactNos (
 	StudentNo CHAR(10) NOT NULL, 
 	ContactNo VARCHAR(24) NOT NULL, 
 
@@ -53,7 +53,7 @@ CREATE TABLE OrgD.ContactNos (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.EmailAddresses (
+CREATE TABLE clique.EmailAddresses (
 	StudentNo CHAR(10) NOT NULL, 
 	EmailAddress VARCHAR(30) NULL,
 
@@ -66,7 +66,7 @@ CREATE TABLE OrgD.EmailAddresses (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.Classes (
+CREATE TABLE clique.Classes (
 	ClassCode INT NOT NULL, 
 	CourseName VARCHAR(20) NOT NULL, 
 	CourseDescription LONGTEXT NOT NULL, 
@@ -77,7 +77,7 @@ CREATE TABLE OrgD.Classes (
 	PRIMARY KEY(ClassCode)
 );
 
-CREATE TABLE OrgD.MemberSchedules (
+CREATE TABLE clique.MemberSchedules (
 	StudentNo CHAR(10) NOT NULL, 
 	ClassCode INT NOT NULL,
 
@@ -94,7 +94,7 @@ CREATE TABLE OrgD.MemberSchedules (
 		REFERENCES Classes(ClassCode)
 );
 
-CREATE TABLE OrgD.MemberEvals ( 
+CREATE TABLE clique.MemberEvals ( 
 	StudentNoReviewee CHAR(10) NOT NULL,
 	EvalDate DATE NOT NULL,
 	StudentNoReviewer CHAR(10) NULL,
@@ -120,7 +120,7 @@ CREATE TABLE OrgD.MemberEvals (
 
 -- MARKETING CONTACTS
 
-CREATE TABLE OrgD.Companies (
+CREATE TABLE clique.Companies (
 	Name CHAR(40) NOT NULL,  
 	StreetNo VARCHAR(10) NULL, 
 	StreetName VARCHAR(15) NULL, 
@@ -133,7 +133,7 @@ CREATE TABLE OrgD.Companies (
 	PRIMARY KEY(Name)
 );
 
-CREATE TABLE OrgD.CompanyContactNos (
+CREATE TABLE clique.CompanyContactNos (
 	CompanyName CHAR(40) NOT NULL, 
 	ContactNo VARCHAR(24) NOT NULL,
 
@@ -146,7 +146,7 @@ CREATE TABLE OrgD.CompanyContactNos (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.CompanyEmails (
+CREATE TABLE clique.CompanyEmails (
 	CompanyName CHAR(40) NOT NULL, 
 	EmailAddress VARCHAR(30) NOT NULL,
 
@@ -159,7 +159,7 @@ CREATE TABLE OrgD.CompanyEmails (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.CompanyFaxNos (
+CREATE TABLE clique.CompanyFaxNos (
 	CompanyName CHAR(40) NOT NULL, 
 	FaxNo VARCHAR(24) NOT NULL,
 
@@ -172,7 +172,7 @@ CREATE TABLE OrgD.CompanyFaxNos (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.ContactPersons (
+CREATE TABLE clique.ContactPersons (
 	CompanyName CHAR(40) NOT NULL, 
 	FirstName VARCHAR(30) NOT NULL, 
 	MiddleName VARCHAR(20) NOT NULL, 
@@ -192,7 +192,7 @@ CREATE TABLE OrgD.ContactPersons (
 
 -- ALUMNI RELATIONS DATABASE
 
-CREATE TABLE OrgD.Alumnus ( 
+CREATE TABLE clique.Alumnus ( 
 	StudentNo CHAR(10) NOT NULL, 
 	FirstName VARCHAR(30) NOT NULL, 
 	MiddleName VARCHAR(20) NOT NULL, 
@@ -208,7 +208,7 @@ CREATE TABLE OrgD.Alumnus (
 	PRIMARY KEY(StudentNo)
 );
 
-CREATE TABLE OrgD.AlumnusDegrees (
+CREATE TABLE clique.AlumnusDegrees (
 	StudentNo CHAR(10) NOT NULL,
 	YearGraduated DATE NOT NULL,
 	DegreeProgramGraduated VARCHAR(30) NOT NULL,
@@ -222,7 +222,7 @@ CREATE TABLE OrgD.AlumnusDegrees (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.AlumnusContactNos (
+CREATE TABLE clique.AlumnusContactNos (
 	StudentNo CHAR(10) NOT NULL, 
 	ContactNo VARCHAR(24) NOT NULL,
 
@@ -235,7 +235,7 @@ CREATE TABLE OrgD.AlumnusContactNos (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.AlumnusEmails (
+CREATE TABLE clique.AlumnusEmails (
 	StudentNo CHAR(10) NOT NULL, 
 	EmailAddress VARCHAR(30) NOT NULL,
 
@@ -248,7 +248,7 @@ CREATE TABLE OrgD.AlumnusEmails (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.AlumnusFaxNos (
+CREATE TABLE clique.AlumnusFaxNos (
 	StudentNo CHAR(10) NOT NULL, 
 	FaxNo VARCHAR(24) NOT NULL,
 
@@ -261,7 +261,7 @@ CREATE TABLE OrgD.AlumnusFaxNos (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.AlumnusWorkInfo (
+CREATE TABLE clique.AlumnusWorkInfo (
 	StudentNo CHAR(10) NOT NULL, 
 	CompanyName CHAR(40) NULL, 
 	YearsWorked INT NULL, 
@@ -287,7 +287,7 @@ CREATE TABLE OrgD.AlumnusWorkInfo (
 
 -- PROJECT MANAGEMENT DATABASE
 
-CREATE TABLE OrgD.Projects (
+CREATE TABLE clique.Projects (
 	ProjectId INT NOT NULL AUTO_INCREMENT, 
 	Name VARCHAR(20) NOT NULL, 
 	Description LONGTEXT NULL, 
@@ -298,7 +298,7 @@ CREATE TABLE OrgD.Projects (
 	PRIMARY KEY(ProjectId)
 );
 
-CREATE TABLE OrgD.ProjectHeads (
+CREATE TABLE clique.ProjectHeads (
 	ProjectId INT NOT NULL,
  	StudentNo CHAR(10) NOT NULL,
 
@@ -321,7 +321,7 @@ CREATE TABLE OrgD.ProjectHeads (
 
 -- RECORDS DATABASE
 
-CREATE TABLE OrgD.Meetings (
+CREATE TABLE clique.Meetings (
 	MeetingNo INT NOT NULL AUTO_INCREMENT,
 	ProjectId INT NOT NULL,  
 	MeetingDate DATE NULL, 
@@ -337,7 +337,7 @@ CREATE TABLE OrgD.Meetings (
 		ON UPDATE CASCADE	
 );
 
-CREATE TABLE OrgD.MeetingAttendances (
+CREATE TABLE clique.MeetingAttendances (
 	MeetingNo INT NOT NULL, 
 	StudentNo CHAR(10) NOT NULL, 
 	Attendance BOOLEAN NOT NULL,
@@ -360,7 +360,7 @@ CREATE TABLE OrgD.MeetingAttendances (
 -- --------------------------------------------------------------------------------------------
 
 -- FiNANCE AND LOGISTICS DATABASE
-CREATE TABLE OrgD.MaterialSources (
+CREATE TABLE clique.MaterialSources (
 	Name CHAR(30) NOT NULL, 
 	Type VARCHAR(15) NOT NULL, 
 	ContactNo VARCHAR(24) NULL, 
@@ -373,14 +373,14 @@ CREATE TABLE OrgD.MaterialSources (
 	PRIMARY KEY(Name)
 );
 
-CREATE TABLE OrgD.Items (
+CREATE TABLE clique.Items (
 	Name CHAR(20) NOT NULL, 
 	Type VARCHAR(15) NOT NULL,
 
 	PRIMARY KEY(Name)
 );
 
-CREATE TABLE OrgD.MaterialProvisions (
+CREATE TABLE clique.MaterialProvisions (
 	SourceName VARCHAR(30) NOT NULL, -- material source name 
 	ItemName VARCHAR(20) NOT NULL, 
 	Price DECIMAL(19, 4) NOT NULL,
@@ -400,7 +400,7 @@ CREATE TABLE OrgD.MaterialProvisions (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.Venues (
+CREATE TABLE clique.Venues (
 	Name CHAR(20) NOT NULL,
 	ContactNo VARCHAR(24) NULL, 
 	StreetNo VARCHAR(10) NULL, 
@@ -415,7 +415,7 @@ CREATE TABLE OrgD.Venues (
 	PRIMARY KEY(Name)
 );
 
-CREATE TABLE OrgD.VenuePackages (
+CREATE TABLE clique.VenuePackages (
 	VenueName CHAR(20) NOT NULL, -- venue
 	PackageNumber INT NOT NULL, 
 	Type VARCHAR(20) NOT NULL, 
@@ -432,7 +432,7 @@ CREATE TABLE OrgD.VenuePackages (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.Amenities (
+CREATE TABLE clique.Amenities (
 	VenueName CHAR(20) NOT NULL, -- venue name 
 	Type VARCHAR(20) NOT NULL, 
 	Description LONGTEXT NULL, 
@@ -448,7 +448,7 @@ CREATE TABLE OrgD.Amenities (
 		ON UPDATE CASCADE
 );
 
-CREATE TABLE OrgD.FinancialStatements (
+CREATE TABLE clique.FinancialStatements (
 	StatementId INT NOT NULL, 
 	Sem VARCHAR(15) NOT NULL, 
 	SchoolYear VARCHAR(15) NOT NULL,
@@ -456,7 +456,7 @@ CREATE TABLE OrgD.FinancialStatements (
 	PRIMARY KEY(StatementId)
 ); 
 
-CREATE TABLE OrgD.StatementEntries (
+CREATE TABLE clique.StatementEntries (
 	StatementId INT NOT NULL, -- financial statement id 
 	EntryNo INT NOT NULL, 
 	EntryDate DATE NOT NULL, 
