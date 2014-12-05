@@ -13,5 +13,15 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	$data = array(
+		'greeting' 		=> 	'Hello',
+		'person' 		=>	'User',
+		'statements'	=>	array(
+			'a very simple framework', 
+			'a test site for CS 165'
+		),
+		'test'			=>	true
+	);
+	return View::make('hello', $data);
 });
+
