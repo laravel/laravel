@@ -39,7 +39,7 @@ Follow these steps to get a working local copy of Clique on your local (Windows 
     - what this is doing is: Composer is checking the contents of `composer.json` and updating/managing all our imported components for us. 
     - if you need to include an external module into the project, you just have to update `composer.json` and run `composer install` again.
   - test the URL
-    - restart Apache server, then go to https://clique.dev. You should now see the Laravel Welcome Screen.
+    - restart Apache server, then go to http://www.clique.dev. You should now see the Laravel Welcome Screen.
   - double-check config files in `clique\app\config` for any unique settings that you may have for your machine, such as database connection settings (just add a .gitignore file for it afterwards)
 - Whenever you make changes to the application:
   - if you are already a collaborator, just sync your changes, then commit
