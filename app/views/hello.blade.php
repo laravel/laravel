@@ -51,7 +51,7 @@
 		</br>
 
 		@if($test)
-			<i>{{ 'This site is currently under development.' }}</i>
+			<i>{{ 'Calm your tits and come back when we're ready.' }}</i>
 		@endif
 	
 	</div>
