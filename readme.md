@@ -34,7 +34,7 @@ Follow these steps to get a working local copy of Clique on your local (Windows 
         </Directory>
     </VirtualHost>
     ```
-    - restart Apache server, then go to `www.clique.dev`. You should now see the Laravel Welcome Screen.
+    - restart Apache server, then go to [https://clique.dev]. You should now see the Laravel Welcome Screen.
   - double-check config files in `clique\app\config` for any unique settings that you may have for your machine, such as database connection settings (just add a .gitignore file for it afterwards)
 - Whenever you make changes to the application:
   - if you are already a collaborator, just sync your changes, then commit
