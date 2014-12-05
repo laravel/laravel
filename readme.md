@@ -13,7 +13,7 @@ Load all of these `.bmml` files into Balsamiq. The links should work as long as 
 *could some one (with free time) please be nice and handle these screens (at least for me)? We need to have screenies for each functional story in the final paper(???), which we'll use to show the queries to be used in our project. I should start with the back end implementation right away and I'm afraid I won't be able to continue maintaining the Balsamiq screens myself, sorry (and to the kind soul that will do this, thank you!!! ehem McGriddle ehem XD). You can access my notes on the lacking parts on** `/docs/Implementation Notes.txt` 
 *and with*
 `/docs/cs165 final - implemented parts highlighted.docx`
-*...but before you do this, please discuss Team Questions #2 first haha*
+*...but before you do this, please discuss Team Question #2 first haha*
 
 #### Clique Schema DDL v02
 
