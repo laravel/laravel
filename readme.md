@@ -4,6 +4,44 @@ Clique is an online org-tracking web tool, currently built on Laravel.
 
 ## Documentation
 
+All project documentation is under the `/docs` folder, listed below:
+
+#### mockups/
+
+Load all of these `.bmml` files into Balsamiq. The links should work as long as they're in the same root.
+
+*could some one (with free time) please be nice and handle these screens (at least for me)? We need to have screenies for each functional story in the final paper(???), which we'll use to show the queries to be used in our project. I should start with the back end ipmlementation right away and I'm afraid I won't be able to continue maintaining the Balsamiq screens myself, sorry (and to the kind soul that will do this, thank you!!! ehem McGriddle ehem XD). You can access my notes on the lacking parts on** `/docs/Implementation Notes.txt` 
+*and with*
+`/docs/cs165 final - implemented parts highlighted.docx`
+
+#### Clique Schema DDL v02
+
+The Schema DDL for the database in this implementation.
+
+```
+But Jeric - this is different from the original DDL Schema - stahp making changes plz
+```
+
+Yes I think I should explain the changes that I did:
+- Composite keys were turned to Surrogate keys.
+  - in the original model, composite primary keys were used. However the new model only uses one auto-incrementing id key for each table, and a unique constraint on the original primary keys. This decision was more implementation-influenced than relational-model-influenced:
+    - Eloqent, Laravel's ORM does not support composite primary keys (which was horrific for me after discovering it this late). Hence, using surrogate keys (and unique constraints) is just a workaround so that we can easily leverage Eloquent models with our database tables. 
+    - Some PHP ORMs support composite primary keys (such as Doctrine), but in the span of 1 week, speed is paramount. It's too risky for me to experiment with another ORM (with the fear of encountering implementation issues that take up time) rather than use the out-of-the-box Eloquent.
+    -  the workaround is theoretically equivalent to the original model. The only drawback is that another index would have to be made for new unique constraint (in the original, they were primary keys - thus already indexed by nature), which will cause performance issues. 
+  - Feel free to change the direction of the implementation (composite primary keys or surrogate keys) if you feel that this is uncomfortable. I will go forward with what your decision. This is partly my mistake.
+-  Timestamp fields were added to some tables
+  - so that we can clear some data entry inquiries in the future
+
+In the future (after the project), I will eventually transform this MySQL DDL into separate Laravel Migration objects; this should produce a much more cleaner migration-based setup, plus our data model will be database-agnostic.
+
+#### Clique Schema DDL
+
+the original one (Romeo this is what we ran on your machine)
+
+#### CS 165 final
+
+my most recent copy of the final paper
+
 ## Dev Setup
 
 Follow these steps to get a working local copy of Clique on your local (Windows with XAMPP) machine, along with some GitHub basics:
@@ -50,11 +88,15 @@ Follow these steps to get a working local copy of Clique on your local (Windows 
 
 If yor're still confused / can't get Laravel to work / would like to point out a fundamental mistake (hey I'm just learning this too), send a message. 
 
-## Team Comments
+## Team Questions
 
-###### Jeric what have you done - dafuq is Clique? eww ######
+#### Jeric what have you done - dafuq is Clique? eww
 
-I just thought that cliques have vertices all connected to each other (much like how you want everyone in the org to be connected), plus Clique and CURSOR jives together (get it? HAHA) , I thought why not. 
+I just remembered that cliques have vertices all connected to each other (much like how you want everyone in the org to be connected), plus Clique and CURSOR jives together (get it? HAHA) so I thought why not. 
+
+#### Assuming there is a final paper submission and an implementation submission, what is the team's direction? Should there be a difference between the two (the final paper will have complete user stories / cases [relative to the last paper we submitted], but only a select few will be implemented)...or should the two be parallel (paper == implementation)?
+
+*Please answer me haha*
 
 ## Freedom Board
 
