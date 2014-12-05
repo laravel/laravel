@@ -1,0 +1,67 @@
+Implementation Notes
+	s 	screen
+	f	functionality
+	
+Profiles to be implemented
+	u	User 
+	e	Executive
+
+Items to be added
+
+Login
+	s	ue	[create]	members 	(own)				
+	s	ue	[update]	account		(own)
+
+Project
+	s	ue	[create]	project
+	s	ue	[update]	project
+
+	f	ue	[submit]	project
+
+	f	e	[approve]	project
+
+    s	e   [create]	project head
+    s	e	[update]	project head 
+
+
+Finance
+	s	ue	[create]	statement
+	s	ue	[update]	statement
+
+	f	ue	[submit]	statement
+
+	f	e	[approve]	statement
+
+Logistics
+
+	//	Materials
+
+	s 	ue	[create]	material provision
+	s	ue	[update]	material provision
+
+	f	ue	[create]	material source
+	f 	ue	[create]	item
+
+	//	Venues
+
+	s	ue	[create]	venue packages
+	s	ue	[update]	venue packages
+
+	f	ue	[create]	venues
+	f	ue	[create]	amenities
+
+Internals
+
+	s 	ue	[read]		members	
+
+	s	ue	[create]	meetings
+	s	ue	[update]	meetings
+
+
+
+
+	
+
+
+
+
