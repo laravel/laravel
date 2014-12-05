@@ -1,2 +1,5 @@
+storage/**
+!storage/**/
 /vendor
 .env
+!.gitkeep
