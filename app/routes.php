@@ -17,7 +17,7 @@ Route::get('/', function()
 		'greeting' 		=> 	'Hello',
 		'person' 		=>	'User',
 		'statements'	=>	array(
-			'a very simple framework', 
+			'an online org-tracking tool', 
 			'a test site for CS 165'
 		),
 		'test'			=>	true
