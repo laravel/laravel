@@ -17,7 +17,10 @@ Follow these steps to get a working local copy of Clique on your local (Windows 
   - if I am still not available by this time, then fork (make your own branch) this repo instead and clone your fork into your machine. During collaboration, you'll have to send a pull request for every commit that you would like to make (if the terms are still vague, you can read this [guide](https://help.github.com/categories/collaborating/) for an overview).
 - Set Up Clique
   - set up a proxy url
-    - open `C:\Windows\System32\drivers\etc\hosts`, then add this line: ``127.0.0.1             www.clique.dev```
+    - open `C:\Windows\System32\drivers\etc\hosts`, then add this line: 
+    ```
+    127.0.0.1             www.clique.dev
+    ```
     - open `C:\xampp\apache\conf\extra\httpd-vhosts.conf`, then add this block:
     ```
     <VirtualHost *:80>
