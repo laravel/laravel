@@ -1,15 +1,21 @@
 ## Clique
 
-CS 165 project
+Jeric what have you done - 
 
-## Official Documentation
+## Documentation
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+## Basic Setup
 
-### Contributing To Laravel
+Follow these steps to get a working local copy of Clique ion your local machine:
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+## Team Comments
 
-### License
+###### Jeric what have you done - dafuq is Clique? eww ######
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+I just thought that cliques have vertices all connected to each other (much like how you we want to have the org connected), plus Clique and CURSOR jives together (get it? HAHA) , I thought why not. 
+
+## Freedom Board
+
+Sory uli sa Sat work guys unavoidable @_@
+So san overnight sa Sat? Haha
+
