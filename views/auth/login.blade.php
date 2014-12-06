@@ -10,7 +10,7 @@
 
 				@include('partials.errors.basic')
 
-				<form class="form-horizontal" role="form" method="POST" action="/auth/login">
+				<form class="form-horizontal" role="form" method="POST" action="{!! url('auth/login') !!}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group">
 						<label for="email" class="col-sm-3 control-label">Email</label>
@@ -38,7 +38,7 @@
 							<button type="submit" class="btn btn-primary"><i class="fa fa-btn fa-sign-in"></i>Login</button>
 						</div>
 						<div class="col-sm-3">
-							<div id="forgot-password-link" class="text-right"><a href="/password/email">Forgot Your Password?</a></div>
+							<div id="forgot-password-link" class="text-right"><a href="{!! url('password/email') !!}">Forgot Your Password?</a></div>
 						</div>
 					</div>
 				</form>

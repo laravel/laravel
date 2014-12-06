@@ -10,7 +10,7 @@
 
 				@include('partials.errors.basic')
 
-				<form class="form-horizontal" role="form" method="POST" action="/auth/register">
+				<form class="form-horizontal" role="form" method="POST" action="{!! url('auth/register') !!}">
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="form-group">
 						<label for="name" class="col-sm-3 control-label">Name</label>
