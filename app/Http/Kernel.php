@@ -1,43 +1,32 @@
 <?php namespace App\Http;
 
-use Exception;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel {
 
 	/**
-	 * The application's HTTP middleware stack.
+	 * The application's global HTTP middleware stack.
 	 *
 	 * @var array
 	 */
 	protected $middleware = [
-		'App\Http\Middleware\UnderMaintenance',
+		'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
 		'Illuminate\Cookie\Middleware\EncryptCookies',
-		'Illuminate\Cookie\Middleware\AddQueuedCookiesToRequest',
-		'Illuminate\Session\Middleware\ReadSession',
-		'Illuminate\Session\Middleware\WriteSession',
+		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
+		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
-		'App\Http\Middleware\VerifyCsrfToken',
+		'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
 	];
 
 	/**
-	 * Handle an incoming HTTP request.
+	 * The application's route middleware.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @var array
 	 */
-	public function handle($request)
-	{
-		try
-		{
-			return parent::handle($request);
-		}
-		catch (Exception $e)
-		{
-			$this->reportException($e);
-
-			return $this->renderException($request, $e);
-		}
-	}
+	protected $routeMiddleware = [
+		'auth' => 'App\Http\Middleware\Authenticate',
+		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
+		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
+	];
 
 }

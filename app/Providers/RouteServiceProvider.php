@@ -6,41 +6,35 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider {
 
 	/**
-	 * All of the application's route middleware keys.
+	 * This namespace is applied to the controller routes in your routes file.
 	 *
-	 * @var array
+	 * In addition, it is set as the URL generator's root namespace.
+	 *
+	 * @var string
 	 */
-	protected $middleware = [
-		'auth' => 'App\Http\Middleware\Authenticated',
-		'auth.basic' => 'App\Http\Middleware\AuthenticatedWithBasicAuth',
-		'guest' => 'App\Http\Middleware\IsGuest',
-	];
+	protected $namespace = 'App\Http\Controllers';
 
 	/**
-	 * Called before routes are registered.
-	 *
-	 * Register any model bindings or pattern based filters.
+	 * Define your route model bindings, pattern filters, etc.
 	 *
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function before(Router $router)
+	public function boot(Router $router)
 	{
+		parent::boot($router);
+
 		//
 	}
 
 	/**
 	 * Define the routes for the application.
 	 *
-	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function map(Router $router)
+	public function map()
 	{
-		$router->group(['namespace' => 'App\Http\Controllers'], function($router)
-		{
-			require app_path('Http/routes.php');
-		});
+		$this->loadRoutesFrom(app_path('Http/routes.php'));
 	}
 
 }
