@@ -11,8 +11,8 @@
 	<title>Laravel Application</title>
 
 	<!-- Bootstrap CSS -->
-	<link href="{!! url('css/app.css') !!}" rel="stylesheet">
-	<link href="{!! url('css/vendor/font-awesome.css') !!}" rel="stylesheet">
+	<link href="{!! asset('css/app.css') !!}" rel="stylesheet">
+	<link href="{!! asset('css/vendor/font-awesome.css') !!}" rel="stylesheet">
 
 	<!-- Web Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -67,7 +67,7 @@
 	@yield('content')
 
 	<!-- Bootstrap JavaScript -->
-	<script src="{!! url('js/vendor/jquery.js') !!}"></script>
-	<script src="{!! url('js/vendor/bootstrap.js') !!}"></script>
+	<script src="{!! asset('js/vendor/jquery.js') !!}"></script>
+	<script src="{!! asset('js/vendor/bootstrap.js') !!}"></script>
 </body>
 </html>
