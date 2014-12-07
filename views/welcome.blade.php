@@ -24,6 +24,13 @@
                         routed to controllers.
                     </p>
 
+
+                    <p>
+                        Edit <code>config/project.php</code>
+                        to set the project name, company name
+                        and company email.
+                    </p>
+
                     <p>
                         We've included simple login and registration screens to get you started.
                     </p>
