@@ -7,7 +7,7 @@
             <h1 class="jumbotron__header">You have arrived.</h1>
 
             <p class="jumbotron__body">
-                Laravel is a web application framework with expressive, elegant syntax. We believe development
+                {{ Config::get('project.name') }} is a web application framework with expressive, elegant syntax. We believe development
                 must be an enjoyable, creative experience. Enjoy the fresh air.
             </p>
         </div>

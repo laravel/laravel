@@ -17,7 +17,8 @@
 				<span id="refresh" onclick='location.reload()'>Refresh your page.</span>
 			</p>
             <p class="jumbotron__body">
-            	Email us at <a href="mailto:your@email.com">your@email.com</a>
+            	Email us at <a href="{{ Config::get('project.company.email') }}">
+                {{ Config::get('project.company.email') }}</a>
             </p>
         </div>
     </div>
