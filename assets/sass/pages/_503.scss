@@ -1,0 +1,37 @@
+#down .jumbotron {
+    background: $primary;
+    color: lighten($primary, 35%);
+    margin-top: -20px;
+}
+
+#down .jumbotron__header,
+.jumbotron h1 {
+    font-weight: bold;
+    color: white;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+#down .jumbotron__body {
+    max-width: 80%;
+    margin-bottom: 0;
+    line-height: 1.6em;
+
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    #refresh {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+#down .jumbotron__header, .jumbotron h1 {
+    font-weight: lighter;
+}
+
+#down h2 {
+    margin-bottom: 20px;
+}
