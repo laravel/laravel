@@ -36,7 +36,7 @@
 				</button>
 				<a class="navbar-brand" href="/">Laravel</a>
 			</div>
-
+			@if(!isset($down))
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
@@ -61,6 +61,7 @@
 					</ul>
 				@endif
 			</div>
+			@endif
 		</div>
 	</nav>
 
