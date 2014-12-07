@@ -8,7 +8,7 @@
 	<meta name="author" content="">
 
 	<!-- Application Title -->
-	<title>Laravel Application</title>
+	<title>{{ Config::get('project.name') }}</title>
 
 	<!-- Bootstrap CSS -->
 	<link href="/css/app.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/">Laravel</a>
+				<a class="navbar-brand" href="/">{{ Config::get('project.name') }}</a>
 			</div>
 			@if(!isset($down))
 			<div id="navbar" class="navbar-collapse collapse">
@@ -66,9 +66,20 @@
 	</nav>
 
 	@yield('content')
-
+	<footer class="footer">
+      <div class="container">
+        <p class="text-muted">
+	        Copyright (©) {{ date('Y') }} 
+	        {{ Config::get('project.company.name')}}. All rights reserved.
+	        Contact us at 
+	        <a href="mailto:{{ Config::get('project.company.email')}}">{{ Config::get('project.company.email')}}</a>
+	        
+        </p>
+      </div>
+    </footer>
 	<!-- Bootstrap JavaScript -->
 	<script src="/js/vendor/jquery.js"></script>
 	<script src="/js/vendor/bootstrap.js"></script>
+
 </body>
 </html>
