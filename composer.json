@@ -12,7 +12,7 @@
 	},
 	"autoload": {
 		"classmap": [
-			"database",
+			"resources/database",
 			"tests/TestCase.php"
 		],
 		"psr-4": {
