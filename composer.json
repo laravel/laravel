@@ -22,8 +22,6 @@
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan clear-compiled",
-			"php artisan route:scan",
-			"php artisan event:scan",
 			"php artisan optimize"
 		],
 		"post-update-cmd": [
