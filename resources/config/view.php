@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'paths' => [base_path().'/views'],
+	'paths' => [base_path('resources/templates')],
 
 	/*
 	|--------------------------------------------------------------------------
