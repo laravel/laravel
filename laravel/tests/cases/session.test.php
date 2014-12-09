@@ -281,7 +281,7 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 						->with($this->equalTo($expect), $this->equalTo($config), $this->equalTo(true));
 
 		$payload->save();
-
+		
 		$this->assertEquals($session['data'][':new:'], $payload->session['data'][':old:']);
 	}
 

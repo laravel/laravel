@@ -40,7 +40,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a reference to a CSS file using a given media type:
 
-	echo HTML::style('css/common.css', 'print');
+	echo HTML::style('css/common.css', array('media' => 'print'));
 
 *Further Reading:*
 
@@ -55,7 +55,7 @@ For example, the < symbol should be converted to its entity representation. Conv
 
 #### Generating a link that should use HTTPS:
 
-	echo HTML::secure_link('user/profile', 'User Profile');
+	echo HTML::link_to_secure('user/profile', 'User Profile');
 
 #### Generating a link and specifying extra HTML attributes:
 
@@ -86,6 +86,17 @@ For example, the < symbol should be converted to its entity representation. Conv
 ### Generating a link to a controller action with wildcard values:
 
 	echo HTML::link_to_action('user@profile', 'User Profile', array($username));
+
+<a name="links-to-a-different-language"></a>
+## Links To A Different Language
+
+#### Generating a link to the same page in another language:
+
+	echo HTML::link_to_language('fr');
+
+#### Generating a link to your home page another language
+
+	echo HTML::link_to_language('fr', true);
 
 <a name="mail-to-links"></a>
 ## Mail-To Links
@@ -119,7 +130,7 @@ The "mailto" method on the HTML class obfuscates the given e-mail address so it 
 	echo HTML::ol(array('Get Peanut Butter', 'Get Chocolate', 'Feast'));
 
 	echo HTML::ul(array('Ubuntu', 'Snow Leopard', 'Windows'));
-	
+
 	echo HTML::dl(array('Ubuntu' => 'An operating system by Canonical', 'Windows' => 'An operating system by Microsoft'));
 
 <a name="custom-macros"></a>

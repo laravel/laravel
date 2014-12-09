@@ -7,7 +7,7 @@ class Cookie {
 	 *
 	 * @var int
 	 */
-	const forever = 525600;
+	const forever = 2628000;
 
 	/**
 	 * The cookies that have been set.

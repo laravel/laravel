@@ -171,9 +171,9 @@ Request::$foundation = RequestFoundation::createFromGlobals();
 
 if (Request::cli())
 {
-	$environment = get_cli_option('env');
+	$environment = get_cli_option('env', getenv('LARAVEL_ENV'));
 
-	if ( ! isset($environment))
+	if (empty($environment))
 	{
 		$environment = Request::detect_env($environments, gethostname());
 	}
@@ -213,7 +213,7 @@ if (isset($environment))
 |
 */
 
-if (defined('STDIN'))
+if (Request::cli())
 {
 	$console = CLI\Command::options($_SERVER['argv']);
 

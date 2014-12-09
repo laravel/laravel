@@ -316,10 +316,10 @@ function head($array)
  *
  * <code>
  *		// Create a URL to a location within the application
- *		$url = path('user/profile');
+ *		$url = url('user/profile');
  *
  *		// Create a HTTPS URL to a location within the application
- *		$url = path('user/profile', true);
+ *		$url = url('user/profile', true);
  * </code>
  *
  * @param  string  $url
@@ -560,9 +560,9 @@ function render_each($partial, array $data, $iterator, $empty = 'raw|')
  * @param  string  $section
  * @return string
  */
-function yield($section)
+function y_ield($section)
 {
-	return Laravel\Section::yield($section);
+	return Laravel\Section::y_ield($section);
 }
 
 /**

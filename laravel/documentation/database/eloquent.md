@@ -36,11 +36,13 @@ Eloquent makes a few basic assumptions about your database structure:
 - Each table should have a primary key named **id**.
 - Each table name should be the plural form of its corresponding model name.
 
-Sometimes you may wish to use a table name other than the plural form of your model. No problem. Just add a static **table** property your model:
+Sometimes you may wish to use a table name other than the plural form of your model, or a different primary key column. No problem. Just add a static **table** property your model:
 
 	class User extends Eloquent {
 
 	     public static $table = 'my_users';
+
+	     public static $key = 'my_primary_key';
 
 	}
 
@@ -423,7 +425,7 @@ In this example, **only two queries will be executed**!
 
 	SELECT * FROM "books"
 
-	SELECT * FROM "authors" WHERE "id" IN (1, 2, 3, 4, 5, ...)
+	SELECT * FROM "authors" WHERE "id" IN (1, 2, 3, 4, 5, …)
 
 Obviously, wise use of eager loading can dramatically increase the performance of your application. In the example above, eager loading cut the execution time in half.
 
@@ -520,7 +522,7 @@ Or, mass-assignment may be accomplished using the **fill** method.
 
 	$user->save();
 
-By default, all attribute key/value pairs will be store during mass-assignment. However, it is possible to create a white-list of attributes that will be set. If the accessible attribute white-list is set then no attributes other than those specified will be set during mass-assignment.
+By default, all attribute key/value pairs will be stored during mass-assignment. However, it is possible to create a white-list of attributes that will be set. If the accessible attribute white-list is set then no attributes other than those specified will be set during mass-assignment.
 
 You can specify accessible attributes by assigning the **$accessible** static array. Each element contains the name of a white-listed attribute.
 

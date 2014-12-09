@@ -21,7 +21,7 @@ class Connection {
 	/**
 	 * The query grammar instance for the connection.
 	 *
-	 * @var Grammars\Grammar
+	 * @var Query\Grammars\Grammar
 	 */
 	protected $grammar;
 
@@ -75,7 +75,7 @@ class Connection {
 
 		if (isset(\Laravel\Database::$registrar[$this->driver()]))
 		{
-			\Laravel\Database::$registrar[$this->driver()]['query']();
+			return $this->grammar = \Laravel\Database::$registrar[$this->driver()]['query']();
 		}
 
 		switch ($this->driver())
@@ -101,7 +101,7 @@ class Connection {
 	 * Execute a callback wrapped in a database transaction.
 	 *
 	 * @param  callback  $callback
-	 * @return void
+	 * @return bool
 	 */
 	public function transaction($callback)
 	{
@@ -121,7 +121,7 @@ class Connection {
 			throw $e;
 		}
 
-		$this->pdo->commit();
+		return $this->pdo->commit();
 	}
 
 	/**

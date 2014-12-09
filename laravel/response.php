@@ -89,13 +89,35 @@ class Response {
 	 * @param  mixed     $data
 	 * @param  int       $status
 	 * @param  array     $headers
+   * @param  int       $json_options
 	 * @return Response
 	 */
-	public static function json($data, $status = 200, $headers = array())
+	public static function json($data, $status = 200, $headers = array(), $json_options = 0)
 	{
 		$headers['Content-Type'] = 'application/json; charset=utf-8';
 
-		return new static(json_encode($data), $status, $headers);
+		return new static(json_encode($data, $json_options), $status, $headers);
+	}
+	
+
+	/**
+	 * Create a new JSONP response.
+	 *
+	 * <code>
+	 *		// Create a response instance with JSONP
+	 *		return Response::jsonp('myFunctionCall', $data, 200, array('header' => 'value'));
+	 * </code>
+	 *
+	 * @param  mixed     $data
+	 * @param  int       $status
+	 * @param  array     $headers
+	 * @return Response
+	 */
+	public static function jsonp($callback, $data, $status = 200, $headers = array())
+	{
+		$headers['Content-Type'] = 'application/javascript; charset=utf-8';
+
+		return new static($callback.'('.json_encode($data).');', $status, $headers);
 	}
 
 	/**

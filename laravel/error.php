@@ -20,7 +20,7 @@ class Error {
 		// For Laravel view errors we want to show a prettier error:
 		$file = $exception->getFile();
 
-		if (str_contains($exception->getFile(), 'eval()') and str_contains($exception->getFile(), 'laravel/view.php'))
+		if (str_contains($exception->getFile(), 'eval()') and str_contains($exception->getFile(), 'laravel'.DS.'view.php'))
 		{
 			$message = 'Error rendering view: ['.View::$last['name'].']'.PHP_EOL.PHP_EOL.$message;
 
@@ -30,20 +30,23 @@ class Error {
 		// If detailed errors are enabled, we'll just format the exception into
 		// a simple error message and display it on the screen. We don't use a
 		// View in case the problem is in the View class.
+
 		if (Config::get('error.detail'))
 		{
-			echo "<html><h2>Unhandled Exception</h2>
-				  <h3>Message:</h3>
-				  <pre>".$message."</pre>
-				  <h3>Location:</h3>
-				  <pre>".$file." on line ".$exception->getLine()."</pre>";
+			$response_body = "<html><h2>Unhandled Exception</h2>
+				<h3>Message:</h3>
+				<pre>".$message."</pre>
+				<h3>Location:</h3>
+				<pre>".$file." on line ".$exception->getLine()."</pre>";
 
 			if ($trace)
 			{
-				echo "
+				$response_body .= "
 				  <h3>Stack Trace:</h3>
 				  <pre>".$exception->getTraceAsString()."</pre></html>";
 			}
+
+			$response = Response::make($response_body, 500);
 		}
 
 		// If we're not using detailed error messages, we'll use the event
@@ -53,8 +56,12 @@ class Error {
 		{
 			$response = Event::first('500');
 
-			echo Response::prepare($response)->render();
+			$response = Response::prepare($response);
 		}
+
+		$response->render();
+		$response->send();
+		$response->foundation->finish();
 
 		exit(1);
 	}

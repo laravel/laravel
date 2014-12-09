@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.3"
     },
     "autoload": {
         "psr-0": {
@@ -25,9 +25,5 @@
         }
     },
     "target-dir": "Symfony/Component/HttpFoundation",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.1-dev"
-        }
-    }
+    "minimum-stability": "dev"
 }

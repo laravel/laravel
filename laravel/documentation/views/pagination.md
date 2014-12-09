@@ -38,7 +38,7 @@ You can also pass an optional array of table columns to select in the query:
 
 The links method will create an intelligent, sliding list of page links that looks something like this:
 
-	Previous 1 2 ... 24 25 26 27 28 29 30 ... 78 79 Next
+	Previous 1 2 … 24 25 26 27 28 29 30 … 78 79 Next
 
 The Paginator will automatically determine which page you're on and update the results and links accordingly.
 
@@ -86,7 +86,7 @@ All pagination link elements can be style using CSS classes. Here is an example 
 			<li><a href="foo">1</a></li>
 			<li><a href="foo">2</a></li>
 
-			<li class="dots disabled"><a href="#">...</a></li>
+			<li class="dots disabled"><a href="#">…</a></li>
 
 			<li><a href="foo">11</a></li>
 			<li><a href="foo">12</a></li>
@@ -96,7 +96,7 @@ All pagination link elements can be style using CSS classes. Here is an example 
 			<li><a href="foo">14</a></li>
 			<li><a href="foo">15</a></li>
 
-			<li class="dots disabled"><a href="#">...</a></li>
+			<li class="dots disabled"><a href="#">…</a></li>
 
 			<li><a href="foo">25</a></li>
 			<li><a href="foo">26</a></li>

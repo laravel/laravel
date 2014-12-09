@@ -44,7 +44,7 @@ View sections provide a simple way to inject content into layouts from nested vi
 #### Rendering the contents of a section:
 
 	<head>
-		<?php echo Section::yield('scripts'); ?>
+		<?php echo Section::y_ield('scripts'); ?>
 	</head>
 
 #### Using Blade short-cuts to work with sections:
@@ -54,7 +54,7 @@ View sections provide a simple way to inject content into layouts from nested vi
 	@endsection
 
 	<head>
-		@yield('scripts')
+		@y_ield('scripts')
 	</head>
 
 <a name="blade-template-engine"></a>
@@ -152,7 +152,7 @@ Similarly, you can use **@render**, which behaves the same as **@include** excep
 		Login
 	@endunless
 
-	// Equivalent to...
+	// Equivalent to…
 
 	<?php if ( ! Auth::check()): ?>
 		Login
@@ -166,13 +166,13 @@ Not only does Blade provide clean, elegant syntax for common PHP control structu
 	<html>
 		<ul class="navigation">
 			@section('navigation')
-				<li>Nav Item 1</li>
-				<li>Nav Item 2</li>
-			@yield_section
+				<li>Example Item 1</li>
+				<li>Example Item 2</li>
+			@endsection
 		</ul>
 
 		<div class="content">
-			@yield('content')
+			@y_ield('content')
 		</div>
 	</html>
 

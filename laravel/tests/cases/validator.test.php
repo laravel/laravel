@@ -484,6 +484,28 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the date_format validation rule.
+	 *
+	 * @group laravel
+	 */
+	public function testTheDateFormatRule()
+	{
+		$input = array('date' => '15-Feb-2009');
+		$rules = array('date' => 'date_format:j-M-Y');
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '2009-02-15,15:16:17';
+		$rules['date'] = 'date_format:"Y-m-d,H:i:s"';
+		$this->assertTrue(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '2009-02-15';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+
+		$input['date'] = '15:16:17';
+		$this->assertFalse(Validator::make($input, $rules)->valid());
+	}
+
+	/**
 	 * Test that the validator sets the correct messages.
 	 *
 	 * @group laravel
@@ -665,5 +687,25 @@ class ValidatorTest extends PHPUnit_Framework_TestCase {
 		$expect = str_replace(':attribute', 'attribute', $lang['required']);
 		$this->assertEquals($expect, $v->errors->first('test_attribute'));
 	}
+
+    /**
+     * Test required_with attribute names are replaced.
+     *
+     * @group laravel
+     */
+    public function testRequiredWithAttributesAreReplaced()
+    {
+        $lang = require path('app').'language/en/validation.php';
+
+        $data = array('first_name' => 'Taylor', 'last_name' => '');
+
+        $rules = array('first_name' => 'required', 'last_name' => 'required_with:first_name');
+
+        $v = Validator::make($data, $rules);
+        $v->valid();
+
+        $expect = str_replace(array(':attribute', ':field'), array('last name', 'first name'), $lang['required_with']);
+        $this->assertEquals($expect, $v->errors->first('last_name'));
+    }
 
 }

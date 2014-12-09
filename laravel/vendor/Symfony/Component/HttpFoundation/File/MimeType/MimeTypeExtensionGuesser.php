@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\HttpFoundation\File\Mimetype;
+namespace Symfony\Component\HttpFoundation\File\MimeType;
 
 /**
  * Provides a best-guess mapping of mime type to file extension.
@@ -542,6 +542,7 @@ class MimeTypeExtensionGuesser implements ExtensionGuesserInterface
         'application/x-pkcs7-certificates' => 'p7b',
         'application/x-pkcs7-certreqresp' => 'p7r',
         'application/x-rar-compressed' => 'rar',
+        'application/x-rar' => 'rar',
         'application/x-sh' => 'sh',
         'application/x-shar' => 'shar',
         'application/x-shockwave-flash' => 'swf',
@@ -730,11 +731,7 @@ class MimeTypeExtensionGuesser implements ExtensionGuesserInterface
     );
 
     /**
-     * Returns the extension based on the mime type.
-     *
-     * If the mime type is unknown, returns null.
-     *
-     * @return string|null The guessed extension or null if it cannot be guessed
+     * {@inheritdoc}
      */
     public function guess($mimeType)
     {

@@ -41,7 +41,7 @@ By default, *null* will be returned if the input item does not exist. However, y
 
 #### Determining if the input contains a given item:
 
-	if (Input::has('name')) ...
+	if (Input::has('name')) …
 
 > **Note:** The "has" method will return *false* if the input item is an empty string.
 

@@ -226,18 +226,6 @@ abstract class Model {
 	}
 
 	/**
-	 * Find a model by its primary key.
-	 *
-	 * @param  string  $id
-	 * @param  array   $columns
-	 * @return Model
-	 */
-	public function _find($id, $columns = array('*'))
-	{
-		return $this->query()->where(static::$key, '=', $id)->first($columns);
-	}
-
-	/**
 	 * Get all of the models in the database.
 	 *
 	 * @return array
@@ -468,7 +456,7 @@ abstract class Model {
 	 *
 	 * @return Query
 	 */
-	protected function query()
+	protected function _query()
 	{
 		return new Query($this);
 	}
@@ -615,6 +603,9 @@ abstract class Model {
 
 		foreach ($this->relationships as $name => $models)
 		{
+			// Relationships can be marked as "hidden", too.
+			if (in_array($name, static::$hidden)) continue;
+
 			// If the relationship is not a "to-many" relationship, we can just
 			// to_array the related model and add it as an attribute to the
 			// array of existing regular attributes we gathered.
@@ -720,10 +711,10 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			if (array_key_exists($key, $this->$source)) return true;
+			if (array_key_exists($key, $this->{$source})) return ! empty($this->{$source}[$key]);
 		}
 
-		if (method_exists($this, $key)) return true;
+		return false;
 	}
 
 	/**
@@ -736,7 +727,7 @@ abstract class Model {
 	{
 		foreach (array('attributes', 'relationships') as $source)
 		{
-			unset($this->$source[$key]);
+			unset($this->{$source}[$key]);
 		}
 	}
 
@@ -759,7 +750,7 @@ abstract class Model {
 			return static::$$method;
 		}
 
-		$underscored = array('with', 'find');
+		$underscored = array('with', 'query');
 
 		// Some methods need to be accessed both staticly and non-staticly so we'll
 		// keep underscored methods of those methods and intercept calls to them

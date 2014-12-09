@@ -2,6 +2,12 @@
 
 ## Contents
 
+- [Laravel 3.2.14](#3.2.14)
+- [Upgrading From 3.2.13](#upgrade-3.2.14)
+- [Laravel 3.2.13](#3.2.13)
+- [Upgrading From 3.2.12](#upgrade-3.2.13)
+- [Laravel 3.2.12](#3.2.12)
+- [Upgrading From 3.2.11](#upgrade-3.2.12)
 - [Laravel 3.2.11](#3.2.11)
 - [Upgrading From 3.2.10](#upgrade-3.2.11)
 - [Laravel 3.2.10](#3.2.10)
@@ -46,6 +52,38 @@
 - [Upgrading From 3.1](#upgrade-3.1.1)
 - [Laravel 3.1](#3.1)
 - [Upgrading From 3.0](#upgrade-3.1)
+
+<a name="3.2.14"></a>
+## Laravel 3.2.14
+
+- IoC can now resolve default parameters.
+- Fix bug in Postgres insert_get_id when using FETCH_ASSOC.
+
+<a name="upgrade-3.2.14"></a>
+### Upgrading From 3.2.13
+
+- Replace the **laravel** folder.
+
+<a name="3.2.13"></a>
+## Laravel 3.2.13
+
+- Upgraded Symfony HttpFoundation to 2.1.6.
+- Various framework fixes.
+
+<a name="upgrade-3.2.13"></a>
+### Upgrading From 3.2.12
+
+- Replace the **laravel** folder.
+
+<a name="3.2.12"></a>
+## Laravel 3.2.12
+
+- Clear sections on a complete render operation.
+
+<a name="upgrade-3.2.12"></a>
+### Upgrading From 3.2.11
+
+- Replace the **laravel** folder.
 
 <a name="3.2.11"></a>
 ## Laravel 3.2.11
@@ -303,7 +341,7 @@ Add the following code above `Blade::sharpen()` in `application/start.php`..
 ## Laravel 3.1.4
 
 - Fixes Response header casing bug.
-- Fixes SQL "where in" (...) short-cut bug.
+- Fixes SQL "where in" (…) short-cut bug.
 
 <a name="upgrade-3.1.4"></a>
 ### Upgrading From 3.1.3
