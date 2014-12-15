@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'driver' => getenv('CACHE_DRIVER') ?: 'file',
+	'driver' => env('CACHE_DRIVER') ?: 'file',
 
 	/*
 	|--------------------------------------------------------------------------

@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => getenv('QUEUE_DRIVER') ?: 'sync',
+	'default' => env('QUEUE_DRIVER') ?: 'sync',
 
 	/*
 	|--------------------------------------------------------------------------
