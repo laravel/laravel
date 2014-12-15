@@ -12,12 +12,16 @@
 	},
 	"autoload": {
 		"classmap": [
-			"resources/database",
-			"tests/TestCase.php"
+			"database"
 		],
 		"psr-4": {
 			"App\\": "app/"
 		}
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/TestCase.php"
+		]
 	},
 	"scripts": {
 		"post-install-cmd": [
