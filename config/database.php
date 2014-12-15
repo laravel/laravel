@@ -54,10 +54,10 @@ return [
 
 		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'forge',
-			'username'  => 'forge',
-			'password'  => '',
+			'host'      => getenv('DB_HOST') ?: 'localhost',
+			'database'  => getenv('DB_DATABASE') ?: 'forge',
+			'username'  => getenv('DB_USERNAME') ?: 'forge',
+			'password'  => getenv('DB_PASSWORD') ?: '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -65,10 +65,10 @@ return [
 
 		'pgsql' => [
 			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
-			'password' => '',
+			'host'      => getenv('DB_HOST') ?: 'localhost',
+			'database'  => getenv('DB_DATABASE') ?: 'forge',
+			'username'  => getenv('DB_USERNAME') ?: 'forge',
+			'password'  => getenv('DB_PASSWORD') ?: '',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
@@ -76,10 +76,10 @@ return [
 
 		'sqlsrv' => [
 			'driver'   => 'sqlsrv',
-			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
+			'host'      => getenv('DB_HOST') ?: 'localhost',
+			'database'  => getenv('DB_DATABASE') ?: 'forge',
+			'username'  => getenv('DB_USERNAME') ?: 'forge',
+			'password'  => getenv('DB_PASSWORD') ?: '',
 			'prefix'   => '',
 		],
 
