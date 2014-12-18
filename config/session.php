@@ -137,4 +137,16 @@ return [
 
 	'secure' => false,
 
+	/*
+	|--------------------------------------------------------------------------
+	| Encrypt Session Data
+	|--------------------------------------------------------------------------
+	|
+	| By setting this option to true, session data will be encrypted when
+	| stored and decrypted when accessed.
+	|
+	*/
+
+	'encrypted' => false,
+
 ];
