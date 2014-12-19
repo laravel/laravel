@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler {
 			case $e instanceof TokenMismatchException:
 				return $request->ajax() ?
 						response()->json('Token expired', 498) :
-						redirect()->back()->withInput()->withErrors(['_token'=>'Session expired.']);
+						redirect()->back()->exceptInput('_token')->withErrors(['_token'=>'Session expired.']);
 
 			default:
 				return parent::render($request, $e);
