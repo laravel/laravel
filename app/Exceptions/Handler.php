@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler {
 						$this->renderHttpException($e);
 
 			case $e instanceof TokenMismatchException:
-				if ( ! \App::isLocal())
+				if ( ! app()->isLocal())
 					return $request->ajax() ?
 						response()->json('Token expired', 498) :
 						redirect()->back()->exceptInput('_token')->withErrors(['_token'=>'Session expired.']);
