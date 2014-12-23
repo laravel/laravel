@@ -13,7 +13,9 @@ return [
 	|
 	*/
 
-	'paths' => [base_path('resources/templates')],
+	'paths' => [
+		realpath(base_path('resources/templates'))
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,6 +28,6 @@ return [
 	|
 	*/
 
-	'compiled' => storage_path().'/framework/views',
+	'compiled' => realpath(storage_path().'/framework/views'),
 
 ];

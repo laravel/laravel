@@ -15,9 +15,9 @@ return [
 
 	'files' => [
 
-		__DIR__.'/../app/Providers/AppServiceProvider.php',
-		__DIR__.'/../app/Providers/EventServiceProvider.php',
-		__DIR__.'/../app/Providers/RouteServiceProvider.php',
+		realpath(__DIR__.'/../app/Providers/AppServiceProvider.php'),
+		realpath(__DIR__.'/../app/Providers/EventServiceProvider.php'),
+		realpath(__DIR__.'/../app/Providers/RouteServiceProvider.php'),
 
 	],
 
