@@ -1,6 +1,7 @@
 <?php namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler {
@@ -36,13 +37,21 @@ class Handler extends ExceptionHandler {
 	 */
 	public function render($request, Exception $e)
 	{
-		if ($this->isHttpException($e))
+		switch (true)
 		{
-			return $this->renderHttpException($e);
-		}
-		else
-		{
-			return parent::render($request, $e);
+			case $this->isHttpException($e):
+				return $request->ajax() ?
+						response()->json($e->getMessage(), $e->getStatusCode()) :
+						$this->renderHttpException($e);
+
+			case $e instanceof TokenMismatchException:
+				if ( ! app()->isLocal())
+					return $request->ajax() ?
+						response()->json('Token expired', 498) :
+						redirect()->back()->exceptInput('_token')->withErrors(['_token'=>'Session expired.']);
+
+			default:
+				return parent::render($request, $e);
 		}
 	}
 
