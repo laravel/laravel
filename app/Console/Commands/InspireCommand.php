@@ -22,21 +22,11 @@ class InspireCommand extends Command {
 	protected $description = 'Display an inspiring quote';
 
 	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed
 	 */
-	public function fire()
+	public function handle()
 	{
 		$this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
 	}
