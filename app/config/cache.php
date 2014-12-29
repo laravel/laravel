@@ -82,6 +82,9 @@ return array(
 	| be other applications utilizing the same cache. So, we'll specify a
 	| value to get prefixed to all our keys so we can avoid collisions.
 	|
+	| Note that when flushing the cache, this cache key prefix will be ignored
+	| and the entire cache flushed.
+	|
 	*/
 
 	'prefix' => 'laravel',
