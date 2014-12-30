@@ -16,7 +16,7 @@ class Authenticate implements Middleware {
 	/**
 	 * Create a new filter instance.
 	 *
-	 * @param  Guard  $auth
+	 * @param  \Illuminate\Contracts\Auth\Guard  $auth
 	 * @return void
 	 */
 	public function __construct(Guard $auth)
@@ -28,7 +28,7 @@ class Authenticate implements Middleware {
 	 * Handle an incoming request.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
+	 * @param  Closure  $next
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next)
