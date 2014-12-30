@@ -59,9 +59,9 @@ return array(
 	| Encryption Key
 	|--------------------------------------------------------------------------
 	|
-	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, 32 character string, otherwise these encrypted strings
-	| will not be safe. Please do this before deploying an application!
+	| This key is used by the Illuminate encrypter service and must be set to
+	| a non-human, random string 16, 24 or 32 characters long, since as of
+	| PHP 5.6, Mcrypt requires this. Do this before starting to develop.
 	|
 	*/
 
