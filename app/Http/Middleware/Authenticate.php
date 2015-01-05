@@ -2,9 +2,8 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Routing\Middleware;
 
-class Authenticate implements Middleware {
+class Authenticate {
 
 	/**
 	 * The Guard implementation.
