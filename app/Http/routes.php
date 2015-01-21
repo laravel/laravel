@@ -19,3 +19,7 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+get('test-command', function (Illuminate\Bus\Dispatcher $bus) {
+    $bus->dispatch(new \App\Commands\TestCommand(['email'=>'mtvs.dev@gmial.com']));
+});
