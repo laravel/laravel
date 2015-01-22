@@ -15,4 +15,14 @@ class EventServiceProvider extends ServiceProvider {
 		],
 	];
 
+	/**
+	 * Register any other events for your application.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		//
+	}
+
 }
