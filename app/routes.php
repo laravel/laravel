@@ -11,7 +11,35 @@
 |
 */
 
+Route::get('/login', function()
+{
+	Auth::loginUsingId(1);
+	sleep(5);
+
+	echo "Logged in: " .  (Auth::id() ? 'Yes' : 'No');
+});
+
+Route::get('/ping', function()
+{
+	sleep(5);
+
+	echo "Logged in: " .  (Auth::id() ? 'Yes' : 'No');
+});
+
+
+
+
+
+
+
 Route::get('/', function()
 {
-	return View::make('hello');
+	echo "Logged in: " .  (Auth::id() ? 'Yes' : 'No');
+});
+
+Route::get('/logout', function()
+{
+	Auth::logout();
+
+	echo "Logged in: " .  (Auth::id() ? 'Yes' : 'No');
 });
