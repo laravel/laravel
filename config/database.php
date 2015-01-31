@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => env('DB_DEFAULT', 'mysql'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
 
 		'sqlite' => [
 			'driver'   => 'sqlite',
-			'database' => storage_path().'/database.sqlite',
+			'database' => env('DB_SQLITE_PATH', storage_path().'/database.sqlite'),
 			'prefix'   => '',
 		],
 
@@ -60,7 +60,7 @@ return [
 			'password'  => env('DB_PASSWORD', ''),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
+			'prefix'    => env('DB_PREFIX', ''),
 			'strict'    => false,
 		],
 
@@ -71,7 +71,7 @@ return [
 			'username' => env('DB_USERNAME', 'forge'),
 			'password' => env('DB_PASSWORD', ''),
 			'charset'  => 'utf8',
-			'prefix'   => '',
+			'prefix'   => env('DB_PREFIX', ''),
 			'schema'   => 'public',
 		],
 
@@ -81,7 +81,7 @@ return [
 			'database' => env('DB_DATABASE', 'forge'),
 			'username' => env('DB_USERNAME', 'forge'),
 			'password' => env('DB_PASSWORD', ''),
-			'prefix'   => '',
+			'prefix'   => env('DB_PREFIX', ''),
 		],
 
 	],
@@ -115,8 +115,8 @@ return [
 		'cluster' => false,
 
 		'default' => [
-			'host'     => '127.0.0.1',
-			'port'     => 6379,
+			'host'     => env('REDIS_HOST', '127.0.0.1'),
+			'port'     => env('REDIS_PORT', 6379),
 			'database' => 0,
 		],
 

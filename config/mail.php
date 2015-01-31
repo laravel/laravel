@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'driver' => 'smtp',
+	'driver' => env('MAIL_DRIVER', 'smtp'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'host' => 'smtp.mailgun.org',
+	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
 	|
 	*/
 
-	'port' => 587,
+	'port' => env('MAIL_PORT', 587),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => null, 'name' => null],
+	'from' => ['address' => env('MAIL_FROM_ADDRESS'), 'name' => env('MAIL_FROM_NAME')],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
 	|
 	*/
 
-	'encryption' => 'tls',
+	'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
 	|
 	*/
 
-	'username' => null,
+	'username' => env('MAIL_USERNAME'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
 	|
 	*/
 
-	'password' => null,
+	'password' => env('MAIL_PASSWORD'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ return [
 	|
 	*/
 
-	'sendmail' => '/usr/sbin/sendmail -bs',
+	'sendmail' => env('SENDMAIL_PATH', '/usr/sbin/sendmail -bs'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -119,6 +119,6 @@ return [
 	|
 	*/
 
-	'pretend' => false,
+	'pretend' => env('MAIL_PRETEND', false),
 
 ];

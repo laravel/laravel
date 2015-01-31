@@ -15,23 +15,23 @@ return [
 	*/
 
 	'mailgun' => [
-		'domain' => '',
-		'secret' => '',
+		'domain' => env('MAILGUN_DOMAIN', ''),
+		'secret' => env('MAILGUN_SECRET', ''),
 	],
 
 	'mandrill' => [
-		'secret' => '',
+		'secret' => env('MANDRILL_SECRET', ''),
 	],
 
 	'ses' => [
-		'key' => '',
-		'secret' => '',
-		'region' => 'us-east-1',
+		'key'    => env('SES_KEY', ''),
+		'secret' => env('SES_SECRET', ''),
+		'region' => env('SES_REGION', 'us-east-1'),
 	],
 
 	'stripe' => [
-		'model'  => 'User',
-		'secret' => '',
+		'model'  => env('STRIPE_MODEL', 'User'),
+		'secret' => env('STRIPE_SECRET', ''),
 	],
 
 ];

@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => 'local',
+	'default' => env('FS_DEFAULT', 'local'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'cloud' => 's3',
+	'cloud' => env('FS_CLOUD', 's3'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -45,24 +45,24 @@ return [
 
 		'local' => [
 			'driver' => 'local',
-			'root'   => storage_path().'/app',
+			'root'   => env('FS_LOCAL_PATH', storage_path().'/app'),
 		],
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'region' => 'your-region',
-			'bucket' => 'your-bucket',
+			'key'    => env('S3_KEY', 'your-key'),
+			'secret' => env('S3_SECRET', 'your-secret'),
+			'region' => env('S3_REGION', 'your-region'),
+			'bucket' => env('S3_BUCKET', 'your-bucket'),
 		],
 
 		'rackspace' => [
 			'driver'    => 'rackspace',
-			'username'  => 'your-username',
-			'key'       => 'your-key',
-			'container' => 'your-container',
-			'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
-			'region'    => 'IAD',
+			'username'  => env('RS_USERNAME', 'your-username'),
+			'key'       => env('RS_KEY', 'your-key'),
+			'container' => env('RS_CONTAINER', 'your-container'),
+			'endpoint'  => env('RS_ENDPOINT', 'https://identity.api.rackspacecloud.com/v2.0/'),
+			'region'    => env('RS_REGION', 'IAD'),
 		],
 
 	],

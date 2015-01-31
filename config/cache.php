@@ -44,14 +44,14 @@ return [
 
 		'file' => [
 			'driver' => 'file',
-			'path'   => storage_path().'/framework/cache',
+			'path'   => env('CACHE_FILE_PATH', storage_path().'/framework/cache'),
 		],
 
 		'memcached' => [
 			'driver'  => 'memcached',
 			'servers' => [
 				[
-					'host' => '127.0.0.1', 'port' => 11211, 'weight' => 100
+					'host' => env('CACHE_MEMCACHED_HOST', '127.0.0.1'), 'port' => env('CACHE_MEMCACHED_PORT', 11211), 'weight' => 100
 				],
 			],
 		],
@@ -74,6 +74,6 @@ return [
 	|
 	*/
 
-	'prefix' => 'laravel',
+	'prefix' => env('CACHE_PREFIX', 'laravel')
 
 ];
