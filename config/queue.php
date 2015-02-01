@@ -37,38 +37,38 @@ return [
 
 		'database' => [
 			'driver' => 'database',
-			'table' => 'jobs',
-			'queue' => 'default',
+			'table'  => 'jobs',
+			'queue'  => env('QUEUE_DB_QUEUE', 'default'),
 			'expire' => 60,
 		],
 
 		'beanstalkd' => [
 			'driver' => 'beanstalkd',
-			'host'   => 'localhost',
-			'queue'  => 'default',
+			'host'   => env('QUEUE_BEANSTALKD_HOST', 'localhost'),
+			'queue'  => env('QUEUE_BEANSTALKD_QUEUE', 'default'),
 			'ttr'    => 60,
 		],
 
 		'sqs' => [
 			'driver' => 'sqs',
-			'key'    => 'your-public-key',
-			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
-			'region' => 'us-east-1',
+			'key'    => env('QUEUE_SQS_KEY', 'your-public-key'),
+			'secret' => env('QUEUE_SQS_SECRET', 'your-secret-key'),
+			'queue'  => env('QUEUE_SQS_QUEUE', 'your-queue-url'),
+			'region' => env('QUEUE_SQS_REGION', 'us-east-1'),
 		],
 
 		'iron' => [
 			'driver'  => 'iron',
-			'host'    => 'mq-aws-us-east-1.iron.io',
-			'token'   => 'your-token',
-			'project' => 'your-project-id',
-			'queue'   => 'your-queue-name',
-			'encrypt' => true,
+			'host'    => env('QUEUE_IRON_HOST', 'mq-aws-us-east-1.iron.io'),
+			'token'   => env('QUEUE_IRON_TOKEN', 'your-token'),
+			'project' => env('QUEUE_IRON_PROJECT', 'your-project-id'),
+			'queue'   => env('QUEUE_IRON_QUEUE', 'your-queue-name'),
+			'encrypt' => env('QUEUE_IRON_ENCRYPT', true),
 		],
 
 		'redis' => [
 			'driver' => 'redis',
-			'queue'  => 'default',
+			'queue'  => env('QUEUE_REDIS_QUEUE', 'default'),
 			'expire' => 60,
 		],
 
@@ -86,7 +86,7 @@ return [
 	*/
 
 	'failed' => [
-		'database' => 'mysql', 'table' => 'failed_jobs',
+		'database' => env('DB_DEFAULT', 'mysql'), 'table' => 'failed_jobs',
 	],
 
 ];
