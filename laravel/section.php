@@ -69,7 +69,7 @@ class Section {
 	 */
 	public static function yield_section()
 	{
-		return static::yield(static::stop());
+		return static::yield_template(static::stop());
 	}
 
 	/**
