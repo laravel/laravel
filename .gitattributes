@@ -1,1 +1,3 @@
 * text=auto
+resources/assets/* linguist-vendored=false
+public/* linguist-vendored=false
