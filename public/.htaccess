@@ -5,8 +5,8 @@
 
     RewriteEngine On
 
-	# Uncomment and set your actual path if you run your application using an alias
-	# RewriteBase /your_aliased_path
+    # Uncomment and set your actual path if you run your application using an alias
+    # RewriteBase /your_aliased_path
 
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
