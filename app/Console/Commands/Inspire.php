@@ -5,6 +5,7 @@ use Illuminate\Foundation\Inspiring;
 
 class Inspire extends Command
 {
+
     /**
      * The console command name.
      *

@@ -2,6 +2,5 @@
 
 abstract class Job
 {
-
     //
 }
