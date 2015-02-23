@@ -2,7 +2,6 @@
 
 class HomeController extends Controller
 {
-
     /*
     |--------------------------------------------------------------------------
     | Home Controller
