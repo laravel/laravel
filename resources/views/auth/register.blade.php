@@ -22,30 +22,30 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">Password</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
+                                <input type="password" class="form-control" name="password" id="password">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password_confirmation" class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
                             </div>
                         </div>
 
