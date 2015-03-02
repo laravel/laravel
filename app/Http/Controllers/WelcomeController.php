@@ -2,7 +2,6 @@
 
 class WelcomeController extends Controller
 {
-
     /*
     |--------------------------------------------------------------------------
     | Welcome Controller

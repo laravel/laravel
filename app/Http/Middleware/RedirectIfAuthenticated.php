@@ -5,7 +5,6 @@ use Illuminate\Contracts\Auth\Guard;
 
 class RedirectIfAuthenticated
 {
-
     /**
      * The Guard implementation.
      *
