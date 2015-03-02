@@ -15,16 +15,16 @@ class RouteServiceProvider extends ServiceProvider {
 	protected $namespace = 'App\Http\Controllers';
 
 	/**
-	 * Define your route model bindings, pattern filters, etc.
+	 * Define your route model bindings, pattern filters, etc before calling parent boot method.
 	 *
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
 	public function boot(Router $router)
 	{
-		parent::boot($router);
+		// Define here
 
-		//
+		parent::boot($router);
 	}
 
 	/**
