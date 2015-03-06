@@ -1,6 +1,6 @@
-<?php namespace BlueCms\Http\Controllers\Auth;
+<?php namespace App\Http\Controllers\Auth;
 
-use BlueCms\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\RedirectPaths;
