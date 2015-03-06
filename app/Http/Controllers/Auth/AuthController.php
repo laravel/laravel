@@ -20,7 +20,7 @@ class AuthController extends Controller {
 	|
 	*/
 
-    use RedirectPaths, AuthenticatesUsers, RegistersUsers;
+	use RedirectPaths, AuthenticatesUsers, RegistersUsers;
 
 	/**
 	 * Create a new authentication controller instance.
