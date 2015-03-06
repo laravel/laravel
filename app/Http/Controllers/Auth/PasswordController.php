@@ -19,7 +19,7 @@ class PasswordController extends Controller {
 	|
 	*/
 
-    use RedirectPaths, ResetsPasswords;
+	use RedirectPaths, ResetsPasswords;
 
 	/**
 	 * Create a new password controller instance.
