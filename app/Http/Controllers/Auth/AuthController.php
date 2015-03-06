@@ -3,7 +3,9 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\RedirectPaths;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class AuthController extends Controller {
 
@@ -18,7 +20,7 @@ class AuthController extends Controller {
 	|
 	*/
 
-	use AuthenticatesAndRegistersUsers;
+	use RedirectPaths, AuthenticatesUsers, RegistersUsers;
 
 	/**
 	 * Create a new authentication controller instance.
