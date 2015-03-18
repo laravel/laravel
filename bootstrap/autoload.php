@@ -27,9 +27,9 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$compiledPath = __DIR__.'/../vendor/compiled.php';
+$compiled_path = __DIR__.'/../vendor/compiled.php';
 
-if (file_exists($compiledPath))
+if (file_exists($compiled_path))
 {
-	require $compiledPath;
+	require $compiled_path;
 }
