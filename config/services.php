@@ -32,6 +32,7 @@ return [
 	'stripe' => [
 		'model'  => 'App\User',
 		'secret' => '',
+		'public' => '',
 	],
 
 ];
