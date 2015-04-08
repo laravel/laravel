@@ -25,12 +25,16 @@
 		]
 	},
 	"scripts": {
+		"pre-install-cmd": [
+			"php artisan clear-compiled"
+		],
 		"post-install-cmd": [
-			"php artisan clear-compiled",
 			"php artisan optimize"
 		],
+		"pre-update-cmd": [
+			"php artisan clear-compiled"
+		],
 		"post-update-cmd": [
-			"php artisan clear-compiled",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [
