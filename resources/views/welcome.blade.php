@@ -13,7 +13,7 @@
 				color: #B0BEC5;
 				display: table;
 				font-weight: 100;
-				font-family: 'Lato';
+				font-family: 'Lato', sans-serif;
 			}
 
 			.container {
