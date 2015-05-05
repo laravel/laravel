@@ -39,6 +39,9 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
         ],
+        'log' => [
+            'driver' => 'log',
+        ],
 
     ],
 
