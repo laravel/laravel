@@ -11,7 +11,7 @@ return [
 	|
 	*/
 
-	'path'      => ENV('LOG_PATH', storage_path('/logs/laravel.log')),
+	'path'      => ENV('LOG_PATH', 'logs/laravel.log'),
 
 	/*
 	|--------------------------------------------------------------------------
