@@ -26,7 +26,7 @@ class WelcomeController extends Controller {
 	/**
 	 * Show the application welcome screen to the user.
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{

@@ -26,7 +26,7 @@ class HomeController extends Controller {
 	/**
 	 * Show the application dashboard to the user.
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
