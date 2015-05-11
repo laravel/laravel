@@ -1,18 +1,21 @@
 <?php namespace App\Jobs;
 
+use Illuminate\Bus\Queueable;
+
 abstract class Job
 {
-    /**
-     * The name of the queue the job should be sent to.
-     *
-     * @var string
-     */
-    public $queue;
 
-    /**
-     * The seconds before the job should be made available.
-     *
-     * @var int
-     */
-    public $delay;
+    /*
+    |--------------------------------------------------------------------------
+    | Queueable Jobs
+    |--------------------------------------------------------------------------
+    |
+    | This job base class provides a central location to place any logic that
+    | is shared across all of your jobs. The trait included with the class
+    | provides access to the "queueOn" and "delay" queue helper methods.
+    |
+    */
+
+    use Queueable;
+
 }
