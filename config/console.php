@@ -15,16 +15,16 @@ return [
     'stubs' => [
 
         'controller' => [
-            'default' => '',
-            'plain'   => ''
+            // 'default' => 'vendor/laravel/framework/src/Illuminate/Routing/Console/stubs/controller.stub',
+            // 'plain'   => 'vendor/laravel/framework/src/Illuminate/Routing/Console/stubs/controller.plain.stub',
         ],
 
         'model' => [
-            'default' => '',
+            // 'default' => 'vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/model.stub',
         ],
 
         'request' => [
-            'default' => '',
+            // 'default' => 'vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/request.stub',
         ],
 
     ],
