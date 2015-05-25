@@ -40,6 +40,12 @@ return [
             'connection' => 'default',
         ],
 
+        'pubnub' => [
+            'driver' => 'pubnub',
+            'publish_key' => env('PUBNUB_PUBLISH_KEY'),
+            'subscribe_key' => env('PUBNUB_SUBSCRIBE_KEY'),
+        ],
+
         'log' => [
             'driver' => 'log',
         ],
