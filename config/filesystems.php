@@ -54,7 +54,7 @@ return [
             'username' => 'your-username',
             'password' => 'your-password',
 
-            // Optional config settings
+            // Optional FTP Settings...
             // 'port'     => 21,
             // 'root'     => '',
             // 'passive'  => true,
