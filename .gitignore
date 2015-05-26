@@ -1,3 +1,6 @@
 /vendor
 /node_modules
+composer
+composer.phar
+composer.lock
 .env
