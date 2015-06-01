@@ -77,7 +77,7 @@ return [
             'container' => 'your-container',
             'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
             'region'    => 'IAD',
-            'url_type'  => 'publicURL'
+            'url_type'  => 'publicURL',
         ],
 
     ],
