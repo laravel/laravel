@@ -1,48 +1,48 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
-	"type": "project",
-	"require": {
-		"laravel/framework": "5.1.*"
-	},
-	"require-dev": {
-		"fzaninotto/faker": "~1.4",
-		"mockery/mockery": "0.9.*",
-		"phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1"
-	},
-	"autoload": {
-		"classmap": [
-			"database"
-		],
-		"psr-4": {
-			"App\\": "app/"
-		}
-	},
-	"autoload-dev": {
-		"classmap": [
-			"tests/TestCase.php"
-		]
-	},
-	"scripts": {
-		"post-install-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php -r \"copy('.env.example', '.env');\"",
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "laravel/framework": "5.1.*"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "phpspec/phpspec": "~2.1"
+    },
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "php -r \"copy('.env.example', '.env');\"",
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
