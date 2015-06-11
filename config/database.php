@@ -58,8 +58,8 @@ return [
             'database'  => env('DB_DATABASE', 'forge'),
             'username'  => env('DB_USERNAME', 'forge'),
             'password'  => env('DB_PASSWORD', ''),
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'charset'   => env('DB_CHARSET', 'utf8'),
+            'collation' => env('DB_COLLATION', 'utf8_unicode_ci'),
             'prefix'    => '',
             'strict'    => false,
         ],
@@ -70,9 +70,9 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => '',
-            'schema'   => 'public',
+            'charset'  => env('DB_CHARSET', 'utf8'),
+            'prefix'   => env('DB_PREFIX', ''),
+            'schema'   => env('DB_SCHEMA', 'public'),
         ],
 
         'sqlsrv' => [
@@ -81,7 +81,8 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'prefix'   => '',
+            'prefix'   => env('DB_PREFIX', ''),
+            'charset'  => env('DB_CHARSET', 'utf8'),
         ],
 
     ],
