@@ -37,8 +37,8 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table' => 'jobs',
-            'queue' => 'default',
+            'table'  => 'jobs',
+            'queue'  => 'default',
             'expire' => 60,
         ],
 
@@ -67,10 +67,10 @@ return [
         ],
 
         'redis' => [
-            'driver' => 'redis',
+            'driver'     => 'redis',
             'connection' => 'default',
-            'queue'  => 'default',
-            'expire' => 60,
+            'queue'      => 'default',
+            'expire'     => 60,
         ],
 
     ],
