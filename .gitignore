@@ -1,4 +1,6 @@
 /vendor
 /node_modules
 Homestead.yaml
+Vagrantfile
+.vagrant
 .env
