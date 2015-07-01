@@ -13,6 +13,7 @@ Wondering what the plans are for Laravue? Check out this list to see where we're
 - Better documentation site
 - Lumen build for lightweight sites
 - CLI for building views and components
+- Composer tool to create new projects using `laravue new project`
 
 ## Official Documentation
 
