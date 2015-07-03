@@ -29,6 +29,7 @@ Wondering what the plans are for Laravue? Check out this list to see where we're
 
 ## Usage
 Laravue gives you a few things that may not sound like much, but are really the foundations of any app you may build:
+
 1. a standard way to communicate from app -> view
 2. a standard way to communicate from view -> app
 3. a standard way to communicate from components -> view
