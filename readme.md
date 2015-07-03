@@ -6,12 +6,12 @@ required for using it.
 
 ## Installing
 
-1. Clone the repository
-2. CD into the repo
-3. Run `npm install`
-4. Run `npm run dev`
-5. Run `composer install`
-5. Run `php artisan serve`
+1. Clone the repository.
+2. CD into the repo.
+3. Run `npm install`.
+4. Run `composer install`.
+5. Run `php artisan serve`.
+6. In a new tab/window, run `npm run dev` in the same directory.
 6. Enjoy!
 
 ## Roadmap
