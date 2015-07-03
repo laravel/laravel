@@ -4,6 +4,15 @@ Laravue is a fork of the Laravel framework. It includes the vue js
 framework for the front end, and contains much of the boilerplate
 required for using it.
 
+## Installing
+
+1) Clone the repository
+2) CD into the repo
+3) Run `npm install`
+4) Run `npm run dev`
+5) Run `php artisan serve`
+6) Enjoy!
+
 ## Roadmap
 
 Wondering what the plans are for Laravue? Check out this list to see where we're going with it!
@@ -14,6 +23,7 @@ Wondering what the plans are for Laravue? Check out this list to see where we're
 - Lumen build for lightweight sites
 - CLI for building views and components
 - Composer tool to create new projects using `laravue new project`
+- Composer `create-project` tool for an alternative way of starting off
 
 ## Official Documentation
 
