@@ -80,7 +80,7 @@ module.exports =
 ```
 Go into `components.coffee` and duplicate the last line under views. Replace the relevant fields with links to your new view. Be sure to keep the `-view` at the end of the key! This differentiates your view from stand-alone elements. Next, go to the file `laravue.coffee` and again, duplicate the very last line. Replace the key with the name of your view. Your view should now be up and working! To test it out, go into `laravue.coffee` and on line 3, change the name of `currentView` to be your new view, again, keep the `-view`. To test it out, just go into a browser and refresh!
 
-If you have any questions just open an issue or contact me on twitter @rweas and I'll be glad to help!
+If you have any questions just open an issue or contact me on twitter @russweas and I'll be glad to help!
 ## Official Documentation
 
 Documentation for the framework can be found on the [Laravue website](http://laravue.github.io/docs).
