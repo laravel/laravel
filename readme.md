@@ -10,6 +10,7 @@ required for using it.
 2. CD into the repo
 3. Run `npm install`
 4. Run `npm run dev`
+5. Run `composer install`
 5. Run `php artisan serve`
 6. Enjoy!
 
