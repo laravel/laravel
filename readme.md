@@ -8,17 +8,20 @@ required for using it.
 
 1. Clone the repository.
 2. CD into the repo.
-3. Run `npm install`.
-4. Run `composer install`.
-5. Run `php artisan serve`.
-6. In a new tab/window, run `npm run dev` in the same directory.
-6. Enjoy!
+3. Run `npm install`. This installs all of Vue's dependencies.
+4. Run `composer install`. This installs all of Laravel's dependencies.
+5. Run `php artisan key:generate`. This generates a secure cipher key for encrypting your data.
+6. Run `mv .env.example .env`. This enables your env files to set your app into local mode.
+5. Run `php artisan serve`. This serves your application to the browser.
+6. In a new tab/window, run `npm run dev` in the same directory. This compiles your Vue resources, and automaticly runs whenever you save a file!
+7. *Hack something great!*
 
 ## Roadmap
 
 Wondering what the plans are for Laravue? Check out this list to see where we're going with it!
 
 - JWT Tokens
+- Vanilla Version
 - Authentication API
 - Better documentation site
 - Lumen build for lightweight sites
@@ -56,6 +59,28 @@ module.exports =
 #### `goToAnd(view, name, args...)`
 `goToAnd()` is just a shorter way of running `call()` then `view()`. Really useful for most use case scenarios!
 
+### Creating a new element component
+First, create a new file in the `resources/assets/js/components` directory called `my-component.vue`. Give it three tags: `<script>`, `<style>`, and `<template`. Be sure to use a `module.exports` in `<script>`. Also, in case you're wondering, shadow DOM is not enabled, but it shouldn't be too hard to set up (no promises). Then, go to the file `components.coffee`. Duplicate the latest line underneath components and rename it to suite your file you just created. The key you give it will be what you instantiate it with in html, i.e. if it's `my-component` you use `<my-component>` in HTML. The value should be a require statement pointing to the file. That's it, that easily can now start using your own element anywhere in your app!
+
+### Creating a new view component
+To create a new view component, first create a file in `resources/assets/js/views` called `about.js`, replacing about with the name you want your view to have. Paste the following code into it:
+```
+<script lang="coffee">
+module.exports =
+    ready: () -> require '../view-ready.coffee'.call this
+    props: ['app']
+</script>
+
+<style>
+// Custom style for your view
+</style>
+
+<template lang="jade">
+</template>
+```
+Go into `components.coffee` and duplicate the last line under views. Replace the relevant fields with links to your new view. Be sure to keep the `-view` at the end of the key! This differentiates your view from stand-alone elements. Next, go to the file `laravue.coffee` and again, duplicate the very last line. Replace the key with the name of your view. Your view should now be up and working! To test it out, go into `laravue.coffee` and on line 3, change the name of `currentView` to be your new view, again, keep the `-view`. To test it out, just go into a browser and refresh!
+
+If you have any questions just open an issue or contact me on twitter @rweas and I'll be glad to help!
 ## Official Documentation
 
 Documentation for the framework can be found on the [Laravue website](http://laravue.github.io/docs).
