@@ -9,6 +9,7 @@
     "coffee-script": "^1.8.0",
     "jade": "^1.7.0",
     "browserify-data": "^0.2.0",
+    "coffeeify": "^1.1.0",
     "stylus": "^0.49.1"
   },
   "scripts": {
