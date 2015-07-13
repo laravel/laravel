@@ -5,4 +5,4 @@ module.exports = () ->
 
     methods = @app.laravue.views[view].funcs
     for method in methods
-        this[method.name].apply(null, method.args);
+        this[method.name].apply(null, method.args)

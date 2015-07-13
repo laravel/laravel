@@ -1,7 +1,14 @@
 module.exports = 
     app: {}
     currentView: 'home-view'
+    version: "0.1.0"
 
+    init: (views) ->
+        @laravue.app = this
+        views.forEach ((view) =>
+            @laravue.views[view] = {funcs: [],model: {},ready: false}
+        ).bind this
+            
     view: (name) ->
         @currentView = name + '-view'
 
@@ -11,11 +18,7 @@ module.exports =
         @currentView = view + '-view'
 
     call: (view, funcName, args...) ->
-        console.log !! @views[view].model
         if   @views[view].ready then @views[view]['model'][funcName].apply(null, args)
         else @views[view].funcs.push({name: funcName, args: args}) 
 
-    views:
-        # Eventually a CLI will add new lines below
-        'home': {funcs: [],model: {},ready: false}
-        'about': {funcs: [],model: {},ready: false}
+    views: {}
