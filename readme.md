@@ -60,25 +60,16 @@ module.exports =
 `goToAnd()` is just a shorter way of running `call()` then `view()`. Really useful for most use case scenarios!
 
 ### Creating a new element component
-First, create a new file in the `resources/assets/js/components` directory called `my-component.vue`. Give it three tags: `<script>`, `<style>`, and `<template`. Be sure to use a `module.exports` in `<script>`. Also, in case you're wondering, shadow DOM is not enabled, but it shouldn't be too hard to set up (no promises). Then, go to the file `components.coffee`. Duplicate the latest line underneath components and rename it to suite your file you just created. The key you give it will be what you instantiate it with in html, i.e. if it's `my-component` you use `<my-component>` in HTML. The value should be a require statement pointing to the file. That's it, that easily can now start using your own element anywhere in your app!
+First, create a new file in the `resources/assets/js/components` directory called `my-component.coffee`. Put all functionality in an object which you set to `module.exports`. If you want HTML for this element, create a `my-component.template.html` in the same directory. In the object your created in the `.coffee`, add a `template` key, and set it equal to a `require` statement to the template file. Also, in case you're wondering, shadow DOM is not enabled, but it shouldn't be too hard to set up (no promises). Then, go to the file `components.coffee`. Duplicate the latest line underneath components and rename it to suite your file you just created. The key you give it will be what you instantiate it with in html, i.e. if it's `my-component` you use `<my-component>` in HTML. The value should be a require statement pointing to the file. That's it, that easily can now start using your own element anywhere in your app!
 
 ### Creating a new view component
-To create a new view component, first create a file in `resources/assets/js/views` called `about.js`, replacing about with the name you want your view to have. Paste the following code into it:
+To create a new view component, first create a file in `resources/assets/js/views` called `about.coffee`, replacing about with the name you want your view to have. Paste the following code into it:
 ```
-<script lang="coffee">
 module.exports =
     ready: () -> require '../view-ready.coffee'.call this
     props: ['app']
-</script>
-
-<style>
-// Custom style for your view
-</style>
-
-<template lang="jade">
-</template>
 ```
-Go into `components.coffee` and duplicate the last line under views. Replace the relevant fields with links to your new view. Be sure to keep the `-view` at the end of the key! This differentiates your view from stand-alone elements. Next, go to the file `laravue.coffee` and again, duplicate the very last line. Replace the key with the name of your view. Your view should now be up and working! To test it out, go into `laravue.coffee` and on line 3, change the name of `currentView` to be your new view, again, keep the `-view`. To test it out, just go into a browser and refresh!
+Go into `components.coffee` and duplicate the last line under views. Replace the relevant fields with links to your new view. Be sure to keep the `-view` at the end of the key! This differentiates your view from stand-alone elements. Next, go into your `app.js` and add the name of your view to the `init` method called on the `laravue` instance. Your view should now be up and working! To test it out, go into `laravue.coffee` and on line 3, change the name of `currentView` to be your new view, again, keep the `-view`. To test it out, just go into a browser and refresh!
 
 If you have any questions just open an issue or contact me on twitter @russweas and I'll be glad to help!
 ## Official Documentation

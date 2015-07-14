@@ -1,12 +1,12 @@
 module.exports =
     template: require './random-quote.template.html'
     created: () ->
-        random = Math.floor(Math.random() * 4)
+        random = Math.floor(Math.random() * 6)
         @quote = @quotes[random]
 
     data: () ->
         ret =
-            quote: 'hi'
+            quote: ''
             quotes: [
                 "Notice the small things. The rewards are inversely proportional."
                 "Even the largest avalanche is triggered by small things."
