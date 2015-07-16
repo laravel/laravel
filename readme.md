@@ -5,7 +5,7 @@ Laravue is a fork of the Laravel framework. It includes the vue js
 framework for the front end, and contains much of the boilerplate
 required for using it.
 
-**If you like this, be sure to watch this repo's [package equivelent](https://github.com/laravue/package). Same features, but you can pull it in as a package!
+**If you like this, be sure to watch this repo's [package equivelent](https://github.com/laravue/package). Same features, but you can pull it in as a package!**
 
 ## Installing
 
