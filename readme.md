@@ -55,7 +55,7 @@ This method changes the view component's `currentView` to the argument you passe
 
 #### `call(view, method, args...)`
 This method calls a method on another view, regardless of whether or not it's already loaded. If it is loaded, Laravue goes ahead and calls it. If not, we wait for the view to be loaded, then run the function. The first argument is the name of the view that you want to have a method called on. The second one is the name of the method you want run. Any arguments after that are passed into the method as arguments using javascript magic closures! To use it, go `@app.laravue.call('contacts', 'load')`. If you want to pass arguments, just go `@app.laravue.call('contacts', 'load', 'russweas@gmail.com')`. The third paramater, my email, will be passed into the `load()` method on the contacs-view component. For example, you might have:
-```
+``` coffeescript
 module.exports =
   methods:
     load: (email) ->
@@ -71,7 +71,7 @@ First, create a new file in the `resources/assets/js/components` directory calle
 
 ### Creating a new view component
 To create a new view component, first create a file in `resources/assets/js/views` called `about.coffee`, replacing about with the name you want your view to have. Paste the following code into it:
-```
+``` coffeescript
 module.exports =
     ready: () -> require '../view-ready.coffee'.call this
     props: ['app']
