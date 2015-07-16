@@ -44,6 +44,8 @@ Why would we want these features? Suppose we want to change the currentView from
 
 Another example is if you want to have one user object served up from the backend that can be accessed application-wide. Just add it to the data object of your main app and it can be accessed from views using `@app.user` !
 
+For more about this implementation of front-end architecture, check out [this post in Laravel News](https://medium.com/laravel-news/advanced-front-end-setup-with-vue-js-laravel-e9fbd7e89fe2)
+
 ### Methods (on `laravue` object)
 #### `view(name)`
 This method changes the view component's `currentView` to the argument you passed it. The function will automatically add `-view` to the end of the name you pass it. If you're using coffeescript, like I suggest, you can just run `@app.laravue.view 'about'` and it will take you to the about page. If not, just run `this.app.laravue.view('about');`.
