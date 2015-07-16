@@ -2,5 +2,3 @@
 /node_modules
 Homestead.yaml
 .env
-
-public/js/bundle.js
