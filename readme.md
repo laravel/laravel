@@ -27,9 +27,9 @@ Wondering what the plans are for Laravue? Check out this list to see where we're
 - Lumen build for lightweight sites
 - CLI for building views and components
 - Composer tool to create new projects using `laravue new project`
-- Composer `create-project` tool for an alternative way of starting off
+- Composer `create-project` tool for an alternative way of starting off.
 - Automated syncing with main Laravel repo. Right now I manually sync the fork then push to Github.
-
+- Async callback anonymous function for call method, basically "OK thing happened here's what I do now that it's done."
 
 ## Usage
 Laravue gives you a few things that may not sound like much, but are really the foundations of any app you may build:
