@@ -28,6 +28,7 @@ Wondering what the plans are for Laravue? Check out this list to see where we're
 - CLI for building views and components
 - Composer tool to create new projects using `laravue new project`
 - Composer `create-project` tool for an alternative way of starting off
+- Automated syncing with main Laravel repo. Right now I manually sync the fork then push to Github.
 
 
 ## Usage
