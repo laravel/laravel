@@ -1,5 +1,5 @@
 ## Laravue - a sensible starting point for single-page apps
-![Laravue](background.png)
+![Laravue](img.png)
 
 Laravue is a fork of the Laravel framework. It includes the vue js
 framework for the front end, and contains much of the boilerplate
