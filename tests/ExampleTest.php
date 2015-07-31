@@ -1,19 +1,42 @@
 <?php
 
+use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
+    use DatabaseMigrations;
+
+    public function testFirstObservation()
     {
-        $this->visit('/')
-             ->see('Laravel 5');
+        $fake = Faker::create();
+
+        $u = new App\User(
+        [
+            'name' => $fake->name,
+            'email' => $fake->email,
+            'password' => $fake->word,
+        ]);
+
+        $u->save();
+
+        $this->assertTrue($u->observed);
+    }
+
+    public function testSecondObservation()
+    {
+        $fake = Faker::create();
+
+        $u = new App\User([
+            'name' => $fake->name,
+            'email' => $fake->email,
+            'password' => $fake->word,
+        ]);
+
+        $u->save();
+
+        $this->assertTrue($u->observed);
     }
 }
