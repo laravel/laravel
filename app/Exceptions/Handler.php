@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $e
      * @return void
      */
-    public function report($e)
+    public function report(Exception $e)
     {
         return parent::report($e);
     }
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, $e)
+    public function render($request, Exception $e)
     {
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
