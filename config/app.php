@@ -17,6 +17,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application URI
+    |--------------------------------------------------------------------------
+    |
+    | This URI can be used for more dynamic subdomain routing and is used
+    | to form the application URL.
+    |
+    */
+
+    'uri' => env('APP_URI', 'localhost'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Protocol
+    |--------------------------------------------------------------------------
+    |
+    | The protocol is used to set the application url to your desired protcol,
+    | such as http or https. This will not enforce redirects or the protocol
+    | used while browsing.
+    |
+    */
+
+    'protocol' => env('APP_PROTOCOL', 'http'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -26,7 +51,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => env('APP_PROTOCOL', 'http').'://'.env('APP_URI', 'localhost'),
 
     /*
     |--------------------------------------------------------------------------
