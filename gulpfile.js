@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-livereload');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,6 +12,26 @@ var elixir = require('laravel-elixir');
  |
  */
 
-elixir(function(mix) {
-    mix.sass('app.scss');
+elixir(function (mix) {
+    mix
+        .copy(
+        [
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
+        ], './resources/assets/js/vendor')
+
+		.scripts(
+		[
+            'vendor/jquery.js',
+	        'vendor/bootstrap.js',
+	    ], 'public/dist/js/bundle.js')
+
+        .sass('import.scss', 'public/dist/css/styles.css')
+
+        .version([
+            'dist/js/bundle.js',
+            'dist/css/styles.css'
+        ])
+        
+        .livereload();
 });

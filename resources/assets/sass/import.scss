@@ -1,0 +1,31 @@
+//
+// Charset
+@charset "UTF-8";
+//
+
+//   
+// Global Variables
+@import "resources/assets/sass/config/global";
+//
+
+//
+// Bootstrap
+@import "resources/assets/sass/config/bootstrap";
+@import "resources/assets/sass/components/bootstrap";
+//
+
+//
+// Pages
+@import "resources/assets/sass/pages/home";
+//
+
+//
+// Partials
+@import "resources/assets/sass/partials/header";
+@import "resources/assets/sass/partials/footer";
+//
+
+//
+// Responsive
+@import "resources/assets/sass/partials/responsive";
+//
