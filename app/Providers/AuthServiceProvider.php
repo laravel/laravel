@@ -24,8 +24,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(GateContract $gate)
     {
-    	parent::registerPolicies($gate);
+        parent::registerPolicies($gate);
 
-    	//
+        //
     }
 }
