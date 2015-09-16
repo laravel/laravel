@@ -1,6 +1,6 @@
 <footer>
 	<div class="container">
-		<p>HTML &lt;footer&gt;</p>
+		<p>HTML footer</p>
 	</div>
 </footer>
 

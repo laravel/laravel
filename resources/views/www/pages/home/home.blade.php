@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('www.layouts.default')
 
 @section('content')
 <nav class="navbar">

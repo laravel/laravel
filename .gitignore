@@ -1,10 +1,12 @@
 .idea/
 /vendor
 /node_modules
-Homestead.yaml
 .env
 thumbs.db
 .DS_Store
 /public/**/dist/**
 /public/*/build/**
 /public/uploads/*
+
+#Remove composer.lock once the new project has been created!
+composer.lock

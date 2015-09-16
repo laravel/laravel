@@ -21,18 +21,33 @@ elixir(function (mix) {
          | ----------------------------------------
          */
 
-        .browserify('../../www/assets/js/app.js', 'public/www/dist/js/bundle.js')
+        .browserify('../../assets/www/js/main.js', 'public/www/dist/js/bundle.js')
 
-        .sass('../../www/assets/sass/import.scss', 'public/www/dist/css/styles.css')
+        .sass('../../assets/www/sass/import.scss', 'public/www/dist/css/styles.css')
 
         .version([
             'www/dist/js/bundle.js',
             'www/dist/css/styles.css'
-        ], 'public/www');
+        ], 'public');
 
         /*-----------------------------------------
          | Admin (cms) site
          | ----------------------------------------
          */
         
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Elixir Extensions
+ |--------------------------------------------------------------------------
+ */
+
+elixir.extend('buildJs', function () {
+    gulp.task('build-js', function () {
+        gulp.task(['browserify', 'version'])
+    });
+
+    this.registerWatcher('build-js', 'resources/**/assets/js/**');
+    return this.queueTask('build-js');
 });

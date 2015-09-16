@@ -38,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider {
     {
         $router->group(['namespace' => $this->namespace], function ($router) {
             foreach (glob(app_path('HTTP/routes/*.php')) as $routeFile) {
-                require_once($routeFile);
+                require_once(realpath($routeFile));
             }
         });
     }

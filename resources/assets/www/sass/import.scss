@@ -9,31 +9,31 @@
  | Global Variables
  | ----------------------------------------
  */
-@import "/resources/www/assets/sass/config/global";
+@import "resources/assets/www/sass/config/global";
 
 /*-----------------------------------------
  | Bootstrap
  | ----------------------------------------
  */
-@import "/resources/www/assets/sass/config/bootstrap";
-@import "/resources/www/assets/sass/components/bootstrap";
+@import "resources/assets/www/sass/config/bootstrap";
+@import "resources/assets/www/sass/components/bootstrap";
 
 /*-----------------------------------------
  | Pages
  | ----------------------------------------
  */
-@import "/resources/www/assets/sass/pages/home";
+@import "resources/assets/www/sass/pages/home";
 
 
 /*-----------------------------------------
  | Partials
  | ----------------------------------------
  */
-@import "/resources/www/assets/sass/partials/header";
-@import "/resources/www/assets/sass/partials/footer";
+@import "resources/assets/www/sass/partials/header";
+@import "resources/assets/www/sass/partials/footer";
 
 /*-----------------------------------------
  | Responsive
  | ----------------------------------------
  */
-@import "/resources/www/assets/sass/partials/responsive";
+@import "resources/assets/www/sass/partials/responsive";
