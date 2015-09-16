@@ -21,13 +21,13 @@ elixir(function (mix) {
          | ----------------------------------------
          */
 
-        .browserify('../../assets/www/js/main.js', 'public/www/dist/js/bundle.js')
+        .browserify('../../assets/www/js/main.js', 'public/dist/www/js/bundle.js')
 
-        .sass('../../assets/www/sass/import.scss', 'public/www/dist/css/styles.css')
+        .sass('../../assets/www/sass/import.scss', 'public/dist/www/css/styles.css')
 
         .version([
-            'www/dist/js/bundle.js',
-            'www/dist/css/styles.css'
+            'dist/www/js/bundle.js',
+            'dist/www/css/styles.css'
         ], 'public');
 
         /*-----------------------------------------

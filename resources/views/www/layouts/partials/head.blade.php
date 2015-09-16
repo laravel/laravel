@@ -8,7 +8,7 @@
 
     <title>ParaCore Web Development - Alpha</title>
 
-    <link rel="stylesheet" href="{{ elixir('www/dist/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ elixir('dist/www/css/styles.css') }}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
