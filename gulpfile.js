@@ -13,25 +13,26 @@ require('laravel-elixir-livereload');
  */
 
 elixir(function (mix) {
+
+    //TODO: use npm to import vendor dependencies directly via browserify (will remove the need for a .copy task for js files
     mix
-        .copy(
-        [
-            'node_modules/jquery/dist/jquery.js',
-            'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
-        ], './resources/assets/js/vendor')
+        /*-----------------------------------------
+         | Public (www) site
+         | ----------------------------------------
+         */
 
-		.scripts(
-		[
-            'vendor/jquery.js',
-	        'vendor/bootstrap.js',
-	    ], 'public/dist/js/bundle.js')
+        .browserify('../../www/assets/js/app.js', 'public/www/dist/js/bundle.js')
 
-        .sass('import.scss', 'public/dist/css/styles.css')
+        .sass('../../www/assets/sass/import.scss', 'public/www/dist/css/styles.css')
 
         .version([
-            'dist/js/bundle.js',
-            'dist/css/styles.css'
-        ])
+            'www/dist/js/bundle.js',
+            'www/dist/css/styles.css'
+        ], 'public/www');
+
+        /*-----------------------------------------
+         | Admin (cms) site
+         | ----------------------------------------
+         */
         
-        .livereload();
 });

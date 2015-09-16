@@ -1,13 +1,10 @@
+.idea/
 /vendor
 /node_modules
 Homestead.yaml
 .env
 thumbs.db
 .DS_Store
-/public/dist/css/*
-/public/dist/js/*
-/public/dist/uploads/*
-/public/build/*
-/public/build/dist/*
-/public/build/dist/js/*
-/resources/assets/js/*
+/public/**/dist/**
+/public/*/build/**
+/public/uploads/*

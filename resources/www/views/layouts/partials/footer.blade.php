@@ -5,5 +5,5 @@
 </footer>
 
 
-<script src="{{ elixir('dist/js/bundle.js') }}"></script>
+<script src="{{ elixir('www/dist/js/bundle.js') }}"></script>
 @yield ('page-scripts')

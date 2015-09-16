@@ -1,0 +1,39 @@
+/*-----------------------------------------
+ | Charset
+ | ----------------------------------------
+ */
+@charset "UTF-8";
+//
+
+/*-----------------------------------------
+ | Global Variables
+ | ----------------------------------------
+ */
+@import "/resources/www/assets/sass/config/global";
+
+/*-----------------------------------------
+ | Bootstrap
+ | ----------------------------------------
+ */
+@import "/resources/www/assets/sass/config/bootstrap";
+@import "/resources/www/assets/sass/components/bootstrap";
+
+/*-----------------------------------------
+ | Pages
+ | ----------------------------------------
+ */
+@import "/resources/www/assets/sass/pages/home";
+
+
+/*-----------------------------------------
+ | Partials
+ | ----------------------------------------
+ */
+@import "/resources/www/assets/sass/partials/header";
+@import "/resources/www/assets/sass/partials/footer";
+
+/*-----------------------------------------
+ | Responsive
+ | ----------------------------------------
+ */
+@import "/resources/www/assets/sass/partials/responsive";

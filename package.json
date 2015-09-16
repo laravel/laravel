@@ -5,6 +5,7 @@
     "gulp": "^3.9.0",
     "jquery": "^2.1.4",
     "laravel-elixir": "^2.0.0",
-    "laravel-elixir-livereload": "0.0.3"
+    "laravel-elixir-livereload": "0.0.3",
+    "underscore": "^1.8.3"
   }
 }
