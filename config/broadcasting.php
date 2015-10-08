@@ -34,7 +34,7 @@ return [
             'secret' => env('PUSHER_SECRET'),
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'encrypted' => env('PUSHER_ENCRYPTED', false),
+                //
             ],
         ],
 
