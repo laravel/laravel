@@ -60,7 +60,7 @@ return [
     'regex'                => 'Das :attribute Format ist ungültig.',
     'required'             => ':attribute ist ein Pflichtfeld.',
     'required_if'          => ':attribute ist ein Pflichtfeld wenn :other ist :value.',
-    'required_with'        => ':attribute ist ein Pflichtfeld wenn :values ist vorhanden.',
+    'required_with'        => ':attribute ist ein Pflichtfeld wenn :values vorhanden ist.',
     'required_with_all'    => ':attribute ist ein Pflichtfeld wenn :values sind vorhanden.',
     'required_without'     => ':attribute ist ein Pflichtfeld wenn :values ist nicht vorhanden.',
     'required_without_all' => ':attribute ist ein Pflichtfeld wenn keiner von :values vorhanden ist.',
