@@ -62,7 +62,7 @@ return [
     'required_if'          => ':attribute ist ein Pflichtfeld wenn :other ist :value.',
     'required_with'        => ':attribute ist ein Pflichtfeld wenn :values vorhanden ist.',
     'required_with_all'    => ':attribute ist ein Pflichtfeld wenn :values sind vorhanden.',
-    'required_without'     => ':attribute ist ein Pflichtfeld wenn :values ist nicht vorhanden.',
+    'required_without'     => ':attribute ist ein Pflichtfeld wenn :values nicht vorhanden ist.',
     'required_without_all' => ':attribute ist ein Pflichtfeld wenn keiner von :values vorhanden ist.',
     'same'                 => ':attribute und :other müssen gleich sein.',
     'size'                 => [
