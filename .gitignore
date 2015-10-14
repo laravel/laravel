@@ -3,3 +3,13 @@
 Homestead.yaml
 Homestead.json
 .env
+
+# Phpstorm
+.idea/*
+
+## Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
