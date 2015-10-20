@@ -1,7 +1,6 @@
-<?php namespace App\Commands;
+<?php namespace app\Commands;
 
-abstract class Command {
-
-	//
-
+abstract class Command
+{
+    //
 }
