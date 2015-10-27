@@ -6,6 +6,16 @@ use Illuminate\Support\ServiceProvider;
 class BusServiceProvider extends ServiceProvider {
 
 	/**
+	 * Register any application services.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		//
+	}
+
+	/**
 	 * Bootstrap any application services.
 	 *
 	 * @param  \Illuminate\Bus\Dispatcher  $dispatcher
@@ -19,16 +29,6 @@ class BusServiceProvider extends ServiceProvider {
 				$command, 'App\Commands', 'App\Handlers\Commands'
 			);
 		});
-	}
-
-	/**
-	 * Register any application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		//
 	}
 
 }
