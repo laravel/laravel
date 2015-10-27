@@ -5,16 +5,6 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider {
 
 	/**
-	 * Bootstrap any application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		//
-	}
-
-	/**
 	 * Register any application services.
 	 *
 	 * This service provider is a great spot to register your various container
@@ -29,6 +19,16 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
 		);
+	}
+
+	/**
+	 * Bootstrap any application services.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		//
 	}
 
 }
