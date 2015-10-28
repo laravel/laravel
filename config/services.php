@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation;
+
 return [
 
     /*
