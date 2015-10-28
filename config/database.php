@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation as help;
+
 return [
 
     /*
@@ -26,7 +28,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => help\env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,16 +50,16 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => database_path('database.sqlite'),
+            'database' => help\database_path('database.sqlite'),
             'prefix'   => '',
         ],
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'forge'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', ''),
+            'host'      => help\env('DB_HOST', 'localhost'),
+            'database'  => help\env('DB_DATABASE', 'forge'),
+            'username'  => help\env('DB_USERNAME', 'forge'),
+            'password'  => help\env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -66,10 +68,10 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host'     => help\env('DB_HOST', 'localhost'),
+            'database' => help\env('DB_DATABASE', 'forge'),
+            'username' => help\env('DB_USERNAME', 'forge'),
+            'password' => help\env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
@@ -77,10 +79,10 @@ return [
 
         'sqlsrv' => [
             'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host'     => help\env('DB_HOST', 'localhost'),
+            'database' => help\env('DB_DATABASE', 'forge'),
+            'username' => help\env('DB_USERNAME', 'forge'),
+            'password' => help\env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
         ],
