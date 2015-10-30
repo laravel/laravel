@@ -17,6 +17,15 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
+     * This middlewares are applied to all routes in yout routes file.
+     *
+     * @var array
+     */
+    protected $middleware = [
+        \App\Http\Middleware\VerifyCsrfToken::class,
+    ];
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @param  \Illuminate\Routing\Router  $router
@@ -37,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $router->group(['namespace' => $this->namespace], function ($router) {
+        $router->group(['namespace' => $this->namespace, 'middleware' => $this->middleware], function ($router) {
             require app_path('Http/routes.php');
         });
     }
