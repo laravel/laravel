@@ -33,10 +33,10 @@ require __DIR__.'/../vendor/autoload.php';
 | used and not this.
 |
 */
-if(php_sapi_name() == "cli" && isset($_SERVER['argv'])) {
+if (php_sapi_name() == 'cli' && isset($_SERVER['argv'])) {
     $argv = $_SERVER['argv'];
-    if(in_array('artisan', $argv) && in_array('clear-compiled', $argv)){
-        $files = glob("./bootstrap/cache/*");
+    if (in_array('artisan', $argv) && in_array('clear-compiled', $argv)) {
+        $files = glob('./bootstrap/cache/*');
         foreach($files as $file) {
             if (file_exists($file)) {
                 @unlink($file);
