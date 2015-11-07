@@ -19,8 +19,10 @@
 |
 */
 if (php_sapi_name() == 'cli' && isset($_SERVER['argv'])) {
+
     $argv = $_SERVER['argv'];
-    if (count($argv) == 2 && 'artisan' == $argv[0] && 'clear-compiled' == $argv[1]) {
+
+    if (count($argv) == 2 && 'artisan' == substr($argv[0], -7) && 'clear-compiled' == $argv[1]) {
         $files = glob('./bootstrap/cache/*');
         foreach ($files as $file) {
             if (file_exists($file)) {
@@ -29,6 +31,7 @@ if (php_sapi_name() == 'cli' && isset($_SERVER['argv'])) {
         }
         exit();
     }
+    
 }
 
 /*
