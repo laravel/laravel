@@ -41,6 +41,7 @@ and will recompile when changes are detected.
     - Home
         - Partials *(not in example repo)*
 - Partials
+	- Forms
 
 
 ### View folder structure explanation ###
@@ -59,7 +60,7 @@ To be added...
 			- Pages
 			- Partials
 
-### Sass folder structure explanation (To be updated...) ###
+### Sass Folder Structure ###
 **Components**
 *These sass file(s) import the required file(s) for the component (from the vendor folder), can custom contain non-vendor components (Mixins, Extends)*
 
@@ -70,4 +71,4 @@ To be added...
 *These sass file(s) are specific to pages only*
 
 **Partials**
-*These sass file(s) are typically elements used throughout the website and not to a specific page*
+*These sass file(s) can be used throughout the website*
