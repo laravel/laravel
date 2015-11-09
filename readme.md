@@ -4,20 +4,30 @@ Clone down and remove git folder and init a new repository.
 
 This is a pre-setup repo of Laravel 5.1 for rapid front end development.
 
-## Already Included Composer Packages ##
-- nategood/httpful
-- barryvdh/laravel-debugbar
-- barryvdh/laravel-ide-helper
+## Known Issues ##
+#### Laravel Elixir ####
+Gulp build process is semi-broken. 
+Running the task 'gulp' will error.
+
+To start the initial build process run these gulp tasks:
+`gulp copy
+gulp sass
+gulp browserify
+gulp version
+gulp watch`
+
+Gulp watch looks for changes in this directory
+`resources/assets/**`
+and will recompile when changes are detected.
 
 
-## Already Included Node Packages ##
-- Underscore 1.x.x
-- Bootstrap 3.x.x
-- Gulp 3.x.x
-- jQuery 2.x.x
-- Elixir 3.x.x
-- Elixir Live Reload 1.x.x
-- CSS/JS Versioning
+## What's Included ##
+- Bootstrap
+- Font Awesome
+- jQuery
+- Gulp
+- Browserify
+- Underscore
 
 ## View folder structure ##
 - Emails

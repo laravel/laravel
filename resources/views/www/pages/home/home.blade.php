@@ -14,7 +14,7 @@
         	<h5>What's Included</h5>
         	<ul>
         		<li>Bootstrap</li>
-				<li>Font-Awesome</li>
+				<li>Font Awesome</li>
 				<li>jQuery</li>
 				<li>Gulp</li>
 				<li>Browserify</li>
