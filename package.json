@@ -2,10 +2,12 @@
   "private": true,
   "dependencies": {
     "bootstrap-sass": "^3.3.5",
+    "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
+    "gulp-sass": "^2.1.0",
     "jquery": "^2.1.4",
-    "laravel-elixir": "^2.0.0",
-    "laravel-elixir-livereload": "0.0.3",
+    "laravel-elixir": "^3.4.2",
+    "laravel-elixir-livereload": "^1.1.3",
     "underscore": "^1.8.3"
   }
 }

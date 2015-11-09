@@ -7,7 +7,7 @@
 
 	@include('www.layouts.partials.header')
 
-	@yield('www.content')
+	@yield('content')
 
 	@include('www.layouts.partials.footer')
 

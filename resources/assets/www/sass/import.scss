@@ -3,7 +3,7 @@
  | ----------------------------------------
  */
 @charset "UTF-8";
-//
+
 
 /*-----------------------------------------
  | Global Variables
@@ -11,12 +11,30 @@
  */
 @import "resources/assets/www/sass/config/global";
 
+
 /*-----------------------------------------
  | Bootstrap
  | ----------------------------------------
  */
 @import "resources/assets/www/sass/config/bootstrap";
 @import "resources/assets/www/sass/components/bootstrap";
+
+
+/*-----------------------------------------
+ | Font Awesome
+ | ----------------------------------------
+ */
+@import "resources/assets/www/sass/config/fontawesome";
+@import "resources/assets/www/sass/components/fontawesome";
+
+
+/*-----------------------------------------
+ | Sass Extensions
+ | ----------------------------------------
+ */
+@import "resources/assets/www/sass/components/mixins";
+@import "resources/assets/www/sass/components/extends";
+
 
 /*-----------------------------------------
  | Pages
@@ -31,6 +49,7 @@
  */
 @import "resources/assets/www/sass/partials/header";
 @import "resources/assets/www/sass/partials/footer";
+
 
 /*-----------------------------------------
  | Responsive

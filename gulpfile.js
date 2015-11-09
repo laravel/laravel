@@ -1,53 +1,61 @@
+var gulp = require('gulp');
 var elixir = require('laravel-elixir');
-require('laravel-elixir-livereload');
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
+/*-----------------------------------------
+ | Task 'gulp' will error
+ | -  A recent update broke this process, don't know what but running the task gulp will error
+ | 
+ | Task 'gulp watch' will work fine
+ | - A recent update broke the gulp task, whereas watch still works fine
+ | ----------------------------------------
  */
+
+
+/*-----------------------------------------
+ | Custom Gulp Tasks
+ |
+ | -  Browserify already watches/runs by default so we don't need to double up
+ | ----------------------------------------
+ */
+gulp.task('buildAssets', ['sass', 'version']);
 
 elixir(function (mix) {
 
-    //TODO: use npm to import vendor dependencies directly via browserify (will remove the need for a .copy task for js files
+    /*
+     *  TO DO: use npm to import vendor dependencies directly via browserify (will remove the need for a .copy task for js files
+     */
     mix
         /*-----------------------------------------
-         | Public (www) site
+         | Public site (www)
          | ----------------------------------------
          */
-
-        .browserify('../../assets/www/js/main.js', 'public/dist/www/js/bundle.js')
-
         .sass('../../assets/www/sass/import.scss', 'public/dist/www/css/styles.css')
-
-        .version([
-            'dist/www/js/bundle.js',
-            'dist/www/css/styles.css'
-        ], 'public');
+        .browserify('../../assets/www/js/main.js', 'public/dist/www/js/bundle.js')
+        .copy('node_modules/font-awesome/fonts', 'public/dist/www/fonts/font-awesome')
 
         /*-----------------------------------------
-         | Admin (cms) site
+         | Admin site (cms) [ NOT SETUP YET ]
          | ----------------------------------------
          */
-        
-});
+//        .sass('../../assets/cms/sass/import.scss', 'public/dist/cms/css/styles.css')
+//        .browserify('../../assets/cms/js/main.js', 'public/dist/cms/js/bundle.js')
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Extensions
- |--------------------------------------------------------------------------
- */
 
-elixir.extend('buildJs', function () {
-    gulp.task('build-js', function () {
-        gulp.task(['browserify', 'version'])
-    });
+        /*-----------------------------------------
+         | Versions
+         | ----------------------------------------
+         */
+        .version([
+//            'dist/cms/js/bundle.js',
+//            'dist/cms/css/styles.css',
+            'dist/www/js/bundle.js',
+            'dist/www/css/styles.css'
+        ])
 
-    this.registerWatcher('build-js', 'resources/**/assets/js/**');
-    return this.queueTask('build-js');
+
+        /*-----------------------------------------
+         | Watcher (Not really, but maybe?)
+         | ----------------------------------------
+         */
+        .task('buildAssets', 'resources/assets/**');
 });

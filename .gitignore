@@ -7,6 +7,8 @@ thumbs.db
 /public/dist/**
 /public/build/**
 /public/uploads/*
+/public/rev-manifest.json
 
-#Remove composer.lock once the new project has been created!
+
+# Remove composer.lock once the new project has been created!
 composer.lock
