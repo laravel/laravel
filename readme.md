@@ -39,12 +39,12 @@ and will recompile when changes are detected.
     - Partials
 - Pages
     - Home
-        - Partials *(not in example repo)*
+        - Partials
 - Partials
 	- Forms
 
 
-### View folder structure explanation ###
+### View Folder Structure ###
 To be added...
 
 
