@@ -10,14 +10,17 @@ Gulp build process is semi-broken.
 Running the task 'gulp' will error.
 
 To start the initial build process run these gulp tasks:
-`gulp copy
-gulp sass
-gulp browserify
-gulp version
-gulp watch`
+
+`gulp copy`
+`gulp sass`
+`gulp browserify`
+`gulp version`
+`gulp watch`
 
 Gulp watch looks for changes in this directory
+
 `resources/assets/**`
+
 and will recompile when changes are detected.
 
 
