@@ -2,26 +2,7 @@
 Clone down and remove git folder and init a new repository.
 -----
 
-This is a pre-setup repo of Laravel 5.1 for rapid front end development.
-
-## Known Issues ##
-#### Laravel Elixir ####
-Gulp build process is semi-broken. 
-Running the task 'gulp' will error.
-
-To start the initial build process run these gulp tasks:
-
-`gulp copy`,
-`gulp sass`,
-`gulp browserify`,
-`gulp version`,
-`gulp watch`
-
-Gulp watch looks for changes in this directory
-
-`resources/assets/**`
-
-and will recompile when changes are detected.
+This is a modified repository of Laravel 5.1 for rapid front end development.
 
 
 ## What's Included ##
@@ -56,7 +37,7 @@ To be added...
 		- Partials
 - Partials
 	- Responsive
-		- Range
+		- Responsive Range
 			- Pages
 			- Partials
 
