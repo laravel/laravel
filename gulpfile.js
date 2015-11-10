@@ -12,7 +12,7 @@ elixir(function (mix) {
         
 
         /*-----------------------------------------
-         | Admin site (cms) [ NOT SETUP ]
+         | Admin site (cms)
          | ----------------------------------------
          */
         .sass('import.scss', './public/dist/cms/css/styles.css')
@@ -25,6 +25,11 @@ elixir(function (mix) {
          */
         .copy('node_modules/font-awesome/fonts', '/dist/www/fonts/font-awesome')
 
+
+        /*-----------------------------------------
+         | Version
+         | ----------------------------------------
+         */
         .version([
             '/public/dist/cms/js/bundle.js',
             '/public/dist/cms/css/styles.css',
