@@ -1,5 +1,5 @@
 var $ = require('jquery');
 
 $(document).ready(function () {
-	console.log('www butts');
+	console.log('cms butts');
 });
