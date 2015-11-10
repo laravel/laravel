@@ -1,5 +1,14 @@
+.idea/
 /vendor
 /node_modules
-Homestead.yaml
-Homestead.json
 .env
+thumbs.db
+.DS_Store
+/public/dist/**
+/public/build/**
+/public/uploads/*
+/public/rev-manifest.json
+
+
+# Remove composer.lock once the new project has been created!
+composer.lock

@@ -1,0 +1,26 @@
+{
+    "publicPath": "./public",
+    "assetsPath": "./resources/assets",
+
+    "versioning": {
+        "buildFolder": "build"
+    },
+
+    "css": {
+        "folder": "css",
+        "outputFolder": "css",
+
+        "sass": {
+    		"folder": "*/sass/**"
+    	}
+    },
+    
+    "js": {
+        "folder": "/",
+        "outputFolder": "js"
+    },
+
+    "versioning": {
+        "buildFolder": "build"
+    }
+}

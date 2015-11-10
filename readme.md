@@ -1,27 +1,55 @@
-## Laravel PHP Framework
+-----
+Clone down and remove git folder and init a new repository.
+-----
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This is a modified repository of Laravel 5.1 for rapid front end development.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## What's Included ##
+- Bootstrap
+- Font Awesome
+- jQuery
+- Gulp
+- Browserify
+- Underscore
 
-## Official Documentation
+## View folder structure ##
+- Emails
+- Errors
+- Layouts
+    - Partials
+- Pages
+    - Home
+        - Partials
+- Partials
+	- Forms
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-## Contributing
+### View Folder Structure ###
+To be added...
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+## Sass folder structure ##
+- Components
+- Config
+- Pages
+	- Home
+		- Partials
+- Partials
+	- Responsive
+		- Responsive Range
+			- Pages
+			- Partials
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### Sass Folder Structure ###
+**Components**
+*These sass file(s) import the required file(s) for the component (from the vendor folder), can custom contain non-vendor components (Mixins, Extends)*
 
-### License
+**Config**
+*These sass file(s) set variables *(or configure)* Components. Global config is for settings that can be used in any sass file(s)*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+**Pages**
+*These sass file(s) are specific to pages only*
+
+**Partials**
+*These sass file(s) can be used throughout the website*

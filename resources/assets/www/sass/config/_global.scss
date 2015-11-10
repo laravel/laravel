@@ -1,0 +1,29 @@
+/*-----------------------------------------
+ | Paths
+ | ----------------------------------------
+ */
+$image-path: "../../../../dist/www/img/";
+$font-path: "../../../../dist/www/fonts/";
+
+/*-----------------------------------------
+ | Fonts
+ | ----------------------------------------
+ */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800);
+
+$SampleFont: 		'Sample Font', sans-serif;
+$FontSample: 		'Font Sample', sans-serif;
+
+/*-----------------------------------------
+ | Colors
+ | ----------------------------------------
+ */
+$color-primary: 	#ffffff;
+$color-secondary: 	#f7f7f7;
+
+$kolor-primary: 	#333333;
+$kolor-secondary: 	#373737;
+
+$qolor-primary: 	#999999;
+$qolor-secondary: 	#979797;
+$qolor-tertiary: 	#757575;
