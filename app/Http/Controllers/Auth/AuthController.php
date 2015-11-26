@@ -62,4 +62,23 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+    /**
+     * Returns the login path declared, or 'auth/login'
+     *
+     * @return string
+     **/
+    public function getLoginPath()
+    {
+        return $this->loginPath || 'auth/login';
+    }
+
+    /**
+     * Returns the redirect path declared, or '/'
+     *
+     * @return string
+     **/
+    public function getRedirectPath()
+    {
+        return $this->redirectPath || '/';
+    }
 }
