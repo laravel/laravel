@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use App\Http\Controllers\Auth\AuthController;
 
 class Authenticate
 {
@@ -38,7 +39,8 @@ class Authenticate
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest('auth/login');
+                $auth = new AuthController();
+                return redirect($auth->getLoginPath());
             }
         }
 
