@@ -98,6 +98,21 @@ return [
     'log' => env('APP_LOG', 'single'),
 
     /*
+     |--------------------------------------------------------------------------
+     | Log Level Configuration
+     |--------------------------------------------------------------------------
+     |
+     | Here you may configure the log level settings. By default it will log
+     | all errors but you can configure it to only log from a certain log
+     | level.
+     |
+     | Available Settings: "debug". "info", "notice", "warning", "error",
+     |                     "critical", "alert", "emergency"
+     */
+
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+
+    /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
