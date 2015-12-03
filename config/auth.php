@@ -23,10 +23,10 @@ return [
     |
     */
 
-    'guard' => 'session',
+    'guard' => 'app',
 
     'guards' => [
-        'session' => [
+        'app' => [
             'driver' => 'session',
             'provider' => 'eloquent',
         ],
