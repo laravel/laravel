@@ -11,7 +11,7 @@ return [
     | Of course, a default and working configuration is already defined
     | here but you are free to define additional drivers when needed.
     |
-    | The "guard" option defines the default driver that will be used when
+    | The "default_guard" option is the default driver which is used while
     | utilizing the "Auth" facade within your application. But, you may
     | access every other auth driver via the facade's "guard" method.
     |
@@ -23,13 +23,17 @@ return [
     |
     */
 
-    'guard' => 'app',
+    'default_guard' => 'web',
 
     'guards' => [
-        'app' => [
+        'web' => [
             'driver' => 'session',
             'provider' => 'eloquent',
         ],
+
+        // 'api' => [
+
+        // ],
     ],
 
     /*
@@ -39,7 +43,7 @@ return [
     |
     | All authentication drivers have a "provider". A provider defines how
     | users are actually retrieved out of the database or other storage
-    | mechanism used by your application to persist your user's data.
+    | mechanisms used by the application to persist your user's data.
     |
     | Supported: "database", "eloquent"
     |
@@ -51,22 +55,22 @@ return [
             'model' => App\User::class,
         ],
 
-        'database' => [
-            'driver' => 'database',
-            'table' => 'users',
-        ],
+        // 'database' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Settings
+    | Password Resets
     |--------------------------------------------------------------------------
     |
     | Here you may set the options for resetting passwords including the view
     | that is your password reset e-mail. You can also set the name of the
     | table that maintains all of the reset tokens for your application.
     |
-    | Of course, you may define multiple password "brokers" each with a their
+    | Of course, you may define multiple password resetters each with a their
     | own storage settings and user providers. However, for most apps this
     | default configuration of using Eloquent is perfect out of the box.
     |
@@ -76,9 +80,9 @@ return [
     |
     */
 
-    'broker' => 'default',
+    'default_resetter' => 'default',
 
-    'brokers' => [
+    'resetters' => [
         'default' => [
             'provider' => 'eloquent',
             'email' => 'emails.password',
