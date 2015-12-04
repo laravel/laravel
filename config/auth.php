@@ -55,6 +55,10 @@ return [
     | users are actually retrieved out of your database or other storage
     | mechanisms used by this application to persist your user's data.
     |
+    | If you have multiple user tables or models you may configure multiple
+    | sources which represent each model / table. These sources may then
+    | be assigned to any extra authentication guards you have defined.
+    |
     | Supported: "database", "eloquent"
     |
     */
@@ -65,7 +69,7 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'database' => [
+        // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
@@ -80,9 +84,9 @@ return [
     | that is your password reset e-mail. You may also set the name of the
     | table that maintains all of the reset tokens for your application.
     |
-    | Of course, you may define multiple password resetters each with a their
-    | own storage settings and user providers. However, for most apps this
-    | simple configuration with Eloquent is just perfect out of the box.
+    | You may specify multiple password reset configurations if you have more
+    | than one user table or model in the application and you want to have
+    | seperate password reset settings based on the specific user types.
     |
     | The expire time is the number of minutes that the reset token should be
     | considered valid. This security feature keeps tokens short-lived so
