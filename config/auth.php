@@ -4,31 +4,41 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Drivers
+    | Authentication Defaults
     |--------------------------------------------------------------------------
     |
-    | Here you may define every authentication driver for your application.
-    | Of course, a default and working configuration is already defined
-    | here but you are free to define additional drivers when needed.
+    | This option controls the default authentication "guard" and password
+    | reset options for your application. You may change these defaults
+    | as required, but they're a perfect start for most applications.
     |
-    | The "default_guard" option is the default driver which is used while
-    | utilizing the "Auth" facade within your application. But, you may
-    | access every other auth driver via the facade's "guard" method.
+    */
+
+    'defaults' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guards
+    |--------------------------------------------------------------------------
     |
-    | All authentication drivers have a "provider". A provider defines how
-    | users are actually retrieved out of the database or other storage
-    | mechanism used by your application to persist your user's data.
+    | Next, you may define every authentication guard for your application.
+    | Of course, a great default configuration has been defined for you
+    | here which uses "session" storage and the Eloquent user source.
+    |
+    | All authentication drivers have a user "source". This defines how the
+    | users are actually retrieved out of your database or other storage
+    | mechanisms used by this application to persist your user's data.
     |
     | Supported: "session"
     |
     */
 
-    'default_guard' => 'web',
-
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'eloquent',
+            'source' => 'users',
         ],
 
         // 'api' => [
@@ -38,19 +48,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Providers
+    | User Sources
     |--------------------------------------------------------------------------
     |
-    | All authentication drivers have a "provider". A provider defines how
-    | users are actually retrieved out of the database or other storage
-    | mechanisms used by the application to persist your user's data.
+    | All authentication drivers have a user "source". This defines how the
+    | users are actually retrieved out of your database or other storage
+    | mechanisms used by this application to persist your user's data.
     |
     | Supported: "database", "eloquent"
     |
     */
 
-    'providers' => [
-        'eloquent' => [
+    'sources' => [
+        'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
@@ -63,16 +73,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Password Resets
+    | Resetting Passwords
     |--------------------------------------------------------------------------
     |
     | Here you may set the options for resetting passwords including the view
-    | that is your password reset e-mail. You can also set the name of the
+    | that is your password reset e-mail. You may also set the name of the
     | table that maintains all of the reset tokens for your application.
     |
     | Of course, you may define multiple password resetters each with a their
     | own storage settings and user providers. However, for most apps this
-    | default configuration of using Eloquent is perfect out of the box.
+    | simple configuration with Eloquent is just perfect out of the box.
     |
     | The expire time is the number of minutes that the reset token should be
     | considered valid. This security feature keeps tokens short-lived so
@@ -80,11 +90,9 @@ return [
     |
     */
 
-    'default_resetter' => 'default',
-
-    'resetters' => [
-        'default' => [
-            'provider' => 'eloquent',
+    'passwords' => [
+        'users' => [
+            'source' => 'users',
             'email' => 'emails.password',
             'table' => 'password_resets',
             'expire' => 60,
