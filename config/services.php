@@ -17,10 +17,12 @@ return [
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
+        'guzzle' => [],
     ],
 
     'mandrill' => [
         'secret' => env('MANDRILL_SECRET'),
+        'guzzle' => [],
     ],
 
     'ses' => [
