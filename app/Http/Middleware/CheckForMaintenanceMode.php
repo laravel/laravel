@@ -35,9 +35,7 @@ class CheckForMaintenanceMode extends Original
      */
     public function handle($request, Closure $next)
     {
-
         if ($this->app->isDownForMaintenance()) {
-
             $response = $next($request);
 
             if (in_array($request->ip(), $this->excludedIPs)) {
@@ -47,11 +45,9 @@ class CheckForMaintenanceMode extends Original
             $route = $request->route();
 
             if ($route instanceof Route) {
-
                 if (in_array($route->getName(), $this->excludedRoutes)) {
                     return $response;
                 }
-
             }
 
             // Add your own logic here to allow specific routes/users/requests
