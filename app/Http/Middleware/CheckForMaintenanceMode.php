@@ -46,7 +46,7 @@ class CheckForMaintenanceMode extends Original
 
             $route = $request->route();
 
-            if($route instanceof Route){
+            if ($route instanceof Route) {
 
                 if (in_array($route->getName(), $this->excludedRoutes)) {
                     return $response;
