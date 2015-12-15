@@ -41,10 +41,10 @@ return [
             'source' => 'users',
         ],
 
-        // 'api' => [
-        //     'driver' => 'token',
-        //     'source' => 'users',
-        // ],
+        'api' => [
+            'driver' => 'token',
+            'source' => 'users',
+        ],
     ],
 
     /*
