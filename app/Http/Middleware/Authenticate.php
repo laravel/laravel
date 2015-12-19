@@ -20,9 +20,11 @@ class Authenticate
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
             }
+
+            return redirect()->guest(
+                property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login'
+            );
         }
 
         return $next($request);
