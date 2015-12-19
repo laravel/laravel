@@ -22,7 +22,9 @@ class Authenticate
                 return response('Unauthorized.', 401);
             }
 
-            return redirect()->guest('login');
+            return redirect()->guest(
+                property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login'
+            );
         }
 
         return $next($request);
