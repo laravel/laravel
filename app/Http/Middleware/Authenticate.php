@@ -7,24 +7,36 @@ use Illuminate\Support\Facades\Auth;
 
 class Authenticate
 {
+    protected $loginPath = 'login';
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     * @param  string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->guest()) {
+        if ($this->isGuest($guard)) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest('login');
+                return redirect()->guest($this->loginPath);
             }
         }
 
         return $next($request);
+    }
+
+    /**
+     * @param string $guard
+     *
+     * @return bool
+     */
+    protected function isGuest($guard)
+    {
+        return Auth::guard($guard)->guest();
     }
 }
