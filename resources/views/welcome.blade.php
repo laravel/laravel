@@ -11,35 +11,16 @@
             }
 
             body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 96px;
                 font-weight: 100;
                 font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
-            </div>
-        </div>
+        Laravel 5
     </body>
 </html>
