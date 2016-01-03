@@ -29,7 +29,3 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
-
-get('test', function () {
-    return 'test';
-});
