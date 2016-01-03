@@ -29,3 +29,10 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+Route::get('test', function () {
+    return 'test';
+});
+Route::get('abc', function () {
+    return 'ccc';
+});
