@@ -30,6 +30,9 @@ Route::group(['middleware' => ['web']], function () {
     //
 });
 
-get('test', function () {
+Route::get('test', function () {
     return 'test';
+});
+Route::get('abc', function () {
+    return 'ccc';
 });
