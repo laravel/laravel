@@ -150,4 +150,15 @@ return [
 
     'secure' => false,
 
+
+    /*
+	|--------------------------------------------------------------------------
+	| Ignore URIs for session previous URL
+	|--------------------------------------------------------------------------
+	|
+	| Route URIs or names listed in this option are not considered as previous
+	| url in the session.
+	|
+	*/
+    'ignore_previous_url' => [],
 ];
