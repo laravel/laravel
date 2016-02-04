@@ -13,14 +13,46 @@ Laravel is accessible, yet powerful, providing powerful tools needed for large, 
 ## Official Documentation
 
 Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+## Tutoriel alternatif 
+Sur [graphikart](https://www.youtube.com/watch?v=WWfIDrGaFIw&list=PLjwdMgw5TTLUCpXVEehCHs99N7IWByS3i) vous trouverez une suite de tutoriel pour toutes les étapes du développment de l'application
+Créer des routes, controllers, models, BDD, vues, gérer l'authentification...
 
-## Contributing
+## Git tutoriel [Guide](https://git-scm.com)
+Git va nous permettre de versionner le projet en travaillant simultanément sur le projet sans nous géner.
+Pour se faire Veillez à séparer vos commits comme ajouter un controller ne sera pas dans le même que modifier la vue.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Installation locale
+    git clone https://github.com/bestmomo/laravel5-example.git projectname
+    cd projectname
+    composer install
+    php artisan key:generate
+    Créer une base de donnée locale et mettez les identifiant ainsi que la clé locale dans  .env
+    php artisan serve pour lancer l'appli sur http://localhost:8000/
+	
+## Configurer GIT
+	git remote add upstream https://github.com/julie-ramadanoski/laravel
 
-## Security Vulnerabilities
+## Branche de développement d'une fonctionnalité
+Dans le panneau admin de GitHub créer une nouvelle branche et cliquer le bouton New pull request pour autoriser les push des contributeurs
+	Dans le dépôt local
+	git checkout -b mafonctionnalite
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Faire des modifications
+	git add ./mesfichiersCréé ou modifié
+	git commit -m "mon message explicatif"
+Une fois la fonctionnalité terminée
+	git push
+
+## Récupération des modification du dépôt distant
+Avant de commencer à travailler mettez-vous à jour
+git pull
+
+## Fusion des modifications du master vers sa branche de dev
+Se positionner sur sa branche de développement
+git checkout mafonctionnalite
+git rebase master
+
+
 
 ## License
 
