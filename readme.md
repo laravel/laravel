@@ -28,14 +28,16 @@ Pour se faire Veillez à séparer vos commits comme ajouter un controller ne ser
     php artisan key:generate
     Créer une base de donnée locale et mettez les identifiant ainsi que la clé locale dans  .env
     php artisan serve pour lancer l'appli sur http://localhost:8000/
-
+	
+## Configurer GIT
+	git remote add upstream https://github.com/julie-ramadanoski/laravel
 ## Branche de développement d'une fonctionnalité
-git checkout -b mafonctionnalite
+	git checkout -b mafonctionnalite
 Après modifications
-git add ./mesfichiersCréé ou modifié
-git commit -m "mon message explicatif"
+	git add ./mesfichiersCréé ou modifié
+	git commit -m "mon message explicatif"
 Une fois la fonctionnalité terminée
-git push
+	git push
 
 ## Récupération des modification du dépôt distant
 Avant de commencer à travailler mettez-vous à jour
