@@ -31,9 +31,13 @@ Pour se faire Veillez à séparer vos commits comme ajouter un controller ne ser
 	
 ## Configurer GIT
 	git remote add upstream https://github.com/julie-ramadanoski/laravel
+
 ## Branche de développement d'une fonctionnalité
+Dans le panneau admin de GitHub créer une nouvelle branche et cliquer le bouton New pull request pour autoriser les push des contributeurs
+	Dans le dépôt local
 	git checkout -b mafonctionnalite
-Après modifications
+
+Faire des modifications
 	git add ./mesfichiersCréé ou modifié
 	git commit -m "mon message explicatif"
 Une fois la fonctionnalité terminée
