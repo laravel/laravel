@@ -25,3 +25,8 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+What to Use Laravel for and When to Use It
+---
+
+Laravel is a very useful MVC web app framework. It is very robust and gives you the ability to build very complex web applications. Larvael has quick and functional core that can be extended. It has clean and simple routing and an effective ORM and database layer. There is also easy integration with third-party libraries (AWS, export libs, etc), and it has a growing community that can provide quick support and answers. Essentially the best time to use Laravel is when you want to learn a new MVC framework and build a complete web application while having plenty of community support behind it.
