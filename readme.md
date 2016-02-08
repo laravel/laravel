@@ -16,7 +16,7 @@ Building web applications is a complex, time consuming process, however, utilizi
 
 Laravel is a simple yet powerful free, open-source PHP web application framework for building web projects. It ensures a smooth and pleasant development experience with clean, elegant and expressive PHP interface. Laravel framework provides a flexible and scalable approach that can be applied to any sized organization or project. 
 
-It eliminates much of the hassle of the development process by easing common operations found across many websites and web applications, such as URL routing, session storage and retrieval, web caching and user authentication which saves time and reduces the amount of repetitive coding for developers. Its robust features such as fast routing system, easy database migration, a modular packaging system, extensive libraries and unit testing support make it easier to build dynamic and top notch web applications quickly.
+It eliminates much of the hassle of the development process by easing common operations found across many websites and web applications, such as URL routing, session storage and retrieval, web caching and user authentication which saves time and reduces the amount of repetitive coding for developers. Its robust features such as fast routing system, easy database migration, extensive libraries and unit testing support make it easier to build dynamic and top notch web applications quickly.
 
 ## Official Documentation
 
