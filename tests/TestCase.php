@@ -22,11 +22,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
-    
+
     public function setUp()
     {
         parent::setUp();
-        if(method_exists($this, 'before')) {
+        if (method_exists($this, 'before')) {
             $this->app->call([$this, 'before']);
         }
     }
@@ -34,7 +34,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function tearDown()
     {
         parent::tearDown();
-        if(method_exists($this, 'after')) {
+        if (method_exists($this, 'after')) {
             $this->app->call([$this, 'after']);
         }
     }
