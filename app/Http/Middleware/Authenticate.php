@@ -22,7 +22,7 @@ class Authenticate
                 return response('Unauthorized.', 401);
             } else {
                 $loginUrl = config("auth.guards.{$guard}.loginUrl", 'login');
-                
+
                 return redirect()->guest($loginUrl);
             }
         }
