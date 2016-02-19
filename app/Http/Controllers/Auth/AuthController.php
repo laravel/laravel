@@ -37,7 +37,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware("guest:{$this->guard}", ['except' => 'logout']);
     }
 
     /**
