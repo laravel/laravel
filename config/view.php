@@ -30,4 +30,14 @@ return [
 
     'compiled' => realpath(storage_path('framework/views')),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Use view compilation cache
+    |--------------------------------------------------------------------------
+    |
+    | This option determines whether compiled view should be cached or not.
+    |
+    */
+
+    'cache' => env('VIEW_CACHE', true),
 ];
