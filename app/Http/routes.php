@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Put here all your routes that doesn't depend on the "web" middleware group.
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +26,7 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
