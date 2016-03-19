@@ -4,6 +4,17 @@
 $bootstrapPath = __DIR__.'/bootstrap';
 
 /*
+    Composer may call "clear-compiled" before installing the autoloader for
+    the first time. In this particular case, we'll try to do the cleanup
+    here, then exit as artisan won't be able to continue nevertheless.
+*/
+if (isset($argv[1]) && $argv[1] == 'clear-compiled' && ! file_exists(__DIR__.'/vendor/autoload.php')) {
+    @unlink($bootstrapPath.'/cache/compiled.php');
+    @unlink($bootstrapPath.'/cache/services.json');
+    exit;
+}
+
+/*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
 |--------------------------------------------------------------------------
