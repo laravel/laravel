@@ -29,11 +29,11 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php artisan clear-compiled",
+            "php bootstrap/clear-compiled.php",
             "php artisan optimize"
         ],
         "pre-update-cmd": [
-            "php artisan clear-compiled"
+            "php bootstrap/clear-compiled.php"
         ],
         "post-update-cmd": [
             "php artisan optimize"
