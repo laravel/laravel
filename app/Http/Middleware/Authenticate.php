@@ -12,7 +12,7 @@ class Authenticate
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  ...$guards
+     * @param  array  ...$guards
      * @return mixed
      */
     public function handle($request, Closure $next, ...$guards)
