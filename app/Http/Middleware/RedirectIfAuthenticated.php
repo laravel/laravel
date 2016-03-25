@@ -42,12 +42,6 @@ class RedirectIfAuthenticated
      */
     public function isNotExceptedUri(Request $request)
     {
-        foreach ($this->except as $exceptedUri) {
-            if ($exceptedUri == $request->getRequestUri()) {
-                return false;
-            }
-        }
-
-        return true;
+        return ! in_array($request->getRequestUri(), $this->except);
     }
 }
