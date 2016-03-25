@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class RedirectIfAuthenticated
 {
     /**
-     * Excepted URIs array
+     * Excepted URIs array.
      *
      * @var array
      */
@@ -35,7 +35,7 @@ class RedirectIfAuthenticated
     }
 
     /**
-     * Checking request for excepted URI
+     * Checking request for excepted URI.
      *
      * @param Request $request
      * @return bool
