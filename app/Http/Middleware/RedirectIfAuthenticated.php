@@ -14,7 +14,7 @@ class RedirectIfAuthenticated
      * @var array
      */
     protected $except = [
-        // ex. '/logout'
+        // eg. '/logout'
     ];
 
     /**
