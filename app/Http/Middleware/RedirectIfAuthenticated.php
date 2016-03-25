@@ -47,6 +47,7 @@ class RedirectIfAuthenticated
                 return false;
             }
         }
+        
         return true;
     }
 }
