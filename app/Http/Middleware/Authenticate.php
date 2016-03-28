@@ -42,6 +42,8 @@ class Authenticate
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                Auth::shouldUse($guard);
+
                 return true;
             }
         }
