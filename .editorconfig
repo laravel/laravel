@@ -1,0 +1,10 @@
+; Root EditorConfig file
+root = true
+
+; Unix-style newlines
+[*]
+end_of_line = LF
+
+[*.php]
+indent_style = space
+indent_size = 4
