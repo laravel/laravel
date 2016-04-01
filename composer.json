@@ -2,6 +2,7 @@
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
+    "homepage": "http://laravel.com/",
     "license": "MIT",
     "type": "project",
     "require": {
