@@ -16,7 +16,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @param array $data
      * @param string $dataName
      */
-    public function __construct($name = null, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         $this->baseUrl = env('APP_URL', 'http://localhost');
         parent::__construct($name, $data, $dataName);
