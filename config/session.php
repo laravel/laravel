@@ -87,6 +87,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Session Cache Store
+    |--------------------------------------------------------------------------
+    |
+    | When using the "apc" or "memcached" session drivers, you may specify
+    | a cache store that should be used for these sessions. This should
+    | correspond to a store in your cache configuration. By default,
+    | the driver name will be used as the store.
+    |
+    */
+
+    'store' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Session Sweeping Lottery
     |--------------------------------------------------------------------------
     |
