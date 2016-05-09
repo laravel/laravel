@@ -27,4 +27,16 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
     }
+
+    /**
+     * Register the Closure based commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        // $this->command('build {project}', function ($project) {
+        //     $this->info('Building project...');
+        // });
+    }
 }
