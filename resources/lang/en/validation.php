@@ -84,6 +84,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Validation Exception
+    |--------------------------------------------------------------------------
+    |
+    | The following language line contains the default error message used by
+    | the ValidationException class.
+    |
+    */
+    'exception'     => 'The given data failed to pass validation.',
+
+    /*
+    |--------------------------------------------------------------------------
     | Custom Validation Language Lines
     |--------------------------------------------------------------------------
     |
