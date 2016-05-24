@@ -14,8 +14,8 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     protected $channels = [
         'channel-name.*' => [
-            'App\Broadcasting\Authenticator@someChannelName'
-        ]
+            'App\Broadcasting\Authenticator@someChannelName',
+        ],
     ];
 
     /**
