@@ -2,21 +2,34 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Foundation\Support\Providers\BroadcastServiceProvider as ServiceProvider;
+use Illuminate\Contracts\Broadcasting\Factory as BroadcasterContract;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
+    /**
+     * The channel auth handler mappings for the application.
+     *
+     * @var array
+     */
+    protected $channels = [
+        'channel-name.*' => [
+            'App\Broadcasting\Authenticator@someChannelName'
+        ]
+    ];
+
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
+    public function boot(BroadcasterContract $broadcaster)
     {
-        Broadcast::route(['middleware' => ['web']]);
+        parent::boot($broadcaster);
 
-        Broadcast::auth('channel-name.*', function ($user, $id) {
+        $broadcaster->route(['middleware' => ['web']]);
+
+        $broadcaster->auth('channel-name.*', function ($user, $id) {
             return true;
         });
     }
