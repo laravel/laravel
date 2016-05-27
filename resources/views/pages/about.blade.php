@@ -2,9 +2,11 @@
 @section('title', ' | About')
 @section('content')
         <div class="row">
-            <div class="col-md-12">
-                <h1>About Me</h1>
-                <p>You can download it using the package control in Sublime Text. If you don't have Package Control downloaded, you can follow the simple instructions here</p>
+            <div class="col-md-8 col-md-offset-1 well">
+                <h4>About Me</h1>
+	                <p>Name:<strong>{{ $data['fullname'] }}</strong></p>
+	                <p>E-mail:<strong>{{ $data['email'] }}</strong></p>
             </div>
+            @include('partials._sidebar')
         </div>
 @endsection
