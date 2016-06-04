@@ -56,16 +56,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Locale Configuration
+    | Application Default Locale
     |--------------------------------------------------------------------------
     |
-    | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | The application default locale determines the default locale that will
+    | be used by the translation service provider as a primary locale
+    | of application and 3rd party packages
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'en_US',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Additional Locales
+    |--------------------------------------------------------------------------
+    |
+    | The application additional locales determines additional locales
+    | supported by application. You are free to add to this array any
+    | of the locales which will be supported by the application.
+    |
+    */
+
+    'additional_locales' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +91,18 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en_US',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Locale URL
+    |--------------------------------------------------------------------------
+    |
+    | If true - default locale is included in URL
+    |
+    */
+
+    'default_locale_in_url' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -154,6 +178,7 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
+        App\Providers\LocaleServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
