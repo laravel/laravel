@@ -30,20 +30,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Log Level
-    |--------------------------------------------------------------------------
-    |
-    | By default, Laravel will write all log messages to its log file. You
-    | can specify the minimum log level by setting this value to one of
-    | the logging levels defined in RFC 5424 and Laravel will log all
-    | messages greater than or equal to the configured log level.
-    |
-     */
-
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -123,6 +109,8 @@ return [
     */
 
     'log' => env('APP_LOG', 'single'),
+
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
