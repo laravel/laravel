@@ -35,9 +35,9 @@ return [
     | Should Views Be Cached
     |--------------------------------------------------------------------------
     |
-    | Under some instances, such as when developing, you may wish to disable
-    | compiling of Blade templates to avoid unwanted caching. You may set
-    | the following to false if you want your views compiled each time.
+    | Under some instances, such as when developing, you might want to disable
+    | caching Blade templates in order to prevent unwanted caching. You may
+    | change the following to false if you want views compiled each time.
     |
      */
 
