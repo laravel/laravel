@@ -30,4 +30,17 @@ return [
 
     'compiled' => realpath(storage_path('framework/views')),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Should Views Be Cached
+    |--------------------------------------------------------------------------
+    |
+    | Under some instances, such as when developing, you may wish to disable
+    | compiling of Blade templates to avoid unwanted caching. You may set
+    | the following to false if you want your views compiled each time.
+    |
+     */
+
+    'should_cache' => true,
+
 ];
