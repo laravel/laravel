@@ -4,3 +4,5 @@
 Homestead.yaml
 Homestead.json
 .env
+.env.*
+!.env.example
