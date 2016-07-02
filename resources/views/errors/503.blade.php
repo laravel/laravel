@@ -5,6 +5,8 @@
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
+        <meta http-equiv="refresh" content="10">
+
         <style>
             html, body {
                 height: 100%;
