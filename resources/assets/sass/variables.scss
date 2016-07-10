@@ -1,0 +1,43 @@
+
+// Body
+$body-bg: #f5f8fa;
+
+// Base Border Color
+$laravel-border-color: darken($body-bg, 10%);
+
+// Set Common Borders
+$list-group-border: $laravel-border-color;
+$navbar-default-border: $laravel-border-color;
+$panel-default-border: $laravel-border-color;
+$panel-inner-border: $laravel-border-color;
+
+// Brands
+$brand-primary: #3097D1;
+$brand-info: #8eb4cb;
+$brand-success: #4eb76e;
+$brand-warning: #cbb956;
+$brand-danger:  #bf5329;
+
+// Typography
+$font-family-sans-serif: "Open Sans", Helvetica, Arial, sans-serif;
+$font-size-base: 14px;
+$line-height-base: 1.6;
+$text-color: #636b6f;
+
+// Buttons
+$btn-default-color: $text-color;
+$btn-font-size: $font-size-base;
+
+// Inputs
+$input-border: lighten($text-color, 40%);
+$input-border-focus: lighten($brand-primary, 25%);
+$input-color-placeholder: lighten($text-color, 30%);
+
+// Dropdowns
+$dropdown-anchor-padding: 5px 20px;
+$dropdown-border: $laravel-border-color;
+$dropdown-divider-bg: lighten($laravel-border-color, 5%);
+$dropdown-header-color: darken($text-color, 10%);
+$dropdown-link-color: $text-color;
+$dropdown-link-hover-bg: #fff;
+$dropdown-padding: 10px 0;
