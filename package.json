@@ -8,6 +8,6 @@
     "bootstrap-sass": "3.3.6",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-9",
-    "laravel-elixir-rollup-official": "^1.0.4"
+    "laravel-elixir-webpack-official": "^1.0.2"
   }
 }
