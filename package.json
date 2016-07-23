@@ -11,6 +11,7 @@
     "laravel-elixir-webpack-official": "^1.0.2"
   },
   "dependencies": {
+    "jquery": "^2.2.4",
     "js-cookie": "^2.1.2",
     "vue": "^1.0.26",
     "vue-resource": "^0.9.3"

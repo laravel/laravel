@@ -1,26 +1,22 @@
 
-window.Cookies = require('js-cookie');
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * include Vue and Vue Resource. This gives a great starting point for
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+require('./bootstrap');
 
 /**
- * Vue.js
- *
- * Vue is a modern JavaScript for building interactive web interfaces using
- * reacting data binding and reusable components. Vue's API is clean and
- * simple, leaving you to focus only on building your next great idea.
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the body of the page. From here, you may begin adding components to
+ * the application, or feel free to tweak this setup for your needs.
  */
-window.Vue = require('vue');
 
-require('vue-resource');
+var app = new Vue({
+    el: 'body',
 
-/**
- * The XSRF Header
- *
- * We'll register a HTTP interceptor to attach the "XSRF" header to each of
- * the outgoing requests issued by this application. The CSRF middleware
- * included with Laravel will automatically verify the header's value.
- */
-Vue.http.interceptors.push(function (request, next) {
-    request.headers['X-XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
-
-    next();
+    ready() {
+        console.log('Application ready.');
+    }
 });
