@@ -8,7 +8,6 @@ window.Cookies = require('js-cookie');
  */
 
 window.$ = window.jQuery = require('jquery');
-
 require('bootstrap-sass/assets/javascripts/bootstrap');
 
 /**
@@ -18,7 +17,6 @@ require('bootstrap-sass/assets/javascripts/bootstrap');
  */
 
 window.Vue = require('vue');
-
 require('vue-resource');
 
 /**
