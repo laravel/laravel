@@ -29,7 +29,8 @@ $navbar-default-bg: #fff;
 
 // Buttons
 $btn-default-color: $text-color;
-$btn-font-size: $font-size-base;
+$btn-font-size: 11px;
+$btn-font-weight: 600;
 
 // Inputs
 $input-border: lighten($text-color, 40%);
