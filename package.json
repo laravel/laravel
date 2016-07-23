@@ -9,5 +9,10 @@
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-webpack-official": "^1.0.2"
+  },
+  "dependencies": {
+    "js-cookie": "^2.1.2",
+    "vue": "^1.0.26",
+    "vue-resource": "^0.9.3"
   }
 }
