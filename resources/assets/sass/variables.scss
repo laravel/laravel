@@ -31,19 +31,10 @@ $navbar-default-bg: #fff;
 $btn-default-color: $text-color;
 $btn-font-weight: 600;
 
-// Inputs
+// // Inputs
 $input-border: lighten($text-color, 40%);
 $input-border-focus: lighten($brand-primary, 25%);
 $input-color-placeholder: lighten($text-color, 30%);
-
-// Dropdowns
-$dropdown-anchor-padding: 5px 20px;
-$dropdown-border: $laravel-border-color;
-$dropdown-divider-bg: lighten($laravel-border-color, 5%);
-$dropdown-header-color: darken($text-color, 10%);
-$dropdown-link-color: $text-color;
-$dropdown-link-hover-bg: #fff;
-$dropdown-padding: 10px 0;
 
 // Panels
 $panel-default-heading-bg: #fff;
