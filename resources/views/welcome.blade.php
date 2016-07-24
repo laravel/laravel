@@ -13,8 +13,11 @@
         <!-- Styles -->
         <style>
             html, body {
+                background-color: #fff;
+                color: #636b6f;
                 font-family: 'Raleway';
                 font-weight: 100;
+                height: 100vh;
                 margin: 0;
                 padding: 10px;
             }
@@ -40,58 +43,34 @@
             }
 
             .content {
-                text-align:center;
+                text-align: center;
             }
 
             .title {
                 font-size: 84px;
             }
 
-            button {
-                color: #555;
-                background-color: transparent;
-                border: 1px solid #bbb;
-                border-radius: 4px;
-                box-sizing: border-box;
-                cursor: pointer;
-                display: inline-block;
-                font-family: 'Raleway';
-                font-size: 11px;
+            .links > a {
+                color: #636b6f;
+                padding: 0 25px;
+                font-size: 12px;
                 font-weight: 600;
-                height: 38px;
                 letter-spacing: .1rem;
-                line-height: 38px;
-                padding: 0 20px;
-                text-align: center;
+                text-decoration: none;
                 text-transform: uppercase;
-                white-space: nowrap;
-            }
-
-            button.button-primary {
-                color: #FFF;
-                background-color: #3097D1;
-                border: 1px solid #3097D1;
-            }
-
-            button.borderless {
-                border: 0;
-            }
-
-            .m-r-md {
-                margin-right: 20px;
             }
 
             .m-b-md {
-                margin-bottom: 20px;
+                margin-bottom: 30px;
             }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
-                <div class="buttons top-right">
-                    <a href="/login"><button class="m-r-md">Login</button></a>
-                    <a href="/register"><button class="button-primary">Register</button></a>
+                <div class="top-right links">
+                    <a href="{{ url('/login') }}">Login</a>
+                    <a href="{{ url('/register') }}">Register</a>
                 </div>
             @endif
 
@@ -100,11 +79,11 @@
                     Laravel
                 </div>
 
-                <div>
-                    <a href="https://laravel.com/docs"><button class="borderless">Documentation</button></a>
-                    <a href="https://laracasts.com"><button class="borderless">Laracasts</button></a>
-                    <a href="https://github.com/laravel/laravel"><button class="borderless">GitHub</button></a>
-                    <a href="https://twitter.com/laravelphp"><button class="borderless">Twitter</button></a>
+                <div class="links">
+                    <a href="https://laravel.com/docs">Documentation</a>
+                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://twitter.com/laravelphp">Twitter</a>
                 </div>
             </div>
         </div>
