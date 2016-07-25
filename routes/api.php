@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,9 +13,6 @@
 |
 */
 
-Route::group([
-    'prefix' => 'api',
-    'middleware' => 'auth:api',
-], function () {
-    //
+Route::get('/user', function (Request $request) {
+    return $request->user();
 });
