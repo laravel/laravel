@@ -1,4 +1,5 @@
 
+window._ = require('lodash');
 window.Cookies = require('js-cookie');
 
 /**

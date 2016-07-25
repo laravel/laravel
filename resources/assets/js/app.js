@@ -13,12 +13,6 @@ require('./bootstrap');
  * the application, or feel free to tweak this setup for your needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-
 var app = new Vue({
-    el: 'body',
-
-    ready() {
-        console.log('Application ready.');
-    }
+    el: 'body'
 });

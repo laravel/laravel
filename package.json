@@ -14,6 +14,7 @@
     "jquery": "^2.2.4",
     "js-cookie": "^2.1.2",
     "laravel-elixir-vue": "^0.1.4",
+    "lodash": "^4.14.0",
     "vue": "^1.0.26",
     "vue-resource": "^0.9.3"
   }
