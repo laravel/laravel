@@ -7,13 +7,11 @@
   "devDependencies": {
     "bootstrap-sass": "3.3.6",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^6.0.0-9",
-    "laravel-elixir-webpack-official": "^1.0.2"
-  },
-  "dependencies": {
     "jquery": "^2.2.4",
     "js-cookie": "^2.1.2",
+    "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue": "^0.1.4",
+    "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.14.0",
     "vue": "^1.0.26",
     "vue-resource": "^0.9.3"
