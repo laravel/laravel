@@ -5,9 +5,9 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
-    "bootstrap-sass": "3.3.6",
+    "bootstrap-sass": "^3.3.7",
     "gulp": "^3.9.1",
-    "jquery": "^2.2.4",
+    "jquery": "^3.1.0",
     "js-cookie": "^2.1.2",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue": "^0.1.4",
