@@ -121,6 +121,21 @@ return [
     */
 
     'log' => env('APP_LOG', 'single'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Logging Lavel Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the log level settings for your application. 
+    | This parameter are responsible for types of log messages 
+    | that will be put to the log.
+    | You can pass any log level that defined in PSR-3
+    |
+    | Available Settings: "debug", "info", "notice", "warning", "error", 
+    |                     "critical", "alert", "emergency"
+    |
+    */
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
