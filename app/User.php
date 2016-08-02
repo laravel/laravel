@@ -33,18 +33,18 @@ class User extends Authenticatable
      */
     public static function validator(array $data)
     {
-        $rules = array(
+        $rules = [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        );
+        ];
 
-        $messages = array(
+        $messages = [
             'name.required' => 'Please mention the teacher name!',
             'email.required' => 'Please enter e-mail id!',
             'email.email' => 'Invalid e-mail id!',
-            'password.required' => 'Please enter password!'
-        );
+            'password.required' => 'Please enter password!',
+        ];
 
         return Validator::make($data, $rules, $messages);
     }

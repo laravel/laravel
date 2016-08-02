@@ -34,8 +34,9 @@ class ValidatorMiddleware
         $modelWithNamespace = $namespace.$model;
         $validator = $modelWithNamespace::validate($request->all());
 
-        if ($validator->passes())
+        if ($validator->passes()) {
             return $next($request);
+        }
 
         if ($request->ajax() || $request->wantsJson()) {
             return response($validator->getMessageBag(), 400);
