@@ -19,7 +19,7 @@
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
-                padding: 0;
+                padding: 10px;
             }
 
             .full-height {
@@ -48,7 +48,6 @@
 
             .title {
                 font-size: 84px;
-                margin-bottom: 30px;
             }
 
             .links > a {
@@ -59,6 +58,10 @@
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+            }
+
+            .m-b-md {
+                margin-bottom: 30px;
             }
         </style>
     </head>
@@ -72,7 +75,7 @@
             @endif
 
             <div class="content">
-                <div class="title">
+                <div class="title m-b-md">
                     Laravel
                 </div>
 
