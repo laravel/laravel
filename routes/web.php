@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
+    dd(env('REDIS_PORT'));
     return view('welcome');
 });
