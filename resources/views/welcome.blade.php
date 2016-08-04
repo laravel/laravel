@@ -19,7 +19,6 @@
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
-                padding: 10px;
             }
 
             .full-height {
@@ -38,8 +37,8 @@
 
             .top-right {
                 position: absolute;
-                right: 0;
-                top: 0;
+                right: 10px;
+                top: 10px;
             }
 
             .content {
