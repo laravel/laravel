@@ -14,9 +14,9 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Broadcast::route(['middleware' => ['web']]);
+        Broadcast::routes();
 
-        Broadcast::auth('channel-name.*', function ($user, $id) {
+        Broadcast::auth('example.*', function ($user, $exampleId) {
             return true;
         });
     }
