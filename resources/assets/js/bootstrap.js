@@ -12,9 +12,9 @@ window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass/assets/javascripts/bootstrap');
 
 /**
- * Vue is a modern JavaScript for building interactive web interfaces using
- * reacting data binding and reusable components. Vue's API is clean and
- * simple, leaving you to focus only on building your next great idea.
+ * Vue is a modern JavaScript framework for building interactive web interfaces
+ * using reactive data binding and reusable components. Vue has a simple and
+ * clean API, leaving you to focus only on building your next great idea.
  */
 
 window.Vue = require('vue');
