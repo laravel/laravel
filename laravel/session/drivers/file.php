@@ -77,7 +77,7 @@ class File extends Driver implements Sweeper {
 
 		foreach ($files as $file)
 		{
-			if (filetype($file) == 'file' and filemtime($file) < $expiration)
+			if (@filetype($file) == 'file' and @filemtime($file) < $expiration)
 			{
 				@unlink($file);
 			}
