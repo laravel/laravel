@@ -148,7 +148,7 @@ return [
     |
     */
 
-    'secure' => false,
+    'secure' => env('SESSION_HTTPS_ONLY_COOKIES', 'true'),
 
     /*
     |--------------------------------------------------------------------------
