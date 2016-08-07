@@ -17,7 +17,11 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->guest()) {
+        if ($guard !== null) {
+            Auth::shouldUse($guard);
+        }
+        
+        if (Auth::guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             }
