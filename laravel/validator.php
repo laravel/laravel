@@ -1109,6 +1109,13 @@ class Validator {
 	 */
 	protected function attribute($attribute)
 	{
+		$attributes_replacements = array_get($this->messages, 'attributes');
+
+		if ($replacement = array_get($attributes_replacements, $attribute))
+		{
+			return $replacement;
+		}
+
 		$bundle = Bundle::prefix($this->bundle);
 
 		// More reader friendly versions of the attribute names may be stored
