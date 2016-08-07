@@ -33,12 +33,52 @@
             .title {
                 font-size: 96px;
             }
+
+            .problem {
+                color: red;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
                 <div class="title">Laravel 5</div>
+
+                @if (version_compare(PHP_VERSION, '5.5.9', '>='))
+                    <p>Your version of PHP is 5.5.9 or higher.</p>
+                @else
+                    <p class="problem">Your version of PHP is too low. You need PHP 5.5.9 or higher to use CakePHP.</p>
+                @endif
+
+                @if (extension_loaded('openssl'))
+                    <p>Your version of PHP has the openssl extension loaded.</p>
+                @else
+                    <p class="problem">Your version of PHP does NOT have the openssl extension loaded.</p>
+                @endif
+
+                @if (extension_loaded('pdo'))
+                    <p>Your version of PHP has the pdo extension loaded.</p>
+                @else
+                    <p class="problem">Your version of PHP does NOT have the pdo extension loaded.</p>
+                @endif
+
+                @if (extension_loaded('pdo'))
+                    <p>Your version of PHP has the pdo extension loaded.</p>
+                @else
+                    <p class="problem">Your version of PHP does NOT have the pdo extension loaded.</p>
+                @endif
+
+                @if (extension_loaded('mbstring'))
+                    <p>Your version of PHP has the mbstring extension loaded.</p>
+                @else
+                    <p class="problem">Your version of PHP does NOT have the mbstring extension loaded.</p>;
+                @endif
+
+                @if (extension_loaded('tokenizer'))
+                    <p>Your version of PHP has the tokenizer extension loaded.</p>
+                @else
+                    <p class="problem">Your version of PHP does NOT have the tokenizer extension loaded.</p>;
+                @endif
             </div>
         </div>
     </body>
