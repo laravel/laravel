@@ -1,5 +1,9 @@
 <?php
 
+use \Illuminate\Routing\Router;
+
+/** @type Router $router */
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -11,6 +15,6 @@
 |
 */
 
-Route::get('/', function () {
+$router->get('/', function () {
     return view('welcome');
 });
