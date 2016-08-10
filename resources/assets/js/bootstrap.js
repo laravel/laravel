@@ -1,6 +1,5 @@
 
 window._ = require('lodash');
-window.Cookies = require('js-cookie');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -27,7 +26,7 @@ require('vue-resource');
  */
 
 Vue.http.interceptors.push(function (request, next) {
-    request.headers['X-XSRF-TOKEN'] = Cookies.get('XSRF-TOKEN');
+    request.headers['X-XSRF-TOKEN'] = Laravel.csrfToken;
 
     next();
 });
