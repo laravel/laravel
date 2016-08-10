@@ -58,6 +58,12 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
+            
+            .links {
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
 
             .m-b-md {
                 margin-bottom: 30px;
