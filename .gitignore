@@ -1,7 +1,9 @@
+# Your tools may add their own folders and files to the project.
+# Ignoring those within your global gitignore will make it so
+# they will never get commited within any project you have.
 /vendor
 /node_modules
 /public/storage
-/.idea
 Homestead.yaml
 Homestead.json
 .env
