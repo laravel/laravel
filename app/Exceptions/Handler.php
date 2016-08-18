@@ -43,6 +43,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
         return parent::render($request, $exception);
     }
 
