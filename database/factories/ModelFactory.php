@@ -12,7 +12,7 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
-    static $password = null;
+    static $password;
 
     return [
         'name' => $faker->name,
