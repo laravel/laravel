@@ -13,7 +13,7 @@
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password = null;
-    
+
     if ($password === null) {
         $password = bcrypt(str_random(10));
     }
