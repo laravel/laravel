@@ -2,6 +2,7 @@
 /public/storage
 /vendor
 /.idea
+*.sublime-workspace
 Homestead.json
 Homestead.yaml
 .env
