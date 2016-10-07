@@ -10,7 +10,7 @@
 | database. Just tell the factory how a default model should look.
 |
 */
-
+/** @var $factory \Illuminate\Database\Eloquent\Factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
