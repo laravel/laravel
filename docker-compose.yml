@@ -1,0 +1,16 @@
+version: '2'
+
+volumes:
+  cache:
+    driver: local
+
+services:
+  laravel:
+    image: php:7-cli
+    working_dir: /var/www
+    command: php artisan serve --host 0.0.0.0
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/var/www
+      - cache:/var/www/bootstrap/cache
