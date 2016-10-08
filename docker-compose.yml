@@ -6,7 +6,7 @@ volumes:
 
 services:
   laravel:
-    image: php:7-cli
+    image: php:7-alpine
     working_dir: /var/www
     command: php artisan serve --host 0.0.0.0
     ports:
