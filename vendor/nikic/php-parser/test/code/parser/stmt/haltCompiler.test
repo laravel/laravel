@@ -1,0 +1,55 @@
+__halt_compiler
+-----
+<?php
+
+$a;
+__halt_compiler()
+?>
+Hallo World!
+-----
+array(
+    0: Expr_Variable(
+        name: a
+    )
+    1: Stmt_HaltCompiler(
+        remaining: Hallo World!
+    )
+)
+-----
+<?php
+
+$a;
+__halt_compiler();Hallo World!
+-----
+array(
+    0: Expr_Variable(
+        name: a
+    )
+    1: Stmt_HaltCompiler(
+        remaining: Hallo World!
+    )
+)
+-----
+<?php
+
+namespace A;
+$a;
+__halt_compiler();
+-----
+array(
+    0: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: A
+            )
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Stmt_HaltCompiler(
+        remaining:
+    )
+)

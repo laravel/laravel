@@ -1,0 +1,15 @@
+"357",			"165"
+"1357",			"54D"
+"246",			"F6"
+"12345",		"3039"
+"123456789",		"75BCD15"
+"100",		4,	"0064"
+"100",		5.75,	"00064"		//	Leading places as a float
+"100",		-1,	"#NUM!"		//	Leading places negative
+"100",		"ABC",	"#VALUE!"	//	Leading places non-numeric
+"123.45",		"7B"
+"0",			"0"
+"3579A",		"#VALUE!"	//	Invalid decimal
+TRUE,			"#VALUE!"	//	Non string
+"-54",			"FFFFFFFFCA"	//	2's Complement
+"-107",			"FFFFFFFF95"	//	2's Complement

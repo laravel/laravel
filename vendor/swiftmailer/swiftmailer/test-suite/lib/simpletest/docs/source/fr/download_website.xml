@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1795 2008-06-28 15:56:59Z pp11 $ -->
+<page title="Télécharger SimpleTest" here="Télécharger SimpleTest">
+    <synchronisation lang="en" version="1730" date="08/04/2008" maintainer="pp11" />
+    <long_title>Télécharger SimpleTest</long_title>
+    <content>
+        <section name="current-release" title="Version courante">
+            <p>
+                La version courante est :
+                <a href="http://downloads.sourceforge.net/simpletest/simpletest_1.0.1.tar.gz">
+                SimpleTest v1.0.1</a>.
+            </p>
+            <p>
+                Vous pouvez télécharger cette version depuis
+                <a href="https://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=77275&amp;release_id=590611">
+                SourceForget.net</a>
+                et votre miroir le plus proche. Vous pouvez aussi jeter un oeil du côté
+                du <a href="../en/changelog.html">changelog actuel</a>.
+            </p>
+            <p>
+                Au fait, ne soyez pas effrayé par le mot <quote>beta</quote> :
+                pas mal d'utilisateurs vont même jusqu'à utiliser la version SVN.
+            </p>
+        </section>
+        <section name="eclipse-release" title="Paquet Eclipse">
+            <p>
+                Si Eclipse est votre IDE / éditeur de prédilection, vous aurez
+                peut-être envie d'utiliser le
+                <a href="http://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=159054">
+                plugin Eclipse</a>.
+            </p>
+            <p>
+                Pour utilser les procédures automatiques, l'URL est :
+                <blockquote>http://simpletest.org/eclipse/</blockquote>
+            </p>        
+        </section>
+        <section name="packages" title="Autres paquets">
+            <p>
+                SimpleTest a été packagé par la communauté avec d'autres parfums encore.
+            </p>
+            <ul>
+                <li>
+                    <a href="http://packages.debian.org/unstable/web/php-simpletest">
+                    paquet Debian</a>
+                </li>
+                <li>
+                    <a href="http://www.pearified.com/index.php?package=SimpleTest">
+                    paquet Pearified</a>
+                </li>
+                <li>
+                    <a href="http://drupal.org/project/simpletest">
+                    module Drupal</a>
+                </li>
+            </ul>
+            <p>
+                <cite>Attention : certains paquets ne sont pas toujours très à jour.</cite>
+            </p>
+        </section>
+        <section name="source" title="Source">
+            <p>
+                Le code source est hébergé par SourceForge : vous pouvez l'étudier / le butiner
+                via le
+                <a href="http://simpletest.svn.sourceforge.net/viewvc/simpletest/">dépôt SVN</a>.
+            </p>
+        </section>
+        <section name="older-stable-releases" title="Autres versions stables">
+            <ul>
+                <li>
+                    <a href="http://prdownloads.sourceforge.net/simpletest/simpletest_1.0.tar.gz">
+                    1.0.0</a>
+                </li>
+            </ul>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#current-release">Version courante</a>
+        </link>
+        <link>
+            <a href="#eclipse-release">Paquet Eclipse</a>
+        </link>
+        <link>
+            <a href="#packages">Autres paquets</a>
+        </link>
+        <link>
+            <a href="#source">Source</a>
+        </link>
+        <link>
+            <a href="#older-stable-releases">Autres versions stables</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+            SimpleTest,
+            download,
+            source code,
+            stable release,
+            eclipse release,
+            eclipse plugin,
+            debian package,
+            drupal module,
+            pear channel,
+            pearified package
+        </keywords>
+    </meta>
+</page>

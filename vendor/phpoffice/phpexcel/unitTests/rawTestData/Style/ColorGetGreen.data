@@ -1,0 +1,6 @@
+"FFAABBCC",		"BB"	//	RGBA (hex)
+"FFAABBCC",	FALSE,	187	//	RGBA (decimal)
+"AABBCC",		"BB"	//	RGB (hex)
+"AABBCC",	FALSE,	187	//	RGB (decimal)
+"FF00FF",		"00"
+"FF00FF",	FALSE,	0

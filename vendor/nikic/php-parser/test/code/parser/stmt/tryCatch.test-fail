@@ -1,0 +1,7 @@
+Cannot use try without catch or finally
+-----
+<?php
+
+try { }
+-----
+Cannot use try without catch or finally on line 3

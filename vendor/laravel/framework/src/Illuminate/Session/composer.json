@@ -1,0 +1,37 @@
+{
+    "name": "illuminate/session",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/cache": "4.1.*",
+        "illuminate/cookie": "4.1.*",
+        "illuminate/encryption": "4.1.*",
+        "illuminate/support": "4.1.*",
+        "nesbot/carbon": "1.*",
+        "symfony/finder": "2.4.*",
+        "symfony/http-foundation": "2.4.*"
+    },
+    "require-dev": {
+        "illuminate/console": "4.1.*",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Session": ""
+        }
+    },
+    "target-dir": "Illuminate/Session",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.1-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

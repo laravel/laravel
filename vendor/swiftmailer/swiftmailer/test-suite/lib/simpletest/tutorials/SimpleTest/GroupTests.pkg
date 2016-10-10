@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Group tests</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id group}">
+<title>Grouping tests</title>
+            <para>
+                To run test cases as part of a group the test cases should really
+                be placed in files without the runner code...
+<programlisting role="php">
+&lt;?php
+    require_once('../classes/io.php');
+
+    class FileTester extends UnitTestCase {
+        ...
+    }
+
+    class SocketTester extends UnitTestCase {
+        ...
+    }
+?&gt;
+</programlisting>
+                As many cases as needed can appear in a single file.
+                They should include any code they need, such as the library
+                being tested, but none of the simple test libraries.
+            </para>
+            <para>
+                If you have extended any test cases, you can include them
+                as well.
+<programlisting role="php">
+&lt;?php
+    require_once('../classes/io.php');
+
+    class MyFileTestCase extends UnitTestCase {
+        ...
+    }
+    SimpleTestOptions::ignore('MyFileTestCase');
+
+    class FileTester extends MyFileTestCase {
+        ...
+    }
+
+    class SocketTester extends UnitTestCase {
+        ...
+    }
+?&gt;
+</programlisting>
+                The <span class="new_code">FileTester</span> class does
+                not contain any actual tests, but is a base class for other
+                test cases.
+                For this reason we use the
+                <span class="new_code">SimpleTestOptions::ignore()</span> directive
+                to tell the upcoming group test to ignore it.
+                This directive can appear anywhere in the file and works
+                when a whole file of test cases is loaded (see below).
+                We will call this sample <em>file_test.php</em>.
+            </para>
+            <para>
+                Next we create a group test file, called say <em>group_test.php</em>.
+                You will think of a better name I am sure.
+                We will add the test file using a safe method...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('file_test.php');
+
+    $test = &amp;new GroupTest('All file tests');
+    $test-&gt;addTestCase(new FileTestCase());
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                This instantiates the test case before the test suite is
+                run.
+                This could get a little expensive with a large number of test
+                cases, so another method is provided that will only
+                instantiate the class when it is needed...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('file_test.php');
+
+    $test = &amp;new GroupTest('All file tests');
+    $test-&gt;addTestClass('FileTestCase');
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                The problem with this method is that for every test case
+                that we add we will have
+                to <span class="new_code">require_once()</span> the test code
+                file and manually instantiate each and every test case.
+                We can save a lot of typing with...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+
+    $test = &amp;new GroupTest('All file tests');
+    $test-&gt;addTestFile('file_test.php');
+    $test-&gt;run(new HtmlReporter());
+?&amp;gt;
+</programlisting>
+                What happens here is that the <span class="new_code">GroupTest</span>
+                class has done the <span class="new_code">require_once()</span>
+                for us.
+                It then checks to see if any new test case classes
+                have been created by the new file and automatically adds
+                them to the group test.
+                Now all we have to do is add each new file.
+            </para>
+            <para>
+                There are two things that could go wrong and which require care...
+                <ol>
+                    <li>
+                        The file could already have been parsed by PHP and so no
+                        new classes will have been added. You should make
+                        sure that the test cases are only included in this file
+                        and no others.
+                    </li>
+                    <li>
+                        New test case extension classes that get included will be
+                        placed in the group test and run also.
+                        You will need to add a <span class="new_code">SimpleTestOptions::ignore()</span>
+                        directive for these classes or make sure that they are included
+                        before the <span class="new_code">GroupTest::addTestFile()</span>
+                        line.
+                    </li>
+                </ol>
+            </para>
+        </refsect1>
+        <refsect1 id="{@id higher}">
+<title>Higher groupings</title>
+            <para>
+                The above method places all of the test cases into one large group.
+                For larger projects though this may not be flexible enough; you
+                may want to group the tests in all sorts of ways.
+            </para>
+            <para>
+                To get a more flexible group test we can subclass
+                <span class="new_code">GroupTest</span> and then instantiate it as needed...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    
+    class FileGroupTest extends GroupTest {
+        function FileGroupTest() {
+            $this-&gt;GroupTest('All file tests');
+            $this-&gt;addTestFile('file_test.php');
+        }
+    }
+?&gt;
+</programlisting>
+                This effectively names the test in the constructor and then
+                adds our test cases and a single group below.
+                Of course we can add more than one group at this point.
+                We can now invoke the tests from a separate runner file...
+<programlisting role="php">
+&lt;?php
+    require_once('file_group_test.php');
+    
+    $test = &amp;new FileGroupTest();
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                ...or we can group them into even larger group tests...
+<programlisting role="php">
+&lt;?php
+    require_once('file_group_test.php');
+    
+    $test = &amp;new BigGroupTest('Big group');
+    $test-&gt;addTestCase(new FileGroupTest());
+    $test-&gt;addTestCase(...);
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                If we still wish to run the original group test and we
+                don't want all of these little runner files, we can
+                put the test runner code around guard bars when we create
+                each group.
+<programlisting role="php">
+&lt;?php
+    class FileGroupTest extends GroupTest {
+        function FileGroupTest() {
+            $this-&gt;GroupTest('All file tests');
+            $test-&gt;addTestFile('file_test.php');
+        }
+    }
+    
+    if (! defined('RUNNER')) {
+        define('RUNNER', true);
+        $test = &amp;new FileGroupTest();
+        $test-&gt;run(new HtmlReporter());
+    }
+?&gt;
+</programlisting>
+                This approach requires the guard to be set when including
+                the group test file, but this is still less hassle than
+                lots of separate runner files.
+                You include the same guard on the top level tests to make sure
+                that <span class="new_code">run()</span> will run once only
+                from the top level script that has been invoked.
+<programlisting role="php">
+&lt;?php
+    define('RUNNER', true);
+    require_once('file_group_test.php');
+
+    $test = &amp;new BigGroupTest('Big group');
+    $test-&gt;addTestCase(new FileGroupTest());
+    $test-&gt;addTestCase(...);
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                As with the normal test cases, a <span class="new_code">GroupTest</span> can
+                be loaded with the <span class="new_code">GroupTest::addTestFile()</span> method.
+<programlisting role="php">
+&lt;?php
+    define('RUNNER', true);
+
+    $test = &amp;new BigGroupTest('Big group');
+    $test-&gt;addTestFile('file_group_test.php');
+    $test-&gt;addTestFile(...);
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+            </para>
+        </refsect1>
+        <refsect1 id="{@id legacy}">
+<title>Integrating legacy test cases</title>
+            <para>
+                If you already have unit tests for your code or are extending external
+                classes that have tests, it is unlikely that all of the test cases
+                are in SimpleTest format.
+                Fortunately it is possible to incorporate test cases from other
+                unit testers directly into SimpleTest group tests.
+            </para>
+            <para>
+                Say we have the following
+                {@link http://sourceforge.net/projects/phpunit PhpUnit}
+                test case in the file <em>config_test.php</em>...
+<programlisting role="php">
+class ConfigFileTest extends TestCase {
+    function ConfigFileTest() {
+        $this-&gt;TestCase('Config file test');
+    }
+    
+    function testContents() {
+        $config = new ConfigFile('test.conf');
+        $this-&gt;assertRegexp('/me/', $config-&gt;getValue('username'));
+    }
+}
+</programlisting>
+                The group test can recognise this as long as we include
+                the appropriate adapter class before we add the test
+                file...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('simpletest/adapters/phpunit_test_case.php');
+
+    $test = &amp;new GroupTest('All file tests');
+    $test-&gt;addTestFile('config_test.php');
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                There are only two adapters, the other is for the
+                {@link http://pear.php.net/manual/en/package.php.phpunit.php PEAR}
+                1.0 unit tester...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('simpletest/adapters/pear_test_case.php');
+
+    $test = &amp;new GroupTest('All file tests');
+    $test-&gt;addTestFile('some_pear_test_cases.php');
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                The PEAR test cases can be freely mixed with SimpleTest
+                ones even in the same test file,
+                but you cannot use SimpleTest assertions in the legacy
+                test case versions.
+                This is done as a check that you are not accidently making
+                your test cases completely dependent on SimpleTest.
+                You may want to do a PEAR release of your library for example
+                which would mean shipping it with valid PEAR::PhpUnit test
+                cases.
+            </para>
+        </refsect1>
+    </refentry>

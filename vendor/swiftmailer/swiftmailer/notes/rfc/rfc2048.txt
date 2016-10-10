@@ -1,0 +1,1180 @@
+
+
+
+
+
+
+Network Working Group                                           N. Freed
+Request for Comments: 2048                                      Innosoft
+BCP: 13                                                       J. Klensin
+Obsoletes: 1521, 1522, 1590                                          MCI
+Category: Best Current Practice                                J. Postel
+                                                                     ISI
+                                                           November 1996
+
+
+                 Multipurpose Internet Mail Extensions
+                           (MIME) Part Four:
+                        Registration Procedures
+
+Status of this Memo
+
+   This document specifies an Internet Best Current Practices for the
+   Internet Community, and requests discussion and suggestions for
+   improvements.  Distribution of this memo is unlimited.
+
+Abstract
+
+   STD 11, RFC 822, defines a message representation protocol specifying
+   considerable detail about US-ASCII message headers, and leaves the
+   message content, or message body, as flat US-ASCII text.  This set of
+   documents, collectively called the Multipurpose Internet Mail
+   Extensions, or MIME, redefines the format of messages to allow for
+
+    (1)   textual message bodies in character sets other than
+          US-ASCII,
+
+    (2)   an extensible set of different formats for non-textual
+          message bodies,
+
+    (3)   multi-part message bodies, and
+
+    (4)   textual header information in character sets other than
+          US-ASCII.
+
+   These documents are based on earlier work documented in RFC 934, STD
+   11, and RFC 1049, but extends and revises them.  Because RFC 822 said
+   so little about message bodies, these documents are largely
+   orthogonal to (rather than a revision of) RFC 822.
+
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 1]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   This fourth document, RFC 2048, specifies various IANA registration
+   procedures for the following MIME facilities:
+
+    (1)   media types,
+
+    (2)   external body access types,
+
+    (3)   content-transfer-encodings.
+
+   Registration of character sets for use in MIME is covered elsewhere
+   and is no longer addressed by this document.
+
+   These documents are revisions of RFCs 1521 and 1522, which themselves
+   were revisions of RFCs 1341 and 1342.  An appendix in RFC 2049
+   describes differences and changes from previous versions.
+
+Table of Contents
+
+   1. Introduction .........................................    3
+   2. Media Type Registration ..............................    4
+   2.1 Registration Trees and Subtype Names ................    4
+   2.1.1 IETF Tree .........................................    4
+   2.1.2 Vendor Tree .......................................    4
+   2.1.3 Personal or Vanity Tree ...........................    5
+   2.1.4 Special `x.' Tree .................................    5
+   2.1.5 Additional Registration Trees .....................    6
+   2.2 Registration Requirements ...........................    6
+   2.2.1 Functionality Requirement .........................    6
+   2.2.2 Naming Requirements ...............................    6
+   2.2.3 Parameter Requirements ............................    7
+   2.2.4 Canonicalization and Format Requirements ..........    7
+   2.2.5 Interchange Recommendations .......................    8
+   2.2.6 Security Requirements .............................    8
+   2.2.7 Usage and Implementation Non-requirements .........    9
+   2.2.8 Publication Requirements ..........................   10
+   2.2.9 Additional Information ............................   10
+   2.3 Registration Procedure ..............................   11
+   2.3.1 Present the Media Type to the Community for  Review   11
+   2.3.2 IESG Approval .....................................   12
+   2.3.3 IANA Registration .................................   12
+   2.4 Comments on Media Type Registrations ................   12
+   2.5 Location of Registered Media Type List ..............   12
+   2.6 IANA Procedures for Registering Media Types .........   12
+   2.7 Change Control ......................................   13
+   2.8 Registration Template ...............................   14
+   3. External Body Access Types ...........................   14
+   3.1 Registration Requirements ...........................   15
+   3.1.1 Naming Requirements ...............................   15
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 2]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   3.1.2 Mechanism Specification Requirements ..............   15
+   3.1.3 Publication Requirements ..........................   15
+   3.1.4 Security Requirements .............................   15
+   3.2 Registration Procedure ..............................   15
+   3.2.1 Present the Access Type to the Community ..........   16
+   3.2.2 Access Type Reviewer ..............................   16
+   3.2.3 IANA Registration .................................   16
+   3.3 Location of Registered Access Type List .............   16
+   3.4 IANA Procedures for Registering Access Types ........   16
+   4. Transfer Encodings ...................................   17
+   4.1 Transfer Encoding Requirements ......................   17
+   4.1.1 Naming Requirements ...............................   17
+   4.1.2 Algorithm Specification Requirements ..............   18
+   4.1.3 Input Domain Requirements .........................   18
+   4.1.4 Output Range Requirements .........................   18
+   4.1.5 Data Integrity and Generality Requirements ........   18
+   4.1.6 New Functionality Requirements ....................   18
+   4.2 Transfer Encoding Definition Procedure ..............   19
+   4.3 IANA Procedures for Transfer Encoding Registration...   19
+   4.4 Location of Registered Transfer Encodings List ......   19
+   5. Authors' Addresses ...................................   20
+   A. Grandfathered Media Types ............................   21
+
+1.  Introduction
+
+   Recent Internet protocols have been carefully designed to be easily
+   extensible in certain areas.  In particular, MIME [RFC 2045] is an
+   open-ended framework and can accommodate additional object types,
+   character sets, and access methods without any changes to the basic
+   protocol.  A registration process is needed, however, to ensure that
+   the set of such values is developed in an orderly, well-specified,
+   and public manner.
+
+   This document defines registration procedures which use the Internet
+   Assigned Numbers Authority (IANA) as a central registry for such
+   values.
+
+   Historical Note: The registration process for media types was
+   initially defined in the context of the asynchronous Internet mail
+   environment.  In this mail environment there is a need to limit the
+   number of possible media types to increase the likelihood of
+   interoperability when the capabilities of the remote mail system are
+   not known.  As media types are used in new environments, where the
+   proliferation of media types is not a hindrance to interoperability,
+   the original procedure was excessively restrictive and had to be
+   generalized.
+
+
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 3]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+2.  Media Type Registration
+
+   Registration of a new media type or types starts with the
+   construction of a registration proposal.  Registration may occur in
+   several different registration trees, which have different
+   requirements as discussed below.  In general, the new registration
+   proposal is circulated and reviewed in a fashion appropriate to the
+   tree involved.  The media type is then registered if the proposal is
+   acceptable.  The following sections describe the requirements and
+   procedures used for each of the different registration trees.
+
+2.1.  Registration Trees and Subtype Names
+
+   In order to increase the efficiency and flexibility of the
+   registration process, different structures of subtype names may be
+   registered to accomodate the different natural requirements for,
+   e.g., a subtype that will be recommended for wide support and
+   implementation by the Internet Community or a subtype that is used to
+   move files associated with proprietary software.  The following
+   subsections define registration "trees", distinguished by the use of
+   faceted names (e.g., names of the form "tree.subtree...type").  Note
+   that some media types defined prior to this document do not conform
+   to the naming conventions described below.  See Appendix A for a
+   discussion of them.
+
+2.1.1.  IETF Tree
+
+   The IETF tree is intended for types of general interest to the
+   Internet Community. Registration in the IETF tree requires approval
+   by the IESG and publication of the media type registration as some
+   form of RFC.
+
+   Media types in the IETF tree are normally denoted by names that are
+   not explicitly faceted, i.e., do not contain period (".", full stop)
+   characters.
+
+   The "owner" of a media type registration in the IETF tree is assumed
+   to be the IETF itself.  Modification or alteration of the
+   specification requires the same level of processing (e.g.  standards
+   track) required for the initial registration.
+
+2.1.2.  Vendor Tree
+
+   The vendor tree is used for media types associated with commercially
+   available products.  "Vendor" or "producer" are construed as
+   equivalent and very broadly in this context.
+
+
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 4]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   A registration may be placed in the vendor tree by anyone who has
+   need to interchange files associated with the particular product.
+   However, the registration formally belongs to the vendor or
+   organization producing the software or file format.  Changes to the
+   specification will be made at their request, as discussed in
+   subsequent sections.
+
+   Registrations in the vendor tree will be distinguished by the leading
+   facet "vnd.".  That may be followed, at the discretion of the
+   registration, by either a media type name from a well-known producer
+   (e.g., "vnd.mudpie") or by an IANA-approved designation of the
+   producer's name which is then followed by a media type or product
+   designation (e.g., vnd.bigcompany.funnypictures).
+
+   While public exposure and review of media types to be registered in
+   the vendor tree is not required, using the ietf-types list for review
+   is strongly encouraged to improve the quality of those
+   specifications. Registrations in the vendor tree may be submitted
+   directly to the IANA.
+
+2.1.3.  Personal or Vanity Tree
+
+   Registrations for media types created experimentally or as part of
+   products that are not distributed commercially may be registered in
+   the personal or vanity tree.  The registrations are distinguished by
+   the leading facet "prs.".
+
+   The owner of "personal" registrations and associated specifications
+   is the person or entity making the registration, or one to whom
+   responsibility has been transferred as described below.
+
+   While public exposure and review of media types to be registered in
+   the personal tree is not required, using the ietf-types list for
+   review is strongly encouraged to improve the quality of those
+   specifications.  Registrations in the personl tree may be submitted
+   directly to the IANA.
+
+2.1.4.  Special `x.' Tree
+
+   For convenience and symmetry with this registration scheme, media
+   type names with "x." as the first facet may be used for the same
+   purposes for which names starting in "x-" are normally used.  These
+   types are unregistered, experimental, and should be used only with
+   the active agreement of the parties exchanging them.
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 5]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   However, with the simplified registration procedures described above
+   for vendor and personal trees, it should rarely, if ever, be
+   necessary to use unregistered experimental types, and as such use of
+   both "x-" and "x." forms is discouraged.
+
+2.1.5.  Additional Registration Trees
+
+   From time to time and as required by the community, the IANA may,
+   with the advice and consent of the IESG, create new top-level
+   registration trees.  It is explicitly assumed that these trees may be
+   created for external registration and management by well-known
+   permanent bodies, such as scientific societies for media types
+   specific to the sciences they cover.  In general, the quality of
+   review of specifications for one of these additional registration
+   trees is expected to be equivalent to that which IETF would give to
+   registrations in its own tree. Establishment of these new trees will
+   be announced through RFC publication approved by the IESG.
+
+2.2.  Registration Requirements
+
+   Media type registration proposals are all expected to conform to
+   various requirements laid out in the following sections.  Note that
+   requirement specifics sometimes vary depending on the registration
+   tree, again as detailed in the following sections.
+
+2.2.1.  Functionality Requirement
+
+   Media types must function as an actual media format: Registration of
+   things that are better thought of as a transfer encoding, as a
+   character set, or as a collection of separate entities of another
+   type, is not allowed.  For example, although applications exist to
+   decode the base64 transfer encoding [RFC 2045], base64 cannot be
+   registered as a media type.
+
+   This requirement applies regardless of the registration tree
+   involved.
+
+2.2.2.  Naming Requirements
+
+   All registered media types must be assigned MIME type and subtype
+   names. The combination of these names then serves to uniquely
+   identify the media type and the format of the subtype name identifies
+   the registration tree.
+
+   The choice of top-level type name must take the nature of media type
+   involved into account. For example, media normally used for
+   representing still images should be a subtype of the image content
+   type, whereas media capable of representing audio information belongs
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 6]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   under the audio content type. See RFC 2046 for additional information
+   on the basic set of top-level types and their characteristics.
+
+   New subtypes of top-level types must conform to the restrictions of
+   the top-level type, if any. For example, all subtypes of the
+   multipart content type must use the same encapsulation syntax.
+
+   In some cases a new media type may not "fit" under any currently
+   defined top-level content type. Such cases are expected to be quite
+   rare. However, if such a case arises a new top-level type can be
+   defined to accommodate it. Such a definition must be done via
+   standards-track RFC; no other mechanism can be used to define
+   additional top-level content types.
+
+   These requirements apply regardless of the registration tree
+   involved.
+
+2.2.3.  Parameter Requirements
+
+   Media types may elect to use one or more MIME content type
+   parameters, or some parameters may be automatically made available to
+   the media type by virtue of being a subtype of a content type that
+   defines a set of parameters applicable to any of its subtypes.  In
+   either case, the names, values, and meanings of any parameters must
+   be fully specified when a media type is registered in the IETF tree,
+   and should be specified as completely as possible when media types
+   are registered in the vendor or personal trees.
+
+   New parameters must not be defined as a way to introduce new
+   functionality in types registered in the IETF tree, although new
+   parameters may be added to convey additional information that does
+   not otherwise change existing functionality.  An example of this
+   would be a "revision" parameter to indicate a revision level of an
+   external specification such as JPEG.  Similar behavior is encouraged
+   for media types registered in the vendor or personal trees but is not
+   required.
+
+2.2.4.  Canonicalization and Format Requirements
+
+   All registered media types must employ a single, canonical data
+   format, regardless of registration tree.
+
+   A precise and openly available specification of the format of each
+   media type is required for all types registered in the IETF tree and
+   must at a minimum be referenced by, if it isn't actually included in,
+   the media type registration proposal itself.
+
+
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 7]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   The specifications of format and processing particulars may or may
+   not be publically available for media types registered in the vendor
+   tree, and such registration proposals are explicitly permitted to
+   include only a specification of which software and version produce or
+   process such media types.  References to or inclusion of format
+   specifications in registration proposals is encouraged but not
+   required.
+
+   Format specifications are still required for registration in the
+   personal tree, but may be either published as RFCs or otherwise
+   deposited with IANA. The deposited specifications will meet the same
+   criteria as those required to register a well-known TCP port and, in
+   particular, need not be made public.
+
+   Some media types involve the use of patented technology.  The
+   registration of media types involving patented technology is
+   specifically permitted.  However, the restrictions set forth in RFC
+   1602 on the use of patented technology in standards-track protocols
+   must be respected when the specification of a media type is part of a
+   standards-track protocol.
+
+2.2.5.  Interchange Recommendations
+
+   Media types should, whenever possible, interoperate across as many
+   systems and applications as possible. However, some media types will
+   inevitably have problems interoperating across different platforms.
+   Problems with different versions, byte ordering, and specifics of
+   gateway handling can and will arise.
+
+   Universal interoperability of media types is not required, but known
+   interoperability issues should be identified whenever possible.
+   Publication of a media type does not require an exhaustive review of
+   interoperability, and the interoperability considerations section is
+   subject to continuing evaluation.
+
+   These recommendations apply regardless of the registration tree
+   involved.
+
+2.2.6.  Security Requirements
+
+   An analysis of security issues is required for for all types
+   registered in the IETF Tree.  (This is in accordance with the basic
+   requirements for all IETF protocols.) A similar analysis for media
+   types registered in the vendor or personal trees is encouraged but
+   not required.  However, regardless of what security analysis has or
+   has not been done, all descriptions of security issues must be as
+   accurate as possible regardless of registration tree.  In particular,
+   a statement that there are "no security issues associated with this
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 8]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   type" must not be confused with "the security issues associates with
+   this type have not been assessed".
+
+   There is absolutely no requirement that media types registered in any
+   tree be secure or completely free from risks.  Nevertheless, all
+   known security risks must be identified in the registration of a
+   media type, again regardless of registration tree.
+
+   The security considerations section of all registrations is subject
+   to continuing evaluation and modification, and in particular may be
+   extended by use of the "comments on media types" mechanism described
+   in subsequent sections.
+
+   Some of the issues that should be looked at in a security analysis of
+   a media type are:
+
+    (1)   Complex media types may include provisions for
+          directives that institute actions on a recipient's
+          files or other resources.  In many cases provision is
+          made for originators to specify arbitrary actions in an
+          unrestricted fashion which may then have devastating
+          effects.  See the registration of the
+          application/postscript media type in RFC 2046 for
+          an example of such directives and how to handle them.
+
+    (2)   Complex media types may include provisions for
+          directives that institute actions which, while not
+          directly harmful to the recipient, may result in
+          disclosure of information that either facilitates a
+          subsequent attack or else violates a recipient's
+          privacy in some way.  Again, the registration of the
+          application/postscript media type illustrates how such
+          directives can be handled.
+
+    (3)   A media type might be targeted for applications that
+          require some sort of security assurance but not provide
+          the necessary security mechanisms themselves. For
+          example, a media type could be defined for storage of
+          confidential medical information which in turn requires
+          an external confidentiality service.
+
+2.2.7.  Usage and Implementation Non-requirements
+
+   In the asynchronous mail environment, where information on the
+   capabilities of the remote mail agent is frequently not available to
+   the sender, maximum interoperability is attained by restricting the
+   number of media types used to those "common" formats expected to be
+   widely implemented.  This was asserted in the past as a reason to
+
+
+
+Freed, et. al.           Best Current Practice                  [Page 9]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   limit the number of possible media types and resulted in a
+   registration process with a significant hurdle and delay for those
+   registering media types.
+
+   However, the need for "common" media types does not require limiting
+   the registration of new media types. If a limited set of media types
+   is recommended for a particular application, that should be asserted
+   by a separate applicability statement specific for the application
+   and/or environment.
+
+   As such, universal support and implementation of a media type is NOT
+   a requirement for registration.  If, however, a media type is
+   explicitly intended for limited use, this should be noted in its
+   registration.
+
+2.2.8.  Publication Requirements
+
+   Proposals for media types registered in the IETF tree must be
+   published as RFCs. RFC publication of vendor and personal media type
+   proposals is encouraged but not required. In all cases IANA will
+   retain copies of all media type proposals and "publish" them as part
+   of the media types registration tree itself.
+
+   Other than in the IETF tree, the registration of a data type does not
+   imply endorsement, approval, or recommendation by IANA or IETF or
+   even certification that the specification is adequate.  To become
+   Internet Standards, protocol, data objects, or whatever must go
+   through the IETF standards process.  This is too difficult and too
+   lengthy a process for the convenient registration of media types.
+
+   The IETF tree exists for media types that do require require a
+   substantive review and approval process with the vendor and personal
+   trees exist for those that do not. It is expected that applicability
+   statements for particular applications will be published from time to
+   time that recommend implementation of, and support for, media types
+   that have proven particularly useful in those contexts.
+
+   As discussed above, registration of a top-level type requires
+   standards-track processing and, hence, RFC publication.
+
+2.2.9.  Additional Information
+
+   Various sorts of optional information may be included in the
+   specification of a media type if it is available:
+
+    (1)   Magic number(s) (length, octet values). Magic numbers
+          are byte sequences that are always present and thus can
+          be used to identify entities as being of a given media
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 10]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+          type.
+
+    (2)   File extension(s) commonly used on one or more
+          platforms to indicate that some file containing a given
+          type of media.
+
+    (3)   Macintosh File Type code(s) (4 octets) used to label
+          files containing a given type of media.
+
+   Such information is often quite useful to implementors and if
+   available should be provided.
+
+2.3.  Registration Procedure
+
+   The following procedure has been implemented by the IANA for review
+   and approval of new media types.  This is not a formal standards
+   process, but rather an administrative procedure intended to allow
+   community comment and sanity checking without excessive time delay.
+   For registration in the IETF tree, the normal IETF processes should
+   be followed, treating posting of an internet-draft and announcement
+   on the ietf-types list (as described in the next subsection) as a
+   first step.  For registrations in the vendor or personal tree, the
+   initial review step described below may be omitted and the type
+   registered directly by submitting the template and an explanation
+   directly to IANA (at iana@iana.org).  However, authors of vendor or
+   personal media type specifications are encouraged to seek community
+   review and comment whenever that is feasible.
+
+2.3.1.  Present the Media Type to the Community for Review
+
+   Send a proposed media type registration to the "ietf-types@iana.org"
+   mailing list for a two week review period.  This mailing list has
+   been established for the purpose of reviewing proposed media and
+   access types. Proposed media types are not formally registered and
+   must not be used; the "x-" prefix specified in RFC 2045 can be used
+   until registration is complete.
+
+   The intent of the public posting is to solicit comments and feedback
+   on the choice of type/subtype name, the unambiguity of the references
+   with respect to versions and external profiling information, and a
+   review of any interoperability or security considerations. The
+   submitter may submit a revised registration, or withdraw the
+   registration completely, at any time.
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 11]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+2.3.2.  IESG Approval
+
+   Media types registered in the IETF tree must be submitted to the IESG
+   for approval.
+
+2.3.3.  IANA Registration
+
+   Provided that the media type meets the requirements for media types
+   and has obtained approval that is necessary, the author may submit
+   the registration request to the IANA, which will register the media
+   type and make the media type registration available to the community.
+
+2.4.  Comments on Media Type Registrations
+
+   Comments on registered media types may be submitted by members of the
+   community to IANA.  These comments will be passed on to the "owner"
+   of the media type if possible.  Submitters of comments may request
+   that their comment be attached to the media type registration itself,
+   and if IANA approves of this the comment will be made accessible in
+   conjunction with the type registration itself.
+
+2.5.  Location of Registered Media Type List
+
+   Media type registrations will be posted in the anonymous FTP
+   directory "ftp://ftp.isi.edu/in-notes/iana/assignments/media-types/"
+   and all registered media types will be listed in the periodically
+   issued "Assigned Numbers" RFC [currently STD 2, RFC 1700].  The media
+   type description and other supporting material may also be published
+   as an Informational RFC by sending it to "rfc-editor@isi.edu" (please
+   follow the instructions to RFC authors [RFC-1543]).
+
+2.6.  IANA Procedures for Registering Media Types
+
+   The IANA will only register media types in the IETF tree in response
+   to a communication from the IESG stating that a given registration
+   has been approved. Vendor and personal types will be registered by
+   the IANA automatically and without any formal review as long as the
+   following minimal conditions are met:
+
+    (1)   Media types must function as an actual media format.
+          In particular, character sets and transfer encodings
+          may not be registered as media types.
+
+    (2)   All media types must have properly formed type and
+          subtype names. All type names must be defined by a
+          standards-track RFC. All subtype names must be unique,
+          must conform to the MIME grammar for such names, and
+          must contain the proper tree prefix.
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 12]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+    (3)   Types registered in the personal tree must either
+          provide a format specification or a pointer to one.
+
+    (4)   Any security considerations given must not be obviously
+          bogus. (It is neither possible nor necessary for the
+          IANA to conduct a comprehensive security review of
+          media type registrations.  Nevertheless, IANA has the
+          authority to identify obviously incompetent material
+          and exclude it.)
+
+2.7.  Change Control
+
+   Once a media type has been published by IANA, the author may request
+   a change to its definition. The descriptions of the different
+   registration trees above designate the "owners" of each type of
+   registration. The change request follows the same procedure as the
+   registration request:
+
+    (1)   Publish the revised template on the ietf-types list.
+
+    (2)   Leave at least two weeks for comments.
+
+    (3)   Publish using IANA after formal review if required.
+
+   Changes should be requested only when there are serious omission or
+   errors in the published specification. When review is required, a
+   change request may be denied if it renders entities that were valid
+   under the previous definition invalid under the new definition.
+
+   The owner of a content type may pass responsibility for the content
+   type to another person or agency by informing IANA and the ietf-types
+   list; this can be done without discussion or review.
+
+   The IESG may reassign responsibility for a media type. The most
+   common case of this will be to enable changes to be made to types
+   where the author of the registration has died, moved out of contact
+   or is otherwise unable to make changes that are important to the
+   community.
+
+   Media type registrations may not be deleted; media types which are no
+   longer believed appropriate for use can be declared OBSOLETE by a
+   change to their "intended use" field; such media types will be
+   clearly marked in the lists published by IANA.
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 13]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+2.8.  Registration Template
+
+     To: ietf-types@iana.org
+     Subject: Registration of MIME media type XXX/YYY
+
+     MIME media type name:
+
+     MIME subtype name:
+
+     Required parameters:
+
+     Optional parameters:
+
+     Encoding considerations:
+
+     Security considerations:
+
+     Interoperability considerations:
+
+     Published specification:
+
+     Applications which use this media type:
+
+     Additional information:
+
+       Magic number(s):
+       File extension(s):
+       Macintosh File Type Code(s):
+
+     Person & email address to contact for further information:
+
+     Intended usage:
+
+     (One of COMMON, LIMITED USE or OBSOLETE)
+
+     Author/Change controller:
+
+     (Any other information that the author deems interesting may be
+     added below this line.)
+
+3.  External Body Access Types
+
+   RFC 2046 defines the message/external-body media type, whereby a MIME
+   entity can act as pointer to the actual body data in lieu of
+   including the data directly in the entity body. Each
+   message/external-body reference specifies an access type, which
+   determines the mechanism used to retrieve the actual body data. RFC
+   2046 defines an initial set of access types, but allows for the
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 14]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+   registration of additional access types to accommodate new retrieval
+   mechanisms.
+
+3.1.  Registration Requirements
+
+   New access type specifications must conform to a number of
+   requirements as described below.
+
+3.1.1.  Naming Requirements
+
+   Each access type must have a unique name.  This name appears in the
+   access-type parameter in the message/external-body content-type
+   header field, and must conform to MIME content type parameter syntax.
+
+3.1.2.  Mechanism Specification Requirements
+
+   All of the protocols, transports, and procedures used by a given
+   access type must be described, either in the specification of the
+   access type itself or in some other publicly available specification,
+   in sufficient detail for the access type to be implemented by any
+   competent implementor.  Use of secret and/or proprietary methods in
+   access types are expressly prohibited. The restrictions imposed by
+   RFC 1602 on the standardization of patented algorithms must be
+   respected as well.
+
+3.1.3.  Publication Requirements
+
+   All access types must be described by an RFC. The RFC may be
+   informational rather than standards-track, although standard-track
+   review and approval are encouraged for all access types.
+
+3.1.4.  Security Requirements
+
+   Any known security issues that arise from the use of the access type
+   must be completely and fully described. It is not required that the
+   access type be secure or that it be free from risks, but that the
+   known risks be identified.  Publication of a new access type does not
+   require an exhaustive security review, and the security
+   considerations section is subject to continuing evaluation.
+   Additional security considerations should be addressed by publishing
+   revised versions of the access type specification.
+
+3.2.  Registration Procedure
+
+   Registration of a new access type starts with the construction of a
+   draft of an RFC.
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 15]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+3.2.1.  Present the Access Type to the Community
+
+   Send a proposed access type specification to the "ietf-
+   types@iana.org" mailing list for a two week review period.  This
+   mailing list has been established for the purpose of reviewing
+   proposed access and media types.  Proposed access types are not
+   formally registered and must not be used.
+
+   The intent of the public posting is to solicit comments and feedback
+   on the access type specification and a review of any security
+   considerations.
+
+3.2.2.  Access Type Reviewer
+
+   When the two week period has passed, the access type reviewer, who is
+   appointed by the IETF Applications Area Director, either forwards the
+   request to iana@isi.edu, or rejects it because of significant
+   objections raised on the list.
+
+   Decisions made by the reviewer must be posted to the ietf-types
+   mailing list within 14 days. Decisions made by the reviewer may be
+   appealed to the IESG.
+
+3.2.3.  IANA Registration
+
+   Provided that the access type has either passed review or has been
+   successfully appealed to the IESG, the IANA will register the access
+   type and make the registration available to the community. The
+   specification of the access type must also be published as an RFC.
+   Informational RFCs are published by sending them to "rfc-
+   editor@isi.edu" (please follow the instructions to RFC authors [RFC-
+   1543]).
+
+3.3.  Location of Registered Access Type List
+
+   Access type registrations will be posted in the anonymous FTP
+   directory "ftp://ftp.isi.edu/in-notes/iana/assignments/access-types/"
+   and all registered access types will be listed in the periodically
+   issued "Assigned Numbers" RFC [currently RFC-1700].
+
+3.4.  IANA Procedures for Registering Access Types
+
+   The identity of the access type reviewer is communicated to the IANA
+   by the IESG.  The IANA then only acts in response to access type
+   definitions that either are approved by the access type reviewer and
+   forwarded by the reviewer to the IANA for registration, or in
+   response to a communication from the IESG that an access type
+   definition appeal has overturned the access type reviewer's ruling.
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 16]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+4.  Transfer Encodings
+
+   Transfer encodings are tranformations applied to MIME media types
+   after conversion to the media type's canonical form.  Transfer
+   encodings are used for several purposes:
+
+    (1)   Many transports, especially message transports, can
+          only handle data consisting of relatively short lines
+          of text. There can also be severe restrictions on what
+          characters can be used in these lines of text -- some
+          transports are restricted to a small subset of US-ASCII
+          and others cannot handle certain character sequences.
+          Transfer encodings are used to transform binary data
+          into textual form that can survive such transports.
+          Examples of this sort of transfer encoding include the
+          base64 and quoted-printable transfer encodings defined
+          in RFC 2045.
+
+    (2)   Image, audio, video, and even application entities are
+          sometimes quite large. Compression algorithms are often
+          quite effective in reducing the size of large entities.
+          Transfer encodings can be used to apply general-purpose
+          non-lossy compression algorithms to MIME entities.
+
+    (3)   Transport encodings can be defined as a means of
+          representing existing encoding formats in a MIME
+          context.
+
+   IMPORTANT:  The standardization of a large numbers of different
+   transfer encodings is seen as a significant barrier to widespread
+   interoperability and is expressely discouraged.  Nevertheless, the
+   following procedure has been defined to provide a means of defining
+   additional transfer encodings, should standardization actually be
+   justified.
+
+4.1.  Transfer Encoding Requirements
+
+   Transfer encoding specifications must conform to a number of
+   requirements as described below.
+
+4.1.1.  Naming Requirements
+
+   Each transfer encoding must have a unique name.  This name appears in
+   the Content-Transfer-Encoding header field and must conform to the
+   syntax of that field.
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 17]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+4.1.2.  Algorithm Specification Requirements
+
+   All of the algorithms used in a transfer encoding (e.g.  conversion
+   to printable form, compression) must be described in their entirety
+   in the transfer encoding specification.  Use of secret and/or
+   proprietary algorithms in standardized transfer encodings are
+   expressly prohibited. The restrictions imposed by RFC 1602 on the
+   standardization of patented algorithms must be respected as well.
+
+4.1.3.  Input Domain Requirements
+
+   All transfer encodings must be applicable to an arbitrary sequence of
+   octets of any length.  Dependence on particular input forms is not
+   allowed.
+
+   It should be noted that the 7bit and 8bit encodings do not conform to
+   this requirement. Aside from the undesireability of having
+   specialized encodings, the intent here is to forbid the addition of
+   additional encodings along the lines of 7bit and 8bit.
+
+4.1.4.  Output Range Requirements
+
+   There is no requirement that a particular tranfer encoding produce a
+   particular form of encoded output.  However, the output format for
+   each transfer encoding must be fully and completely documented.  In
+   particular, each specification must clearly state whether the output
+   format always lies within the confines of 7bit data, 8bit data, or is
+   simply pure binary data.
+
+4.1.5.  Data Integrity and Generality Requirements
+
+   All transfer encodings must be fully invertible on any platform; it
+   must be possible for anyone to recover the original data by
+   performing the corresponding decoding operation.  Note that this
+   requirement effectively excludes all forms of lossy compression as
+   well as all forms of encryption from use as a transfer encoding.
+
+4.1.6.  New Functionality Requirements
+
+   All transfer encodings must provide some sort of new functionality.
+   Some degree of functionality overlap with previously defined transfer
+   encodings is acceptable, but any new transfer encoding must also
+   offer something no other transfer encoding provides.
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 18]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+4.2.  Transfer Encoding Definition Procedure
+
+   Definition of a new transfer encoding starts with the construction of
+   a draft of a standards-track RFC.  The RFC must define the transfer
+   encoding precisely and completely, and must also provide substantial
+   justification for defining and standardizing a new transfer encoding.
+   This specification must then be presented to the IESG for
+   consideration.  The IESG can
+
+    (1)   reject the specification outright as being
+          inappropriate for standardization,
+
+    (2)   approve the formation of an IETF working group to work
+          on the specification in accordance with IETF
+          procedures, or,
+
+    (3)   accept the specification as-is and put it directly on
+          the standards track.
+
+   Transfer encoding specifications on the standards track follow normal
+   IETF rules for standards track documents.  A transfer encoding is
+   considered to be defined and available for use once it is on the
+   standards track.
+
+4.3.  IANA Procedures for Transfer Encoding Registration
+
+   There is no need for a special procedure for registering Transfer
+   Encodings with the IANA. All legitimate transfer encoding
+   registrations must appear as a standards-track RFC, so it is the
+   IESG's responsibility to notify the IANA when a new transfer encoding
+   has been approved.
+
+4.4.  Location of Registered Transfer Encodings List
+
+   Transfer encoding registrations will be posted in the anonymous FTP
+   directory "ftp://ftp.isi.edu/in-notes/iana/assignments/transfer-
+   encodings/" and all registered transfer encodings will be listed in
+   the periodically issued "Assigned Numbers" RFC [currently RFC-1700].
+
+
+
+
+
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 19]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+5.  Authors' Addresses
+
+   For more information, the authors of this document are best
+   contacted via Internet mail:
+
+   Ned Freed
+   Innosoft International, Inc.
+   1050 East Garvey Avenue South
+   West Covina, CA 91790
+   USA
+
+   Phone: +1 818 919 3600
+   Fax:   +1 818 919 3614
+   EMail: ned@innosoft.com
+
+
+   John Klensin
+   MCI
+   2100 Reston Parkway
+   Reston, VA 22091
+
+   Phone: +1 703 715-7361
+   Fax:   +1 703 715-7436
+   EMail: klensin@mci.net
+
+
+   Jon Postel
+   USC/Information Sciences Institute
+   4676 Admiralty Way
+   Marina del Rey, CA  90292
+   USA
+
+
+   Phone: +1 310 822 1511
+   Fax:   +1 310 823 6714
+   EMail: Postel@ISI.EDU
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 20]
+
+RFC 2048              MIME Registration Procedures         November 1996
+
+
+Appendix A -- Grandfathered Media Types
+
+   A number of media types, registered prior to 1996, would, if
+   registered under the guidelines in this document, be placed into
+   either the vendor or personal trees.  Reregistration of those types
+   to reflect the appropriate trees is encouraged, but not required.
+   Ownership and change control principles outlined in this document
+   apply to those types as if they had been registered in the trees
+   described above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Freed, et. al.           Best Current Practice                 [Page 21]
+

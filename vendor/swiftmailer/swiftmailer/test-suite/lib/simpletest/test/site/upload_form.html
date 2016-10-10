@@ -1,0 +1,11 @@
+<html>
+    <head><title>Test of file upload</title></head>
+    <body>
+        <form enctype="multipart/form-data" action="upload_handler.php" method="post">
+            <input type="hidden" name="MAX_FILE_SIZE" value="30000">
+            <label>Content:<input id="c" type="file" name="content"></label><br>
+            <label>Supplemental:<input id="s" type="file" name="supplemental"></label><br>
+            <input id="g" type="submit" name="go" value="Go!">
+        </form>
+    </body>
+</html>

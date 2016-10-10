@@ -1,0 +1,2 @@
+en.res
+fr.res

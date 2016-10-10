@@ -1,0 +1,72 @@
+Ternary operator
+-----
+<?php
+
+// ternary
+$a ? $b : $c;
+$a ?: $c;
+
+// precedence
+$a ? $b : $c ? $d : $e;
+$a ? $b : ($c ? $d : $e);
+-----
+array(
+    0: Expr_Ternary(
+        cond: Expr_Variable(
+            name: a
+        )
+        if: Expr_Variable(
+            name: b
+        )
+        else: Expr_Variable(
+            name: c
+        )
+    )
+    1: Expr_Ternary(
+        cond: Expr_Variable(
+            name: a
+        )
+        if: null
+        else: Expr_Variable(
+            name: c
+        )
+    )
+    2: Expr_Ternary(
+        cond: Expr_Ternary(
+            cond: Expr_Variable(
+                name: a
+            )
+            if: Expr_Variable(
+                name: b
+            )
+            else: Expr_Variable(
+                name: c
+            )
+        )
+        if: Expr_Variable(
+            name: d
+        )
+        else: Expr_Variable(
+            name: e
+        )
+    )
+    3: Expr_Ternary(
+        cond: Expr_Variable(
+            name: a
+        )
+        if: Expr_Variable(
+            name: b
+        )
+        else: Expr_Ternary(
+            cond: Expr_Variable(
+                name: c
+            )
+            if: Expr_Variable(
+                name: d
+            )
+            else: Expr_Variable(
+                name: e
+            )
+        )
+    )
+)

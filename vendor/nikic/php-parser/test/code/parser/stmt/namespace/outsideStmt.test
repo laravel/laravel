@@ -1,0 +1,37 @@
+Some statements may occur outside of namespaces
+-----
+<?php
+declare(A='B');
+namespace B {
+
+}
+__halt_compiler()
+?>
+Hi!
+-----
+array(
+    0: Stmt_Declare(
+        declares: array(
+            0: Stmt_DeclareDeclare(
+                key: A
+                value: Scalar_String(
+                    value: B
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: B
+            )
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_HaltCompiler(
+        remaining: Hi!
+    )
+)

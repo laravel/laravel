@@ -1,0 +1,98 @@
+Comparison operators
+-----
+<?php
+$a < $b;
+$a <= $b;
+$a > $b;
+$a >= $b;
+$a == $b;
+$a === $b;
+$a != $b;
+$a !== $b;
+$a instanceof B;
+$a instanceof $b;
+-----
+array(
+    0: Expr_Smaller(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    1: Expr_SmallerOrEqual(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    2: Expr_Greater(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    3: Expr_GreaterOrEqual(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    4: Expr_Equal(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    5: Expr_Identical(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_NotEqual(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_NotIdentical(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    8: Expr_Instanceof(
+        expr: Expr_Variable(
+            name: a
+        )
+        class: Name(
+            parts: array(
+                0: B
+            )
+        )
+    )
+    9: Expr_Instanceof(
+        expr: Expr_Variable(
+            name: a
+        )
+        class: Expr_Variable(
+            name: b
+        )
+    )
+)

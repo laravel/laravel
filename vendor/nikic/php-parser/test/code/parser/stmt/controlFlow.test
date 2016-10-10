@@ -1,0 +1,55 @@
+Control flow statements
+-----
+<?php
+
+break;
+break 2;
+
+continue;
+continue 2;
+
+return;
+return $a;
+
+throw $e;
+
+label:
+goto label;
+-----
+array(
+    0: Stmt_Break(
+        num: null
+    )
+    1: Stmt_Break(
+        num: Scalar_LNumber(
+            value: 2
+        )
+    )
+    2: Stmt_Continue(
+        num: null
+    )
+    3: Stmt_Continue(
+        num: Scalar_LNumber(
+            value: 2
+        )
+    )
+    4: Stmt_Return(
+        expr: null
+    )
+    5: Stmt_Return(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    6: Stmt_Throw(
+        expr: Expr_Variable(
+            name: e
+        )
+    )
+    7: Stmt_Label(
+        name: label
+    )
+    8: Stmt_Goto(
+        name: label
+    )
+)

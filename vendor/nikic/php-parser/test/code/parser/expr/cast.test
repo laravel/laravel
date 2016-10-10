@@ -1,0 +1,72 @@
+Casts
+-----
+<?php
+(array)   $a;
+(bool)    $a;
+(boolean) $a;
+(real)    $a;
+(double)  $a;
+(float)   $a;
+(int)     $a;
+(integer) $a;
+(object)  $a;
+(string)  $a;
+(unset)   $a;
+-----
+array(
+    0: Expr_Cast_Array(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    1: Expr_Cast_Bool(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    2: Expr_Cast_Bool(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Expr_Cast_Double(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    4: Expr_Cast_Double(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    5: Expr_Cast_Double(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    6: Expr_Cast_Int(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    7: Expr_Cast_Int(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    8: Expr_Cast_Object(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    9: Expr_Cast_String(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    10: Expr_Cast_Unset(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+)

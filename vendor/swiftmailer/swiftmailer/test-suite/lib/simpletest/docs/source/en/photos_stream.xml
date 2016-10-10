@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Tagged 'SimpleTest'" here="Photos stream">
+    <long_title>Photos &amp; pictures tagged SimpleTest</long_title>
+    <content>
+        <introduction>
+            <p>
+                A set of photos and pictures tagged with <em>SimpleTest</em>.
+            </p>
+        </introduction>
+        <section name="flickr" title="Within Flickr">
+            <script type="text/javascript" src="../js/jquery-1.2.1.pack.js"></script>
+            <script type="text/javascript">
+                $(function(){
+                    $('#gallery').load('../views/photos_stream.php');
+                });
+            </script>
+            <div id="gallery">
+            </div>
+        </section>
+    </content>
+
+    <internal>
+        <link>
+            Pictures tagged
+            <a href="#flickr"><em>SimpleTest</em> on Flickr</a>
+        </link>
+    </internal>
+
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            freelancer,
+            php resources,
+            wordtracker,
+            web marketing,
+            serach engines,
+            web positioning,
+            internet marketing
+        </keywords>
+    </meta>
+</page>

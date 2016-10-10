@@ -1,0 +1,86 @@
+For loop
+-----
+<?php
+
+// "classical" loop
+for ($i = 0; $i < $c; ++$i) {}
+
+// multiple expressions
+for (;$a,$b;) {}
+
+// infinite loop
+for (;;) {}
+
+// alternative syntax
+for (;;):
+endfor;
+-----
+array(
+    0: Stmt_For(
+        init: array(
+            0: Expr_Assign(
+                var: Expr_Variable(
+                    name: i
+                )
+                expr: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+        cond: array(
+            0: Expr_Smaller(
+                left: Expr_Variable(
+                    name: i
+                )
+                right: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+        loop: array(
+            0: Expr_PreInc(
+                var: Expr_Variable(
+                    name: i
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_For(
+        init: array(
+        )
+        cond: array(
+            0: Expr_Variable(
+                name: a
+            )
+            1: Expr_Variable(
+                name: b
+            )
+        )
+        loop: array(
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_For(
+        init: array(
+        )
+        cond: array(
+        )
+        loop: array(
+        )
+        stmts: array(
+        )
+    )
+    3: Stmt_For(
+        init: array(
+        )
+        cond: array(
+        )
+        loop: array(
+        )
+        stmts: array(
+        )
+    )
+)

@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: mock_objects_documentation.xml 1701 2008-03-24 20:08:06Z pp11 $ -->
+<page title="Documentation sur les objets fantaisie" here="Les objets fantaisie">
+    <synchronisation lang="en" version="1687" date="24/03/2008" maintainer="pp11" />
+    <long_title>Documentation SimpleTest : les objets fantaise</long_title>
+    <content>
+        <section name="quoi" title="Que sont les objets fantaisie ?">
+            <p>
+                Les objets fantaisie - ou &quot;mock objects&quot; en anglais -
+                ont deux rôles pendant un scénario de test : acteur et critique.
+            </p>
+            <p>
+                Le comportement d'acteur est celui de simuler
+                des objets difficiles à initialiser ou trop consommateurs
+                en temps pendant un test.
+                Le cas classique est celui de la connexion à une base de données.
+                Mettre sur pied une base de données de test au lancement
+                de chaque test ralentirait considérablement les tests
+                et en plus exigerait l'installation d'un moteur
+                de base de données ainsi que des données sur la machine de test.
+                Si nous pouvons simuler la connexion
+                et renvoyer des données à notre guise
+                alors non seulement nous gagnons en pragmatisme
+                sur les tests mais en sus nous pouvons nourrir
+                notre base avec des données falsifiées
+                et voir comment il répond. Nous pouvons
+                simuler une base de données en suspens ou
+                d'autres cas extrêmes sans avoir à créer
+                une véritable panne de base de données.
+                En d'autres termes nous pouvons gagner
+                en contrôle sur l'environnement de test.
+            </p>
+            <p>
+                Si les objets fantaisie ne se comportaient que comme
+                des acteurs alors on les connaîtrait sous le nom de
+                <a local="server_stubs_documentation">bouchons serveur</a>.
+            </p>
+            <p>
+                Cependant non seulement les objets fantaisie jouent
+                un rôle (en fournissant à la demande les valeurs requises)
+                mais en plus ils sont aussi sensibles aux messages qui
+                leur sont envoyés (par le biais d'attentes).
+                En posant les paramètres attendus d'une méthode
+                ils agissent comme des gardiens :
+                un appel sur eux doit être réalisé correctement.
+                Si les attentes ne sont pas atteintes ils nous épargnent
+                l'effort de l'écriture d'une assertion de test avec
+                échec en réalisant cette tâche à notre place.
+                Dans le cas d'une connexion à une base de données
+                imaginaire ils peuvent tester si la requête, disons SQL,
+                a bien été formé par l'objet qui utilise cette connexion.
+                Mettez-les sur pied avec des attentes assez précises
+                et vous verrez que vous n'aurez presque plus d'assertion à écrire manuellement.
+            </p>
+        </section>
+        <section name="creation" title="Créer des objets fantaisie">
+            <p>
+                Comme pour la création des bouchons serveur, tout ce dont
+                nous avons besoin c'est d'un classe existante.
+                La fameuse connexion à une base de données qui ressemblerait à...
+<php><![CDATA[
+<strong>class DatabaseConnection {
+    function DatabaseConnection() {
+    }
+    
+    function query() {
+    }
+    
+    function selectQuery() {
+    }
+}</strong>
+]]></php>
+                Cette classe n'a pas encore besoin d'être implémentée.
+                Pour en créer sa version fantaisie nous devons juste
+                inclure la librairie d'objet fantaisie puis lancer le générateur...
+<php><![CDATA[
+<strong>require_once('simpletest/unit_tester.php');
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+
+Mock::generate('DatabaseConnection');</strong>
+]]></php>
+                Ceci génère une classe clone appelée <code>MockDatabaseConnection</code>.
+                Nous pouvons désormais créer des instances de
+                cette nouvelle classe à l'intérieur même de notre scénario de test...
+<php><![CDATA[
+require_once('simpletest/unit_tester.php');
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+
+Mock::generate('DatabaseConnection');
+<strong>
+class MyTestCase extends UnitTestCase {
+    
+    function testSomething() {
+        $connection = &new MockDatabaseConnection($this);
+    }
+}</strong>
+]]></php>
+                Contrairement aux bouchons, le constructeur
+                d'une classe fantaisie a besoin d'une référence au scénario
+                de test pour pouvoir transmettre les succès
+                et les échecs pendant qu'il vérifie les attentes.
+                Concrètement ça veut dire que les objets fantaisie
+                ne peuvent être utilisés qu'au sein d'un scénario de test.
+                Malgré tout, cette puissance supplémentaire implique
+                que les bouchons ne sont que rarement utilisés
+                si des objets fantaisie sont disponibles.
+            </p>
+        </section>
+        <section name="bouchon" title="Objets fantaisie en action">
+            <p>
+                La version fantaisie d'une classe contient
+                toutes les méthodes de l'originale.
+                De la sorte une opération comme
+                <code><![CDATA[$connection->query()]]></code>
+                est encore possible.
+                Tout comme avec les bouchons, nous pouvons remplacer
+                la valeur nulle renvoyée par défaut...
+<php><![CDATA[
+<strong>$connection->setReturnValue('query', 37);</strong>
+]]></php>
+                Désormais à chaque appel de
+                <code><![CDATA[$connection->query()]]></code>
+                nous recevons comme résultat 37.
+                Tout comme avec les bouchons nous pouvons utiliser
+                des jokers et surcharger le paramètre joker.
+                Nous pouvons aussi ajouter des méthodes supplémentaires
+                à l'objet fantaisie lors de sa génération
+                et lui choisir un nom de classe qui lui soit propre...
+<php><![CDATA[
+<strong>Mock::generate('DatabaseConnection', 'MyMockDatabaseConnection', array('setOptions'));</strong>
+]]></php>
+                Ici l'objet fantaisie se comportera comme
+                si <code>setOptions()</code> existait dans la classe originale.
+                C'est pratique si une classe a utilisé le mécanisme
+                <code>overload()</code> de PHP pour ajouter des méthodes dynamiques.
+                Vous pouvez créer des fantaisies spéciales pour simuler cette situation.
+            </p>
+            <p>
+                Tous les modèles disponibles avec les bouchons serveur
+                le sont également avec les objets fantaisie...
+<php><![CDATA[
+class Iterator {
+    function Iterator() {
+    }
+    
+    function next() {
+    }
+}
+]]></php>
+                Une nouvelle fois, supposons que cet itérateur
+                ne retourne que du texte jusqu'au moment où il atteint
+                son terme, quand il renvoie <code>false</code>.
+                Nous pouvons le simuler avec...
+<php><![CDATA[
+Mock::generate('Iterator');
+
+class IteratorTest extends UnitTestCase() {
+    
+    function testASequence() {<strong>
+        $iterator = &new MockIterator($this);
+        $iterator->setReturnValue('next', false);
+        $iterator->setReturnValueAt(0, 'next', 'First string');
+        $iterator->setReturnValueAt(1, 'next', 'Second string');</strong>
+        ...
+    }
+}
+]]></php>
+                Au moment du premier appel à <code>next()</code>
+                sur l'itérateur fantaisie il renverra tout d'abord
+                &quot;First string&quot;, puis ce sera au tour de
+                &quot;Second string&quot; au deuxième appel
+                et ensuite pour tout appel suivant <code>false</code>
+                sera renvoyé.
+                Ces valeurs renvoyées successivement sont prioritaires
+                sur la valeur constante retournée.
+                Cette dernière est un genre de valeur par défaut si vous voulez.
+            </p>
+            <p>
+                Reprenons aussi le conteneur d'information bouchonné
+                avec des pairs clef / valeur...
+<php><![CDATA[
+class Configuration {
+    function Configuration() {
+    }
+    
+    function getValue($key) {
+    }
+}
+]]></php>
+                Il s'agit là d'une situation classique
+                d'utilisation d'objets fantaisie étant donné
+                que la configuration peut varier grandement de machine à machine :
+                ça contraint fortement la fiabilité de nos tests
+                si nous l'utilisons directement.
+                Le problème est que toutes les données nous parviennent
+                à travers la méthode <code>getValue()</code>
+                et que nous voulons des résultats différents pour des clefs différentes.
+                Heureusement les objets fantaisie ont un système de filtrage...
+<php><![CDATA[
+<strong>$config = &new MockConfiguration($this);
+$config->setReturnValue('getValue', 'primary', array('db_host'));
+$config->setReturnValue('getValue', 'admin', array('db_user'));
+$config->setReturnValue('getValue', 'secret', array('db_password'));</strong>
+]]></php>
+                Le paramètre en plus est une liste d'arguments
+                à faire correspondre. Dans ce cas nous essayons
+                de faire correspondre un unique argument :
+                en l'occurrence la clef recherchée.
+                Maintenant que la méthode <code>getValue()</code>
+                est invoquée sur l'objet fantaisie...
+<php><![CDATA[
+$config->getValue('db_user')
+]]></php>
+                ...elle renverra &quot;admin&quot;.
+                Elle le trouve en essayant de faire correspondre
+                les arguments entrants dans sa liste
+                d'arguments sortants les uns après les autres
+                jusqu'au moment où une correspondance exacte est atteinte.
+            </p>
+            <p>
+                Il y a des fois où vous souhaitez
+                qu'un objet spécifique soit servi par la fantaisie
+                plutôt qu'une copie.
+                De nouveau c'est identique au mécanisme des bouchons serveur...
+<php><![CDATA[
+class Thing {
+}
+
+class Vector {
+    function Vector() {
+    }
+    
+    function get($index) {
+    }
+}
+]]></php>
+                Dans ce cas vous pouvez placer une référence
+                dans la liste renvoyée par l'objet fantaisie...
+<php><![CDATA[
+$thing = new Thing();<strong>
+$vector = &new MockVector($this);
+$vector->setReturnReference('get', $thing, array(12));</strong>
+]]></php>
+                Avec cet arrangement vous savez qu'à chaque appel
+                de <code><![CDATA[$vector->get(12)]]></code>
+                le même <code>$thing</code> sera renvoyé.
+            </p>
+        </section>
+        <section name="attentes" title="Objets fantaisie en critique">
+            <p>
+                Même si les bouchons serveur vous isolent
+                du désordre du monde réel, il ne s'agit là que
+                de la moitié du bénéfice potentiel.
+                Vous pouvez avoir une classe de test recevant
+                les messages ad hoc, mais est-ce que votre nouvelle classe
+                renvoie bien les bons ?
+                Le tester peut devenir cafouillis sans une librairie d'objets fantaisie.
+            </p>
+            <p>
+                Pour l'exemple, prenons une classe <code>SessionPool</code>
+                à laquelle nous allons ajouter une fonction de log.
+                Plutôt que de complexifier la classe originale,
+                nous souhaitons ajouter ce comportement avec un décorateur (GOF).
+                Pour l'instant le code de <code>SessionPool</code> ressemble à...
+<php><![CDATA[
+<strong>class SessionPool {
+    function SessionPool() {
+        ...
+    }
+    
+    function &findSession($cookie) {
+        ...
+    }
+    ...
+}
+
+class Session {
+    ...
+}</strong>
+]]>
+</php>
+                Alors que pour notre code de log, nous avons...
+<php><![CDATA[<strong>
+class Log {
+    function Log() {
+        ...
+    }
+    
+    function message() {
+        ...
+    }
+}
+
+class LoggingSessionPool {
+    function LoggingSessionPool(&$session_pool, &$log) {
+        ...
+    }
+    
+    function &findSession($cookie) {
+        ...
+    }
+    ...
+}</strong>
+]]></php>
+                Dans tout ceci, la seule classe à tester est
+                <code>LoggingSessionPool</code>. En particulier,
+                nous voulons vérifier que la méthode <code>findSession()</code>
+                est appelée avec le bon identifiant de session au sein du cookie
+                et qu'elle renvoie bien le message &quot;Starting session $cookie&quot;
+                au loggueur.
+            </p>
+            <p>
+                Bien que nous ne testions que quelques lignes
+                de code de production, voici la liste des choses
+                à faire dans un scénario de test conventionnel :
+                <ol>
+                    <li>Créer un objet de log.</li>
+                    <li>Indiquer le répertoire d'écriture du fichier de log.</li>
+                    <li>Modifier les droits sur le répertoire pour pouvoir y écrire le fichier.</li>
+                    <li>Créer un objet <code>SessionPool</code>.</li>
+                    <li>Lancer une session, ce qui demande probablement pas mal de choses.</li>
+                    <li>Invoquer <code>findSession()</code>.</li>
+                    <li>Lire le nouvel identifiant de session (en espérant qu'il existe un accesseur !).</li>
+                    <li>Lever une assertion de test pour vérifier que cet identifiant correspond bien au cookie.</li>
+                    <li>Lire la dernière ligne du fichier de log.</li>
+                    <li>Supprimer avec une (ou plusieurs) expression rationnelle les timestamps de log en trop, etc.</li>
+                    <li>Vérifier que le message de session est bien dans le texte.</li>
+                </ol>
+                Pas étonnant que les développeurs détestent
+                écrire des tests quand ils sont aussi ingrats.
+                Pour rendre les choses encore pire, à chaque fois que
+                le format de log change ou bien que la méthode de création
+                des sessions change, nous devons réécrire une partie
+                des tests alors même qu'ils ne testent pas ces parties
+                du système. Nous sommes en train de préparer
+                le cauchemar pour les développeurs de ces autres classes.
+            </p>
+            <p>
+                A la place, voici la méthode complète pour le test
+                avec un peu de magie via les objets fantaisie...
+<php><![CDATA[
+Mock::generate('Session');
+Mock::generate('SessionPool');
+Mock::generate('Log');
+
+class LoggingSessionPoolTest extends UnitTestCase {
+    ...
+    function testFindSessionLogging() {<strong>
+        $session = &new MockSession($this);
+        $pool = &new MockSessionPool($this);
+        $pool->setReturnReference('findSession', $session);
+        $pool->expectOnce('findSession', array('abc'));
+        
+        $log = &new MockLog($this);
+        $log->expectOnce('message', array('Starting session abc'));
+        
+        $logging_pool = &new LoggingSessionPool($pool, $log);
+        $this->assertReference($logging_pool->findSession('abc'), $session);
+        $pool->tally();
+        $log->tally();</strong>
+    }
+}
+]]></php>
+                Commençons par écrire une session simulacre.
+                Pas la peine d'être trop pointilleux avec
+                celle-ci puisque la vérification de la session
+                désirée est effectuée ailleurs. Nous avons
+                juste besoin de vérifier qu'il s'agit de
+                la même que celle qui vient du groupe commun des sessions.
+            </p>
+            <p>
+                <code>findSession()</code> est un méthode fabrique
+                dont la simulation est décrite <a href="#stub">plus haut</a>.
+                Le point de départ vient avec le premier appel
+                <code>expectOnce()</code>. Cette ligne indique
+                qu'à chaque fois que <code>findSession()</code>
+                est invoqué sur l'objet fantaisie, il vérifiera
+                les arguments entrant. S'il ne reçoit
+                que la chaîne &quot;abc&quot; en tant qu'argument
+                alors un succès est envoyé au testeur unitaire,
+                sinon c'est un échec qui est généré.
+                Il s'agit là de la partie qui teste si nous avons bien
+                la bonne session. La liste des arguments suit
+                une format identique à celui qui précise les valeurs renvoyées.
+                Vous pouvez avoir des jokers et des séquences
+                et l'ordre de l'évaluation restera le même.
+            </p>
+            <p>
+                Si l'appel n'est jamais effectué alors n'est généré
+                ni le succès, ni l'échec. Pour contourner cette limitation,
+                nous devons dire à l'objet fantaisie que le test est terminé :
+                il pourra alors décider si les attentes ont été répondues.
+                L'assertion du testeur unitaire de ceci est déclenchée
+                par l'appel <code>tally()</code> à la fin du test.
+            </p>
+            <p>
+                Nous utilisons le même modèle pour mettre sur pied
+                le loggueur fantaisie. Nous lui indiquons que <code>message()</code>
+                devrait être invoqué une fois et une fois seulement
+                avec l'argument &quot;Starting session abc&quot;.
+                En testant les arguments d'appel, plutôt que ceux de sortie du loggueur,
+                nous isolons le test de tout modification dans le loggueur.
+            </p>
+            <p>
+                Nous commençons le lancement nos tests à la création
+                du nouveau <code>LoggingSessionPool</code>
+                et nous l'alimentons avec nos objets fantaisie juste créés.
+                Désormais tout est sous contrôle. Au final nous confirmons
+                que le <code>$session</code> donné au décorateur est bien
+                celui reçu et prions les objets fantaisie de lancer leurs
+                tests de comptage d'appel interne avec les appels <code>tally()</code>.
+            </p>
+            <p>
+                Il y a encore pas mal de code de test, mais ce code est très strict.
+                S'il vous semble encore terrifiant il l'est bien moins
+                que si nous avions essayé sans les objets fantaisie
+                et ce test en particulier, interactions plutôt que résultat,
+                est toujours plus difficile à mettre en place.
+                Le plus souvent vous aurez besoin de tester des situations
+                plus complexes sans ce niveau ni cette précision.
+                En outre une partie peut être remaniée avec la méthode
+                de scénario de test <code>setUp()</code>.
+            </p>
+            <p>
+                Voici la liste complète des attentes que vous pouvez
+                placer sur un objet fantaisie avec
+                <a href="http://www.lastcraft.com/simple_test.php">SimpleTest</a>...
+                <table><thead>
+                    <tr><th>Attente</th><th>Nécessite <code>tally()</code></th></tr>
+                    </thead><tbody><tr>
+                        <td><code>expectArguments($method, $args)</code></td>
+                        <td style="text-align: center">Non</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectArgumentsAt($timing, $method, $args)</code></td>
+                        <td style="text-align: center">Non</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectCallCount($method, $count)</code></td>
+                        <td style="text-align: center">Oui</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectMaximumCallCount($method, $count)</code></td>
+                        <td style="text-align: center">Non</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectMinimumCallCount($method, $count)</code></td>
+                        <td style="text-align: center">Oui</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectNever($method)</code></td>
+                        <td style="text-align: center">Non</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectOnce($method, $args)</code></td>
+                        <td style="text-align: center">Oui</td>
+                    </tr>
+                    <tr>
+                        <td><code>expectAtLeastOnce($method, $args)</code></td>
+                        <td style="text-align: center">Oui</td>
+                    </tr>
+                </tbody></table>
+                Où les paramètres sont...
+                <dl>
+                    <dt class="new_code">$method</dt>
+                    <dd>Le nom de la méthode, sous la forme d'une chaîne,
+                    à laquelle la condition doit être appliquée.</dd>
+                    <dt class="new_code">$args</dt>
+                    <dd>
+                        Les arguments sous la forme d'une liste.
+                        Les jokers peuvent être inclus de la même manière
+                        qu'avec <code>setReturn()</code>.
+                        Cet argument est optionnel pour <code>expectOnce()</code>
+                        et <code>expectAtLeastOnce()</code>.
+                    </dd>
+                    <dt class="new_code">$timing</dt>
+                    <dd>
+                        Le seul point dans le temps pour tester
+                        la condition. Le premier appel commence à zéro.
+                    </dd>
+                    <dt class="new_code">$count</dt>
+                    <dd>Le nombre d'appels attendu.</dd>
+                </dl>
+                La méthode <code>expectMaximumCallCount()</code>
+                est légèrement différente dans le sens où elle ne pourra
+                générer qu'un échec. Elle reste silencieuse
+                si la limite n'est jamais atteinte.
+            </p>
+            <p>
+                Par ailleurs si vous avez just un appel dans votre test,
+                vérifiez bien que vous utiliser
+                <code>expectOnce</code>.<br />
+                Utiliser <code>$mocked->expectAt(0, 'method', 'args);</code>
+                tout seul ne sera pas pris en compte :
+                la vérification des arguments et le comptage total
+                sont pour l'instant encore indépendant.
+            </p>
+            <p>
+                Comme avec les assertions dans les scénarios de test,
+                toutes ces attentes peuvent accepter une surcharge de
+                message sous la forme d'un paramètre supplémentaire.
+                Par ailleurs le message d'échec original peut être inclus
+                dans le résultat avec &quot;%s&quot;.
+            </p>
+        </section>
+        <section name="approches" title="D'autres approches">
+            <p>
+                Il existe trois approches pour créer des objets
+                fantaisie en comprenant celle utilisée par SimpleTest.
+                Les coder à la main en utilisant une classe de base,
+                les générer dans un fichier ou les générer dynamiquement à la volée.
+            </p>
+            <p>
+                Les objets fantaisie générés avec
+                <a local="simple_test">SimpleTest</a> sont dynamiques.
+                Ils sont créés à l'exécution dans la mémoire,
+                grâce à <code>eval()</code>, plutôt qu'écrits dans un fichier.
+                Cette opération les rend facile à créer,
+                en une seule ligne, surtout par rapport à leur création
+                à la main dans une hiérarchie de classe parallèle.
+                Le problème avec ce comportement tient généralement
+                dans la mise en place des tests proprement dits.
+                Si les objets originaux changent les versions fantaisie
+                sur lesquels reposent les tests, une désynchronisation peut subvenir.
+                Cela peut aussi arriver avec l'approche en hiérarchie parallèle,
+                mais c'est détecté beaucoup plus vite.
+            </p>
+            <p>
+                Bien sûr, la solution est d'ajouter de véritables tests d'intégration.
+                Vous n'en avez pas besoin de beaucoup
+                et le côté pratique des objets fantaisie fait plus
+                que compenser la petite dose de test supplémentaire.
+                Vous ne pouvez pas avoir confiance dans du code qui
+                ne serait testé que par des objets fantaisie.
+            </p>
+            <p>
+                Si vous restez déterminé de construire des librairies
+                statiques d'objets fantaisie parce que vous souhaitez
+                émuler un comportement très spécifique,
+                vous pouvez y parvenir grâce au générateur de classe de SimpleTest.
+                Dans votre fichier librairie, par exemple
+                <em>mocks/connection.php</em> pour une connexion à une base de données,
+                créer un objet fantaisie et provoquer l'héritage
+                pour hériter pour surcharger des méthodes spéciales
+                ou ajouter des préréglages...
+<php><![CDATA[
+<?php
+    require_once('simpletest/mock_objects.php');
+    require_once('../classes/connection.php');
+<strong>
+    Mock::generate('Connection', 'BasicMockConnection');
+    class MockConnection extends BasicMockConnection {
+        function MockConnection(&$test, $wildcard = '*') {
+            $this->BasicMockConnection($test, $wildcard);
+            $this->setReturn('query', false);
+        }
+    }</strong>
+?>
+]]></php>
+                L'appel <code>generate</code> dit au générateur de classe
+                d'en créer une appelée <code>BasicMockConnection</code>
+                plutôt que la plus courante <code>MockConnection</code>.
+                Ensuite nous héritons à partir de celle-ci pour obtenir
+                notre version de <code>MockConnection</code>.
+                En interceptant de cette manière nous pouvons ajouter
+                un comportement, ici transformer la valeur par défaut de
+                <code>query()</code> en &quot;false&quot;.
+                En utilisant le nom par défaut nous garantissons
+                que le générateur de classe fantaisie n'en recréera
+                pas une autre différente si il est invoqué ailleurs
+                dans les tests. Il ne créera jamais de classe
+                si elle existe déjà. Aussi longtemps que le fichier
+                ci-dessus est inclus avant alors tous les tests qui
+                généraient <code>MockConnection</code> devraient
+                utiliser notre version à présent. Par contre si
+                nous avons une erreur dans l'ordre et que la librairie
+                de fantaisie en crée une d'abord alors la création
+                de la classe échouera tout simplement.
+            </p>
+            <p>
+                Utiliser cette astuce si vous vous trouvez avec beaucoup
+                de comportement en commun sur les objets fantaisie
+                ou si vous avez de fréquents problèmes d'intégration
+                plus tard dans les étapes de test.
+            </p>
+        </section>
+        <section name="autres_testeurs" title="Je pense que SimpleTest pue !">
+            <p>
+                Mais au moment d'écrire ces lignes c'est le seul
+                à gérer les objets fantaisie, donc vous êtes bloqué avec lui ?
+            </p>
+            <p>
+                Non, pas du tout.
+                <a local="simple_test">SimpleTest</a> est une boîte à outils
+                et parmi ceux-ci on trouve les objets fantaisie
+                qui peuvent être utilisés indépendamment.
+                Supposons que vous avez votre propre testeur unitaire favori
+                et que tous vos tests actuels l'utilisent.
+                Prétendez que vous avez appelé votre tester unitaire PHPUnit
+                (c'est ce que tout le monde a fait) et que la classe principale
+                de test ressemble à...
+<php><![CDATA[
+class PHPUnit {
+    function PHPUnit() {
+    }
+    
+    function assertion($message, $assertion) {
+    }
+    ...
+}
+]]></php>
+                La seule chose que la méthode <code>assertion()</code> réalise,
+                c'est de préparer une sortie embellie alors le paramètre boolien
+                de l'assertion sert à déterminer s'il s'agit d'une erreur ou d'un succès.
+                Supposons qu'elle est utilisée de la manière suivante...
+<php><![CDATA[
+$unit_test = new PHPUnit();
+$unit_test>assertion('I hope this file exists', file_exists('my_file'));
+]]></php>
+                Comment utiliser les objets fantaisie avec ceci ?
+            </p>
+            <p>
+                Il y a une méthode protégée sur la classe de base
+                des objets fantaisie : elle s'appelle <code>_assertTrue()</code>.
+                En surchargeant cette méthode nous pouvons utiliser
+                notre propre format d'assertion.
+                Nous commençons avec une sous-classe, dans <em>my_mock.php</em>...
+<php><![CDATA[
+<strong><?php
+    require_once('simpletest/mock_objects.php');
+    
+    class MyMock extends SimpleMock() {
+        function MyMock(&$test, $wildcard) {
+            $this->SimpleMock($test, $wildcard);
+        }
+        
+        function _assertTrue($assertion, $message) {
+            $test = &$this->getTest();
+            $test->assertion($message, $assertion);
+        }
+    }
+?></strong>
+]]></php>
+                Maintenant une instance de <code>MyMock</code>
+                créera un objet qui parle le même langage que votre testeur.
+                Bien sûr le truc c'est que nous créons jamais un tel objet :
+                le générateur s'en chargera. Nous avons juste besoin
+                d'une ligne de code supplémentaire pour dire au générateur
+                d'utiliser vos nouveaux objets fantaisie...
+<php><![CDATA[
+<?php
+    require_once('simpletst/mock_objects.php');
+    
+    class MyMock extends SimpleMock() {
+        function MyMock($test, $wildcard) {
+            $this->SimpleMock(&$test, $wildcard);
+        }
+        
+        function _assertTrue($assertion, $message , &$test) {
+            $test->assertion($message, $assertion);
+        }
+    }<strong>
+    SimpleTestOptions::setMockBaseClass('MyMock');</strong>
+?>
+]]></php>
+                A partir de maintenant vous avez juste à inclure
+                <em>my_mock.php</em> à la place de la version par défaut
+                <em>simple_mock.php</em> et vous pouvez introduire
+                des objets fantaisie dans votre suite de tests existants.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#quoi">Que sont les objets fantaisie ?</a>
+        </link>
+        <link>
+            <a href="#creation">Créer des objets fantaisie</a>.
+        </link>
+        <link>
+            <a href="#bouchon">L'objet fantaisie - acteur</a> ou bouchon.
+        </link>
+        <link>
+            <a href="#attentes">L'objet fantaisie - critique</a> avec des attentes.
+        </link>
+        <link>
+            <a href="#approches">D'autres approches</a>
+            y compris des librairies d'objets fantaisie.
+        </link>
+        <link>
+            Utiliser les objets fantaisie avec
+            <a href="#autres_testeurs">d'autres testeurs unitaires</a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            L'article originel sur
+            <a href="http://www.mockobjects.com/">les objets fantaisie</a>.
+        </link>
+        <link>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            La page d'accueil de SimpleTest sur
+            <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation en php,
+            outils de développement logiciel,
+            tutoriel php,
+            scripts php gratuits,
+            architecture,
+            ressources php,
+            mock objects,
+            objets fantaisie,
+            junit,
+            test php,
+            test unitaire,
+            tester en php
+        </keywords>
+    </meta>
+</page>
+

@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - hhvm
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction --prefer-source --dev
+  - cp phpunit.xml.dist phpunit.xml
+
+script:
+  - phpunit --coverage-text
+
+matrix:
+  allow_failures:
+    - php: hhvm
+  fast_finish: true

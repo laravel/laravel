@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<command id="namespace:name" name="namespace:name">
+  <usage>namespace:name</usage>
+  <description>description</description>
+  <help>help</help>
+  <aliases>
+    <alias>name</alias>
+  </aliases>
+  <arguments>
+    <argument name="command" is_required="1" is_array="0">
+      <description>The command to execute</description>
+      <defaults/>
+    </argument>
+  </arguments>
+  <options>
+    <option name="--help" shortcut="-h" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Display this help message.</description>
+    </option>
+    <option name="--quiet" shortcut="-q" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Do not output any message.</description>
+    </option>
+    <option name="--verbose" shortcut="-v" shortcuts="-v|-vv|-vvv" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</description>
+    </option>
+    <option name="--version" shortcut="-V" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Display this application version.</description>
+    </option>
+    <option name="--ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Force ANSI output.</description>
+    </option>
+    <option name="--no-ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Disable ANSI output.</description>
+    </option>
+    <option name="--no-interaction" shortcut="-n" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Do not ask any interactive question.</description>
+    </option>
+  </options>
+</command>

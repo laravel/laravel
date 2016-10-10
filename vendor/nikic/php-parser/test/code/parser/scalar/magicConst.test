@@ -1,0 +1,31 @@
+Magic constants
+-----
+<?php
+
+__CLASS__;
+__DIR__;
+__FILE__;
+__FUNCTION__;
+__LINE__;
+__METHOD__;
+__NAMESPACE__;
+__TRAIT__;
+-----
+array(
+    0: Scalar_ClassConst(
+    )
+    1: Scalar_DirConst(
+    )
+    2: Scalar_FileConst(
+    )
+    3: Scalar_FuncConst(
+    )
+    4: Scalar_LineConst(
+    )
+    5: Scalar_MethodConst(
+    )
+    6: Scalar_NSConst(
+    )
+    7: Scalar_TraitConst(
+    )
+)

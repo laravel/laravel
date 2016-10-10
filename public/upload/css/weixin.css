@@ -1,0 +1,33 @@
+/*weixin大拜年*/
+*{ margin:0; padding:0;}
+body{ color:#333; font:14px/1.6 "Microsoft YaHei","微软雅黑",Arial; background:#f6f6f6; min-width:320px;background-color: #c1493b}
+header, nav, section, footer, article{ display:block;}
+.header_top {text-align:center;font-size:55px;padding-top:35px;color:white;}
+.weixinPic {display:none;}
+.f55{ font-size:55px;}
+.f30{ font-size:30px;}
+.f28{font-size:28px;}
+.content {text-align:center;margin-top:32px;}
+.content .btn 
+{
+	margin-top:60px;
+}
+
+#footer {text-align: center;}
+#footer .downtxt {
+	margin:60px auto;
+	width:70%; 
+	height:50px;
+    border: 2px solid white;
+    -moz-border-radius: 12px; 
+    -webkit-border-radius: 12px; 
+    border-radius:12px;
+    color:white;
+    padding-top:6px;
+}
+
+#footer .bottom_logo 
+{
+	padding-top:50px;
+	padding-bottom:30px;
+}

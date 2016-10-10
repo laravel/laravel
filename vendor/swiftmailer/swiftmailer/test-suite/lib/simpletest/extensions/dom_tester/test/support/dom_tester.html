@@ -1,0 +1,59 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Test page</h1>
+
+    <h2>Title 1</h2>
+    <p class="header">header</p>
+    <p class="foo bar foobar">multi-classes</p>
+    <p class="myfoo">myfoo</p>
+    <p class="myfoo" id="mybar">myfoo bis</p>
+
+    <p onclick="javascript:alert('with a . and a # inside an attribute');">works great</p>
+
+    <div id="simplelist">
+      <ul id="list">
+        <li>First</li>
+        <li>Second with a <a href="http://www.google.com/" class="foo1 bar1 bar1-foo1 foobar1">link</a></li>
+      </ul>
+
+      <ul id="anotherlist">
+        <li>First</li>
+        <li>Second</li>
+        <li>Third with <a class="bar1-foo1">another link</a></li>
+      </ul>
+    </div>
+
+    <h2>Title 2</h2>
+    <ul id="mylist">
+      <li>element 1</li>
+      <li>element 2</li>
+      <li>
+        <ul>
+          <li>element 3</li>
+          <li>element 4</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div id="combinators">
+      <ul>
+        <li>test 1</li>
+        <li>test 2</li>
+        <ul>
+          <li>test 3</li>
+          <li>test 4</li>
+        </ul>
+      </ul>
+    </div>
+
+    <div id="adjacent_bug">
+      <p>First paragraph</p>
+      <p>Second paragraph</p>
+      <p>Third <a href='#'>paragraph</a></p>
+    </div>
+
+    <div id="footer">footer</div>
+  </body>
+</html>

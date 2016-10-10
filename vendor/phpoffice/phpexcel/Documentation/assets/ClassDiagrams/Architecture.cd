@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="ClassDiagrams.PHPExcel" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Classes\PHPExcel.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Worksheets" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ClassDiagrams.Worksheet" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Classes\Worksheet.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ClassDiagrams.PHPExcel_Reader_IReader" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Classes\IReader.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="reads" />
+    </ShowAsAssociation>
+    <AssociationLine Name="reads" Type="ClassDiagrams.PHPExcel">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.152" Y="1.279" Height="0.16" Width="0.597" />
+      </MemberNameLabel>
+    </AssociationLine>
+  </Interface>
+  <Interface Name="ClassDiagrams.PHPExcel_Writer_IWriter" Collapsed="true">
+    <Position X="4.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>Classes\IWriter.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="writes" />
+    </ShowAsAssociation>
+    <AssociationLine Name="writes" Type="ClassDiagrams.PHPExcel">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.002" Y="1.298" Height="0.16" Width="0.764" />
+      </MemberNameLabel>
+    </AssociationLine>
+  </Interface>
+</ClassDiagram>

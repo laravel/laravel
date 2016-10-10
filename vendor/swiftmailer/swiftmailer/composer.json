@@ -1,0 +1,31 @@
+{
+    "name": "swiftmailer/swiftmailer",
+    "type": "library",
+    "description": "Swiftmailer, free feature-rich PHP mailer",
+    "keywords": ["mail","mailer","email"],
+    "homepage": "http://swiftmailer.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Corbyn"
+        },
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "mockery/mockery": "~0.9.1,<0.9.4"
+    },
+    "autoload": {
+        "files": ["lib/swift_required.php"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.4-dev"
+        }
+    }
+}

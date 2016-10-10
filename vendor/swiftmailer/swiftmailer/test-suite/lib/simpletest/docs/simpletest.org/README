@@ -1,0 +1,1 @@
+Output folder for SimpleTest.org site versions of content, documentation & tutorial.

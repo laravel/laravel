@@ -1,0 +1,82 @@
+
+== Namespaces
+
+The client has a number of "namespaces", which generally expose administrative
+functionality.  The namespaces correspond to the various administrative endpoints
+in Elasticsearch.  This is a complete list of namespaces:
+
+
+[width="40%",options="header",frame="topbot"]
+|============================
+| Namespace  | Functionality
+| `indices()`  | Index-centric stats and info
+| `nodes()`    | Node-centric stats and info
+| `cluster()`  | Cluster-centric stats and info
+| `snapshot()` | Methods to snapshot/restore your cluster and indices
+| `cat()`      | Access to the Cat API (which is generally used standalone from the command line
+|============================
+
+Some methods are available in several different namespaces, which give you
+the same information but grouped into different contexts.  To see how these
+namespaces work, let's look at the `_stats` output:
+
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+// Index Stats
+// Corresponds to curl -XGET localhost:9200/_stats
+$response = $client->indices()->stats();
+
+// Node Stats
+// Corresponds to curl -XGET localhost:9200/_nodes/stats
+$response = $client->nodes()->stats();
+
+// Cluster Stats
+// Corresponds to curl -XGET localhost:9200/_cluster/stats
+$response = $client->cluster()->stats();
+----
+{zwsp} +
+
+As you can see, the same `stats()` call is made through three different
+namespaces.  Sometimes the methods require parameters.  These parameters work
+just like any other method in the library.
+
+For example, we can requests index stats about a specific index, or multiple
+indices:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+// Corresponds to curl -XGET localhost:9200/my_index/_stats
+$params['index'] = 'my_index';
+$response = $client->indices()->stats($params);
+
+// Corresponds to curl -XGET localhost:9200/my_index1,my_index2/_stats
+$params['index'] = array('my_index1', 'my_index2');
+$response = $client->indices()->stats($params);
+----
+{zwsp} +
+
+As another example, here is how you might add an alias to an existing index:
+
+[source,php]
+----
+$params['body'] = array(
+    'actions' => array(
+        array(
+            'add' => array(
+                'index' => 'myindex',
+                'alias' => 'myalias'
+            )
+        )
+    )
+);
+$client->indices()->updateAliases($params);
+----
+
+Notice how both the `stats` calls and the updateAlias took a variety of parameters,
+each according to what the particular API requires.  The `stats` API only requires
+an index name(s), while the `updateAlias` requires a body of actions.

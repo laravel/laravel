@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         bootstrap="tests/bootstrap.php"
+>
+    <php>
+        <ini name="intl.default_locale" value="en"/>
+        <ini name="intl.error_level" value="0"/>
+        <ini name="memory_limit" value="-1"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="SwiftMailer unit tests">
+            <directory>tests/unit</directory>
+        </testsuite>
+        <testsuite name="SwiftMailer acceptance tests">
+            <directory>tests/acceptance</directory>
+        </testsuite>
+        <testsuite name="SwiftMailer bug">
+            <directory>tests/bug</directory>
+        </testsuite>
+        <testsuite name="SwiftMailer smoke tests">
+            <directory>tests/smoke</directory>
+        </testsuite>
+    </testsuites>
+
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
+</phpunit>

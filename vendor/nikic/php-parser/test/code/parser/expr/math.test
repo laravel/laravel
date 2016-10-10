@@ -1,0 +1,187 @@
+Mathematical operators
+-----
+<?php
+
+// unary ops
+~$a;
++$a;
+-$a;
+
+// binary ops
+$a & $b;
+$a | $b;
+$a ^ $b;
+$a . $b;
+$a / $b;
+$a - $b;
+$a % $b;
+$a * $b;
+$a + $b;
+$a << $b;
+$a >> $b;
+
+// associativity
+$a * $b * $c;
+$a * ($b * $c);
+
+// precedence
+$a + $b * $c;
+($a + $b) * $c;
+-----
+array(
+    0: Expr_BitwiseNot(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    1: Expr_UnaryPlus(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    2: Expr_UnaryMinus(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Expr_BitwiseAnd(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    4: Expr_BitwiseOr(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    5: Expr_BitwiseXor(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_Concat(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_Div(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    8: Expr_Minus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    9: Expr_Mod(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    10: Expr_Mul(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    11: Expr_Plus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    12: Expr_ShiftLeft(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    13: Expr_ShiftRight(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    14: Expr_Mul(
+        left: Expr_Mul(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+    15: Expr_Mul(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Mul(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    16: Expr_Plus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Mul(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    17: Expr_Mul(
+        left: Expr_Plus(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+)

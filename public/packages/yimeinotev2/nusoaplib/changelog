@@ -1,0 +1,648 @@
+2003-07-21, version 0.6.5
+- soap_transport_http: SOAPAction header is quoted again, fixes problem w/ Weblogic Server
+- applied Jason Levitt patch for proper array serialization, fixes problem w/ Amazon shopping cart services
+- fixed null value serialization
+- applied patch from "BZC ToOn'S" - fixes wsdl serialization when no parameters
+- applied John's patch, implementing compression for the server
+
+2003-07-22, version 0.6.5
+- soap_server: fixed bug causing charset encoding not to be passed to the parser
+- soap_fault: added default encoding to the fault serialization
+- soap_parser: changed the parser to pre-load the parent's result array when processing scalar values. This increases parsing speed.
+
+2003-07-23, version 0.6.5
+- soap_base: fix code that overwrites user-supplied attributes in serialize_val
+- soap_base: use arrays-of-arrays rather than attempting multi-dimensional in serialize_val
+- xmlschema: emit import statements and qualify all elements with prefix in serializeSchema (better interop with validation tools)
+- soapclient: get xml character encoding from HTTP Content-Type header if provided, e.g. text/xml;charset="UTF-8"
+- soapclient: use headers in call if provided (previously ignored this parameter)
+- soap_server: in parse_request, if neither getallheaders nor $_SERVER are available, use $HTTP_SERVER_VARS to get SOAPAction and xml encoding
+
+2003-07-24, version 0.6.5
+- soap_transport_http: apply patch from Steven Brown "if the server closes connection prematurely, nusoap would spin trying to read data that isn't there"
+
+2003-07-25, version 0.6.5
+- wsdl: apply patch from Sven to workaround single schema limitation
+- wsdl: apply a variant of the patch from Holger to handle empty values for array by serializing an array with 0 elements
+- xmlschema: remove the redundant default namespace attribute on the schema element; everything in xsd is explicitly specified as being from xsd
+- soap_transport_http: fix setCredentials and add TODO comments in sendHTTPS about what to change if this setCredentials stays
+
+2003-07-30, version 0.6.5
+- nusoap_base: change documentation of soap_defencoding to specify it is the encoding for outgoing messages
+- nusoap_base: only change &, <, > to entities, not all HTML entities
+- soap_transport_http: update the Content-Type header in sendRequest, since soap_defencoding could be changed after ctor is called
+- soap_server: use soap_defencoding instead of charset_encoding
+- soap_server: read encoding from _SERVER if available
+- nusoap_base: do entity translation for string parameters with an xsd type specified (thanks David Derr)
+
+2003-07-31, version 0.6.5
+- soap_transport_http: add proxy authentication
+- soap_transport_http: build payload the same way for http and https
+- wsdl: add proxy authentication
+- soapclient: add proxy authentication
+- soapclient: allow proxy information in ctor, so that it can be used for wsdl
+
+2003-08-01, version 0.6.5
+- soap_transport_http: close a persistent connection that's at EOF
+- soap_transport_http: prevent conflicts between setEncoding and usePersistentConnection
+- soap_transport_http: fix use of $headers instead of $this->incoming_headers in getResponse
+- soapclient: improve handling of persistent connections
+- soapclient: force xml_encoding to upper case
+- soap_server: let the Web server decide whether to close the connection (no Connection: close header)
+- soap_server: force xml_encoding to upper case
+
+2003-08-04, version 0.6.5
+- soap_parser: use XML type information to pick a PHP data type; also decode base64
+- soap_server: read all HTTP headers when using _SERVER or HTTP_SERVER_VARS
+- soap_server: add gzip encoding support for outgoing messages
+- soap_transport_http: deflate is gzcompress/gzuncompress (cf. http://archive.develooper.com/libwww@perl.org/msg04650.html)
+- soap_transport_http: clean use of persistentConnection so it's always a set boolean
+- soapclient: add responseData member to access deflated/gunzipped payload
+
+2003-08-05, version 0.6.5
+- soap_server: look multiple places when setting debug_flag
+
+2003-08-07, version 0.6.5
+- nusoap_base: serialize specified type (e.g. ArrayOfString) even for simple array
+- wsdl: only specify encodingStyle in the input/output soap bindings when it is not empty (thanks Guillaume)
+
+2003-08-15, version 0.6.5
+- soap_parser: fix parsing of elements with no XSD type specified
+- soap_parser: use PHP string type for XSD long and unsignedLong types
+
+2003-08-16, version 0.6.5
+- soap_parser: fix code generating warning (thanks Torsten)
+
+2003-08-19, version 0.6.5
+- soap_parser: fix another line of code generating a warning (thanks Torsten)
+
+2003-08-22, version 0.6.5
+- soap_server: remove all '--' from debug_str; previous code changed '---' to '- --'
+- wsdl, soapclient, soap_parser: patch submitted by Mark Spavin as described by
+                                 the following...
+> Changes for the multiple/nested imports from the wsdl file. This builds an
+> array of files not just the last one and also checks for relative paths to
+> the parent. This will then get the imported files from the remote site
+> instead of your local disk. Local wsdl files should still work (untested).
+>
+> Changes for multiple encoding sytles as previously posted
+
+2003-08-24, version 0.6.5
+- wsdl, soapclient: fix some PHP notices from previous update
+
+2003-08-26, version 0.6.5
+- wsdl: support multiple SOAP ports
+- soapclient, soap_server: when no charset is specified, use UTF-8, even though HTTP specifies US-ASCII.
+- soap_transport_http: do not prepend $host with 'ssl://' for https (is this required for older cURL versions?)
+
+2003-08-27, version 0.6.5
+- soap_server: support compressed request messages (thanks John Huong)
+- soap_parser: deserialize Apache Vector as an array
+- xmlschema: use $this->typemap in getPHPType (which is not used)
+- soapclient, wsdl: check for WSDL errors after serializing parameters
+- nusoap_base: add serialization of Apache Map (when not using WSDL)
+- wsdl: add serialization of Apache Map (when using WSDL)
+- wsdl: only change &, <, > to entities, not all HTML entities
+
+2003-08-28, version 0.6.5
+- soap_transport_http: disable cURL verification of peer and server (formerly the cURL default)
+- soap_transport_http: mingle cURL code with straight http, so sendHTTP is no longer needed
+
+2003-08-29, version 0.6.6
+- soap_transport_http: add setContentType
+- soapclient: call setContentType using new getHTTPContentType and getHTTPContentTypeCharset
+
+2003-09-05, version 0.6.6
+- wsdl: add some more code to handle null/nil values (but there's still a way to go)
+
+2003-10-21, version 0.6.6
+- soap_transport_http: only include port in Host header if it was specified in the URL
+- soap_transport_http: add some code to use OpenSSL for PHP ssl:// scheme, but comment out since it's not ready
+- soap_server: use $_SERVER['PHP_SELF'] if $GLOBALS['PHP_SELF'] is not set
+- wsdl: add WSDL request and response and transport debug to debug
+- wsdl: handle custom type extending xmlschema namespace (GLUE ... Thanks Matt)
+- soap_parser: add param to docs
+- soapclient: add getHTTPBody, getHTTPContentType, getHTTPContentTypeCharset (anticipating MIME subclass)
+
+2003-10-28, version 0.6.6
+- nusoap_base: add expandEntities method
+- wsdl: use expandEntities
+- soap_fault: use expandEntities
+- soap_transport_http: Allow credentials to be included in URL, rather than requiring setCredentials
+- soap_transport_http: Merge HTTP headers that span multiple lines
+- soap_parser: Properly set errors in ctor
+- soapclient: Pass headers to parseResponse and parse them in that method
+
+2003-10-30, version 0.6.6
+- xmlschema: Add some information for the related type to an element
+
+2003-12-09, version 0.6.6
+- nusoap_base: Add some namespace methods previously in xmlschema
+- xmlschema: Improve parsing of complexType, element and simpleType
+- xmlschema: Improve serialization
+- xmlschema: Track imports
+- xmlschema: Track elementFormDefault and form attributes
+- wsdl: Support multiple <schema> (note that setting $server->wsdl->schemaTargetNamespace no longer does anything!  Use configureWSDL instead.)
+- wsdl: Use form attribute of element to control namespace specification
+- wsdl: Support chained imports (A imports B which imports C)
+- wsdl: Include port in endpoint address when serializing
+- soap_server: Fix use of style (rpc|document) and use (encoded|literal)
+- soap_server: Support _SERVER[CONTENT_TYPE] in addition to _SERVER[HTTP_CONTENT_TYPE]
+- soap_server: Support wsdl with multiple <schema>
+- soap_client: Remove a var_dump
+- soap_client: Add style and use parameters to call method to support doc/lit without WSDL
+- soap_transport_http: Check that $this->fp exists when doing persistent connections
+
+2003-12-17, version 0.6.6
+- soap_server: pass namespaces to xmlschema constructor
+- wsdl: post-process after all imports
+- wsdl: remove some debug, add some error handling
+- xmlschema: allow enclosing namespaces to be specified in constructor
+- xmlschema: improve handling of compositors and simple types
+
+2004-01-08, version 0.6.6
+- soap_server: when requested WSDL is in a file, return to client using passthru (thanks Ingo Fischer)
+- soapclient: have proxy inherit more client state
+- soapclient: allow timeout and response timeout to be specified in the constructor
+- wsdl: allow timeout and response timeout to be specified in the constructor
+- soap_transport_http: allow response timeout to be specified in send and sendHTTPS
+
+2004-01-28, version 0.6.6
+- wsdl: add namespace for array and scalar when form is qualified
+- wsdl: fix a bug in which data type of complexType elements were ignored in serialization
+- wsdl: enhance handling of URLs with file scheme
+- wsdl: add addSimpleType
+- xmlschema: add addSimpleType
+- xmlschema: always set phpType elements
+- soapclient: allow a wsdl instance to be specified in constructor
+- soap_server: allow a wsdl instance to be specified in constructor (not tested!)
+- soap_server: fix default SOAPAction created in register method
+- soap_transport_http: accept chunking with LF separators in addition to CRLF.
+- wsdlcache: added class
+- nusoapmime: fix comments
+
+2004-02-23, version 0.6.6
+- soap_transport_http: don't try to unchunk cURL data, since cURL already does it
+- soap_transport_http: append CVS revision to version in User-Agent
+- wsdl: serialize boolean as true|false, not 1|0, to agree with XML Schema
+- soap_server: always exit() after returning WSDL
+- soap_server: use the WSDL URL scheme as the default endpoint URL scheme
+- soap_server: append CVS revision to version in X-SOAP-Server
+- nusoap_base: add (CVS) revision
+- wsdlcache: synchronize using a per-WSDL lock file (Thanks Ingo)
+- wsdlcache: add cache lifetime, after which cache contents are invalidated (Thanks Ingo)
+
+2004-03-15, version 0.6.6
+- nusoap_base: add isArraySimpleOrStruct method
+- soap_server: improve WSDL URL scheme determination
+- soap_server: only deflate/gzip payloads > 1024 bytes
+- soap_server: fix parameter order in fault method (always used as faultcode, faultstring)
+- soap_server: refactor parse_request into multiple functions (for sanity)
+- soap_server: set the namespace on the Response element to the same as the request
+- soap_server: name the return value element 'return' by default
+- soap_server: added and documented data fields, so that service programmers can use them if desired
+- soap_parser: standardize parsing error message
+- soap_parser: fix document and responseHeaders so they are the correct XML text (as documented)
+- soap_transport_http: fix read from persistent connection
+- soapclient: clean up debugging for persistent connection
+- wsdl: enforce correct naming of messages parts when an associative array is used for parameters
+- wsdl: better serialization of null values
+- wsdl: standardize parsing error message
+- xmlschema: standardize parsing error message
+
+2004-03-24, version 0.6.7
+- soap_transport_http: add digest authentication (based on code by Kevin A. Miller)
+- xmlschema: improve parsing of import elements
+- wsdl: do schema imports even if there are no wsdl imports
+
+2004-04-12, version 0.6.7
+- wsdl: serialize multiple elements when maxOccurs="unbounded" and value is an array
+- wsdl: serialize soapval values (used to force an XML type, e.g. when WSDL uses an abstract type)
+- nusoapmime: do not require nusoap.php (it is now the programmer's responsibility)
+
+2004-04-21, version 0.6.7
+- soap_parser: parse repeated element name into an array (de-serializes doc/lit array into a PHP array when there is more than 1 array element)
+- soap_server: do not wrap response in a response element for a document style service
+
+2004-04-30, version 0.6.7
+- soap_transport_http: allow digest auth params to be separated by "," as well as ", "
+- soap_transport_http: re-initialize incoming headers for each response
+- soap_server: add methodreturnisliteralxml property to allow service function to return XML as a string
+- soapclient: improve rpc/literal support
+- soapclient: allow XML string as call params in addition to array
+- soapclient: support document style and literal encoding when not using WSDL
+
+2004-05-05, version 0.6.7
+- wsdl: serialize PHP objects for WSDL XML Schema complexTypes, in addition to associative arrays
+- wsdl: fix WSDL generation when there is no encodingStyle
+- soap_transport_http: suppress fsockopen warnings
+- soap_transport_http: detect socket timeouts when reading (0 bytes returned)
+- soap_transport_http: read chunked content "in-line" so it works on a persistent connection
+- nusoap_base: serialize boolean as true|false, not 1|0, to agree with XML Schema
+- nusoap_base: serialize array of struct differently than array of array
+
+2004-06-25, version 0.6.8
+- soap_server: prefer gzip to deflate, since IE does not like our deflate
+- soap_server: move webDescription to the wsdl class
+- soap_server: allow class and instance method calls for service (thanks Ingo Fischer and Roland Knall)
+- wsdl: get webDescription from the soap_server class
+- wsdl: allow compression from the server
+- wsdl: fix serialization of soapval without a type
+- wsdl: propagate debug value from query string to SOAP endpoint in programmatic WSDL generation
+- nusoap_base: add anyType, anySimpleType for 2001 XML Schema
+- nusoap_base: provide additional debug functions
+- soap_transport_http: ignore Content-Length when chunked encoding is used
+- soap_transport_http: remove ':' from username for Basic authentication (cf. RFC 2617)
+- soap_transport_http: urldecode username and password taken from URL
+- soap_transport_http: use raw inflate/deflate for IE/IIS compatibility, rather than having Zlib headers according to HTTP 1.1 spec
+- soap_transport_http: attempt to handle the case when both the service application and Web server compress the response
+- soapclient: when creating proxy methods, replace '.' in operation name with '__' in function name
+- soapclient: initialize requestHeaders in proxy
+- general: use new debug methods; never access debug_str directly
+
+2004-09-30, version 0.6.8
+- soapclient: do not allow getProxy call when WSDL is not used
+- soapclient: use ISO-8859-1 as the charset if not specified in the Content-Type header
+- soapclient: when an empty string is specified for the call namespace, do not put the method element in a namespace
+- soapclient: let soap_transport_http check for SSL support
+- soapclient: have proxy inherit soap_defencoding from the client from which it is generated
+- soapclient: do not assume that 'ns1' is an unused namespace prefix; always generate namespace prefixes randomly
+- soap_parser: compare any encoding in the XML declaration to the charset from the HTTP Content-Type header (thanks Ingo Fischer)
+- soap_parser: improve parse repeated element name into an array (de-serializes doc/lit array into a PHP array when there is more than 1 array element)
+- soap_server: use ISO-8859-1 as the charset if not specified in the Content-Type header
+- soap_server: allow suppression of automatic UTF-8 decoding
+- soap_server: fix a bug when call_user_func_array() is used
+- soap_transport_http: correct digest authentication through a proxy
+- wsdl: serialize SOAP-ENC types similarly to XSD types
+- xmlschema: force unprefixed type into default namespace
+- xmlschema: fix serialization of definition of simple types
+
+2004-10-01, version 0.6.8
+- soap_parser: handle default namespace attributes
+- soap_server: add default_utf8 field
+- soap_server: support literal encoding (with RPC style)
+- soap_transport_http: parse HTTP status and generate error for 300, 302-307, 400, 401-417, 501-505 (thanks for the idea Ghislain)
+- soap_transport_http: follow HTTP redirection (HTTP status 301 and Location header) (thanks for the idea Ghislain)
+- xmlschema: allow any attributes to be specified in an element of a complexType, e.g., abstract, default, form, minOccurs, maxOccurs, nillable (thanks Jirka Pech for the original patch)
+
+2004-10-02, version 0.6.8
+- soapclient: read/write cookies (thanks Ingo)
+- soap_server: change faultcode on non-resendable faults to Client
+- soap_transport_http: read/write cookies (thanks Ingo)
+
+2004-10-05, version 0.6.8
+- wsdl: add addElement method
+- wsdl: support the document style in the register method
+- xmlschema: parse unnamed simpleTypes, rather than ignoring them
+- xmlschema: include untyped elements when parsing a complexType
+- xmlschema: add addElement method
+
+2004-10-14, version 0.6.8
+- soapclient: support client certificates
+- soap_parser: deserialize attributes, prefixing names with "!"
+- soap_server: notify the client with HTML when WSDL is requested but not supported by service
+- soap_transport_http: support client certificates
+- wsdl: support defaults for elements of a complexType
+- wsdl: serialize elements from complexType extension base
+- wsdl: serialize data (associative array elements) as attributes according to XML Schema
+- xmlschema: record extension base if present for a complexType
+
+2004-12-15, version 0.6.8
+- nusoap_base: add 2000 XML Schema (rare, but used by Akamai)
+- soap_parser: avoid deserializing more common attributes that are not data
+- soap_parser: be lax when HTTP specifies ISO-8859-1 (the default) and XML specifies UTF-8 (the norm)
+- soap_server: account for the fact that get_class_methods returns methods in all lower case (thanks Steve Haldane)
+- soap_transport_http: parse digest info that includes '=' in the data (thanks Jinsuk Kim)
+- wsdl: feably handle some cases for literal serialization of form="unqualified" elements
+- wsdl: don't serialize the decimal portion of a PHP double when the XML type is long
+- wsdl: fix serialization of attributes for complexType that is an extension
+- wsdlcache: enhance diagnostics
+- xmlschema: handle untyped elements
+- xmlschema: handle WSDL for SOAP Array that uses the base attribute plus a sequence of element
+
+2005-01-22, version 0.6.8
+- wsdl: allow an element in one schema to have a type from another schema
+
+2005-01-24, version 0.6.8
+- xmlschema: correctly parse nested complexType definitions
+
+2005-02-14, version 0.6.8
+- nusoap_base: fix a bug in which attributes were sometimes not serialized with a value
+- nusoap_base: improve serialization of null values (thanks Dominique Stender)
+- soap_parser: parse null values by handling the nil attribute (thanks Dominique Stender)
+- soap_server: set character encoding for a fault to be the same as for the server (thanks Mark Scott)
+- soap_server: correctly check for null value returned from method when WSDL is used (without WSDL, cannot distinguish whether NULL or void return is desired)
+- soapclient: for document style, call should always return an array rooted at the response part (all bets are off when there are multiple parts)
+- xmlschema: save enumeration values parsed from WSDL
+
+2005-02-10, version 0.6.9
+- soapclient: only set SOAP headers when they are specified in call params (so setHeaders still works)
+
+2005-04-04, version 0.6.9
+- soap_server: use get_class instead of is_a (thanks Thomas Noel)
+- soapclient: use get_class instead of is_a (thanks Thomas Noel)
+- soapclient: add setEndpoint method
+- soap_transport_http: fix client certificates (thanks Doug Anarino and Eryan Eriobowo)
+
+2005-04-29, version 0.6.9
+- nusoap_base: add global variable and methods for setting debug level
+- nusoap_base: use xsd:anyType instead of xsd:ur-type to serialize arrays with multiple element types (thanks Ingo Fischer)
+- nusoap_base: expand entities in attributes (thanks Gaetano Giunta)
+- soapclient: call parent constructor
+- soapval: call parent constructor
+- soap_fault: call parent constructor
+- soap_parser: call parent constructor
+- soap_server: assume get_class_methods always returns lower case for PHP 4.x only
+- soap_server: call parent constructor
+- soap_transport_http: do nothing in setEncoding if gzdeflate is not present (thanks Franck Touanen for pointing this out)
+- soap_transport_http: fix check for server request for digest authentication (thanks Mark Spavin)
+- soap_transport_http: call parent constructor
+- wsdl: fix documentation page popup of one method after another (thanks Owen)
+- wsdl: call parent constructor
+- wsdl: expand entities in attributes (thanks Gaetano Giunta)
+- xmlschema: call parent constructor
+
+2005-06-03, version 0.6.9
+- nusoap_base: serialize empty arrays as having elements xsd:anyType[0]
+- nusoap_base: add encodingStyle parameter to serializeEnvelope
+- nusoap_base: serialize xsi:type with nil values
+- nusoap_base: improve debug and comments
+- soap_parser: correctly parse an empty array to an empty array, not an empty string
+- soap_parser: improve debug and comments
+- soap_server: specify encodingStyle for envelope when WSDL is used
+- soapclient: factor out new getProxyClassCode method
+- soapclient: specify encodingStyle for envelope
+- soapclient: improve debug and comments
+- wsdl: add namespace for Apache SOAP types if a variable of such type is serialized
+- wsdl: serialize nil value for nillable elements when no value is provided
+- wsdl: serialize xsi:type with nil values
+- wsdl: copy attributes as well as elements to an element from its complexType
+- wsdl: specify encodingStyle for operations
+- wsdl: improve debug and comments
+- xmlschema: improve debug and comments
+
+2005-06-03, version 0.7.0
+- nusoap_base: improve debug and comments
+- nusoap_base: fix version, which should have been 0.7.0 since 2005-03-04
+
+2005-06-06, version 0.7.1
+- nusoap_base: adjust numeric element names for serialization, instead of forcing them to 'soapVal'
+- nusoapmime: add type=text/xml to multipart/related (thanks Emmanuel Cordonnier)
+- soap_fault: fix serialization of detail
+- soap_server: check required parameters for register method
+- soap_server: when getallheaders is used, massage header names
+- soap_server: use SOAPAction to determine operation when doc/lit service does not wrap parameters in an element with the method name (thanks Peter Hrastnik)
+- soap_transport_http: correctly handle multiple HTTP/1.1 100 responses for https (thanks Jan Slabon)
+- wsdl: fixed documentation for addComplexType (thanks Csintalan Ádám)
+- wsdl: serialize array data when maxOccurs = 'unbounded' OR maxOccurs > 1 (thanks Dominique Schreckling)
+- wsdl: when serializing a string == 'false' as a boolean, set the value to false
+- wsdl: when serializing a complexType, require the PHP value supplied to be an array
+
+2005-07-01, version 0.7.1
+- nusoap_base: Allow SOAP headers to be supplied as an array like parameters
+- soap_parser: de-serialize simpleContent that accompanies complexContent
+- soap_server: append debug information when programmatically-defined WSDL is returned
+- soap_transport_http: Add debug when an outgoing header is set
+- soapclient: Allow SOAP headers to be supplied as an array like parameters
+- xmlschema: serialize attributes more generally, rather than assuming they are for SOAP 1.1 Array
+- wsdl: when serializing, look up types by namespace, not prefix (simple programmatic doc/lit WSDL now seems to work)
+- wsdl: process namespace declarations first when parsing an element
+
+2005-07-27, version 0.7.1
+- nusoap_base: do not override supplied element name with class name when serializing an object in serialize_val
+- nusoap_base: remove http://soapinterop.org/xsd (si) from namespaces array
+- nusoapmime: add nusoapservermime class to implement MIME attachments on the server
+- soap_fault: improve documentation
+- soap_server: improve documentation
+- soap_server: make consistent use of _SERVER and HTTP_SERVER_VARS
+- soap_server: make all incoming HTTP header keys lower case
+- soap_server: add hook functions to support subclassing for MIME attachments
+- soap_transport_http: remove an unnecessary global statement
+- soapclient: when creating a proxy, make $params within each function an associative array
+- soapval: improve documentation
+- wsdl: when serializing complexType elements, used typed serialization if there is either a type or a reference for the element
+- wsdl: allow PHP objects to be serialized as SOAP structs in serializeType
+- wsdl: for WSDL and XML Schema imports, don't forget to use the TCP port number (thanks Luca GIOPPO)
+- wsdl: make consistent use of _SERVER and HTTP_SERVER_VARS
+- xmlschema: improve documentation
+
+2005-07-31, version 0.7.2
+- nusoap_base: correctly serialize attributes in serialize_val (thanks Hidran Arias)
+- soap_parser: when resolving references, do not assume that buildVal returns an array (thanks Akshell)
+- soap_parser: removed decode_entities, which does not work (thanks Martin Sarsale)
+- soap_server: fix a bug parsing headers from _SERVER and HTTP_SERVER_VARS (thanks Bert Catsburg)
+- soap_server: parse all "headers" from HTTP_SERVER_VARS (not just HTTP_*)
+- soap_server: use PHP_SELF instead of SCRIPT_NAME for WSDL endpoint
+- soap_server: when generating a fault while debug_flag is true, put debug into faultdetail
+- wsdl: add enumeration parameter to addSimpleType
+- xmlschema: add enumeration parameter to addSimpleType
+
+2006-02-02, version 0.7.2
+- soapclient: initialize paramArrayStr to improve proxy generation
+- soap_parser: handle PHP5 soapclient's incorrect transmission of WSDL-described SOAP encoded arrays.
+- soap_server: don't assume _SERVER['HTTPS'] is set; try HTTP_SERVER_VARS['HTTPS'] if it is not
+- soap_server: "flatten out" the parameter array to call_user_func_array (thanks André Mamitzsch)
+- soap_server: make thrown exceptions conform to specs
+- wsdl: use serialize_val to serialize an array when the XSD type is soapenc:Array (JBoss/Axis does this)
+- wsdl: change formatting of serialized XML for the WSDL
+- xmlschema: change formatting of namespaces when serializing XML for the schema
+
+2006-04-07, version 0.7.2
+- soap_server: if methodparams is not an array, call call_user_func_array with an empty array (thanks Eric Grossi)
+- wsdl: distinguish parts with element specified from those with type specified by suffixing element names with ^
+- wsdl: do a case-insensitive match on schema URI when looking for type
+- xmlschema: only get element (not type) when name has ^ suffix
+
+2006-05-16, version 0.7.2
+- soapclient: add getHeader to get parsed SOAP Header
+- soap_parser: check status when receiving Header or Body element
+- soap_parser: add soapheader
+- soap_server: add requestHeader with parsed SOAP Header
+
+2006-06-15, version 0.7.2
+- wsdl: fix bug in addComplexType (thanks Maarten Meijer)
+- soap_transport_http: change cURL message
+
+2007-03-19, version 0.7.2
+- soapclient: declare as nusoapclient, then also subclass soapclient if SOAP extension not loaded
+- soapclientmime: declare as nusoapclientmime, then also subclass soapclientmime if SOAP extension not loaded
+
+2007-03-28, version 0.7.2
+- nusoap_base: fix serialization of a soapval when its value is a soapval
+- soapval: fix serialization of a soapval when its value is a soapval
+- soapval: add __toString (cf. http://article.gmane.org/gmane.comp.php.nusoap.general/2776)
+- nusoapclient: use lazy retrieval of WSDL instead of always getting it in the constructor
+- nusoapclient: fix getProxy that was broken in last revision
+- wsdl: add ability to set authorization credentials and retrieve WSDL outside of constructor
+
+2007-04-05, version 0.7.2
+- nusoapclientmime: don't rely exclusively on Content-Disposition to distinguish the root part from attachment; also check Content-Type (thanks Ben Bosman)
+- nusoapclientmime: obey RFC 2045 Section 5.1 (thanks Chris Butler)
+- nusoapservermime: don't rely exclusively on Content-Disposition to distinguish the root part from attachment; also check Content-Type (thanks Ben Bosman)
+- nusoapservermime: obey RFC 2045 Section 5.1 (thanks Chris Butler)
+- nusoap_base: remove extra whitespace from some XML elements
+- nusoap_base: allow SOAP headers to be specified as an associative array (thanks Unique)
+- nusoap_base: implement __toString
+- nusoap_base: improve doc accuracy and consistency (thanks Martin K?gler)
+- iso8601_to_timestamp: avoid problem with negative hours after calculation, etc. (thanks Guntram Trebs)
+- nusoapclient: support user-settable cURL options (thanks Ciprian Popovici)
+- nusoapclient: call SOAP 1.2 binding operations if no SOAP 1.1 present (there is no reason to believe this will always work!)
+- nusoapclient: improve doc accuracy and consistency (thanks Martin K?gler)
+- soap_server: don't try to use eval to call function when any parameter is an object
+- soap_server: don't print return value within debug string; returned objects would need __toString in PHP 5.2
+- soap_server: use URL scheme for WSDL access as the scheme in SOAPAction
+- soap_server: strip port number from server name (some FastCGI implementations include port in server name)
+- soap_transport_http: support user-settable cURL options (thanks Ciprian Popovici)
+- soap_transport_http: use cURL for NTLM authentication
+- soap_transport_http: make digest authentication work for GET as well as POST
+- soap_transport_http: improve doc accuracy and consistency (thanks Martin K?gler)
+- soapval: remove __toString
+- wsdl: set operation style if necessary, but do not override one already provided (thanks Raffaele Capobianco)
+- wsdl: check SOAP 1.2 binding operations if no SOAP 1.1 present
+- wsdl: improve doc accuracy and consistency (thanks Martin K?gler)
+- xmlschema: fix simpleType serialization
+- xmlschema: improve doc accuracy and consistency (thanks Martin K?gler)
+
+2007-04-09, version 0.7.2
+- nusoapclient: set decode_utf8 when creating a proxy (thanks Dmitri Dmitrienko)
+- nusoapclient: rename class to nusoap_client
+- soap_fault: also provide a class named nusoap_fault
+- soap_parser: also provide a class named nusoap_parser
+- soap_server: also provide a class named nusoap_server
+- soap_transport_http: skip HTTP responses 301 and 401 when using cURL
+- soap_transport_http: don't force HTTP Connection header when using cURL
+- soap_transport_http: don't set HTTP Host and Content-Length headers when using cURL
+- soap_transport_http: support CURLOPT_SSLCERTPASSWD (thanks David Blanco)
+- wsdl: support user-settable cURL options (thanks Ciprian Popovici)
+- wsdl: serialize parameters for non-SOAP 1.1 binding operations (there is no reason to believe this will always work!)
+- xmlschema: also provide a class named nusoap_xmlschema
+- nusoapclientmime: rename class to nusoap_client_mime
+- nusoapservermime: rename class to nusoap_server_mime
+
+2007-04-11, version 0.7.2
+- nusoap_client: enable cURL usage to be forced (thanks Giunta Gaetano)
+- soap_transport_http: enable cURL proxy usage (thanks Giunta Gaetano)
+- soap_transport_http: enable cURL usage to be forced (thanks Giunta Gaetano)
+- soap_transport_http: use cURL's HTTP authentication options for basic, digest
+- wsdl: enable cURL usage to be forced (thanks Giunta Gaetano)
+
+2007-04-12, version 0.7.2
+- nusoap_client: add debug
+- nusoap_xmlschema: don't add elements of complexTypes to elements array (thanks Heiko Hund)
+- soap_transport_http: set cURL connection timeout if supported
+- soap_transport_http: add debug when setting cURL option
+- soap_transport_http: fix digest authentication broken in previous revision
+- wsdl: add debug
+- wsdlcache: address some issues with non-existing cache-files and PHP Warnings which came in such cases (thanks Ingo Fischer)
+- wsdlcache: change class name to nusoap_wsdlcache
+
+2007-04-13, version 0.7.2
+- wsdl: wrap parameters if unwrapped values are supplied and WSDL specifies Microsoft-style wrapping
+
+2007-04-16, version 0.7.2
+- nusoap_base: avoid warning in getDebugAsXMLComment
+- nusoap_client: small debug change
+- nusoap_client_mime: set responseData when the root part is found
+
+2007-04-17, version 0.7.2
+- soap_transport_http: improve detection of undefined cURL options (thanks Ingo Fischer)
+
+2007-05-28, version 0.7.2
+- soap_transport_http: support digest authentication opaque feature (cf. RFC 2617) (thanks Daniel Lacroix)
+- soap_transport_http: check safe_mode and open_basedir before setting CURLOPT_FOLLOWLOCATION
+- soap_transport_http: skip "HTTP/1.0 200 Connection established" header when cURL returns it (thanks Raimund Jacob)
+- nusoap_client: improve handling when getProxy is called and WSDL is not being used
+- nusoap_base: add comments about which specifications are used/implemented by NuSOAP
+- nusoap_xmlschema: create names for unnamed types that are unique by scope within XML Schema
+
+2007-06-11, version 0.7.2
+- wsdl: wrap return value if unwrapped value is supplied and WSDL specifies Microsoft-style wrapping
+
+2007-06-22, version 0.7.2
+- nusoap_xmlschema: fix serialization of simpleType restriction (thanks Rizwan Tejpar)
+
+2007-07-30, version 0.7.2
+- nusoap_server: Per http://www.ws-i.org/Profiles/BasicProfile-1.1-2004-08-24.html R2735, rpc/literal accessor elements should not be in a namespace (thanks Kostas Kalevras)
+- nusoap_client: Per http://www.ws-i.org/Profiles/BasicProfile-1.1-2004-08-24.html R2735, rpc/literal accessor elements should not be in a namespace (thanks Kostas Kalevras)
+
+2007-10-21, version 0.7.2
+- nusoap_server: Per http://www.ws-i.org/Profiles/BasicProfile-1.1-2004-08-24.html R2735, rpc/literal accessor elements should not be in a namespace (thanks Kostas Kalevras)
+- nusoap_client: Per http://www.ws-i.org/Profiles/BasicProfile-1.1-2004-08-24.html R2735, rpc/literal accessor elements should not be in a namespace (thanks Kostas Kalevras)
+
+2007-10-26, version 0.7.2
+- nusoap_server: Fix munging of _SERVER variables that start with HTTP_ (thanks Thomas Wieczorek)
+
+2007-10-30, version 0.7.2
+- nusoap_xmlschema: Serialize values for elementFormDefault, attributeFormDefault
+- wsdl: Improve consistency between doc/lit schema auto-wrapping and client's parsed schema
+- nusoap_server: Correct bug that placed encodingType in Envelope for doc/lit
+- nusoap_server: Specify elementFormDefault for schema within doc/lit wsdl
+
+2007-10-31, version 0.7.2
+- wsdl: Fix typo in parametersMatchWrapped (thanks Sam Stepanyan)
+- soap_transport_http: Fix three typos in setProxy (thanks Sam Stepanyan)
+- nusoap_xmlschema: Fix typo in serializeTypeDef (thanks Sam Stepanyan)
+
+2007-11-06, version 1.0rc1
+- wsdl: Improve handling of return values from doc/lit methods
+- nusoap_server: Handle case when method is not in a namespace
+
+2007-11-27, version 1.0rc1
+- nusoap_server: always try to invoke service for a POST
+- nusoap_server: only return Location: for WSDL at http://...
+- nusoap_base: change some syntax associated with globalDebugLevel
+
+2008-01-08, version 1.0rc1
+- nusoap_server: fix a typo where = was used instead of == (thanks J. (Johan) Bosma)
+
+2008-01-10, version 1.0rc1
+- nusoap_client: handle case where request or response has no content-type header (thanks Ingo Fischer)
+- nusoap_server: handle case where request or response has no content-type header (thanks Ingo Fischer)
+- wsdl: change CSS for .title in webDescription (thanks Marcus Uy)
+
+2008-01-25, version 1.0rc1
+- nusoap_xmlschema: when an element is of a complexType that is an extension, copy extensionBase from the type
+- nusoap_xmlschema: do not apply elementFormDefault to globally defined elements
+
+2008-02-11, version 1.0rc1
+- wsdl: internally set form of wrapped parameter elements to unqualified (so server handles correctly)
+
+2008-03-03, version 1.0.rc1
+- nusoap_xmlschema: fix extension when base type has no explicit prefix
+- nusoap_xmlschema: support XML Schema include
+- wsdl: improve support for sequence by serializing inherited attributes and elements first
+
+2008-03-04, version 1.0.rc1
+- wsdl: allow WSDL port name to be specified in getOperations
+- nusoap_client: allow WSDL port name to be specified in ctor
+
+2008-03-06, version 1.0rc1
+- wsdl: fix some port name variable references
+- nusoap_base: change comments regarding preferred mode of support
+- wsdl2nusoap: initial revision
+
+2008-03-14, version 1.0rc1
+- nusoap_base: fix timezone offset in timestamp_to_iso8601 (thanks Mario Trojan)
+
+2008-03-27, version 1.0rc1
+- nusoap_server: fix bug setting encodingStyle in serialize_return (thanks Luca Gobbo)
+
+2008-05-15, version 1.0rc1
+- nusoap_parser: handle case where Header or Body tags are used within SOAP messages (thanks Sergey Zhuravlev)
+
+2008-08-26, version 1.0rc1
+- wsdl: serialize simpleContent for complexType
+- wsdl: avoid serializing complexType elements with no value and minOccurs = 0 regardless of nillability
+
+2010-04-26, version 0.9.5
+- nusoap_xmlschema: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- wsdl: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- soap_transport_http: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- soap_transport_http: remove call to deprecated function set_magic_quotes_runtime
+- nusoap_server: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- nusoap_server: check that value is an object before calling get_class (thanks Pier-Luc Duchaine)
+- nusoap_parser: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- nusoap_client: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- nusoap_client: do not assign the return value of new by reference (it is deprecated) (thanks Pier-Luc Duchaine)
+- nusoap_base: replace regex function calls (ereg, eregi, split) with PCRE calls (preg_match, preg_split) (thanks Pier-Luc Duchaine)
+- nusoapmime: do not assign the return value of new by reference (it is deprecated)

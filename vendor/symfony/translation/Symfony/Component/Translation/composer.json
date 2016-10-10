@@ -1,0 +1,40 @@
+{
+    "name": "symfony/translation",
+    "type": "library",
+    "description": "Symfony Translation Component",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "symfony/config": "~2.0",
+        "symfony/intl": "~2.3",
+        "symfony/yaml": "~2.2"
+    },
+    "suggest": {
+        "symfony/config": "",
+        "symfony/yaml": ""
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Translation\\": "" }
+    },
+    "target-dir": "Symfony/Component/Translation",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

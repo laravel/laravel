@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<page title="TODO tasks for the current iteration" here="TODO">
+    <long_title>TODO tasks for the current iteration</long_title>
+    <content>
+        <section name="release-process" title="Release process">
+            <p>
+                The following is the approximate plan for the next full point release.
+            </p>
+            <p>
+                Before each release we hope to have the following done.
+                More may get done, depending on the interest of the volunteers,
+                but this is the current minimum.
+            </p>
+            <p>
+                The aim of this release cycle is to produce a functionally
+                identical version to the 1.0.1 release, but bug-fixed and
+                fully compatible with PHP 5.0.5+ under E_STRICT.
+                We are also hoping to flush out issues and use cases
+                caused by people hacking against unpublished flex points
+                in SimpleTest.
+                We want to break people's code now, not while we are developing
+                features down the line.
+            </p>
+            <p>
+                With the website move to a new server, and more developers,
+                we are able and need to improve the test automation and developer
+                cooperation.
+                This release is a deep drawing of breath before going forward.
+            </p>
+        </section>
+        <section name="plan" title="Release plan" version="1.1">
+            <milestone version="1.1beta">
+                <concern name="unit-tester">
+                    <bug tracker="1896582">Undefined property $_reporter + fatal error</bug>
+                </concern>
+                <concern name="reporter"/>
+                <concern name="mock-objects"/>
+                <concern name="parser"/>
+                <concern name="browser"/>
+                <concern name="web-tester"/>
+                <concern name="documentation">
+                    <task>
+                        The HELP_MY_TESTS_DONT_WORK_ANYMORE needs to be updated.
+                    </task>
+                    <task>README needs to be updated.</task>
+                    <task status="done">
+                        Write XSLT code for this file so Perrick doesn't strangle me
+                    </task>
+                </concern>
+                <concern name="extensions">
+                	<task>Ensure extensions are compatible with PHP5 constructor renaming in the current trunk.</task>
+                </concern>
+                <concern name="build">
+                	<task>Update PEAR package task to be compatible with latest PEAR installer.</task>
+                    <task status="done">PHP 5.3 compatible under E_STRICT</task>
+                    <task>PHP 5.2.0-5 compatible under E_STRICT</task>
+                    <task>PHP 5.1.0-6 compatible under E_STRICT</task>
+                    <bug tracker="1884013">continuous integration</bug>
+                    <bug tracker="1853765">error_reporting(E_ALL|E_STRICT)gives lots of warning</bug>
+                    <task>Remove all deprecated methods</task>
+                    <task status="done">
+                        Drop underscores from protected methods and
+                        private variables.
+                        Make all variables private and add protected
+                        accessors where we use them internally.
+                        <note>
+                            That way people will start complaining.
+                            Upon each complaint we'll add an accessor and
+                            capture the use case from them.
+                        </note>
+                        <note>We'll stick the use cases in the feature request tracker for now</note>
+                    </task>
+                    <task status="done">Move web site to new server</task>
+                </concern>
+            </milestone>
+            <milestone version="1.1beta2">
+                <concern name="unit-tester"/>
+                <concern name="reporter">
+                    <task>
+                        Deprecate all mentions of GroupTest without breaking
+                        existing code.
+                        <note>
+                            Need to swap the terminology for TestSuite
+                            in method names, etc.
+                        </note>
+                    </task>
+                    <bug tracker="1864974">XmlReporter generating invalid XML</bug>
+                </concern>
+                <concern name="mock-objects">
+                    <task>Remove reflection facade for PHP4</task>
+                </concern>
+                <concern name="parser"/>
+                <concern name="browser">
+                    <bug tracker="1913229">label not assigned to radio and checkbox</bug>
+                    <bug tracker="1706283">incorrect proxy requests</bug>
+                </concern>
+                <concern name="web-tester"/>
+                <concern name="documentation">
+                    <task>Docblocks need to be cut back to a minimum</task>
+                </concern>
+                <concern name="extensions"/>
+                <concern name="build">
+                    <task>PHP 5.0.5 compatible under E_STRICT</task>
+                    <task>Move acceptance tests sample pages to new server</task>
+                </concern>
+            </milestone>
+            <milestone version="1.1RC1">
+                <concern name="unit-tester"/>
+                <concern name="reporter"/>
+                <concern name="mock-objects">
+                    <task>Remove reflection facade for PHP4</task>
+                </concern>
+                <concern name="parser"/>
+                <concern name="browser"/>
+                <concern name="web-tester"/>
+                <concern name="documentation">
+                    <task>Throw away old tutorial</task>
+                </concern>
+                <concern name="extensions"/>
+                <concern name="build">
+                    <task>PHP 6 compatible under E_STRICT</task>
+                    <task>
+                        Automated nightly test script that runs tests on all
+                        targeted PHP versions.
+                    </task>
+                </concern>
+            </milestone>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#plan">Current iteration</a> is 1.1beta.
+        </link>
+        <link>
+            Upcoming tasks for
+            <a href="#unit-tester">Unit tester</a>,
+            <a href="#reporter">Reporter</a>,
+            <a href="#mock-objects">Mock objects</a>,
+            <a href="#parser">Parser</a>,
+            <a href="#browser">Browser</a>,
+            <a href="#web-tester">Web tester</a>,
+            <a href="#documentation">Documentation</a>,
+            <a href="#extensions">Extensions</a> and
+            <a href="#build">Build</a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            Trackers for :
+            <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547458">feature requests</a>,
+            <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547455">bugs</a> and
+            <a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547457">patches</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            freelancer,
+            php resources,
+            wordtracker,
+            web marketing,
+            serach engines,
+            web positioning,
+            internet marketing
+        </keywords>
+    </meta>
+</page>

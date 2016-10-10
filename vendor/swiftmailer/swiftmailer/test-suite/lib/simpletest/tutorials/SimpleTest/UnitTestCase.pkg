@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Unit tester</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id unit}">
+<title>Unit test cases</title>
+            <para>
+                The core system is a regression testing framework built around
+                test cases.
+                A sample test case looks like this...
+<programlisting role="php">
+class FileTestCase extends UnitTestCase {
+}
+</programlisting>
+                If no test name is supplied when chaining the constructor then
+                the class name will be taken instead.
+                This will be the name displayed in the test results.
+            </para>
+            <para>
+                Actual tests are added as methods in the test case whose names
+                by default start with the string "test" and
+                when the test case is invoked all such methods are run in
+                the order that PHP introspection finds them.
+                As many test methods can be added as needed.
+                For example...
+<programlisting role="php">
+require_once('../classes/writer.php');
+
+class FileTestCase extends UnitTestCase {
+    function FileTestCase() {
+        $this-&gt;UnitTestCase('File test');
+    }
+    
+    function setUp() {
+        @unlink('../temp/test.txt');
+    }
+    
+    function tearDown() {
+        @unlink('../temp/test.txt');
+    }
+    
+    function testCreation() {
+        $writer = &amp;new FileWriter('../temp/test.txt');
+        $writer-&gt;write('Hello');
+        $this-&gt;assertTrue(file_exists('../temp/test.txt'), 'File created');
+    }
+}
+</programlisting>
+                The constructor is optional and usually omitted.
+                Without a name, the class name is taken as the name of the test case.
+            </para>
+            <para>
+                Our only test method at the moment is <span class="new_code">testCreation()</span>
+                where we check that a file has been created by our
+                <span class="new_code">Writer</span> object.
+                We could have put the <span class="new_code">unlink()</span>
+                code into this method as well, but by placing it in
+                <span class="new_code">setUp()</span> and
+                <span class="new_code">tearDown()</span> we can use it with
+                other test methods that we add.
+            </para>
+            <para>
+                The <span class="new_code">setUp()</span> method is run
+                just before each and every test method.
+                <span class="new_code">tearDown()</span> is run just after
+                each and every test method.
+            </para>
+            <para>
+                You can place some test case set up into the constructor to
+                be run once for all the methods in the test case, but
+                you risk test inteference that way.
+                This way is slightly slower, but it is safer.
+                Note that if you come from a JUnit background this will not
+                be the behaviour you are used to.
+                JUnit surprisingly reinstantiates the test case for each test
+                method to prevent such interference.
+                SimpleTest requires the end user to use <span class="new_code">setUp()</span>, but
+                supplies additional hooks for library writers.
+            </para>
+            <para>
+                The means of reporting test results (see below) are by a
+                visiting display class
+                that is notified by various <span class="new_code">assert...()</span>
+                methods.
+                Here is the full list for the <span class="new_code">UnitTestCase</span>
+                class, the default for SimpleTest...
+                <table frame="all" id="{@id features}}">
+<tbody>
+                    <row>
+<entry>
+<span class="new_code">assertTrue($x)</span>
+</entry>
+<entry>Fail if $x is false</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertFalse($x)</span>
+</entry>
+<entry>Fail if $x is true</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNull($x)</span>
+</entry>
+<entry>Fail if $x is set</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNotNull($x)</span>
+</entry>
+<entry>Fail if $x not set</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertIsA($x, $t)</span>
+</entry>
+<entry>Fail if $x is not the class or type $t</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNotA($x, $t)</span>
+</entry>
+<entry>Fail if $x is of the class or type $t</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertEqual($x, $y)</span>
+</entry>
+<entry>Fail if $x == $y is false</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNotEqual($x, $y)</span>
+</entry>
+<entry>Fail if $x == $y is true</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertIdentical($x, $y)</span>
+</entry>
+<entry>Fail if $x == $y is false or a type mismatch</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNotIdentical($x, $y)</span>
+</entry>
+<entry>Fail if $x == $y is true and types match</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertReference($x, $y)</span>
+</entry>
+<entry>Fail unless $x and $y are the same variable</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertCopy($x, $y)</span>
+</entry>
+<entry>Fail if $x and $y are the same variable</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertWantedPattern($p, $x)</span>
+</entry>
+<entry>Fail unless the regex $p matches $x</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNoUnwantedPattern($p, $x)</span>
+</entry>
+<entry>Fail if the regex $p matches $x</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertNoErrors()</span>
+</entry>
+<entry>Fail if any PHP error occoured</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertError($x)</span>
+</entry>
+<entry>Fail if no PHP error or incorrect message</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">assertErrorPattern($p)</span>
+</entry>
+<entry>Fail unless the error matches the regex $p</entry>
+</row>
+                </tbody>
+</table>
+                All assertion methods can take an optional description to
+                label the displayed result with.
+                If omitted a default message is sent instead which is usually
+                sufficient.
+                This default message can still be embedded in your own message
+                if you include "%s" within the string.
+                All the assertions return true on a pass or false on failure.
+            </para>
+            <para>
+                Some examples...
+<programlisting role="php">
+$variable = null;
+$this-&gt;assertNull($variable, 'Should be cleared');
+</programlisting>
+                ...will pass and normally show no message.
+                If you have
+                {@link http://www.lastcraft.com/display_subclass_tutorial.php set up the tester to display passes}
+                as well then the message will be displayed as is.
+<programlisting role="php">
+$this-&gt;assertIdentical(0, false, 'Zero is not false [%s]');
+</programlisting>
+                This will fail as it performs a type
+                check as well as a comparison between the two values.
+                The "%s" part is replaced by the default
+                error message that would have been shown if we had not
+                supplied our own.
+                This also allows us to nest test messages.
+<programlisting role="php">
+$a = 1;
+$b = $a;
+$this-&gt;assertReference($a, $b);
+</programlisting>
+                Will fail as the variable <span class="new_code">$a</span> is a copy of <span class="new_code">$b</span>.
+<programlisting role="php">
+$this-&gt;assertWantedPattern('/hello/i', 'Hello world');
+</programlisting>
+                This will pass as using a case insensitive match the string
+                <span class="new_code">hello</span> is contained in <span class="new_code">Hello world</span>.
+<programlisting role="php">
+trigger_error('Disaster');
+trigger_error('Catastrophe');
+$this-&gt;assertError();
+$this-&gt;assertError('Catastrophe');
+$this-&gt;assertNoErrors();
+</programlisting>
+                This one takes some explanation as in fact they all pass!
+            </para>
+            <para>
+                PHP errors in SimpleTest are trapped and placed in a queue.
+                Here the first error check catches the "Disaster"
+                message without checking the text and passes.
+                This removes the error from the queue.
+                The next error check tests not only the existence of the error,
+                but also the text which here matches so another pass.
+                With the queue now empty the last test will pass as well.
+                If any unchecked errors are left at the end of a test method then
+                an exception will be reported in the test.
+                Note that SimpleTest cannot catch compile time PHP errors.
+            </para>
+            <para>
+                The test cases also have some convenience methods for debugging
+                code or extending the suite...
+                <table frame="all" id="{@id features}}">
+<tbody>
+                    <row>
+<entry>
+<span class="new_code">setUp()</span>
+</entry>
+<entry>Runs this before each test method</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">tearDown()</span>
+</entry>
+<entry>Runs this after each test method</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">pass()</span>
+</entry>
+<entry>Sends a test pass</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">fail()</span>
+</entry>
+<entry>Sends a test failure</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">error()</span>
+</entry>
+<entry>Sends an exception event</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">sendMessage()</span>
+</entry>
+<entry>Sends a status message to those displays that support it</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">signal($type, $payload)</span>
+</entry>
+<entry>Sends a user defined message to the test reporter</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">dump($var)</span>
+</entry>
+<entry>Does a formatted <span class="new_code">print_r()</span> for quick and dirty debugging</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">swallowErrors()</span>
+</entry>
+<entry>Clears the error queue</entry>
+</row>
+                </tbody>
+</table>
+            </para>
+        </refsect1>
+        <refsect1 id="{@id extending_unit}">
+<title>Extending test cases</title>
+            <para>
+                Of course additional test methods can be added to create
+                specific types of test case too so as to extend framework...
+<programlisting role="php">
+require_once('simpletest/unit_tester.php');
+
+class FileTester extends UnitTestCase {
+    function FileTester($name = false) {
+        $this-&gt;UnitTestCase($name);
+    }
+    
+    function assertFileExists($filename, $message = '%s') {
+        $this-&gt;assertTrue(
+                file_exists($filename),
+                sprintf($message, 'File [$filename] existence check'));
+    }
+}
+</programlisting>
+                Here the SimpleTest library is held in a folder called
+                <em>simpletest</em> that is local.
+                Substitute your own path for this.
+            </para>
+            <para>
+                This new case can be now be inherited just like
+                a normal test case...
+<programlisting role="php">
+class FileTestCase extends FileTester {
+    
+    function setUp() {
+        @unlink('../temp/test.txt');
+    }
+    
+    function tearDown() {
+        @unlink('../temp/test.txt');
+    }
+    
+    function testCreation() {
+        $writer = &amp;new FileWriter('../temp/test.txt');
+        $writer-&gt;write('Hello');
+        $this-&gt;assertFileExists('../temp/test.txt');
+    }
+}
+</programlisting>
+            </para>
+            <para>
+                If you want a test case that does not have all of the
+                <span class="new_code">UnitTestCase</span> assertions,
+                only your own and <span class="new_code">assertTrue()</span>,
+                you need to extend the <span class="new_code">SimpleTestCase</span>
+                class instead.
+                It is found in <em>simple_test.php</em> rather than
+                <em>unit_tester.php</em>.
+                See {@link later.html later} if you
+                want to incorporate other unit tester's
+                test cases in your test suites.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id running_unit}">
+<title>Running a single test case</title>
+            <para>
+                You won't often run single test cases except when bashing
+                away at a module that is having difficulty and you don't
+                want to upset the main test suite.
+                Here is the scaffolding needed to run the a lone test case...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('../classes/writer.php');
+
+    class FileTestCase extends UnitTestCase {
+        function FileTestCase() {
+            $this-&gt;UnitTestCase('File test');
+        }
+    }
+    
+    $test = &amp;new FileTestCase();
+    $test-&gt;run(new HtmlReporter());
+?&gt;
+</programlisting>
+                This script will run as is, but will output zero passes
+                and zero failures until test methods are added.
+            </para>
+        </refsect1>
+    </refentry>

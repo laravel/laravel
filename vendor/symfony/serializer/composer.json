@@ -1,0 +1,56 @@
+{
+    "name": "symfony/serializer",
+    "type": "library",
+    "description": "Symfony Serializer Component",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "require-dev": {
+        "symfony/yaml": "~2.8|~3.0",
+        "symfony/config": "~2.8|~3.0",
+        "symfony/property-access": "~2.8|~3.0",
+        "symfony/http-foundation": "~2.8|~3.0",
+        "symfony/cache": "~3.1",
+        "symfony/property-info": "~2.8|~3.0",
+        "doctrine/annotations": "~1.0",
+        "doctrine/cache": "~1.0"
+    },
+    "conflict": {
+        "symfony/property-access": ">=3.0,<3.0.4|>=2.8,<2.8.4"
+    },
+    "suggest": {
+        "psr/cache-implementation": "For using the metadata cache.",
+        "symfony/property-info": "To deserialize relations.",
+        "symfony/yaml": "For using the default YAML mapping loader.",
+        "symfony/config": "For using the XML mapping loader.",
+        "symfony/property-access": "For using the ObjectNormalizer.",
+        "symfony/http-foundation": "To use the DataUriNormalizer.",
+        "doctrine/annotations": "For using the annotation mapping. You will also need doctrine/cache.",
+        "doctrine/cache": "For using the default cached annotation reader and metadata cache."
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\Serializer\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1-dev"
+        }
+    }
+}

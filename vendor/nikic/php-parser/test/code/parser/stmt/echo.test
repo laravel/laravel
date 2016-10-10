@@ -1,0 +1,32 @@
+Echo
+-----
+<?php
+
+echo 'Hallo World!';
+echo 'Hallo', ' ', 'World', '!';
+-----
+array(
+    0: Stmt_Echo(
+        exprs: array(
+            0: Scalar_String(
+                value: Hallo World!
+            )
+        )
+    )
+    1: Stmt_Echo(
+        exprs: array(
+            0: Scalar_String(
+                value: Hallo
+            )
+            1: Scalar_String(
+                value:
+            )
+            2: Scalar_String(
+                value: World
+            )
+            3: Scalar_String(
+                value: !
+            )
+        )
+    )
+)

@@ -1,0 +1,28 @@
+{
+    "name": "guzzlehttp/streams",
+    "description": "Provides a simple abstraction over streams of data",
+    "homepage": "http://guzzlephp.org/",
+    "keywords": ["stream", "guzzle"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": { "GuzzleHttp\\Stream\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
+    }
+}

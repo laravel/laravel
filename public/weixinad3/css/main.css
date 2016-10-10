@@ -1,0 +1,116 @@
+@charset "utf-8";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
+form,fieldset,input,textarea,p,blockquote,th,td,section,canvas {
+    padding: 0;
+    margin: 0;
+}
+li{ list-style: none;}
+
+html,body {
+    font-size: 24px;
+    line-height: 32px;
+    color: #000;
+    font-family: 'Microsoft YaHei', Arial;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: #ebebeb;
+    -webkit-touch-callout:none; /* 禁用长触弹出的下载图片菜单 */
+    -webkit-user-select:none; /* 禁用长触选择文字等功能 */
+}
+
+/*公共样式*/
+.hide{ display: none;}
+.radioBox { border-radius: 8px;-webkit-border-radius: 8px; }
+.scaleMation { animation: scaleTip 2s infinite; -webkit-animation: scaleTip 2s infinite; }
+/*公共样式*/
+
+
+.main{ width: 100%; height: 100%;position: relative; overflow: hidden;}
+.page{ width: 100%; height: 100%;  position: relative; }
+.page>div{ position: absolute; width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;}
+
+.page .enterpage{  overflow: hidden;background-image: url("../images/enterpage.jpg") }
+
+.page .longpage{ background-color: #ebebeb; }
+.longpage>div{ position: relative; }
+.groupinfo{ width:480px;background-color: #cecece;margin:20px 0 20px 78px;}
+.cont{ padding:20px; }
+
+.longpage .di{position: fixed;bottom: 0;left: 50%; margin: 0 0 0 -320px;height: 86px;}
+.massge { position: relative;float: left;width:640px;margin-left: 20px; }
+.massge>div{position: absolute;}
+.massge .headimg>img{ width:70px;height:70px;margin-top: 6px; }
+.massge .mname{ font-size:22px;color:#737373;left:90px; }
+.massge .mcontent{ margin: 37px 0 0 90px; }
+.mcontent .mcla{padding: 10px;border: 1px solid #dadada;max-width: 400px;left:20px;background-color: white;margin-left: 13px;}
+.mcontent .jb{position: absolute;top:11px;}
+
+.massge .redpick{ left:90px;top:40px; }
+#sanlianfa img{width: 34px; height: 34px; margin: 0 0 0 6px;}
+
+/*马化腾红包提示*/
+#msg2 .circle{position: absolute; margin: 122px 0 0 363px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite;}
+#msg2 .hand{position: absolute; margin: 136px 0 0 359px;}
+/*滴滴CEO*/
+#msg8 .circle{position: absolute; margin: 122px 0 0 363px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite;}
+#msg8 .hand{position: absolute; margin: 136px 0 0 359px;}
+
+#msg7 .msgimg{position: absolute; margin: 0 0 0 8px; width: 34px; height: 34px;}
+/*红包派完*/
+#hongbao .circle{position: absolute; margin: -346px 0 0 -236px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite;}
+#hongbao .hand{position: absolute; margin: -330px 0 0 -240px;}
+
+/*大家手气*/
+#hbnull .circle{position: absolute; margin: 48px 0 0 34px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite;}
+#hbnull .hand{position: absolute; margin: 64px 0 0 30px;}
+
+
+.hongbao { width: 100%; height: 100%; background: rgba(0,0,0,0.7); position: absolute; left: 0; top: 0; }
+.hongbao>img{ position: absolute;left:50%;top:50%;margin:-401px 0 0 -278px;border-radius: 16px;-webkit-border-radius: 16px; }
+.hongbao>div{left:50%;top:50%;position: absolute;}
+#hb1Null{ left:0 !important;top:0 !important; }
+#hb1{ transform: scale(0.5); -webkit-transform: scale(0.5); opacity: 0;}
+#hb2{ transform: scale(0.5); -webkit-transform: scale(0.5); opacity: 0;}
+/*#hb1Open{ transform: scale(0.5); -webkit-transform: scale(0.5); opacity: 0;}*/
+
+
+#btn1 { width:100px;height: 100px;margin:-413px 0 0 -290px; }
+#btn2 { width:180px;height: 180px;margin:72px 0 0 -90px; }
+#btn3 { width:250px;height: 70px;margin:292px 0 0 -120px; }
+
+.hbnull { width:640px;height:1039px; overflow: hidden;left:0;top:0; position: absolute; }
+.hbnull>img{ position: absolute;left:0;top:0; }
+.hbnull>div{position: absolute;}
+
+.hbnull #btn4{ width:480px;height: 80px;top:775px;left:80px; }
+.hbnull #btn5{ width:480px;height: 80px;top:865px;left:80px; }
+.hbnull .sharepop{ width:480px;height: 80px;top:770px;left:165px; }
+
+.iputmessage { width: 100%; height: 100%; position: absolute; left: 0; top: 0; }
+.iputmessage #imessage{ position: absolute; left:50%; bottom:0; margin: 0 0 0 -320px; }
+.iputmessage .circle{ position: absolute; left:50%; bottom:19px; margin: 0 0 0 270px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite; }
+.iputmessage .hand{ position: absolute; left:50%; bottom:-53px; margin: 0 0 0 218px; }
+.iputmessage .send{ position: absolute; left:50%; bottom: 0; margin: 0px 0 0 163px; width: 148px; height: 79px;}
+
+
+@keyframes scaleTip {
+    0% { transform: scale(1);opacity: 1 }
+    100% { transform: scale(1.5);opacity: 0 }
+}
+@-webkit-keyframes scaleTip {
+    0% { -webkit-transform: scale(1);opacity: 1 }
+    100% { -webkit-transform: scale(1);opacity: 0}
+}
+@keyframes shan {
+    50% { transform: scale(1.2); }
+}
+@-webkit-keyframes shan {
+    50% { -webkit-transform: scale(1.2);}
+}
+
+.massge .circle{position: absolute; margin: 122px 0 0 363px; animation: shan 1.2s infinite; -webkit-animation: shan 1.2s infinite;}
+.massge .hand{position: absolute; margin: 136px 0 0 359px;}
+.weixinPic{
+	display:none;
+}

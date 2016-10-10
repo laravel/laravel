@@ -1,0 +1,12 @@
+
+== Breaking changes from 1.x
+
+- The client now requires PHP version 5.4 or higher
+- The entire client configuration and initialization system has changed to a builder pattern.  Please see
+link:_configuration.html[Configuration] for more details
+- Notably, `GuzzleConnection` and `CurlMultiConnection` have been removed.  If your code relied on these classes specifically,
+or configured cURL options explicitly, please see the docs about how the new HTTP handler functions
+- The client no longer ships with a default logger, and Monolog has been moved to "suggest".  Please see
+<<enabling_logger>> for details on how to use Monolog (or equivalent PSR/Log implementation)
+- `custom` parameters are now part of the `client` options (e.g. `['client' => ['custom' => 'abc'] ]`)
+- Exception ignoring is now now part of the `client` options (e.g. `['client' => ['ignore' => 404] ]`)

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true"
+    bootstrap="tests/bootstrap.php"
+>
+
+    <testsuites>
+        <testsuite name="Patchwork UTF-8 Test Suite">
+            <directory>./tests/Patchwork/</directory>
+            <directory>./tests/php-utf8/</directory>
+            <directory>./tests/unicode/</directory>
+        </testsuite>
+    </testsuites>
+
+    <groups>
+        <exclude>
+            <group>unicode</group>
+        </exclude>
+    </groups>
+
+</phpunit>

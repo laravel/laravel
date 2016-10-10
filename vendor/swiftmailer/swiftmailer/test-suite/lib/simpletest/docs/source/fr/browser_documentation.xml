@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: browser_documentation.xml 1692 2008-03-20 16:17:49Z pp11 $ -->
+<page title="Documentation sur le navigateur scriptable" here="Le navigateur scriptable">
+    <synchronisation lang="en" version="1684" date="20/03/2008" maintainer="pp11" />
+    <long_title>Documentation SimpleTest : le composant de navigation web scriptable</long_title>
+    <content>
+        <introduction>
+            <p>
+                Le composant de navigation web de SimpleTest peut être utilisé
+                non seulement à l'extérieur de la classe <code>WebTestCase</code>,
+                mais aussi indépendamment du framework SimpleTest lui-même.
+            </p>
+        </introduction>
+        <section name="script" title="Le navigateur scriptable">
+            <p>
+                Vous pouvez utiliser le navigateur web dans des scripts PHP
+                pour confirmer que des services marchent bien comme il faut
+                ou pour extraire des informations à partir de ceux-ci de façon régulière.
+                Par exemple, voici un petit script pour extraire
+                le nombre de bogues ouverts dans PHP 5 à partir
+                du <a href="http://www.php.net/">site web PHP</a>...
+<php><![CDATA[
+<?php
+    require_once('simpletest/browser.php');
+    
+    $browser = &new SimpleBrowser();
+    $browser->get('http://php.net/');
+    $browser->clickLink('reporting bugs');
+    $browser->clickLink('statistics');
+    $browser->clickLink('PHP 5 bugs only');
+    $page = $browser->getContent();
+    preg_match('/status=Open.*?by=Any.*?(\d+)<\/a>/', $page, $matches);
+    print $matches[1];
+?>
+]]></php>
+                Bien sûr Il y a des méthodes plus simple pour réaliser
+                cet exemple en PHP. Par exemple, vous pourriez juste
+                utiliser la commande PHP <code>file()</code> sur ce qui est
+                ici une page fixe. Cependant, en utilisant des scripts
+                avec le navigateur web vous vous autorisez l'authentification,
+                la gestion des cookies, le chargement automatique des fenêtres,
+                les redirections, la transmission de formulaires et la capacité
+                d'examiner les entêtes. De telles méthodes sont fragiles dans
+                un site en constante évolution et vous voudrez employer une méthode
+                plus directe pour accéder aux données de façon permanente,
+                mais pour des tâches simples cette technique peut s'avérer
+                une solution très rapide.
+            </p>
+            <p>
+                Toutes les méthode de navigation utilisées dans <a local="web_tester_documentation">WebTestCase</a> sont présente dans la classe <code>SimpleBrowser</code>, mais les assertions sont remplacées par de simples accesseurs. Voici une liste complète des méthodes de navigation de page à page...
+                <table><tbody>
+                    <tr><td><code>addHeader($header)</code></td><td>Ajouter une entête à chaque téléchargement</td></tr>
+                    <tr><td><code>useProxy($proxy, $username, $password)</code></td><td>Utilise ce proxy à partir de maintenant</td></tr> 
+                    <tr><td><code>head($url, $parameters)</code></td><td>Effectue une requête HEAD</td></tr>
+                    <tr><td><code>get($url, $parameters)</code></td><td>Télécharge une page avec un GET</td></tr>
+                    <tr><td><code>post($url, $parameters)</code></td><td>Télécharge une page avec un POST</td></tr>
+                    <tr><td><code>clickLink($label)</code></td><td>Suit un lien par son étiquette</td></tr>
+                    <tr><td><code>isLink($label)</code></td><td>Vérifie l'existance d'un lien par son étiquette</td></tr>
+                    <tr><td><code>clickLinkById($id)</code></td><td>Suit un lien par son attribut d'identification</td></tr>
+                    <tr><td><code>isLinkById($id)</code></td><td>Vérifie l'existance d'un lien par son attribut d'identification</td></tr>
+                    <tr><td><code>getUrl()</code></td><td>La page ou la fenêtre URL en cours</td></tr>
+                    <tr><td><code>getTitle()</code></td><td>Le titre de la page</td></tr>
+                    <tr><td><code>getContent()</code></td><td>Le page ou la fenêtre brute</td></tr>
+                    <tr><td><code>getContentAsText()</code></td><td>Sans code HTML à l'exception du text &quot;alt&quot;</td></tr>
+                    <tr><td><code>retry()</code></td><td>Répète la dernière requête</td></tr>
+                    <tr><td><code>back()</code></td><td>Utilise le bouton &quot;précédent&quot; du navigateur</td></tr>
+                    <tr><td><code>forward()</code></td><td>Utilise le bouton &quot;suivant&quot; du navigateur</td></tr>
+                    <tr><td><code>authenticate($username, $password)</code></td><td>Retente la page ou la fenêtre après une réponse 401</td></tr>
+                    <tr><td><code>restart($date)</code></td><td>Relance le navigateur pour une nouvelle session</td></tr>
+                    <tr><td><code>ageCookies($interval)</code></td><td>Change la date des cookies</td></tr>
+                    <tr><td><code>setCookie($name, $value)</code></td><td>Lance un nouveau cookie</td></tr>
+                    <tr><td><code>getCookieValue($host, $path, $name)</code></td><td>Lit le cookie le plus spécifique</td></tr>
+                    <tr><td><code>getCurrentCookieValue($name)</code></td><td>Lit le contenue du cookie en cours</td></tr>
+                </tbody></table>
+                Les méthode <code>SimpleBrowser::useProxy()</code> et
+                <code>SimpleBrowser::addHeader()</code> sont spéciales.
+                Une fois appelées, elles continuent à s'appliquer sur les téléchargements suivants.
+            </p>
+            <p>
+                Naviguer dans les formulaires est similaire à la <a local="form_testing_documentation">navigation des formulaires via WebTestCase</a>...
+                <table><tbody>
+                    <tr><td><code>setField($name, $value)</code></td><td>Modifie tous les champs avec ce nom</td></tr>
+                    <tr><td><code>setFieldById($id, $value)</code></td><td>Modifie tous les champs avec cet identifiant</td></tr>
+                    <tr><td><code>getField($name)</code></td><td>Accesseur de la valeur d'un élément de formulaire</td></tr>
+                    <tr><td><code>getFieldById($id)</code></td><td>Accesseur de la valeur de l'élément de formulaire avec cet identifiant</td></tr>
+                    <tr><td><code>clickSubmit($label)</code></td><td>Transmet le formulaire avec l'étiquette de son bouton</td></tr>
+                    <tr><td><code>clickSubmitByName($name)</code></td><td>Transmet le formulaire avec l'attribut de son bouton</td></tr>
+                    <tr><td><code>clickSubmitById($id)</code></td><td>Transmet le formulaire avec l'identifiant de son bouton</td></tr>
+                    <tr><td><code>clickImage($label, $x, $y)</code></td><td>Clique sur une balise input de type image par son titre (title="*") our son texte alternatif (alt="*")</td></tr>
+                    <tr><td><code>clickImageByName($name, $x, $y)</code></td><td>Clique sur une balise input de type image par son attribut (name="*")</td></tr>
+                    <tr><td><code>clickImageById($id, $x, $y)</code></td><td>Clique sur une balise input de type image par son identifiant (id="*")</td></tr>
+                    <tr><td><code>submitFormById($id)</code></td><td>Transmet le formulaire par son identifiant propre</td></tr>
+                </tbody></table>
+                Au jourd d'aujourd'hui il n'existe aucune méthode pour lister
+                les formulaires et les champs disponibles : ce sera probablement
+                ajouté dans des versions successives de SimpleTest.
+            </p>
+            <p>
+                A l'intérieur d'une page, les fenêtres individuelles peuvent être
+                sélectionnées. Si aucune sélection n'est réalisée alors
+                toutes les fenêtres sont fusionnées ensemble dans
+                une unique et grande page.
+                Le contenu de la page en cours sera une concaténation des
+                toutes les fenêtres dans l'ordre spécifié par les balises &quot;frameset&quot;.
+                <table><tbody>
+                    <tr><td><code>getFrames()</code></td><td>Un déchargement de la structure de la fenêtre courante</td></tr>
+                    <tr><td><code>getFrameFocus()</code></td><td>L'index ou l'étiquette de la fenêtre en courante</td></tr>
+                    <tr><td><code>setFrameFocusByIndex($choice)</code></td><td>Sélectionne la fenêtre numérotée à partir de 1</td></tr>
+                    <tr><td><code>setFrameFocus($name)</code></td><td>Sélectionne une fenêtre par son étiquette</td></tr>
+                    <tr><td><code>clearFrameFocus()</code></td><td>Traite toutes les fenêtres comme une seule page</td></tr>
+                </tbody></table>
+                Lorsqu'on est focalisé sur une fenêtre unique,
+                le contenu viendra de celle-ci uniquement.
+                Cela comprend les liens à cliquer et les formulaires à transmettre.
+            </p>
+        </section>
+        <section name="deboguer" title="Où sont les erreurs ?">
+            <p>
+                Toute cette masse de fonctionnalités est géniale
+                lorsqu'on arrive à bien télécharger les pages,
+                mais ce n'est pas toujours évident.
+                Pour aider à découvrir les erreurs, le navigateur a aussi
+                des méthodes pour aider au débogage.
+                <table><tbody>
+                    <tr><td><code>setConnectionTimeout($timeout)</code></td><td>Ferme la socket avec un délai trop long</td></tr>
+                    <tr><td><code>getRequest()</code></td><td>L'entête de la requête brute de la page ou de la fenêtre</td></tr>
+                    <tr><td><code>getHeaders()</code></td><td>L'entête de réponse de la page ou de la fenêtre</td></tr>
+                    <tr><td><code>getTransportError()</code></td><td>N'importe quel erreur au niveau de la socket dans le dernier téléchargement</td></tr>
+                    <tr><td><code>getResponseCode()</code></td><td>La réponse HTTP de la page ou de la fenêtre</td></tr>
+                    <tr><td><code>getMimeType()</code></td><td>Le type Mime de la page our de la fenêtre</td></tr>
+                    <tr><td><code>getAuthentication()</code></td><td>Le type d'authentification dans l'entête d'une provocation 401</td></tr>
+                    <tr><td><code>getRealm()</code></td><td>Le realm d'authentification dans l'entête d'une provocation 401</td></tr>
+                    <tr><td><code>setMaximumRedirects($max)</code></td><td>Nombre de redirections avant que la page ne soit chargée automatiquement</td></tr>
+                    <tr><td><code>setMaximumNestedFrames($max)</code></td><td>Protection contre des framesets récursifs</td></tr>
+                    <tr><td><code>ignoreFrames()</code></td><td>Neutralise le support des fenêtres</td></tr>
+                    <tr><td><code>useFrames()</code></td><td>Autorise le support des fenêtres</td></tr>
+                </tbody></table>
+                Les méthodes <code>SimpleBrowser::setConnectionTimeout()</code>,
+                <code>SimpleBrowser::setMaximumRedirects()</code>,
+                <code>SimpleBrowser::setMaximumNestedFrames()</code>,
+                <code>SimpleBrowser::ignoreFrames()</code>
+                et <code>SimpleBrowser::useFrames()</code> continuent à s'appliquer
+                sur toutes les requêtes suivantes.
+                Les autres méthodes tiennent compte des fenêtres.
+                Cela veut dire que si une fenêtre individuelle ne se charge pas,
+                il suffit de se diriger vers elle avec
+                <code>SimpleBrowser::setFrameFocus()</code> : ensuite on utilisera
+                <code>SimpleBrowser::getRequest()</code>, etc. pour voir ce qui se passe.
+            </p>
+        </section>
+        <section name="unit" title="Tests unitaires complexes avec des navigateurs multiples">
+            <p>
+                Tout ce qui peut être fait dans
+                <a local="web_tester_documentation">WebTestCase</a> peut maintenant
+                être fait dans un <a local="unit_tester_documentation">UnitTestCase</a>.
+                Ce qui revient à dire que nous pouvons librement mélanger
+                des tests sur des objets de domaine avec l'interface web...
+<php><![CDATA[<strong>
+class TestOfRegistration extends UnitTestCase {
+    function testNewUserAddedToAuthenticator() {</strong>
+        $browser = &new SimpleBrowser();
+        $browser->get('http://my-site.com/register.php');
+        $browser->setField('email', 'me@here');
+        $browser->setField('password', 'Secret');
+        $browser->clickSubmit('Register');
+        <strong>
+        $authenticator = &new Authenticator();
+        $member = &$authenticator->findByEmail('me@here');
+        $this->assertEqual($member->getPassword(), 'Secret');</strong>
+    }
+}
+]]></php>
+                Bien que ça puisse être utile par convenance temporaire,
+                je ne suis pas fan de ce genre de test. Ce test s'applique
+                à plusieurs couches de l'application, ça implique qu'il est
+                plus que probable qu'il faudra le remanier lorsque le code changera.
+            </p>
+            <p>
+                Un cas plus utile d'utilisation directe du navigateur est
+                le moment où le <code>WebTestCase</code> ne peut plus suivre.
+                Un exemple ? Quand deux navigateurs doivent être utilisés en même temps.
+            </p>
+            <p>
+                Par exemple, supposons que nous voulions interdire
+                des usages simultanés d'un site avec le même login d'identification.
+                Ce scénario de test le vérifie...
+<php><![CDATA[
+class TestOfSecurity extends UnitTestCase {
+    function testNoMultipleLoginsFromSameUser() {
+        $first = &new SimpleBrowser();
+        $first->get('http://my-site.com/login.php');
+        $first->setField('name', 'Me');
+        $first->setField('password', 'Secret');
+        $first->clickSubmit('Enter');
+        $this->assertEqual($first->getTitle(), 'Welcome');
+        
+        $second = &new SimpleBrowser();
+        $second->get('http://my-site.com/login.php');
+        $second->setField('name', 'Me');
+        $second->setField('password', 'Secret');
+        $second->clickSubmit('Enter');
+        $this->assertEqual($second->getTitle(), 'Access Denied');
+    }
+}
+]]></php>
+                Vous pouvez aussi utiliser la classe <code>SimpleBrowser</code>
+                quand vous souhaitez écrire des scénarios de test en utilisant
+                un autre outil que SimpleTest.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Utiliser le <a href="#scripting">navigateur web dans des scripts</a>
+        </link>
+        <link>
+            <a href="#deboguer">Déboguer</a> les erreurs sur les pages
+        </link>
+        <link>
+            <a href="#unit">Tests complexes avec des navigateurs web multiples</a>
+        </link>
+    </internal>
+    <external>
+        <link>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            La page de téléchargement de SimpleTest sur
+            <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+        <link>
+            <a href="http://simpletest.org/api/">L'API de développeur pour SimpleTest</a>
+            donne tous les détails sur les classes et les assertions disponibles.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php pour des clients,
+            php centré autour du client,
+            outils de développement logiciel,
+            framework de test de recette,
+            scripts php gratuits,
+            test unitaire de systèmes d'authentification,
+            ressources php,
+            HTMLUnit,
+            JWebUnit,
+            test php,
+            ressource de test unitaire,
+            test web,
+            authentification HTTP,
+            tester la connection,
+            tester l'authentification,
+            tests de sécurité
+        </keywords>
+    </meta>
+</page>
+

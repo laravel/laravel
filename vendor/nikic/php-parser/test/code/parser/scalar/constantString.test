@@ -1,0 +1,53 @@
+Constant string syntaxes
+-----
+<?php
+
+'';
+"";
+b'';
+b"";
+'Hi';
+b'Hi';
+"Hi";
+b"Hi";
+'!\'!\\!\a!';
+"!\"!\\!\$!\n!\r!\t!\f!\v!\e!\a";
+"!\xFF!\377!\400!\0!";
+-----
+array(
+    0: Scalar_String(
+        value:
+    )
+    1: Scalar_String(
+        value:
+    )
+    2: Scalar_String(
+        value:
+    )
+    3: Scalar_String(
+        value:
+    )
+    4: Scalar_String(
+        value: Hi
+    )
+    5: Scalar_String(
+        value: Hi
+    )
+    6: Scalar_String(
+        value: Hi
+    )
+    7: Scalar_String(
+        value: Hi
+    )
+    8: Scalar_String(
+        value: !'!\!\a!
+    )
+    9: Scalar_String(
+        value: !"!\!$!
+    !
+!@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
+    )
+    10: Scalar_String(
+        value: !@@{ chr(255) }@@!@@{ chr(255) }@@!@@{ chr(0) }@@!@@{ chr(0) }@@!
+    )
+)

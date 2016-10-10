@@ -1,0 +1,154 @@
+<?php
+
+namespace Elasticsearch\Endpoints{% for class in namespace %}{{ loop.last ? ';' : '\\' ~ class|title  }}{%  endfor %}
+
+
+use Elasticsearch\Endpoints\AbstractEndpoint;
+use Elasticsearch\Common\Exceptions;
+
+/**
+ * Class {{ className|title }}
+ *
+ * @category Elasticsearch
+ * @package Elasticsearch\Endpoints{% for class in namespace %}{{ loop.last ? '' : '\\' ~ class|title  }}{%  endfor %}
+ *
+ * @author   Zachary Tong <zachary.tong@elasticsearch.com>
+ * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
+ * @link     http://elasticsearch.org
+ */
+
+class {{ className|title }} extends AbstractEndpoint
+{
+{% for part, info in data.url.parts %}
+{% if part != 'index' and part != 'type' and part != 'id' %}
+    // {{info.description }}
+    private ${{part}};
+
+
+{% endif %}
+{% endfor %}
+{% if data.body is not null %}
+    /**
+     * @param array $body
+     *
+     * @throws \Elasticsearch\Common\Exceptions\InvalidArgumentException
+     * @return $this
+     */
+    public function setBody($body)
+    {
+        if (isset($body) !== true) {
+            return $this;
+        }
+
+        if (is_array($body) !== true) {
+            throw new Exceptions\InvalidArgumentException(
+                'Body must be an array'
+            );
+        }
+        $this->body = $body;
+        return $this;
+    }
+
+
+
+{% endif %}
+{% for part, info in data.url.parts %}
+{% if part != 'index' and part != 'type' and part != 'id' %}
+    /**
+     * @param ${{part}}
+     *
+     * @return $this
+     */
+    public function set{{part|title}}(${{part}})
+    {
+        if (isset(${{part}}) !== true) {
+            return $this;
+        }
+
+        $this->{{part}} = ${{part}};
+        return $this;
+    }
+
+
+{% endif %}
+{% endfor %}
+{% set exception = '' %}
+    /**
+{% for part, info in data.url.parts %}
+{% if info.required is not null %}
+{% set exception = '     * @throws \\Elasticsearch\\Common\\Exceptions\\BadMethodCallException
+' %}
+{% endif %}
+{% endfor %}{% autoescape false %}{{ exception }}{% endautoescape %}
+     * @return string
+     */
+    protected function getURI()
+    {
+{% for part, info in data.url.parts %}
+{% if info.required == true %}
+        if (isset($this->{{ part }}) !== true) {
+            throw new Exceptions\RuntimeException(
+                '{{ part }} is required for {{ className }}'
+            );
+        }
+{% endif %}
+{% endfor %}
+{% for part, info in data.url.parts %}
+        ${{ part }} = $this->{{ part }};
+{% endfor %}
+        $uri   = "{{ data.url.default }}";
+{% set loopCounter = 0 %}
+{% for part, info in data.url.processed %}
+{% if info.count > 0 %}
+{% set counter = 0 %}
+        {% if loopCounter != 0 %}else{% set loopCounter = 1 %}{% endif %}if ({% for param in info.params %}{% if counter == 0 %}isset(${{ param }}) === true{% else %} && isset(${{ param }}) === true{% endif %}{% set counter = counter + 1 %}{% endfor %}) {
+            $uri = "{{ info.parsedPath }}";
+        }
+{% endif %}
+{% endfor %}
+
+        return $uri;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    protected function getParamWhitelist()
+    {
+        return array(
+{% for param, options in data.url.params %}
+            '{{ param }}',
+{% endfor %}
+        );
+    }
+
+
+{% if data.body.required == true %}
+    /**
+     * @return array
+     * @throws \Elasticsearch\Common\Exceptions\RuntimeException
+     */
+    protected function getBody()
+    {
+        if (isset($this->body) !== true) {
+            throw new Exceptions\RuntimeException('Body is required for Put');
+        }
+        return $this->body;
+    }
+
+
+{% endif %}
+    /**
+     * @return string
+     */
+    protected function getMethod()
+    {
+{% if data.methods|length > 1 %}
+        //TODO Fix Me!
+        return '{{ data.methods|join(',') }}';
+{% else %}
+        return '{{ data.methods[0] }}';
+{% endif %}
+    }
+}

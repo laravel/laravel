@@ -1,0 +1,16 @@
+357,			"101100101"
+1357,			"#NUM!"		//	Too large
+9,		4,	"1001"
+9,		8,	"00001001"
+9,		6.75,	"001001"	//	Leading places as a float
+9,		-1,	"#NUM!"		//	Leading places negative
+9,		"ABC",	"#VALUE!"	//	Leading places non-numeric
+246,			"11110110"
+12345,			"#NUM!"
+123456789,		"#NUM!"
+123.45,			"1111011"
+0,			"0"
+"3579A",		"#VALUE!"	//	Invalid decimal
+TRUE,			"#VALUE!"	//	Non string
+-100,			"1110011100"	//	2's Complement
+-107,			"1110010101"	//	2's Complement

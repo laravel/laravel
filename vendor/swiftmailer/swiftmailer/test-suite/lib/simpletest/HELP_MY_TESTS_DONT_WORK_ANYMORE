@@ -1,0 +1,383 @@
+Simple Test interface changes
+=============================
+Because the SimpleTest tool set is still evolving it is likely that tests
+written with earlier versions will fail with the newest ones. The most
+dramatic changes are in the alpha releases. Here is a list of possible
+problems and their fixes...
+
+Fatal error: Call to undefined method Classname::classname()
+------------------------------------------------------------
+SimpleTest renamed all of its constructors from 
+Classname to __construct; derived classes invoking
+their parent constructors should replace parent::Classname()
+with parent::__construct().
+
+Custom CSS in HtmlReporter not being applied
+--------------------------------------------
+Batch rename of protected and private methods 
+means that _getCss() was renamed to getCss();
+replace your function definition accordingly.
+
+setReturnReference() throws errors in E_STRICT
+----------------------------------------------
+Happens when an object is passed by reference.
+This also happens with setReturnReferenceAt().
+If you want to return objects then replace these
+with calls to returns() and returnsAt() with the
+same arguments. This change was forced in the 1.1
+version for E_STRICT compatibility.
+
+assertReference() throws errors in E_STRICT
+-------------------------------------------
+Due to language restrictions you cannot compare
+both variables and objects in E_STRICT mode. Use
+assertSame() in this mode with objects. This change
+was forced the 1.1 version.
+
+Cannot create GroupTest
+-----------------------
+The GroupTest has been renamed TestSuite (see below).
+It was removed completely in 1.1 in favour of this
+name.
+
+No method getRelativeUrls() or getAbsoluteUrls()
+------------------------------------------------
+These methods were always a bit weird anyway, and
+the new parsing of the base tag makes them more so.
+They have been replaced with getUrls() instead. If
+you want the old functionality then simply chop
+off the current domain from getUrl().
+
+Method setWildcard() removed in mocks
+-------------------------------------
+Even setWildcard() has been removed in 1.0.1beta now.
+If you want to test explicitely for a '*' string, then
+simply pass in new IdenticalExpectation('*') instead.
+
+No method _getTest() on mocks
+-----------------------------
+This has finally been removed. It was a pretty esoteric
+flex point anyway. It was there to allow the mocks to
+work with other test tools, but no one does this.
+
+No method assertError(), assertNoErrors(), swallowErrors()
+----------------------------------------------------------
+These have been deprecated in 1.0.1beta in favour of
+expectError() and expectException(). assertNoErrors() is
+redundant if you use expectError() as failures are now reported
+immediately.
+
+No method TestCase::signal()
+----------------------------
+This has been deprecated in favour of triggering an error or
+throwing an exception. Deprecated as of 1.0.1beta.
+
+No method TestCase::sendMessage()
+---------------------------------
+This has been deprecated as of 1.0.1beta.
+
+Failure to connect now emits failures
+-------------------------------------
+It used to be that you would have to use the
+getTransferError() call on the web tester to see if
+there was a socket level error in a fetch. This check
+is now always carried out by the WebTestCase unless
+the fetch is prefaced with WebTestCase::ignoreErrors().
+The ignore directive only lasts for test case fetching
+action such as get() and click().
+
+No method SimpleTestOptions::ignore()
+-------------------------------------
+This is deprecated in version 1.0.1beta and has been moved
+to SimpleTest::ignore() as that is more readable. In
+addition, parent classes are also ignored automatically.
+If you are using PHP5 you can skip this directive simply
+by marking your test case as abstract.
+
+No method assertCopy()
+----------------------
+This is deprecated in 1.0.1 in favour of assertClone().
+The assertClone() method is slightly different in that
+the objects must be identical, but without being a
+reference. It is thus not a strict inversion of
+assertReference().
+
+Constructor wildcard override has no effect in mocks
+----------------------------------------------------
+As of 1.0.1beta this is now set with setWildcard() instead
+of in the constructor.
+
+No methods setStubBaseClass()/getStubBaseClass()
+------------------------------------------------
+As mocks are now used instead of stubs, these methods
+stopped working and are now removed as of the 1.0.1beta
+release. The mock objects may be freely used instead.
+
+No method addPartialMockCode()
+------------------------------
+The ability to insert arbitrary partial mock code
+has been removed. This was a low value feature
+causing needless complications. It was removed
+in the 1.0.1beta release.
+
+No method setMockBaseClass()
+----------------------------
+The ability to change the mock base class has been
+scheduled for removal and is deprecated since the
+1.0.1beta version. This was a rarely used feature
+except as a workaround for PHP5 limitations. As
+these limitations are being resolved it's hoped
+that the bundled mocks can be used directly.
+
+No class Stub
+-------------
+Server stubs are deprecated from 1.0.1 as the mocks now
+have exactly the same interface. Just use mock objects
+instead.
+
+No class SimpleTestOptions
+--------------------------
+This was replced by the shorter SimpleTest in 1.0.1beta1
+and is since deprecated.
+
+No file simple_test.php
+-----------------------
+This was renamed test_case.php in 1.0.1beta to more accurately
+reflect it's purpose. This file should never be directly
+included in test suites though, as it's part of the
+underlying mechanics and has a tendency to be refactored.
+
+No class WantedPatternExpectation
+---------------------------------
+This was deprecated in 1.0.1alpha in favour of the simpler
+name PatternExpectation.
+
+No class NoUnwantedPatternExpectation
+-------------------------------------
+This was deprecated in 1.0.1alpha in favour of the simpler
+name NoPatternExpectation.
+
+No method assertNoUnwantedPattern()
+-----------------------------------
+This has been renamed to assertNoPattern() in 1.0.1alpha and
+the old form is deprecated.
+
+No method assertWantedPattern()
+-------------------------------
+This has been renamed to assertPattern() in 1.0.1alpha and
+the old form is deprecated.
+
+No method assertExpectation()
+-----------------------------
+This was renamed as assert() in 1.0.1alpha and the old form
+has been deprecated.
+
+No class WildcardExpectation
+----------------------------
+This was a mostly internal class for the mock objects. It was
+renamed AnythingExpectation to bring it closer to JMock and
+NMock in version 1.0.1alpha.
+
+Missing UnitTestCase::assertErrorPattern()
+------------------------------------------
+This method is deprecated for version 1.0.1 onwards.
+This method has been subsumed by assertError() that can now
+take an expectation. Simply pass a PatternExpectation
+into assertError() to simulate the old behaviour.
+
+No HTML when matching page elements
+-----------------------------------
+This behaviour has been switched to using plain text as if it
+were seen by the user of the browser. This means that HTML tags
+are suppressed, entities are converted and whitespace is
+normalised. This should make it easier to match items in forms.
+Also images are replaced with their "alt" text so that they
+can be matched as well.
+
+No method SimpleRunner::_getTestCase()
+--------------------------------------
+This was made public as getTestCase() in 1.0RC2.
+
+No method restartSession()
+--------------------------
+This was renamed to restart() in the WebTestCase, SimpleBrowser
+and the underlying SimpleUserAgent in 1.0RC2. Because it was
+undocumented anyway, no attempt was made at backward
+compatibility.
+
+My custom test case ignored by tally()
+--------------------------------------
+The _assertTrue method has had it's signature changed due to a bug
+in the PHP 5.0.1 release. You must now use getTest() from within
+that method to get the test case. Mock compatibility with other
+unit testers is now deprecated as of 1.0.1alpha as PEAR::PHPUnit2
+should soon have mock support of it's own.
+
+Broken code extending SimpleRunner
+----------------------------------
+This was replaced with SimpleScorer so that I could use the runner
+name in another class. This happened in RC1 development and there
+is no easy backward compatibility fix. The solution is simply to
+extend SimpleScorer instead.
+
+Missing method getBaseCookieValue()
+-----------------------------------
+This was renamed getCurrentCookieValue() in RC1.
+
+Missing files from the SimpleTest suite
+---------------------------------------
+Versions of SimpleTest prior to Beta6 required a SIMPLE_TEST constant
+to point at the SimpleTest folder location before any of the toolset
+was loaded. This is no longer documented as it is now unnecessary
+for later versions. If you are using an earlier version you may
+need this constant. Consult the documentation that was bundled with
+the release that you are using or upgrade to Beta6 or later.
+
+No method SimpleBrowser::getCurrentUrl()
+--------------------------------------
+This is replaced with the more versatile showRequest() for
+debugging. It only existed in this context for version Beta5.
+Later versions will have SimpleBrowser::getHistory() for tracking
+paths through pages. It is renamed as getUrl() since 1.0RC1.
+
+No method Stub::setStubBaseClass()
+----------------------------------
+This method has finally been removed in 1.0RC1. Use
+SimpleTestOptions::setStubBaseClass() instead.
+
+No class CommandLineReporter
+----------------------------
+This was renamed to TextReporter in Beta3 and the deprecated version
+was removed in 1.0RC1.
+
+No method requireReturn()
+-------------------------
+This was deprecated in Beta3 and is now removed.
+
+No method expectCookie()
+------------------------
+This method was abruptly removed in Beta4 so as to simplify the internals
+until another mechanism can replace it. As a workaround it is necessary
+to assert that the cookie has changed by setting it before the page
+fetch and then assert the desired value.
+
+No method clickSubmitByFormId()
+-------------------------------
+This method had an incorrect name as no button was involved. It was
+renamed to submitByFormId() in Beta4 and the old version deprecated.
+Now removed.
+
+No method paintStart() or paintEnd()
+------------------------------------
+You should only get this error if you have subclassed the lower level
+reporting and test runner machinery. These methods have been broken
+down into events for test methods, events for test cases and events
+for group tests. The new methods are...
+
+paintStart() --> paintMethodStart(), paintCaseStart(), paintGroupStart()
+paintEnd() --> paintMethodEnd(), paintCaseEnd(), paintGroupEnd()
+
+This change was made in Beta3, ironically to make it easier to subclass
+the inner machinery. Simply duplicating the code you had in the previous
+methods should provide a temporary fix.
+
+No class TestDisplay
+--------------------
+This has been folded into SimpleReporter in Beta3 and is now deprecated.
+It was removed in RC1.
+
+No method WebTestCase::fetch()
+------------------------------
+This was renamed get() in Alpha8. It is removed in Beta3.
+
+No method submit()
+------------------
+This has been renamed clickSubmit() in Beta1. The old method was
+removed in Beta2.
+
+No method clearHistory()
+------------------------
+This method is deprecated in Beta2 and removed in RC1.
+
+No method getCallCount()
+------------------------
+This method has been deprecated since Beta1 and has now been
+removed. There are now more ways to set expectations on counts
+and so this method should be unecessery. Removed in RC1.
+
+Cannot find file *
+------------------
+The following public name changes have occoured...
+
+simple_html_test.php --> reporter.php
+simple_mock.php --> mock_objects.php
+simple_unit.php --> unit_tester.php
+simple_web.php --> web_tester.php
+
+The old names were deprecated in Alpha8 and removed in Beta1.
+
+No method attachObserver()
+--------------------------
+Prior to the Alpha8 release the old internal observer pattern was
+gutted and replaced with a visitor. This is to trade flexibility of
+test case expansion against the ease of writing user interfaces.
+
+Code such as...
+
+$test = &new MyTestCase();
+$test->attachObserver(new TestHtmlDisplay());
+$test->run();
+
+...should be rewritten as...
+
+$test = &new MyTestCase();
+$test->run(new HtmlReporter());
+
+If you previously attached multiple observers then the workaround
+is to run the tests twice, once with each, until they can be combined.
+For one observer the old method is simulated in Alpha 8, but is
+removed in Beta1.
+
+No class TestHtmlDisplay
+------------------------
+This class has been renamed to HtmlReporter in Alpha8. It is supported,
+but deprecated in Beta1 and removed in Beta2. If you have subclassed
+the display for your own design, then you will have to extend this
+class (HtmlReporter) instead.
+
+If you have accessed the event queue by overriding the notify() method
+then I am afraid you are in big trouble :(. The reporter is now
+carried around the test suite by the runner classes and the methods
+called directly. In the unlikely event that this is a problem and
+you don't want to upgrade the test tool then simplest is to write your
+own runner class and invoke the tests with...
+
+$test->accept(new MyRunner(new MyReporter()));
+
+...rather than the run method. This should be easier to extend
+anyway and gives much more control. Even this method is overhauled
+in Beta3 where the runner class can be set within the test case. Really
+the best thing to do is to upgrade to this version as whatever you were
+trying to achieve before should now be very much easier.
+
+Missing set options method
+--------------------------
+All test suite options are now in one class called SimpleTestOptions.
+This means that options are set differently...
+
+GroupTest::ignore() --> SimpleTestOptions::ignore()
+Mock::setMockBaseClass() --> SimpleTestOptions::setMockBaseClass()
+
+These changed in Alpha8 and the old versions are now removed in RC1.
+
+No method setExpected*()
+------------------------
+The mock expectations changed their names in Alpha4 and the old names
+ceased to be supported in Alpha8. The changes are...
+
+setExpectedArguments() --> expectArguments()
+setExpectedArgumentsSequence() --> expectArgumentsAt()
+setExpectedCallCount() --> expectCallCount()
+setMaximumCallCount() --> expectMaximumCallCount()
+
+The parameters remained the same.

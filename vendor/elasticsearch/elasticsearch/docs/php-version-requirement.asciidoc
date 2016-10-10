@@ -1,0 +1,3 @@
+== PHP Version Requirement
+
+Version 2.0 of Elasticsearch-PHP requires PHP version 5.4.0 or higher.

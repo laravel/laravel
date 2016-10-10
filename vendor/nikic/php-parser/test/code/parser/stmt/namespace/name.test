@@ -1,0 +1,42 @@
+Different name types
+-----
+<?php
+
+A;
+A\B;
+\A\B;
+namespace\A\B;
+-----
+array(
+    0: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: A
+            )
+        )
+    )
+    1: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: A
+                1: B
+            )
+        )
+    )
+    2: Expr_ConstFetch(
+        name: Name_FullyQualified(
+            parts: array(
+                0: A
+                1: B
+            )
+        )
+    )
+    3: Expr_ConstFetch(
+        name: Name_Relative(
+            parts: array(
+                0: A
+                1: B
+            )
+        )
+    )
+)

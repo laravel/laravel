@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="phpseclib"
+         description="PHP Secure Communications Library"
+         default="all"
+>
+
+  <target name="all" depends="sniff,api" />
+
+  <!-- Code Sniffer -->
+  <target name="sniff" depends="sniff-php-code,sniff-php-tests" />
+  <target name="sniff-php-code">
+    <exec command="vendor/bin/phpcs -s
+        --extensions=php
+        --standard=build/code-sniffer-ruleset.xml
+        phpseclib/"
+      dir=".." checkreturn="true" passthru="true" />
+  </target>
+  <target name="sniff-php-tests">
+    <exec command="vendor/bin/phpcs -s
+        --extensions=php
+        --standard=build/code-sniffer-ruleset-tests.xml
+        tests/"
+      dir=".." checkreturn="true" passthru="true" />
+  </target>
+
+  <!-- API Generation -->
+  <target name="api">
+    <exec command="vendor/bin/sami.php update build/sami.conf.php"
+      dir=".." passthru="true" />
+  </target>
+
+</project>

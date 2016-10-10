@@ -1,0 +1,84 @@
+body {
+    padding-left: 3%;
+    padding-right: 3%;
+}
+pre {
+    font-family: "courier new", courier;
+    font-size: 80%;
+    border: 1px solid;
+    background-color: #cccccc;
+    padding: 5px;
+    margin-left: 5%;
+    margin-right: 8%;
+}
+.code, .new_code, pre.new_code {
+    font-weight: bold;
+}
+div.copyright {
+    font-size: 80%;
+    color: gray;
+}
+div.copyright a {
+    color: gray;
+}
+ul.api {
+    padding-left: 0em;
+    padding-right: 25%;
+}
+ul.api li {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    list-style: none;
+    text-indent: -3em;
+    padding-left: 3em;
+}
+div.demo {
+    border: 4px ridge;
+    border-color: gray;
+    padding: 10px;
+    margin: 5px;
+    margin-left: 20px;
+    margin-right: 40px;
+    background-color: white;
+}
+div.demo span.fail {
+    color: red;
+}
+div.demo span.pass {
+    color: green;
+}
+div.demo h1 {
+    font-size: 12pt;
+    text-align: left;
+    font-weight: bold;
+}
+table {
+    border: 2px outset;
+    border-color: gray;
+    background-color: white;
+    margin: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+td {
+    font-size: 80%;
+}
+.shell {
+    color: white;
+}
+pre.shell {
+    border: 4px ridge;
+    border-color: gray;
+    padding: 10px;
+    margin: 5px;
+    margin-left: 20px;
+    margin-right: 40px;
+    background-color: black;
+}
+form.demo {
+    background-color: lightgray;
+    border: 4px outset;
+    border-color: lightgray;
+    padding: 10px;
+    margin-right: 40%;
+}

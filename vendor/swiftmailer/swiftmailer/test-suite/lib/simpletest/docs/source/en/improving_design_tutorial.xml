@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<!-- $Id: improving_design_tutorial.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Top down and test driven" here="Top down testing">
+    <long_title>
+        PHP unit testing tutorial - Top down design
+        test first with mock objects
+    </long_title>
+    <content>
+        <section name="mock" title="Mock now, code later">
+            <p>
+                I lied.
+            </p>
+            <p>
+                I haven&apos;t created a writer test at all, only the
+                <code>FileWriter</code> interface that I showed
+                earlier.
+                In fact I&apos;ll go one step further away from a finished article and assume
+                only an abstract writer in <em>classes/writer.php</em>...
+<php><![CDATA[
+<?php
+class <strong>Writer</strong> {
+        
+    function <strong>Writer()</strong> {
+    }
+        
+    function write($message) {
+    }
+}
+?>
+]]></php>
+                The corresponding test changes are...
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');
+require_once('../classes/clock.php');
+require_once('../classes/writer.php');
+Mock::generate('Clock');<strong>
+Mock::generate('Writer');</strong>
+
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }
+    function testWriting() {
+        $clock = &new MockClock($this);
+        $clock->setReturnValue('now', 'Timestamp');
+        $writer = &new <strong>MockWriter($this)</strong>;
+        $writer->expectOnce('write', array('[Timestamp] Test line'));
+        $log = &new Log($writer);
+        $log->message('Test line', &$clock);
+        $writer->tally();
+    }
+}
+?>
+]]></php>
+                In order to use the logging class we would need to code a file
+                writer or other sort of writer, but at the moment we are only
+                testing and so we do not yet need it.
+                So, in other words, using mocks we can defer the creation of
+                lower level objects until we feel like it.
+                Not only can we design top down, but we can test top down too.
+            </p>
+        </section>
+        <section name="bridge" title="Approaching the bridge">
+            <p>
+                Imagine for the moment that we had started the logging class
+                from another direction.
+                Pretend that we had coded just enough of the <code>Log</code>
+                to realise we needed a <code>Writer</code> somehow.
+                How would we have included it?
+            </p>
+            <p>
+                Well, inheriting from the writer would not have allowed us to mock it
+                from the testing point of view.
+                From the design point of view we would have been restricted to
+                just one writer without multiple inheritence.
+            </p>
+            <p>
+                Creating the writer internally, rather than passing it in the constructor,
+                by choosing a class name is possible, but we would have less control
+                of the mock object set up.
+                From the design point of view it would have been nearly impossible
+                to pass parameters to the writer in all the different formats ever needed.
+                You would have to have the writer restricted to say a hash or complicated
+                string describing the target details.
+                Needlessly complicated at best.
+            </p>
+            <p>
+                Using a factory method to create the writer internally would be
+                possible, but would mean subclassing it for testing so that the factory
+                method could be replaced with one returning a mock.
+                More work from the test point of view, although still possible.
+                From the design point of view it would mean a new logger subclass
+                for every type of writer that we want to use.
+                This is called a parallel class hiearchy and obviously involves
+                duplication.
+                Yuk.
+            </p>
+            <p>
+                At the other extreme, passing or creating the writer on every
+                message would have been repetitive and reduced the
+                <code>Log</code> class code to a single
+                method, a sure sign that the whole class has become redundant.
+            </p>
+            <p>
+                This tension between ease of testing and avoiding repetition
+                has allowed us to find a flexible and clean design.
+                Remember our brief yearning for multiple inheritence?
+                We have replaced it with polymorphism (lots of writers) and separated the
+                logging hierachy from the writing hierarchy.
+                We connect the two through this simpler <code>Log</code>
+                by aggregation.
+                This trick is actually a design pattern called a &quot;Bridge&quot;.
+            </p>
+            <p>
+                So we have been pushed by test code (we haven&apos;t written much else yet)
+                into a design pattern.
+                Think about this for a second.
+                Tests improve code quality, certainly in my case, but this is
+                something far more profound and far more powerful.
+            </p>
+            <p>
+                Testing has improved the design.
+            </p>
+        </section>
+        <section name="design" title="Mock down design">
+            <p>
+                Creating a mock object is as easy as creating the interface in text
+                form.
+                If you have UML or other tools that create these interfaces for you,
+                then you have an even more flexible route to quickly generate
+                test objects.
+                Even if you do not, you can switch from white board drawing, to
+                writing a test case, to writing a mock, to generating an interface
+                which takes us back to the whiteboard drawing again, fairly easily.
+                Like refactoring, design, code and test become unified.
+            </p>
+            <p>
+                Because mock objects work top down they can be bought into the design
+                more quickly than normal refactoring, which requires at least
+                partially working code before it kicks in.
+                This means that the testing code interacts with the design faster
+                and this means that the design quality goes up sooner.
+            </p>
+            <p>
+                A unit tester is a coding tool.
+                A unit tester with mock objects is a design tool.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#mock">Mock now</a>, code later.
+        </link>
+        <link>
+            We derive <a href="#bridge">the bridge pattern</a>.
+        </link>
+        <link>
+            <a href="#design">Designing and testing</a> hand in hand.
+        </link>
+    </internal>
+    <external>
+        <link>
+            This tutorial follows <a href="boundary_classes_tutorial.php">Boundary classes</a>.
+        </link>
+        <link>
+            You will need the <a href="simple_test.php">SimpleTest testing framework</a>
+            to try these examples.
+        </link>
+        <link>
+            For more mock object discussion see the
+            <a href="http://www.xpdeveloper.org/xpdwiki/Wiki.jsp?page=MockObjects">Extreme Tuesday Wiki</a>
+            or the
+            <a href="http://c2.com/cgi/wiki?MockObject">C2 Wiki</a>
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming tutorial,
+            programming php test cases,
+            software development tools,
+            php tutorial,
+            free php code,
+            architecture,
+            php examples,
+            mock object examples,
+            junit style testing,
+            php testing frameworks,
+            unit test,
+            mock objects in PHP,
+            php testing
+        </keywords>
+    </meta>
+</page>

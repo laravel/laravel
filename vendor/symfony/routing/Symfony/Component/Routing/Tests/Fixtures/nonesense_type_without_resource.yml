@@ -1,0 +1,3 @@
+blog_show:
+    path:    /blog/{slug}
+    type:    custom

@@ -1,0 +1,152 @@
+ID;PWXL;N;E
+P;PGeneral
+P;P0
+P;P0.00
+P;P#,##0
+P;P#,##0.00
+P;P#,##0;;\-#,##0
+P;P#,##0;;[Red]\-#,##0
+P;P#,##0.00;;\-#,##0.00
+P;P#,##0.00;;[Red]\-#,##0.00
+P;P"$"#,##0;;\-"$"#,##0
+P;P"$"#,##0;;[Red]\-"$"#,##0
+P;P"$"#,##0.00;;\-"$"#,##0.00
+P;P"$"#,##0.00;;[Red]\-"$"#,##0.00
+P;P0%
+P;P0.00%
+P;P0.00E+00
+P;P##0.0E+0
+P;P#\ ?/?
+P;P#\ ??/??
+P;Pdd/mm/yyyy
+P;Pdd\-mmm\-yy
+P;Pdd\-mmm
+P;Pmmm\-yy
+P;Ph:mm\ AM/PM
+P;Ph:mm:ss\ AM/PM
+P;Phh:mm
+P;Phh:mm:ss
+P;Pdd/mm/yyyy\ hh:mm
+P;Pmm:ss
+P;Pmm:ss.0
+P;P@
+P;P[h]:mm:ss
+P;P_-"$"* #,##0_-;;\-"$"* #,##0_-;;_-"$"* "-"_-;;_-@_-
+P;P_-* #,##0_-;;\-* #,##0_-;;_-* "-"_-;;_-@_-
+P;P_-"$"* #,##0.00_-;;\-"$"* #,##0.00_-;;_-"$"* "-"??_-;;_-@_-
+P;P_-* #,##0.00_-;;\-* #,##0.00_-;;_-* "-"??_-;;_-@_-
+P;FArial;M200
+P;FArial;M200
+P;FArial;M200
+P;FArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M200
+P;EArial;M200;SB
+P;EArial;M200;SBI
+P;EArial;M200;SI
+P;EArial;M200;SU
+P;EArial;M200;L11
+P;EArial;M200;SB
+P;EArial;M200
+P;EArial;M200;SI
+P;EArial;M200;SBI
+P;EArial;M200;SBU
+P;EArial;M200;SBIU
+P;EArial;M200
+P;EArial;M200;SI
+F;P0;DG0G8;M255
+B;Y18;X10;D0 0 17 9
+O;L;D;V0;K47;G100 0.001
+F;W1 1 17
+F;W4 6 6
+F;M270;R9
+F;M270;R12
+F;M270;R17
+F;M270;R18
+F;SM12;Y1;X1
+C;K"Test String 1"
+F;SM19;X2
+C;K1
+F;SM19;X3
+C;K5
+F;SIDM18;X5
+C;K"A"
+F;SDM17;X6
+C;K"E"
+C;X8;K6;ERC[-6]+RC[-5]
+C;X10;K"AE";ERC[-5]&RC[-4]
+F;SSM0;Y2;X1
+C;K"Test - String 2"
+C;X2;K2
+F;SM19;X3
+C;K6
+C;X5;K"B"
+C;X6;K"F"
+C;X8;K8;ERC[-6]+RC[-5]
+C;X10;K"BF";ERC[-5]&RC[-4]
+C;Y3;X1;K"Test #3"
+F;SM19;X2
+C;K3
+F;SM19;X3
+C;K7
+F;SDM13;X5
+C;K"C"
+F;SIDM16;X6
+C;K"G"
+C;X8;K10;ERC[-6]+RC[-5]
+C;X10;K"CG";ERC[-5]&RC[-4]
+F;SM11;Y4;X1
+C;K"Test with (;;) in string"
+C;X2;K4
+F;SM19;X3
+C;K8
+F;SIM15;X5
+C;K"D"
+C;X6;K"H"
+C;X8;K12;ERC[-6]+RC[-5]
+C;X10;K"DH";ERC[-5]&RC[-4]
+C;Y5;X8;K10;ESUM(R[-4]C[-6]:R[-1]C[-6])
+C;X9;K26;ESUM(R[-4]C[-6]:R[-1]C[-6])
+C;X10;K36;ESUM(R[-4]C[-8]:R[-1]C[-7])
+C;Y6;X2;K1.23
+C;X3;KTRUE
+F;P19;FG0G;X4
+C;Y7;X2;K2.34
+C;X3;KFALSE
+C;Y8;X2;K3.45
+F;Y9;X1
+F;X2
+F;X3
+F;X4
+F;X5
+F;X6
+F;X7
+F;X8
+F;X9
+F;X10
+F;P19;FG0G;Y10;X1
+C;K22269
+F;STM0;X3
+C;K"TOP"
+F;P17;FG0G;Y11;X1
+C;K1.5
+F;Y12
+F;X2
+F;SBM0;X3
+C;K"BOTTOM"
+F;X4
+F;X5
+F;X6
+F;X7
+F;X8
+F;X9
+F;X10
+F;SLM0;Y14;X3
+C;K"LEFT"
+F;SRM0;Y16
+C;K"RIGHT"
+F;Y17
+F;SLRTBM0;Y18
+C;K"BOX"
+E

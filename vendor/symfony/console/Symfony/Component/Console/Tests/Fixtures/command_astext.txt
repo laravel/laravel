@@ -1,0 +1,18 @@
+<comment>Usage:</comment>
+ namespace:name
+
+<comment>Aliases:</comment> <info>name</info>
+<comment>Arguments:</comment>
+ <info>command              </info> The command to execute
+
+<comment>Options:</comment>
+ <info>--help</info> (-h)           Display this help message.
+ <info>--quiet</info> (-q)          Do not output any message.
+ <info>--verbose</info> (-v|vv|vvv) Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+ <info>--version</info> (-V)        Display this application version.
+ <info>--ansi</info>                Force ANSI output.
+ <info>--no-ansi</info>             Disable ANSI output.
+ <info>--no-interaction</info> (-n) Do not ask any interactive question.
+
+<comment>Help:</comment>
+ help

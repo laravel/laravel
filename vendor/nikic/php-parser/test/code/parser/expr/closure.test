@@ -1,0 +1,94 @@
+Closures
+-----
+<?php
+function($a) { $a; };
+function($a) use($b) {};
+function() use($a, &$b) {};
+function &($a) {};
+static function() {};
+-----
+array(
+    0: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                name: a
+                default: null
+                type: null
+                byRef: false
+            )
+        )
+        uses: array(
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                name: a
+                default: null
+                type: null
+                byRef: false
+            )
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: b
+                byRef: false
+            )
+        )
+        stmts: array(
+        )
+    )
+    2: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: a
+                byRef: false
+            )
+            1: Expr_ClosureUse(
+                var: b
+                byRef: true
+            )
+        )
+        stmts: array(
+        )
+    )
+    3: Expr_Closure(
+        static: false
+        byRef: true
+        params: array(
+            0: Param(
+                name: a
+                default: null
+                type: null
+                byRef: false
+            )
+        )
+        uses: array(
+        )
+        stmts: array(
+        )
+    )
+    4: Expr_Closure(
+        static: true
+        byRef: false
+        params: array(
+        )
+        uses: array(
+        )
+        stmts: array(
+        )
+    )
+)

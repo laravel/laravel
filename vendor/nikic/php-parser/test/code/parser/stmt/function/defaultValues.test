@@ -1,0 +1,138 @@
+Default values (static scalar tests)
+-----
+<?php
+
+function a(
+    $b = null,
+    $c = 'foo',
+    $d = A::B,
+    $f = +1,
+    $g = -1.0,
+    $h = array(),
+    $i = [],
+    $j = ['foo'],
+    $k = ['foo', 'bar' => 'baz']
+) {}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        params: array(
+            0: Param(
+                name: b
+                default: Expr_ConstFetch(
+                    name: Name(
+                        parts: array(
+                            0: null
+                        )
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            1: Param(
+                name: c
+                default: Scalar_String(
+                    value: foo
+                )
+                type: null
+                byRef: false
+            )
+            2: Param(
+                name: d
+                default: Expr_ClassConstFetch(
+                    class: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )
+                    name: B
+                )
+                type: null
+                byRef: false
+            )
+            3: Param(
+                name: f
+                default: Expr_UnaryPlus(
+                    expr: Scalar_LNumber(
+                        value: 1
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            4: Param(
+                name: g
+                default: Expr_UnaryMinus(
+                    expr: Scalar_DNumber(
+                        value: 1
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            5: Param(
+                name: h
+                default: Expr_Array(
+                    items: array(
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            6: Param(
+                name: i
+                default: Expr_Array(
+                    items: array(
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            7: Param(
+                name: j
+                default: Expr_Array(
+                    items: array(
+                        0: Expr_ArrayItem(
+                            key: null
+                            value: Scalar_String(
+                                value: foo
+                            )
+                            byRef: false
+                        )
+                    )
+                )
+                type: null
+                byRef: false
+            )
+            8: Param(
+                name: k
+                default: Expr_Array(
+                    items: array(
+                        0: Expr_ArrayItem(
+                            key: null
+                            value: Scalar_String(
+                                value: foo
+                            )
+                            byRef: false
+                        )
+                        1: Expr_ArrayItem(
+                            key: Scalar_String(
+                                value: bar
+                            )
+                            value: Scalar_String(
+                                value: baz
+                            )
+                            byRef: false
+                        )
+                    )
+                )
+                type: null
+                byRef: false
+            )
+        )
+        stmts: array(
+        )
+        name: a
+    )
+)

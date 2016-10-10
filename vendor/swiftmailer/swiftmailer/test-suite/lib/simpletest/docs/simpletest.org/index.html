@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>SimpleTest - Unit Testing for PHP</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="simpletest.css" media="screen" title="Normal" />
+</head>
+<body>
+<div>
+	<div id="actions">
+		<div id="logo">
+			<a href="http://simpletest.org/index.html"><img src="images/simpletest-logo.png" width="335" height="127" border="0" id="simpletestlogo" alt="" /></a>
+		</div>
+		<div>
+			<div>
+				<a href="en/download.html"><img src="images/simpletest-download.png" width="306" height="109" border="0" id="simpletestdownload" alt="" /></a>
+				<p>
+					SimpleTest 1.0.1 has been
+					<a href="https://sourceforge.net/project/showfiles.php?group_id=76550">
+					released</a>.
+					This is the last PHP 4 compatible release.
+					From now on, compatibility extends from PHP 5.0.5+.
+				</p>
+			</div>
+			<div>
+				<a href="en/start-testing.html"><img src="images/simpletest-start-testing.png" width="306" height="109" border="0" id="simpleteststarttesting" alt="" /></a>
+				<p>
+					Familiar with unit testing ? Just dive directly into SimpleTest with
+					<a href="en/start-testing.html">the one-page starter</a> and
+					<a href="http://simpletest.org/api/">the complete API</a>.
+					<br />
+					Otherwise see the ongoing
+					<a href="en/overview.html">documentation</a>.
+					<br />
+					And for example test cases check out the
+					<a href="en/first_test_tutorial.html">tutorial</a>.
+	            </p>
+			</div>
+			<div>
+				<a href="en/support.html"><img src="images/simpletest-support.png" width="306" height="109" border="0" id="simpletestsupport" alt="" /></a>
+				<p>
+					Need help on your testing strategy ?
+					Feel free to join the
+					<a href="https://sourceforge.net/mail/?group_id=76550">SimpleTest support mailing-list</a>.
+				</p>
+				<p>
+					If you need some new functionnality in SimpleTest, you may want to look at
+					the <a href="https://sourceforge.net/tracker/?atid=547458&amp;group_id=76550&amp;func=browse">features tracker</a>.
+					Also the <a href="https://sourceforge.net/tracker/?atid=547455&amp;group_id=76550&amp;func=browse">bug</a> and
+					<a href="https://sourceforge.net/tracker/?group_id=76550&amp;atid=547457">patches</a> trackers can be useful.
+				</p>
+			</div>
+			<div>
+				<a href="en/todo.html"><img src="images/simpletest-contribute.png" width="306" height="109" border="0" id="simpletestcontribute" alt="" /></a>
+				<p>
+					And if you feel like giving a hand, feel free to look around the
+					<a href="en/todo.html">current TODO list</a>...
+				</p>
+			</div>
+			<div id="credits">
+				<a href="http://sourceforge.net/projects/simpletest">
+				<img src="http://sourceforge.net/sflogo.php?group_id=76550&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" />
+				</a>
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<p id="news">
+			[2008/04/08] 
+			<a href="https://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=77275&amp;release_id=590611">
+			SimpleTest 1.0.1 is released</a>. 
+			The last release that supports PHP4.2 up to PHP5.3 inclusive.
+			Compared to the last stable release, the main significant change
+			is the switch to <em>autorun</em>.
+		</p>
+		<p>
+			The <strong>SimpleTest PHP unit tester</strong>
+			is available for download from your nearest
+			<a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+			It is a PHP unit test and web test framework.
+			Users of <a href="http://www.junit.org/">JUnit</a> will be
+			familiar with most of the interface.
+			The <a href="http://jwebunit.sourceforge.net/">JWebUnit</a>
+			style functionality is more complete now.
+			It has support for SSL, forms, frames, proxies and basic authentication.
+			The idea is that common but fiddly PHP tasks, such as logging into a site,
+			can be tested easily.
+		</p>
+		<h2>Screenshots</h2>
+		<p>
+			Here's what the result of your first test would look like :
+		</p>
+		<p>
+			<img class="screenshot" alt="test with 1 pass" src="images/test-with-1-pass.png" border="0" id="test-with-1-pass" />
+		</p>
+		<p>
+			Well not quite. In true TDD fashion, you should see a failing test case :
+		</p>
+		<p>
+			<img class="screenshot" alt="test with 1 fail" src="images/test-with-1-fail.png" border="0" id="test-with-1-fail" />
+		</p>
+		<p>
+			You may also prefer doing your testing with the command-line :
+		</p>
+		<p>
+			<img alt="test in cli" src="images/test-in-cli.png" border="0" id="test-in-cli" />
+		</p>
+		<h2>Documentation</h2>
+		<p>
+			While (still) very scattered around different sites,
+			the SimpleTest documentation is quite dense and thorough.
+		</p>
+		<ul>
+			<li>
+				in english there's <a href="en/first_test_tutorial.html">a tutorial</a>
+				and <a href="en/unit_test_documentation.html">the official documentation</a>.
+			</li>
+			<li>
+				<cite>en français, il y a aussi <a href="fr/first_test_tutorial.html">le tutoriel</a>
+				et <a href="fr/unit_test_documentation.html">la documentation</a></cite>.
+			</li>
+			<li>
+				a fully <a href="http://simpletest.org/api/">documented API</a>
+				is also generated with phpDocumentor.
+			</li>
+		</ul>
+		<p>
+			Other type of interesting stuff while starting out
+			with Test Driven Development and SimpleTest include :
+		</p>
+		<ul>
+			<li>
+				<a href="http://en.wikipedia.org/wiki/SimpleTest">Article on Wikipedia</a>
+			</li>
+			<li>
+				<a href="http://www.developerspot.com/tutorials/php/test-driven-development/page1.html">
+				Test Driven Development</a> :
+				article by Marcus Baker (SimpleTest leader)
+			</li>
+			<li>
+				<a href="http://onpk.net/talks/fosdem2005/introduction_simpletest.html">
+				Introduction to SimpleTest and TDD</a> :
+				slides from a talk given at Fosdem, Brussels in 2005 by Perrick Penet
+			</li>
+			<li>
+				<a href="http://www.devpapers.com/article/303">
+				Unit Testing in PHP using SimpleTest</a> :
+				article by Saleh Jamal
+			</li>
+			<li>
+				<a href="http://drupal.org/simpletest">How to write automated tests</a> :
+				in Drupal style (Module how-to's)
+			</li>
+			<li>
+				<a href="http://blog.casey-sweat.us/?p=72">Live TDD demo</a> :
+				transcript of a presentation in London in 2006 by Jason E. Sweat
+			</li>
+		</ul>
+		<p>
+			A couple of books do use SimpleTest quite extensively :
+		</p>
+		<ul>
+			<li>
+				<strong>PHP|Architect's Guide to PHP Design Patterns</strong><br />
+				by Jason E. Sweat<br />
+				( <a href="http://www.phparch.com/shop_product.php?itemid=96">PHP|Architect</a> |
+				<a href="http://www.amazon.com/gp/product/0973589825/102-3523235-1803315">Amazon</a> )
+			</li>
+			<li>
+				<strong>The PHP Anthology: Object Oriented PHP Solutions</strong><br />
+				by Harry Fuecks<br />
+				( <a href="http://www.sitepoint.com/books/phpant1/">SitePoint</a> | 
+				<a href="http://www.amazon.com/gp/product/0957921845/102-3523235-1803315">Amazon</a> |
+				<a href="http://developers.slashdot.org/article.pl?sid=04/08/04/1516258&amp;tid=169&amp;tid=192&amp;tid=218&amp;mode=nocomment">review on Slashdot</a> )
+			</li>
+		</ul>
+		<h2>Contributing</h2>
+		<p>
+			For translators the documentation is available in XML format :
+			we're always please to add new languages to our code base.
+		</p>
+		<p>
+			And while we do try our best keeping this tool bug-free, detecting defects and
+			submitting failing test cases and/or patches can come very handy ! Interested ?
+			Drop by the <a href="https://sourceforge.net/mail/?group_id=76550">mailing-list</a>,
+			most things tend to happen there...
+		</p>
+	</div>
+</div>
+
+</body>
+</html>

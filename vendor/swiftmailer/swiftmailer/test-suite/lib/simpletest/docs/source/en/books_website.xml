@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- $Id: books_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Books" here="Books">
+    <long_title>Books in and around SimpleTest</long_title>
+    <content>
+        <section name="latest-recommandation" title="Latest recommandation">
+            <p>
+                From time to time a book is recommanded on the mailing-list, you can find it here
+                with the original comments !
+            </p>
+            <p>
+                <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215?ie=UTF8&amp;tag=simpletest-21&amp;"><img src="../images/book-domain-driven-design.jpg" alt="Domain-Driven Design: Tackling Complexity in the Heart of Software" /></a>
+            </p>
+            <blockquote>
+                TDD is a lot about the mechanics of coding, but it says you are done
+                when there is no duplication. DDD considers the code in constant churn,
+                always renaming as the domain becomes clear and also feeding terms back
+                into the domain as the code evolves.<br />
+                <br />
+                Anyways, it's a great book :) [<a href="http://sourceforge.net/mailarchive/message.php?msg_id=37546605">source</a>]
+            </blockquote>
+        </section>
+        <section name="books-by-contributors" title="Books by contributors">
+            <p>
+                Two of SimpleTest contributors have written books about PHP. Both have a lot
+                of examples with the SimpleTest Unit testing framework.
+            </p>
+            <p>
+                <a href="http://www.amazon.fr/gp/product/0973589825?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=as2&amp;camp=1642&amp;creative=6746&amp;creativeASIN=0973589825"><img src="../images/book-guide-to-php-design-patterns.jpg" alt="PHP|Architect's Guide to PHP Design Patterns" /></a>
+                <br />
+                <strong>PHP|Architect's Guide to PHP Design Patterns</strong><br />
+                by Jason E. Sweat<br />
+                (get it from : <a href="http://www.phparch.com/shop_product.php?itemid=96">PHP|Architect</a> |
+                <a href="http://www.amazon.fr/gp/product/0973589825?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=as2&amp;camp=1642&amp;creative=6746&amp;creativeASIN=0973589825">Amazon</a> )
+            </p>
+            <p>
+                <a href="http://www.amazon.fr/gp/product/0957921845/402-9483515-6732155?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=xm2&amp;camp=1642&amp;creativeASIN=0957921845"><img src="../images/book-the-php-anthology-object-oriented-php-solutions.jpg" alt="The PHP Anthology: Object Oriented PHP Solutions" /></a>
+                <br />
+                <strong>The PHP Anthology: Object Oriented PHP Solutions</strong><br />
+                by Harry Fuecks<br />
+                (get it from : <a href="http://www.sitepoint.com/books/phpant1/">SitePoint</a> | 
+                <a href="http://www.amazon.fr/gp/product/0957921845/402-9483515-6732155?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=xm2&amp;camp=1642&amp;creativeASIN=0957921845">Amazon</a> |
+                <a href="http://developers.slashdot.org/article.pl?sid=04/08/04/1516258&amp;amp;tid=169&amp;amp;tid=192&amp;amp;tid=218&amp;amp;mode=nocomment">review on Slashdot</a> )
+            </p>
+        </section>
+        <section name="buying-books" title="Buying books">
+            <p>
+                One way to help the team of contributors is to buy books from this page through
+                Amazon (with the <cite>simpletest-21</cite> tag). We all love reading stuff that's
+                both interesting and challenging.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#latest-recommandation">Latest recommandation</a>
+        </link>
+        <link>
+            <a href="#books-by-contributors">Books by contributors</a>
+        </link>
+        <link>
+            <a href="#buying-books">Buying books</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+        </keywords>
+    </meta>
+</page>

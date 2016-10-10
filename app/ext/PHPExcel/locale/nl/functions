@@ -1,0 +1,438 @@
+##
+## PHPExcel
+##
+## Copyright (c) 2006 - 2013 PHPExcel
+##
+## This library is free software; you can redistribute it and/or
+## modify it under the terms of the GNU Lesser General Public
+## License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+##
+## @category   PHPExcel
+## @package    PHPExcel_Calculation
+## @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+## @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+## @version    1.8.0, 2014-03-02
+##
+## Data in this file derived from http://www.piuha.fi/excel-function-name-translation/
+##
+##
+
+
+##
+##	Add-in and Automation functions			Automatiseringsfuncties en functies in invoegtoepassingen
+##
+GETPIVOTDATA		= DRAAITABEL.OPHALEN		##	Geeft gegevens uit een draaitabelrapport als resultaat
+
+
+##
+##	Cube functions					Kubusfuncties
+##
+CUBEKPIMEMBER		= KUBUSKPILID			##	Retourneert de naam, eigenschap en waarde van een KPI (prestatie-indicator) en geeft de naam en de eigenschap in de cel weer. Een KPI is een meetbare waarde, zoals de maandelijkse brutowinst of de omzet per kwartaal per werknemer, die wordt gebruikt om de prestaties van een organisatie te bewaken
+CUBEMEMBER		= KUBUSLID			##	Retourneert een lid of tupel in een kubushiërarchie. Wordt gebruikt om te controleren of het lid of de tupel in de kubus aanwezig is
+CUBEMEMBERPROPERTY	= KUBUSLIDEIGENSCHAP		##	Retourneert de waarde van een lideigenschap in de kubus. Wordt gebruikt om te controleren of de lidnaam in de kubus bestaat en retourneert de opgegeven eigenschap voor dit lid
+CUBERANKEDMEMBER	= KUBUSGERANGCHIKTLID		##	Retourneert het zoveelste, gerangschikte lid in een set. Wordt gebruikt om een of meer elementen in een set te retourneren, zoals de tien beste verkopers of de tien beste studenten
+CUBESET			= KUBUSSET			##	Definieert een berekende set leden of tupels door een ingestelde expressie naar de kubus op de server te sturen, alwaar de set wordt gemaakt en vervolgens wordt geretourneerd naar Microsoft Office Excel
+CUBESETCOUNT		= KUBUSSETAANTAL		##	Retourneert het aantal onderdelen in een set
+CUBEVALUE		= KUBUSWAARDE			##	Retourneert een samengestelde waarde van een kubus
+
+
+##
+##	Database functions				Databasefuncties
+##
+DAVERAGE		= DBGEMIDDELDE			##	Berekent de gemiddelde waarde in geselecteerde databasegegevens
+DCOUNT			= DBAANTAL			##	Telt de cellen met getallen in een database
+DCOUNTA			= DBAANTALC			##	Telt de niet-lege cellen in een database
+DGET			= DBLEZEN			##	Retourneert één record dat voldoet aan de opgegeven criteria uit een database
+DMAX			= DBMAX				##	Retourneert de maximumwaarde in de geselecteerde databasegegevens
+DMIN			= DBMIN				##	Retourneert de minimumwaarde in de geselecteerde databasegegevens
+DPRODUCT		= DBPRODUCT			##	Vermenigvuldigt de waarden in een bepaald veld van de records die voldoen aan de criteria in een database
+DSTDEV			= DBSTDEV			##	Maakt een schatting van de standaarddeviatie op basis van een steekproef uit geselecteerde databasegegevens
+DSTDEVP			= DBSTDEVP			##	Berekent de standaarddeviatie op basis van de volledige populatie van geselecteerde databasegegevens
+DSUM			= DBSOM				##	Telt de getallen uit een kolom records in de database op die voldoen aan de criteria
+DVAR			= DBVAR				##	Maakt een schatting van de variantie op basis van een steekproef uit geselecteerde databasegegevens
+DVARP			= DBVARP			##	Berekent de variantie op basis van de volledige populatie van geselecteerde databasegegevens
+
+
+##
+##	Date and time functions				Datum- en tijdfuncties
+##
+DATE			= DATUM				##	Geeft als resultaat het seriële getal van een opgegeven datum
+DATEVALUE		= DATUMWAARDE			##	Converteert een datum in de vorm van tekst naar een serieel getal
+DAY			= DAG				##	Converteert een serieel getal naar een dag van de maand
+DAYS360			= DAGEN360			##	Berekent het aantal dagen tussen twee datums op basis van een jaar met 360 dagen
+EDATE			= ZELFDE.DAG			##	Geeft als resultaat het seriële getal van een datum die het opgegeven aantal maanden voor of na de begindatum ligt
+EOMONTH			= LAATSTE.DAG			##	Geeft als resultaat het seriële getal van de laatste dag van de maand voor of na het opgegeven aantal maanden
+HOUR			= UUR				##	Converteert een serieel getal naar uren
+MINUTE			= MINUUT			##	Converteert een serieel naar getal minuten
+MONTH			= MAAND				##	Converteert een serieel getal naar een maand
+NETWORKDAYS		= NETTO.WERKDAGEN		##	Geeft als resultaat het aantal hele werkdagen tussen twee datums
+NOW			= NU				##	Geeft als resultaat het seriële getal van de huidige datum en tijd
+SECOND			= SECONDE			##	Converteert een serieel getal naar seconden
+TIME			= TIJD				##	Geeft als resultaat het seriële getal van een bepaald tijdstip
+TIMEVALUE		= TIJDWAARDE			##	Converteert de tijd in de vorm van tekst naar een serieel getal
+TODAY			= VANDAAG			##	Geeft als resultaat het seriële getal van de huidige datum
+WEEKDAY			= WEEKDAG			##	Converteert een serieel getal naar een weekdag
+WEEKNUM			= WEEKNUMMER			##	Converteert een serieel getal naar een weeknummer
+WORKDAY			= WERKDAG			##	Geeft als resultaat het seriële getal van de datum voor of na een bepaald aantal werkdagen
+YEAR			= JAAR				##	Converteert een serieel getal naar een jaar
+YEARFRAC		= JAAR.DEEL			##	Geeft als resultaat het gedeelte van het jaar, uitgedrukt in het aantal hele dagen tussen begindatum en einddatum
+
+
+##
+##	Engineering functions				Technische functies
+##
+BESSELI			= BESSEL.Y			##	Geeft als resultaat de gewijzigde Bessel-functie In(x)
+BESSELJ			= BESSEL.J			##	Geeft als resultaat de Bessel-functie Jn(x)
+BESSELK			= BESSEL.K			##	Geeft als resultaat de gewijzigde Bessel-functie Kn(x)
+BESSELY			= BESSEL.Y			##	Geeft als resultaat de gewijzigde Bessel-functie Yn(x)
+BIN2DEC			= BIN.N.DEC			##	Converteert een binair getal naar een decimaal getal
+BIN2HEX			= BIN.N.HEX			##	Converteert een binair getal naar een hexadecimaal getal
+BIN2OCT			= BIN.N.OCT			##	Converteert een binair getal naar een octaal getal
+COMPLEX			= COMPLEX			##	Converteert reële en imaginaire coëfficiënten naar een complex getal
+CONVERT			= CONVERTEREN			##	Converteert een getal in de ene maateenheid naar een getal in een andere maateenheid
+DEC2BIN			= DEC.N.BIN			##	Converteert een decimaal getal naar een binair getal
+DEC2HEX			= DEC.N.HEX			##	Converteert een decimaal getal naar een hexadecimaal getal
+DEC2OCT			= DEC.N.OCT			##	Converteert een decimaal getal naar een octaal getal
+DELTA			= DELTA				##	Test of twee waarden gelijk zijn
+ERF			= FOUTFUNCTIE			##	Geeft als resultaat de foutfunctie
+ERFC			= FOUT.COMPLEMENT		##	Geeft als resultaat de complementaire foutfunctie
+GESTEP			= GROTER.DAN			##	Test of een getal groter is dan de drempelwaarde
+HEX2BIN			= HEX.N.BIN			##	Converteert een hexadecimaal getal naar een binair getal
+HEX2DEC			= HEX.N.DEC			##	Converteert een hexadecimaal getal naar een decimaal getal
+HEX2OCT			= HEX.N.OCT			##	Converteert een hexadecimaal getal naar een octaal getal
+IMABS			= C.ABS				##	Geeft als resultaat de absolute waarde (modulus) van een complex getal
+IMAGINARY		= C.IM.DEEL			##	Geeft als resultaat de imaginaire coëfficiënt van een complex getal
+IMARGUMENT		= C.ARGUMENT			##	Geeft als resultaat het argument thèta, een hoek uitgedrukt in radialen
+IMCONJUGATE		= C.TOEGEVOEGD			##	Geeft als resultaat het complexe toegevoegde getal van een complex getal
+IMCOS			= C.COS				##	Geeft als resultaat de cosinus van een complex getal
+IMDIV			= C.QUOTIENT			##	Geeft als resultaat het quotiënt van twee complexe getallen
+IMEXP			= C.EXP				##	Geeft als resultaat de exponent van een complex getal
+IMLN			= C.LN				##	Geeft als resultaat de natuurlijke logaritme van een complex getal
+IMLOG10			= C.LOG10			##	Geeft als resultaat de logaritme met grondtal 10 van een complex getal
+IMLOG2			= C.LOG2			##	Geeft als resultaat de logaritme met grondtal 2 van een complex getal
+IMPOWER			= C.MACHT			##	Geeft als resultaat een complex getal dat is verheven tot de macht van een geheel getal
+IMPRODUCT		= C.PRODUCT			##	Geeft als resultaat het product van complexe getallen
+IMREAL			= C.REEEL.DEEL			##	Geeft als resultaat de reële coëfficiënt van een complex getal
+IMSIN			= C.SIN				##	Geeft als resultaat de sinus van een complex getal
+IMSQRT			= C.WORTEL			##	Geeft als resultaat de vierkantswortel van een complex getal
+IMSUB			= C.VERSCHIL			##	Geeft als resultaat het verschil tussen twee complexe getallen
+IMSUM			= C.SOM				##	Geeft als resultaat de som van complexe getallen
+OCT2BIN			= OCT.N.BIN			##	Converteert een octaal getal naar een binair getal
+OCT2DEC			= OCT.N.DEC			##	Converteert een octaal getal naar een decimaal getal
+OCT2HEX			= OCT.N.HEX			##	Converteert een octaal getal naar een hexadecimaal getal
+
+
+##
+##	Financial functions				Financiële functies
+##
+ACCRINT			= SAMENG.RENTE			##	Berekent de opgelopen rente voor een waardepapier waarvan de rente periodiek wordt uitgekeerd
+ACCRINTM		= SAMENG.RENTE.V		##	Berekent de opgelopen rente voor een waardepapier waarvan de rente op de vervaldatum wordt uitgekeerd
+AMORDEGRC		= AMORDEGRC			##	Geeft als resultaat de afschrijving voor elke boekingsperiode door een afschrijvingscoëfficiënt toe te passen
+AMORLINC		= AMORLINC			##	Berekent de afschrijving voor elke boekingsperiode
+COUPDAYBS		= COUP.DAGEN.BB			##	Berekent het aantal dagen vanaf het begin van de coupontermijn tot de stortingsdatum
+COUPDAYS		= COUP.DAGEN			##	Geeft als resultaat het aantal dagen in de coupontermijn waarin de stortingsdatum valt
+COUPDAYSNC		= COUP.DAGEN.VV			##	Geeft als resultaat het aantal dagen vanaf de stortingsdatum tot de volgende couponvervaldatum
+COUPNCD			= COUP.DATUM.NB			##	Geeft als resultaat de volgende coupondatum na de stortingsdatum
+COUPNUM			= COUP.AANTAL			##	Geeft als resultaat het aantal coupons dat nog moet worden uitbetaald tussen de stortingsdatum en de vervaldatum
+COUPPCD			= COUP.DATUM.VB			##	Geeft als resultaat de vorige couponvervaldatum vóór de stortingsdatum
+CUMIPMT			= CUM.RENTE			##	Geeft als resultaat de cumulatieve rente die tussen twee termijnen is uitgekeerd
+CUMPRINC		= CUM.HOOFDSOM			##	Geeft als resultaat de cumulatieve hoofdsom van een lening die tussen twee termijnen is terugbetaald
+DB			= DB				##	Geeft als resultaat de afschrijving van activa voor een bepaalde periode met behulp van de 'fixed declining balance'-methode
+DDB			= DDB				##	Geeft als resultaat de afschrijving van activa over een bepaalde termijn met behulp van de 'double declining balance'-methode of een andere methode die u opgeeft
+DISC			= DISCONTO			##	Geeft als resultaat het discontopercentage voor een waardepapier
+DOLLARDE		= EURO.DE			##	Converteert een prijs in euro's, uitgedrukt in een breuk, naar een prijs in euro's, uitgedrukt in een decimaal getal
+DOLLARFR		= EURO.BR			##	Converteert een prijs in euro's, uitgedrukt in een decimaal getal, naar een prijs in euro's, uitgedrukt in een breuk
+DURATION		= DUUR				##	Geeft als resultaat de gewogen gemiddelde looptijd voor een waardepapier met periodieke rentebetalingen
+EFFECT			= EFFECT.RENTE			##	Geeft als resultaat het effectieve jaarlijkse rentepercentage
+FV			= TW				##	Geeft als resultaat de toekomstige waarde van een investering
+FVSCHEDULE		= TOEK.WAARDE2			##	Geeft als resultaat de toekomstige waarde van een bepaalde hoofdsom na het toepassen van een reeks samengestelde rentepercentages
+INTRATE			= RENTEPERCENTAGE		##	Geeft als resultaat het rentepercentage voor een volgestort waardepapier
+IPMT			= IBET				##	Geeft als resultaat de te betalen rente voor een investering over een bepaalde termijn
+IRR			= IR				##	Geeft als resultaat de interne rentabiliteit voor een reeks cashflows
+ISPMT			= ISBET				##	Geeft als resultaat de rente die is betaald tijdens een bepaalde termijn van een investering
+MDURATION		= AANG.DUUR			##	Geeft als resultaat de aangepaste Macauley-looptijd voor een waardepapier, aangenomen dat de nominale waarde € 100 bedraagt
+MIRR			= GIR				##	Geeft als resultaat de interne rentabiliteit voor een serie cashflows, waarbij voor betalingen een ander rentepercentage geldt dan voor inkomsten
+NOMINAL			= NOMINALE.RENTE		##	Geeft als resultaat het nominale jaarlijkse rentepercentage
+NPER			= NPER				##	Geeft als resultaat het aantal termijnen van een investering
+NPV			= NHW				##	Geeft als resultaat de netto huidige waarde van een investering op basis van een reeks periodieke cashflows en een discontopercentage
+ODDFPRICE		= AFW.ET.PRIJS			##	Geeft als resultaat de prijs per € 100 nominale waarde voor een waardepapier met een afwijkende eerste termijn
+ODDFYIELD		= AFW.ET.REND			##	Geeft als resultaat het rendement voor een waardepapier met een afwijkende eerste termijn
+ODDLPRICE		= AFW.LT.PRIJS			##	Geeft als resultaat de prijs per € 100 nominale waarde voor een waardepapier met een afwijkende laatste termijn
+ODDLYIELD		= AFW.LT.REND			##	Geeft als resultaat het rendement voor een waardepapier met een afwijkende laatste termijn
+PMT			= BET				##	Geeft als resultaat de periodieke betaling voor een annuïteit
+PPMT			= PBET				##	Geeft als resultaat de afbetaling op de hoofdsom voor een bepaalde termijn
+PRICE			= PRIJS.NOM			##	Geeft als resultaat de prijs per € 100 nominale waarde voor een waardepapier waarvan de rente periodiek wordt uitgekeerd
+PRICEDISC		= PRIJS.DISCONTO		##	Geeft als resultaat de prijs per € 100 nominale waarde voor een verdisconteerd waardepapier
+PRICEMAT		= PRIJS.VERVALDAG		##	Geeft als resultaat de prijs per € 100 nominale waarde voor een waardepapier waarvan de rente wordt uitgekeerd op de vervaldatum
+PV			= HW				##	Geeft als resultaat de huidige waarde van een investering
+RATE			= RENTE				##	Geeft als resultaat het periodieke rentepercentage voor een annuïteit
+RECEIVED		= OPBRENGST			##	Geeft als resultaat het bedrag dat op de vervaldatum wordt uitgekeerd voor een volgestort waardepapier
+SLN			= LIN.AFSCHR			##	Geeft als resultaat de lineaire afschrijving van activa over één termijn
+SYD			= SYD				##	Geeft als resultaat de afschrijving van activa over een bepaalde termijn met behulp van de 'Sum-Of-Years-Digits'-methode
+TBILLEQ			= SCHATK.OBL			##	Geeft als resultaat het rendement op schatkistpapier, dat op dezelfde manier wordt berekend als het rendement op obligaties
+TBILLPRICE		= SCHATK.PRIJS			##	Bepaalt de prijs per € 100 nominale waarde voor schatkistpapier
+TBILLYIELD		= SCHATK.REND			##	Berekent het rendement voor schatkistpapier
+VDB			= VDB				##	Geeft als resultaat de afschrijving van activa over een gehele of gedeeltelijke termijn met behulp van de 'declining balance'-methode
+XIRR			= IR.SCHEMA			##	Berekent de interne rentabiliteit voor een betalingsschema van cashflows
+XNPV			= NHW2				##	Berekent de huidige nettowaarde voor een betalingsschema van cashflows
+YIELD			= RENDEMENT			##	Geeft als resultaat het rendement voor een waardepapier waarvan de rente periodiek wordt uitgekeerd
+YIELDDISC		= REND.DISCONTO			##	Geeft als resultaat het jaarlijkse rendement voor een verdisconteerd waardepapier, bijvoorbeeld schatkistpapier
+YIELDMAT		= REND.VERVAL			##	Geeft als resultaat het jaarlijkse rendement voor een waardepapier waarvan de rente wordt uitgekeerd op de vervaldatum
+
+
+##
+##	Information functions				Informatiefuncties
+##
+CELL			= CEL				##	Geeft als resultaat informatie over de opmaak, locatie of inhoud van een cel
+ERROR.TYPE		= TYPE.FOUT			##	Geeft als resultaat een getal dat overeenkomt met een van de foutwaarden van Microsoft Excel
+INFO			= INFO				##	Geeft als resultaat informatie over de huidige besturingsomgeving
+ISBLANK			= ISLEEG			##	Geeft als resultaat WAAR als de waarde leeg is
+ISERR			= ISFOUT2			##	Geeft als resultaat WAAR als de waarde een foutwaarde is, met uitzondering van #N/B
+ISERROR			= ISFOUT			##	Geeft als resultaat WAAR als de waarde een foutwaarde is
+ISEVEN			= IS.EVEN			##	Geeft als resultaat WAAR als het getal even is
+ISLOGICAL		= ISLOGISCH			##	Geeft als resultaat WAAR als de waarde een logische waarde is
+ISNA			= ISNB				##	Geeft als resultaat WAAR als de waarde de foutwaarde #N/B is
+ISNONTEXT		= ISGEENTEKST			##	Geeft als resultaat WAAR als de waarde geen tekst is
+ISNUMBER		= ISGETAL			##	Geeft als resultaat WAAR als de waarde een getal is
+ISODD			= IS.ONEVEN			##	Geeft als resultaat WAAR als het getal oneven is
+ISREF			= ISVERWIJZING			##	Geeft als resultaat WAAR als de waarde een verwijzing is
+ISTEXT			= ISTEKST			##	Geeft als resultaat WAAR als de waarde tekst is
+N			= N				##	Geeft als resultaat een waarde die is geconverteerd naar een getal
+NA			= NB				##	Geeft als resultaat de foutwaarde #N/B
+TYPE			= TYPE				##	Geeft als resultaat een getal dat het gegevenstype van een waarde aangeeft
+
+
+##
+##	Logical functions				Logische functies
+##
+AND			= EN				##	Geeft als resultaat WAAR als alle argumenten WAAR zijn
+FALSE			= ONWAAR			##	Geeft als resultaat de logische waarde ONWAAR
+IF			= ALS				##	Geeft een logische test aan
+IFERROR			= ALS.FOUT			##	Retourneert een waarde die u opgeeft als een formule een fout oplevert, anders wordt het resultaat van de formule geretourneerd
+NOT			= NIET				##	Keert de logische waarde van het argument om
+OR			= OF				##	Geeft als resultaat WAAR als minimaal een van de argumenten WAAR is
+TRUE			= WAAR				##	Geeft als resultaat de logische waarde WAAR
+
+
+##
+##	Lookup and reference functions			Zoek- en verwijzingsfuncties
+##
+ADDRESS			= ADRES				##	Geeft als resultaat een verwijzing, in de vorm van tekst, naar één bepaalde cel in een werkblad
+AREAS			= BEREIKEN			##	Geeft als resultaat het aantal bereiken in een verwijzing
+CHOOSE			= KIEZEN			##	Kiest een waarde uit een lijst met waarden
+COLUMN			= KOLOM				##	Geeft als resultaat het kolomnummer van een verwijzing
+COLUMNS			= KOLOMMEN			##	Geeft als resultaat het aantal kolommen in een verwijzing
+HLOOKUP			= HORIZ.ZOEKEN			##	Zoekt in de bovenste rij van een matrix naar een bepaalde waarde en geeft als resultaat de gevonden waarde in de opgegeven cel
+HYPERLINK		= HYPERLINK			##	Maakt een snelkoppeling of een sprong waarmee een document wordt geopend dat is opgeslagen op een netwerkserver, een intranet of op internet
+INDEX			= INDEX				##	Kiest met een index een waarde uit een verwijzing of een matrix
+INDIRECT		= INDIRECT			##	Geeft als resultaat een verwijzing die wordt aangegeven met een tekstwaarde
+LOOKUP			= ZOEKEN			##	Zoekt naar bepaalde waarden in een vector of een matrix
+MATCH			= VERGELIJKEN			##	Zoekt naar bepaalde waarden in een verwijzing of een matrix
+OFFSET			= VERSCHUIVING			##	Geeft als resultaat een nieuwe verwijzing die is verschoven ten opzichte van een bepaalde verwijzing
+ROW			= RIJ				##	Geeft als resultaat het rijnummer van een verwijzing
+ROWS			= RIJEN				##	Geeft als resultaat het aantal rijen in een verwijzing
+RTD			= RTG				##	Haalt realtimegegevens op uit een programma dat COM-automatisering (automatisering: een methode waarmee de ene toepassing objecten van een andere toepassing of ontwikkelprogramma kan besturen. Automatisering werd vroeger OLE-automatisering genoemd. Automatisering is een industrienorm die deel uitmaakt van het Component Object Model (COM).) ondersteunt
+TRANSPOSE		= TRANSPONEREN			##	Geeft als resultaat de getransponeerde van een matrix
+VLOOKUP			= VERT.ZOEKEN			##	Zoekt in de meest linkse kolom van een matrix naar een bepaalde waarde en geeft als resultaat de waarde in de opgegeven cel
+
+
+##
+##	Math and trigonometry functions			Wiskundige en trigonometrische functies
+##
+ABS			= ABS				##	Geeft als resultaat de absolute waarde van een getal
+ACOS			= BOOGCOS			##	Geeft als resultaat de boogcosinus van een getal
+ACOSH			= BOOGCOSH			##	Geeft als resultaat de inverse cosinus hyperbolicus van een getal
+ASIN			= BOOGSIN			##	Geeft als resultaat de boogsinus van een getal
+ASINH			= BOOGSINH			##	Geeft als resultaat de inverse sinus hyperbolicus van een getal
+ATAN			= BOOGTAN			##	Geeft als resultaat de boogtangens van een getal
+ATAN2			= BOOGTAN2			##	Geeft als resultaat de boogtangens van de x- en y-coördinaten
+ATANH			= BOOGTANH			##	Geeft als resultaat de inverse tangens hyperbolicus van een getal
+CEILING			= AFRONDEN.BOVEN		##	Rondt de absolute waarde van een getal naar boven af op het dichtstbijzijnde gehele getal of het dichtstbijzijnde significante veelvoud
+COMBIN			= COMBINATIES			##	Geeft als resultaat het aantal combinaties voor een bepaald aantal objecten
+COS			= COS				##	Geeft als resultaat de cosinus van een getal
+COSH			= COSH				##	Geeft als resultaat de cosinus hyperbolicus van een getal
+DEGREES			= GRADEN			##	Converteert radialen naar graden
+EVEN			= EVEN				##	Rondt het getal af op het dichtstbijzijnde gehele even getal
+EXP			= EXP				##	Verheft e tot de macht van een bepaald getal
+FACT			= FACULTEIT			##	Geeft als resultaat de faculteit van een getal
+FACTDOUBLE		= DUBBELE.FACULTEIT		##	Geeft als resultaat de dubbele faculteit van een getal
+FLOOR			= AFRONDEN.BENEDEN		##	Rondt de absolute waarde van een getal naar beneden af
+GCD			= GGD				##	Geeft als resultaat de grootste gemene deler
+INT			= INTEGER			##	Rondt een getal naar beneden af op het dichtstbijzijnde gehele getal
+LCM			= KGV				##	Geeft als resultaat het kleinste gemene veelvoud
+LN			= LN				##	Geeft als resultaat de natuurlijke logaritme van een getal
+LOG			= LOG				##	Geeft als resultaat de logaritme met het opgegeven grondtal van een getal
+LOG10			= LOG10				##	Geeft als resultaat de logaritme met grondtal 10 van een getal
+MDETERM			= DETERMINANTMAT		##	Geeft als resultaat de determinant van een matrix
+MINVERSE		= INVERSEMAT			##	Geeft als resultaat de inverse van een matrix
+MMULT			= PRODUCTMAT			##	Geeft als resultaat het product van twee matrices
+MOD			= REST				##	Geeft als resultaat het restgetal van een deling
+MROUND			= AFRONDEN.N.VEELVOUD		##	Geeft als resultaat een getal afgerond op het gewenste veelvoud
+MULTINOMIAL		= MULTINOMIAAL			##	Geeft als resultaat de multinomiaalcoëfficiënt van een reeks getallen
+ODD			= ONEVEN			##	Rondt de absolute waarde van het getal naar boven af op het dichtstbijzijnde gehele oneven getal
+PI			= PI				##	Geeft als resultaat de waarde van pi
+POWER			= MACHT				##	Verheft een getal tot een macht
+PRODUCT			= PRODUCT			##	Vermenigvuldigt de argumenten met elkaar
+QUOTIENT		= QUOTIENT			##	Geeft als resultaat de uitkomst van een deling als geheel getal
+RADIANS			= RADIALEN			##	Converteert graden naar radialen
+RAND			= ASELECT			##	Geeft als resultaat een willekeurig getal tussen 0 en 1
+RANDBETWEEN		= ASELECTTUSSEN			##	Geeft een willekeurig getal tussen de getallen die u hebt opgegeven
+ROMAN			= ROMEINS			##	Converteert een Arabisch getal naar een Romeins getal en geeft het resultaat weer in de vorm van tekst
+ROUND			= AFRONDEN			##	Rondt een getal af op het opgegeven aantal decimalen
+ROUNDDOWN		= AFRONDEN.NAAR.BENEDEN		##	Rondt de absolute waarde van een getal naar beneden af
+ROUNDUP			= AFRONDEN.NAAR.BOVEN		##	Rondt de absolute waarde van een getal naar boven af
+SERIESSUM		= SOM.MACHTREEKS		##	Geeft als resultaat de som van een machtreeks die is gebaseerd op de formule
+SIGN			= POS.NEG			##	Geeft als resultaat het teken van een getal
+SIN			= SIN				##	Geeft als resultaat de sinus van de opgegeven hoek
+SINH			= SINH				##	Geeft als resultaat de sinus hyperbolicus van een getal
+SQRT			= WORTEL			##	Geeft als resultaat de positieve vierkantswortel van een getal
+SQRTPI			= WORTEL.PI			##	Geeft als resultaat de vierkantswortel van (getal * pi)
+SUBTOTAL		= SUBTOTAAL			##	Geeft als resultaat een subtotaal voor een bereik
+SUM			= SOM				##	Telt de argumenten op
+SUMIF			= SOM.ALS			##	Telt de getallen bij elkaar op die voldoen aan een bepaald criterium
+SUMIFS			= SOMMEN.ALS			##	Telt de cellen in een bereik op die aan meerdere criteria voldoen
+SUMPRODUCT		= SOMPRODUCT			##	Geeft als resultaat de som van de producten van de corresponderende matrixelementen
+SUMSQ			= KWADRATENSOM			##	Geeft als resultaat de som van de kwadraten van de argumenten
+SUMX2MY2		= SOM.X2MINY2			##	Geeft als resultaat de som van het verschil tussen de kwadraten van corresponderende waarden in twee matrices
+SUMX2PY2		= SOM.X2PLUSY2			##	Geeft als resultaat de som van de kwadratensom van corresponderende waarden in twee matrices
+SUMXMY2			= SOM.XMINY.2			##	Geeft als resultaat de som van de kwadraten van de verschillen tussen de corresponderende waarden in twee matrices
+TAN			= TAN				##	Geeft als resultaat de tangens van een getal
+TANH			= TANH				##	Geeft als resultaat de tangens hyperbolicus van een getal
+TRUNC			= GEHEEL			##	Kapt een getal af tot een geheel getal
+
+
+##
+##	Statistical functions				Statistische functies
+##
+AVEDEV			= GEM.DEVIATIE			##	Geeft als resultaat het gemiddelde van de absolute deviaties van gegevenspunten ten opzichte van hun gemiddelde waarde
+AVERAGE			= GEMIDDELDE			##	Geeft als resultaat het gemiddelde van de argumenten
+AVERAGEA		= GEMIDDELDEA			##	Geeft als resultaat het gemiddelde van de argumenten, inclusief getallen, tekst en logische waarden
+AVERAGEIF		= GEMIDDELDE.ALS		##	Geeft het gemiddelde (rekenkundig gemiddelde) als resultaat van alle cellen in een bereik die voldoen aan de opgegeven criteria
+AVERAGEIFS		= GEMIDDELDEN.ALS		##	Geeft het gemiddelde (rekenkundig gemiddelde) als resultaat van alle cellen die aan meerdere criteria voldoen
+BETADIST		= BETA.VERD			##	Geeft als resultaat de cumulatieve bèta-verdelingsfunctie
+BETAINV			= BETA.INV			##	Geeft als resultaat de inverse van de cumulatieve verdelingsfunctie voor een gegeven bèta-verdeling
+BINOMDIST		= BINOMIALE.VERD		##	Geeft als resultaat de binomiale verdeling
+CHIDIST			= CHI.KWADRAAT			##	Geeft als resultaat de eenzijdige kans van de chi-kwadraatverdeling
+CHIINV			= CHI.KWADRAAT.INV		##	Geeft als resultaat de inverse van een eenzijdige kans van de chi-kwadraatverdeling
+CHITEST			= CHI.TOETS			##	Geeft als resultaat de onafhankelijkheidstoets
+CONFIDENCE		= BETROUWBAARHEID		##	Geeft als resultaat het betrouwbaarheidsinterval van een gemiddelde waarde voor de elementen van een populatie
+CORREL			= CORRELATIE			##	Geeft als resultaat de correlatiecoëfficiënt van twee gegevensverzamelingen
+COUNT			= AANTAL			##	Telt het aantal getallen in de argumentenlijst
+COUNTA			= AANTALARG			##	Telt het aantal waarden in de argumentenlijst
+COUNTBLANK		= AANTAL.LEGE.CELLEN		##	Telt het aantal lege cellen in een bereik
+COUNTIF			= AANTAL.ALS			##	Telt in een bereik het aantal cellen die voldoen aan een bepaald criterium
+COUNTIFS		= AANTALLEN.ALS			##	Telt in een bereik het aantal cellen die voldoen aan meerdere criteria
+COVAR			= COVARIANTIE			##	Geeft als resultaat de covariantie, het gemiddelde van de producten van de gepaarde deviaties
+CRITBINOM		= CRIT.BINOM			##	Geeft als resultaat de kleinste waarde waarvoor de binomiale verdeling kleiner is dan of gelijk is aan het criterium
+DEVSQ			= DEV.KWAD			##	Geeft als resultaat de som van de deviaties in het kwadraat
+EXPONDIST		= EXPON.VERD			##	Geeft als resultaat de exponentiële verdeling
+FDIST			= F.VERDELING			##	Geeft als resultaat de F-verdeling
+FINV			= F.INVERSE			##	Geeft als resultaat de inverse van de F-verdeling
+FISHER			= FISHER			##	Geeft als resultaat de Fisher-transformatie
+FISHERINV		= FISHER.INV			##	Geeft als resultaat de inverse van de Fisher-transformatie
+FORECAST		= VOORSPELLEN			##	Geeft als resultaat een waarde op basis van een lineaire trend
+FREQUENCY		= FREQUENTIE			##	Geeft als resultaat een frequentieverdeling in de vorm van een verticale matrix
+FTEST			= F.TOETS			##	Geeft als resultaat een F-toets
+GAMMADIST		= GAMMA.VERD			##	Geeft als resultaat de gamma-verdeling
+GAMMAINV		= GAMMA.INV			##	Geeft als resultaat de inverse van de cumulatieve gamma-verdeling
+GAMMALN			= GAMMA.LN			##	Geeft als resultaat de natuurlijke logaritme van de gamma-functie, G(x)
+GEOMEAN			= MEETK.GEM			##	Geeft als resultaat het meetkundige gemiddelde
+GROWTH			= GROEI				##	Geeft als resultaat de waarden voor een exponentiële trend
+HARMEAN			= HARM.GEM			##	Geeft als resultaat het harmonische gemiddelde
+HYPGEOMDIST		= HYPERGEO.VERD			##	Geeft als resultaat de hypergeometrische verdeling
+INTERCEPT		= SNIJPUNT			##	Geeft als resultaat het snijpunt van de lineaire regressielijn met de y-as
+KURT			= KURTOSIS			##	Geeft als resultaat de kurtosis van een gegevensverzameling
+LARGE			= GROOTSTE			##	Geeft als resultaat de op k-1 na grootste waarde in een gegevensverzameling
+LINEST			= LIJNSCH			##	Geeft als resultaat de parameters van een lineaire trend
+LOGEST			= LOGSCH			##	Geeft als resultaat de parameters van een exponentiële trend
+LOGINV			= LOG.NORM.INV			##	Geeft als resultaat de inverse van de logaritmische normale verdeling
+LOGNORMDIST		= LOG.NORM.VERD			##	Geeft als resultaat de cumulatieve logaritmische normale verdeling
+MAX			= MAX				##	Geeft als resultaat de maximumwaarde in een lijst met argumenten
+MAXA			= MAXA				##	Geeft als resultaat de maximumwaarde in een lijst met argumenten, inclusief getallen, tekst en logische waarden
+MEDIAN			= MEDIAAN			##	Geeft als resultaat de mediaan van de opgegeven getallen
+MIN			= MIN				##	Geeft als resultaat de minimumwaarde in een lijst met argumenten
+MINA			= MINA				##	Geeft als resultaat de minimumwaarde in een lijst met argumenten, inclusief getallen, tekst en logische waarden
+MODE			= MODUS				##	Geeft als resultaat de meest voorkomende waarde in een gegevensverzameling
+NEGBINOMDIST		= NEG.BINOM.VERD		##	Geeft als resultaat de negatieve binomiaalverdeling
+NORMDIST		= NORM.VERD			##	Geeft als resultaat de cumulatieve normale verdeling
+NORMINV			= NORM.INV			##	Geeft als resultaat de inverse van de cumulatieve standaardnormale verdeling
+NORMSDIST		= STAND.NORM.VERD		##	Geeft als resultaat de cumulatieve standaardnormale verdeling
+NORMSINV		= STAND.NORM.INV		##	Geeft als resultaat de inverse van de cumulatieve normale verdeling
+PEARSON			= PEARSON			##	Geeft als resultaat de correlatiecoëfficiënt van Pearson
+PERCENTILE		= PERCENTIEL			##	Geeft als resultaat het k-de percentiel van waarden in een bereik
+PERCENTRANK		= PERCENT.RANG			##	Geeft als resultaat de positie, in procenten uitgedrukt, van een waarde in de rangorde van een gegevensverzameling
+PERMUT			= PERMUTATIES			##	Geeft als resultaat het aantal permutaties voor een gegeven aantal objecten
+POISSON			= POISSON			##	Geeft als resultaat de Poisson-verdeling
+PROB			= KANS				##	Geeft als resultaat de kans dat waarden zich tussen twee grenzen bevinden
+QUARTILE		= KWARTIEL			##	Geeft als resultaat het kwartiel van een gegevensverzameling
+RANK			= RANG				##	Geeft als resultaat het rangnummer van een getal in een lijst getallen
+RSQ			= R.KWADRAAT			##	Geeft als resultaat het kwadraat van de Pearson-correlatiecoëfficiënt
+SKEW			= SCHEEFHEID			##	Geeft als resultaat de mate van asymmetrie van een verdeling
+SLOPE			= RICHTING			##	Geeft als resultaat de richtingscoëfficiënt van een lineaire regressielijn
+SMALL			= KLEINSTE			##	Geeft als resultaat de op k-1 na kleinste waarde in een gegevensverzameling
+STANDARDIZE		= NORMALISEREN			##	Geeft als resultaat een genormaliseerde waarde
+STDEV			= STDEV				##	Maakt een schatting van de standaarddeviatie op basis van een steekproef
+STDEVA			= STDEVA			##	Maakt een schatting van de standaarddeviatie op basis van een steekproef, inclusief getallen, tekst en logische waarden
+STDEVP			= STDEVP			##	Berekent de standaarddeviatie op basis van de volledige populatie
+STDEVPA			= STDEVPA			##	Berekent de standaarddeviatie op basis van de volledige populatie, inclusief getallen, tekst en logische waarden
+STEYX			= STAND.FOUT.YX			##	Geeft als resultaat de standaardfout in de voorspelde y-waarde voor elke x in een regressie
+TDIST			= T.VERD			##	Geeft als resultaat de Student T-verdeling
+TINV			= T.INV				##	Geeft als resultaat de inverse van de Student T-verdeling
+TREND			= TREND				##	Geeft als resultaat de waarden voor een lineaire trend
+TRIMMEAN		= GETRIMD.GEM			##	Geeft als resultaat het gemiddelde van waarden in een gegevensverzameling
+TTEST			= T.TOETS			##	Geeft als resultaat de kans met behulp van de Student T-toets
+VAR			= VAR				##	Maakt een schatting van de variantie op basis van een steekproef
+VARA			= VARA				##	Maakt een schatting van de variantie op basis van een steekproef, inclusief getallen, tekst en logische waarden
+VARP			= VARP				##	Berekent de variantie op basis van de volledige populatie
+VARPA			= VARPA				##	Berekent de standaarddeviatie op basis van de volledige populatie, inclusief getallen, tekst en logische waarden
+WEIBULL			= WEIBULL			##	Geeft als resultaat de Weibull-verdeling
+ZTEST			= Z.TOETS			##	Geeft als resultaat de eenzijdige kanswaarde van een Z-toets
+
+
+##
+##	Text functions					Tekstfuncties
+##
+ASC			= ASC				##	Wijzigt Nederlandse letters of katakanatekens over de volle breedte (dubbel-bytetekens) binnen een tekenreeks in tekens over de halve breedte (enkel-bytetekens)
+BAHTTEXT		= BAHT.TEKST			##	Converteert een getal naar tekst met de valutanotatie ß (baht)
+CHAR			= TEKEN				##	Geeft als resultaat het teken dat hoort bij de opgegeven code
+CLEAN			= WISSEN.CONTROL		##	Verwijdert alle niet-afdrukbare tekens uit een tekst
+CODE			= CODE				##	Geeft als resultaat de numerieke code voor het eerste teken in een tekenreeks
+CONCATENATE		= TEKST.SAMENVOEGEN		##	Voegt verschillende tekstfragmenten samen tot één tekstfragment
+DOLLAR			= EURO				##	Converteert een getal naar tekst met de valutanotatie € (euro)
+EXACT			= GELIJK			##	Controleert of twee tekenreeksen identiek zijn
+FIND			= VIND.ALLES			##	Zoekt een bepaalde tekenreeks in een tekst (waarbij onderscheid wordt gemaakt tussen hoofdletters en kleine letters)
+FINDB			= VIND.ALLES.B			##	Zoekt een bepaalde tekenreeks in een tekst (waarbij onderscheid wordt gemaakt tussen hoofdletters en kleine letters)
+FIXED			= VAST				##	Maakt een getal als tekst met een vast aantal decimalen op
+JIS			= JIS				##	Wijzigt Nederlandse letters of katakanatekens over de halve breedte (enkel-bytetekens) binnen een tekenreeks in tekens over de volle breedte (dubbel-bytetekens)
+LEFT			= LINKS				##	Geeft als resultaat de meest linkse tekens in een tekenreeks
+LEFTB			= LINKSB			##	Geeft als resultaat de meest linkse tekens in een tekenreeks
+LEN			= LENGTE			##	Geeft als resultaat het aantal tekens in een tekenreeks
+LENB			= LENGTEB			##	Geeft als resultaat het aantal tekens in een tekenreeks
+LOWER			= KLEINE.LETTERS		##	Zet tekst om in kleine letters
+MID			= MIDDEN			##	Geeft als resultaat een bepaald aantal tekens van een tekenreeks vanaf de positie die u opgeeft
+MIDB			= DEELB				##	Geeft als resultaat een bepaald aantal tekens van een tekenreeks vanaf de positie die u opgeeft
+PHONETIC		= FONETISCH			##	Haalt de fonetische tekens (furigana) uit een tekenreeks op
+PROPER			= BEGINLETTERS			##	Zet de eerste letter van elk woord in een tekst om in een hoofdletter
+REPLACE			= VERVANG			##	Vervangt tekens binnen een tekst
+REPLACEB		= VERVANGENB			##	Vervangt tekens binnen een tekst
+REPT			= HERHALING			##	Herhaalt een tekst een aantal malen
+RIGHT			= RECHTS			##	Geeft als resultaat de meest rechtse tekens in een tekenreeks
+RIGHTB			= RECHTSB			##	Geeft als resultaat de meest rechtse tekens in een tekenreeks
+SEARCH			= VIND.SPEC			##	Zoekt een bepaalde tekenreeks in een tekst (waarbij geen onderscheid wordt gemaakt tussen hoofdletters en kleine letters)
+SEARCHB			= VIND.SPEC.B			##	Zoekt een bepaalde tekenreeks in een tekst (waarbij geen onderscheid wordt gemaakt tussen hoofdletters en kleine letters)
+SUBSTITUTE		= SUBSTITUEREN			##	Vervangt oude tekst door nieuwe tekst in een tekenreeks
+T			= T				##	Converteert de argumenten naar tekst
+TEXT			= TEKST				##	Maakt een getal op en converteert het getal naar tekst
+TRIM			= SPATIES.WISSEN		##	Verwijdert de spaties uit een tekst
+UPPER			= HOOFDLETTERS			##	Zet tekst om in hoofdletters
+VALUE			= WAARDE			##	Converteert tekst naar een getal

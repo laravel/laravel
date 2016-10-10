@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symfony>
+  <commands>
+    <command id="help" name="help">
+  <usage>help [--xml] [--format="..."] [--raw] [command_name]</usage>
+  <description>Displays help for a command</description>
+  <help>The &lt;info&gt;help&lt;/info&gt; command displays help for a given command:
+ 
+   &lt;info&gt;php app/console help list&lt;/info&gt;
+ 
+ You can also output the help in other formats by using the &lt;comment&gt;--format&lt;/comment&gt; option:
+ 
+   &lt;info&gt;php app/console help --format=xml list&lt;/info&gt;
+ 
+ To display the list of available commands, please use the &lt;info&gt;list&lt;/info&gt; command.</help>
+  <aliases />
+  <arguments>
+    <argument name="command_name" is_required="0" is_array="0">
+      <description>The command name</description>
+      <defaults>
+        <default>help</default>
+      </defaults>
+    </argument>
+  </arguments>
+  <options>
+    <option name="--xml" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>To output help as XML</description>
+    </option>
+    <option name="--format" shortcut="" accept_value="1" is_value_required="1" is_multiple="0">
+      <description>To output help in other formats</description>
+      <defaults>
+        <default>txt</default>
+      </defaults>
+    </option>
+    <option name="--raw" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>To output raw command help</description>
+    </option>
+    <option name="--help" shortcut="-h" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Display this help message.</description>
+    </option>
+    <option name="--quiet" shortcut="-q" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Do not output any message.</description>
+    </option>
+    <option name="--verbose" shortcut="-v" shortcuts="-v|-vv|-vvv" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</description>
+    </option>
+    <option name="--version" shortcut="-V" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Display this application version.</description>
+    </option>
+    <option name="--ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Force ANSI output.</description>
+    </option>
+    <option name="--no-ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Disable ANSI output.</description>
+    </option>
+    <option name="--no-interaction" shortcut="-n" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>Do not ask any interactive question.</description>
+    </option>
+  </options>
+</command>
+    <command id="list" name="list">
+  <usage>list [--xml] [--raw] [--format="..."] [namespace]</usage>
+  <description>Lists commands</description>
+  <help>The &lt;info&gt;list&lt;/info&gt; command lists all commands:
+ 
+   &lt;info&gt;php app/console list&lt;/info&gt;
+ 
+ You can also display the commands for a specific namespace:
+ 
+   &lt;info&gt;php app/console list test&lt;/info&gt;
+ 
+ You can also output the information in other formats by using the &lt;comment&gt;--format&lt;/comment&gt; option:
+ 
+   &lt;info&gt;php app/console list --format=xml&lt;/info&gt;
+ 
+ It's also possible to get raw list of commands (useful for embedding command runner):
+ 
+   &lt;info&gt;php app/console list --raw&lt;/info&gt;</help>
+  <aliases/>
+  <arguments>
+    <argument name="namespace" is_required="0" is_array="0">
+      <description>The namespace name</description>
+      <defaults/>
+    </argument>
+  </arguments>
+  <options>
+    <option name="--xml" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>To output list as XML</description>
+    </option>
+    <option name="--raw" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+      <description>To output raw command list</description>
+    </option>
+    <option name="--format" shortcut="" accept_value="1" is_value_required="1" is_multiple="0">
+      <description>To output list in other formats</description>
+      <defaults>
+        <default>txt</default>
+      </defaults>
+    </option>
+  </options>
+</command>
+    <command id="foo:bar" name="foo:bar">
+  <usage>foo:bar</usage>
+  <description>The foo:bar command</description>
+  <help/>
+  <aliases>
+    <alias>afoobar</alias>
+  </aliases>
+  <arguments/>
+    <options>
+      <option name="--help" shortcut="-h" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Display this help message.</description>
+      </option>
+      <option name="--quiet" shortcut="-q" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Do not output any message.</description>
+      </option>
+      <option name="--verbose" shortcut="-v" shortcuts="-v|-vv|-vvv" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</description>
+      </option>
+      <option name="--version" shortcut="-V" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Display this application version.</description>
+      </option>
+      <option name="--ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Force ANSI output.</description>
+      </option>
+      <option name="--no-ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Disable ANSI output.</description>
+      </option>
+      <option name="--no-interaction" shortcut="-n" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Do not ask any interactive question.</description>
+      </option>
+    </options>
+</command>
+  </commands>
+  <namespaces>
+    <namespace id="_global">
+      <command>afoobar</command>
+      <command>help</command>
+      <command>list</command>
+    </namespace>
+    <namespace id="foo">
+      <command>foo:bar</command>
+    </namespace>
+  </namespaces>
+</symfony>

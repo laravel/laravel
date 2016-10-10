@@ -1,0 +1,35 @@
+<html>
+    <head><title>Test of form submission</title></head>
+    <body>
+        <form action="network_confirm.php" method="get">
+            <label>Text A<input type="text" name="a" value="&amp;'&quot;&lt;&gt;"></label>
+            <br />
+            <label>Text B<input type="text" name="a" value='"'></label>
+            <br />
+            <label>Text area C<textarea name="c">&amp;'&quot;&lt;&gt;</textarea></label>
+            <br />
+            <label>Selection D
+                <select name="d">
+                    <option value="'" selected>D'</option>
+                    <option value='"'>D&quot;</option>
+                    <option value="&amp;">D&amp;</option>
+                    <option value="&lt;">D&lt;</option>
+                    <option value="&gt;">D&gt;</option>
+                </select>
+            </label>
+            <br />
+            <label>Checkbox E <input type="checkbox" name="e" value="&amp;'&quot;&lt;&gt;" checked></label>
+            <br />
+            <label>Checkbox F <input type="checkbox" name="f" value="&amp;'&quot;&lt;&gt;"></label>
+            <br />
+            Radio I
+            <label>I'<input type="radio" name="i" value="'" checked></label>
+            <label>I&quot;<input type="radio" name="i" value='"'></label>
+            <label>I&gt;<input type="radio" name="i" value="&gt;"></label>
+            <label>I&lt;<input type="radio" name="i" value="&lt;"></label>
+            <label>I&amp;<input type="radio" name="i" value="&amp;"></label>
+            <br />
+            <input type="submit" name="go" value="Go!">
+        </form>
+    </body>
+</html>

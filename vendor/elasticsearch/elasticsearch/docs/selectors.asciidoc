@@ -1,0 +1,110 @@
+
+== Selectors
+
+The connection pool maintains the list of connections, and decides when nodes should transition from alive to dead (and
+vice versa).  It has no logic to choose connections, however.  That job belongs to the Selector class.
+
+The selector's job is to return a single connection from a provided array of connections.  Like the Connection Pool,
+there are several implementations to choose from.
+
+=== RoundRobinSelector (Default)
+
+This selector returns connections in a round-robin fashion.  Node #1 is selected on the first request, Node #2 on
+the second request, etc.  This ensures an even load of traffic across your cluster.  Round-robin'ing happens on a
+per-request basis (e.g. sequential requests go to different nodes).
+
+The `RoundRobinSelector` is default, but if you wish to explicitily configure it you can do:
+
+[source,php]
+----
+$client = ClientBuilder::create()
+            ->setSelector('\Elasticsearch\ConnectionPool\Selectors\RoundRobinSelector')
+            ->build();
+----
+
+Note that the implementation is specified via a namespace path to the class.
+
+=== StickyRoundRobinSelector
+
+This selector is "sticky", in that it prefers to reuse the same connection repeatedly.  For example, Node #1 is chosen
+on the first request.  Node #1 will continue to be re-used for each subsequent request until that node fails.  Upon failure,
+the selector will round-robin to the next available node, then "stick" to that node.
+
+This is an ideal strategy for many PHP scripts.  Since PHP scripts are shared-nothing and tend to exit quickly, creating
+new connections for each request is often a sub-optimal strategy and introduces a lot of overhead.  Instead, it is
+better to "stick" to a single connection for the duration of the script.
+
+By default, this selector will randomize the hosts upon initialization, which will still guarantee an even distribution
+of load across the cluster.  It changes the round-robin dynamics from per-request to per-script.
+
+If you are using <<_future_mode>>, the "sticky" behavior of this selector will be non-ideal, since all parallel requests
+will go to the same node instead of multiple nodes in your cluster.  When using future mode, the default `RoundRobinSelector`
+should be preferred.
+
+If you wish to use this selector, you may do so with:
+
+[source,php]
+----
+$client = ClientBuilder::create()
+            ->setSelector('\Elasticsearch\ConnectionPool\Selectors\StickyRoundRobinSelector')
+            ->build();
+----
+
+Note that the implementation is specified via a namespace path to the class.
+
+=== RandomSelector
+
+This selector simply returns a random node, regardless of state.  It is generally just for testing.
+
+If you wish to use this selector, you may do so with:
+
+[source,php]
+----
+$client = ClientBuilder::create()
+            ->setSelector('\Elasticsearch\ConnectionPool\Selectors\RandomSelector')
+            ->build();
+----
+
+Note that the implementation is specified via a namespace path to the class.
+
+=== Custom Selector
+
+You can implement your own custom selector.  Custom selectors must implement `SelectorInterface`
+
+[source,php]
+----
+namespace MyProject\Selectors;
+
+use Elasticsearch\Connections\ConnectionInterface;
+use Elasticsearch\ConnectionPool\Selectors\SelectorInterface
+
+class MyCustomSelector implements SelectorInterface
+{
+
+    /**
+     * Selects the first connection
+     *
+     * @param array $connections Array of Connection objects
+     *
+     * @return ConnectionInterface
+     */
+    public function select($connections)
+    {
+        // code here
+    }
+
+}
+----
+{zwsp} +
+
+You can then use your custom selector either via object injection or namespace instantiation:
+
+[source,php]
+----
+$mySelector = new MyCustomSelector();
+
+$client = ClientBuilder::create()
+            ->setSelector($mySelector)                             // object injection
+            ->setSelector('\MyProject\Selectors\FirstSelector')    // or namespace
+            ->build();
+----

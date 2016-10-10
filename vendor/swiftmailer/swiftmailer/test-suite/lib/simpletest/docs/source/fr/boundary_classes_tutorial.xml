@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: boundary_classes_tutorial.xml 1691 2008-03-19 17:38:39Z pp11 $ -->
+<page title="Les frontières de l'application" here="Les frontières de l'application">
+    <synchronisation lang="en" version="1684" date="19/03/2008" maintainer="pp11" />
+    <long_title>
+        Tutorial de tests unitaires PHP - Organiser les tests unitaires et les scénarios de test de classe frontière
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                Vous pensez probablement que nous avons désormais épuisé
+                les modifications sur la classe <code>Log</code>
+                et qu'il n'y a plus rien à ajouter.
+                Sauf que les choses ne sont jamais simples avec la Programmation Orienté Objet.
+                Vous pensez comprendre un problème et un nouveau cas arrive :
+                il défie votre point de vue et vous conduit
+                vers une analyse encore plus profonde.
+                Je pensais comprendre la classe de log et
+                que seule la première page du tutorial l'utiliserait.
+                Après ça, je serais passé à quelque chose de plus compliqué.
+                Personne n'est plus surpris que moi de ne pas l'avoir bouclée.
+                En fait je pense que je viens à peine
+                de me rendre compte de ce qu'un loggueur fait.
+            </p>
+        </introduction>
+        <section name="variation" title="Variations sur un log">
+            <p>
+                Supposons que nous ne voulons plus seulement enregistrer
+                les logs vers un fichier. Nous pourrions vouloir les afficher à l'écran,
+                les envoyer au daemon <em>syslog</em> d'Unix(tm) via un socket.
+                Comment s'accommoder de tels changements ?
+            </p>
+            <p>
+                Le plus simple est de créer des sous-classes de <code>Log</code>
+                qui écrasent la méthode <code>message()</code> avec les nouvelles versions.
+                Ce système fonctionne bien à court terme, sauf qu'il a quelque chose
+                de subtilement mais foncièrement erroné. Supposons que nous créions
+                ces sous-classes et que nous ayons des loggueurs écrivant vers un fichier,
+                sur l'écran et via le réseau. Trois classes en tout : ça fonctionne.
+                Maintenant supposons que nous voulons ajouter une nouvelle classe de log
+                qui ajoute un filtrage par priorité des messages, ne laissant passer
+                que les messages d'un certain type, le tout suivant un fichier de configuration.
+            </p>
+            <p>
+                Nous sommes coincés. Si nous créons de nouvelles sous-classes,
+                nous devons le faire pour l'ensemble des trois classes,
+                ce qui nous donnerait six classes. L'envergure de la duplication est horrible.
+            </p>
+            <p>
+                Alors, est-ce que vous êtes en train de souhaiter que PHP ait
+                l'héritage multiple ? Effectivement, cela réduirait l'ampleur
+                de la tâche à court terme, mais aussi compliquerait quelque
+                chose qui devrait être une classe très simple. L'héritage multiple,
+                même supporté, devrait être utilisé avec le plus grand soin car
+                toutes sortes d'enchevêtrements peuvent en découler.
+                En fait ce soudain besoin nous dit quelque chose d'autre
+                - peut-être que notre erreur si situe au niveau de la conception.
+            </p>
+            <p>
+                Qu'est-ce que doit faire un loggueur ? Est-ce qu'il envoie
+                un message vers un fichier ? A l'écran ? Via le réseau ? Non.
+                Il envoie un message, point final. La cible de ses messages
+                peut être sélectionnée à l'initialisation du log,
+                mais après ça pas touche : le loggueur doit pouvoir combiner
+                et formater les éléments du message puisque tel est son véritable boulot.
+                Présumer que la cible fut un nom de fichier était une belle paire d'oeillères.
+            </p>
+        </section>
+        <section name="scripteur" title="Abstraire un fichier vers un scripteur">
+            <p>
+                La solution de cette mauvaise passe est un classique.
+                Tout d'abord nous encapsulons la variation de la classe :
+                cela ajoute un niveau d'indirection. Au lieu d'introduire
+                le nom du fichier comme une chaîne, nous l'introduisons comme
+                &quot;cette chose vers laquelle on écrit&quot; et que
+                nous appelons un <code>Writer</code>. Retour aux tests...
+<php><![CDATA[
+<?php
+    require_once('../classes/log.php');
+    require_once('../classes/clock.php');<strong>
+    require_once('../classes/writer.php');</strong>
+    Mock::generate('Clock');
+
+    class TestOfLogging extends UnitTestCase {
+        function TestOfLogging() {
+            $this->UnitTestCase('Log class test');
+        }
+        function setUp() {
+            @unlink('../temp/test.log');
+        }
+        function tearDown() {
+            @unlink('../temp/test.log');
+        }
+        function getFileLine($filename, $index) {
+            $messages = file($filename);
+            return $messages[$index];
+        }
+        function testCreatingNewFile() {<strong>
+            $log = new Log(new FileWriter('../temp/test.log'));</strong>
+            $this->assertFalse(file_exists('../temp/test.log'), 'Created before message');
+            $log->message('Should write this to a file');
+            $this->assertTrue(file_exists('../temp/test.log'), 'File created');
+        }
+        function testAppendingToFile() {<strong>
+            $log = new Log(new FileWriter('../temp/test.log'));</strong>
+            $log->message('Test line 1');
+            $this->assertWantedPattern(
+                    '/Test line 1/',
+                    $this->getFileLine('../temp/test.log', 0));
+            $log->message('Test line 2');
+            $this->assertWantedPattern(
+                    '/Test line 2/',
+                    $this->getFileLine('../temp/test.log', 1));
+        }
+        function testTimestamps() {
+            $clock = &new MockClock($this);
+            $clock->setReturnValue('now', 'Timestamp');<strong>
+            $log = new Log(new FileWriter('../temp/test.log'));</strong>
+            $log->message('Test line', &$clock);
+            $this->assertWantedPattern(
+                    '/Timestamp/',
+                    $this->getFileLine('../temp/test.log', 0),
+                    'Found timestamp');
+        }
+    }
+?>
+]]></php>
+                Je vais parcourir ces tests pas à pas pour ne pas ajouter
+                trop de confusion. J'ai remplacé les noms de fichier par
+                une classe imaginaire <code>FileWriter</code> en provenance
+                d'un fichier <em>classes/writer.php</em>.
+                Par conséquent les tests devraient planter
+                puisque nous n'avons pas encore écrit ce scripteur.
+                Doit-on le faire maintenant ?
+            </p>
+            <p>
+                Nous pourrions, mais ce n'est pas obligé.
+                Par contre nous avons besoin de créer l'interface,
+                ou alors il ne sera pas possible de la simuler.
+                Au final <em>classes/writer.php</em> ressemble à...
+<php><![CDATA[
+<?php
+    class FileWriter {
+        
+        function FileWriter($file_path) {
+        }
+        
+        function write($message) {
+        }
+    }
+?>
+]]></php>
+                Nous avons aussi besoin de modifier la classe <code>Log</code>...
+<php><![CDATA[
+<?php
+    require_once('../classes/clock.php');<strong>
+    require_once('../classes/writer.php');</strong>
+    
+    class Log {<strong>
+        var $_writer;</strong>
+        
+        function Log(<strong>&$writer</strong>) {<strong>
+            $this->_writer = &$writer;</strong>
+        }
+        
+        function message($message, $clock = false) {
+            if (! is_object($clock)) {
+                $clock = new Clock();
+            }<strong>
+            $this->_writer->write("[" . $clock->now() . "] $message");</strong>
+        }
+    }
+?>
+]]></php>
+                Il n'y a pas grand chose qui n'ait pas changé y compris
+                dans la plus petite de nos classes. Désormais les tests
+                s'exécutent mais ne passent pas, à moins que nous ajoutions
+                du code dans le scripteur. Alors que faisons nous ?
+            </p>
+            <p>
+                Nous pourrions commencer par écrire des tests et
+                développer la classe <code>FileWriter</code> parallèlement,
+                mais lors de cette étape nos tests de <code>Log</code>
+                continueraient d'échouer et de nous distraire.
+                En fait nous n'en avons pas besoin.
+            </p>
+            <p>
+                Une partie de notre objectif est de libérer la classe
+                du loggueur de l'emprise du système de fichiers
+                et il existe un moyen d'y arriver.
+                Tout d'abord nous créons le fichier <em>tests/writer_test.php</em>
+                de manière à avoir un endroit pour placer
+                notre code test en provenance de <em>log_test.php</em>
+                et que nous allons brasser. Sauf que je ne vais pas l'ajouter
+                dans le fichier <em>all_tests.php</em> pour l'instant
+                puisque qu'il s'agit de la partie de log que nous sommes en train d'aborder.
+            </p>
+            <p>
+                Nous enlevons tous les test de <em>log_test.php</em>
+                qui ne sont pas strictement en lien avec le journal
+                et nous les gardons bien précieusement dans
+                <em>writer_test.php</em> pour plus tard.
+                Nous allons aussi simuler le scripteur pour qu'il n'écrive pas
+                réellement dans un fichier...
+<php><![CDATA[
+<?php
+    require_once('../classes/log.php');
+    require_once('../classes/clock.php');
+    require_once('../classes/writer.php');
+    Mock::generate('Clock');<strong>
+    Mock::generate('FileWriter');</strong>
+
+    class TestOfLogging extends UnitTestCase {
+        function TestOfLogging() {
+            $this->UnitTestCase('Log class test');
+        }<strong>
+        function testWriting() {
+            $clock = &new MockClock($this);
+            $clock->setReturnValue('now', 'Timestamp');
+            $writer = &new MockFileWriter($this);
+            $writer->expectArguments('write', array('[Timestamp] Test line'));
+            $writer->expectCallCount('write', 1);
+            $log = &new Log($writer);
+            $log->message('Test line', &$clock);
+            $writer->tally();
+        }</strong>
+    }
+?>
+]]></php>
+                Eh oui c'est tout : il s'agit bien de l'ensemble du scénario de test
+                et c'est normal qu'il soit aussi court. Pas mal de choses se sont passées...
+                <ol>
+                    <li>
+                        La nécessité de créer le fichier uniquement
+                        si nécessaire a été déplacée vers le <code>FileWriter</code>.
+                    </li>
+                    <li>
+                        Étant donné que nous travaillons avec des objets fantaisie,
+                        aucun fichier n'a été créé et donc <code>setUp()</code>
+                        et <code>tearDown()</code> passent dans les tests du scripteur.
+                    </li>
+                    <li>
+                        Désormais le test consiste simplement dans l'envoi
+                        d'un message type et du test de son format.
+                    </li>
+                </ol>
+                Attendez un instant, où sont les assertions ?
+            </p>
+            <p>
+                Les objets fantaisie font beaucoup plus que se comporter
+                comme des objets, ils exécutent aussi des test.
+                L'appel <code>expectArguments()</code> dit à l'objet fantaisie
+                d'attendre un seul paramètre de la chaîne &quot;[Timestamp] Test&quot;
+                quand la méthode fantaise <code>write()</code> est appelée.
+                Lorsque cette méthode est appelée les paramètres attendus
+                sont comparés avec ceci et un succès ou un échec est renvoyé
+                comme résultat au test unitaire.
+                C'est pourquoi un nouvel objet fantaisie a une référence
+                vers <code>$this</code> dans son constructeur,
+                il a besoin de ce <code>$this</code> pour l'envoi de son propre résultat.
+            </p>
+            <p>
+                L'autre attente, c'est que le <code>write</code> ne soit appelé
+                qu'une seule et unique fois. Juste l'initialiser ne serait pas suffisant.
+                L'objet fantaisie attendrait une éternité
+                si la méthode n'était jamais appelée
+                et par conséquent n'enverrait jamais
+                le message d'erreur à la fin du test.
+                Pour y faire face, l'appel <code>tally()</code> lui dit de vérifier
+                le nombre d'appel à ce moment là.
+                Nous pouvons voir tout ça en lançant les tests...
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testwriting-&gt;Arguments for [write] were [String: [Timestamp] Test line]<br />
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testwriting-&gt;Expected call count for [write] was [1], but got [1]<br />
+                    
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclockadvance-&gt;Advancement<br />
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclocktellstime-&gt;Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">3/3 test cases complete.
+                    <strong>4</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+            </p>
+            <p>
+                En fait nous pouvons encore raccourcir nos tests.
+                L'attente de l'objet fantaisie <code>expectOnce()</code>
+                peut combiner les deux attentes séparées.
+<php><![CDATA[
+function testWriting() {
+    $clock = &new MockClock($this);
+    $clock->setReturnValue('now', 'Timestamp');
+    $writer = &new MockFileWriter($this);<strong>
+    $writer->expectOnce('write', array('[Timestamp] Test line'));</strong>
+    $log = &new Log($writer);
+    $log->message('Test line', &$clock);
+    $writer->tally();
+}
+]]></php>
+                Cela peut être une abréviation utile.
+            </p>
+        </section>
+        <section name="frontiere" title="Classes frontières">
+            <p>
+                Quelque chose de très agréable est arrivée au loggueur
+                en plus de devenir purement et simplement plus court.
+            </p>
+            <p>
+                Les seules choses dont il dépend sont maintenant
+                des classes que nous avons écrites nous-même
+                et qui dans les tests sont simulées :
+                donc aucune dépendance hormis notre propre code PHP.
+                Pas de fichier à écrire ni de déclenchement
+                via une horloge à attendre. Cela veut dire que le scénario
+                de test <em>log_test.php</em> va s'exécuter aussi vite
+                que le processeur le permet.
+                Par contraste les classes <code>FileWriter</code> et <code>Clock</code>
+                sont très proches du système.
+                Plus difficile à tester puisque de vraies données
+                doivent être déplacées et validées avec soin,
+                souvent par des astuces ad hoc.
+            </p>
+            <p>
+                Notre dernière factorisation a beaucoup aidé.
+                Les classes aux frontières de l'application et du système,
+                celles qui sont difficiles à tester, sont désormais plus courtes
+                étant donné que le code d'I/O a été éloigné
+                encore plus de la logique applicative.
+                Il existe des liens directs vers des opérations PHP :
+                <code>FileWriter::write()</code> s'apparente à l'équivalent
+                PHP <code>fwrite()</code> avec le fichier ouvert pour l'ajout
+                et <code>Clock::now()</code> s'apparente lui aussi
+                à un équivalent PHP <code>time()</code>.
+                Primo le débogage devient plus simple.
+                Secundo ces classes devraient bouger moins souvent.
+            </p>
+            <p>
+                Si elles ne changent pas beaucoup alors il n'y a aucune raison
+                pour continuer à en exécuter les tests.
+                Cela veut dire que les tests pour les classes frontières
+                peuvent être déplacées vers leur propre suite de tests,
+                laissant les autres tourner à plein régime.
+                En fait c'est comme ça que j'ai tendance à travailler
+                et les scénarios de test de <a href="simple_test.php">SimpleTest</a>
+                lui-même sont divisés de cette manière.
+            </p>
+            <p>
+                Peut-être que ça ne vous paraît pas beaucoup
+                avec un test unitaire et deux tests aux frontières,
+                mais une application typique peut contenir
+                vingt classes de frontière et deux cent classes d'application.
+                Pour continuer leur exécution à toute vitesse,
+                vous voudrez les tenir séparées.
+            </p>
+            <p>
+                De plus, un bon développement passe par des décisions
+                de tri entre les composants à utiliser.
+                Peut-être, qui sait, tous ces simulacres pourront
+                <a href="improving_design_tutorial.php">améliorer votre conception</a>.
+            </p>
+        </section>
+    </content>
+
+    <internal>
+        <link>
+            <a name="#variation">Variations</a> sur un log
+        </link>
+        <link>
+            Abstraire un niveau supplémentaire via une classe
+            <a name="#scripteur">fantaisie d'un scripteur</a>
+        </link>
+        <link>
+            Séparer les tests des <a name="#frontiere">classes frontières</a>
+            pour un petit nettoyage
+        </link>
+    </internal>
+    <external>
+        <link>
+            Ce tutorial suit l'introduction aux
+            <a href="mock_objects_tutorial.php">objets fantaisies</a>.
+        </link>
+        <link>
+            Ensuite vient la
+            <a href="improving_design_tutorial.php">conception pilotée par les tests</a>.
+        </link>
+        <link>
+            Vous aurez besoin du
+            <a href="simple_test.php">framework de test SimpleTest</a> pour essayer ces exemples.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            organisation de tests unitaires,
+            conseil de test,
+            astuce de développement,
+            architecture logicielle pour des tests,
+            exemple de code php,
+            objets fantaisie,
+            port de junit,
+            exemples de scénarios de test,
+            test php,
+            outil de test unitaire,
+            suite de test php
+        </keywords>
+    </meta>
+</page>
+

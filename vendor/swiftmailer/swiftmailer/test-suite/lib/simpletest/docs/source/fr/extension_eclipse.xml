@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<!-- $Id: extension_eclipse.xml 1697 2008-03-20 17:46:11Z pp11 $ -->
+<page title="Plugin Eclipse pour Simpletest" here="Plugin Eclipse">
+    <synchronisation lang="en" version="1687" date="20/03/2008" maintainer="pp11" />
+    <long_title>Documentation du plugin Eclipse pour Simpletest</long_title>
+    <content>
+        <section name="compat" title="Compatibilité">
+        <ul>
+        <li>
+        <b>Système d'exploitation - OS</b><br/>
+        Ce plugin devrait fonctionner sur toutes les plateformes qui font tourner Eclipse.
+        Il a été testé spécifiquement sur Linux, OS X et Windows.
+        Si le plugin ne marche pas sur l'une des ces plateformes, c'est qu'une nouvelle
+        incompatiblité est apparue : chose rare à priori.
+        </li>
+        <li>
+        <b>Eclipse</b><br/>
+        Le plugin a été pensé et développé pour fonctionner avec les versions 3.1.X+ and 3.2.X+ d'Eclipse.
+        Eclipse en général nécessite une version 1.4.x ou supérieur de la JVM :
+        il n'y a pas d'autres pré-requis pour le plugin.
+        </li>
+        <li>
+        <b>PHP</b><br/>
+        Le plugin a été testé pour fonctionner avec PHP 4.3.x+ (y compris PHP 5.1.x.).
+        </li>
+        <li>
+        <b>Xdebug</b><br/>
+        Le plugin peut-être configuré pour fonctionnver avec Xdebug (version 2.0.0RC1 ou suivante).  
+        Le fichier php.ini utilisé par le plugin (voir ci-dessous pour définir ce fichier) doit charger l'extension Xdebug.
+        Généralement on y arrive en ajoutant zend_extension_ts="Some Windows Path" ou zend_extension="Some Linux Path"
+        au fichier php.ini.
+        Des instructions spécifiques peuvent être trouvées à l'adresse :
+        <a href="http://xdebug.org/install.php">http://xdebug.org/install.php</a>
+        Pas la peine de se tracasser à propos des autres paramètres, le plugin se chargera d'initialiser
+        les paramètres nécessaires au besoin.
+        </li>
+        <li>
+        <b>Simpletest</b><br/>
+        Le plugin est prévu pour tourner avec une version spécifique de SimpleTest.
+        Et même plus : il inclut la version associée de SimpleTest compatible.
+        Un plugin avec comme numéro de version 1.0.0_0.0.4 indiquerait que les plugin est compatible
+        avec la version 1.0.0 de SimpleTest and qu'il s'agit de la version 0.0.4 du plugin. 
+        De légères modifications sont nécessaires sur le code de SimpleTest même pour
+        que le plugin fonctionne bien; ces modifications peuvent (ou pas) être comprise dans
+        la version de SimpleTest sans plugin.
+        </li>
+        <li>
+        <b>PHPUnit2</b><br/>
+        A partir du plugin version 0.1.6 un support expérimental de la version CVS de PHPUnit2
+        est disponible. Pour utiliser PHPUnit2, Choisisser un chemin vers PHPUnit2 et sélectionnez
+        les tests PHPUnit2 en lieu et place de SimpleTest.
+        Note: il s'agit du chemin vers le dossier qui contient le dosser PHPUnit2. PHPUnit 3
+        n'est pas supporté mais devrait l'être plus tard.
+        </li>
+        </ul>
+        </section>
+        <section name="install" title="Installation">
+        <ol>
+        <li>Télécharger et installer Eclipse (<a href="http://www.eclipse.org">www.eclipse.org</a>) – si vous n'êtes pas sûr quoi télécharger, prenez le SDK 3.1.0 d'Eclipse.</li>
+        <li>Télécharger le dernier fichier ZIP du plugin Eclipse pour SimpleTest (<a href="http://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=159054">Simpletest Sourceforge</a>)</li>
+        <li>Extgraire le contenu du fichier ZIP vers un répertoire temporaire {cette documentation y fera référence par $unzip}</li>
+        <li>Lancer Eclipse</li>
+        <li>Ouvrir "Install Wizard" en cliquant sur "Help > Software Updates > Find and Install" depuis la barre du menu.</li>
+        <li>Choisisser le deuxième bouton, "Search for new features to install" et cliquer sur "Next".</li>
+        <li>Cliquer sur le bouton du côté droit, "New Local Site".</li>
+        <li>Sélectionner le répertoire $unzip {le répertoire qui a servi pour l'extraction}.</li>
+        <li>Cliquer sur le bouton "OK".</li>
+        <li>Dans la fenêtre "Edit Local Site", cliquer sulick the "OK" button</li>
+        <li>Cliquer sur le bouton "Finish"</li>
+        <li>Dans la fenêtre "Search Results", chercher puis sélectionner "Simpletest plug-in 0.0.x"</li>
+        <li>Cliquer sur le bouton "Next"</li>
+        <li>Lire la licence et l'accepter en cliquant le bouton radio "I accept the terms in the license agreement" puis cliquer sur le bouton "Next"</li>
+        <li>Dans la fenêtre "Installation", vous pouvez changer le lieu d'installation -- la plupart des utilisateurs appuyeront juste sur le bouton "Finish"</li>
+        <li>Dans la fenêtre "Feature Verification", cliquer sur le bouton "Install"</li>
+        <li>Relancer Eclipse comme demandé</li>
+        <li>
+            <p>Après avoir lancé Eclipse pour la première fois après l'installation,
+            vous aurez besoin de configurer le plugin SimpleTest. Pour y arriver :
+            </p>
+            <ol type="a">
+            <li>
+            Sélectionner "Window > Preferences" dans la barre de menu
+            </li>
+            <li>
+            Sélectionner "Simpletest" dans les catégories sur la gauche de la boîte de dialogue.
+            </li>
+            <li>
+            Remplir ou choisir le répertoire contenant l'éxécutable PHP à utliser.   
+            </li>
+            <li>
+            Laisser vierge le champ avec le fichier à inclure.
+            </li>
+            <li>
+            Remplir .php comme "Test File Suffix".
+            Bien sûr si vous utilisez ue autre extension pour vos fichiers de tests en PHP
+            (par exemple mon-test.tst.php) n'hésitez pas à remplir le champ avec ce qui va bien (dans notre exemple .tst.php).  
+            Le plugin s'en sert pour trouver des tests à éxécuter.
+            </li>
+            <li>
+            Appuer sur le bouton "Ok" pour fermer la fenêtre des préférences.
+            </li>
+            </ol>
+        </li>
+        </ol>
+        </section>
+        <section name="update" title="Mettre à jour une version existante">
+        Note: cette procédure ne fonctionnera que si vous avez installé le plugin via
+        le "installation wizard". Si vous n'aviez fait que copier des répertoires pour l'installation,
+        il est recommandé de fermer Eclipse, de supprimer les anciennes version et de suivre les instructions
+        d'installation ci-dessus (vous ne devriez pas avoir à refaire la configuration initiale).
+        <ol>
+        <li>Sélectionner "Help > Software Updates > Manage Configuration" dans le menu</li>
+        <li>Trouver le plugin Simpletest dans la liste et le choisir</li>
+        <li>Dans la section de droite, cliquer sur le lien "Scan for Updates"</li>
+        <li>Si aucune mise à jour n'est détectée, naviguer vers "Window > Preferences > Install/Update > Valid Updates" dans les préférences d'Eclipse
+        et sélectionner "compatible", en lieu et place de "equivalent". Puis recommencer les étapes ci-dessus.</li>
+        <li>Sélectionner les versions à mettre à jour et cliquer sur "Next".</li>
+        <li>Relire les licences pour ces mises à jour : si elles sont acceptables, cocher "I accept the terms in the license agreements."
+        Si les termes de la licence ne vous paraissent pas acceptables, il est encore temps d'arrêter le téléchargement.</li>
+        <li>Cliquer sur "Install" pour permettre le téléchargement est l'installation.</li>
+        <li>Une fois que toutes les fonctionnalités et plugins ont été téléchargés avec succès
+        et que leurs fihciers ont été installés sur l'ordinateur local,
+        une nouvelle configuration qui incorpore les nouvelles fonctionnalités et nouveaux plugins sera créée.
+        Cliquer sur "Yes" quand on vous demander de quitter et relancher le "Workbench" pour les changements prennent effet.</li>
+        </ol>
+        </section>
+        <section name="uninstall" title="Désinstallation">
+        Note: ceci ne fonctionnera que si le plugin a été installé via la méthode "Feature Update".
+        Si l'installation a été effectué par une autre méthode alors le plugin peut être supprimé en effaçant
+        les répertoires qui avaient été ajoutés.
+        <ol>
+        <li>Sélectionner "Help > Software Updates > Manage Configuration"</li>
+        <li>Choisir le plugin Simpletest dans la liste</li>
+        <li>Cliquer-droit sur le plugin Simpletest et sélectionner l'option "Disable"</li>
+        <li>Accepter le redémarrage d'Eclipse</li>
+        <li>Une fois Eclipse redémarré, sélectionner "Help > Software Updates > Manage Configuration" depuis le menu</li>
+        <li>Sélectionner l'option "Show Disabled Features" dans la barre d'outils</li>
+        <li>Choisir le plugin SimpleTest dans la liste</li>
+        <li>Cliquer-droit sur le plugin SimpleTest et sélectionner l'option "Uninstall"</li>
+        <li>Accepter le redémarrage d'Eclipse</li>
+        </ol>
+        </section>
+        <section name="usage" title="Utilisation">
+        <p>
+        La suite présente quelques exemples d'utilsation du plugin.
+        </p>
+        <ol>
+        <li>Créer une nouveau projet de test (un lieu pour grouper des fichiers similaires)
+            <ol type="a">
+            <li>Sélectionner "File > New > Project.." dans le menu</li>
+            <li>Agrandir le répertoire "General" et choisir "Project"</li>
+            <li>Cliquer sur le bouton "Next"</li>
+            <li>Sur le tab suivant, ajouter un nom de projet : "Test"</li>
+            <li>Utiliser le contenu de projet par défaut</li>
+            <li>Cliquer sur le bouton "Finish"</li>
+            </ol>
+        </li>
+        <li>Créer un test unique avec un seul succès
+            <ol type="a">
+            <li>Dans l'explorateur de paquet cliquer-droit sur le projet "Test" et sélectionner "New > File".</li>
+            <li>Comme nom de fichier remplir : test1.php et cliquer sur "Finish"</li>
+            <li>Double-cliquer sur l'entrée test1.php dans l'explorateur de paquet : cela devrait ouvrir une nouvelle vue pour modifier ce fichier.</li>
+            <li>Remplir le fichier avec ces lignes :
+<php><![CDATA[
+<?php
+class test1 extends UnitTestCase {
+  function test_pass(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(3,$total, "This should pass");
+  }
+}
+?>
+]]></php>
+            </li>
+            <li>Sélectionner "File > Save" depuis le menu.</li>
+            <li>Cliquer-droit sur test1.php et sélectionner "Run > Run Simpletest".</li>
+            <li>La "Result View" devrait se remplir avec les informations sur le résultat du test
+            et la console SimpleTest devrait se remplir avec d'autres informations aussi.</li>
+            </ol>
+        </li>
+        <li>Une seule classe de test, plusieurs tests
+            <ol type="a">
+            <li>dans l'explorateur de paquet, cliquer droit sur le projet "Test" et sélectionner "New > File".</li>
+            <li>En tant que nom de fichier, utiliser : test2.php et cliquer sur "Finish".</li>
+            <li>Double-cliquer sur l'entrée test2.php dans l'explorateur de paquet : une nouvelle vue s'ouvre, prête pour l'édition.</li>
+            <li>Remplir le contenu avec :
+<php><![CDATA[
+<?php
+class test2 extends UnitTestCase {          
+  function test_pass(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(3,$total, "This should pass");
+  }
+  function test_fail(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(4,$total,"This should fail");
+  }
+}
+?>
+]]></php>
+            </li>
+            <li>Sélectionner "File > save" dans la barre de menu.</li>
+            <li>Cliquer-droit sur grouptest.php et sélectionner "Run > Run Simpletest".</li>
+            <li>La "Result View" devrait se remplir avec les informations issus du test lancé,
+            idem pour pour la console SimpleTest.</li>
+            </ol>
+        </li>
+        <li>Tests groupés (plusieurs fichiers de test en même temps)
+            <ol type="a">
+            <li>dans l'explorateur de paquet, cliquer droit sur le projet "Test" et sélectionner "New > File".</li>
+            <li>En tant que nom de fichier, utiliser : test2.php et cliquer sur "Finish".</li>
+            <li>Double-cliquer sur l'entrée test2.php dans l'explorateur de paquet : une nouvelle vue s'ouvre, prête pour l'édition.</li>
+            <li>Remplir le contenu avec :
+<php><![CDATA[
+<?php
+class myGroupTest extends GroupTest {
+  function myGroupTest() {
+    parent::GroupTest('');
+    $this->addTestFile(dirname(__FILE__).'/test1.php');
+    $this->addTestFile(dirname(__FILE__).'/test2.php');
+  }
+}
+?>
+]]></php>
+            </li>
+            <li>Sélectionner "File > Save" depuis le menu.</li>
+            <li>Cliquer-droit sur test1.php et sélectionner "Run > Run Simpletest".</li>
+            <li>La "Result View" devrait se remplir avec les informations sur le résultat du test
+            et la console SimpleTest devrait se remplir avec d'autres informations aussi.</li>
+            </ol>
+        </li>
+        </ol>
+        </section>
+        <section name="known" title="Problèmes connus">
+        <ul>
+        <li>
+        Si un constructeur est utilisé dans le scénario de test,
+        bien faire attention à ce que la dernière ligne de ce constructeur appelle
+        le constructeur parent (par exemple parent::UnitTestCase)
+        </li>
+        <li>
+        Ne pas mettre d'assertions dans le constructeur de la classe de test
+        </li>
+        <li>
+        Si vous obtenez une erreur indiquant qu'une classe ne pouvait pas être chargé, alors il faut
+        relancer Eclipse. Une fois qu'Eclipse a redémarré, ouvrir la "Result View" manuellement
+        en sélectionnant "Window > Show View > Other..."
+        Puis sélectionner la catégorie SimpleTest, puis la "Result View" et enfin cliquer sur "OK".
+        </li>
+        </ul>
+        </section>
+        <section name="todo" title="Foncationnalités à venir">
+        <p>Ci-dessous des fonctionnalités qui devrait arriver à un moment ou un autre dans ce plugin</p>
+        <ul>
+        <li>
+        Permettre différents fichiers d'inclustion pour chaque lanceur
+        (écraser l'include "master")
+        </li>
+        <li>
+        Mieux gérer les erreurs fatales
+        </li>
+        </ul>
+        </section>
+    </content>
+    
+    <meta>
+        <keywords>
+            dévloppement logiciel,
+            plugin eclipse,
+            programmation en binôme,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            architecture,
+            ressources php,
+            objets fantaisie,
+            junit,
+            php testing,
+            test unitaire,
+            test php automatisé,
+            explication test unitaire,
+            exemple test unitaire
+        </keywords>
+    </meta>
+</page>

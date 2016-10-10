@@ -1,0 +1,6 @@
+,		1,	""
+"",		1,	""
+"QWERTYUIOP",	-1,	"#VALUE!"
+"ABCDEFGHI",	3,	"ABC"
+TRUE,		2,	"TR"
+FALSE,		2,	"FA"

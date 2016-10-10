@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<command id="descriptor:command1" name="descriptor:command1">
+  <usage>descriptor:command1</usage>
+  <description>command 1 description</description>
+  <help>command 1 help</help>
+  <aliases>
+    <alias>alias1</alias>
+    <alias>alias2</alias>
+  </aliases>
+  <arguments/>
+  <options/>
+</command>

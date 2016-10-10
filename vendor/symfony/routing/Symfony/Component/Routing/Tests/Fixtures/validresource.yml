@@ -1,0 +1,8 @@
+_blog:
+    resource:     validpattern.yml
+    prefix:       /{foo}
+    defaults:     { 'foo': '123' }
+    requirements: { 'foo': '\d+' }
+    options:      { 'foo': 'bar' }
+    host:         ""
+    condition:    'context.getMethod() == "POST"'

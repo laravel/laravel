@@ -1,0 +1,438 @@
+##
+## PHPExcel
+##
+## Copyright (c) 2006 - 2013 PHPExcel
+##
+## This library is free software; you can redistribute it and/or
+## modify it under the terms of the GNU Lesser General Public
+## License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+##
+## @category   PHPExcel
+## @package    PHPExcel_Calculation
+## @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+## @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+## @version    ##VERSION##, ##DATE##
+##
+## Data in this file derived from http://www.piuha.fi/excel-function-name-translation/
+##
+##
+
+
+##
+##	Add-in and Automation functions		Funkce doplňků a automatizace
+##
+GETPIVOTDATA		= ZÍSKATKONTDATA	##	Vrátí data uložená v kontingenční tabulce. Pomocí funkce ZÍSKATKONTDATA můžete načíst souhrnná data z kontingenční tabulky, pokud jsou tato data v kontingenční sestavě zobrazena.
+
+
+##
+##	Cube functions				Funkce pro práci s krychlemi
+##
+CUBEKPIMEMBER		= CUBEKPIMEMBER		##	Vrátí název, vlastnost a velikost klíčového ukazatele výkonu (KUV) a zobrazí v buňce název a vlastnost. Klíčový ukazatel výkonu je kvantifikovatelná veličina, například hrubý měsíční zisk nebo čtvrtletní obrat na zaměstnance, která se používá pro sledování výkonnosti organizace.
+CUBEMEMBER		= CUBEMEMBER		##	Vrátí člen nebo n-tici v hierarchii krychle. Slouží k ověření, zda v krychli existuje člen nebo n-tice.
+CUBEMEMBERPROPERTY	= CUBEMEMBERPROPERTY	##	Vrátí hodnotu vlastnosti člena v krychli. Slouží k ověření, zda v krychli existuje člen s daným názvem, a k vrácení konkrétní vlastnosti tohoto člena.
+CUBERANKEDMEMBER	= CUBERANKEDMEMBER	##	Vrátí n-tý nebo pořadový člen sady. Použijte ji pro vrácení jednoho nebo více prvků sady, například obchodníka s nejvyšším obratem nebo deseti nejlepších studentů.
+CUBESET			= CUBESET		##	Definuje vypočtenou sadu členů nebo n-tic odesláním výrazu sady do krychle na serveru, který vytvoří sadu a potom ji vrátí do aplikace Microsoft Office Excel.
+CUBESETCOUNT		= CUBESETCOUNT		##	Vrátí počet položek v množině
+CUBEVALUE		= CUBEVALUE		##	Vrátí úhrnnou hodnotu z krychle.
+
+
+##
+##	Database functions			Funkce databáze
+##
+DAVERAGE		= DPRŮMĚR		##	Vrátí průměr vybraných položek databáze.
+DCOUNT			= DPOČET		##	Spočítá buňky databáze obsahující čísla.
+DCOUNTA			= DPOČET2		##	Spočítá buňky databáze, které nejsou prázdné.
+DGET			= DZÍSKAT		##	Extrahuje z databáze jeden záznam splňující zadaná kritéria.
+DMAX			= DMAX			##	Vrátí maximální hodnotu z vybraných položek databáze.
+DMIN			= DMIN			##	Vrátí minimální hodnotu z vybraných položek databáze.
+DPRODUCT		= DSOUČIN		##	Vynásobí hodnoty určitého pole záznamů v databázi, které splňují daná kritéria.
+DSTDEV			= DSMODCH.VÝBĚR		##	Odhadne směrodatnou odchylku výběru vybraných položek databáze.
+DSTDEVP			= DSMODCH		##	Vypočte směrodatnou odchylku základního souboru vybraných položek databáze.
+DSUM			= DSUMA			##	Sečte čísla ve sloupcovém poli záznamů databáze, která splňují daná kritéria.
+DVAR			= DVAR.VÝBĚR		##	Odhadne rozptyl výběru vybraných položek databáze.
+DVARP			= DVAR			##	Vypočte rozptyl základního souboru vybraných položek databáze.
+
+
+##
+##	Date and time functions			Funkce data a času
+##
+DATE			= DATUM			##	Vrátí pořadové číslo určitého data.
+DATEVALUE		= DATUMHODN		##	Převede datum ve formě textu na pořadové číslo.
+DAY			= DEN			##	Převede pořadové číslo na den v měsíci.
+DAYS360			= ROK360		##	Vrátí počet dní mezi dvěma daty na základě roku s 360 dny.
+EDATE			= EDATE			##	Vrátí pořadové číslo data, které označuje určený počet měsíců před nebo po počátečním datu.
+EOMONTH			= EOMONTH		##	Vrátí pořadové číslo posledního dne měsíce před nebo po zadaném počtu měsíců.
+HOUR			= HODINA		##	Převede pořadové číslo na hodinu.
+MINUTE			= MINUTA		##	Převede pořadové číslo na minutu.
+MONTH			= MĚSÍC			##	Převede pořadové číslo na měsíc.
+NETWORKDAYS		= NETWORKDAYS		##	Vrátí počet celých pracovních dní mezi dvěma daty.
+NOW			= NYNÍ			##	Vrátí pořadové číslo aktuálního data a času.
+SECOND			= SEKUNDA		##	Převede pořadové číslo na sekundu.
+TIME			= ČAS			##	Vrátí pořadové číslo určitého času.
+TIMEVALUE		= ČASHODN		##	Převede čas ve formě textu na pořadové číslo.
+TODAY			= DNES			##	Vrátí pořadové číslo dnešního data.
+WEEKDAY			= DENTÝDNE		##	Převede pořadové číslo na den v týdnu.
+WEEKNUM			= WEEKNUM		##	Převede pořadové číslo na číslo představující číselnou pozici týdne v roce.
+WORKDAY			= WORKDAY		##	Vrátí pořadové číslo data před nebo po zadaném počtu pracovních dní.
+YEAR			= ROK			##	Převede pořadové číslo na rok.
+YEARFRAC		= YEARFRAC		##	Vrátí část roku vyjádřenou zlomkem a představující počet celých dní mezi počátečním a koncovým datem.
+
+
+##
+##	Engineering functions			Inženýrské funkce (Technické funkce)
+##
+BESSELI			= BESSELI		##	Vrátí modifikovanou Besselovu funkci In(x).
+BESSELJ			= BESSELJ		##	Vrátí modifikovanou Besselovu funkci Jn(x).
+BESSELK			= BESSELK		##	Vrátí modifikovanou Besselovu funkci Kn(x).
+BESSELY			= BESSELY		##	Vrátí Besselovu funkci Yn(x).
+BIN2DEC			= BIN2DEC		##	Převede binární číslo na desítkové.
+BIN2HEX			= BIN2HEX		##	Převede binární číslo na šestnáctkové.
+BIN2OCT			= BIN2OCT		##	Převede binární číslo na osmičkové.
+COMPLEX			= COMPLEX		##	Převede reálnou a imaginární část na komplexní číslo.
+CONVERT			= CONVERT		##	Převede číslo do jiného jednotkového měrného systému.
+DEC2BIN			= DEC2BIN		##	Převede desítkového čísla na dvojkové
+DEC2HEX			= DEC2HEX		##	Převede desítkové číslo na šestnáctkové.
+DEC2OCT			= DEC2OCT		##	Převede desítkové číslo na osmičkové.
+DELTA			= DELTA			##	Testuje rovnost dvou hodnot.
+ERF			= ERF			##	Vrátí chybovou funkci.
+ERFC			= ERFC			##	Vrátí doplňkovou chybovou funkci.
+GESTEP			= GESTEP		##	Testuje, zda je číslo větší než mezní hodnota.
+HEX2BIN			= HEX2BIN		##	Převede šestnáctkové číslo na binární.
+HEX2DEC			= HEX2DEC		##	Převede šestnáctkové číslo na desítkové.
+HEX2OCT			= HEX2OCT		##	Převede šestnáctkové číslo na osmičkové.
+IMABS			= IMABS			##	Vrátí absolutní hodnotu (modul) komplexního čísla.
+IMAGINARY		= IMAGINARY		##	Vrátí imaginární část komplexního čísla.
+IMARGUMENT		= IMARGUMENT		##	Vrátí argument théta, úhel vyjádřený v radiánech.
+IMCONJUGATE		= IMCONJUGATE		##	Vrátí komplexně sdružené číslo ke komplexnímu číslu.
+IMCOS			= IMCOS			##	Vrátí kosinus komplexního čísla.
+IMDIV			= IMDIV			##	Vrátí podíl dvou komplexních čísel.
+IMEXP			= IMEXP			##	Vrátí exponenciální tvar komplexního čísla.
+IMLN			= IMLN			##	Vrátí přirozený logaritmus komplexního čísla.
+IMLOG10			= IMLOG10		##	Vrátí dekadický logaritmus komplexního čísla.
+IMLOG2			= IMLOG2		##	Vrátí logaritmus komplexního čísla při základu 2.
+IMPOWER			= IMPOWER		##	Vrátí komplexní číslo umocněné na celé číslo.
+IMPRODUCT		= IMPRODUCT		##	Vrátí součin komplexních čísel.
+IMREAL			= IMREAL		##	Vrátí reálnou část komplexního čísla.
+IMSIN			= IMSIN			##	Vrátí sinus komplexního čísla.
+IMSQRT			= IMSQRT		##	Vrátí druhou odmocninu komplexního čísla.
+IMSUB			= IMSUB			##	Vrátí rozdíl mezi dvěma komplexními čísly.
+IMSUM			= IMSUM			##	Vrátí součet dvou komplexních čísel.
+OCT2BIN			= OCT2BIN		##	Převede osmičkové číslo na binární.
+OCT2DEC			= OCT2DEC		##	Převede osmičkové číslo na desítkové.
+OCT2HEX			= OCT2HEX		##	Převede osmičkové číslo na šestnáctkové.
+
+
+##
+##	Financial functions			Finanční funkce
+##
+ACCRINT			= ACCRINT		##	Vrátí nahromaděný úrok z cenného papíru, ze kterého je úrok placen v pravidelných termínech.
+ACCRINTM		= ACCRINTM		##	Vrátí nahromaděný úrok z cenného papíru, ze kterého je úrok placen k datu splatnosti.
+AMORDEGRC		= AMORDEGRC		##	Vrátí lineární amortizaci v každém účetním období pomocí koeficientu amortizace.
+AMORLINC		= AMORLINC		##	Vrátí lineární amortizaci v každém účetním období.
+COUPDAYBS		= COUPDAYBS		##	Vrátí počet dnů od začátku období placení kupónů do data splatnosti.
+COUPDAYS		= COUPDAYS		##	Vrátí počet dnů v období placení kupónů, které obsahuje den zúčtování.
+COUPDAYSNC		= COUPDAYSNC		##	Vrátí počet dnů od data zúčtování do následujícího data placení kupónu.
+COUPNCD			= COUPNCD		##	Vrátí následující datum placení kupónu po datu zúčtování.
+COUPNUM			= COUPNUM		##	Vrátí počet kupónů splatných mezi datem zúčtování a datem splatnosti.
+COUPPCD			= COUPPCD		##	Vrátí předchozí datum placení kupónu před datem zúčtování.
+CUMIPMT			= CUMIPMT		##	Vrátí kumulativní úrok splacený mezi dvěma obdobími.
+CUMPRINC		= CUMPRINC		##	Vrátí kumulativní jistinu splacenou mezi dvěma obdobími půjčky.
+DB			= ODPIS.ZRYCH		##	Vrátí odpis aktiva za určité období pomocí degresivní metody odpisu s pevným zůstatkem.
+DDB			= ODPIS.ZRYCH2		##	Vrátí odpis aktiva za určité období pomocí dvojité degresivní metody odpisu nebo jiné metody, kterou zadáte.
+DISC			= DISC			##	Vrátí diskontní sazbu cenného papíru.
+DOLLARDE		= DOLLARDE		##	Převede částku v korunách vyjádřenou zlomkem na částku v korunách vyjádřenou desetinným číslem.
+DOLLARFR		= DOLLARFR		##	Převede částku v korunách vyjádřenou desetinným číslem na částku v korunách vyjádřenou zlomkem.
+DURATION		= DURATION		##	Vrátí roční dobu cenného papíru s pravidelnými úrokovými sazbami.
+EFFECT			= EFFECT		##	Vrátí efektivní roční úrokovou sazbu.
+FV			= BUDHODNOTA		##	Vrátí budoucí hodnotu investice.
+FVSCHEDULE		= FVSCHEDULE		##	Vrátí budoucí hodnotu počáteční jistiny po použití série sazeb složitého úroku.
+INTRATE			= INTRATE		##	Vrátí úrokovou sazbu plně investovaného cenného papíru.
+IPMT			= PLATBA.ÚROK		##	Vrátí výšku úroku investice za dané období.
+IRR			= MÍRA.VÝNOSNOSTI	##	Vrátí vnitřní výnosové procento série peněžních toků.
+ISPMT			= ISPMT			##	Vypočte výši úroku z investice zaplaceného během určitého období.
+MDURATION		= MDURATION		##	Vrátí Macauleyho modifikovanou dobu cenného papíru o nominální hodnotě 100 Kč.
+MIRR			= MOD.MÍRA.VÝNOSNOSTI	##	Vrátí vnitřní sazbu výnosu, přičemž kladné a záporné hodnoty peněžních prostředků jsou financovány podle různých sazeb.
+NOMINAL			= NOMINAL		##	Vrátí nominální roční úrokovou sazbu.
+NPER			= POČET.OBDOBÍ		##	Vrátí počet období pro investici.
+NPV			= ČISTÁ.SOUČHODNOTA	##	Vrátí čistou současnou hodnotu investice vypočítanou na základě série pravidelných peněžních toků a diskontní sazby.
+ODDFPRICE		= ODDFPRICE		##	Vrátí cenu cenného papíru o nominální hodnotě 100 Kč s odlišným prvním obdobím.
+ODDFYIELD		= ODDFYIELD		##	Vrátí výnos cenného papíru s odlišným prvním obdobím.
+ODDLPRICE		= ODDLPRICE		##	Vrátí cenu cenného papíru o nominální hodnotě 100 Kč s odlišným posledním obdobím.
+ODDLYIELD		= ODDLYIELD		##	Vrátí výnos cenného papíru s odlišným posledním obdobím.
+PMT			= PLATBA		##	Vrátí hodnotu pravidelné splátky anuity.
+PPMT			= PLATBA.ZÁKLAD		##	Vrátí hodnotu splátky jistiny pro zadanou investici za dané období.
+PRICE			= PRICE			##	Vrátí cenu cenného papíru o nominální hodnotě 100 Kč, ze kterého je úrok placen v pravidelných termínech.
+PRICEDISC		= PRICEDISC		##	Vrátí cenu diskontního cenného papíru o nominální hodnotě 100 Kč.
+PRICEMAT		= PRICEMAT		##	Vrátí cenu cenného papíru o nominální hodnotě 100 Kč, ze kterého je úrok placen k datu splatnosti.
+PV			= SOUČHODNOTA		##	Vrátí současnou hodnotu investice.
+RATE			= ÚROKOVÁ.MÍRA		##	Vrátí úrokovou sazbu vztaženou na období anuity.
+RECEIVED		= RECEIVED		##	Vrátí částku obdrženou k datu splatnosti plně investovaného cenného papíru.
+SLN			= ODPIS.LIN		##	Vrátí přímé odpisy aktiva pro jedno období.
+SYD			= ODPIS.NELIN		##	Vrátí směrné číslo ročních odpisů aktiva pro zadané období.
+TBILLEQ			= TBILLEQ		##	Vrátí výnos směnky státní pokladny ekvivalentní výnosu obligace.
+TBILLPRICE		= TBILLPRICE		##	Vrátí cenu směnky státní pokladny o nominální hodnotě 100 Kč.
+TBILLYIELD		= TBILLYIELD		##	Vrátí výnos směnky státní pokladny.
+VDB			= ODPIS.ZA.INT		##	Vrátí odpis aktiva pro určité období nebo část období pomocí degresivní metody odpisu.
+XIRR			= XIRR			##	Vrátí vnitřní výnosnost pro harmonogram peněžních toků, který nemusí být nutně periodický.
+XNPV			= XNPV			##	Vrátí čistou současnou hodnotu pro harmonogram peněžních toků, který nemusí být nutně periodický.
+YIELD			= YIELD			##	Vrátí výnos cenného papíru, ze kterého je úrok placen v pravidelných termínech.
+YIELDDISC		= YIELDDISC		##	Vrátí roční výnos diskontního cenného papíru, například směnky státní pokladny.
+YIELDMAT		= YIELDMAT		##	Vrátí roční výnos cenného papíru, ze kterého je úrok placen k datu splatnosti.
+
+
+##
+##	Information functions			Informační funkce
+##
+CELL			= POLÍČKO		##	Vrátí informace o formátování, umístění nebo obsahu buňky.
+ERROR.TYPE		= CHYBA.TYP		##	Vrátí číslo odpovídající typu chyby.
+INFO			= O.PROSTŘEDÍ		##	Vrátí informace o aktuálním pracovním prostředí.
+ISBLANK			= JE.PRÁZDNÉ		##	Vrátí hodnotu PRAVDA, pokud se argument hodnota odkazuje na prázdnou buňku.
+ISERR			= JE.CHYBA		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota libovolná chybová hodnota (kromě #N/A).
+ISERROR			= JE.CHYBHODN		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota libovolná chybová hodnota.
+ISEVEN			= ISEVEN		##	Vrátí hodnotu PRAVDA, pokud je číslo sudé.
+ISLOGICAL		= JE.LOGHODN		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota logická hodnota.
+ISNA			= JE.NEDEF		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota chybová hodnota #N/A.
+ISNONTEXT		= JE.NETEXT		##	Vrátí hodnotu PRAVDA, pokud argument hodnota není text.
+ISNUMBER		= JE.ČÍSLO		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota číslo.
+ISODD			= ISODD			##	Vrátí hodnotu PRAVDA, pokud je číslo liché.
+ISREF			= JE.ODKAZ		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota odkaz.
+ISTEXT			= JE.TEXT		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota text.
+N			= N			##	Vrátí hodnotu převedenou na číslo.
+NA			= NEDEF			##	Vrátí chybovou hodnotu #N/A.
+TYPE			= TYP			##	Vrátí číslo označující datový typ hodnoty.
+
+
+##
+##	Logical functions			Logické funkce
+##
+AND			= A			##	Vrátí hodnotu PRAVDA, mají-li všechny argumenty hodnotu PRAVDA.
+FALSE			= NEPRAVDA		##	Vrátí logickou hodnotu NEPRAVDA.
+IF			= KDYŽ			##	Určí, který logický test má proběhnout.
+IFERROR			= IFERROR		##	Pokud je vzorec vyhodnocen jako chyba, vrátí zadanou hodnotu. V opačném případě vrátí výsledek vzorce.
+NOT			= NE			##	Provede logickou negaci argumentu funkce.
+OR			= NEBO			##	Vrátí hodnotu PRAVDA, je-li alespoň jeden argument roven hodnotě PRAVDA.
+TRUE			= PRAVDA		##	Vrátí logickou hodnotu PRAVDA.
+
+
+##
+##	Lookup and reference functions		Vyhledávací funkce
+##
+ADDRESS			= ODKAZ			##	Vrátí textový odkaz na jednu buňku listu.
+AREAS			= POČET.BLOKŮ		##	Vrátí počet oblastí v odkazu.
+CHOOSE			= ZVOLIT		##	Zvolí hodnotu ze seznamu hodnot.
+COLUMN			= SLOUPEC		##	Vrátí číslo sloupce odkazu.
+COLUMNS			= SLOUPCE		##	Vrátí počet sloupců v odkazu.
+HLOOKUP			= VVYHLEDAT		##	Prohledá horní řádek matice a vrátí hodnotu určené buňky.
+HYPERLINK		= HYPERTEXTOVÝ.ODKAZ	##	Vytvoří zástupce nebo odkaz, který otevře dokument uložený na síťovém serveru, v síti intranet nebo Internet.
+INDEX			= INDEX			##	Pomocí rejstříku zvolí hodnotu z odkazu nebo matice.
+INDIRECT		= NEPŘÍMÝ.ODKAZ		##	Vrátí odkaz určený textovou hodnotou.
+LOOKUP			= VYHLEDAT		##	Vyhledá hodnoty ve vektoru nebo matici.
+MATCH			= POZVYHLEDAT		##	Vyhledá hodnoty v odkazu nebo matici.
+OFFSET			= POSUN			##	Vrátí posun odkazu od zadaného odkazu.
+ROW			= ŘÁDEK			##	Vrátí číslo řádku odkazu.
+ROWS			= ŘÁDKY			##	Vrátí počet řádků v odkazu.
+RTD			= RTD			##	Načte data reálného času z programu, který podporuje automatizaci modelu COM (Automatizace: Způsob práce s objekty určité aplikace z jiné aplikace nebo nástroje pro vývoj. Automatizace (dříve nazývaná automatizace OLE) je počítačovým standardem a je funkcí modelu COM (Component Object Model).).
+TRANSPOSE		= TRANSPOZICE		##	Vrátí transponovanou matici.
+VLOOKUP			= SVYHLEDAT		##	Prohledá první sloupec matice, přesune kurzor v řádku a vrátí hodnotu buňky.
+
+
+##
+##	Math and trigonometry functions		Matematické a trigonometrické funkce
+##
+ABS			= ABS			##	Vrátí absolutní hodnotu čísla.
+ACOS			= ARCCOS		##	Vrátí arkuskosinus čísla.
+ACOSH			= ARCCOSH		##	Vrátí hyperbolický arkuskosinus čísla.
+ASIN			= ARCSIN		##	Vrátí arkussinus čísla.
+ASINH			= ARCSINH		##	Vrátí hyperbolický arkussinus čísla.
+ATAN			= ARCTG			##	Vrátí arkustangens čísla.
+ATAN2			= ARCTG2		##	Vrátí arkustangens x-ové a y-ové souřadnice.
+ATANH			= ARCTGH		##	Vrátí hyperbolický arkustangens čísla.
+CEILING			= ZAOKR.NAHORU		##	Zaokrouhlí číslo na nejbližší celé číslo nebo na nejbližší násobek zadané hodnoty.
+COMBIN			= KOMBINACE		##	Vrátí počet kombinací pro daný počet položek.
+COS			= COS			##	Vrátí kosinus čísla.
+COSH			= COSH			##	Vrátí hyperbolický kosinus čísla.
+DEGREES			= DEGREES		##	Převede radiány na stupně.
+EVEN			= ZAOKROUHLIT.NA.SUDÉ	##	Zaokrouhlí číslo nahoru na nejbližší celé sudé číslo.
+EXP			= EXP			##	Vrátí základ přirozeného logaritmu e umocněný na zadané číslo.
+FACT			= FAKTORIÁL		##	Vrátí faktoriál čísla.
+FACTDOUBLE		= FACTDOUBLE		##	Vrátí dvojitý faktoriál čísla.
+FLOOR			= ZAOKR.DOLŮ		##	Zaokrouhlí číslo dolů, směrem k nule.
+GCD			= GCD			##	Vrátí největší společný dělitel.
+INT			= CELÁ.ČÁST		##	Zaokrouhlí číslo dolů na nejbližší celé číslo.
+LCM			= LCM			##	Vrátí nejmenší společný násobek.
+LN			= LN			##	Vrátí přirozený logaritmus čísla.
+LOG			= LOGZ			##	Vrátí logaritmus čísla při zadaném základu.
+LOG10			= LOG			##	Vrátí dekadický logaritmus čísla.
+MDETERM			= DETERMINANT		##	Vrátí determinant matice.
+MINVERSE		= INVERZE		##	Vrátí inverzní matici.
+MMULT			= SOUČIN.MATIC		##	Vrátí součin dvou matic.
+MOD			= MOD			##	Vrátí zbytek po dělení.
+MROUND			= MROUND		##	Vrátí číslo zaokrouhlené na požadovaný násobek.
+MULTINOMIAL		= MULTINOMIAL		##	Vrátí mnohočlen z množiny čísel.
+ODD			= ZAOKROUHLIT.NA.LICHÉ	##	Zaokrouhlí číslo nahoru na nejbližší celé liché číslo.
+PI			= PI			##	Vrátí hodnotu čísla pí.
+POWER			= POWER			##	Umocní číslo na zadanou mocninu.
+PRODUCT			= SOUČIN		##	Vynásobí argumenty funkce.
+QUOTIENT		= QUOTIENT		##	Vrátí celou část dělení.
+RADIANS			= RADIANS		##	Převede stupně na radiány.
+RAND			= NÁHČÍSLO		##	Vrátí náhodné číslo mezi 0 a 1.
+RANDBETWEEN		= RANDBETWEEN		##	Vrátí náhodné číslo mezi zadanými čísly.
+ROMAN			= ROMAN			##	Převede arabskou číslici na římskou ve formátu textu.
+ROUND			= ZAOKROUHLIT		##	Zaokrouhlí číslo na zadaný počet číslic.
+ROUNDDOWN		= ROUNDDOWN		##	Zaokrouhlí číslo dolů, směrem k nule.
+ROUNDUP			= ROUNDUP		##	Zaokrouhlí číslo nahoru, směrem od nuly.
+SERIESSUM		= SERIESSUM		##	Vrátí součet mocninné řady určené podle vzorce.
+SIGN			= SIGN			##	Vrátí znaménko čísla.
+SIN			= SIN			##	Vrátí sinus daného úhlu.
+SINH			= SINH			##	Vrátí hyperbolický sinus čísla.
+SQRT			= ODMOCNINA		##	Vrátí kladnou druhou odmocninu.
+SQRTPI			= SQRTPI		##	Vrátí druhou odmocninu výrazu (číslo * pí).
+SUBTOTAL		= SUBTOTAL		##	Vrátí souhrn v seznamu nebo databázi.
+SUM			= SUMA			##	Sečte argumenty funkce.
+SUMIF			= SUMIF			##	Sečte buňky vybrané podle zadaných kritérií.
+SUMIFS			= SUMIFS		##	Sečte buňky určené více zadanými podmínkami.
+SUMPRODUCT		= SOUČIN.SKALÁRNÍ	##	Vrátí součet součinů odpovídajících prvků matic.
+SUMSQ			= SUMA.ČTVERCŮ		##	Vrátí součet čtverců argumentů.
+SUMX2MY2		= SUMX2MY2		##	Vrátí součet rozdílu čtverců odpovídajících hodnot ve dvou maticích.
+SUMX2PY2		= SUMX2PY2		##	Vrátí součet součtu čtverců odpovídajících hodnot ve dvou maticích.
+SUMXMY2			= SUMXMY2		##	Vrátí součet čtverců rozdílů odpovídajících hodnot ve dvou maticích.
+TAN			= TGTG			##	Vrátí tangens čísla.
+TANH			= TGH			##	Vrátí hyperbolický tangens čísla.
+TRUNC			= USEKNOUT		##	Zkrátí číslo na celé číslo.
+
+
+##
+##	Statistical functions			Statistické funkce
+##
+AVEDEV			= PRŮMODCHYLKA		##	Vrátí průměrnou hodnotu absolutních odchylek datových bodů od jejich střední hodnoty.
+AVERAGE			= PRŮMĚR		##	Vrátí průměrnou hodnotu argumentů.
+AVERAGEA		= AVERAGEA		##	Vrátí průměrnou hodnotu argumentů včetně čísel, textu a logických hodnot.
+AVERAGEIF		= AVERAGEIF		##	Vrátí průměrnou hodnotu (aritmetický průměr) všech buněk v oblasti, které vyhovují příslušné podmínce.
+AVERAGEIFS		= AVERAGEIFS		##	Vrátí průměrnou hodnotu (aritmetický průměr) všech buněk vyhovujících několika podmínkám.
+BETADIST		= BETADIST		##	Vrátí hodnotu součtového rozdělení beta.
+BETAINV			= BETAINV		##	Vrátí inverzní hodnotu součtového rozdělení pro zadané rozdělení beta.
+BINOMDIST		= BINOMDIST		##	Vrátí hodnotu binomického rozdělení pravděpodobnosti jednotlivých veličin.
+CHIDIST			= CHIDIST		##	Vrátí jednostrannou pravděpodobnost rozdělení chí-kvadrát.
+CHIINV			= CHIINV		##	Vrátí hodnotu funkce inverzní k distribuční funkci jednostranné pravděpodobnosti rozdělení chí-kvadrát.
+CHITEST			= CHITEST		##	Vrátí test nezávislosti.
+CONFIDENCE		= CONFIDENCE		##	Vrátí interval spolehlivosti pro střední hodnotu základního souboru.
+CORREL			= CORREL		##	Vrátí korelační koeficient mezi dvěma množinami dat.
+COUNT			= POČET			##	Vrátí počet čísel v seznamu argumentů.
+COUNTA			= POČET2		##	Vrátí počet hodnot v seznamu argumentů.
+COUNTBLANK		= COUNTBLANK		##	Spočítá počet prázdných buněk v oblasti.
+COUNTIF			= COUNTIF		##	Spočítá buňky v oblasti, které odpovídají zadaným kritériím.
+COUNTIFS		= COUNTIFS		##	Spočítá buňky v oblasti, které odpovídají více kritériím.
+COVAR			= COVAR			##	Vrátí hodnotu kovariance, průměrnou hodnotu součinů párových odchylek
+CRITBINOM		= CRITBINOM		##	Vrátí nejmenší hodnotu, pro kterou má součtové binomické rozdělení hodnotu větší nebo rovnu hodnotě kritéria.
+DEVSQ			= DEVSQ			##	Vrátí součet čtverců odchylek.
+EXPONDIST		= EXPONDIST		##	Vrátí hodnotu exponenciálního rozdělení.
+FDIST			= FDIST			##	Vrátí hodnotu rozdělení pravděpodobnosti F.
+FINV			= FINV			##	Vrátí hodnotu inverzní funkce k distribuční funkci rozdělení F.
+FISHER			= FISHER		##	Vrátí hodnotu Fisherovy transformace.
+FISHERINV		= FISHERINV		##	Vrátí hodnotu inverzní funkce k Fisherově transformaci.
+FORECAST		= FORECAST		##	Vrátí hodnotu lineárního trendu.
+FREQUENCY		= ČETNOSTI		##	Vrátí četnost rozdělení jako svislou matici.
+FTEST			= FTEST			##	Vrátí výsledek F-testu.
+GAMMADIST		= GAMMADIST		##	Vrátí hodnotu rozdělení gama.
+GAMMAINV		= GAMMAINV		##	Vrátí hodnotu inverzní funkce k distribuční funkci součtového rozdělení gama.
+GAMMALN			= GAMMALN		##	Vrátí přirozený logaritmus funkce gama, Γ(x).
+GEOMEAN			= GEOMEAN		##	Vrátí geometrický průměr.
+GROWTH			= LOGLINTREND		##	Vrátí hodnoty exponenciálního trendu.
+HARMEAN			= HARMEAN		##	Vrátí harmonický průměr.
+HYPGEOMDIST		= HYPGEOMDIST		##	Vrátí hodnotu hypergeometrického rozdělení.
+INTERCEPT		= INTERCEPT		##	Vrátí úsek lineární regresní čáry.
+KURT			= KURT			##	Vrátí hodnotu excesu množiny dat.
+LARGE			= LARGE			##	Vrátí k-tou největší hodnotu množiny dat.
+LINEST			= LINREGRESE		##	Vrátí parametry lineárního trendu.
+LOGEST			= LOGLINREGRESE		##	Vrátí parametry exponenciálního trendu.
+LOGINV			= LOGINV		##	Vrátí inverzní funkci k distribuční funkci logaritmicko-normálního rozdělení.
+LOGNORMDIST		= LOGNORMDIST		##	Vrátí hodnotu součtového logaritmicko-normálního rozdělení.
+MAX			= MAX			##	Vrátí maximální hodnotu seznamu argumentů.
+MAXA			= MAXA			##	Vrátí maximální hodnotu seznamu argumentů včetně čísel, textu a logických hodnot.
+MEDIAN			= MEDIAN		##	Vrátí střední hodnotu zadaných čísel.
+MIN			= MIN			##	Vrátí minimální hodnotu seznamu argumentů.
+MINA			= MINA			##	Vrátí nejmenší hodnotu v seznamu argumentů včetně čísel, textu a logických hodnot.
+MODE			= MODE			##	Vrátí hodnotu, která se v množině dat vyskytuje nejčastěji.
+NEGBINOMDIST		= NEGBINOMDIST		##	Vrátí hodnotu negativního binomického rozdělení.
+NORMDIST		= NORMDIST		##	Vrátí hodnotu normálního součtového rozdělení.
+NORMINV			= NORMINV		##	Vrátí inverzní funkci k funkci normálního součtového rozdělení.
+NORMSDIST		= NORMSDIST		##	Vrátí hodnotu standardního normálního součtového rozdělení.
+NORMSINV		= NORMSINV		##	Vrátí inverzní funkci k funkci standardního normálního součtového rozdělení.
+PEARSON			= PEARSON		##	Vrátí Pearsonův výsledný momentový korelační koeficient.
+PERCENTILE		= PERCENTIL		##	Vrátí hodnotu k-tého percentilu hodnot v oblasti.
+PERCENTRANK		= PERCENTRANK		##	Vrátí pořadí hodnoty v množině dat vyjádřené procentuální částí množiny dat.
+PERMUT			= PERMUTACE		##	Vrátí počet permutací pro zadaný počet objektů.
+POISSON			= POISSON		##	Vrátí hodnotu distribuční funkce Poissonova rozdělení.
+PROB			= PROB			##	Vrátí pravděpodobnost výskytu hodnot v oblasti mezi dvěma mezními hodnotami.
+QUARTILE		= QUARTIL		##	Vrátí hodnotu kvartilu množiny dat.
+RANK			= RANK			##	Vrátí pořadí čísla v seznamu čísel.
+RSQ			= RKQ			##	Vrátí druhou mocninu Pearsonova výsledného momentového korelačního koeficientu.
+SKEW			= SKEW			##	Vrátí zešikmení rozdělení.
+SLOPE			= SLOPE			##	Vrátí směrnici lineární regresní čáry.
+SMALL			= SMALL			##	Vrátí k-tou nejmenší hodnotu množiny dat.
+STANDARDIZE		= STANDARDIZE		##	Vrátí normalizovanou hodnotu.
+STDEV			= SMODCH.VÝBĚR		##	Vypočte směrodatnou odchylku výběru.
+STDEVA			= STDEVA		##	Vypočte směrodatnou odchylku výběru včetně čísel, textu a logických hodnot.
+STDEVP			= SMODCH		##	Vypočte směrodatnou odchylku základního souboru.
+STDEVPA			= STDEVPA		##	Vypočte směrodatnou odchylku základního souboru včetně čísel, textu a logických hodnot.
+STEYX			= STEYX			##	Vrátí standardní chybu předpovězené hodnoty y pro každou hodnotu x v regresi.
+TDIST			= TDIST			##	Vrátí hodnotu Studentova t-rozdělení.
+TINV			= TINV			##	Vrátí inverzní funkci k distribuční funkci Studentova t-rozdělení.
+TREND			= LINTREND		##	Vrátí hodnoty lineárního trendu.
+TRIMMEAN		= TRIMMEAN		##	Vrátí střední hodnotu vnitřní části množiny dat.
+TTEST			= TTEST			##	Vrátí pravděpodobnost spojenou se Studentovým t-testem.
+VAR			= VAR.VÝBĚR		##	Vypočte rozptyl výběru.
+VARA			= VARA			##	Vypočte rozptyl výběru včetně čísel, textu a logických hodnot.
+VARP			= VAR			##	Vypočte rozptyl základního souboru.
+VARPA			= VARPA			##	Vypočte rozptyl základního souboru včetně čísel, textu a logických hodnot.
+WEIBULL			= WEIBULL		##	Vrátí hodnotu Weibullova rozdělení.
+ZTEST			= ZTEST			##	Vrátí jednostrannou P-hodnotu z-testu.
+
+
+##
+##	Text functions				Textové funkce
+##
+ASC			= ASC			##	Změní znaky s plnou šířkou (dvoubajtové)v řetězci znaků na znaky s poloviční šířkou (jednobajtové).
+BAHTTEXT		= BAHTTEXT		##	Převede číslo na text ve formátu, měny ß (baht).
+CHAR			= ZNAK			##	Vrátí znak určený číslem kódu.
+CLEAN			= VYČISTIT		##	Odebere z textu všechny netisknutelné znaky.
+CODE			= KÓD			##	Vrátí číselný kód prvního znaku zadaného textového řetězce.
+CONCATENATE		= CONCATENATE		##	Spojí několik textových položek do jedné.
+DOLLAR			= KČ			##	Převede číslo na text ve formátu měny Kč (česká koruna).
+EXACT			= STEJNÉ		##	Zkontroluje, zda jsou dvě textové hodnoty shodné.
+FIND			= NAJÍT			##	Nalezne textovou hodnotu uvnitř jiné (rozlišuje malá a velká písmena).
+FINDB			= FINDB			##	Nalezne textovou hodnotu uvnitř jiné (rozlišuje malá a velká písmena).
+FIXED			= ZAOKROUHLIT.NA.TEXT	##	Zformátuje číslo jako text s pevným počtem desetinných míst.
+JIS			= JIS			##	Změní znaky s poloviční šířkou (jednobajtové) v řetězci znaků na znaky s plnou šířkou (dvoubajtové).
+LEFT			= ZLEVA			##	Vrátí první znaky textové hodnoty umístěné nejvíce vlevo.
+LEFTB			= LEFTB			##	Vrátí první znaky textové hodnoty umístěné nejvíce vlevo.
+LEN			= DÉLKA			##	Vrátí počet znaků textového řetězce.
+LENB			= LENB			##	Vrátí počet znaků textového řetězce.
+LOWER			= MALÁ			##	Převede text na malá písmena.
+MID			= ČÁST			##	Vrátí určitý počet znaků textového řetězce počínaje zadaným místem.
+MIDB			= MIDB			##	Vrátí určitý počet znaků textového řetězce počínaje zadaným místem.
+PHONETIC		= ZVUKOVÉ		##	Extrahuje fonetické znaky (furigana) z textového řetězce.
+PROPER			= VELKÁ2		##	Převede první písmeno každého slova textové hodnoty na velké.
+REPLACE			= NAHRADIT		##	Nahradí znaky uvnitř textu.
+REPLACEB		= NAHRADITB		##	Nahradí znaky uvnitř textu.
+REPT			= OPAKOVAT		##	Zopakuje text podle zadaného počtu opakování.
+RIGHT			= ZPRAVA		##	Vrátí první znaky textové hodnoty umístěné nejvíce vpravo.
+RIGHTB			= RIGHTB		##	Vrátí první znaky textové hodnoty umístěné nejvíce vpravo.
+SEARCH			= HLEDAT		##	Nalezne textovou hodnotu uvnitř jiné (malá a velká písmena nejsou rozlišována).
+SEARCHB			= SEARCHB		##	Nalezne textovou hodnotu uvnitř jiné (malá a velká písmena nejsou rozlišována).
+SUBSTITUTE		= DOSADIT		##	V textovém řetězci nahradí starý text novým.
+T			= T			##	Převede argumenty na text.
+TEXT			= HODNOTA.NA.TEXT	##	Zformátuje číslo a převede ho na text.
+TRIM			= PROČISTIT		##	Odstraní z textu mezery.
+UPPER			= VELKÁ			##	Převede text na velká písmena.
+VALUE			= HODNOTA		##	Převede textový argument na číslo.

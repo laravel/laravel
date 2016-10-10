@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Expectations</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id mock}">
+<title>More control over mock objects</title>
+            <para>
+                The default behaviour of the
+                {@link mock objects.html mock objects}
+                in
+                {@link http://sourceforge.net/projects/simpletest/ SimpleTest}
+                is either an identical match on the argument or to allow any argument at all.
+                For almost all tests this is sufficient.
+                Sometimes, though, you want to weaken a test case.
+            </para>
+            <para>
+                One place where a test can be too tightly coupled is with
+                text matching.
+                Suppose we have a component that outputs a helpful error
+                message when something goes wrong.
+                You want to test that the correct error was sent, but the actual
+                text may be rather long.
+                If you test for the text exactly, then every time the exact wording
+                of the message changes, you will have to go back and edit the test suite.
+            </para>
+            <para>
+                For example, suppose we have a news service that has failed
+                to connect to its remote source.
+<programlisting role="php">
+class NewsService {
+    ...
+    function publish(&amp;$writer) {
+        if (! $this-&gt;isConnected()) {
+            $writer-&gt;write('Cannot connect to news service "' .
+                    $this-&gt;_name . '" at this time. ' .
+                    'Please try again later.');
+        }
+        ...
+    }
+}
+</programlisting>
+                Here it is sending its content to a
+                <span class="new_code">Writer</span> class.
+                We could test this behaviour with a
+                <span class="new_code">MockWriter</span> like so...
+<programlisting role="php">
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {
+        $writer = &amp;new MockWriter($this);
+        $writer-&gt;expectOnce('write', array(
+                'Cannot connect to news service ' .
+                '"BBC News" at this time. ' .
+                'Please try again later.'));
+        
+        $service = &amp;new NewsService('BBC News');
+        $service-&gt;publish($writer);
+        
+        $writer-&gt;tally();
+    }
+}
+</programlisting>
+                This is a good example of a brittle test.
+                If we decide to add additional instructions, such as
+                suggesting an alternative news source, we will break
+                our tests even though no underlying functionality
+                has been altered.
+            </para>
+            <para>
+                To get around this, we would like to do a regular expression
+                test rather than an exact match.
+                We can actually do this with...
+<programlisting role="php">
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {
+        $writer = &amp;new MockWriter($this);
+        $writer-&gt;expectOnce(
+                'write',
+                array(new WantedPatternExpectation('/cannot connect/i')));
+        
+        $service = &amp;new NewsService('BBC News');
+        $service-&gt;publish($writer);
+        
+        $writer-&gt;tally();
+    }
+}
+</programlisting>
+                Instead of passing in the expected parameter to the
+                <span class="new_code">MockWriter</span> we pass an
+                expectation class called
+                <span class="new_code">WantedPatternExpectation</span>.
+                The mock object is smart enough to recognise this as special
+                and to treat it differently.
+                Rather than simply comparing the incoming argument to this
+                object, it uses the expectation object itself to
+                perform the test.
+            </para>
+            <para>
+                The <span class="new_code">WantedPatternExpectation</span> takes
+                the regular expression to match in its constructor.
+                Whenever a comparison is made by the <span class="new_code">MockWriter</span>
+                against this expectation class, it will do a
+                <span class="new_code">preg_match()</span> with this pattern.
+                With our test case above, as long as "cannot connect"
+                appears in the text of the string, the mock will issue a pass
+                to the unit tester.
+                The rest of the text does not matter.
+            </para>
+            <para>
+                The possible expectation classes are...
+                <table frame="all" id="{@id features}}">
+<tbody>
+                    <row>
+<entry>
+<span class="new_code">EqualExpectation</span>
+</entry>
+<entry>An equality, rather than the stronger identity comparison</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">NotEqualExpectation</span>
+</entry>
+<entry>An inequality comparison</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">IndenticalExpectation</span>
+</entry>
+<entry>The default mock object check which must match exactly</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">NotIndenticalExpectation</span>
+</entry>
+<entry>Inverts the mock object logic</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">WantedPatternExpectation</span>
+</entry>
+<entry>Uses a Perl Regex to match a string</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">NoUnwantedPatternExpectation</span>
+</entry>
+<entry>Passes only if failing a Perl Regex</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">IsAExpectation</span>
+</entry>
+<entry>Checks the type or class name only</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">NotAExpectation</span>
+</entry>
+<entry>Opposite of the <span class="new_code">IsAExpectation</span>
+</entry>
+</row>
+                    <row>
+<entry>
+<span class="new_code">MethodExistsExpectation</span>
+</entry>
+<entry>Checks a method is available on an object</entry>
+</row>
+                </tbody>
+</table>
+                Most take the expected value in the constructor.
+                The exceptions are the pattern matchers, which take a regular expression,
+                and the <span class="new_code">IsAExpectation</span> and <span class="new_code">NotAExpectation</span> which takes a type
+                or class name as a string.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id behaviour}">
+<title>Using expectations to control stubs</title>
+            <para>
+                The expectation classes can be used not just for sending assertions
+                from mock objects, but also for selecting behaviour for either
+                the
+                {@link mock objects.html mock objects}
+                or the
+                {@link server stubs.html server stubs}.
+                Anywhere a list of arguments is given, a list of expectation objects
+                can be inserted instead.
+            </para>
+            <para>
+                Suppose we want an authorisation server stub to simulate a successful login
+                only if it receives a valid session object.
+                We can do this as follows...
+<programlisting role="php">
+Stub::generate('Authorisation');
+
+$authorisation = new StubAuthorisation();
+$authorisation-&gt;setReturnValue(
+        'isAllowed',
+        true,
+        array(new IsAExpectation('Session', 'Must be a session')));
+$authorisation-&gt;setReturnValue('isAllowed', false);
+</programlisting>
+                We have set the default stub behaviour to return false when
+                <span class="new_code">isAllowed</span> is called.
+                When we call the method with a single parameter that
+                is a <span class="new_code">Session</span> object, it will return true.
+                We have also added a second parameter as a message.
+                This will be displayed as part of the mock object
+                failure message if this expectation is the cause of
+                a failure.
+            </para>
+            <para>
+                This kind of sophistication is rarely useful, but is included for
+                completeness.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id extending}">
+<title>Creating your own expectations</title>
+            <para>
+                The expectation classes have a very simple structure.
+                So simple that it is easy to create your own versions for
+                commonly used test logic.
+            </para>
+            <para>
+                As an example here is the creation of a class to test for
+                valid IP addresses.
+                In order to work correctly with the stubs and mocks the new
+                expectation class should extend
+                <span class="new_code">SimpleExpectation</span>...
+<programlisting role="php">
+class ValidIp extends SimpleExpectation {
+    
+    function test($ip) {
+        return (ip2long($ip) != -1);
+    }
+    
+    function testMessage($ip) {
+        return "Address [$ip] should be a valid IP address";
+    }
+}
+</programlisting>
+                There are only two methods to implement.
+                The <span class="new_code">test()</span> method should
+                evaluate to true if the expectation is to pass, and
+                false otherwise.
+                The <span class="new_code">testMessage()</span> method
+                should simply return some helpful text explaining the test
+                that was carried out.
+            </para>
+            <para>
+                This class can now be used in place of the earlier expectation
+                classes.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id unit}">
+<title>Under the bonnet of the unit tester</title>
+            <para>
+                The {@link http://sourceforge.net/projects/simpletest/ SimpleTest unit testing framework}
+                also uses the expectation classes internally for the
+                {@link UnitTestCase class.html UnitTestCase class}.
+                We can also take advantage of these mechanisms to reuse our
+                homebrew expectation classes within the test suites directly.
+            </para>
+            <para>
+                The most crude way of doing this is to use the
+                <span class="new_code">SimpleTest::assertExpectation()</span> method to
+                test against it directly...
+<programlisting role="php">
+class TestOfNetworking extends UnitTestCase {
+    ...
+    function testGetValidIp() {
+        $server = &amp;new Server();
+        $this-&gt;assertExpectation(
+                new ValidIp(),
+                $server-&gt;getIp(),
+                'Server IP address-&gt;%s');
+    }
+}
+</programlisting>
+                This is a little untidy compared with our usual
+                <span class="new_code">assert...()</span> syntax.
+            </para>
+            <para>
+                For such a simple case we would normally create a
+                separate assertion method on our test case rather
+                than bother using the expectation class.
+                If we pretend that our expectation is a little more
+                complicated for a moment, so that we want to reuse it,
+                we get...
+<programlisting role="php">
+class TestOfNetworking extends UnitTestCase {
+    ...
+    function assertValidIp($ip, $message = '%s') {
+        $this-&gt;assertExpectation(new ValidIp(), $ip, $message);
+    }
+    
+    function testGetValidIp() {
+        $server = &amp;new Server();
+        $this-&gt;assertValidIp(
+                $server-&gt;getIp(),
+                'Server IP address-&gt;%s');
+    }
+}
+</programlisting>
+                It is unlikely we would ever need this degree of control
+                over the testing machinery.
+                It is rare to need the expectations for more than pattern
+                matching.
+                Also, complex expectation classes could make the tests
+                harder to read and debug.
+                These mechanisms are really of most use to authors of systems
+                that will extend the test framework to create their own tool set.
+            </para>
+        </refsect1>
+    </refentry>

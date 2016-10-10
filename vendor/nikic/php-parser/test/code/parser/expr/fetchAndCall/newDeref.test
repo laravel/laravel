@@ -1,0 +1,70 @@
+New expression dereferencing
+-----
+<?php
+
+(new A)->b;
+(new A)->b();
+(new A)['b'];
+(new A)['b']['c'];
+-----
+array(
+    0: Expr_PropertyFetch(
+        var: Expr_New(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            args: array(
+            )
+        )
+        name: b
+    )
+    1: Expr_MethodCall(
+        var: Expr_New(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            args: array(
+            )
+        )
+        name: b
+        args: array(
+        )
+    )
+    2: Expr_ArrayDimFetch(
+        var: Expr_New(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            args: array(
+            )
+        )
+        dim: Scalar_String(
+            value: b
+        )
+    )
+    3: Expr_ArrayDimFetch(
+        var: Expr_ArrayDimFetch(
+            var: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+)

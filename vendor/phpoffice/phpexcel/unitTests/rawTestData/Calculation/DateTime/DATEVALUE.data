@@ -1,0 +1,66 @@
+# Date String			Result
+"25-Dec-1899",			"#VALUE!"
+"31-Dec-1899",			"#VALUE!"
+"1-Jan-1900",			1
+"1900/2/28",			59
+"29-02-1900",			60
+"29th February 1900",		60		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"1900/3/1",			61
+"13-12-1901",			713
+"14-12-1901",			714
+"1903/12/31",			1461
+"1-Jan-1904",			1462
+"2nd-Jan-1904",			1463		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"19-12-1960",			22269
+"1st January 1970",		25569		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"7-Dec-1982",			30292
+"1-1-2008",			39448
+"2038-01-19",			50424
+"2-6-2008",			39601
+"December 25th 2008",		39807		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"1 Jan-2008",			39448
+"12-31-2008",			39813		//	MS Excel success or failure dependent on country settings
+"31-12-2008",			39813		//		PHPExcel tries to handle both US and UK formats, irrespective of country settings
+"8/22/2008",			39682		//	MS Excel success or failure dependent on country settings
+"22/8/2008",			39682		//		PHPExcel tries to handle both US and UK formats, irrespective of country settings
+"22/8/08",			39682
+"22-AUG-2008",			39682
+"2008/02/23",			39501
+"6-7-2008",			39635
+"28-2-2007",			39141		//	MS Excel success or failure dependent on country settings
+"2-28-2007",			39141		//		PHPExcel tries to handle both US and UK formats, irrespective of country settings
+"29-2-2007",			"#VALUE!"	//	Should fail because it's an invalid date, but PHPExcel currently adjusts to 1-3-2007 - FIX NEEDED
+"1/1/1999",			36161
+"1954-07-20",			19925
+"22 August 98",			36029
+"1st March 2007",		39142		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"The 1st day of March 2007",	"#VALUE!"
+"1 Jan",			41275
+"31/12",			41639
+"12/31",			11658		//	Excel reads as 1st December 1931, not 31st December in current year
+"5-JUL",			41460
+"5 Jul",			41460
+"12/2008",			39783
+"10/32",			11963
+11,				"#VALUE!"
+TRUE,				"#VALUE!"
+FALSE,				"#VALUE!"
+1,				"#VALUE!"
+12345,				"#VALUE!"
+12,				"#VALUE!"
+"12-Feb-2010",			40221
+"Feb-12-2010",			40221		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"February-12-2010",		40221		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"February 12 2010",		40221		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"18 Feb 2010",			40227
+"17th 3rd 2010",		40254		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"Feb 18th 2010",		40227		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"1st Feb 2010",			40210		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"1st-Feb-2010",			40210		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"1me Fev 2010",			"#VALUE!"
+"February 1st 2010",		40210		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"2nd Feb 2010",			40211		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"Second Feb 2010",		"#VALUE!"
+"First August 2010",		"#VALUE!"
+"1st August 2010",		40391		//	MS Excel will fail with a #VALUE return, but PHPExcel can parse this date
+"15:30:25",			0

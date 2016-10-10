@@ -1,0 +1,115 @@
+
+== Security
+
+The Elasticsearch-PHP client supports two security features: HTTP Authentication and SSL encryption.
+
+=== HTTP Authentication
+
+If your Elasticsearch server is protected by HTTP Authentication, you need to provide the credentials to ES-PHP so
+that requests can be authenticated server-side.  Authentication credentials are provided as part of the host array
+when instantiating the client:
+
+[source,php]
+----
+$hosts = [
+    'http://user:pass@localhost:9200',       // HTTP Basic Authentication
+    'http://user2:pass2@other-host.com:9200' // Different credentials on different host
+];
+
+$client = ClientBuilder::create()
+                    ->setHosts($hosts)
+                    ->build();
+----
+
+Credentials are provided per-host, which allows each host to have their own set of credentials.  All requests sent to the
+cluster will use the appropriate credentials depending on the node being talked to.
+
+=== SSL Encryption
+
+Configuring SSL is a little more complex.  You need to identify if your certificate has been signed by a public
+Certificate Authority (CA), or if it is a self-signed certificate.
+
+[NOTE]
+.A note on libcurl version
+=================
+If you believe the client is configured to correctly use SSL, but it simply is not working, check your libcurl
+version.  On certain platforms, various features may or may not be available depending on version number of libcurl.
+For example, the `--cacert` option was not added to the OSX version of libcurl until version 7.37.1.  The `--cacert`
+option is equivalent to PHP's `CURLOPT_CAINFO` constant, meaning that custom certificate paths will not work on lower
+versions.
+
+If you are encountering problems, update your libcurl version and/or check the http://curl.haxx.se/changes.html[curl changelog].
+=================
+
+==== Public CA Certificates
+
+If your certificate has been signed by a public Certificate Authority and your server has up-to-date root certificates,
+you only need to use `https` in the host path.  The client will automatically verify SSL certificates:
+
+[source,php]
+----
+$hosts = [
+    'https://localhost:9200' <1>
+];
+
+$client = ClientBuilder::create()
+                    ->setHosts($hosts)
+                    ->build();
+----
+<1> Note that `https` is used, not `http`
+
+
+If your server has out-dated root certificates, you may need to use a certificate bundle.  For PHP clients, the best
+way is to use https://github.com/Kdyby/CurlCaBundle[Kdyby/CurlCaBundle].  Once installed, you need to tell the client to
+use your certificates instead of the system-wide bundle.  To do this, specify the path to verify:
+
+
+[source,php]
+----
+$hosts = ['https://localhost:9200'];
+$caBundle = \Kdyby\CurlCaBundle\CertificateHelper::getCaInfoFile();
+
+$client = ClientBuilder::create()
+                    ->setHosts($hosts)
+                    ->setSSLVerification($caBundle)
+                    ->build();
+----
+
+==== Self-signed Certificates
+
+Self-signed certificates are certs that have not been signed by a public CA.  They are signed by your own organization.
+Self-signed certificates are often used for internal purposes, when you can securely spread the root certificate
+yourself.  It should not be used when being exposed to public consumers, since this leaves the client vulnerable to
+man-in-the-middle attacks.
+
+If you are using a self-signed certificate, you need to provide the certificate to the client.  This is the same syntax
+as specifying a new root bundle, but instead you point to your certificate:
+
+[source,php]
+----
+$hosts = ['https://localhost:9200'];
+$myCert = 'path/to/cacert.pem';
+
+$client = ClientBuilder::create()
+                    ->setHosts($hosts)
+                    ->setSSLVerification($myCert)
+                    ->build();
+----
+
+
+=== Using Authentication with SSL
+
+It is possible to use HTTP authentication with SSL.  Simply specify `https` in the URI, configure SSL settings as
+required and provide authentication credentials.  For example, this snippet will authenticate using Basic HTTP auth
+and a self-signed certificate:
+
+[source,php]
+----
+$hosts = ['https://user:pass@localhost:9200'];
+$myCert = 'path/to/cacert.pem';
+
+$client = ClientBuilder::create()
+                    ->setHosts($hosts)
+                    ->setSSLVerification($myCert)
+                    ->build();
+----

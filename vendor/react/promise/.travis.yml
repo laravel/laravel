@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - nightly
+  - hhvm
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+
+script:
+  - phpunit -v --coverage-text

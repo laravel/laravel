@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Title>Excel 2003 XML Test Workbook</Title>
+  <Subject>This is a test workbook saved as Excel 2003 XML</Subject>
+  <Author>Mark Baker</Author>
+  <Keywords>PHPExcel Excel 2003 XML Reader</Keywords>
+  <Description>This is a test for the PHPExcel Reader for workbooks saved using Excel 2003's XML Format</Description>
+  <LastAuthor>Mark Baker</LastAuthor>
+  <Created>2009-09-11T08:26:08Z</Created>
+  <LastSaved>2009-09-17T22:53:09Z</LastSaved>
+  <Category>Reader</Category>
+  <Company>PHPExcel</Company>
+  <Version>14.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>13176</WindowHeight>
+  <WindowWidth>28452</WindowWidth>
+  <WindowTopX>240</WindowTopX>
+  <WindowTopY>516</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="m42221568">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="3"
+     ss:Color="#00B050"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="3"
+     ss:Color="#0070C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="3"
+     ss:Color="#FFFF00"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="3"
+     ss:Color="#FF0000"/>
+   </Borders>
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s62">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#FF0000" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s64">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Bold="1"
+    ss:Italic="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s65">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Bold="1"
+    ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s66">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Bold="1"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s67">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s68">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s69">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Bold="1"
+    ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s70">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s71">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000" ss:Italic="1"/>
+  </Style>
+  <Style ss:ID="s72">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s73">
+   <Borders>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"
+     ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s74">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+   <NumberFormat ss:Format="#\ ?/?"/>
+  </Style>
+  <Style ss:ID="s75">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"
+     ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s76">
+   <Borders>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"
+     ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s77">
+   <Borders>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"
+     ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="s85">
+   <Borders>
+    <Border ss:Position="DiagonalLeft" ss:LineStyle="Double" ss:Weight="3"
+     ss:Color="#FF0000"/>
+    <Border ss:Position="DiagonalRight" ss:LineStyle="Double" ss:Weight="3"
+     ss:Color="#FF0000"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="s86">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Font ss:FontName="Arial" ss:Size="12" ss:Color="#000000" ss:Bold="1"
+    ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s87">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+   <NumberFormat ss:Format="0.00;[Red]0.00"/>
+  </Style>
+  <Style ss:ID="s88">
+   <Font ss:FontName="Arial" ss:Size="11" ss:Color="#000000"/>
+   <NumberFormat ss:Format="dd\-mmm\-yyyy"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Sample Data">
+  <Table ss:ExpandedColumnCount="10" ss:ExpandedRowCount="20" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="15">
+   <Column ss:AutoFitWidth="0" ss:Width="90.6"/>
+   <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="33.6"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s62"><Data ss:Type="String">Test String 1</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:Index="5" ss:StyleID="s64"><Data ss:Type="String">A</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">E</Data></Cell>
+    <Cell ss:Index="8" ss:Formula="=RC[-6]+RC[-5]"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="10" ss:Formula="=RC[-5]&amp;RC[-4]"><Data ss:Type="String">AE</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s66"><Data ss:Type="String">Test - String 2</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:Index="5"><Data ss:Type="String">B</Data></Cell>
+    <Cell><Data ss:Type="String">F</Data></Cell>
+    <Cell ss:Index="8" ss:Formula="=RC[-6]+RC[-5]"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Index="10" ss:Formula="=RC[-5]&amp;RC[-4]"><Data ss:Type="String">BF</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s67"><Data ss:Type="String">Test #3</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:Index="5" ss:StyleID="s68"><Data ss:Type="String">C</Data></Cell>
+    <Cell ss:StyleID="s69"><Data ss:Type="String">G</Data></Cell>
+    <Cell ss:Index="8" ss:Formula="=RC[-6]+RC[-5]"><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:Index="10" ss:Formula="=RC[-5]&amp;RC[-4]"><Data ss:Type="String">CG</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s70"><Data ss:Type="String">Test with (&quot;) in string</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:Index="5" ss:StyleID="s71"><Data ss:Type="String">D</Data></Cell>
+    <Cell><Data ss:Type="String">H</Data></Cell>
+    <Cell ss:Index="8" ss:Formula="=RC[-6]+RC[-5]"><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:Index="10" ss:Formula="=RC[-5]&amp;RC[-4]"><Data ss:Type="String">DH</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="8" ss:Formula="=SUM(R[-4]C[-6]:R[-1]C[-6])"><Data
+      ss:Type="Number">10</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-4]C[-6]:R[-1]C[-6])"><Data ss:Type="Number">26</Data></Cell>
+    <Cell ss:Formula="=SUM(R[-4]C[-8]:R[-1]C[-7])"><Data ss:Type="Number">36</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="Number">1.23</Data></Cell>
+    <Cell><Data ss:Type="Boolean">1</Data></Cell>
+    <Cell ss:StyleID="s72"/>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="Number">2.34</Data></Cell>
+    <Cell><Data ss:Type="Boolean">0</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="2"><Data ss:Type="Number">3.45</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5"/>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s72"><Data ss:Type="DateTime">1960-12-19T00:00:00.000</Data></Cell>
+    <Cell ss:Index="3" ss:StyleID="s73"><Data ss:Type="String">TOP</Data></Cell>
+    <Cell ss:Index="7" ss:Formula="=#N/A"><Data ss:Type="Error">#N/A</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:StyleID="s74"><Data ss:Type="Number">1.5</Data></Cell>
+    <Cell ss:Index="7" ss:Formula="=12/0"><Data ss:Type="Error">#DIV/0!</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5">
+    <Cell ss:Index="3" ss:StyleID="s75"><Data ss:Type="String">BOTTOM</Data></Cell>
+   </Row>
+   <Row ss:Index="14" ss:AutoFitHeight="0">
+    <Cell ss:Index="3" ss:StyleID="s76"><Data ss:Type="String">LEFT</Data></Cell>
+   </Row>
+   <Row ss:Index="16" ss:AutoFitHeight="0">
+    <Cell ss:Index="3" ss:StyleID="s77"><Data ss:Type="String">RIGHT</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5"/>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5">
+    <Cell ss:Index="2" ss:MergeAcross="1" ss:MergeDown="1" ss:StyleID="m42221568"><Data
+      ss:Type="String">BOX</Data></Cell>
+    <Cell ss:Index="5" ss:StyleID="s85"/>
+    <Cell ss:Index="7"><Data ss:Type="String">Test Column 1</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="8"><Data ss:Type="String">Test Column 2</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell ss:Index="9"><Data ss:Type="String">Test Column 3</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>17</ActiveRow>
+     <ActiveCol>4</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+   <AllowFormatCells/>
+   <AllowSizeCols/>
+   <AllowSizeRows/>
+   <AllowInsertCols/>
+   <AllowInsertRows/>
+   <AllowInsertHyperlinks/>
+   <AllowDeleteCols/>
+   <AllowDeleteRows/>
+   <AllowSort/>
+   <AllowFilter/>
+   <AllowUsePivotTables/>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Report Data">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="14" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="15">
+   <Column ss:AutoFitWidth="0" ss:Width="66.600000000000009"/>
+   <Column ss:AutoFitWidth="0" ss:Width="68.399999999999991"/>
+   <Column ss:AutoFitWidth="0" ss:Width="62.400000000000006"/>
+   <Column ss:Width="69.599999999999994"/>
+   <Column ss:Index="6" ss:Width="69.599999999999994"/>
+   <Column ss:AutoFitWidth="0" ss:Width="64.8"/>
+   <Row ss:AutoFitHeight="0" ss:Height="31.5">
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Heading 1</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Heading 2</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Third Heading</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Date Heading</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s86"><Data ss:Type="String">Adjusted Date</Data></Cell>
+    <Cell ss:StyleID="s86"><Data ss:Type="String">Adjusted Number</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ABC</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">1.1100000000000001</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2001-01-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2000-12-31T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">1.1100000000000001</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">BCD</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">2.2200000000000002</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2002-02-02T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2002-01-31T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">4.4400000000000004</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">CDE</Data></Cell>
+    <Cell><Data ss:Type="Number">3</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">3.33</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2003-03-03T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2003-02-28T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">9.99</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">DEF</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">4.4400000000000004</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2004-04-03T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2004-03-30T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">17.760000000000002</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">EFG</Data></Cell>
+    <Cell><Data ss:Type="Number">5</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">5.55</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2005-05-04T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2005-04-29T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">27.75</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">FGH</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">6.66</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2006-06-05T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2006-05-30T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">39.96</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">GHI</Data></Cell>
+    <Cell><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">7.77</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2007-07-06T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2007-06-29T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">54.39</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">HIJ</Data></Cell>
+    <Cell><Data ss:Type="Number">8</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">8.8800000000000008</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2008-08-07T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2008-07-30T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">71.040000000000006</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">IJK</Data></Cell>
+    <Cell><Data ss:Type="Number">9</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">9.99</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2009-09-08T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2009-08-30T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">89.91</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">JKL</Data></Cell>
+    <Cell><Data ss:Type="Number">10</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">11.1</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2010-10-09T23:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2010-09-29T23:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">111</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">KLM</Data></Cell>
+    <Cell><Data ss:Type="Number">11</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">12.21</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2011-11-11T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2011-10-31T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">134.31</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">LMN</Data></Cell>
+    <Cell><Data ss:Type="Number">12</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">13.32</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">2012-12-12T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">2012-11-30T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">159.84</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0">
+    <Cell><Data ss:Type="String">ZYX</Data></Cell>
+    <Cell><Data ss:Type="Number">-1</Data></Cell>
+    <Cell ss:StyleID="s87"><Data ss:Type="Number">-1.1100000000000001</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="DateTime">1999-12-01T00:00:00.000</Data></Cell>
+    <Cell ss:Index="6" ss:StyleID="s88" ss:Formula="=RC[-2]-RC[-4]"><Data
+      ss:Type="DateTime">1999-12-02T00:00:00.000</Data></Cell>
+    <Cell ss:StyleID="s87" ss:Formula="=RC[-5]*RC[-4]"><Data ss:Type="Number">1.1100000000000001</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Header x:Margin="0.3"/>
+    <Footer x:Margin="0.3"/>
+    <PageMargins x:Bottom="0.75" x:Left="0.7" x:Right="0.7" x:Top="0.75"/>
+   </PageSetup>
+   <Unsynced/>
+   <Print>
+    <ValidPrinterInfo/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+   <AllowFormatCells/>
+   <AllowSizeCols/>
+   <AllowSizeRows/>
+   <AllowInsertCols/>
+   <AllowInsertRows/>
+   <AllowInsertHyperlinks/>
+   <AllowDeleteCols/>
+   <AllowDeleteRows/>
+   <AllowSort/>
+   <AllowFilter/>
+   <AllowUsePivotTables/>
+  </WorksheetOptions>
+  <ConditionalFormatting xmlns="urn:schemas-microsoft-com:office:excel">
+   <Range>R2C3:R14C3</Range>
+   <Condition>
+    <Qualifier>Greater</Qualifier>
+    <Value1>0</Value1>
+    <Format Style='color:#006100;background:#C6EFCE'/>
+   </Condition>
+   <Condition>
+    <Qualifier>Less</Qualifier>
+    <Value1>0</Value1>
+    <Format Style='color:#9C0006;background:#FFC7CE'/>
+   </Condition>
+  </ConditionalFormatting>
+ </Worksheet>
+</Workbook>

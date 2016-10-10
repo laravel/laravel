@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- $Id: support_website.xml 1732 2008-04-08 18:47:55Z pp11 $ -->
+<page title="Support mailing list" here="Support mailing list">
+    <long_title>Support mailing list</long_title>
+    <content>
+        <introduction>
+            <p>
+                The <strong>simpletest-support</strong> mailing-list is probably
+                the most active area around SimpleTest :
+                help, advice, bugs and workarounds tend to happen most of the time.
+            </p>
+        </introduction>
+        <section name="subscribe" title="To subscribe">
+            <p>
+                It's really
+                <a href="https://lists.sourceforge.net/lists/listinfo/simpletest-support">
+                easy to subscribe</a>
+                and it's
+                <a href="http://sourceforge.net/mailarchive/forum.php?forum=simpletest-support">
+                fully searchable</a> too.
+            </p>
+            <p>
+                At the last count, there were about 114 subscribers and 1908 message sent.
+                That's anything between 1 and 4 messages per day on average.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            To <a href="#subscribe">subscribe</a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            Subscribing to the
+            <a href="https://lists.sourceforge.net/lists/listinfo/simpletest-support">
+            Support mailing list</a>.
+        </link>
+        <link>
+            Reading the
+            <a href="http://sourceforge.net/mailarchive/forum.php?forum=simpletest-support">
+            archive</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            SimpleTest,
+            download,
+            source code,
+            stable release,
+            eclipse release,
+            eclipse plugin,
+            debian package,
+            drupal module,
+            pear channel,
+            pearified package
+        </keywords>
+    </meta>
+</page>

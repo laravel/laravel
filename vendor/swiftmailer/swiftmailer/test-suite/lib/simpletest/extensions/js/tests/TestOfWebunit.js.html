@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>JsUnit Tests of webunit.js</title>
+<link rel="stylesheet" type="text/css" href="../jsunit/css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../webunit.js"></script>
+<script language="JavaScript" type="text/javascript" src="../x.js"></script>
+<script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript">
+function testMax() {
+	assertTrue(5 == max(5,3));
+}
+function testMakeTree() {
+	groups = ['g1','g2'];
+	cases[0] = ['g1c1'];
+	cases[1] = ['g2c1','g2c2'];
+	make_tree();
+	assertEquals(
+		'<ul><li>g1<ul><li>g1c1</li></ul></li><li>g2<ul><li>g2c1</li><li>g2c2</li></ul></li></ul>'
+		,xGetElementById('tree').innerHTML
+		);
+}
+</script>
+</head>
+
+<body>
+<h1>JsUnit Tests of webunit.js</h1>
+
+<p>This page contains tests for the webunit.js file functions.</p>
+<div id="tree"></div>
+<div id="treetab"></div>
+</body>
+</html>

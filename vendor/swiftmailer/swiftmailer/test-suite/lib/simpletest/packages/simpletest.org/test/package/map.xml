@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<page title="SimpleTest.org" file="index.html">
+	<page title="English version" here="English version" file="en/index.html">
+		<page title="Download SimpleTest" here="Download" file="en/download.html" />
+		<page title="Start testing with SimpleTest" here="SimpleTest" file="en/start-testing.html">
+		    <page title="Documentation overview" here="Overview" file="en/overview.html">
+		        <page title="Unit tester" here="Unit-tester" file="en/unit_test_documentation.html" />
+		        <page title="Group tests" here="Group-tests" file="en/group_test_documentation.html" />
+		    </page>
+		    <page title="Tutorial overview" here="Tutorial" file="en/tutorial.html" />
+	    </page>
+		<page title="Support mailing list" here="Support" file="en/support.html">
+			<page title="Books" here="Books" file="en/books.html" />
+		</page>
+	</page>
+	<page title="Version française" here="Version française" file="fr/index.html">
+		<page title="Start testing with SimpleTest" here="Prise en main rapide de SimpleTest" file="fr/start-testing.html" />
+	</page>
+</page>

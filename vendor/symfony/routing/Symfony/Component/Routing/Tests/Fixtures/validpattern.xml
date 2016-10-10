@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="blog_show" path="/blog/{slug}" host="{locale}.example.com" methods="GET|POST  put,OpTiOnS" schemes="hTTps">
+        <default key="_controller">MyBundle:Blog:show</default>
+        <requirement key="locale">\w+</requirement>
+        <option key="compiler_class">RouteCompiler</option>
+        <condition>context.getMethod() == "GET"</condition>
+    </route>
+
+    <route id="blog_show_legacy" pattern="/blog/{slug}" host="{locale}.example.com">
+        <default key="_controller">MyBundle:Blog:show</default>
+        <default key="slug" xsi:nil="true" />
+        <requirement key="_method">GET|POST|put|OpTiOnS</requirement>
+        <requirement key="_scheme">hTTps</requirement>
+        <requirement key="locale">\w+</requirement>
+        <option key="compiler_class">RouteCompiler</option>
+        <condition>context.getMethod() == "GET"</condition>
+    </route>
+
+    <route id="blog_show_inherited" path="/blog/{slug}" />
+</routes>

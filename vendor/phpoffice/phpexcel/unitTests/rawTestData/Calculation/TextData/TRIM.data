@@ -1,0 +1,7 @@
+"HELLO    ",		"HELLO"
+"    HELLO",		"HELLO"
+"      HELLO      ",	"HELLO"
+"	HELLO",		"	HELLO"
+"HELLO    WORLD",	"HELLO WORLD"
+TRUE,			"TRUE"
+NULL,			NULL

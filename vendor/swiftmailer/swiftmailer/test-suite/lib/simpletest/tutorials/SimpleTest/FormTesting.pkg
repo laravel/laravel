@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Testing forms</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id submit}">
+<title>Submitting a simple form</title>
+            <para>
+                When a page is fetched by the <span class="new_code">WebTestCase</span>
+                using <span class="new_code">get()</span> or
+                <span class="new_code">post()</span> the page content is
+                automatically parsed.
+                This results in any form controls that are inside &lt;form&gt; tags
+                being available from within the test case.
+                For example, if we have this snippet of HTML...
+<pre>
+&lt;form&gt;
+    &lt;input type="text" name="a" value="A default" /&gt;
+    &lt;input type="submit" value="Go" /&gt;
+&lt;/form&gt;
+</pre>
+                Which looks like this...
+            </para>
+            <para>
+                <form class="demo">
+                    <input type="text" name="a" value="A default"/>
+                    <input type="submit" value="Go"/>
+                </form>
+            </para>
+            <para>
+                We can navigate to this code, via the
+                {@link http://www.lastcraft.com/form_testing_documentation.php LastCraft}
+                site, with the following test...
+<programlisting role="php">
+class SimpleFormTests extends WebTestCase {
+    
+    function testDefaultValue() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertField('a', 'A default');
+    }
+}
+</programlisting>
+                Immediately after loading the page all of the HTML controls are set at
+                their default values just as they would appear in the web browser.
+                The assertion tests that a HTML widget exists in the page with the
+                name "a" and that it is currently set to the value
+                "A default"
+            </para>
+            <para>
+                We could submit the form straight away, but first we'll change
+                the value of the text field and only then submit it...
+<programlisting role="php">
+class SimpleFormTests extends WebTestCase {
+
+    function testDefaultValue() {
+        $this-&gt;get('http://www.my-site.com/');
+        $this-&gt;assertField('a', 'A default');
+        $this-&gt;setField('a', 'New value');
+        $this-&gt;clickSubmit('Go');
+    }
+}
+</programlisting>
+                Because we didn't specify a method attribute on the form tag, and
+                didn't specify an action either, the test case will follow
+                the usual browser behaviour of submitting the form data as a <em>GET</em>
+                request back to the same location.
+                SimpleTest tries to emulate typical browser behaviour as much as possible,
+                rather than attempting to catch missing attributes on tags.
+                This is because the target of the testing framework is the PHP application
+                logic, not syntax or other errors in the HTML code.
+                For HTML errors, other tools such as
+                {@link http://www.w3.org/People/Raggett/tidy/ HTMLTidy} should be used.
+            </para>
+            <para>
+                If a field is not present in any form, or if an option is unavailable,
+                then <span class="new_code">WebTestCase::setField()</span> will return
+                <span class="new_code">false</span>.
+                For example, suppose we wish to verify that a "Superuser"
+                option is not present in this form...
+<pre>
+&lt;strong&gt;Select type of user to add:&lt;/strong&gt;
+&lt;select name="type"&gt;
+    &lt;option&gt;Subscriber&lt;/option&gt;
+    &lt;option&gt;Author&lt;/option&gt;
+    &lt;option&gt;Administrator&lt;/option&gt;
+&lt;/select&gt;
+</pre>
+                Which looks like...
+            </para>
+            <para>
+                <form class="demo">
+                    <strong>Select type of user to add:</strong>
+                    <select name="type">
+                        <option>Subscriber</option>
+                        <option>Author</option>
+                        <option>Administrator</option>
+                    </select>
+                </form>
+            </para>
+            <para>
+                The following test will confirm it...
+<programlisting role="php">
+class SimpleFormTests extends WebTestCase {
+    ...
+    function testNoSuperuserChoiceAvailable() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertFalse($this-&gt;setField('type', 'Superuser'));
+    }
+}
+</programlisting>
+                The selection will not be changed on a failure to set
+                a widget value.
+            </para>
+            <para>
+                Here is the full list of widgets currently supported...
+                <ul>
+                    <li>Text fields, including hidden and password fields.</li>
+                    <li>Submit buttons including the button tag, although not yet reset buttons</li>
+                    <li>Text area. This includes text wrapping behaviour.</li>
+                    <li>Checkboxes, including multiple checkboxes in the same form.</li>
+                    <li>Drop down selections, including multiple selects.</li>
+                    <li>Radio buttons.</li>
+                    <li>Images.</li>
+                </ul>
+            </para>
+            <para>
+                Although most standard HTML widgets are catered for by <em>SimpleTest</em>'s
+                built in parser, it is unlikely that JavaScript will be implemented
+                anytime soon.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id multiple}">
+<title>Fields with multiple values</title>
+            <para>
+                SimpleTest can cope with two types of multivalue controls: Multiple
+                selection drop downs, and multiple checkboxes with the same name
+                within a form.
+                The multivalue nature of these means that setting and testing
+                are slightly different.
+                Using checkboxes as an example...
+<pre>
+&lt;form class="demo"&gt;
+    &lt;strong&gt;Create privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="c" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Retrieve privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="r" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Update privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="u" checked&gt;&lt;br&gt;
+    &lt;strong&gt;Destroy privileges allowed:&lt;/strong&gt;
+    &lt;input type="checkbox" name="crud" value="d" checked&gt;&lt;br&gt;
+    &lt;input type="submit" value="Enable Privileges"&gt;
+&lt;/form&gt;
+</pre>
+                Which renders as...
+            </para>
+            <para>
+                <form class="demo">
+                    <strong>Create privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="c" checked=""/>
+<br/>
+                    <strong>Retrieve privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="r" checked=""/>
+<br/>
+                    <strong>Update privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="u" checked=""/>
+<br/>
+                    <strong>Destroy privileges allowed:</strong>
+                    <input type="checkbox" name="crud" value="d" checked=""/>
+<br/>
+                    <input type="submit" value="Enable Privileges"/>
+                </form>
+            </para>
+            <para>
+                If we wish to disable all but the retrieval privileges and
+                submit this information we can do it like this...
+<programlisting role="php">
+class SimpleFormTests extends WebTestCase {
+    ...
+    function testDisableNastyPrivileges() {
+        $this-&gt;get('http://www.lastcraft.com/form_testing_documentation.php');
+        $this-&gt;assertField('crud', array('c', 'r', 'u', 'd'));
+        $this-&gt;setField('crud', array('r'));
+        $this-&gt;clickSubmit('Enable Privileges');
+    }
+}
+</programlisting>
+                Instead of setting the field to a single value, we give it a list
+                of values.
+                We do the same when testing expected values.
+                We can then write other test code to confirm the effect of this, perhaps
+                by logging in as that user and attempting an update.
+            </para>
+            <para>
+                <title>Raw posting</title>
+            </para>
+            <para>
+                If you want to test a form handler, but have not yet written
+                or do not have access to the form itself, you can create a
+                form submission by hand.
+<programlisting role="php">
+class SimpleFormTests extends WebTestCase {
+    ...    
+    function testAttemptedHack() {
+        $this-&gt;post(
+                'http://www.my-site.com/add_user.php',
+                array('type' =&gt; 'superuser'));
+        $this-&gt;assertNoUnwantedPattern('/user created/i');
+    }
+}
+</programlisting>
+                By adding data to the <span class="new_code">WebTestCase::post()</span>
+                method, we are attempting to fetch the page as a form submission.
+            </para>
+        </refsect1>
+    </refentry>

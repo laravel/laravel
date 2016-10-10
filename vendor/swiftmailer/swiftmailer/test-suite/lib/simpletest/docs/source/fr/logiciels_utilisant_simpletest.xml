@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Logiciels" here="Logiciels">
+    <long_title>Logiciels utilisant SimpleTest</long_title>
+    <content>
+        <section name="projets-qui-etendent-simpletest" title="Des projets qui étendent SimpleTest">
+            <p>
+                Il y a un certain nombre de projets qui étendent les fonctionnalités
+                de SimpleTest :
+            </p>
+            <dl>
+                <dt>
+                    <a href="http://dev.e-taller.net/simpletestxul/">
+                        SimpleTestXUL
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://wiki.limb-project.com/doku.php?id=limb3:en:packages:tests_runner:limb_unit">
+                        Limb Unit
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://trac.piece-framework.com/sh-testrunner/">
+                        Stagehand_TestRunner
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://sourceforge.net/projects/suite-tester/">
+                        Suite Tester
+                    </a>
+                </dt>
+                
+            </dl>
+        </section>
+        <section name="projets-qui-utilisent-simpletest" title="Des projets qui utilisent SimpleTest">
+            <p>
+                D'autres se servent de SimpleTest pour construire leurs projets :
+            </p>
+            <dl>
+                <dt>
+                    <a href="http://jelix.org/">
+                        Jelix - framework PHP5
+                    </a>
+                </dt>
+                <dd>
+                    Jelix est un framework pour PHP5 qui permet de développer tout type
+                    d'application. Performant, il est conçu pour les sites à forte charge;
+                    entièrement objet, il est fortement modulaire et extensible.
+                    En outre ils basé sur des modèles de conception connus dont MVC, DAO..
+                    et prend en charge de nombreux formats de sortie :
+                    XHTML, XUL, RSS, ATOM, RDF, ZIP, XML, PDF, etc.
+                </dd>
+                <dt>
+                    <a href="http://www.copix.org/index.php/wiki/copix">
+                        Copix, Framework PHP
+                    </a>
+                </dt>
+                <dd>
+                    Copix est un framework pour PHP qui existe depuis maintenant plus de 6 ans.
+                    Copix est un projet libre (LGPL) mature utilisé sur de très nombreux sites.
+                </dd>
+                <dt>
+                    <a href="http://www.cakephp.org/">
+                        CakePHP
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://www.phpwact.org/">
+                        Web Application Component Toolkit
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://limb-project.com/">
+                        Limb3
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://drupal.org/project/simpletest">
+                        Drupal | SimpleTest
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://wideimage.sourceforge.net/wiki/MainPage">
+                        WideImage
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://aperiplus.sourceforge.net/">
+                        Aperiplus
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://wiki.flux-cms.org/display/FLX/Home">
+                        Flux CMS
+                    </a>
+                </dt>
+                <dt>
+                    <a href="http://moodle.org/">
+                        Moodle
+                    </a>
+                </dt>
+            </dl>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#projects-extending-simpletest">Projects extending SimpleTest</a>
+        </link>
+        <link>
+            <a href="#projects-using-simpletest">"Projects using SimpleTest</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+        </keywords>
+    </meta>
+</page>

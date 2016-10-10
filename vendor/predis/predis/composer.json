@@ -1,0 +1,28 @@
+{
+    "name": "predis/predis",
+    "type": "library",
+    "description": "Flexible and feature-complete PHP client library for Redis",
+    "keywords": ["nosql", "redis", "predis"],
+    "homepage": "http://github.com/nrk/predis",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniele Alessandri",
+            "email": "suppakilla@gmail.com",
+            "homepage": "http://clorophilla.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+        "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol",
+        "ext-curl": "Allows access to Webdis when paired with phpiredis"
+    },
+    "autoload": {
+        "psr-0": {"Predis": "lib/"}
+    }
+}

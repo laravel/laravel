@@ -1,0 +1,20 @@
+TRUE
+NULL,	TRUE
+-1,	FALSE
+0,	TRUE
+1,	FALSE
+2,	FALSE
+-1.5,	FALSE
+1.5,	FALSE
+"-1",	"#VALUE!"
+"0",	"#VALUE!"
+"1",	"#VALUE!"
+"2",	"#VALUE!"
+"-1.5",	"#VALUE!"
+"1.5",	"#VALUE!"
+"",	"#VALUE!"
+"ABC",	"#VALUE!"
+"FALSE",TRUE
+"TRUE",	FALSE
+TRUE,	FALSE
+FALSE,	TRUE

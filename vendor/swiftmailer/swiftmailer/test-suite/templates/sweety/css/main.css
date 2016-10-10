@@ -1,0 +1,203 @@
+/** Page structure **/
+/*------------------*/
+
+ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input {
+  margin: 0; padding: 0;
+}
+
+body {
+  font-size: 0.8em;
+  font-family: arial,sans-serif;
+  background: #fff;
+  padding: 8px;
+}
+
+img {
+  border: 0;
+}
+
+input {
+  margin-bottom: 8px;
+  padding: 4px;
+  font-size: 16px;
+  width: 100px;
+}
+
+input.sweety-text {
+  border: 2px solid #000;
+  width: 268px;
+  background-color: #fff;
+}
+
+input.sweety-disabled {
+  background: #eee;
+  border: 2px solid #888;
+}
+
+input.sweety-waiting {
+  background-image: url(../images/loading.gif);
+  background-position: 98% 50%;
+  background-repeat: no-repeat;
+}
+
+input.sweety-check {
+  width: 12px !important;
+  height: 12px !important;
+  margin: 1px !important;
+  padding: 1px !important;
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+div#sweety-page {
+  width: 100%;
+}
+
+div#sweety-testlist {
+  float: left;
+  width: 400px;
+  background: #aaa;
+}
+
+div#sweety-output {
+  margin-left: 400px;
+}
+
+div#sweety-results {
+  padding: 8px;
+  font-size: 1.4em;
+}
+
+div#sweety-messages {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #777;
+}
+
+div#sweety-smoke-images {
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+div#sweety-smoke-images img {
+  width: 150px;
+  height: 120px;
+  margin-right: 8px;
+}
+
+div.sweety-clear {
+  width: 100%;
+  clear: both;
+}
+
+/** Look and feel **/
+/*-----------------*/
+
+input#sweety-filter {
+  visibility: hidden;
+}
+
+div#sweety-communication {
+  float: right;
+  display: none;
+}
+
+pre.sweety-raw-output {
+  display: block;
+  background: #ddd;
+  padding: 4px;
+  margin: 4px;
+}
+
+div.sweety-pad {
+  padding: 8px;
+}
+
+div.sweety-message {
+  padding: 4px;
+  margin: 4px;
+}
+
+div.sweety-test-path {
+  padding-left: 2em;
+  font-style: italic;
+  color: #777;
+}
+
+div.sweety-test {
+  font-size: 12px;
+  margin-bottom: 2px;
+  margin-left: 12px;
+  padding: 2px;
+}
+
+div.sweety-test img {
+  float: right;
+  margin-right: 4px;
+}
+
+div.sweety-package-header {
+  font-size: 12px;
+  margin-bottom: 2px;
+  border-bottom: 2px solid #444;
+  padding: 2px;
+}
+
+div.sweety-package-header span.sweety-test-package {
+  font-weight: normal;
+}
+
+div.sweety-package-header img {
+  margin: 0 2px;
+}
+
+span.sweety-pkg-count {
+  display: block;
+  float: right;
+  padding-right: 2px;
+}
+
+img.sweety-group-icon {
+  float: right;
+  margin: 4px !important;
+}
+
+.sweety-pkg-idle {
+  background: #cacaca;
+}
+
+span.sweety-test-package {
+  display: block;
+  font-size: 10px;
+  padding-left: 1em;
+}
+
+.sweety-idle {
+  background: #eee;
+}
+
+.sweety-running {
+  background: #ffff33 !important;
+}
+
+.sweety-pass {
+  background: #00aa00 !important;
+  color: #fff;
+}
+
+.sweety-fail {
+  background: #ee0000 !important;
+  color: #fff;
+}
+
+.sweety-fail-text {
+  color: #ee0000;
+}
+
+.sweety-skip-text {
+  color: #4444dd;
+  font-weight: bold;
+  text-decoration: underline;
+}

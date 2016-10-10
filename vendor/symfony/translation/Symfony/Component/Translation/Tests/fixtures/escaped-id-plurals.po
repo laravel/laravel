@@ -1,0 +1,10 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "escaped \"foo\""
+msgid_plural "escaped \"foos\""
+msgstr[0] "escaped \"bar\""
+msgstr[1] "escaped \"bars\""

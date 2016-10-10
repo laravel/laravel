@@ -1,0 +1,15 @@
+Applications I need to test with
+---------------------------------
+
+Standalone (can read .eml files):
+---------------------------------
+Microsoft Entourage (can assume same as outlook)
+Mozilla Thunderbird
+Apple Mail
+
+Web-based:
+----------
+Hotmail
+Gmail
+Yahoo!
+Mail2Web

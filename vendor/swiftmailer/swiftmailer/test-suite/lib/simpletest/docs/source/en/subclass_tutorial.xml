@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<!-- $Id: subclass_tutorial.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Subclassing a unit test case" here="Reusing cases">
+    <long_title>PHP unit testing tutorial - Subclassing a test case</long_title>
+    <content>
+        <section name="time" title="A timing insensitive assertion">
+            <p>
+                We left our clock test with a hole.
+                If the PHP <code>time()</code>
+                function rolled over during this comparison...
+<php><![CDATA[
+function testClockTellsTime() {
+    $clock = new Clock();
+    $this->assertEqual($clock->now(), time(), 'Now is the right time');
+}
+]]></php>
+                ...our test would be out by one second and would cause
+                a false failure.
+                Erratic behaviour of our test suite is not what we want when
+                we could be running it a hundred times a day.
+            </p>
+            <p>
+                We could rewrite the test as...
+<php><![CDATA[
+function testClockTellsTime() {
+    $clock = new Clock();<strong>
+    $time1 = $clock->now();
+    $time2 = time();
+    $this->assertTrue($time1 == $time2) || ($time1 + 1 == $time2), 'Now is the right time');</strong>
+}
+]]></php>
+                This is hardly a clear design though and we will have to repeat
+                this for every timing test that we do.
+                Repetition is public enemy number one and so we&apos;ll
+                use this as incentive to factor out the new test code.
+<php><![CDATA[
+class TestOfClock extends UnitTestCase {
+    function TestOfClock() {
+        $this->UnitTestCase('Clock class test');
+    }<strong>
+    function assertSameTime($time1, $time2, $message) {
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }</strong>
+    function testClockTellsTime() {
+        $clock = new Clock();<strong>
+        $this->assertSameTime($clock->now(), time(), 'Now is the right time');</strong>
+    }
+    function testClockAdvance() {
+        $clock = new Clock();
+        $clock->advance(10);<strong>
+        $this->assertSameTime($clock->now(), time() + 10, 'Advancement');</strong>
+    }
+}
+]]></php>
+                Of course each time I make one of these changes I rerun the
+                tests to make sure we are still OK.
+                Refactor on green.
+                It&apos;s a lot safer.
+            </p>
+        </section>
+        <section name="subclass" title="Reusing our assertion">
+            <p>
+                It may be that we want more than one test case that is
+                timing sensitive.
+                Perhaps we are reading timestamps from database rows
+                or other places that could allow an extra second to
+                tick over.
+                For these new test classes to take advantage of our new assertion
+                we need to place it into a superclass.
+            </p>
+            <p>
+                Here is the complete <em>clock_test.php</em> file after
+                promoting our <code>assertSameTime()</code>
+                method to its own superclass...
+<php><![CDATA[
+<?php
+require_once('../classes/clock.php');
+<strong>
+class TimeTestCase extends UnitTestCase {
+    function TimeTestCase($test_name) {
+        $this->UnitTestCase($test_name);
+    }
+    function assertSameTime($time1, $time2, $message) {
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }
+}
+    
+class TestOfClock extends TimeTestCase {
+    function TestOfClock() {
+        $this->TimeTestCase('Clock class test');
+    }</strong>
+    function testClockTellsTime() {
+        $clock = new Clock();
+        $this->assertSameTime($clock->now(), time(), 'Now is the right time');
+    }
+    function testClockAdvance() {
+        $clock = new Clock();
+        $clock->advance(10);
+        $this->assertSameTime($clock->now(), time() + 10, 'Advancement');
+    }<strong>
+}</strong>
+?>
+]]></php>
+                Now we get the benefit of our new assertion every
+                time we inherit from our own
+                <code>TimeTestCase</code> class
+                rather than the default
+                <code>UnitTestCase</code>.
+                This is very much how the JUnit tool was designed
+                to be used and SimpleTest is a port of that interface.
+                It is a testing framework from which your own test
+                system can be grown.
+            </p>
+            <p>
+                If we run the tests now we get a slight niggle...
+                <div class="demo">
+                    <b>Warning</b>:  Missing argument 1 for timetestcase()
+                    in <b>/home/marcus/projects/lastcraft/tutorial_tests/tests/clock_test.php</b> on line <b>5</b><br />
+                    <h1>All tests</h1>
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">3/3 test cases complete.
+                    <strong>6</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+                The reasons for this are quite tricky.
+            </p>
+            <p>
+                Our subclass requires a constructor parameter that has
+                not been supplied and yet it appears that we did
+                supply it.
+                When we inherited our new class we passed it in our own
+                constructor.
+                It&apos;s right here...
+<php><![CDATA[
+function TestOfClock() {
+    $this->TimeTestCase('Clock class test');
+}
+]]></php>
+                In fact we are right, that is not the problem.
+            </p>
+            <p>
+                Remember when we built our <em>all_tests.php</em>
+                group test by using the
+                <code>addTestFile()</code> method.
+                This method looks for test case classes, instantiates
+                them if they are new and then runs all of their tests.
+                What&apos;s happened is that it has found our
+                test case extension as well.
+                This is harmless as there are no test methods within it,
+                that is, method names that start with the string
+                &quot;test&quot;.
+                No extra tests are run.
+            </p>
+            <p>
+                The trouble is that it instantiates the class and does this without
+                the <code>$test_name</code> parameter
+                which is what causes our warning.
+                This parameter is not normally required of a test
+                case and not normally of its assertions either.
+                To make our extended test case match the
+                <code>UnitTestCase</code> interface
+                we must make these optional...
+<php><![CDATA[
+class TimeTestCase extends UnitTestCase {
+    function TimeTestCase(<strong>$test_name = false</strong>) {
+        $this->UnitTestCase($test_name);
+    }
+    function assertSameTime($time1, $time2, <strong>$message = false</strong>) {<strong>
+        if (! $message) {
+            $message = "Time [$time1] should match time [$time2]";
+        }</strong>
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }
+}
+]]></php>
+                Of course it should still bother you that this class is
+                instantiated by the test suite unnecessarily.
+                Here is a modification to prevent it running...
+<php><![CDATA[
+<strong>SimpleTestOptions::ignore('TimeTestCase');</strong>
+class TimeTestCase extends UnitTestCase {
+    function TimeTestCase($test_name = false) {
+        $this->UnitTestCase($test_name);
+    }
+    function assertSameTime($time1, $time2, $message = '') {
+        if (!$message) {
+            $message = "Time [$time1] should match time [$time2]";
+        }
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }
+}
+]]></php>
+                This just tells SimpleTest to always ignore this class when
+                building test suites.
+                It can be included anywhere in the test case file.
+            </p>
+            <p>
+                Six passes looks good, but does not tell the casual
+                observer what has been tested.
+                For that you have to look at the code.
+                If that sounds like drudge to you and you would like this
+                information displayed before you then we should go on
+                to <a local="display_subclass_tutorial">show the passes</a> next.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            A <a href="#time">timing insensitive assertion</a>
+            that allows a one second gain.
+        </link>
+        <link>
+            <a href="#subclass">Subclassing the test case</a>
+            so as to reuse the test method.
+        </link>
+    </internal>
+    <external>
+        <link>
+            The previous section was
+            <a local="gain_control_tutorial">controlling test variables</a>.
+        </link>
+        <link>
+            The next tutorial section was
+            <a local="display_subclass_tutorial">changing the test display</a>.
+        </link>
+        <link>
+            You will need the
+            <a local="simple_test">SimpleTest test tool</a> to run the
+            sample code.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            test case example,
+            programming php,
+            software development tools,
+            php tutorial,
+            creating subclass,
+            free php scripts,
+            architecture,
+            php resources,
+            junit,
+            phpunit style testing,
+            unit test,
+            php testing
+        </keywords>
+    </meta>
+</page>

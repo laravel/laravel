@@ -1,0 +1,26 @@
+Unset
+-----
+<?php
+
+unset($a);
+unset($b, $c);
+-----
+array(
+    0: Stmt_Unset(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Stmt_Unset(
+        vars: array(
+            0: Expr_Variable(
+                name: b
+            )
+            1: Expr_Variable(
+                name: c
+            )
+        )
+    )
+)

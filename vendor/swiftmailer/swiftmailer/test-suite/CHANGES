@@ -1,0 +1,7 @@
+Sweety SimpleTest Front-end, Version 0.1 - beta
+-----------------------------------------------
+
+17th November 2007, 0.1b:
+  Finished initial draft, giving up on dealing with invalid XML for now since
+  $test->dump() should be used for output where needed.  Will address this again
+  later.

@@ -1,0 +1,90 @@
+RFC 1854:
+---------
+PIPELINING extension
+
+RFC 2222:
+---------
+SASL
+
+RFC 4505:
+---------
+ANYNONYMOUS SASL
+
+RFC 4616:
+---------
+PLAIN SASL
+
+RFC 2487:
+---------
+STARTTLS extension
+
+RFC 2554 & 4954:
+----------------
+AUTH extension
+
+RFC 2821:
+---------
+SMTP protocol
+
+RFC 2822:
+---------
+General message structure (focusing on important headers)
+
+RFC 2045:
+---------
+Quoted Printable Encoding
+Base 64 Encoding
+Detailed message structure
+
+RFC 2046:
+---------
+Media types (for subparts)
+
+RFC 2047:
+---------
+Header Encoding
+
+RFC 2183:
+---------
+The Content-Disposition header
+
+RFC 2231:
+---------
+Encoded Text header/attribute extensions
+
+RFC 2234:
+---------
+ABNF definitions
+
+RFC 3676:
+---------
+Flowed formatting/delsp parameters
+
+RFC 2015:
+---------
+Original Mime Security with OpenPGP
+
+RFC 2440:
+---------
+Original OpenPGP message format
+
+RFC 3156:
+---------
+Current (30/01/2009) Mime Security with OpenPGP
+
+RFC 4880:
+---------
+Current (30/01/2009) OpenPGP Message format revision (fun, it's exactly original *2 --sorry)
+
+RFC 5751:
+--------
+Secure/Multipurpose Internet Mail Extensions (S/MIME) Version 3.2
+
+RFC 4870:
+---------
+DomainKeys (historic), but still used by a few people.
+
+RFX 4871:
+---------
+DKIM
+

@@ -1,0 +1,25 @@
+Some special methods cannot be static
+-----
+<?php class A { static function __construct() {} }
+-----
+Constructor __construct() cannot be static on line 1
+-----
+<?php class A { static function __destruct() {} }
+-----
+Destructor __destruct() cannot be static on line 1
+-----
+<?php class A { static function __clone() {} }
+-----
+Clone method __clone() cannot be static on line 1
+-----
+<?php class A { static function __CONSTRUCT() {} }
+-----
+Constructor __CONSTRUCT() cannot be static on line 1
+-----
+<?php class A { static function __Destruct() {} }
+-----
+Destructor __Destruct() cannot be static on line 1
+-----
+<?php class A { static function __cLoNe() {} }
+-----
+Clone method __cLoNe() cannot be static on line 1

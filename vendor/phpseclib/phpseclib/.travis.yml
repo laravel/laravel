@@ -1,0 +1,35 @@
+language: php
+
+# When adding environments here, the number of runs specified in .scrutinizer.yml
+# may have to be adjusted.
+php:
+  - 5.2
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+env:
+  global:
+    # Defines CODE_COVERAGE_PASSPHRASE which is the passphrase for unlocking
+    # the travis/code_coverage_id_rsa RSA private key.
+    - secure: "jtQTZKQBnzUlp/jz7NlM6470ZDnLGVAs53sgvIm4tcYqf9TWSXSXjIYvFsrS\nKPR2eyZaAevYysUkIGRFTUXTlG6tC36YngMp9+6FPxASl8mnGXsTbKcm613B\n59vD3242pgIgqhhmgFQ0c8gbvnE8PuF2aS4/hluP3r+AxhWN56E="
+
+before_install: true
+
+install:
+  - sudo apt-get install parallel
+  - eval `ssh-agent -s`
+  - travis/setup-secure-shell.sh
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then travis/install-php-extensions.sh; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then travis/setup-composer.sh; fi"
+
+script:
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' = '5.5' ]; then vendor/bin/phing -f build/build.xml sniff; fi"
+  - travis/run-phpunit.sh
+
+after_success:
+  - sh -c "if $TRAVIS_SECURE_ENV_VARS; then travis/upload-code-coverage-html.sh; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' -a '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then travis/upload-code-coverage-scrutinizer.sh; fi"

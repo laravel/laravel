@@ -1,0 +1,438 @@
+##
+## PHPExcel
+##
+## Copyright (c) 2006 - 2013 PHPExcel
+##
+## This library is free software; you can redistribute it and/or
+## modify it under the terms of the GNU Lesser General Public
+## License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+##
+## @category   PHPExcel
+## @package    PHPExcel_Calculation
+## @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+## @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+## @version    1.8.0, 2014-03-02
+##
+## Data in this file derived from http://www.piuha.fi/excel-function-name-translation/
+##
+##
+
+
+##
+##	Add-in and Automation functions			Add-In- und Automatisierungsfunktionen
+##
+GETPIVOTDATA	= PIVOTDATENZUORDNEN			##	In einem PivotTable-Bericht gespeicherte Daten werden zurückgegeben.
+
+
+##
+##	Cube functions					Cubefunktionen
+##
+CUBEKPIMEMBER		= CUBEKPIELEMENT		##	Gibt Name, Eigenschaft und Measure eines Key Performance Indicators (KPI) zurück und zeigt den Namen und die Eigenschaft in der Zelle an. Ein KPI ist ein quantifizierbares Maß, wie z. B. der monatliche Bruttogewinn oder die vierteljährliche Mitarbeiterfluktuation, mit dessen Hilfe das Leistungsverhalten eines Unternehmens überwacht werden kann.
+CUBEMEMBER		= CUBEELEMENT			##	Gibt ein Element oder ein Tuple in einer Cubehierarchie zurück. Wird verwendet, um zu überprüfen, ob das Element oder Tuple im Cube vorhanden ist.
+CUBEMEMBERPROPERTY	= CUBEELEMENTEIGENSCHAFT	##	Gibt den Wert einer Elementeigenschaft im Cube zurück. Wird verwendet, um zu überprüfen, ob ein Elementname im Cube vorhanden ist, und um die für dieses Element angegebene Eigenschaft zurückzugeben.
+CUBERANKEDMEMBER	= CUBERANGELEMENT		##	Gibt das n-te oder n-rangige Element in einer Menge zurück. Wird verwendet, um mindestens ein Element in einer Menge zurückzugeben, wie z. B. bester Vertriebsmitarbeiter oder 10 beste Kursteilnehmer.
+CUBESET			= CUBEMENGE			##	Definiert eine berechnete Menge Elemente oder Tuples durch Senden eines Mengenausdrucks an den Cube auf dem Server, der die Menge erstellt und an Microsoft Office Excel zurückgibt.
+CUBESETCOUNT		= CUBEMENGENANZAHL		##	Gibt die Anzahl der Elemente in einer Menge zurück.
+CUBEVALUE		= CUBEWERT			##	Gibt einen Aggregatwert aus einem Cube zurück.
+
+
+##
+##	Database functions				Datenbankfunktionen
+##
+DAVERAGE		= DBMITTELWERT			##	Gibt den Mittelwert der ausgewählten Datenbankeinträge zurück
+DCOUNT			= DBANZAHL			##	Zählt die Zellen mit Zahlen in einer Datenbank
+DCOUNTA			= DBANZAHL2			##	Zählt nicht leere Zellen in einer Datenbank
+DGET			= DBAUSZUG			##	Extrahiert aus einer Datenbank einen einzelnen Datensatz, der den angegebenen Kriterien entspricht
+DMAX			= DBMAX				##	Gibt den größten Wert aus ausgewählten Datenbankeinträgen zurück
+DMIN			= DBMIN				##	Gibt den kleinsten Wert aus ausgewählten Datenbankeinträgen zurück
+DPRODUCT		= DBPRODUKT			##	Multipliziert die Werte in einem bestimmten Feld mit Datensätzen, die den Kriterien in einer Datenbank entsprechen
+DSTDEV			= DBSTDABW			##	Schätzt die Standardabweichung auf der Grundlage einer Stichprobe aus ausgewählten Datenbankeinträgen
+DSTDEVP			= DBSTDABWN			##	Berechnet die Standardabweichung auf der Grundlage der Grundgesamtheit ausgewählter Datenbankeinträge
+DSUM			= DBSUMME			##	Addiert die Zahlen in der Feldspalte mit Datensätzen in der Datenbank, die den Kriterien entsprechen
+DVAR			= DBVARIANZ			##	Schätzt die Varianz auf der Grundlage ausgewählter Datenbankeinträge
+DVARP			= DBVARIANZEN			##	Berechnet die Varianz auf der Grundlage der Grundgesamtheit ausgewählter Datenbankeinträge
+
+
+##
+##	Date and time functions				Datums- und Zeitfunktionen
+##
+DATE			= DATUM				##	Gibt die fortlaufende Zahl eines bestimmten Datums zurück
+DATEVALUE		= DATWERT			##	Wandelt ein Datum in Form von Text in eine fortlaufende Zahl um
+DAY			= TAG				##	Wandelt eine fortlaufende Zahl in den Tag des Monats um
+DAYS360			= TAGE360			##	Berechnet die Anzahl der Tage zwischen zwei Datumsangaben ausgehend von einem Jahr, das 360 Tage hat
+EDATE			= EDATUM			##	Gibt die fortlaufende Zahl des Datums zurück, bei dem es sich um die angegebene Anzahl von Monaten vor oder nach dem Anfangstermin handelt
+EOMONTH			= MONATSENDE			##	Gibt die fortlaufende Zahl des letzten Tags des Monats vor oder nach einer festgelegten Anzahl von Monaten zurück
+HOUR			= STUNDE			##	Wandelt eine fortlaufende Zahl in eine Stunde um
+MINUTE			= MINUTE			##	Wandelt eine fortlaufende Zahl in eine Minute um
+MONTH			= MONAT				##	Wandelt eine fortlaufende Zahl in einen Monat um
+NETWORKDAYS		= NETTOARBEITSTAGE		##	Gibt die Anzahl von ganzen Arbeitstagen zwischen zwei Datumswerten zurück
+NOW			= JETZT				##	Gibt die fortlaufende Zahl des aktuellen Datums und der aktuellen Uhrzeit zurück
+SECOND			= SEKUNDE			##	Wandelt eine fortlaufende Zahl in eine Sekunde um
+TIME			= ZEIT				##	Gibt die fortlaufende Zahl einer bestimmten Uhrzeit zurück
+TIMEVALUE		= ZEITWERT			##	Wandelt eine Uhrzeit in Form von Text in eine fortlaufende Zahl um
+TODAY			= HEUTE				##	Gibt die fortlaufende Zahl des heutigen Datums zurück
+WEEKDAY			= WOCHENTAG			##	Wandelt eine fortlaufende Zahl in den Wochentag um
+WEEKNUM			= KALENDERWOCHE			##	Wandelt eine fortlaufende Zahl in eine Zahl um, die angibt, in welche Woche eines Jahres das angegebene Datum fällt
+WORKDAY			= ARBEITSTAG			##	Gibt die fortlaufende Zahl des Datums vor oder nach einer bestimmten Anzahl von Arbeitstagen zurück
+YEAR			= JAHR				##	Wandelt eine fortlaufende Zahl in ein Jahr um
+YEARFRAC		= BRTEILJAHRE			##	Gibt die Anzahl der ganzen Tage zwischen Ausgangsdatum und Enddatum in Bruchteilen von Jahren zurück
+
+
+##
+##	Engineering functions				Konstruktionsfunktionen
+##
+BESSELI			= BESSELI			##	Gibt die geänderte Besselfunktion In(x) zurück
+BESSELJ			= BESSELJ			##	Gibt die Besselfunktion Jn(x) zurück
+BESSELK			= BESSELK			##	Gibt die geänderte Besselfunktion Kn(x) zurück
+BESSELY			= BESSELY			##	Gibt die Besselfunktion Yn(x) zurück
+BIN2DEC			= BININDEZ			##	Wandelt eine binäre Zahl (Dualzahl) in eine dezimale Zahl um
+BIN2HEX			= BININHEX			##	Wandelt eine binäre Zahl (Dualzahl) in eine hexadezimale Zahl um
+BIN2OCT			= BININOKT			##	Wandelt eine binäre Zahl (Dualzahl) in eine oktale Zahl um
+COMPLEX			= KOMPLEXE			##	Wandelt den Real- und Imaginärteil in eine komplexe Zahl um
+CONVERT			= UMWANDELN			##	Wandelt eine Zahl von einem Maßsystem in ein anderes um
+DEC2BIN			= DEZINBIN			##	Wandelt eine dezimale Zahl in eine binäre Zahl (Dualzahl) um
+DEC2HEX			= DEZINHEX			##	Wandelt eine dezimale Zahl in eine hexadezimale Zahl um
+DEC2OCT			= DEZINOKT			##	Wandelt eine dezimale Zahl in eine oktale Zahl um
+DELTA			= DELTA				##	Überprüft, ob zwei Werte gleich sind
+ERF			= GAUSSFEHLER			##	Gibt die Gauss'sche Fehlerfunktion zurück
+ERFC			= GAUSSFKOMPL			##	Gibt das Komplement zur Gauss'schen Fehlerfunktion zurück
+GESTEP			= GGANZZAHL			##	Überprüft, ob eine Zahl größer als ein gegebener Schwellenwert ist
+HEX2BIN			= HEXINBIN			##	Wandelt eine hexadezimale Zahl in eine Binärzahl um
+HEX2DEC			= HEXINDEZ			##	Wandelt eine hexadezimale Zahl in eine dezimale Zahl um
+HEX2OCT			= HEXINOKT			##	Wandelt eine hexadezimale Zahl in eine Oktalzahl um
+IMABS			= IMABS				##	Gibt den Absolutbetrag (Modulo) einer komplexen Zahl zurück
+IMAGINARY		= IMAGINÄRTEIL			##	Gibt den Imaginärteil einer komplexen Zahl zurück
+IMARGUMENT		= IMARGUMENT			##	Gibt das Argument Theta zurück, einen Winkel, der als Bogenmaß ausgedrückt wird
+IMCONJUGATE		= IMKONJUGIERTE			##	Gibt die konjugierte komplexe Zahl zu einer komplexen Zahl zurück
+IMCOS			= IMCOS				##	Gibt den Kosinus einer komplexen Zahl zurück
+IMDIV			= IMDIV				##	Gibt den Quotienten zweier komplexer Zahlen zurück
+IMEXP			= IMEXP				##	Gibt die algebraische Form einer in exponentieller Schreibweise vorliegenden komplexen Zahl zurück
+IMLN			= IMLN				##	Gibt den natürlichen Logarithmus einer komplexen Zahl zurück
+IMLOG10			= IMLOG10			##	Gibt den Logarithmus einer komplexen Zahl zur Basis 10 zurück
+IMLOG2			= IMLOG2			##	Gibt den Logarithmus einer komplexen Zahl zur Basis 2 zurück
+IMPOWER			= IMAPOTENZ			##	Potenziert eine komplexe Zahl mit einer ganzen Zahl
+IMPRODUCT		= IMPRODUKT			##	Gibt das Produkt von komplexen Zahlen zurück
+IMREAL			= IMREALTEIL			##	Gibt den Realteil einer komplexen Zahl zurück
+IMSIN			= IMSIN				##	Gibt den Sinus einer komplexen Zahl zurück
+IMSQRT			= IMWURZEL			##	Gibt die Quadratwurzel einer komplexen Zahl zurück
+IMSUB			= IMSUB				##	Gibt die Differenz zwischen zwei komplexen Zahlen zurück
+IMSUM			= IMSUMME			##	Gibt die Summe von komplexen Zahlen zurück
+OCT2BIN			= OKTINBIN			##	Wandelt eine oktale Zahl in eine binäre Zahl (Dualzahl) um
+OCT2DEC			= OKTINDEZ			##	Wandelt eine oktale Zahl in eine dezimale Zahl um
+OCT2HEX			= OKTINHEX			##	Wandelt eine oktale Zahl in eine hexadezimale Zahl um
+
+
+##
+##	Financial functions				Finanzmathematische Funktionen
+##
+ACCRINT			= AUFGELZINS			##	Gibt die aufgelaufenen Zinsen (Stückzinsen) eines Wertpapiers mit periodischen Zinszahlungen zurück
+ACCRINTM		= AUFGELZINSF			##	Gibt die aufgelaufenen Zinsen (Stückzinsen) eines Wertpapiers zurück, die bei Fälligkeit ausgezahlt werden
+AMORDEGRC		= AMORDEGRK			##	Gibt die Abschreibung für die einzelnen Abschreibungszeiträume mithilfe eines Abschreibungskoeffizienten zurück
+AMORLINC		= AMORLINEARK			##	Gibt die Abschreibung für die einzelnen Abschreibungszeiträume zurück
+COUPDAYBS		= ZINSTERMTAGVA			##	Gibt die Anzahl der Tage vom Anfang des Zinstermins bis zum Abrechnungstermin zurück
+COUPDAYS		= ZINSTERMTAGE			##	Gibt die Anzahl der Tage der Zinsperiode zurück, die den Abrechnungstermin einschließt
+COUPDAYSNC		= ZINSTERMTAGNZ			##	Gibt die Anzahl der Tage vom Abrechnungstermin bis zum nächsten Zinstermin zurück
+COUPNCD			= ZINSTERMNZ			##	Gibt das Datum des ersten Zinstermins nach dem Abrechnungstermin zurück
+COUPNUM			= ZINSTERMZAHL			##	Gibt die Anzahl der Zinstermine zwischen Abrechnungs- und Fälligkeitsdatum zurück
+COUPPCD			= ZINSTERMVZ			##	Gibt das Datum des letzten Zinstermins vor dem Abrechnungstermin zurück
+CUMIPMT			= KUMZINSZ			##	Berechnet die kumulierten Zinsen, die zwischen zwei Perioden zu zahlen sind
+CUMPRINC		= KUMKAPITAL			##	Berechnet die aufgelaufene Tilgung eines Darlehens, die zwischen zwei Perioden zu zahlen ist
+DB			= GDA2				##	Gibt die geometrisch-degressive Abschreibung eines Wirtschaftsguts für eine bestimmte Periode zurück
+DDB			= GDA				##	Gibt die Abschreibung eines Anlageguts für einen angegebenen Zeitraum unter Verwendung der degressiven Doppelraten-Abschreibung oder eines anderen von Ihnen angegebenen Abschreibungsverfahrens zurück
+DISC			= DISAGIO			##	Gibt den in Prozent ausgedrückten Abzinsungssatz eines Wertpapiers zurück
+DOLLARDE		= NOTIERUNGDEZ			##	Wandelt eine Notierung, die als Dezimalbruch ausgedrückt wurde, in eine Dezimalzahl um
+DOLLARFR		= NOTIERUNGBRU			##	Wandelt eine Notierung, die als Dezimalzahl ausgedrückt wurde, in einen Dezimalbruch um
+DURATION		= DURATION			##	Gibt die jährliche Duration eines Wertpapiers mit periodischen Zinszahlungen zurück
+EFFECT			= EFFEKTIV			##	Gibt die jährliche Effektivverzinsung zurück
+FV			= ZW				##	Gibt den zukünftigen Wert (Endwert) einer Investition zurück
+FVSCHEDULE		= ZW2				##	Gibt den aufgezinsten Wert des Anfangskapitals für eine Reihe periodisch unterschiedlicher Zinssätze zurück
+INTRATE			= ZINSSATZ			##	Gibt den Zinssatz eines voll investierten Wertpapiers zurück
+IPMT			= ZINSZ				##	Gibt die Zinszahlung einer Investition für die angegebene Periode zurück
+IRR			= IKV				##	Gibt den internen Zinsfuß einer Investition ohne Finanzierungskosten oder Reinvestitionsgewinne zurück
+ISPMT			= ISPMT				##	Berechnet die während eines bestimmten Zeitraums für eine Investition gezahlten Zinsen
+MDURATION		= MDURATION			##	Gibt die geänderte Dauer für ein Wertpapier mit einem angenommenen Nennwert von 100 € zurück
+MIRR			= QIKV				##	Gibt den internen Zinsfuß zurück, wobei positive und negative Zahlungen zu unterschiedlichen Sätzen finanziert werden
+NOMINAL			= NOMINAL			##	Gibt die jährliche Nominalverzinsung zurück
+NPER			= ZZR				##	Gibt die Anzahl der Zahlungsperioden einer Investition zurück
+NPV			= NBW				##	Gibt den Nettobarwert einer Investition auf Basis periodisch anfallender Zahlungen und eines Abzinsungsfaktors zurück
+ODDFPRICE		= UNREGER.KURS			##	Gibt den Kurs pro 100 € Nennwert eines Wertpapiers mit einem unregelmäßigen ersten Zinstermin zurück
+ODDFYIELD		= UNREGER.REND			##	Gibt die Rendite eines Wertpapiers mit einem unregelmäßigen ersten Zinstermin zurück
+ODDLPRICE		= UNREGLE.KURS			##	Gibt den Kurs pro 100 € Nennwert eines Wertpapiers mit einem unregelmäßigen letzten Zinstermin zurück
+ODDLYIELD		= UNREGLE.REND			##	Gibt die Rendite eines Wertpapiers mit einem unregelmäßigen letzten Zinstermin zurück
+PMT			= RMZ				##	Gibt die periodische Zahlung für eine Annuität zurück
+PPMT			= KAPZ				##	Gibt die Kapitalrückzahlung einer Investition für eine angegebene Periode zurück
+PRICE			= KURS				##	Gibt den Kurs pro 100 € Nennwert eines Wertpapiers zurück, das periodisch Zinsen auszahlt
+PRICEDISC		= KURSDISAGIO			##	Gibt den Kurs pro 100 € Nennwert eines unverzinslichen Wertpapiers zurück
+PRICEMAT		= KURSFÄLLIG			##	Gibt den Kurs pro 100 € Nennwert eines Wertpapiers zurück, das Zinsen am Fälligkeitsdatum auszahlt
+PV			= BW				##	Gibt den Barwert einer Investition zurück
+RATE			= ZINS				##	Gibt den Zinssatz pro Zeitraum einer Annuität zurück
+RECEIVED		= AUSZAHLUNG			##	Gibt den Auszahlungsbetrag eines voll investierten Wertpapiers am Fälligkeitstermin zurück
+SLN			= LIA				##	Gibt die lineare Abschreibung eines Wirtschaftsguts pro Periode zurück
+SYD			= DIA				##	Gibt die arithmetisch-degressive Abschreibung eines Wirtschaftsguts für eine bestimmte Periode zurück
+TBILLEQ			= TBILLÄQUIV			##	Gibt die Rendite für ein Wertpapier zurück
+TBILLPRICE		= TBILLKURS			##	Gibt den Kurs pro 100 € Nennwert eines Wertpapiers zurück
+TBILLYIELD		= TBILLRENDITE			##	Gibt die Rendite für ein Wertpapier zurück
+VDB			= VDB				##	Gibt die degressive Abschreibung eines Wirtschaftsguts für eine bestimmte Periode oder Teilperiode zurück
+XIRR			= XINTZINSFUSS			##	Gibt den internen Zinsfuß einer Reihe nicht periodisch anfallender Zahlungen zurück
+XNPV			= XKAPITALWERT			##	Gibt den Nettobarwert (Kapitalwert) einer Reihe nicht periodisch anfallender Zahlungen zurück
+YIELD			= RENDITE			##	Gibt die Rendite eines Wertpapiers zurück, das periodisch Zinsen auszahlt
+YIELDDISC		= RENDITEDIS			##	Gibt die jährliche Rendite eines unverzinslichen Wertpapiers zurück
+YIELDMAT		= RENDITEFÄLL			##	Gibt die jährliche Rendite eines Wertpapiers zurück, das Zinsen am Fälligkeitsdatum auszahlt
+
+
+##
+##	Information functions				Informationsfunktionen
+##
+CELL			= ZELLE				##	Gibt Informationen zu Formatierung, Position oder Inhalt einer Zelle zurück
+ERROR.TYPE		= FEHLER.TYP			##	Gibt eine Zahl zurück, die einem Fehlertyp entspricht
+INFO			= INFO				##	Gibt Informationen zur aktuellen Betriebssystemumgebung zurück
+ISBLANK			= ISTLEER			##	Gibt WAHR zurück, wenn der Wert leer ist
+ISERR			= ISTFEHL			##	Gibt WAHR zurück, wenn der Wert ein beliebiger Fehlerwert außer #N/V ist
+ISERROR			= ISTFEHLER			##	Gibt WAHR zurück, wenn der Wert ein beliebiger Fehlerwert ist
+ISEVEN			= ISTGERADE			##	Gibt WAHR zurück, wenn es sich um eine gerade Zahl handelt
+ISLOGICAL		= ISTLOG			##	Gibt WAHR zurück, wenn der Wert ein Wahrheitswert ist
+ISNA			= ISTNV				##	Gibt WAHR zurück, wenn der Wert der Fehlerwert #N/V ist
+ISNONTEXT		= ISTKTEXT			##	Gibt WAHR zurück, wenn der Wert ein Element ist, das keinen Text enthält
+ISNUMBER		= ISTZAHL			##	Gibt WAHR zurück, wenn der Wert eine Zahl ist
+ISODD			= ISTUNGERADE			##	Gibt WAHR zurück, wenn es sich um eine ungerade Zahl handelt
+ISREF			= ISTBEZUG			##	Gibt WAHR zurück, wenn der Wert ein Bezug ist
+ISTEXT			= ISTTEXT			##	Gibt WAHR zurück, wenn der Wert ein Element ist, das Text enthält
+N			= N				##	Gibt den in eine Zahl umgewandelten Wert zurück
+NA			= NV				##	Gibt den Fehlerwert #NV zurück
+TYPE			= TYP				##	Gibt eine Zahl zurück, die den Datentyp des angegebenen Werts anzeigt
+
+
+##
+##	Logical functions				Logische Funktionen
+##
+AND			= UND				##	Gibt WAHR zurück, wenn alle zugehörigen Argumente WAHR sind
+FALSE			= FALSCH			##	Gibt den Wahrheitswert FALSCH zurück
+IF			= WENN				##	Gibt einen logischen Test zum Ausführen an
+IFERROR			= WENNFEHLER			##	Gibt einen von Ihnen festgelegten Wert zurück, wenn die Auswertung der Formel zu einem Fehler führt; andernfalls wird das Ergebnis der Formel zurückgegeben
+NOT			= NICHT				##	Kehrt den Wahrheitswert der zugehörigen Argumente um
+OR			= ODER				##	Gibt WAHR zurück, wenn ein Argument WAHR ist
+TRUE			= WAHR				##	Gibt den Wahrheitswert WAHR zurück
+
+
+##
+##	Lookup and reference functions			Nachschlage- und Verweisfunktionen
+##
+ADDRESS			= ADRESSE			##	Gibt einen Bezug auf eine einzelne Zelle in einem Tabellenblatt als Text zurück
+AREAS			= BEREICHE			##	Gibt die Anzahl der innerhalb eines Bezugs aufgeführten Bereiche zurück
+CHOOSE			= WAHL				##	Wählt einen Wert aus eine Liste mit Werten aus
+COLUMN			= SPALTE			##	Gibt die Spaltennummer eines Bezugs zurück
+COLUMNS			= SPALTEN			##	Gibt die Anzahl der Spalten in einem Bezug zurück
+HLOOKUP			= HVERWEIS			##	Sucht in der obersten Zeile einer Matrix und gibt den Wert der angegebenen Zelle zurück
+HYPERLINK		= HYPERLINK			##	Erstellt eine Verknüpfung, über die ein auf einem Netzwerkserver, in einem Intranet oder im Internet gespeichertes Dokument geöffnet wird
+INDEX			= INDEX				##	Verwendet einen Index, um einen Wert aus einem Bezug oder einer Matrix auszuwählen
+INDIRECT		= INDIREKT			##	Gibt einen Bezug zurück, der von einem Textwert angegeben wird
+LOOKUP			= LOOKUP			##	Sucht Werte in einem Vektor oder einer Matrix
+MATCH			= VERGLEICH			##	Sucht Werte in einem Bezug oder einer Matrix
+OFFSET			= BEREICH.VERSCHIEBEN		##	Gibt einen Bezugoffset aus einem gegebenen Bezug zurück
+ROW			= ZEILE				##	Gibt die Zeilennummer eines Bezugs zurück
+ROWS			= ZEILEN			##	Gibt die Anzahl der Zeilen in einem Bezug zurück
+RTD			= RTD				##	Ruft Echtzeitdaten von einem Programm ab, das die COM-Automatisierung (Automatisierung: Ein Verfahren, bei dem aus einer Anwendung oder einem Entwicklungstool heraus mit den Objekten einer anderen Anwendung gearbeitet wird. Die früher als OLE-Automatisierung bezeichnete Automatisierung ist ein Industriestandard und eine Funktion von COM (Component Object Model).) unterstützt
+TRANSPOSE		= MTRANS			##	Gibt die transponierte Matrix einer Matrix zurück
+VLOOKUP			= SVERWEIS			##	Sucht in der ersten Spalte einer Matrix und arbeitet sich durch die Zeile, um den Wert einer Zelle zurückzugeben
+
+
+##
+##	Math and trigonometry functions			Mathematische und trigonometrische Funktionen
+##
+ABS			= ABS				##	Gibt den Absolutwert einer Zahl zurück
+ACOS			= ARCCOS			##	Gibt den Arkuskosinus einer Zahl zurück
+ACOSH			= ARCCOSHYP			##	Gibt den umgekehrten hyperbolischen Kosinus einer Zahl zurück
+ASIN			= ARCSIN			##	Gibt den Arkussinus einer Zahl zurück
+ASINH			= ARCSINHYP			##	Gibt den umgekehrten hyperbolischen Sinus einer Zahl zurück
+ATAN			= ARCTAN			##	Gibt den Arkustangens einer Zahl zurück
+ATAN2			= ARCTAN2			##	Gibt den Arkustangens einer x- und einer y-Koordinate zurück
+ATANH			= ARCTANHYP			##	Gibt den umgekehrten hyperbolischen Tangens einer Zahl zurück
+CEILING			= OBERGRENZE			##	Rundet eine Zahl auf die nächste ganze Zahl oder das nächste Vielfache von Schritt
+COMBIN			= KOMBINATIONEN			##	Gibt die Anzahl der Kombinationen für eine bestimmte Anzahl von Objekten zurück
+COS			= COS				##	Gibt den Kosinus einer Zahl zurück
+COSH			= COSHYP			##	Gibt den hyperbolischen Kosinus einer Zahl zurück
+DEGREES			= GRAD				##	Wandelt Bogenmaß (Radiant) in Grad um
+EVEN			= GERADE			##	Rundet eine Zahl auf die nächste gerade ganze Zahl auf
+EXP			= EXP				##	Potenziert die Basis e mit der als Argument angegebenen Zahl
+FACT			= FAKULTÄT			##	Gibt die Fakultät einer Zahl zurück
+FACTDOUBLE		= ZWEIFAKULTÄT			##	Gibt die Fakultät zu Zahl mit Schrittlänge 2 zurück
+FLOOR			= UNTERGRENZE			##	Rundet die Zahl auf Anzahl_Stellen ab
+GCD			= GGT				##	Gibt den größten gemeinsamen Teiler zurück
+INT			= GANZZAHL			##	Rundet eine Zahl auf die nächstkleinere ganze Zahl ab
+LCM			= KGV				##	Gibt das kleinste gemeinsame Vielfache zurück
+LN			= LN				##	Gibt den natürlichen Logarithmus einer Zahl zurück
+LOG			= LOG				##	Gibt den Logarithmus einer Zahl zu der angegebenen Basis zurück
+LOG10			= LOG10				##	Gibt den Logarithmus einer Zahl zur Basis 10 zurück
+MDETERM			= MDET				##	Gibt die Determinante einer Matrix zurück
+MINVERSE		= MINV				##	Gibt die inverse Matrix einer Matrix zurück
+MMULT			= MMULT				##	Gibt das Produkt zweier Matrizen zurück
+MOD			= REST				##	Gibt den Rest einer Division zurück
+MROUND			= VRUNDEN			##	Gibt eine auf das gewünschte Vielfache gerundete Zahl zurück
+MULTINOMIAL		= POLYNOMIAL			##	Gibt den Polynomialkoeffizienten einer Gruppe von Zahlen zurück
+ODD			= UNGERADE			##	Rundet eine Zahl auf die nächste ungerade ganze Zahl auf
+PI			= PI				##	Gibt den Wert Pi zurück
+POWER			= POTENZ			##	Gibt als Ergebnis eine potenzierte Zahl zurück
+PRODUCT			= PRODUKT			##	Multipliziert die zugehörigen Argumente
+QUOTIENT		= QUOTIENT			##	Gibt den ganzzahligen Anteil einer Division zurück
+RADIANS			= BOGENMASS			##	Wandelt Grad in Bogenmaß (Radiant) um
+RAND			= ZUFALLSZAHL			##	Gibt eine Zufallszahl zwischen 0 und 1 zurück
+RANDBETWEEN		= ZUFALLSBEREICH		##	Gibt eine Zufallszahl aus dem festgelegten Bereich zurück
+ROMAN			= RÖMISCH			##	Wandelt eine arabische Zahl in eine römische Zahl als Text um
+ROUND			= RUNDEN			##	Rundet eine Zahl auf eine bestimmte Anzahl von Dezimalstellen
+ROUNDDOWN		= ABRUNDEN			##	Rundet die Zahl auf Anzahl_Stellen ab
+ROUNDUP			= AUFRUNDEN			##	Rundet die Zahl auf Anzahl_Stellen auf
+SERIESSUM		= POTENZREIHE			##	Gibt die Summe von Potenzen (zur Berechnung von Potenzreihen und dichotomen Wahrscheinlichkeiten) zurück
+SIGN			= VORZEICHEN			##	Gibt das Vorzeichen einer Zahl zurück
+SIN			= SIN				##	Gibt den Sinus einer Zahl zurück
+SINH			= SINHYP			##	Gibt den hyperbolischen Sinus einer Zahl zurück
+SQRT			= WURZEL			##	Gibt die Quadratwurzel einer Zahl zurück
+SQRTPI			= WURZELPI			##	Gibt die Wurzel aus der mit Pi (pi) multiplizierten Zahl zurück
+SUBTOTAL		= TEILERGEBNIS			##	Gibt ein Teilergebnis in einer Liste oder Datenbank zurück
+SUM			= SUMME				##	Addiert die zugehörigen Argumente
+SUMIF			= SUMMEWENN			##	Addiert Zahlen, die mit den Suchkriterien übereinstimmen
+SUMIFS			= SUMMEWENNS			##	Die Zellen, die mehrere Kriterien erfüllen, werden in einem Bereich hinzugefügt
+SUMPRODUCT		= SUMMENPRODUKT			##	Gibt die Summe der Produkte zusammengehöriger Matrixkomponenten zurück
+SUMSQ			= QUADRATESUMME			##	Gibt die Summe der quadrierten Argumente zurück
+SUMX2MY2		= SUMMEX2MY2			##	Gibt die Summe der Differenzen der Quadrate für zusammengehörige Komponenten zweier Matrizen zurück
+SUMX2PY2		= SUMMEX2PY2			##	Gibt die Summe der Quadrate für zusammengehörige Komponenten zweier Matrizen zurück
+SUMXMY2			= SUMMEXMY2			##	Gibt die Summe der quadrierten Differenzen für zusammengehörige Komponenten zweier Matrizen zurück
+TAN			= TAN				##	Gibt den Tangens einer Zahl zurück
+TANH			= TANHYP			##	Gibt den hyperbolischen Tangens einer Zahl zurück
+TRUNC			= KÜRZEN			##	Schneidet die Kommastellen einer Zahl ab und gibt als Ergebnis eine ganze Zahl zurück
+
+
+##
+##	Statistical functions				Statistische Funktionen
+##
+AVEDEV			= MITTELABW			##	Gibt die durchschnittliche absolute Abweichung einer Reihe von Merkmalsausprägungen und ihrem Mittelwert zurück
+AVERAGE			= MITTELWERT			##	Gibt den Mittelwert der zugehörigen Argumente zurück
+AVERAGEA		= MITTELWERTA			##	Gibt den Mittelwert der zugehörigen Argumente, die Zahlen, Text und Wahrheitswerte enthalten, zurück
+AVERAGEIF		= MITTELWERTWENN		##	Der Durchschnittswert (arithmetisches Mittel) für alle Zellen in einem Bereich, die einem angegebenen Kriterium entsprechen, wird zurückgegeben
+AVERAGEIFS		= MITTELWERTWENNS		##	Gibt den Durchschnittswert (arithmetisches Mittel) aller Zellen zurück, die mehreren Kriterien entsprechen
+BETADIST		= BETAVERT			##	Gibt die Werte der kumulierten Betaverteilungsfunktion zurück
+BETAINV			= BETAINV			##	Gibt das Quantil der angegebenen Betaverteilung zurück
+BINOMDIST		= BINOMVERT			##	Gibt Wahrscheinlichkeiten einer binomialverteilten Zufallsvariablen zurück
+CHIDIST			= CHIVERT			##	Gibt Werte der Verteilungsfunktion (1-Alpha) einer Chi-Quadrat-verteilten Zufallsgröße zurück
+CHIINV			= CHIINV			##	Gibt Quantile der Verteilungsfunktion (1-Alpha) der Chi-Quadrat-Verteilung zurück
+CHITEST			= CHITEST			##	Gibt die Teststatistik eines Unabhängigkeitstests zurück
+CONFIDENCE		= KONFIDENZ			##	Ermöglicht die Berechnung des 1-Alpha Konfidenzintervalls für den Erwartungswert einer Zufallsvariablen
+CORREL			= KORREL			##	Gibt den Korrelationskoeffizienten zweier Reihen von Merkmalsausprägungen zurück
+COUNT			= ANZAHL			##	Gibt die Anzahl der Zahlen in der Liste mit Argumenten an
+COUNTA			= ANZAHL2			##	Gibt die Anzahl der Werte in der Liste mit Argumenten an
+COUNTBLANK		= ANZAHLLEEREZELLEN		##	Gibt die Anzahl der leeren Zellen in einem Bereich an
+COUNTIF			= ZÄHLENWENN			##	Gibt die Anzahl der Zellen in einem Bereich an, deren Inhalte mit den Suchkriterien übereinstimmen
+COUNTIFS		= ZÄHLENWENNS			##	Gibt die Anzahl der Zellen in einem Bereich an, deren Inhalte mit mehreren Suchkriterien übereinstimmen
+COVAR			= KOVAR				##	Gibt die Kovarianz zurück, den Mittelwert der für alle Datenpunktpaare gebildeten Produkte der Abweichungen
+CRITBINOM		= KRITBINOM			##	Gibt den kleinsten Wert zurück, für den die kumulierten Wahrscheinlichkeiten der Binomialverteilung kleiner oder gleich einer Grenzwahrscheinlichkeit sind
+DEVSQ			= SUMQUADABW			##	Gibt die Summe der quadrierten Abweichungen der Datenpunkte von ihrem Stichprobenmittelwert zurück
+EXPONDIST		= EXPONVERT			##	Gibt Wahrscheinlichkeiten einer exponential verteilten Zufallsvariablen zurück
+FDIST			= FVERT				##	Gibt Werte der Verteilungsfunktion (1-Alpha) einer F-verteilten Zufallsvariablen zurück
+FINV			= FINV				##	Gibt Quantile der F-Verteilung zurück
+FISHER			= FISHER			##	Gibt die Fisher-Transformation zurück
+FISHERINV		= FISHERINV			##	Gibt die Umkehrung der Fisher-Transformation zurück
+FORECAST		= PROGNOSE			##	Gibt einen Wert zurück, der sich aus einem linearen Trend ergibt
+FREQUENCY		= HÄUFIGKEIT			##	Gibt eine Häufigkeitsverteilung als vertikale Matrix zurück
+FTEST			= FTEST				##	Gibt die Teststatistik eines F-Tests zurück
+GAMMADIST		= GAMMAVERT			##	Gibt Wahrscheinlichkeiten einer gammaverteilten Zufallsvariablen zurück
+GAMMAINV		= GAMMAINV			##	Gibt Quantile der Gammaverteilung zurück
+GAMMALN			= GAMMALN			##	Gibt den natürlichen Logarithmus der Gammafunktion zurück, Γ(x)
+GEOMEAN			= GEOMITTEL			##	Gibt das geometrische Mittel zurück
+GROWTH			= VARIATION			##	Gibt Werte zurück, die sich aus einem exponentiellen Trend ergeben
+HARMEAN			= HARMITTEL			##	Gibt das harmonische Mittel zurück
+HYPGEOMDIST		= HYPGEOMVERT			##	Gibt Wahrscheinlichkeiten einer hypergeometrisch-verteilten Zufallsvariablen zurück
+INTERCEPT		= ACHSENABSCHNITT		##	Gibt den Schnittpunkt der Regressionsgeraden zurück
+KURT			= KURT				##	Gibt die Kurtosis (Exzess) einer Datengruppe zurück
+LARGE			= KGRÖSSTE			##	Gibt den k-größten Wert einer Datengruppe zurück
+LINEST			= RGP				##	Gibt die Parameter eines linearen Trends zurück
+LOGEST			= RKP				##	Gibt die Parameter eines exponentiellen Trends zurück
+LOGINV			= LOGINV			##	Gibt Quantile der Lognormalverteilung zurück
+LOGNORMDIST		= LOGNORMVERT			##	Gibt Werte der Verteilungsfunktion einer lognormalverteilten Zufallsvariablen zurück
+MAX			= MAX				##	Gibt den Maximalwert einer Liste mit Argumenten zurück
+MAXA			= MAXA				##	Gibt den Maximalwert einer Liste mit Argumenten zurück, die Zahlen, Text und Wahrheitswerte enthalten
+MEDIAN			= MEDIAN			##	Gibt den Median der angegebenen Zahlen zurück
+MIN			= MIN				##	Gibt den Minimalwert einer Liste mit Argumenten zurück
+MINA			= MINA				##	Gibt den kleinsten Wert einer Liste mit Argumenten zurück, die Zahlen, Text und Wahrheitswerte enthalten
+MODE			= MODALWERT			##	Gibt den am häufigsten vorkommenden Wert in einer Datengruppe zurück
+NEGBINOMDIST		= NEGBINOMVERT			##	Gibt Wahrscheinlichkeiten einer negativen, binominal verteilten Zufallsvariablen zurück
+NORMDIST		= NORMVERT			##	Gibt Wahrscheinlichkeiten einer normal verteilten Zufallsvariablen zurück
+NORMINV			= NORMINV			##	Gibt Quantile der Normalverteilung zurück
+NORMSDIST		= STANDNORMVERT			##	Gibt Werte der Verteilungsfunktion einer standardnormalverteilten Zufallsvariablen zurück
+NORMSINV		= STANDNORMINV			##	Gibt Quantile der Standardnormalverteilung zurück
+PEARSON			= PEARSON			##	Gibt den Pearsonschen Korrelationskoeffizienten zurück
+PERCENTILE		= QUANTIL			##	Gibt das Alpha-Quantil einer Gruppe von Daten zurück
+PERCENTRANK		= QUANTILSRANG			##	Gibt den prozentualen Rang (Alpha) eines Werts in einer Datengruppe zurück
+PERMUT			= VARIATIONEN			##	Gibt die Anzahl der Möglichkeiten zurück, um k Elemente aus einer Menge von n Elementen ohne Zurücklegen zu ziehen
+POISSON			= POISSON			##	Gibt Wahrscheinlichkeiten einer poissonverteilten Zufallsvariablen zurück
+PROB			= WAHRSCHBEREICH		##	Gibt die Wahrscheinlichkeit für ein von zwei Werten eingeschlossenes Intervall zurück
+QUARTILE		= QUARTILE			##	Gibt die Quartile der Datengruppe zurück
+RANK			= RANG				##	Gibt den Rang zurück, den eine Zahl innerhalb einer Liste von Zahlen einnimmt
+RSQ			= BESTIMMTHEITSMASS		##	Gibt das Quadrat des Pearsonschen Korrelationskoeffizienten zurück
+SKEW			= SCHIEFE			##	Gibt die Schiefe einer Verteilung zurück
+SLOPE			= STEIGUNG			##	Gibt die Steigung der Regressionsgeraden zurück
+SMALL			= KKLEINSTE			##	Gibt den k-kleinsten Wert einer Datengruppe zurück
+STANDARDIZE		= STANDARDISIERUNG		##	Gibt den standardisierten Wert zurück
+STDEV			= STABW				##	Schätzt die Standardabweichung ausgehend von einer Stichprobe
+STDEVA			= STABWA			##	Schätzt die Standardabweichung ausgehend von einer Stichprobe, die Zahlen, Text und Wahrheitswerte enthält
+STDEVP			= STABWN			##	Berechnet die Standardabweichung ausgehend von der Grundgesamtheit
+STDEVPA			= STABWNA			##	Berechnet die Standardabweichung ausgehend von der Grundgesamtheit, die Zahlen, Text und Wahrheitswerte enthält
+STEYX			= STFEHLERYX			##	Gibt den Standardfehler der geschätzten y-Werte für alle x-Werte der Regression zurück
+TDIST			= TVERT				##	Gibt Werte der Verteilungsfunktion (1-Alpha) einer (Student) t-verteilten Zufallsvariablen zurück
+TINV			= TINV				##	Gibt Quantile der t-Verteilung zurück
+TREND			= TREND				##	Gibt Werte zurück, die sich aus einem linearen Trend ergeben
+TRIMMEAN		= GESTUTZTMITTEL		##	Gibt den Mittelwert einer Datengruppe zurück, ohne die Randwerte zu berücksichtigen
+TTEST			= TTEST				##	Gibt die Teststatistik eines Student'schen t-Tests zurück
+VAR			= VARIANZ			##	Schätzt die Varianz ausgehend von einer Stichprobe
+VARA			= VARIANZA			##	Schätzt die Varianz ausgehend von einer Stichprobe, die Zahlen, Text und Wahrheitswerte enthält
+VARP			= VARIANZEN			##	Berechnet die Varianz ausgehend von der Grundgesamtheit
+VARPA			= VARIANZENA			##	Berechnet die Varianz ausgehend von der Grundgesamtheit, die Zahlen, Text und Wahrheitswerte enthält
+WEIBULL			= WEIBULL			##	Gibt Wahrscheinlichkeiten einer weibullverteilten Zufallsvariablen zurück
+ZTEST			= GTEST				##	Gibt den einseitigen Wahrscheinlichkeitswert für einen Gausstest (Normalverteilung) zurück
+
+
+##
+##	Text functions					Textfunktionen
+##
+ASC			= ASC				##	Konvertiert DB-Text in einer Zeichenfolge (lateinische Buchstaben oder Katakana) in SB-Text
+BAHTTEXT		= BAHTTEXT			##	Wandelt eine Zahl in Text im Währungsformat ß (Baht) um
+CHAR			= ZEICHEN			##	Gibt das der Codezahl entsprechende Zeichen zurück
+CLEAN			= SÄUBERN			##	Löscht alle nicht druckbaren Zeichen aus einem Text
+CODE			= CODE				##	Gibt die Codezahl des ersten Zeichens in einem Text zurück
+CONCATENATE		= VERKETTEN			##	Verknüpft mehrere Textelemente zu einem Textelement
+DOLLAR			= DM				##	Wandelt eine Zahl in Text im Währungsformat € (Euro) um
+EXACT			= IDENTISCH			##	Prüft, ob zwei Textwerte identisch sind
+FIND			= FINDEN			##	Sucht nach einem Textwert, der in einem anderen Textwert enthalten ist (Groß-/Kleinschreibung wird unterschieden)
+FINDB			= FINDENB			##	Sucht nach einem Textwert, der in einem anderen Textwert enthalten ist (Groß-/Kleinschreibung wird unterschieden)
+FIXED			= FEST				##	Formatiert eine Zahl als Text mit einer festen Anzahl von Dezimalstellen
+JIS			= JIS				##	Konvertiert SB-Text in einer Zeichenfolge (lateinische Buchstaben oder Katakana) in DB-Text
+LEFT			= LINKS				##	Gibt die Zeichen ganz links in einem Textwert zurück
+LEFTB			= LINKSB			##	Gibt die Zeichen ganz links in einem Textwert zurück
+LEN			= LÄNGE				##	Gibt die Anzahl der Zeichen in einer Zeichenfolge zurück
+LENB			= LÄNGEB			##	Gibt die Anzahl der Zeichen in einer Zeichenfolge zurück
+LOWER			= KLEIN				##	Wandelt Text in Kleinbuchstaben um
+MID			= TEIL				##	Gibt eine bestimmte Anzahl Zeichen aus einer Zeichenfolge ab der von Ihnen angegebenen Stelle zurück
+MIDB			= TEILB				##	Gibt eine bestimmte Anzahl Zeichen aus einer Zeichenfolge ab der von Ihnen angegebenen Stelle zurück
+PHONETIC		= PHONETIC			##	Extrahiert die phonetischen (Furigana-)Zeichen aus einer Textzeichenfolge
+PROPER			= GROSS2			##	Wandelt den ersten Buchstaben aller Wörter eines Textwerts in Großbuchstaben um
+REPLACE			= ERSETZEN			##	Ersetzt Zeichen in Text
+REPLACEB		= ERSETZENB			##	Ersetzt Zeichen in Text
+REPT			= WIEDERHOLEN			##	Wiederholt einen Text so oft wie angegeben
+RIGHT			= RECHTS			##	Gibt die Zeichen ganz rechts in einem Textwert zurück
+RIGHTB			= RECHTSB			##	Gibt die Zeichen ganz rechts in einem Textwert zurück
+SEARCH			= SUCHEN			##	Sucht nach einem Textwert, der in einem anderen Textwert enthalten ist (Groß-/Kleinschreibung wird nicht unterschieden)
+SEARCHB			= SUCHENB			##	Sucht nach einem Textwert, der in einem anderen Textwert enthalten ist (Groß-/Kleinschreibung wird nicht unterschieden)
+SUBSTITUTE		= WECHSELN			##	Ersetzt in einer Zeichenfolge neuen Text gegen alten
+T			= T				##	Wandelt die zugehörigen Argumente in Text um
+TEXT			= TEXT				##	Formatiert eine Zahl und wandelt sie in Text um
+TRIM			= GLÄTTEN			##	Entfernt Leerzeichen aus Text
+UPPER			= GROSS				##	Wandelt Text in Großbuchstaben um
+VALUE			= WERT				##	Wandelt ein Textargument in eine Zahl um

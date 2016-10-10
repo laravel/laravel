@@ -1,0 +1,67 @@
+This README applies to anyone who checks out the source from git.
+
+If you're reading this page on github.com, and you don't have git
+installed or know about git, you can download this repository by
+using the "download" button on github.com, right above the file
+list.
+
+PREAMBLE:
+---------
+
+The git repository is structured in the expected way where "master" is the
+main branch you should use if you want to have bleeding-edge updates.  Any
+other branch should be ignored since it will likely contain unstable
+and/or experimental developments.
+
+Generally speaking you should feel safe using the "master" branch in
+production code.  Anything likely to break will be committed to another
+branch.  Only bugfixes and clean non-breaking feature additions will be
+performed in master.
+
+All releases (post version 4.0.0) are tagged using the version number of
+that release.  Earlier versions exist in a subversion repository at the
+old sourceforge project page.
+
+
+WHAT IS SWIFT MAILER?
+---------------------
+
+Swift Mailer is a component based mailing solution for PHP 5.
+It is released under the MIT license.
+
+Homepage:      http://swiftmailer.org/
+Documentation: http://swiftmailer.org/docs
+Mailing List:  http://groups.google.com/group/swiftmailer
+Bugs:          https://github.com/swiftmailer/swiftmailer/issues
+Repository:    https://github.com/swiftmailer/swiftmailer
+
+Swift Mailer is highly object-oriented by design and lends itself
+to use in complex web application with a great deal of flexibility.
+
+For full details on usage, see the documentation.
+
+
+WHY SO MUCH CLUTTER?
+--------------------
+As you can probably see, there are a lot more files in here than you find in
+the pre-packaged versions.  That's because I store notes (UML, RFCs etc) in
+the repository.
+
+The main library files live in /lib and the tests live in /tests.  You can run
+the tests by pointing your web browser at /test-suite, or by running the
+command "php test-suite/run.php".  Some tests will be "skipped" if
+tests/smoke.conf.php and tests/acceptance.conf.php are not edited.  This is
+harmless and normal.
+
+If you want to create a bundled-up package from subversion you can do so if
+you have Ant (http://ant.apache.org/) installed.  Simply run "ant package"
+from this directory and the tar.gz file will be created in the /build
+directory.
+
+Running the command "ant" with no arguments will bundle up the package without
+compressing it into a tar.gz file.
+
+Tests can also be run using "ant test" provided php is on your PATH
+environment variable.
+
+EoM

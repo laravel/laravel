@@ -1,0 +1,59 @@
+<html>
+    <head><title>Test of form submission</title></head>
+    <body>
+        <form action="network_confirm.php" method="get">
+            <label for="A">Multiple selection A</label>
+            <select name="a" id="A" multiple>
+                <option>a1</option>
+                <option selected>a2</option>
+                <option selected>a3</option>
+                <option>a4</option>
+            </select>
+            <br />
+            Multiple checkboxes B
+            <input type="checkbox" name="b" value="b1">
+            <input type="checkbox" name="b" value="b2" checked>
+            <input type="checkbox" name="b" value="b3" checked>
+            <input type="checkbox" name="b" value="b4">
+            <br />
+            PHP compatible <label for="C">multiple selection C</label>
+            <select name="c[]" id="C" multiple>
+                <option>c1</option>
+                <option selected>c2</option>
+                <option selected>c3</option>
+                <option>c4</option>
+            </select>
+            <br />
+            <label for="D">Multiple selection D</label>
+            <select name="d" id="D" multiple>
+                <option value="1">d1</option>
+                <option value="2" selected>d2</option>
+                <option value="3" selected>d3</option>
+                <option value="4">d4</option>
+            </select>
+            <br />
+            <label for="E">Multiple selection E</label>
+            <select name="e" id="E" multiple>
+                <option value="1">e1</option>
+                <option value="2" selected>e2</option>
+                <option value="3" selected>e3</option>
+                <option value="4">e4</option>
+            </select>
+            <br />
+            <label for="F1">Text area F1
+                <textarea cols="40" name="f" id="F1">
+                    First
+                    lines
+                </textarea>
+            </label>
+            <br />
+            <label for="F2">Text area F2
+                <textarea cols="40" name="f" id="F2">
+                    Next
+                    lines
+                </textarea>
+            </label>
+            <input type="submit" name="go" value="Go!">
+        </form>
+    </body>
+</html>

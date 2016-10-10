@@ -1,0 +1,332 @@
+<?xml version="1.0"?>
+<!-- $Id: group_test_documentation.xml 1812 2008-09-27 01:46:42Z lastcraft $ -->
+<page title="Test suite documentation" here="Group tests">
+    <long_title>SimpleTest for PHP test suites</long_title>
+    <content>
+        <section name="group" title="Grouping tests into suites">
+            <p>
+                To run test cases as part of a group, the test cases should really
+                be placed in files without the runner code...
+<php><![CDATA[
+<strong><?php
+require_once('../classes/io.php');
+
+class FileTester extends UnitTestCase {
+    ...
+}
+
+class SocketTester extends UnitTestCase {
+    ...
+}
+?></strong>
+]]></php>
+                As many cases as needed can appear in a single file.
+                They should include any code they need, such as the library
+                being tested, but none of the simple test libraries.
+            </p>
+            <p>
+                If you have extended any test cases, you can include them
+                as well. In PHP 4...
+<php><![CDATA[
+<?php
+    require_once('../classes/io.php');
+<strong>
+    class MyFileTestCase extends UnitTestCase {
+        ...
+    }
+    SimpleTest::ignore('MyFileTestCase');</strong>
+
+    class FileTester extends MyFileTestCase { ... }
+
+    class SocketTester extends UnitTestCase { ... }
+?>
+]]></php>
+                The <code>FileTester</code> class does
+                not contain any actual tests, but is a base class for other
+                test cases.
+                For this reason we use the
+                <code>SimpleTestOptions::ignore()</code> directive
+                to tell the upcoming group test to ignore it.
+                This directive can appear anywhere in the file and works
+                when a whole file of test cases is loaded (see below).
+            </p>
+            <p>
+                If you are using PHP 5, you do not need this special directive at all.
+                Simply mark any test cases that should not be run as abstract...
+<php><![CDATA[
+<strong>abstract</strong> class MyFileTestCase extends UnitTestCase {
+    ...
+}
+
+class FileTester extends MyFileTestCase { ... }
+
+class SocketTester extends UnitTestCase { ... }
+]]></php>
+            </p>
+            <p>
+                We will call this sample <em>file_test.php</em>.
+                Next we create a group test file, called say <em>my_group_test.php</em>.
+                You will think of a better name I am sure.
+            </p>
+            <p>
+                We will add the test file using a safe method...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('file_test.php');
+
+    $test = &new TestSuite('All file tests');
+    $test->addTestCase(new FileTestCase());
+    $test->run(new HtmlReporter());</strong>
+?>
+]]></php>
+                This instantiates the test case before the test suite is
+                run.
+                This could get a little expensive with a large number of test
+                cases, and can be surprising behaviour.
+            </p>
+            <p>
+                The main problem is that for every test case
+                that we add we will have
+                to <code>require_once()</code> the test code
+                file and manually instantiate each and every test case.
+            </p>
+            <p>
+                We can save a lot of typing with...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+
+    $test = &new TestSuite('All file tests');<strong>
+    $test->addTestFile('file_test.php');</strong>
+    $test->run(new HtmlReporter());
+?&gt;
+]]></php>
+                What happens here is that the <code>TestSuite</code>
+                class has done the <code>require_once()</code>
+                for us.
+                It then checks to see if any new test case classes
+                have been created by the new file and automatically adds
+                them to the group test.
+                Now all we have to do is add each new file.
+            </p>
+            <p>
+                No only that, but you can guarantee that the constructor is run
+                just before the first test method and, in PHP 5, the destructor
+                is run just after the last test method.
+            </p>
+            <p>
+                There are two things that could go wrong and which require care...
+                <ol>
+                    <li>
+                        The file could already have been parsed by PHP, and so no
+                        new classes will have been added. You should make
+                        sure that the test cases are only included in this file
+                        and no others (Note : with the new <cite>autorun</cite>
+                        functionnality, this problem has now been solved).
+                    </li>
+                    <li>
+                        New test case extension classes that get included will be
+                        placed in the group test and run also.
+                        You will need to add a <code>SimpleTestOptions::ignore()</code>
+                        directive for these classes, or make sure that they are included
+                        before the <code>TestSuite::addTestFile()</code>
+                        line, or make sure that they are abstract classes.
+                    </li>
+                </ol>
+            </p>
+        </section>
+        <section name="higher" title="Composite suites">
+            <p>
+                The above method places all of the test cases into one large group.
+                For larger projects though this may not be flexible enough; you
+                may want to group the tests in all sorts of ways.
+            </p>
+            <p>
+                To get a more flexible group test we can subclass
+                <code>TestSuite</code> and then instantiate it as needed...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    <strong>
+    class FileTestSuite extends TestSuite {
+        function FileTestSuite() {
+            $this->TestSuite('All file tests');
+            $this->addTestFile('file_test.php');
+        }
+    }</strong>
+?>
+]]></php>
+                This effectively names the test in the constructor and then
+                adds our test cases and a single group below.
+                Of course we can add more than one group at this point.
+                We can now invoke the tests from a separate runner file...
+<php><![CDATA[
+<?php
+    require_once('file_test_suite.php');
+    <strong>
+    $test = &new FileTestSuite();
+    $test->run(new HtmlReporter());</strong>
+?>
+]]></php>
+                ...or we can group them into even larger group tests.
+                We can even mix groups and test cases freely as long as
+                we are careful about double includes...
+<php><![CDATA[
+<?php
+    <strong>
+    $test = &new BigTestSuite('Big group');
+    $test->addTestFile('file_test_suite.php');
+    $test->addTestFile('some_test_case.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                In the event of a double include, ony the first instance
+                of the test case will be run.
+            </p>
+            <p>
+                If we still wish to run the original group test, and we
+                don&apos;t want all of these little runner files, we can
+                put the test runner code around guard bars when we create
+                each group.
+<php><![CDATA[
+<?php
+    class FileTestSuite extends TestSuite {
+        function FileTestSuite() {
+            $this->TestSuite('All file tests');
+            $test->addTestFile('file_test.php');
+        }
+    }
+    <strong>
+    if (! defined('RUNNER')) {
+        define('RUNNER', true);</strong>
+        $test = &new FileTestSuite();
+        $test->run(new HtmlReporter());
+    }
+?>
+]]></php>
+                This approach requires the guard to be set when including
+                the group test file, but this is still less hassle than
+                lots of separate runner files.
+                You include the same guard on the top level tests to make sure
+                that <code>run()</code> will run once only
+                from the top level script that has been invoked.
+<php><![CDATA[
+<?php<strong>
+    define('RUNNER', true);</strong>
+    require_once('file_test_suite.php');
+
+    $test = &new BigTestSuite('Big group');
+    $test->addTestCase(new FileTestSuite());
+    $test->addTestCase(...);
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                As with the normal test cases, a <code>TestSuite</code> can
+                be loaded with the <code>TestSuite::addTestFile()</code> method.
+<php><![CDATA[
+<?php
+    define('RUNNER', true);
+
+    $test = &new BigTestSuite('Big group');<strong>
+    $test->addTestFile('file_test_suite.php');
+    $test->addTestFile(...);</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+            </p>
+        </section>
+        <section name="legacy" title="Integrating legacy test cases">
+            <p>
+                If you already have unit tests for your code or are extending external
+                classes that have tests, it is unlikely that all of the test cases
+                are in SimpleTest format.
+                Fortunately it is possible to incorporate test cases from other
+                unit testers directly into SimpleTest group tests.
+            </p>
+            <p>
+                Say we have the following
+                <a href="http://sourceforge.net/projects/phpunit">PhpUnit</a>
+                test case in the file <em>config_test.php</em>...
+<php><![CDATA[
+<strong>class ConfigFileTest extends TestCase {
+    function ConfigFileTest() {
+        $this->TestCase('Config file test');
+    }
+    
+    function testContents() {
+        $config = new ConfigFile('test.conf');
+        $this->assertRegexp('/me/', $config->getValue('username'));
+    }
+}</strong>
+]]></php>
+                The group test can recognise this as long as we include
+                the appropriate adapter class before we add the test
+                file...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('simpletest/adapters/phpunit_test_case.php');</strong>
+
+    $test = &new TestSuite('All file tests');<strong>
+    $test->addTestFile('config_test.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                There are only two adapters, the other is for the
+                <a href="http://pear.php.net/manual/en/package.php.phpunit.php">PEAR</a>
+                1.0 unit tester...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('simpletest/adapters/pear_test_case.php');</strong>
+
+    $test = &new TestSuite('All file tests');<strong>
+    $test->addTestFile('some_pear_test_cases.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                The PEAR test cases can be freely mixed with SimpleTest
+                ones even in the same test file,
+                but you cannot use SimpleTest assertions in the legacy
+                test case versions.
+                This is done as a check that you are not accidently making
+                your test cases completely dependent on SimpleTest.
+                You may want to do a PEAR release of your library for example,
+                which would mean shipping it with valid PEAR::PhpUnit test
+                cases.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Different ways to <a href="#group">group tests</a> together.
+        </link>
+        <link>
+            Combining group tests into <a href="#higher">larger groups</a>.
+        </link>
+        <link>
+            Integrating <a href="#legacy">legacy test cases</a> from other
+            types of PHPUnit.
+        </link>
+    </internal>
+    <external>
+        <link>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            php unit testing, test integration, documentation, marcus baker, simple test,
+            simpletest documentation, phpunit, pear
+        </keywords>
+    </meta>
+</page>

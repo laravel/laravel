@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: books_website.xml 1686 2008-03-06 08:55:19Z pp11 $ -->
+<page title="Livres" here="Livres">
+    <synchronisation lang="en" version="1684" date="06/03/2008" maintainer="pp11" />
+    <long_title>Livres avec / à propos / pas loin de SimpleTest</long_title>
+    <content>
+        <section name="latest-recommandation" title="Dernière recommandation">
+            <p>
+                De temps en temsp, un livre est recommandé sur la mailing-list,
+                vous le trouverez ci-dessous avec les commentaires originaux !
+            </p>
+            <p>
+                <a href="http://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215?ie=UTF8&amp;tag=simpletest-21&amp;"><img src="../images/book-domain-driven-design.jpg" alt="Domain-Driven Design: Tackling Complexity in the Heart of Software" /></a>
+            </p>
+            <blockquote>
+                Le Développement Piloté par les Tests est principalement intéressé par
+                les mécanismes pour coder, mais il dit que c'est fini quand il n'y plus
+                de duplication. Le Développement Piloté par la Conception (DDD) considère
+                que le code est constamment <strike>in churn</strike>, changeant de terminologie au
+                fur et à mesure que le domaine devient plus clair, et aussi nourrisant le domaine
+                avec des nouveaux termes quand le code évolue..<br />
+                <br />
+                Et puis, c'est un super bouquin :)
+                [<a href="http://sourceforge.net/mailarchive/message.php?msg_id=37546605">source</a>]
+            </blockquote>
+        </section>
+        <section name="books-by-contributors" title="Livres par des contributeurs">
+            <p>
+                Deux contributeurs de Simpletest ont écrit des livres sur PHP.
+                Tous les deux ont de nombreux exemples avec le framework SimpleTest.
+            </p>
+            <p>
+                <a href="http://www.amazon.fr/gp/product/0973589825?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=as2&amp;camp=1642&amp;creative=6746&amp;creativeASIN=0973589825"><img src="../images/book-guide-to-php-design-patterns.jpg" alt="PHP|Architect's Guide to PHP Design Patterns" /></a>
+                <br />
+                <strong>PHP|Architect's Guide to PHP Design Patterns</strong><br />
+                par Jason E. Sweat<br />
+                (l'obtenir depuis : <a href="http://www.phparch.com/shop_product.php?itemid=96">PHP|Architect</a> |
+                <a href="http://www.amazon.fr/gp/product/0973589825?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=as2&amp;camp=1642&amp;creative=6746&amp;creativeASIN=0973589825">Amazon</a> )
+            </p>
+            <p>
+                <a href="http://www.amazon.fr/gp/product/0957921845/402-9483515-6732155?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=xm2&amp;camp=1642&amp;creativeASIN=0957921845"><img src="../images/book-the-php-anthology-object-oriented-php-solutions.jpg" alt="The PHP Anthology: Object Oriented PHP Solutions" /></a>
+                <br />
+                <strong>The PHP Anthology: Object Oriented PHP Solutions</strong><br />
+                par Harry Fuecks<br />
+                (l'obtenir depuis : <a href="http://www.sitepoint.com/books/phpant1/">SitePoint</a> | 
+                <a href="http://www.amazon.fr/gp/product/0957921845/402-9483515-6732155?ie=UTF8&amp;tag=simpletest-21&amp;linkCode=xm2&amp;camp=1642&amp;creativeASIN=0957921845">Amazon</a> |
+                <a href="http://developers.slashdot.org/article.pl?sid=04/08/04/1516258&amp;amp;tid=169&amp;amp;tid=192&amp;amp;tid=218&amp;amp;mode=nocomment">critique sur Slashdot</a> )
+            </p>
+        </section>
+        <section name="buying-books" title="Achter des livres">
+            <p>
+                Une manière d'aider l'équipe de contributeurs, c'est d'acheter des livres via
+                cete page avec Amazon (avec le mot-clé <cite>simpletest-21</cite>).
+                Nous adorons tous lire des trucs à la fois intéressants et stimulants.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#latest-recommandation">Latest recommandation</a>
+        </link>
+        <link>
+            <a href="#books-by-contributors">Books by contributors</a>
+        </link>
+        <link>
+            <a href="#buying-books">Buying books</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+        </keywords>
+    </meta>
+</page>

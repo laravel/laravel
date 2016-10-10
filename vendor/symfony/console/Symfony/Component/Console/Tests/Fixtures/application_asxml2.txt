@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symfony>
+  <commands namespace="foo">
+    <command id="foo:bar" name="foo:bar">
+  <usage>foo:bar</usage>
+  <description>The foo:bar command</description>
+  <help/>
+  <aliases>
+    <alias>afoobar</alias>
+  </aliases>
+  <arguments/>
+    <options>
+      <option name="--help" shortcut="-h" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Display this help message.</description>
+      </option>
+      <option name="--quiet" shortcut="-q" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Do not output any message.</description>
+      </option>
+      <option name="--verbose" shortcut="-v" shortcuts="-v|-vv|-vvv" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug</description>
+      </option>
+      <option name="--version" shortcut="-V" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Display this application version.</description>
+      </option>
+      <option name="--ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Force ANSI output.</description>
+      </option>
+      <option name="--no-ansi" shortcut="" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Disable ANSI output.</description>
+      </option>
+      <option name="--no-interaction" shortcut="-n" accept_value="0" is_value_required="0" is_multiple="0">
+        <description>Do not ask any interactive question.</description>
+      </option>
+    </options>
+</command>
+  </commands>
+</symfony>

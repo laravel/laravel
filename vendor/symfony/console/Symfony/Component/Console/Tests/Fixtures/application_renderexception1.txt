@@ -1,0 +1,8 @@
+
+
+                                 
+  [InvalidArgumentException]     
+  Command "foo" is not defined.  
+                                 
+
+

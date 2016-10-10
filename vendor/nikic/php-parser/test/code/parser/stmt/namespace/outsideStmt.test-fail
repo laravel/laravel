@@ -1,0 +1,13 @@
+There (mostly) can't be statements outside of namespaces
+-----
+<?php
+echo 1;
+namespace A;
+-----
+Namespace declaration statement has to be the very first statement in the script on line 3
+-----
+<?php
+namespace A {}
+echo 1;
+-----
+No code may exist outside of namespace {} on line 3

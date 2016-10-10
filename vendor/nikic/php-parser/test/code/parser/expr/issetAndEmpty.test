@@ -1,0 +1,75 @@
+isset() and empty()
+-----
+<?php
+isset($a);
+isset($a, $b, $c);
+
+empty($a);
+empty(foo());
+empty(array(1, 2, 3));
+-----
+array(
+    0: Expr_Isset(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Expr_Isset(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+            1: Expr_Variable(
+                name: b
+            )
+            2: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    2: Expr_Empty(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Expr_Empty(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: foo
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    4: Expr_Empty(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 1
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 2
+                    )
+                    byRef: false
+                )
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 3
+                    )
+                    byRef: false
+                )
+            )
+        )
+    )
+)

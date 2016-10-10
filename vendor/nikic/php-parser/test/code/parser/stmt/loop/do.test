@@ -1,0 +1,17 @@
+Do loop
+-----
+<?php
+
+do {
+
+} while ($a);
+-----
+array(
+    0: Stmt_Do(
+        cond: Expr_Variable(
+            name: a
+        )
+        stmts: array(
+        )
+    )
+)

@@ -1,0 +1,295 @@
+
+== Per-request configuration
+
+There are several configurations that can be set on a per-request basis, rather than at a connection- or client-level.
+These are specified as part of the request associative array.
+
+=== Ignoring exceptions
+The library attempts to throw exceptions for common problems.  These exceptions match the HTTP response code provided
+by Elasticsearch.  For example, attempting to GET a nonexistent document will throw a `MissingDocument404Exception`.
+
+Exceptions are a useful and consistent way to deal with problems like missing documents, syntax errors, version
+conflicts, etc.  But sometimes you want to deal with the response body rather than catch exceptions (often useful
+in test suites).
+
+If you need that behavior, you can configure an `ignore` parameter.  This should be configured in the `client` parameter
+of the reuqest array.  For example, this example will ignore the `MissingDocument404Exception`
+exception and instead return the JSON provided by Elasticsearch.
+
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index'  => 'test_missing',
+    'type'   => 'test',
+    'id'     => 1,
+    'client' => [ 'ignore' => 404 ] <1>
+];
+echo $client->get($params);
+
+> {"_index":"test_missing","_type":"test","_id":"1","found":false}
+----
+<1> This will ignore just the 404 missing exception
+
+You can specify multiple HTTP status codes to ignore, by providing an array of values:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index'  => 'test_missing',
+    'type'   => 'test',
+    'client' => [ 'ignore' => [400, 404] ] <1>
+];
+echo $client->get($params);
+
+> No handler found for uri [/test_missing/test/] and method [GET]
+
+----
+<1> `ignore` also accepts an array of exceptions to ignore. In this example,
+the `BadRequest400Exception` is being ignored
+
+
+It should be noted that the response is simply a string, which may or may not be encoded as JSON.  In the first example,
+the response body was a complete JSON object which could be decoded.  In the second example, it was simply a string.
+
+Since the client has no way of knowing what the exception response will contain, no attempts to decode it are taken.
+
+=== Providing custom query parameters
+
+Sometimes you need to provide custom query params, such as authentication tokens for a third-party plugin or proxy.
+All query parameters are white-listed in Elasticsearch-php, which is to protect you from specifying a param which is
+not accepted by Elasticsearch.
+
+If you need custom parameters, you need to bypass this whitelisting mechanism.  To do so, add them to the `custom`
+parameter as an array of values:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'parent' => 'abc',              // white-listed Elasticsearch parameter
+    'client' => [
+        'custom' => [
+            'customToken' => 'abc', // user-defined, not white listed, not checked
+            'otherToken' => 123
+        ]
+    ]
+];
+$exists = $client->exists($params);
+----
+
+
+=== Increasing the Verbosity of responses
+
+By default, the client will only return the response body.  If you require more information (e.g. stats about the transfer,
+headers, status codes, etc), you can tell the client to return a more verbose response.  This is enabled via the
+`verbose` parameter in the client options.
+
+Without verbosity, all you see is the response body:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1
+];
+$response = $client->get($params);
+print_r($response);
+
+
+Array
+(
+    [_index] => test
+    [_type] => test
+    [_id] => 1
+    [_version] => 1
+    [found] => 1
+    [_source] => Array
+        (
+            [field] => value
+        )
+
+)
+----
+
+With verbosity turned on, you will see all of the transfer stats:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'verbose' => true
+    ]
+];
+$response = $client->get($params);
+print_r($response);
+
+
+Array
+(
+    [transfer_stats] => Array
+        (
+            [url] => http://127.0.0.1:9200/test/test/1
+            [content_type] => application/json; charset=UTF-8
+            [http_code] => 200
+            [header_size] => 86
+            [request_size] => 51
+            [filetime] => -1
+            [ssl_verify_result] => 0
+            [redirect_count] => 0
+            [total_time] => 0.00289
+            [namelookup_time] => 9.7E-5
+            [connect_time] => 0.000265
+            [pretransfer_time] => 0.000322
+            [size_upload] => 0
+            [size_download] => 96
+            [speed_download] => 33217
+            [speed_upload] => 0
+            [download_content_length] => 96
+            [upload_content_length] => -1
+            [starttransfer_time] => 0.002796
+            [redirect_time] => 0
+            [redirect_url] =>
+            [primary_ip] => 127.0.0.1
+            [certinfo] => Array
+                (
+                )
+
+            [primary_port] => 9200
+            [local_ip] => 127.0.0.1
+            [local_port] => 62971
+        )
+
+    [curl] => Array
+        (
+            [error] =>
+            [errno] => 0
+        )
+
+    [effective_url] => http://127.0.0.1:9200/test/test/1
+    [headers] => Array
+        (
+            [Content-Type] => Array
+                (
+                    [0] => application/json; charset=UTF-8
+                )
+
+            [Content-Length] => Array
+                (
+                    [0] => 96
+                )
+
+        )
+
+    [status] => 200
+    [reason] => OK
+    [body] => Array
+        (
+            [_index] => test
+            [_type] => test
+            [_id] => 1
+            [_version] => 1
+            [found] => 1
+            [_source] => Array
+                (
+                    [field] => value
+                )
+        )
+)
+----
+
+=== Curl Timeouts
+
+It is possible to configure per-request curl timeouts via the `timeout` and `connect_timeout` parameters.  These
+control the client-side, curl timeouts.  The `connect_timeout` paramter controls how long curl should wait for the
+"connect" phase to finish, while the `timeout` parameter controls how long curl should wait for the entire request
+to finish.
+
+If either timeout expires, curl will close the connection and return an error.  Both parameters should be specified
+in seconds.
+
+Note: client-side timeouts *do not* mean that Elasticsearch aborts the request.  Elasticsearch will continue executing
+the request until it completes.  In the case of a slow query or bulk request, the operation will continue executing
+"in the background", unknown to your client.  If your client kills connections rapidly with a timeout, only to immediately
+execute another request, it is possible to swamp the server with many connections because there is no "back-pressure" on the
+client.  In these situations, you will see the appropriate threadpool queue growing in size, and may start receiving
+`EsRejectedExecutionException` exceptions from Elasticsearch when the queue finally reaches capacity.
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'timeout' => 10,        // ten second timeout
+        'connect_timeout' => 10
+    ]
+];
+$response = $client->get($params);
+----
+
+=== Enabling Future Mode
+
+The client supports asynchronous, batch processing of requests.  This is enabled (if your HTTP handler supports it) on
+a per-request basis via the `future` parameter in the client options:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+$future = $client->get($params);
+$results = $future->wait();       // resolve the future
+----
+
+Future mode supports two options: `true` or `'lazy'`.  For more details about how asynchronous execution functions, and
+how to work with the results, see the dedicated page on <<_future_mode>>.
+
+=== SSL Encryption
+
+Normally, you will specify SSL configurations when you create the client (see <<_security>> for more details), since encryption typically
+applies to all requests. However, it is possible to configure on a per-request basis too if you need that functionality.
+For example, if you  need to use a self-signed cert on a specific request, you can specify it via the `verify` parameter
+in the client options:
+
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'verify' => 'path/to/cacert.pem'      //Use a self-signed certificate
+    ]
+];
+$result = $client->get($params);
+----

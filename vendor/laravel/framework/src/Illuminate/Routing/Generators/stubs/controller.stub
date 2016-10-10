@@ -1,0 +1,7 @@
+<?php{{namespace}}
+
+class {{class}} extends \BaseController {
+
+{{methods}}
+
+}

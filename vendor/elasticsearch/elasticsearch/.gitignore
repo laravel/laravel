@@ -1,0 +1,21 @@
+#composer related
+composer.lock
+vendor/
+composer.phar
+.php_cs.cache
+
+#editor related
+.idea
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+#generator related
+generator/*

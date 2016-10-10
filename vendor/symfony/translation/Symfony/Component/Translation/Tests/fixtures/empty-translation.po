@@ -1,0 +1,3 @@
+msgid "foo"
+msgstr ""
+

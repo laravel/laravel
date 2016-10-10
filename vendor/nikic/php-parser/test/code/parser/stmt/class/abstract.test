@@ -1,0 +1,37 @@
+Abstract class
+-----
+<?php
+
+abstract class A {
+    public function a() {}
+    abstract public function b();
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 16
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                type: 1
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: a
+            )
+            1: Stmt_ClassMethod(
+                type: 17
+                byRef: false
+                params: array(
+                )
+                stmts: null
+                name: b
+            )
+        )
+        name: A
+    )
+)

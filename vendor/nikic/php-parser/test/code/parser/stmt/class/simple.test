@@ -1,0 +1,139 @@
+Class declaration
+-----
+<?php
+
+class A extends B implements C, D {
+    const A = 'B', C = 'D';
+
+    public $a = 'b', $c = 'd';
+    protected $e;
+    private $f;
+
+    public function a() {}
+    public static function b() {}
+    public final function c() {}
+    protected function d() {}
+    private function e() {}
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 0
+        extends: Name(
+            parts: array(
+                0: B
+            )
+        )
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: C
+                )
+            )
+            1: Name(
+                parts: array(
+                    0: D
+                )
+            )
+        )
+        stmts: array(
+            0: Stmt_ClassConst(
+                consts: array(
+                    0: Const(
+                        name: A
+                        value: Scalar_String(
+                            value: B
+                        )
+                    )
+                    1: Const(
+                        name: C
+                        value: Scalar_String(
+                            value: D
+                        )
+                    )
+                )
+            )
+            1: Stmt_Property(
+                type: 1
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: a
+                        default: Scalar_String(
+                            value: b
+                        )
+                    )
+                    1: Stmt_PropertyProperty(
+                        name: c
+                        default: Scalar_String(
+                            value: d
+                        )
+                    )
+                )
+            )
+            2: Stmt_Property(
+                type: 2
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: e
+                        default: null
+                    )
+                )
+            )
+            3: Stmt_Property(
+                type: 4
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: f
+                        default: null
+                    )
+                )
+            )
+            4: Stmt_ClassMethod(
+                type: 1
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: a
+            )
+            5: Stmt_ClassMethod(
+                type: 9
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: b
+            )
+            6: Stmt_ClassMethod(
+                type: 33
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: c
+            )
+            7: Stmt_ClassMethod(
+                type: 2
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: d
+            )
+            8: Stmt_ClassMethod(
+                type: 4
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: e
+            )
+        )
+        name: A
+    )
+)

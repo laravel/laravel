@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="phpseclib Test Standard">
+
+ <description>phpseclib coding standard for tests</description>
+
+ <!-- In general rules that apply to library code also apply to tests. -->
+ <rule ref="./code-sniffer-ruleset.xml">
+   <!-- Exceptions to the library coding standard follow. -->
+
+   <!-- We do not care too much about method, class and file documentation,
+        but having @author, @copyright and @license tags would be nice.
+        The following configuration does not check for these tags, but
+        complains if the file doc block is missing completely. -->
+   <exclude name="PEAR.Commenting.ClassComment" />
+   <exclude name="PEAR.Commenting.FunctionComment" />
+   <exclude name="PEAR.Commenting.FileComment.MissingTag" />
+   <exclude name="PEAR.Commenting.FileComment.MissingVersion" />
+   <exclude name="PEAR.Commenting.FileComment.SpacingBeforeTags" />
+ </rule>
+
+</ruleset>

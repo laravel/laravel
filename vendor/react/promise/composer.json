@@ -1,0 +1,27 @@
+{
+    "name": "react/promise",
+    "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+    "license": "MIT",
+    "authors": [
+        {"name": "Jan Sorgalla", "email": "jsorgalla@gmail.com"}
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "React\\Promise\\": "src/"
+        },
+        "files": ["src/functions_include.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "React\\Promise\\": "tests/fixtures"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+Clone
+-----
+<?php
+
+clone $a;
+-----
+array(
+    0: Expr_Clone(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+)

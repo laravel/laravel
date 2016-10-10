@@ -1,0 +1,46 @@
+Following is a list of character sets along with their widths:
+--------------------------------------------------------------
+
+1 Octet 8bit:
+-------------
+Windows 125* (CP125*)
+CP*
+ANSI
+ISO-8859-* (IEC-8859-*)
+Macintosh (Mac OS Roman)
+KOI8-U (potentially KOI*8-*)
+KOI8-R
+MIK
+Cork (T1)
+ISCII
+VISCII
+
+
+1 Octet 7bit:
+-------------
+US-ASCII
+K0I7
+
+2 octets 16 bit:
+----------------
+UCS-2
+UTF-16* (UTF-16BE etc)
+
+4-octets 32 bit:
+----------------
+UCS-4
+UTF-32
+
+Variable-width:
+----------------------------
+Big5 - http://en.wikipedia.org/wiki/Big5 (1-2 bytes: 00-7f=1, 81-fe=2)
+HKSCS - http://en.wikipedia.org/wiki/HKSCS (a big5 variant, but some variants use 10646)
+ISO-10646 (IEC-10646) - http://en.wikipedia.org/wiki/ISO_10646 (unicode)
+UTF-8 (1-5 bytes)
+ISO-2022 (IEC-2022) - http://en.wikipedia.org/wiki/ISO_2022
+Shift-JIS - http://en.wikipedia.org/wiki/Shift-JIS
+
+A good resource:
+----------------
+http://en.wikipedia.org/wiki/Character_encoding#Simple_character_sets
+

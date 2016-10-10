@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>An authentication exception occurred.</source>
+                <target>Ошибка аутентификации.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Authentication credentials could not be found.</source>
+                <target>Аутентификационные данные не найдены.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Authentication request could not be processed due to a system problem.</source>
+                <target>Запрос аутентификации не может быть обработан в связи с проблемой в системе.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Invalid credentials.</source>
+                <target>Недействительные аутентификационные данные.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Cookie has already been used by someone else.</source>
+                <target>Cookie уже был использован кем-то другим.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Not privileged to request the resource.</source>
+                <target>Отсутствуют права на запрос этого ресурса.</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Invalid CSRF token.</source>
+                <target>Недействительный токен CSRF.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Digest nonce has expired.</source>
+                <target>Время действия одноразового ключа дайджеста истекло.</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>No authentication provider found to support the authentication token.</source>
+                <target>Не найден провайдер аутентификации, поддерживающий токен аутентификации.</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>No session available, it either timed out or cookies are not enabled.</source>
+                <target>Сессия не найдена, ее время истекло, либо cookies не включены.</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>No token could be found.</source>
+                <target>Токен не найден.</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Username could not be found.</source>
+                <target>Имя пользователя не найдено.</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Account has expired.</source>
+                <target>Время действия учетной записи истекло.</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Credentials have expired.</source>
+                <target>Время действия аутентификационных данных истекло.</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Account is disabled.</source>
+                <target>Учетная запись отключена.</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Account is locked.</source>
+                <target>Учетная запись заблокирована.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- $Id: authentication_documentation.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="SimpleTest's Changelog" here="Changelog">
+    <long_title>SimpleTest's Changelog</long_title>
+    <content>
+        <section name="version1.0.1" title="SimpleTest Version 1.0.1">
+            <changelog version="1.0.1" date="07/04/2008">
+            	<bug>
+            		Patches and whitespace clean up
+				</bug>
+            	<change>
+            		Some in line documentation fixes
+				</change>
+            	<patch tracker="1899780">
+            		SimpleFileLoader::load: fix for $test_file already included, by daniel hahler - blueyed
+				</patch>
+            	<change>
+            		New tests for UTF8 inside the browser.
+				</change>
+            	<bug tracker="1853765">
+            		Fixing one of the incompatible interface errors
+				</bug>
+            	<change>
+            		expectException()
+            	</change>
+            </changelog>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Changelog for <a href="#version1.0.1">version 1.0.1</a>
+        </link>
+    </internal>
+    <external>
+        <link>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            The <a href="http://simpletest.org/api/">developer&apos;s API for SimpleTest</a>
+            gives full detail on the classes and assertions available.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming for clients,
+            customer focused php,
+            software development tools,
+            acceptance testing framework,
+            free php scripts,
+            log in boxes,
+            unit testing authentication systems,
+            php resources,
+            HTMLUnit,
+            JWebUnit,
+            php testing,
+            unit test resource,
+            web testing,
+            HTTP authentication,
+            testing log in,
+            authentication testing,
+            security tests
+        </keywords>
+    </meta>
+</page>

@@ -1,0 +1,38 @@
+{
+    "name": "symfony/security-csrf",
+    "type": "library",
+    "description": "Symfony Security Component - CSRF Library",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/security-core": "~2.4"
+    },
+    "require-dev": {
+        "symfony/http-foundation": "~2.1"
+    },
+    "suggest": {
+        "symfony/http-foundation": "For using the class SessionTokenStorage."
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Security\\Csrf\\": "" }
+    },
+    "target-dir": "Symfony/Component/Security/Csrf",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

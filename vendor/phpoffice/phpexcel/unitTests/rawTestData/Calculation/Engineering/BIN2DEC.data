@@ -1,0 +1,10 @@
+"10110010",	"178"
+"1100100",	"100"
+"111001010101",	"#NUM!"		//	Too large
+"101",		"5"
+"10",		"2"
+"0",		"0"
+"21",		"#NUM!"		//	Invalid binary number
+TRUE,		"#VALUE!"	//	Non string
+"1110010101",	"-107"		//	2's Complement
+"1111111111",	"-1"		//	2's Complement

@@ -1,0 +1,40 @@
+Global constants
+-----
+<?php
+
+const A = 0, B = 1.0, C = 'A', D = E;
+-----
+array(
+    0: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: A
+                value: Scalar_LNumber(
+                    value: 0
+                )
+            )
+            1: Const(
+                name: B
+                value: Scalar_DNumber(
+                    value: 1
+                )
+            )
+            2: Const(
+                name: C
+                value: Scalar_String(
+                    value: A
+                )
+            )
+            3: Const(
+                name: D
+                value: Expr_ConstFetch(
+                    name: Name(
+                        parts: array(
+                            0: E
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

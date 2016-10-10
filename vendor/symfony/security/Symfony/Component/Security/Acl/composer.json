@@ -1,0 +1,42 @@
+{
+    "name": "symfony/security-acl",
+    "type": "library",
+    "description": "Symfony Security Component - ACL (Access Control List)",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/security-core": "~2.4"
+    },
+    "require-dev": {
+        "doctrine/common": "~2.2",
+        "doctrine/dbal": "~2.2",
+        "psr/log": "~1.0"
+    },
+    "suggest": {
+        "symfony/class-loader": "For using the ACL generateSql script",
+        "symfony/finder": "For using the ACL generateSql script",
+        "doctrine/dbal": "For using the built-in ACL implementation"
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Security\\Acl\\": "" }
+    },
+    "target-dir": "Symfony/Component/Security/Acl",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

@@ -1,0 +1,270 @@
+== Search Operations
+
+Well...it isn't called elasticsearch for nothing!  Let's talk about search operations in the client.
+
+The client gives you full access to every query and parameter exposed by the REST API, following the naming scheme as
+much as possible. Let's look at a few examples so you can become familiar with the syntax.
+
+=== Match Query
+
+Here is a standard curl for a Match query:
+
+[source,shell]
+----
+curl -XGET 'localhost:9200/my_index/my_type/_search' -d '{
+    "query" : {
+        "match" : {
+            "testField" : "abc"
+        }
+    }
+}'
+----
+{zwsp} +
+
+And here is the same query constructed in the client:
+
+[source,php]
+----
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => [
+        'query' => [
+            'match' => [
+                'testField' => 'abc'
+            ]
+        ]
+    ]
+];
+
+$results = $client->search($params);
+----
+{zwsp} +
+
+Notice how the structure and layout of the PHP array is identical to that of the JSON request body.  This makes it very
+simple to convert JSON examples into PHP.  A quick method to check your PHP array (for more complex examples) is to
+encode it back to JSON and check by eye:
+
+[source,php]
+----
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => [
+        'query' => [
+            'match' => [
+                'testField' => 'abc'
+            ]
+        ]
+    ]
+];
+
+print_r(json_encode($params['body']));
+
+
+{"query":{"match":{"testField":"abc"}}}
+----
+{zwsp} +
+
+
+.Using Raw JSON
+****
+Sometimes it is convenient to use raw JSON for testing purposes, or when migrating from a different system.  You can
+use raw JSON as a string in the body, and the client will detect this automatically:
+
+[source,php]
+----
+$json = '{
+    "query" : {
+        "match" : {
+            "testField" : "abc"
+        }
+    }
+}';
+
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => $json
+];
+
+$results = $client->search($params);
+----
+****
+{zwsp} +
+
+Search results follow the same format as Elasticsearch search response, the only difference is that the JSON response is
+serialized back into PHP arrays. Working with the search results is as simple as iterating over the array values:
+
+[source,php]
+----
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => [
+        'query' => [
+            'match' => [
+                'testField' => 'abc'
+            ]
+        ]
+    ]
+];
+
+$results = $client->search($params);
+
+$milliseconds = $results['took'];
+$maxScore     = $results['hits']['max_score'];
+
+$score = $results['hits']['hits'][0]['_score'];
+$doc   = $results['hits']['hits'][0]['_source'];
+----
+{zwsp} +
+
+=== Bool Queries
+
+Bool queries can be easily constructed using the client. For example, this query:
+[source,shell]
+----
+curl -XGET 'localhost:9200/my_index/my_type/_search' -d '{
+    "query" : {
+        "bool" : {
+            "must": [
+                {
+                    "match" : { "testField" : "abc" }
+                },
+                {
+                    "match" : { "testField2" : "xyz" }
+                }
+            ]
+        }
+    }
+}'
+----
+{zwsp} +
+
+Would be structured like this (Note the position of the square brackets):
+[source,php]
+----
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => [
+        'query' => [
+            'bool' => [
+                'must' => [
+                    [ 'match' => [ 'testField' => 'abc' ] ],
+                    [ 'match' => [ 'testField2' => 'xyz' ] ],
+                ]
+            ]
+        ]
+    ]
+];
+
+$results = $client->search($params);
+----
+{zwsp} +
+
+Notice that the `must` clause accepts an array of arrays.  This will be serialized into an array of JSON objects internally,
+so the final resulting output will be identical to the curl example.  For more details about arrays vs objects in PHP,
+see link:_php_json_objects.html[Dealing with JSON Arrays and Objects in PHP].
+
+=== A more complicated example
+
+Let's construct a slightly more complicated example: a filtered query that contains both a filter and a query.
+This is a very common activity in elasticsearch queries, so it will be a good demonstration.
+
+The curl version of the query:
+
+[source,shell]
+----
+curl -XGET 'localhost:9200/my_index/my_type/_search' -d '{
+    "query" : {
+        "filtered" : {
+            "filter" : {
+                "term" : { "my_field" : "abc" }
+            },
+            "query" : {
+                "match" : { "my_other_field" : "xyz" }
+            }
+        }
+    }
+}'
+----
+{zwsp} +
+
+And in PHP:
+
+[source,php]
+----
+$params = [
+    'index' => 'my_index',
+    'type' => 'my_type',
+    'body' => [
+        'query' => [
+            'filtered' => [
+                'filter' => [
+                    'term' => [ 'my_field' => 'abc' ]
+                ],
+                'query' => [
+                    'match' => [ 'my_other_field' => 'xyz' ]
+                ]
+            ]
+        ]
+    ]
+];
+
+
+$results = $client->search($params);
+----
+{zwsp} +
+
+
+=== Scan/Scroll
+
+The Scan/Scroll functionality of Elasticsearch is similar to search, but different in many ways.  It works by executing a search query with a `search_type` of `scan`.  This initiates a "scan window" which will remain open for the duration of the scan.  This allows proper, consistent pagination.
+
+Once a scan window is open, you may start _scrolling) over that window.  This returns results matching your query...but returns them in random order.  This random ordering is important to performance.  Deep pagination is expensive when you need to maintain a sorted, consistent order across shards.  By removing this obligation, Scan/Scroll can efficiently export all the data from your index.
+
+This is an example which can be used as a template for more advanced operations:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+$params = [
+    "search_type" => "scan",    // use search_type=scan
+    "scroll" => "30s",          // how long between scroll requests. should be small!
+    "size" => 50,               // how many results *per shard* you want back
+    "index" => "my_index",
+    "body" => [
+        "query" => [
+            "match_all" => []
+        ]
+    ]
+];
+
+$docs = $client->search($params);   // Execute the search
+$scroll_id = $docs['_scroll_id'];   // The response will contain no results, just a _scroll_id
+
+// Now we loop until the scroll "cursors" are exhausted
+while (\true) {
+
+    // Execute a Scroll request
+    $response = $client->scroll([
+            "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+            "scroll" => "30s"           // and the same timeout window
+        ]
+    );
+
+    // Check to see if we got any search hits from the scroll
+    if (count($response['hits']['hits']) > 0) {
+        // If yes, Do Work Here
+
+        // Get new scroll_id
+        // Must always refresh your _scroll_id!  It can change sometimes
+        $scroll_id = $response['_scroll_id'];
+    } else {
+        // No results, scroll cursor is empty.  You've exported all the data
+        break;
+    }
+}
+----

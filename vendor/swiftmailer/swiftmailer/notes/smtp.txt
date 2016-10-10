@@ -1,0 +1,48 @@
+General Notes
+--------------
+ * MX is NOT required, but an A record, or CNAME to a MX MUST be present at the least.
+ * EHLO should be tried, then fall back to HELO
+ * The 250 return code from RCPT TO is not actually clear-cut. A 251 may be
+   returned if the message was forwarded to another address.  This could be a
+   useful indicator to end-users that an address should be updated.
+ * RCPT TO can accpet just "postmaster" without a domain name
+ * Server MUST not close connection before:
+   - QUIT and returning 221 response
+   - Forced requirement, and only after returning a 421 response
+   - Clients expriencing a forced connection closure, without prior warning should
+     just treat it like a 451 closure regardless
+ * ALWAYS use blocking sockets for the initial connection (this should prevent
+   Exim4's whining about sync).
+
+Response codes
+--------------
+ * From RFC2821, 4.2.
+   - In particular, the 220, 221, 251, 421, and 551 reply codes
+     are associated with message text that must be parsed and interpreted
+     by machines.
+    
+Error Codes
+------------
+ * Numeric 5yz = Error
+   - 550/RCPT TO = Relay denied
+   - 500 = Unknown command
+ * Numeric 2yz = Normal
+ * Numeric 4yz = Temporary failure??
+
+<?php
+
+class EsmtpTransport implements Transport, EsmtpCommandWriter {
+}
+
+interface EsmtpCommandWriter {
+  public function getBuffer();   
+  public function executeCommand($command, $expectedCodes);
+}
+
+interface Extension {
+  public function getKeyword();
+  public function afterEhlo($commandWriter);                
+  public function getRcptParams();
+  public function getMailParams();
+  public function atCommand($commandWriter, $command, $expectedResponse) throws CommandSentException;
+}

@@ -1,0 +1,8 @@
+__halt_compiler can only be used from outermost scope
+-----
+<?php
+if (true) {
+    __halt_compiler();
+}
+-----
+__HALT_COMPILER() can only be used from the outermost scope on line 3

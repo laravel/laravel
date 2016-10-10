@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+  bootstrap="./tests/bootstrap.php"
+  processIsolation="false"
+  stopOnFailure="false"
+  syntaxCheck="false"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+>
+
+  <testsuites>
+    <testsuite name="SuperClosure">
+      <directory>./tests/Jeremeamia/SuperClosure/Test</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist>
+      <directory suffix=".php">./src/Jeremeamia/SuperClosure</directory>
+    </whitelist>
+  </filter>
+
+  <logging>
+    <log type="coverage-html" target="./build/artifacts/coverage"
+         yui="true" highlight="false" charset="UTF-8"
+         lowUpperBound="35" highLowerBound="70"/>
+    <log type="coverage-clover" target="./build/artifacts/coverage.xml"/>
+    <log type="junit" target="./build/artifacts/log.xml" logIncompleteSkipped="false"/>
+    <log type="testdox-html" target="./build/artifacts/testdox.html"/>
+  </logging>
+
+</phpunit>

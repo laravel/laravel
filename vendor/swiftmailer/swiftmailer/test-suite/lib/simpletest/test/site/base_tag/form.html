@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Test of form submission</title>
+        <base href='http://www.lastcraft.com/test/'>
+    </head>
+    <body>
+        <form id=200 action="network_confirm.php" method="post">
+            <label>Text A <input id=1 type="text" name="a" value=""></label>
+            <br />
+            <label>Text B <input id=2 type="text" name="b" value="Default text"></label>
+            <br />
+            <label>Text area C<textarea id=3 name="c"></textarea></label>
+            <br />
+            <label>Selection D
+                <select id=4 name="d">
+                    <option value="d1">D1</option>
+                    <option value="d2">D2</option>
+                    <option></option>
+                </select>
+            </label>
+            <br />
+            <label>Checkbox E <input id=5 type="checkbox" name="e"></label>
+            <br />
+            <label>Checkbox F <input id=6 type="checkbox" name="f" checked></label>
+            <br />
+            Radio G
+            <label>1<input id=7 type="radio" name="g" value="g1"></label>
+            <label>2<input id=8 type="radio" name="g" value="g2"></label>
+            <label>3<input id=9 type="radio" name="g" value="g3" checked></label>
+            <label>4<input id=10 type="radio" name="g" value="g4"></label>
+            <br />
+            <label>Selection H
+                <select id=11 name="h">
+                    <option value="1">H1</option>
+                    <option value="2" selected>H2</option>
+                </select>
+            </label>
+            <br />
+            <input id=99 type="submit" name="go" value="Go!">
+            <br />
+            <input id=98 type="image" name="go" src="search.png" alt="Image go!">
+            <br />
+            <input id=97 type="image" name="go" src="search.png">
+            <br />
+            <button id=96 type="submit" name="go" value="ButtonGo">Button go!</button>
+            <br />
+            <input id=99 type=submit name="test" value="Submit">
+        </form>
+    </body>
+</html>

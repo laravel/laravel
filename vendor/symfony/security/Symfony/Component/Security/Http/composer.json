@@ -1,0 +1,44 @@
+{
+    "name": "symfony/security-http",
+    "type": "library",
+    "description": "Symfony Security Component - HTTP Integration",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/security-core": "~2.4",
+        "symfony/event-dispatcher": "~2.1",
+        "symfony/http-foundation": "~2.4",
+        "symfony/http-kernel": "~2.4"
+    },
+    "require-dev": {
+        "symfony/routing": "~2.2",
+        "symfony/security-csrf": "~2.4",
+        "psr/log": "~1.0"
+    },
+    "suggest": {
+        "symfony/security-csrf": "For using tokens to protect authentication/logout attempts",
+        "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs"
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Security\\Http\\": "" }
+    },
+    "target-dir": "Symfony/Component/Security/Http",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

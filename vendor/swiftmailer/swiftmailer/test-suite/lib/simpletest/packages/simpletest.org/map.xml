@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<page title="SimpleTest.org" file="index.html">
+	<page title="English version" here="English version" file="en/index.html">
+		<page title="Download SimpleTest" here="Download SimpleTest" file="en/download.html">
+	        <page title="Install the Eclipse Plugin" here="Eclipse" file="en/extension_eclipse.html" />
+	        <page title="ChangeLog" here="Changelog" file="en/changelog.html" />
+		</page>
+
+		<page title="Start testing with SimpleTest" here="SimpleTest" file="en/start-testing.html">
+		    <page title="Documentation overview" here="Overview" file="en/overview.html">
+		        <page title="Unit tester" here="Unit tester" file="en/unit_test_documentation.html" />
+		        <page title="Group tests" here="Group tests" file="en/group_test_documentation.html" />
+		        <page title="Mock objects" here="Mock objects" file="en/mock_objects_documentation.html" />
+		        <page title="Partial mocks" here="Partial mocks" file="en/partial_mocks_documentation.html" />
+		        <page title="Reporting" here="Reporting" file="en/reporter_documentation.html" />
+		        <page title="Expectations" here="Expectations" file="en/expectation_documentation.html" />
+		        <page title="Web tester" here="Web tester" file="en/web_tester_documentation.html" />
+		        <page title="Testing forms" here="Testing forms" file="en/form_testing_documentation.html" />
+		        <page title="Authentication" here="Authentication" file="en/authentication_documentation.html" />
+		        <page title="Scriptable browser" here="Scriptable browser" file="en/browser_documentation.html" />
+		    </page>
+		    <page title="Tutorial : unit testing with PHP" here="PHP unit testing" file="en/first_test_tutorial.html">
+		        <page title="Grouping tests" here="Grouping tests" file="en/group_test_tutorial.html" />
+		        <page title="Taking control" here="Taking control" file="en/gain_control_tutorial.html" />
+		        <page title="Reusing cases" here="Reusing cases" file="en/subclass_tutorial.html" />
+		        <page title="Showing passes" here="Showing passes" file="en/display_subclass_tutorial.html" />
+		        <page title="Using mock objects" here="Using mock objects" file="en/mock_objects_tutorial.html" />
+		        <page title="Boundary classes" here="Boundary classes" file="en/boundary_classes_tutorial.html" />
+		        <page title="Top down testing" here="Top down testing" file="en/improving_design_tutorial.html" />
+		    </page>
+		    <page title="Experimental stuff (in SVN only)" here="Experimental stuff" file="en/experimental_intro.html">
+		        <page title="Using the test results for other tools with the Recorder (experimental)" here="Recorder" file="en/experimental_recorder.html" />
+		        <page title="Testing elements by CSS selector (experimental)" here="DOM tester" file="en/experimental_dom_tester.html" />
+		    </page>
+	    </page>
+
+		<page title="Support mailing list" here="Support mailing list" file="en/support.html">
+			<page title="Books" here="Books" file="en/books.html" />
+            <page title="Screencasts" here="Screencasts" file="en/screencasts.html" />
+			<page title="Softwares" here="Softwares" file="en/softwares_using_simpletest.html" />
+			<page title="Speakers, Coaches and Consultants" here="Speakers" file="en/speakers_coaches_consultants.html" />
+		</page>
+
+		<page title="Current TODO items" here="TODO" file="en/todo.html">
+			<page title="Writing an extension" here="Writing an extension" file="en/writing_extensions.html" />
+			<page title="Coding standards &amp; formatting" here="Coding Standards" file="en/coding_standards.html" />
+            <page title="Heartbeat : continuously integrated" here="Heartbeat" file="en/heartbeat.html" />
+			<page title="Ideas for GSOC" here="Ideas for GSOC" file="en/ideas.html" />
+            <page title="Photos tagged 'SimpleTest'" here="Photos stream" file="en/photos_stream.html" />
+		</page>
+	</page>
+
+	<page title="Version française" here="Version française" file="fr/index.html">
+		<page title="Télécharger SimpleTest" here="Télécharger SimpleTest" file="fr/download.html">
+	        <page title="Installer le plugin Eclipse" here="Plugin Eclipse" file="fr/extension_eclipse.html" />
+		</page>
+
+		<page title="Prise en main rapide de SimpleTest" here="Prise en main rapide de SimpleTest" file="fr/start-testing.html">
+		    <page title="Documentation : les tests unitaires en PHP" here="Documentation : les tests unitaires en PHP" file="fr/unit_test_documentation.html">
+		        <page title="Les groupes de tests" here="Les groupes de tests" file="fr/group_test_documentation.html"/>
+		        <page title="Les objets fantaisie" here="Les objets fantaisie" file="fr/mock_objects_documentation.html"/>
+		        <page title="Les objets fantaisie partiels" here="Les objets fantaisie partiels" file="fr/partial_mocks_documentation.html"/>
+		        <page title="Le rapporteur de test" here="Le rapporteur de test" file="fr/reporter_documentation.html"/>
+		        <page title="Les attentes" here="Les attentes" file="fr/expectation_documentation.html"/>
+		        <page title="Le testeur web" here="Le testeur web" file="fr/web_tester_documentation.html"/>
+		        <page title="Les tests des formulaires" here="Les tests des formulaires" file="fr/form_testing_documentation.html"/>
+		        <page title="L'authentification" here="L'authentification" file="fr/authentication_documentation.html"/>
+		        <page title="Le navigateur scriptable" here="Le navigateur scriptable" file="fr/browser_documentation.html"/>
+		    </page>
+			<page title="Tutorial : les tests unitaires en PHP" here="Tutorial : les tests unitaires en PHP" file="fr/first_test_tutorial.html">
+				<page title="Grouper des tests" here="Grouper des tests" file="fr/group_test_tutorial.html"/>
+				<page title="Prendre le contrôle des tests" here="Prendre le contrôle des tests" file="fr/gain_control_tutorial.html"/>
+				<page title="Sous classer un scénario de test unitaire" here="Sous classer un scénario de test unitaire" file="fr/subclass_tutorial.html"/>
+				<page title="Changer l'affichage du test" here="Changer l'affichage du test" file="fr/display_subclass_tutorial.html"/>
+				<page title="Utiliser des objets fantaisie" here="Utiliser des objets fantaisie" file="fr/mock_objects_tutorial.html"/>
+				<page title="Les frontières de l'application" here="Les frontières de l'application" file="fr/boundary_classes_tutorial.html"/>
+				<page title="Du haut vers le bas et piloté par les tests" here="Du haut vers le bas et piloté par les tests" file="fr/improving_design_tutorial.html"/>
+			</page>
+		</page>
+
+		<page title="Mailing-list de support" here="Mailing-list de support" file="fr/support.html">
+			<page title="Livres" here="Livres" file="fr/books.html" />
+			<page title="Logiciels" here="Logiciels" file="fr/logiciels_utilisant_simpletest.html" />
+		</page>
+	</page>
+</page>

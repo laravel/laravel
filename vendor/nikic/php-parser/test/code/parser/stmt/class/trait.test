@@ -1,0 +1,159 @@
+Traits
+-----
+<?php
+
+trait A {
+    public function a() {}
+}
+
+class B {
+    use C;
+    use D {
+        a as protected b;
+        c as d;
+        e as private;
+    }
+    use E, F, G {
+        E::a insteadof F, G;
+        E::b as protected c;
+        E::d as e;
+        E::f as private;
+    }
+}
+-----
+array(
+    0: Stmt_Trait(
+        name: A
+        stmts: array(
+            0: Stmt_ClassMethod(
+                type: 1
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: a
+            )
+        )
+    )
+    1: Stmt_Class(
+        type: 0
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: C
+                        )
+                    )
+                )
+                adaptations: array(
+                )
+            )
+            1: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: D
+                        )
+                    )
+                )
+                adaptations: array(
+                    0: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: a
+                        newModifier: 2
+                        newName: b
+                    )
+                    1: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: c
+                        newModifier: null
+                        newName: d
+                    )
+                    2: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: e
+                        newModifier: 4
+                        newName: null
+                    )
+                )
+            )
+            2: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: E
+                        )
+                    )
+                    1: Name(
+                        parts: array(
+                            0: F
+                        )
+                    )
+                    2: Name(
+                        parts: array(
+                            0: G
+                        )
+                    )
+                )
+                adaptations: array(
+                    0: Stmt_TraitUseAdaptation_Precedence(
+                        trait: Name(
+                            parts: array(
+                                0: E
+                            )
+                        )
+                        method: a
+                        insteadof: array(
+                            0: Name(
+                                parts: array(
+                                    0: F
+                                )
+                            )
+                            1: Name(
+                                parts: array(
+                                    0: G
+                                )
+                            )
+                        )
+                    )
+                    1: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: E
+                            )
+                        )
+                        method: b
+                        newModifier: 2
+                        newName: c
+                    )
+                    2: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: E
+                            )
+                        )
+                        method: d
+                        newModifier: null
+                        newName: e
+                    )
+                    3: Stmt_TraitUseAdaptation_Alias(
+                        trait: Name(
+                            parts: array(
+                                0: E
+                            )
+                        )
+                        method: f
+                        newModifier: 4
+                        newName: null
+                    )
+                )
+            )
+        )
+        name: B
+    )
+)

@@ -1,0 +1,117 @@
+Function calls
+-----
+<?php
+
+// function name variations
+a();
+$a();
+${'a'}();
+$$a();
+$$$a();
+$a['b']();
+$a{'b'}();
+$a->b['c']();
+
+// array dereferencing
+a()['b'];
+-----
+array(
+    0: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: a
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_FuncCall(
+        name: Expr_Variable(
+            name: a
+        )
+        args: array(
+        )
+    )
+    2: Expr_FuncCall(
+        name: Expr_Variable(
+            name: Scalar_String(
+                value: a
+            )
+        )
+        args: array(
+        )
+    )
+    3: Expr_FuncCall(
+        name: Expr_Variable(
+            name: Expr_Variable(
+                name: a
+            )
+        )
+        args: array(
+        )
+    )
+    4: Expr_FuncCall(
+        name: Expr_Variable(
+            name: Expr_Variable(
+                name: Expr_Variable(
+                    name: a
+                )
+            )
+        )
+        args: array(
+        )
+    )
+    5: Expr_FuncCall(
+        name: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+        args: array(
+        )
+    )
+    6: Expr_FuncCall(
+        name: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+        args: array(
+        )
+    )
+    7: Expr_FuncCall(
+        name: Expr_ArrayDimFetch(
+            var: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: b
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+        args: array(
+        )
+    )
+    8: Expr_ArrayDimFetch(
+        var: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: a
+                )
+            )
+            args: array(
+            )
+        )
+        dim: Scalar_String(
+            value: b
+        )
+    )
+)

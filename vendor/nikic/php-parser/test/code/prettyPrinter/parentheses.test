@@ -1,0 +1,45 @@
+Pretty printer generates least-parentheses output
+-----
+<?php
+
+echo 'abc' . 'cde' . 'fgh';
+echo 'abc' . ('cde' . 'fgh');
+
+echo 'abc' . 1 + 2 . 'fgh';
+echo 'abc' . (1 + 2) . 'fgh';
+
+echo 1 * 2 + 3 / 4 % 5 . 6;
+echo 1 * (2 + 3) / (4 % (5 . 6));
+
+$a = $b = $c = $d = $f && true;
+($a = $b = $c = $d = $f) && true;
+$a = $b = $c = $d = $f and true;
+$a = $b = $c = $d = ($f and true);
+
+$a ? $b : $c ? $d : $e ? $f : $g;
+$a ? $b : ($c ? $d : ($e ? $f : $g));
+$a ? $b ? $c : $d : $f;
+
+(1 > 0) > (1 < 0);
+
+// this will currently unnecessarily print !($a = $b). This is correct as far as operator precedence is concerned, but
+// the parentheses are not really necessary, because = takes only variables as the left hand side operator.
+!$a = $b;
+-----
+echo 'abc' . 'cde' . 'fgh';
+echo 'abc' . ('cde' . 'fgh');
+echo 'abc' . 1 + 2 . 'fgh';
+echo 'abc' . (1 + 2) . 'fgh';
+echo 1 * 2 + 3 / 4 % 5 . 6;
+echo 1 * (2 + 3) / (4 % (5 . 6));
+$a = $b = $c = $d = $f && true;
+($a = $b = $c = $d = $f) && true;
+$a = $b = $c = $d = $f and true;
+$a = $b = $c = $d = ($f and true);
+$a ? $b : $c ? $d : $e ? $f : $g;
+$a ? $b : ($c ? $d : ($e ? $f : $g));
+$a ? $b ? $c : $d : $f;
+(1 > 0) > (1 < 0);
+// this will currently unnecessarily print !($a = $b). This is correct as far as operator precedence is concerned, but
+// the parentheses are not really necessary, because = takes only variables as the left hand side operator.
+!($a = $b);

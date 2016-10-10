@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1730 2008-04-08 07:18:19Z pp11 $ -->
+<page title="Downloading SimpleTest" here="Download SimpleTest">
+    <long_title>Downloading SimpleTest</long_title>
+    <content>
+        <section name="current-release" title="Current release">
+            <p>
+                The current release is :
+                <a href="http://downloads.sourceforge.net/simpletest/simpletest_1.0.1.tar.gz">
+                SimpleTest v1.0.1</a>.
+            </p>
+            <p>
+                You can download this version from
+                <a href="https://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=77275&amp;release_id=590611">
+                SourceForget.net</a>
+                and your local mirror. You may also want to look at
+                the <a href="changelog.html">current changelog</a>.
+            </p>
+            <!--
+            <p>
+                By the way, don't be scared away by the <quote>beta</quote> tag :
+                quite a few users actually use SimpleTest straight from SVN.
+            </p>
+            -->
+        </section>
+        <section name="eclipse-release" title="Eclipse release">
+            <p>
+                If eclipse is your IDE / editor of choice, you might consider
+                the <a href="http://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=159054">
+                Eclipse plugin</a>.
+            </p>
+            <p>
+                For automatic "find and install", the URL is :
+                <blockquote>http://simpletest.org/eclipse/</blockquote>
+            </p>        
+        </section>
+        <section name="packages" title="Packages">
+            <p>
+                SimpleTest has been packaged by the community to different flavours.
+            </p>
+            <ul>
+                <li>
+                    <a href="http://packages.debian.org/unstable/web/php-simpletest">Debian package</a>
+                </li>
+                <li>
+                    <a href="http://www.pearified.com/index.php?package=SimpleTest">Pearified package</a>
+                </li>
+                <li>
+                    <a href="http://drupal.org/project/simpletest">Drupal module</a>
+                </li>
+            </ul>
+            <p>
+                <cite>Note : careful, some versions are not always up-to-date.</cite>
+            </p>
+        </section>
+        <section name="source" title="Source">
+            <p>
+                The source code is hosted on Sourceforge as well : you can browse the
+                <a href="http://simpletest.svn.sourceforge.net/viewvc/simpletest/">SVN repository</a>
+                there.
+            </p>
+        </section>
+        <section name="older-stable-releases" title="Older stable releases">
+            <ul>
+                <li>
+                    <a href="http://prdownloads.sourceforge.net/simpletest/simpletest_1.0.tar.gz">1.0.0</a>
+                </li>
+            </ul>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#current-release">Current release</a>
+        </link>
+        <link>
+            <a href="#eclipse-release">Eclipse release</a>
+        </link>
+        <link>
+            <a href="#packages">Packages</a>
+        </link>
+        <link>
+            <a href="#source">Source</a>
+        </link>
+        <link>
+            <a href="#older-stable-releases">Older stable releases</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+            SimpleTest,
+            download,
+            source code,
+            stable release,
+            eclipse release,
+            eclipse plugin,
+            debian package,
+            drupal module,
+            pear channel,
+            pearified package
+        </keywords>
+    </meta>
+</page>

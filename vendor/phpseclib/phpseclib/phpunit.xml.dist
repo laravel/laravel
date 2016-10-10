@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="phpseclib Unit Test Suite">
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="phpseclib Functional Test Suite">
+            <directory>./tests/Functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Code Coverage -->
+    <filter>
+        <whitelist>
+            <directory>./phpseclib/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

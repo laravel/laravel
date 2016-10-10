@@ -1,0 +1,27 @@
+
+
+[37;41m                           [0m
+[37;41m  [Exception]              [0m
+[37;41m  Third exception [0m[34;41mcomment[0m[37;41m  [0m
+[37;41m                           [0m
+
+
+
+
+[37;41m                            [0m
+[37;41m  [Exception]               [0m
+[37;41m  Second exception [0m[33mcomment[0m[37;41m  [0m
+[37;41m                            [0m
+
+
+
+
+[37;41m                                       [0m
+[37;41m  [Exception]                          [0m
+[37;41m  First exception [0m[37;41m<p>[0m[37;41mthis is html[0m[37;41m</p>[0m[37;41m  [0m
+[37;41m                                       [0m
+
+
+[32mfoo3:bar[0m
+
+

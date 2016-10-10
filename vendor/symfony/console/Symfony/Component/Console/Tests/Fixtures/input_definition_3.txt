@@ -1,0 +1,2 @@
+<comment>Options:</comment>
+ <info>--option_name</info> (-o)

@@ -1,0 +1,78 @@
+
+== Community DSLs
+
+=== ElasticsearchDSL
+
+https://github.com/ongr-io/ElasticsearchDSL[Link: ElasticsearchDSL]
+[quote, ElasticsearchDSL]
+__________________________
+Introducing Elasticsearch DSL library to provide objective query builder for Elasticsearch bundle and elasticsearch-php client. You can easily build any Elasticsearch query and transform it to an array.
+__________________________
+
+=== elasticsearcher
+
+https://github.com/madewithlove/elasticsearcher[Link: elasticsearcher]
+
+[quote, elasticsearcher]
+__________________________
+This agnostic package is a lightweight wrapper on top of the Elasticsearch PHP client. Its main goal is to allow for easier structuring of queries and indices in your application. It does not want to hide or replace functionality of the Elasticsearch PHP client.
+__________________________
+
+== Community Integrations
+
+=== Symfony
+
+==== ONGR Elasticsearch Bundle
+
+https://github.com/ongr-io/ElasticsearchBundle[Link: ONGR Elasticsearch Bundle]
+
+[quote, ONGR Elasticsearch Bundle]
+__________________________
+Elasticsearch Bundle was created in order to serve the need for professional elasticsearch
+integration with enterprise level Symfony 2 systems. This bundle is:
+
+- Supported by ONGR.io development team.
+- Uses the official elasticsearch-php client.
+- Ensures full integration with Symfony 2 framework.
+
+Technical goodies:
+
+- Provides nestable and DSL query builder to be executed by type repository services.
+- Uses Doctrine-like document / entities document-object mapping using annotations.
+- Query results iterators are provided for your convenience.
+- Registers console commands for index and types management and data import / export.
+- Designed in an extensible way for all your custom needs.
+__________________________
+
+
+=== Drupal
+
+==== Elasticsearch Connector
+
+https://www.drupal.org/project/elasticsearch_connector[Link: Elasticsearch Connector]
+
+[quote, Elasticsearch Connector]
+__________________________
+Elasticsearch Connector is a set of modules designed to build a full Elasticsearch eco system in Drupal.
+__________________________
+
+=== Laravel
+
+==== shift31/Laravel-Elasticsearch
+
+https://github.com/shift31/laravel-elasticsearch[Link: shift31/Laravel-Elasticsearch]
+
+[quote, Laravel-Elasticsearch]
+__________________________
+This is a Laravel (4+) Service Provider for the official Elasticsearch low-level client.
+__________________________
+
+
+==== cviebrock/Laravel-Elasticsearch
+
+https://github.com/cviebrock/laravel-elasticsearch[Link: cviebrock/Laravel-Elasticsearch]
+
+[quote, Laravel-Elasticsearch]
+__________________________
+An easy way to use the official Elastic Search client in your Laravel applications.
+__________________________

@@ -1,0 +1,37 @@
+{
+    "name": "symfony/dom-crawler",
+    "type": "library",
+    "description": "Symfony DomCrawler Component",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "symfony/css-selector": "~2.0"
+    },
+    "suggest": {
+        "symfony/css-selector": ""
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\DomCrawler\\": "" }
+    },
+    "target-dir": "Symfony/Component/DomCrawler",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

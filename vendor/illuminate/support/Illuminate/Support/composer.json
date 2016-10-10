@@ -1,0 +1,32 @@
+{
+    "name": "illuminate/support",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "jeremeamia/superclosure": "~1.0.1",
+        "patchwork/utf8": "~1.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Support": ""
+        },
+        "files": [
+            "Illuminate/Support/helpers.php"
+        ]
+    },
+    "target-dir": "Illuminate/Support",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.2-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,40 @@
+<project name="simpletest" default="package" basedir="..">
+
+	<target name="info">
+		<echo msg="Builds a packaged release from SimpleTest extension source" />
+	</target>
+	
+	<input propertyname="ext_name" promptChar=":">Name of the extension to build</input>
+
+	<target name="package">
+		<mkdir dir="extensions/test" />
+		<copy todir="extensions/test">
+			<filterchain>
+			  <replaceregexp>
+				<regexp pattern="dirname\(__FILE__\)\s\.\s'\/\.\.\/\.\.\/\.\.\/autorun.php'"
+						replace="'simpletest/autorun.php'" 
+						ignoreCase="false"/>
+			  	<regexp pattern="\/\.\.\/\.\.\/\.\.\/extensions\/"
+			  			replace="/../"
+			  			ignoreCase="false"/>
+			  </replaceregexp>
+			</filterchain>
+			<fileset dir="test/extensions/${ext_name}">
+				<include name="**/*" />	
+			</fileset>
+		</copy>
+		<zip destfile="${ext_name}.zip">
+			<fileset dir="extensions">
+				<include name="${ext_name}.php" />
+			</fileset>
+			<fileset dir="extensions">
+				<include name="${ext_name}/**/*" />
+			</fileset>
+			<fileset dir="extensions">
+				<include name="test/**" />
+			</fileset>
+		</zip>
+		<delete dir="extensions/test" />
+	</target>
+
+</project>

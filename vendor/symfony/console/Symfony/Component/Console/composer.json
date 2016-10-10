@@ -1,0 +1,37 @@
+{
+    "name": "symfony/console",
+    "type": "library",
+    "description": "Symfony Console Component",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "symfony/event-dispatcher": "~2.1"
+    },
+    "suggest": {
+        "symfony/event-dispatcher": ""
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Console\\": "" }
+    },
+    "target-dir": "Symfony/Component/Console",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

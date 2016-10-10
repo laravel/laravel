@@ -1,0 +1,23 @@
+#Excel DateTimeStamp	Adjust	Timezone		Result		Comments
+22269,			TRUE,	'America/New_York',	-285138000	//					19-Dec-1960 00:00:00 UST
+25569,			TRUE,	'America/New_York',	-18000		//	PHP Base Date			01-Jan-1970 00:00:00 UST
+30292,			TRUE,	'America/New_York',	408049200	//					07-Dec-1982 00:00:00 UST
+39611,			TRUE,	'America/New_York',	1213214400	//					12-Jun-2008 00:00:00 UST
+50424,			TRUE,	'America/New_York',	2147454000	//	PHP 32-bit Latest Date		19-Jan-2038 00:00:00 UST
+22345.56789,		TRUE,	'America/New_York',	-278522534	//					18-May-1903 13:37:46 UST
+22345.6789,		TRUE,	'America/New_York',	-278512943	//					18-Oct-1933 16:17:37 UST
+0.5,			TRUE,	'America/New_York',	25200		//					12:00:00 UST
+0.75,			TRUE,	'America/New_York',	46800		//					18:00.00 UST
+0.12345,		TRUE,	'America/New_York',	-7334		//					02:57:46 UST
+41215,			TRUE,	'America/New_York',	1351800000	//					02-Nov-2012 00:00:00 UST
+22269,			TRUE,	'Pacific/Auckland',	-285076800	//					19-Dec-1960 00:00:00 UST
+25569,			TRUE,	'Pacific/Auckland',	43200		//	PHP Base Date			01-Jan-1970 00:00:00 UST
+30292,			TRUE,	'Pacific/Auckland',	408114000	//					07-Dec-1982 00:00:00 UST
+39611,			TRUE,	'Pacific/Auckland',	1213272000	//					12-Jun-2008 00:00:00 UST
+50423.5,		TRUE,	'Pacific/Auckland',	2147475600	//	PHP 32-bit Latest Date		19-Jan-2038 00:00:00 UST
+22345.56789,		TRUE,	'Pacific/Auckland',	-278461334	//					18-May-1903 13:37:46 UST
+22345.6789,		TRUE,	'Pacific/Auckland',	-278451743	//					18-Oct-1933 16:17:37 UST
+0.5,			TRUE,	'Pacific/Auckland',	90000		//					12:00:00 UST
+0.75,			TRUE,	'Pacific/Auckland',	111600		//					18:00.00 UST
+0.12345,		TRUE,	'Pacific/Auckland',	57466		//					02:57:46 UST
+41215,			TRUE,	'Pacific/Auckland',	1351861200	//					02-Nov-2012 00:00:00 UST

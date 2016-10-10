@@ -1,0 +1,9 @@
+build/PHPExcel.phar
+unitTests/codeCoverage
+analysis
+
+## IDE support
+*.buildpath
+*.project
+/.settings
+/.idea

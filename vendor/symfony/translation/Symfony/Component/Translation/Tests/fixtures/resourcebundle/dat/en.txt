@@ -1,0 +1,3 @@
+en{
+    symfony{"Symfony 2 is great"}
+}

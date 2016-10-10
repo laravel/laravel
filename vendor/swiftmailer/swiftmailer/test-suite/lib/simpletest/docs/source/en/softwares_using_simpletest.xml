@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Softwares" here="Softwares">
+    <long_title>Softwares using SimpleTest</long_title>
+    <content>
+        <section name="projects-extending-simpletest" title="Projects extending SimpleTest">
+            <p>
+                Some projects are able to extend SimpleTest's functionnality :
+            </p>
+            <dl>
+                <dt>
+                    <a href="http://wiki.limb-project.com/doku.php?id=limb3:en:packages:tests_runner:limb_unit">
+                        Limb Unit
+                    </a>
+                </dt>
+                <dd>
+                    <strong>limb_unit</strong> is an advanced SimpleTest based tests runner
+                    utility for PHP5. In a nutshell, limb_unit finds and executes tests within
+                    the file system. It's similar to phpunit utility from PHPUnit,
+                    yet more powerful.
+                </dd>
+                <dt>
+                    <a href="http://dev.e-taller.net/simpletestxul/">
+                        SimpleTestXUL
+                    </a>
+                </dt>
+                <dd>
+                    A XUL interface to SimpleTest framework.
+                </dd>
+                <dt>
+                    <a href="http://trac.piece-framework.com/sh-testrunner/">
+                        Stagehand_TestRunner
+                    </a>
+                </dt>
+                <dd>
+                    Automated test runners for PHPUnit and SimpleTest.
+                </dd>
+                <dt>
+                    <a href="http://sourceforge.net/projects/suite-tester/">
+                        Suite Tester
+                    </a>
+                </dt>
+                <dd>
+                    <strong>Suite Tester</strong> is an AJAX-driven add-on for the
+                    PHP SimpleTest unit-testing tool. The main benefits are conveniently testing
+                    an entire application or a single unit in one place, and quickly viewing
+                    a suite's results one unit at a time.
+                </dd>
+                
+            </dl>
+        </section>
+        <section name="projects-using-simpletest" title="Projects using SimpleTest">
+            <p>
+                Others are using SimpleTest to build stuff :
+            </p>
+            <dl>
+                <dt>
+                    <a href="http://www.cakephp.org/">
+                        CakePHP
+                    </a>
+                </dt>
+                <dd>
+                    <strong>CakePHP</strong> is a rapid development framework for PHP
+                    which uses commonly known design patterns like ActiveRecord,
+                    Association Data Mapping, Front Controller and MVC.
+                </dd>
+                <dt>
+                    <a href="http://www.phpwact.org/">
+                        Web Application Component Toolkit
+                    </a>
+                </dt>
+                <dd>
+                    The <strong>Web Application Component Toolkit</strong> is
+                    a framework for creating web applications.
+                    WACT facilitates a modular approach where individual,
+                    independent or reusable components may be integrated into a larger web
+                    application. WACT assists in implementing the Model View Controller
+                    pattern and the related Domain Model, Template View, Front Controller
+                    and Application Controller patterns.
+                </dd>
+                <dt>
+                    <a href="http://limb-project.com/">
+                        Limb3
+                    </a>
+                </dt>
+                <dd>
+                    <strong>Limb</strong> is an OpenSource(LGPL) PHP framework aimed for
+                    rapid web application development.
+                    It is a committed proponents of the beautiful and
+                    easy-to-maintain code that simply works.
+                    That is why the Limb code is developed and constantly refactored in a
+                    test driven manner using the best agile development practices.
+                </dd>
+                <dt>
+                    <a href="http://drupal.org/project/simpletest">
+                        Drupal | SimpleTest
+                    </a>
+                </dt>
+                <dd>
+                    A framework for running automated unit tests in Drupal.
+                    This module comes with a set of core tests. These can be helpful when
+                    making patches for the drupal core or when building your own set of
+                    modules.
+                </dd>
+                <dt>
+                    <a href="http://wideimage.sourceforge.net/wiki/MainPage">
+                        WideImage
+                    </a>
+                </dt>
+                <dd>
+                    <strong>WideImage</strong> is an object-oriented PHP image library, written
+                    in/for PHP5. Uses GD2 and is unit-tested with Simpletest. Promotes ease of
+                    use and extensibility.
+                </dd>
+                <dt>
+                    <a href="http://aperiplus.sourceforge.net/">
+                        Aperiplus
+                    </a>
+                </dt>
+                <dd>
+                    <strong>Aperiplus</strong> is a general purpose, unit-tested, OOP library
+                    for PHP5. It contains extensions for SimpleTest.
+                </dd>
+                <dt>
+                    <a href="http://wiki.flux-cms.org/display/FLX/Home">
+                        Flux CMS
+                    </a>
+                </dt>
+                <dd>
+                    <strong>Flux CMS</strong> is a XML/XSLT CMS based on PHP 5 and Popoon.
+                    It's easy to use for the enduser and has WYSIWYG editing capabilites,
+                    but it's also very extensible and powerful for implementors to suit
+                    your needs.
+                </dd>
+                <dt>
+                    <a href="http://moodle.org/">
+                        Moodle
+                    </a>
+                </dt>
+                <dd>
+                    <strong>Moodle</strong> is a course management system (CMS) -
+                    a free, Open Source software package designed using sound pedagogical
+                    principles, to help educators create effective online learning communities.
+                </dd>
+            </dl>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Projects <a href="#projects-extending-simpletest">extending SimpleTest</a>
+        </link>
+        <link>
+            And some <a href="#projects-using-simpletest">using SimpleTest</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+        </keywords>
+    </meta>
+</page>

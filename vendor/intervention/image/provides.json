@@ -1,0 +1,11 @@
+{
+  "providers": [
+    "Intervention\Image\ImageServiceProvider"
+  ],
+  "aliases": [
+    {
+      "alias": "Image",
+      "facade": "Intervention\Image\Facades\Image"
+    }
+  ]
+}

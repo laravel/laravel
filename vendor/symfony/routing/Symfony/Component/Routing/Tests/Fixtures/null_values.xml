@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="blog_show" path="/blog/{slug}">
+        <default key="foo" xsi:nil="true" />
+        <default key="bar" xsi:nil="1" />
+        <default key="foobar" xsi:nil="false">foo</default>
+        <default key="baz" xsi:nil="0">bar</default>
+    </route>
+</routes>

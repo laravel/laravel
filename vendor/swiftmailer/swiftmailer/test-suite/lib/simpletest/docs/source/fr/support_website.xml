@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!-- $Id: support_website.xml 1733 2008-04-08 18:53:17Z pp11 $ -->
+<page title="Mailing-list de support" here="Mailing-list de support">
+    <synchronisation lang="en" version="1732" date="08/04/2008" maintainer="pp11" />
+    <long_title>Mailing-list de support</long_title>
+    <content>
+        <introduction>
+            <p>
+                La mailing-list <strong>simpletest-support</strong> est probablement l'endroit
+                le plus actif autour de SimpleTest : aide, conseil, bugs et détours, c'est là
+                que tout se passe la plupart du temps. Attention tout de même : les échanges
+                ont lieu en anglais.
+            </p>
+        </introduction>
+        <section name="subscribe" title="Pour s'abonner">
+            <p>
+                C'est vraiment
+                <a href="https://lists.sourceforge.net/lists/listinfo/simpletest-support">
+                simple de s'y abonner</a> et en plus, on peut aussi
+                <a href="http://sourceforge.net/mailarchive/forum.php?forum=simpletest-support">
+                l'utiliser pour ses recherches</a>.
+            </p>
+            <p>
+                Au dernier pointage, il y avait 114 abonnés et 1908 messages envoyés.
+                Cela fait de 1 à 4 messages par jour en moyenne.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Pour <a href="#subscribe">s'abonner</a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            S'inscrire à la
+            <a href="https://lists.sourceforge.net/lists/listinfo/simpletest-support">
+            mailing list "Support"</a>.
+        </link>
+        <link>
+            Lire les
+            <a href="http://sourceforge.net/mailarchive/forum.php?forum=simpletest-support">
+            archives</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            SimpleTest,
+            download,
+            source code,
+            stable release,
+            eclipse release,
+            eclipse plugin,
+            debian package,
+            drupal module,
+            pear channel,
+            pearified package
+        </keywords>
+    </meta>
+</page>

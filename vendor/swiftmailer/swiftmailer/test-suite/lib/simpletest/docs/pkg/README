@@ -1,0 +1,1 @@
+Files here are generated from make_phpdoc_docs.sh

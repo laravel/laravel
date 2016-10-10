@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+>
+    <testsuites>
+        <testsuite name="unit">
+            <directory>./tests/unit/</directory>
+        </testsuite>
+    </testsuites>
+
+    <testsuites>
+        <testsuite name="integration">
+            <directory>./tests/integration/</directory>
+        </testsuite>
+    </testsuites>
+
+    <testsuites>
+        <testsuite name="functional">
+            <directory>./tests/functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,32 @@
+{
+    "name": "illuminate/cache",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*",
+        "nesbot/carbon": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "illuminate/database": "4.1.*",
+        "illuminate/encryption": "4.1.*",
+        "illuminate/filesystem": "4.1.*",
+        "illuminate/redis": "4.1.*"
+    },
+    "autoload": {
+        "psr-0": {"Illuminate\\Cache": ""}
+    },
+    "target-dir": "Illuminate/Cache",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.1-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,4 @@
+vendor/*
+report/*
+phpunit.xml
+composer.lock

@@ -1,0 +1,38 @@
+PHP 4 style declarations
+-----
+<?php
+
+class A {
+    var $foo;
+    function bar() {}
+}
+-----
+array(
+    0: Stmt_Class(
+        type: 0
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                type: 1
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: foo
+                        default: null
+                    )
+                )
+            )
+            1: Stmt_ClassMethod(
+                type: 1
+                byRef: false
+                params: array(
+                )
+                stmts: array(
+                )
+                name: bar
+            )
+        )
+        name: A
+    )
+)

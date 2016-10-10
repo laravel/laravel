@@ -1,0 +1,1 @@
+ <info>--option_name</info> (-o) option description

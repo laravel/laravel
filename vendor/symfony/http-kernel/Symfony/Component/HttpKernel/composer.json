@@ -1,0 +1,56 @@
+{
+    "name": "symfony/http-kernel",
+    "type": "library",
+    "description": "Symfony HttpKernel Component",
+    "keywords": [],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/event-dispatcher": "~2.1",
+        "symfony/http-foundation": "~2.4",
+        "symfony/debug": "~2.3",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "symfony/browser-kit": "~2.2",
+        "symfony/class-loader": "~2.1",
+        "symfony/config": "~2.0",
+        "symfony/console": "~2.2",
+        "symfony/dependency-injection": "~2.0",
+        "symfony/expression-language": "~2.4",
+        "symfony/finder": "~2.0",
+        "symfony/process": "~2.0",
+        "symfony/routing": "~2.2",
+        "symfony/stopwatch": "~2.2",
+        "symfony/templating": "~2.2"
+    },
+    "suggest": {
+        "symfony/browser-kit": "",
+        "symfony/class-loader": "",
+        "symfony/config": "",
+        "symfony/console": "",
+        "symfony/dependency-injection": "",
+        "symfony/finder": ""
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\HttpKernel\\": "" }
+    },
+    "target-dir": "Symfony/Component/HttpKernel",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}

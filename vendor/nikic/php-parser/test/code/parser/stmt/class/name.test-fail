@@ -1,0 +1,61 @@
+Invalid class name
+-----
+<?php class self {}
+-----
+Cannot use 'self' as class name as it is reserved on line 1
+-----
+<?php class parent {}
+-----
+Cannot use 'parent' as class name as it is reserved on line 1
+-----
+<?php class static {}
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1
+-----
+<?php class A extends self {}
+-----
+Cannot use 'self' as class name as it is reserved on line 1
+-----
+<?php class A extends parent {}
+-----
+Cannot use 'parent' as class name as it is reserved on line 1
+-----
+<?php class A extends static {}
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1
+-----
+<?php class A implements self {}
+-----
+Cannot use 'self' as interface name as it is reserved on line 1
+-----
+<?php class A implements parent {}
+-----
+Cannot use 'parent' as interface name as it is reserved on line 1
+-----
+<?php class A implements static {}
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1
+-----
+<?php interface self {}
+-----
+Cannot use 'self' as class name as it is reserved on line 1
+-----
+<?php interface parent {}
+-----
+Cannot use 'parent' as class name as it is reserved on line 1
+-----
+<?php interface static {}
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1
+-----
+<?php interface A extends self {}
+-----
+Cannot use 'self' as interface name as it is reserved on line 1
+-----
+<?php interface A extends parent {}
+-----
+Cannot use 'parent' as interface name as it is reserved on line 1
+-----
+<?php interface A extends static {}
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1

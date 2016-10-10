@@ -1,0 +1,227 @@
+Generators (yield expression
+-----
+<?php
+
+function gen() {
+    // statements
+    yield;
+    yield $value;
+    yield $key => $value;
+
+    // expressions
+    $data = yield;
+    $data = (yield $value);
+    $data = (yield $key => $value);
+
+    // yield in language constructs with their own parentheses
+    if (yield $foo); elseif (yield $foo);
+    if (yield $foo): elseif (yield $foo): endif;
+    while (yield $foo);
+    do {} while (yield $foo);
+    switch (yield $foo) {}
+    die(yield $foo);
+
+    // yield in function calls
+    func(yield $foo);
+    $foo->func(yield $foo);
+    new Foo(yield $foo);
+}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        params: array(
+        )
+        stmts: array(
+            0: Expr_Yield(
+                key: null
+                value: null
+            )
+            1: Expr_Yield(
+                key: null
+                value: Expr_Variable(
+                    name: value
+                )
+            )
+            2: Expr_Yield(
+                key: Expr_Variable(
+                    name: key
+                )
+                value: Expr_Variable(
+                    name: value
+                )
+            )
+            3: Expr_Assign(
+                var: Expr_Variable(
+                    name: data
+                )
+                expr: Expr_Yield(
+                    key: null
+                    value: null
+                )
+            )
+            4: Expr_Assign(
+                var: Expr_Variable(
+                    name: data
+                )
+                expr: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: value
+                    )
+                )
+            )
+            5: Expr_Assign(
+                var: Expr_Variable(
+                    name: data
+                )
+                expr: Expr_Yield(
+                    key: Expr_Variable(
+                        name: key
+                    )
+                    value: Expr_Variable(
+                        name: value
+                    )
+                )
+            )
+            6: Stmt_If(
+                stmts: array(
+                )
+                elseifs: array(
+                    0: Stmt_ElseIf(
+                        cond: Expr_Yield(
+                            key: null
+                            value: Expr_Variable(
+                                name: foo
+                            )
+                        )
+                        stmts: array(
+                        )
+                    )
+                )
+                else: null
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+            )
+            7: Stmt_If(
+                stmts: array(
+                )
+                elseifs: array(
+                    0: Stmt_ElseIf(
+                        cond: Expr_Yield(
+                            key: null
+                            value: Expr_Variable(
+                                name: foo
+                            )
+                        )
+                        stmts: array(
+                        )
+                    )
+                )
+                else: null
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+            )
+            8: Stmt_While(
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+                stmts: array(
+                )
+            )
+            9: Stmt_Do(
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+                stmts: array(
+                )
+            )
+            10: Stmt_Switch(
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+                cases: array(
+                )
+            )
+            11: Expr_Exit(
+                expr: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
+            )
+            12: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: func
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Expr_Yield(
+                            key: null
+                            value: Expr_Variable(
+                                name: foo
+                            )
+                        )
+                        byRef: false
+                    )
+                )
+            )
+            13: Expr_MethodCall(
+                var: Expr_Variable(
+                    name: foo
+                )
+                name: func
+                args: array(
+                    0: Arg(
+                        value: Expr_Yield(
+                            key: null
+                            value: Expr_Variable(
+                                name: foo
+                            )
+                        )
+                        byRef: false
+                    )
+                )
+            )
+            14: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: Foo
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Expr_Yield(
+                            key: null
+                            value: Expr_Variable(
+                                name: foo
+                            )
+                        )
+                        byRef: false
+                    )
+                )
+            )
+        )
+        name: gen
+    )
+)

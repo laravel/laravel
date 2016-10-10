@@ -1,0 +1,11 @@
+
+
+                                      
+  [InvalidArgumentException]          
+  The "--foo" option does not exist.  
+                                      
+
+
+list [--xml] [--raw] [--format="..."] [namespace]
+
+

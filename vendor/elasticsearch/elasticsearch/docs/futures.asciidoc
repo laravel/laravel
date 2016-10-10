@@ -1,0 +1,259 @@
+
+== Future Mode
+
+The client offers a mode called "future" or "async" mode.  This allows batch processing of requests (sent in parallel
+to the cluster), which can have a dramatic impact on performance and throughput.
+
+PHP is fundamentally single-threaded, however libcurl provides functionality called the "multi interface".  This allows
+languages like PHP to gain concurrency by providing a batch of requests to process.  The batch is executed in a parallel
+by the underlying multithreaded libcurl library, and the batch of responses is then returned to PHP.
+
+In a single-threaded environment, the time to execute `n` requests is the sum of those `n` request's latencies.  With
+the multi interface, the time to execute `n` requests is the latency of the slowest request (assuming enough handles
+are available to execute all requests in parallel).
+
+Furthermore, the multi-interface allows requests to different hosts simultaneously, which means the Elasticsearch-PHP
+client can more effectively utilize your full cluster.
+
+=== Using Future Mode
+
+Utilizing this feature is relatively straightforward, but it does introduce more responsibility into your code.  To enable
+future mode, set the `future` flag in the client options to `'lazy'`:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+
+$future = $client->get($params);
+----
+
+This will return a _future_, rather than the actual response.  A future represents a _future computation_ and acts like
+a placeholder.  You can pass a future around your code like a regular object.  When you need the result values, you
+can _resolve_ the future.  If the future has already resolved (due to some other activity), the values will be immediately
+available.  If the future has not resolved yet, the resolution will block until those values have become available (e.g.
+after the API call completes).
+
+In practice, this means you can queue up a batch of requests by using `future: lazy` and they will pend until you resolve
+the futures, at which time all requests will be sent in parallel to the cluster and return asynchronously to curl.
+
+This sounds tricky, but it is actually very simple thanks to RingPHP's `FutureArray` interface, which makes the future
+act like a simple associative array.  For example:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+
+$future = $client->get($params);
+
+$doc = $future['_source'];    // This call will block and force the future to resolve
+----
+
+Interacting with the future as an associative array, just like a normal response, will cause the future to resolve
+that particular value (which in turn resolves all pending requests and values).  This allows patterns such as:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+$futures = [];
+
+for ($i = 0; $i < 1000; $i++) {
+    $params = [
+        'index' => 'test',
+        'type' => 'test',
+        'id' => $i,
+        'client' => [
+            'future' => 'lazy'
+        ]
+    ];
+
+    $futures[] = $client->get($params);     //queue up the request
+}
+
+
+foreach ($futures as $future) {
+    // access future's values, causing resolution if necessary
+    echo $future['_source'];
+}
+----
+
+The queued requests will execute in parallel and populate their futures after execution.  Batch size defaults to
+100 requests-per-batch.
+
+If you wish to force future resolution, but don't actually need the values immediately, you can call `wait()` on the future
+to force resolution too:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+$futures = [];
+
+for ($i = 0; $i < 1000; $i++) {
+    $params = [
+        'index' => 'test',
+        'type' => 'test',
+        'id' => $i,
+        'client' => [
+            'future' => 'lazy'
+        ]
+    ];
+
+    $futures[] = $client->get($params);     //queue up the request
+}
+
+//wait() forces future resolution and will execute the underlying curl batch
+$futures[999]->wait();
+----
+
+=== Changing batch size
+
+The default batch size is 100, meaning 100 requests will queue up before the client forces futures to begin resolving
+(e.g. initiate a `curl_multi` call).  The batch size can be changed depending on your preferences.  The batch size
+is controllable via the `max_handles` setting when configuring the handler:
+
+[source,php]
+----
+$handlerParams = [
+    'max_handles' => 500
+];
+
+$defaultHandler = ClientBuilder::defaultHandler($handlerParams);
+
+$client = ClientBuilder::create()
+            ->setHandler($defaultHandler)
+            ->build();
+----
+
+This will change the behavior to wait on 500 queued requests before sending the batch.  Note, however, that forcing a
+future to resolve will cause the underlying curl batch to execute, regardless of if the batch is "full" or not.  In this
+example, only 499 requests are added to the queue...but the final future resolution will force the batch to flush
+anyway:
+
+[source,php]
+----
+$handlerParams = [
+    'max_handles' => 500
+];
+
+$defaultHandler = ClientBuilder::defaultHandler($handlerParams);
+
+$client = ClientBuilder::create()
+            ->setHandler($defaultHandler)
+            ->build();
+
+$futures = [];
+
+for ($i = 0; $i < 499; $i++) {
+    $params = [
+        'index' => 'test',
+        'type' => 'test',
+        'id' => $i,
+        'client' => [
+            'future' => 'lazy'
+        ]
+    ];
+
+    $futures[] = $client->get($params);     //queue up the request
+}
+
+// resolve the future, and therefore the underlying batch
+$body = $future[499]['body'];
+----
+
+=== Heterogeneous batches are OK
+
+It is possible to queue up heterogeneous batches of requests.  For example, you can queue up several GETs, indexing requests
+and a search:
+
+[source,php]
+----
+$client = ClientBuilder::create()->build();
+$futures = [];
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 1,
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+
+$futures['getRequest'] = $client->get($params);     // First request
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',
+    'id' => 2,
+    'body' => [
+        'field' => 'value'
+    ],
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+
+$futures['indexRequest'] = $client->index($params);       // Second request
+
+$params = [
+    'index' => 'test',
+    'type' => 'test',,
+    'body' => [
+        'query' => [
+            'match' => [
+                'field' => 'value'
+            ]
+        ]
+    ],
+    'client' => [
+        'future' => 'lazy'
+    ]
+];
+
+$futures['searchRequest'] = $client->search($params);      // Third request
+
+// Resolve futures...blocks until network call completes
+$searchResults = $futures['searchRequest']['hits'];
+
+// Should return immediately, since the previous future resolved the entire batch
+$doc = $futures['getRequest']['_source'];
+----
+
+=== Caveats to Future mode
+
+There are a few caveats to using future mode.  The biggest is also the most obvious: you need to deal with resolving the
+future yourself.  This is usually trivia, but can sometimes introduce unexpected complications.
+
+For example, if you resolve manually using `wait()`, you may need to call `wait()` several times if there were retries.
+This is because each retry will introduce another layer of wrapped futures, and each needs to be resolved to get the
+final result.
+
+This is not needed if you access values via the ArrayInterface however (e.g. `$response['hits']['hits']`), since
+FutureArrayInterface will automatically and fully resolve the future to provide values.
+
+Another caveat is that certain APIs will lose their "helper" functionality.  For example, "exists" APIs (e.g.
+`$client->exists()`, `$client->indices()->exists`, `$client->indices->templateExists()`, etc) typically return a true
+or false under normal operation.
+
+When operated in future mode, unwrapping of the future is left to your application,
+which means the client can no longer inspect the response and return a simple true/false.  Instead, you'll see the raw
+response from Elasticsearch and will have to take action appropriately.
+
+This also applies to `ping()`.

@@ -1,0 +1,7 @@
+imports:
+    - php
+
+tools:
+    external_code_coverage:
+        runs: 5 # No Code Coverage on PHP 5.2 and HHVM
+        timeout: 2700 # 45 minutes

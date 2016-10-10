@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm-nightly
+
+script:
+  - phpunit --coverage-text
+  - phpunit --group unicode --coverage-text

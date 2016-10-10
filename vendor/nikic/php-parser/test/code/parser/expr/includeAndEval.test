@@ -1,0 +1,40 @@
+Include and eval
+-----
+<?php
+include 'A.php';
+include_once 'A.php';
+require 'A.php';
+require_once 'A.php';
+eval('A');
+-----
+array(
+    0: Expr_Include(
+        expr: Scalar_String(
+            value: A.php
+        )
+        type: 1
+    )
+    1: Expr_Include(
+        expr: Scalar_String(
+            value: A.php
+        )
+        type: 2
+    )
+    2: Expr_Include(
+        expr: Scalar_String(
+            value: A.php
+        )
+        type: 3
+    )
+    3: Expr_Include(
+        expr: Scalar_String(
+            value: A.php
+        )
+        type: 4
+    )
+    4: Expr_Eval(
+        expr: Scalar_String(
+            value: A
+        )
+    )
+)

@@ -1,0 +1,143 @@
+/* container */
+.ke-container-qq {
+	display: block;
+	border: 1px solid #c3c3c3;
+	background-color: #FFF;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+/* toolbar */
+.ke-container-qq .ke-toolbar {
+	border-bottom: 1px solid #c3c3c3;
+	background-color: #FFFFFF;
+	padding: 2px 5px;
+	text-align: left;
+	overflow: hidden;
+	zoom: 1;
+}
+.ke-toolbar-icon-url {
+	background-image: url(editor.gif);
+	width:18px;
+	*xwidth:20px;
+	height:18px;
+	*xheight:20px;
+}
+.ke-icon-checked{
+	background-image: url(../default/default.png);
+	width:16px;
+	height:16px;
+}
+.ke-container-qq .ke-icon-bold{
+	background-position: 4px 1px;
+}
+.ke-container-qq .ke-icon-italic{
+	background-position: -27px 1px;
+}
+.ke-container-qq .ke-icon-italic{
+	background-position: -28px 1px;
+}
+.ke-container-qq .ke-icon-underline{
+	background-position: -60px 1px;
+}
+.ke-container-qq .ke-icon-fontname{
+	background-position: -95px 1px;
+}
+.ke-container-qq .ke-icon-fontsize{
+	background-position: -128px 1px;
+}
+.ke-container-qq .ke-icon-forecolor{
+	background-position: -159px 1px;
+}
+.ke-container-qq .ke-icon-hilitecolor{
+	background-position: -190px 1px;
+}
+.ke-container-qq .ke-icon-plug-align{
+	background-position: -223px 1px;
+}
+.plug-align-justifyleft{
+	background-position: -350px 1px;
+}
+.plug-align-justifycenter{
+	background-position: -382px 1px;
+}
+.plug-align-justifyright{
+	background-position: -414px 1px;
+}
+.plug-order-insertorderedlist{
+	background-position: -446px 1px;
+}
+.plug-order-insertunorderedlist{
+	background-position: -477px 1px;
+}
+.plug-indent-indent{
+	background-position: -513px 1px;
+}
+.plug-indent-outdent{
+	background-position: -545px 1px;
+}
+.ke-container-qq .ke-icon-plug-order{
+	background-position: -255px 1px;
+}
+.ke-container-qq .ke-icon-plug-indent{
+	background-position: -287px 1px;
+}
+.ke-container-qq .ke-icon-link{
+	background-position: -319px 1px;
+}
+
+.ke-container-qq .ke-toolbar .ke-outline {
+	cursor: default;
+	padding:0px;
+	border:1px solid #fff;
+}
+.ke-container-qq .ke-toolbar .ke-on {
+	border-left:1px solid white;
+	border-top:1px solid white;
+	border-right:1px solid gray;
+	border-bottom:1px solid gray;
+	background-color: #FFFFFF;
+}
+.ke-container-qq .ke-toolbar .ke-selected {
+	border-left:1px solid gray;
+	border-top:1px solid gray;
+	border-right:1px solid white;
+	border-bottom:1px solid white;
+	background-color: #FFFFFF;
+}
+.ke-container-qq .ke-toolbar  .ke-disabled {
+	cursor: default;
+}
+
+.ke-colorpicker-qq{
+	background:#fff;
+}
+/* statusbar */
+.ke-container-qq .ke-statusbar {
+	display:none;
+}
+/* menu */
+.ke-menu-qq {
+	border:1px solid #a6a6a6;
+	position:absolute;
+	background:#fff;
+	-moz-box-shadow:2px 2px 4px #DDDDDD;
+	z-index:999;
+	left:-400px;
+	top:-386px;
+	right:218px;
+	width:130px;
+}
+.ke-menu-qq .ke-menu-item {
+	padding:0px;
+	background:#fff;
+}
+.ke-menu-qq .ke-menu-item-on {
+	border:1px solid #000080;background:#FFEEC2;color:#036;
+}
+.ke-menu-qq .ke-toolbar .ke-selected {
+	border:1px solid #9a9afb;
+}
+.ke-menu-qq .ke-menu-item-left{
+	width:auto;
+}

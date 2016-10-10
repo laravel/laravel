@@ -1,0 +1,52 @@
+File containing both inline HTML and PHP
+-----
+HTML
+<?php
+echo 'PHP';
+-----
+HTML
+<?php
+echo 'PHP';
+-----
+<?php
+echo 'PHP';
+?>
+HTML
+-----
+<?php
+
+echo 'PHP';
+?>
+HTML
+-----
+HTML
+<?php
+echo 'PHP';
+?>
+HTML
+-----
+HTML
+<?php
+echo 'PHP';
+?>
+HTML
+-----
+HTML
+<?php
+echo 'PHP';
+?>
+HTML
+<?php
+echo 'PHP';
+?>
+HTML
+-----
+HTML
+<?php
+echo 'PHP';
+?>
+HTML
+<?php
+echo 'PHP';
+?>
+HTML

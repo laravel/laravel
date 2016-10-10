@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>SimpleTest</name>
+  <summary>Unit testing, mock objects and web testing framework for PHP.</summary>
+  <description>The heart of SimpleTest is a testing framework built around test case classes.
+These are written as extensions of base test case classes, each extended with
+methods that actually contain test code. Top level test scripts then invoke
+the run()  methods on every one of these test cases in order. Each test
+method is written to invoke various assertions that the developer expects to
+be true such as assertEqual(). If the expectation is correct, then a
+successful result is dispatched to the observing test reporter, but any
+failure triggers an alert and a description of the mismatch.
+
+These tools are designed for the developer. Tests are written in the PHP
+language itself more or less as the application itself is built. The advantage
+of using PHP itself as the testing language is that there are no new languages
+to learn, testing can start straight away, and the developer can test any part
+of the code. Basically, all parts that can be accessed by the application code
+can also be accessed by the test code if they are in the same language. </description>
+  <maintainers>
+    <maintainer>
+      <user>lastcraft</user>
+      <name>Marcus Baker</name>
+      <email>marcus@lastcraft.com</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>jsweat</user>
+      <name>Jason Sweat</name>
+      <email>jsweat_php@yahoo.com</email>
+      <role>helper</role>
+    </maintainer>
+    <maintainer>
+      <user>hfuecks</user>
+      <name>Harry Fuecks</name>
+      <email>hfuecks@phppatterns.com</email>
+      <role>helper</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.9.4</version>
+    <date>2004-02-20</date>
+    <license>The Open Group Test Suite License</license>
+    <state>beta</state>
+    <notes>This is the final version of the PHP unit and web testing tool before the
+stable release 1.0 version. It features many improvements to the HTML form
+parsing and exposure of the underlying web browser. There are also numerous
+minor improvements and bug fixes.</notes>
+    <provides type="class" name="PHPUnit_TestCase" extends="SimpleTestCase" />
+    <provides type="function" name="PHPUnit_TestCase::assertEquals" />
+    <provides type="function" name="PHPUnit_TestCase::assertNotNull" />
+    <provides type="function" name="PHPUnit_TestCase::assertNull" />
+    <provides type="function" name="PHPUnit_TestCase::assertSame" />
+    <provides type="function" name="PHPUnit_TestCase::assertNotSame" />
+    <provides type="function" name="PHPUnit_TestCase::assertTrue" />
+    <provides type="function" name="PHPUnit_TestCase::assertFalse" />
+    <provides type="function" name="PHPUnit_TestCase::assertRegExp" />
+    <provides type="function" name="PHPUnit_TestCase::assertType" />
+    <provides type="function" name="PHPUnit_TestCase::setLooselyTyped" />
+    <provides type="function" name="PHPUnit_TestCase::countTestCases" />
+    <provides type="function" name="PHPUnit_TestCase::getName" />
+    <provides type="function" name="PHPUnit_TestCase::setName" />
+    <provides type="class" name="TestCase" extends="SimpleTestCase" />
+    <provides type="function" name="TestCase::assert" />
+    <provides type="function" name="TestCase::assertEquals" />
+    <provides type="function" name="TestCase::assertEqualsMultilineStrings" />
+    <provides type="function" name="TestCase::assertRegexp" />
+    <provides type="function" name="TestCase::error" />
+    <provides type="function" name="TestCase::name" />
+    <provides type="class" name="WebUnitReporter" extends="SimpleReporter" />
+    <provides type="function" name="WebUnitReporter::paintHeader" />
+    <provides type="function" name="WebUnitReporter::sendNoCacheHeaders" />
+    <provides type="function" name="WebUnitReporter::paintFooter" />
+    <provides type="function" name="WebUnitReporter::paintFormattedMessage" />
+    <provides type="function" name="WebUnitReporter::paintGroupStart" />
+    <provides type="function" name="WebUnitReporter::paintCaseStart" />
+    <provides type="function" name="WebUnitReporter::paintMethodStart" />
+    <provides type="function" name="WebUnitReporter::paintMethodEnd" />
+    <provides type="function" name="WebUnitReporter::paintFail" />
+    <provides type="function" name="WebUnitReporter::paintException" />
+    <provides type="function" name="WebUnitReporter::outputScript" />
+    <provides type="function" name="WebUnitReporter::toJsString" />
+    <provides type="class" name="SimpleBrowser" />
+    <provides type="function" name="SimpleBrowser::getBaseUrl" />
+    <provides type="function" name="SimpleBrowser::getCurrentUrl" />
+    <provides type="function" name="SimpleBrowser::restartSession" />
+    <provides type="function" name="SimpleBrowser::ageCookies" />
+    <provides type="function" name="SimpleBrowser::setCookie" />
+    <provides type="function" name="SimpleBrowser::getCookieValue" />
+    <provides type="function" name="SimpleBrowser::getBaseCookieValue" />
+    <provides type="function" name="SimpleBrowser::setMaximumRedirects" />
+    <provides type="function" name="SimpleBrowser::get" />
+    <provides type="function" name="SimpleBrowser::head" />
+    <provides type="function" name="SimpleBrowser::post" />
+    <provides type="function" name="SimpleBrowser::getMimeType" />
+    <provides type="function" name="SimpleBrowser::getResponseCode" />
+    <provides type="function" name="SimpleBrowser::getContent" />
+    <provides type="function" name="SimpleBrowser::getTitle" />
+    <provides type="function" name="SimpleBrowser::setField" />
+    <provides type="function" name="SimpleBrowser::getField" />
+    <provides type="function" name="SimpleBrowser::clickSubmit" />
+    <provides type="function" name="SimpleBrowser::submitFormById" />
+    <provides type="function" name="SimpleBrowser::clickLink" />
+    <provides type="function" name="SimpleBrowser::clickLinkById" />
+    <provides type="class" name="SimpleDumper" />
+    <provides type="function" name="SimpleDumper::describeValue" />
+    <provides type="function" name="SimpleDumper::getType" />
+    <provides type="function" name="SimpleDumper::describeDifference" />
+    <provides type="function" name="SimpleDumper::clipString" />
+    <provides type="function" name="SimpleDumper::dump" />
+    <provides type="class" name="SimpleErrorQueue" />
+    <provides type="function" name="SimpleErrorQueue::add" />
+    <provides type="function" name="SimpleErrorQueue::extract" />
+    <provides type="function" name="SimpleErrorQueue::clear" />
+    <provides type="function" name="SimpleErrorQueue::isEmpty" />
+    <provides type="function" name="SimpleErrorQueue::instance" />
+    <provides type="function" name="SimpleErrorQueue::getSeverityAsString" />
+    <provides type="function" name="simpleTestErrorHandler" />
+    <provides type="class" name="SimpleExpectation" />
+    <provides type="class" name="EqualExpectation" extends="SimpleExpectation" />
+    <provides type="class" name="NotEqualExpectation" extends="EqualExpectation" />
+    <provides type="class" name="IdenticalExpectation" extends="EqualExpectation" />
+    <provides type="class" name="NotIdenticalExpectation" extends="IdenticalExpectation" />
+    <provides type="class" name="WantedPatternExpectation" extends="SimpleExpectation" />
+    <provides type="class" name="UnwantedPatternExpectation" extends="WantedPatternExpectation" />
+    <provides type="class" name="IsAExpectation" extends="SimpleExpectation" />
+    <provides type="class" name="MethodExistsExpectation" extends="SimpleExpectation" />
+    <provides type="function" name="SimpleExpectation::test" />
+    <provides type="function" name="SimpleExpectation::testMessage" />
+    <provides type="function" name="EqualExpectation::test" />
+    <provides type="function" name="EqualExpectation::testMessage" />
+    <provides type="function" name="NotEqualExpectation::test" />
+    <provides type="function" name="NotEqualExpectation::testMessage" />
+    <provides type="function" name="IdenticalExpectation::test" />
+    <provides type="function" name="IdenticalExpectation::testMessage" />
+    <provides type="function" name="NotIdenticalExpectation::test" />
+    <provides type="function" name="NotIdenticalExpectation::testMessage" />
+    <provides type="function" name="WantedPatternExpectation::test" />
+    <provides type="function" name="WantedPatternExpectation::testMessage" />
+    <provides type="function" name="UnwantedPatternExpectation::test" />
+    <provides type="function" name="UnwantedPatternExpectation::testMessage" />
+    <provides type="function" name="IsAExpectation::test" />
+    <provides type="function" name="IsAExpectation::testMessage" />
+    <provides type="function" name="MethodExistsExpectation::test" />
+    <provides type="function" name="MethodExistsExpectation::testMessage" />
+    <provides type="class" name="SimpleFrameset" />
+    <provides type="function" name="SimpleFrameset::getTitle" />
+    <provides type="class" name="SimpleUrl" />
+    <provides type="class" name="SimpleCookie" />
+    <provides type="class" name="SimpleHttpRequest" />
+    <provides type="class" name="SimpleHttpPushRequest" extends="SimpleHttpRequest" />
+    <provides type="class" name="SimpleHttpHeaders" />
+    <provides type="class" name="SimpleHttpResponse" extends="StickyError" />
+    <provides type="function" name="SimpleUrl::getScheme" />
+    <provides type="function" name="SimpleUrl::getUsername" />
+    <provides type="function" name="SimpleUrl::getPassword" />
+    <provides type="function" name="SimpleUrl::getHost" />
+    <provides type="function" name="SimpleUrl::getTld" />
+    <provides type="function" name="SimpleUrl::getPort" />
+    <provides type="function" name="SimpleUrl::getPath" />
+    <provides type="function" name="SimpleUrl::getPage" />
+    <provides type="function" name="SimpleUrl::getBasePath" />
+    <provides type="function" name="SimpleUrl::getFragment" />
+    <provides type="function" name="SimpleUrl::getEncodedRequest" />
+    <provides type="function" name="SimpleUrl::encodeRequest" />
+    <provides type="function" name="SimpleUrl::getRequest" />
+    <provides type="function" name="SimpleUrl::addRequestParameter" />
+    <provides type="function" name="SimpleUrl::addRequestParameters" />
+    <provides type="function" name="SimpleUrl::makeAbsolute" />
+    <provides type="function" name="SimpleUrl::normalisePath" />
+    <provides type="function" name="SimpleCookie::setHost" />
+    <provides type="function" name="SimpleCookie::getHost" />
+    <provides type="function" name="SimpleCookie::isValidHost" />
+    <provides type="function" name="SimpleCookie::getName" />
+    <provides type="function" name="SimpleCookie::getValue" />
+    <provides type="function" name="SimpleCookie::getPath" />
+    <provides type="function" name="SimpleCookie::isValidPath" />
+    <provides type="function" name="SimpleCookie::getExpiry" />
+    <provides type="function" name="SimpleCookie::isExpired" />
+    <provides type="function" name="SimpleCookie::agePrematurely" />
+    <provides type="function" name="SimpleCookie::isSecure" />
+    <provides type="function" name="SimpleHttpRequest::fetch" />
+    <provides type="function" name="SimpleHttpRequest::addHeaderLine" />
+    <provides type="function" name="SimpleHttpRequest::setCookie" />
+    <provides type="function" name="SimpleHttpHeaders::getHttpVersion" />
+    <provides type="function" name="SimpleHttpHeaders::getResponseCode" />
+    <provides type="function" name="SimpleHttpHeaders::getLocation" />
+    <provides type="function" name="SimpleHttpHeaders::isRedirect" />
+    <provides type="function" name="SimpleHttpHeaders::getMimeType" />
+    <provides type="function" name="SimpleHttpHeaders::getNewCookies" />
+    <provides type="function" name="SimpleHttpResponse::getUrl" />
+    <provides type="function" name="SimpleHttpResponse::getContent" />
+    <provides type="function" name="SimpleHttpResponse::getHeaders" />
+    <provides type="function" name="SimpleHttpResponse::getNewCookies" />
+    <provides type="class" name="WildcardExpectation" extends="SimpleExpectation" />
+    <provides type="class" name="ParametersExpectation" extends="SimpleExpectation" />
+    <provides type="class" name="CallMap" />
+    <provides type="class" name="SimpleStub" />
+    <provides type="class" name="SimpleMock" extends="SimpleStub" />
+    <provides type="class" name="Stub" />
+    <provides type="class" name="Mock" />
+    <provides type="function" name="WildcardExpectation::test" />
+    <provides type="function" name="WildcardExpectation::testMessage" />
+    <provides type="function" name="ParametersExpectation::test" />
+    <provides type="function" name="ParametersExpectation::testMessage" />
+    <provides type="function" name="CallMap::addValue" />
+    <provides type="function" name="CallMap::addReference" />
+    <provides type="function" name="CallMap::findFirstMatch" />
+    <provides type="function" name="CallMap::isMatch" />
+    <provides type="function" name="SimpleStub::clearHistory" />
+    <provides type="function" name="SimpleStub::getCallCount" />
+    <provides type="function" name="SimpleStub::setReturnValue" />
+    <provides type="function" name="SimpleStub::setReturnValueAt" />
+    <provides type="function" name="SimpleStub::setReturnReference" />
+    <provides type="function" name="SimpleStub::setReturnReferenceAt" />
+    <provides type="function" name="SimpleMock::getTest" />
+    <provides type="function" name="SimpleMock::requireReturn" />
+    <provides type="function" name="SimpleMock::expectArguments" />
+    <provides type="function" name="SimpleMock::expectArgumentsAt" />
+    <provides type="function" name="SimpleMock::expectCallCount" />
+    <provides type="function" name="SimpleMock::expectMaximumCallCount" />
+    <provides type="function" name="SimpleMock::expectMinimumCallCount" />
+    <provides type="function" name="SimpleMock::expectNever" />
+    <provides type="function" name="SimpleMock::expectOnce" />
+    <provides type="function" name="SimpleMock::expectAtLeastOnce" />
+    <provides type="function" name="SimpleMock::tally" />
+    <provides type="function" name="Stub::generate" />
+    <provides type="function" name="Stub::setStubBaseClass" />
+    <provides type="function" name="Mock::generate" />
+    <provides type="function" name="Mock::generatePartial" />
+    <provides type="function" name="Mock::setMockBaseClass" />
+    <provides type="class" name="SimpleTestOptions" />
+    <provides type="function" name="SimpleTestOptions::getVersion" />
+    <provides type="function" name="SimpleTestOptions::ignore" />
+    <provides type="function" name="SimpleTestOptions::isIgnored" />
+    <provides type="function" name="SimpleTestOptions::setStubBaseClass" />
+    <provides type="function" name="SimpleTestOptions::getStubBaseClass" />
+    <provides type="function" name="SimpleTestOptions::setMockBaseClass" />
+    <provides type="function" name="SimpleTestOptions::getMockBaseClass" />
+    <provides type="function" name="SimpleTestOptions::addPartialMockCode" />
+    <provides type="function" name="SimpleTestOptions::getPartialMockCode" />
+    <provides type="function" name="SimpleTestOptions::getDefaults" />
+    <provides type="class" name="SimplePageBuilder" extends="SimpleSaxListener" />
+    <provides type="class" name="SimplePage" />
+    <provides type="function" name="SimplePageBuilder::parse" />
+    <provides type="function" name="SimplePageBuilder::startElement" />
+    <provides type="function" name="SimplePageBuilder::endElement" />
+    <provides type="function" name="SimplePageBuilder::addContent" />
+    <provides type="function" name="SimplePage::getRaw" />
+    <provides type="function" name="SimplePage::acceptTag" />
+    <provides type="function" name="SimplePage::acceptFormStart" />
+    <provides type="function" name="SimplePage::acceptFormEnd" />
+    <provides type="function" name="SimplePage::getAbsoluteLinks" />
+    <provides type="function" name="SimplePage::getRelativeLinks" />
+    <provides type="function" name="SimplePage::getUrls" />
+    <provides type="function" name="SimplePage::getUrlById" />
+    <provides type="function" name="SimplePage::getTitle" />
+    <provides type="function" name="SimplePage::getForms" />
+    <provides type="function" name="SimplePage::getFormBySubmitLabel" />
+    <provides type="function" name="SimplePage::getFormById" />
+    <provides type="function" name="SimplePage::getField" />
+    <provides type="function" name="SimplePage::setField" />
+    <provides type="class" name="ParallelRegex" />
+    <provides type="class" name="SimpleStateStack" />
+    <provides type="class" name="SimpleLexer" />
+    <provides type="class" name="SimpleSaxParser" />
+    <provides type="class" name="SimpleSaxListener" />
+    <provides type="function" name="ParallelRegex::addPattern" />
+    <provides type="function" name="ParallelRegex::match" />
+    <provides type="function" name="SimpleStateStack::getCurrent" />
+    <provides type="function" name="SimpleStateStack::enter" />
+    <provides type="function" name="SimpleStateStack::leave" />
+    <provides type="function" name="SimpleLexer::addPattern" />
+    <provides type="function" name="SimpleLexer::addEntryPattern" />
+    <provides type="function" name="SimpleLexer::addExitPattern" />
+    <provides type="function" name="SimpleLexer::addSpecialPattern" />
+    <provides type="function" name="SimpleLexer::mapHandler" />
+    <provides type="function" name="SimpleLexer::parse" />
+    <provides type="function" name="SimpleSaxParser::createLexer" />
+    <provides type="function" name="SimpleSaxParser::parse" />
+    <provides type="function" name="SimpleSaxParser::acceptStartToken" />
+    <provides type="function" name="SimpleSaxParser::acceptEndToken" />
+    <provides type="function" name="SimpleSaxParser::acceptAttributeToken" />
+    <provides type="function" name="SimpleSaxParser::acceptEntityToken" />
+    <provides type="function" name="SimpleSaxParser::acceptTextToken" />
+    <provides type="function" name="SimpleSaxParser::ignore" />
+    <provides type="function" name="SimpleSaxListener::startElement" />
+    <provides type="function" name="SimpleSaxListener::endElement" />
+    <provides type="function" name="SimpleSaxListener::addContent" />
+    <provides type="class" name="SimpleQueryString" />
+    <provides type="function" name="SimpleQueryString::add" />
+    <provides type="function" name="SimpleQueryString::getValue" />
+    <provides type="function" name="SimpleQueryString::asString" />
+    <provides type="class" name="RemoteTestCase" extends="RunnableTest" />
+    <provides type="function" name="RemoteTestCase::run" />
+    <provides type="function" name="RemoteTestCase::getSize" />
+    <provides type="class" name="HtmlReporter" extends="SimpleReporter" />
+    <provides type="class" name="TextReporter" extends="SimpleReporter" />
+    <provides type="class" name="CommandLineReporter" extends="TextReporter" />
+    <provides type="function" name="HtmlReporter::paintHeader" />
+    <provides type="function" name="HtmlReporter::sendNoCacheHeaders" />
+    <provides type="function" name="HtmlReporter::paintFooter" />
+    <provides type="function" name="HtmlReporter::paintFail" />
+    <provides type="function" name="HtmlReporter::paintException" />
+    <provides type="function" name="HtmlReporter::paintFormattedMessage" />
+    <provides type="function" name="TextReporter::paintHeader" />
+    <provides type="function" name="TextReporter::paintFooter" />
+    <provides type="function" name="TextReporter::paintFail" />
+    <provides type="function" name="TextReporter::paintException" />
+    <provides type="function" name="TextReporter::paintFormattedMessage" />
+    <provides type="class" name="SimpleRunner" />
+    <provides type="class" name="SimpleRunnerDecorator" />
+    <provides type="class" name="SimpleReporter" extends="SimpleRunner" />
+    <provides type="class" name="TestDisplay" extends="SimpleReporter" />
+    <provides type="function" name="SimpleRunner::makeDry" />
+    <provides type="function" name="SimpleRunner::invoke" />
+    <provides type="function" name="SimpleRunner::getStatus" />
+    <provides type="function" name="SimpleRunner::paintMethodStart" />
+    <provides type="function" name="SimpleRunner::paintMethodEnd" />
+    <provides type="function" name="SimpleRunner::paintCaseStart" />
+    <provides type="function" name="SimpleRunner::paintCaseEnd" />
+    <provides type="function" name="SimpleRunner::paintGroupStart" />
+    <provides type="function" name="SimpleRunner::paintGroupEnd" />
+    <provides type="function" name="SimpleRunner::paintPass" />
+    <provides type="function" name="SimpleRunner::paintFail" />
+    <provides type="function" name="SimpleRunner::paintError" />
+    <provides type="function" name="SimpleRunner::paintException" />
+    <provides type="function" name="SimpleRunner::getPassCount" />
+    <provides type="function" name="SimpleRunner::getFailCount" />
+    <provides type="function" name="SimpleRunner::getExceptionCount" />
+    <provides type="function" name="SimpleRunner::paintMessage" />
+    <provides type="function" name="SimpleRunner::paintFormattedMessage" />
+    <provides type="function" name="SimpleRunner::paintSignal" />
+    <provides type="function" name="SimpleRunnerDecorator::invoke" />
+    <provides type="function" name="SimpleRunnerDecorator::paintPass" />
+    <provides type="function" name="SimpleRunnerDecorator::paintFail" />
+    <provides type="function" name="SimpleRunnerDecorator::paintError" />
+    <provides type="function" name="SimpleRunnerDecorator::paintException" />
+    <provides type="function" name="SimpleRunnerDecorator::paintMessage" />
+    <provides type="function" name="SimpleRunnerDecorator::paintFormattedMessage" />
+    <provides type="function" name="SimpleRunnerDecorator::paintSignal" />
+    <provides type="function" name="SimpleReporter::paintGroupStart" />
+    <provides type="function" name="SimpleReporter::paintGroupEnd" />
+    <provides type="function" name="SimpleReporter::paintCaseStart" />
+    <provides type="function" name="SimpleReporter::paintCaseEnd" />
+    <provides type="function" name="SimpleReporter::paintMethodStart" />
+    <provides type="function" name="SimpleReporter::paintMethodEnd" />
+    <provides type="function" name="SimpleReporter::paintHeader" />
+    <provides type="function" name="SimpleReporter::paintFooter" />
+    <provides type="function" name="SimpleReporter::getTestList" />
+    <provides type="function" name="SimpleReporter::getTestCaseCount" />
+    <provides type="function" name="SimpleReporter::getTestCaseProgress" />
+    <provides type="function" name="SimpleReporter::inCli" />
+    <provides type="class" name="SimpleShell" />
+    <provides type="class" name="ShellTestCase" extends="SimpleTestCase" />
+    <provides type="function" name="SimpleShell::execute" />
+    <provides type="function" name="SimpleShell::getOutput" />
+    <provides type="function" name="ShellTestCase::execute" />
+    <provides type="function" name="ShellTestCase::assertExitCode" />
+    <provides type="function" name="ShellTestCase::assertOutput" />
+    <provides type="function" name="ShellTestCase::assertOutputPattern" />
+    <provides type="function" name="ShellTestCase::assertNoOutputPattern" />
+    <provides type="function" name="ShellTestCase::assertFileExists" />
+    <provides type="function" name="ShellTestCase::assertFileNotExists" />
+    <provides type="function" name="ShellTestCase::assertFilePattern" />
+    <provides type="function" name="ShellTestCase::assertNoFilePattern" />
+    <provides type="class" name="RunnableTest" />
+    <provides type="class" name="SimpleTestCase" extends="RunnableTest" />
+    <provides type="class" name="GroupTest" extends="RunnableTest" />
+    <provides type="function" name="RunnableTest::getLabel" />
+    <provides type="function" name="RunnableTest::run" />
+    <provides type="function" name="RunnableTest::getSize" />
+    <provides type="function" name="SimpleTestCase::run" />
+    <provides type="function" name="SimpleTestCase::invoke" />
+    <provides type="function" name="SimpleTestCase::setUp" />
+    <provides type="function" name="SimpleTestCase::tearDown" />
+    <provides type="function" name="SimpleTestCase::pass" />
+    <provides type="function" name="SimpleTestCase::fail" />
+    <provides type="function" name="SimpleTestCase::error" />
+    <provides type="function" name="SimpleTestCase::signal" />
+    <provides type="function" name="SimpleTestCase::swallowErrors" />
+    <provides type="function" name="SimpleTestCase::assertExpectation" />
+    <provides type="function" name="SimpleTestCase::assertTrue" />
+    <provides type="function" name="SimpleTestCase::assertFalse" />
+    <provides type="function" name="SimpleTestCase::dump" />
+    <provides type="function" name="SimpleTestCase::sendMessage" />
+    <provides type="function" name="GroupTest::addTestCase" />
+    <provides type="function" name="GroupTest::addTestFile" />
+    <provides type="function" name="GroupTest::run" />
+    <provides type="function" name="GroupTest::getSize" />
+    <provides type="function" name="GroupTest::ignore" />
+    <provides type="class" name="StickyError" />
+    <provides type="class" name="SimpleSocket" extends="StickyError" />
+    <provides type="function" name="StickyError::isError" />
+    <provides type="function" name="StickyError::getError" />
+    <provides type="function" name="SimpleSocket::write" />
+    <provides type="function" name="SimpleSocket::read" />
+    <provides type="function" name="SimpleSocket::isOpen" />
+    <provides type="function" name="SimpleSocket::close" />
+    <provides type="class" name="SimpleTag" />
+    <provides type="class" name="SimpleTitleTag" extends="SimpleTag" />
+    <provides type="class" name="SimpleAnchorTag" extends="SimpleTag" />
+    <provides type="class" name="SimpleWidget" extends="SimpleTag" />
+    <provides type="class" name="SimpleTextTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleSubmitTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleTextAreaTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleCheckboxTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleSelectionTag" extends="SimpleWidget" />
+    <provides type="class" name="MultipleSelectionTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleOptionTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleRadioButtonTag" extends="SimpleWidget" />
+    <provides type="class" name="SimpleCheckboxGroup" />
+    <provides type="class" name="SimpleRadioGroup" />
+    <provides type="class" name="SimpleFormTag" extends="SimpleTag" />
+    <provides type="class" name="SimpleForm" />
+    <provides type="function" name="SimpleTag::expectEndTag" />
+    <provides type="function" name="SimpleTag::addContent" />
+    <provides type="function" name="SimpleTag::addTag" />
+    <provides type="function" name="SimpleTag::getTagName" />
+    <provides type="function" name="SimpleTag::getChildElements" />
+    <provides type="function" name="SimpleTag::getAttribute" />
+    <provides type="function" name="SimpleTag::getContent" />
+    <provides type="function" name="SimpleWidget::getName" />
+    <provides type="function" name="SimpleWidget::getDefault" />
+    <provides type="function" name="SimpleWidget::getValue" />
+    <provides type="function" name="SimpleWidget::setValue" />
+    <provides type="function" name="SimpleWidget::resetValue" />
+    <provides type="function" name="SimpleTextTag::expectEndTag" />
+    <provides type="function" name="SimpleTextTag::setValue" />
+    <provides type="function" name="SimpleSubmitTag::expectEndTag" />
+    <provides type="function" name="SimpleSubmitTag::setValue" />
+    <provides type="function" name="SimpleTextAreaTag::getDefault" />
+    <provides type="function" name="SimpleTextAreaTag::setValue" />
+    <provides type="function" name="SimpleCheckboxTag::expectEndTag" />
+    <provides type="function" name="SimpleCheckboxTag::setValue" />
+    <provides type="function" name="SimpleCheckboxTag::getDefault" />
+    <provides type="function" name="SimpleSelectionTag::addTag" />
+    <provides type="function" name="SimpleSelectionTag::addContent" />
+    <provides type="function" name="SimpleSelectionTag::getDefault" />
+    <provides type="function" name="SimpleSelectionTag::setValue" />
+    <provides type="function" name="SimpleSelectionTag::getValue" />
+    <provides type="function" name="MultipleSelectionTag::addTag" />
+    <provides type="function" name="MultipleSelectionTag::addContent" />
+    <provides type="function" name="MultipleSelectionTag::getDefault" />
+    <provides type="function" name="MultipleSelectionTag::setValue" />
+    <provides type="function" name="MultipleSelectionTag::getValue" />
+    <provides type="function" name="SimpleOptionTag::setValue" />
+    <provides type="function" name="SimpleOptionTag::getDefault" />
+    <provides type="function" name="SimpleRadioButtonTag::expectEndTag" />
+    <provides type="function" name="SimpleRadioButtonTag::setValue" />
+    <provides type="function" name="SimpleRadioButtonTag::getDefault" />
+    <provides type="function" name="SimpleCheckboxGroup::addWidget" />
+    <provides type="function" name="SimpleCheckboxGroup::getValue" />
+    <provides type="function" name="SimpleCheckboxGroup::getDefault" />
+    <provides type="function" name="SimpleCheckboxGroup::setValue" />
+    <provides type="function" name="SimpleRadioGroup::addWidget" />
+    <provides type="function" name="SimpleRadioGroup::setValue" />
+    <provides type="function" name="SimpleRadioGroup::getValue" />
+    <provides type="function" name="SimpleRadioGroup::getDefault" />
+    <provides type="function" name="SimpleForm::getMethod" />
+    <provides type="function" name="SimpleForm::getAction" />
+    <provides type="function" name="SimpleForm::getId" />
+    <provides type="function" name="SimpleForm::addWidget" />
+    <provides type="function" name="SimpleForm::getValue" />
+    <provides type="function" name="SimpleForm::setField" />
+    <provides type="function" name="SimpleForm::getValues" />
+    <provides type="function" name="SimpleForm::getSubmitName" />
+    <provides type="function" name="SimpleForm::submitButton" />
+    <provides type="function" name="SimpleForm::submitButtonByLabel" />
+    <provides type="function" name="SimpleForm::submit" />
+    <provides type="class" name="UnitTestCase" extends="SimpleTestCase" />
+    <provides type="function" name="UnitTestCase::assertNull" />
+    <provides type="function" name="UnitTestCase::assertNotNull" />
+    <provides type="function" name="UnitTestCase::assertIsA" />
+    <provides type="function" name="UnitTestCase::assertEqual" />
+    <provides type="function" name="UnitTestCase::assertNotEqual" />
+    <provides type="function" name="UnitTestCase::assertIdentical" />
+    <provides type="function" name="UnitTestCase::assertNotIdentical" />
+    <provides type="function" name="UnitTestCase::assertReference" />
+    <provides type="function" name="UnitTestCase::assertCopy" />
+    <provides type="function" name="UnitTestCase::assertWantedPattern" />
+    <provides type="function" name="UnitTestCase::assertNoUnwantedPattern" />
+    <provides type="function" name="UnitTestCase::assertNoErrors" />
+    <provides type="function" name="UnitTestCase::assertError" />
+    <provides type="function" name="UnitTestCase::assertErrorPattern" />
+    <provides type="function" name="is_a" />
+    <provides type="class" name="CookieJar" />
+    <provides type="class" name="SimpleUserAgent" />
+    <provides type="function" name="CookieJar::restartSession" />
+    <provides type="function" name="CookieJar::agePrematurely" />
+    <provides type="function" name="CookieJar::setCookie" />
+    <provides type="function" name="CookieJar::getValidCookies" />
+    <provides type="function" name="SimpleUserAgent::getBaseUrl" />
+    <provides type="function" name="SimpleUserAgent::getCurrentUrl" />
+    <provides type="function" name="SimpleUserAgent::restartSession" />
+    <provides type="function" name="SimpleUserAgent::ageCookies" />
+    <provides type="function" name="SimpleUserAgent::setCookie" />
+    <provides type="function" name="SimpleUserAgent::getCookieValue" />
+    <provides type="function" name="SimpleUserAgent::getBaseCookieValue" />
+    <provides type="function" name="SimpleUserAgent::setMaximumRedirects" />
+    <provides type="function" name="SimpleUserAgent::fetchResponse" />
+    <provides type="function" name="SimpleUserAgent::createAbsoluteUrl" />
+    <provides type="class" name="WebTestCase" extends="SimpleTestCase" />
+    <provides type="function" name="WebTestCase::showSource" />
+    <provides type="function" name="WebTestCase::restartSession" />
+    <provides type="function" name="WebTestCase::ageCookies" />
+    <provides type="function" name="WebTestCase::getBrowser" />
+    <provides type="function" name="WebTestCase::createBrowser" />
+    <provides type="function" name="WebTestCase::invoke" />
+    <provides type="function" name="WebTestCase::ignoreFrames" />
+    <provides type="function" name="WebTestCase::setCookie" />
+    <provides type="function" name="WebTestCase::setMaximumRedirects" />
+    <provides type="function" name="WebTestCase::get" />
+    <provides type="function" name="WebTestCase::post" />
+    <provides type="function" name="WebTestCase::clickSubmit" />
+    <provides type="function" name="WebTestCase::submitFormById" />
+    <provides type="function" name="WebTestCase::clickSubmitByFormId" />
+    <provides type="function" name="WebTestCase::submit" />
+    <provides type="function" name="WebTestCase::clickLink" />
+    <provides type="function" name="WebTestCase::clickLinkById" />
+    <provides type="function" name="WebTestCase::clickLinkId" />
+    <provides type="function" name="WebTestCase::setField" />
+    <provides type="function" name="WebTestCase::assertField" />
+    <provides type="function" name="WebTestCase::assertResponse" />
+    <provides type="function" name="WebTestCase::assertMime" />
+    <provides type="function" name="WebTestCase::assertTitle" />
+    <provides type="function" name="WebTestCase::assertWantedPattern" />
+    <provides type="function" name="WebTestCase::assertNoUnwantedPattern" />
+    <provides type="function" name="WebTestCase::assertCookie" />
+    <provides type="function" name="WebTestCase::assertNoCookie" />
+    <provides type="class" name="XmlReporter" extends="SimpleReporter" />
+    <provides type="class" name="NestingXmlTag" />
+    <provides type="class" name="NestingMethodTag" extends="NestingXmlTag" />
+    <provides type="class" name="NestingCaseTag" extends="NestingXmlTag" />
+    <provides type="class" name="NestingGroupTag" extends="NestingXmlTag" />
+    <provides type="class" name="SimpleTestXmlParser" />
+    <provides type="function" name="XmlReporter::toParsedXml" />
+    <provides type="function" name="XmlReporter::paintGroupStart" />
+    <provides type="function" name="XmlReporter::paintGroupEnd" />
+    <provides type="function" name="XmlReporter::paintCaseStart" />
+    <provides type="function" name="XmlReporter::paintCaseEnd" />
+    <provides type="function" name="XmlReporter::paintMethodStart" />
+    <provides type="function" name="XmlReporter::paintMethodEnd" />
+    <provides type="function" name="XmlReporter::paintPass" />
+    <provides type="function" name="XmlReporter::paintFail" />
+    <provides type="function" name="XmlReporter::paintException" />
+    <provides type="function" name="XmlReporter::paintMessage" />
+    <provides type="function" name="XmlReporter::paintFormattedMessage" />
+    <provides type="function" name="XmlReporter::paintSignal" />
+    <provides type="function" name="XmlReporter::paintHeader" />
+    <provides type="function" name="XmlReporter::paintFooter" />
+    <provides type="function" name="NestingXmlTag::setName" />
+    <provides type="function" name="NestingXmlTag::getName" />
+    <provides type="function" name="NestingMethodTag::paintStart" />
+    <provides type="function" name="NestingMethodTag::paintEnd" />
+    <provides type="function" name="NestingCaseTag::paintStart" />
+    <provides type="function" name="NestingCaseTag::paintEnd" />
+    <provides type="function" name="NestingGroupTag::paintStart" />
+    <provides type="function" name="NestingGroupTag::paintEnd" />
+    <provides type="function" name="NestingGroupTag::getSize" />
+    <provides type="function" name="SimpleTestXmlParser::parse" />
+    <deps>
+      <dep type="php" rel="ge" version="4.2.2" optional="no"/>
+    </deps>
+    <filelist>
+      <file role="data" baseinstalldir="simpletest" md5sum="57b8d745384127342f95660d97e1c9c2" name="adapters/CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="2b7250390148247001cadb8a5fbfadd3" name="adapters/CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="adapters/CVS/Root"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="86b4c77b0ae3098a74d7360383e4795d" name="CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="5d2faa986bab6401d59afeaa1cbcd377" name="CVS/Entries.Log"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="d2831889b58a9a5dcb3cf511f2138fef" name="CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="CVS/Root"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="957fb972bb56ec2fc4cb9e043f33153b" name="docs/expectation_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="4d76be28d68998d3acdbf0fd84a8c386" name="docs/form_testing_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="e2be277ce587ddd6ad654025ff9d2fde" name="docs/group_test_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="399836ebd45a984043a1014741c8e08a" name="docs/index.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="53be8b51c71b7bb913841a9db8ea1e40" name="docs/mock_objects_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="efcaf7aecbf554a218c8afcdccac3c6f" name="docs/overview.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="fbaaa44ec4836922a97f78dc25767f46" name="docs/partial_mocks_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="61be91680e210e622613dfb74b37ed46" name="docs/reporter_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="d27524171926f0645db94a19bd30cc3b" name="docs/server_stubs_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="d0077a179125208533f67ab5729b32bf" name="docs/unit_test_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="0754f44ef7d2ef7d6b2eb0da12d17161" name="docs/web_tester_documentation.html"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="b35e8a44b819e8dbe855df29b8edc541" name="docs/CVS/Entries"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="ce3a3e9e3a12eb18c98e17a939876f86" name="docs/CVS/Repository"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="docs/CVS/Root"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="05ddb3602ff2c066cce9538ddbffafe6" name="extensions/pear_test_case.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="40c3573c51601fadbfdd7d81b21b819f" name="extensions/phpunit_test_case.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="bd80d999fc551a74a842fac5a494b2e0" name="extensions/CVS/Entries"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="4a52c00a1b9d560c164fec847e7b35d4" name="extensions/CVS/Repository"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="extensions/CVS/Root"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="7c12fa92adf36454d7a07b4ae4960fb9" name="packages/makefile"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="1e04ba3b5a491877a6b093e5eaf94d20" name="packages/pear_package_create.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="d7f0cabe8bd211f414297a475b72222c" name="packages/simpletest.ini"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="2b2af8a130f01dbec1e4f70cbdf0216c" name="packages/CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="175f74a36616e4285e2bb9634960c695" name="packages/CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="packages/CVS/Root"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="06593d182c80f5403619de116de0722a" name="test/adapter_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="8a6790e31250a52d715eee7164114e85" name="test/all_tests.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="dc711b3d862f6dab7e75a6b17c5ee109" name="test/boundary_tests.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="ed90fbaed340e853f19644338c5f5c00" name="test/browser_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="19954bd4fe40ca96e3288f890ebb29ed" name="test/dumper_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="c98d3707dbb3a17f3eb4718bd44b814e" name="test/errors_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="c186d137ea036fc589cc7f5b1e22bfc6" name="test/expectation_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="4302a25827b8f45e3310589edd1ca791" name="test/frames_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="f31a48f91f4ec8ff9adecdaae971066c" name="test/http_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="e9ec6be76102634a378bc49b41bb7f65" name="test/live_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="90ce55650bab1ab0e6a3d6372647af1b" name="test/options_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="14e6276ae1641200a0e5c6ba484b2a17" name="test/page_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="a6b6ef1926cd759885c060587fc9a49e" name="test/parser_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="5c40c7780cf01e236e4935fed6c52fd6" name="test/query_string_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="c1cc1d683670d73883d7fafad353090d" name="test/real_sites_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="32eda7f5b6e6e5a4aadda413c9ebeb06" name="test/remote_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="cbb8f7de9111014eadc6b90f63677c42" name="test/shell_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="ab77dee4cae2758e94b7a11c31e8b179" name="test/shell_tester_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="6001788f743039c650ac147aa812ac81" name="test/simple_mock_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="a5bb54f1a280306ab5e2c03680f18ae2" name="test/socket_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="a8ad0c8f05eb5f50fc1de7546c64dea1" name="test/tag_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="a06ad15849d73b208ade0f9ba96f611b" name="test/unit_tests.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="9373c8c566cda8ed2149a5fe209131d7" name="test/user_agent_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="5acc0fb62be7f97c1078f0f64f2b20f4" name="test/visual_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="812ebe73cfc7005cec7b1c12c571c720" name="test/xml_test.php"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="6ec9b0427e8e84db459a5b93fa252db0" name="test/CVS/Entries"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="2416735a8ab2008298c39da1a69782f4" name="test/CVS/Entries.Log"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="9b1f51caa45c2c2434106a4dbdfebf96" name="test/CVS/Repository"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="test/CVS/Root"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="57b8d745384127342f95660d97e1c9c2" name="test/support/CVS/Entries"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="140879b54e3cbc1789e17bb52b09b627" name="test/support/CVS/Repository"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="test/support/CVS/Root"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="57b8d745384127342f95660d97e1c9c2" name="tutorials/CVS/Entries"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="c2e644f35e324518c9cb5fd061423447" name="tutorials/CVS/Entries.Log"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="1b719edf330dbc15757e28fac92c769b" name="tutorials/CVS/Repository"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="tutorials/CVS/Root"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="0d7688680c6855dc56f3f9848cc046ea" name="tutorials/SimpleTest/GroupTests.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="c6cac7a1cb45cd95be7d60b85f8a00be" name="tutorials/SimpleTest/MockObjects.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="3089850251a21138c8e47a7a56a03033" name="tutorials/SimpleTest/PartialMock.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="9c94a95d5e2bff9a617c5626c01a5445" name="tutorials/SimpleTest/Reporting.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="12886a28d5b8e66551f52fe17d118786" name="tutorials/SimpleTest/ServerStubs.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="ac53a7b4f9d53a69778e91b5264239a3" name="tutorials/SimpleTest/SimpleTest.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="12c2b768cbd17cca4dfabf019849951d" name="tutorials/SimpleTest/SimpleTest.pkg.ini"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="7fcd8a97c3fede0ee0e1fcc7d871d357" name="tutorials/SimpleTest/UnitTestCase.pkg"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="2320cc95aad1a48daa8dce32faf26ce4" name="tutorials/SimpleTest/CVS/Entries"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="1ecb8a2d4b8fe00de1d51a6eed04ee44" name="tutorials/SimpleTest/CVS/Repository"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="tutorials/SimpleTest/CVS/Root"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="413d313259d41236f06e3b1d4ca2cf2f" name="ui/webunit_reporter.php"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="b764971cdf3f5dd6cc89fc923a9d8321" name="ui/css/webunit.css"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="1c842b1ba57c9ef0afc90422afe15cbc" name="ui/css/CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="28a08b3a7947fbb338846884462a3b7e" name="ui/css/CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="ui/css/CVS/Root"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="fb79bccb89805eeab9646f4215c45420" name="ui/CVS/Entries"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="1ad8ede2f2ccc8a2756a5fcde24fb231" name="ui/CVS/Entries.Log"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="be44f1632babbd6fa47f10e5465d031f" name="ui/CVS/Repository"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="ui/CVS/Root"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="c0222c64f54202b63eca0371d51d11e4" name="ui/img/wait.gif"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="2b8b19610a6688247dd74246ad2b3c24" name="ui/img/CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="f30ffb1ed758705102d3a1039be41138" name="ui/img/CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="ui/img/CVS/Root"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="cfa4018060c6e6387b0ed81a0d02834a" name="ui/js/webunit.js"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="aae6394c3f4dbbe2879fdf5207c3ee74" name="ui/js/x.js"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="baa018246deb7521042e2461add7d842" name="ui/js/CVS/Entries"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="f13bba517184993178509c26238f58dd" name="ui/js/CVS/Entries.Log"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="8844973027da7d1ae1be2f140bd88b86" name="ui/js/CVS/Repository"/>
+      <file role="data" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="ui/js/CVS/Root"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="63cca591ca1be6ece6c89ceb01150701" name="ui/js/tests/TestOfWebunit.js.html"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="fd9059cba0c3f35e9ff804b7d8ef0d42" name="ui/js/tests/CVS/Entries"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="08f64becaa00d88ce8ffe17965d15802" name="ui/js/tests/CVS/Repository"/>
+      <file role="test" baseinstalldir="simpletest" md5sum="34dd7a9cf081c951cc23fd2bd020b9ec" name="ui/js/tests/CVS/Root"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="43c7b30ca765fa74968cb08b85ad6495" name="browser.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="b5e0e3a556571ed5755d2978c46cfa30" name="dumper.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="a678e879ae727ab16fa3938a17f58158" name="errors.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="7990faeaa9efcedeba9a1da255443420" name="expectation.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="785a9fc6c96a6e3826d8ff8a4758479a" name="frames.php"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="db5799cb9acbcd1bf21592a3f2751d12" name="HELP_MY_TESTS_DONT_WORK_ANYMORE"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="a2c2855ac6bc28a101f97a75b3b1997c" name="http.php"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="afa2e568f864be24b1c5c3aaac6ab34c" name="LICENSE"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="948aba5c364abe2504b35551bb7d5e9a" name="mock_objects.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="881acb74595b13b77ef5c7faebf8fcfc" name="options.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="ef7759089217d3192568d7ceb86774be" name="page.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="43fdcae4285d29d1f93930182c18a5fe" name="parser.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="10b1c6bb26cd88ac491c95e8bb1fc43d" name="query_string.php"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="7109ef978192e5bc8a4d9237cc8aaea3" name="README"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="cca19e26be64c76eb34655c3f19b55ca" name="remote.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="0112be72388bcda18c6cd43d71953546" name="reporter.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="f3c0df81cbad05c3d52806a85c4365e2" name="runner.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="6a29d666f9ba8529963714ce66193c2f" name="shell_tester.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="34a7ca4445a47a17ab9e99874689d5e4" name="simple_test.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="5cdcd369034da2795c78bd2e27d92bbc" name="socket.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="b681c663cadcd5a6ae27610797370d45" name="tag.php"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="5529758df672c3f9d7c06ebc4f865a8a" name="TODO"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="5deae25e8128fe76a9f1d7f50f84f6f4" name="unit_tester.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="6bb9d93d64ac8c24efdd1308732c067a" name="user_agent.php"/>
+      <file role="doc" baseinstalldir="simpletest" md5sum="0f6f4620df6da2939deddbe406e556a3" name="VERSION"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="26470a8b7154de3b5aba052c29a41da3" name="web_tester.php"/>
+      <file role="php" baseinstalldir="simpletest" md5sum="33f4aec8b1f3426b0593b556efed7d15" name="xml.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.9.4</version>
+      <date>2004-02-20</date>
+      <license>The Open Group Test Suite License</license>
+      <state>beta</state>
+      <notes>This is the final version of the PHP unit and web testing tool before the
+stable release 1.0 version. It features many improvements to the HTML form
+parsing and exposure of the underlying web browser. There are also numerous
+minor improvements and bug fixes.</notes>
+    </release>
+  </changelog>
+</package>

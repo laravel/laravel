@@ -1,0 +1,20 @@
+<info>Console Tool</info>
+
+<comment>Usage:</comment>
+  [options] command [arguments]
+
+<comment>Options:</comment>
+  <info>--help</info>           <info>-h</info> Display this help message.
+  <info>--quiet</info>          <info>-q</info> Do not output any message.
+  <info>--verbose</info>        <info>-v|vv|vvv</info> Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+  <info>--version</info>        <info>-V</info> Display this application version.
+  <info>--ansi</info>              Force ANSI output.
+  <info>--no-ansi</info>           Disable ANSI output.
+  <info>--no-interaction</info> <info>-n</info> Do not ask any interactive question.
+
+<comment>Available commands:</comment>
+  <info>afoobar  </info> The foo:bar command
+  <info>help     </info> Displays help for a command
+  <info>list     </info> Lists commands
+<comment>foo</comment>
+  <info>foo:bar  </info> The foo:bar command

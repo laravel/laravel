@@ -1,0 +1,26 @@
+{
+    "name": "filp/whoops",
+    "license": "MIT",
+    "description": "php error handling for cool kids",
+    "keywords": ["library", "error", "handling", "exception", "silex-provider", "whoops", "zf2"],
+    "homepage": "https://github.com/filp/whoops",
+    "authors": [
+        {
+            "name": "Filipe Dobreira",
+            "homepage": "https://github.com/filp",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master",
+        "silex/silex": "1.0.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Whoops": "src/"
+        }
+    }
+}

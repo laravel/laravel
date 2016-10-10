@@ -1,0 +1,139 @@
+Array definitions
+-----
+<?php
+
+array();
+array('a');
+array('a', );
+array('a', 'b');
+array('a', &$b, 'c' => 'd', 'e' => &$f);
+
+// short array syntax
+[];
+[1, 2, 3];
+['a' => 'b'];
+-----
+array(
+    0: Expr_Array(
+        items: array(
+        )
+    )
+    1: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: null
+                value: Scalar_String(
+                    value: a
+                )
+                byRef: false
+            )
+        )
+    )
+    2: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: null
+                value: Scalar_String(
+                    value: a
+                )
+                byRef: false
+            )
+        )
+    )
+    3: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: null
+                value: Scalar_String(
+                    value: a
+                )
+                byRef: false
+            )
+            1: Expr_ArrayItem(
+                key: null
+                value: Scalar_String(
+                    value: b
+                )
+                byRef: false
+            )
+        )
+    )
+    4: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: null
+                value: Scalar_String(
+                    value: a
+                )
+                byRef: false
+            )
+            1: Expr_ArrayItem(
+                key: null
+                value: Expr_Variable(
+                    name: b
+                )
+                byRef: true
+            )
+            2: Expr_ArrayItem(
+                key: Scalar_String(
+                    value: c
+                )
+                value: Scalar_String(
+                    value: d
+                )
+                byRef: false
+            )
+            3: Expr_ArrayItem(
+                key: Scalar_String(
+                    value: e
+                )
+                value: Expr_Variable(
+                    name: f
+                )
+                byRef: true
+            )
+        )
+    )
+    5: Expr_Array(
+        items: array(
+        )
+    )
+    6: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: null
+                value: Scalar_LNumber(
+                    value: 1
+                )
+                byRef: false
+            )
+            1: Expr_ArrayItem(
+                key: null
+                value: Scalar_LNumber(
+                    value: 2
+                )
+                byRef: false
+            )
+            2: Expr_ArrayItem(
+                key: null
+                value: Scalar_LNumber(
+                    value: 3
+                )
+                byRef: false
+            )
+        )
+    )
+    7: Expr_Array(
+        items: array(
+            0: Expr_ArrayItem(
+                key: Scalar_String(
+                    value: a
+                )
+                value: Scalar_String(
+                    value: b
+                )
+                byRef: false
+            )
+        )
+    )
+)

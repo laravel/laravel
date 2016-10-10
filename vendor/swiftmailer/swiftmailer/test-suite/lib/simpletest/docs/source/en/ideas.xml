@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Ideas for Google Summer of Code projects" here="Ideas for GSOC">
+    <long_title>Ideas for Google Summer of Code Projects</long_title>
+    <content>
+        <introduction>
+            <p>
+                Most of the stuff on the SimpleTest2 road map is incremental.
+                Ideas for Google Summer of Code projects are of another kind.
+                There're here to unleash and promote new crazy ideas to the project
+                and to PHP's testing universe!
+            </p>
+            <p>
+                Of course this list is not exhaustive:
+                if you have another itch to scratch, feel free
+                to add your wishes on the mailing-list.
+            </p>
+            <div class="experimental">
+                Careful though : currently the SimpleTest project is taking part under the
+                <a href="http://code.google.com/soc/2008/php/about.html">PHP umbrella</a>.
+                So handle with care!
+            </div>
+        </introduction>
+        <section name="browser" title="Browser related">
+            <dl>
+                <dt>
+                    Enable JavaScript inside SimpleTest browser.
+                </dt>
+                <dd>
+                    This would be a MASSIVE feature to have.
+                    We're probably talking about integrating
+                    a C-based or Java-based JavaScript engine.
+                    The Java folks have
+                    <a href="http://httpunit.sourceforge.net/doc/javascript-support.html">HttpUnit</a>
+                    already : some stuff could be derived from there.
+                    Demonstrating the feasibility alone would be a real
+                    step forward. The hard work is the DOM emulation.
+                </dd>
+                <dt>
+                    Add layer testing.
+                </dt>
+                <dd>
+                    When using an MVC framework is to support
+                    bypassing the webserver, and interacting with the framework at
+                    the level of Request and Response objects.
+                    It would be nice to see if we could develop an interface standard for
+                    the HTTP layer which would allow SimpleTest to work cleanly with
+                    different frameworks. On the other hand, maybe there already is enough
+                    of an interface in the standard PHP superglobals.
+                    Symfony with its lime test framework works in exactly this manner.
+                </dd>
+                <dt>
+                    Make parsers switchable and change the HTML Parser.
+                </dt>
+                <dd>
+                    Replace the html parser with
+                    <a href="http://www.php.net/tidy">tidylib</a>.
+                    It's super-fast compared to parsing in PHP.
+                    If there are worries about adding a dependency,
+                    then maybe make it an optional plug-in instead.
+                </dd>
+                <dt>
+                    Web Form Fuzzer.
+                </dt>
+                <dd>
+                    Fuzz testing is a software testing technique that provides random data
+                    ("fuzz") to the inputs of a program. If the program fails (for
+                    example, by crashing, or by failing built-in code assertions), the
+                    defects can be noted.
+                    <br />
+                    A Web Form Fuzzer would be built on top of the basic WebTestCase api,
+                    enabling developers to point a test case at a target URL and have it
+                    introspect form inputs and post actions. The fuzzer would generate
+                    random data strings, populate the input fields, and repeatedly post
+                    the forms, looking for errors, validation responses, and HTTP status
+                    codes that reflect how the site handled a combination of well-formed
+                    and malformed input. This would have the potential to completely wreck
+                    some websites, but would be great for testing the robustness and edge
+                    case behavior of CMS's and other online administration tools.
+                </dd>
+            </dl>
+        </section>
+        <section name="unit-tester" title="Unit-testing related">
+            <dl>
+                <dt>
+                    Mutation test coverage.
+                </dt>
+            </dl>
+        </section>
+        <section name="integraton" title="Third-party tools integration">
+            <dl>
+                <dt>
+                    Standalone notifying tool
+                </dt>
+                <dd>
+                    Based on rules, this notifying tool detects a file change
+                    within a particular directory (maybe with 
+                    <a href="http://code.google.com/p/php-inotifytools/">php-inotifytools</a> :
+                    such a monitor could learn how your code works by observing it being tested.
+                    For example, call graphing via static analysis might work, as would
+                    running Xdebug code coverage while running the tests and monitoring
+                    the code executed after each test method, as would some sort of
+                    DBG-derived client that received notifications from Xdebug while
+                    the code was being executed like a debugging client.
+                    We'd have "rings" of functionality.  The first
+                    ring is the tests that exercises the particular method/function
+                    you're working with by a direct call.
+                    Then start working rings out based on how far away the test method
+                    is when that code is called.
+                    These rings would then be executed on a save, starting with the inner
+                    most. Any failure would stop further tests cause a system alert to
+                    something like Growl or Snarl or any Reporter that you drop in.
+                </dd>
+                <dt>
+                    PDT (Eclipse) : implement PHPUnit hooks
+                </dt>
+                <dd>
+                    There are somme hooks inside PDT implemented for PHPUnit.
+                    But it seems there're unused since PHPUnit changed too much
+                    recently. SimpleTest could use them as well :
+                    the SimpleTest Eclipse plugin could then become
+                    the PDT Test plugin while fixing those hooks.
+                </dd>
+                <dt>
+                    PDT (Eclipse) : debug while unit testing
+                </dt>
+                <dd>
+                    The GUI for Eclipse recently caught up with PDT : debugging while
+                    running a SimpleTest test case is finally doable.
+                </dd>
+                <dt>
+                    Creative IDE integration
+                </dt>
+                <dd>
+                    For example, running a subset of tests after each edit.
+                </dd>
+                <dt>
+                    Firefox plugin to create SimpleTest file on the fly.
+                </dt>
+                <dd>
+                    The same way Selenium IDE currently works.
+                </dd>
+                <dt>
+                    Komodo integration.
+                </dt>
+                <dt>
+                    Integration with monitoring tools such as Nagios.
+                </dt>
+            </dl>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#browser">Browser-based</a>
+        </link>
+        <link>
+            ... and <a href="#unit">Unit testing-related</a> ideas for GSOC2008.
+        </link>
+        <link>
+            Also of interest,
+            <a href="#integration">integration</a> with third-party tools.
+        </link>
+    </internal>
+    <external>
+        <link>
+            <a href="http://code.google.com/soc/2008/">Google Summer of Code 2008</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            integration,
+            ide integration,
+            google summer of code,
+            mutation test coverage,
+            javascript
+        </keywords>
+    </meta>
+</page>

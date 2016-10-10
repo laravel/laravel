@@ -1,0 +1,21 @@
+"#VALUE!"					//	No arguments
+NULL,	TRUE					//	NULL
+TRUE,	NULL,	TRUE				//	Boolean TRUE and NULL
+FALSE,	NULL,	FALSE				//	Boolean FALSE and NULL
+TRUE,	TRUE,	TRUE				//	Both TRUE Booleans
+TRUE,	FALSE,	FALSE				//	Mixed Booleans
+FALSE,	TRUE,	FALSE				//	Mixed Booleans
+FALSE,	FALSE,	FALSE				//	Both FALSE Booleans
+TRUE,	TRUE,	FALSE,	FALSE			//	Multiple Mixed Booleans
+TRUE,	TRUE,	TRUE,	TRUE			//	Multiple TRUE Booleans
+FALSE,	FALSE,	FALSE,	FALSE,	FALSE		//	Multiple FALSE Booleans
+-1,	-2,	TRUE
+0,	0,	FALSE
+0,	1,	FALSE
+1,	1,	TRUE
+"1",1,	"#VALUE!"
+"TRUE",	1,	TRUE				//	'TRUE' String
+"FALSE",TRUE,	FALSE				//	'FALSE' String
+"ABCD",	1,	"#VALUE!"			//	Non-numeric String
+-2,	1,	TRUE
+-2,	0,	FALSE

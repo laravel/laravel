@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Speakers, coaches and consultants" here="Speakers">
+    <long_title>Speakers, coaches and consultants</long_title>
+    <content>
+        <section name="whole" title="Providing the whole solution">
+            <p>
+                Providing a tool -- SimpleTest -- to enable developpers
+                get started with Unit Testing and TDD is sometimes not enough.
+            </p>
+            <p>
+                You need the "whole solution" : enjoying the knowledge of an
+                experienced coach or consultant can boost your strategy.
+                The team developping SimpleTest can offer in-depth expertise
+                to you projects. 
+            </p>
+        </section>
+        <section name="list" title="People around the planet">
+            <script type="text/javascript" src="../js/jquery-1.2.1.pack.js"></script>
+            <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAwKAHvfBIA5P5Txb99ug0DBQ5H2rB5Zch3vR3q_l3dsAR77H2sxTNTx8DgOBmSSCMaXigAzwWswEX2Q"></script>
+            <script type="text/javascript" src="http://mapstraction.com/src/mapstraction.js"></script>
+            <script type="text/javascript" src="http://mapstraction.com/src/mapstraction-geocode.js"></script>
+            <script type="text/javascript" src="../js/jquery-speakers_coaches_consultants.js"></script>
+            <ul class="people">
+                <li class="vcard">
+                    <h3>
+                        <a class="fn org url" href="http://lastcraft.com/">
+                            Marcus Baker
+                        </a>
+                    </h3>
+                    <p>E-mail: <a href="mailto:marcus@lastcraft.com" class="email">marcus@lastcraft.com</a></p>
+                    <p class="geo">Lat/Lon: 
+                        <span class="latitude">51.500152</span>, 
+                        <span class="longitude">-0.126236</span>
+                    </p>
+                </li>
+                <li class="vcard">
+                    <h3>
+                        <a class="fn org url" href="http://noparking.net/">
+                            Perrick Penet (No Parking)
+                        </a>
+                    </h3>
+                    <div class="adr">
+                        <p>
+                            <span class="street-address">81 rue du pré Catelan</span>
+                            <br />
+                            <span class="postal-code">59110</span>
+                            <span class="locality">La Madeleine (Lille)</span>
+                            <br />
+                            <abbr class="country-name" title="France">Fr</abbr>
+                        </p>
+                    </div>
+                    <p>Telephone: <span class="tel">+33 (0)3 20 06 51 26</span></p>
+                    <p>E-mail: <a href="mailto:perrick@noparking.net" class="email">perrick@noparking.net</a></p>
+                    <p class="geo">Lat/Lon: 
+                        <span class="latitude">50.655404</span>, 
+                        <span class="longitude">3.060401</span>
+                    </p>
+                </li>
+            </ul>
+        </section>
+    </content>
+
+    <internal>
+        <link>
+            <a href="#whole">Providing the whole solution</a>
+        </link>
+        <link>
+            <a href="#list">Speakers, coaches and consultants</a> close to you
+        </link>
+    </internal>
+
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            freelancer,
+            php resources,
+            wordtracker,
+            web marketing,
+            serach engines,
+            web positioning,
+            internet marketing
+        </keywords>
+    </meta>
+</page>

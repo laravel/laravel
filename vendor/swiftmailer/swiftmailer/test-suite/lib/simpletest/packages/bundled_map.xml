@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page title="SimpleTest" file="index.html">
+    <page title="Overview" file="overview.html"/>
+    <page title="Unit tester" file="unit_test_documentation.html"/>
+    <page title="Group tests" file="group_test_documentation.html"/>
+    <page title="Mock objects" file="mock_objects_documentation.html"/>
+    <page title="Partial mocks" file="partial_mocks_documentation.html"/>
+    <page title="Reporting" file="reporter_documentation.html"/>
+    <page title="Expectations" file="expectation_documentation.html"/>
+    <page title="Web tester" file="web_tester_documentation.html"/>
+    <page title="Testing forms" file="form_testing_documentation.html"/>
+    <page title="Authentication" file="authentication_documentation.html"/>
+    <page title="Scriptable browser" file="browser_documentation.html"/>
+</page>

@@ -1,0 +1,15 @@
+"1100100",		"144"
+"10110010",		"262"
+"111001010101",		"#NUM!"		//	Too large
+"1001",		3,	"011"		//	Leading places
+"1001",		4.75,	"0011"		//	Leading places as a float
+"1001",		-1,	"#NUM!"		//	Leading places negative
+"1001",		"ABC",	"#VALUE!"	//	Leading places non-numeric
+"00000010",		"2"
+"00000101",		"5"
+"00001101",		"15"
+"0",			"0"
+"21",			"#NUM!"		//	Invalid binary number
+TRUE,			"#VALUE!"	//	Non string
+"1110010101",		"7777777625"	//	2's Complement
+"1111111111",		"7777777777"	//	2's Complement

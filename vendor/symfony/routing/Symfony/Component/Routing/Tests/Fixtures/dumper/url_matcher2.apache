@@ -1,0 +1,7 @@
+# skip "real" requests
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* - [QSA,L]
+
+# foo
+RewriteCond %{REQUEST_URI} ^/foo$
+RewriteRule .* ap\ p_d\ ev.php [QSA,L,E=_ROUTING_route:foo]

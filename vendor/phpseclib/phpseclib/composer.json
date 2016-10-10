@@ -1,0 +1,80 @@
+{
+    "name": "phpseclib/phpseclib",
+    "type": "library",
+    "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+    "keywords": [
+        "security",
+        "crypto",
+        "cryptography",
+        "encryption",
+        "signature",
+        "signing",
+        "rsa",
+        "aes",
+        "blowfish",
+        "twofish",
+        "ssh",
+        "sftp",
+        "x509",
+        "x.509",
+        "asn1",
+        "asn.1",
+        "BigInteger"
+        ],
+    "homepage": "http://phpseclib.sourceforge.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jim Wigginton",
+            "email": "terrafrost@php.net",
+            "role": "Lead Developer"
+        },
+        {
+            "name": "Patrick Monnerat",
+            "email": "pm@datasphere.ch",
+            "role": "Developer"
+        },
+        {
+            "name": "Andreas Fischer",
+            "email": "bantu@phpbb.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Hans-Jürgen Petrich",
+            "email": "petrich@tronic-media.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.0.0"
+    },
+    "require-dev": {
+        "phing/phing": "~2.7",
+        "phpunit/phpunit": "~4.0",
+        "sami/sami": "~2.0",
+        "squizlabs/php_codesniffer": "~1.5"
+    },
+    "suggest": {
+        "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
+        "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+        "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
+    },
+    "include-path": ["phpseclib/"],
+    "autoload": {
+        "psr-0": {
+            "Crypt": "phpseclib/",
+            "File": "phpseclib/",
+            "Math": "phpseclib/",
+            "Net": "phpseclib/",
+            "System": "phpseclib/"
+        },
+        "files": [
+            "phpseclib/Crypt/Random.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.3-dev"
+        }
+    }
+}

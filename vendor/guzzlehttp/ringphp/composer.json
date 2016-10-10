@@ -1,0 +1,39 @@
+{
+    "name": "guzzlehttp/ringphp",
+    "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/streams": "~3.0",
+        "react/promise": "~2.0"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+        "ext-curl": "Guzzle will use specific adapters if cURL is present"
+    },
+    "autoload": {
+        "psr-4": {
+            "GuzzleHttp\\Ring\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuzzleHttp\\Tests\\Ring\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1-dev"
+        }
+    }
+}

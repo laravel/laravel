@@ -1,0 +1,4 @@
+coverage_clover: coverage.clover
+service_name: travis-ci
+src_dir: ./
+json_path: ./coveralls.json

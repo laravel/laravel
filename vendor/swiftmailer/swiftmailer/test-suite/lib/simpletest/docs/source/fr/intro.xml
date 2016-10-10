@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: intro.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Introduction à SimpleTest" here="Version française">
+    <long_title>
+        Les articles de :: onpk :: sur php / simpletest : traductions en français des articles publiés sur Lastcraft.com
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                Le <a local="simple_test">testeur unitaire SimpleTest PHP</a> a enfin atteint la délicate version 1.0 : il est disponible au téléchargement chez votre <a href="http://souceforge.net/projects/simpletest/">SourceForge</a> le plus proche.
+            </p>
+            <p>
+                Il s'agit d'un testeur unitaire PHP et aussi d'un testeur web. Il est construit pour être extensible de plusieurs manières. Les utilisateurs de <a href="http://www.junit.org/">JUnit</a> seront familiers avec la plupart des interfaces. L'affichage des tests est largement modifiable tout comme le scénario de test de base. Par ailleurs les objets fantaisie peuvent être utilisés avec d'autres testeurs unitaires.
+            </p>
+            <p>
+                Les fonctionnalités à-la-<a href="http://jwebunit.sourceforge.net/">JWebUnit</a> sont plus complètes aussi. Il y a le support pour SSL, les fenêtres, les proxies, l'authentification simple et un large choix de contrôles HTML. L'idée est que les tâches fastidieuses en PHP, se connecter à un site par exemple, puissent être testées facilement.
+            </p>
+        </introduction>
+    </content>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            conseil de test,
+            architecture logicielle pour des tests,
+            exemple de code php,
+            junit,
+            test php,
+            outil de test unitaire,
+            suite de test php
+        </keywords>
+        <description>
+            Des articles (documentations et tutoriels) pour découvrir le développement agile en PHP avec le framework de tests unitaires SimpleTest.
+        </description>
+    </meta>
+</page>

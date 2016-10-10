@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<command id="descriptor:command2" name="descriptor:command2">
+  <usage>descriptor:command2 [-o|--option_name] argument_name</usage>
+  <description>command 2 description</description>
+  <help>command 2 help</help>
+  <aliases/>
+  <arguments>
+    <argument name="argument_name" is_required="1" is_array="0">
+      <description></description>
+      <defaults/>
+    </argument>
+  </arguments>
+  <options>
+    <option name="--option_name" shortcut="-o" accept_value="0" is_value_required="0" is_multiple="0">
+      <description></description>
+    </option>
+  </options>
+</command>

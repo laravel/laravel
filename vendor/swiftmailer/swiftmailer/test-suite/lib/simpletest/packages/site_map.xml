@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<page title="Last Craft" file="index.php">
+    <page title="SimpleTest" file="simple_test.php">
+        <page title="Overview" file="overview.php"/>
+        <page title="Unit tester" file="unit_test_documentation.php"/>
+        <page title="Group tests" file="group_test_documentation.php"/>
+        <page title="Mock objects" file="mock_objects_documentation.php"/>
+        <page title="Partial mocks" file="partial_mocks_documentation.php"/>
+        <page title="Reporting" file="reporter_documentation.php"/>
+        <page title="Expectations" file="expectation_documentation.php"/>
+        <page title="Web tester" file="web_tester_documentation.php"/>
+        <page title="Testing forms" file="form_testing_documentation.php"/>
+        <page title="Authentication" file="authentication_documentation.php"/>
+        <page title="Scriptable browser" file="browser_documentation.php"/>
+    </page>
+    <page title="Cgreen" file="cgreen.php">
+		<page title="Cgreen test suites" file="cgreen_suites.php"/>
+		<page title="Mocking functions" file="mock_callbacks.php"/>
+		<page title="Cgreen reporting" file="cgreen_reporter.php"/>
+	</page>
+    <page title="Fakemail" file="fakemail.php"/>
+    <page title="PHP unit testing" file="first_test_tutorial.php">
+        <page title="Grouping tests" file="group_test_tutorial.php"/>
+        <page title="Taking control" file="gain_control_tutorial.php"/>
+        <page title="Reusing cases" file="subclass_tutorial.php"/>
+        <page title="Showing passes" file="display_subclass_tutorial.php"/>
+        <page title="Using mock objects" file="mock_objects_tutorial.php"/>
+        <page title="Boundary classes" file="boundary_classes_tutorial.php"/>
+        <page title="Top down testing" file="improving_design_tutorial.php"/>
+    </page>
+    <page title="Blog" file="blog/"/>
+    <page title="About" file="about.php"/>
+</page>

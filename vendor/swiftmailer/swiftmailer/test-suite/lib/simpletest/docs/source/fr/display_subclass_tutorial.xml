@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: display_subclass_tutorial.xml 1774 2008-04-21 11:53:46Z pp11 $ -->
+<page title="Changer l'affichage du test" here="Changer l'affichage du test">
+    <synchronisation lang="en" version="1771" date="20/04/2008" maintainer="pp11" />
+    <long_title>Tutorial de test unitaire en PHP - Sous-classer l'affichage du test</long_title>
+    <content>
+        <introduction>
+            <p>
+                Le composant affichage de SimpleTest est en fait
+                la dernière partie à développer.
+                Des morceaux de la section suivante changeront prochainement
+                et -- avec optimisme -- des composants d'affichage
+                plus sophistiqués seront écrits, mais pour l'instant
+                si un affichage minime n'est pas suffisant,
+                voici comment réaliser le votre.
+            </p>
+        </introduction>
+        <section name="succès" title="Je veux voir les succès !">
+            <p>
+                Bon d'accord, voici comment.
+            </p>
+            <p>
+                Nous devons créer une sous-classe de l'affichage utilisée,
+                dans notre cas il s'agit de <code>HtmlReporter</code>.
+                La classe <code>HtmlReporter</code> est situé dans le fichier
+                <em>simpletest/reporter.php</em> :
+                pour l'instant elle a l'interface suivante...
+<php><![CDATA[
+class HtmlReporter extends TestDisplay {
+    public TestHtmlDisplay() { ... }
+    public void paintHeader(string $test_name) { ... }
+    public void paintFooter(string $test_name) { ... }
+    public void paintStart(string $test_name, $size) { ... }
+    public void paintEnd(string $test_name, $size) { ... }
+    public void paintFail(string $message) { ... }
+    public void paintPass(string $message) { ... }
+    protected string getCss() { ... }
+    public array getTestList() { ... }
+    public integer getPassCount() { ... }
+    public integer getFailCount() { ... }
+    public integer getTestCaseCount() { ... }
+    public integer getTestCaseProgress { ... }
+}
+]]></php>
+                Voici ce que les méthodes pertinentes veulent dire.
+                Vous pouvez consulter la
+                <a href="reporter_documentation.php#html">liste complète ici</a>
+                si cela vous intéresse.
+                <ul class="api">
+                    <li>
+                        <code>HtmlReporter()</code><br />
+                        est le constructeur. Notez qu'un test unitaire initie
+                        le lien vers l'affichage plutôt que l'inverse.
+                        L'affichage est un réceptacle passif des évènements de test.
+                        Cela permet une adaptation facile de l'affichage
+                        pour d'autres systèmes de test en dehors
+                        des tests unitaires comme la surveillance
+                        de serveurs par exemple.
+                        Autre avantage, un test unitaire peut écrire
+                        vers plus d'un affichage à la fois.
+                    </li>
+                    <li>
+                        <code>void paintFail(string $message)</code><br />
+                        peint un échec. Voir ci-dessous.
+                    </li>
+                    <li>
+                        <code>void paintPass(string \$message)</code><br />
+                        ne fait rien par défaut. C'est cette méthode
+                        que nous allons modifier.
+                    </li>
+                    <li>
+                        <code>string getCss()</code><br />
+                        renvoie le style CSS - via une chaîne - pour
+                        la méthode d'entête de la page.
+                        Des styles complémentaires peuvent être ajoutés ici.
+                    </li>
+                    <li>
+                        <code>array getTestList()</code><br />
+                        est une méthode commode pour des sous-classes.
+                        Elle liste l'emboîtement courant des tests
+                        via une liste de noms de test.
+                        Le premier, le test emboîté le plus profondément,
+                        est le premier dans la liste et la méthode
+                        du test courant sera la dernière.
+                    </li>
+                </ul>
+            </p>
+            <p>
+                Pour afficher les succès nous avons juste
+                besoin que la méthode <code>paintPass()</code>
+                se comporte comme <code>paintFail()</code>.
+                Bien sûr nous n'allons pas modifier l'original.
+                Nous allons juste créer une sous-classe.
+            </p>
+        </section>
+        <section name="sous-classe" title="Une sous-classe d'affichage">
+            <p>
+                Premièrement nous allons créer un fichier
+                <em>tests/show_passes.php</em> dans notre projet de log
+                et y placer cette classe vide...
+<php><![CDATA[
+<strong><?php
+    if (! defined('SIMPLE_TEST')) {
+        define('SIMPLE_TEST', 'simpletest/');
+    }
+    require_once(SIMPLE_TEST . 'reporter.php');
+    
+    class ShowPasses extends HtmlReporter {
+        
+        function ShowPasses() {
+            $this->HtmlReporter();
+        }
+    }
+?></strong>
+]]></php>
+                Une rapide mais attentive lecture du
+                <a href="http://simpletest.svn.sourceforge.net/viewvc/simpletest/simpletest/trunk/reporter.php?view=markup">code de SimpleTest</a>
+                indique que l'implémentation de <code>paintFail()</code> ressemble à...
+<php><![CDATA[
+function paintFail($message) {
+    parent::paintFail($message);
+    print "<span class=\"fail\">Fail</span>: ";
+    $breadcrumb = $this->getTestList();
+    array_shift($breadcrumb);
+    print implode("-&gt;", $breadcrumb);
+    print "-&gt;$message<br />\n";
+}
+]]></php>
+                Essentiellement elle s'enchaîne à la version du parent,
+                que nous devons aussi réaliser pour garantir le ménage,
+                et ensuite imprime une trace calculée à partir de la liste
+                des tests courants. Par contre elle perd au passage
+                le nom du test du premier niveau.
+                Etant donné qu'il est identique pour chaque test,
+                ce serait un peu trop d'informations.
+                En la transposant dans notre nouvelle classe...
+<php><![CDATA[
+class ShowPasses extends HtmlReporter {
+    
+    function ShowPasses() {
+        $this->HtmlReporter();
+    }
+    <strong>
+    function paintPass($message) {
+        parent::paintPass($message);
+        print "<span class=\"pass\">Pass</span>: ";
+        $breadcrumb = $this->getTestList();
+        array_shift($breadcrumb);
+        print implode("-&gt;", $breadcrumb);
+        print "-&gt;$message<br />\n";
+    }</strong>
+}
+]]></php>
+                Pour l'instant tout roule.
+                Maintenant pour utiliser notre nouvelle classe,
+                nous allons modifier notre fichier <em>tests/all_tests.php</em>...
+<php><![CDATA[
+<?php
+    if (! defined('SIMPLE_TEST')) {
+        define('SIMPLE_TEST', 'simpletest/');
+    }
+    require_once(SIMPLE_TEST . 'unit_tester.php');<strong>
+    require_once('show_passes.php');</strong>
+
+    $test = &new GroupTest('All tests');
+    $test->addTestFile('log_test.php');
+    $test->addTestFile('clock_test.php');
+    $test->run(<strong>new ShowPasses()</strong>);
+?>
+]]></php>
+                Nous pouvons le lancer pour voir le résultat de notre bricolage...
+                <div class="demo">
+                    <h1>All tests</h1>
+                    Pass: log_test.php-&gt;Log class test-&gt;testappendingtofile-&gt;Expecting [/Test line 1/] in [Test line 1]<br />
+                    Pass: log_test.php-&gt;Log class test-&gt;testappendingtofile-&gt;Expecting [/Test line 2/] in [Test line 2]<br />
+                    Pass: log_test.php-&gt;Log class test-&gt;testcreatingnewfile-&gt;Created before message<br />
+                    Pass: log_test.php-&gt;Log class test-&gt;testcreatingnewfile-&gt;File created<br />
+                    Pass: clock_test.php-&gt;Clock class test-&gt;testclockadvance-&gt;Advancement<br />
+                    Pass: clock_test.php-&gt;Clock class test-&gt;testclocktellstime-&gt;Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">3/3 test cases complete.
+                    <strong>6</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+                Joli, mais pas encore digne d'une médaille d'or.
+                Nous avons perdu un peu d'information au passage.
+                L'affichage du <code>span.pass</code> n'est pas stylé en CSS,
+                mais nous pouvons l'ajouter en modifiant une autre méthode...
+<php><![CDATA[
+class ShowPasses extends HtmlReporter {
+    
+    function ShowPasses() {
+        $this->HtmlReporter();
+    }
+    
+    function paintPass($message) {
+        parent::paintPass($message);
+        print "<span class=\"pass\">Pass</span>: ";
+        $breadcrumb = $this->getTestList();
+        array_shift($breadcrumb);
+        print implode("-&gt;", $breadcrumb);
+        print "->$message<br />\n";
+    }
+    <strong>
+    protected function getCss() {
+        return parent::getCss() . ' .pass { color: green; }';
+    }</strong>
+}
+]]></php>
+                Si vous ajoutez le code au fur et à mesure,
+                vous verrez l'ajout du style dans le code source
+                du résultat via le navigateur. A l'oeil,
+                l'affichage devrait ressembler à...
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testappendingtofile-&gt;Expecting [/Test line 1/] in [Test line 1]<br />
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testappendingtofile-&gt;Expecting [/Test line 2/] in [Test line 2]<br />
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testcreatingnewfile-&gt;Created before message<br />
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testcreatingnewfile-&gt;File created<br />
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclockadvance-&gt;Advancement<br />
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclocktellstime-&gt;Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">3/3 test cases complete.
+                    <strong>6</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+                Certains préfèrent voir les succès quand ils travaillent sur le code;
+                le sentiment de travail achevé est sympathique après tout.
+                Une fois que vous commencez à naviguer
+                de haut en bas pour trouver les erreurs, assez vite
+                vous en comprendrez le côté obscur.
+            </p>
+            <p>
+                Essayez les deux méthodes pour déterminer votre préférence.
+                Nous allons le laisser tel que pour l'étape qui approche :
+                <a href="mock_objects_tutorial.php">les objets fantaisie</a>.
+                Il s'agit du premier outil de test qui ajoute des tests additionnels :
+                il sera utile de voir ce qui se passe dans les coulisses.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Comment changer l'affichage pour <a href="#succès">afficher
+            les passages avec succès</a>.
+        </link>
+        <link>
+            <a href="#sous-classe">Sous classer
+            la classe <code>HtmlReporter</code></a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            La section précédente :
+            <a href="subclass_tutorial.php">sous-classer les scénarios de test</a>
+        </link>
+        <link>
+            Cette section est très spécifique à
+            <a href="simple_test.php">SimpleTest</a>.
+            Si vous utilisez un autre outil,
+            n'hésitez pas à sauter pardessus.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel piloté par les tests,
+            conseil pour programmer en php,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            architecture,
+            exemple de scénario de test,
+            framework de tests unitaires,
+            ressources php,
+            exemple de code php,
+            junit,
+            phpunit,
+            simpletest,
+            test php,
+            outil de test unitaire,
+            suite de test php
+        </keywords>
+    </meta>
+</page>
+

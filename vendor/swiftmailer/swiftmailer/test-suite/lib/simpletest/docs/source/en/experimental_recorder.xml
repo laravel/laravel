@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!-- $Id: experimental_recorder.xml 1809 2008-09-12 00:46:55Z lastcraft $ -->
+<page title="Using the test results for other tools" here="Recorder">
+    <long_title>[experimental] Using the test results for other tools with the Recorder</long_title>
+    <content>
+        <introduction>
+            <div class="experimental">
+                Careful : this documentation refers to un-released code. It's only available in SVN.
+            </div>
+            <p>
+                What the developer wants from his tests is immediate feedback. The <em>TextReporter</em>
+                and the <em>HtmlReporter</em> are there to show this feedback. As quickly as possible
+                and as close to your working tools as possible : the console, the browser.
+            </p>
+         </introduction>
+         <section name="recorder" title="A Recorder for non-developpers">
+            <p>
+                But often developers don't work alone : you may have a team contributing to
+                the same code base next door, a manager a little bit further away and even
+                a team of testers or power users on the other side of the planet.
+            </p>
+            <p>
+                For them as well tests' results are valuable pieces of information ! They just need
+                to be formatted and archived somewhere. The <em>Recorder</em> allows you to grab all
+                output to a simple PHP array.
+<php><![CDATA[
+<?php
+require_once('simpletest/autorun.php');<strong>
+require_once('simpletest/ui/recorder.php');</strong>
+
+$group = new TestSuite();
+$group->addTestFile('test_of_module_ship.php');
+$group->addTestFile('test_of_module_pay.php');
+<strong>
+$recorder = new Recorder();
+$group->run($recorder);</strong>
+?>
+]]></php>
+            </p>
+            <p>
+                Within this <em>$recorder</em> object lies the test suite information.
+                Let's dump the <em>$recorder->results</em> variable and check what's
+                in it :
+<php><![CDATA[
+<?php
+array(4) {
+  [0]=>
+  array(4) {
+    ["time"]=>
+    int(1173951256)
+    ["status"]=>
+    string(6) "Passed"
+    ["test"]=>
+    string(129) "examples/test_of_module_ship.php->TestUsingParcelForce->testParcelForceIsFine"
+    ["message"]=>
+    string(97) " at [examples/test_of_module_ship.php line 7]"
+  }
+  [1]=>
+  array(4) {
+    ["time"]=>
+    int(1173951256)
+    ["status"]=>
+    string(6) "Passed"
+    ["test"]=>
+    string(154) "examples/test_of_module_ship.php->TestUsingMyOwnAirplane->testUsingMyOwnAirplaneOnlyWorksForSmallGifts"
+    ["message"]=>
+    string(134) "Expected false, got [Boolean: false] at [examples/test_of_module_ship.php line 13]"
+  }
+  [2]=>
+  array(4) {
+    ["time"]=>
+    int(1173951256)
+    ["status"]=>
+    string(6) "Passed"
+    ["test"]=>
+    string(135) "examples/test_of_module_pay.php->TestPayForParcelForce->testPayForParcelForceIsFine"
+    ["message"]=>
+    string(96) " at [examples/test_of_module_pay.php line 7]"
+  }
+  [3]=>
+  array(4) {
+    ["time"]=>
+    int(1173951256)
+    ["status"]=>
+    string(6) "Passed"
+    ["test"]=>
+    string(155) "examples/test_of_module_pay.php->TestPayForMyOwnAirplane->testPayForMyOwnAirplaneOnlyWorksForSmallGifts"
+    ["message"]=>
+    string(133) "Expected false, got [Boolean: false] at [examples/test_of_module_pay.php line 13]"
+  }
+}
+?>
+]]></php>
+            </p>
+         </section>
+         <section name="recorder-results" title="Exploring the Recorder results">
+            <p>
+                Each element of the <em>$recoder->results</em> array contains one assertion's
+                information :
+                <ul>
+                    <li><em>time</em> : when the assertion was executed, in a timestamp format.</li>
+                    <li><em>status</em> : either <strong>Passed</strong> or <strong>Failed</strong></li>
+                    <li><em>test</em> : the name of the test</li>
+                    <li><em>message</em> : the actual message, useful for understanding what went wrong</li>
+                </ul>
+            </p>
+            <p>
+                Now iterating throught the results becomes really easy...
+<php><![CDATA[
+<?php
+require_once('simpletest/autorun.php');
+require_once('simpletest/ui/recorder.php');
+
+$group = new TestSuite();
+$group->addTestFile('test_of_module_ship.php');
+$group->addTestFile('test_of_module_pay.php');
+$recorder = new Recorder();
+$group->run($recorder);
+
+<strong>foreach (recorder->results as $result) {
+    if ($result->status == "Failed") {
+        do_something_while_it_is_time(result);
+    }
+}
+</strong>
+?>
+]]></php>
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>A <a href="#recorder">Recorder</a> for non-developers.</link>
+        <link>Exploring the <a href="#recorder-results">Recorder results</a>.</link>
+    </internal>
+    <external>
+        <link>
+            The <a href="http://junit.sourceforge.net/doc/faq/faq.htm">JUnit FAQ</a>
+            has plenty of useful testing advice.
+        </link>
+        <link>
+            <a href="group_test_tutorial.php">Next</a> is grouping test
+            cases together.
+        </link>
+        <link>
+            You will need the <a href="simple_test.php">SimpleTest testing framework</a>
+            for these examples.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming,
+            programming php,
+            software development tools,
+            php tutorial,
+            free php scripts,
+            architecture,
+            php resources,
+            mock objects,
+            junit,
+            php testing,
+            unit test,
+            automated php testing,
+            test cases tutorial,
+            explain unit test case,
+            unit test example,
+            unit test
+        </keywords>
+    </meta>
+</page>

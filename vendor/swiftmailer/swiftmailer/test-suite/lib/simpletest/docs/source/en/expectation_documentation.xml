@@ -1,0 +1,383 @@
+<?xml version="1.0"?>
+<!-- $Id: expectation_documentation.xml 1805 2008-09-08 22:45:21Z lastcraft $ -->
+<page title="Expectation documentation" here="Expectations">
+    <long_title>
+        Extending the SimpleTest unit tester with additional expectation classes
+    </long_title>
+    <content>
+        <section name="mock" title="More control over mock objects">
+            <p>
+                The default behaviour of the
+                <a local="mock_objects_documentation">mock objects</a>
+                in
+                <a href="http://sourceforge.net/projects/simpletest/">SimpleTest</a>
+                is either an identical match on the argument or to allow any argument at all.
+                For almost all tests this is sufficient.
+                Sometimes, though, you want to weaken a test case.
+            </p>
+            <p>
+                One place where a test can be too tightly coupled is with
+                text matching.
+                Suppose we have a component that outputs a helpful error
+                message when something goes wrong.
+                You want to test that the correct error was sent, but the actual
+                text may be rather long.
+                If you test for the text exactly, then every time the exact wording
+                of the message changes, you will have to go back and edit the test suite.
+            </p>
+            <p>
+                For example, suppose we have a news service that has failed
+                to connect to its remote source.
+<php><![CDATA[
+<strong>class NewsService {
+    ...
+    function publish($writer) {
+        if (! $this->isConnected()) {
+            $writer->write('Cannot connect to news service "' .
+                    $this->_name . '" at this time. ' .
+                    'Please try again later.');
+        }
+        ...
+    }
+}</strong>
+]]></php>
+                Here it is sending its content to a
+                <code>Writer</code> class.
+                We could test this behaviour with a
+                <code>MockWriter</code> like so...
+<php><![CDATA[
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {<strong>
+        $writer = new MockWriter();
+        $writer->expectOnce('write', array(
+                'Cannot connect to news service ' .
+                '"BBC News" at this time. ' .
+                'Please try again later.'));
+        
+        $service = new NewsService('BBC News');
+        $service->publish($writer);</strong>
+    }
+}
+]]></php>
+                This is a good example of a brittle test.
+                If we decide to add additional instructions, such as
+                suggesting an alternative news source, we will break
+                our tests even though no underlying functionality
+                has been altered.
+            </p>
+            <p>
+                To get around this, we would like to do a regular expression
+                test rather than an exact match.
+                We can actually do this with...
+<php><![CDATA[
+class TestOfNewsService extends UnitTestCase {
+    ...
+    function testConnectionFailure() {
+        $writer = new MockWriter();<strong>
+        $writer->expectOnce(
+                'write',
+                array(new PatternExpectation('/cannot connect/i')));</strong>
+        
+        $service = new NewsService('BBC News');
+        $service->publish($writer);
+    }
+}
+]]></php>
+                Instead of passing in the expected parameter to the
+                <code>MockWriter</code> we pass an
+                expectation class called
+                <code>PatternExpectation</code>.
+                The mock object is smart enough to recognise this as special
+                and to treat it differently.
+                Rather than simply comparing the incoming argument to this
+                object, it uses the expectation object itself to
+                perform the test.
+            </p>
+            <p>
+                The <code>PatternExpectation</code> takes
+                the regular expression to match in its constructor.
+                Whenever a comparison is made by the <code>MockWriter</code>
+                against this expectation class, it will do a
+                <code>preg_match()</code> with this pattern.
+                With our test case above, as long as &quot;cannot connect&quot;
+                appears in the text of the string, the mock will issue a pass
+                to the unit tester.
+                The rest of the text does not matter.
+            </p>
+            <p>
+                The possible expectation classes are...
+                <table><tbody>
+                    <tr><td><code>AnythingExpectation</code></td><td>Will always match</td></tr>
+                    <tr><td><code>EqualExpectation</code></td><td>An equality, rather than the stronger identity comparison</td></tr>
+                    <tr><td><code>NotEqualExpectation</code></td><td>An inequality comparison</td></tr>
+                    <tr><td><code>IndenticalExpectation</code></td><td>The default mock object check which must match exactly</td></tr>
+                    <tr><td><code>NotIndenticalExpectation</code></td><td>Inverts the mock object logic</td></tr>
+                    <tr><td><code>WithinMarginExpectation</code></td><td>Compares a value to within a margin</td></tr>
+                    <tr><td><code>OutsideMarginExpectation</code></td><td>Checks that a value is out side the margin</td></tr>
+                    <tr><td><code>PatternExpectation</code></td><td>Uses a Perl Regex to match a string</td></tr>
+                    <tr><td><code>NoPatternExpectation</code></td><td>Passes only if failing a Perl Regex</td></tr>
+                    <tr><td><code>IsAExpectation</code></td><td>Checks the type or class name only</td></tr>
+                    <tr><td><code>NotAExpectation</code></td><td>Opposite of the <code>IsAExpectation</code></td></tr>
+                    <tr><td><code>MethodExistsExpectation</code></td><td>Checks a method is available on an object</td></tr>
+                    <tr><td><code>TrueExpectation</code></td><td>Accepts any PHP variable that evaluates to true</td></tr>
+                    <tr><td><code>FalseExpectation</code></td><td>Accepts any PHP variable that evaluates to false</td></tr>
+                </tbody></table>
+                Most take the expected value in the constructor.
+                The exceptions are the pattern matchers, which take a regular expression,
+                and the <code>IsAExpectation</code> and <code>NotAExpectation</code> which takes a type
+                or class name as a string.
+            </p>
+            <p>
+                Some examples...
+            </p>
+            <p>
+<php><![CDATA[
+$mock->expectOnce('method', array(new IdenticalExpectation(14)));
+]]></php>
+                This is the same as <code>$mock->expectOnce('method', array(14))</code>.
+<php><![CDATA[
+$mock->expectOnce('method', array(new EqualExpectation(14)));
+]]></php>
+                This is different from the previous version in that the string
+                <code>"14"</code> as a parameter will also pass.
+                Sometimes the additional type checks of SimpleTest are too restrictive.
+<php><![CDATA[
+$mock->expectOnce('method', array(new AnythingExpectation(14)));
+]]></php>
+                This is the same as <code>$mock->expectOnce('method', array('*'))</code>.
+<php><![CDATA[
+$mock->expectOnce('method', array(new IdenticalExpectation('*')));
+]]></php>
+                This is handy if you want to assert a literal <code>"*"</code>.
+<php><![CDATA[
+new NotIdenticalExpectation(14)
+]]></php>
+                This matches on anything other than integer 14.
+                Even the string <code>"14"</code> would pass.
+<php><![CDATA[
+new WithinMarginExpectation(14.0, 0.001)
+]]></php>
+                This will accept any value from 13.999 to 14.001 inclusive.
+            </p>
+        </section>
+        <section name="behaviour" title="Using expectations to control stubs">
+            <p>
+                The expectation classes can be used not just for sending assertions
+                from mock objects, but also for selecting behaviour for the
+                <a local="mock_objects_documentation">mock objects</a>.
+                Anywhere a list of arguments is given, a list of expectation objects
+                can be inserted instead.
+            </p>
+            <p>
+                Suppose we want a mock authorisation server to simulate a successful login,
+                but only if it receives a valid session object.
+                We can do this as follows...
+<php><![CDATA[
+Mock::generate('Authorisation');
+<strong>
+$authorisation = new MockAuthorisation();
+$authorisation->setReturnValue(
+        'isAllowed',
+        true,
+        array(new IsAExpectation('Session', 'Must be a session')));
+$authorisation->setReturnValue('isAllowed', false);</strong>
+]]></php>
+                We have set the default mock behaviour to return false when
+                <code>isAllowed</code> is called.
+                When we call the method with a single parameter that
+                is a <code>Session</code> object, it will return true.
+                We have also added a second parameter as a message.
+                This will be displayed as part of the mock object
+                failure message if this expectation is the cause of
+                a failure.
+            </p>
+            <p>
+                This kind of sophistication is rarely useful, but is included for
+                completeness.
+            </p>
+        </section>
+        <section name="extending" title="Creating your own expectations">
+            <p>
+                The expectation classes have a very simple structure.
+                So simple that it is easy to create your own versions for
+                commonly used test logic.
+            </p>
+            <p>
+                As an example here is the creation of a class to test for
+                valid IP addresses.
+                In order to work correctly with the stubs and mocks the new
+                expectation class should extend
+                <code>SimpleExpectation</code> or forther extend a subclass...
+<php><![CDATA[
+<strong>class ValidIp extends SimpleExpectation {
+    
+    function test($ip) {
+        return (ip2long($ip) != -1);
+    }
+    
+    function testMessage($ip) {
+        return "Address [$ip] should be a valid IP address";
+    }
+}</strong>
+]]></php>
+                There are only two methods to implement.
+                The <code>test()</code> method should
+                evaluate to true if the expectation is to pass, and
+                false otherwise.
+                The <code>testMessage()</code> method
+                should simply return some helpful text explaining the test
+                that was carried out.
+            </p>
+            <p>
+                This class can now be used in place of the earlier expectation
+                classes.
+            </p>
+            <p>
+                Here is a more typical example, matching part of a hash...
+<php><![CDATA[
+<strong>class JustField extends EqualExpectation {
+    private $key;
+    
+    function __construct($key, $expected) {
+        parent::__construct($expected);
+        $this->key = $key;
+    }
+    
+    function test($compare) {
+        if (! isset($compare[$this->key])) {
+            return false;
+        }
+        return parent::test($compare[$this->key]);
+    }
+    
+    function testMessage($compare) {
+        if (! isset($compare[$this->key])) {
+            return 'Key [' . $this->key . '] does not exist';
+        }
+        return 'Key [' . $this->key . '] -> ' .
+                parent::testMessage($compare[$this->key]);
+    }
+}</strong>
+]]></php>
+                We tend to seperate message clauses with
+                &quot;<![CDATA[&nbsp;->&nbsp;]]>&quot;.
+                This allows derivative tools to reformat the output.
+            </p>
+            <p>
+                Suppose some authenticator is expecting to be given
+                a database row corresponding to the user, and we
+                only need to confirm the username is correct.
+                We can assert just their username with...
+<php><![CDATA[
+$mock->expectOnce('authenticate',
+                  array(new JustKey('username', 'marcus')));
+]]></php>
+            </p>
+        </section>
+        <section name="unit" title="Under the bonnet of the unit tester">
+            <p>
+                The <a href="http://sourceforge.net/projects/simpletest/">SimpleTest unit testing framework</a>
+                also uses the expectation classes internally for the
+                <a local="unit_test_documentation">UnitTestCase class</a>.
+                We can also take advantage of these mechanisms to reuse our
+                homebrew expectation classes within the test suites directly.
+            </p>
+            <p>
+                The most crude way of doing this is to use the generic
+                <code>SimpleTest::assert()</code> method to
+                test against it directly...
+<php><![CDATA[
+<strong>class TestOfNetworking extends UnitTestCase {
+    ...
+    function testGetValidIp() {
+        $server = &new Server();
+        $this->assert(
+                new ValidIp(),
+                $server->getIp(),
+                'Server IP address->%s');
+    }
+}</strong>
+]]></php>
+                <code>assert()</code> will test any expectation class directly.
+            </p>
+            <p>
+                This is a little untidy compared with our usual
+                <code>assert...()</code> syntax.
+            </p>
+            <p>
+                For such a simple case we would normally create a
+                separate assertion method on our test case rather
+                than bother using the expectation class.
+                If we pretend that our expectation is a little more
+                complicated for a moment, so that we want to reuse it,
+                we get...
+<php><![CDATA[
+class TestOfNetworking extends UnitTestCase {
+    ...<strong>
+    function assertValidIp($ip, $message = '%s') {
+        $this->assert(new ValidIp(), $ip, $message);
+    }</strong>
+    
+    function testGetValidIp() {
+        $server = &new Server();<strong>
+        $this->assertValidIp(
+                $server->getIp(),
+                'Server IP address->%s');</strong>
+    }
+}
+]]></php>
+                It is rare to need the expectations for more than pattern
+                matching, but these facilities do allow testers to build
+                some sort of domain language for testing their application.
+                Also, complex expectation classes could make the tests
+                harder to read and debug.
+                In effect extending the test framework to create their own tool set.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Using expectations for
+            <a href="#mock">more precise testing with mock objects</a>
+        </link>
+        <link>
+            <a href="#behaviour">Changing mock object behaviour</a> with expectations
+        </link>
+        <link>
+            <a href="#extending">Extending the expectations</a>
+        </link>
+        <link>
+            Underneath SimpleTest <a href="#unit">uses expectation classes</a>
+        </link>
+    </internal>
+    <external>
+        <link>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            SimpleTest download page on <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+        <link>
+            The expectations mimic the constraints in <a href="http://www.jmock.org/">JMock</a>.
+        </link>
+        <link>
+            <a href="http://simpletest.org/api/">Full API for SimpleTest</a>
+            from the PHPDoc.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            mock objects,
+            test driven development,
+            inheritance of expectations,
+            mock object constraints,
+            advanced PHP unit testing,
+            test first,
+            test framework architecture
+            expectations in simpletest
+            test cases
+            server stubs
+        </keywords>
+    </meta>
+</page>

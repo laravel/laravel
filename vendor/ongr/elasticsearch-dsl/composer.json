@@ -1,0 +1,39 @@
+{
+    "name": "ongr/elasticsearch-dsl",
+    "description": "Elasticsearch DSL library",
+    "type": "library",
+    "homepage": "http://ongr.io",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ONGR team",
+            "homepage": "http://www.ongr.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/serializer": "~2.7|~3.0",
+        "symfony/options-resolver": "~2.7|~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4",
+        "squizlabs/php_codesniffer": "~2.0",
+        "satooshi/php-coveralls": "~0.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "ONGR\\ElasticsearchDSL\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ONGR\\ElasticsearchDSL\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

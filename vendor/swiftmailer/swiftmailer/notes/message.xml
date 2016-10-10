@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<message>
+  <subject>Some test message</subject>
+  <to name="Chris Corbyn">chris@w3style.co.uk</to>
+  <to name="Mark Corbyn">mark@swiftmailer.org</to>
+  <from>chris.corbyn@sitepoint.com</from>
+  <content-type>text/plain</content-type>
+  <body>
+    Here's a recipe for beef stifado
+  </body>
+  <part>
+    <content-type>text/html</content-type>
+    <body>
+      This is the other part
+    </body>
+  </part>
+  <attachment>
+    <content-type>application/pdf</content-type>
+    <filename>stifado.pdf</filename>
+    <body type="file">/path/to/stifado.pdf</body>
+  </attachment>
+</message>

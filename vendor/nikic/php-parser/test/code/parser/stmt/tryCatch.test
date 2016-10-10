@@ -1,0 +1,114 @@
+Try/catch
+-----
+<?php
+
+try {
+    doTry();
+} catch (A $b) {
+    doCatchA();
+} catch (B $c) {
+    doCatchB();
+} finally {
+    doFinally();
+}
+
+// no finally
+try { }
+catch (A $b) { }
+
+// no catch
+try { }
+finally { }
+
+-----
+array(
+    0: Stmt_TryCatch(
+        stmts: array(
+            0: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: doTry
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+        catches: array(
+            0: Stmt_Catch(
+                type: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                var: b
+                stmts: array(
+                    0: Expr_FuncCall(
+                        name: Name(
+                            parts: array(
+                                0: doCatchA
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+            1: Stmt_Catch(
+                type: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+                var: c
+                stmts: array(
+                    0: Expr_FuncCall(
+                        name: Name(
+                            parts: array(
+                                0: doCatchB
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        finallyStmts: array(
+            0: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: doFinally
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+    )
+    1: Stmt_TryCatch(
+        stmts: array(
+        )
+        catches: array(
+            0: Stmt_Catch(
+                type: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                var: b
+                stmts: array(
+                )
+            )
+        )
+        finallyStmts: null
+    )
+    2: Stmt_TryCatch(
+        stmts: array(
+        )
+        catches: array(
+        )
+        finallyStmts: array(
+        )
+    )
+)

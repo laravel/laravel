@@ -1,0 +1,67 @@
+Nowdoc and heredoc strings
+-----
+<?php
+
+// empty strings
+<<<'EOS'
+EOS;
+<<<EOS
+EOS;
+
+// constant encapsed strings
+<<<'EOS'
+Test '" $a \n
+EOS;
+<<<EOS
+Test '" \$a \n
+EOS;
+
+// encapsed strings
+<<<EOS
+Test $a
+EOS;
+<<<EOS
+Test $a and $b->c test
+EOS;
+
+// comment to force line break before EOF
+-----
+array(
+    0: Scalar_String(
+        value:
+    )
+    1: Scalar_String(
+        value:
+    )
+    2: Scalar_String(
+        value: Test '" $a \n
+    )
+    3: Scalar_String(
+        value: Test '" $a
+
+    )
+    4: Scalar_Encapsed(
+        parts: array(
+            0: Test
+            1: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    5: Scalar_Encapsed(
+        parts: array(
+            0: Test
+            1: Expr_Variable(
+                name: a
+            )
+            2:  and
+            3: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: b
+                )
+                name: c
+            )
+            4:  test
+        )
+    )
+)

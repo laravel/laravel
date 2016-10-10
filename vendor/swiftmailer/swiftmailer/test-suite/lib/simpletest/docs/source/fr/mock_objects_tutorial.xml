@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: mock_objects_tutorial.xml 1701 2008-03-24 20:08:06Z pp11 $ -->
+<page title="Objets fantaisie" here="Utiliser des objets fantaisie">
+    <synchronisation lang="en" version="1687" date="24/03/2008" maintainer="pp11" />
+    <long_title>tutorial sur les tests unitaires en PHP - Utiliser les objets fantaisie en PHP</long_title>
+    <content>
+        <section name="remaniement" title="Remanier les tests à nouveau">
+            <p>
+                Avant d'ajouter de nouvelles fonctionnalités
+                il y a du remaniement à faire.
+                Nous allons effectuer des tests chronométrés
+                et la classe <code>TimeTestCase</code> a définitivement
+                besoin d'un fichier propre.
+                Appelons le <em>tests/time_test_case.php</em>...
+<php><![CDATA[
+<strong><?php
+if (! defined('SIMPLE_TEST')) {
+    define('SIMPLE_TEST', 'simpletest/');
+}
+require_once(SIMPLE_TEST . 'unit_tester.php');
+
+class TimeTestCase extends UnitTestCase {
+    function TimeTestCase($test_name = '') {
+        $this->UnitTestCase($test_name);
+    }
+    function assertSameTime($time1, $time2, $message = '') {
+        if (! $message) {
+            $message = "Time [$time1] should match time [$time2]";
+        }
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }
+}
+?></strong>
+]]></php>
+                Nous pouvons lors utiliser <code>require()</code>
+                pour incorporer ce fichier dans le script <em>all_tests.php</em>.
+            </p>
+        </section>
+        <section name="timestamp" title="Ajouter un timestamp au Log">
+            <p>
+                Je ne sais pas trop quel devrait être
+                le format du message de log pour le test alors
+                pour vérifier le timestamp nous pourrions juste
+                faire la plus simple des choses possibles,
+                c'est à dire rechercher une suite de chiffres.
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');<strong>
+require_once('../classes/clock.php');
+
+class TestOfLogging extends TimeTestCase {
+    function TestOfLogging() {
+        $this->TimeTestCase('Log class test');
+    }</strong>
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }
+    function testCreatingNewFile() {
+        ...
+    }
+    function testAppendingToFile() {
+        ...
+    }<strong>
+    function testTimestamps() {
+        $log = new Log('../temp/test.log');
+        $log->message('Test line');
+        $this->assertTrue(
+                preg_match('/(\d+)/', $this->getFileLine('../temp/test.log', 0), $matches),
+                'Found timestamp');
+        $clock = new clock();
+        $this->assertSameTime((integer)$matches[1], $clock->now(), 'Correct time');
+    }</strong>
+}
+?>
+]]></php>
+                Ce scénario de test crée un nouvel objet <code>Log</code>
+                et écrit un message. Nous recherchons une suite de chiffres
+                et nous la comparons à l'horloge présente en utilisant
+                notre objet <code>Clock</code>. Bien sûr ça ne marche pas
+                avant d'avoir écrit le code.
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testappendingtofile->Expecting [/Test line 1/] in [Test line 1]<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testappendingtofile->Expecting [/Test line 2/] in [Test line 2]<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testcreatingnewfile->Created before message<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testcreatingnewfile->File created<br />
+                    <span class="fail">Fail</span>: log_test.php->Log class test->testtimestamps->Found timestamp<br />
+                    <br />
+                    <b>Notice</b>:  Undefined offset:  1 in <b>/home/marcus/projects/lastcraft/tutorial_tests/tests/log_test.php</b> on line <b>44</b><br />
+                    <span class="fail">Fail</span>: log_test.php->Log class test->testtimestamps->Correct time<br />
+                    <span class="pass">Pass</span>: clock_test.php->Clock class test->testclockadvance->Advancement<br />
+                    <span class="pass">Pass</span>: clock_test.php->Clock class test->testclocktellstime->Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: red; color: white;">3/3 test cases complete.
+                    <strong>6</strong> passes and <strong>2</strong> fails.</div>
+                </div>
+                Cette suite de tests montre encore les succès
+                de notre modification précédente.
+            </p>
+            <p>
+                Nous pouvons faire passer les tests en ajoutant
+                simplement un timestamp à l'écriture dans le fichier.
+                Oui, bien sûr, tout ceci est assez trivial et d'habitude
+                je ne le testerais pas aussi fanatiquement,
+                mais ça va illustrer un problème plus général...
+                Le fichier <em>log.php</em> devient...
+<php><![CDATA[
+<?php<strong>
+require_once('../classes/clock.php');</strong>
+
+class Log {
+    var $_file_path;
+    
+    function Log($file_path) {
+        $this->_file_path = $file_path;
+    }
+    
+    function message($message) {<strong>
+        $clock = new Clock();</strong>
+        $file = fopen($this->_file_path, 'a');<strong>
+        fwrite($file, "[" . $clock->now() . "] $message\n");</strong>
+        fclose($file);
+    }
+}
+?>
+]]></php>
+                Les tests devraient passer.
+            </p>
+            <p>
+                Par contre notre nouveau test est plein de problèmes.
+                Qu'est-ce qui se passe si notre format de temps change ?
+                Les choses vont devenir largement plus compliquées
+                si ça venait à se produire.
+                Cela veut aussi dire que n'importe quel changement
+                du format de notre classe horloge causera aussi
+                un échec dans les tests de log.
+                Bilan : nos tests de log sont tout mélangés
+                avec les test d'horloge et par la même très fragiles.
+                Tester à la fois des facettes de l'horloge
+                et d'autres du log manque de cohésion,
+                ou de focalisation étanche si vous préférez.
+                Nos problèmes sont causés en partie parce que
+                le résultat de l'horloge est imprévisible alors que
+                l'unique chose à tester est la présence
+                du résultat de <code>Clock::now()</code>.
+                Peu importe le contenu de l'appel de cette méthode.
+            </p>
+            <p>
+                Pouvons-nous rendre cet appel prévisible ?
+                Oui si nous pouvons forcer le loggueur à utiliser
+                une version factice de l'horloge lors du test.
+                Cette classe d'horloge factice devrait se comporter
+                exactement comme la classe <code>Clock</code>
+                à part une sortie fixée dans la méthode <code>now()</code>.
+                Et au passage, ça nous affranchirait même
+                de la classe <code>TimeTestCase</code> !
+            </p>
+            <p>
+                Nous pourrions écrire une telle classe assez
+                facilement même s'il s'agit d'un boulot plutôt fastidieux.
+                Nous devons juste créer une autre classe
+                d'horloge avec la même interface sauf que
+                la méthode <code>now()</code> retourne une valeur modifiable
+                via une autre méthode d'initialisation.
+                C'est plutôt pas mal de travail pour un test plutôt mineur.
+            </p>
+            <p>
+                Sauf que ça se fait sans aucun effort.
+            </p>
+        </section>
+        <section name="fantaisie" title="Une horloge fantaisie">
+            <p>
+                Pour atteindre le nirvana de l'horloge instantané
+                pour test nous n'avons besoin que de trois lignes de code supplémentaires...
+<php><![CDATA[
+require_once('simpletest/mock_objects.php');
+]]></php>
+                Cette instruction inclut le code de générateur
+                d'objet fantaisie. Le plus simple reste de le mettre
+                dans le script <em>all_tests.php</em> étant donné
+                qu'il est utilisé assez fréquemment.
+<php><![CDATA[
+Mock::generate('Clock');
+]]></php>
+                C'est la ligne qui fait le travail.
+                Le générateur de code scanne la classe,
+                en extrait toutes ses méthodes, crée le code
+                pour générer une classe avec une interface identique,
+                mais en ajoutant le nom &quot;Mock&quot;
+                et ensuite <code>eval()</code> le nouveau code pour créer la nouvelle classe.
+<php><![CDATA[
+$clock = &new MockClock($this);
+]]></php>
+                Cette ligne peut être ajoutée dans n'importe
+                quelle méthode de test qui nous intéresserait.
+                Elle crée l'horloge fantaisie prête à recevoir nos instructions.
+            </p>
+            <p>
+                Notre scénario de test en est à ses premiers pas
+                vers un nettoyage radical...
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');
+require_once('../classes/clock.php');<strong>
+Mock::generate('Clock');
+
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }</strong>
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }
+    function testCreatingNewFile() {
+        ...
+    }
+    function testAppendingToFile() {
+        ...
+    }
+    function testTimestamps() {<strong>
+        $clock = &new MockClock($this);
+        $clock->setReturnValue('now', 'Timestamp');
+        $log = new Log('../temp/test.log');
+        $log->message('Test line', &$clock);
+        $this->assertWantedPattern(
+                '/Timestamp/',
+                $this->getFileLine('../temp/test.log', 0),
+                'Found timestamp');</strong>
+    }
+}
+?>
+]]></php>
+                Cette méthode de test crée un objet <code>MockClock</code>
+                puis définit la valeur retourné par la méthode
+                <code>now()</code> par la chaîne &quot;Timestamp&quot;.
+                A chaque fois que nous appelons <code>$clock->now()</code>,
+                elle retournera cette même chaîne.
+                Ça devrait être quelque chose de facilement repérable.
+            </p>
+            <p>
+                Ensuite nous créons notre loggueur et envoyons un message.
+                Nous incluons dans l'appel <code>message()</code>
+                l'horloge que nous souhaitons utiliser.
+                Ça veut dire que nous aurons à ajouter un paramètre
+                optionnel à la classe de log pour rendre ce test possible...
+<php><![CDATA[
+class Log {
+    var $_file_path;
+    
+    function Log($file_path) {
+        $this->_file_path = $file_path;
+    }
+    
+    function message($message, <strong>$clock = false</strong>) {<strong>
+        if (!is_object($clock)) {
+            $clock = new Clock();
+        }</strong>
+        $file = fopen($this->_file_path, 'a');
+        fwrite($file, "[" . $clock->now() . "] $message\n");
+        fclose($file);
+    }
+}
+]]></php>
+                Maintenant tous les tests passent et ils ne testent
+                que le code du loggueur. Nous pouvons à nouveau respirer.
+            </p>
+            <p>
+                Est-ce que ce paramètre supplémentaire dans la classe <code>Log</code>
+                vous gêne ? Nous n'avons changé l'interface que
+                pour faciliter les tests après tout.
+                Les interfaces ne sont-elles pas la chose la plus importante ?
+                Avons nous souillé notre classe avec du code de test ?
+            </p>
+            <p>
+                Peut-être, mais réfléchissez à ce qui suit.
+                A la prochaine occasion,
+                regardez une carte avec des circuits imprimés,
+                peut-être la carte mère de l'ordinateur que 
+                ous regardez actuellement. Sur la plupart d'entre elles
+                vous trouverez un trou bizarre et vide
+                ou alors un point de soudure sans rien de fixé
+                ou même une épingle ou une prise sans aucune fonction évidente.
+                Peut-être certains sont là en prévision d'une expansion
+                ou d'une variation future, mais la plupart n'y sont que pour les tests.
+            </p>
+            <p>
+                Pensez-y. Les usines qui fabriquent ces cartes imprimées
+                par centaine de milliers gaspillent des matières premières
+                sur des pièces qui n'ajoutent rien à la fonction finale.
+                Si les ingénieurs matériel peuvent faire quelques sacrifices
+                à l'élégance, je suis sûr que nous pouvons aussi le faire.
+                Notre sacrifice ne gaspille pas de matériel après tout.
+            </p>
+            <p>
+                Ça vous gêne encore ? En fait moi aussi, mais pas tellement ici.
+                La priorité numéro 1 reste du code qui marche,
+                pas un prix pour minimalisme.
+                Si ça vous gêne vraiment alors déplacez la création
+                de l'horloge dans une autre méthode mère protégée.
+                Ensuite sous classez l'horloge pour le test
+                et écrasez la méthode mère avec une qui renvoie le leurre.
+                Vos tests sont bancals mais votre interface est intacte.
+            </p>
+            <p>
+                Une nouvelle fois je vous laisse la décision finale.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#remaniement">Remanier les tests</a>
+            dans le but de réutiliser notre nouveau test de temps.
+        </link>
+        <link>
+            Ajouter des <a href="#timestamp">timestamps de Log</a>.
+        </link>
+        <link>
+            <a href="#fantaisie">Créer une horloge fantaisie</a>
+            pour rendre les tests cohésifs.
+        </link>
+    </internal>
+    <external>
+        <link>
+            La section précédente :
+            <a href="first_test_tutorial.php">tutorial de test unitaire</a>.
+        </link>
+        <link>
+            La section suivante :
+            <a href="boundary_classes_tutorial.php">les frontières de l'application</a>.
+        </link>
+        <link>
+            Vous aurez besoin du
+            <a href="simple_test.php">framework de test SimpleTest</a>
+            pour essayer ces exemples.
+        </link>
+        <link>
+            Documents sur les <a href="http://www.mockobjects.com/">objets fantaisie</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutoriel php,
+            scripts php gratuits,
+            architecture,
+            ressources php,
+            objet fantaisie,
+            junit,
+            phpunit,
+            simpletest,
+            test php,
+            outil de test unitaire,
+            suite de test php
+        </keywords>
+    </meta>
+</page>
+

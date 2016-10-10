@@ -1,0 +1,43 @@
+/* SimpleTest - Unit Testing for PHP */
+body { font-family : georgia, serif; }
+img { border : 0; }
+h1 { color : #009933; }
+h3 { width : 100%; border-bottom : 1px solid #cccccc; }
+blockquote { background: transparent url('images/quote.png') left top no-repeat; font-style : italic; padding-left : 40px; margin-left : 10px; }
+td { vertical-align : top; }
+
+#logo { margin-bottom : 20px; }
+#credits { margin-top : 40px; }
+#actions { position : absolute; top : 20px; left : 40px; width : 335px; }
+#actions div { width : 305px; }
+#content { position : absolute; top : 20px; left : 400px; padding-bottom : 50px; width : 491px; }
+#news { border : 2px solid #009933; padding : 20px; font-weight : bold; font-size : 18pt; width : 451px; }
+#news a { color : #009933; }
+#internal { background: url('images/simpletest-internal-middle.png') repeat-y; margin-top : 2em; width : 306px; }
+#external { background: url('images/simpletest-external-middle.png') repeat-y; width : 306px; }
+#internal > div , #external > div { padding : 0 0.5em 0 0.5em; }
+ 
+div.console { background-color: black; border: 4px ridge; border-color: gray; color : white; margin: 5px 40px 20px 20px; padding: 10px; }
+div.demo { background-color: white; border: 4px ridge; border-color: gray; margin: 5px; margin-left: 20px; margin-right: 40px; padding: 10px; }
+div.demo span.fail { color: red; }
+div.demo span.pass { color: green; }
+div.demo h1 { color: black; font-size: 12pt; font-weight: bold; text-align: left; }
+pre { font-family: monospaced; border-left: 1px solid #999999; background-color: white; padding: 5px; margin-left: 5px; font-size : 10pt; }
+
+.screenshot { border : 1px solid #cccccc;}
+.experimental { background-color : yellow; border : 4px dashed black; padding : 10px; }
+.experimental pre { border-left : none; background-color : yellow; }
+.bubble, .bubble h3 { font-size: 9pt; }
+.people { margin : 0; list-style : none; padding : 0; }
+.geo { color : #777777; }
+.photo { margin-bottom : 2em; }
+.photo span { display : block; }
+.photo span.title { font-weight : bold; margin-top : 1em; }
+.photo img { border : 1px solid #777777; padding : 1em; margin : 1em; }
+
+dd { font-size : 10.5pt; }
+.done, .done span, .done + dd { color : #AAAAAA; text-decoration : line-through; }
+.postponed, .postponed span, .postponed + dd { color : #AAAAAA; }
+
+dt div.fail { background-color : red; color : white; padding : 0.2em; }
+dt div.pass { background-color : green; color : white; padding : 0.2em; }

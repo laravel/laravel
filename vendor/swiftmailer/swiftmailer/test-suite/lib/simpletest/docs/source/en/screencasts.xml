@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!-- $Id: subclass_tutorial.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Screencasts : Basic and Advanced TDD using SimpleTest" here="Screencasts">
+    <long_title>Screencasts : Basic and Advanced TDD using SimpleTest</long_title>
+    <content>
+        <section name="screencast" title="Basic and Advanced TDD in PHP Demo">
+            <p>
+                Want to see a basic TDD session in PHP ?
+                Here's a screencast from a session presented at
+                the PHP Everywhere Conference
+                by Andre John Cruz
+                (Application Developer, Barclays Singapore).
+            </p>
+            <p>
+                Basic TDD in PHP Demo, 1 of 3<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/jdY0cEFHmws&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/jdY0cEFHmws&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+                <br />
+                <br />
+                Basic TDD in PHP Demo, 2 of 3<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/tSZnQMjK9oA&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/tSZnQMjK9oA&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+                <br />
+                <br />
+                Basic TDD in PHP Demo, 3 of 3<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/kw6eLK1TZgE&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/kw6eLK1TZgE&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+            </p>
+            <p>
+                Advanced TDD in PHP Demo, 1 of 4<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/_PC4l6SvB0w&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/_PC4l6SvB0w&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+                <br />
+                <br />
+                Advanced TDD in PHP Demo, 2 of 4<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/gk4MsEQvLHg&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/gk4MsEQvLHg&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+                <br />
+                <br />
+                Advanced TDD in PHP Demo, 3 of 4<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/jbq_7XLjMqo&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/jbq_7XLjMqo&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+                <br />
+                <br />
+                Advanced TDD in PHP Demo, 4 of 4<br />
+                <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/3v_BrhXClTs&amp;hl=en"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/3v_BrhXClTs&amp;hl=en" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            A <a href="screencast">screencast</a>
+            covering "Basic and Advanced TDD in PHP".
+        </link>
+    </internal>
+    <external>
+        <link>
+            The <a href="http://www.phpugph.com/conference/">PHP User Group
+            Philippines</a> organized the event.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            test case example,
+            programming php,
+            software development tools,
+            php tutorial,
+            creating subclass,
+            free php scripts,
+            architecture,
+            php resources,
+            junit,
+            phpunit style testing,
+            unit test,
+            php testing,
+            screencast,
+            basic TDD,
+            advanced TDD
+        </keywords>
+    </meta>
+</page>

@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<!-- $Id: extension_eclipse.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Simpletest Eclipse Plugin" here="Eclipse">
+    <long_title>Simpletest Eclipse Plugin Documentation</long_title>
+    <content>
+        <section name="compat" title="Compatibility">
+            <ul>
+            <li>
+            <b>Operating System.</b><br/>
+            This plugin should work on any platform on which Eclipse works.  Specifically
+            the plugin has been tested to work on Linux, OS X, and Windows.  If the 
+            plugin does not appear to work on one of these platforms a new incompatibility
+            may have emerged, but this is relatively unlikely.
+            </li>
+            <li>
+            <b>Eclipse</b><br/>
+            The plugin has been designed to work with Eclipse versions 3.1.X+ and 3.2.X+. 
+            Eclipse in general requires a JVM version of 1.4.x; there are no additional requirements for the plugin.
+            </li>
+            <li>
+            <b>PHP</b><br/>
+            The plugin has been tested to work with PHP 4.3.x+ (including PHP 5.1.x.).
+            </li>
+            <li>
+            <b>Xdebug</b><br/>
+            The plugin can be configured to work with Xdebug (version 2.0.0RC1 or later).  
+            The php.ini file which is used by the plugin (see below for specifying the php.ini file) must load the Xdebug extension.
+            This is usually accomplished by adding a zend_extension_ts="Some Windows Path" or zend_extension="Some Linux Path" to your php.ini file.
+            Specific instructions can be found at: <a href="http://xdebug.org/install.php">http://xdebug.org/install.php</a>
+            Do not worry about specifying any other parameters, the plugin will handle setting the necessary parameters, as needed.
+            </li>
+            <li>
+            <b>Simpletest</b><br/>
+            The plugin has been designed to work with a specific version of Simpletest 
+            and in fact includes the associated version of Simpletest in the plugin for compatibility. 
+            A plugin with a version number of 1.0.0_0.0.4 would indicate that the plugin was compatible 
+            with Simpletest version 1.0.0 and was version 0.0.4 of the plugin. 
+            Some slight modifications to the Simpletest code are required to make the plugin 
+            work with Simpletest; these modifications may or may not be in the released version of Simpletest.
+            </li>
+            <li>
+            <b>PHPUnit2</b><br/>
+            Starting with plugin version 0.1.6 experimental support for the CVS version of PHPUnit2
+            is available.  To use PHPUnit2 select a path to PHPUnit2 and select PHPUnit2 test instead of
+            SimpleTest.  Note: this is the path to the folder that contains the PHPUnit2 
+            folder.  PHPUnit3 is not currently supported but will be supported in the near future.
+            </li>
+            </ul>
+        </section>
+        <section name="install" title="Installation">
+            <ol>
+            <li>Download and Install Eclipse (<a href="http://www.eclipse.org">www.eclipse.org</a>) – if you are not sure what to download, download the Eclipse 3.1.0 SDK.</li>
+            <li>Download the latest Simpletest Eclipse plug-in zip file (<a href="http://sourceforge.net/project/showfiles.php?group_id=76550&amp;package_id=159054">Simpletest Sourceforge</a>)</li>
+            <li>Extract the zip file to a temporary location {this will be referred to later in this documentation as $unzip}</li>
+            <li>Start Eclipse</li>
+            <li>Open the Install Wizard by clicking "Help" > "Software Updates" > "Find and Install" from the menu bar.</li>
+            <li>Select the second button, "Search for new features to install" and click "Next".</li>
+            <li>Click the button on the right hand side, "New Local Site".</li>
+            <li>Select the folder $unzip {the folder extracted previously}.</li>
+            <li>Click the "OK" button.</li>
+            <li>In the "Edit Local Site" window, Click the "OK" button</li>
+            <li>Click the "Finish" button</li>
+            <li>In the "Search Results" window, drill down and select "Simpletest plug-in 0.0.x"</li>
+            <li>Click the "Next" button.</li>
+            <li>Read the license and accept the license by clicking the "I accept the terms in the license agreement" radio button and then clicking the "Next" button</li>
+            <li>In the "Installation" window you can choose to change the location -- most users should just click the "Finish" button</li>
+            <li>In the "Feature Verification" window, click the "Install" button.</li>
+            <li>When prompted, restart Eclipse</li>
+            <li>
+                <p>After starting Eclipse for the first time after installation 
+                 you will need to perform a quick configuration of the Simpletest Plug-in.  
+                 To perform this configuration:
+                </p>
+                <ol type="a">
+                <li>
+                Select "Window" > "Preferences" from the menu bar
+                </li>
+                <li>
+                Select "Simpletest" from the categories on the left hand side of the popup box.
+                </li>
+                <li>
+                Enter or Browse for the location of a PHP executable to use.   
+                </li>
+                <li>
+                Leave the include file blank
+                </li>
+                <li>
+                Enter .php as the Test File Suffix.  
+                Alternately if you name your test PHP files with a sufficiently different suffix 
+                (e.g sometest.tst.php) you could enter in a more differentiating suffix (e.g. .tst.php).  
+                This helps when the plug-in is looking for tests to execute.
+                </li>
+                <li>
+                Hit the "Ok" button to close the preferences window.
+                </li>
+                </ol>
+            </li>
+            </ol>
+        </section>
+        <section name="update" title="Update Existing Installation">
+            Note: this will only work if you have previously installed the plugin using the 
+            Eclipse installation wizard.  If you previously copied directories for installation,
+            it is recommended that you shutdown Eclipse, delete the previous version directories, and
+            follow the Installation instructions above (you should not have to perform the initial configuration
+            portion).
+            <ol>
+            <li>Select "Help" > "Software Updates" > "Manage Configuration" from the menu</li>
+            <li>Drill down to find the Simpletest plugin and select it</li>
+            <li>In the right hand pane click the link for "Scan for Updates"</li>
+            <li>IF no updates are found, navigate to Window > Preferences > Install/Update > Valid Updates in the Eclipse preferences and select 'Compatible', not 'equivalent'.  Then repeat the steps above.</li>
+            <li>Select the feature versions that you wish to upgrade, and click "Next".</li>
+            <li>Review the license agreements for the upgraded features. If the terms of all these licenses are acceptable, check "I accept the terms in the license agreements." Do not proceed to download the features if the license terms are not acceptable.</li>
+            <li>Click "Install" to allow the downloading and installing to proceed.</li>
+            <li>Once all the features and plug-ins have been downloaded successfully and their files installed into the product on the local computer, a new configuration that incorporates these features and plug-ins will be formulated. Click Yes when asked to exit and restart the Workbench for the changes to take effect.</li>
+            </ol>
+        </section>
+        <section name="uninstall" title="Uninstall">
+            <p>
+                Note: this will only work if the plugin was installed via the Feature Update method.  If installed via alternate methods, then the plugin can be uninstalled by deleting the directories which were previously added.
+            </p>
+            <ol>
+            <li>Select "Help" > "Software Updates" > "Manage Configuration"</li>
+            <li>Drill down to find the Simpletest plugin</li>
+            <li>Right-click on the Simpletest plugin and select the option "Disable"</li>
+            <li>when prompted, restart Eclipse</li>
+            <li>After Eclipse has restarted, select "Help" > "Software Updates" > "Manage Configuration" from the menu bar</li>
+            <li>Select the option from the toolbar "Show Disabled Features"</li>
+            <li>Drill down to find the Simpletest plugin</li>
+            <li>Right-click on the Simpletest plugin and select the option "Uninstall"</li>
+            <li>When prompted, restart Eclipse</li>
+            </ol>
+        </section>
+        <section name="usage" title="Usage">
+            <p>
+            The following details some sample usages of the plugin.
+            </p>
+            <ol>
+            <li>Create a new test project (a holding place for related files)
+                <ol>
+                <li>Select "File" > "New" > "Project.." from the menu</li>
+                <li>Expand the folder "General" and select "Project"</li>
+                <li>Click the "Next" button</li>
+                <li>On the next tab enter a project name: "Test"</li>
+                <li>Use the default Project Contents</li>
+                <li>Click the "Finish" button</li>
+                </ol>
+            </li>
+            <li>Create a Single Passing Test
+                <ol>
+                <li>In the Package Explorer View right-click on the "Test" project and select "New" > "File".</li>
+                <li>For the filename enter: test1.php and click "Finish"</li>
+                <li>Double-click on the test1.php entry in the Package Explorer which should open a new view to edit the file.</li>
+                <li>Enter the following for the contents of the file:
+<php><![CDATA[
+<?php
+class test1 extends UnitTestCase {
+  function test_pass(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(3,$total, "This should pass");
+  }
+}
+?>
+]]></php>
+                </li>
+                <li>Select "File" > "Save" from the menu.</li>
+                <li>Right click on the test1.php entry and select "Run" > "Run Simpletest".</li>
+                <li>The "Result View" should populate with information about the test run and the Simpletest console should fill with some information as well.</li>
+                </ol>
+            </li>
+            <li>Single Test class multiple tests
+                <ol>
+                <li>In the Package Explorer View right-click on the "Test" project and select "New" > "File".</li>
+                <li>For the filename enter: test2.php and click "Finish".</li>
+                <li>Double-click on the test2.php entry in the Package Explorer which should open a new view to edit the file.</li>
+                <li>Enter the following for the contents of the file:
+<php><![CDATA[
+<?php
+class test2 extends UnitTestCase {          
+  function test_pass(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(3,$total, "This should pass");
+  }
+  function test_fail(){
+    $x = 1;
+    $y = 2;
+    $total = $x + $y;
+    $this->assertEqual(4,$total,"This should fail");
+  }
+}
+?>
+]]></php>
+                </li>
+                <li>Select "File" > "save" from the menu bar.</li>
+                <li>Right click on the test2.php entry and select "Run" > "Run Simpletest".</li>
+                <li>The Result View should populate with information about the test run and the Simpletest console should fill with some information as well</li>
+                </ol>
+            </li>
+            <li>Group Tests (test multiple files at once)
+                <ol>
+                <li>In the Package Explorer View right-click on the "Test" project and select "New" > "File"</li>
+                <li>For the filename enter: grouptest.php and click "Finish".</li>
+                <li>Double-click on the grouptest.php entry in the Package Explorer which should open a new view to edit the file.</li>
+                <li>Enter the following for the contents of the file:
+<php><![CDATA[
+<?php
+class myGroupTest extends GroupTest {
+  function myGroupTest() {
+    parent::GroupTest('');
+    $this->addTestFile(dirname(__FILE__).'/test1.php');
+    $this->addTestFile(dirname(__FILE__).'/test2.php');
+  }
+}
+?>
+]]></php>
+                </li>
+                <li>Select "File" > "save" from the menu</li>
+                <li>Right click on the grouptest.php entry and select "Run" > "Run Simpletest"</li>
+                <li>The Result View should populate with information about the test run and the Simpletest console should fill with some information as well</li>
+                </ol>
+            </li>
+            </ol>
+        </section>
+        <section name="known" title="Known Issues">
+            <ul>
+            <li>
+            Make sure that if a constructor is used in the test case 
+            that the last line of the constructor calls the parent
+            constructor (e.g. parent::UnitTestCase)
+            </li>
+            <li>
+            Do not put any assertions into the test class constructor
+            </li>
+            <li>
+            If you get an error indicating that a class could not load; then restart Eclipse.  Once
+            Eclipse restarts, open the Result View manually by selecting "Window"->"Show View"->"Other..."
+            Then select the SimpleTest Category and select "Result View" and click "OK".
+            </li>
+            </ul>
+        </section>
+        <section name="todo" title="Future Features">
+            <p>These are features that should eventually make it into this plugin</p>
+            <ul>
+            <li>
+            Allow different "include" file on each runner (override the "master" include)
+            </li>
+            <li>
+            Handle fatal errors better
+            </li>
+            </ul>
+        </section>
+    </content>
+    
+    <meta>
+        <keywords>
+            software development,
+            eclipse plugin,
+            php programming,
+            programming php,
+            software development tools,
+            php tutorial,
+            free php scripts,
+            architecture,
+            php resources,
+            mock objects,
+            junit,
+            php testing,
+            unit test,
+            automated php testing,
+            test cases tutorial,
+            explain unit test case,
+            unit test example,
+            unit test
+        </keywords>
+    </meta>
+</page>

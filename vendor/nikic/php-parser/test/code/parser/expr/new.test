@@ -1,0 +1,139 @@
+New
+-----
+<?php
+
+new A;
+new A($b);
+
+// class name variations
+new $a();
+new $a['b']();
+new A::$b();
+// DNCR object access
+new $a->b();
+new $a->b->c();
+new $a->b['c']();
+new $a->b{'c'}();
+
+// test regression introduces by new dereferencing syntax
+(new A);
+-----
+array(
+    0: Expr_New(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_New(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        args: array(
+            0: Arg(
+                value: Expr_Variable(
+                    name: b
+                )
+                byRef: false
+            )
+        )
+    )
+    2: Expr_New(
+        class: Expr_Variable(
+            name: a
+        )
+        args: array(
+        )
+    )
+    3: Expr_New(
+        class: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+        args: array(
+        )
+    )
+    4: Expr_New(
+        class: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            name: b
+        )
+        args: array(
+        )
+    )
+    5: Expr_New(
+        class: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            name: b
+        )
+        args: array(
+        )
+    )
+    6: Expr_New(
+        class: Expr_PropertyFetch(
+            var: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: b
+            )
+            name: c
+        )
+        args: array(
+        )
+    )
+    7: Expr_New(
+        class: Expr_ArrayDimFetch(
+            var: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: b
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+        args: array(
+        )
+    )
+    8: Expr_New(
+        class: Expr_ArrayDimFetch(
+            var: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: b
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+        args: array(
+        )
+    )
+    9: Expr_New(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        args: array(
+        )
+    )
+)

@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<!-- $Id: authentication_documentation.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="SimpleTest's Changelog" here="Changelog">
+    <long_title>SimpleTest's Changelog</long_title>
+    <content>
+        <section name="version1.0.1" title="SimpleTest Version 1.0.1">
+            <changelog version="1.0.1" date="07/04/2008">
+            	<change>
+            		Whitespace clean up
+				</change>
+            	<change>
+            		Some in line documentation fixes
+				</change>
+            	<change>
+            		Adding the JUnitReporter as an extension to SimpleTest (work by Patrice Neff)
+				</change>
+            	<change>
+            		New support page for Screencasts
+				</change>
+            </changelog>
+            <changelog version="1.0.1rc1" date="25/03/2008">
+            	<change>
+            		Synchronizing the french translation.
+				</change>
+            	<change>
+            		Unit tests working for PHP 5.3
+				</change>
+            	<change>
+            		Fix segfault with Zend Optimizer v3.2.2 (probably)
+				</change>
+            	<change>
+            		Adding some tags to help synchronise the docs
+				</change>
+            	<change>
+            		Add support for E_DEPRECATED
+				</change>
+            	<patch tracker="1899780">
+            		SimpleFileLoader::load: fix for $test_file already included, by daniel hahler - blueyed
+				</patch>
+            	<change>
+            		New tests for UTF8 inside the browser.
+				</change>
+            	<patch tracker="1892029">
+					"Update FormTesting tutorial page for hidden fields" submitted by David Heath - dgheath
+				</patch>
+            	<change>
+            		Moving around the extensions : /ui is now deprecated, /extensions is holding all extensions,
+            		/test/extensions is holding all extensions' test suites
+				</change>
+            	<bug tracker="1853765">
+            		Fixing one of the incompatible interface errors
+				</bug>
+            	<bug tracker="1377866">
+            		Let choose which field of the same name to set
+				</bug>
+            	<change>
+            		Clearing fatal error when throwing in a tearDown
+				</change>
+            	<patch>
+            		Avoid a fatal error in assertLink
+            		(when the link with a label does not exists in a page) submitted by German Rumm - german.rumm AT gmail.com
+				</patch>
+            	<bug tracker="1791217">
+            		CssSelector chokes on single-quotes
+				</bug>
+            	<bug tracker="1699111">
+            		clickImageByID not working : just updating the documentation
+				</bug>
+            	<bug tracker="1787087">
+            		html special chars in links
+				</bug>
+            	<bug tracker="1790469">
+					decodeHtml does not decode some entities
+					(based on patch provided by Quandary - ai2097)
+				</bug>
+            	<bug tracker="1642529">
+            		Radio buttons not working when set as integer
+				</bug>
+            	<bug tracker="1436854">
+            		Missing return value
+				</bug>
+            	<bug tracker="1782552">
+            		Inner links inside documentation for "simpletest.org" now work with *.html
+				</bug>
+            	<bug tracker="1852413">
+            		Hostname extracted incorrectly from URIs containing @ sign
+				</bug>
+            	<bug tracker="1671539">
+            		assertWantedText matches javascript source code
+				</bug>
+            	<bug tracker="1688238">
+            		SimpleUrl doesn't appear to handle path after filename
+				</bug>
+            	<change>
+            		remove call-time reference - its declared in the constructor, so that's enough
+				</change>
+            	<change>
+            		Adding error throwing to mocks
+				</change>
+            	<change>
+            		Added PHP4 patches for new mock code
+				</change>
+            	<change>
+            		Added filter that rewrites paths to included files in tests...
+            		now just need to clean up all the hardcoded path references
+            		in the existing tests and we should be able to make a start on building an extension layout
+            		that's compatible with PEAR installer *and* manual tar/zip extraction
+            	</change>
+            	<change>
+            		Add in default wrap to catch all 'verify' methods and wrap them in assertTrue
+				</change>
+            	<bug trakcer="1404823">
+            		Recursive forms fails
+            	</bug>
+            	<change>
+            		SimpleFileLoader::selectRunnableTests(..) not only marks abstract classes as ignored
+            		but filters them as well
+            	</change>
+            	<change>
+            		renaming SimpleReflection::_isAbstractMethodInParent() into _isAbstractMethodInParents()
+            		and making it check upwards if method was declared somewhere abstract not just in the immediate parent,
+            		this allows to avoid ugly 'must be compatible' error in PHP5
+            	</change>
+            	<change>
+            		switch to Subversion (SVN)
+            	</change>
+            </changelog>
+            <changelog version="1.0.1beta2" date="17/07/2007">
+            	<change>
+            		autorun
+            	</change>
+            	<change>
+            		browser base tag support
+            	</change>
+            </changelog>
+            <changelog version="1.0.1beta" date="21/11/2006">
+            	<change>
+            		expectException()
+            	</change>
+            	<change>
+            		proper skip facility
+				</change>
+            	<change>
+            		greater formatting control in the reporters
+            	</change>
+            	<change>
+            		various mock object compatibility fixes
+            	</change>
+            </changelog>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Changelog for <a href="#version1.0.1">version 1.0.1</a>
+        </link>
+    </internal>
+    <external>
+        <link>
+            SimpleTest project page on <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            The <a href="http://simpletest.org/api/">developer&apos;s API for SimpleTest</a>
+            gives full detail on the classes and assertions available.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming for clients,
+            customer focused php,
+            software development tools,
+            acceptance testing framework,
+            free php scripts,
+            log in boxes,
+            unit testing authentication systems,
+            php resources,
+            HTMLUnit,
+            JWebUnit,
+            php testing,
+            unit test resource,
+            web testing,
+            HTTP authentication,
+            testing log in,
+            authentication testing,
+            security tests
+        </keywords>
+    </meta>
+</page>

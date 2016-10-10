@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<page title="Overview of SimpleTest" here="SimpleTest">
+    <long_title>
+        Overview and feature list for the SimpleTest PHP unit tester and web tester
+    </long_title>
+    <content>
+        <p>
+            A <a local="unit_test_documentation">test case</a> looks like this...
+<php><![CDATA[
+<?php
+class <strong>MyTestCase</strong> extends UnitTestCase {
+    <strong>
+    function testLogWroteMessage() {
+        $log = &new Log('my.log');
+        $log->message('Hello');
+        $this->assertTrue(file_exists('my.log'));
+    }</strong>
+}
+?>
+]]></php>
+        </p>
+    </content>
+    <internal>
+        <link>
+            <a href="#summary">Quick summary</a>
+            of the SimpleTest tool for PHP.
+        </link>
+        <link>
+            <a href="#features">List of features</a>,
+            both current ones and those planned.
+        </link>
+        <link>
+            There are plenty of <a href="#resources">unit testing resources</a>
+            on the web.
+        </link>
+    </internal>
+    <external>
+        <link>
+            <a local="unit_test_documentation">Documentation for SimpleTest</a>.
+        </link>
+        <link>
+            <a href="http://www.lastcraft.com/first_test_tutorial.php">How to write PHP test cases</a>
+            is a fairly advanced tutorial.
+        </link>
+        <link>
+            <a href="http://simpletest.org/api/">SimpleTest API</a> from phpdoc.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development tools,
+            php programming,
+            programming php,
+            software development tools,
+            Tools for extreme programming,
+            free php scripts,
+            links of testing tools,
+            php testing resources,
+            mock objects,
+            junit,
+            jwebunit,
+            htmlunit,
+            itc,
+            php testing links,
+            unit test advice and documentation,
+            extreme programming in php
+        </keywords>
+    </meta>
+    <refsynopsisdiv>
+        <authorgroup>
+            <author>
+                Marcus Baker
+                <authorblurb>
+                    <para>Primary Developer</para><para>{@link mailto:marcus@lastcraft.com marcus@lastcraft.com}</para>
+                </authorblurb>
+            </author>
+            <author>
+                Harry Fuecks
+                <authorblurb>
+                    <para>Packager</para><para>{@link mailto:harryf@users.sourceforge.net harryf@users.sourceforge.net}</para>
+                </authorblurb>
+            </author>
+            <author>
+                Jason Sweat
+                <authorblurb>
+                    <para>Documentation</para><para>{@link mailto:jsweat_php@yahoo.com jsweat_php@yahoo.com}</para>
+                </authorblurb>
+            </author>
+        </authorgroup>
+    </refsynopsisdiv>
+</page>

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!-- $Id: about.xml 1803 2008-09-08 11:11:03Z lastcraft $ -->
+<page title="About Last Craft" here="About">
+    <long_title>About Last Craft</long_title>
+    <content>
+        <section name="me" title="People">
+            <p>
+                <img src="../images/marcus.jpg" />
+                At the moment this site is maintained by myself,
+                <a href="mailto:marcus@lastcraft.com">Marcus Baker</a>
+                and I am an <a href="marcus_cv.html">Object Oriented web developer</a>
+                and father of two.
+                I am currently a freelancer working as a senior developer for
+                <a href="http://www.wordtracker.com">Wordtracker</a>
+                and as a consultant to various smaller companies.
+                Wordtracker is an internet statistics company with a huge database
+                of search engine keyword popularity.
+                The company software development is eXtreme Programming based.
+            </p>
+            <p>
+                My wife <a href="mailto:aviva@lastcraft.com">Aviva Racher</a> is a
+                microbiologist and Mother of the same two.
+            </p>
+        </section>
+        <section name="issues" title="Issues">
+            <p>
+                Read the interview <a
+                href="http://www.oreillynet.com/pub/a/patents/2000/05/24/PizzoFiles.html">
+                Who's really being protected?</a> on the
+                O&#39;Reilly network if you have an interest in software patents.
+            </p>
+        </section>
+        <section name="associations" title="Associations">
+            <p>
+                Besides working for Wordtracker, I also act as an independent
+                consultant.
+                Usually in relation to bringing agile development practices into an
+                organisation.
+                Clients include Waterscape and Amnesty International.
+            </p>
+            <p>
+                I did a quick site for a graphic designer and illustrator friend of mine,
+                <a href="http://www.dylanbeck.com/">Dylan Beck</a>.
+                He has a very unique style.
+            </p>
+            <p>
+                The <a href="om/">Ambassadors of Om</a> are a Jazz-Funk
+                fusion (?) band with an internet presence going back over five
+                years. Site includes samples, videos and links. The band is
+                managed by guitarist and lead singer <a
+                href="mailto:wahg@cwcom.net">Paul&#160;Grimes</a> who is a friend of ours.
+            </p>
+            <p>
+                <a href="mailto:mark@leisurepursuits.demon.co.uk">
+                Mark&#160;Eichner</a> is Aviva&#39;s uncle and run&#39;s the
+                <a href="http://www.leisurepursuits.demon.co.uk">
+                Leisure&#160;Pursuits</a>
+                off-road driving school. Lots of wheels and mud!
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#me">Last Craft people</a>
+            Myself and friends and relations.
+        </link>
+        <link>
+            <a href="#issues">Issues</a> that I care about.
+        </link>
+        <link>
+            <a href="#associations">Associated companies</a>
+            and people.
+        </link>
+    </internal>
+
+    <external>
+        <link>
+            <a href="http://www.xpdeveloper.com/cgi-bin/wiki.cgi?MarcuS">Extreme Tuesday</a>
+            Club is an informal meeting in London to promote
+            <a href="http://www.extremeprogramming.org/">Extreme programming</a>.
+        </link>
+        <link>
+            <a href="http://www.phplondon.org/">PHPLondon</a>
+            is a user group that meets the first thursday of every month.
+        </link>
+        <link>
+            <a href="http://www.wordtracker.com">Wordtracker</a>
+            crunches internet search data for web marketing.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            freelancer,
+            php resources,
+            wordtracker,
+            web marketing,
+            serach engines,
+            web positioning,
+            internet marketing
+        </keywords>
+    </meta>
+</page>

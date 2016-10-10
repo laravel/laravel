@@ -1,0 +1,112 @@
+Blockless statements for if/for/etc
+-----
+<?php
+
+if ($a) $A;
+elseif ($b) $B;
+else $C;
+
+for (;;) $foo;
+
+foreach ($a as $b) $AB;
+
+while ($a) $A;
+
+do $A; while ($a);
+
+declare (a='b') $C;
+-----
+array(
+    0: Stmt_If(
+        stmts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+        elseifs: array(
+            0: Stmt_ElseIf(
+                cond: Expr_Variable(
+                    name: b
+                )
+                stmts: array(
+                    0: Expr_Variable(
+                        name: B
+                    )
+                )
+            )
+        )
+        else: Stmt_Else(
+            stmts: array(
+                0: Expr_Variable(
+                    name: C
+                )
+            )
+        )
+        cond: Expr_Variable(
+            name: a
+        )
+    )
+    1: Stmt_For(
+        init: array(
+        )
+        cond: array(
+        )
+        loop: array(
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: foo
+            )
+        )
+    )
+    2: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+            0: Expr_Variable(
+                name: AB
+            )
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: b
+        )
+    )
+    3: Stmt_While(
+        cond: Expr_Variable(
+            name: a
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    4: Stmt_Do(
+        cond: Expr_Variable(
+            name: a
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    5: Stmt_Declare(
+        declares: array(
+            0: Stmt_DeclareDeclare(
+                key: a
+                value: Scalar_String(
+                    value: b
+                )
+            )
+        )
+        stmts: array(
+            0: Expr_Variable(
+                name: C
+            )
+        )
+    )
+)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<phpunit bootstrap="./bootstrap.php"
+    backupGlobals="true"
+    colors="true" 
+    convertErrorsToExceptions="true" 
+    convertNoticesToExceptions="true" 
+    convertWarningsToExceptions="true" 
+    processIsolation="false" 
+    syntaxCheck="true" 
+    verbose="true" 
+    strict="true"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false">
+    <php>
+        <ini name="memory_limit" value="2048M"/>
+    </php>
+    <testsuite name="PHPExcel Unit Test Suite">
+        <directory suffix="Test.php">./Classes</directory>
+    </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../Classes</directory>
+            <exclude>
+                <directory>../Classes/PHPExcel/Shared/PCLZip</directory>
+                <directory>../Classes/PHPExcel/Shared/JAMA</directory>
+                <directory>../Classes/PHPExcel/Writer/PDF</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="./codeCoverage" charset="UTF-8"
+             yui="true" highlight="false"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="./codeCoverage/codeCoverage.xml"/>
+        <log type="metrics-xml" target="./metrics/metrics.xml"/>
+        <log type="test-xml" target="./testResults/logfile.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit> 

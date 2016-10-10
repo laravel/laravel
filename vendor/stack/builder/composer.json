@@ -1,0 +1,26 @@
+{
+    "name": "stack/builder",
+    "description": "Builder for stack middlewares based on HttpKernelInterface.",
+    "keywords": ["stack"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Wiedler",
+            "email": "igor@wiedler.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/http-foundation": "~2.1",
+        "symfony/http-kernel": "~2.1"
+    },
+    "require-dev": {
+        "silex/silex": "~1.0"
+    },
+    "autoload": {
+        "psr-0": { "Stack": "src" }
+    },
+    "extra": {
+        "branch-alias": { "dev-master": "1.0-dev" }
+    }
+}

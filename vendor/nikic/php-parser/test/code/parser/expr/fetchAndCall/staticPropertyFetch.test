@@ -1,0 +1,71 @@
+Static property fetches
+-----
+<?php
+
+// property name variations
+A::$b;
+A::$$b;
+A::${'b'};
+
+// array access
+A::$b['c'];
+A::$b{'c'};
+
+// class name variations can be found in staticCall.test
+-----
+array(
+    0: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: b
+    )
+    1: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: Expr_Variable(
+            name: b
+        )
+    )
+    2: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: Scalar_String(
+            value: b
+        )
+    )
+    3: Expr_ArrayDimFetch(
+        var: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            name: b
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+    4: Expr_ArrayDimFetch(
+        var: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            name: b
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+)

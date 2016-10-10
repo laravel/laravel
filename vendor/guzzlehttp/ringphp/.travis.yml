@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction --prefer-source --dev
+  - ~/.nvm/nvm.sh install v0.6.14
+  - ~/.nvm/nvm.sh run v0.6.14
+
+script:
+  - make test
+
+matrix:
+  allow_failures:
+    - php: hhvm
+  fast_finish: true

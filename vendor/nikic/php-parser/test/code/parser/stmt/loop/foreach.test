@@ -1,0 +1,139 @@
+Foreach loop
+-----
+<?php
+
+// foreach on variable
+foreach ($a as $b)  {}
+foreach ($a as &$b) {}
+foreach ($a as $b => $c) {}
+foreach ($a as $b => &$c) {}
+foreach ($a as list($a, $b)) {}
+foreach ($a as $a => list($b, , $c)) {}
+
+// foreach on expression
+foreach (array() as $b) {}
+
+// alternative syntax
+foreach ($a as $b):
+endforeach;
+-----
+array(
+    0: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: b
+        )
+    )
+    1: Stmt_Foreach(
+        keyVar: null
+        byRef: true
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: b
+        )
+    )
+    2: Stmt_Foreach(
+        keyVar: Expr_Variable(
+            name: b
+        )
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: c
+        )
+    )
+    3: Stmt_Foreach(
+        keyVar: Expr_Variable(
+            name: b
+        )
+        byRef: true
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: c
+        )
+    )
+    4: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+    )
+    5: Stmt_Foreach(
+        keyVar: Expr_Variable(
+            name: a
+        )
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: b
+                )
+                1: null
+                2: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+    )
+    6: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Array(
+            items: array(
+            )
+        )
+        valueVar: Expr_Variable(
+            name: b
+        )
+    )
+    7: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_Variable(
+            name: b
+        )
+    )
+)

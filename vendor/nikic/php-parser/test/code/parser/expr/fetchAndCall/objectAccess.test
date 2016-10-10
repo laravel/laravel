@@ -1,0 +1,118 @@
+Object access
+-----
+<?php
+
+// property fetch variations
+$a->b;
+$a->b['c'];
+$a->b{'c'};
+
+// method call variations
+$a->b();
+$a->{'b'}();
+$a->$b();
+$a->$b['c']();
+
+// array dereferencing
+$a->b()['c'];
+$a->b(){'c'}; // invalid PHP: drop Support?
+-----
+array(
+    0: Expr_PropertyFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        name: b
+    )
+    1: Expr_ArrayDimFetch(
+        var: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            name: b
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+    2: Expr_ArrayDimFetch(
+        var: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            name: b
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+    3: Expr_MethodCall(
+        var: Expr_Variable(
+            name: a
+        )
+        name: b
+        args: array(
+        )
+    )
+    4: Expr_MethodCall(
+        var: Expr_Variable(
+            name: a
+        )
+        name: Scalar_String(
+            value: b
+        )
+        args: array(
+        )
+    )
+    5: Expr_MethodCall(
+        var: Expr_Variable(
+            name: a
+        )
+        name: Expr_Variable(
+            name: b
+        )
+        args: array(
+        )
+    )
+    6: Expr_MethodCall(
+        var: Expr_Variable(
+            name: a
+        )
+        name: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: b
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+        args: array(
+        )
+    )
+    7: Expr_ArrayDimFetch(
+        var: Expr_MethodCall(
+            var: Expr_Variable(
+                name: a
+            )
+            name: b
+            args: array(
+            )
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+    8: Expr_ArrayDimFetch(
+        var: Expr_MethodCall(
+            var: Expr_Variable(
+                name: a
+            )
+            name: b
+            args: array(
+            )
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+)

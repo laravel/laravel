@@ -1,0 +1,138 @@
+Logical operators
+-----
+<?php
+
+// boolean ops
+$a && $b;
+$a || $b;
+!$a;
+!!$a;
+
+// logical ops
+$a and $b;
+$a or $b;
+$a xor $b;
+
+// precedence
+$a && $b || $c && $d;
+$a && ($b || $c) && $d;
+
+$a = $b || $c;
+$a = $b or $c;
+-----
+array(
+    0: Expr_BooleanAnd(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    1: Expr_BooleanOr(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    2: Expr_BooleanNot(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Expr_BooleanNot(
+        expr: Expr_BooleanNot(
+            expr: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    4: Expr_LogicalAnd(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    5: Expr_LogicalOr(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_LogicalXor(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_BooleanOr(
+        left: Expr_BooleanAnd(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_BooleanAnd(
+            left: Expr_Variable(
+                name: c
+            )
+            right: Expr_Variable(
+                name: d
+            )
+        )
+    )
+    8: Expr_BooleanAnd(
+        left: Expr_BooleanAnd(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_BooleanOr(
+                left: Expr_Variable(
+                    name: b
+                )
+                right: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+        right: Expr_Variable(
+            name: d
+        )
+    )
+    9: Expr_Assign(
+        var: Expr_Variable(
+            name: a
+        )
+        expr: Expr_BooleanOr(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    10: Expr_LogicalOr(
+        left: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+)

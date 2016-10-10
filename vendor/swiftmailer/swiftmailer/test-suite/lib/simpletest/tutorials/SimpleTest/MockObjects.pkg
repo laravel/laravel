@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Mock objects</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id what}">
+<title>What are mock objects?</title>
+            <para>
+                Mock objects have two roles during a test case: actor and critic.
+            </para>
+            <para>
+                The actor behaviour is to simulate objects that are difficult to
+                set up or time consuming to set up for a test.
+                The classic example is a database connection.
+                Setting up a test database at the start of each test would slow
+                testing to a crawl and would require the installation of the
+                database engine and test data on the test machine.
+                If we can simulate the connection and return data of our
+                choosing we not only win on the pragmatics of testing, but can
+                also feed our code spurious data to see how it responds.
+                We can simulate databases being down or other extremes
+                without having to create a broken database for real.
+                In other words, we get greater control of the test environment.
+            </para>
+            <para>
+                If mock objects only behaved as actors they would simply be
+                known as {@link server stubs.html server stubs}.
+            </para>
+            <para>
+                However, the mock objects not only play a part (by supplying chosen
+                return values on demand) they are also sensitive to the
+                messages sent to them (via expectations).
+                By setting expected parameters for a method call they act
+                as a guard that the calls upon them are made correctly.
+                If expectations are not met they save us the effort of
+                writing a failed test assertion by performing that duty on our
+                behalf.
+                In the case of an imaginary database connection they can
+                test that the query, say SQL, was correctly formed by
+                the object that is using the connection.
+                Set them up with fairly tight expectations and you will
+                hardly need manual assertions at all.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id creation}">
+<title>Creating mock objects</title>
+            <para>
+                In the same way that we create server stubs, all we need is an
+                existing class, say a database connection that looks like this...
+<programlisting role="php">
+class DatabaseConnection {
+    function DatabaseConnection() {
+    }
+    
+    function query() {
+    }
+    
+    function selectQuery() {
+    }
+}
+</programlisting>
+                The class does not need to have been implemented yet.
+                To create a mock version of the class we need to include the
+                mock object library and run the generator...
+<programlisting role="php">
+require_once('simpletest/unit_tester.php');
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+
+Mock::generate('DatabaseConnection');
+</programlisting>
+                This generates a clone class called
+                <span class="new_code">MockDatabaseConnection</span>.
+                We can now create instances of the new class within
+                our test case...
+<programlisting role="php">
+require_once('simpletest/unit_tester.php');
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+
+Mock::generate('DatabaseConnection');
+
+class MyTestCase extends UnitTestCase {
+    
+    function testSomething() {
+        $connection = &amp;new MockDatabaseConnection($this);
+    }
+}
+</programlisting>
+                Unlike the generated stubs the mock constructor needs a reference
+                to the test case so that it can dispatch passes and failures while
+                checking its expectations.
+                This means that mock objects can only be used within test cases.
+                Despite this their extra power means that stubs are hardly ever used
+                if mocks are available.
+            </para>
+            <para>
+                <title>Mocks as actors</title>
+            </para>
+            <para>
+                The mock version of a class has all the methods of the original
+                so that operations like
+                <span class="new_code">$connection-&gt;query()</span> are still
+                legal.
+                As with stubs we can replace the default null return values...
+<programlisting role="php">
+$connection-&gt;setReturnValue('query', 37);
+</programlisting>
+                Now every time we call
+                <span class="new_code">$connection-&gt;query()</span> we get
+                the result of 37.
+                As with the stubs we can set wildcards and we can overload the
+                wildcard parameter.
+                We can also add extra methods to the mock when generating it
+                and choose our own class name...
+<programlisting role="php">
+Mock::generate('DatabaseConnection', 'MyMockDatabaseConnection', array('setOptions'));
+</programlisting>
+                Here the mock will behave as if the <span class="new_code">setOptions()</span>
+                existed in the original class.
+                This is handy if a class has used the PHP <span class="new_code">overload()</span>
+                mechanism to add dynamic methods.
+                You can create a special mock to simulate this situation.
+            </para>
+            <para>
+                All of the patterns available with server stubs are available
+                to mock objects...
+<programlisting role="php">
+class Iterator {
+    function Iterator() {
+    }
+    
+    function next() {
+    }
+}
+</programlisting>
+                Again, assuming that this iterator only returns text until it
+                reaches the end, when it returns false, we can simulate it
+                with...
+<programlisting role="php">
+Mock::generate('Iterator');
+
+class IteratorTest extends UnitTestCase() {
+    
+    function testASequence() {
+        $iterator = &amp;new MockIterator($this);
+        $iterator-&gt;setReturnValue('next', false);
+        $iterator-&gt;setReturnValueAt(0, 'next', 'First string');
+        $iterator-&gt;setReturnValueAt(1, 'next', 'Second string');
+        ...
+    }
+}
+</programlisting>
+                When <span class="new_code">next()</span> is called on the
+                mock iterator it will first return "First string",
+                on the second call "Second string" will be returned
+                and on any other call <span class="new_code">false</span> will
+                be returned.
+                The sequenced return values take precedence over the constant
+                return value.
+                The constant one is a kind of default if you like.
+            </para>
+            <para>
+                A repeat of the stubbed information holder with name/value pairs...
+<programlisting role="php">
+class Configuration {
+    function Configuration() {
+    }
+    
+    function getValue($key) {
+    }
+}
+</programlisting>
+                This is a classic situation for using mock objects as
+                actual configuration will vary from machine to machine,
+                hardly helping the reliability of our tests if we use it
+                directly.
+                The problem though is that all the data comes through the
+                <span class="new_code">getValue()</span> method and yet
+                we want different results for different keys.
+                Luckily the mocks have a filter system...
+<programlisting role="php">
+$config = &amp;new MockConfiguration($this);
+$config-&gt;setReturnValue('getValue', 'primary', array('db_host'));
+$config-&gt;setReturnValue('getValue', 'admin', array('db_user'));
+$config-&gt;setReturnValue('getValue', 'secret', array('db_password'));
+</programlisting>
+                The extra parameter is a list of arguments to attempt
+                to match.
+                In this case we are trying to match only one argument which
+                is the look up key.
+                Now when the mock object has the
+                <span class="new_code">getValue()</span> method invoked
+                like this...
+<programlisting role="php">
+$config-&gt;getValue('db_user')
+</programlisting>
+                ...it will return "admin".
+                It finds this by attempting to match the calling arguments
+                to its list of returns one after another until
+                a complete match is found.
+            </para>
+            <para>
+                There are times when you want a specific object to be
+                dished out by the mock rather than a copy.
+                Again this is identical to the server stubs mechanism...
+<programlisting role="php">
+class Thing {
+}
+
+class Vector {
+    function Vector() {
+    }
+    
+    function get($index) {
+    }
+}
+</programlisting>
+                In this case you can set a reference into the mock's
+                return list...
+<programlisting role="php">
+$thing = new Thing();
+$vector = &amp;new MockVector($this);
+$vector-&gt;setReturnReference('get', $thing, array(12));
+</programlisting>
+                With this arrangement you know that every time
+                <span class="new_code">$vector-&gt;get(12)</span> is
+                called it will return the same
+                <span class="new_code">$thing</span> each time.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id expectations}">
+<title>Mocks as critics</title>
+            <para>
+                Although the server stubs approach insulates your tests from
+                real world disruption, it is only half the benefit.
+                You can have the class under test receiving the required
+                messages, but is your new class sending correct ones?
+                Testing this can get messy without a mock objects library.
+            </para>
+            <para>
+                By way of example, suppose we have a
+                <span class="new_code">SessionPool</span> class that we
+                want to add logging to.
+                Rather than grow the original class into something more
+                complicated, we want to add this behaviour with a decorator (GOF).
+                The <span class="new_code">SessionPool</span> code currently looks
+                like this...
+<programlisting role="php">
+class SessionPool {
+    function SessionPool() {
+        ...
+    }
+    
+    function &amp;findSession($cookie) {
+        ...
+    }
+    ...
+}
+
+class Session {
+    ...
+}
+&lt;/php&gt;
+                While our logging code looks like this...
+&lt;php&gt;
+class Log {
+    function Log() {
+        ...
+    }
+    
+    function message() {
+        ...
+    }
+}
+
+class LoggingSessionPool {
+    function LoggingSessionPool(&amp;$session_pool, &amp;$log) {
+        ...
+    }
+    
+    function &amp;findSession(\$cookie) {
+        ...
+    }
+    ...
+}
+</programlisting>
+                Out of all of this, the only class we want to test here
+                is the <span class="new_code">LoggingSessionPool</span>.
+                In particular we would like to check that the
+                <span class="new_code">findSession()</span> method is
+                called with the correct session ID in the cookie and that
+                it sent the message "Starting session $cookie"
+                to the logger.
+            </para>
+            <para>
+                Despite the fact that we are testing only a few lines of
+                production code, here is what we would have to do in a
+                conventional test case:
+                <ol>
+                    <li>Create a log object.</li>
+                    <li>Set a directory to place the log file.</li>
+                    <li>Set the directory permissions so we can write the log.</li>
+                    <li>Create a <span class="new_code">SessionPool</span> object.</li>
+                    <li>Hand start a session, which probably does lot's of things.</li>
+                    <li>Invoke <span class="new_code">findSession()</span>.</li>
+                    <li>Read the new Session ID (hope there is an accessor!).</li>
+                    <li>Raise a test assertion to confirm that the ID matches the cookie.</li>
+                    <li>Read the last line of the log file.</li>
+                    <li>Pattern match out the extra logging timestamps, etc.</li>
+                    <li>Assert that the session message is contained in the text.</li>
+                </ol>
+                It is hardly surprising that developers hate writing tests
+                when they are this much drudgery.
+                To make things worse, every time the logging format changes or
+                the method of creating new sessions changes, we have to rewrite
+                parts of this test even though this test does not officially
+                test those parts of the system.
+                We are creating headaches for the writers of these other classes.
+            </para>
+            <para>
+                Instead, here is the complete test method using mock object magic...
+<programlisting role="php">
+Mock::generate('Session');
+Mock::generate('SessionPool');
+Mock::generate('Log');
+
+class LoggingSessionPoolTest extends UnitTestCase {
+    ...
+    function testFindSessionLogging() {
+        $session = &amp;new MockSession($this);
+        $pool = &amp;new MockSessionPool($this);
+        $pool-&gt;setReturnReference('findSession', $session);
+        $pool-&gt;expectOnce('findSession', array('abc'));
+        
+        $log = &amp;new MockLog($this);
+        $log-&gt;expectOnce('message', array('Starting session abc'));
+        
+        $logging_pool = &amp;new LoggingSessionPool($pool, $log);
+        $this-&gt;assertReference($logging_pool-&gt;findSession('abc'), $session);
+        $pool-&gt;tally();
+        $log-&gt;tally();
+    }
+}
+</programlisting>
+                We start by creating a dummy session.
+                We don't have to be too fussy about this as the check
+                for which session we want is done elsewhere.
+                We only need to check that it was the same one that came
+                from the session pool.
+            </para>
+            <para>
+                <span class="new_code">findSession()</span> is a factory
+                method the simulation of which is described {@link #stub above}.
+                The point of departure comes with the first
+                <span class="new_code">expectOnce()</span> call.
+                This line states that whenever
+                <span class="new_code">findSession()</span> is invoked on the
+                mock, it will test the incoming arguments.
+                If it receives the single argument of a string "abc"
+                then a test pass is sent to the unit tester, otherwise a fail is
+                generated.
+                This was the part where we checked that the right session was asked for.
+                The argument list follows the same format as the one for setting
+                return values.
+                You can have wildcards and sequences and the order of
+                evaluation is the same.
+            </para>
+            <para>
+                If the call is never made then neither a pass nor a failure will
+                generated.
+                To get around this we must tell the mock when the test is over
+                so that the object can decide if the expectation has been met.
+                The unit tester assertion for this is triggered by the
+                <span class="new_code">tally()</span> call at the end of
+                the test.
+            </para>
+            <para>
+                We use the same pattern to set up the mock logger.
+                We tell it that it should have
+                <span class="new_code">message()</span> invoked
+                once only with the argument "Starting session abc".
+                By testing the calling arguments, rather than the logger output,
+                we insulate the test from any display changes in the logger.
+            </para>
+            <para>
+                We start to run our tests when we create the new
+                <span class="new_code">LoggingSessionPool</span> and feed
+                it our preset mock objects.
+                Everything is now under our control.
+                Finally we confirm that the
+                <span class="new_code">$session</span> we gave our decorator
+                is the one that we get back and tell the mocks to run their
+                internal call count tests with the
+                <span class="new_code">tally()</span> calls.
+            </para>
+            <para>
+                This is still quite a bit of test code, but the code is very
+                strict.
+                If it still seems rather daunting there is a lot less of it
+                than if we tried this without mocks and this particular test,
+                interactions rather than output, is always more work to set
+                up.
+                More often you will be testing more complex situations without
+                needing this level or precision.
+                Also some of this can be refactored into a test case
+                <span class="new_code">setUp()</span> method.
+            </para>
+            <para>
+                Here is the full list of expectations you can set on a mock object
+                in {@link http://www.lastcraft.com/simple_test.php SimpleTest}...
+                <table frame="all" id="{@id features}}">
+<thead>
+                    <row>
+<th>Expectation</th>
+<th>Needs <span class="new_code">tally()</span>
+</th>
+</row>
+                    </thead>
+<tbody>
+<row>
+                        <entry>
+<span class="new_code">expectArguments($method, $args)</span>
+</entry>
+                        <entry>No</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectArgumentsAt($timing, $method, $args)</span>
+</entry>
+                        <entry>No</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectCallCount($method, $count)</span>
+</entry>
+                        <entry>Yes</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectMaximumCallCount($method, $count)</span>
+</entry>
+                        <entry>No</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectMinimumCallCount($method, $count)</span>
+</entry>
+                        <entry>Yes</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectNever($method)</span>
+</entry>
+                        <entry>No</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectOnce($method, $args)</span>
+</entry>
+                        <entry>Yes</entry>
+                    </row>
+                    <row>
+                        <entry>
+<span class="new_code">expectAtLeastOnce($method, $args)</span>
+</entry>
+                        <entry>Yes</entry>
+                    </row>
+                </tbody>
+</table>
+                Where the parameters are...
+                <dl>
+                    <dt class="new_code">$method</dt>
+                    <dd>The method name, as a string, to apply the condition to.</dd>
+                    <dt class="new_code">$args</dt>
+                    <dd>
+                        The arguments as a list. Wildcards can be included in the same
+                        manner as for <span class="new_code">setReturn()</span>.
+                        This argument is optional for <span class="new_code">expectOnce()</span>
+                        and <span class="new_code">expectAtLeastOnce()</span>.
+                    </dd>
+                    <dt class="new_code">$timing</dt>
+                    <dd>
+                        The only point in time to test the condition.
+                        The first call starts at zero.
+                    </dd>
+                    <dt class="new_code">$count</dt>
+                    <dd>The number of calls expected.</dd>
+                </dl>
+                The method <span class="new_code">expectMaximumCallCount()</span>
+                is slightly different in that it will only ever generate a failure.
+                It is silent if the limit is never reached.
+            </para>
+            <para>
+                Like the assertions within test cases, all of the expectations
+                can take a message override as an extra parameter.
+                Also the original failure message can be embedded in the output
+                as "%s".
+            </para>
+        </refsect1>
+        <refsect1 id="{@id approaches}">
+<title>Other approaches</title>
+            <para>
+                There are three approaches to creating mocks including the one
+                that SimpleTest employs.
+                Coding them by hand using a base class, generating them to
+                a file and dynamically generating them on the fly.
+            </para>
+            <para>
+                Mock objects generated with {@link SimpleTest.html SimpleTest}
+                are dynamic.
+                They are created at run time in memory, using
+                <span class="new_code">eval()</span>, rather than written
+                out to a file.
+                This makes the mocks easy to create, a one liner,
+                especially compared with hand
+                crafting them in a parallel class hierarchy.
+                The problem is that the behaviour is usually set up in the tests
+                themselves.
+                If the original objects change the mock versions
+                that the tests rely on can get out of sync.
+                This can happen with the parallel hierarchy approach as well,
+                but is far more quickly detected.
+            </para>
+            <para>
+                The solution, of course, is to add some real integration
+                tests.
+                You don't need very many and the convenience gained
+                from the mocks more than outweighs the small amount of
+                extra testing.
+                You cannot trust code that was only tested with mocks.
+            </para>
+            <para>
+                If you are still determined to build static libraries of mocks
+                because you want to simulate very specific behaviour, you can
+                achieve the same effect using the SimpleTest class generator.
+                In your library file, say <em>mocks/connection.php</em> for a
+                database connection, create a mock and inherit to override
+                special methods or add presets...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/mock_objects.php');
+    require_once('../classes/connection.php');
+
+    Mock::generate('Connection', 'BasicMockConnection');
+    class MockConnection extends BasicMockConnection {
+        function MockConnection(&amp;$test, $wildcard = '*') {
+            $this-&gt;BasicMockConnection($test, $wildcard);
+            $this-&gt;setReturn('query', false);
+        }
+    }
+?&gt;
+</programlisting>
+                The generate call tells the class generator to create
+                a class called <span class="new_code">BasicMockConnection</span>
+                rather than the usual <span class="new_code">MockConnection</span>.
+                We then inherit from this to get our version of
+                <span class="new_code">MockConnection</span>.
+                By intercepting in this way we can add behaviour, here setting
+                the default value of <span class="new_code">query()</span> to be false.
+                By using the default name we make sure that the mock class
+                generator will not recreate a different one when invoked elsewhere in the
+                tests.
+                It never creates a class if it already exists.
+                As long as the above file is included first then all tests
+                that generated <span class="new_code">MockConnection</span> should
+                now be using our one instead.
+                If we don't get the order right and the mock library
+                creates one first then the class creation will simply fail.
+            </para>
+            <para>
+                Use this trick if you find you have a lot of common mock behaviour
+                or you are getting frequent integration problems at later
+                stages of testing.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id other_testers}">
+<title>I think SimpleTest stinks!</title>
+            <para>
+                But at the time of writing it is the only one with mock objects,
+                so are you stuck with it?
+            </para>
+            <para>
+                No, not at all.
+                {@link SimpleTest.html SimpleTest} is a toolkit and one of those
+                tools is the mock objects which can be employed independently.
+                Suppose you have your own favourite unit tester and all your current
+                test cases are written using it.
+                Pretend that you have called your unit tester PHPUnit (everyone else has)
+                and the core test class looks like this...
+<programlisting role="php">
+class PHPUnit {
+    function PHPUnit() {
+    }
+    
+    function assertion($message, $assertion) {
+    }
+    ...
+}
+</programlisting>
+                All the <span class="new_code">assertion()</span> method does
+                is print some fancy output and the boolean assertion parameter determines
+                whether to print a pass or a failure.
+                Let's say that it is used like this...
+<programlisting role="php">
+$unit_test = new PHPUnit();
+$unit_test&gt;assertion('I hope this file exists', file_exists('my_file'));
+</programlisting>
+                How do you use mocks with this?
+            </para>
+            <para>
+                There is a protected method on the base mock class
+                <span class="new_code">SimpleMock</span> called
+                <span class="new_code">_assertTrue()</span> and
+                by overriding this method we can use our own assertion format.
+                We start with a subclass, in say <em>my_mock.php</em>...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletest/mock_objects.php');
+    
+    class MyMock extends SimpleMock() {
+        function MyMock(&amp;$test, $wildcard) {
+            $this-&gt;SimpleMock($test, $wildcard);
+        }
+        
+        function _assertTrue($assertion, $message) {
+            $test = &amp;$this-&gt;getTest();
+            $test-&gt;assertion($message, $assertion);
+        }
+    }
+?&gt;
+</programlisting>
+                Now instantiating <span class="new_code">MyMock</span> will create
+                an object that speaks the same language as your tester.
+                The catch is of course that we never create such an object, the
+                code generator does.
+                We need just one more line of code to tell the generator to use
+                your mock instead...
+<programlisting role="php">
+&lt;?php
+    require_once('simpletst/mock_objects.php');
+    
+    class MyMock extends SimpleMock() {
+        function MyMock($test, $wildcard) {
+            $this-&gt;SimpleMock(&amp;$test, $wildcard);
+        }
+        
+        function _assertTrue($assertion, $message , &amp;$test) {
+            $test-&gt;assertion($message, $assertion);
+        }
+    }
+    SimpleTestOptions::setMockBaseClass('MyMock');
+?&gt;
+</programlisting>
+                From now on you just include <em>my_mock.php</em> instead of the
+                default <em>mock_objects.php</em> version and you can introduce
+                mock objects into your existing test suite.
+            </para>
+        </refsect1>
+    </refentry>

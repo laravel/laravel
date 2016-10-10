@@ -1,0 +1,13 @@
+Namespace types cannot be mixed
+-----
+<?php
+namespace A;
+namespace B {}
+-----
+Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3
+-----
+<?php
+namespace A {}
+namespace B;
+-----
+Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3

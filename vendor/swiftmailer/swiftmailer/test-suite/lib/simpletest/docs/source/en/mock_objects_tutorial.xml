@@ -1,0 +1,359 @@
+<?xml version="1.0"?>
+<!-- $Id: mock_objects_tutorial.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Mock Objects" here="Using mock objects">
+    <long_title>PHP unit testing tutorial - Using mock objects in PHP</long_title>
+    <content>
+        <section name="refactor" title="Refactoring the tests again">
+            <p>
+                Before more functionality is added there is some refactoring
+                to do.
+                We are going to do some timing tests and so the
+                <code>TimeTestCase</code> class definitely needs
+                its own file.
+                Let&apos;s say <em>tests/time_test_case.php</em>...
+<php><![CDATA[
+<strong><?php
+if (! defined('SIMPLE_TEST')) {
+    define('SIMPLE_TEST', 'simpletest/');
+}
+require_once(SIMPLE_TEST . 'unit_tester.php');
+
+class TimeTestCase extends UnitTestCase {
+    function TimeTestCase($test_name = '') {
+        $this->UnitTestCase($test_name);
+    }
+    function assertSameTime($time1, $time2, $message = '') {
+        if (! $message) {
+            $message = "Time [$time1] should match time [$time2]";
+        }
+        $this->assertTrue(
+                ($time1 == $time2) || ($time1 + 1 == $time2),
+                $message);
+    }
+}
+?></strong>
+]]></php>
+                We can then <code>require()</code> this file into
+                the <em>all_tests.php</em> script.
+            </p>
+        </section>
+        <section name="timestamp" title="Adding a timestamp to the Log">
+            <p>
+                I don&apos;t know quite what the format of the log message should
+                be for the test, so to check for a timestamp we could do the
+                simplest possible thing, which is to look for a sequence of digits.
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');<strong>
+require_once('../classes/clock.php');
+
+class TestOfLogging extends TimeTestCase {
+    function TestOfLogging() {
+        $this->TimeTestCase('Log class test');
+    }</strong>
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }
+    function testCreatingNewFile() {
+        ...
+    }
+    function testAppendingToFile() {
+        ...
+    }<strong>
+    function testTimestamps() {
+        $log = new Log('../temp/test.log');
+        $log->message('Test line');
+        $this->assertTrue(
+                preg_match('/(\d+)/', $this->getFileLine('../temp/test.log', 0), $matches),
+                'Found timestamp');
+        $clock = new clock();
+        $this->assertSameTime((integer)$matches[1], $clock->now(), 'Correct time');
+    }</strong>
+}
+?>
+]]></php>
+                The test case creates a new <code>Log</code>
+                object and writes a message.
+                We look for a digit sequence and then test it against the current
+                time using our <code>Clock</code> object.
+                Of course it doesn&apos;t work until we write the code.
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testappendingtofile->Expecting [/Test line 1/] in [Test line 1]<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testappendingtofile->Expecting [/Test line 2/] in [Test line 2]<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testcreatingnewfile->Created before message<br />
+                    <span class="pass">Pass</span>: log_test.php->Log class test->testcreatingnewfile->File created<br />
+                    <span class="fail">Fail</span>: log_test.php->Log class test->testtimestamps->Found timestamp<br />
+                    <br />
+                    <b>Notice</b>:  Undefined offset:  1 in <b>/home/marcus/projects/lastcraft/tutorial_tests/tests/log_test.php</b> on line <b>44</b><br />
+                    <span class="fail">Fail</span>: log_test.php->Log class test->testtimestamps->Correct time<br />
+                    <span class="pass">Pass</span>: clock_test.php->Clock class test->testclockadvance->Advancement<br />
+                    <span class="pass">Pass</span>: clock_test.php->Clock class test->testclocktellstime->Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: red; color: white;">3/3 test cases complete.
+                    <strong>6</strong> passes and <strong>2</strong> fails.</div>
+                </div>
+                The test suite is still showing the passes from our earlier
+                modification.
+            </p>
+            <p>
+                We can get the tests to pass simply by adding a timestamp
+                when writing out to the file.
+                Yes, of course all of this is trivial and
+                I would not normally test this fanatically, but it is going
+                to illustrate a more general problem.
+                The <em>log.php</em> file becomes...
+<php><![CDATA[
+<?php<strong>
+require_once('../classes/clock.php');</strong>
+    
+class Log {
+    var $_file_path;
+        
+    function Log($file_path) {
+        $this->_file_path = $file_path;
+    }
+        
+    function message($message) {<strong>
+        $clock = new Clock();</strong>
+        $file = fopen($this->_file_path, 'a');<strong>
+        fwrite($file, "[" . $clock->now() . "] $message\n");</strong>
+        fclose($file);
+    }
+}
+?>
+]]></php>
+                The tests should now pass.
+            </p>
+            <p>
+                Our new test is full of problems, though.
+                What if our time format changes to something else?
+                Things are going to be a lot more complicated to test if this
+                happens.
+                It also means that any changes to the clock class time
+                format will cause our logging tests to fail also.
+                This means that our log tests are tangled up with the clock tests
+                and extremely fragile.
+                It lacks cohesion, which is the same as saying it is not
+                tightly focused, testing facets of the clock as well as the log.
+                Our problems are caused in part because the clock output
+                is unpredictable when
+                all we really want to test is that the logging message
+                contains the output of
+                <code>Clock::now()</code>.
+                We don&apos;t
+                really care about the contents of that method call.
+            </p>
+            <p>
+                Can we make that call predictable?
+                We could if we could get the log to use a dummy version
+                of the clock for the duration of the test.
+                The dummy clock class would have to behave the same way
+                as the <code>Clock</code> class
+                except for the fixed output from the
+                <code>now()</code> method.
+                Hey, that would even free us from using the
+                <code>TimeTestCase</code> class!
+            </p>
+            <p>
+                We could write such a class pretty easily although it is
+                rather tedious work.
+                We just create another clock class with same interface
+                except that the <code>now()</code> method
+                returns a value that we can change with some other setter method.
+                That is quite a lot of work for a pretty minor test.
+            </p>
+            <p>
+                Except that it is really no work at all.
+            </p>
+        </section>
+        <section name="mock" title="A mock clock">
+            <p>
+                To reach instant testing clock nirvana we need
+                only three extra lines of code...
+<php><![CDATA[
+require_once('simpletest/mock_objects.php');
+]]></php>
+                This includes the mock generator code.
+                It is simplest to place this in the <em>all_tests.php</em>
+                script as it gets used rather a lot.
+<php><![CDATA[
+Mock::generate('Clock');
+]]></php>
+                This is the line that does the work.
+                The code generator scans the class for all of its
+                methods, creates code to generate an identically
+                interfaced class, but with the name &quot;Mock&quot; added,
+                and then <code>eval()</code>s the new code to
+                create the new class.
+<php><![CDATA[
+$clock = &new MockClock($this);
+]]></php>
+                This line can be added to any test method we are interested in.
+                It creates the dummy clock ready to receive our instructions.
+            </p>
+            <p>
+                Our test case is on the first steps of a radical clean up...
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');
+require_once('../classes/clock.php');<strong>
+Mock::generate('Clock');
+
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }</strong>
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }
+    function testCreatingNewFile() {
+        ...
+    }
+    function testAppendingToFile() {
+        ...
+    }
+    function testTimestamps() {<strong>
+        $clock = &new MockClock($this);
+        $clock->setReturnValue('now', 'Timestamp');
+        $log = new Log('../temp/test.log');
+        $log->message('Test line', &$clock);
+        $this->assertWantedPattern(
+                '/Timestamp/',
+                $this->getFileLine('../temp/test.log', 0),
+                'Found timestamp');</strong>
+    }
+}
+?>
+]]></php>
+                This test method creates a <code>MockClock</code>
+                object and then sets the return value of the
+                <code>now()</code> method to be the string
+                &quot;Timestamp&quot;.
+                Every time we call <code>$clock->now()</code>
+                it will return this string.
+                This should be easy to spot.
+            </p>
+            <p>
+                Next we create our log and send a message.
+                We pass into the <code>message()</code>
+                call the clock we would like to use.
+                This means that we will have to add an optional parameter to
+                the logging class to make testing possible...
+<php><![CDATA[
+class Log {
+    var $_file_path;
+    
+    function Log($file_path) {
+        $this->_file_path = $file_path;
+    }
+    
+    function message($message, <strong>$clock = false</strong>) {<strong>
+        if (!is_object($clock)) {
+            $clock = new Clock();
+        }</strong>
+        $file = fopen($this->_file_path, 'a');
+        fwrite($file, "[" . $clock->now() . "] $message\n");
+        fclose($file);
+    }
+}
+]]></php>
+                All of the tests now pass and they test only the logging code.
+                We can breathe easy again.
+            </p>
+            <p>
+                Does that extra parameter in the <code>Log</code>
+                class bother you?
+                We have changed the interface just to facilitate testing after
+                all.
+                Are not interfaces the most important thing?
+                Have we sullied our class with test code?
+            </p>
+            <p>
+                Possibly, but consider this.
+                Next chance you get, look at a circuit board, perhaps the motherboard
+                of the computer you are looking at right now.
+                On most boards you will find the odd empty hole, or solder
+                joint with nothing attached or perhaps a pin or socket
+                that has no obvious function.
+                Chances are that some of these are for expansion and
+                variations, but most of the remainder will be for testing.
+            </p>
+            <p>
+                Think about that.
+                The factories making the boards many times over wasting material
+                on parts that do not add to the final function.
+                If hardware engineers can make this sacrifice of elegance I am
+                sure we can too.
+                Our sacrifice wastes no materials after all.
+            </p>
+            <p>
+                Still bother you?
+                Actually it bothers me too, but not so much here.
+                The number one priority is code that works, not prizes
+                for minimalism.
+                If it really bothers you, then move the creation of the clock
+                into another protected factory method.
+                Then subclass the clock for testing and override the
+                factory method with one that returns the mock.
+                Your tests are clumsier, but your interface is intact.
+            </p>
+            <p>
+                Again I leave the decision to you.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#refactor">Refactoring the tests</a> so we can reuse
+            our new time test.
+        </link>
+        <link>Adding <a href="#timestamp">Log timestamps</a>.</link>
+        <link><a href="#mock">Mocking the clock</a> to make the test cohesive.</link>
+    </internal>
+    <external>
+        <link>
+            This follows the <a href="first_test_tutorial.php">unit test tutorial</a>.
+        </link>
+        <link>
+            Next is distilling <a href="boundary_classes_tutorial.php">boundary classes</a>.
+        </link>
+        <link>
+            You will need the <a href="simple_test.php">SimpleTest</a>
+            tool to run the examples.
+        </link>
+        <link>
+            <a href="http://www.mockobjects.com/">Mock objects</a> papers.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming,
+            programming php,
+            software development tools,
+            php tutorial,
+            free php scripts,
+            architecture,
+            php resources,
+            mock objects,
+            junit,
+            php testing,
+            unit test,
+            php testing
+        </keywords>
+    </meta>
+</page>

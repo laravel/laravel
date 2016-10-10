@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refentry id="{@id}">
+<refnamediv>
+<refname>Server stubs</refname>
+<refpurpose/>
+</refnamediv>
+            {@toc}
+            
+        <refsect1 id="{@id what}">
+<title>What are server stubs?</title>
+            <para>
+                This was originally a pattern named by Robert Binder (Testing
+                object-oriented systems: models, patterns, and tools,
+                Addison-Wesley) in 1999.
+                A server stub is a simulation of an object or component.
+                It should exactly replace a component in a system for test
+                or prototyping purposes, but remain lightweight.
+                This allows tests to run more quickly, or if the simulated
+                class has not been written, to run at all.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id creation}">
+<title>Creating server stubs</title>
+            <para>
+                All we need is an existing class, say a database connection
+                that looks like this...
+<programlisting role="php">
+class DatabaseConnection {
+    function DatabaseConnection() {
+    }
+    
+    function query() {
+    }
+    
+    function selectQuery() {
+    }
+}
+</programlisting>
+                The class does not need to have been implemented yet.
+                To create a stub version of the class we need to include the
+                server stub library and run the generator...
+<programlisting role="php">
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');
+</programlisting>
+                This generates a clone class called
+                <span class="new_code">StubDatabaseConnection</span>.
+                We can now create instances of the new class within
+                our prototype script...
+<programlisting role="php">
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');
+
+$connection = new StubDatabaseConnection();
+
+</programlisting>
+                The stub version of a class has all the methods of the original
+                so that operations like
+                <span class="new_code">$connection-&gt;query()</span> are still
+                legal.
+                The return value will be <span class="new_code">null</span>,
+                but we can change that with...
+<programlisting role="php">
+$connection-&gt;setReturnValue('query', 37)
+</programlisting>
+                Now every time we call
+                <span class="new_code">$connection-&gt;query()</span> we get
+                the result of 37.
+                We can set the return value to anything, say a hash of
+                imaginary database results or a list of persistent objects.
+                Parameters are irrelevant here, we always get the same
+                values back each time once they have been set up this way.
+                That may not sound like a convincing replica of a
+                database connection, but for the half a dozen lines of
+                a test method it is usually all you need.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id patterns}">
+<title>Simulation patterns</title>
+            <para>
+                Things aren't always that simple though.
+                One common problem is iterators, where constantly returning
+                the same value could cause an endless loop in the object
+                being tested.
+                For these we need to set up sequences of values.
+                Let's say we have a simple iterator that looks like this...
+<programlisting role="php">
+class Iterator {
+    function Iterator() {
+    }
+    
+    function next() {
+    }
+}
+</programlisting>
+                This is about the simplest iterator you could have.
+                Assuming that this iterator only returns text until it
+                reaches the end, when it returns false, we can simulate it
+                with...
+<programlisting role="php">
+Stub::generate('Iterator');
+
+$iterator = new StubIterator();
+$iterator-&gt;setReturnValue('next', false);
+$iterator-&gt;setReturnValueAt(0, 'next', 'First string');
+$iterator-&gt;setReturnValueAt(1, 'next', 'Second string');
+</programlisting>
+                When <span class="new_code">next()</span> is called on the
+                stub iterator it will first return "First string",
+                on the second call "Second string" will be returned
+                and on any other call <span class="new_code">false</span> will
+                be returned.
+                The sequenced return values take precedence over the constant
+                return value.
+                The constant one is a kind of default if you like.
+            </para>
+            <para>
+                Another tricky situation is an overloaded
+                <span class="new_code">get()</span> operation.
+                An example of this is an information holder with name/value pairs.
+                Say we have a configuration class like...
+<programlisting role="php">
+class Configuration {
+    function Configuration() {
+    }
+    
+    function getValue($key) {
+    }
+}
+</programlisting>
+                This is a classic situation for using stub objects as
+                actual configuration will vary from machine to machine,
+                hardly helping the reliability of our tests if we use it
+                directly.
+                The problem though is that all the data comes through the
+                <span class="new_code">getValue()</span> method and yet
+                we want different results for different keys.
+                Luckily the stubs have a filter system...
+<programlisting role="php">
+Stub::generate('Configuration');
+
+$config = &amp;new StubConfiguration();
+$config-&gt;setReturnValue('getValue', 'primary', array('db_host'));
+$config-&gt;setReturnValue('getValue', 'admin', array('db_user'));
+$config-&gt;setReturnValue('getValue', 'secret', array('db_password'));
+</programlisting>
+                The extra parameter is a list of arguments to attempt
+                to match.
+                In this case we are trying to match only one argument which
+                is the look up key.
+                Now when the server stub has the
+                <span class="new_code">getValue()</span> method invoked
+                like this...
+<programlisting role="php">
+$config-&gt;getValue('db_user');
+</programlisting>
+                ...it will return "admin".
+                It finds this by attempting to match the calling arguments
+                to its list of returns one after another until
+                a complete match is found.
+            </para>
+            <para>
+                You can set a default argument argument like so...
+<programlisting role="php">
+$config-&gt;setReturnValue('getValue', false, array('*'));
+</programlisting>
+                This is not the same as setting the return value without
+                any argument requirements like this...
+<programlisting role="php">
+$config-&gt;setReturnValue('getValue', false);
+</programlisting>
+                In the first case it will accept any single argument,
+                but exactly one is required.
+                In the second case any number of arguments will do and
+                it acts as a catchall after all other matches.
+                Note that if we add further single parameter options after
+                the wildcard in the first case, they will be ignored as the wildcard
+                will match first.
+                With complex parameter lists the ordering could be important
+                or else desired matches could be masked by earlier wildcard
+                ones.
+                Declare the most specific matches first if you are not sure.
+            </para>
+            <para>
+                There are times when you want a specific object to be
+                dished out by the stub rather than just a copy.
+                The PHP copy semantics force us to use a different method
+                for this.
+                You might be simulating a container for example...
+<programlisting role="php">
+class Thing {
+}
+
+class Vector {
+    function Vector() {
+    }
+    
+    function get($index) {
+    }
+}
+</programlisting>
+                In this case you can set a reference into the stub's
+                return list...
+<programlisting role="php">
+Stub::generate('Vector');
+
+$thing = new Thing();
+$vector = &amp;new StubVector();
+$vector-&gt;setReturnReference('get', $thing, array(12));
+</programlisting>
+                With this arrangement you know that every time
+                <span class="new_code">$vector-&gt;get(12)</span> is
+                called it will return the same
+                <span class="new_code">$thing</span> each time.
+            </para>
+            <para>
+                These three factors, timing, parameters and whether to copy,
+                can be combined orthogonally.
+                For example...
+<programlisting role="php">
+$complex = &amp;new StubComplexThing();
+$stuff = new Stuff();
+$complex-&gt;setReturnReferenceAt(3, 'get', $stuff, array('*', 1));
+</programlisting>
+                This will return the <span class="new_code">$stuff</span> only on the third
+                call and only if two parameters were set the second of
+                which must be the integer 1.
+                That should cover most simple prototyping situations.
+            </para>
+            <para>
+                A final tricky case is one object creating another, known
+                as a factory pattern.
+                Suppose that on a successful query to our imaginary
+                database, a result set is returned as an iterator with
+                each call to <span class="new_code">next()</span> giving
+                one row until false.
+                This sounds like a simulation nightmare, but in fact it can all
+                be stubbed using the mechanics above.
+            </para>
+            <para>
+                Here's how...
+<programlisting role="php">
+Stub::generate('DatabaseConnection');
+Stub::generate('ResultIterator');
+
+class DatabaseTest extends UnitTestCase {
+    
+    function testUserFinder() {
+        $result = &amp;new StubResultIterator();
+        $result-&gt;setReturnValue('next', false);
+        $result-&gt;setReturnValueAt(0, 'next', array(1, 'tom'));
+        $result-&gt;setReturnValueAt(1, 'next', array(3, 'dick'));
+        $result-&gt;setReturnValueAt(2, 'next', array(6, 'harry'));
+        
+        $connection = &amp;new StubDatabaseConnection();
+        $connection-&gt;setReturnValue('query', false);
+        $connection-&gt;setReturnReference(
+                'query',
+                $result,
+                array('select id, name from users'));
+                
+        $finder = &amp;new UserFinder($connection);
+        $this-&gt;assertIdentical(
+                $finder-&gt;findNames(),
+                array('tom', 'dick', 'harry'));
+    }
+}
+</programlisting>
+                Now only if our
+                <span class="new_code">$connection</span> is called with the correct
+                <span class="new_code">query()</span> will the
+                <span class="new_code">$result</span> be returned that is
+                itself exhausted after the third call to <span class="new_code">next()</span>.
+                This should be enough
+                information for our <span class="new_code">UserFinder</span> class,
+                the class actually
+                being tested here, to come up with goods.
+                A very precise test and not a real database in sight.
+            </para>
+        </refsect1>
+        <refsect1 id="{@id options}">
+<title>Stub creation options</title>
+            <para>
+                There are some additional options when creating stubs.
+                At the generation stage we can change the class name...
+<programlisting role="php">
+Stub::generate('Iterator', 'MyStubIterator');
+$iterator = &amp;new MyStubIterator();
+
+</programlisting>
+                This is not very useful in itself as there would be no difference
+                in this class and the default except for the name.
+                However we can also add additional methods not found in the
+                original interface...
+<programlisting role="php">
+class Iterator {
+}
+Stub::generate('Iterator', 'PrototypeIterator', array('next', 'isError'));
+$iterator = &amp;new PrototypeIterator();
+$iterator-&gt;setReturnValue('next', 0);
+
+</programlisting>
+                The <span class="new_code">next()</span> and
+                <span class="new_code">isError()</span> methods can now have
+                return values set just as if they existed in the original class.
+            </para>
+            <para>
+                One other esoteric way of customising the stubs is to change
+                the default wildcard used for parameter matching.
+<programlisting role="php">
+Stub::generate('Connection');
+$iterator = &amp;new StubConnection('wild');
+$iterator-&gt;setReturnValue('query', array('id' =&gt; 33), array('wild'));
+
+</programlisting>
+                The only reason to do this is if you genuinely wanted to test
+                against the literal string "*" and didn't want it
+                interpreted as "any".
+            </para>
+        </refsect1>
+    </refentry>

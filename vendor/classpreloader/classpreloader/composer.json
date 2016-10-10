@@ -1,0 +1,28 @@
+{
+    "name": "classpreloader/classpreloader",
+    "description":"Helps class loading performance by generating a single PHP file containing all of the autoloaded files for a specific use case",
+    "keywords":["autoload","class","preload"],
+    "license":"MIT",
+
+    "require":{
+        "php": ">=5.3.3",
+        "symfony/console": "~2.1",
+        "symfony/filesystem": "~2.1",
+        "symfony/finder": "~2.1",
+        "nikic/php-parser": "~0.9"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "ClassPreloader": "src/"
+        }
+    },
+
+    "bin": ["classpreloader.php"],
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

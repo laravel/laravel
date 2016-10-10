@@ -1,0 +1,438 @@
+##
+## PHPExcel
+##
+## Copyright (c) 2006 - 2013 PHPExcel
+##
+## This library is free software; you can redistribute it and/or
+## modify it under the terms of the GNU Lesser General Public
+## License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+##
+## @category   PHPExcel
+## @package    PHPExcel_Calculation
+## @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+## @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+## @version    ##VERSION##, ##DATE##
+##
+## Data in this file derived from http://www.piuha.fi/excel-function-name-translation/
+##
+##
+
+
+##
+##	Add-in and Automation functions			Funkcje dodatków i automatyzacji
+##
+GETPIVOTDATA		= WEŹDANETABELI			##	Zwraca dane przechowywane w raporcie tabeli przestawnej.
+
+
+##
+##	Cube functions					Funkcje modułów
+##
+CUBEKPIMEMBER		= ELEMENT.KPI.MODUŁU		##	Zwraca nazwę, właściwość i miarę kluczowego wskaźnika wydajności (KPI) oraz wyświetla nazwę i właściwość w komórce. Wskaźnik KPI jest miarą ilościową, taką jak miesięczny zysk brutto lub kwartalna fluktuacja pracowników, używaną do monitorowania wydajności organizacji.
+CUBEMEMBER		= ELEMENT.MODUŁU		##	Zwraca element lub krotkę z hierarchii modułu. Służy do sprawdzania, czy element lub krotka istnieje w module.
+CUBEMEMBERPROPERTY	= WŁAŚCIWOŚĆ.ELEMENTU.MODUŁU	##	Zwraca wartość właściwości elementu w module. Służy do sprawdzania, czy nazwa elementu istnieje w module, i zwracania określonej właściwości dla tego elementu.
+CUBERANKEDMEMBER	= USZEREGOWANY.ELEMENT.MODUŁU	##	Zwraca n-ty (albo uszeregowany) element zestawu. Służy do zwracania elementu lub elementów zestawu, na przykład najlepszego sprzedawcy lub 10 najlepszych studentów.
+CUBESET			= ZESTAW.MODUŁÓW		##	Definiuje obliczony zestaw elementów lub krotek, wysyłając wyrażenie zestawu do serwera modułu, który tworzy zestaw i zwraca go do programu Microsoft Office Excel.
+CUBESETCOUNT		= LICZNIK.MODUŁÓW.ZESTAWU	##	Zwraca liczbę elementów zestawu.
+CUBEVALUE		= WARTOŚĆ.MODUŁU		##	Zwraca zagregowaną wartość z modułu.
+
+
+##
+##	Database functions				Funkcje baz danych
+##
+DAVERAGE		= BD.ŚREDNIA			##	Zwraca wartość średniej wybranych wpisów bazy danych.
+DCOUNT			= BD.ILE.REKORDÓW		##	Zlicza komórki zawierające liczby w bazie danych.
+DCOUNTA			= BD.ILE.REKORDÓW.A		##	Zlicza niepuste komórki w bazie danych.
+DGET			= BD.POLE			##	Wyodrębnia z bazy danych jeden rekord spełniający określone kryteria.
+DMAX			= BD.MAX			##	Zwraca wartość maksymalną z wybranych wpisów bazy danych.
+DMIN			= BD.MIN			##	Zwraca wartość minimalną z wybranych wpisów bazy danych.
+DPRODUCT		= BD.ILOCZYN			##	Mnoży wartości w konkretnym, spełniającym kryteria polu rekordów bazy danych.
+DSTDEV			= BD.ODCH.STANDARD		##	Szacuje odchylenie standardowe na podstawie próbki z wybranych wpisów bazy danych.
+DSTDEVP			= BD.ODCH.STANDARD.POPUL	##	Oblicza odchylenie standardowe na podstawie całej populacji wybranych wpisów bazy danych.
+DSUM			= BD.SUMA			##	Dodaje liczby w kolumnie pól rekordów bazy danych, które spełniają kryteria.
+DVAR			= BD.WARIANCJA			##	Szacuje wariancję na podstawie próbki z wybranych wpisów bazy danych.
+DVARP			= BD.WARIANCJA.POPUL		##	Oblicza wariancję na podstawie całej populacji wybranych wpisów bazy danych.
+
+
+##
+##	Date and time functions				Funkcje dat, godzin i czasu
+##
+DATE			= DATA				##	Zwraca liczbę seryjną dla wybranej daty.
+DATEVALUE		= DATA.WARTOŚĆ			##	Konwertuje datę w formie tekstu na liczbę seryjną.
+DAY			= DZIEŃ				##	Konwertuje liczbę seryjną na dzień miesiąca.
+DAYS360			= DNI.360			##	Oblicza liczbę dni między dwiema datami na podstawie roku 360-dniowego.
+EDATE			= UPŁDNI			##	Zwraca liczbę seryjną daty jako wskazaną liczbę miesięcy przed określoną datą początkową lub po niej.
+EOMONTH			= EOMONTH			##	Zwraca liczbę seryjną ostatniego dnia miesiąca przed określoną liczbą miesięcy lub po niej.
+HOUR			= GODZINA			##	Konwertuje liczbę seryjną na godzinę.
+MINUTE			= MINUTA			##	Konwertuje liczbę seryjną na minutę.
+MONTH			= MIESIĄC			##	Konwertuje liczbę seryjną na miesiąc.
+NETWORKDAYS		= NETWORKDAYS			##	Zwraca liczbę pełnych dni roboczych między dwiema datami.
+NOW			= TERAZ				##	Zwraca liczbę seryjną bieżącej daty i godziny.
+SECOND			= SEKUNDA			##	Konwertuje liczbę seryjną na sekundę.
+TIME			= CZAS				##	Zwraca liczbę seryjną określonego czasu.
+TIMEVALUE		= CZAS.WARTOŚĆ			##	Konwertuje czas w formie tekstu na liczbę seryjną.
+TODAY			= DZIŚ				##	Zwraca liczbę seryjną dla daty bieżącej.
+WEEKDAY			= DZIEŃ.TYG			##	Konwertuje liczbę seryjną na dzień tygodnia.
+WEEKNUM			= WEEKNUM			##	Konwertuje liczbę seryjną na liczbę reprezentującą numer tygodnia w roku.
+WORKDAY			= WORKDAY			##	Zwraca liczbę seryjną dla daty przed określoną liczbą dni roboczych lub po niej.
+YEAR			= ROK				##	Konwertuje liczbę seryjną na rok.
+YEARFRAC		= YEARFRAC			##	Zwraca część roku reprezentowaną przez pełną liczbę dni między datą początkową a datą końcową.
+
+
+##
+##	Engineering functions				Funkcje inżynierskie
+##
+BESSELI			= BESSELI			##	Zwraca wartość zmodyfikowanej funkcji Bessela In(x).
+BESSELJ			= BESSELJ			##	Zwraca wartość funkcji Bessela Jn(x).
+BESSELK			= BESSELK			##	Zwraca wartość zmodyfikowanej funkcji Bessela Kn(x).
+BESSELY			= BESSELY			##	Zwraca wartość funkcji Bessela Yn(x).
+BIN2DEC			= BIN2DEC			##	Konwertuje liczbę w postaci dwójkowej na liczbę w postaci dziesiętnej.
+BIN2HEX			= BIN2HEX			##	Konwertuje liczbę w postaci dwójkowej na liczbę w postaci szesnastkowej.
+BIN2OCT			= BIN2OCT			##	Konwertuje liczbę w postaci dwójkowej na liczbę w postaci ósemkowej.
+COMPLEX			= COMPLEX			##	Konwertuje część rzeczywistą i urojoną na liczbę zespoloną.
+CONVERT			= CONVERT			##	Konwertuje liczbę z jednego systemu miar na inny.
+DEC2BIN			= DEC2BIN			##	Konwertuje liczbę w postaci dziesiętnej na postać dwójkową.
+DEC2HEX			= DEC2HEX			##	Konwertuje liczbę w postaci dziesiętnej na liczbę w postaci szesnastkowej.
+DEC2OCT			= DEC2OCT			##	Konwertuje liczbę w postaci dziesiętnej na liczbę w postaci ósemkowej.
+DELTA			= DELTA				##	Sprawdza, czy dwie wartości są równe.
+ERF			= ERF				##	Zwraca wartość funkcji błędu.
+ERFC			= ERFC				##	Zwraca wartość komplementarnej funkcji błędu.
+GESTEP			= GESTEP			##	Sprawdza, czy liczba jest większa niż wartość progowa.
+HEX2BIN			= HEX2BIN			##	Konwertuje liczbę w postaci szesnastkowej na liczbę w postaci dwójkowej.
+HEX2DEC			= HEX2DEC			##	Konwertuje liczbę w postaci szesnastkowej na liczbę w postaci dziesiętnej.
+HEX2OCT			= HEX2OCT			##	Konwertuje liczbę w postaci szesnastkowej na liczbę w postaci ósemkowej.
+IMABS			= IMABS				##	Zwraca wartość bezwzględną (moduł) liczby zespolonej.
+IMAGINARY		= IMAGINARY			##	Zwraca wartość części urojonej liczby zespolonej.
+IMARGUMENT		= IMARGUMENT			##	Zwraca wartość argumentu liczby zespolonej, przy czym kąt wyrażony jest w radianach.
+IMCONJUGATE		= IMCONJUGATE			##	Zwraca wartość liczby sprzężonej danej liczby zespolonej.
+IMCOS			= IMCOS				##	Zwraca wartość cosinusa liczby zespolonej.
+IMDIV			= IMDIV				##	Zwraca wartość ilorazu dwóch liczb zespolonych.
+IMEXP			= IMEXP				##	Zwraca postać wykładniczą liczby zespolonej.
+IMLN			= IMLN				##	Zwraca wartość logarytmu naturalnego liczby zespolonej.
+IMLOG10			= IMLOG10			##	Zwraca wartość logarytmu dziesiętnego liczby zespolonej.
+IMLOG2			= IMLOG2			##	Zwraca wartość logarytmu liczby zespolonej przy podstawie 2.
+IMPOWER			= IMPOWER			##	Zwraca wartość liczby zespolonej podniesionej do potęgi całkowitej.
+IMPRODUCT		= IMPRODUCT			##	Zwraca wartość iloczynu liczb zespolonych.
+IMREAL			= IMREAL			##	Zwraca wartość części rzeczywistej liczby zespolonej.
+IMSIN			= IMSIN				##	Zwraca wartość sinusa liczby zespolonej.
+IMSQRT			= IMSQRT			##	Zwraca wartość pierwiastka kwadratowego z liczby zespolonej.
+IMSUB			= IMSUB				##	Zwraca wartość różnicy dwóch liczb zespolonych.
+IMSUM			= IMSUM				##	Zwraca wartość sumy liczb zespolonych.
+OCT2BIN			= OCT2BIN			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci dwójkowej.
+OCT2DEC			= OCT2DEC			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci dziesiętnej.
+OCT2HEX			= OCT2HEX			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci szesnastkowej.
+
+
+##
+##	Financial functions				Funkcje finansowe
+##
+ACCRINT			= ACCRINT			##	Zwraca narosłe odsetki dla papieru wartościowego z oprocentowaniem okresowym.
+ACCRINTM		= ACCRINTM			##	Zwraca narosłe odsetki dla papieru wartościowego z oprocentowaniem w terminie wykupu.
+AMORDEGRC		= AMORDEGRC			##	Zwraca amortyzację dla każdego okresu rozliczeniowego z wykorzystaniem współczynnika amortyzacji.
+AMORLINC		= AMORLINC			##	Zwraca amortyzację dla każdego okresu rozliczeniowego.
+COUPDAYBS		= COUPDAYBS			##	Zwraca liczbę dni od początku okresu dywidendy do dnia rozliczeniowego.
+COUPDAYS		= COUPDAYS			##	Zwraca liczbę dni w okresie dywidendy, z uwzględnieniem dnia rozliczeniowego.
+COUPDAYSNC		= COUPDAYSNC			##	Zwraca liczbę dni od dnia rozliczeniowego do daty następnego dnia dywidendy.
+COUPNCD			= COUPNCD			##	Zwraca dzień następnej dywidendy po dniu rozliczeniowym.
+COUPNUM			= COUPNUM			##	Zwraca liczbę dywidend płatnych między dniem rozliczeniowym a dniem wykupu.
+COUPPCD			= COUPPCD			##	Zwraca dzień poprzedniej dywidendy przed dniem rozliczeniowym.
+CUMIPMT			= CUMIPMT			##	Zwraca wartość procentu składanego płatnego między dwoma okresami.
+CUMPRINC		= CUMPRINC			##	Zwraca wartość kapitału skumulowanego spłaty pożyczki między dwoma okresami.
+DB			= DB				##	Zwraca amortyzację środka trwałego w danym okresie metodą degresywną z zastosowaniem stałej bazowej.
+DDB			= DDB				##	Zwraca amortyzację środka trwałego za podany okres metodą degresywną z zastosowaniem podwójnej bazowej lub metodą określoną przez użytkownika.
+DISC			= DISC				##	Zwraca wartość stopy dyskontowej papieru wartościowego.
+DOLLARDE		= DOLLARDE			##	Konwertuje cenę w postaci ułamkowej na cenę wyrażoną w postaci dziesiętnej.
+DOLLARFR		= DOLLARFR			##	Konwertuje cenę wyrażoną w postaci dziesiętnej na cenę wyrażoną w postaci ułamkowej.
+DURATION		= DURATION			##	Zwraca wartość rocznego przychodu z papieru wartościowego o okresowych wypłatach oprocentowania.
+EFFECT			= EFFECT			##	Zwraca wartość efektywnej rocznej stopy procentowej.
+FV			= FV				##	Zwraca przyszłą wartość lokaty.
+FVSCHEDULE		= FVSCHEDULE			##	Zwraca przyszłą wartość kapitału początkowego wraz z szeregiem procentów składanych.
+INTRATE			= INTRATE			##	Zwraca wartość stopy procentowej papieru wartościowego całkowicie ulokowanego.
+IPMT			= IPMT				##	Zwraca wysokość spłaty oprocentowania lokaty za dany okres.
+IRR			= IRR				##	Zwraca wartość wewnętrznej stopy zwrotu dla serii przepływów gotówkowych.
+ISPMT			= ISPMT				##	Oblicza wysokość spłaty oprocentowania za dany okres lokaty.
+MDURATION		= MDURATION			##	Zwraca wartość zmodyfikowanego okresu Macauleya dla papieru wartościowego o założonej wartości nominalnej 100 zł.
+MIRR			= MIRR				##	Zwraca wartość wewnętrznej stopy zwrotu dla przypadku, gdy dodatnie i ujemne przepływy gotówkowe mają różne stopy.
+NOMINAL			= NOMINAL			##	Zwraca wysokość nominalnej rocznej stopy procentowej.
+NPER			= NPER				##	Zwraca liczbę okresów dla lokaty.
+NPV			= NPV				##	Zwraca wartość bieżącą netto lokaty na podstawie szeregu okresowych przepływów gotówkowych i stopy dyskontowej.
+ODDFPRICE		= ODDFPRICE			##	Zwraca cenę za 100 zł wartości nominalnej papieru wartościowego z nietypowym pierwszym okresem.
+ODDFYIELD		= ODDFYIELD			##	Zwraca rentowność papieru wartościowego z nietypowym pierwszym okresem.
+ODDLPRICE		= ODDLPRICE			##	Zwraca cenę za 100 zł wartości nominalnej papieru wartościowego z nietypowym ostatnim okresem.
+ODDLYIELD		= ODDLYIELD			##	Zwraca rentowność papieru wartościowego z nietypowym ostatnim okresem.
+PMT			= PMT				##	Zwraca wartość okresowej płatności raty rocznej.
+PPMT			= PPMT				##	Zwraca wysokość spłaty kapitału w przypadku lokaty dla danego okresu.
+PRICE			= PRICE				##	Zwraca cenę za 100 zł wartości nominalnej papieru wartościowego z oprocentowaniem okresowym.
+PRICEDISC		= PRICEDISC			##	Zwraca cenę za 100 zł wartości nominalnej papieru wartościowego zdyskontowanego.
+PRICEMAT		= PRICEMAT			##	Zwraca cenę za 100 zł wartości nominalnej papieru wartościowego z oprocentowaniem w terminie wykupu.
+PV			= PV				##	Zwraca wartość bieżącą lokaty.
+RATE			= RATE				##	Zwraca wysokość stopy procentowej w okresie raty rocznej.
+RECEIVED		= RECEIVED			##	Zwraca wartość kapitału otrzymanego przy wykupie papieru wartościowego całkowicie ulokowanego.
+SLN			= SLN				##	Zwraca amortyzację środka trwałego za jeden okres metodą liniową.
+SYD			= SYD				##	Zwraca amortyzację środka trwałego za dany okres metodą sumy cyfr lat amortyzacji.
+TBILLEQ			= TBILLEQ			##	Zwraca rentowność ekwiwalentu obligacji dla bonu skarbowego.
+TBILLPRICE		= TBILLPRICE			##	Zwraca cenę za 100 zł wartości nominalnej bonu skarbowego.
+TBILLYIELD		= TBILLYIELD			##	Zwraca rentowność bonu skarbowego.
+VDB			= VDB				##	Oblicza amortyzację środka trwałego w danym okresie lub jego części metodą degresywną.
+XIRR			= XIRR				##	Zwraca wartość wewnętrznej stopy zwrotu dla serii rozłożonych w czasie przepływów gotówkowych, niekoniecznie okresowych.
+XNPV			= XNPV				##	Zwraca wartość bieżącą netto dla serii rozłożonych w czasie przepływów gotówkowych, niekoniecznie okresowych.
+YIELD			= YIELD				##	Zwraca rentowność papieru wartościowego z oprocentowaniem okresowym.
+YIELDDISC		= YIELDDISC			##	Zwraca roczną rentowność zdyskontowanego papieru wartościowego, na przykład bonu skarbowego.
+YIELDMAT		= YIELDMAT			##	Zwraca roczną rentowność papieru wartościowego oprocentowanego przy wykupie.
+
+
+##
+##	Information functions				Funkcje informacyjne
+##
+CELL			= KOMÓRKA			##	Zwraca informacje o formacie, położeniu lub zawartości komórki.
+ERROR.TYPE		= NR.BŁĘDU			##	Zwraca liczbę odpowiadającą typowi błędu.
+INFO			= INFO				##	Zwraca informację o aktualnym środowisku pracy.
+ISBLANK			= CZY.PUSTA			##	Zwraca wartość PRAWDA, jeśli wartość jest pusta.
+ISERR			= CZY.BŁ			##	Zwraca wartość PRAWDA, jeśli wartość jest dowolną wartością błędu, z wyjątkiem #N/D!.
+ISERROR			= CZY.BŁĄD			##	Zwraca wartość PRAWDA, jeśli wartość jest dowolną wartością błędu.
+ISEVEN			= ISEVEN			##	Zwraca wartość PRAWDA, jeśli liczba jest parzysta.
+ISLOGICAL		= CZY.LOGICZNA			##	Zwraca wartość PRAWDA, jeśli wartość jest wartością logiczną.
+ISNA			= CZY.BRAK			##	Zwraca wartość PRAWDA, jeśli wartość jest wartością błędu #N/D!.
+ISNONTEXT		= CZY.NIE.TEKST			##	Zwraca wartość PRAWDA, jeśli wartość nie jest tekstem.
+ISNUMBER		= CZY.LICZBA			##	Zwraca wartość PRAWDA, jeśli wartość jest liczbą.
+ISODD			= ISODD				##	Zwraca wartość PRAWDA, jeśli liczba jest nieparzysta.
+ISREF			= CZY.ADR			##	Zwraca wartość PRAWDA, jeśli wartość jest odwołaniem.
+ISTEXT			= CZY.TEKST			##	Zwraca wartość PRAWDA, jeśli wartość jest tekstem.
+N			= L				##	Zwraca wartość przekonwertowaną na postać liczbową.
+NA			= BRAK				##	Zwraca wartość błędu #N/D!.
+TYPE			= TYP				##	Zwraca liczbę wskazującą typ danych wartości.
+
+
+##
+##	Logical functions				Funkcje logiczne
+##
+AND			= ORAZ				##	Zwraca wartość PRAWDA, jeśli wszystkie argumenty mają wartość PRAWDA.
+FALSE			= FAŁSZ				##	Zwraca wartość logiczną FAŁSZ.
+IF			= JEŻELI			##	Określa warunek logiczny do sprawdzenia.
+IFERROR			= JEŻELI.BŁĄD			##	Zwraca określoną wartość, jeśli wynikiem obliczenia formuły jest błąd; w przeciwnym przypadku zwraca wynik formuły.
+NOT			= NIE				##	Odwraca wartość logiczną argumentu.
+OR			= LUB				##	Zwraca wartość PRAWDA, jeśli co najmniej jeden z argumentów ma wartość PRAWDA.
+TRUE			= PRAWDA			##	Zwraca wartość logiczną PRAWDA.
+
+
+##
+##	Lookup and reference functions			Funkcje wyszukiwania i odwołań
+##
+ADDRESS			= ADRES				##	Zwraca odwołanie do jednej komórki w arkuszu jako wartość tekstową.
+AREAS			= OBSZARY			##	Zwraca liczbę obszarów występujących w odwołaniu.
+CHOOSE			= WYBIERZ			##	Wybiera wartość z listy wartości.
+COLUMN			= NR.KOLUMNY			##	Zwraca numer kolumny z odwołania.
+COLUMNS			= LICZBA.KOLUMN			##	Zwraca liczbę kolumn dla danego odwołania.
+HLOOKUP			= WYSZUKAJ.POZIOMO		##	Przegląda górny wiersz tablicy i zwraca wartość wskazanej komórki.
+HYPERLINK		= HIPERŁĄCZE			##	Tworzy skrót lub skok, który pozwala otwierać dokument przechowywany na serwerze sieciowym, w sieci intranet lub w Internecie.
+INDEX			= INDEKS			##	Używa indeksu do wybierania wartości z odwołania lub tablicy.
+INDIRECT		= ADR.POŚR			##	Zwraca odwołanie określone przez wartość tekstową.
+LOOKUP			= WYSZUKAJ			##	Wyszukuje wartości w wektorze lub tablicy.
+MATCH			= PODAJ.POZYCJĘ			##	Wyszukuje wartości w odwołaniu lub w tablicy.
+OFFSET			= PRZESUNIĘCIE			##	Zwraca adres przesunięty od danego odwołania.
+ROW			= WIERSZ			##	Zwraca numer wiersza odwołania.
+ROWS			= ILE.WIERSZY			##	Zwraca liczbę wierszy dla danego odwołania.
+RTD			= RTD				##	Pobiera dane w czasie rzeczywistym z programu obsługującego automatyzację COM (Automatyzacja: Sposób pracy z obiektami aplikacji pochodzącymi z innej aplikacji lub narzędzia projektowania. Nazywana wcześniej Automatyzacją OLE, Automatyzacja jest standardem przemysłowym i funkcją obiektowego modelu składników (COM, Component Object Model).).
+TRANSPOSE		= TRANSPONUJ			##	Zwraca transponowaną tablicę.
+VLOOKUP			= WYSZUKAJ.PIONOWO		##	Przeszukuje pierwszą kolumnę tablicy i przechodzi wzdłuż wiersza, aby zwrócić wartość komórki.
+
+
+##
+##	Math and trigonometry functions			Funkcje matematyczne i trygonometryczne
+##
+ABS			= MODUŁ.LICZBY			##	Zwraca wartość absolutną liczby.
+ACOS			= ACOS				##	Zwraca arcus cosinus liczby.
+ACOSH			= ACOSH				##	Zwraca arcus cosinus hiperboliczny liczby.
+ASIN			= ASIN				##	Zwraca arcus sinus liczby.
+ASINH			= ASINH				##	Zwraca arcus sinus hiperboliczny liczby.
+ATAN			= ATAN				##	Zwraca arcus tangens liczby.
+ATAN2			= ATAN2				##	Zwraca arcus tangens liczby na podstawie współrzędnych x i y.
+ATANH			= ATANH				##	Zwraca arcus tangens hiperboliczny liczby.
+CEILING			= ZAOKR.W.GÓRĘ			##	Zaokrągla liczbę do najbliższej liczby całkowitej lub do najbliższej wielokrotności dokładności.
+COMBIN			= KOMBINACJE			##	Zwraca liczbę kombinacji dla danej liczby obiektów.
+COS			= COS				##	Zwraca cosinus liczby.
+COSH			= COSH				##	Zwraca cosinus hiperboliczny liczby.
+DEGREES			= STOPNIE			##	Konwertuje radiany na stopnie.
+EVEN			= ZAOKR.DO.PARZ			##	Zaokrągla liczbę w górę do najbliższej liczby parzystej.
+EXP			= EXP				##	Zwraca wartość liczby e podniesionej do potęgi określonej przez podaną liczbę.
+FACT			= SILNIA			##	Zwraca silnię liczby.
+FACTDOUBLE		= FACTDOUBLE			##	Zwraca podwójną silnię liczby.
+FLOOR			= ZAOKR.W.DÓŁ			##	Zaokrągla liczbę w dół, w kierunku zera.
+GCD			= GCD				##	Zwraca największy wspólny dzielnik.
+INT			= ZAOKR.DO.CAŁK			##	Zaokrągla liczbę w dół do najbliższej liczby całkowitej.
+LCM			= LCM				##	Zwraca najmniejszą wspólną wielokrotność.
+LN			= LN				##	Zwraca logarytm naturalny podanej liczby.
+LOG			= LOG				##	Zwraca logarytm danej liczby przy zadanej podstawie.
+LOG10			= LOG10				##	Zwraca logarytm dziesiętny liczby.
+MDETERM			= WYZNACZNIK.MACIERZY		##	Zwraca wyznacznik macierzy tablicy.
+MINVERSE		= MACIERZ.ODW			##	Zwraca odwrotność macierzy tablicy.
+MMULT			= MACIERZ.ILOCZYN		##	Zwraca iloczyn macierzy dwóch tablic.
+MOD			= MOD				##	Zwraca resztę z dzielenia.
+MROUND			= MROUND			##	Zwraca liczbę zaokrągloną do żądanej wielokrotności.
+MULTINOMIAL		= MULTINOMIAL			##	Zwraca wielomian dla zbioru liczb.
+ODD			= ZAOKR.DO.NPARZ		##	Zaokrągla liczbę w górę do najbliższej liczby nieparzystej.
+PI			= PI				##	Zwraca wartość liczby Pi.
+POWER			= POTĘGA			##	Zwraca liczbę podniesioną do potęgi.
+PRODUCT			= ILOCZYN			##	Mnoży argumenty.
+QUOTIENT		= QUOTIENT			##	Zwraca iloraz (całkowity).
+RADIANS			= RADIANY			##	Konwertuje stopnie na radiany.
+RAND			= LOS				##	Zwraca liczbę pseudolosową z zakresu od 0 do 1.
+RANDBETWEEN		= RANDBETWEEN			##	Zwraca liczbę pseudolosową z zakresu określonego przez podane argumenty.
+ROMAN			= RZYMSKIE			##	Konwertuje liczbę arabską na rzymską jako tekst.
+ROUND			= ZAOKR				##	Zaokrągla liczbę do określonej liczby cyfr.
+ROUNDDOWN		= ZAOKR.DÓŁ			##	Zaokrągla liczbę w dół, w kierunku zera.
+ROUNDUP			= ZAOKR.GÓRA			##	Zaokrągla liczbę w górę, w kierunku od zera.
+SERIESSUM		= SERIESSUM			##	Zwraca sumę szeregu potęgowego na podstawie wzoru.
+SIGN			= ZNAK.LICZBY			##	Zwraca znak liczby.
+SIN			= SIN				##	Zwraca sinus danego kąta.
+SINH			= SINH				##	Zwraca sinus hiperboliczny liczby.
+SQRT			= PIERWIASTEK			##	Zwraca dodatni pierwiastek kwadratowy.
+SQRTPI			= SQRTPI			##	Zwraca pierwiastek kwadratowy iloczynu (liczba * Pi).
+SUBTOTAL		= SUMY.POŚREDNIE		##	Zwraca sumę częściową listy lub bazy danych.
+SUM			= SUMA				##	Dodaje argumenty.
+SUMIF			= SUMA.JEŻELI			##	Dodaje komórki określone przez podane kryterium.
+SUMIFS			= SUMA.WARUNKÓW			##	Dodaje komórki w zakresie, które spełniają wiele kryteriów.
+SUMPRODUCT		= SUMA.ILOCZYNÓW		##	Zwraca sumę iloczynów odpowiednich elementów tablicy.
+SUMSQ			= SUMA.KWADRATÓW		##	Zwraca sumę kwadratów argumentów.
+SUMX2MY2		= SUMA.X2.M.Y2			##	Zwraca sumę różnic kwadratów odpowiednich wartości w dwóch tablicach.
+SUMX2PY2		= SUMA.X2.P.Y2			##	Zwraca sumę sum kwadratów odpowiednich wartości w dwóch tablicach.
+SUMXMY2			= SUMA.XMY.2			##	Zwraca sumę kwadratów różnic odpowiednich wartości w dwóch tablicach.
+TAN			= TAN				##	Zwraca tangens liczby.
+TANH			= TANH				##	Zwraca tangens hiperboliczny liczby.
+TRUNC			= LICZBA.CAŁK			##	Przycina liczbę do wartości całkowitej.
+
+
+##
+##	Statistical functions				Funkcje statystyczne
+##
+AVEDEV			= ODCH.ŚREDNIE			##	Zwraca średnią wartość odchyleń absolutnych punktów danych od ich wartości średniej.
+AVERAGE			= ŚREDNIA			##	Zwraca wartość średnią argumentów.
+AVERAGEA		= ŚREDNIA.A			##	Zwraca wartość średnią argumentów, z uwzględnieniem liczb, tekstów i wartości logicznych.
+AVERAGEIF		= ŚREDNIA.JEŻELI		##	Zwraca średnią (średnią arytmetyczną) wszystkich komórek w zakresie, które spełniają podane kryteria.
+AVERAGEIFS		= ŚREDNIA.WARUNKÓW		##	Zwraca średnią (średnią arytmetyczną) wszystkich komórek, które spełniają jedno lub więcej kryteriów.
+BETADIST		= ROZKŁAD.BETA			##	Zwraca skumulowaną funkcję gęstości prawdopodobieństwa beta.
+BETAINV			= ROZKŁAD.BETA.ODW		##	Zwraca odwrotność skumulowanej funkcji gęstości prawdopodobieństwa beta.
+BINOMDIST		= ROZKŁAD.DWUM			##	Zwraca pojedynczy składnik dwumianowego rozkładu prawdopodobieństwa.
+CHIDIST			= ROZKŁAD.CHI			##	Zwraca wartość jednostronnego prawdopodobieństwa rozkładu chi-kwadrat.
+CHIINV			= ROZKŁAD.CHI.ODW		##	Zwraca odwrotność wartości jednostronnego prawdopodobieństwa rozkładu chi-kwadrat.
+CHITEST			= TEST.CHI			##	Zwraca test niezależności.
+CONFIDENCE		= UFNOŚĆ			##	Zwraca interwał ufności dla średniej populacji.
+CORREL			= WSP.KORELACJI			##	Zwraca współczynnik korelacji dwóch zbiorów danych.
+COUNT			= ILE.LICZB			##	Zlicza liczby znajdujące się na liście argumentów.
+COUNTA			= ILE.NIEPUSTYCH		##	Zlicza wartości znajdujące się na liście argumentów.
+COUNTBLANK		= LICZ.PUSTE			##	Zwraca liczbę pustych komórek w pewnym zakresie.
+COUNTIF			= LICZ.JEŻELI			##	Zlicza komórki wewnątrz zakresu, które spełniają podane kryteria.
+COUNTIFS		= LICZ.WARUNKI			##	Zlicza komórki wewnątrz zakresu, które spełniają wiele kryteriów.
+COVAR			= KOWARIANCJA			##	Zwraca kowariancję, czyli średnią wartość iloczynów odpowiednich odchyleń.
+CRITBINOM		= PRÓG.ROZKŁAD.DWUM		##	Zwraca najmniejszą wartość, dla której skumulowany rozkład dwumianowy jest mniejszy niż wartość kryterium lub równy jej.
+DEVSQ			= ODCH.KWADRATOWE		##	Zwraca sumę kwadratów odchyleń.
+EXPONDIST		= ROZKŁAD.EXP			##	Zwraca rozkład wykładniczy.
+FDIST			= ROZKŁAD.F			##	Zwraca rozkład prawdopodobieństwa F.
+FINV			= ROZKŁAD.F.ODW			##	Zwraca odwrotność rozkładu prawdopodobieństwa F.
+FISHER			= ROZKŁAD.FISHER		##	Zwraca transformację Fishera.
+FISHERINV		= ROZKŁAD.FISHER.ODW		##	Zwraca odwrotność transformacji Fishera.
+FORECAST		= REGLINX			##	Zwraca wartość trendu liniowego.
+FREQUENCY		= CZĘSTOŚĆ			##	Zwraca rozkład częstotliwości jako tablicę pionową.
+FTEST			= TEST.F			##	Zwraca wynik testu F.
+GAMMADIST		= ROZKŁAD.GAMMA			##	Zwraca rozkład gamma.
+GAMMAINV		= ROZKŁAD.GAMMA.ODW		##	Zwraca odwrotność skumulowanego rozkładu gamma.
+GAMMALN			= ROZKŁAD.LIN.GAMMA		##	Zwraca logarytm naturalny funkcji gamma, Γ(x).
+GEOMEAN			= ŚREDNIA.GEOMETRYCZNA		##	Zwraca średnią geometryczną.
+GROWTH			= REGEXPW			##	Zwraca wartości trendu wykładniczego.
+HARMEAN			= ŚREDNIA.HARMONICZNA		##	Zwraca średnią harmoniczną.
+HYPGEOMDIST		= ROZKŁAD.HIPERGEOM		##	Zwraca rozkład hipergeometryczny.
+INTERCEPT		= ODCIĘTA			##	Zwraca punkt przecięcia osi pionowej z linią regresji liniowej.
+KURT			= KURTOZA			##	Zwraca kurtozę zbioru danych.
+LARGE			= MAX.K				##	Zwraca k-tą największą wartość ze zbioru danych.
+LINEST			= REGLINP			##	Zwraca parametry trendu liniowego.
+LOGEST			= REGEXPP			##	Zwraca parametry trendu wykładniczego.
+LOGINV			= ROZKŁAD.LOG.ODW		##	Zwraca odwrotność rozkładu logarytmu naturalnego.
+LOGNORMDIST		= ROZKŁAD.LOG			##	Zwraca skumulowany rozkład logarytmu naturalnego.
+MAX			= MAX				##	Zwraca maksymalną wartość listy argumentów.
+MAXA			= MAX.A				##	Zwraca maksymalną wartość listy argumentów, z uwzględnieniem liczb, tekstów i wartości logicznych.
+MEDIAN			= MEDIANA			##	Zwraca medianę podanych liczb.
+MIN			= MIN				##	Zwraca minimalną wartość listy argumentów.
+MINA			= MIN.A				##	Zwraca najmniejszą wartość listy argumentów, z uwzględnieniem liczb, tekstów i wartości logicznych.
+MODE			= WYST.NAJCZĘŚCIEJ		##	Zwraca wartość najczęściej występującą w zbiorze danych.
+NEGBINOMDIST		= ROZKŁAD.DWUM.PRZEC		##	Zwraca ujemny rozkład dwumianowy.
+NORMDIST		= ROZKŁAD.NORMALNY		##	Zwraca rozkład normalny skumulowany.
+NORMINV			= ROZKŁAD.NORMALNY.ODW		##	Zwraca odwrotność rozkładu normalnego skumulowanego.
+NORMSDIST		= ROZKŁAD.NORMALNY.S		##	Zwraca standardowy rozkład normalny skumulowany.
+NORMSINV		= ROZKŁAD.NORMALNY.S.ODW	##	Zwraca odwrotność standardowego rozkładu normalnego skumulowanego.
+PEARSON			= PEARSON			##	Zwraca współczynnik korelacji momentu iloczynu Pearsona.
+PERCENTILE		= PERCENTYL			##	Wyznacza k-ty percentyl wartości w zakresie.
+PERCENTRANK		= PROCENT.POZYCJA		##	Zwraca procentową pozycję wartości w zbiorze danych.
+PERMUT			= PERMUTACJE			##	Zwraca liczbę permutacji dla danej liczby obiektów.
+POISSON			= ROZKŁAD.POISSON		##	Zwraca rozkład Poissona.
+PROB			= PRAWDPD			##	Zwraca prawdopodobieństwo, że wartości w zakresie leżą pomiędzy dwiema granicami.
+QUARTILE		= KWARTYL			##	Wyznacza kwartyl zbioru danych.
+RANK			= POZYCJA			##	Zwraca pozycję liczby na liście liczb.
+RSQ			= R.KWADRAT			##	Zwraca kwadrat współczynnika korelacji momentu iloczynu Pearsona.
+SKEW			= SKOŚNOŚĆ			##	Zwraca skośność rozkładu.
+SLOPE			= NACHYLENIE			##	Zwraca nachylenie linii regresji liniowej.
+SMALL			= MIN.K				##	Zwraca k-tą najmniejszą wartość ze zbioru danych.
+STANDARDIZE		= NORMALIZUJ			##	Zwraca wartość znormalizowaną.
+STDEV			= ODCH.STANDARDOWE		##	Szacuje odchylenie standardowe na podstawie próbki.
+STDEVA			= ODCH.STANDARDOWE.A		##	Szacuje odchylenie standardowe na podstawie próbki, z uwzględnieniem liczb, tekstów i wartości logicznych.
+STDEVP			= ODCH.STANDARD.POPUL		##	Oblicza odchylenie standardowe na podstawie całej populacji.
+STDEVPA			= ODCH.STANDARD.POPUL.A		##	Oblicza odchylenie standardowe na podstawie całej populacji, z uwzględnieniem liczb, teksów i wartości logicznych.
+STEYX			= REGBŁSTD			##	Zwraca błąd standardowy przewidzianej wartości y dla każdej wartości x w regresji.
+TDIST			= ROZKŁAD.T			##	Zwraca rozkład t-Studenta.
+TINV			= ROZKŁAD.T.ODW			##	Zwraca odwrotność rozkładu t-Studenta.
+TREND			= REGLINW			##	Zwraca wartości trendu liniowego.
+TRIMMEAN		= ŚREDNIA.WEWN			##	Zwraca średnią wartość dla wnętrza zbioru danych.
+TTEST			= TEST.T			##	Zwraca prawdopodobieństwo związane z testem t-Studenta.
+VAR			= WARIANCJA			##	Szacuje wariancję na podstawie próbki.
+VARA			= WARIANCJA.A			##	Szacuje wariancję na podstawie próbki, z uwzględnieniem liczb, tekstów i wartości logicznych.
+VARP			= WARIANCJA.POPUL		##	Oblicza wariancję na podstawie całej populacji.
+VARPA			= WARIANCJA.POPUL.A		##	Oblicza wariancję na podstawie całej populacji, z uwzględnieniem liczb, tekstów i wartości logicznych.
+WEIBULL			= ROZKŁAD.WEIBULL		##	Zwraca rozkład Weibulla.
+ZTEST			= TEST.Z			##	Zwraca wartość jednostronnego prawdopodobieństwa testu z.
+
+
+##
+##	Text functions					Funkcje tekstowe
+##
+ASC			= ASC				##	Zamienia litery angielskie lub katakana o pełnej szerokości (dwubajtowe) w ciągu znaków na znaki o szerokości połówkowej (jednobajtowe).
+BAHTTEXT		= BAHTTEXT			##	Konwertuje liczbę na tekst, stosując format walutowy ß (baht).
+CHAR			= ZNAK				##	Zwraca znak o podanym numerze kodu.
+CLEAN			= OCZYŚĆ			##	Usuwa z tekstu wszystkie znaki, które nie mogą być drukowane.
+CODE			= KOD				##	Zwraca kod numeryczny pierwszego znaku w ciągu tekstowym.
+CONCATENATE		= ZŁĄCZ.TEKSTY			##	Łączy kilka oddzielnych tekstów w jeden tekst.
+DOLLAR			= KWOTA				##	Konwertuje liczbę na tekst, stosując format walutowy $ (dolar).
+EXACT			= PORÓWNAJ			##	Sprawdza identyczność dwóch wartości tekstowych.
+FIND			= ZNAJDŹ			##	Znajduje jedną wartość tekstową wewnątrz innej (z uwzględnieniem wielkich i małych liter).
+FINDB			= ZNAJDŹB			##	Znajduje jedną wartość tekstową wewnątrz innej (z uwzględnieniem wielkich i małych liter).
+FIXED			= ZAOKR.DO.TEKST		##	Formatuje liczbę jako tekst przy stałej liczbie miejsc dziesiętnych.
+JIS			= JIS				##	Zmienia litery angielskie lub katakana o szerokości połówkowej (jednobajtowe) w ciągu znaków na znaki o pełnej szerokości (dwubajtowe).
+LEFT			= LEWY				##	Zwraca skrajne lewe znaki z wartości tekstowej.
+LEFTB			= LEWYB				##	Zwraca skrajne lewe znaki z wartości tekstowej.
+LEN			= DŁ				##	Zwraca liczbę znaków ciągu tekstowego.
+LENB			= DŁ.B				##	Zwraca liczbę znaków ciągu tekstowego.
+LOWER			= LITERY.MAŁE			##	Konwertuje wielkie litery tekstu na małe litery.
+MID			= FRAGMENT.TEKSTU		##	Zwraca określoną liczbę znaków z ciągu tekstowego, zaczynając od zadanej pozycji.
+MIDB			= FRAGMENT.TEKSTU.B		##	Zwraca określoną liczbę znaków z ciągu tekstowego, zaczynając od zadanej pozycji.
+PHONETIC		= PHONETIC			##	Wybiera znaki fonetyczne (furigana) z ciągu tekstowego.
+PROPER			= Z.WIELKIEJ.LITERY		##	Zastępuje pierwszą literę każdego wyrazu tekstu wielką literą.
+REPLACE			= ZASTĄP			##	Zastępuje znaki w tekście.
+REPLACEB		= ZASTĄP.B			##	Zastępuje znaki w tekście.
+REPT			= POWT				##	Powiela tekst daną liczbę razy.
+RIGHT			= PRAWY				##	Zwraca skrajne prawe znaki z wartości tekstowej.
+RIGHTB			= PRAWYB			##	Zwraca skrajne prawe znaki z wartości tekstowej.
+SEARCH			= SZUKAJ.TEKST			##	Wyszukuje jedną wartość tekstową wewnątrz innej (bez uwzględniania wielkości liter).
+SEARCHB			= SZUKAJ.TEKST.B		##	Wyszukuje jedną wartość tekstową wewnątrz innej (bez uwzględniania wielkości liter).
+SUBSTITUTE		= PODSTAW			##	Podstawia nowy tekst w miejsce poprzedniego tekstu w ciągu tekstowym.
+T			= T				##	Konwertuje argumenty na tekst.
+TEXT			= TEKST				##	Formatuje liczbę i konwertuje ją na tekst.
+TRIM			= USUŃ.ZBĘDNE.ODSTĘPY		##	Usuwa spacje z tekstu.
+UPPER			= LITERY.WIELKIE		##	Konwertuje znaki tekstu na wielkie litery.
+VALUE			= WARTOŚĆ			##	Konwertuje argument tekstowy na liczbę.

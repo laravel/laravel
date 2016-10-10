@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!-- $Id: authentication.php 1672 2008-03-02 04:47:34Z edwardzyang $ -->
+<page title="Coding Standards and Formatting" here="Coding Standards">
+    <long_title>Coding Standards within SimpleTest</long_title>
+    <content>
+        <section name="coding-standards" title="Coding standards">
+            <p>
+                Here's the list we try to follow :
+                <ol>
+                    <li>
+                        Short method bodies, hopefully five lines or less.
+                    </li>
+                    <li>
+                        No <code>final</code> methods.
+                        People hack their test tools in wierd and wonderful ways.
+                    </li>
+                    <li>
+                        No type hinting.
+                        So much of SimpeTest is unit tested, that type hints don't
+                        currently pay their way.
+                    </li>
+                    <li>
+                        All object variables are <code>private</code>.
+                        Those currently in the code base that aren't, should be.
+                        Exceptions are fluent interfaces.
+                    </li>
+                    <li>
+                        <code>ClassLikeThis</code>, <code>methodLikeThis()</code>, <code>$variables_like_this</code>.
+                    </li>
+                    <li>
+                        No abbreviations in names,
+                        so $parameter rather than $param.
+                        Acronyms are allowed if they are industry standard.
+                        We tend to camel case them, e.g. <code>parseXml()</code>.
+                    </li>
+                    <li>
+                        We prefer &quot;get&quot;/&quot;set&quot; prefix for accessors,
+                        e.g. <code>getMyAttribute()</code>.
+                        The exception is for fluent interfaces.
+                        This preference is mainly historical though, and could be dropped.
+                        Ruby coding standards are superceding Java ones these days, and
+                        &quot;get&quot; isn't used in that environment.
+                    </li>
+                    <li>
+                        Accessors even when a subclass calls a superclass.
+                    </li>
+                    <li>
+                        Don't be afraid of long class and method names.
+                        The exception is the use of <code>$i</code> as a loop variable.
+                        A lot of people viewing the code are casual passers by and won't know
+                        any secret conventions.
+                    </li>
+                    <li>
+                        &quot;Simple&quot; as a class name prefix
+                        unless it really pollutes the visible domain language.
+                        No other namespace prefixing unless there is known library
+                        clash in the wild.
+                    </li>
+                    <li>
+                        Eric Evans domain driven design style
+                        rather than pure XP/TDD. That is, slight over design
+                        in order to make concepts clear.
+                    </li>
+                </ol>
+            </p>
+            <p>
+                Obviously these reflect Marcus Bakers' average coding style
+                over several projects and programming languages.
+            </p>
+            <p>
+                Is should also be obvious that
+                the code is riddled with exceptions to these rules :).
+            </p>
+        </section>
+        <section name="code-formatting" title="Code formatting">
+            <p>
+                Please no dangling brace style.
+                No blank lines in methods.
+                So not...
+<php><![CDATA[
+class MyClass
+{
+    function aMethod()
+    {
+        stuff();
+     
+        more stuff();
+    }
+}
+]]></php>
+                It wastes vertical space and is a hangover from long declarations in C++.
+                Rather this...
+<php><![CDATA[
+class MyClass {
+    function aMethod() {
+        stuff();
+        more stuff();
+    }
+}
+]]></php>
+                White space to me should separate something,
+                such as a method or class.
+                If you feel the need to add space within a method body, just break
+                the code up into separate methods.
+                The exception is test code, which can contain a lot of mock set up.
+                It's still discouraged though.
+            </p>
+            <p>
+                By popular demand, all functions and methods are docblocked.
+                Private variables are not (the extra clutter is not worth it).
+                The only docblock attributes we require are <code>@return</code>
+                and <code>@param</code> as some IDE's use them.
+                Please take the time to write a human friendly comment.
+                Imagine you are chatting to a fellow SimpleTest user and they
+                ask the most obvious question about that variable.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#coding-standards">Coding standards</a>
+        </link>
+        <link>
+            And other <a href="#code-formatting">Code formatting</a> stuff.
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+        </keywords>
+    </meta>
+</page>

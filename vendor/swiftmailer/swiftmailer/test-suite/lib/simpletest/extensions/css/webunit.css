@@ -1,0 +1,78 @@
+html {
+	font-face: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: black;
+	}	
+
+.pass { color: green; } 
+.fail { color: red; } 
+.activetab {
+	position: relative;
+	background: white;
+	border-color: black;
+	border-style: solid;
+	border-weight: 1;
+	border-top-color: white;
+	border-style: solid;
+	border-weight: 1;
+}
+.inactivetab{
+	position: relative;
+	background: silver;
+	border-color: black;
+	border-style: solid;
+	border-weight: 1;
+}
+span.inactivetab a:link ,
+span.activetab a:link {
+	text-decoration: none;
+	color: black;
+}
+pre { background-color: lightgray; }
+#wait {
+	background: #B7B8DD;
+	position: absolute;
+	visibility: hidden;
+	text-align: center;
+	border-color: blue;
+	border-style: solid;
+	border-weight: 2;
+	}
+#webunit {
+	position: absolute;
+	visibility: hidden;
+	background: silver;
+	border-color: black;
+	border-style: solid;
+	border-weight: 2;
+	}
+#visible_tab {
+	position: relative;
+	visibility: hidden;
+	overflow: auto;
+	background: white;
+	width: 100%;
+	height: 100%;
+	border-color: black;
+	border-style: solid;
+	border-weight: 1;
+	}
+#visible_tab a:link {
+	text-decoration: none;
+	color: inherit;
+}
+#msg {
+	position: absolute;
+	visibility: hidden;
+	overflow: auto;
+	background: white;
+	border-color: black;
+	border-style: solid;
+	border-weight: 1;
+	}
+#fail,
+#tree {
+	position: absolute;
+	visibility: hidden;
+}
+

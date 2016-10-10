@@ -1,0 +1,30 @@
+*{ margin:0; padding:0;}
+a {text-decoration: none;}
+body{ color:#333; font:14px/1.6 "Microsoft YaHei","微软雅黑",Arial; min-width:320px;}
+.body_back {background-image:url('../../img/sharev2/background.png');background-repeat:repeat-x;margin:0;padding-top:45px;}
+.body_back .portrait{border:2px solid;width:230px;height:230px;margin-left:auto;margin-right:auto;border-color:#e0e0e0;}
+.body_back .portrait .play{width:60px;height: 49px;margin:0 auto;margin-top:82px;}
+.body_back .portrait .icon {float:right;margin-top:49px;}
+.body_back .poem_info{width:230px;margin: 0 auto;text-align:center;padding-top:5px;color:gray;}
+.body_back .poem_info .poem_title{font-weight: bold;display:block;}
+.body_back .mark_line {width:300px;height:1px;margin-left:-35px;background-image:url('../../img/sharev2/bottom_line.png');margin-top:8px;}
+.body_footer {position:relative;margin-bottom: 10px;text-align: center;}
+.body_footer .btn_left{width:135px;height:42px;background:url('../../img/sharev2/btn_left2.png');background-size:135px 42px;background-repeat: no-repeat;font-size: 15px;color:white;padding-left: 28px;margin-left:18px;border:0px;}
+.body_footer .btn_right{width:135px;height:42px;background:url('../../img/sharev2/btn_right2.png');background-size:135px 42px;background-repeat: no-repeat;font-size:15px;color:white;padding-left: 28px;margin-right:18px;border:0px;}
+.progress_border {width:240px;margin:0 auto;padding-top:77px;}
+.jp-progress {background: url("../../img/sharev2/play_line.png") 0px repeat-x;width: 175px;height: 13px;font-size:10px;color:gray;overflow:hidden;}
+.jp-seek-bar {background: url("../../img/sharev2/play_line.png") 0px repeat-x;width:0px;height: 100%;overflow:hidden;cursor:pointer;}
+.jp-play-bar {background: url("../../img/sharev2/do_play_line.png") 0px repeat-x;width:0px;height: 100%;overflow:hidden;}
+.jp-current-time {width:30px;font-size:10px;color:gray;float:left;}
+.jp-duration{width:30px;font-size:10px;color:gray;float:right;margin-top:-15px;}
+.content{height:105px;overflow:hidden;color:#d7d7d7;}
+.hover {color:#dc7624;}
+li {list-style-type:none;}
+
+.body_back .all_body{width:306px;margin:0 auto;}
+.body_back .soft_top {width:272px;height:360px;background-image:url('../../img/sharev2/soft_top.png');background-size:272px 360px;margin:0 auto;}
+.body_back .soft_down{padding-top:10px;color:white;font-size:18px;height:54px;width:255px;display: block;background-image:url('../../img/sharev2/down_soft.png');background-size:255px 45px;background-repeat: no-repeat;margin-right:auto;margin-left:auto;margin-top:60px;}
+.body_back .soft_down .soft-font{margin-left:90px;}
+.body_back .soft_bottom {width:185;height:35px;text-align:center;}
+
+.body_back .error_top {width:272px;height:360px;background-image:url('../../img/sharev2/404.png');background-repeat:no-repeat;background-size:272px 273px;margin:0 auto;}

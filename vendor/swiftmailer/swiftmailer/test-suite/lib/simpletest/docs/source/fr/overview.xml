@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: overview.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Apercu de SimpleTest" here="Aperçu">
+    <synchronisation lang="en" version="1475" date="19/01/2007" maintainer="pp11" />
+    <long_title>
+        Aperçu et liste des fonctionnalités des testeurs unitaires PHP et web de SimpleTest PHP
+    </long_title>
+    <content>
+        <section name="resume" title="Qu'est-ce que SimpleTest ?">
+            <p>
+                Le coeur de SimpleTest est un framework de test construit autour de classes de scénarios de test. Celles-ci sont écrites comme des extensions des classes premières de scénarios de test, chacune élargie avec des méthodes qui contiennent le code de test effectif. Les scripts de test de haut niveau invoque la méthode <code>run()</code> à chaque scénario de test successivement. Chaque méthode de test est écrite pour appeler des assertions diverses que le développeur suppose être vraies, <code>assertEqual()</code> par exemple. Si l'assertion est correcte, alors un succès est expédié au rapporteur observant le test, mais toute erreur déclenche une alerte et une description de la dissension.
+            </p>
+            <p>
+                Un <a local="unit_test_documentation">scénario de test</a> ressemble à...
+<php><![CDATA[
+class <strong>MyTestCase</strong> extends UnitTestCase {
+    <strong>
+    function testLog() {
+        $log = &new Log('my.log');
+        $log->message('Hello');
+        $this->assertTrue(file_exists('my.log'));
+    }</strong>
+}
+]]></php>
+            </p>
+            <p>
+                Ces outils sont conçus pour le développeur. Les tests sont écrits en PHP directement, plus ou moins simultanément avec la construction de l'application elle-même. L'avantage d'utiliser PHP lui-même comme langage de test est qu'il n'y a pas de nouveau langage à apprendre, les tests peuvent commencer directement et le développeur peut tester n'importe quelle partie du code. Plus simplement, toutes les parties qui peuvent être accédées par le code de l'application peuvent aussi être accédées par le code de test si ils sont tous les deux dans le même langage.
+            </p>
+            <p>
+                Le type de scénario de test le plus simple est le <code>UnitTestCase</code>. Cette classe de scénario de test inclut les tests standards pour l'égalité, les références et l'appariement de motifs (via les expressions rationnelles). Ceux-ci testent ce que vous seriez en droit d'attendre du résultat d'une fonction ou d'une méthode. Il s'agit du type de test le plus commun pendant le quotidien du développeur, peut-être 95% des scénarios de test.
+            </p>
+            <p>
+                La tâche ultime d'une application web n'est cependant pas de produire une sortie correcte à partir de méthodes ou d'objets, mais plutôt de produire des pages web. La classe <code>WebTestCase</code> teste des pages web. Elle simule un navigateur web demandant une page, de façon exhaustive : cookies, proxies, connexions sécurisées, authentification, formulaires, cadres et la plupart des éléments de navigation. Avec ce type de scénario de test, le développeur peut garantir que telle ou telle information est présente dans la page et que les formulaires ainsi que les sessions sont gérés comme il faut.
+            </p>
+            <p>
+                Un <a local="web_tester_documentation">scénario de test web</a> ressemble à...
+<php><![CDATA[
+class <strong>MySiteTest</strong> extends WebTestCase {
+    <strong>
+    function testHomePage() {
+        $this->get('http://www.my-site.com/index.php');
+        $this->assertTitle('My Home Page');
+        $this->clickLink('Contact');
+        $this->assertTitle('Contact me');
+        $this->assertWantedPattern('/Email me at/');
+    }</strong>
+}
+]]></php>
+            </p>
+        </section>
+        <section name="fonctionnalites" title="Liste des fonctionnalites">
+            <p>
+                Ci-dessous vous trouverez un canevas assez brut des fonctionnalités à aujourd'hui et pour demain, sans oublier leur date approximative de publication. J'ai bien peur qu'il soit modifiable sans pré-avis étant donné que les jalons dépendent beaucoup sur le temps disponible. Les trucs en vert ont été codés, mais pas forcément déjà rendus public. Si vous avez une besoin pressant pour une fonctionnalité verte mais pas encore publique alors vous devriez retirer le code directement sur le  CVS chez SourceFourge. Une fonctionnalitée publiée est indiqué par &quot;Fini&quot;.
+                <table><thead>
+                    <tr><th>Fonctionnalité</th><th>Description</th><th>Publication</th></tr>
+                    </thead><tbody><tr>
+                        <td>Scénariot de test unitaire</td>
+                        <td>Les classes de test et assertions de base</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Affichage HTML</td>
+                        <td>L'affichage le plus simple possible</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Autochargement des scénarios de test</td>
+                        <td>Lire un fichier avec des scénarios de test et les charger dans un groupe de tests automatiquement</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Générateur de code d'objets fantaisie</td>
+                        <td>Des objets capable de simuler d'autres objets, supprimant les dépendances dans les tests</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Bouchons serveur</td>
+                        <td>Des objets fantaisie sans résultat attendu à utiliser à l'extérieur des scénarios de test, pour le prototypage par exemple.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Intégration d'autres testeurs unitaires</td>
+                        <td>
+                            La capacité de lire et simuler d'autres scénarios de test en provenance de PHPUnit et de PEAR::Phpunit.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Scénario de test web</td>
+                        <td>Appariement basique de motifs dans une page téléchargée.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Analyse de page HTML</td>
+                        <td>Permet de suivre les liens et de trouver la balise de titre</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Simulacre partiel</td>
+                        <td>Simuler des parties d'une classe pour tester moins qu'une classe ou dans des cas complexes.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Gestion des cookies Web</td>
+                        <td>Gestion correcte des cookies au téléchargement d'une page.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Suivi des redirections</td>
+                        <td>Le téléchargement d'une page suit automatiquement une redirection 300.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Analyse d'un formulaire</td>
+                        <td>La capacité de valider un formulaire simple et d'en lire les valeurs par défaut.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Interface en ligne de commande</td>
+                        <td>Affiche le résultat des tests sans navigateur web.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Mise à nu des attentes d'une classe</td>
+                        <td>Peut créer des tests précis avec des simulacres ainsi que des scénarios de test.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Sortie et analyse XML</td>
+                        <td>Permet de tester sur plusieurs hôtes et d'intégrer des extensions d'acceptation de test.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Scénario de test en ligne de commande</td>
+                        <td>Permet de tester des outils ou scripts en ligne de commande et de manier des fichiers.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Compatibilité avec PHP Documentor</td>
+                        <td>Génération automatique et complète de la documentation au niveau des classes.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Interface navigateur</td>
+                        <td>Mise à nu des niveaux bas de l'interface du navigateur web pour des scénarios de test plus précis.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Authentification HTTP</td>
+                        <td>Téléchargement des pages web protégées avec une authentification basique seulement.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Boutons de navigation d'un navigateur</td>
+                        <td>Arrière, avant et recommencer</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Support de SSL</td>
+                        <td>Peut se connecter à des pages de type https.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Support de proxy</td>
+                        <td>Peut se connecter via des proxys communs</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Support des cadres</td>
+                        <td>Gère les cadres dans les scénarios de test web.</td>
+                        <td style="color: green;">Fini</td>
+                    </tr>
+                    <tr>
+                        <td>Test de l'upload de fichier</td>
+                        <td>Peut simuler la balise input de type file</td>
+                        <td style="color: red;">1.0.1</td>
+                    </tr>
+                    <tr>
+                        <td>Amélioration sur la machinerie des rapports</td>
+                        <td>Retouche sur la transmission des messages pour une meilleur coopération avec les IDEs</td>
+                        <td style="color: red;">1.1</td>
+                    </tr>
+                    <tr>
+                        <td>Amélioration de l'affichage des tests</td>
+                        <td>Une meilleure interface graphique web, avec un arbre des scénarios de test.</td>
+                        <td style="color: red;">1.1</td>
+                    </tr>
+                    <tr>
+                        <td>Localisation</td>
+                        <td>Abstraction des messages et génration du code à partir de fichiers XML.</td>
+                        <td style="color: red;">1.1</td>
+                    </tr>
+                    <tr>
+                        <td>Simulation d'interface</td>
+                        <td>Peut générer des objets fantaisie tant vers des interfaces que vers des classes.</td>
+                        <td style="color: red;">2.0</td>
+                    </tr>
+                    <tr>
+                        <td>Test sur es exceptions</td>
+                        <td>Dans le même esprit que sur les tests des erreurs PHP.</td>
+                        <td style="color: red;">2.0</td>
+                    </tr>
+                    <tr>
+                        <td>Rercherche d'éléments avec XPath</td>
+                        <td>Peut utiliser Tidy HTML pour un appariement plus rapide et plus souple.</td>
+                        <td style="color: red;">2.0</td>
+                    </tr>
+                </tbody></table>
+                La migration vers PHP5 commencera juste après la série des 1.0, à partir de là PHP4 ne sera plus supporté. SimpleTest est actuellement compatible avec PHP5 mais n'utilisera aucune des nouvelles fonctionnalités avant la version 2.
+            </p>
+        </section>
+        <section name="ressources" title="Ressources sur le web pour les tests">
+            <p>
+                Le processus est au moins aussi important que les outils. Le type de procédure que fait un usage le plus intensif des outils de test pour développeur est bien sûr l'<a href="http://www.extremeprogramming.org/">Extreme Programming</a>. Il s'agit là d'une des <a href="http://www.agilealliance.com/articles/index">méthodes agiles</a> qui combinent plusieurs pratiques pour &quot;lisser la courbe de coût&quot; du développement logiciel. La plus extrème reste le <a href="http://www.testdriven.com/modules/news/">développement piloté par les tests</a>, où vous devez adhérer à la règle du <cite>pas de code avant d'avoir un test</cite>. Si vous êtes plutôt du genre planninficateur ou que vous estimez que l'expérience compte plus que l'évolution, vous préférerez peut-être l'approche <a href="http://www.therationaledge.com/content/dec_01/f_spiritOfTheRUP_pk.html">RUP</a>. Je ne l'ai pas testé mais je peux voir où vous aurez besoin d'outils de test (cf. illustration 9).
+            </p>
+            <p>
+                La plupart des testeurs unitaires sont dans une certaine mesure un clone de <a href="http://www.junit.org/">JUnit</a>, au moins dans l'interface. Il y a énormément d'information sur le site de JUnit, à commencer par la <a href="http://junit.sourceforge.net/doc/faq/faq.htm">FAQ</a> quie contient pas mal de conseils généraux sur les tests. Une fois mordu par le bogue vous apprécierez sûrement la phrase <a href="http://junit.sourceforge.net/doc/testinfected/testing.htm">infecté par les tests</a> trouvée par Eric Gamma. Si vous êtes encore en train de tergiverser sur un testeur unitaire, sachez que les choix principaux sont <a href="http://phpunit.sourceforge.net/">PHPUnit</a> et <a href="http://pear.php.net/manual/en/package.php.phpunit.php">Pear PHP::PHPUnit</a>. De nombreuses fonctionnalités de SimpleTest leurs font défaut, mais la version PEAR a d'ores et déjà été mise à jour pour PHP5. Elle est aussi recommandée si vous portez des scénarios de test existant depuis <a href="http://www.junit.org/">JUnit</a>.
+            </p>
+            <p>
+                Les développeurs de bibliothèque n'ont pas l'air de livrer très souvent des tests avec leur code : c'est bien dommage. Le code d'une bibliothèque qui inclut des tests peut être remanié avec plus de sécurité et le code de test sert de documentation additionnelle dans un format assez standard. Ceci peut épargner la pêche aux indices dans le code source lorsque qu'un problème survient, en particulier lors de la mise à jour d'une telle bibliothèque. Parmi les bibliothèques utilisant SimpleTest comme testeur unitaire on retrouve <a href="http://wact.sourceforge.net/">WACT</a> et <a href="http://sourceforge.net/projects/htmlsax">PEAR::XML_HTMLSax</a>.
+            </p>
+            <p>
+                Au jour d'aujourd'hui il manque tristement beaucoup de matière sur les objets fantaisie : dommage, surtout que tester unitairement sans eux représente pas mal de travail en plus. L'<a href="http://www.sidewize.com/company/mockobjects.pdf">article original sur les objets fantaisie</a> est très orienté Java, mais reste intéressant à lire. Etant donné qu'il s'agit d'une nouvelle technologie il y a beaucoup de discussions et de débats sur comment les utiliser, souvent sur des wikis comme <a href="http://xpdeveloper.com/cgi-bin/oldwiki.cgi?MockObjects">Extreme Tuesday</a> ou <a href="http://www.mockobjects.com/MocksObjectsPaper.html">www.mockobjects.com</a>ou <a href="http://c2.com/cgi/wiki?MockObject">the original C2 Wiki</a>. Injecter des objets fantaisie dans une classe est un des champs principaux du débat : cet <a href="http://www-106.ibm.com/developerworks/java/library/j-mocktest.html">article chez IBM</a> en est un bon point de départ.
+            </p>
+            <p>
+                Il y a énormement d'outils de test web mais la plupart sont écrits en Java. De plus les tutoriels et autres conseils sont plutôt rares. Votre seul espoir est de regarder directement la documentation pour <a href="http://httpunit.sourceforge.net/">HTTPUnit</a>, <a href="http://htmlunit.sourceforge.net/">HTMLUnit</a> ou <a href="http://jwebunit.sourceforge.net/">JWebUnit</a> et d'espérer y trouver pour des indices. Il y a aussi des frameworks basés sur XML, mais de nouveau la plupart ont besoin de Java pour tourner.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#resume">Résumé rapide</a> de l'outil SimpleTest pour PHP.
+        </link>
+        <link>
+            <a href="#fonctionnalites">La liste des fonctionnalites</a>, à la fois présentes et à venir.
+        </link>
+        <link>
+            Il y a beaucoup de <a href="#ressources">ressources sur les tests unitaires</a> sur le web.
+        </link>
+    </internal>
+    <external>
+        <link>
+            <a local="unit_test_documentation">Documentation pour SimpleTest</a>.
+        </link>
+        <link>
+            <a href="http://www.lastcraft.com/first_test_tutorial.php">Comment écrire des scénarios de test en PHP</a> est un tutoriel plutôt avancé.
+        </link>
+        <link>
+            <a href="http://simpletest.org/api/">L'API de SimpleTest</a> par phpdoc.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            outils de développement logiciel,
+            programmation php,
+            outils pour l'extreme programming,
+            liens pour des outils de test,
+            ressources pour test en php,
+            objets fantaise,
+            junit,
+            jwebunit,
+            htmlunit,
+            itc,
+            liens pour tests en php,
+            conseil et documentation pour test unitaire,
+            extreme programming en php
+        </keywords>
+    </meta>
+    <refsynopsisdiv>
+        <authorgroup>
+            <author>
+                Marcus Baker
+                <authorblurb>
+                    <para>Développeur principal</para><para>{@link mailto:marcus@lastcraft.com marcus@lastcraft.com}</para>
+                </authorblurb>
+            </author>
+            <author>
+                Harry Fuecks
+                <authorblurb>
+                    <para>Packageur</para><para>{@link mailto:harryf@users.sourceforge.net harryf@users.sourceforge.net}</para>
+                </authorblurb>
+            </author>
+            <author>
+                Jason Sweat
+                <authorblurb>
+                    <para>Documentation</para><para>{@link mailto:jsweat_php@yahoo.com jsweat_php@yahoo.com}</para>
+                </authorblurb>
+            </author>
+             <author>
+                Perrick Penet
+                <authorblurb>
+                    <para>Traduction</para><para>{@link mailto:perrick@onpk.net perrick@onpk.net}</para>
+                </authorblurb>
+            </author>
+       </authorgroup>
+    </refsynopsisdiv>
+</page>
+

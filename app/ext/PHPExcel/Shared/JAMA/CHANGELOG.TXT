@@ -1,0 +1,16 @@
+Mar 1, 2005 11:15 AST by PM
+
++ For consistency, renamed Math.php to Maths.java, utils to util, 
+  tests to test, docs to doc - 
+
++ Removed conditional logic from top of Matrix class.
+
++ Switched to using hypo function in Maths.php for all php-hypot calls.
+  NOTE TO SELF: Need to make sure that all decompositions have been 
+  switched over to using the bundled hypo.
+
+Feb 25, 2005 at 10:00 AST by PM
+
++ Recommend using simpler Error.php instead of JAMA_Error.php but 
+  can be persuaded otherwise.
+

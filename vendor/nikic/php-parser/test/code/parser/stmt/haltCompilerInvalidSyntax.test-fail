@@ -1,0 +1,6 @@
+Invalid __halt_compiler() syntax
+-----
+<?php
+__halt_compiler()
+-----
+__HALT_COMPILER must be followed by "();" on line 2

@@ -1,0 +1,12 @@
+'Symfony\Component\Serializer\Tests\Fixtures\GroupDummy':
+  attributes:
+    foo:
+      groups: ['group1', 'group2']
+    bar:
+      groups: ['group2']
+'Symfony\Component\Serializer\Tests\Fixtures\MaxDepthDummy':
+  attributes:
+    foo:
+      max_depth: 2
+    bar:
+      max_depth: 3

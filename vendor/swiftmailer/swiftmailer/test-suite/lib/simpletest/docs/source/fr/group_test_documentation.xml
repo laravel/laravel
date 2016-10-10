@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: group_test_documentation.xml 1701 2008-03-24 20:08:06Z pp11 $ -->
+<page title="Documentation sur le groupement des tests" here="Les groupes de tests">
+    <synchronisation lang="en" version="1687" date="24/03/2008" maintainer="pp11" />
+    <long_title>Documentation SimpleTest : Grouper des tests</long_title>
+    <content>
+        <section name="grouper" title="Grouper des tests">
+            <p>
+                Pour lancer les scénarios de tests en tant que groupe,
+                ils devraient être placés dans des fichiers sans le code du lanceur...
+<php><![CDATA[
+<strong><?php
+    require_once('../classes/io.php');
+
+    class FileTester extends UnitTestCase {
+        ...
+    }
+
+    class SocketTester extends UnitTestCase {
+        ...
+    }
+?></strong>
+]]></php>
+                Autant de scénarios que nécessaires peuvent être
+                mis dans un fichier unique. Ils doivent contenir
+                tout le code nécessaire, entre autres la bibliothèque testée,
+                mais aucune des bibliothèques de SimpleTest.
+            </p>
+            <p>
+                Si vous avez étendu l'un ou l'autre des scénarios de test,
+                vous pouvez aussi les inclure.
+<php><![CDATA[
+<?php
+    require_once('../classes/io.php');
+<strong>
+    class MyFileTestCase extends UnitTestCase {
+        ...
+    }
+    SimpleTestOptions::ignore('MyFileTestCase');</strong>
+
+    class FileTester extends MyFileTestCase {
+        ...
+    }
+
+    class SocketTester extends UnitTestCase {
+        ...
+    }
+?>
+]]></php>
+                La classe <code>FileTester</code> ne contient aucun test véritable,
+                il s'agit d'une classe de base pour d'autres scénarios de test.
+                Pour cette raison nous utilisons la directive
+                <code>SimpleTestOptions::ignore()</code> pour indiquer
+                au prochain groupe de tests de l'ignorer.
+                Cette directive peut se placer n'importe où dans le fichier
+                et fonctionne quand un fichier complet des scénarios de test
+                est chargé (cf. ci-dessous).
+                Nous l'appelons <em>file_test.php</em>.
+            </p>
+            <p>
+                Ensuite nous créons un fichier de groupe de tests,
+                disons <em>group_test.php</em>.
+                Vous penserez à un nom plus convaincant, j'en suis sûr.
+                Nous lui ajoutons le fichier de test avec une méthode sans risque...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('file_test.php');
+
+    $test = &new GroupTest('All file tests');
+    $test->addTestCase(new FileTestCase());
+    $test->run(new HtmlReporter());</strong>
+?>
+]]></php>
+                Ceci instancie le scénario de test avant que
+                la suite de test ne soit lancée.
+                Ça pourrait devenir assez onéreux avec
+                un grand nombre de scénarios de test : 
+                il existe donc une autre méthode qui instancie
+                la classe uniquement quand elle devient nécessaire...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    require_once('file_test.php');
+
+    $test = &new GroupTest('All file tests');<strong>
+    $test->addTestClass('FileTestCase');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                Le problème de cette technique est que pour
+                chaque scénario de test supplémentaire nous aurons à importer
+                (via <code>require_once()</code>) le fichier de code de test
+                et à instancier manuellement chaque scénario de test.
+                Nous pouvons nous épargner beaucoup de dactylographie avec...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+
+    $test = &new GroupTest('All file tests');<strong>
+    $test->addTestFile('file_test.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                Voici ce qui vient de se passer :
+                la classe <code>GroupTest</code> a réalisé le
+                <code>require_once()</code> pour nous.
+                Ensuite elle vérifie si de nouvelles classes de scénario
+                de test ont été créées par ce nouveau fichier
+                et les ajoute automatiquement au groupe de tests.
+                Désormais tout ce qu'il nous reste à faire,
+                c'est d'ajouter chaque nouveau fichier.
+            </p>
+            <p>
+                Il y a deux choses qui peuvent planter
+                et qui demandent un minimum d'attention...
+                <ol>
+                    <li>
+                        Le fichier peut déjà avoir été analysé par PHP
+                        et dans ce cas aucune classe ne sera ajoutée.
+                        Pensez à bien vérifier que les scénarios de test
+                        ne sont inclus que dans ce fichier et dans aucun autre
+                        (Note : avec la nouvelle fonctionnalité <cite>autorun</cite>,
+                        ce problème a maintenant été résolu).
+                    </li>
+                    <li>
+                        Les nouvelles classes d'extension de scénario
+                        de test qui sont incluses seront placées
+                        dans le groupe de tests et exécutées par la même occasion.
+                        Vous aurez à ajouter une directive
+                        <code>SimpleTestOptions::ignore()</code> pour ces classes
+                        ou alors pensez à les ajouter avant la ligne
+                        <code>GroupTest::addTestFile()</code>.
+                    </li>
+                </ol>
+            </p>
+        </section>
+        <section name="plus-haut" title="Groupements de plus haut niveau">
+            <p>
+                La technique ci-dessus place tous les scénarios de test
+                dans un unique et grand groupe.
+                Sauf que pour des projets plus conséquents,
+                ce n'est probablement pas assez souple;
+                vous voudriez peut-être grouper les tests tout à fait différemment.
+            </p>
+            <p>
+                Pour obtenir un groupe de tests plus souple
+                nous pouvons sous classer <code>GroupTest</code>
+                et ensuite l'instancier au cas par cas...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');
+    <strong>
+    class FileGroupTest extends GroupTest {
+        function FileGroupTest() {
+            $this->GroupTest('All file tests');
+            $this->addTestFile('file_test.php');
+        }
+    }</strong>
+?>
+]]></php>
+                Ceci nomme le test dans le constructeur
+                et ensuite ajoute à la fois nos scénarios
+                de test et un unique groupe en dessous.
+                Bien sûr nous pouvons ajouter plus d'un groupe à cet instant.
+                Nous pouvons maintenant invoquer les tests
+                à partir d'un autre fichier d'exécution...
+<php><![CDATA[
+<?php
+    require_once('file_group_test.php');
+    <strong>
+    $test = &new FileGroupTest();
+    $test->run(new HtmlReporter());</strong>
+?>
+]]></php>
+                ...ou alors nous pouvons les grouper
+                dans un groupe de tests encore plus grand...
+<php><![CDATA[
+<?php
+    require_once('file_group_test.php');
+    <strong>
+    $test = &new BigGroupTest('Big group');
+    $test->addTestCase(new FileGroupTest());
+    $test->addTestCase(...);
+    $test->run(new HtmlReporter());</strong>
+?>
+]]></php>
+                Si nous souhaitons lancer le groupe de tests original
+                sans utiliser ses petits fichiers d'exécution,
+                nous pouvons mettre le code du lanceur de test
+                derrière des barreaux quand nous créons chaque groupe.
+<php><![CDATA[
+<?php
+    class FileGroupTest extends GroupTest {
+        function FileGroupTest() {
+            $this->GroupTest('All file tests');
+            $test->addTestFile('file_test.php');
+        }
+    }
+    <strong>
+    if (! defined('RUNNER')) {
+        define('RUNNER', true);</strong>
+        $test = &new FileGroupTest();
+        $test->run(new HtmlReporter());
+    }
+?>
+]]></php>
+                Cette approche exige aux barrières d'être activées
+                à l'inclusion du fichier de groupe de tests,
+                mais c'est quand même moins de tracas que beaucoup
+                de fichiers de lancement éparpillés.
+                Reste à inclure des barreaux identiques
+                au niveau supérieur afin de s'assurer que
+                le <code>run()</code> ne sera lancé qu'une seule fois
+                à partir du script de haut niveau qui l'a invoqué.
+<php><![CDATA[
+<?php
+    define('RUNNER', true);
+
+    require_once('file_group_test.php');
+    $test = &new BigGroupTest('Big group');
+    $test->addTestCase(new FileGroupTest());
+    $test->addTestCase(...);
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                Comme les scénarios de test normaux,
+                un <code>GroupTest</code> peut être chargé avec la méthode
+                <code>GroupTest::addTestFile()</code>.
+<php><![CDATA[  
+<?php   
+    define('RUNNER', true); 
+        
+    $test = &new BigGroupTest('Big group');<strong> 
+    $test->addTestFile('file_group_test.php');  
+    $test->addTestFile(...);</strong>   
+    $test->run(new HtmlReporter()); 
+?>  
+]]></php>
+            </p>
+        </section>
+        <section name="heritage" title="Intégrer des scénarios de test hérités">
+            <p>
+                Si vous avez déjà des tests unitaires pour votre code
+                ou alors si vous étendez des classes externes
+                qui ont déjà leurs propres tests, il y a peu de chances
+                pour que ceux-ci soient déjà au format SimpleTest.
+                Heureusement il est possible d'incorporer ces scénarios
+                de test en provenance d'autres testeurs unitaires
+                directement dans des groupes de test SimpleTest.
+            </p>
+            <p>
+                Par exemple, supposons que nous ayons
+                ce scénario de test prévu pour
+                <a href="http://sourceforge.net/projects/phpunit">PhpUnit</a>
+                dans le fichier <em>config_test.php</em>...
+<php><![CDATA[
+<strong>class ConfigFileTest extends TestCase {
+    function ConfigFileTest() {
+        $this->TestCase('Config file test');
+    }
+    
+    function testContents() {
+        $config = new ConfigFile('test.conf');
+        $this->assertRegexp('/me/', $config->getValue('username'));
+    }
+}</strong>
+]]></php>
+                Le groupe de tests peut le reconnaître à partir
+                du moment où nous mettons l'adaptateur approprié
+                avant d'ajouter le fichier de test...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('simpletest/adapters/phpunit_test_case.php');</strong>
+
+    $test = &new GroupTest('All file tests');<strong>
+    $test->addTestFile('config_test.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                Il n'y a que deux adaptateurs,
+                l'autre est pour le paquet testeur unitaire de
+                <a href="http://pear.php.net/manual/en/package.php.phpunit.php">PEAR</a>...
+<php><![CDATA[
+<?php
+    require_once('simpletest/unit_tester.php');
+    require_once('simpletest/reporter.php');<strong>
+    require_once('simpletest/adapters/pear_test_case.php');</strong>
+
+    $test = &new GroupTest('All file tests');<strong>
+    $test->addTestFile('some_pear_test_cases.php');</strong>
+    $test->run(new HtmlReporter());
+?>
+]]></php>
+                Les scénarios de test de PEAR peuvent être
+                librement mélangés avec ceux de SimpleTest
+                mais vous ne pouvez pas utiliser les assertions
+                de SimpleTest au sein des versions héritées
+                des scénarios de test. La raison ?
+                Une simple vérification que vous ne rendez pas
+                par accident vos scénarios de test complètement
+                dépendants de SimpleTest.
+                Peut-être que vous souhaitez publier
+                votre bibliothèque sur PEAR par exemple :
+                ça voudrait dire la livrer avec des scénarios de
+                test compatibles avec PEAR::PhpUnit.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            Plusieurs approches pour <a href="#group">grouper des tests</a> ensemble.
+        </link>
+        <link>
+            Combiner des groupes des tests dans des
+            <a href="#plus-haut">groupes plus grands</a>.
+        </link>
+        <link>
+            Intégrer des <a href="#heritage">scénarios de test hérités</a>
+            d'un autre type de PHPUnit.
+        </link>
+    </internal>
+    <external>
+        <link>
+            La page du projet SimpleTest sur
+            <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            La page de téléchargement de SimpleTest sur
+            <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            test unitaire en php,
+            intégration de test,
+            documentation,
+            marcus baker,
+            perrick penet,
+            test simple,
+            documentation simpletest,
+            phpunit,
+            pear
+        </keywords>
+    </meta>
+</page>
+

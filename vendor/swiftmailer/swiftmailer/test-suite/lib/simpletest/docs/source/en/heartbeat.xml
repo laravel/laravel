@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- $Id: download_website.xml 1684 2008-03-06 08:36:59Z pp11 $ -->
+<page title="Heartbeat" here="Heartbeat">
+    <long_title>Heartbeat : how is SimpleTest doing ?</long_title>
+    <content>
+        <introduction>
+            <script type="text/javascript" src="../js/jquery-1.2.1.pack.js"></script>
+            <script type="text/javascript" src="../js/jquery.heartbeat.js"></script>
+            <script type="text/javascript" src="../js/jquery.sparkline.js"></script>
+            <p>
+                Want to know check how healthy <em>SimpleTest</em>'s codebase is?
+                Well, do enjoy the tests results, commit history and last commits...
+            </p>
+        </introduction>
+        <section name="test-results" title="Current tests results">
+            <p id="tests-results"></p>
+        </section>
+        <section name="commits" title="Commits per week">
+            <p id="commits"></p>
+        </section>
+        <section name="last-commits" title="Last commits">
+            <p id="last-commits"></p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#tests-results">Current tests results</a>
+        </link>
+        <link>
+            <a href="#commits">Commits per week</a>
+        </link>
+        <link>
+            <a href="#last-3-commits">Last commits</a>
+        </link>
+    </internal>
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development company,
+            software development uk,
+            php tutorial,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            freelancer,
+            php resources,
+            wordtracker,
+            web marketing,
+            serach engines,
+            web positioning,
+            internet marketing
+        </keywords>
+    </meta>
+</page>

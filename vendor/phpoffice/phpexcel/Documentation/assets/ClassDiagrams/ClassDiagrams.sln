@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassDiagrams", "ClassDiagrams.csproj", "{CC8CD7D2-8EFF-48E5-A17A-C1C482744D31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC8CD7D2-8EFF-48E5-A17A-C1C482744D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC8CD7D2-8EFF-48E5-A17A-C1C482744D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC8CD7D2-8EFF-48E5-A17A-C1C482744D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC8CD7D2-8EFF-48E5-A17A-C1C482744D31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

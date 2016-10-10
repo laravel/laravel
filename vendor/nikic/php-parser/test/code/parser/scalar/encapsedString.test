@@ -1,0 +1,148 @@
+Encapsed strings
+-----
+<?php
+
+"$A";
+"$A->B";
+"$A[B]";
+"$A[0]";
+"$A[0x0]";
+"$A[$B]";
+"{$A}";
+"{$A['B']}";
+"${A}";
+"${A['B']}";
+"${$A}";
+"A $B C";
+b"$A";
+-----
+array(
+    0: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    1: Scalar_Encapsed(
+        parts: array(
+            0: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                name: B
+            )
+        )
+    )
+    2: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: B
+                )
+            )
+        )
+    )
+    3: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: 0
+                )
+            )
+        )
+    )
+    4: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: 0x0
+                )
+            )
+        )
+    )
+    5: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Expr_Variable(
+                    name: B
+                )
+            )
+        )
+    )
+    6: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    7: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: B
+                )
+            )
+        )
+    )
+    8: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    9: Scalar_Encapsed(
+        parts: array(
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: B
+                )
+            )
+        )
+    )
+    10: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: Expr_Variable(
+                    name: A
+                )
+            )
+        )
+    )
+    11: Scalar_Encapsed(
+        parts: array(
+            0: A
+            1: Expr_Variable(
+                name: B
+            )
+            2:  C
+        )
+    )
+    12: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+)

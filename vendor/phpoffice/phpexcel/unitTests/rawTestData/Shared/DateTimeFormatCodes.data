@@ -1,0 +1,37 @@
+#Excel Format Code			Result
+"General",				FALSE
+"@",					FALSE
+"0",					FALSE
+"0.00",					FALSE
+"#,##0.00",				FALSE
+"#,##0.00_-",				FALSE
+"0%",					FALSE
+"0.00%",				FALSE
+"yyyy-mm-dd",				TRUE
+"yy-mm-dd",				TRUE
+"dd/mm/yy",				TRUE
+"d/m/y",				TRUE
+"d-m-y",				TRUE
+"d-m",					TRUE
+"m-y",					TRUE
+"mm-dd-yy",				TRUE
+"d-mmm-yy",				TRUE
+"d-mmm",				TRUE
+"mmm-yy",				TRUE
+"m/d/yy h:mm",				TRUE
+"d/m/y h:mm",				TRUE
+"h:mm AM/PM",				TRUE
+"h:mm:ss AM/PM",			TRUE
+"h:mm",					TRUE
+"h:mm:ss",				TRUE
+"mm:ss",				TRUE
+"h:mm:ss",				TRUE
+"i:s.S",				TRUE
+"h:mm:ss;@",				TRUE
+"yy/mm/dd;@",				TRUE
+"\"$\"#,##0.00_-",			FALSE
+"$#,##0_-",				FALSE
+"[$EUR ]#,##0.00_-",			FALSE
+"_[$EUR ]#,##0.00_-",			FALSE
+"[Green]#,##0.00;[Red]#,##0.00_-",	FALSE
+"#,##0.00 \"dollars\"",			FALSE

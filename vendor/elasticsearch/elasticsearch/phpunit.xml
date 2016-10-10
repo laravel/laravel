@@ -1,0 +1,23 @@
+<phpunit
+        bootstrap="tests/bootstrap.php"
+        colors="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        convertErrorsToExceptions="true"
+        syntaxCheck="true"
+        verbose="true"
+>
+    <php>
+        <env name="ES_TEST_HOST" value="http://localhost:9200"/>
+    </php>
+    <testsuites>
+        <testsuite>
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

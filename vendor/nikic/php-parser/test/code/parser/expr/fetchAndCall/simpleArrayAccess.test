@@ -1,0 +1,62 @@
+Simple array access
+-----
+<?php
+
+$a['b'];
+$a['b']['c'];
+$a[] = $b;
+$a{'b'};
+${$a}['b'];
+-----
+array(
+    0: Expr_ArrayDimFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        dim: Scalar_String(
+            value: b
+        )
+    )
+    1: Expr_ArrayDimFetch(
+        var: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+        dim: Scalar_String(
+            value: c
+        )
+    )
+    2: Expr_Assign(
+        var: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: null
+        )
+        expr: Expr_Variable(
+            name: b
+        )
+    )
+    3: Expr_ArrayDimFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        dim: Scalar_String(
+            value: b
+        )
+    )
+    4: Expr_ArrayDimFetch(
+        var: Expr_Variable(
+            name: Expr_Variable(
+                name: a
+            )
+        )
+        dim: Scalar_String(
+            value: b
+        )
+    )
+)

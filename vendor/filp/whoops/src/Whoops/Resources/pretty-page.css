@@ -1,0 +1,319 @@
+.cf:before, .cf:after {content: " ";display: table;} .cf:after {clear: both;} .cf {*zoom: 1;}
+body {
+  font: 14px helvetica, arial, sans-serif;
+  color: #2B2B2B;
+  background-color: #D4D4D4;
+  padding:0;
+  margin: 0;
+  max-height: 100%;
+}
+  a {
+    text-decoration: none;
+  }
+
+.container{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    top: 0;
+}
+
+.branding {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #777777;
+  font-size: 10px;
+    z-index: 100;
+}
+  .branding a {
+    color: #CD3F3F;
+  }
+
+header {
+  padding: 30px 20px;
+  color: white;
+  background: #272727;
+  box-sizing: border-box;
+  border-left: 5px solid #CD3F3F;
+}
+  .exc-title {
+    margin: 0;
+    color: #616161;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+  }
+    .exc-title-primary { color: #CD3F3F; }
+    .exc-message {
+      font-size: 32px;
+      margin: 5px 0;
+      word-wrap: break-word;
+    }
+
+.stack-container {
+    height: 100%;
+    position: relative;
+}
+
+.details-container {
+  height: 100%;
+  overflow: auto;
+  float: right;
+  width: 70%;
+  background: #DADADA;
+}
+  .details {
+    padding: 10px;
+    padding-left: 5px;
+    border-left: 5px solid rgba(0, 0, 0, .1);
+  }
+
+.frames-container {
+  height: 100%;
+  overflow: auto;
+  float: left;
+  width: 30%;
+  background: #FFF;
+}
+  .frame {
+    padding: 14px;
+    background: #F3F3F3;
+    border-right: 1px solid rgba(0, 0, 0, .2);
+    cursor: pointer;
+  }
+    .frame.active {
+      background-color: #4288CE;
+      color: #F3F3F3;
+              box-shadow: inset -2px 0 0 rgba(255, 255, 255, .1);
+      text-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+    }
+
+    .frame:not(.active):hover {
+      background: #BEE9EA;
+    }
+
+    .frame-class, .frame-function, .frame-index {
+      font-weight: bold;
+    }
+
+    .frame-index {
+      font-size: 11px;
+      color: #BDBDBD;
+    }
+
+    .frame-class {
+      color: #4288CE;
+    }
+      .active .frame-class {
+        color: #BEE9EA;
+      }
+
+    .frame-file {
+      font-family: consolas, monospace;
+      word-wrap:break-word;
+    }
+
+      .frame-file .editor-link {
+        color: #272727;
+      }
+
+    .frame-line {
+      font-weight: bold;
+      color: #4288CE;
+    }
+
+    .active .frame-line { color: #BEE9EA; }
+    .frame-line:before {
+      content: ":";
+    }
+
+    .frame-code {
+      padding: 10px;
+      padding-left: 5px;
+      background: #BDBDBD;
+      display: none;
+      border-left: 5px solid #4288CE;
+    }
+
+    .frame-code.active {
+      display: block;
+    }
+
+    .frame-code .frame-file {
+      background: #C6C6C6;
+      color: #525252;
+      text-shadow: 0 1px 0 #E7E7E7;
+      padding: 10px 10px 5px 10px;
+
+      border-top-right-radius: 6px;
+      border-top-left-radius:  6px;
+
+      border: 1px solid rgba(0, 0, 0, .1);
+      border-bottom: none;
+      box-shadow: inset 0 1px 0 #DADADA;
+    }
+
+    .code-block {
+      padding: 10px;
+      margin: 0;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    }
+
+    .linenums {
+      margin: 0;
+      margin-left: 10px;
+    }
+
+    .frame-comments {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+      border: 1px solid rgba(0, 0, 0, .2);
+      border-top: none;
+
+      border-bottom-right-radius: 6px;
+      border-bottom-left-radius:  6px;
+
+      padding: 5px;
+      font-size: 12px;
+      background: #404040;
+    }
+
+    .frame-comments.empty {
+      padding: 8px 15px;
+    }
+
+    .frame-comments.empty:before {
+      content: "No comments for this stack frame.";
+      font-style: italic;
+      color: #828282;
+    }
+
+    .frame-comment {
+      padding: 10px;
+      color: #D2D2D2;
+    }
+      .frame-comment a {
+        color: #BEE9EA;
+        font-weight: bold;
+        text-decoration: none;
+      }
+        .frame-comment a:hover {
+          color: #4bb1b1;
+        }
+
+    .frame-comment:not(:last-child) {
+      border-bottom: 1px dotted rgba(0, 0, 0, .3);
+    }
+
+    .frame-comment-context {
+      font-size: 10px;
+      font-weight: bold;
+      color: #86D2B6;
+    }
+
+.data-table-container label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4288CE;
+  margin: 10px 0;
+  padding: 10px 0;
+
+  display: block;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted rgba(0, 0, 0, .2);
+}
+  .data-table {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .data-table tbody {
+    font: 13px consolas, monospace;
+  }
+
+  .data-table thead {
+    display: none;
+  }
+
+  .data-table tr {
+    padding: 5px 0;
+  }
+
+  .data-table td:first-child {
+    width: 20%;
+    min-width: 130px;
+    overflow: hidden;
+    font-weight: bold;
+    color: #463C54;
+    padding-right: 5px;
+
+  }
+
+  .data-table td:last-child {
+    width: 80%;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .data-table .empty {
+    color: rgba(0, 0, 0, .3);
+    font-style: italic;
+  }
+
+.handler {
+  padding: 10px;
+  font: 14px monospace;
+}
+
+.handler.active {
+  color: #BBBBBB;
+  background: #989898;
+  font-weight: bold;
+}
+
+/* prettify code style
+Uses the Doxy theme as a base */
+pre .str, code .str { color: #BCD42A; }  /* string  */
+pre .kwd, code .kwd { color: #4bb1b1;  font-weight: bold; }  /* keyword*/
+pre .com, code .com { color: #888; font-weight: bold; } /* comment */
+pre .typ, code .typ { color: #ef7c61; }  /* type  */
+pre .lit, code .lit { color: #BCD42A; }  /* literal */
+pre .pun, code .pun { color: #fff; font-weight: bold;  } /* punctuation  */
+pre .pln, code .pln { color: #e9e4e5; }  /* plaintext  */
+pre .tag, code .tag { color: #4bb1b1; }  /* html/xml tag  */
+pre .htm, code .htm { color: #dda0dd; }  /* html tag */
+pre .xsl, code .xsl { color: #d0a0d0; }  /* xslt tag */
+pre .atn, code .atn { color: #ef7c61; font-weight: normal;} /* html/xml attribute name */
+pre .atv, code .atv { color: #bcd42a; }  /* html/xml attribute value  */
+pre .dec, code .dec { color: #606; }  /* decimal  */
+pre.prettyprint, code.prettyprint {
+  font-family: 'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;;
+  background: #333;
+  color: #e9e4e5;
+}
+  pre.prettyprint {
+    white-space: pre-wrap;
+  }
+
+  pre.prettyprint a, code.prettyprint a {
+    text-decoration:none;
+  }
+
+  .linenums li {
+    color: #A5A5A5;
+  }
+
+  .linenums li.current{
+    background: rgba(255, 100, 100, .07);
+    padding-top: 4px;
+    padding-left: 1px;
+  }
+    .linenums li.current.active {
+      background: rgba(255, 100, 100, .17);
+    }

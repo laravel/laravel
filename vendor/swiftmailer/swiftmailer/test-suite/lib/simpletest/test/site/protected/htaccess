@@ -1,0 +1,4 @@
+AuthName "SimpleTest basic authentication"
+AuthType Basic
+AuthUserFile /web/guide/lastcraft/public_html/test/protected/.htpasswd
+require valid-user

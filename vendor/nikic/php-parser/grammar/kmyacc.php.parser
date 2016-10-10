@@ -1,0 +1,361 @@
+<?php
+$meta #
+#semval($) $this->yyval
+#semval($,%t) $this->yyval
+#semval(%n) $this->yyastk[$this->stackPos-(%l-%n)]
+#semval(%n,%t) $this->yyastk[$this->stackPos-(%l-%n)]
+#include;
+
+/* This is an automatically GENERATED file, which should not be manually edited.
+ * Instead edit one of the following:
+ *  * the grammar file grammar/zend_language_parser.phpy
+ *  * the parser skeleton grammar/kymacc.php.parser
+ *  * the preprocessing script grammar/rebuildParser.php
+ *
+ * The skeleton for this parser was written by Moriyoshi Koizumi and is based on
+ * the work by Masato Bito and is in the PUBLIC DOMAIN.
+ */
+#if -t
+class #(-p)_Debug extends #(-p)
+#endif
+#ifnot -t
+class #(-p)
+#endif
+{
+#ifnot -t
+    const TOKEN_NONE    = -1;
+    const TOKEN_INVALID = #(YYBADCH);
+
+    const TOKEN_MAP_SIZE = #(YYMAXLEX);
+
+    const YYLAST       = #(YYLAST);
+    const YY2TBLSTATE  = #(YY2TBLSTATE);
+    const YYGLAST      = #(YYGLAST);
+    const YYNLSTATES   = #(YYNLSTATES);
+    const YYUNEXPECTED = #(YYUNEXPECTED);
+    const YYDEFAULT    = #(YYDEFAULT);
+
+    // {{{ Tokens
+#tokenval
+    const %s = %n;
+#endtokenval
+    // }}}
+
+    /* @var array Map of token ids to their respective names */
+    protected static $terminals = array(
+        #listvar terminals
+        , "???"
+    );
+
+    /* @var array Map which translates lexer tokens to internal tokens */
+    protected static $translate = array(
+        #listvar yytranslate
+    );
+
+    protected static $yyaction = array(
+        #listvar yyaction
+    );
+
+    protected static $yycheck = array(
+        #listvar yycheck
+    );
+
+    protected static $yybase = array(
+        #listvar yybase
+    );
+
+    protected static $yydefault = array(
+        #listvar yydefault
+    );
+
+    protected static $yygoto = array(
+        #listvar yygoto
+    );
+
+    protected static $yygcheck = array(
+        #listvar yygcheck
+    );
+
+    protected static $yygbase = array(
+        #listvar yygbase
+    );
+
+    protected static $yygdefault = array(
+        #listvar yygdefault
+    );
+
+    protected static $yylhs = array(
+        #listvar yylhs
+    );
+
+    protected static $yylen = array(
+        #listvar yylen
+    );
+
+    protected $yyval;
+    protected $yyastk;
+    protected $stackPos;
+    protected $lexer;
+
+    /**
+     * Creates a parser instance.
+     *
+     * @param PHPParser_Lexer $lexer A lexer
+     */
+    public function __construct(PHPParser_Lexer $lexer) {
+        $this->lexer = $lexer;
+    }
+#endif
+#if -t
+    protected static $yyproduction = array(
+        #production-strings;
+    );
+
+    protected function yyprintln($msg) {
+        echo $msg, "\n";
+    }
+
+    protected function YYTRACE_NEWSTATE($state, $tokenId) {
+        $this->yyprintln(
+            '% State ' . $state
+          . ', Lookahead ' . ($tokenId == self::TOKEN_NONE ? '--none--' : self::$terminals[$tokenId])
+        );
+    }
+
+    protected function YYTRACE_READ($tokenId) {
+        $this->yyprintln('% Reading ' . self::$terminals[$tokenId]);
+    }
+
+    protected function YYTRACE_SHIFT($tokenId) {
+        $this->yyprintln('% Shift ' . self::$terminals[$tokenId]);
+    }
+
+    protected function YYTRACE_ACCEPT() {
+        $this->yyprintln('% Accepted.');
+    }
+
+    protected function YYTRACE_REDUCE($n) {
+        $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
+    }
+
+    protected function YYTRACE_POP($state) {
+        $this->yyprintln('% Recovering, uncovers state ' . $state);
+    }
+
+    protected function YYTRACE_DISCARD($tokenId) {
+        $this->yyprintln('% Discard ' . self::$terminals[$tokenId]);
+    }
+#endif
+
+    /**
+#ifnot -t
+     * Parses PHP code into a node tree.
+#endif
+#if -t
+     * Parses PHP code into a node tree and prints out debugging information.
+#endif
+     *
+     * @param string $code The source code to parse
+     *
+     * @return PHPParser_Node[] Array of statements
+     */
+    public function parse($code) {
+        $this->lexer->startLexing($code);
+
+        // We start off with no lookahead-token
+        $tokenId = self::TOKEN_NONE;
+
+        // The attributes for a node are taken from the first and last token of the node.
+        // From the first token only the startAttributes are taken and from the last only
+        // the endAttributes. Both are merged using the array union operator (+).
+        $startAttributes = array('startLine' => 1);
+        $endAttributes   = array();
+
+        // In order to figure out the attributes for the starting token, we have to keep
+        // them in a stack
+        $attributeStack = array($startAttributes);
+
+        // Start off in the initial state and keep a stack of previous states
+        $state = 0;
+        $stateStack = array($state);
+
+        // AST stack (?)
+        $this->yyastk = array();
+
+        // Current position in the stack(s)
+        $this->stackPos = 0;
+
+        for (;;) {
+#if -t
+            $this->YYTRACE_NEWSTATE($state, $tokenId);
+
+#endif
+            if (self::$yybase[$state] == 0) {
+                $yyn = self::$yydefault[$state];
+            } else {
+                if ($tokenId === self::TOKEN_NONE) {
+                    // Fetch the next token id from the lexer and fetch additional info by-ref.
+                    // The end attributes are fetched into a temporary variable and only set once the token is really
+                    // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
+                    // reduced after a token was read but not yet shifted.
+                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
+
+                    // map the lexer token id to the internally used token id's
+                    $tokenId = $origTokenId >= 0 && $origTokenId < self::TOKEN_MAP_SIZE
+                        ? self::$translate[$origTokenId]
+                        : self::TOKEN_INVALID;
+
+                    if ($tokenId === self::TOKEN_INVALID) {
+                        throw new RangeException(sprintf(
+                            'The lexer returned an invalid token (id=%d, value=%s)',
+                            $origTokenId, $tokenValue
+                        ));
+                    }
+
+                    $attributeStack[$this->stackPos] = $startAttributes;
+#if -t
+
+                    $this->YYTRACE_READ($tokenId);
+#endif
+                }
+
+                if ((($yyn = self::$yybase[$state] + $tokenId) >= 0
+                     && $yyn < self::YYLAST && self::$yycheck[$yyn] == $tokenId
+                     || ($state < self::YY2TBLSTATE
+                        && ($yyn = self::$yybase[$state + self::YYNLSTATES] + $tokenId) >= 0
+                        && $yyn < self::YYLAST
+                        && self::$yycheck[$yyn] == $tokenId))
+                    && ($yyn = self::$yyaction[$yyn]) != self::YYDEFAULT) {
+                    /*
+                     * >= YYNLSTATE: shift and reduce
+                     * > 0: shift
+                     * = 0: accept
+                     * < 0: reduce
+                     * = -YYUNEXPECTED: error
+                     */
+                    if ($yyn > 0) {
+                        /* shift */
+#if -t
+                        $this->YYTRACE_SHIFT($tokenId);
+
+#endif
+                        ++$this->stackPos;
+
+                        $stateStack[$this->stackPos]     = $state = $yyn;
+                        $this->yyastk[$this->stackPos]   = $tokenValue;
+                        $attributeStack[$this->stackPos] = $startAttributes;
+                        $endAttributes = $nextEndAttributes;
+                        $tokenId = self::TOKEN_NONE;
+
+                        if ($yyn < self::YYNLSTATES)
+                            continue;
+
+                        /* $yyn >= YYNLSTATES means shift-and-reduce */
+                        $yyn -= self::YYNLSTATES;
+                    } else {
+                        $yyn = -$yyn;
+                    }
+                } else {
+                    $yyn = self::$yydefault[$state];
+                }
+            }
+
+            for (;;) {
+                /* reduce/error */
+                if ($yyn == 0) {
+                    /* accept */
+#if -t
+                    $this->YYTRACE_ACCEPT();
+#endif
+                    return $this->yyval;
+                } elseif ($yyn != self::YYUNEXPECTED) {
+                    /* reduce */
+#if -t
+                    $this->YYTRACE_REDUCE($yyn);
+#endif
+                    try {
+                        $this->{'yyn' . $yyn}(
+                            $attributeStack[$this->stackPos - self::$yylen[$yyn]]
+                            + $endAttributes
+                        );
+                    } catch (PHPParser_Error $e) {
+                        if (-1 === $e->getRawLine()) {
+                            $e->setRawLine($startAttributes['startLine']);
+                        }
+
+                        throw $e;
+                    }
+
+                    /* Goto - shift nonterminal */
+                    $this->stackPos -= self::$yylen[$yyn];
+                    $yyn = self::$yylhs[$yyn];
+                    if (($yyp = self::$yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
+                         && $yyp < self::YYGLAST
+                         && self::$yygcheck[$yyp] == $yyn) {
+                        $state = self::$yygoto[$yyp];
+                    } else {
+                        $state = self::$yygdefault[$yyn];
+                    }
+
+                    ++$this->stackPos;
+
+                    $stateStack[$this->stackPos]     = $state;
+                    $this->yyastk[$this->stackPos]   = $this->yyval;
+                    $attributeStack[$this->stackPos] = $startAttributes;
+                } else {
+                    /* error */
+                    $expected = array();
+
+                    $base = self::$yybase[$state];
+                    for ($i = 0; $i < self::TOKEN_MAP_SIZE; ++$i) {
+                        $n = $base + $i;
+                        if ($n >= 0 && $n < self::YYLAST && self::$yycheck[$n] == $i
+                         || $state < self::YY2TBLSTATE
+                            && ($n = self::$yybase[$state + self::YYNLSTATES] + $i) >= 0
+                            && $n < self::YYLAST && self::$yycheck[$n] == $i
+                        ) {
+                            if (self::$yyaction[$n] != self::YYUNEXPECTED) {
+                                if (count($expected) == 4) {
+                                    /* Too many expected tokens */
+                                    $expected = array();
+                                    break;
+                                }
+
+                                $expected[] = self::$terminals[$i];
+                            }
+                        }
+                    }
+
+                    $expectedString = '';
+                    if ($expected) {
+                        $expectedString = ', expecting ' . implode(' or ', $expected);
+                    }
+
+                    throw new PHPParser_Error(
+                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
+                        $startAttributes['startLine']
+                    );
+                }
+
+                if ($state < self::YYNLSTATES)
+                    break;
+                /* >= YYNLSTATES means shift-and-reduce */
+                $yyn = $state - self::YYNLSTATES;
+            }
+        }
+    }
+#ifnot -t
+#reduce
+
+    protected function yyn%n($attributes) {
+        %b
+    }
+#noact
+
+    protected function yyn%n() {
+        $this->yyval = $this->yyastk[$this->stackPos];
+    }
+#endreduce
+#endif
+}
+#tailcode;

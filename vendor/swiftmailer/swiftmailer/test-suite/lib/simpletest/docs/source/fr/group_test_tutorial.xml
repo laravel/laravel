@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: group_test_tutorial.xml 1701 2008-03-24 20:08:06Z pp11 $ -->
+<page title="Grouper des tests" here="Grouper des tests">
+    <synchronisation lang="en" version="1687" date="24/03/2008" maintainer="pp11" />
+    <long_title>
+        Tutorial de test unitaire PHP - Grouper des tests unitaires et exemples d'écriture de scénarios de tests
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                Pour enchaîner nous allons remplir des blancs et créer une suite de tests.
+            </p>
+        </introduction>
+        <section name="autre" title="Un autre test">
+            <p>
+                Ajouter un autre test peut être aussi simple
+                qu'ajouter une nouvelle méthode à un scénario de test...
+<php><![CDATA[
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }
+    function testCreatingNewFile() {
+        @unlink('../temp/test.log');
+        $log = new Log('../temp/test.log');
+        $this->assertFalse(file_exists('../temp/test.log'), 'Created before message');
+        $log->message('Should write this to a file');
+        $this->assertTrue(file_exists('../temp/test.log'), 'File created');<strong>
+        @unlink('../temp/test.log');</strong>
+    }<strong>
+    function testAppendingToFile() {
+        @unlink('../temp/test.log');
+        $log = new Log('../temp/test.log');
+        $log->message('Test line 1');
+        $messages = file('../temp/test.log');
+        $this->assertWantedPattern('/Test line 1/', $messages[0]);
+        $log->message('Test line 2');
+        $messages = file('../temp/test.log');
+        $this->assertWantedPattern('/Test line 2/', $messages[1]);
+        @unlink('../temp/test.log');
+    }</strong>
+}
+]]></php>
+                La méthode du scénario de test <code>assertWantedPattern()</code>
+                utilise les expressions rationnelles Perl pour vérifier
+                qu'une chaîne respecte un certain motif.
+            </p>
+            <p>
+                Tout ce que nous faisons dans ce nouveau test,
+                c'est écrire une ligne dans un fichier, puis la lire,
+                le tout deux fois de suite.
+                Nous souhaitons simplement vérifier que le loggueur
+                ajoute le texte à la fin plutôt qu'écraser
+                les données déjà existantes. Quelque peu pédant,
+                mais après tout il s'agit d'un tutorial !
+            </p>
+            <p>
+                De toute façon ce test passe directement...
+                <div class="demo">
+                    <h1>Log class test</h1>
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">1/1 test cases complete.
+                    <strong>4</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+                Notre code contient actuellement beaucoup de répétitions,
+                nous devons effacer le fichier de test avant et après chaque test.
+                De même que <a href="http://www.junit.org/">JUnit</a>,
+                SimpleTest utilise les méthodes
+                <code>setUp()</code> et <code>tearDown()</code>
+                qui sont exécutées respectivement avant et après chaque test.
+                La suppression du fichier est commune à tous les tests :
+                nous devrions donc y mettre cette opération.
+            </p>
+            <p>
+                Nos tests sont verts donc nous pouvons faire un peu de remaniement...
+<php><![CDATA[
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }<strong>
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+    function testCreatingNewFile() {</strong>
+        $log = new Log('../temp/test.log');
+        $this->assertFalse(file_exists('../temp/test.log'), 'Created before message');
+        $log->message('Should write this to a file');
+        $this->assertTrue(file_exists('../temp/test.log'), 'File created');<strong>
+    }
+    function testAppendingToFile() {</strong>
+        $log = new Log('../temp/test.log');
+        $log->message('Test line 1');
+        $messages = file('../temp/test.log');
+        $this->assertWantedPattern('/Test line 1/', $messages[0]);
+        $log->message('Test line 2');
+        $messages = file('../temp/test.log');
+        $this->assertWantedPattern('/Test line 2/', $messages[1]);<strong>
+    }</strong>
+}
+]]></php>
+                Le test reste vert. Nous pouvons continuer
+                à ajouter des méthodes sans test au scénario,
+                il suffit que leur nom ne commence pas par
+                la chaîne &quot;test&quot;.
+                Seules les méthodes commençant par &quot;test&quot; sont exécutées.
+                Nous pouvons donc continuer le remaniement...
+<php><![CDATA[
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }<strong>
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }</strong>
+    function testCreatingNewFile() {
+        $log = new Log('../temp/test.log');
+        $this->assertFalse(file_exists('../temp/test.log'), 'Created before message');
+        $log->message('Should write this to a file');
+        $this->assertTrue(file_exists('../temp/test.log'), 'File created');
+    }
+    function testAppendingToFile() {
+        $log = new Log('../temp/test.log');
+        $log->message('Test line 1');<strong>
+        $this->assertWantedPattern('/Test line 1/', $this->getFileLine('../temp/test.log', 0));</strong>
+        $log->message('Test line 2');<strong>
+        $this->assertWantedPattern('/Test line 2/', $this->getFileLine('../temp/test.log', 1));</strong>
+    }
+}
+]]></php>
+                Que vous préfériez cette version ou la précédente ne dépend
+                que de votre goût personnel.
+                Il y a un peu plus de code dans cette dernière
+                mais la logique du test est plus claire.
+            </p>
+        </section>
+        <section name="groupe" title="Un groupe de tests">
+            <p>
+                Un scénario de test ne fonctionne pas tout seul
+                pendant très longtemps.
+                Quand on code pour de vrai nous souhaitons exécuter
+                un maximum de tests aussi souvent
+                et aussi rapidement que possible.
+                Ça veut dire les grouper dans des suites de tests
+                qui incluent l'ensemble des tests de l'application.
+            </p>
+            <p>
+                Premièrement nous devons supprimer le code d'exécution
+                des tests se trouvant dans notre scénario de test.
+<php><![CDATA[
+<?php<strong>
+require_once('../classes/log.php');
+
+class TestOfLogging extends UnitTestCase {
+    ...
+}</strong>
+?>
+]]></php>
+                Nous n'avons plus besoin de la constante
+                <code>SIMPLE_TEST</code>.
+                Ensuite nous créons un groupe de tests appelé
+                <em>all_tests.php</em> dans le répertoire <em>tests</em>...
+<php><![CDATA[
+<strong><?php
+    if (! defined('SIMPLE_TEST')) {
+        define('SIMPLE_TEST', 'simpletest/');
+    }
+    require_once(SIMPLE_TEST . 'unit_tester.php');
+    require_once(SIMPLE_TEST . 'reporter.php');
+    require_once('log_test.php');
+
+    $test = &new GroupTest('All tests');
+    $test->addTestCase(new TestOfLogging());
+    $test->run(new HtmlReporter());
+?></strong>
+]]></php>
+                Il n'y a presque de pas de différence tant que les choses marchent...
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">1/1 test cases complete.
+                    <strong>4</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+                Les tests du groupe s'ajoutent au compteur
+                des scénarios de test. Ajouter des nouveaux scénarios
+                de test est très simple.
+                Il suffit d'inclure le fichier d'un scénario
+                et d'ajouter individuellement tous les scénarios autonomes.
+                Vous pouvez aussi emboîter les groupes de test
+                les uns dans les autres (tout en faisant bien attention d'éviter les boucles).
+            </p>
+            <p>
+                Dans la <a href="gain_control_tutorial.php">page suivante</a>
+                nous les ajouterons encore plus rapidement.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#autre">Ajouter un autres test</a> au scénario existant et remanier.
+        </link>
+        <link>
+            La technique brute pour <a href="#groupe">grouper des tests unitaires</a>.
+        </link>
+    </internal>
+    <external>
+        <link>
+            <a href="gain_control_tutorial.php">Ensuite</a>
+            vient le contrôle de comment la classe sous le test interagit
+            avec le reste du système.
+        </link>
+        <link>
+            <a href="first_test_tutorial.php">Avant</a>
+            il y a la création du premier test.
+        </link>
+        <link>
+            Vous aurez besoin de <a href="simple_test.php">SimpleTest</a>
+            pour exécuter ces exemples.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            pilotage par les tests,
+            architecture,
+            ressouces php,
+            objets fantaisie,
+            junit,
+            test php,
+            test unitaire,
+            phpunit,
+            test unitaire php
+        </keywords>
+    </meta>
+</page>
+

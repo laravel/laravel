@@ -1,0 +1,47 @@
+Different integer syntaxes
+-----
+<?php
+
+0;
+1;
+@@{ PHP_INT_MAX     }@@;
+@@{ PHP_INT_MAX + 1 }@@;
+0xFFF;
+0xfff;
+0XfFf;
+0777;
+0787;
+0b111000111000;
+-----
+array(
+    0: Scalar_LNumber(
+        value: 0
+    )
+    1: Scalar_LNumber(
+        value: 1
+    )
+    2: Scalar_LNumber(
+        value: @@{ PHP_INT_MAX }@@
+    )
+    3: Scalar_DNumber(
+        value: @@{ PHP_INT_MAX + 1 }@@
+    )
+    4: Scalar_LNumber(
+        value: 4095
+    )
+    5: Scalar_LNumber(
+        value: 4095
+    )
+    6: Scalar_LNumber(
+        value: 4095
+    )
+    7: Scalar_LNumber(
+        value: 511
+    )
+    8: Scalar_LNumber(
+        value: 7
+    )
+    9: Scalar_LNumber(
+        value: 3640
+    )
+)

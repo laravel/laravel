@@ -1,0 +1,438 @@
+##
+## PHPExcel
+##
+## Copyright (c) 2006 - 2013 PHPExcel
+##
+## This library is free software; you can redistribute it and/or
+## modify it under the terms of the GNU Lesser General Public
+## License as published by the Free Software Foundation; either
+## version 2.1 of the License, or (at your option) any later version.
+##
+## This library is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## Lesser General Public License for more details.
+##
+## You should have received a copy of the GNU Lesser General Public
+## License along with this library; if not, write to the Free Software
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+##
+## @category   PHPExcel
+## @package    PHPExcel_Calculation
+## @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+## @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+## @version    ##VERSION##, ##DATE##
+##
+## Data in this file derived from http://www.piuha.fi/excel-function-name-translation/
+##
+##
+
+
+##
+##	Add-in and Automation functions			Funzioni di automazione e dei componenti aggiuntivi
+##
+GETPIVOTDATA		= INFO.DATI.TAB.PIVOT		##	Restituisce i dati memorizzati in un rapporto di tabella pivot
+
+
+##
+##	Cube functions					Funzioni cubo
+##
+CUBEKPIMEMBER		= MEMBRO.KPI.CUBO		##	Restituisce il nome, la proprietà e la misura di un indicatore di prestazioni chiave (KPI) e visualizza il nome e la proprietà nella cella. Un KPI è una misura quantificabile, ad esempio l'utile lordo mensile o il fatturato trimestrale dei dipendenti, utilizzata per il monitoraggio delle prestazioni di un'organizzazione.
+CUBEMEMBER		= MEMBRO.CUBO			##	Restituisce un membro o una tupla in una gerarchia di cubi. Consente di verificare l'esistenza del membro o della tupla nel cubo.
+CUBEMEMBERPROPERTY	= PROPRIETÀ.MEMBRO.CUBO		##	Restituisce il valore di una proprietà di un membro del cubo. Consente di verificare l'esistenza di un nome di membro all'interno del cubo e di restituire la proprietà specificata per tale membro.
+CUBERANKEDMEMBER	= MEMBRO.CUBO.CON.RANGO		##	Restituisce l'n-esimo membro o il membro ordinato di un insieme. Consente di restituire uno o più elementi in un insieme, ad esempio l'agente di vendita migliore o i primi 10 studenti.
+CUBESET			= SET.CUBO			##	Definisce un insieme di tuple o membri calcolati mediante l'invio di un'espressione di insieme al cubo sul server. In questo modo l'insieme viene creato e restituito a Microsoft Office Excel.
+CUBESETCOUNT		= CONTA.SET.CUBO		##	Restituisce il numero di elementi di un insieme.
+CUBEVALUE		= VALORE.CUBO			##	Restituisce un valore aggregato da un cubo.
+
+
+##
+##	Database functions				Funzioni di database
+##
+DAVERAGE		= DB.MEDIA			##	Restituisce la media di voci del database selezionate
+DCOUNT			= DB.CONTA.NUMERI		##	Conta le celle di un database contenenti numeri
+DCOUNTA			= DB.CONTA.VALORI		##	Conta le celle non vuote in un database
+DGET			= DB.VALORI			##	Estrae da un database un singolo record che soddisfa i criteri specificati
+DMAX			= DB.MAX			##	Restituisce il valore massimo dalle voci selezionate in un database
+DMIN			= DB.MIN			##	Restituisce il valore minimo dalle voci di un database selezionate
+DPRODUCT		= DB.PRODOTTO			##	Moltiplica i valori in un determinato campo di record che soddisfano i criteri del database
+DSTDEV			= DB.DEV.ST			##	Restituisce una stima della deviazione standard sulla base di un campione di voci di un database selezionate
+DSTDEVP			= DB.DEV.ST.POP			##	Calcola la deviazione standard sulla base di tutte le voci di un database selezionate
+DSUM			= DB.SOMMA			##	Aggiunge i numeri nel campo colonna di record del database che soddisfa determinati criteri
+DVAR			= DB.VAR			##	Restituisce una stima della varianza sulla base di un campione da voci di un database selezionate
+DVARP			= DB.VAR.POP			##	Calcola la varianza sulla base di tutte le voci di un database selezionate
+
+
+##
+##	Date and time functions				Funzioni data e ora
+##
+DATE			= DATA				##	Restituisce il numero seriale di una determinata data
+DATEVALUE		= DATA.VALORE			##	Converte una data sotto forma di testo in un numero seriale
+DAY			= GIORNO			##	Converte un numero seriale in un giorno del mese
+DAYS360			= GIORNO360			##	Calcola il numero di giorni compreso tra due date basandosi su un anno di 360 giorni
+EDATE			= DATA.MESE			##	Restituisce il numero seriale della data che rappresenta il numero di mesi prima o dopo la data di inizio
+EOMONTH			= FINE.MESE			##	Restituisce il numero seriale dell'ultimo giorno del mese, prima o dopo un determinato numero di mesi
+HOUR			= ORA				##	Converte un numero seriale in un'ora
+MINUTE			= MINUTO			##	Converte un numero seriale in un minuto
+MONTH			= MESE				##	Converte un numero seriale in un mese
+NETWORKDAYS		= GIORNI.LAVORATIVI.TOT		##	Restituisce il numero di tutti i giorni lavorativi compresi fra due date
+NOW			= ADESSO			##	Restituisce il numero seriale della data e dell'ora corrente
+SECOND			= SECONDO			##	Converte un numero seriale in un secondo
+TIME			= ORARIO			##	Restituisce il numero seriale di una determinata ora
+TIMEVALUE		= ORARIO.VALORE			##	Converte un orario in forma di testo in un numero seriale
+TODAY			= OGGI				##	Restituisce il numero seriale relativo alla data odierna
+WEEKDAY			= GIORNO.SETTIMANA		##	Converte un numero seriale in un giorno della settimana
+WEEKNUM			= NUM.SETTIMANA			##	Converte un numero seriale in un numero che rappresenta la posizione numerica di una settimana nell'anno
+WORKDAY			= GIORNO.LAVORATIVO		##	Restituisce il numero della data prima o dopo un determinato numero di giorni lavorativi
+YEAR			= ANNO				##	Converte un numero seriale in un anno
+YEARFRAC		= FRAZIONE.ANNO			##	Restituisce la frazione dell'anno che rappresenta il numero dei giorni compresi tra una data_ iniziale e una data_finale
+
+
+##
+##	Engineering functions				Funzioni ingegneristiche
+##
+BESSELI			= BESSEL.I			##	Restituisce la funzione di Bessel modificata In(x)
+BESSELJ			= BESSEL.J			##	Restituisce la funzione di Bessel Jn(x)
+BESSELK			= BESSEL.K			##	Restituisce la funzione di Bessel modificata Kn(x)
+BESSELY			= BESSEL.Y			##	Restituisce la funzione di Bessel Yn(x)
+BIN2DEC			= BINARIO.DECIMALE		##	Converte un numero binario in decimale
+BIN2HEX			= BINARIO.HEX			##	Converte un numero binario in esadecimale
+BIN2OCT			= BINARIO.OCT			##	Converte un numero binario in ottale
+COMPLEX			= COMPLESSO			##	Converte i coefficienti reali e immaginari in numeri complessi
+CONVERT			= CONVERTI			##	Converte un numero da un sistema di misura in un altro
+DEC2BIN			= DECIMALE.BINARIO		##	Converte un numero decimale in binario
+DEC2HEX			= DECIMALE.HEX			##	Converte un numero decimale in esadecimale
+DEC2OCT			= DECIMALE.OCT			##	Converte un numero decimale in ottale
+DELTA			= DELTA				##	Verifica se due valori sono uguali
+ERF			= FUNZ.ERRORE			##	Restituisce la funzione di errore
+ERFC			= FUNZ.ERRORE.COMP		##	Restituisce la funzione di errore complementare
+GESTEP			= SOGLIA			##	Verifica se un numero è maggiore del valore di soglia
+HEX2BIN			= HEX.BINARIO			##	Converte un numero esadecimale in binario
+HEX2DEC			= HEX.DECIMALE			##	Converte un numero esadecimale in decimale
+HEX2OCT			= HEX.OCT			##	Converte un numero esadecimale in ottale
+IMABS			= COMP.MODULO			##	Restituisce il valore assoluto (modulo) di un numero complesso
+IMAGINARY		= COMP.IMMAGINARIO		##	Restituisce il coefficiente immaginario di un numero complesso
+IMARGUMENT		= COMP.ARGOMENTO		##	Restituisce l'argomento theta, un angolo espresso in radianti
+IMCONJUGATE		= COMP.CONIUGATO		##	Restituisce il complesso coniugato del numero complesso
+IMCOS			= COMP.COS			##	Restituisce il coseno di un numero complesso
+IMDIV			= COMP.DIV			##	Restituisce il quoziente di due numeri complessi
+IMEXP			= COMP.EXP			##	Restituisce il valore esponenziale di un numero complesso
+IMLN			= COMP.LN			##	Restituisce il logaritmo naturale di un numero complesso
+IMLOG10			= COMP.LOG10			##	Restituisce il logaritmo in base 10 di un numero complesso
+IMLOG2			= COMP.LOG2			##	Restituisce un logaritmo in base 2 di un numero complesso
+IMPOWER			= COMP.POTENZA			##	Restituisce il numero complesso elevato a una potenza intera
+IMPRODUCT		= COMP.PRODOTTO			##	Restituisce il prodotto di numeri complessi compresi tra 2 e 29
+IMREAL			= COMP.PARTE.REALE		##	Restituisce il coefficiente reale di un numero complesso
+IMSIN			= COMP.SEN			##	Restituisce il seno di un numero complesso
+IMSQRT			= COMP.RADQ			##	Restituisce la radice quadrata di un numero complesso
+IMSUB			= COMP.DIFF			##	Restituisce la differenza fra due numeri complessi
+IMSUM			= COMP.SOMMA			##	Restituisce la somma di numeri complessi
+OCT2BIN			= OCT.BINARIO			##	Converte un numero ottale in binario
+OCT2DEC			= OCT.DECIMALE			##	Converte un numero ottale in decimale
+OCT2HEX			= OCT.HEX			##	Converte un numero ottale in esadecimale
+
+
+##
+##	Financial functions				Funzioni finanziarie
+##
+ACCRINT			= INT.MATURATO.PER		##	Restituisce l'interesse maturato di un titolo che paga interessi periodici
+ACCRINTM		= INT.MATURATO.SCAD		##	Restituisce l'interesse maturato di un titolo che paga interessi alla scadenza
+AMORDEGRC		= AMMORT.DEGR			##	Restituisce l'ammortamento per ogni periodo contabile utilizzando un coefficiente di ammortamento
+AMORLINC		= AMMORT.PER			##	Restituisce l'ammortamento per ogni periodo contabile
+COUPDAYBS		= GIORNI.CED.INIZ.LIQ		##	Restituisce il numero dei giorni che vanno dall'inizio del periodo di durata della cedola alla data di liquidazione
+COUPDAYS		= GIORNI.CED			##	Restituisce il numero dei giorni relativi al periodo della cedola che contiene la data di liquidazione
+COUPDAYSNC		= GIORNI.CED.NUOVA		##	Restituisce il numero di giorni che vanno dalla data di liquidazione alla data della cedola successiva
+COUPNCD			= DATA.CED.SUCC			##	Restituisce un numero che rappresenta la data della cedola successiva alla data di liquidazione
+COUPNUM			= NUM.CED			##	Restituisce il numero di cedole pagabili fra la data di liquidazione e la data di scadenza
+COUPPCD			= DATA.CED.PREC			##	Restituisce un numero che rappresenta la data della cedola precedente alla data di liquidazione
+CUMIPMT			= INT.CUMUL			##	Restituisce l'interesse cumulativo pagato fra due periodi
+CUMPRINC		= CAP.CUM			##	Restituisce il capitale cumulativo pagato per estinguere un debito fra due periodi
+DB			= DB				##	Restituisce l'ammortamento di un bene per un periodo specificato utilizzando il metodo di ammortamento a quote fisse decrescenti
+DDB			= AMMORT			##	Restituisce l'ammortamento di un bene per un periodo specificato utilizzando il metodo di ammortamento a doppie quote decrescenti o altri metodi specificati
+DISC			= TASSO.SCONTO			##	Restituisce il tasso di sconto per un titolo
+DOLLARDE		= VALUTA.DEC			##	Converte un prezzo valuta, espresso come frazione, in prezzo valuta, espresso come numero decimale
+DOLLARFR		= VALUTA.FRAZ			##	Converte un prezzo valuta, espresso come numero decimale, in prezzo valuta, espresso come frazione
+DURATION		= DURATA			##	Restituisce la durata annuale di un titolo con i pagamenti di interesse periodico
+EFFECT			= EFFETTIVO			##	Restituisce l'effettivo tasso di interesse annuo
+FV			= VAL.FUT			##	Restituisce il valore futuro di un investimento
+FVSCHEDULE		= VAL.FUT.CAPITALE		##	Restituisce il valore futuro di un capitale iniziale dopo aver applicato una serie di tassi di interesse composti
+INTRATE			= TASSO.INT			##	Restituisce il tasso di interesse per un titolo interamente investito
+IPMT			= INTERESSI			##	Restituisce il valore degli interessi per un investimento relativo a un periodo specifico
+IRR			= TIR.COST			##	Restituisce il tasso di rendimento interno per una serie di flussi di cassa
+ISPMT			= INTERESSE.RATA		##	Calcola l'interesse di un investimento pagato durante un periodo specifico
+MDURATION		= DURATA.M			##	Restituisce la durata Macauley modificata per un titolo con un valore presunto di € 100
+MIRR			= TIR.VAR			##	Restituisce il tasso di rendimento interno in cui i flussi di cassa positivi e negativi sono finanziati a tassi differenti
+NOMINAL			= NOMINALE			##	Restituisce il tasso di interesse nominale annuale
+NPER			= NUM.RATE			##	Restituisce un numero di periodi relativi a un investimento
+NPV			= VAN				##	Restituisce il valore attuale netto di un investimento basato su una serie di flussi di cassa periodici e sul tasso di sconto
+ODDFPRICE		= PREZZO.PRIMO.IRR		##	Restituisce il prezzo di un titolo dal valore nominale di € 100 avente il primo periodo di durata irregolare
+ODDFYIELD		= REND.PRIMO.IRR		##	Restituisce il rendimento di un titolo avente il primo periodo di durata irregolare
+ODDLPRICE		= PREZZO.ULTIMO.IRR		##	Restituisce il prezzo di un titolo dal valore nominale di € 100 avente l'ultimo periodo di durata irregolare
+ODDLYIELD		= REND.ULTIMO.IRR		##	Restituisce il rendimento di un titolo avente l'ultimo periodo di durata irregolare
+PMT			= RATA				##	Restituisce il pagamento periodico di una rendita annua
+PPMT			= P.RATA			##	Restituisce il pagamento sul capitale di un investimento per un dato periodo
+PRICE			= PREZZO			##	Restituisce il prezzo di un titolo dal valore nominale di € 100 che paga interessi periodici
+PRICEDISC		= PREZZO.SCONT			##	Restituisce il prezzo di un titolo scontato dal valore nominale di € 100
+PRICEMAT		= PREZZO.SCAD			##	Restituisce il prezzo di un titolo dal valore nominale di € 100 che paga gli interessi alla scadenza
+PV			= VA				##	Restituisce il valore attuale di un investimento
+RATE			= TASSO				##	Restituisce il tasso di interesse per un periodo di un'annualità
+RECEIVED		= RICEV.SCAD			##	Restituisce l'ammontare ricevuto alla scadenza di un titolo interamente investito
+SLN			= AMMORT.COST			##	Restituisce l'ammortamento a quote costanti di un bene per un singolo periodo
+SYD			= AMMORT.ANNUO			##	Restituisce l'ammortamento a somma degli anni di un bene per un periodo specificato
+TBILLEQ			= BOT.EQUIV			##	Restituisce il rendimento equivalente ad un'obbligazione per un Buono ordinario del Tesoro
+TBILLPRICE		= BOT.PREZZO			##	Restituisce il prezzo di un Buono del Tesoro dal valore nominale di € 100
+TBILLYIELD		= BOT.REND			##	Restituisce il rendimento di un Buono del Tesoro
+VDB			= AMMORT.VAR			##	Restituisce l'ammortamento di un bene per un periodo specificato o parziale utilizzando il metodo a doppie quote proporzionali ai valori residui
+XIRR			= TIR.X				##	Restituisce il tasso di rendimento interno di un impiego di flussi di cassa
+XNPV			= VAN.X				##	Restituisce il valore attuale netto di un impiego di flussi di cassa non necessariamente periodici
+YIELD			= REND				##	Restituisce il rendimento di un titolo che frutta interessi periodici
+YIELDDISC		= REND.TITOLI.SCONT		##	Restituisce il rendimento annuale di un titolo scontato, ad esempio un Buono del Tesoro
+YIELDMAT		= REND.SCAD			##	Restituisce il rendimento annuo di un titolo che paga interessi alla scadenza
+
+
+##
+##	Information functions				Funzioni relative alle informazioni
+##
+CELL			= CELLA				##	Restituisce le informazioni sulla formattazione, la posizione o i contenuti di una cella
+ERROR.TYPE		= ERRORE.TIPO			##	Restituisce un numero che corrisponde a un tipo di errore
+INFO			= INFO				##	Restituisce le informazioni sull'ambiente operativo corrente
+ISBLANK			= VAL.VUOTO			##	Restituisce VERO se il valore è vuoto
+ISERR			= VAL.ERR			##	Restituisce VERO se il valore è un valore di errore qualsiasi tranne #N/D
+ISERROR			= VAL.ERRORE			##	Restituisce VERO se il valore è un valore di errore qualsiasi
+ISEVEN			= VAL.PARI			##	Restituisce VERO se il numero è pari
+ISLOGICAL		= VAL.LOGICO			##	Restituisce VERO se il valore è un valore logico
+ISNA			= VAL.NON.DISP			##	Restituisce VERO se il valore è un valore di errore #N/D
+ISNONTEXT		= VAL.NON.TESTO			##	Restituisce VERO se il valore non è in formato testo
+ISNUMBER		= VAL.NUMERO			##	Restituisce VERO se il valore è un numero
+ISODD			= VAL.DISPARI			##	Restituisce VERO se il numero è dispari
+ISREF			= VAL.RIF			##	Restituisce VERO se il valore è un riferimento
+ISTEXT			= VAL.TESTO			##	Restituisce VERO se il valore è in formato testo
+N			= NUM				##	Restituisce un valore convertito in numero
+NA			= NON.DISP			##	Restituisce il valore di errore #N/D
+TYPE			= TIPO				##	Restituisce un numero che indica il tipo di dati relativi a un valore
+
+
+##
+##	Logical functions				Funzioni logiche
+##
+AND			= E				##	Restituisce VERO se tutti gli argomenti sono VERO
+FALSE			= FALSO				##	Restituisce il valore logico FALSO
+IF			= SE				##	Specifica un test logico da eseguire
+IFERROR			= SE.ERRORE			##	Restituisce un valore specificato se una formula fornisce un errore come risultato; in caso contrario, restituisce il risultato della formula
+NOT			= NON				##	Inverte la logica degli argomenti
+OR			= O				##	Restituisce VERO se un argomento qualsiasi è VERO
+TRUE			= VERO				##	Restituisce il valore logico VERO
+
+
+##
+##	Lookup and reference functions			Funzioni di ricerca e di riferimento
+##
+ADDRESS			= INDIRIZZO			##	Restituisce un riferimento come testo in una singola cella di un foglio di lavoro
+AREAS			= AREE				##	Restituisce il numero di aree in un riferimento
+CHOOSE			= SCEGLI			##	Sceglie un valore da un elenco di valori
+COLUMN			= RIF.COLONNA			##	Restituisce il numero di colonna di un riferimento
+COLUMNS			= COLONNE			##	Restituisce il numero di colonne in un riferimento
+HLOOKUP			= CERCA.ORIZZ			##	Effettua una ricerca nella riga superiore di una matrice e restituisce il valore della cella specificata
+HYPERLINK		= COLLEG.IPERTESTUALE		##	Crea un collegamento che apre un documento memorizzato in un server di rete, una rete Intranet o Internet
+INDEX			= INDICE			##	Utilizza un indice per scegliere un valore da un riferimento o da una matrice
+INDIRECT		= INDIRETTO			##	Restituisce un riferimento specificato da un valore testo
+LOOKUP			= CERCA				##	Ricerca i valori in un vettore o in una matrice
+MATCH			= CONFRONTA			##	Ricerca i valori in un riferimento o in una matrice
+OFFSET			= SCARTO			##	Restituisce uno scarto di riferimento da un riferimento dato
+ROW			= RIF.RIGA			##	Restituisce il numero di riga di un riferimento
+ROWS			= RIGHE				##	Restituisce il numero delle righe in un riferimento
+RTD			= DATITEMPOREALE		##	Recupera dati in tempo reale da un programma che supporta l'automazione COM (automazione: Metodo per utilizzare gli oggetti di un'applicazione da un'altra applicazione o da un altro strumento di sviluppo. Precedentemente nota come automazione OLE, l'automazione è uno standard del settore e una caratteristica del modello COM (Component Object Model).)
+TRANSPOSE		= MATR.TRASPOSTA		##	Restituisce la trasposizione di una matrice
+VLOOKUP			= CERCA.VERT			##	Effettua una ricerca nella prima colonna di una matrice e si sposta attraverso la riga per restituire il valore di una cella
+
+
+##
+##	Math and trigonometry functions			Funzioni matematiche e trigonometriche
+##
+ABS			= ASS				##	Restituisce il valore assoluto di un numero.
+ACOS			= ARCCOS			##	Restituisce l'arcocoseno di un numero
+ACOSH			= ARCCOSH			##	Restituisce l'inverso del coseno iperbolico di un numero
+ASIN			= ARCSEN			##	Restituisce l'arcoseno di un numero
+ASINH			= ARCSENH			##	Restituisce l'inverso del seno iperbolico di un numero
+ATAN			= ARCTAN			##	Restituisce l'arcotangente di un numero
+ATAN2			= ARCTAN.2			##	Restituisce l'arcotangente delle coordinate x e y specificate
+ATANH			= ARCTANH			##	Restituisce l'inverso della tangente iperbolica di un numero
+CEILING			= ARROTONDA.ECCESSO		##	Arrotonda un numero per eccesso all'intero più vicino o al multiplo più vicino a peso
+COMBIN			= COMBINAZIONE			##	Restituisce il numero di combinazioni possibili per un numero assegnato di elementi
+COS			= COS				##	Restituisce il coseno dell'angolo specificato
+COSH			= COSH				##	Restituisce il coseno iperbolico di un numero
+DEGREES			= GRADI				##	Converte i radianti in gradi
+EVEN			= PARI				##	Arrotonda il valore assoluto di un numero per eccesso al più vicino intero pari
+EXP			= ESP				##	Restituisce il numero e elevato alla potenza di num
+FACT			= FATTORIALE			##	Restituisce il fattoriale di un numero
+FACTDOUBLE		= FATT.DOPPIO			##	Restituisce il fattoriale doppio di un numero
+FLOOR			= ARROTONDA.DIFETTO		##	Arrotonda un numero per difetto al multiplo più vicino a zero
+GCD			= MCD				##	Restituisce il massimo comune divisore
+INT			= INT				##	Arrotonda un numero per difetto al numero intero più vicino
+LCM			= MCM				##	Restituisce il minimo comune multiplo
+LN			= LN				##	Restituisce il logaritmo naturale di un numero
+LOG			= LOG				##	Restituisce il logaritmo di un numero in una specificata base
+LOG10			= LOG10				##	Restituisce il logaritmo in base 10 di un numero
+MDETERM			= MATR.DETERM			##	Restituisce il determinante di una matrice
+MINVERSE		= MATR.INVERSA			##	Restituisce l'inverso di una matrice
+MMULT			= MATR.PRODOTTO			##	Restituisce il prodotto di due matrici
+MOD			= RESTO				##	Restituisce il resto della divisione
+MROUND			= ARROTONDA.MULTIPLO		##	Restituisce un numero arrotondato al multiplo desiderato
+MULTINOMIAL		= MULTINOMIALE			##	Restituisce il multinomiale di un insieme di numeri
+ODD			= DISPARI			##	Arrotonda un numero per eccesso al più vicino intero dispari
+PI			= PI.GRECO			##	Restituisce il valore di pi greco
+POWER			= POTENZA			##	Restituisce il risultato di un numero elevato a potenza
+PRODUCT			= PRODOTTO			##	Moltiplica i suoi argomenti
+QUOTIENT		= QUOZIENTE			##	Restituisce la parte intera di una divisione
+RADIANS			= RADIANTI			##	Converte i gradi in radianti
+RAND			= CASUALE			##	Restituisce un numero casuale compreso tra 0 e 1
+RANDBETWEEN		= CASUALE.TRA			##	Restituisce un numero casuale compreso tra i numeri specificati
+ROMAN			= ROMANO			##	Restituisce il numero come numero romano sotto forma di testo
+ROUND			= ARROTONDA			##	Arrotonda il numero al numero di cifre specificato
+ROUNDDOWN		= ARROTONDA.PER.DIF		##	Arrotonda il valore assoluto di un numero per difetto
+ROUNDUP			= ARROTONDA.PER.ECC		##	Arrotonda il valore assoluto di un numero per eccesso
+SERIESSUM		= SOMMA.SERIE			##	Restituisce la somma di una serie di potenze in base alla formula
+SIGN			= SEGNO				##	Restituisce il segno di un numero
+SIN			= SEN				##	Restituisce il seno di un dato angolo
+SINH			= SENH				##	Restituisce il seno iperbolico di un numero
+SQRT			= RADQ				##	Restituisce una radice quadrata
+SQRTPI			= RADQ.PI.GRECO			##	Restituisce la radice quadrata di un numero (numero * pi greco)
+SUBTOTAL		= SUBTOTALE			##	Restituisce un subtotale in un elenco o in un database
+SUM			= SOMMA				##	Somma i suoi argomenti
+SUMIF			= SOMMA.SE			##	Somma le celle specificate da un dato criterio
+SUMIFS			= SOMMA.PIÙ.SE			##	Somma le celle in un intervallo che soddisfano più criteri
+SUMPRODUCT		= MATR.SOMMA.PRODOTTO		##	Restituisce la somma dei prodotti dei componenti corrispondenti della matrice
+SUMSQ			= SOMMA.Q			##	Restituisce la somma dei quadrati degli argomenti
+SUMX2MY2		= SOMMA.DIFF.Q			##	Restituisce la somma della differenza dei quadrati dei corrispondenti elementi in due matrici
+SUMX2PY2		= SOMMA.SOMMA.Q			##	Restituisce la somma della somma dei quadrati dei corrispondenti elementi in due matrici
+SUMXMY2			= SOMMA.Q.DIFF			##	Restituisce la somma dei quadrati delle differenze dei corrispondenti elementi in due matrici
+TAN			= TAN				##	Restituisce la tangente di un numero
+TANH			= TANH				##	Restituisce la tangente iperbolica di un numero
+TRUNC			= TRONCA			##	Tronca la parte decimale di un numero
+
+
+##
+##	Statistical functions				Funzioni statistiche
+##
+AVEDEV			= MEDIA.DEV			##	Restituisce la media delle deviazioni assolute delle coordinate rispetto alla loro media
+AVERAGE			= MEDIA				##	Restituisce la media degli argomenti
+AVERAGEA		= MEDIA.VALORI			##	Restituisce la media degli argomenti, inclusi i numeri, il testo e i valori logici
+AVERAGEIF		= MEDIA.SE			##	Restituisce la media aritmetica di tutte le celle in un intervallo che soddisfano un determinato criterio
+AVERAGEIFS		= MEDIA.PIÙ.SE			##	Restituisce la media aritmetica di tutte le celle che soddisfano più criteri
+BETADIST		= DISTRIB.BETA			##	Restituisce la funzione di distribuzione cumulativa beta
+BETAINV			= INV.BETA			##	Restituisce l'inverso della funzione di distribuzione cumulativa per una distribuzione beta specificata
+BINOMDIST		= DISTRIB.BINOM			##	Restituisce la distribuzione binomiale per il termine individuale
+CHIDIST			= DISTRIB.CHI			##	Restituisce la probabilità a una coda per la distribuzione del chi quadrato
+CHIINV			= INV.CHI			##	Restituisce l'inverso della probabilità ad una coda per la distribuzione del chi quadrato
+CHITEST			= TEST.CHI			##	Restituisce il test per l'indipendenza
+CONFIDENCE		= CONFIDENZA			##	Restituisce l'intervallo di confidenza per una popolazione
+CORREL			= CORRELAZIONE			##	Restituisce il coefficiente di correlazione tra due insiemi di dati
+COUNT			= CONTA.NUMERI			##	Conta la quantità di numeri nell'elenco di argomenti
+COUNTA			= CONTA.VALORI			##	Conta il numero di valori nell'elenco di argomenti
+COUNTBLANK		= CONTA.VUOTE			##	Conta il numero di celle vuote all'interno di un intervallo
+COUNTIF			= CONTA.SE			##	Conta il numero di celle all'interno di un intervallo che soddisfa i criteri specificati
+COUNTIFS		= CONTA.PIÙ.SE			##	Conta il numero di celle in un intervallo che soddisfano più criteri.
+COVAR			= COVARIANZA			##	Calcola la covarianza, la media dei prodotti delle deviazioni accoppiate
+CRITBINOM		= CRIT.BINOM			##	Restituisce il più piccolo valore per il quale la distribuzione cumulativa binomiale risulta maggiore o uguale ad un valore di criterio
+DEVSQ			= DEV.Q				##	Restituisce la somma dei quadrati delle deviazioni
+EXPONDIST		= DISTRIB.EXP			##	Restituisce la distribuzione esponenziale
+FDIST			= DISTRIB.F			##	Restituisce la distribuzione di probabilità F
+FINV			= INV.F				##	Restituisce l'inverso della distribuzione della probabilità F
+FISHER			= FISHER			##	Restituisce la trasformazione di Fisher
+FISHERINV		= INV.FISHER			##	Restituisce l'inverso della trasformazione di Fisher
+FORECAST		= PREVISIONE			##	Restituisce i valori lungo una tendenza lineare
+FREQUENCY		= FREQUENZA			##	Restituisce la distribuzione di frequenza come matrice verticale
+FTEST			= TEST.F			##	Restituisce il risultato di un test F
+GAMMADIST		= DISTRIB.GAMMA			##	Restituisce la distribuzione gamma
+GAMMAINV		= INV.GAMMA			##	Restituisce l'inverso della distribuzione cumulativa gamma
+GAMMALN			= LN.GAMMA			##	Restituisce il logaritmo naturale della funzione gamma, G(x)
+GEOMEAN			= MEDIA.GEOMETRICA		##	Restituisce la media geometrica
+GROWTH			= CRESCITA			##	Restituisce i valori lungo una linea di tendenza esponenziale
+HARMEAN			= MEDIA.ARMONICA		##	Restituisce la media armonica
+HYPGEOMDIST		= DISTRIB.IPERGEOM		##	Restituisce la distribuzione ipergeometrica
+INTERCEPT		= INTERCETTA			##	Restituisce l'intercetta della retta di regressione lineare
+KURT			= CURTOSI			##	Restituisce la curtosi di un insieme di dati
+LARGE			= GRANDE			##	Restituisce il k-esimo valore più grande in un insieme di dati
+LINEST			= REGR.LIN			##	Restituisce i parametri di una tendenza lineare
+LOGEST			= REGR.LOG			##	Restituisce i parametri di una linea di tendenza esponenziale
+LOGINV			= INV.LOGNORM			##	Restituisce l'inverso di una distribuzione lognormale
+LOGNORMDIST		= DISTRIB.LOGNORM		##	Restituisce la distribuzione lognormale cumulativa
+MAX			= MAX				##	Restituisce il valore massimo in un elenco di argomenti
+MAXA			= MAX.VALORI			##	Restituisce il valore massimo in un elenco di argomenti, inclusi i numeri, il testo e i valori logici
+MEDIAN			= MEDIANA			##	Restituisce la mediana dei numeri specificati
+MIN			= MIN				##	Restituisce il valore minimo in un elenco di argomenti
+MINA			= MIN.VALORI			##	Restituisce il più piccolo valore in un elenco di argomenti, inclusi i numeri, il testo e i valori logici
+MODE			= MODA				##	Restituisce il valore più comune in un insieme di dati
+NEGBINOMDIST		= DISTRIB.BINOM.NEG		##	Restituisce la distribuzione binomiale negativa
+NORMDIST		= DISTRIB.NORM			##	Restituisce la distribuzione cumulativa normale
+NORMINV			= INV.NORM			##	Restituisce l'inverso della distribuzione cumulativa normale standard
+NORMSDIST		= DISTRIB.NORM.ST		##	Restituisce la distribuzione cumulativa normale standard
+NORMSINV		= INV.NORM.ST			##	Restituisce l'inverso della distribuzione cumulativa normale
+PEARSON			= PEARSON			##	Restituisce il coefficiente del momento di correlazione di Pearson
+PERCENTILE		= PERCENTILE			##	Restituisce il k-esimo dato percentile di valori in un intervallo
+PERCENTRANK		= PERCENT.RANGO			##	Restituisce il rango di un valore in un insieme di dati come percentuale
+PERMUT			= PERMUTAZIONE			##	Restituisce il numero delle permutazioni per un determinato numero di oggetti
+POISSON			= POISSON			##	Restituisce la distribuzione di Poisson
+PROB			= PROBABILITÀ			##	Calcola la probabilità che dei valori in un intervallo siano compresi tra due limiti
+QUARTILE		= QUARTILE			##	Restituisce il quartile di un insieme di dati
+RANK			= RANGO				##	Restituisce il rango di un numero in un elenco di numeri
+RSQ			= RQ				##	Restituisce la radice quadrata del coefficiente di momento di correlazione di Pearson
+SKEW			= ASIMMETRIA			##	Restituisce il grado di asimmetria di una distribuzione
+SLOPE			= PENDENZA			##	Restituisce la pendenza di una retta di regressione lineare
+SMALL			= PICCOLO			##	Restituisce il k-esimo valore più piccolo in un insieme di dati
+STANDARDIZE		= NORMALIZZA			##	Restituisce un valore normalizzato
+STDEV			= DEV.ST			##	Restituisce una stima della deviazione standard sulla base di un campione
+STDEVA			= DEV.ST.VALORI			##	Restituisce una stima della deviazione standard sulla base di un campione, inclusi i numeri, il testo e i valori logici
+STDEVP			= DEV.ST.POP			##	Calcola la deviazione standard sulla base di un'intera popolazione
+STDEVPA			= DEV.ST.POP.VALORI		##	Calcola la deviazione standard sulla base sull'intera popolazione, inclusi i numeri, il testo e i valori logici
+STEYX			= ERR.STD.YX			##	Restituisce l'errore standard del valore previsto per y per ogni valore x nella regressione
+TDIST			= DISTRIB.T			##	Restituisce la distribuzione t di Student
+TINV			= INV.T				##	Restituisce l'inversa della distribuzione t di Student
+TREND			= TENDENZA			##	Restituisce i valori lungo una linea di tendenza lineare
+TRIMMEAN		= MEDIA.TRONCATA		##	Restituisce la media della parte interna di un insieme di dati
+TTEST			= TEST.T			##	Restituisce la probabilità associata ad un test t di Student
+VAR			= VAR				##	Stima la varianza sulla base di un campione
+VARA			= VAR.VALORI			##	Stima la varianza sulla base di un campione, inclusi i numeri, il testo e i valori logici
+VARP			= VAR.POP			##	Calcola la varianza sulla base dell'intera popolazione
+VARPA			= VAR.POP.VALORI		##	Calcola la deviazione standard sulla base sull'intera popolazione, inclusi i numeri, il testo e i valori logici
+WEIBULL			= WEIBULL			##	Restituisce la distribuzione di Weibull
+ZTEST			= TEST.Z			##	Restituisce il valore di probabilità a una coda per un test z
+
+
+##
+##	Text functions					Funzioni di testo
+##
+ASC			= ASC				##	Modifica le lettere inglesi o il katakana a doppio byte all'interno di una stringa di caratteri in caratteri a singolo byte
+BAHTTEXT		= BAHTTESTO			##	Converte un numero in testo, utilizzando il formato valuta ß (baht)
+CHAR			= CODICE.CARATT			##	Restituisce il carattere specificato dal numero di codice
+CLEAN			= LIBERA			##	Elimina dal testo tutti i caratteri che non è possibile stampare
+CODE			= CODICE			##	Restituisce il codice numerico del primo carattere di una stringa di testo
+CONCATENATE		= CONCATENA			##	Unisce diversi elementi di testo in un unico elemento di testo
+DOLLAR			= VALUTA			##	Converte un numero in testo, utilizzando il formato valuta € (euro)
+EXACT			= IDENTICO			##	Verifica se due valori di testo sono uguali
+FIND			= TROVA				##	Rileva un valore di testo all'interno di un altro (distinzione tra maiuscole e minuscole)
+FINDB			= TROVA.B			##	Rileva un valore di testo all'interno di un altro (distinzione tra maiuscole e minuscole)
+FIXED			= FISSO				##	Formatta un numero come testo con un numero fisso di decimali
+JIS			= ORDINAMENTO.JIS		##	Modifica le lettere inglesi o i caratteri katakana a byte singolo all'interno di una stringa di caratteri in caratteri a byte doppio.
+LEFT			= SINISTRA			##	Restituisce il carattere più a sinistra di un valore di testo
+LEFTB			= SINISTRA.B			##	Restituisce il carattere più a sinistra di un valore di testo
+LEN			= LUNGHEZZA			##	Restituisce il numero di caratteri di una stringa di testo
+LENB			= LUNB				##	Restituisce il numero di caratteri di una stringa di testo
+LOWER			= MINUSC			##	Converte il testo in lettere minuscole
+MID			= MEDIA				##	Restituisce un numero specifico di caratteri di una stringa di testo a partire dalla posizione specificata
+MIDB			= MEDIA.B			##	Restituisce un numero specifico di caratteri di una stringa di testo a partire dalla posizione specificata
+PHONETIC		= FURIGANA			##	Estrae i caratteri fonetici (furigana) da una stringa di testo.
+PROPER			= MAIUSC.INIZ			##	Converte in maiuscolo la prima lettera di ogni parola di un valore di testo
+REPLACE			= RIMPIAZZA			##	Sostituisce i caratteri all'interno di un testo
+REPLACEB		= SOSTITUISCI.B			##	Sostituisce i caratteri all'interno di un testo
+REPT			= RIPETI			##	Ripete un testo per un dato numero di volte
+RIGHT			= DESTRA			##	Restituisce il carattere più a destra di un valore di testo
+RIGHTB			= DESTRA.B			##	Restituisce il carattere più a destra di un valore di testo
+SEARCH			= RICERCA			##	Rileva un valore di testo all'interno di un altro (non è sensibile alle maiuscole e minuscole)
+SEARCHB			= CERCA.B			##	Rileva un valore di testo all'interno di un altro (non è sensibile alle maiuscole e minuscole)
+SUBSTITUTE		= SOSTITUISCI			##	Sostituisce il nuovo testo al testo contenuto in una stringa
+T			= T				##	Converte gli argomenti in testo
+TEXT			= TESTO				##	Formatta un numero e lo converte in testo
+TRIM			= ANNULLA.SPAZI			##	Elimina gli spazi dal testo
+UPPER			= MAIUSC			##	Converte il testo in lettere maiuscole
+VALUE			= VALORE			##	Converte un argomento di testo in numero

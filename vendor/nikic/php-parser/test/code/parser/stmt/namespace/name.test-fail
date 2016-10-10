@@ -1,0 +1,25 @@
+Invalid namespace names
+-----
+<?php namespace self;
+-----
+Cannot use 'self' as namespace name on line 1
+-----
+<?php namespace parent;
+-----
+Cannot use 'parent' as namespace name on line 1
+-----
+<?php namespace static;
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{' on line 1
+-----
+<?php use A as self;
+-----
+Cannot use A as self because 'self' is a special class name on line 1
+-----
+<?php use B as parent;
+-----
+Cannot use B as parent because 'parent' is a special class name on line 1
+-----
+<?php use C as static;
+-----
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1

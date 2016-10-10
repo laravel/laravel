@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<!-- $Id: experimental_dom_tester.xml 1807 2008-09-09 06:58:00Z pp11 $ -->
+<page title="Testing elements by CSS selector" here="DOM tester">
+    <long_title>[experimental] Testing elements by CSS selector</long_title>
+    <content>
+        <introduction>
+            <div class="experimental">
+                Careful : this documentation refers to un-released code. It's only available in SVN.
+            </div>
+            <p>
+                Before SimpleTest2 gets a new browser (PHP5 only and DOM based), a new
+                extension made its way to the SimpleTest trunk.
+            </p>
+             <p>
+                Note : it's already PHP5 only.
+            </p>
+        </introduction>
+        <section name="recorder" title="Testing for Web2.0">
+            <p>
+                1998 seems a long time ago now : it's the year
+                the <a href="http://www.webstandards.org/about/">the Web Standards Project (WaSP)</a>
+                started fighting for standards.
+            </p>
+            <p>
+                Nearly ten years later, every web developper is now familiar with CSS :
+                <em>id</em> &amp; <em>class</em> are the new tools of the trade. 
+                The tricks you've learned while styling, you can re-use them when testing your web site. 
+            </p>
+            <p>
+                I was about to start with the <a href="http://flickr.com/">Flickr home page</a>
+                but then again, this is what the HTML source looks like :
+<php><![CDATA[
+<body>
+<div id="beacon"><img src="http://geo.yahoo.com/f?s=792600119&t=7797cfa4695ea4166ba6c8ee269ec1b6" width="0" height="0" alt="" /></div>
+<div align="center">
+  <table cellspacing="0" border="0" cellpadding="0" class="Photo">
+    <tr valign="top"> 
+<!-- PHOTO -->
+      <td>
+[...]
+]]></php>
+                Who said <cite>too many tables ?</cite> So I picked something else...
+                the <a href="http://simpletest.org/">SimpleTest home page</a> !
+<php><![CDATA[
+<body>
+<div>
+  <div id="actions">
+    <div id="logo">
+      <a href="http://simpletest.org/index.html"><img name="simpletestlogo" src="images/simpletest-logo.png" width="335" height="127" border="0" id="simpletestlogo" alt="" /></a>
+    </div>
+    <div>
+      <div>
+        <a href="en/download.html"><img name="simpletestdownload" src="images/simpletest-download.png" width="305" height="109" border="0" id="simpletestdownload" alt="" /></a>
+[...]
+]]></php>
+            </p>
+        </section>
+        <section name="recorder-results" title="Basic CSS selectors...">
+            <p>
+                As usual we start with the necessary <code>require_once</code>
+<php><![CDATA[
+<?php
+require_once(dirname(__FILE__) . '/../../autorun.php');
+require_once(dirname(__FILE__) . '/../dom_tester.php');
+?>
+]]></php>
+                The <code>DomTestCase</code> extends the <code>WebTestCase</code>,
+                we can just use it the same way.
+            </p>
+            <p>
+<php><![CDATA[
+<?php
+require_once(dirname(__FILE__) . '/../../autorun.php');
+require_once(dirname(__FILE__) . '/../dom_tester.php');
+
+class TestOfLiveCssSelectors extends DomTestCase {
+  function testGet() {
+    $url = 'http://simpletest.org/';
+    $this->assertTrue($this->get($url));
+    $this->assertEqual($this->getUrl(), $url);<strong>
+    $this->assertElementsBySelector(
+      'h2',
+      array('Screenshots', 'Documentation', 'Contributing')
+    );</strong>
+  }
+}
+?>
+]]></php>
+            </p>
+            <p>
+                I was expecting to get a nice green bar straight away :
+                I did wrote the HTML template after all.
+                Unfortunately it didn't happen, PHP gave me some nice exceptions :
+                <div class="console">
+                    home: /$ php dom_tester_doc_test.php<br />
+                    <strong>dom_tester_doc_test.php<br />
+                    Exception 1!<br />
+                    Unexpected PHP error [DOMDocument::loadHTML() [<a href='function.DOMDocument-loadHTML'>function.DOMDocument-loadHTML</a>]: ID simpletestlogo already defined in Entity, line: 12] severity [E_WARNING] in [/Users/perrick/Sites/simpletest/extensions/dom_tester.php line 103]<br />
+                            in testGet<br />
+                            in TestOfLiveCssSelectors<br />
+                    Exception 2!<br />
+                    Unexpected PHP error [DOMDocument::loadHTML() [<a href='function.DOMDocument-loadHTML'>function.DOMDocument-loadHTML</a>]: ID simpletestdownload already defined in Entity, line: 16] severity [E_WARNING] in [/Users/perrick/Sites/simpletest/extensions/dom_tester.php line 103]<br />
+                            in testGet<br />
+                            in TestOfLiveCssSelectors<br />
+                    Exception 3!<br />
+                    Unexpected PHP error [DOMDocument::loadHTML() [<a href='function.DOMDocument-loadHTML'>function.DOMDocument-loadHTML</a>]: ID simpleteststarttesting already defined in Entity, line: 24] severity [E_WARNING] in [/Users/perrick/Sites/simpletest/extensions/dom_tester.php line 103]<br />
+                            in testGet<br />
+                            in TestOfLiveCssSelectors<br />
+                    Exception 4!<br />
+                    Unexpected PHP error [DOMDocument::loadHTML() [<a href='function.DOMDocument-loadHTML'>function.DOMDocument-loadHTML</a>]: ID simpletestsupport already defined in Entity, line: 38] severity [E_WARNING] in [/Users/perrick/Sites/simpletest/extensions/dom_tester.php line 103]<br />
+                            in testGet<br />
+                            in TestOfLiveCssSelectors<br />
+                    FAILURES!!!<br />
+                    Test cases run: 1/1, Passes: 3, Failures: 0, Exceptions: 4<br /></strong>
+                </div>
+                That's what validation is all about I guess.
+            </p>
+            <p>
+                Back to the drawing board... A simple fix later, everything is fine.
+                <div class="console">
+                    home: /$ php dom_tester_doc_test.php<br />
+                    <strong>dom_tester_doc_test.php<br />
+                    OK<br />
+                    Test cases run: 1/1, Passes: 3, Failures: 0, Exceptions: 0<br /></strong>
+                </div>
+            </p>
+         </section>
+         <section name="recorder-results" title="...and non so basic selectors">
+            <p>
+                If you thought it was easy, we can make things a little bit more difficult -
+                or precise - with attribute selectors :
+<php><![CDATA[
+[...]
+class TestOfLiveCssSelectors extends DomTestCase {
+  function testGet() {
+    $url = 'http://simpletest.org/';
+    $this->assertTrue($this->get($url));
+    $this->assertEqual($this->getUrl(), $url);
+    $this->assertElementsBySelector(
+      'h2',
+      array('Screenshots', 'Documentation', 'Contributing')
+    );<strong>
+    $this->assertElementsBySelector(
+      'a[href="http://simpletest.org/api/"]',
+      array('the complete API', 'documented API')
+    );</strong>
+  }
+}
+[...]
+]]></php>
+                <div class="console">
+                    home: /$ php dom_tester_doc_test.php<br />
+                    <strong>dom_tester_doc_test.php<br />
+                    OK<br />
+                    Test cases run: 1/1, Passes: 4, Failures: 0, Exceptions: 0<br /></strong>
+                </div>
+            </p>
+            <p>
+                Oh and by the way, combinators do work as well :
+<php><![CDATA[
+[...]
+class TestOfLiveCssSelectors extends DomTestCase {
+  function testGet() {
+    $url = 'http://simpletest.org/';
+    $this->assertTrue($this->get($url));
+    $this->assertEqual($this->getUrl(), $url);
+    $this->assertElementsBySelector(
+      'h2',
+      array('Screenshots', 'Documentation', 'Contributing')
+    );
+    $this->assertElementsBySelector(
+      'a[href="http://simpletest.org/api/"]',
+      array('the complete API', 'documented API')
+    );<strong>
+    $this->assertElementsBySelector(
+      'div#content > p > strong',
+      array('SimpleTest PHP unit tester')
+    );</strong>
+  }
+}
+[...]
+]]></php>
+                <div class="console">
+                    home: /$ php dom_tester_doc_test.php<br />
+                    <strong>dom_tester_doc_test.php<br />
+                    OK<br />
+                    Test cases run: 1/1, Passes: 5, Failures: 0, Exceptions: 0<br /></strong>
+                </div>
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>A <a href="#recorder">Recorder</a> for non-developpers.</link>
+        <link>Exploring the <a href="#recorder-results">Recorder results</a>.</link>
+    </internal>
+    <external>
+        <link>
+            The <a href="http://junit.sourceforge.net/doc/faq/faq.htm">JUnit FAQ</a>
+            has plenty of useful testing advice.
+        </link>
+        <link>
+            <a href="group_test_tutorial.php">Next</a> is grouping test
+            cases together.
+        </link>
+        <link>
+            You will need the <a href="simple_test.php">SimpleTest testing framework</a>
+            for these examples.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming,
+            programming php,
+            software development tools,
+            php tutorial,
+            free php scripts,
+            architecture,
+            php resources,
+            mock objects,
+            junit,
+            php testing,
+            unit test,
+            automated php testing,
+            test cases tutorial,
+            explain unit test case,
+            unit test example,
+            unit test
+        </keywords>
+    </meta>
+</page>

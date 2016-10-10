@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!-- $Id: intro.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Introduction to SimpleTest" here="English version">
+    <long_title>
+        Summary of SimpleTest including it's Java tool roots.
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                The <a local="simple_test">SimpleTest PHP unit tester</a> is in
+                the 1.0.1 release cycle and is available for download from your nearest <a 
+                href="http://souceforge.net/projects/simpletest/">SourceForge</a>.
+            </p>
+            <p>
+                It is a PHP unit test, mock objects and web test framework.
+                Users of <a href="http://www.junit.org/">JUnit</a> will be
+                familiar with most of the interface.
+                For web testing a small web browser is included, similar to
+                <a href="http://jwebunit.sourceforge.net/">JWebUnit</a>.
+                It has support for SSL, frames, proxies, basic authentication, redirects,
+                and the standard HTML form controls.
+                The idea is that common but fiddly PHP tasks, such as logging into a site,
+                can be tested easily as calling <code>click()</code>.
+            </p>
+            <p>
+                There is currently no support for JavaScript in the web tester.
+                For testing these elements we recommend
+                <a href="http://selenium.thoughtworks.com/index.html">Selenium</a>.
+            </p>
+        </introduction>
+    </content>
+    <meta>
+        <keywords>
+            software development,
+            computer programmer,
+            php programming,
+            programming php,
+            software development tools,
+            software development company,
+            php tutorial,
+            free php scripts,
+            bespoke software development uk,
+            corporate web development,
+            architecture,
+            php resources,
+            unit test,
+            php testing,
+            test cases tutorial,
+            explain unit test case,
+            unit test example,
+            xml
+        </keywords>
+    </meta>
+</page>

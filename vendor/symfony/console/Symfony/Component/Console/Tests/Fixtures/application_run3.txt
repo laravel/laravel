@@ -1,0 +1,27 @@
+Usage:
+ list [--xml] [--raw] [--format="..."] [namespace]
+
+Arguments:
+ namespace  The namespace name
+
+Options:
+ --xml      To output list as XML
+ --raw      To output raw command list
+ --format   To output list in other formats (default: "txt")
+
+Help:
+ The list command lists all commands:
+ 
+   php app/console list
+ 
+ You can also display the commands for a specific namespace:
+ 
+   php app/console list test
+ 
+ You can also output the information in other formats by using the --format option:
+ 
+   php app/console list --format=xml
+ 
+ It's also possible to get raw list of commands (useful for embedding command runner):
+ 
+   php app/console list --raw

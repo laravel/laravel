@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: improving_design_tutorial.xml 1701 2008-03-24 20:08:06Z pp11 $ -->
+<page title="Du haut vers le bas et piloté par les tests" here="Du haut vers le bas et piloté par les tests">
+    <synchronisation lang="en" version="1687" date="24/03/2008" maintainer="pp11" />
+    <long_title>
+        tutoriel de test unitaire en PHP - Conception du haut vers le bas, tester d'abord avec des objets fantaisie
+    </long_title>
+    <content>
+        <section name="fantaisie" title="Commencer par la fantaisie, passer au code ensuite">
+            <p>
+                J'ai menti.
+            </p>
+            <p>
+                Je n'ai pas créé de test pour le scripteur,
+                uniquement l'interface <code>FileWriter</code>
+                que j'ai affiché plus tôt.
+                En fait je vais encore m'éloigner d'un article fini
+                et présumer l'existence un scripteur abstrait
+                dans <em>classes/writer.php</em>...
+<php><![CDATA[
+<?php
+class <strong>Writer</strong> {
+        
+    function <strong>Writer()</strong> {
+    }
+        
+    function write($message) {
+    }
+}
+?>
+]]></php>
+                Les changements correspondant au niveau du test sont...
+<php><![CDATA[
+<?php
+require_once('../classes/log.php');
+require_once('../classes/clock.php');
+require_once('../classes/writer.php');
+Mock::generate('Clock');<strong>
+Mock::generate('Writer');</strong>
+
+class TestOfLogging extends UnitTestCase {
+    function TestOfLogging() {
+        $this->UnitTestCase('Log class test');
+    }
+    function testWriting() {
+        $clock = &new MockClock($this);
+        $clock->setReturnValue('now', 'Timestamp');
+        $writer = &new <strong>MockWriter($this)</strong>;
+        $writer->expectOnce('write', array('[Timestamp] Test line'));
+        $log = &new Log($writer);
+        $log->message('Test line', &$clock);
+        $writer->tally();
+    }
+}
+?>
+]]></php>
+                Afin d'utiliser la classe de log, nous aurions besoin
+                de coder un scripteur de fichier - ou un autre type de scripteur -
+                mais pour le moment nous ne faisons que des tests
+                et nous n'en avons pas encore besoin.
+                En d'autres termes, en utilisant des objets fantaisie
+                nous pouvons décaler la création d'un objet
+                de niveau plus bas jusqu'au moment opportun.
+                Non seulement nous pouvons faire la conception du haut vers le bas,
+                mais en plus nous pouvons aussi tester du haut vers le bas.
+            </p>
+        </section>
+        <section name="bridge" title="S'approcher du bridge - pont">
+            <p>
+                Imaginez pour un moment que nous ayons commencé la classe de log
+                à partir d'une autre direction.
+                Simulez avoir écrit juste assez du <code>Log</code>
+                pour avoir réaliser le besoin d'un <code>Writer</code>.
+                Comme l'aurions-nous inclus ?
+            </p>
+            <p>
+                Bon, l'héritage du scripteur ne nous aurait pas
+                permis de le simuler du point de vue des tests.
+                De celui de la conception nous aurions été restreint
+                à un unique scripteur sans héritage multiple.
+            </p>
+            <p>
+                Créer un scripteur interne, plutôt qu'en le passant
+                au constructeur, en choisissant un nom de classe,
+                est possible, mais nous aurions moins de contrôle
+                sur l'initialisation de l'objet fantaisie.
+                Du point de vue de la conception il aurait été
+                presque impossible de passer des paramètres
+                au scripteur dans tous les formats possibles
+                et envisageables. Vous auriez dû restreindre
+                le scripteur à un hash ou à une chaîne compliquée
+                décrivant tous les détails de la cible.
+                Au mieux compliqué sans raison.
+            </p>
+            <p>
+                Utiliser une méthode fabrique pour créer le scripteur
+                intérieurement serait possible, mais ça voudrait
+                dire le sous classer pour les tests de manière
+                à remplacer la méthode fabrique par une autre méthode
+                renvoyant un leurre. Plus de boulot du point de vue des tests,
+                quoique toujours possible. Du point de vue de la conception,
+                ça voudrait dire créer une nouvelle sous-classe de
+                log pour chaque type de scripteur.
+                Cela s'appelle une hiérarchie de classe parallèle
+                et fait bien entendu à de la duplication.
+                Beurk.
+            </p>
+            <p>
+                A l'autre extrême, passer ou créer le scripteur
+                à chaque message aurait été répétitif
+                et aurait réduit le code de la classe <code>Log</code>
+                à une unique méthode, un signe certain
+                que toute la classe est devenue redondante.
+            </p>
+            <p>
+                Cette tension entre la facilité du test
+                et le refus de la répétition nous a permis
+                de trouver une conception à la fois flexible et propre.
+                Vous vous souvenez de notre bref envie de l'héritage multiple ?
+                Nous l'avons remplacé par du polymorphisme
+                (plein de scripteurs) et séparé la hiérarchie du journal
+                de celle de l'écriture.
+                Nous relions les deux par agrégation à travers
+                le plus simple <code>Log</code>.
+                Cette astuce est en fait un design pattern
+                (modèle de conception) appelé &quot;Pont&quot; ou &quot;Bridge&quot;.
+            </p>
+            <p>
+                Donc nous avons été poussé par le code de test
+                (nous n'avons presque rien écrit d'autre) vers un design pattern.
+                Pensez-y une seconde. Les tests améliorent
+                la qualité du code, à coup sûr dans mon cas,
+                mais il y a quelque chose de bien plus profond et plus puissant.
+            </p>
+            <p>
+                Les tests ont amélioré la conception.
+            </p>
+        </section>
+        <section name="conception" title="Simuler la conception">
+            <p>
+                Créer un objet fantaisie est aussi simple
+                que de créer l'interface à l'écrit.
+                Si vous utilisez de l'UML ou d'autres outils
+                pour générer ces interfaces alors vous avez un chemin encore
+                plus flexible pour générer rapidement vos objets de test.
+                Même sans, vous pouvez passer du dessin sur tableau blanc,
+                à l'écriture de l'objet fantaisie,
+                puis à la génération de l'interface qui nous renvoie
+                de nouveau au tableau blanc, le tout très simplement.
+                Comme le remaniement, la conception, le code et les tests s'unifient.
+            </p>
+            <p>
+                Parce que les objets fantaisie travaillent du haut vers le bas,
+                ils peuvent être amenés dans la conception plus rapidement
+                qu'un remaniement classique qui demande
+                quant à lui du code fonctionnel avant de pourvoir s'installer.
+                Ça veut dire que le code de test interagit plus vite
+                avec la conception : par conséquent la qualité
+                de la conception augmente elle aussi plus vite.
+            </p>
+            <p>
+                Un testeur unitaire est un outil de code.
+                Un testeur unitaire avec objet fantaisie est un outil de conception.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#fantaisie">Simuler maintenant</a>, coder plus tard.
+        </link>
+        <link>
+            Nous dérivons vers le <a href="#bridge">design pattern bridge</a>.
+        </link>
+        <link>
+            <a href="#conception">Conception et test</a> main dans la main.
+        </link>
+    </internal>
+    <external>
+        <link>
+            Ce tutorial suit
+            <a href="boundary_classes_tutorial.php">les classes frontière</a>.
+        </link>
+        <link>
+            Vous aurez besoin du
+            <a href="simple_test.php">framework de test SimpleTest</a>
+            pour essayer ces exemples.
+        </link>
+        <link>
+            Pour des discussions plus fournis sur
+            les objets fantaisie, voyez le
+            <a href="http://www.xpdeveloper.org/xpdwiki/Wiki.jsp?page=MockObjects">
+            Wiki des Extreme Tuesday</a>
+            ou le <a href="http://c2.com/cgi/wiki?MockObject">Wiki C2</a>
+            (en anglais tous les deux).
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            tutoriel de programmation php,
+            scénarios de test en php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            architecture,
+            exemple php,
+            exemple d'objet fantaisie,
+            test style junit,
+            architecture logicielle pour des tests,
+            framework de test en php,
+            test unitaire,
+            objet fantaisie en php
+            test php,
+            suite de test php
+        </keywords>
+    </meta>
+</page>
+

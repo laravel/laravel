@@ -1,0 +1,405 @@
+<?xml version="1.0"?>
+<!-- $Id: boundary_classes_tutorial.xml 1803 2008-09-08 11:11:03Z lastcraft $ -->
+<page title="The Application Boundary" here="Boundary classes">
+    <long_title>
+        PHP unit testing tutorial - Organising unit tests and &quot;setup tests&quot;
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                You are probably thinking that we have well and truly exhausted
+                the <code>Log</code> class by now and that there is
+                really nothing more to add.
+                Things are never that simple with object oriented programming, though.
+                You think you understand a problem and then something comes a long
+                that challenges your perspective and leads to an even deeper appreciation.
+                I thought I understood the logging class and that only the first page
+                of the tutorial would use it.
+                After that I would move on to something more complicated.
+                No one is more surprised than me that I still haven&apos;t got to
+                the bottom of it.
+                In fact I think I have only just figured out what a logger does.
+            </p>
+        </introduction>
+        <section name="variation" title="Log variations">
+            <p>
+                Supposing that we do not want to log to a file at all.
+                Perhaps we want to print to the screen, write the messages to a
+                socket or send them to the Unix(tm) <em>syslog</em> daemon for
+                dispatching across the network.
+                How do we incorporate this variation?
+            </p>
+            <p>
+                Simplest is to subclass the <code>Log</code>
+                overriding the <code>message()</code> method
+                with new versions.
+                This will work in the short term, but there is actually something
+                subtle, but deeply wrong with this.
+                Suppose we do subclass and have loggers that write to files,
+                the screen and the network.
+                Three classes , but that is OK.
+                Now suppose that we want a new logging class that adds message
+                filtering by priority, letting only certain types of messages
+                through according to some configuration file.
+            </p>
+            <p>
+                We are stuck. If we subclass again, we have to do it for all
+                three classes, giving us six classes.
+                The amount of duplication is horrible.
+            </p>
+            <p>
+                So are you now wishing that PHP had multiple inheritence?
+                Well, here that would reduce the short term workload, but
+                complicate what should be a very simple class.
+                Multiple inheritance, even when supported, should be used
+                extremely carefully as all sorts of complicated entanglements
+                can result.
+                Treat it as a loaded gun.
+                In fact, our sudden need for it is telling us something else - perhaps
+                that we have gone wrong on the conceptual level.
+            </p>
+            <p>
+                What does a logger do?
+                Does it send messages to a file?
+                Does it send messages to a network?
+                Does it send messages to a screen?
+                Nope.
+                It just sends messages (full stop).
+                The target of those messages can be chosen when setting
+                up the log, but after that the
+                logger should be left to combine and format the message
+                elements as that is its real job.
+                We restricted ourselves by assuming that target was a filename.
+            </p>
+        </section>
+        <section name="writer" title="Abstracting a file to a writer">
+            <p>
+                The solution to this plight is a real classic.
+                First we encapsulate the variation in a class as this will
+                add a level of indirection.
+                Instead of passing in the file name as a string we
+                will pass the &quot;thing that we will write to&quot;
+                which we will call a <code>Writer</code>.
+                Back to the tests...
+<php><![CDATA[
+<?php
+require_once('simpletest/autorun.php');
+require_once('../classes/log.php');
+require_once('../classes/clock.php');<strong>
+require_once('../classes/writer.php');</strong>
+Mock::generate('Clock');
+
+class TestOfLogging extends UnitTestCase {
+    function setUp() {
+        @unlink('../temp/test.log');
+    }
+    function tearDown() {
+        @unlink('../temp/test.log');
+    }
+
+    function testCreatingNewFile() {<strong>
+        $log = new Log(new FileWriter('../temp/test.log'));</strong>
+        $this->assertFalse(file_exists('../temp/test.log'), 'Created before message');
+        $log->message('Should write this to a file');
+        $this->assertTrue(file_exists('../temp/test.log'), 'File created');
+    }
+
+    function testAppendingToFile() {<strong>
+        $log = new Log(new FileWriter('../temp/test.log'));</strong>
+        $log->message('Test line 1');
+        $this->assertWantedPattern(
+                '/Test line 1/',
+                $this->getFileLine('../temp/test.log', 0));
+        $log->message('Test line 2');
+        $this->assertWantedPattern(
+                '/Test line 2/',
+                $this->getFileLine('../temp/test.log', 1));
+    }
+
+    function testTimestamps() {
+        $clock = new MockClock($this);
+        $clock->setReturnValue('now', 'Timestamp');<strong>
+        $log = new Log(new FileWriter('../temp/test.log'));</strong>
+        $log->message('Test line', $clock);
+        $this->assertWantedPattern(
+                '/Timestamp/',
+                $this->getFileLine('../temp/test.log', 0),
+                'Found timestamp');
+    }
+
+    function getFileLine($filename, $index) {
+        $messages = file($filename);
+        return $messages[$index];
+    }
+}
+?>
+]]></php>
+                I am going to do this one step at a time so as not to get
+                confused.
+                I have replaced the file names with an imaginary
+                <code>FileWriter</code> class from
+                an imaginary file <em>classes/writer.php</em>.
+                This will cause the tests to crash as we have not written
+                the writer yet.
+                Should we do that now?
+            </p>
+            <p>
+                We could, but we don&apos;t have to.
+                We do need to create the interface, though, or we won&apos;t be
+                able to mock it.
+                This makes <em>classes/writer.php</em> looks like...
+<php><![CDATA[
+<?php
+class FileWriter {
+        
+    function FileWriter($file_path) {
+    }
+        
+    function write($message) {
+    }
+}
+?>
+]]></php>
+                We need to modify the <code>Log</code> class
+                as well...
+<php><![CDATA[
+<?php
+require_once('../classes/clock.php');<strong>
+require_once('../classes/writer.php');</strong>
+    
+class Log {<strong>
+    private $writer;</strong>
+        
+    function Log(<strong>$writer</strong>) {<strong>
+        $this->writer = $writer;</strong>
+    }
+        
+    function message($message, $clock = false) {
+        if (! is_object($clock)) {
+            $clock = new Clock();
+        }<strong>
+        $this->writer->write("[" . $clock->now() . "] $message");</strong>
+    }
+}
+?>
+]]></php>
+                There is not much that hasn&apos;t changed in our now even smaller
+                class.
+                The tests run, but fail at this point unless we add code to
+                the writer.
+                What do we do now?
+            </p>
+            <p>
+                We could start writing tests and code the
+                <code>FileWriter</code> class alongside, but
+                while we were doing this our <code>Log</code>
+                tests would be failing and disturbing our focus.
+                In fact we do not have to.
+            </p>
+            <p>
+                Part of our plan is to free the logging class from the file
+                system and there is a way to do this.
+                First we add a <em>tests/writer_test.php</em> so that
+                we have somewhere to place our test code from <em>log_test.php</em>
+                that we are going to shuffle around.
+                I won&apos;t yet add it to the <em>all_tests.php</em> file,
+                as it is the logging aspect we are tackling right now.
+            </p>
+            <p>
+                Now I have done that (honest!) we remove any
+                tests from <em>log_test.php</em> that are not strictly logging
+                related and move them to <em>writer_test.php</em> for later.
+                We will also mock the writer so that it does not write
+                out to real files...
+<php><![CDATA[
+<?php
+require_once('simpletest/autorun.php');
+require_once('../classes/log.php');
+require_once('../classes/clock.php');
+require_once('../classes/writer.php');
+Mock::generate('Clock');<strong>
+Mock::generate('FileWriter');</strong>
+
+class TestOfLogging extends UnitTestCase {
+    <strong>
+    function testWriting() {
+        $clock = new MockClock();
+        $clock->setReturnValue('now', 'Timestamp');
+        $writer = new MockFileWriter($this);
+        $writer->expectOnce('write', array('[Timestamp] Test line'));
+        $log = new Log(\$writer);
+        $log->message('Test line', $clock);
+    }</strong>
+}
+?>
+]]></php>
+                Yes that really is the whole test case and it really is that short.
+                A lot has happened here...
+                <ol>
+                    <li>
+                        The requirement to create the file only when needed has
+                        moved to the <code>FileWriter</code>.
+                    </li>
+                    <li>
+                        As we are dealing with mocks, no files are actually
+                        created and so I moved the
+                        <code>setUp()</code> and
+                        <code>tearDown()</code> off into the
+                        <code>FileWriter</code> tests.
+                    </li>
+                    <li>
+                        The test now consists of sending a sample message and
+                        testing the format.
+                    </li>
+                </ol>
+                Hang on a minute, where are the assertions?
+            </p>
+            <p>
+                The mock objects do much more than simply behave like other
+                objects, they also run tests.
+                The <code>expectOnce()</code>
+                call told the mock to expect a single parameter of
+                the string &quot;[Timestamp] Test line&quot; when
+                the mock <code>write()</code> method is
+                called.
+                When that method is called the expected parameters are
+                compared with this and either a pass or a fail is sent
+                to the unit test as a result.
+            </p>
+            <p>
+                The other expectation is that <code>write()</code>
+                will be called and called only once.
+                If the method is not called before the end of the test,
+                a failure is generated.
+                We can see all this in action by running the tests...
+                <div class="demo">
+                    <h1>All tests</h1>
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testwriting-&gt;Arguments for [write] were [String: [Timestamp] Test line]<br />
+                    <span class="pass">Pass</span>: log_test.php-&gt;Log class test-&gt;testwriting-&gt;Expected call count for [write] was [1], but got [1]<br />
+                    
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclockadvance-&gt;Advancement<br />
+                    <span class="pass">Pass</span>: clock_test.php-&gt;Clock class test-&gt;testclocktellstime-&gt;Now is the right time<br />
+                    <div style="padding: 8px; margin-top: 1em; background-color: green; color: white;">3/3 test cases complete.
+                    <strong>4</strong> passes and <strong>0</strong> fails.</div>
+                </div>
+            </p>
+        </section>
+        <section name="boundary" title="Boundary classes">
+            <p>
+                Something very nice has happened to the logger besides merely
+                getting smaller.
+            </p>
+            <p>
+                The only things it depends on now are classes that we have written
+                ourselves, and
+                in the tests these are mocked and so there are no dependencies
+                on anything other than our own PHP code.
+                No writing to files or waiting for clocks to tick over.
+                This means that the <em>log_test.php</em> test case will
+                run as fast as the processor will carry it.
+                By contrast the <code>FileWriter</code>
+                and <code>Clock</code> classes are very
+                close to the system.
+                This makes them harder to test as real data must be moved
+                around and painstakingly confirmed, often by ad hoc tricks.
+            </p>
+            <p>
+                Our last refactoring has helped a bit.
+                The hard to test classes on the boundary of the application
+                and the system are now smaller, as the I/O code has
+                been further separated from the domain logic.
+                They are direct mappings to PHP operations:
+                <code>FileWriter::write()</code> maps
+                to PHP <code>fwrite()</code> with the
+                file opened for appending and
+                <code>Clock::now()</code> maps to
+                PHP <code>time()</code>.
+                This makes debugging easier.
+                It also means that these classes will change less often.
+            </p>
+            <p>
+                If they don&apos;t change a lot then there is no reason to
+                keep running the tests for them.
+                This means that tests for the boundary classes can be moved
+                off into there own test suite leaving the other unit tests
+                to run at full speed.
+                In fact this is what I tend to do and the test cases
+                in <a href="simple_test.php">SimpleTest</a> itself are
+                divided this way.
+            </p>
+            <p>
+                That may not sound like much with one unit test and two
+                boundary tests, but typical applications can have
+                twenty boundary classes and two hundred application
+                classes.
+                To keep the unit tests running at full speed you will want
+                to keep them separate.
+            </p>
+            <p>
+                Another benefit of this separation is that you are left
+                with the smaller test suite for all your dependencies.
+                Suppose you want to set up a server for your application
+                and you want to make sure that all underlying components,
+                directories and configuration are correct.
+                You no longer need to run the entire test suite to find out,
+                just run the tests for your boundary classes.
+                For this reason, this test suite is often called the
+                &quot;setup tests&quot;.
+                Hand them to your system administrator, and they can set up
+                your server for you.
+            </p>
+            <p>
+                Besides, separating off decisions of which system components
+                to use is good development.
+                Being able to change the underlying dependencies easily is a
+                good thing.
+                Perhaps all this mocking is
+                <a href="improving_design_tutorial.php">improving our design</a>?
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#variation">Handling variation</a> in our logger.
+        </link>
+        <link>
+            Abstracting further with a <a href="#writer">mock Writer</a> class.
+        </link>
+        <link>
+            Separating out<a href="#boundary">setup tests</a> cleans things up.
+        </link>
+    </internal>
+    <external>
+        <link>
+            This tutorial follows the <a href="mock_objects_tutorial.php">Mock objects</a> introduction.
+        </link>
+        <link>
+            Next is <a href="improving_design_tutorial.php">test driven design</a>.
+        </link>
+        <link>
+            You will need the <a href="simple_test.php">SimpleTest testing framework</a>
+            to try these examples.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            software development,
+            php programming,
+            programming php,
+            software development tools,
+            php tutorial,
+            free php scripts,
+            organizing unit tests,
+            testing tips,
+            development tricks,
+            software architecture for testing,
+            php example code,
+            mock objects,
+            junit port,
+            test case examples,
+            php testing,
+            unit test tool,
+            php test suite
+        </keywords>
+    </meta>
+</page>

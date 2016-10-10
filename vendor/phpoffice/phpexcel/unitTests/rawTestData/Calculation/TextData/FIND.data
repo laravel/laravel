@@ -1,0 +1,13 @@
+"E",	"QWERTYUIOP",		3
+"D",	"ABCDEFGHI",		4
+"E",	TRUE,			4
+"E",	FALSE,			5
+"A",	"Mark Baker",		"#VALUE!"
+"A",	"MARK BAKER",		2
+"a",	"Mark Baker",	2,	2
+"k",	"Mark Baker",	2,	4
+"k",	"Mark Baker",	5,	8
+"a",	"Mark Baker",	3,	7
+"BITE",	"BIT",			"#VALUE!"
+"",	"Mark Baker",		1
+"",	"Mark Baker",	8,	8

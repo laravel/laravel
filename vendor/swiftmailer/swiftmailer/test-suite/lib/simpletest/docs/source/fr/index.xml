@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Id: index.xml 1687 2008-03-06 13:05:45Z pp11 $ -->
+<page title="Les articles de :: onpk :: sur php / simpletest" here="php / simpletest">
+    <long_title>
+        Les articles de :: onpk :: sur php / simpletest : traductions en français des articles publiés sur Lastcraft.com
+    </long_title>
+    <content>
+        <introduction>
+            <p>
+                Cette section rassemble l'ensemble des articles et documentations pour SimpleTest traduits en français.
+            </p>
+        </introduction>
+        <section name="comment" title="Comment en arrive-t-on au développement piloté par les tests ?">
+            <p>
+                J'ai commencé par découvrir l'Extreme Programming via le web. Ensuite j'ai gagné un livre en français sur XP. Et découvrant la confiance supplémentaire gagnée via les tests unitaires et de recette, je suis devenu &quot;test-infected&quot;.
+            </p>
+            <p>
+                Après avoir goûté aux joies de SimpleTest, j'ai contacté Marcus Baker -- responsable du projet -- pour lui proposer de traduire en français la page d'introduction, puis les tutoriaux et finalement toute la documentation. Un travail qui n'aurait pas été possible sans l'aide de quelques relecteurs bienveillants : Jérémie C., David B., Emmanuel G., Olivier L. et Cédric G. (dans le désordre).
+            </p>
+            <p>
+                Si vous lisez attentivement ces quelques pages et que vous y trouvez encore des fautes d'orthographe, pensez à me les renvoyer : comme ça le prochain ne pourra pas se dire la même chose.
+            </p>
+        </section>
+        <section name="ailleurs" title="Et en dehors des tests ?">
+            <p>
+                J'ai un blog -- <a href="http://www.onpk.net/">:: onpk ::</a>, une entreprise -- <a href="http://www.noparking.net">No Parking</a> dont le produit phare est <a href="http://www.noparking.net/opentime/">openTIME</a>. Dans la communauté je me ballade du côté de l'<a href="http://www.afup.org/">AFUP</a>, des <a href="http://www.aperophp.net/">apéros PHP</a> et des <a href="http://xp-france.net/cgi-bin/wiki.pl">praticiens XP</a>.
+            </p>
+        </section>
+        <section name="articles" title="Tous les articles">
+            <p>
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#comment">Comment</a> en arrive-t-on au développement piloté par les tests ?
+        </link>
+        <link>
+            Et <a href="#ailleurs">en dehors</a> des tests ?
+        </link>
+        <link>
+            Tous les <a href="#articles">articles</a>
+        </link>
+    </internal>
+    <external>
+        <link>
+            <a href="http://www.lastcraft.com/simple_test.php">SimpleTest</a> -- l'original en anglais.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutorial php,
+            scripts php gratuits,
+            conseil de test,
+            architecture logicielle pour des tests,
+            exemple de code php,
+            junit,
+            test php,
+            outil de test unitaire,
+            suite de test php
+        </keywords>
+        <description>
+            Des articles (documentations et tutoriels) pour découvrir le développement agile en PHP avec le framework de tests unitaires SimpleTest.
+        </description>
+    </meta>
+</page>

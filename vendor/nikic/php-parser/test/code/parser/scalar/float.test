@@ -1,0 +1,70 @@
+Different float syntaxes
+-----
+<?php
+
+0.0;
+0.;
+.0;
+0e0;
+0E0;
+0e+0;
+0e-0;
+30.20e10;
+300.200e100;
+1e10000;
+
+// various integer -> float overflows
+// (all are actually the same number, just in different representations)
+18446744073709551615;
+0xFFFFFFFFFFFFFFFF;
+01777777777777777777777;
+0177777777777777777777787;
+0b1111111111111111111111111111111111111111111111111111111111111111;
+-----
+array(
+    0: Scalar_DNumber(
+        value: 0
+    )
+    1: Scalar_DNumber(
+        value: 0
+    )
+    2: Scalar_DNumber(
+        value: 0
+    )
+    3: Scalar_DNumber(
+        value: 0
+    )
+    4: Scalar_DNumber(
+        value: 0
+    )
+    5: Scalar_DNumber(
+        value: 0
+    )
+    6: Scalar_DNumber(
+        value: 0
+    )
+    7: Scalar_DNumber(
+        value: 302000000000
+    )
+    8: Scalar_DNumber(
+        value: 3.002E+102
+    )
+    9: Scalar_DNumber(
+        value: INF
+    )
+    10: Scalar_DNumber(
+        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
+    )
+    11: Scalar_DNumber(
+        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
+    )
+    12: Scalar_DNumber(
+        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
+    )
+    13: Scalar_DNumber(
+        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
+    )
+    14: Scalar_DNumber(
+        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
+    )
+)

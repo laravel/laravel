@@ -1,0 +1,11 @@
+<test>
+  <a id="first" xml:lang="en">a</a>
+  <b id="second" xml:lang="en-US">b</b>
+  <c id="third" xml:lang="en-Nz">c</c>
+  <d id="fourth" xml:lang="En-us">d</d>
+  <e id="fifth" xml:lang="fr">e</e>
+  <f id="sixth" xml:lang="ru">f</f>
+  <g id="seventh" xml:lang="de">
+    <h id="eighth" xml:lang="zh"/>
+  </g>
+</test>

@@ -1,0 +1,12 @@
+,		"#VALUE!"
+"",		"#VALUE!"
+"ABC",		65
+123,		49
+TRUE,		84
+"DEF",		68
+"PHPExcel",	80
+1.5,		49
+"Mark Baker",	77
+"mark baker",	109
+"£125.00",	163
+"Бензин",	1234

@@ -1,0 +1,22 @@
+blog_show:
+    path:         /blog/{slug}
+    defaults:     { _controller: "MyBundle:Blog:show" }
+    host:         "{locale}.example.com"
+    requirements: { 'locale': '\w+' }
+    methods:      ['GET','POST','put','OpTiOnS']
+    schemes:      ['https']
+    condition:    'context.getMethod() == "GET"'
+    options:
+        compiler_class: RouteCompiler
+
+blog_show_legacy:
+    pattern:      /blog/{slug}
+    defaults:     { _controller: "MyBundle:Blog:show" }
+    host:         "{locale}.example.com"
+    requirements: { '_method': 'GET|POST|put|OpTiOnS', _scheme: https, 'locale': '\w+' }
+    condition:    'context.getMethod() == "GET"'
+    options:
+        compiler_class: RouteCompiler
+
+blog_show_inherited:
+    path:      /blog/{slug}

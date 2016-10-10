@@ -1,0 +1,1 @@
+Output folder for Lastcraft site versions of documentation.

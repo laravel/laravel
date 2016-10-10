@@ -1,0 +1,46 @@
+{
+  "name": "elasticsearch/elasticsearch",
+  "description": "PHP Client for Elasticsearch",
+  "keywords": ["search","client", "elasticsearch"],
+  "type": "library",
+  "license": "Apache 2",
+  "authors": [
+    {
+      "name": "Zachary Tong"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "psr/log": "~1.0",
+    "guzzlehttp/ringphp" : "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.7",
+    "mockery/mockery": "0.9.4",
+    "athletic/athletic": "~0.1",
+    "symfony/yaml": "2.4.3 as 2.4.2",
+    "twig/twig": "1.*",
+    "cpliakas/git-wrapper": "~1.0"
+  },
+  "suggest": {
+    "ext-curl": "*",
+    "monolog/monolog": "Allows for client-level logging and tracing"
+  },
+  "autoload": {
+    "psr-4": {
+      "Elasticsearch\\": "src/Elasticsearch/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Elasticsearch\\Tests\\":      "tests/Elasticsearch/Tests/",
+      "Elasticsearch\\Benchmarks\\": "benchmarks/Elasticsearch/Benchmarks/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/polyfractal/Yaml"
+    }
+  ]
+}

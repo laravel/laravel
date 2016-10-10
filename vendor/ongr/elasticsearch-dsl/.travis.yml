@@ -1,0 +1,24 @@
+sudo: false
+language: php
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+matrix:
+  allow_failures:
+    - php: hhvm
+before_script:
+  - composer install --no-interaction --prefer-dist
+script:
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
+  - vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/ ./
+after_script:
+  - vendor/bin/coveralls
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/81e47479feba5ba8dc47
+    on_success: change
+    on_start: never

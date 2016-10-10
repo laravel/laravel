@@ -1,0 +1,40 @@
+<html>
+    <head><title>Test of form submission</title></head>
+    <body>
+        <form action="network_confirm.php" method="get">
+            <label>Text A <input type="text" name="a"></label>
+            <br />
+            <label>Text area B <textarea name="b"></textarea></label>
+            <br />
+            <label>Text area C
+                <textarea name="c">
+                </textarea>
+            </label>
+            <br />
+            <label>Selection D
+                <select name="d">
+                    <option value="" selected>D1</option>
+                    <option>D2</option>
+                    <option value="0">D3</option>
+                    <option value="?">D4</option>
+                </select>
+            </label>
+            <br />
+            <label>Checkbox E <input type="checkbox" name="e" value="" checked></label>
+            <br />
+            <label>Checkbox F <input type="checkbox" name="f" checked></label>
+            <br />
+            <label>Checkbox G <input type="checkbox" name="g" value="0" checked></label>
+            <br />
+            <label>Checkbox H <input type="checkbox" name="h" value="?" checked></label>
+            <br />
+            Radio I
+            <label>I1<input type="radio" name="i" checked></label>
+            <label>I2<input type="radio" name="i" value=""></label>
+            <label>I3<input type="radio" name="i" value="0"></label>
+            <label>I4<input type="radio" name="i" value="?"></label>
+            <br />
+            <input type="submit" name="go" value="Go!">
+        </form>
+    </body>
+</html>

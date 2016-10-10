@@ -1,0 +1,221 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the Predis package.
+ *
+ * (c) Daniele Alessandri <suppakilla@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+// -------------------------------------------------------------------------- //
+// In order to be able to execute this script to create a PEAR package of Predis
+// the `pear` binary must be available and executable in your $PATH.
+// The parts used to parse author and version strings are taken from Onion (used
+// by this library in the past) just to keep on relying on the package.ini file
+// to simplify things. We might consider to switch to using the PEAR classes
+// directly in the future.
+// -------------------------------------------------------------------------- //
+
+function executeWithBackup($file, $callback)
+{
+    $exception = null;
+    $backup = "$file.backup";
+
+    copy($file, $backup);
+
+    try {
+        call_user_func($callback, $file);
+    } catch (Exception $exception) {
+        // NOOP
+    }
+
+    unlink($file);
+    rename($backup, $file);
+
+    if ($exception) {
+        throw $exception;
+    }
+}
+
+function parseAuthor($string)
+{
+    $author = array();
+
+    if (preg_match('/^\s*(.+?)\s*(?:"(\S+)"\s*)?<(\S+)>\s*$/x', $string , $regs)) {
+        if (count($regs) == 4) {
+            list($orig,$name,$user,$email) = $regs;
+            $author['name'] = $name;
+            $author['user'] = $user;
+            $author['email'] = $email;
+        } elseif (count($regs) == 3) {
+            list($orig,$name,$email) = $regs;
+            $author['name'] = $name;
+            $author['email'] = $email;
+        }
+    } else {
+        $author['name'] = $string;
+    }
+
+    return $author;
+}
+
+function parseVersion($string)
+{
+    $version_pattern = '([0-9.]+)';
+
+    if (preg_match("/^\s*$version_pattern\s*\$/x", $string, $regs)) {
+        return array('min' => $regs[1] ?: '0.0.0');
+    } elseif (preg_match("/^\s*[>=]+\s*$version_pattern\s*\$/x", $string, $regs)) {
+        return array('min' => $regs[1] ?: '0.0.0');
+    } elseif (preg_match("/^\s*[<=]+\s*$version_pattern\s*\$/x", $string, $regs)) {
+        return array('max' => $regs[1]);
+    } elseif (preg_match("/^\s*$version_pattern\s*<=>\s*$version_pattern\s*\$/x", $string, $regs)) {
+        return array(
+            'min' => $regs[1] ?: '0.0.0',
+            'max' => $regs[2],
+        );
+    }
+}
+
+function addRolePath($pkg, $path, $role)
+{
+    if (is_dir($path)) {
+        $dirRoot = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+        $dirTree = new RecursiveIteratorIterator($dirRoot, RecursiveIteratorIterator::CHILD_FIRST);
+
+        foreach ($dirTree as $fileinfo) {
+            if ($fileinfo->isFile()) {
+                addPackageFile($pkg, $fileinfo, $role, $path);
+            }
+        }
+    } else {
+        foreach (glob($path) as $filename) {
+            addPackageFile($pkg, new SplFileInfo($filename), $role);
+        }
+    }
+}
+
+function addPackageFile($pkg, $fileinfo, $role, $baseDir = '')
+{
+    $fileNode = $pkg->contents->dir->addChild('file');
+    $fileNode->addAttribute('name', $filepath = $fileinfo->getPathname());
+    $fileNode->addAttribute('role', $role);
+    $fileNode->addAttribute('md5sum', md5_file($filepath));
+
+    $installNode = $pkg->phprelease->filelist->addChild('install');
+    $installNode->addAttribute('name', $filepath);
+    $installNode->addAttribute('as', !$baseDir ? basename($filepath) : substr($filepath, strlen($baseDir) + 1));
+}
+
+function generatePackageXml($packageINI)
+{
+    $XML = <<<XML
+<?xml version="1.0"?>
+<package packagerversion="1.4.10" version="2.0"
+    xmlns="http://pear.php.net/dtd/package-2.0"
+    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+              http://pear.php.net/dtd/tasks-1.0.xsd
+              http://pear.php.net/dtd/package-2.0
+              http://pear.php.net/dtd/package-2.0.xsd" />
+XML;
+
+    $cfg = parse_ini_file($packageINI, true);
+    $pkg = new SimpleXMLElement($XML);
+
+    $pkg->name = $cfg['package']['name'];
+    $pkg->channel = $cfg['package']['channel'];
+    $pkg->summary = $cfg['package']['desc'];
+    $pkg->description = $cfg['package']['desc'];
+
+    $author = parseAuthor($cfg['package']['author']);
+    $pkg->addChild('lead');
+    $pkg->lead->name = $author['name'];
+    $pkg->lead->user = $author['user'];
+    $pkg->lead->email = $author['email'];
+    $pkg->lead->active = 'yes';
+
+    $datetime = new DateTime('now');
+    $pkg->date = $datetime->format('Y-m-d');
+    $pkg->time = $datetime->format('H:i:s');
+
+    $pkg->addChild('version');
+    $pkg->version->release = $cfg['package']['version'];
+    $pkg->version->api = $cfg['package']['version'];
+
+    $pkg->addChild('stability');
+    $pkg->stability->release = $cfg['package']['stability'];
+    $pkg->stability->api = $cfg['package']['stability'];
+
+    $pkg->license = $cfg['package']['license'];
+    $pkg->notes = '-';
+
+    $pkg->addChild('contents')->addChild('dir')->addAttribute('name', '/');
+
+    $pkg->addChild('dependencies')->addChild('required');
+    foreach ($cfg['require'] as $required => $version) {
+        $version = parseVersion($version);
+        $pkg->dependencies->required->addChild($required);
+
+        if (isset($version['min'])) {
+            $pkg->dependencies->required->$required->min = $version['min'];
+        }
+        if (isset($version['max'])) {
+            $pkg->dependencies->required->$required->min = $version['max'];
+        }
+    }
+
+    $pkg->addChild('phprelease')->addChild('filelist');
+
+    $pathToRole = array(
+        'doc' => 'doc', 'docs' => 'doc', 'examples' => 'doc',
+        'lib' => 'php', 'src' => 'php',
+        'test' => 'test', 'tests' => 'test',
+    );
+
+    foreach (array_merge($pathToRole, $cfg['roles'] ?: array()) as $path => $role) {
+        addRolePath($pkg, $path, $role);
+    }
+
+    return $pkg;
+}
+
+function savePackageXml($xml)
+{
+    $dom = new DOMDocument("1.0");
+    $dom->preserveWhiteSpace = false;
+    $dom->formatOutput = true;
+    $dom->loadXML($xml->asXML());
+
+    file_put_contents('package.xml', $dom->saveXML());
+}
+
+function buildPackage()
+{
+    passthru('pear -q package && rm package.xml');
+}
+
+function modifyPhpunitXml($file)
+{
+    $cfg = new SimpleXMLElement($file, null, true);
+
+    $cfg[0]['bootstrap'] = str_replace('tests/', '', $cfg[0]['bootstrap']);
+    $cfg->testsuites->testsuite->directory = str_replace('tests/', '', $cfg->testsuites->testsuite->directory);
+
+    $cfg->saveXml($file);
+}
+
+// -------------------------------------------------------------------------- //
+
+executeWithBackup(__DIR__.'/../phpunit.xml.dist', function ($file) {
+    modifyPhpunitXml($file);
+
+    $pkg = generatePackageXml('package.ini');
+    savePackageXml($pkg);
+
+    buildPackage();
+});

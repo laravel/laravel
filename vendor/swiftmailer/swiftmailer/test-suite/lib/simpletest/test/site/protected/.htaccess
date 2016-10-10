@@ -1,0 +1,5 @@
+AuthName "Test of basic authentication"
+AuthType Basic
+AuthUserFile /home/marcus/projects/lastcraft/www/test/protected/.htpasswd
+require valid-user
+

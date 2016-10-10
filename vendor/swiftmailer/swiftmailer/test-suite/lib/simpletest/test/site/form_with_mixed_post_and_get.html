@@ -1,0 +1,15 @@
+<html>
+    <head><title>Test of form submission</title></head>
+    <body>
+        <form action="network_confirm.php?x=X&y=Y" method="post">
+            <label>Text A <input type="text" name="a" value=""></label>
+            <br />
+            <input type="submit" name="go" value="Go!">
+        </form>
+        <form action="network_confirm.php?x=X&amp;y=Y" method="post">
+            <label>Text B <input type="text" name="b" value=""></label>
+            <br />
+            <input type="submit" name="go" value="Go encoded!">
+        </form>
+    </body>
+</html>

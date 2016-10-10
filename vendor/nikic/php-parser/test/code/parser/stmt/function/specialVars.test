@@ -1,0 +1,50 @@
+Special function variables
+-----
+<?php
+
+function a() {
+    global $a, ${'b'}, $$c;
+    static $c, $d = 'e';
+}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        params: array(
+        )
+        stmts: array(
+            0: Stmt_Global(
+                vars: array(
+                    0: Expr_Variable(
+                        name: a
+                    )
+                    1: Expr_Variable(
+                        name: Scalar_String(
+                            value: b
+                        )
+                    )
+                    2: Expr_Variable(
+                        name: Expr_Variable(
+                            name: c
+                        )
+                    )
+                )
+            )
+            1: Stmt_Static(
+                vars: array(
+                    0: Stmt_StaticVar(
+                        name: c
+                        default: null
+                    )
+                    1: Stmt_StaticVar(
+                        name: d
+                        default: Scalar_String(
+                            value: e
+                        )
+                    )
+                )
+            )
+        )
+        name: a
+    )
+)

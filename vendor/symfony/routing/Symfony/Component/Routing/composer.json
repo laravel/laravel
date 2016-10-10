@@ -1,0 +1,45 @@
+{
+    "name": "symfony/routing",
+    "type": "library",
+    "description": "Symfony Routing Component",
+    "keywords": ["routing", "router", "URL", "URI"],
+    "homepage": "http://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "symfony/config": "~2.2",
+        "symfony/http-foundation": "~2.3",
+        "symfony/yaml": "~2.0",
+        "symfony/expression-language": "~2.4",
+        "doctrine/annotations": "~1.0",
+        "psr/log": "~1.0"
+    },
+    "suggest": {
+        "symfony/config": "For using the all-in-one router or any loader",
+        "symfony/yaml": "For using the YAML loader",
+        "symfony/expression-language": "For using expression matching",
+        "doctrine/annotations": "For using the annotation loader"
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Component\\Routing\\": "" }
+    },
+    "target-dir": "Symfony/Component/Routing",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}
