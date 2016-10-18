@@ -99,4 +99,23 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Views
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify different login, register and password reset views
+    | that are used in conjunction with authentication in Laravel. Default
+    | views are provided to you by running `make:auth` artisan command.
+    |
+    */
+    'views' => [
+        'login' => 'views.auth.login',
+        'register' => 'views.auth.register',
+        'passwords' => [
+            'email' => 'views.auth.passwords.email',
+            'reset' => 'views.auth.passwords.reset',
+        ]
+    ],
+
 ];
