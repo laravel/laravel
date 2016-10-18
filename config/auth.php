@@ -115,7 +115,7 @@ return [
         'passwords' => [
             'email' => 'views.auth.passwords.email',
             'reset' => 'views.auth.passwords.reset',
-        ]
+        ],
     ],
 
 ];
