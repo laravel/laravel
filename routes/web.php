@@ -7,7 +7,7 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "Web" middleware group. Build something great!
+| is assigned the "web" middleware group. Build something great!
 |
 */
 
