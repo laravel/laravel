@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -23,7 +23,7 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after login / registration.
+     * Where to redirect users after registration.
      *
      * @var string
      */
