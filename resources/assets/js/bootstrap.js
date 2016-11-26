@@ -27,6 +27,7 @@ window.Vue = require('vue');
  * https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4#.nhzbvemvq
  */
 
+window.axios = require('axios');
 Vue.prototype.$http = axios;
 
 /**
