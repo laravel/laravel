@@ -24,7 +24,7 @@ window.Vue = require('vue');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = Vue.prototype.$http = require('axios');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
