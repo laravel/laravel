@@ -109,8 +109,6 @@ return [
 
         'client' => 'predis',
 
-        'cluster' => false,
-
         'default' => [
             'host' => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
