@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest('login');
     }
-    
+
     /**
      * Convert an unauthorized exception into an unauthorized response.
      *
