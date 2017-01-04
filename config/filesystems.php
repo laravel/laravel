@@ -51,7 +51,6 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => url('storage'),
             'visibility' => 'public',
         ],
 
