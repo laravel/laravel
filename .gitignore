@@ -1,7 +1,6 @@
 Homestead.json
 Homestead.yaml
 .env
-composer.lock
 /node_modules
 /public/storage
 /storage/*.key
