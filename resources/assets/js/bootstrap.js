@@ -17,7 +17,18 @@ require('bootstrap-sass');
  */
 
 window.Vue = require('vue');
-require('vue-resource');
+
+/**
+ * Retiring vue-resource.
+ *
+ * Axios is suggested to be used as a replacement since the future of vue-resource
+ * is unknown and the github repository seems inactive.
+ *
+ * https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4#.nhzbvemvq
+ */
+
+window.axios = require('axios');
+Vue.prototype.$http = axios;
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
