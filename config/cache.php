@@ -47,6 +47,7 @@ return [
         'file' => [
             'driver' => 'file',
             'path' => storage_path('framework/cache'),
+            'gc_dirs' => env('FILECACHE_GCDIRS', false),
         ],
 
         'memcached' => [
