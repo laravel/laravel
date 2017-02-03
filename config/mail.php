@@ -87,7 +87,7 @@ return [
     'username' => env('MAIL_USERNAME'),
 
     'password' => env('MAIL_PASSWORD'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
@@ -98,7 +98,7 @@ return [
     | been provided here, which will work well on most of your systems.
     |
     */
-    
+
     'sendmail' => '/usr/sbin/sendmail -bs',
 
     /*
