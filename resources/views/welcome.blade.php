@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Laravel</title>
+        
+        <!-- CSRF Token -->
+        <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!}</script>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
