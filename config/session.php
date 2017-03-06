@@ -176,4 +176,17 @@ return [
 
     'http_only' => true,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Same-site Cookies
+    |--------------------------------------------------------------------------
+    |
+    | Here you may change the default value of the same-site cookie attribute.
+    |
+    | Supported: "lax", "strict"
+    |
+    */
+
+    'same_site' => null,
+
 ];
