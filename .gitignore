@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /.idea
+*.sublime-workspace
 Homestead.json
 Homestead.yaml
 .env
