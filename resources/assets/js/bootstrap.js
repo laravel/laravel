@@ -1,3 +1,8 @@
+/**
+ * Lodash is a general purpose library which provides utility functions to
+ * solve common programming tasks like manipulating strings, arrays and
+ * objects with a clean and consistent syntax that's very performant.
+ */
 
 window._ = require('lodash');
 
