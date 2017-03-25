@@ -8,7 +8,6 @@
 
 ### Changed
 - Use `smtp.mailtrap.io` as default `MAIL_HOST` ([#4182](https://github.com/laravel/laravel/pull/4182))
-- Upgrade Laravel Mix to `0.8.3` ([#4174](https://github.com/laravel/laravel/pull/4174))
 - Use `resource_path()` in `config/view.php` ([#4165](https://github.com/laravel/laravel/pull/4165))
 - Use `cross-env` binary ([#4167](https://github.com/laravel/laravel/pull/4167))
 
