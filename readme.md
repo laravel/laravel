@@ -33,7 +33,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 
 - **[Vehikl](http://vehikl.com)**
 - **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.com)**
+- **[British Software Development](https://www.britishsoftware.co)**
 - **[Styde](https://styde.net)**
 - **[Codecourse](https://www.codecourse.com)**
 - [Fragrantica](https://www.fragrantica.com)
