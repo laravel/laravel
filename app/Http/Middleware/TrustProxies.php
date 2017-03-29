@@ -8,14 +8,14 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for the application.
+     * The trusted proxies for this application.
      *
      * @var array
      */
     protected $proxies;
 
     /**
-     * The proxy header mappings.
+     * The current proxy header mappings.
      *
      * @var array
      */
