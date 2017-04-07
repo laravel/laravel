@@ -27,9 +27,8 @@ window.Vue = require('vue');
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest'
-};
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -37,7 +36,9 @@ window.axios.defaults.headers.common = {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from "laravel-echo"
+// import Echo from 'laravel-echo'
+
+// window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
