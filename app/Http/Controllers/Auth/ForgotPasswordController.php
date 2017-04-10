@@ -23,10 +23,10 @@ class ForgotPasswordController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @return \Illuminate\Routing\ControllerMiddlewareOptions
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        return $this->middleware('guest');
     }
 }
