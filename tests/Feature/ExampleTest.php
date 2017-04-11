@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\FreshDatabase;
 
 class ExampleTest extends TestCase
 {
+    use FreshDatabase;
+
     /**
      * A basic test example.
      *
