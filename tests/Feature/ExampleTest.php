@@ -7,8 +7,6 @@ use Illuminate\Foundation\Testing\FreshDatabase;
 
 class ExampleTest extends TestCase
 {
-    use FreshDatabase;
-
     /**
      * A basic test example.
      *
