@@ -7,9 +7,11 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-window.$ = window.jQuery = require('jquery');
+try {
+    window.$ = window.jQuery = require('jquery');
 
-require('bootstrap-sass');
+    require('bootstrap-sass');
+} catch (e) {}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
