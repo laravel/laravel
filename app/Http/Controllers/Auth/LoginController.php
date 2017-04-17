@@ -30,10 +30,10 @@ class LoginController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @return \Illuminate\Routing\ControllerMiddlewareOptions
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        return $this->middleware('guest', ['except' => 'logout']);
     }
 }
