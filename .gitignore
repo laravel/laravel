@@ -7,4 +7,5 @@
 /.vagrant
 Homestead.json
 Homestead.yaml
-.env
+.env*
+!.env.example
