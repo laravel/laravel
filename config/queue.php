@@ -19,6 +19,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Queue Prefix
+    |--------------------------------------------------------------------------
+    |
+    | If you are running multiple sites on a single server, you may experience
+    | crosstalk among sites if they use the same name for queue tubes. This
+    | optional value defines a prefix that will automatically be applied
+    | to queue tubes as a way to prevent this crosstalk.
+    |
+    */
+
+    'prefix' => env('QUEUE_PREFIX', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Queue Connections
     |--------------------------------------------------------------------------
     |
