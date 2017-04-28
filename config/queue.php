@@ -19,19 +19,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Queue Prefix
-    |--------------------------------------------------------------------------
-    |
-    | If you are running multiple sites on a single server you should consider
-    | specifying a queue prefix. This string will be prepended to the queue
-    | names to prevent cross-talk when using certain local queue drivers.
-    |
-    */
-
-    'prefix' => env('QUEUE_PREFIX', ''),
-
-    /*
-    |--------------------------------------------------------------------------
     | Queue Connections
     |--------------------------------------------------------------------------
     |
