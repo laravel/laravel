@@ -9,3 +9,13 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+
+# Phpstorm
+.idea/*
+
+## Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
