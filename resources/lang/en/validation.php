@@ -64,6 +64,7 @@ return [
     ],
     'not_in'               => 'The selected :attribute is invalid.',
     'numeric'              => 'The :attribute must be a number.',
+    'all_whitespace'       => 'The :attribute field must not contain all spaces.',
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
     'required'             => 'The :attribute field is required.',
