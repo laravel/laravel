@@ -38,7 +38,7 @@
 - Moved Vue inclusion from `bootstrap.js` to `app.js` ([17ec5c5](https://github.com/laravel/laravel/commit/17ec5c51d60bb05985f287f09041c56fcd41d9ce))
 - Only load libraries if present ([d905b2e](https://github.com/laravel/laravel/commit/d905b2e7bede2967d37ed7b260cd9d526bb9cabd))
 - Ignore the NPM debug log ([#4232](https://github.com/laravel/laravel/pull/4232))
-- Use fluent middleware definition in `LoginController` ([#4229]https://github.com/laravel/laravel/pull/4229)
+- Use fluent middleware definition in `LoginController` ([#4229](https://github.com/laravel/laravel/pull/4229))
 
 
 ## v5.4.16 (2017-03-17)
