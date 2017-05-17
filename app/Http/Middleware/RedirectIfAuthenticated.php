@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
+
+    /**
+     * Where to redirect users if they are already authenticated.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/home';
+    
     /**
      * Handle an incoming request.
      *
@@ -18,7 +26,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect($this->redirectTo);
         }
 
         return $next($request);
