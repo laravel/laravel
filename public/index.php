@@ -37,6 +37,19 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
+| Set the public path to the parent directory
+|--------------------------------------------------------------------------
+|
+| Dynamically setting the public directory so wa can rename "public" directory
+| into the desired name
+|
+*/
+$app->bind('path.public', function() {
+  return __DIR__;
+});
+
+/*
+|--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 |
