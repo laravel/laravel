@@ -74,12 +74,15 @@ return [
     | These options configure the behavior of failed queue job logging so you
     | can control which database and table are used to store the jobs that
     | have failed. You may change them to any database / table you wish.
+    | If you want to disable failed jobs or failed attempt exception logging
+    | you can set the table value to null
     |
     */
 
     'failed' => [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
+        'attempts_table' => 'failed_job_attempts',
     ],
 
 ];
