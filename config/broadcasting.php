@@ -40,6 +40,12 @@ return [
             ],
         ],
 
+        'fanout' => [
+            'driver' => 'fanout',
+            'realm_id' => env('FANOUT_REALM_ID'),
+            'realm_key' => env('FANOUT_REALM_KEY'),
+        ],
+
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
