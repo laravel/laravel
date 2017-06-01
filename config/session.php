@@ -191,4 +191,16 @@ return [
 
     'same_site' => null,
 
+	/*
+	|--------------------------------------------------------------------------
+	| Encrypt Session Data
+	|--------------------------------------------------------------------------
+	|
+	| By setting this option to true, session data will be encrypted when
+	| stored and decrypted when accessed.
+	|
+	*/
+
+	'encrypted' => false,
+
 ];
