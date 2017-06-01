@@ -28,6 +28,12 @@
             "Tests\\": "tests/"
         }
     },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+            ]
+        }
+    },
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -35,13 +41,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate"
         ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "@php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan optimize"
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {
