@@ -180,6 +180,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Autoloaded Development Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | The service providers listed here will be automatically loaded on the
+    | request to your application if the APP_ENV is `local`. Feel free to
+    | add your own services to this array to grant expanded functionality
+    | to your applications.
+    |
+    */
+
+    'dev-providers' => [
+        //
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Class Aliases
     |--------------------------------------------------------------------------
     |
