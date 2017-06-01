@@ -117,4 +117,16 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Faker Locale
+    |--------------------------------------------------------------------------
+    |
+    | Sets the locale that is passed through to Faker when using model
+    | factories.
+    |
+    */
+
+    'faker_locale' => 'en_US',
+
 ];
