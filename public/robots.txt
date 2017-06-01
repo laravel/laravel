@@ -1,2 +1,4 @@
 User-agent: *
+
 Disallow:
+This is used to check for humans or robots
