@@ -120,9 +120,12 @@ return [
     | instance by ID. The name specified here will get used every time a
     | new session cookie is created by the framework for every driver.
     |
+    | Do not use an underscore in the cookie name because Internet Explorer
+    | and Microsoft Edge fails to login.
+    |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => 'laravelsession',
 
     /*
     |--------------------------------------------------------------------------
