@@ -10,7 +10,7 @@
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
+        "fzaninotto/faker": "~1.6",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7"
     },
