@@ -2,18 +2,23 @@
 
 namespace App\Console;
 
+use App\Utils\Reporting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
     protected $commands = [
-        //
+
+        Commands\Localisation\Generate::class,
+        Commands\Localisation\Scan::class,
+        Commands\Localisation\Sync::class,
     ];
 
     /**
@@ -26,6 +31,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->call(function () {
+
+            Reporting::sendDailyReport();
+        })->daily();
     }
 
     /**
