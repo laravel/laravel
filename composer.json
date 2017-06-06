@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "danieltorscho/laravel",
+    "description": "SPA The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
