@@ -3,6 +3,39 @@
 
 /*
 |--------------------------------------------------------------------------
+| Run the artisan clear-compiled command without loading the framework
+|--------------------------------------------------------------------------
+|
+| When running composer update, laravel runs the clear-compiled command.
+| Under most circumstances this works fine, however if your package
+| requirements change, and your updating via version control there is
+| potential for this to fail as your providers config array could differ
+| from whats installed causing the application to fail during provider 
+| registration. This snippet simply short circuits artisan and runs the
+| same functionality as the command, but without Application creation.
+| This doesnt remove the actual clear-compiled command from artisan, as
+| using the Artisan::call() method would still result in the command being 
+| used and not this.
+|
+*/
+if (php_sapi_name() == 'cli' && isset($_SERVER['argv'])) {
+
+    $argv = $_SERVER['argv'];
+
+    if (count($argv) == 2 && 'artisan' == substr($argv[0], -7) && 'clear-compiled' == $argv[1]) {
+        $files = glob('./bootstrap/cache/*');
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
+        }
+        exit();
+    }
+    
+}
+
+/*
+|--------------------------------------------------------------------------
 | Register The Auto Loader
 |--------------------------------------------------------------------------
 |
