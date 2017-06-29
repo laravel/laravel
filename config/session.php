@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => env('SESSION_COOKIE', snake_case(env('APP_NAME', 'laravel')).'_session'),
 
     /*
     |--------------------------------------------------------------------------
