@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => env('SESSION_COOKIE', strtolower(env('APP_NAME', 'laravel') . '_session')),
 
     /*
     |--------------------------------------------------------------------------
