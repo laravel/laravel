@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => env('SESSION_COOKIE', strtolower(env('APP_NAME', 'laravel') . '_session')),
 
     /*
     |--------------------------------------------------------------------------
@@ -161,7 +161,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE', false),
+    'secure' => env('SESSION_SECURE_COOKIE', ! env('APP_ENV') == 'local'),
 
     /*
     |--------------------------------------------------------------------------
