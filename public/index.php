@@ -7,6 +7,8 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+define('LARAVEL_START', microtime(true));
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -19,7 +21,7 @@
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
