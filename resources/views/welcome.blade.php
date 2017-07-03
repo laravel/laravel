@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    İkamp 2017 | EA
                 </div>
 
                 <div class="links">
