@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    İkamp
+                    İkamp 2017
                 </div>
 
                 <div class="links">
