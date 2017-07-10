@@ -49,6 +49,8 @@ return [
     | the Artisan command line tool. You should set this to the root of
     | your application so that it is used when running Artisan tasks.
     |
+    | Also used by e-mail templates (Reset Password).
+    |
     */
 
     'url' => env('APP_URL', 'http://localhost'),
