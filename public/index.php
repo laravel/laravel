@@ -37,6 +37,26 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
+| Lets make sure the writable files have their permissions set
+|--------------------------------------------------------------------------
+|
+| No one likes seeing a white screen of death
+|
+*/
+
+$writableFolders = [
+	__DIR__.'/../storage/' => 'storage',
+	__DIR__.'/../bootstrap/cache/' => 'bootstrap/cache'
+];
+
+foreach ($writableFolders as $writableFolder => $folderName) {
+	if (!is_writable($writableFolder)) {
+		die('Please ensure the folder "' . $folderName . '" is writable.');
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 |
