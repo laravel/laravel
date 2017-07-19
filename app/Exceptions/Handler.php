@@ -10,12 +10,22 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
         //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -44,23 +54,18 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Convert a validation exception into a response.
+     * Convert a validation exception into a JSON response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Validation\ValidationException  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function invalid($request, ValidationException $exception)
+    protected function invalidJson($request, ValidationException $exception)
     {
-        $message = $exception->getMessage();
-
-        $errors = $exception->validator->errors()->messages();
-
-        return $request->expectsJson()
-                    ? response()->json(['message' => $message, 'errors' => $errors], 422)
-                    : redirect()->back()->withInput()->withErrors(
-                        $errors, $exception->errorBag
-                    );
+        return response()->json([
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors(),
+        ], 422);
     }
 
     /**
