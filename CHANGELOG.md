@@ -1,5 +1,18 @@
 # Release Notes
 
+## v5.4.30 (2017-07-20)
+
+### Changed
+- Simplified mix require ([#4283](https://github.com/laravel/laravel/pull/4283))
+- Upgraded Laravel Mix to `^1.0` ([#4294](https://github.com/laravel/laravel/pull/4294))
+- Upgraded `axios` and `cross-env` package ([#4299](https://github.com/laravel/laravel/pull/4299))
+- Ignore Yarn error log ([#4322](https://github.com/laravel/laravel/pull/4322))
+
+### Fixed
+- Use `app()->getLocale()` ([#4282](https://github.com/laravel/laravel/pull/4282))
+- Use quotes in `app.scss` ([#4287](https://github.com/laravel/laravel/pull/4287))
+
+
 ## v5.4.23 (2017-05-11)
 
 ### Added
