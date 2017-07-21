@@ -63,6 +63,11 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'temporary' => [
+            'driver' => 'local',
+            'root' => env('TMP_DIR', sys_get_temp_dir()),
+        ],
+
     ],
 
 ];
