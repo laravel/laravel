@@ -45,6 +45,7 @@
         ]
     },
     "config": {
+        "discard-changes": "stash",
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
