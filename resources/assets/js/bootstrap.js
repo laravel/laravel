@@ -1,5 +1,7 @@
 
-window._ = require('lodash');
+try {
+    window._ = require('lodash');
+} catch (e) {}
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
