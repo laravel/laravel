@@ -12,7 +12,7 @@ abstract class TestCase extends BaseTestCase
      * Set the currently logged in user for the application.
      *
      * @param  mixed  $user
-     * @param string|null  $driver
+     * @param  string|null  $driver
      * @return $this
      */
     protected function signIn($user = null, $driver = null)
