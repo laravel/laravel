@@ -52,6 +52,7 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+            'sticky' => true,
         ],
 
         'pgsql' => [
@@ -65,6 +66,7 @@ return [
             'prefix' => '',
             'schema' => 'public',
             'sslmode' => 'prefer',
+            'sticky' => true,
         ],
 
         'sqlsrv' => [
@@ -76,6 +78,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+            'sticky' => true,
         ],
 
     ],
