@@ -18,7 +18,8 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database/seeds",
+            "database/factories"
         ],
         "psr-4": {
             "App\\": "app/"
@@ -51,7 +52,5 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
