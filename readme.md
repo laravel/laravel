@@ -34,7 +34,6 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - **[Vehikl](http://vehikl.com)**
 - **[Tighten Co.](https://tighten.co)**
 - **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
 - [Fragrantica](https://www.fragrantica.com)
 - [SOFTonSOFA](https://softonsofa.com/)
 - [User10](https://user10.com)
