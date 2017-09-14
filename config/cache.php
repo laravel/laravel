@@ -46,11 +46,19 @@ return [
 
         'file' => [
             'driver' => 'file',
-            'path' => storage_path('framework/cache'),
+            'path' => storage_path('framework/cache/data'),
         ],
 
         'memcached' => [
             'driver' => 'memcached',
+            'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
+            'sasl' => [
+                env('MEMCACHED_USERNAME'),
+                env('MEMCACHED_PASSWORD'),
+            ],
+            'options' => [
+                // Memcached::OPT_CONNECT_TIMEOUT  => 2000,
+            ],
             'servers' => [
                 [
                     'host' => env('MEMCACHED_HOST', '127.0.0.1'),
@@ -78,6 +86,9 @@ return [
     |
     */
 
-    'prefix' => 'laravel',
+    'prefix' => env(
+        'CACHE_PREFIX',
+        str_slug(env('APP_NAME', 'laravel'), '_').'_cache'
+    ),
 
 ];
