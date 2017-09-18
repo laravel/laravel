@@ -39,6 +39,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [User10](https://user10.com)
 - [Soumettre.fr](https://soumettre.fr/)
 - [CodeBrisk](https://codebrisk.com)
+- [1Forge](https://1forge.com)
 
 ## Contributing
 
