@@ -11,6 +11,7 @@
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.6",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
@@ -46,7 +47,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
-        ]
+        ],
+        "php-cs:issues": "php-cs-fixer fix --diff --dry-run",
+        "php-cs:fix": "php-cs-fixer fix"
     },
     "config": {
         "preferred-install": "dist",
