@@ -1,5 +1,31 @@
 # Release Notes
 
+## v5.5.0 (2017-08-30)
+
+### Added
+- Added `same_site` to `session.php` config ([#4168](https://github.com/laravel/laravel/pull/4168))
+- Added `TrustProxies` middleware ([e23a1d2](https://github.com/laravel/laravel/commit/e23a1d284f134bfce258cf736ea8667a407ba50c), [#4302](https://github.com/laravel/laravel/pull/4302))
+- Autoload commands ([5d54c21](https://github.com/laravel/laravel/commit/5d54c21ea869a7a5b503f0899307e4728feed11b))
+- Added Whoops ([#4364](https://github.com/laravel/laravel/pull/4364))
+
+### Changed
+- Refactored exception handler (_too many commits_)
+- Renamed `ModelFactory.php` to `UserFactory.php` to encourage separate files ([67a8a11](https://github.com/laravel/laravel/commit/67a8a1157004c4373663ec4a9398780feb6d6fa4))
+- Use `RefreshDatabase` trait ([a536402](https://github.com/laravel/laravel/commit/a536402228108da9423a0db1e0cf492f3f51c8b8), [#4373](https://github.com/laravel/laravel/pull/4373))
+- Use Composer's `@php` directive ([#4278](https://github.com/laravel/laravel/pull/4278))
+- Use `post-autoload-dump` ([2f4d726](https://github.com/laravel/laravel/commit/2f4d72699cdc9b7db953055287697a60b6d8b294))
+- Try to build session cookie name from app name ([#4305](https://github.com/laravel/laravel/pull/4305))
+ 
+### Fixed
+- Fixed Apache trailing slash redirect for subdirectory installs ([#4344](https://github.com/laravel/laravel/pull/4344))
+
+### Removed
+- Dropped `bootstrap/autoload.php` ([#4226](https://github.com/laravel/laravel/pull/4226), [#4227](https://github.com/laravel/laravel/pull/4227), [100f71e](https://github.com/laravel/laravel/commit/100f71e71a24fd8f339a7687557b77dd872b054b))
+- Emptied `$dontReport` array on exception handler ([758392c](https://github.com/laravel/laravel/commit/758392c30fa0b2651ca9409aebb040a64816dde4))
+- Removed `TinkerServiceProvider` ([6db0f35](https://github.com/laravel/laravel/commit/6db0f350fbaa21b2acf788d10961aba983a19be2)) 
+- Removed migrations from autoload classmap ([#4340](https://github.com/laravel/laravel/pull/4340))
+
+
 ## v5.4.30 (2017-07-20)
 
 ### Changed
