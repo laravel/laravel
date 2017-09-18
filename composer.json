@@ -10,6 +10,7 @@
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.6",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7"
@@ -42,7 +43,9 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
-        ]
+        ],
+        "php-cs:issues": "php-cs-fixer fix --diff --dry-run",
+        "php-cs:fix": "php-cs-fixer fix"
     },
     "config": {
         "preferred-install": "dist",
