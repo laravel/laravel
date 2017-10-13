@@ -50,4 +50,19 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+
+    /**
+     * Prepare exception for rendering.
+     *
+     * @param  \Exception  $e
+     * @return \Exception
+     */
+    protected function prepareException(Exception $e)
+    {
+        if (config('app.debug')) {
+            return $e;
+        }
+
+        return parent::prepareException($e);
+    }
 }
