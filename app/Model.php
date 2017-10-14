@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 
-class Model extends BaseModel
+abstract class Model extends BaseModel
 {
     //
 }
