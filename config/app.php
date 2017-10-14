@@ -119,11 +119,16 @@ return [
     |
     | Available Settings: "single", "daily", "syslog", "errorlog"
     |
+    | Uncomment "log_max_files" line, When using the daily log mode, 
+    | Laravel will only retain five days of log files by default.
+    |
     */
 
     'log' => env('APP_LOG', 'single'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    
+    // 'log_max_files' => env('APP_LOG_MAX_FILES', 30), 
 
     /*
     |--------------------------------------------------------------------------
