@@ -40,6 +40,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [Soumettre.fr](https://soumettre.fr/)
 - [CodeBrisk](https://codebrisk.com)
 - [1Forge](https://1forge.com)
+- [TECPRESSO](https://tecpresso.co.jp/)
 
 ## Contributing
 
