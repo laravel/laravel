@@ -74,10 +74,10 @@
             "composer dump"
         ],
         "post-install-cmd": [
-            "vendor/bin/cghooks add --ignore-lock --force-win"
+            "./vendor/bin/cghooks add --ignore-lock --force-win"
         ],
         "post-update-cmd": [
-            "vendor/bin/cghooks update --force-win"
+            "./vendor/bin/cghooks update --force-win"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
