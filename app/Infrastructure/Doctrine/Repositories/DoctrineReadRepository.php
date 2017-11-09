@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Doctrine\Repositories;
 
-use ProjectName\Repositories\ReadRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
+use ProjectName\Repositories\ReadRepository;
 
 abstract class DoctrineReadRepository extends EntityRepository implements ReadRepository
 {

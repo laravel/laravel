@@ -1,4 +1,5 @@
 <?php
+
 namespace ProjectName\Repositories;
 
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -8,15 +9,19 @@ interface ReadRepository extends ObjectRepository
 {
     /**
      * @param int $id
-     * @return object
+     *
      * @throws EntityNotFoundException
+     *
+     * @return object
      */
     public function get(int $id);
 
     /**
      * @param int $id
-     * @return object|null
+     *
      * @throws EntityNotFoundException
+     *
+     * @return object|null
      */
     public function findOne(int $id);
 
@@ -30,6 +35,7 @@ interface ReadRepository extends ObjectRepository
      * @param array|null $orderBy
      * @param int|null   $limit
      * @param int|null   $offset
+     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
