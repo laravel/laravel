@@ -69,7 +69,8 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
-            "@php -r \"require __DIR__.'/vendor/autoload.php'; file_put_contents(__DIR__.'/composer.json', str_replace('Project'.'Name', studly_case(basename(__DIR__)), file_get_contents(__DIR__.'/composer.json')));\"",
+            "php composer/replace_namespaces.php",
+            "bash -c 'rm -rf composer'",
             "composer dump"
         ],
         "post-install-cmd": [

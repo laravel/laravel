@@ -7,6 +7,7 @@ services:
      - "443:443"
     volumes:
      - .:/var/www/html
+     - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
      - ./docker/apache:/etc/apache2/sites-enabled:ro
     networks:
      - appnet

@@ -17,9 +17,9 @@ class RouteServiceProvider extends ServiceProvider
         }
 
         $orderedRoutes = [];
-        /** @var Finder $controllers */
-        $controllers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
-        foreach ($controllers as $file) {
+        /** @var Finder $handlers */
+        $handlers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
+        foreach ($handlers as $file) {
             $className = 'App' . str_replace([app_path(), '/', '.php'], ['', '\\', ''], $file);
             $class = new \ReflectionClass($className);
 
