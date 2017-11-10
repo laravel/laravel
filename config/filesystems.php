@@ -57,11 +57,11 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'url' => env('AWS_URL'),
             'key' => env('AWS_KEY'),
             'secret' => env('AWS_SECRET'),
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
         ],
 
     ],
