@@ -77,10 +77,10 @@
             "@php artisan package:discover --ansi"
         ],
         "post-install-cmd": [
-            "vendor/bin/cghooks add --ignore-lock --force-win"
+            "bash -c 'vendor/bin/cghooks add --ignore-lock --force-win'"
         ],
         "post-update-cmd": [
-            "vendor/bin/cghooks update --force-win"
+            "bash -c 'vendor/bin/cghooks update --force-win'"
         ],
         "build": [
             "npm install",
