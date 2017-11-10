@@ -46,7 +46,7 @@ class RoleExportHandler extends Handler implements RouteDefiner
             );
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
@@ -83,7 +83,7 @@ class RoleExportHandler extends Handler implements RouteDefiner
         );
     }
 
-    private function getSorting(Request $request)
+    private function getSorting(Request $request): PaginationData
     {
         $paginationData = $this->paginationBackofficeDataWithoutLimit($request);
 

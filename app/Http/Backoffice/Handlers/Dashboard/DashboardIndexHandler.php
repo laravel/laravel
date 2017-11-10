@@ -17,7 +17,7 @@ class DashboardIndexHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->get(config('backoffice.global_url_prefix'), static::class)
@@ -28,7 +28,7 @@ class DashboardIndexHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }

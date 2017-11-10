@@ -43,7 +43,7 @@ class UserListHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
@@ -61,12 +61,12 @@ class UserListHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }
 
-    private function getListing()
+    private function getListing(): Listing
     {
         $listing = backoffice()->listing([
             'firstName' => trans('backoffice::auth.first_name'),
@@ -101,7 +101,7 @@ class UserListHandler extends Handler implements RouteDefiner
         return $listing;
     }
 
-    private function buildFilters(Listing $list)
+    private function buildFilters(Listing $list): void
     {
         $filters = $list->filters();
 
@@ -112,7 +112,7 @@ class UserListHandler extends Handler implements RouteDefiner
         $filters->boolean('activated', trans('backoffice::auth.activated'), ['class' => 'form-control']);
     }
 
-    private function buildListActions(Listing $list, Request $request)
+    private function buildListActions(Listing $list, Request $request): void
     {
         $actions = backoffice()->actions();
 

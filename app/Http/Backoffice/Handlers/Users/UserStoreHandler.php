@@ -7,7 +7,7 @@ use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Permission;
-use App\Http\Backoffice\Requests\Roles\RoleStoreRequest;
+use App\Http\Backoffice\Requests\Users\UserStoreRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
@@ -22,17 +22,15 @@ class UserStoreHandler extends Handler implements RouteDefiner
 {
     use SendsEmails;
 
-    public function __invoke(RoleStoreRequest $request)
+    public function __invoke(UserStoreRequest $request)
     {
-        $input = $request->all(['firstName', 'lastName', 'email', 'password', 'activated', 'username', 'roles', 'permissions']);
-
         try {
             /** @var User $user */
-            $user = security()->users()->create($input, function (User $user) use ($input) {
-                $this->addRoles($user, $input['roles'] ?? []);
+            $user = security()->users()->create($request->getCredentials(), function (User $user) use ($request) {
+                $this->addRoles($user, $request->getRoles());
             });
 
-            if ($input['activated']) {
+            if ($request->getActivated()) {
                 security()->activate($user);
             } else {
                 /** @var Activation $activation */
@@ -52,7 +50,7 @@ class UserStoreHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
@@ -69,12 +67,12 @@ class UserStoreHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }
 
-    private function addRoles(User $user, array $roles)
+    private function addRoles(User $user, array $roles): void
     {
         if ($user instanceof Roleable && ! empty($roles)) {
             /* @var Roleable $user */

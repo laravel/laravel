@@ -3,10 +3,10 @@
 namespace App\Http\Backoffice\Handlers\Auth;
 
 use App\Http\Backoffice\Handlers\Handler;
+use App\Http\Backoffice\Requests\Auth\ActivateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
-use Digbang\Security\Users\User;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Redirector;
@@ -14,26 +14,28 @@ use Illuminate\Routing\Router;
 
 class AuthActivateHandler extends Handler implements RouteDefiner
 {
+    public const ROUTE_PARAM_USER = 'user_id';
+    public const ROUTE_PARAM_CODE = 'code';
+
     public function __invoke(
-        int $userId,
-        string $activationCode,
+        ActivateRequest $request,
         SecurityApi $securityApi,
         Repository $config,
         Redirector $redirector,
         Factory $view
     ) {
-        $activations = $securityApi->activations();
+        $user = $request->getUser();
+        $code = $request->getCode();
 
-        /** @var User $user */
-        $user = $securityApi->users()->findById($userId) ?: abort(404);
+        $activations = $securityApi->activations();
 
         if ($activations->completed($user)) {
             return $redirector->to(AuthLoginHandler::route())
                 ->with('warning', trans('backoffice::auth.validation.user.already-active'));
         }
 
-        if ($activations->exists($user, $activationCode)) {
-            $activations->complete($user, $activationCode);
+        if ($activations->exists($user, $code)) {
+            $activations->complete($user, $code);
 
             return $redirector->to(AuthLoginHandler::route())
                 ->with('success', trans('backoffice::auth.activation.success'));
@@ -44,10 +46,10 @@ class AuthActivateHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
-            ->post(config('backoffice.global_url_prefix') . '/auth/activate/{user_id}/{code}', static::class)
+            ->post(config('backoffice.global_url_prefix') . '/auth/activate/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
             ->name(static::class)
             ->middleware([
                 Kernel::WEB,
@@ -55,11 +57,11 @@ class AuthActivateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route($userId, $code)
+    public static function route(int $userId, string $code): string
     {
         return route(static::class, [
-            'user_id' => $userId,
-            'code' => $code,
+            static::ROUTE_PARAM_USER => $userId,
+            static::ROUTE_PARAM_CODE => $code,
         ]);
     }
 }

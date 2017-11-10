@@ -7,6 +7,7 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
+use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class UserCreateHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
@@ -63,12 +64,12 @@ class UserCreateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = [])
+    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 
@@ -76,10 +77,23 @@ class UserCreateHandler extends Handler implements RouteDefiner
 
         $inputs->text('firstName', trans('backoffice::auth.first_name'));
         $inputs->text('lastName', trans('backoffice::auth.last_name'));
-        $inputs->text('email', trans('backoffice::auth.email'));
-        $inputs->text('username', trans('backoffice::auth.username'));
-        $inputs->password('password', trans('backoffice::auth.password'));
-        $inputs->password('password_confirmation', trans('backoffice::auth.confirm_password'));
+
+        $inputs
+            ->text('email', trans('backoffice::auth.email'))
+            ->setRequired();
+
+        $inputs
+            ->text('username', trans('backoffice::auth.username'))
+            ->setRequired();
+
+        $inputs
+            ->password('password', trans('backoffice::auth.password'))
+            ->setRequired();
+
+        $inputs
+            ->password('password_confirmation', trans('backoffice::auth.confirm_password'))
+            ->setRequired();
+
         $inputs->checkbox('activated', trans('backoffice::auth.activated'));
 
         $roles = security()->roles()->findAll();

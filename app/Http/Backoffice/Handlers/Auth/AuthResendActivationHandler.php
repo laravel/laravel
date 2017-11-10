@@ -17,7 +17,7 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
         return $view->make('backoffice::auth.request-activation');
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->get(config('backoffice.global_url_prefix') . '/auth/activate/resend', static::class)
@@ -28,7 +28,7 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::ROUTE_NAME);
     }

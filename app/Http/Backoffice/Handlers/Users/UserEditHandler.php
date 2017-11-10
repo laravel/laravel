@@ -5,8 +5,11 @@ namespace App\Http\Backoffice\Handlers\Users;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Users\UserRequest;
+use App\Http\Backoffice\Requests\Users\UserUpdateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
+use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Permissions\Permissible;
 use Digbang\Security\Roles\Role;
@@ -26,14 +29,9 @@ class UserEditHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(int $userId, Factory $view)
+    public function __invoke(UserRequest $request, Factory $view)
     {
-        /** @var User $user */
-        $user = security()->users()->findById($userId);
-
-        if (! $user) {
-            abort(404);
-        }
+        $user = $request->getUser();
 
         $form = $this->buildForm(
             security()->url()->to(UserUpdateHandler::route($user->getUserId())),
@@ -44,10 +42,10 @@ class UserEditHandler extends Handler implements RouteDefiner
         );
 
         $data = [
-            'firstName' => $user->getName()->getFirstName(),
-            'lastName' => $user->getName()->getLastName(),
-            'email' => $user->getEmail(),
-            'username' => $user->getUsername(),
+            UserUpdateRequest::FIELD_FIRST_NAME => $user->getName()->getFirstName(),
+            UserUpdateRequest::FIELD_LAST_NAME => $user->getName()->getLastName(),
+            UserUpdateRequest::FIELD_EMAIL => $user->getEmail(),
+            UserUpdateRequest::FIELD_USERNAME => $user->getUsername(),
         ];
 
         /** @var User|Roleable|Permissible $user */
@@ -55,16 +53,16 @@ class UserEditHandler extends Handler implements RouteDefiner
             $roles = $user->getRoles();
 
             /* @var \Doctrine\Common\Collections\Collection $roles */
-            $data['roles[]'] = $roles->map(function (Role $role) {
+            $data[UserUpdateRequest::FIELD_ROLES . '[]'] = $roles->map(function (Role $role) {
                 return $role->getRoleSlug();
             })->toArray();
         }
 
         if ($user instanceof Permissible) {
-            $data['permissions[]'] = [];
+            $data[UserUpdateRequest::FIELD_PERMISSIONS . '[]'] = [];
             foreach (security()->permissions()->all() as $permission) {
                 if ($user->hasAccess($permission)) {
-                    $data['permissions[]'][] = (string) $permission;
+                    $data[UserUpdateRequest::FIELD_PERMISSIONS . '[]'][] = (string) $permission;
                 }
             }
         }
@@ -88,13 +86,13 @@ class UserEditHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/{user_id}/edit", [
+            ->get("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/edit', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
@@ -105,23 +103,37 @@ class UserEditHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $userId)
+    public static function route(int $userId): string
     {
-        return route(static::class, ['user_id' => $userId]);
+        return route(static::class, [
+            UserRequest::ROUTE_PARAM_ID => $userId,
+        ]);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = [])
+    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 
         $inputs = $form->inputs();
 
-        $inputs->text('firstName', trans('backoffice::auth.first_name'));
-        $inputs->text('lastName', trans('backoffice::auth.last_name'));
-        $inputs->text('email', trans('backoffice::auth.email'));
-        $inputs->text('username', trans('backoffice::auth.username'));
-        $inputs->password('password', trans('backoffice::auth.password'));
-        $inputs->password('password_confirmation', trans('backoffice::auth.confirm_password'));
+        $inputs
+            ->text(UserUpdateRequest::FIELD_FIRST_NAME, trans('backoffice::auth.first_name'))
+            ->setRequired();
+
+        $inputs
+            ->text(UserUpdateRequest::FIELD_LAST_NAME, trans('backoffice::auth.last_name'))
+            ->setRequired();
+
+        $inputs
+            ->text(UserUpdateRequest::FIELD_EMAIL, trans('backoffice::auth.email'))
+            ->setRequired();
+
+        $inputs
+            ->text(UserUpdateRequest::FIELD_USERNAME, trans('backoffice::auth.username'))
+            ->setRequired();
+
+        $inputs->password(UserUpdateRequest::FIELD_PASSWORD, trans('backoffice::auth.password'));
+        $inputs->password(UserUpdateRequest::FIELD_PASSWORD_CONFIRMATION, trans('backoffice::auth.confirm_password'));
 
         $roles = security()->roles()->findAll();
 
@@ -137,7 +149,7 @@ class UserEditHandler extends Handler implements RouteDefiner
         }
 
         $inputs->dropdown(
-            'roles',
+            UserUpdateRequest::FIELD_ROLES,
             trans('backoffice::auth.roles'),
             $options,
             [
@@ -150,7 +162,7 @@ class UserEditHandler extends Handler implements RouteDefiner
         $permissions = security()->permissions()->all();
 
         $inputs->dropdown(
-            'permissions',
+            UserUpdateRequest::FIELD_PERMISSIONS,
             trans('backoffice::auth.permissions'),
             $this->permissionParser->toDropdownArray($permissions),
             [

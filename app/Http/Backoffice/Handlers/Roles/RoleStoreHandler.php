@@ -22,10 +22,10 @@ class RoleStoreHandler extends Handler implements RouteDefiner
             $roles = security()->roles();
 
             /** @var Role|Permissible $role */
-            $role = $roles->create($request->input('name'), $request->input('slug') ?: null);
+            $role = $roles->create($request->getName(), $request->getSlug());
 
-            if ($request->input('permissions') && $role instanceof Permissible) {
-                foreach ((array) $request->input('permissions') as $permission) {
+            if ($request->getPermissions() && $role instanceof Permissible) {
+                foreach ($request->getPermissions() as $permission) {
                     $role->addPermission($permission);
                 }
 
@@ -42,7 +42,7 @@ class RoleStoreHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
@@ -59,7 +59,7 @@ class RoleStoreHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }

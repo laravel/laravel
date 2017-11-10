@@ -5,23 +5,18 @@ namespace App\Http\Backoffice\Handlers\Users;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Users\UserRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
-use Digbang\Security\Users\User;
 use Illuminate\Routing\Router;
 
 class UserDeleteHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(int $userId)
+    public function __invoke(UserRequest $request)
     {
-        /** @var User $user */
-        $user = security()->users()->findById($userId);
-
-        if (! $user) {
-            abort(404);
-        }
+        $user = $request->getUser();
 
         try {
             security()->users()->destroy($user);
@@ -36,13 +31,13 @@ class UserDeleteHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->delete("$backofficePrefix/$routePrefix/{user_id}/", [
+            ->delete("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_DELETE,
             ])
@@ -53,8 +48,10 @@ class UserDeleteHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $userId)
+    public static function route(int $userId): string
     {
-        return route(static::class, ['user_id' => $userId]);
+        return route(static::class, [
+            UserRequest::ROUTE_PARAM_ID => $userId,
+        ]);
     }
 }

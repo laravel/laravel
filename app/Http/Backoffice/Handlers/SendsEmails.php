@@ -12,7 +12,7 @@ trait SendsEmails
      * @param User   $user
      * @param string $link
      */
-    public function sendPasswordReset(User $user, $link)
+    public function sendPasswordReset(User $user, $link): void
     {
         $this->send('backoffice::emails.reset-password', $user, $link, trans(
             'backoffice::emails.reset-password.subject'
@@ -23,7 +23,7 @@ trait SendsEmails
      * @param User   $user
      * @param string $link
      */
-    public function sendActivation(User $user, $link)
+    public function sendActivation(User $user, $link): void
     {
         $this->send('backoffice::emails.activation', $user, $link, trans(
             'backoffice::emails.activation.subject'
@@ -36,7 +36,7 @@ trait SendsEmails
      * @param string $link
      * @param string $subject
      */
-    protected function send($view, User $user, $link, $subject)
+    protected function send($view, User $user, $link, $subject): void
     {
         $from = config('backoffice.emails');
 

@@ -17,8 +17,7 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
         return $view->make('backoffice::auth.request-reset-password');
     }
 
-    /** @param Router $router */
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->get(config('backoffice.global_url_prefix') . '/auth/password/forgot', static::class)
@@ -29,7 +28,7 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::ROUTE_NAME);
     }

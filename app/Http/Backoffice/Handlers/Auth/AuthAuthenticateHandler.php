@@ -54,7 +54,7 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
     }
 
     /** @param Router $router */
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->post(config('backoffice.global_url_prefix') . '/auth/login', static::class)
@@ -65,7 +65,7 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }

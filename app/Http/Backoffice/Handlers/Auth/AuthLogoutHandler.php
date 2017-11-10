@@ -20,7 +20,7 @@ class AuthLogoutHandler extends Handler implements RouteDefiner
         return $redirector->to(AuthLoginHandler::route());
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->get(config('backoffice.global_url_prefix') . '/auth/logout', static::class)
@@ -31,7 +31,7 @@ class AuthLogoutHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::ROUTE_NAME);
     }

@@ -24,7 +24,7 @@ class AuthResendActivationRequestHandler extends Handler implements RouteDefiner
         SecurityApi $securityApi,
         Redirector $redirector
     ) {
-        $email = $request->input('email');
+        $email = $request->getEmail();
 
         /** @var User $user */
         $user = $securityApi->users()->findByCredentials(['email' => $email]);
@@ -50,7 +50,7 @@ class AuthResendActivationRequestHandler extends Handler implements RouteDefiner
         );
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
             ->post(config('backoffice.global_url_prefix') . '/auth/activate/resend', static::class)
@@ -61,7 +61,7 @@ class AuthResendActivationRequestHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::ROUTE_NAME);
     }

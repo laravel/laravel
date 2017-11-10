@@ -4,27 +4,26 @@ namespace App\Http\Backoffice\Handlers\Auth;
 
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
-use App\Http\Backoffice\Requests\Auth\ResetPasswordRequest;
+use App\Http\Backoffice\Requests\Auth\ResetPasswordRequestRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
-use Digbang\Security\Users\User;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthResetPasswordRequestHandler extends Handler implements RouteDefiner
 {
+    public const ROUTE_PARAM_USER = 'user_id';
+    public const ROUTE_PARAM_CODE = 'code';
     protected const ROUTE_NAME = 'backoffice.auth.password.reset-request';
 
     public function __invoke(
-        int $userId,
-        string $resetCode,
-        ResetPasswordRequest $request,
+        ResetPasswordRequestRequest $request,
         SecurityApi $securityApi,
         Redirector $redirector
     ) {
-        /** @var User $user */
-        $user = $securityApi->users()->findById($userId) ?: abort(404);
+        $user = $request->getUser();
+        $code = $request->getCode();
 
         if ($user->getUserId() != $request->input('id')) {
             return $redirector->to(AuthLoginHandler::route());
@@ -32,8 +31,8 @@ class AuthResetPasswordRequestHandler extends Handler implements RouteDefiner
 
         $reminders = $securityApi->reminders();
 
-        if ($reminders->exists($user, $resetCode)) {
-            $reminders->complete($user, $resetCode, $request->input('password'));
+        if ($reminders->exists($user, $code)) {
+            $reminders->complete($user, $code, $request->input('password'));
 
             $securityApi->login($user);
 
@@ -47,10 +46,10 @@ class AuthResetPasswordRequestHandler extends Handler implements RouteDefiner
     }
 
     /** @param Router $router */
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $router
-            ->post(config('backoffice.global_url_prefix') . '/auth/password/reset/{user_id}/{code}', static::class)
+            ->post(config('backoffice.global_url_prefix') . '/auth/password/reset/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
             ->name(static::ROUTE_NAME)
             ->middleware([
                 Kernel::WEB,
@@ -58,11 +57,11 @@ class AuthResetPasswordRequestHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route($userId, $code)
+    public static function route(int $userId, string $code): string
     {
         return route(static::ROUTE_NAME, [
-            'user_id' => $userId,
-            'code' => $code,
+            static::ROUTE_PARAM_USER => $userId,
+            static::ROUTE_PARAM_CODE => $code,
         ]);
     }
 }

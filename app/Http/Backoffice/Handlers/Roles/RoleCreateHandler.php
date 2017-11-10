@@ -5,8 +5,10 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleStoreRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
+use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -46,7 +48,7 @@ class RoleCreateHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
@@ -63,23 +65,29 @@ class RoleCreateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route()
+    public static function route(): string
     {
         return route(static::class);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = [])
+    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 
         $inputs = $form->inputs();
 
-        $inputs->text('name', trans('backoffice::auth.name'));
+        $inputs
+            ->text(RoleStoreRequest::FIELD_NAME, trans('backoffice::auth.name'))
+            ->setRequired();
+
         $inputs->dropdown(
-            'permissions',
+            RoleStoreRequest::FIELD_PERMISSIONS,
             trans('backoffice::auth.permissions'),
             $this->permissionParser->toDropdownArray(security()->permissions()->all()),
-            ['multiple' => 'multiple', 'class' => 'multiselect']
+            [
+                'multiple' => 'multiple',
+                'class' => 'multiselect',
+            ]
         );
 
         return $form;

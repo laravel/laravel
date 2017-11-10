@@ -5,38 +5,22 @@ namespace App\Http\Backoffice\Handlers\Users;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Users\UserRequest;
 use App\Http\Backoffice\Requests\Users\UserUpdateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
-use Digbang\Security\Users\User;
 use Illuminate\Routing\Router;
 
 class UserUpdateHandler extends Handler implements RouteDefiner
 {
-    public const ROUTE_PARAM_ID = 'user_id';
-
-    public function __invoke(int $userId, UserUpdateRequest $request)
+    public function __invoke(UserUpdateRequest $request)
     {
-        /** @var User $user */
-        $user = security()->users()->findById($userId);
-
-        if (! $user) {
-            abort(404);
-        }
+        $user = $request->getUser();
 
         try {
-            security()->users()->update($user, $request->all([
-                'firstName',
-                'lastName',
-                'email',
-                'username',
-                'password',
-                'activated',
-                'roles',
-                'permissions',
-            ]));
+            security()->users()->update($user, $request->getCredentials());
 
             return redirect()->to(url()->to(UserListHandler::route()));
         } catch (ValidationException $e) {
@@ -46,13 +30,13 @@ class UserUpdateHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->put($backofficePrefix . '/' . $routePrefix . '/{' . static::ROUTE_PARAM_ID . '}/', [
+            ->put("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
@@ -63,8 +47,10 @@ class UserUpdateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $userId)
+    public static function route(int $userId): string
     {
-        return route(static::class, [static::ROUTE_PARAM_ID => $userId]);
+        return route(static::class, [
+            UserRequest::ROUTE_PARAM_ID => $userId,
+        ]);
     }
 }

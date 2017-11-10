@@ -5,33 +5,26 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
-use App\Http\Backoffice\Requests\Auth\RoleUpdateRequest;
+use App\Http\Backoffice\Requests\Roles\RoleRequest;
+use App\Http\Backoffice\Requests\Roles\RoleUpdateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Permissions\Permissible;
-use Digbang\Security\Roles\Role;
 use Illuminate\Routing\Router;
 
 class RoleUpdateHandler extends Handler implements RouteDefiner
 {
-    public const ROUTE_PARAM_ID = 'role_id';
-
-    public function __invoke(int $roleId, RoleUpdateRequest $request)
+    public function __invoke(RoleUpdateRequest $request)
     {
-        /** @var Role $role */
-        $role = security()->roles()->findById($roleId);
-
-        if (! $role) {
-            abort(404);
-        }
+        $role = $request->getRole();
 
         try {
-            $role->setName($request->input('name'));
+            $role->setName($request->getName());
 
             if ($role instanceof Permissible) {
-                $role->syncPermissions((array) $request->input('permissions'));
+                $role->syncPermissions($request->getPermissions());
             }
 
             security()->roles()->save($role);
@@ -46,13 +39,13 @@ class RoleUpdateHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->put($backofficePrefix . '/' . $routePrefix . '/{' . static::ROUTE_PARAM_ID . '}/', [
+            ->put("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
@@ -63,8 +56,10 @@ class RoleUpdateHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $roleId)
+    public static function route(int $roleId): string
     {
-        return route(static::class, [static::ROUTE_PARAM_ID => $roleId]);
+        return route(static::class, [
+            RoleRequest::ROUTE_PARAM_ID => $roleId,
+        ]);
     }
 }

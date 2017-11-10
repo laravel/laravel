@@ -5,11 +5,11 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
-use Digbang\Security\Roles\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Router;
 
@@ -23,14 +23,9 @@ class RoleShowHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(int $roleId, Factory $view)
+    public function __invoke(RoleRequest $request, Factory $view)
     {
-        /** @var Role $role */
-        $role = security()->roles()->findById($roleId);
-
-        if (! $role) {
-            abort(404);
-        }
+        $role = $request->getRole();
 
         $breadcrumb = backoffice()->breadcrumb([
             trans('backoffice::default.home') => DashboardIndexHandler::class,
@@ -86,13 +81,13 @@ class RoleShowHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/{role_id}/", [
+            ->get("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_READ,
             ])
@@ -103,8 +98,10 @@ class RoleShowHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $roleId)
+    public static function route(int $roleId): string
     {
-        return route(static::class, ['role_id' => $roleId]);
+        return route(static::class, [
+            RoleRequest::ROUTE_PARAM_ID => $roleId,
+        ]);
     }
 }

@@ -5,23 +5,18 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
-use Digbang\Security\Roles\Role;
 use Illuminate\Routing\Router;
 
 class RoleDeleteHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(int $roleId)
+    public function __invoke(RoleRequest $request)
     {
-        /** @var Role $role */
-        $role = security()->roles()->findById($roleId);
-
-        if (! $role) {
-            abort(404);
-        }
+        $role = $request->getRole();
 
         try {
             security()->roles()->delete($role);
@@ -39,13 +34,13 @@ class RoleDeleteHandler extends Handler implements RouteDefiner
         }
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->delete("$backofficePrefix/$routePrefix/{role_id}/", [
+            ->delete("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_DELETE,
             ])
@@ -56,8 +51,10 @@ class RoleDeleteHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $roleId)
+    public static function route(int $roleId): string
     {
-        return route(static::class, ['role_id' => $roleId]);
+        return route(static::class, [
+            RoleRequest::ROUTE_PARAM_ID => $roleId,
+        ]);
     }
 }

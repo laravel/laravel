@@ -5,10 +5,12 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleRequest;
+use App\Http\Backoffice\Requests\Roles\RoleUpdateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
+use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
-use Digbang\Security\Roles\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -23,14 +25,9 @@ class RoleEditHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(int $roleId, Factory $view)
+    public function __invoke(RoleRequest $request, Factory $view)
     {
-        /** @var Role $role */
-        $role = security()->roles()->findById($roleId);
-
-        if (! $role) {
-            abort(404);
-        }
+        $role = $request->getRole();
 
         $form = $this->buildForm(
             security()->url()->to(RoleUpdateHandler::route($role->getRoleId())),
@@ -44,8 +41,8 @@ class RoleEditHandler extends Handler implements RouteDefiner
         })->toArray();
 
         $form->fill([
-            'name' => $role->getName(),
-            'permissions[]' => $permissions,
+            RoleUpdateRequest::FIELD_NAME => $role->getName(),
+            RoleUpdateRequest::FIELD_PERMISSIONS . '[]' => $permissions,
         ]);
 
         $breadcrumb = backoffice()->breadcrumb([
@@ -62,13 +59,13 @@ class RoleEditHandler extends Handler implements RouteDefiner
         ]);
     }
 
-    public static function defineRoute(Router $router)
+    public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/{role_id}/edit", [
+            ->get("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/edit', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
@@ -79,23 +76,31 @@ class RoleEditHandler extends Handler implements RouteDefiner
             ]);
     }
 
-    public static function route(int $roleId)
+    public static function route(int $roleId): string
     {
-        return route(static::class, ['role_id' => $roleId]);
+        return route(static::class, [
+            RoleRequest::ROUTE_PARAM_ID => $roleId,
+        ]);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = [])
+    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 
         $inputs = $form->inputs();
 
-        $inputs->text('name', trans('backoffice::auth.name'));
+        $inputs
+            ->text(RoleUpdateRequest::FIELD_NAME, trans('backoffice::auth.name'))
+            ->setRequired();
+
         $inputs->dropdown(
-            'permissions',
+            RoleUpdateRequest::FIELD_PERMISSIONS,
             trans('backoffice::auth.permissions'),
             $this->permissionParser->toDropdownArray(security()->permissions()->all()),
-            ['multiple' => 'multiple', 'class' => 'multiselect']
+            [
+                'multiple' => 'multiple',
+                'class' => 'multiselect',
+            ]
         );
 
         return $form;
