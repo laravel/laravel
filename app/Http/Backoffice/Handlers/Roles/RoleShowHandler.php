@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Handlers\Roles;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleRequest;
@@ -28,7 +28,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
         $role = $request->getRole();
 
         $breadcrumb = backoffice()->breadcrumb([
-            trans('backoffice::default.home') => DashboardIndexHandler::class,
+            trans('backoffice::default.home') => DashboardHandler::class,
             trans('backoffice::auth.roles') => RoleListHandler::class,
             $role->getName(),
         ]);
@@ -45,7 +45,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
 
         try {
             $actions->link(
-                security()->url()->to(RoleEditHandler::route($role->getRoleId())),
+                security()->url()->to(RoleEditFormHandler::route($role->getRoleId())),
                 fa('edit') . ' ' . trans('backoffice::default.edit'),
                 ['class' => 'btn btn-success']
             );

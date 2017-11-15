@@ -2,49 +2,52 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Auth\AuthActivateHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
+use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Users\UserCreateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
-use Digbang\Backoffice\Forms\Form;
-use Digbang\Backoffice\Support\PermissionParser;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
+use Digbang\Backoffice\Exceptions\ValidationException;
+use Digbang\Security\Activations\Activation;
+use Digbang\Security\Exceptions\SecurityException;
+use Digbang\Security\Roles\Role;
+use Digbang\Security\Roles\Roleable;
+use Digbang\Security\Users\User;
 use Illuminate\Routing\Router;
 
 class UserCreateHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    use SendsEmails;
 
-    public function __construct(PermissionParser $permissionParser)
+    public function __invoke(UserCreateRequest $request)
     {
-        $this->permissionParser = $permissionParser;
-    }
+        try {
+            /** @var User $user */
+            $user = security()->users()->create($request->getCredentials(), function (User $user) use ($request) {
+                $this->addRoles($user, $request->getRoles());
+            });
 
-    public function __invoke(Factory $view)
-    {
-        $label = trans('backoffice::default.new', ['model' => trans('backoffice::auth.user')]);
+            if ($request->getActivated()) {
+                security()->activate($user);
+            } else {
+                /** @var Activation $activation */
+                $activation = security()->activations()->create($user);
 
-        $form = $this->buildForm(
-            security()->url()->to(UserStoreHandler::route()),
-            $label,
-            Request::METHOD_POST,
-            security()->url()->to(UserListHandler::route())
-        );
+                $this->sendActivation(
+                    $user,
+                    AuthActivateHandler::route($user->getUserId(), $activation->getCode())
+                );
+            }
 
-        $breadcrumb = backoffice()->breadcrumb([
-            trans('backoffice::default.home') => DashboardIndexHandler::class,
-            trans('backoffice::auth.users') => UserListHandler::class,
-            $label,
-        ]);
-
-        return $view->make('backoffice::create', [
-            'title' => trans('backoffice::auth.users'),
-            'form' => $form,
-            'breadcrumb' => $breadcrumb,
-        ]);
+            return redirect()->to(url()->to(UserListHandler::route()));
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->withErrors($e->getErrors());
+        } catch (SecurityException $e) {
+            return redirect()->to(url()->to(DashboardHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
+        }
     }
 
     public static function defineRoute(Router $router): void
@@ -53,7 +56,7 @@ class UserCreateHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/create", [
+            ->post("$backofficePrefix/$routePrefix/", [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_CREATE,
             ])
@@ -69,69 +72,16 @@ class UserCreateHandler extends Handler implements RouteDefiner
         return route(static::class);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
+    private function addRoles(User $user, array $roles): void
     {
-        $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
-
-        $inputs = $form->inputs();
-
-        $inputs->text('firstName', trans('backoffice::auth.first_name'));
-        $inputs->text('lastName', trans('backoffice::auth.last_name'));
-
-        $inputs
-            ->text('email', trans('backoffice::auth.email'))
-            ->setRequired();
-
-        $inputs
-            ->text('username', trans('backoffice::auth.username'))
-            ->setRequired();
-
-        $inputs
-            ->password('password', trans('backoffice::auth.password'))
-            ->setRequired();
-
-        $inputs
-            ->password('password_confirmation', trans('backoffice::auth.confirm_password'))
-            ->setRequired();
-
-        $inputs->checkbox('activated', trans('backoffice::auth.activated'));
-
-        $roles = security()->roles()->findAll();
-
-        $options = [];
-        $rolePermissions = [];
-        foreach ($roles as $role) {
-            /* @var \Digbang\Security\Roles\Role $role */
-            $options[$role->getRoleSlug()] = $role->getName();
-
-            $rolePermissions[$role->getRoleSlug()] = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission) {
-                return $permission->getName();
-            })->toArray();
+        if ($user instanceof Roleable && ! empty($roles)) {
+            /* @var Roleable $user */
+            foreach ($roles as $role) {
+                /** @var Role $role */
+                if ($role = security()->roles()->findBySlug($role)) {
+                    $user->addRole($role);
+                }
+            }
         }
-
-        $inputs->dropdown(
-            'roles',
-            trans('backoffice::auth.roles'),
-            $options,
-            [
-                'multiple' => 'multiple',
-                'class' => 'user-groups form-control',
-                'data-permissions' => json_encode($rolePermissions),
-            ]
-        );
-
-        $permissions = security()->permissions()->all();
-
-        $inputs->dropdown(
-            'permissions',
-            trans('backoffice::auth.permissions'),
-            $this->permissionParser->toDropdownArray($permissions),
-            [
-                'multiple' => 'multiple',
-                'class' => 'multiselect',
-            ]
-        );
-
-        return $form;
     }
 }

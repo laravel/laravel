@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Kernel;
@@ -32,7 +32,7 @@ class UserListHandler extends Handler implements RouteDefiner
         $list->fill($this->getData($request));
 
         $breadcrumb = backoffice()->breadcrumb([
-            trans('backoffice::default.home') => DashboardIndexHandler::class,
+            trans('backoffice::default.home') => DashboardHandler::class,
             trans('backoffice::auth.users'),
         ]);
 
@@ -118,7 +118,7 @@ class UserListHandler extends Handler implements RouteDefiner
 
         try {
             $actions->link(
-                url()->to(UserCreateHandler::route()),
+                url()->to(UserCreateFormHandler::route()),
                 fa('plus') . ' ' . trans('backoffice::default.new', ['model' => trans('backoffice::auth.user')]),
                 [
                     'class' => 'btn btn-primary',
@@ -160,7 +160,7 @@ class UserListHandler extends Handler implements RouteDefiner
         $rowActions->link(
             function (Collection $row) {
                 try {
-                    return url()->to(UserEditHandler::route($row->get('id')));
+                    return url()->to(UserEditFormHandler::route($row->get('id')));
                 } catch (SecurityException $e) {
                     return false;
                 }

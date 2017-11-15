@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserRequest;
@@ -27,7 +27,7 @@ class UserDeleteHandler extends Handler implements RouteDefiner
         } catch (ValidationException $e) {
             return redirect()->back()->withDanger(implode('<br/>', $e->getErrors()));
         } catch (SecurityException $e) {
-            return redirect()->to(url()->to(DashboardIndexHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
+            return redirect()->to(url()->to(DashboardHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
         }
     }
 

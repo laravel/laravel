@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserRequest;
@@ -31,7 +31,7 @@ class UserShowHandler extends Handler implements RouteDefiner
         $user = $request->getUser();
 
         $breadcrumb = backoffice()->breadcrumb([
-            trans('backoffice::default.home') => DashboardIndexHandler::class,
+            trans('backoffice::default.home') => DashboardHandler::class,
             trans('backoffice::auth.users') => UserListHandler::class,
             trans('backoffice::auth.user_name', [
                 'name' => $user->getName()->getFirstName(),
@@ -64,7 +64,7 @@ class UserShowHandler extends Handler implements RouteDefiner
 
         try {
             $actions->link(
-                security()->url()->to(UserEditHandler::route($user->getUserId())),
+                security()->url()->to(UserEditFormHandler::route($user->getUserId())),
                 fa('edit') . ' ' . trans('backoffice::default.edit'),
                 ['class' => 'btn btn-success']
             );

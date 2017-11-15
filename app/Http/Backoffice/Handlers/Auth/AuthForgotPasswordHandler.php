@@ -3,24 +3,48 @@
 namespace App\Http\Backoffice\Handlers\Auth;
 
 use App\Http\Backoffice\Handlers\Handler;
+use App\Http\Backoffice\Handlers\SendsEmails;
+use App\Http\Backoffice\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
-use Illuminate\Contracts\View\Factory;
+use Digbang\Security\Contracts\SecurityApi;
+use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthForgotPasswordHandler extends Handler implements RouteDefiner
 {
-    protected const ROUTE_NAME = 'backoffice.auth.password.forgot';
+    use SendsEmails;
 
-    public function __invoke(Factory $view)
+    protected const ROUTE_NAME = 'backoffice.auth.password.forgot-request';
+
+    public function __invoke(Redirector $redirector, ForgotPasswordRequest $request, SecurityApi $securityApi)
     {
-        return $view->make('backoffice::auth.request-reset-password');
+        $email = $request->getEmail();
+
+        /** @var \Digbang\Security\Users\User $user */
+        if (! $email || ! ($user = $securityApi->users()->findByCredentials(['email' => $email]))) {
+            return $redirector->back()
+                ->withErrors(['email' => trans('backoffice::auth.validation.user.not-found')]);
+        }
+
+        /** @var \Digbang\Security\Reminders\Reminder $reminder */
+        $reminder = $securityApi->reminders()->create($user);
+
+        $this->sendPasswordReset(
+            $user,
+            AuthResetPasswordFormHandler::route($user->getUserId(), $reminder->getCode())
+        );
+
+        return $redirector->to(AuthLoginHandler::route())
+            ->with('info', trans('backoffice::auth.reset-password.email-sent',
+                ['email' => $user->getEmail()]
+            ));
     }
 
     public static function defineRoute(Router $router): void
     {
         $router
-            ->get(config('backoffice.global_url_prefix') . '/auth/password/forgot', static::class)
+            ->post(config('backoffice.global_url_prefix') . '/auth/password/forgot', static::class)
             ->name(static::ROUTE_NAME)
             ->middleware([
                 Kernel::WEB,

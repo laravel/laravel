@@ -2,9 +2,10 @@
 
 namespace App\Http\Backoffice\Requests\Users;
 
+use App\Http\Backoffice\Requests\Request;
 use Digbang\Security\Users\DefaultUser;
 
-class UserUpdateRequest extends UserRequest
+class UserCreateRequest extends Request
 {
     public const FIELD_FIRST_NAME = 'firstName';
     public const FIELD_LAST_NAME = 'lastName';
@@ -12,19 +13,19 @@ class UserUpdateRequest extends UserRequest
     public const FIELD_USERNAME = 'username';
     public const FIELD_PASSWORD = 'password';
     public const FIELD_PASSWORD_CONFIRMATION = 'password_confirmation';
+    public const FIELD_ACTIVATED = 'activated';
     public const FIELD_ROLES = 'roles';
     public const FIELD_PERMISSIONS = 'permissions';
 
     public function rules()
     {
-        $userId = $this->route(static::ROUTE_PARAM_ID);
-
         return [
             static::FIELD_FIRST_NAME => 'max:255',
             static::FIELD_LAST_NAME => 'max:255',
-            static::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address,' . $userId,
-            static::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username,' . $userId,
-            static::FIELD_PASSWORD => 'nullable|confirmed|min:3',
+            static::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address',
+            static::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username',
+            static::FIELD_PASSWORD => 'required|confirmed|min:3',
+            static::FIELD_ACTIVATED => 'boolean',
             static::FIELD_ROLES => 'array',
             static::FIELD_PERMISSIONS => 'array',
         ];
@@ -66,6 +67,11 @@ class UserUpdateRequest extends UserRequest
         return $this->get(static::FIELD_PASSWORD);
     }
 
+    public function getActivated(): bool
+    {
+        return $this->get(static::FIELD_ACTIVATED);
+    }
+
     public function getRoles(): array
     {
         return $this->get(static::FIELD_ROLES, []) ?? [];
@@ -84,6 +90,7 @@ class UserUpdateRequest extends UserRequest
             static::FIELD_EMAIL,
             static::FIELD_USERNAME,
             static::FIELD_PASSWORD,
+            static::FIELD_ACTIVATED,
             static::FIELD_ROLES,
             static::FIELD_PERMISSIONS,
         ]);

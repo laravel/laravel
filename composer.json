@@ -58,8 +58,8 @@
             ]
         },
         "hooks": {
-            "pre-commit": "docker run -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/phpunit\"",
-            "post-commit": "docker run -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes\""
+            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/phpunit\"",
+            "post-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes\""
         }
     },
     "scripts": {

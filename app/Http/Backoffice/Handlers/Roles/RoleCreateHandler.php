@@ -2,50 +2,44 @@
 
 namespace App\Http\Backoffice\Handlers\Roles;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
-use App\Http\Backoffice\Requests\Roles\RoleStoreRequest;
+use App\Http\Backoffice\Requests\Roles\RoleCreateRequest;
 use App\Http\Kernel;
 use App\Http\Util\RouteDefiner;
-use Digbang\Backoffice\Forms\Form;
-use Digbang\Backoffice\Support\PermissionParser;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\Request;
+use Digbang\Backoffice\Exceptions\ValidationException;
+use Digbang\Security\Exceptions\SecurityException;
+use Digbang\Security\Permissions\Permissible;
+use Digbang\Security\Roles\Role;
 use Illuminate\Routing\Router;
 
 class RoleCreateHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
-
-    public function __construct(PermissionParser $permissionParser)
+    public function __invoke(RoleCreateRequest $request)
     {
-        $this->permissionParser = $permissionParser;
-    }
+        try {
+            $roles = security()->roles();
 
-    public function __invoke(Factory $view)
-    {
-        $label = trans('backoffice::default.new', ['model' => trans('backoffice::auth.role')]);
+            /** @var Role|Permissible $role */
+            $role = $roles->create($request->getName(), $request->getSlug());
 
-        $form = $this->buildForm(
-            security()->url()->to(RoleStoreHandler::route()),
-            $label,
-            Request::METHOD_POST,
-            security()->url()->to(RoleListHandler::route())
-        );
+            if ($request->getPermissions() && $role instanceof Permissible) {
+                foreach ($request->getPermissions() as $permission) {
+                    $role->addPermission($permission);
+                }
 
-        $breadcrumb = backoffice()->breadcrumb([
-            trans('backoffice::default.home') => DashboardIndexHandler::class,
-            trans('backoffice::auth.roles') => RoleListHandler::class,
-            $label,
-        ]);
+                $roles->save($role);
+            }
 
-        return $view->make('backoffice::create', [
-            'title' => trans('backoffice::auth.roles'),
-            'form' => $form,
-            'breadcrumb' => $breadcrumb,
-        ]);
+            return redirect()->to(
+                security()->url()->route(RoleListHandler::class)
+            );
+        } catch (ValidationException $e) {
+            return redirect()->back()->withInput()->withErrors($e->getErrors());
+        } catch (SecurityException $e) {
+            return redirect()->to(url()->to(DashboardHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
+        }
     }
 
     public static function defineRoute(Router $router): void
@@ -54,7 +48,7 @@ class RoleCreateHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/create", [
+            ->post("$backofficePrefix/$routePrefix/", [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_CREATE,
             ])
@@ -68,28 +62,5 @@ class RoleCreateHandler extends Handler implements RouteDefiner
     public static function route(): string
     {
         return route(static::class);
-    }
-
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
-    {
-        $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
-
-        $inputs = $form->inputs();
-
-        $inputs
-            ->text(RoleStoreRequest::FIELD_NAME, trans('backoffice::auth.name'))
-            ->setRequired();
-
-        $inputs->dropdown(
-            RoleStoreRequest::FIELD_PERMISSIONS,
-            trans('backoffice::auth.permissions'),
-            $this->permissionParser->toDropdownArray(security()->permissions()->all()),
-            [
-                'multiple' => 'multiple',
-                'class' => 'multiselect',
-            ]
-        );
-
-        return $form;
     }
 }

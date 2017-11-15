@@ -1,3 +1,47 @@
+* text eol=lf
+
+# These files are text and should be normalized (Convert crlf => lf)
+*.php  text
+*.css  text
+*.js   text
+*.htm  text
+*.html text
+*.xml  text
+*.txt  text
+*.ini  text
+*.inc  text
+.htaccess text
+
+# Denote all files that are truly binary and should not be modified.
+# (binary is a macro for -text -diff)
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.mov  binary
+*.mp4  binary
+*.mp3  binary
+*.flv  binary
+*.fla  binary
+*.swf  binary
+*.gz   binary
+*.zip  binary
+*.7z   binary
+*.ttf  binary
+
+# Documents
+*.doc  diff=astextplain
+*.DOC  diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF  diff=astextplain
+*.rtf  diff=astextplain
+*.RTF  diff=astextplain
+
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored

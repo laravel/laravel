@@ -2,38 +2,31 @@
 
 namespace App\Http\Backoffice\Requests\Roles;
 
-use App\Http\Backoffice\Requests\Request;
 use Digbang\Security\Roles\DefaultRole;
 
-class RoleStoreRequest extends Request
+class RoleEditRequest extends RoleRequest
 {
     public const FIELD_NAME = 'name';
-    public const FIELD_SLUG = 'slug';
     public const FIELD_PERMISSIONS = 'permissions';
 
     public function rules()
     {
         return [
-            static::FIELD_NAME => 'required|unique:' . DefaultRole::class . ',name',
+            'name' => 'required|unique:' . DefaultRole::class . ',name,' . $this->route(static::ROUTE_PARAM_ID),
         ];
     }
 
     public function messages()
     {
         return [
-            static::FIELD_NAME . '.required' => trans('backoffice::auth.validation.role.name'),
-            static::FIELD_NAME . '.unique' => trans('backoffice::auth.validation.role.unique'),
+            'name.required' => trans('backoffice::auth.validation.role.name'),
+            'name.unique' => trans('backoffice::auth.validation.role.unique'),
         ];
     }
 
     public function getName(): string
     {
         return $this->get(static::FIELD_NAME);
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->get(static::FIELD_SLUG);
     }
 
     public function getPermissions(): array

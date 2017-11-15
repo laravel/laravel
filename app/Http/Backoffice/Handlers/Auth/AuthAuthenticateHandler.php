@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Handlers\Auth;
 
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\LoginRequest;
 use App\Http\Kernel;
@@ -37,7 +37,7 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
 
             if ($authenticated) {
                 return $redirector->intended(
-                    $securityApi->url()->to(DashboardIndexHandler::route())
+                    $securityApi->url()->to(DashboardHandler::route())
                 );
             }
 

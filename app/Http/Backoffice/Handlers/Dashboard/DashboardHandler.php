@@ -8,7 +8,7 @@ use App\Http\Util\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Routing\Router;
 
-class DashboardIndexHandler extends Handler implements RouteDefiner
+class DashboardHandler extends Handler implements RouteDefiner
 {
     public function __invoke(SecurityApi $securityApi)
     {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
-use App\Http\Backoffice\Handlers\Auth\AuthResetPasswordRequestHandler;
-use App\Http\Backoffice\Handlers\Dashboard\DashboardIndexHandler;
+use App\Http\Backoffice\Handlers\Auth\AuthResetPasswordHandler;
+use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Permission;
@@ -28,14 +28,14 @@ class UserResetPasswordHandler extends Handler implements RouteDefiner
 
             $this->sendPasswordReset(
                 $user,
-                security()->url()->to(AuthResetPasswordRequestHandler::route($user->getUserId(), $reminder->getCode()))
+                security()->url()->to(AuthResetPasswordHandler::route($user->getUserId(), $reminder->getCode()))
             );
 
             return redirect()->back()->withSuccess(trans('backoffice::auth.reset-password.email-sent', ['email' => $user->getEmail()]));
         } catch (ValidationException $e) {
             return redirect()->back()->withDanger(implode('<br/>', $e->getErrors()));
         } catch (SecurityException $e) {
-            return redirect()->to(url()->to(DashboardIndexHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
+            return redirect()->to(url()->to(DashboardHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
         }
     }
 
