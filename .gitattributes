@@ -12,7 +12,7 @@
 *.inc  text
 .htaccess text
 
-# Denote all files that are truly binary and should not be modified.
+# Denote all files that are truly binary and should not be modified
 # (binary is a macro for -text -diff)
 *.png  binary
 *.jpg  binary

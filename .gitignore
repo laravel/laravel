@@ -18,3 +18,4 @@ yarn-error.log
 .php_cs.cache
 /.phpstorm.meta.php
 /_ide_helper.php
+cghooks.lock
