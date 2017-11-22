@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<ruleset>
+  <rule ref="PSR2"></rule>
+</ruleset>
