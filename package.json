@@ -16,6 +16,7 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
+        "tailwindcss": "^0.3.0",
         "vue": "^2.5.7"
     }
 }
