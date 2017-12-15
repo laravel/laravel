@@ -51,7 +51,7 @@ return [
     | only works in case your php-source files are locally accessible to
     | the machine on which the editor is installed.
     |
-    | Supported: "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "textmate", "vscode"
+    | Supported: "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "xdebug", "vscode"
     | See: https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     |
     */
