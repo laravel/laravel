@@ -46,10 +46,10 @@ return [
     | Application Whoops Editor
     |--------------------------------------------------------------------------
     |
-    | When using the pretty error page feature, whoops comes with the ability to open
-    | referenced files directly in your IDE or editor. This feature only works in
-    | case your php-source files are locally accessible to the machine on which
-    | the editor is installed.
+    | When using the pretty error page feature, whoops comes with the ability
+    | to open referenced files directly in your IDE or editor. This feature
+    | only works in case your php-source files are locally accessible to
+    | the machine on which the editor is installed.
     |
     | Supported: "emacs", "idea", "macvim", "phpstorm", "sublime", "textmate", "textmate", "vscode"
     | See: https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
