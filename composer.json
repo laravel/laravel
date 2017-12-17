@@ -12,6 +12,7 @@
     },
     "require-dev": {
         "filp/whoops": "~2.0",
+        "nunomaduro/collision": "~1.1",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "~6.0"
