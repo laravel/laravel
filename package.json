@@ -11,7 +11,8 @@
     },
     "devDependencies": {
         "axios": "^0.17",
-        "bootstrap-sass": "^3.3.7",
+        "bootstrap": "^4.0.0-beta.2",
+        "popper.js": "^1.12",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
