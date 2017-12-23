@@ -15,7 +15,8 @@
         "nunomaduro/collision": "~1.1",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.0",
+        "codedungeon/phpunit-result-printer": "~0.4"
     },
     "autoload": {
         "classmap": [
