@@ -13,6 +13,7 @@
     "require-dev": {
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
+        "limedeck/phpunit-detailed-printer": "^3.1",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "~6.0"
     },
