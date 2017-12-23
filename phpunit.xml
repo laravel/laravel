@@ -6,6 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         printerClass="LimeDeck\Testing\Printer"
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
