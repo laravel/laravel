@@ -50,6 +50,6 @@ if (token) {
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key',
-//     cluster: 'eu',
+//     cluster: 'mt1',
 //     encrypted: true
 // });
