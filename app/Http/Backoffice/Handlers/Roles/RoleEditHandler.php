@@ -50,10 +50,7 @@ class RoleEditHandler extends Handler implements RouteDefiner
                 'permission' => Permission::ROLE_UPDATE,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $roleId): string

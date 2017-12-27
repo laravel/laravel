@@ -97,10 +97,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string

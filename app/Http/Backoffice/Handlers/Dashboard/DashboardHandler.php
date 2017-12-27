@@ -22,10 +22,7 @@ class DashboardHandler extends Handler implements RouteDefiner
         $router
             ->get(config('backoffice.global_url_prefix'), static::class)
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string

@@ -49,10 +49,7 @@ class UserResendActivationHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_RESEND_ACTIVATION,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string

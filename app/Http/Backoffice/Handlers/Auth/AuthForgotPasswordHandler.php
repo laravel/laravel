@@ -46,10 +46,7 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
         $router
             ->post(config('backoffice.global_url_prefix') . '/auth/password/forgot', static::class)
             ->name(static::ROUTE_NAME)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE_PUBLIC,
-            ]);
+            ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string

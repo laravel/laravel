@@ -63,11 +63,7 @@ class RoleListHandler extends Handler implements RouteDefiner
                 'permission' => Permission::ROLE_LIST,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-                Kernel::BACKOFFICE_PERSISTENT_LISTING,
-            ]);
+            ->middleware([Kernel::BACKOFFICE_LISTING]);
     }
 
     public static function route(): string

@@ -61,10 +61,7 @@ class UserCreateHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_CREATE,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string

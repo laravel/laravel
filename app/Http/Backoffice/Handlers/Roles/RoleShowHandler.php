@@ -92,10 +92,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
                 'permission' => Permission::ROLE_READ,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $roleId): string

@@ -57,10 +57,7 @@ class RoleExportHandler extends Handler implements RouteDefiner
                 'permission' => Permission::ROLE_EXPORT,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(array $filter): string

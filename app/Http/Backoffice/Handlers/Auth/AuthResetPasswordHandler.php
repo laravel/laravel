@@ -51,10 +51,7 @@ class AuthResetPasswordHandler extends Handler implements RouteDefiner
         $router
             ->post(config('backoffice.global_url_prefix') . '/auth/password/reset/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
             ->name(static::ROUTE_NAME)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE_PUBLIC,
-            ]);
+            ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(int $userId, string $code): string

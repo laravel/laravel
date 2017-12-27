@@ -52,10 +52,7 @@ class UserExportHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_EXPORT,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(array $filter): string

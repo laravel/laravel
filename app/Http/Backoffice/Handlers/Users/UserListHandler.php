@@ -54,11 +54,7 @@ class UserListHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_LIST,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-                Kernel::BACKOFFICE_PERSISTENT_LISTING,
-            ]);
+            ->middleware([Kernel::BACKOFFICE_LISTING]);
     }
 
     public static function route(): string

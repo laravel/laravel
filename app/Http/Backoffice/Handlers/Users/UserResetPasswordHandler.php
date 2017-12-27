@@ -50,10 +50,7 @@ class UserResetPasswordHandler extends Handler implements RouteDefiner
                 'permission' => Permission::OPERATOR_RESET_PASSWORD,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string

@@ -8,9 +8,9 @@ class Kernel extends HttpKernel
 {
     public const API = 'api';
     public const WEB = 'web';
-    public const BACKOFFICE = 'security:backoffice';
-    public const BACKOFFICE_PUBLIC = 'security:backoffice:public';
-    public const BACKOFFICE_PERSISTENT_LISTING = 'persistent';
+    public const BACKOFFICE = 'backoffice';
+    public const BACKOFFICE_PUBLIC = 'backoffice-public';
+    public const BACKOFFICE_LISTING = 'backoffice-listing';
 
     /**
      * The application's global HTTP middleware stack.
@@ -33,7 +33,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
+        self::WEB => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -42,10 +42,22 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
-        'api' => [
+        self::API => [
             'throttle:60,1',
             'bindings',
+        ],
+        self::BACKOFFICE => [
+            self::WEB,
+            'security:backoffice',
+        ],
+        self::BACKOFFICE_PUBLIC => [
+            self::WEB,
+            'security:backoffice:public',
+        ],
+        self::BACKOFFICE_LISTING => [
+            self::WEB,
+            self::BACKOFFICE,
+            'persistent',
         ],
     ];
 

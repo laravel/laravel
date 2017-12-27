@@ -25,10 +25,7 @@ class AuthLogoutHandler extends Handler implements RouteDefiner
         $router
             ->get(config('backoffice.global_url_prefix') . '/auth/logout', static::class)
             ->name(static::ROUTE_NAME)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string

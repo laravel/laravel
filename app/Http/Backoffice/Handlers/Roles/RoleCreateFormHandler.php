@@ -59,10 +59,7 @@ class RoleCreateFormHandler extends Handler implements RouteDefiner
                 'permission' => Permission::ROLE_CREATE,
             ])
             ->name(static::class)
-            ->middleware([
-                Kernel::WEB,
-                Kernel::BACKOFFICE,
-            ]);
+            ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string
