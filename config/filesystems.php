@@ -61,5 +61,15 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+
+        'minio' => [
+            'driver' => 's3',
+            'use_path_style_endpoint' => true,
+            'endpoint' => env('MINIO_ENDPOINT'),
+            'key' => env('AWS_KEY'),
+            'secret' => env('AWS_SECRET'),
+            'region' => env('AWS_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+        ],
     ],
 ];

@@ -33,6 +33,19 @@ services:
      - "8025:8025"
     networks:
      - appnet
+  s3:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: 12345678
+    volumes:
+      - s3:/data
+    networks:
+     - appnet
+    command: server /data
+    # See README.md
 networks:
   appnet:
     driver: "bridge"
