@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('test', 'test@index');
+Route::get('experiment', 'test@index');
