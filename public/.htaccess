@@ -1,21 +1,461 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+#regular .htaccess file
+# <IfModule mod_rewrite.c>
+#     <IfModule mod_negotiation.c>
+#         Options -MultiViews -Indexes
+#     </IfModule>
+#
+#     RewriteEngine On
+#
+#     # Handle Authorization Header
+#     RewriteCond %{HTTP:Authorization} .
+#     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#
+#     # Redirect Trailing Slashes If Not A Folder...
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_URI} (.+)/$
+#     RewriteRule ^ %1 [L,R=301]
+#
+#     # Handle Front Controller...
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteRule ^ index.php [L]
+# </IfModule>
 
-    RewriteEngine On
+#extended .htaccess file all commented out
+# ######################################################################
+# # REWRITES                                                           #
+# ######################################################################
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # RewriteOptions inherit
+    # RewriteEngine On
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
-</IfModule>
+#RewriteCond %{REQUEST_URI} !/storage/uploads
+    # RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+    # RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Redirect Trailing S`hes If Not A Folder...
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Handle Front Controller...
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteRule ^ index.php [L]
+
+
+# ----------------------------------------------------------------------
+# | IP Canonicalization                                                |
+# ----------------------------------------------------------------------
+# Does not work on shared hosting
+    # RewriteCond %{HTTP_HOST} ^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}.*
+    # RewriteRule (.*) https://www.yourdomain.be/$1 [R=301,L]
+
+# ----------------------------------------------------------------------
+# | Https enforcing                                                    |
+# ----------------------------------------------------------------------
+
+# Redirect all http to https
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Force client-side SSL redirection.
+
+    # Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
+
+# ----------------------------------------------------------------------
+# | www. enforcing                                                     |
+# ----------------------------------------------------------------------
+
+# Redirect all yourdomain.be to www.yourdomain.be unless it's test.yourdomain.be
+    # RewriteCond %{HTTP_HOST} "!^test\.yourdomain\.be" [NC]
+    # RewriteCond %{HTTP_HOST} "!^www\.yourdomain\.be$" [NC]
+    # RewriteRule ^(.*)$ https://www.yourdomain.be/$1 [L,R=301]
+
+
+# ######################################################################
+# # WEB PERFORMANCE                                                    #
+# ######################################################################
+# ----------------------------------------------------------------------
+# | Content Types                                                        |
+# ----------------------------------------------------------------------
+# AddHandler font-woff woff
+# AddType application/x-font-woff2 woff2
+# AddType application/font-sfnt ttf
+# AddType application/font-woff woff
+# AddType application/vnd.ms-fontobject eot
+# AddType image/svg+xml svg svgz
+
+# ----------------------------------------------------------------------
+# | Compression                                                        |
+# ----------------------------------------------------------------------
+
+    # <IfModule mod_deflate.c>
+    #
+    #     # Force compression for mangled `Accept-Encoding` request headers
+    #     <IfModule mod_setenvif.c>
+    #         <IfModule mod_headers.c>
+    #             SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+    #             RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
+    #         </IfModule>
+    #     </IfModule>
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Compress all output labeled with one of the following media types.
+        # <IfModule mod_filter.c>
+        #     AddOutputFilterByType DEFLATE "application/atom+xml" \
+        #                                   "application/javascript" \
+        #                                   "application/json" \
+        #                                   "application/ld+json" \
+        #                                   "application/manifest+json" \
+        #                                   "application/rdf+xml" \
+        #                                   "application/rss+xml" \
+        #                                   "application/schema+json" \
+        #                                   "application/vnd.geo+json" \
+        #                                   "application/vnd.ms-fontobject" \
+        #                                   "application/x-font-ttf" \
+        #                                   "application/x-javascript" \
+        #                                   "application/x-web-app-manifest+json" \
+        #                                   "application/xhtml+xml" \
+        #                                   "application/xml" \
+        #                                   "font/eot" \
+        #                                   "font/opentype" \
+        #                                   "image/bmp" \
+        #                                   "image/svg+xml" \
+        #                                   "image/vnd.microsoft.icon" \
+        #                                   "image/x-icon" \
+        #                                   "text/cache-manifest" \
+        #                                   "text/css" \
+        #                                   "text/html" \
+        #                                   "text/javascript" \
+        #                                   "text/plain" \
+        #                                   "text/vcard" \
+        #                                   "text/vnd.rim.location.xloc" \
+        #                                   "text/vtt" \
+        #                                   "text/x-component" \
+        #                                   "text/x-cross-domain-policy" \
+        #                                   "text/xml"
+        #
+        # </IfModule>
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Map the following filename extensions to the specified
+    # encoding type in order to make Apache serve the file types
+    # with the appropriate `Content-Encoding` response header
+    # (do note that this will NOT make Apache compress them!).
+
+    #     <IfModule mod_mime.c>
+    #         AddEncoding gzip              svgz
+    #     </IfModule>
+    #
+    # </IfModule>
+
+# ----------------------------------------------------------------------
+# | ETags                                                              |
+# ----------------------------------------------------------------------
+
+# Remove `ETags` as resources are sent with far-future expires headers.
+# `FileETag None` doesn't work in all cases.
+# Header unset ETag
+# FileETag None
+
+# Create the ETag (entity tag) response header field
+    # FileETag MTime Size
+
+# ----------------------------------------------------------------------
+# | Expires headers                                                    |
+# ----------------------------------------------------------------------
+
+    # # Serve resources with far-future expires headers.
+    # <IfModule mod_expires.c>
+    #
+    #     ExpiresActive on
+    #     ExpiresDefault                                      "access plus 1 week"
+    #
+    #   # CSS
+    #
+    #     ExpiresByType text/css                              "access plus 1 week"
+    #
+    #
+    #   # Data interchange
+    #
+    #     ExpiresByType application/atom+xml                  "access plus 1 hour"
+    #     ExpiresByType application/rdf+xml                   "access plus 1 hour"
+    #     ExpiresByType application/rss+xml                   "access plus 1 hour"
+    #
+    #     ExpiresByType application/json                      "access plus 0 seconds"
+    #     ExpiresByType application/ld+json                   "access plus 0 seconds"
+    #     ExpiresByType application/schema+json               "access plus 0 seconds"
+    #     ExpiresByType application/vnd.geo+json              "access plus 0 seconds"
+    #     ExpiresByType application/xml                       "access plus 0 seconds"
+    #     ExpiresByType text/xml                              "access plus 0 seconds"
+
+
+  # Favicon (cannot be renamed!) and cursor images
+
+        # ExpiresByType image/vnd.microsoft.icon              "access plus 1 month"
+        # ExpiresByType image/x-icon                          "access plus 1 month"
+
+  # HTML
+
+    #   ExpiresByType text/html                             "access plus 1 week"
+
+
+  # JavaScript
+
+    # ExpiresByType application/javascript                "access plus 1 week"
+    # ExpiresByType application/x-javascript              "access plus 1 week"
+    # ExpiresByType text/javascript                       "access plus 1 week"
+
+
+  # Manifest files
+
+    # ExpiresByType application/manifest+json             "access plus 1 week"
+    # ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
+    # ExpiresByType text/cache-manifest                   "access plus 0 seconds"
+
+
+  # Media files
+
+    # ExpiresByType audio/ogg                             "access plus 1 month"
+    # ExpiresByType image/bmp                             "access plus 1 month"
+    # ExpiresByType image/gif                             "access plus 1 month"
+    # ExpiresByType image/jpeg                            "access plus 1 month"
+    # ExpiresByType image/png                             "access plus 1 month"
+    # ExpiresByType image/svg+xml                         "access plus 1 month"
+    # ExpiresByType image/webp                            "access plus 1 month"
+    # ExpiresByType video/mp4                             "access plus 1 month"
+    # ExpiresByType video/ogg                             "access plus 1 month"
+    # ExpiresByType video/webm                            "access plus 1 month"
+
+
+  # Web fonts
+
+    # Embedded OpenType (EOT)
+    # ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
+    # ExpiresByType font/eot                              "access plus 1 month"
+
+    # OpenType
+    # ExpiresByType font/opentype                         "access plus 1 month"
+
+    # TrueType
+    # ExpiresByType application/x-font-ttf                "access plus 1 month"
+
+    # Web Open Font Format (WOFF) 1.0
+    # ExpiresByType application/font-woff                 "access plus 1 month"
+    # ExpiresByType application/x-font-woff               "access plus 1 month"
+    # ExpiresByType font/woff                             "access plus 1 month"
+
+    # Web Open Font Format (WOFF) 2.0
+    #   ExpiresByType application/font-woff2                "access plus 1 month"
+
+
+  # Other
+
+    #     ExpiresByType text/x-cross-domain-policy            "access plus 1 week"
+    #
+    # </IfModule>
+
+# ----------------------------------------------------------------------
+# | File concatenation                                                 |
+# ----------------------------------------------------------------------
+
+# Allow concatenation from within specific files.
+
+# <IfModule mod_include.c>
+#     <FilesMatch "\.combined\.js$">
+#         Options +Includes
+#         AddOutputFilterByType INCLUDES application/javascript \
+#                                        application/x-javascript \
+#                                        text/javascript
+#         SetOutputFilter INCLUDES
+#     </FilesMatch>
+#     <FilesMatch "\.combined\.css$">
+#         Options +Includes
+#         AddOutputFilterByType INCLUDES text/css
+#         SetOutputFilter INCLUDES
+#     </FilesMatch>
+# </IfModule>
+
+# ----------------------------------------------------------------------
+# | Filename-based cache busting                                       |
+# ----------------------------------------------------------------------
+
+# If you're not using a build process to manage your filename version
+# revving, you might want to consider enabling the following directives
+# to route all requests such as `/style.12345.css` to `/style.css`.
+#
+# To understand why this is important and even a better solution than
+# using something like `*.css?v231`, please see:
+# http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
+
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteRule ^(.+)\.(\d+)\.(bmp|css|cur|gif|ico|jpe?g|js|png|svgz?|webp|webmanifest)$ $1.$3 [L]
+# </IfModule>
+
+
+# ######################################################################
+# # SECURITY                                                           #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | Perl Scripts                                                       |
+# ----------------------------------------------------------------------
+
+# Block perl scripts
+    # RewriteCond %{HTTP_USER_AGENT} libwww-perl.*
+    # RewriteRule .* ? [F,L]
+
+# ----------------------------------------------------------------------
+# | Clickjacking                                                       |
+# ----------------------------------------------------------------------
+
+# Protect website against clickjacking.
+# Exception for google so they can serve prtscreen in google search
+    # Header set X-Frame-Options "ALLOW-FROM https://google.be"
+    # <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    #   Header unset X-Frame-Options
+    # </FilesMatch>
+
+# ----------------------------------------------------------------------
+# | Content Security Policy (CSP)                                      |
+# ----------------------------------------------------------------------
+
+# Mitigate the risk of cross-site scripting and other content-injection attacks.
+# Header generated using http://content-security-policy.com/ this is an example:
+    # Header set Content-Security-Policy "default-src 'self' test.yourdomain.be www.yourdomain.be; script-src 'self' test.yourdomain.be www.yourdomain.be https://maxcdn.bootstrapcdn.com *.googleapis.com *.gstatic.com connect.facebook.net www.google-analytics.com *.facebook.com *.report-uri.io 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' test.yourdomain.be www.yourdomain.be *.googleapis.com *.gstatic.com connect.facebook.net www.google-analytics.com *.facebook.com; img-src 'self' test.yourdomain.be www.yourdomain.be *.googleapis.com *.gstatic.com connect.facebook.net www.google-analytics.com *.facebook.com www.compsy.be; font-src 'self' test.yourdomain.be www.yourdomain.be *.googleapis.com *.gstatic.com; upgrade-insecure-requests; frame-src *.facebook.com;reflected-xss block; report-uri https://yourdomain.report-uri.io/r/default/csp/enforce;"
+    # <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    #   Header unset Content-Security-Policy
+    # </FilesMatch>
+    #
+    # <If "%{REQUEST_URI} =~ /login/ || %{REQUEST_URI} =~ /home/">
+    #   Header unset Content-Security-Policy
+    # </If>
+
+# ----------------------------------------------------------------------
+# | File access                                                        |
+# ----------------------------------------------------------------------
+
+# Block access to directories without a default document.
+    # <IfModule mod_autoindex.c>
+    #     Options -Indexes
+    # </IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Block access to all hidden files and directories with the exception of
+# the visible content from within the `/.well-known/` hidden directory.
+
+    # <IfModule mod_rewrite.c>
+    #     RewriteEngine On
+    #     RewriteCond %{REQUEST_URI} "!(^|/)\.well-known/([^./]+./?)+$" [NC]
+    #     RewriteCond %{SCRIPT_FILENAME} -d [OR]
+    #     RewriteCond %{SCRIPT_FILENAME} -f
+    #     RewriteRule "(^|/)\." - [F]
+    # </IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Block access to files that can expose sensitive information.
+    # <FilesMatch "(^#.*#|\.(bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$">
+    #     # Apache ≥ 2.3
+    #     <IfModule mod_authz_core.c>
+    #         Require all denied
+    #     </IfModule>
+    # </FilesMatch>
+
+# ----------------------------------------------------------------------
+# | Reducing MIME type security risks                                  |
+# ----------------------------------------------------------------------
+
+# Prevent some browsers from MIME-sniffing the response.
+
+    # Header set X-Content-Type-Options "nosniff"
+
+# ----------------------------------------------------------------------
+# | Reflected Cross-Site Scripting (XSS) attacks                       |
+# ----------------------------------------------------------------------
+
+    # Header set X-XSS-Protection "1; mode=block"
+
+# The `X-XSS-Protection` response header should be send only for
+# HTML documents and not for the other resources.
+
+    # <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    #   Header unset X-XSS-Protection
+    # </FilesMatch>
+
+# ----------------------------------------------------------------------
+# | Server-side technology information                                 |
+# ----------------------------------------------------------------------
+
+# Hide X-Powered-By and Server headers, sent by downstream application servers
+# Note you need both below as the "always" one doesn't work with Jboss for some reason
+    # Header always unset "X-Powered-By"
+    # Header unset X-Powered-By
+
+# ----------------------------------------------------------------------
+# | Server software information                                        |
+# ----------------------------------------------------------------------
+
+# Reduce Server HTTP Header to the minimum product (Apache) rather than showing
+# detailed version information of the server and operating system
+# ServerTokens Prod
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Remove the footer from error pages, which details the version numbers
+    # ServerSignature Off
+
+# ----------------------------------------------------------------------
+# | Referrer policy                                                    |
+# ----------------------------------------------------------------------
+
+    # Header always set Referrer-Policy "no-referrer, strict-origin-when-cross-origin"
+
+# ----------------------------------------------------------------------
+# | Cookie security                                                    |
+# ----------------------------------------------------------------------
+
+# Rewrite any session cookies to make them more secure
+# Make ALL cookies created by this server are HttpOnly and Secure
+    # Header always edit Set-Cookie (.*) "$1;HttpOnly;Secure"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Rewrite any session cookies to make them more secure
+# Make ALL cookies created by this server are HttpOnly and Secure
+# (except the SPECIAL-CLIENT cookie which can't be HttpOnly and is already set to Secure)
+Header edit Set-Cookie ^((?!SPECIAL-CLIENT).*)$ $1;HttpOnly;Secure
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#Strip off double Secure or HttpOnly settings as if App and Apache sets above you can sometimes get both
+    # Header edit Set-Cookie ^(.*);\s?Secure;?\s?(.*);\s?Secure;?\s?(.*)$ "$1; $2; $3; Secure"
+    # Header edit Set-Cookie ^(.*);\s?HttpOnly;?\s?(.*);\s?HttpOnly;?\s?(.*)$ "$1; $2; $3; HttpOnly"
+#Strip off double ;; settings
+    # Header edit Set-Cookie ^(.*);\s?;\s?(.*)$ "$1; $2"
+
+# ----------------------------------------------------------------------
+# | Expect-CT                                                          |
+# ----------------------------------------------------------------------
+
+    # Header set "Expect-CT" "enforce; max-age=2419200; https://yourdomain.report-uri.io/r/default/ct/enforce"
+
+# ----------------------------------------------------------------------
+# | Http Public Key Pinning                                            |
+# ----------------------------------------------------------------------
+
+# You don't have to implement Http Public Key Pinning when there are no passwords, etc... entered by the user...
+# https://www.tunetheweb.com/security/http-security-headers/hpkp/
