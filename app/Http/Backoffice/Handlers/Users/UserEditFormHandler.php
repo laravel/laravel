@@ -37,8 +37,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
             security()->url()->to(UserEditHandler::route($user->getUserId())),
             trans('backoffice::default.edit') . ' ' . trans('backoffice::auth.user_name', ['name' => $user->getName()->getFirstName(), 'lastname' => $user->getName()->getLastName()]),
             Request::METHOD_PUT,
-            security()->url()->to(UserListHandler::route())[],
-            $user
+            security()->url()->to(UserListHandler::route())
         );
 
         $data = [
@@ -96,6 +95,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
+            ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

@@ -234,6 +234,8 @@ return [
         /*
          * Package Facades...
          */
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
 
         /*
          * Application Facades...

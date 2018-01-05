@@ -41,6 +41,7 @@ class UserDeleteHandler extends Handler implements RouteDefiner
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_DELETE,
             ])
+            ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

@@ -69,7 +69,7 @@ class UserCreateRequest extends Request
 
     public function getActivated(): bool
     {
-        return $this->get(static::FIELD_ACTIVATED);
+        return $this->get(static::FIELD_ACTIVATED, false);
     }
 
     public function getRoles(): array

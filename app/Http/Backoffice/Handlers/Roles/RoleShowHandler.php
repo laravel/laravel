@@ -91,6 +91,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
                 'uses' => static::class,
                 'permission' => Permission::ROLE_READ,
             ])
+            ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

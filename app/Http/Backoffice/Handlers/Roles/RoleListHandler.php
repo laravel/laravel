@@ -218,7 +218,7 @@ class RoleListHandler extends Handler implements RouteDefiner
 
         $selectedSorts = $roleSorting->get(array_keys($sortings));
         if (empty($selectedSorts)) {
-            $selectedSorts = [array_first($sortings) => 'ASC'];
+            $selectedSorts = [array_first(array_keys($sortings)) => 'ASC'];
         }
 
         $orderBy = [];

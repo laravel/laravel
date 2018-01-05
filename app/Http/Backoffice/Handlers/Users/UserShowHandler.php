@@ -113,6 +113,7 @@ class UserShowHandler extends Handler implements RouteDefiner
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_READ,
             ])
+            ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

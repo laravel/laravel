@@ -49,6 +49,7 @@ class RoleEditHandler extends Handler implements RouteDefiner
                 'uses' => static::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
+            ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
