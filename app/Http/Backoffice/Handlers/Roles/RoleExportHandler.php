@@ -4,22 +4,20 @@ namespace App\Http\Backoffice\Handlers\Roles;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\PaginationRequest;
 use App\Http\Util\RouteDefiner;
 use App\Infrastructure\Util\DataExporter;
-use App\Infrastructure\Util\PaginationData;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
-use Illuminate\Http\Request;
+use Digbang\Utils\Sorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleExportHandler extends Handler implements RouteDefiner
 {
-    use PaginationRequest;
-
-    public function __invoke(Request $request, DataExporter $exporter)
+    public function __invoke(RoleCriteriaRequest $request, DataExporter $exporter)
     {
         $items = new Collection($this->getData($request));
         $items = $items->map(function (Role $role) {
@@ -65,42 +63,30 @@ class RoleExportHandler extends Handler implements RouteDefiner
         return route(static::class, $filter);
     }
 
-    private function getData(Request $request)
+    private function getData(RoleCriteriaRequest $request)
     {
         /** @var \Digbang\Backoffice\Repositories\DoctrineRoleRepository $roles */
         $roles = security()->roles();
 
-        $paginationData = $this->getSorting($request);
+        $filter = $request->getFilter()->values();
+        $sorting = $this->convertSorting($request->getSorting());
 
-        return $roles->search(
-            $request->all(['name', 'permission']),
-            $this->convertSorting($paginationData),
-            $paginationData->getLimit(),
-            $paginationData->getOffset()
-        );
-    }
-
-    private function getSorting(Request $request): PaginationData
-    {
-        $paginationData = $this->paginationBackofficeDataWithoutLimit($request);
-
-        if ($paginationData->getSorting()->isEmpty()) {
-            $paginationData->addSort('name');
-        }
-
-        return $paginationData;
+        return $roles->search($filter, $sorting, null, 0);
     }
 
     /*
      * This is only needed when using any of the digbang/backoffice package repositories
      */
-    private function convertSorting(PaginationData $paginationData): array
+    private function convertSorting(Sorting $roleSorting): array
     {
         $sortings = [
-            'name' => 'r.name',
+            RoleSorting::NAME => 'r.name',
         ];
 
-        $selectedSorts = $paginationData->getSorting();
+        $selectedSorts = $roleSorting->get(array_keys($sortings));
+        if (empty($selectedSorts)) {
+            $selectedSorts = [array_first($sortings) => 'ASC'];
+        }
 
         $orderBy = [];
         foreach ($selectedSorts as $key => $sense) {

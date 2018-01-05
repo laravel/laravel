@@ -5,24 +5,24 @@ namespace App\Http\Backoffice\Handlers\Roles;
 use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\PaginationRequest;
 use App\Http\Util\RouteDefiner;
-use App\Infrastructure\Util\PaginationData;
 use Digbang\Backoffice\Listings\Listing;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
+use Digbang\Utils\Sorting;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Roles\RoleFilter;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleListHandler extends Handler implements RouteDefiner
 {
-    use PaginationRequest;
-
     /** @var PermissionParser */
     private $permissionParser;
 
@@ -31,7 +31,7 @@ class RoleListHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(Request $request, Factory $view)
+    public function __invoke(RoleCriteriaRequest $request, Factory $view)
     {
         $list = $this->getListing();
 
@@ -113,16 +113,16 @@ class RoleListHandler extends Handler implements RouteDefiner
     {
         $filters = $list->filters();
 
-        $filters->text('name', trans('backoffice::auth.name'), ['class' => 'form-control']);
+        $filters->text(RoleFilter::NAME, trans('backoffice::auth.name'), ['class' => 'form-control']);
         $filters->dropdown(
-            'permission',
+            RoleFilter::PERMISSION,
             trans('backoffice::auth.permissions'),
             $this->permissionParser->toDropdownArray(security()->permissions()->all(), true),
             ['class' => 'form-control']
         );
     }
 
-    private function buildListActions(Listing $list, Request $request): void
+    private function buildListActions(Listing $list, RoleCriteriaRequest $request): void
     {
         $actions = backoffice()->actions();
 
@@ -194,42 +194,32 @@ class RoleListHandler extends Handler implements RouteDefiner
         $list->setRowActions($rowActions);
     }
 
-    private function getData(Request $request)
+    private function getData(RoleCriteriaRequest $request)
     {
         /** @var \Digbang\Backoffice\Repositories\DoctrineRoleRepository $roles */
         $roles = security()->roles();
 
-        $paginationData = $this->getSorting($request);
+        $filter = $request->getFilter()->values();
+        $sorting = $this->convertSorting($request->getSorting());
+        $limit = $request->getPaginationData()->getLimit();
+        $offset = $request->getPaginationData()->getOffset();
 
-        return $roles->search(
-            $request->all(['name', 'permission']),
-            $this->convertSorting($paginationData),
-            $paginationData->getLimit(),
-            $paginationData->getOffset()
-        );
-    }
-
-    private function getSorting(Request $request): PaginationData
-    {
-        $paginationData = $this->paginationBackofficeData($request);
-
-        if ($paginationData->getSorting()->isEmpty()) {
-            $paginationData->addSort('name');
-        }
-
-        return $paginationData;
+        return $roles->search($filter, $sorting, $limit, $offset);
     }
 
     /*
      * This is only needed when using any of the digbang/backoffice package repositories
      */
-    private function convertSorting(PaginationData $paginationData): array
+    private function convertSorting(Sorting $roleSorting): array
     {
         $sortings = [
-            'name' => 'r.name',
+            RoleSorting::NAME => 'r.name',
         ];
 
-        $selectedSorts = $paginationData->getSorting();
+        $selectedSorts = $roleSorting->get(array_keys($sortings));
+        if (empty($selectedSorts)) {
+            $selectedSorts = [array_first($sortings) => 'ASC'];
+        }
 
         $orderBy = [];
         foreach ($selectedSorts as $key => $sense) {

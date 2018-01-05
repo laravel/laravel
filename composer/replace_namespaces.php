@@ -4,9 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $composer = \Symfony\Component\Finder\Finder::create()->files()->in(__DIR__ . '/..')->depth('== 0')->name('composer.json');
 $classes = \Symfony\Component\Finder\Finder::create()->files()->in([
+    __DIR__ . '/../app/Http',
+    __DIR__ . '/../app/Infrastructure',
     __DIR__ . '/../app/Providers',
-    __DIR__ . '/../app/Infrastructure/Doctrine/Repositories',
-    __DIR__ . '/../src/Repositories'
+    __DIR__ . '/../src/Repositories',
 ]);
 
 $files = $composer->append($classes);

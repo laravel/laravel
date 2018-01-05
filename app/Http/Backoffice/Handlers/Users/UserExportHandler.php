@@ -4,21 +4,19 @@ namespace App\Http\Backoffice\Handlers\Users;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
+use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\PaginationRequest;
 use App\Http\Util\RouteDefiner;
 use App\Infrastructure\Util\DataExporter;
-use App\Infrastructure\Util\PaginationData;
 use Digbang\Security\Users\User;
-use Illuminate\Http\Request;
+use Digbang\Utils\Sorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserExportHandler extends Handler implements RouteDefiner
 {
-    use PaginationRequest;
-
-    public function __invoke(Request $request, DataExporter $exporter)
+    public function __invoke(UserCriteriaRequest $request, DataExporter $exporter)
     {
         $items = new Collection($this->getData($request));
         $items = $items->map(function (User $user) {
@@ -60,12 +58,12 @@ class UserExportHandler extends Handler implements RouteDefiner
         return route(static::class, $filter);
     }
 
-    private function getData(Request $request)
+    private function getData(UserCriteriaRequest $request)
     {
         /** @var \Digbang\Backoffice\Repositories\DoctrineUserRepository $users */
         $users = security()->users();
 
-        $filters = $request->all(['email', 'firstName', 'lastName', 'activated', 'username']);
+        $filters = $request->getFilter()->values();
 
         $filters = array_filter($filters, function ($field) {
             return $field !== null && $field !== '';
@@ -75,42 +73,31 @@ class UserExportHandler extends Handler implements RouteDefiner
             $filters['activated'] = $filters['activated'] == 'true';
         }
 
-        $paginationData = $this->getSorting($request);
+        $sorting = $this->convertSorting($request->getSorting());
 
-        return $users->search(
-            $filters,
-            $this->convertSorting($paginationData),
-            $paginationData->getLimit(),
-            $paginationData->getOffset()
-        );
-    }
-
-    private function getSorting(Request $request): PaginationData
-    {
-        $paginationData = $this->paginationBackofficeData($request);
-
-        if ($paginationData->getSorting()->isEmpty()) {
-            $paginationData->addSort('firstName');
-            $paginationData->addSort('lastName');
-        }
-
-        return $paginationData;
+        return $users->search($filters, $sorting, null, 0);
     }
 
     /*
      * This is only needed when using any of the digbang/backoffice package repositories
      */
-    private function convertSorting(PaginationData $paginationData): array
+    private function convertSorting(Sorting $userSorting): array
     {
         $sortings = [
-            'firstName' => 'u.name.firstName',
-            'lastName' => 'u.name.lastName',
-            'lastLogin' => 'u.lastLogin',
-            'email' => 'u.email.address',
-            'username' => 'u.username',
+            UserSorting::FIRST_NAME => 'u.name.firstName',
+            UserSorting::LAST_NAME => 'u.name.lastName',
+            UserSorting::EMAIL => 'u.email.address',
+            UserSorting::USERNAME => 'u.username',
+            UserSorting::LAST_LOGIN => 'u.lastLogin',
         ];
 
-        $selectedSorts = $paginationData->getSorting();
+        $selectedSorts = $userSorting->get(array_keys($sortings));
+        if (empty($selectedSorts)) {
+            $selectedSorts = [
+                UserSorting::FIRST_NAME => 'ASC',
+                UserSorting::LAST_NAME => 'ASC',
+            ];
+        }
 
         $orderBy = [];
         foreach ($selectedSorts as $key => $sense) {
