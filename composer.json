@@ -83,8 +83,7 @@
             "bash -c 'vendor/bin/cghooks update --force-win'"
         ],
         "build": [
-            "npm install",
-            "npm run production",
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php artisan clear-compiled",
             "php artisan vendor:publish --tag=\"assets\"",
             "php artisan doctrine:clear-cache:metadata",
