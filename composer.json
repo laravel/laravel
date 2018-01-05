@@ -84,9 +84,10 @@
         ],
         "build": [
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "php artisan key:generate",
             "php artisan clear-compiled",
             "php artisan vendor:publish --tag=\"assets\"",
-            "php artisan doctrine:clear-cache:metadata",
+            "php artisan doctrine:clear:metadata:cache",
             "php artisan doctrine:generate:proxies",
             "php artisan doctrine:schema:update --force"
         ]

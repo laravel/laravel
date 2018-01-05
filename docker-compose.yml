@@ -52,3 +52,5 @@ networks:
 volumes:
   data:
     driver: "local"
+  s3:
+    driver: "local"
