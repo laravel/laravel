@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('test', 'test@index');
+Route::get('experiment', 'test@index');
