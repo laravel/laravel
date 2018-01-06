@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "axios": "^0.17",
-        "bootstrap": "^4.0.0-beta.2",
+        "bootstrap": "^4.0.0-beta.3",
         "popper.js": "^1.12",
         "cross-env": "^5.1",
         "jquery": "^3.2",
