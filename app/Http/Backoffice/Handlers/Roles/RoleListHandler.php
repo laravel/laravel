@@ -58,10 +58,11 @@ class RoleListHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/", [
+            ->get('/', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_LIST,
             ])
+            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE_LISTING]);
     }

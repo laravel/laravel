@@ -57,7 +57,8 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
     public static function defineRoute(Router $router): void
     {
         $router
-            ->post(config('backoffice.global_url_prefix') . '/auth/login', static::class)
+            ->post('/auth/login', static::class)
+            ->prefix(config('backoffice.global_url_prefix'))
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }

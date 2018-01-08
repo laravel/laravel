@@ -45,10 +45,11 @@ class UserResetPasswordHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->post("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/reset-password', [
+            ->post('/{' . UserRequest::ROUTE_PARAM_ID . '}/reset-password', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_RESET_PASSWORD,
             ])
+            ->prefix("$backofficePrefix/$routePrefix")
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);

@@ -53,7 +53,8 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
     public static function defineRoute(Router $router): void
     {
         $router
-            ->post(config('backoffice.global_url_prefix') . '/auth/activate/resend', static::class)
+            ->post('/auth/activate/resend', static::class)
+            ->prefix(config('backoffice.global_url_prefix'))
             ->name(static::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }

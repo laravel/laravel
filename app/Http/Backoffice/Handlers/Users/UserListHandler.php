@@ -50,10 +50,11 @@ class UserListHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/", [
+            ->get('/', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_LIST,
             ])
+            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE_LISTING]);
     }

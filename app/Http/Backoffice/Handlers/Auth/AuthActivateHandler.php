@@ -49,7 +49,8 @@ class AuthActivateHandler extends Handler implements RouteDefiner
     public static function defineRoute(Router $router): void
     {
         $router
-            ->get(config('backoffice.global_url_prefix') . '/auth/activate/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
+            ->get('/auth/activate/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
+            ->prefix(config('backoffice.global_url_prefix'))
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }

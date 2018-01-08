@@ -48,10 +48,11 @@ class RoleCreateHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->post("$backofficePrefix/$routePrefix/", [
+            ->post('/', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_CREATE,
             ])
+            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

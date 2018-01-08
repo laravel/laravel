@@ -50,10 +50,11 @@ class RoleExportHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get("$backofficePrefix/$routePrefix/export", [
+            ->get('/export', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_EXPORT,
             ])
+            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
