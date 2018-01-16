@@ -30,6 +30,11 @@ return [
     */
 
     'channels' => [
+        'aggregate' => [
+            'driver' => 'aggregate',
+            'channels' => ['single', 'daily'],
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
