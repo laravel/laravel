@@ -8,9 +8,10 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
+     * The IP addresses of the trusted proxies for this application.
+     * If the IP addresses are nondeterministic, you may may use "**" to trust all proxies.
      *
-     * @var array
+     * @var array|string
      */
     protected $proxies;
 
