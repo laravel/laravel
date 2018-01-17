@@ -9,7 +9,7 @@ class TrustProxies extends Middleware
 {
     /**
      * The IP addresses of the trusted proxies for this application.
-     * If the IP addresses are nondeterministic, you may may use "**" to trust all proxies.
+     * If the IP addresses are nondeterministic, you may use "**" to trust all proxies.
      *
      * @var array|string
      */
