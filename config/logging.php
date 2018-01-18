@@ -30,8 +30,8 @@ return [
     */
 
     'channels' => [
-        'aggregate' => [
-            'driver' => 'aggregate',
+        'stack' => [
+            'driver' => 'stack',
             'channels' => ['single', 'daily'],
         ],
 
