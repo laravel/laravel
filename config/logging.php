@@ -48,6 +48,14 @@ return [
             'days' => 7,
         ],
 
+        'slack' => [
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_URL'),
+            'username' => 'Laravel Log',
+            'emoji' => ':boom:',
+            'level' => 'critical',
+        ],
+
         'syslog' => [
             'driver' => 'syslog',
             'level' => 'debug',
