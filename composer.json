@@ -5,13 +5,14 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0.0",
-        "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
+        "php": ">=7.1.0",
+        "fideloper/proxy": "~4.0",
+        "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
+        "nunomaduro/collision": "~1.1",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
         "phpunit/phpunit": "~6.0",
@@ -53,5 +54,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
