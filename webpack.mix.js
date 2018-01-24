@@ -1,5 +1,11 @@
 let mix = require('laravel-mix');
 
+/** Load .env file */
+require('dotenv').config();
+
+/** Set resource root to APP_URL */
+mix.setResourceRoot(process.env.APP_URL.replace(/\/$/, '') + '/');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
