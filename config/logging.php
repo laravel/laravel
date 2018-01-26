@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'single'),
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'daily'],
+            'channels' => ['single'],
         ],
 
         'single' => [
