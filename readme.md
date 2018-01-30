@@ -33,6 +33,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
 - **[British Software Development](https://www.britishsoftware.co)**
 - [Fragrantica](https://www.fragrantica.com)
 - [SOFTonSOFA](https://softonsofa.com/)
