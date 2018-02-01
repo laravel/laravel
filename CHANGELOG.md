@@ -1,5 +1,39 @@
 # Release Notes
 
+## [Unreleased]
+
+### Changed
+- Updated Mix to 2.0 ([#4557](https://github.com/laravel/laravel/pull/4557))
+
+
+## v5.5.28 (2018-01-03)
+
+### Added
+- Added `symfony/thanks` ([60de3a5](https://github.com/laravel/laravel/commit/60de3a5670c4a3bf5fb96433828b6aadd7df0e53))
+
+### Changed
+- Reduced hash computations during tests ([#4517](https://github.com/laravel/laravel/pull/4517), [4bfb164](https://github.com/laravel/laravel/commit/4bfb164c26e4e15ec367912100a71b8fe1500b5c))
+- Use environment variables for SQS config ([#4516](https://github.com/laravel/laravel/pull/4516), [aa4b023](https://github.com/laravel/laravel/commit/aa4b02358a018ebc35123caeb92dcca0669e2816))
+- Use hard-coded password hash ([f693a20](https://github.com/laravel/laravel/commit/f693a20a3ce6d2461ca75490d44cd1b6ba09ee84))
+- Updated default Echo configuration for Pusher ([#4525](https://github.com/laravel/laravel/pull/4525), [aad5940](https://github.com/laravel/laravel/commit/aad59400e2d69727224a3ca9b6aa9f9d7c87e9f7), [#4526](https://github.com/laravel/laravel/pull/4526), [a32af97](https://github.com/laravel/laravel/commit/a32af97ede49fdd57e8217a9fd484b4cb4ab1bbf))
+
+
+## v5.5.22 (2017-11-21)
+
+### Added
+- Added `-Indexes` option in `.htaccess` ([#4422](https://github.com/laravel/laravel/pull/4422))
+
+### Changed
+- Load session lifetime from env file ([#4444](https://github.com/laravel/laravel/pull/4444))
+- Update mockery to 1.0 ([#4458](https://github.com/laravel/laravel/pull/4458))
+- Generate cache prefix from `APP_NAME` ([#4409](https://github.com/laravel/laravel/pull/4409))
+- Match AWS environment variable name with AWS defaults ([#4470](https://github.com/laravel/laravel/pull/4470))
+- Don't show progress for `production` command ([#4467](https://github.com/laravel/laravel/pull/4467))
+
+### Fixed
+- Fixed directive order in `.htaccess` ([#4433](https://github.com/laravel/laravel/pull/4433))
+
+
 ## v5.5.0 (2017-08-30)
 
 ### Added
@@ -15,14 +49,14 @@
 - Use Composer's `@php` directive ([#4278](https://github.com/laravel/laravel/pull/4278))
 - Use `post-autoload-dump` ([2f4d726](https://github.com/laravel/laravel/commit/2f4d72699cdc9b7db953055287697a60b6d8b294))
 - Try to build session cookie name from app name ([#4305](https://github.com/laravel/laravel/pull/4305))
- 
+
 ### Fixed
 - Fixed Apache trailing slash redirect for subdirectory installs ([#4344](https://github.com/laravel/laravel/pull/4344))
 
 ### Removed
 - Dropped `bootstrap/autoload.php` ([#4226](https://github.com/laravel/laravel/pull/4226), [#4227](https://github.com/laravel/laravel/pull/4227), [100f71e](https://github.com/laravel/laravel/commit/100f71e71a24fd8f339a7687557b77dd872b054b))
 - Emptied `$dontReport` array on exception handler ([758392c](https://github.com/laravel/laravel/commit/758392c30fa0b2651ca9409aebb040a64816dde4))
-- Removed `TinkerServiceProvider` ([6db0f35](https://github.com/laravel/laravel/commit/6db0f350fbaa21b2acf788d10961aba983a19be2)) 
+- Removed `TinkerServiceProvider` ([6db0f35](https://github.com/laravel/laravel/commit/6db0f350fbaa21b2acf788d10961aba983a19be2))
 - Removed migrations from autoload classmap ([#4340](https://github.com/laravel/laravel/pull/4340))
 
 
