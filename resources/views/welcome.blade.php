@@ -7,6 +7,7 @@
 
         <title>Laravel</title>
 
+        <link href="{{ asset('font-awesome-4.7.0/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
@@ -22,8 +23,10 @@
         </style>
     </head>
     <body>
-        <div>
-            @include('demo')
+        <div id="app" class="h-screen flex">
+            <example-component class="flex-grow"></example-component>
         </div>
+
+        <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>
