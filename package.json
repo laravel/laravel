@@ -9,7 +9,7 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "precommit": "cross-env npm run pretty",
         "prepush": "cross-env npm run pretty",
-        "pretty": "node_modules/.bin/prettier src/**/*.{js,jsx} --write"
+        "pretty": "node_modules/.bin/prettier client/**/*.{js,jsx} --write"
     },
     "devDependencies": {
         "laravel-mix": "^4.0.7",
