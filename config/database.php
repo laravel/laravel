@@ -36,7 +36,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
+            'prefix' => env('DB_PREFIX',''),
         ],
 
         'mysql' => [
@@ -47,9 +47,9 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
+            'charset' => env('DB_CHARSET','utf8mb4'),
+            'collation' => env('DB_COLLATION','utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX', ''),
             'strict' => true,
             'engine' => null,
         ],
@@ -61,8 +61,8 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
+            'charset' => env('DB_CHARSET','utf8'),
+            'prefix' => enc('DB_PREFIX',''),
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
@@ -74,8 +74,8 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
+            'charset' => env('DB_CHARSET','utf8'),
+            'prefix' => env('DB_PREFIX',''),
         ],
 
     ],
