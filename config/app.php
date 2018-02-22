@@ -209,6 +209,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Captcha' => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
+        'Form'      => 'Illuminate\Html\FormFacade',
+        'Html'      => 'Illuminate\Html\HtmlFacade',
 
     ],
 

@@ -1,5 +1,6 @@
 
 <p align="center">
+    <p>V1.4 added: Form Html Facade<a href="https://stackoverflow.com/a/34991188/3327198">Form Html Facade</a></p>
     <p>V1.3 added: ARCANEDEV/noCAPTCHA (laravel 5.6.4)<a href="https://github.com/ARCANEDEV/noCAPTCHA">ARCANEDEV noCAPTCHA</a></p>
     <p>V1.2 added: Laravel-debugbar (laravel 5.6.4)<a href="https://github.com/barryvdh/laravel-debugbar">Laravel-debugbar</a></p>
     <p>V1.1 added: make:auth</p>
