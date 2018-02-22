@@ -34,7 +34,7 @@ return [
 
         'smtp' => [
             'driver' => 'smtp',
-            'host' => env('MAIL_HOST')
+            'host' => env('MAIL_HOST'),
             'port' => env('MAIL_PORT', 587),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
@@ -73,6 +73,8 @@ return [
         'array' => [
             'driver' => 'array',
         ],
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
