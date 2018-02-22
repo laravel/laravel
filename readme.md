@@ -1,3 +1,10 @@
+
+<p align="center">
+    <p>V1.2 added: Laravel-debugbar (laravel 5.6.4)<a href="https://github.com/barryvdh/laravel-debugbar">Laravel-debugbar</a></p>
+    <p>V1.1 added: make:auth</p>
+    <p>V1.0 Latest laravel 5.6.*</p>
+</p>
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
