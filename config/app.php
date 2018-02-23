@@ -211,6 +211,7 @@ return [
         'Captcha' => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
         'Form'      => 'Illuminate\Html\FormFacade',
         'Html'      => 'Illuminate\Html\HtmlFacade',
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ],
 

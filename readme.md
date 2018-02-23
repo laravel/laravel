@@ -1,8 +1,13 @@
 
 <p align="center">
-    <p>V1.4 added: Form Html Facade<a href="https://stackoverflow.com/a/34991188/3327198">Form Html Facade</a></p>
-    <p>V1.3 added: ARCANEDEV/noCAPTCHA (laravel 5.6.4)<a href="https://github.com/ARCANEDEV/noCAPTCHA">ARCANEDEV noCAPTCHA</a></p>
-    <p>V1.2 added: Laravel-debugbar (laravel 5.6.4)<a href="https://github.com/barryvdh/laravel-debugbar">Laravel-debugbar</a></p>
+    <p>V1.5 Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
+     <pre>
+        <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables:^1.0</mark> <b> At:</b><a href="https://yajrabox.com/docs/laravel-datatables/master">yajra/laravel-datatables</a><br>
+        <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables-editor": "~1.0 </mark>
+    </pre>
+    <p>V1.4 added: Form Html Facade <a href="https://stackoverflow.com/a/34991188/3327198">Form Html Facade</a>
+    <p>V1.3 added: ARCANEDEV/noCAPTCHA (laravel 5.6.4) <a href="https://github.com/ARCANEDEV/noCAPTCHA">ARCANEDEV noCAPTCHA</a></p>
+    <p>V1.2 added: Laravel-debugbar (laravel 5.6.4) <a href="https://github.com/barryvdh/laravel-debugbar">Laravel-debugbar</a></p>
     <p>V1.1 added: make:auth</p>
     <p>V1.0 Latest laravel 5.6.*</p>
 </p>

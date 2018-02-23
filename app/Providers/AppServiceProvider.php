@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //dd($this);
+        //var_dump($this);
     }
 
     /**
