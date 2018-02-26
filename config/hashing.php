@@ -15,6 +15,6 @@ return [
     |
     */
 
-    'driver' => 'bcrypt',
+    'driver' => env('HASHING_DRIVER', 'bcrypt'),
 
 ];
