@@ -38,6 +38,7 @@ return [
     | been setup for each driver as an example of the required options.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3", "rackspace"
+    |
     */
 
     'disks' => [
