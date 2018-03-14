@@ -1,5 +1,7 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+
 return [
 
     /*
@@ -54,6 +56,14 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'critical',
+        ],
+
+        'stderr' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'with' => [
+                'stream' => 'php://stderr',
+            ],
         ],
 
         'syslog' => [
