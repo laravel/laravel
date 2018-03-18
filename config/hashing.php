@@ -31,7 +31,7 @@ return [
     | Default: 10
     */
     'bcrypt' => [
-        'rounds' => 10
+        'rounds' => 10,
     ],
 
     /*
@@ -54,6 +54,6 @@ return [
     'argon' => [
         'time' => 2,
         'memory' => 1024,
-        'threads' => 2
-    ]
+        'threads' => 2,
+    ],
 ];
