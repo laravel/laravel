@@ -22,7 +22,7 @@ return [
     | bcrypt options
     |--------------------------------------------------------------------------
     |
-    | We could define the number of rounds the bcrypt algo will be using.
+    | Here you can define the number of rounds the bcrypt algo will be using.
     |
     | rounds:   The two digit cost parameter is the base-2 logarithm of the
     |           iteration count for the underlying Blowfish-based hashing
@@ -40,7 +40,7 @@ return [
     | argon options
     |--------------------------------------------------------------------------
     |
-    | These settings could be adjusted depending on your hardware.
+    | These settings can be adjusted depending on your hardware.
     |
     | time:     Maximum amount of time it may take to compute the Argon2 hash.
     |           (default: 2)
