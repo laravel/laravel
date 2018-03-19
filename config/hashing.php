@@ -45,8 +45,8 @@ return [
     | time:     Maximum amount of time it may take to compute the Argon2 hash.
     |           (default: 2)
     |
-    | memory:   Maximum memory (in bytes) that may be used to compute the Argon2
-    |           hash.
+    | memory:   Maximum memory (in bytes) that may be used to compute the
+    |           Argon2 hash.
     |           (default : 1024)
     |
     | threads:  Number of threads to use for computing the Argon2 hash.
