@@ -1,6 +1,6 @@
 
 <p align="center">
-    <p>V1.6</p>
+    <p>V1.6 (Laravel 5.6.12) Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
     <p>Example: <b>dataTables</b><br> 
            Eager Loading `Multiple` Relationships. <button><a href="https://laravel.com/docs/5.6/eloquent-relationships#eager-loading" target="_blank">laravel ref:</a></button><br>
            Model: User , Table: users<br>
