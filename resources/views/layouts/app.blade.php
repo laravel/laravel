@@ -12,6 +12,23 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/DataTables/datatables.css">
+    <style type="text/css">
+        /*input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px white inset;
+        }*/
+        /*post table , Body color*/
+        .mje_class {
+            color:#555;
+            font-family: 'Shrikhand', cursive;
+        }
+        /*post table bubble popup*/
+        div.DTE_Bubble div.DTE_Bubble_Liner {
+            width: 800px;
+            height: 400px;
+        }
+        .block_mje {display: none;}
+    </style>
 </head>
 <body>
     <div id="app">
@@ -27,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li><a class="nav-link" title="Table users & exams ( Eager Loading Multiple Relationships , leftJoin )" href="{{ url('/datatables/main') }}">START</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -66,6 +83,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="/DataTables/datatables.js"></script>
+
+
     @stack('scripts')
 
 </body>

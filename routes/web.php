@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,3 +20,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+Route::get('/datatables/main' , 'Frontend\Datatables\ExamController@index');                                      //1e doe dit erbij
+Route::post('/datatables/Exameditor' , 'Frontend\Datatables\ExamController@Exameditor')->name('Exameditor');      //let op Route::POST
+Route::get('/datatables/getExamAjax' , 'Frontend\Datatables\ExamController@getExamAjax')->name('getExamAjax');
+
+Route::Resource('/datatables' , 'Frontend\Datatables\ExamController');          //1e bij resource komt de post route altijd eerst , anders nginx error

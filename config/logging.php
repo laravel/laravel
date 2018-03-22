@@ -27,14 +27,21 @@ return [
     | Available Drivers: "single", "daily", "slack", "syslog",
     |                    "errorlog", "custom", "stack"
     |
+    | https://laravel.com/docs/5.6/logging#writing-log-messages
     */
 
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily','datatables'],
         ],
 
+        'datatables' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/datatables.log'),
+            'level' => 'notice',
+            'days' => 31,
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

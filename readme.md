@@ -1,9 +1,20 @@
 
 <p align="center">
-    <p>V1.5 Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
+    <p>V1.6</p>
+    <p>Example: <b>dataTables</b><br> 
+           Eager Loading `Multiple` Relationships. <button><a href="https://laravel.com/docs/5.6/eloquent-relationships#eager-loading" target="_blank">laravel ref:</a></button><br>
+           Model: User , Table: users<br>
+           Model: Exam , Table: exams | protected $with = ['user'] ;<br>
+           </p>
+    <pre>
+        php artisan migrate --seed
+        make an account (register)
+    </pre>
+    <p>V1.5 (Laravel 5.6.11) Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
      <pre>
         <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables:^1.0</mark> <b> At:</b><a href="https://yajrabox.com/docs/laravel-datatables/master">yajra/laravel-datatables</a><br>
         <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables-editor": "~1.0 </mark>
+        npm install --save sweetalert2
     </pre>
     <p>V1.4 added: Form Html Facade <a href="https://stackoverflow.com/a/34991188/3327198">Form Html Facade</a>
     <p>V1.3 added: ARCANEDEV/noCAPTCHA (laravel 5.6.4) <a href="https://github.com/ARCANEDEV/noCAPTCHA">ARCANEDEV noCAPTCHA</a></p>
