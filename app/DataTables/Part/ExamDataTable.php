@@ -9,7 +9,6 @@ use App\User;
 class ExamDataTable extends DataTable
 {
 
-//*******************************************************begin****************************************************************
     protected $thead ;
     public $NotEditables = 'editor';
     public $table_collumns = '';
@@ -22,12 +21,6 @@ class ExamDataTable extends DataTable
      */
     public function __construct(Exam $model, User $user)
     {
-
-        // gebleven , kun je de user fields ook via exam vinden
-
-
-
-
         //1e
         //  get info: table 1 user , table 2 exam
         $temp_part1 = $user->getColumnsAndLabels();   //user info left site of HTML table
@@ -41,7 +34,6 @@ class ExamDataTable extends DataTable
         //dd( $user->getColumnsAndLabels() , $model->getColumnsAndLabels());
         //dd($this->thead , $this->table_collumns , $this->table_editor );
 
-
         /** 2e must be after 1e
          * combine tables not editable fields
          */
@@ -50,8 +42,6 @@ class ExamDataTable extends DataTable
             $this->NotEditables .= '.disable ("'.$val.'")';
         }
         //dd($this->thead , $this->NotEditables);
-
-
         //dd('table_collumns',$this->table_collumns , 'table_editor' , $this->table_editor ,'NotEditable',$this->NotEditable);
     }
 
@@ -73,8 +63,6 @@ class ExamDataTable extends DataTable
                 return 'Hi ' . $model->user->name . '!';
             })*/
 
-
-
         //dd($tjeu);
         //dd($tjeu->collection); // Collection  The results of Eloquent queries are always returned as Collection instances.
         //dd($tjeu->original);   // vendor/yajra/laravel-datatables-oracle/src/CollectionDataTable.php
@@ -87,12 +75,7 @@ class ExamDataTable extends DataTable
 
         /*foreach($tjeu->results() as $key=>$val){
             echo '<br>'.$key.' | header: '.$val->header.' | user name: '.$val->user->name;
-
-
         }*/
-
-
-
 
         //dd($tjeu->results()->user()->name);
         //dd($tjeu->collection->totalCount());
@@ -113,7 +96,6 @@ class ExamDataTable extends DataTable
         // Illuminate\Database\Eloquent\Builder
         // https://laravel.com/docs/5.6/queries#joins
 
-
         /*$tjeu = $model->newQuery()->select('id', 'user_id', 'header' , 'text' );
         dd(\get_class($tjeu)); // Illuminate\Database\Eloquent\Builder*/
 
@@ -122,7 +104,6 @@ class ExamDataTable extends DataTable
 
         //return $model->newQuery()->pluck('text' );          //https://laravel.com/api/5.6/Illuminate/Database/Eloquent/Builder.html  pluck
         //return $model->newQuery()->applyScopes();
-
 
         // Eloquent: Relationships   https://laravel.com/docs/5.6/eloquent-relationships#eager-loading , to reduce number of queries
         // https://editor.datatables.net/examples/advanced/joinArray
@@ -141,11 +122,8 @@ class ExamDataTable extends DataTable
             ->where('header', 'like', 'T%')
             ->get();*/
 
-
         // Illuminate\Database\Eloquent\Builder
         //dd(new \ReflectionClass($model->newQuery()->select('id', 'user_id', 'header' , 'text' )));
-
-
 
         //return $model->newQuery()->select('id', 'user_id', 'header' , 'text' );
     }
