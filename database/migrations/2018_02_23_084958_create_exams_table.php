@@ -16,8 +16,8 @@ class CreateExamsTable extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
-            $table->string('header',60);
-            $table->text('text');
+            $table->string('header',60)->default('No input');
+            $table->text('text')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

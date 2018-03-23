@@ -13,16 +13,22 @@ class Exam extends Model
     //protected $with = 'user:id,name,email' ;
     protected $with = ['user'] ; // Eloquent: Relationships   https://laravel.com/docs/5.6/eloquent-relationships#eager-loading , to reduce number of queries
     /**
-     * The attributes that should be hidden for arrays , exept 'user_id' & id
-     *
+     * The attributes that should be hidden for arrays
+     * data wil not be found by dataTables
      * @var array
      */
     protected $hidden = [
-        'created_at' , 'updated_at'
+
+    ];
+    /*
+    * dataTables , fields not visible for the user exept user_id
+    */
+    protected $dataTablesHidden = [
+       'id' ,  'created_at' //, 'header','text','updated_at'
     ];
     /**
      * editor
-     * choose fields wich are editable , must be in $fillable, exept 'user_id' & id
+     * choose fields wich are editable , must be in $fillable, exept 'user_id'
      *
      * @var array
      */
@@ -40,9 +46,7 @@ class Exam extends Model
     {
         parent::__construct($attributes);
 
-        $this->filterMustsHave();
-
-        //dd($this->hidden , $this->editable ,  __FILE__ , __LINE__ );
+        $this->filterMustsHave();  //dd($this->dataTablesHidden , $this->editable ,  __FILE__ , __LINE__ );
     }
 
     /**
@@ -66,7 +70,7 @@ class Exam extends Model
             //echo '<br>field name: '.$val->Field;
             //echo '<br>field type: '.$val->Type;
 
-            if( !in_array( $val->Field ,  $this->hidden   ) ) {
+            if( !in_array( $val->Field ,  $this->dataTablesHidden   ) ) {
                 //echo '<br>'.$val->Field;
                 if ($val->Type == 'text') {
                     $this->th_with_name[] = 'exam.' . $val->Field;
@@ -131,11 +135,13 @@ class Exam extends Model
      */
     protected function filterMustsHave(){
 
-        foreach ($this->hidden as $key => $value) {
-            if ('user_id' == $value OR 'id' == $value) {unset($this->hidden[$key]) ;}
+        foreach ($this->dataTablesHidden as $key => $value) {
+            if ('user_id' == $value ) {unset($this->dataTablesHidden[$key]) ;}
+            //if ('user_id' == $value OR 'id' == $value) {unset($this->dataTablesHidden[$key]) ;}
         }
         foreach ($this->editable as $key => $value) {
-            if ('user_id' == $value OR 'id' == $value) {unset($this->editable[$key]) ;}
+            if ('user_id' == $value ) {unset($this->editable[$key]) ;}
+            //if ('user_id' == $value OR 'id' == $value) {unset($this->editable[$key]) ;}
         }
     }
 

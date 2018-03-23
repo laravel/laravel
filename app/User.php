@@ -19,16 +19,22 @@ class User extends Authenticatable
     ];
     /**
      * The attributes that should be hidden for arrays.
-     *
+     * data wil not be found by dataTables
      * @var array
      */
     protected $hidden = [
         'password', 'remember_token'
     ];
+    /*
+     * dataTables , fields not visible for the user
+     */
+    protected $dataTablesHidden = [
+        'id'  , 'password', 'remember_token' , 'created_at' , 'updated_at' //, 'name' , 'email'
+    ];
     /**
      * editor
-     * choose fields wich are editable , must be in $fillable
-     * do not use id
+     * choose fields wich are editable , must be in $fillable (exept: 'remember_token' , 'created_at' , 'updated_at')
+     * 
      * @var array
      */
     protected $editable = [
@@ -46,7 +52,7 @@ class User extends Authenticatable
     {
         parent::__construct($attributes);
 
-        $this->filterMustsHave();  //dd($this->hidden , $this->editable ,  __FILE__ , __LINE__ );
+        //$this->filterMustsHave();  //dd($this->dataTablesHidden , $this->editable ,  __FILE__ , __LINE__ );
     }
 
     public function exam(){
@@ -61,12 +67,12 @@ class User extends Authenticatable
 
 
 
-        $table_collumns ='';$table_editor = '';
+        $table_collumns ='';$table_editor = '';$thead = array();
         //https://laravel.com/api/5.6/Illuminate/Database/Eloquent/Collection.html#method_all
         foreach($tempo->all() as $key=>$val){
             //echo '<br>field name: '.$val->Field;
             //echo '<br>field type: '.$val->Type;
-            if( !in_array( $val->Field ,  $this->hidden   ) ) {
+            if( !in_array( $val->Field ,  $this->dataTablesHidden   ) ) {
 
                 //echo '<br>field name: '.$val->Field;
                 //echo '<br>field type: '.$val->Type;
@@ -92,7 +98,7 @@ class User extends Authenticatable
         $x['table_collumns'] = $table_collumns;
         $x['table_editor'] = $table_editor;
         $x['thead'] = $thead;
-        $this->pap = $thead;
+
 
         //dd('$table_collumns',$x[1] ,'$table_editor',$x[2]  ,'THead',$x[3] );
         //dd($x);
@@ -120,8 +126,8 @@ class User extends Authenticatable
      */
     protected function filterMustsHave(){
 
-        foreach ($this->hidden as $key => $value) {
-            if ( 'id' == $value) {unset($this->hidden[$key]    ) ;}
+        foreach ($this->dataTablesHidden as $key => $value) {
+            if ( 'id' == $value) {unset($this->dataTablesHidden[$key]    ) ;}
         }
         foreach ($this->editable as $key => $value) {
             if ( 'id' == $value) {unset($this->editable[$key]    ) ;}

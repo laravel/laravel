@@ -23,7 +23,7 @@ class ExamDataTablesEditor extends DataTablesEditor
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'user.name' => 'required|exists:users,name',
+            //'user.name' => 'required|exists:users,name',
             'header' => 'between:1,60',
             'text'  => 'between:1,20000'
         ];

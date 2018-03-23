@@ -401,7 +401,7 @@
                 "pagingType": "full_numbers",
                 dom: "pBfrltiBp",
                "columnDefs": [
-                   { className: "mje_class", "targets": [ 1 , 0 ] },
+                   { className: "mje_class", "targets": [ 0 , 1 ] },
                    { data: null ,"defaultContent": "<button  class='btn btn-danger btn-sm'>Single <br> Remove</button>" , "targets": [{{ count( $dataTable->getColumns() ) - 1  }}]}
                 ],
 
