@@ -1,17 +1,32 @@
 
 <p align="center">
-    <p>V1.6 (Laravel 5.6.12) Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
+    <p>V1.6 (Laravel 5.6.12) Download your DataTables at: <a href="https://datatables.net/download">datatables package</a></p>
+    <p>In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
     <p>Example: <b>dataTables</b><br> 
            Eager Loading `Multiple` Relationships. <button><a href="https://laravel.com/docs/5.6/eloquent-relationships#eager-loading" target="_blank">laravel ref:</a></button><br>
            Model: User , Table: users<br>
            Model: Exam , Table: exams | protected $with = ['user'] ;<br>
            </p>
     <pre>
+    composer install (CLI)
+    npm install (CLI)
+    Change file name .env.example to .env and fill it up with your data.
+    php artisan key:generate (CLI)
+    Create database: laravel (phpmyadmin)
         php artisan migrate --seed
+        -
+        https://laravel.app/  (In your browser)
         make an account (register)
     </pre>
     <p>V1.5 (Laravel 5.6.11) Download your DataTables at: <a href="https://datatables.net/download">datatables package</a> In this app directory Read: public/dataTablesstub/datatables.js AND public/dataTablesstub/datatables.css</p>
      <pre>
+     composer install (CLI)
+     npm install (CLI)
+     Change file name .env.example to .env and fill it up with your data.
+     php artisan key:generate (CLI)
+     Create database: laravel (phpmyadmin)
+     -
+         Already done:
         <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables:^1.0</mark> <b> At:</b><a href="https://yajrabox.com/docs/laravel-datatables/master">yajra/laravel-datatables</a><br>
         <i><strong>added:</strong></i> <mark>composer require yajra/laravel-datatables-editor": "~1.0 </mark>
         npm install --save sweetalert2

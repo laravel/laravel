@@ -34,7 +34,7 @@ class User extends Authenticatable
     /**
      * editor
      * choose fields wich are editable , must be in $fillable (exept: 'remember_token' , 'created_at' , 'updated_at')
-     * 
+     *
      * @var array
      */
     protected $editable = [
