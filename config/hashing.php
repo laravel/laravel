@@ -19,16 +19,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | bcrypt options
+    | Bcrypt Options
     |--------------------------------------------------------------------------
     |
-    | Here you can define the number of rounds the bcrypt algo will be using.
+    | Here you may specify the configuration options that should be used when
+    | passwords are hashed using the Bcrypt algorithm. This will allow you
+    | to control the amount of time it takes to hash the given password.
     |
-    | rounds:   The two digit cost parameter is the base-2 logarithm of the
-    |           iteration count for the underlying Blowfish-based hashing
-    |           algorithmeter and must be in range 04-31, values outside this
-    |           range will cause crypt() to fail.
-    |           (default: 10)
     */
 
     'bcrypt' => [
@@ -37,27 +34,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | argon options
+    | Argon Options
     |--------------------------------------------------------------------------
     |
-    | These settings can be adjusted depending on your hardware.
-    |
-    | time:     Maximum amount of time it may take to compute the Argon2 hash.
-    |           (default: 2)
-    |
-    | memory:   Maximum memory (in bytes) that may be used to compute the
-    |           Argon2 hash.
-    |           (default : 1024)
-    |
-    | threads:  Number of threads to use for computing the Argon2 hash.
-    |           (default : 2)
+    | Here you may specify the configuration options that should be used when
+    | passwords are hashed using the Argon algorithm. These will allow you
+    | to control the amount of time it takes to hash the given password.
     |
     */
 
     'argon' => [
-        'time' => 2,
         'memory' => 1024,
         'threads' => 2,
+        'time' => 2,
     ],
 
 ];
