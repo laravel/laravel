@@ -1,0 +1,13 @@
+{
+    "Name": "Nome",
+    "Login": "Entrar",
+    "Logout": "Sair",
+    "Password": "Senha",
+    "Confirm Password": "Confirmar senha",
+    "Register": "Registrar-se",
+    "Remember Me": "Lembrar-me",
+    "E-Mail Address": "E-mail",
+    "Forgot Your Password?": "Esqueceu sua senha?",
+    "Reset Password": "Redefinir senha",
+    "Send Password Reset Link": "Enviar link de redefinição"
+}
