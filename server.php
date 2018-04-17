@@ -1,5 +1,5 @@
 <?php
-
+die("in server.php");
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
