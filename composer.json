@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "name": "project-name/project-name",
+    "description": "project-name",
+    "keywords": [],
+    "license": "proprietary",
     "type": "project",
     "require": {
         "php": "^7.2",
@@ -18,7 +18,9 @@
         "digbang/backoffice": "^6.1",
         "laravelcollective/html": "^6.0",
         "beberlei/assert": "^2.6",
-        "cakephp/chronos": "^1.1"
+        "cakephp/chronos": "^1.1",
+        "sentry/sentry": "^1.6",
+        "sentry/sentry-laravel": "^0.9"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
@@ -39,7 +41,10 @@
         "cviebrock/image-validator": "Extra Laravel validation rules for dealing with images.",
         "dingo/api":                 "API development.",
         "omnipay/omnipay":           "Payment gateway abstraction.",
-        "moneyphp/money":            "Work with money safer, easier, and fun!"
+        "digbang/settings": "Dynamic settings, stored in the database. Settings the backoffice admin can alter",
+        "digbang/money": "Money PHP bridge for Laravel",
+        "moneyphp/money":            "Work with money safer, easier, and fun!",
+        "beberlei/assert": "^2.6"
     },
     "autoload": {
         "psr-4": {
