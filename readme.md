@@ -1,4 +1,4 @@
-# project-nane
+# project-name
 
 ## Installation
 1. Clone repository
