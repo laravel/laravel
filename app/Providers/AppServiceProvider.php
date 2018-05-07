@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
 
         //Read Repositories
 
-
         /* Example for environment specific implementations
         ExampleRepo::class => [
             'production' => ProductionExampleRepo::class,
