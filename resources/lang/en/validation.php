@@ -48,23 +48,11 @@ return [
         'string'  => 'The :attribute must be greater than :value characters.',
         'array'   => 'The :attribute must have more than :value items.',
     ],
-    'lt'                   => [
-        'numeric' => 'The :attribute must be less than :value.',
-        'file'    => 'The :attribute must be less than :value kilobytes.',
-        'string'  => 'The :attribute must be less than :value characters.',
-        'array'   => 'The :attribute must have less than :value items.',
-    ],
     'gte'                  => [
         'numeric' => 'The :attribute must be greater than or equal :value.',
         'file'    => 'The :attribute must be greater than or equal :value kilobytes.',
         'string'  => 'The :attribute must be greater than or equal :value characters.',
         'array'   => 'The :attribute must have :value items or more.',
-    ],
-    'lte'                  => [
-        'numeric' => 'The :attribute must be less than or equal :value.',
-        'file'    => 'The :attribute must be less than or equal :value kilobytes.',
-        'string'  => 'The :attribute must be less than or equal :value characters.',
-        'array'   => 'The :attribute must not have more than :value items.',
     ],
     'image'                => 'The :attribute must be an image.',
     'in'                   => 'The selected :attribute is invalid.',
@@ -74,6 +62,18 @@ return [
     'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
     'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => 'The :attribute must be a valid JSON string.',
+    'lt'                   => [
+        'numeric' => 'The :attribute must be less than :value.',
+        'file'    => 'The :attribute must be less than :value kilobytes.',
+        'string'  => 'The :attribute must be less than :value characters.',
+        'array'   => 'The :attribute must have less than :value items.',
+    ],
+    'lte'                  => [
+        'numeric' => 'The :attribute must be less than or equal :value.',
+        'file'    => 'The :attribute must be less than or equal :value kilobytes.',
+        'string'  => 'The :attribute must be less than or equal :value characters.',
+        'array'   => 'The :attribute must not have more than :value items.',
+    ],
     'max'                  => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file'    => 'The :attribute may not be greater than :max kilobytes.',
