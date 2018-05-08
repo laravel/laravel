@@ -1,5 +1,29 @@
 # Release Notes
 
+## v5.6.12 (2018-03-14)
+
+### Added
+- Added message for `not_regex` validation rule ([#4602](https://github.com/laravel/laravel/pull/4602))
+- Added `signed` middleware alias for `ValidateSignature` ([4369e91](https://github.com/laravel/laravel/commit/4369e9144ce1062941eda2b19772dbdcb10e9027))
+- Added `stderr` example to `config/logging.php` ([66f5757](https://github.com/laravel/laravel/commit/66f5757d58cb3f6d1152ec2d5f12e247eb2242e2))
+
+### Changed
+- Set `MAIL_DRIVER` in `phpunit.xml` ([#4607](https://github.com/laravel/laravel/pull/4607))
+
+### Removed
+- Removed "thanks" package ([#4593](https://github.com/laravel/laravel/pull/4593))
+
+
+## v5.6.7 (2018-02-27)
+
+### Changed
+- Use `Hash::make()` in `RegisterController` ([#4570](https://github.com/laravel/laravel/pull/4570))
+- Update Collision to `2.0` ([#4581](https://github.com/laravel/laravel/pull/4581))
+
+### Removed
+- Removed Bootstrap 3 variables ([#4572](https://github.com/laravel/laravel/pull/4572))
+
+
 ## v5.6.0 (2018-02-07)
 
 ### Added
