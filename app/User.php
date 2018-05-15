@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Set user's password
+     * Set user's password.
      *
      * @param  string $value
      * @return void
