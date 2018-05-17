@@ -16,6 +16,8 @@
         "beberlei/DoctrineExtensions": "^1.0",
         "digbang/doctrine-extensions": "^1.0",
         "digbang/backoffice": "^6.1",
+        "digbang/files": "^1.0",
+        "digbang/utils": "^1.1",
         "laravelcollective/html": "^6.0",
         "beberlei/assert": "^2.6",
         "cakephp/chronos": "^1.1",
