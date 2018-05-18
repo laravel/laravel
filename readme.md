@@ -16,12 +16,11 @@
 6. Change the filesystem driver to `minio`
 
 ## Sentry configuration
-1. 
 2. Configure your .env variables
 3. Enable Sentry on your .env file
 
 ## System Requirements
-* php: 7.1.x
+* php: 7.2.x
 * php ini configurations:
     * `upload_max_filesize = 100M`
     * `post_max_size = 100M`
