@@ -8,6 +8,9 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
+[*.{css,less,scss}]
+indent_size = 2
+
 [*.md]
 trim_trailing_whitespace = false
 
