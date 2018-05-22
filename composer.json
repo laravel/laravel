@@ -71,8 +71,9 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "bash -c 'sed -i \"s/project-name/${PWD##*/}/g\" .env.example docker-compose.yml sonar-project.properties docker/postgres/Dockerfile'",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+          "bash -c 'sed -i \"s/project-name/${PWD##*/}/g\" .env.example docker-compose.yml sonar-project.properties docker/postgres/Dockerfile client/webpack.config.js readme.md'",
+          "bash -c 'echo \"Please remember to change NAME and DESCRIPTION on your composer.json with the real project name\"'",
+          "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
