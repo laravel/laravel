@@ -15,6 +15,16 @@ services:
     image: redis:alpine
     networks:
      - appnet
+  node:
+    image: node:latest
+    command: node server.js
+    working_dir: /usr/src/app
+    volumes:
+     - .:/usr/src/app
+    ports:
+     - "81:81"
+    networks:
+     - appnet
   db:
     image: postgres:latest
     ports:
