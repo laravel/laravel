@@ -168,6 +168,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Digbang\Backoffice\BackofficeServiceProvider::class,
         Digbang\Files\FilesServiceProvider::class,
+        Digbang\DoctrineExtensions\DoctrineExtensionsServiceProvider::class,
 
         /*
          * Application Service Providers...
