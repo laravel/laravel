@@ -112,9 +112,6 @@ return [
         DoctrineExtensions\Types\CarbonDateTimeType::CARBONDATETIME => DoctrineExtensions\Types\CarbonDateTimeType::class,
         DoctrineExtensions\Types\CarbonDateTimeTzType::CARBONDATETIMETZ => DoctrineExtensions\Types\CarbonDateTimeTzType::class,
         DoctrineExtensions\Types\CarbonTimeType::CARBONTIME => DoctrineExtensions\Types\CarbonTimeType::class,
-        Digbang\DoctrineExtensions\Types\ChronosDateType::CHRONOS_DATE => Digbang\DoctrineExtensions\Types\ChronosDateType::class,
-        Digbang\DoctrineExtensions\Types\ChronosDateTimeType::CHRONOS_DATETIME => Digbang\DoctrineExtensions\Types\ChronosDateTimeType::class,
-        Digbang\DoctrineExtensions\Types\ChronosDateTimeTzType::CHRONOS_DATETIMETZ => Digbang\DoctrineExtensions\Types\ChronosDateTimeTzType::class,
     ],
     /*
     |--------------------------------------------------------------------------
@@ -133,9 +130,7 @@ return [
     | DQL custom string functions
     |--------------------------------------------------------------------------
     */
-    'custom_string_functions' => [
-        Digbang\DoctrineExtensions\Functions\UnaccentFunction::UNACCENT => Digbang\DoctrineExtensions\Functions\UnaccentFunction::class,
-    ],
+    'custom_string_functions' => [],
     /*
     |--------------------------------------------------------------------------
     | Enable query logging with laravel file logging,
