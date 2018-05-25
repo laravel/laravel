@@ -3,7 +3,7 @@
 ## Creation and first commit
 1. Create the new repo on github
 2. Clone the new repo
-3. **RUN** `docker run -it --rm -v $(pwd -W &> /dev/null && pwd -W || pwd):/usr/src/myapp -w="/usr/src/myapp" digbang/php-dev:7.1 bash`
+3. **RUN** `docker run -it --rm -v $(pwd -W &> /dev/null && pwd -W || pwd):/usr/src/myapp -w="/usr/src/myapp" digbang/php-dev:7.2 bash`
 
 ### Inside the container
 1. **RUN** `composer config -g github-oauth.github.com <token>`
