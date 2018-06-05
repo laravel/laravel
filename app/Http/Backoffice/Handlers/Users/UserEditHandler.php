@@ -36,11 +36,10 @@ class UserEditHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->put('/{' . UserRequest::ROUTE_PARAM_ID . '}', [
+            ->put("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);

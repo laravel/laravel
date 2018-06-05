@@ -53,11 +53,10 @@ class UserCreateFormHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->get('/create', [
+            ->get("$backofficePrefix/$routePrefix/create", [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_CREATE,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

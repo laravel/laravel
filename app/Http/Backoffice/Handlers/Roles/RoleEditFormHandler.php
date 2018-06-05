@@ -65,11 +65,10 @@ class RoleEditFormHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get('/{' . RoleRequest::ROUTE_PARAM_ID . '}/edit', [
+            ->get("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/edit', [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);

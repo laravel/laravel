@@ -44,11 +44,10 @@ class UserResendActivationHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->post('/{' . UserRequest::ROUTE_PARAM_ID . '}/resend-activation', [
+            ->post("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/resend-activation', [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_RESEND_ACTIVATION,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);

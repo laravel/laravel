@@ -22,9 +22,10 @@ class AuthLogoutHandler extends Handler implements RouteDefiner
 
     public static function defineRoute(Router $router): void
     {
+        $backofficePrefix = config('backoffice.global_url_prefix');
+
         $router
-            ->get('/auth/logout', static::class)
-            ->prefix(config('backoffice.global_url_prefix'))
+            ->get("$backofficePrefix/auth/logout", static::class)
             ->name(static::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }

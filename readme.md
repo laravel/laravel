@@ -73,7 +73,7 @@
     * zlib
 * Composer PHP
 * apache: 2.4.x / nginx
-* postgres: 9.6.x
+* postgres: 9.6.x / 10.x
 * postgres extensions:
   * Unaccent Extension
 * redis

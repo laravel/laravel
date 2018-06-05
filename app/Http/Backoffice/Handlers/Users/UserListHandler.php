@@ -14,12 +14,12 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Users\User;
 use Digbang\Utils\CriteriaRequest;
 use Digbang\Utils\Sorting;
+use Fiter\Repositories\Criteria\Users\UserFilter;
+use Fiter\Repositories\Criteria\Users\UserSorting;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use ProjectName\Repositories\Criteria\Users\UserFilter;
-use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserListHandler extends Handler implements RouteDefiner
 {
@@ -50,11 +50,10 @@ class UserListHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.users.url', 'operators');
 
         $router
-            ->get('/', [
+            ->get("$backofficePrefix/$routePrefix/", [
                 'uses' => static::class,
                 'permission' => Permission::OPERATOR_LIST,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE_LISTING]);
     }

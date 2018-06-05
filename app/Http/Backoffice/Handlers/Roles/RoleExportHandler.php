@@ -11,9 +11,9 @@ use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
+use Fiter\Repositories\Criteria\Roles\RoleSorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleExportHandler extends Handler implements RouteDefiner
 {
@@ -50,11 +50,10 @@ class RoleExportHandler extends Handler implements RouteDefiner
         $routePrefix = config('backoffice.auth.roles.url', 'roles');
 
         $router
-            ->get('/export', [
+            ->get("$backofficePrefix/$routePrefix/export", [
                 'uses' => static::class,
                 'permission' => Permission::ROLE_EXPORT,
             ])
-            ->prefix("$backofficePrefix/$routePrefix")
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }

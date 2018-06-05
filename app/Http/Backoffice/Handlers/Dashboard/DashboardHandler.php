@@ -19,9 +19,10 @@ class DashboardHandler extends Handler implements RouteDefiner
 
     public static function defineRoute(Router $router): void
     {
+        $backofficePrefix = config('backoffice.global_url_prefix');
+
         $router
-            ->get('/', static::class)
-            ->prefix(config('backoffice.global_url_prefix'))
+            ->get("$backofficePrefix/", static::class)
             ->name(static::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
