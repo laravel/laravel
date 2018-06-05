@@ -57,6 +57,7 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => 'critical',
+            'channel' => env('LOG_SLACK_CHANNEL', ''),
         ],
 
         'stderr' => [
