@@ -95,6 +95,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Currency Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application currency determines the default currency that will be used
+    | by the Cachier service, if used. You can use ISO 4217 currency code or
+    | any other code or symbol you want.
+    |
+    | The format can either be a callable function, or null for default
+    |
+    */
+
+    'currency' => [
+
+        'code'      => 'USD',
+        'symbol'    => '$',
+        'format'    => null,
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
