@@ -10,7 +10,7 @@ use App\Http\Util\RouteDefiner;
 use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use Fiter\Repositories\Criteria\Users\UserSorting;
+use ProjectName\Repositories\Criteria\Users\UserSorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 

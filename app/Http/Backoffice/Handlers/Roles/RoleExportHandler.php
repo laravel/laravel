@@ -11,7 +11,7 @@ use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use Fiter\Repositories\Criteria\Roles\RoleSorting;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 
