@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Doctrine\Repositories;
 
+use Digbang\Utils\Doctrine\QueryBuilderDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
@@ -12,6 +13,15 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
     public function __construct(EntityManager $entityManager)
     {
         parent::__construct($entityManager, $entityManager->getClassMetadata($this->getEntity()));
+    }
+
+    public function createQueryBuilder($alias, $indexBy = null)
+    {
+        return (new QueryBuilderDecorator(
+                $this->_em->createQueryBuilder()
+            ))
+            ->select($alias)
+            ->from($this->_entityName, $alias, $indexBy);
     }
 
     abstract public function getEntity();
