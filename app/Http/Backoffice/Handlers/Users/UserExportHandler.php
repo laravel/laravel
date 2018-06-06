@@ -10,9 +10,9 @@ use App\Http\Util\RouteDefiner;
 use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use ProjectName\Repositories\Criteria\Users\UserSorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserExportHandler extends Handler implements RouteDefiner
 {

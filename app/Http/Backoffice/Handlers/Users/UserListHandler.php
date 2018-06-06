@@ -14,12 +14,12 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Users\User;
 use Digbang\Utils\CriteriaRequest;
 use Digbang\Utils\Sorting;
-use ProjectName\Repositories\Criteria\Users\UserFilter;
-use ProjectName\Repositories\Criteria\Users\UserSorting;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Users\UserFilter;
+use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserListHandler extends Handler implements RouteDefiner
 {

@@ -11,9 +11,9 @@ use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleExportHandler extends Handler implements RouteDefiner
 {

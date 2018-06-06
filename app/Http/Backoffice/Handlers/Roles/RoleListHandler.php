@@ -14,12 +14,12 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use ProjectName\Repositories\Criteria\Roles\RoleFilter;
-use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use ProjectName\Repositories\Criteria\Roles\RoleFilter;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleListHandler extends Handler implements RouteDefiner
 {
