@@ -18,6 +18,7 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
     /**
      * @param string $alias
      * @param null $indexBy
+     *
      * @return QueryBuilderDecorator
      */
     public function createQueryBuilder($alias, $indexBy = null)
