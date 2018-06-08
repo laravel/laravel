@@ -7,7 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseHandler;
 
-class Handler extends BaseHandler
+abstract class Handler extends BaseHandler
 {
     use AuthorizesRequests;
     use DispatchesJobs;
