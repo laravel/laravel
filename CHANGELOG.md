@@ -1,9 +1,47 @@
 # Release Notes
 
-## [Unreleased]
+## v5.6.12 (2018-03-14)
+
+### Added
+- Added message for `not_regex` validation rule ([#4602](https://github.com/laravel/laravel/pull/4602))
+- Added `signed` middleware alias for `ValidateSignature` ([4369e91](https://github.com/laravel/laravel/commit/4369e9144ce1062941eda2b19772dbdcb10e9027))
+- Added `stderr` example to `config/logging.php` ([66f5757](https://github.com/laravel/laravel/commit/66f5757d58cb3f6d1152ec2d5f12e247eb2242e2))
 
 ### Changed
-- Updated Mix to 2.0 ([#4557](https://github.com/laravel/laravel/pull/4557))
+- Set `MAIL_DRIVER` in `phpunit.xml` ([#4607](https://github.com/laravel/laravel/pull/4607))
+
+### Removed
+- Removed "thanks" package ([#4593](https://github.com/laravel/laravel/pull/4593))
+
+
+## v5.6.7 (2018-02-27)
+
+### Changed
+- Use `Hash::make()` in `RegisterController` ([#4570](https://github.com/laravel/laravel/pull/4570))
+- Update Collision to `2.0` ([#4581](https://github.com/laravel/laravel/pull/4581))
+
+### Removed
+- Removed Bootstrap 3 variables ([#4572](https://github.com/laravel/laravel/pull/4572))
+
+
+## v5.6.0 (2018-02-07)
+
+### Added
+- Added `filesystems.disks.s3.url` config parameter ([#4483](https://github.com/laravel/laravel/pull/4483))
+- Added `queue.connections.redis.block_for` config parameter ([d6d0013](https://github.com/laravel/laravel/commit/d6d001356232dac4549d152baf685373a6d6c8f8))
+- Added Collision package ([#4514](https://github.com/laravel/laravel/pull/4514))
+- Added `SetCacheHeaders` middleware to `Kernel::$routeMiddleware` ([#4515](https://github.com/laravel/laravel/pull/4515))
+- Added hashing configuration file ([bac7595](https://github.com/laravel/laravel/commit/bac7595f02835ae2d35953a2c9ba039592ed8a94))
+
+### Changed
+- Require PHP 7.1.3 or newer ([#4568](https://github.com/laravel/laravel/pull/4568))
+- Upgraded PHPUnit to v7 ([f771896](https://github.com/laravel/laravel/commit/f771896c285c73fa1a2ac83c1b2770011f8e49ef))
+- Upgraded Mix to v2 ([#4557](https://github.com/laravel/laravel/pull/4557))
+- Upgraded `fideloper/proxy` to v4 ([#4518](https://github.com/laravel/laravel/pull/4518))
+- Set hash driver in `CreatesApplication` ([7b138fe](https://github.com/laravel/laravel/commit/7b138fe39822e34e0c563462ffee6036b4bda226))
+- Upgraded to Bootstrap 4 ([#4519](https://github.com/laravel/laravel/pull/4519), [c0cda4f](https://github.com/laravel/laravel/commit/c0cda4f81fd7a25851ed8069f0aa70c2d21a941c), [cd53623](https://github.com/laravel/laravel/commit/cd53623249e8b2b2d7517b1585f68e7e31be1a8a), [3926520](https://github.com/laravel/laravel/commit/3926520f730ab681462dff3275e468b6ad3f061d))
+- Updated logging configuration ([acabdff](https://github.com/laravel/laravel/commit/acabdff2e3cde6bc98cc2d951a8fcadf22eb71f0), [bd5783b](https://github.com/laravel/laravel/commit/bd5783b5e9db18b353fe10f5ed8bd6f7ca7b8c6e), [ff0bec8](https://github.com/laravel/laravel/commit/ff0bec857ead9698b2783143b14b5332b96e23cc), [f6e0fd7](https://github.com/laravel/laravel/commit/f6e0fd7ac3e838985a249cd04f78b482d96f230a), [2eeca4e](https://github.com/laravel/laravel/commit/2eeca4e220254393341e25bc7e45e08480c9a683), [ebb0a2a](https://github.com/laravel/laravel/commit/ebb0a2a84fa431e30103c98cf4bed3fa3713ad59), [b78f5bd](https://github.com/laravel/laravel/commit/b78f5bd6e9f739f35383165798ad2022b8fb509c))
+- Use Mix environment variables ([224f994](https://github.com/laravel/laravel/commit/224f9949c74fcea2eeceae0a1f65d9c2e7498a27), [2db1e0c](https://github.com/laravel/laravel/commit/2db1e0c5e8525f3ee4b3850f0116c13224790dff))
 
 
 ## v5.5.28 (2018-01-03)
