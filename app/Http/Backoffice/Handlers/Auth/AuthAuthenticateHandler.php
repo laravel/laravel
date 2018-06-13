@@ -46,7 +46,7 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
             return $redirector->to(AuthLoginHandler::route())->withInput()->withErrors($errors);
         } catch (ThrottlingException $e) {
             return $view->make('backoffice::auth.throttling', [
-                'message' => trans('backoffice::auth.throttling.' . $e->getType(), ['remaining' => (new Chronos())->diffInSeconds($e->getFree())]),
+                'message' => trans('backoffice::auth.throttling.' . $e->getType(), ['remaining' => (new Chronos())->diffInSeconds(Chronos::createFromTimestamp($e->getFree()->timestamp))]),
             ]);
         } catch (NotActivatedException $e) {
             return $view->make('backoffice::auth.not-activated');
