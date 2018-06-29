@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Providers;
@@ -14,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'App\Domain';
 
     /**
      * Define your route model bindings, pattern filters, etc.
