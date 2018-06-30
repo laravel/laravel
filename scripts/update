@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Purpose:
+#
+# Installs dependencies inside application container.
+
+set -e
+[ -z "${DEBUG}" ] || set -x
+
+cd "$(dirname "$0")/.."
+
+docker-compose run --rm app yarn install
+docker-compose run --rm app php /usr/bin/composer install --prefer-dist
+docker-compose run --rm app php artisan migrate:fresh --seed

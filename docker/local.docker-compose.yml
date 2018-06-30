@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  app:
+    build:
+      context: ../
+      dockerfile: docker/local.app.Dockerfile
+    restart: always
+    volumes:
+      - ../:/var/www
+    depends_on:
+      - db
+    environment:
+      - "DB_DATABASE=db"
+      - "DB_DATABASE=local"
+      - "COMPOSER_ALLOW_SUPERUSER=true"
+    ports:
+      - 8080:8000
+    command: php artisan serve --host=0.0.0.0
+
+  db:
+    image: mariadb:10.3
+    restart: always
+    environment:
+      - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
+      - "MYSQL_ROOT_PASSWORD="
+      - "MYSQL_DATABASE=local"
+      - "MYSQL_USER=root"
+      - "MYSQL_PASSWORD="
+    ports:
+      - "13310:3306"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
