@@ -1,0 +1,2 @@
+CREATE DATABASE local;
+CREATE DATABASE testing;

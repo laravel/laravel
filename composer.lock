@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a061fe0d7d46a68ae55169acf1b4d4e0",
+    "content-hash": "7539c55691bb6c2a5b430a768ef24951",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -268,16 +268,16 @@
         },
         {
             "name": "engageinteractive/laravel-frontend",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/engageinteractive/laravel-frontend.git",
-                "reference": "88ae3755f52c552c9e80eff796ea1e18696d8d27"
+                "reference": "2d7d08cc692ba23bbcaef475cb2b42822668169e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/88ae3755f52c552c9e80eff796ea1e18696d8d27",
-                "reference": "88ae3755f52c552c9e80eff796ea1e18696d8d27",
+                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/2d7d08cc692ba23bbcaef475cb2b42822668169e",
+                "reference": "2d7d08cc692ba23bbcaef475cb2b42822668169e",
                 "shasum": ""
             },
             "require": {
@@ -311,7 +311,7 @@
                 }
             ],
             "description": "Frontend Build Framework for Laravel Projects",
-            "time": "2018-06-29T15:17:44+00:00"
+            "time": "2018-07-02T10:28:30+00:00"
         },
         {
             "name": "erusev/parsedown",
