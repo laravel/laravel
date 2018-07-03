@@ -14,7 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
     ];
-    
+
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
      *
