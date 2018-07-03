@@ -9,7 +9,8 @@
         "engageinteractive/laravel-frontend": "^1.0.5",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "sentry/sentry-laravel": "^0.9.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
