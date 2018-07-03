@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Domain\Accounts;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Authenticatable
+class Account extends Authenticatable
 {
     use Notifiable;
 

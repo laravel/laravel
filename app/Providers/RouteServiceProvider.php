@@ -18,6 +18,13 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Domain';
 
     /**
+     * This is the middleware group for use in web.php routes.
+     *
+     * @var string
+     */
+    protected $webMiddlewareGroup = 'web-with-auth';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
@@ -36,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapAjaxRoutes();
 
         $this->mapWebRoutes();
 
@@ -52,23 +59,20 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+        Route::middleware($this->webMiddlewareGroup)
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
+     * Define the "ajax" routes for the application.
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapAjaxRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
+        Route::middleware('ajax')
              ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->group(base_path('routes/ajax.php'));
     }
 }
