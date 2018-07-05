@@ -41,12 +41,16 @@ class VerifyMail extends Mailable
     {
         $verifyCode = VerifyCode::findOrFail($this->verify_code_id);
 
-        $this->subject(trans('accounts.verification.email_subject'));
+        $translations = trans('accounts.verification');
 
-        $this->view('mail.opt-in', [
+        $this->subject($translations['email_subject']);
+
+        $this->view('mail.verify-code', [
             'model' => [
                 'url' => route('verify-codes.show', $verifyCode->code),
-                'text' => trans('accounts.verification.email_link'),
+                'title' => $translations['email_title'],
+                'message' => $translations['email_message'],
+                'button' => $translations['email_button'],
             ],
         ]);
     }

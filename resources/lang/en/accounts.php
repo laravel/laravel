@@ -8,7 +8,7 @@ return [
         'email_subject' => 'Email verification',
         'email_title' => 'Thanks for signing up to GitLab!',
         'email_message' => 'To get started, click the link below to confirm your account.',
-        'email_link' => 'Verify my account',
+        'email_button' => 'Verify my account',
         'confirmation' => 'Your account has now been verified, please login.',
     ],
 
