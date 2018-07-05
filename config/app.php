@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Force HTTPS
+    |--------------------------------------------------------------------------
+    |
+    | If an unsecured request is received by your app it can redirect
+    | back to the same resource over HTTPS. This prevents you from
+    | serving duplicate content over HTTP and HTTPS schemes.
+    |
+    */
+
+    'https' => env('APP_HTTPS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
