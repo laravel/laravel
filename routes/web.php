@@ -30,18 +30,18 @@ Route::get('/register')
     ->uses('Accounts\AccountController@create')
     ->name('accounts.create');
 
-Route::get('/account')
-    ->uses('Accounts\AccountController@store')
-    ->name('page/account');
-
 /*
 |--------------------------------------------------------------------------
 | Account Verification
 |--------------------------------------------------------------------------
 */
 
+Route::get('/account/almost-there')
+    ->uses('Accounts\Verification\VerifyCodeController@create')
+    ->name('verify-codes.create');
+
 Route::resource('/verify-codes', 'Accounts\Verification\VerifyCodeController')
-    ->only('create', 'show');
+    ->only('show');
 
 /*
 |--------------------------------------------------------------------------
