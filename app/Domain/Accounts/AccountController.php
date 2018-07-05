@@ -1,26 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Domain\Accounts;
+
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 use App\Domain\Accounts\Customer;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class AccountController extends Controller
 {
-    use RegistersUsers {
-        register as store;
-    }
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
     /**
      * Create a new controller instance.
      *
@@ -32,44 +21,32 @@ class AccountController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Show the application registration form.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return \Illuminate\Http\Response
      */
-    protected function validator(array $data)
+    public function create()
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        return view('app/accounts/register');
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Handle a registration request for the application.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param  \App\Domain\Accounts\AccountStoreRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    protected function create(array $data)
+    public function store(AccountStoreRequest $request)
     {
-        return Customer::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+        $validated = collect($request->validated())
+            ->put('password', Hash::make($request->password))
+            ->toArray();
 
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function registered(Request $request, $user)
-    {
-        return [ 'redirect' => route('home.show') ];
+        event(new Registered(Account::create($validated)));
+
+        $request->session()
+            ->flash('message', trans('accounts.verification.email_sent'));
+
+        return [ 'redirect' => route('session.create') ];
     }
 }

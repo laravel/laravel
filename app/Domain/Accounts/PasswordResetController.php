@@ -13,9 +13,9 @@ class PasswordResetController extends Controller
         sendResetLinkEmail as store;
     }
 
-    use ResetsPasswords {
-        reset as delete;
-    }
+    // use ResetsPasswords {
+    //     reset as delete;
+    // }
 
     /**
      * Create a new controller instance.

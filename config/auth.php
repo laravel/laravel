@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'customers',
+        'passwords' => 'accounts',
     ],
 
     /*
@@ -38,12 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'customers',
+            'provider' => 'accounts',
         ],
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'customers',
+            'provider' => 'accounts',
         ],
     ],
 
@@ -65,14 +65,14 @@ return [
     */
 
     'providers' => [
-        'customers' => [
+        'accounts' => [
             'driver' => 'eloquent',
-            'model' => App\Domain\Accounts\Customer::class,
+            'model' => App\Domain\Accounts\Account::class,
         ],
 
-        // 'customers' => [
+        // 'accounts' => [
         //     'driver' => 'database',
-        //     'table' => 'customers',
+        //     'table' => 'accounts',
         // ],
     ],
 
@@ -92,11 +92,30 @@ return [
     */
 
     'passwords' => [
-        'customers' => [
-            'provider' => 'customers',
+        'accounts' => [
+            'provider' => 'accounts',
             'table' => 'password_resets',
             'expire' => 60,
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verification
+    |--------------------------------------------------------------------------
+    |
+    | You may specify multiple password reset configurations if you have more
+    | than one user table or model in the application and you want to have
+    | separate password reset settings based on the specific user types.
+    |
+    | The expire time is the number of minutes that the reset token should be
+    | considered valid. This security feature keeps tokens short-lived so
+    | they have less time to be guessed. You may change this as needed.
+    |
+    */
+
+    'verification' => [
+        'code_expire_hours' => 1,
     ],
 
 ];

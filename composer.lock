@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ecf991315fd350ecbf0fe4288071e8d",
+    "content-hash": "18e3da500e0e8180c1fa4262a494e5fd",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -268,16 +268,16 @@
         },
         {
             "name": "engageinteractive/laravel-frontend",
-            "version": "1.0.5",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/engageinteractive/laravel-frontend.git",
-                "reference": "2d7d08cc692ba23bbcaef475cb2b42822668169e"
+                "reference": "603fa1d5d2a99234174891fe876090366276ee13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/2d7d08cc692ba23bbcaef475cb2b42822668169e",
-                "reference": "2d7d08cc692ba23bbcaef475cb2b42822668169e",
+                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/603fa1d5d2a99234174891fe876090366276ee13",
+                "reference": "603fa1d5d2a99234174891fe876090366276ee13",
                 "shasum": ""
             },
             "require": {
@@ -311,7 +311,7 @@
                 }
             ],
             "description": "Frontend Build Framework for Laravel Projects",
-            "time": "2018-07-02T10:28:30+00:00"
+            "time": "2018-07-04T14:02:54+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -412,6 +412,72 @@
                 "trusted proxy"
             ],
             "time": "2018-02-07T20:20:57+00:00"
+        },
+        {
+            "name": "hashids/hashids",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ivanakimov/hashids.php.git",
+                "reference": "b6c61142bfe36d43740a5419d11c351dddac0458"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivanakimov/hashids.php/zipball/b6c61142bfe36d43740a5419d11c351dddac0458",
+                "reference": "b6c61142bfe36d43740a5419d11c351dddac0458",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "suggest": {
+                "ext-bcmath": "Required to use BC Math arbitrary precision mathematics (*).",
+                "ext-gmp": "Required to use GNU multiple precision mathematics (*)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hashids\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Akimov",
+                    "email": "ivan@barreleye.com",
+                    "homepage": "https://twitter.com/IvanAkimov"
+                },
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@vinkla.com",
+                    "homepage": "https://vinkla.com"
+                }
+            ],
+            "description": "Generate short, unique, non-sequential ids (like YouTube and Bitly) from numbers",
+            "homepage": "http://hashids.org/php",
+            "keywords": [
+                "bitly",
+                "decode",
+                "encode",
+                "hash",
+                "hashid",
+                "hashids",
+                "ids",
+                "obfuscate",
+                "youtube"
+            ],
+            "time": "2018-03-12T16:30:09+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

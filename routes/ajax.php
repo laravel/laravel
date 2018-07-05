@@ -1,19 +1,43 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Login
+|--------------------------------------------------------------------------
+*/
+
 Route::post('session')
-    ->use('Sessions\SessionController@store')
+    ->uses('Accounts\SessionController@store')
     ->name('session.create');
 
 Route::delete('session')
-    ->use('Sessions\SessionController@destroy')
+    ->uses('Accounts\SessionController@destroy')
     ->name('session.destroy');
 
+/*
+|--------------------------------------------------------------------------
+| Accounts
+|--------------------------------------------------------------------------
+*/
+
 Route::resource('accounts', 'Accounts\AccountController')
-    ->only('store');
+    ->only('store', 'update');
+
+/*
+|--------------------------------------------------------------------------
+| Account Verification
+|--------------------------------------------------------------------------
+*/
 
 Route::resource('verify-codes', 'Accounts\Verification\VerifyCodeController')
-    ->only('store', 'delete');
+    ->only('store');
+
+/*
+|--------------------------------------------------------------------------
+| Password Resets
+|--------------------------------------------------------------------------
+*/
 
 Route::resource('password-resets', 'Accounts\PasswordResetController')
-    ->parameter('token')
+    ->parameter('passwordReset', 'token')
     ->only('store', 'destroy');

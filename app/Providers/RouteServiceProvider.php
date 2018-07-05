@@ -1,10 +1,9 @@
-
 <?php
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -16,13 +15,6 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Domain';
-
-    /**
-     * This is the middleware group for use in web.php routes.
-     *
-     * @var string
-     */
-    protected $webMiddlewareGroup = 'web-with-auth';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -59,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware($this->webMiddlewareGroup)
+        Route::middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }

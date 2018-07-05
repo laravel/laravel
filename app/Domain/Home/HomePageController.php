@@ -11,8 +11,8 @@ class HomePageController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function __invoke()
     {
-        return view('app/home');
+        return view('app/pages/home');
     }
 }

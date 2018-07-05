@@ -1,33 +1,58 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Pages
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/')
-    ->use('Home\HomePageController')
-    ->name('home-page.show');
+    ->uses('Home\HomePageController')
+    ->name('page/home');
+
+/*
+|--------------------------------------------------------------------------
+| Login
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login')
-    ->use('Sessions\SessionController@create')
+    ->uses('Accounts\SessionController@create')
     ->name('session.create');
 
+/*
+|--------------------------------------------------------------------------
+| Accounts
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/register')
-    ->use('Accounts\AccountController@create')
+    ->uses('Accounts\AccountController@create')
     ->name('accounts.create');
 
-Route::get('/awaiting-verification')
-    ->use('Accounts/Verification/VerifyCodeController')
-    ->name('verify-codes.create');
-
-Route::get('/verify-codes/{verify-code}')
-    ->use('Accounts/Verification/VerifyCodeController')
-    ->name('verify-codes.show');
-
-Route::get('/forgot-password')
-    ->use('Accounts/PasswordResetController@create')
-    ->name('password-resets.create');
-
-Route::get('/password-resets/{token}')
-    ->use('Accounts/PasswordResetController')
-    ->name('password-resets.show');
-
 Route::get('/account')
-    ->use('Accounts/AccountDetailsPageController')
-    ->name('account-details-page.show');
+    ->uses('Accounts\AccountController@store')
+    ->name('page/account');
+
+/*
+|--------------------------------------------------------------------------
+| Account Verification
+|--------------------------------------------------------------------------
+*/
+
+Route::resource('/verify-codes', 'Accounts\Verification\VerifyCodeController')
+    ->only('create', 'show');
+
+/*
+|--------------------------------------------------------------------------
+| Password Resets
+|--------------------------------------------------------------------------
+*/
+
+// Route::get('/forgot-password')
+//     ->uses('Accounts/PasswordResetController@create')
+//     ->name('password-resets.create');
+
+// Route::get('/password-resets/{token}')
+//     ->uses('Accounts/PasswordResetController')
+//     ->name('password-resets.show');

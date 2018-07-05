@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Login;
+namespace App\Domain\Accounts;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -9,7 +9,7 @@ class SessionController extends Controller
 {
     use AuthenticatesUsers {
         login as store;
-    };
+    }
 
     /**
      * Create a new controller instance.

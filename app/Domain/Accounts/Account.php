@@ -2,12 +2,36 @@
 
 namespace App\Domain\Accounts;
 
+use Carbon\Carbon;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Account extends Authenticatable
+use App\Domain\Accounts\Verification\VerifyCode;
+
+class Account extends Model implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
     use Notifiable;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'verified_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +39,9 @@ class Account extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -24,6 +50,35 @@ class Account extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * All, non-trashed, verify codes.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function allVerifyCodes()
+    {
+        return $this->hasMany(VerifyCode::class);
+    }
+
+    /**
+     * Latest, non-trashed, verify code that has not expired.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function verifyCode()
+    {
+        return $this->hasOne(VerifyCode::class)
+            ->where('expires_at', '>', Carbon::now())
+            ->orderBy('created_at', 'desc');
+    }
 }
