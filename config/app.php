@@ -211,4 +211,20 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Editor
+    |--------------------------------------------------------------------------
+    |
+    | This option specifies which editor the file will open with when
+    | an error is handled by the Whoops error handler. If disabled
+    | the link will be inactive and will not open in an editor.
+    |
+    | Supported: "sublime", "textmate", "emacs", "macvim", "phpstorm", "idea",
+    |            "vscode", "atom"
+    |
+    */
+
+    'editor' => env('APP_EDITOR', false),
+
 ];
