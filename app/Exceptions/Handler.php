@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,5 +51,23 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        if (view()->exists($view = 'errors.' . $e->getStatusCode()) || view()->exists($view = 'errors.default')) {
+            return response()->view($view, [
+                'errors' => new ViewErrorBag(),
+                'exception' => $e,
+            ], $e->getStatusCode(), $e->getHeaders());
+        }
+
+        return parent::renderHttpException($e);
     }
 }
