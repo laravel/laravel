@@ -27,7 +27,11 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('app/accounts/register');
+        return view('app/accounts/register', [
+            'model' => [
+                'action' => route('accounts.store'),
+            ],
+        ]);
     }
 
     /**

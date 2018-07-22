@@ -9,9 +9,7 @@ use App\Http\Controllers\Controller;
 
 class SessionController extends Controller
 {
-    use AuthenticatesUsers {
-        login as store;
-    }
+    use AuthenticatesUsers;
 
     /**
      * Create a new controller instance.
@@ -31,14 +29,29 @@ class SessionController extends Controller
      */
     public function create(Request $request)
     {
-        return view('app/accounts/login');
+        return view('app/accounts/login', [
+            'model' => [
+                'action' => route('session.store'),
+            ],
+        ]);
+    }
+
+    /**
+     * Creates a new session, logging in the Account if credentials match.
+     *
+     * @param  SessionStoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(SessionStoreRequest $request)
+    {
+        return $this->login($request);
     }
 
     /**
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)
     {
@@ -53,8 +66,9 @@ class SessionController extends Controller
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
+     * @param  $request  Request
+     * @param  $user  Account
+     * @return array
      */
     protected function authenticated(Request $request, $user)
     {

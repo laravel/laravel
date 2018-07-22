@@ -75,11 +75,23 @@ class VerifyCodeService
         return hash_hmac('sha256', Str::random(40), $email);
     }
 
+    /**
+     * Returns date when the new token should expire.
+     *
+     * @return Carbon
+     */
     protected function newExpiry() : Carbon
     {
         return now()->addHours(config('accounts.verification.code_expiry_hours'));
     }
 
+    /**
+     * Within a transaction, deletes all previous verify codes and creates a
+     * new one for the Account, returning the VerifyCode and token in an array.
+     *
+     * @param  $account  Account
+     * @return array
+     */
     protected function createVerifyCode(Account $account) : array
     {
         return DB::transaction(function () use ($account) {
@@ -101,6 +113,14 @@ class VerifyCodeService
         });
     }
 
+    /**
+     * Attempts find the VerifyCode and then verify the token matches. Account
+     * will be verified is matches, code wil be deleted regardless if found.
+     *
+     * @param  $code  string
+     * @param  $token  string
+     * @return ?VerifyCode
+     */
     protected function attemptVerify(string $code, string $token) : ?VerifyCode
     {
         return DB::transaction(function () use ($code, $token) {

@@ -1,1 +1,0 @@
-@extends('app/accounts/login')

@@ -1,6 +1,32 @@
 <?php
 
 return [
+    'register' => [
+        'button' => 'Register',
+        'labels' => [
+            'name' => 'Name',
+            'email' => 'Email',
+            'password' => 'Password',
+            'password_confirmation' => 'Password confirmation',
+        ],
+        'placeholders' => [
+            'name' => 'Name',
+            'email' => 'Email',
+            'password' => 'Password',
+            'password_confirmation' => 'Password confirmation',
+        ],
+    ],
+    'login' => [
+        'button' => 'Login',
+        'labels' => [
+            'email' => 'Email',
+            'password' => 'Password',
+        ],
+        'placeholders' => [
+            'email' => 'Email',
+            'password' => 'Password',
+        ],
+    ],
     'passwords' => [
         'password' => 'Passwords must be at least 8 characters and match the confirmation.',
         'reset' => 'Your password has been reset!',

@@ -19,8 +19,9 @@ Vue.filter('trans', function (...args) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('login-form', require('./components/accounts/login-form.vue'));
+Vue.component('register-form', require('./components/accounts/register-form.vue'));
 
 const app = new Vue({
-	el: '#app'
+	el: '#app',
 });
