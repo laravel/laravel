@@ -4,7 +4,7 @@ namespace App\Domain\Accounts\Verification;
 
 use Illuminate\Auth\Events\Registered;
 
-class CreateVerifyCode
+class CreateInitialVerifyCode
 {
     /**
      * Service used to manage verifcation codes.
@@ -14,7 +14,7 @@ class CreateVerifyCode
     protected $service;
 
     /**
-     * Creates an instance of the CreateVerifyCode listener.
+     * Creates an instance of the CreateInitialVerifyCode listener.
      *
      * @param VerifyCodeService  $service
      * @return void
@@ -32,6 +32,6 @@ class CreateVerifyCode
      */
     public function handle(Registered $event)
     {
-        $this->service->createForAccount($event->user);
+        $this->service->create($event->user);
     }
 }

@@ -40,6 +40,53 @@ class VerifyCodeControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_store_GivenEmailExists_CallsVerifyCodeService()
+    {
+        // Given
+        $account = factory(Account::class)->create();
+
+        // Then
+        $mock = m::mock(VerifyCodeService::class);
+        $mock->shouldReceive('create')
+            ->once()
+            ->withArgs(function ($actual) use ($account) {
+                $this->assertEquals($account->id, $actual->id);
+                return true;
+            });
+
+        $this->app->instance(VerifyCodeService::class, $mock);
+
+        // When
+        $this->json('post', route('verify-codes.store'), $account->only('email'));
+    }
+
+    public function test_store_GivenEmailDoesNotExists_CallsVerifyCodeService()
+    {
+        // Given
+        $account = factory(Account::class)->make();
+
+        // Then
+        $mock = m::mock(VerifyCodeService::class);
+        $mock->shouldNotReceive('create');
+
+        $this->app->instance(VerifyCodeService::class, $mock);
+
+        // When
+        $this->json('post', route('verify-codes.store'), $account->only('email'));
+    }
+
+    public function test_store_GivenValidEmail_ReturnsJsonMessage()
+    {
+        // Given
+        $account = factory(Account::class)->create();
+
+        // When
+        $response = $this->json('post', route('verify-codes.store'), $account->only('email'));
+
+        // Then
+        $response->assertJson([ 'message' => trans('accounts.verification.resent') ]);
+    }
+
     public function test_show_GivenAuthenticated_RedirectsToHome()
     {
         // Given
@@ -81,13 +128,11 @@ class VerifyCodeControllerTest extends TestCase
 
     public function test_show_GivenCodeExists_CodeDeletedAndAccountVerified()
     {
-        $this->withoutExceptionHandling();
-
         // Given
         $code = factory(VerifyCode::class)->create();
 
         // When
-        $response = $this->get(route('verify-codes.show', $code->code));
+        $response = $this->get(route('verify-codes.show', [ $code->code, 'token' => 'secret' ]));
 
         // Then
         $deleted = VerifyCode::withTrashed()->find($code->id);
@@ -107,40 +152,4 @@ class VerifyCodeControllerTest extends TestCase
         // When
         $this->assertGuest();
     }
-
-    public function test_store_GivenEmailExists_CallsVerifyCodeService()
-    {
-        // Given
-        $account = factory(Account::class)->create();
-
-        // Then
-        $mock = m::mock(VerifyCodeService::class);
-        $mock->shouldReceive('createForAccount')
-            ->once()
-            ->withArgs(function ($actual) use ($account) {
-                $this->assertEquals($account->id, $actual->id);
-                return true;
-            });
-
-        $this->app->instance(VerifyCodeService::class, $mock);
-
-        // When
-        $this->json('post', route('verify-codes.store'), $account->only('email'));
-    }
-
-    public function test_store_GivenEmailDoesNotExists_CallsVerifyCodeService()
-    {
-        // Given
-        $account = factory(Account::class)->make();
-
-        // Then
-        $mock = m::mock(VerifyCodeService::class);
-        $mock->shouldNotReceive('createForAccount');
-
-        $this->app->instance(VerifyCodeService::class, $mock);
-
-        // When
-        $this->json('post', route('verify-codes.store'), $account->only('email'));
-    }
-
 }

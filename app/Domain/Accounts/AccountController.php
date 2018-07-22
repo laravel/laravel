@@ -42,10 +42,12 @@ class AccountController extends Controller
             ->put('password', Hash::make($request->password))
             ->toArray();
 
-        event(new Registered(Account::create($validated)));
+        if (Account::where('email', $validated['email'])->count() === 0) {
+            event(new Registered(Account::create($validated)));
+        }
 
         $request->session()
-            ->flash('message', trans('accounts.verification.email_sent'));
+            ->flash('message', trans('accounts.verification.sent'));
 
         return [ 'redirect' => route('session.create') ];
     }

@@ -2,8 +2,10 @@
 
 namespace App\Domain\Accounts;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 
 class SessionController extends Controller
 {
@@ -19,6 +21,17 @@ class SessionController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('destroy');
+    }
+
+    /**
+     * Display the form to login.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        return view('app/accounts/login');
     }
 
     /**
@@ -45,6 +58,6 @@ class SessionController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return [ 'redirect' => $request->session->pull('url.intended', route('home.show')) ];
+        return [ 'redirect' => $request->session()->pull('url.intended', route('page/home')) ];
     }
 }

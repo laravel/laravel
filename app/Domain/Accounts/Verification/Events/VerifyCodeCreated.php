@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Domain\Accounts\Verification;
+namespace App\Domain\Accounts\Verification\Events;
 
-class VerifyCodeCreatedEvent
+use App\Domain\Accounts\Verification\VerifyCode;
+
+class VerifyCodeCreated
 {
     /**
      * @var VerifyCode

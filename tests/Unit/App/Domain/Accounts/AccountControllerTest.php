@@ -81,6 +81,8 @@ class AccountControllerTest extends TestCase
 
     public function test_store_FlashesVerifyMessage()
     {
+        $this->withoutExceptionHandling();
+
         // Given
         $body = factory(Account::class)->states('unregistered')->raw();
 
@@ -89,7 +91,7 @@ class AccountControllerTest extends TestCase
 
         // Then
         $response->assertJson([ 'redirect' => route('session.create') ]);
-        $response->assertSessionHas('message', trans('accounts.verification.email_sent'));
+        $response->assertSessionHas('message', trans('accounts.verification.sent'));
     }
 
     public function test_store_AccountIsCreated()
@@ -129,7 +131,7 @@ class AccountControllerTest extends TestCase
         Event::assertDispatched(Registered::class);
     }
 
-    public function test_store_GivenEmailAlreadyExists_ReturnsValidationErrors()
+    public function test_store_GivenEmailAlreadyExists_ReturnsJsonRedirectAndFlashes()
     {
         // Given
         $existing = factory(Account::class)->create();
@@ -139,7 +141,9 @@ class AccountControllerTest extends TestCase
         $response = $this->json('post', route('accounts.store'), $body);
 
         // Then
-        $response->assertJsonValidationErrors([ 'email' ]);
+        $response->assertJson([ 'redirect' => route('session.create') ]);
+        $response->assertSessionHas('message', trans('accounts.verification.sent'));
+
     }
 
     public function test_store_GivenEmailAlreadyExists_DoesNotCreateAccount()

@@ -78,7 +78,24 @@ class Account extends Model implements
     public function verifyCode()
     {
         return $this->hasOne(VerifyCode::class)
-            ->where('expires_at', '>', Carbon::now())
+            ->where('expired_at', '>', Carbon::now())
             ->orderBy('created_at', 'desc');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Illuminate\Auth\Passwords\CanResetPasswords
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

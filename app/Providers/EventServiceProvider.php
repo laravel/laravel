@@ -14,10 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         \Illuminate\Auth\Events\Registered::class => [
-            \App\Domain\Accounts\Verification\CreateVerifyCode::class,
-        ],
-        \App\Domain\Accounts\Verification\VerifyCodeCreatedEvent::class => [
-            \App\Domain\Accounts\Verification\SendVerifyMail::class,
+            \App\Domain\Accounts\Verification\CreateInitialVerifyCode::class,
         ],
     ];
 

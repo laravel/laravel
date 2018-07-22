@@ -38,20 +38,12 @@ class VerifyCodeController extends Controller
      * @param Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request, VerifyCodeService $service)
     {
-        $verifyCode = VerifyCode::query()
-            ->where('code', $request->route('verify_code'))
-            ->first();
+        $code = $request->route('verify_code') ?: '';
+        $token = $request->query('token') ?: '';
 
-        if ($verifyCode) {
-            $verifyCode->delete();
-
-            if (is_null($verifyCode->account->verified_at)) {
-                $verifyCode->account->verified_at = now();
-                $verifyCode->account->save();
-            }
-        }
+        $service->verify($code, $token);
 
         return redirect(route('session.create'))
             ->with('message', trans('accounts.verification.confirmation'));
@@ -73,9 +65,9 @@ class VerifyCodeController extends Controller
             ->first();
 
         if ($account) {
-            $service->createForAccount($account);
+            $service->create($account);
         }
 
-        return [ 'message' => trans('accounts.verification.email_sent') ];
+        return [ 'message' => trans('accounts.verification.resent') ];
     }
 }

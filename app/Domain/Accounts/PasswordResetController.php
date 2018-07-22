@@ -2,20 +2,18 @@
 
 namespace App\Domain\Accounts;
 
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
-    use SendsPasswordResetEmails {
-        sendResetLinkEmail as store;
-    }
-
-    // use ResetsPasswords {
-    //     reset as delete;
-    // }
+    use AccountRules;
 
     /**
      * Create a new controller instance.
@@ -24,7 +22,7 @@ class PasswordResetController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->only('destroy');
+        $this->middleware('guest')->except('destroy');
     }
 
     /**
@@ -35,10 +33,27 @@ class PasswordResetController extends Controller
      */
     public function create(Request $request)
     {
-        return view('app/accounts/password-resets.create')
+        return view('app/accounts/forgot-password')
             ->with('model', [
                 'email' => $request->session()->get('email'),
             ]);
+    }
+
+    /**
+     * Send a reset link to the given user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $this->broker()->sendResetLink(
+            $request->only('email')
+        );
+
+        return [ 'message' => trans('accounts.passwords.sent') ];
     }
 
     /**
@@ -51,7 +66,7 @@ class PasswordResetController extends Controller
      */
     public function show(Request $request)
     {
-        return view('app/accounts/password-resets.show')
+        return view('app/accounts/password-reset')
             ->with('model', [
                 'token' => $request->token,
                 'email' => $request->email
@@ -59,53 +74,57 @@ class PasswordResetController extends Controller
     }
 
     /**
-     * Get the response for a successful password reset link.
+     * Reset the given user's password.
      *
-     * @param  string  $response
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function sendResetLinkResponse($response)
+    public function update(Request $request)
     {
-        return [ 'message' => trans($response) ];
-    }
-
-    /**
-     * Get the response for a failed password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        throw ValidationException::withMessages([
-            'email' => trans($response),
+        $request->validate([
+            'email' => 'required|email',
+            'password' => array_get($this->accountRules(), 'password'),
         ]);
+
+        $all = $request->all();
+        $token = $request->route('password_reset');
+
+        $response = $this->broker()->reset(array_merge(compact('token'), $all), function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->setRememberToken(Str::random(60));
+            $user->save();
+
+            event(new PasswordReset($user));
+
+            $this->guard()->login($user);
+        });
+
+        if ($response !== Password::PASSWORD_RESET) {
+            return response()->json([ 'message' => trans('accounts.' . $response) ], 422);
+        }
+
+        $request->session()->flash('message', trans('accounts.' . $response));
+
+        return [ 'redirect' => route('session.create') ];
     }
 
     /**
-     * Get the response for a successful password reset.
+     * Get the broker to be used during password reset.
      *
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
      */
-    protected function sendResetResponse($response)
+    public function broker()
     {
-        return redirect($this->redirectPath())
-            ->with('status', trans($response));
+        return Password::broker();
     }
 
     /**
-     * Get the response for a failed password reset.
+     * Get the guard to be used during password reset.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    protected function sendResetFailedResponse(Request $request, $response)
+    protected function guard()
     {
-        throw ValidationException::withMessages([
-            'email' => trans($response),
-        ]);
+        return Auth::guard();
     }
 }

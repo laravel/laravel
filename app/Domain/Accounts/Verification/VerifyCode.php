@@ -17,7 +17,7 @@ class VerifyCode extends Model
      * @var array
      */
     protected $dates = [
-        'expires_at',
+        'expired_at',
         'deleted_at',
     ];
 
@@ -28,7 +28,8 @@ class VerifyCode extends Model
      */
     protected $fillable = [
         'code',
-        'expires_at',
+        'token',
+        'expired_at',
     ];
 
     /*

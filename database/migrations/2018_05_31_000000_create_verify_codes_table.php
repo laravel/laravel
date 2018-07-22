@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,12 +16,14 @@ class CreateVerifyCodesTable extends Migration
     {
         Schema::create('verify_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code', 64)->nullable()->index();
             $table->unsignedInteger('account_id');
-            $table->foreign('account_id')->references('id')->on('accounts');
-            $table->timestamp('expires_at');
+            $table->uuid('code')->default(DB::raw('uuid()'));
+            $table->string('token');
+            $table->timestamp('expired_at')->useCurrent();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 
