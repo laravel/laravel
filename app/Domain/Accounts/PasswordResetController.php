@@ -33,10 +33,14 @@ class PasswordResetController extends Controller
      */
     public function create(Request $request)
     {
-        return view('app/accounts/forgot-password')
-            ->with('model', [
+        return view('app/accounts/forgot-password', [
+            'model' => [
+                'action' => route('password-resets.store'),
                 'email' => $request->session()->get('email'),
-            ]);
+                'login_url' => route('session.create'),
+                'register_url' => route('accounts.create'),
+            ],
+        ]);
     }
 
     /**
@@ -66,11 +70,12 @@ class PasswordResetController extends Controller
      */
     public function show(Request $request)
     {
-        return view('app/accounts/password-reset')
-            ->with('model', [
+        return view('app/accounts/password-reset', [
+            'model' => [
+                'action' => route('password-resets.update', $request->token),
                 'token' => $request->token,
-                'email' => $request->email
-            ]);
+            ],
+        ]);
     }
 
     /**

@@ -24,28 +24,35 @@ export default {
 	},
 
 	methods: {
-		onSubmit: function () {
+		onSubmit() {
 			this.$data.isSubmitting = true;
 
 			axios
 				.post(this.$props.action, this.$data.form)
 				.then(this.onSubmitSuccess)
-				.catch(this.onSubmitFailure);
+				.catch(this.onSubmitFailure)
+				.then(this.onSubmitAlways, this.onSubmitAlways);
 		},
 
-		onSubmitSuccess: function (response) {
-			window.location = _.get(response, 'data.redirect');
+		onSubmitSuccess(response) {
+			const redirect = _.get(response, 'data.redirect');
+
+			if (redirect) {
+				window.location = redirect;
+			}
 		},
 
-		onSubmitFailure: function (error) {
-			this.$data.isSubmitting = false;
-
+		onSubmitFailure(error) {
 			if (_.get(error, 'response.status') !== 422) {
 				return;
 			}
 
 			this.$data.errorMessage = _.get(error, 'response.data.message');
 			this.$data.errors = (_.get(error, 'response.data.errors') || {});
+		},
+
+		onSubmitAlways() {
+			this.$data.isSubmitting = false;
 		},
 	},
 

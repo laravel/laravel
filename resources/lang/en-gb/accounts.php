@@ -2,6 +2,8 @@
 
 return [
     'register' => [
+        'forgot_password' => 'Forgotten your password?',
+        'login' => 'Already have an account?',
         'button' => 'Register',
         'labels' => [
             'name' => 'Name',
@@ -17,6 +19,8 @@ return [
         ],
     ],
     'login' => [
+        'forgot_password' => 'Forgotten your password?',
+        'register' => 'Register for an account',
         'button' => 'Login',
         'labels' => [
             'email' => 'Email',

@@ -30,6 +30,9 @@ class AccountController extends Controller
         return view('app/accounts/register', [
             'model' => [
                 'action' => route('accounts.store'),
+                'email' => $request->session()->get('email'),
+                'login_url' => route('session.create'),
+                'forgot_password_url' => route('password-resets.create'),
             ],
         ]);
     }

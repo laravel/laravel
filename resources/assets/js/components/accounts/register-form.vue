@@ -57,6 +57,10 @@
 			<error-text :errors="errors.password_confirmation"></error-text>
 		</div>
 
+		<div>
+			<a :href="loginUrl">{{ 'accounts.register.login' | trans }}</a>
+		</div>
+
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
@@ -69,5 +73,18 @@
 
 	export default {
 		mixins: [ Form ],
+
+		props: {
+			email: String,
+
+			loginUrl: {
+				type: String,
+				required: true,
+			},
+		},
+
+		mounted() {
+			this.$set(this.$data.form, 'email', this.$props.email);
+		},
 	}
 </script>

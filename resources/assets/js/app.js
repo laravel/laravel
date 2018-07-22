@@ -21,6 +21,7 @@ Vue.filter('trans', function (...args) {
 
 Vue.component('login-form', require('./components/accounts/login-form.vue'));
 Vue.component('register-form', require('./components/accounts/register-form.vue'));
+Vue.component('forgot-password-form', require('./components/accounts/forgot-password-form.vue'));
 
 const app = new Vue({
 	el: '#app',

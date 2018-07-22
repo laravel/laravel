@@ -19,6 +19,11 @@ class SessionController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('destroy');
+
+        $this->middleware(function (Request $request, $next) {
+            $request->session()->flash('email', $request->email);
+            return $next($request);
+        })->only('store');
     }
 
     /**
@@ -32,6 +37,8 @@ class SessionController extends Controller
         return view('app/accounts/login', [
             'model' => [
                 'action' => route('session.store'),
+                'register_url' => route('accounts.create'),
+                'forgot_password_url' => route('password-resets.create'),
             ],
         ]);
     }

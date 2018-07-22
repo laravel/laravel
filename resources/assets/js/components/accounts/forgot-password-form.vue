@@ -18,24 +18,6 @@
 			<error-text :errors="errors.email"></error-text>
 		</div>
 
-		<div>
-			<label>{{ 'accounts.login.labels.password' | trans }}</label>
-
-			<input
-				type="password"
-				:disabled="isSubmitting"
-				:placeholder="'accounts.login.placeholders.password' | trans"
-				v-model="form.password"
-			/>
-
-			<error-text :errors="errors.password"></error-text>
-		</div>
-
-		<div>
-			<a :href="forgotPasswordUrl">{{ 'accounts.login.forgot_password' | trans }}</a> |
-			<a :href="registerUrl">{{ 'accounts.login.register' | trans }}</a>
-		</div>
-
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
@@ -50,15 +32,11 @@
 		mixins: [ Form ],
 
 		props: {
-			forgotPasswordUrl: {
-				type: String,
-				required: true,
-			},
+			email: String,
+		},
 
-			registerUrl: {
-				type: String,
-				required: true,
-			},
+		mounted() {
+			this.$set(this.$data.form, 'email', this.$props.email);
 		},
 	}
 </script>
