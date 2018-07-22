@@ -54,3 +54,11 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+const Lang = require('lang.js');
+
+window.trans = new Lang({
+    messages: require('./i18n'),
+    locale: 'en-gb',
+    fallback: 'en-gb',
+});

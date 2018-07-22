@@ -12,7 +12,7 @@
 	<link rel="icon" type="image/png" href="/assets/img/meta/favicon-32.png">
 	<link rel="apple-touch-icon" href="/assets/img/meta/favicon-180.png">
 
-	<link rel="stylesheet" href="{{ mix('/assets/css/app.css') }} }}">
+	<link rel="stylesheet" href="{{ mix('/assets/css/app.css') }}">
 
 	<!-- twitter card data (https://dev.twitter.com/docs/cards, https://dev.twitter.com/docs/cards/large-image-summary-card) -->
 	<meta name="twitter:card" content="summary_large_image">
