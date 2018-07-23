@@ -25,6 +25,8 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="DB_DATABASE" value="testing"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="13306"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>

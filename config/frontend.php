@@ -59,4 +59,14 @@ return [
     */
     'index_template_path' => 'app/frontend',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Route Middleware
+    |--------------------------------------------------------------------------
+    |
+    | Middlewares to run when adding frontend routes.
+    |
+    */
+    'middleware' => [ 'web' ],
+
 ];

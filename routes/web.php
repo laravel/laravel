@@ -1,16 +1,58 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+|------------------------------------------------------------------------------
+| Pages
+|------------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/')
+    ->uses('Home\HomeController')
+    ->name('home.show');
+
+/*
+|------------------------------------------------------------------------------
+| Login
+|------------------------------------------------------------------------------
+*/
+
+Route::get('/login')
+    ->uses('Accounts\SessionController@create')
+    ->name('session.create');
+
+/*
+|------------------------------------------------------------------------------
+| Accounts
+|------------------------------------------------------------------------------
+*/
+
+Route::get('/register')
+    ->uses('Accounts\AccountController@create')
+    ->name('accounts.create');
+
+/*
+|------------------------------------------------------------------------------
+| Account Verification
+|------------------------------------------------------------------------------
+*/
+
+Route::get('/account/almost-there')
+    ->uses('Accounts\Verification\VerifyCodeController@create')
+    ->name('verify-codes.create');
+
+Route::resource('/verify-codes', 'Accounts\Verification\VerifyCodeController')
+    ->only('show');
+
+/*
+|------------------------------------------------------------------------------
+| Password Resets
+|------------------------------------------------------------------------------
+*/
+
+Route::get('/forgot-password')
+    ->uses('Accounts\PasswordResetController@create')
+    ->name('password-resets.create');
+
+Route::get('/password-resets/{token}')
+    ->uses('Accounts\PasswordResetController@show')
+    ->name('password-resets.show');

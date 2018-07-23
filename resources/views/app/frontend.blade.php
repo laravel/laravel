@@ -1,7 +1,13 @@
-<h1>Templates</h1>
+@extends('layouts/app')
 
-<ul>
-	@foreach ($templates as $template)
-		<li><a href="/{{ $template }}">{{ $template }}</a></li>
-	@endforeach
-</ul>
+@section('content')
+
+	<h1>Templates</h1>
+
+	<ul>
+		@foreach ($templates as $template)
+			<li><a href="/{{ $template }}">{{ $template }}</a></li>
+		@endforeach
+	</ul>
+
+@endsection

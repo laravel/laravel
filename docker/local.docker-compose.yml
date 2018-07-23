@@ -12,8 +12,9 @@ services:
       - db
     environment:
       - "COMPOSER_ALLOW_SUPERUSER=true"
+      - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
     ports:
-      - 8080:8000
+      - 8000:8000
     command: php artisan serve --host=0.0.0.0
 
   db:
@@ -33,4 +34,4 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8081:8080
+      - 8080:8080

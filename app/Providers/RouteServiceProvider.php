@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'App\Domain';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapAjaxRoutes();
 
         $this->mapWebRoutes();
 
@@ -57,17 +57,14 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
+     * Define the "ajax" routes for the application.
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapAjaxRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
+        Route::middleware('ajax')
              ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->group(base_path('routes/ajax.php'));
     }
 }

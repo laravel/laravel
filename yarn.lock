@@ -950,10 +950,6 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap@^4.0.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
-
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -3953,10 +3949,6 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-jquery@^3.2:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-
 js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.5.tgz#e293cd3c7c82f070d700fc7a1ca0a2e69f101f92"
@@ -4078,6 +4070,17 @@ kind-of@^5.0.0:
 kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
+
+lang.js@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/lang.js/-/lang.js-1.1.12.tgz#8717c4b2e110129a99327d6a53575280d4ca4b6b"
+
+laravel-localization-loader@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/laravel-localization-loader/-/laravel-localization-loader-1.0.5.tgz#aef66e121ec0f92831ab6de3d7fb382f9c9b0593"
+  dependencies:
+    json-loader "^0.5.4"
+    php-array-loader "^1.0.0"
 
 laravel-mix@^2.0:
   version "2.1.11"
@@ -5235,6 +5238,22 @@ pend@~1.2.0:
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+
+php-array-loader@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/php-array-loader/-/php-array-loader-1.0.1.tgz#78173cc8aadbda57b8491f5dffe144afb9eadd71"
+  dependencies:
+    php-array-parser "^1.0.0"
+
+php-array-parser@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/php-array-parser/-/php-array-parser-1.0.1.tgz#9da12683c3bebbe228a7e238c716435437631eaa"
+  dependencies:
+    php-parser "^2.0.3"
+
+php-parser@^2.0.3:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-2.2.0.tgz#67384f0a5933dbbef40beab0ab31d0b8c582ff88"
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
