@@ -2,7 +2,7 @@
 	'model' => [
 		'action' => route('frontend.echo', [
 			'json' => [
-				'redirect' => route('page/home'),
+				'redirect' => route('home.show'),
 			],
 		]),
 	],

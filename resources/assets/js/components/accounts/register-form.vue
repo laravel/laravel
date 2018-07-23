@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="onSubmit" novalidate>
+	<form name="register" @submit.prevent="onSubmit" novalidate>
 		<div
 			v-if="errorMessage"
 			v-text="errorMessage"
@@ -10,6 +10,7 @@
 
 			<input
 				type="text"
+				name="name"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.name' | trans"
 				v-model="form.name"
@@ -23,6 +24,7 @@
 
 			<input
 				type="email"
+				name="email"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.email' | trans"
 				v-model="form.email"
@@ -36,6 +38,7 @@
 
 			<input
 				type="password"
+				name="password"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.password' | trans"
 				v-model="form.password"
@@ -49,6 +52,7 @@
 
 			<input
 				type="password"
+				name="password_confirmation"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.password_confirmation' | trans"
 				v-model="form.password_confirmation"
@@ -83,8 +87,12 @@
 			},
 		},
 
-		mounted() {
-			this.$set(this.$data.form, 'email', this.$props.email);
+		data() {
+			return {
+				form: {
+					email: this.$props.email,
+				},
+			};
 		},
 	}
 </script>

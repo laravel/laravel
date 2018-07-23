@@ -4,7 +4,7 @@ namespace App\Domain\Home;
 
 use App\Http\Controllers\Controller;
 
-class HomePageController extends Controller
+class HomeController extends Controller
 {
     /**
      * Loads the Home Page.
@@ -13,6 +13,6 @@ class HomePageController extends Controller
      */
     public function __invoke()
     {
-        return view('app/pages/home');
+        return view('app/home/home');
     }
 }

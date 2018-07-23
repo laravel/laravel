@@ -5,7 +5,7 @@
 	<register-form
 		action="{{ $model['action'] }}"
 		email="{{ $model['email'] or '' }}"
-		forgot-password-url="{{ $model['forgot_password_url'] }}"
+		login-url="{{ $model['login_url'] }}"
 	></register-form>
 
 @endsection

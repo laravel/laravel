@@ -34,7 +34,7 @@ class PasswordResetControllerTest extends TestCase
         $response = $this->get(route('password-resets.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_store_GivenNoEmail_ReturnsValidationErrors()

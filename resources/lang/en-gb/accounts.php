@@ -2,7 +2,6 @@
 
 return [
     'register' => [
-        'forgot_password' => 'Forgotten your password?',
         'login' => 'Already have an account?',
         'button' => 'Register',
         'labels' => [
@@ -31,11 +30,35 @@ return [
             'password' => 'Password',
         ],
     ],
+    'forgot_password' => [
+        'register' => 'Register for an account',
+        'login' => 'Login to your account',
+        'button' => 'Send password reset email',
+        'labels' => [
+            'email' => 'Email',
+        ],
+        'placeholders' => [
+            'email' => 'Email',
+        ],
+    ],
+    'password_reset' => [
+        'button' => 'Reset password',
+        'labels' => [
+            'email' => 'Email',
+            'password' => 'Password',
+            'password_confirmation' => 'Password confirmation',
+        ],
+        'placeholders' => [
+            'email' => 'Email',
+            'password' => 'Password',
+            'password_confirmation' => 'Password confirmation',
+        ],
+    ],
     'passwords' => [
         'password' => 'Passwords must be at least 8 characters and match the confirmation.',
         'reset' => 'Your password has been reset!',
-        'sent' => 'If your email address exists in our database, you will receive a reset link at your email address in a few minutes.',
         'token' => 'This password reset token is invalid.',
+        'sent' => 'If your email address exists in our database, you will receive a reset link at your email address in a few minutes.',
         'user' => 'If your email address exists in our database, you will receive a reset link at your email address in a few minutes.',
         'email' => [
             'subject' => 'Reset Password Notification',

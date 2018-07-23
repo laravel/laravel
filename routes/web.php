@@ -7,8 +7,8 @@
 */
 
 Route::get('/')
-    ->uses('Home\HomePageController')
-    ->name('page/home');
+    ->uses('Home\HomeController')
+    ->name('home.show');
 
 /*
 |------------------------------------------------------------------------------

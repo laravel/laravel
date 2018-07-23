@@ -79,6 +79,6 @@ class SessionController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return [ 'redirect' => $request->session()->pull('url.intended', route('page/home')) ];
+        return [ 'redirect' => $request->session()->pull('url.intended', route('home.show')) ];
     }
 }

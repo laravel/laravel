@@ -1,27 +1,33 @@
 <template>
-	<form @submit.prevent="onSubmit" novalidate>
+	<form name="forgot-password" @submit.prevent="onSubmit" novalidate>
 		<div
 			v-if="errorMessage"
 			v-text="errorMessage"
 		></div>
 
 		<div>
-			<label>{{ 'accounts.login.labels.email' | trans }}</label>
+			<label>{{ 'accounts.forgot_password.labels.email' | trans }}</label>
 
 			<input
 				type="email"
+				name="email"
 				:disabled="isSubmitting"
-				:placeholder="'accounts.login.placeholders.email' | trans"
+				:placeholder="'accounts.forgot_password.placeholders.email' | trans"
 				v-model="form.email"
 			/>
 
 			<error-text :errors="errors.email"></error-text>
 		</div>
 
+		<div>
+			<a :href="loginUrl">{{ 'accounts.forgot_password.login' | trans }}</a> |
+			<a :href="registerUrl">{{ 'accounts.forgot_password.register' | trans }}</a>
+		</div>
+
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
-		>{{ 'accounts.login.button' | trans }}</button>
+		>{{ 'accounts.forgot_password.button' | trans }}</button>
 	</form>
 </template>
 
@@ -33,10 +39,24 @@
 
 		props: {
 			email: String,
+
+			loginUrl: {
+				type: String,
+				required: true,
+			},
+
+			registerUrl: {
+				type: String,
+				required: true,
+			},
 		},
 
-		mounted() {
-			this.$set(this.$data.form, 'email', this.$props.email);
+		data() {
+			return {
+				form: {
+					email: this.$props.email,
+				},
+			};
 		},
 	}
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="onSubmit" novalidate>
+	<form name="login" @submit.prevent="onSubmit" novalidate>
 		<div
 			v-if="errorMessage"
 			v-text="errorMessage"
@@ -10,6 +10,7 @@
 
 			<input
 				type="email"
+				name="email"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.login.placeholders.email' | trans"
 				v-model="form.email"
@@ -23,6 +24,7 @@
 
 			<input
 				type="password"
+				name="password"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.login.placeholders.password' | trans"
 				v-model="form.password"

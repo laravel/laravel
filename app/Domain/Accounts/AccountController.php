@@ -4,6 +4,7 @@ namespace App\Domain\Accounts;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 use App\Domain\Accounts\Customer;
 use App\Http\Controllers\Controller;
@@ -23,16 +24,16 @@ class AccountController extends Controller
     /**
      * Show the application registration form.
      *
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         return view('app/accounts/register', [
             'model' => [
                 'action' => route('accounts.store'),
                 'email' => $request->session()->get('email'),
                 'login_url' => route('session.create'),
-                'forgot_password_url' => route('password-resets.create'),
             ],
         ]);
     }

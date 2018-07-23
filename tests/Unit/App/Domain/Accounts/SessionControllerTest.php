@@ -32,7 +32,7 @@ class SessionControllerTest extends TestCase
         $response = $this->get(route('session.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_create_GivenLoggedIn_RedirectsToHome()
@@ -44,7 +44,7 @@ class SessionControllerTest extends TestCase
         $response = $this->get(route('session.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_store_GivenNoValues_ReturnsUnprocessableEntity()
@@ -77,7 +77,7 @@ class SessionControllerTest extends TestCase
         ]);
 
         // Then
-        $response->assertJson([ 'redirect' => route('page/home') ]);
+        $response->assertJson([ 'redirect' => route('home.show') ]);
     }
 
     public function test_store_Authenticates()

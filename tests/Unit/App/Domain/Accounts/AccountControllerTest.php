@@ -34,7 +34,7 @@ class AccountControllerTest extends TestCase
         $response = $this->get(route('accounts.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_create_GivenLoggedIn_RedirectsToHome()
@@ -46,7 +46,7 @@ class AccountControllerTest extends TestCase
         $response = $this->get(route('accounts.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_store_GivenNoValues_ReturnsUnprocessableEntity()

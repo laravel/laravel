@@ -25,7 +25,7 @@ class VerifyCodeControllerTest extends TestCase
         $response = $this->get(route('verify-codes.create'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_create_GivenGuest_ShowsForm()
@@ -96,7 +96,7 @@ class VerifyCodeControllerTest extends TestCase
         $response = $this->get(route('verify-codes.show', 'invalid'));
 
         // Then
-        $response->assertRedirect(route('page/home'));
+        $response->assertRedirect(route('home.show'));
     }
 
     public function test_show_GivenInvalidCode_RedirectsToLoginAndShowsFlash()
