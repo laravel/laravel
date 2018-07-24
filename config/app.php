@@ -43,6 +43,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | IDE/Editor used for development
+    |--------------------------------------------------------------------------
+    |
+    | If set, you will be able to open files directly in IDE in case of
+    | exceptions.
+    |
+    | Available editors: "sublime", "textmate", "emacs", "macvim", "phpstorm",
+    | "idea", "vscode", "atom"
+    |
+    */
+    'editor' => env('APP_EDITOR', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
