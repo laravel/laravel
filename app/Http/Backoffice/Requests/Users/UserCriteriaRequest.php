@@ -3,8 +3,8 @@
 namespace App\Http\Backoffice\Requests\Users;
 
 use App\Http\Backoffice\Requests\BackofficeCriteriaRequest;
-use Fiter\Repositories\Criteria\Users\UserFilter;
-use Fiter\Repositories\Criteria\Users\UserSorting;
+use ProjectName\Repositories\Criteria\Users\UserFilter;
+use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserCriteriaRequest extends BackofficeCriteriaRequest
 {

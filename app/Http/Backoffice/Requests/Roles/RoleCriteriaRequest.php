@@ -3,8 +3,8 @@
 namespace App\Http\Backoffice\Requests\Roles;
 
 use App\Http\Backoffice\Requests\BackofficeCriteriaRequest;
-use Fiter\Repositories\Criteria\Roles\RoleFilter;
-use Fiter\Repositories\Criteria\Roles\RoleSorting;
+use ProjectName\Repositories\Criteria\Roles\RoleFilter;
+use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleCriteriaRequest extends BackofficeCriteriaRequest
 {
