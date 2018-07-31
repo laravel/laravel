@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Purpose:
+#
+# Used to setup the project for the very first time when checked out.
+
+set -e
+[ -z "${DEBUG}" ] || set -x
+
+cd "$(dirname "$0")/.."
+
+echo "--> copying .env.example file"
+
+cp .env.example .env
+
+echo "--> scripts/setup: Running setup"
+
+scripts/setup
+
+echo "--> generating Laravel encryption key"
+
+docker-compose exec app php artisan key:generate
