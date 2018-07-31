@@ -1,17 +1,7 @@
 const mix = require('laravel-mix');
 
-// webpack.mix.js
-mix.webpackConfig({
-	module: {
-		rules: [
-			{
-				// Matches all PHP or JSON files in `resources/lang` directory.
-				test: /resources\/lang.+\.php$/,
-				loader: 'laravel-localization-loader',
-			}
-		]
-	}
-});
+// Load the multi-lingual support
+mix.extend('i18n', new (require('./build/laravel-mix-i18n'))());
 
 mix
 	.js('resources/assets/js/app.js', 'public/assets/js')
