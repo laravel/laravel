@@ -1,8 +1,8 @@
 <template>
 	<form name="register" @submit.prevent="onSubmit" novalidate>
 		<div
-			v-if="errorMessage"
-			v-text="errorMessage"
+			v-if="message"
+			v-text="message"
 		></div>
 
 		<div>

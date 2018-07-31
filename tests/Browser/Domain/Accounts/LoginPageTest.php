@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Domain\Accounts;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -10,6 +10,8 @@ use App\Domain\Accounts\Account;
 
 class LoginPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     public function test_RequiredFields()
     {
         $this->browse(function (Browser $browser) {

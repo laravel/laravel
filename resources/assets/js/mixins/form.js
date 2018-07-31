@@ -10,10 +10,11 @@ export default {
 
 	data() {
 		return {
-			errorMessage: null,
+			message: null,
 			errors: {},
 			form: {},
 			isSubmitting: false,
+			isError: false,
 		};
 	},
 
@@ -39,10 +40,15 @@ export default {
 
 			if (redirect) {
 				window.location = redirect;
+			} else {
+				this.$data.isError = false;
+				this.$data.form = {};
 			}
 		},
 
 		onSubmitFailure(error) {
+			this.$data.isError = true;
+
 			if (_.get(error, 'response.status') !== 422) {
 				return;
 			}

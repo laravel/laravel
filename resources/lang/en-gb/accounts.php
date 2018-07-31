@@ -54,6 +54,17 @@ return [
             'password_confirmation' => 'Password confirmation',
         ],
     ],
+    'resend_verify_codes' => [
+        'login' => 'Already verified your account?',
+        'forgot_password' => 'Forgotten your password?',
+        'button' => 'Resend',
+        'labels' => [
+            'email' => 'Email',
+        ],
+        'placeholders' => [
+            'email' => 'Email',
+        ],
+    ],
     'passwords' => [
         'password' => 'Passwords must be at least 8 characters and match the confirmation.',
         'reset' => 'Your password has been reset!',

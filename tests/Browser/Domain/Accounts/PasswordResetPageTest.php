@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Domain\Accounts;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -12,6 +12,8 @@ use App\Domain\Accounts\Account;
 
 class PasswordResetPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     public function test_ResetsPassword()
     {
         $this->browse(function (Browser $browser) {
@@ -29,13 +31,12 @@ class PasswordResetPageTest extends DuskTestCase
                 ->type('password', $password = 'different')
                 ->type('password_confirmation', 'different')
                 ->press('@submit')
-                ->pause(5000);
-
-            $browser
+                ->waitForReload()
                 ->visit(new Pages\Login)
                 ->type('email', $account->email)
                 ->type('password', $password)
                 ->press('@submit')
+                ->waitForReload()
                 ->assertAuthenticatedAs($account);
         });
     }

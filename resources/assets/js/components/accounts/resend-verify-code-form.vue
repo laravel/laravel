@@ -1,18 +1,19 @@
 <template>
-	<form name="forgot-password" @submit.prevent="onSubmit" novalidate>
+	<form name="resend-verify-code" @submit.prevent="onSubmit" novalidate>
 		<div
+			name=""
 			v-if="message"
 			v-text="message"
 		></div>
 
 		<div>
-			<label>{{ 'accounts.forgot_password.labels.email' | trans }}</label>
+			<label>{{ 'accounts.resend_verify_code.labels.email' | trans }}</label>
 
 			<input
 				type="email"
 				name="email"
 				:disabled="isSubmitting"
-				:placeholder="'accounts.forgot_password.placeholders.email' | trans"
+				:placeholder="'accounts.resend_verify_code.placeholders.email' | trans"
 				v-model="form.email"
 			/>
 
@@ -20,14 +21,14 @@
 		</div>
 
 		<div>
-			<a :href="loginUrl">{{ 'accounts.forgot_password.login' | trans }}</a> |
-			<a :href="registerUrl">{{ 'accounts.forgot_password.register' | trans }}</a>
+			<a :href="loginUrl">{{ 'accounts.resend_verify_code.login' | trans }}</a> |
+			<a :href="forgotPasswordUrl">{{ 'accounts.resend_verify_code.forgot_password' | trans }}</a>
 		</div>
 
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
-		>{{ 'accounts.forgot_password.button' | trans }}</button>
+		>{{ 'accounts.resend_verify_code.button' | trans }}</button>
 	</form>
 </template>
 
@@ -45,7 +46,7 @@
 				required: true,
 			},
 
-			registerUrl: {
+			forgotPasswordUrl: {
 				type: String,
 				required: true,
 			},
@@ -58,5 +59,8 @@
 				},
 			};
 		},
+
+		methods: {
+		}
 	}
 </script>
