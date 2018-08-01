@@ -2,11 +2,13 @@
 
 namespace Tests\Browser\Domain\Accounts;
 
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+use Tests\DuskTestCase;
+use Tests\Browser\Pages;
 
 use App\Domain\Accounts\Account;
 

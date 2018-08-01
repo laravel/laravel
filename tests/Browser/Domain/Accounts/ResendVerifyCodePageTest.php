@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use Tests\DuskTestCase;
-use Test\Browser\Pages;
+use Tests\Browser\Pages;
 
 use App\Domain\Accounts\Account;
 
@@ -18,7 +18,7 @@ class ResendVerifyCodePageTest extends DuskTestCase
     public function test_SendsVerifyCode()
     {
         $this->browse(function (Browser $browser) {
-            $account = factory(Account::create)->create();
+            $account = factory(Account::class)->create();
 
             $browser
                 ->visit(new Pages\ResendVerifyCode)
