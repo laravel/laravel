@@ -1,0 +1,63 @@
+/*---
+
+A div that's hidden on mobile, and appears at tablet
+
+```
+<div class="hidden visible--tablet sg-panel"><code>hidden--tablet visible--desktop</code></div>
+```
+
+A div that's visible on mobile, hidden at tablet, and visible again at desktop
+
+```
+<div class="hidden--tablet visible--desktop sg-panel"><code>hidden--tablet visible--desktop</code></div>
+```
+
+Visible classes can also be inline and inline-block. Just use classes such as `visible--tablet-inline-block`.
+
+*/
+
+.hidden {
+	@include hidden;
+}
+
+.visible {
+	@include visible;
+
+	&--inline {
+		@include visible(inline);
+	}
+
+	&--inline-block {
+		@include visible(inline-block);
+	}
+
+	&--td {
+		@include visible(table-cell);
+	}
+}
+
+@each $name, $min-width in $breakpoints {
+
+	@include mq($name) {
+		.hidden--#{$name} {
+			@include hidden;
+		}
+
+		.visible--#{$name} {
+			@include visible;
+		}
+
+		.visible--#{$name}-inline {
+			@include visible(inline);
+		}
+
+		.visible--#{$name}-inline-block {
+			@include visible(inline-block);
+		}
+
+		.visible--#{$name}-td {
+			@include visible(table-cell);
+		}
+	}
+
+}

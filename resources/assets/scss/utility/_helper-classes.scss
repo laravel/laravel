@@ -1,0 +1,105 @@
+.is-hidden {
+	@include hidden;
+}
+
+.vh {
+	@include vh;
+}
+
+.cf {
+	@include cf;
+}
+
+
+/*
+
+	Spacing
+
+*/
+
+.push-top {
+	margin-top: $spacing-unit--small;
+
+	@include mq(tablet) {
+		margin-top: $spacing-unit;
+	}
+
+	&--small {
+		margin-top: $spacing-unit--x-small;
+
+		@include mq(tablet) {
+			margin-top: $spacing-unit--small;
+		}
+	}
+
+	&--medium {
+		margin-top: $spacing-unit;
+
+		@include mq(tablet) {
+			margin-top: $spacing-unit--medium;
+		}
+	}
+
+	&--large {
+		margin-top: $spacing-unit--medium;
+
+		@include mq(tablet) {
+			margin-top: $spacing-unit--large;
+		}
+	}
+}
+
+/*
+
+	Typography
+
+*/
+
+// Font weights
+.font-weight {
+	&--normal {
+		font-weight: $w--normal;
+	}
+
+	&--bold {
+		font-weight: $w--bold;
+	}
+}
+
+// Font styles
+.font-style {
+	&--italic {
+		font-style: italic;
+	}
+}
+
+// Text alignment
+.text-align {
+	&--left {
+		text-align: left;
+	}
+
+	&--center {
+		text-align: center;
+	}
+
+	&--right {
+		text-align: right;
+	}
+
+	@each $name, $min-width in $breakpoints {
+		@include mq($name) {
+			&--#{$name}-left {
+				text-align: left;
+			}
+
+			&--#{$name}-center {
+				text-align: center;
+			}
+
+			&--#{$name}-right {
+				text-align: right;
+			}
+		}
+	}
+}

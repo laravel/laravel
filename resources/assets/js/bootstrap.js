@@ -1,4 +1,5 @@
 window._ = require('lodash');
+require('what-input');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

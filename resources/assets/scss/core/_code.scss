@@ -1,0 +1,20 @@
+code,
+pre {
+	background-color: $c--grey-x-light;
+	color: $c--grey-dark;
+	font-family: 'PT Mono', monospace;
+	font-size: $p;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+code {
+	padding: $spacing-unit--x-small;
+}
+
+pre {
+	padding: $spacing-unit--small;
+}

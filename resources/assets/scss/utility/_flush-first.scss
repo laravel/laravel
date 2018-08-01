@@ -1,0 +1,113 @@
+/*---
+
+Since we employ a top-left margin in most instances, the flush-first utility is a simple way of removing the `margin-top` property from the first N children at certain breakpoints.
+
+```
+<div class="example-grid">
+	<h2 class="h5">Flush first 2 (desktop)</h2>
+
+	<div class="sg-flush-test flush-first--desktop-2">
+		<div><span>Child 1</span></div>
+
+		<div><span>Child 2</span></div>
+
+		<div><span>Child 3</span></div>
+
+		<div><span>Child 4</span></div>
+	</div>
+
+	<h2 class="h5">Flush first 2 (phone), then 3 (tablet)</h2>
+
+	<div class="sg-flush-test flush-first--phone-2 flush-first--tablet-3">
+		<div><span>Child 1</span></div>
+
+		<div><span>Child 2</span></div>
+
+		<div><span>Child 3</span></div>
+
+		<div><span>Child 4</span></div>
+	</div>
+</div>
+```
+
+*/
+
+/*
+
+	Flush - to set "margin-top: 0" from the first nth elements
+
+	Example class:
+
+	<div class="flush-first--2">
+		<div>Child 1</div>
+
+		<div>Child 2</div>
+
+		<div>Child 3</div>
+
+		<div>Child 4</div>
+	</div>
+
+	Would target, at no media query, first 2 children ( div:nth-child(-n+2) )
+
+	Example class:
+
+	<div class="flush-first--2 flush-first--tablet-3">
+		<div>Child 1</div>
+
+		<div>Child 2</div>
+
+		<div>Child 3</div>
+
+		<div>Child 4</div>
+	</div>
+
+	Would target, at no media query, first 2 children ( div:nth-child(-n+2) )
+	And would target, at tablet media query, first 3 children ( div:nth-child(-n+2) )
+
+*/
+
+@mixin flush-first-item($modifierClass, $i) {
+	.flush-first--#{$modifierClass}#{$i} {
+		> * {
+			&:nth-child(-n+#{$i}) {
+				margin-top: 0;
+			}
+		}
+	}
+}
+
+@mixin flush-first($modifier: '') {
+
+	$modifierClass: '';
+
+	@if $modifier != '' {
+		$modifierClass: '#{$modifier}-';
+	}
+	@else {
+		$modifier: 'base';
+	}
+
+	@for $i from 1 through $grid-column-count {
+
+		@if $dev-mode {
+			@include flush-first-item($modifierClass, $i);
+		} @else if index( map-deep-get($grid-bp, $modifier, flush) , $i) or map-deep-get($grid-bp, $modifier, flush) == true {
+			@include flush-first-item($modifierClass, $i);
+		}
+
+	}
+
+}
+
+@include flush-first;
+
+@each $name, $min-width in $breakpoints {
+
+	@include mq($name) {
+
+		@include flush-first(#{$name});
+
+	}
+
+}

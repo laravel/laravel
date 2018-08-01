@@ -1,0 +1,52 @@
+/*---
+
+## Toggle
+
+```
+<details class="reveal">
+	<summary class="reveal__label">Click to toggle</summary>
+
+	<div class="reveal__wrapper">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+	</div>
+</details>
+```
+
+## Show
+
+```
+<details class="reveal reveal--once">
+	<summary class="reveal__label">Click to show</summary>
+
+	<div class="reveal__wrapper">
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
+	</div>
+</details>
+```
+
+*/
+
+.reveal {
+	$block: &;
+
+	&__label {
+		@include unselectable;
+		outline: none;
+
+		&::before {
+			display: none;
+		}
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+	}
+
+	&__wrapper {}
+
+	&--once {
+		&[open] #{$block}__label {
+			@include hidden;
+		}
+	}
+}

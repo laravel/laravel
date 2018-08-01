@@ -1,0 +1,60 @@
+@import '../variables';
+@import 'normalize.css/normalize';
+@import '../utility/functions';
+@import '../utility/mixins';
+@import '../utility/fonts';
+@import '../core/document';
+@import '../core/anchor';
+@import '../core/img';
+
+$spacing-unit: 30px;
+$spacing-unit--small: 20px;
+
+body {
+	font: #{16px}/#{24px} $stack;
+}
+
+.error-message {
+	@include push--auto;
+	max-width: 460px;
+	padding: $spacing-unit;
+	text-align: center;
+
+	.logo {
+		@include push--auto;
+		display: block;
+		width: 200px;
+
+		img {
+			border: none;
+			width: 100%;
+		}
+	}
+
+	h1,
+	p {
+		margin: 0;
+		padding: 0;
+	}
+
+	h1 {
+		margin-top: $spacing-unit--small;
+		font-size: 24px;
+
+		@include mq(tablet-small) {
+			margin-top: $spacing-unit;
+			font-size: 32px;
+		}
+	}
+
+	p {
+		margin-top: $spacing-unit--small;
+	}
+
+	@include mq(tablet-small) {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+}
