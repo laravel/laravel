@@ -1,8 +1,6 @@
-module.exports = class I18n {
-    constructor() {
-        this.passive = true;
-    }
+const AutomaticComponent = require('laravel-mix/src/components/AutomaticComponent');
 
+module.exports = class I18n extends AutomaticComponent {
     /**
      * Rules to be merged with the master webpack loaders.
      *

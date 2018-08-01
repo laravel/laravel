@@ -21,7 +21,8 @@
         "rule": {
           "match": "</body>"
         }
-      }
+      },
+      "ui": false
     },
     "css": {
       "files": [
