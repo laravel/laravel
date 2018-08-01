@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Purpose:
+#
+# Runs the frontend build tasks
+
+set -e
+[ -z "${DEBUG}" ] || set -x
+
+cd "$(dirname "$0")/.."
+
+docker-compose exec app yarn run watch

@@ -1,0 +1,115 @@
+/*---
+
+Clickable buttons:
+
+```
+<div class="button-wrapper">
+	<button class="button">Button</button>
+</div>
+
+<div class="button-wrapper">
+	<a href="#0" class="button">Button (link)</a>
+</div>
+```
+
+Alternate styles using `secondary`, `positive` and `negative` modifiers:
+
+```
+<div class="button-wrapper">
+	<button class="button button--secondary">Button: Secondary</button>
+</div>
+
+<div class="button-wrapper">
+	<button class="button button--positive">Button: Positive</button>
+</div>
+
+<div class="button-wrapper">
+	<button class="button button--negative">Button: Negative</button>
+</div>
+```
+
+And sized using `large` and `small`:
+
+```
+<div class="button-wrapper">
+	<button class="button button--large">Button: Large</button>
+</div>
+
+<div class="button-wrapper">
+	<button class="button button--small">Button: Small</button>
+</div>
+```
+
+Other states:
+
+```
+<div class="button-wrapper">
+	<button class="button" disabled>Button: Disabled</button>
+</div>
+
+<div class="button-wrapper">
+	<button>Unstyled button</button>
+</div>
+```
+
+*/
+
+// basic buttons
+
+.button {
+	position: relative;
+	padding: rem(17px);
+	background-color: $c--brand-primary;
+	color: $c--white;
+	font-family: $stack;
+	font-size: $p;
+	font-weight: $w--normal;
+	text-decoration: none;
+	-webkit-tap-highlight-color: rgba($c--white, 0);
+
+	&:focus {
+		[data-whatinput='keyboard'] & {
+			box-shadow: 0px 0px 3px $c--blue, 0px 0px 6px $c--blue, 0px 0px 9px $c--blue;
+		}
+	}
+
+	&:active {
+		top: 4px;
+	}
+
+	&[disabled] {
+		&,
+		&:focus {
+			background-color: $c--grey-light;
+			color: mix($c--grey-light, $c--black, 60%);
+		}
+	}
+
+	// colours
+	&--secondary {
+		background-color: $c--black;
+	}
+
+	&--positive {
+		background-color: $c--positive;
+	}
+
+	&--negative {
+		background-color: $c--negative;
+	}
+
+	// sizes
+	&--large {
+		padding: rem(22px) rem(30px);
+
+		@include mq(tablet) {
+			padding: rem(25px) rem(40px);
+			font-size: $p--medium;
+		}
+	}
+
+	&--small {
+		padding: rem(12px);
+		font-size: $p--small;
+	}
+}

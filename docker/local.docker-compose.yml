@@ -8,6 +8,7 @@ services:
     restart: always
     volumes:
       - ../:/var/www
+      - ./local.app.php.ini:/usr/local/etc/php/php.ini
     depends_on:
       - db
     environment:
@@ -15,6 +16,7 @@ services:
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
     ports:
       - 8000:8000
+      - 5757:5757
     command: php artisan serve --host=0.0.0.0
 
   db:
@@ -26,9 +28,9 @@ services:
       - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
       - "MYSQL_ROOT_PASSWORD="
       - "MYSQL_USER=root"
-      - "MYSQL_PASSWORD="
+      - "MYSQL_PASSWORD=root"
     ports:
-      - "13306:3306"
+      - 13306:3306
 
   adminer:
     image: adminer

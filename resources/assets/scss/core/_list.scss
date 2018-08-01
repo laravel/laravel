@@ -1,0 +1,54 @@
+/*---
+
+Unstyled list (default)
+
+```
+<ul>
+	<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus enim, fugiat a consectetur odit, nam ab, deserunt veniam autem quas animi laudantium! Dolorum animi quos dolorem nesciunt eius, velit obcaecati?</li>
+	<li>Nemo consequuntur ad earum sequi, mollitia quas impedit, possimus blanditiis aspernatur alias eius eligendi, suscipit quos itaque voluptatem. Cum ullam cupiditate id beatae neque vel maxime architecto aspernatur, corrupti odio.</li>
+	<li>Qui repellat omnis, tempore reiciendis. Distinctio, veritatis, atque? Dignissimos aut deleniti, maiores eum dolorum rerum, cum repudiandae sequi alias odio quaerat saepe deserunt nobis incidunt iure aliquid vero esse omnis.</li>
+</ul>
+```
+
+Unordered list
+
+```
+<ul class="ul">
+	<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus enim, fugiat a consectetur odit, nam ab, deserunt veniam autem quas animi laudantium! Dolorum animi quos dolorem nesciunt eius, velit obcaecati?</li>
+	<li>Nemo consequuntur ad earum sequi, mollitia quas impedit, possimus blanditiis aspernatur alias eius eligendi, suscipit quos itaque voluptatem. Cum ullam cupiditate id beatae neque vel maxime architecto aspernatur, corrupti odio.</li>
+	<li>Qui repellat omnis, tempore reiciendis. Distinctio, veritatis, atque? Dignissimos aut deleniti, maiores eum dolorum rerum, cum repudiandae sequi alias odio quaerat saepe deserunt nobis incidunt iure aliquid vero esse omnis.</li>
+</ul>
+```
+
+Ordered list
+
+```
+<ol class="ol">
+	<li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus enim, fugiat a consectetur odit, nam ab, deserunt veniam autem quas animi laudantium! Dolorum animi quos dolorem nesciunt eius, velit obcaecati?</li>
+	<li>Nemo consequuntur ad earum sequi, mollitia quas impedit, possimus blanditiis aspernatur alias eius eligendi, suscipit quos itaque voluptatem. Cum ullam cupiditate id beatae neque vel maxime architecto aspernatur, corrupti odio.</li>
+	<li>Qui repellat omnis, tempore reiciendis. Distinctio, veritatis, atque? Dignissimos aut deleniti, maiores eum dolorum rerum, cum repudiandae sequi alias odio quaerat saepe deserunt nobis incidunt iure aliquid vero esse omnis.</li>
+</ol>
+```
+
+*/
+
+.ol,
+.ul {
+	@include push--sides($spacing-unit);
+
+	> li {
+		margin-top: $rel-spacing-unit--small;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+.ol {
+	list-style-type: decimal;
+}
+
+.ul {
+	list-style-type: disc;
+}

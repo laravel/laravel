@@ -1,0 +1,15 @@
+{
+  "rems-on": true,
+  "em-media-queries": true,
+  "browser-default-font-size": 16,
+  "breakpoints": {
+    "phone": 375,
+    "phone-wide": 480,
+    "phablet": 560,
+    "tablet-small": 640,
+    "tablet": 768,
+    "tablet-wide": 1024,
+    "desktop": 1248,
+    "desktop-wide": 1440
+  }
+}

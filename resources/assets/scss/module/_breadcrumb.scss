@@ -1,0 +1,58 @@
+/*---
+
+```
+<div class="breadcrumb">
+	<a class="breadcrumb__item breadcrumb__item--link" href="#0">Home</a>
+
+	<svg class="breadcrumb__icon icon">
+		<use xlink:href="/assets/img/sprite.svg#chevron-thin-right"></use>
+	</svg>
+
+	<a class="breadcrumb__item breadcrumb__item--link" href="#0">Foo</a>
+
+	<svg class="breadcrumb__icon icon">
+		<use xlink:href="/assets/img/sprite.svg#chevron-thin-right"></use>
+	</svg>
+
+	<span class="breadcrumb__item">Bar</span>
+</div>
+```
+
+*/
+
+.breadcrumb {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	font-size: $p--small;
+	line-height: $lh;
+
+	&__item,
+	&__icon {
+		margin-right: $spacing-unit--x-small;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	&__item {
+		color: $c--grey;
+		font-weight: $w--normal;
+
+		&--link {
+			color: $c--grey;
+			font-weight: $w--bold;
+
+			&:hover {
+				color: $c--blue;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__icon {
+		color: $c--grey;
+		font-size: $p--small;
+	}
+}

@@ -1,0 +1,130 @@
+/*---
+
+Apply equal width to child elements.
+
+```
+<div class="sg-example-grid">
+	<div class="block-grid block-grid--4 block-grid--tablet-5 block-grid--tablet-wide-6 block-grid--desktop-7 block-grid--desktop-8">
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+	</div>
+</div>
+```
+
+Centred children
+
+```
+<div class="sg-example-grid">
+	<div class="block-grid block-grid--centred block-grid--4 block-grid--tablet-5 block-grid--tablet-wide-6 block-grid--desktop-7 block-grid--desktop-8">
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+
+		<div class="sg-panel"><span>Item</span></div>
+	</div>
+</div>
+```
+
+*/
+
+@mixin block-grid {
+	display: flex;
+	flex-wrap: wrap;
+
+	> * {
+		flex-shrink: 0;
+		width: 100%;
+	}
+
+	&--centred {
+		justify-content: center;
+	}
+}
+
+@mixin block-grid-item($modifierClass, $i) {
+	.block-grid--#{$modifierClass}#{$i} {
+		> * {
+			width: 100% / $i;
+		}
+	}
+}
+
+@mixin block-grid-items($modifier: '') {
+	$modifierClass: '';
+
+	@if $modifier != '' {
+		$modifierClass: '#{$modifier}-';
+	}
+	@else {
+		$modifier: 'base';
+	}
+
+	@for $i from 1 through $grid-column-count {
+
+		@if $dev-mode {
+
+			@include block-grid-item($modifierClass, $i);
+
+		} @else if index( map-deep-get($grid-bp, $modifier, block) , $i) or map-deep-get($grid-bp, $modifier, block) == true {
+
+			@include block-grid-item($modifierClass, $i);
+
+		}
+
+	}
+}
+
+.block-grid {
+	@include block-grid;
+}
+
+@include block-grid-items;
+
+@each $name, $min-width in $breakpoints {
+
+	@include mq($name) {
+
+		@include block-grid-items(#{$name});
+
+	}
+
+}

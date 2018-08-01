@@ -1,0 +1,28 @@
+.outdated-browser-wrapper {
+	margin-top: 88px;
+}
+
+.outdated-browser {
+	@include antialias;
+	z-index: z(outdated-browser);
+	position: absolute;
+	top: 0; right: 0; left: 0;
+	padding: 30px;
+	background-color: mix($c--negative, $c--white, 85%);
+	border-bottom: 4px solid mix($c--negative, $c--black, 85%);
+	color: $c--white;
+	font-size: 16px;
+	text-align: center;
+
+	a {
+		border-bottom: 2px solid $c--white;
+		color: $c--white;
+		font-weight: bold;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			text-decoration: none;
+		}
+	}
+}

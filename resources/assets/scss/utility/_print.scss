@@ -1,0 +1,92 @@
+@media print {
+	*,
+	*:before,
+	*:after,
+	*:first-letter,
+	p:first-line,
+	div:first-line,
+	blockquote:first-line,
+	li:first-line {
+		background: transparent !important;
+		color: #000 !important; /* Black prints faster:
+								   http://www.sanbeiji.com/archives/953 */
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+
+	a {
+		page-break-inside: avoid;
+	}
+
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	a[href]:after {
+		content: ' (' attr(href) ')';
+	}
+
+	abbr[title]:after {
+		content: ' (' attr(title) ')';
+	}
+
+	/*
+	 * Don't show links that are fragment identifiers,
+	 * or use the `javascript:` pseudo protocol
+	 */
+
+	a[href^='#']:after,
+	a[href^='javascript:']:after {
+		content: '';
+	}
+
+	pre {
+		white-space: pre-wrap !important;
+	}
+
+	pre,
+	blockquote,
+	table {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+
+	/*
+	 * Printing Tables:
+	 * http://css-discuss.incutio.com/wiki/Printing_Tables
+	 */
+
+	thead {
+		display: table-header-group;
+	}
+
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
+
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	img {
+		page-break-after: avoid;
+		page-break-inside: avoid;
+	}
+
+	ul,
+	ol,
+	dl {
+		page-break-before: avoid;
+	}
+}

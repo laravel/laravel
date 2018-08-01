@@ -1,0 +1,372 @@
+/*---
+
+Basic text field examples:
+
+```
+<div class="row row--compact flush-first--1">
+	<div class="column">
+		<label class="label" for="form-example-text">Text</label>
+
+		<input type="text" name="form-example-text" id="form-example-text">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-value">Text (with value)</label>
+
+		<input type="text" name="form-example-text-value" id="form-example-text-value" value="A test value">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-required">Text (required)</label>
+
+		<input type="text" name="form-example-text-required" id="form-example-text-required" required>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-placeholder">Text (with placeholder)</label>
+
+		<input type="text" name="form-example-text-placeholder" id="form-example-text-placeholder" placeholder="A placeholder value">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-disabled">Text (disabled)</label>
+
+		<input type="text" name="form-example-text-disabled" id="form-example-text-disabled" disabled>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-disabled-2">Text (failed validation)</label>
+
+		<input type="text" name="form-example-text-disabled-2" id="form-example-text-disabled-2" class="is-invalid" required>
+
+		<span class="error-text">Name Required</span>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-text-disabled-3">Text (passed validation)</label>
+
+		<input type="text" name="form-example-text-disabled-3" id="form-example-text-disabled-3" class="is-valid" required>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-email">Email</label>
+
+		<input type="email" name="form-example-email" id="form-example-email">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-date">Date</label>
+
+		<input type="date" name="form-example-date" id="form-example-date">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-search">Search</label>
+
+		<input type="search" name="form-search" id="form-search">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-telephone">Telephone</label>
+
+		<input type="tel" name="form-example-telephone" id="form-example-telephone">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-number">Number</label>
+
+		<input type="number" name="form-example-number" id="form-example-number">
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-textarea">Textarea</label>
+
+		<textarea name="form-example-textarea" id="form-example-textarea" rows="10"></textarea>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-select-unstyled">Select (unstyled)</label>
+
+		<select name="form-example-select-unstyled" id="form-example-select-unstyled">
+			<option>Option 1</option>
+			<option>Option 2</option>
+			<option>Option 3</option>
+			<option>Option 4</option>
+			<option>Option 5</option>
+			<optgroup label="Optgroup">
+				<option>Option A</option>
+				<option>Option B</option>
+			</optgroup>
+		</select>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-select-styled">Select (styled, with custom arrow)</label>
+
+		<div class="select">
+			<select name="form-example-select-styled" id="form-example-select-styled">
+				<option>Option 1</option>
+				<option>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea tempore sint adipisci maiores explicabo obcaecati ipsa ex magnam, nostrum, quasi dolor nihil ipsam quaerat vitae saepe alias tempora, veritatis similique!</option>
+				<option>Option 3</option>
+				<option>Option 4</option>
+				<option>Option 5</option>
+				<optgroup label="Optgroup">
+					<option>Option A</option>
+					<option>Option B</option>
+				</optgroup>
+			</select>
+		</div>
+	</div>
+
+	<div class="column">
+		<label class="label" for="form-example-select-multiple">Select (multiple)</label>
+
+		<select name="form-example-select-multiple" id="form-example-select-multiple" multiple="multiple" size="5" class="valid">
+			<option>Option 1</option>
+			<option>Option 2</option>
+			<option>Option 3</option>
+		</select>
+	</div>
+
+	<div class="column">
+		<input id="form-example-checkbox-1b" type="checkbox" class="checkbox" checked>
+
+		<label for="form-example-checkbox-1b">Checkbox</label>
+	</div>
+
+	<div class="column">
+		<input id="form-example-radio-1b" type="radio" class="radio" checked>
+
+		<label for="form-example-radio-1b">Checkbox</label>
+	</div>
+</div>
+```
+
+*/
+
+$input-border-width: 1px;
+$input-line-height: 1.5;
+$input-padding: rem(12px);
+$input-validation-icon: $p;
+$input-height: ($input-padding * 2) + (rem($input-border-width) * 2) + ($p * $input-line-height);
+
+input,
+textarea,
+select {
+	display: block;
+	padding: $input-padding;
+	height: $input-height;
+	background: $c--white;
+	border: $input-border-width solid $c--grey-light;
+	border-radius: 0;
+	color: $c--black;
+	font: normal #{$p}/#{$input-line-height} $stack;
+
+	&:focus {
+		border-color: $c--grey;
+
+		[data-whatinput='keyboard'] & {
+			border-color: $c--blue;
+			box-shadow: 0 0 5px $c--blue;
+		}
+	}
+
+	@include input-placeholder {
+		color: $c--grey-light;
+	}
+
+	&.is-invalid {
+		border-color: $c--negative;
+
+		&:focus {
+			border-color: $c--negative;
+
+			[data-whatinput='keyboard'] & {
+				box-shadow: 0 0 5px $c--negative;
+			}
+		}
+	}
+}
+
+input,
+textarea {
+	&.is-valid,
+	&.is-invalid {
+		padding-right: $input-validation-icon * 3;
+		background-size: $input-validation-icon;
+		background-repeat: no-repeat;
+		background-position: right $input-validation-icon center;
+	}
+
+	&.is-valid {
+		background-image: svg-url('<svg viewBox="0 0 32 32"><path fill="#{$c--positive}" d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>');
+	}
+
+	&.is-invalid {
+		background-image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--negative}" d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0 c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697c0.469-0.469,1.228-0.469,1.697,0 L10,8.183l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0c0.469,0.469,0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15 C14.817,13.62,14.817,14.38,14.348,14.849z"/></svg>');
+	}
+}
+
+textarea {
+	height: auto;
+}
+
+
+// checkboxes and radios
+$checkbox-size: $spacing-unit--small;
+$radio-inner-size: h($checkbox-size);
+
+.checkbox,
+.radio {
+	@include vh;
+
+	+ label {
+		position: relative;
+		padding-left: $checkbox-size+$spacing-unit--x-small;
+		cursor: pointer;
+
+		&::before {
+			@include pseudo;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			width: $checkbox-size;
+			height: $checkbox-size;
+			background: center center no-repeat;
+			background-size: 80%;
+			border: 2px solid $c--grey;
+		}
+	}
+
+	&:focus {
+		[data-whatinput='keyboard'] & {
+			+ label::before {
+				border-color: $c--blue;
+				box-shadow: 0 0 3px 1px $c--blue;
+			}
+		}
+	}
+
+	&[disabled] {
+		+ label {
+			cursor: not-allowed;
+			opacity: .4;
+			text-decoration: none;
+		}
+	}
+
+	// validation
+	&.is-invalid {
+		+ label::before {
+			border-color: $c--negative;
+		}
+	}
+}
+
+.checkbox {
+	&:checked {
+		+ label::before {
+			background-image: svg-url('<svg viewBox="0 0 32 32"><path fill="#{$c--body-colour}" d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>');
+		}
+	}
+}
+
+.radio {
+	+ label::before {
+		border-radius: 50%;
+	}
+
+	&:checked {
+		+label::after {
+			@include pseudo;
+			top: 50%;
+			left: h($checkbox-size - $radio-inner-size);
+			transform: translateY(-50%);
+			width: $radio-inner-size;
+			height: $radio-inner-size;
+			background: $c--grey-dark;
+			border-radius: 50%;
+		}
+	}
+}
+
+
+// select and multi select
+select {
+	// iOS Zoom Hack
+	@media screen and (-webkit-min-device-pixel-ratio: 0) {
+		font-size: $p !important;
+	}
+}
+
+select[size],
+select[multiple] {
+	padding: ($input-padding / 2) $input-padding;
+	height: auto;
+	background-image: none;
+
+	option {
+		padding: ($input-padding / 2);
+	}
+}
+
+.select {
+	display: block;
+	position: relative;
+	height: $input-height;
+
+	select {
+		padding-right: $input-validation-icon * 3;
+	}
+
+	// arrow
+	&::after {
+		@include css-triangle($c--grey-dark, 'down', 8px);
+		top: 50%; right: $input-validation-icon;
+		margin-top: -4px;
+		z-index: 3;
+		pointer-events: none;
+	}
+}
+
+
+// disabled form fields
+
+input[disabled],
+select[disabled],
+select[disabled] option,
+select[disabled] optgroup,
+textarea[disabled] {
+	&,
+	&:focus,
+	&:hover,
+	&:active {
+		background-color: $c--grey-light;
+		border-color: $c--grey-light;
+		color: $c--white;
+	}
+}
+
+
+// error labels for extra descriptive errors
+.error-text {
+	display: inline-block;
+	position: relative;
+	margin-top: $spacing-unit--x-small;
+	padding: $spacing-unit--x-small;
+	background-color: $c--negative;
+	color: $c--white;
+	font-size: $p--small;
+	line-height: $lh--small;
+
+	&::before {
+		@include css-triangle($c--negative, up, 10px);
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&--success {
+		@include vh;
+	}
+}

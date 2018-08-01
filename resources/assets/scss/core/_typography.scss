@@ -1,0 +1,97 @@
+/*
+
+	Basic, low level typography
+
+*/
+
+$typography-elems:
+	'p',
+	'ul',
+	'ol';
+
+$media-elems:
+	'.blockquote',
+	'.button-wrapper',
+	'.media',
+	'.table-wrapper';
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	margin-top: $rel-spacing-unit;
+	font-family: $stack--heading;
+	font-weight: $w--bold;
+	line-height: 1;
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	a {
+		font-weight: $w--bold;
+	}
+}
+
+.h1 {
+	@include font-size($h--1);
+}
+
+.h2 {
+	@include font-size($h--2);
+}
+
+.h3 {
+	@include font-size($h--3);
+}
+
+.h4 {
+	@include font-size($h--4);
+}
+
+.h5 {
+	@include font-size($h--5);
+}
+
+.h6 {
+	@include font-size($h--6);
+}
+
+
+// Basic typography styling
+#{$typography-elems},
+#{$media-elems} {
+	margin-top: $rel-spacing-unit;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+
+// Stylistic elements
+b,
+strong {
+	font-weight: $w--bold;
+}
+
+small {
+	font-size: 80%;
+}

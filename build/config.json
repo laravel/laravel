@@ -1,0 +1,42 @@
+{
+  "paths": {
+    "src": "resources/assets",
+    "dest": "public",
+    "assets": "assets"
+  },
+  "config": {
+    "browserSync": {
+      "files": [
+        "templates",
+        "public/assets/css",
+        "public/assets/js",
+        "!**/*.map"
+      ],
+      "ghostMode": false,
+      "notify": false,
+      "open": false,
+      "port": 5757,
+      "proxy": "localhost:8000",
+      "snippetOptions": {
+        "rule": {
+          "match": "</body>"
+        }
+      }
+    },
+    "css": {
+      "files": [
+        "app.scss"
+      ],
+      "autoprefixer": {
+        "cascade": false
+      },
+      "cleanCss": {}
+    },
+    "js": {
+      "files": [
+        "app.js"
+      ],
+      "extract": []
+    }
+  }
+}

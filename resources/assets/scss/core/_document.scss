@@ -1,0 +1,67 @@
+/*
+
+	Box sizing
+
+*/
+
+* {
+	&,
+	&::before,
+	&::after {
+		box-sizing: border-box;
+	}
+}
+
+
+/*
+
+	Basic document styling
+
+*/
+
+html {
+	font-size: $html-font-size;
+	min-height: 100%;
+	overflow-y: scroll;
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	background-color: $c--body-bg;
+	color: $c--body-colour;
+	font-family: $stack;
+	font-size: $p;
+	line-height: $lh;
+}
+
+.site-wrapper {
+	@include soft--ends($spacing-unit);
+
+	@include mq(tablet) {
+		@include soft--ends($spacing-unit--large);
+	}
+}
+
+
+/*
+
+	Text selection/highlighting
+
+*/
+
+@include selection {
+	background: $c--brand-primary;
+	color: $c--white;
+	text-shadow: none;
+}
+
+
+/*
+
+	Vue
+
+*/
+
+[v-cloak] {
+	display: none;
+}

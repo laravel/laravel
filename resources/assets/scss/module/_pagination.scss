@@ -1,0 +1,107 @@
+/*---
+
+```
+<ol class="pagination">
+	<li class="pagination__item pagination__item--jump pagination__item--disabled">
+		<a class="pagination__link" href="#0">First</a>
+	</li>
+
+	<li class="pagination__item pagination__item--prev pagination__item--disabled">
+		<a class="pagination__link" href="#0">Prev</a>
+	</li>
+
+	<li class="pagination__item pagination__item--page pagination__item--current">
+		<a class="pagination__link" href="#0">1</a>
+	</li>
+
+	<li class="pagination__item pagination__item--page">
+		<a class="pagination__link" href="#0">2</a>
+	</li>
+
+	<li class="pagination__item pagination__item--page">
+		<a class="pagination__link" href="#0">3</a>
+	</li>
+
+	<li class="pagination__item pagination__item--gap">
+		<span class="pagination__gap">&hellip;</span>
+	</li>
+
+	<li class="pagination__item pagination__item--page-end">
+		<a class="pagination__link" href="#0">32</a>
+	</li>
+
+	<li class="pagination__item pagination__item--page-end">
+		<a class="pagination__link" href="#0">33</a>
+	</li>
+
+	<li class="pagination__item pagination__item--next">
+		<a class="pagination__link" href="#0">Next</a>
+	</li>
+
+	<li class="pagination__item pagination__item--jump">
+		<a class="pagination__link" href="#0">Last</a>
+	</li>
+</ol>
+```
+
+*/
+
+.pagination {
+	$block: &;
+	display: flex;
+	justify-content: center;
+
+	&__item {
+		display: inline-block;
+		margin-left: $spacing-unit--x-small;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		&--disabled {
+			#{$block}__link {
+				background-color: $c--grey-light;
+				color: $c--grey;
+				cursor: not-allowed;
+			}
+		}
+
+		&--current {
+			#{$block}__link {
+				background-color: $c--brand-primary;
+				color: $c--white;
+			}
+		}
+	}
+
+	&__link,
+	&__gap {
+		display: block;
+		font-size: $p--small;
+		line-height: 1;
+	}
+
+	&__link {
+		background-color: $c--blue;
+		color: $c--white;
+		padding: $spacing-unit--x-small;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			background-color: $c--black;
+			color: $c--white;
+		}
+	}
+
+	@include mq($to: tablet) {
+		#{$block}__item {
+			&--jump,
+			&--page-end,
+			&--gap {
+				display: none;
+			}
+		}
+	}
+}

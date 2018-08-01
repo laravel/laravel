@@ -1,0 +1,11 @@
+// font-size of the root HTML element
+// set at 100% by default to leave as much default sizing as possible
+// could set to 62.5% to use a base font-size of 1rem = 10px (assuming default is 16px)
+// accepted values: X%, Xpx
+$html-font-size: 100%;
+
+// Development mode
+// if development mode is set to true, then the following things apply:
+// When a site is ready to go live, change it to false, and make sure you
+// populate any relevant variables such as the grid classes
+$dev-mode: true;
