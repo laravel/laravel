@@ -25,10 +25,7 @@ services:
     volumes:
       - ../docker/local.schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     environment:
-      - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
-      - "MYSQL_ROOT_PASSWORD="
-      - "MYSQL_USER=root"
-      - "MYSQL_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
     ports:
       - 13306:3306
 
