@@ -2,7 +2,7 @@
 	'model' => [
 		'action' => route('frontend.echo', [
 			'json' => [
-				'messsage' => trans('accounts.verification.resent'),
+				'message' => trans('accounts.verification.resent'),
 			],
 		]),
 	],

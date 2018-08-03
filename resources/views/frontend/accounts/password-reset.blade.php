@@ -2,7 +2,7 @@
 	'model' => [
 		'action' => route('frontend.echo', [
 			'json' => [
-				'messsage' => trans('accounts.passwords.sent'),
+				'message' => trans('accounts.passwords.sent'),
 			],
 		]),
 	],
