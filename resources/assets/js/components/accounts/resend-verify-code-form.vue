@@ -1,7 +1,6 @@
 <template>
 	<form name="resend-verify-code" @submit.prevent="onSubmit" novalidate>
 		<div
-			name=""
 			v-if="message"
 			v-text="message"
 		></div>
