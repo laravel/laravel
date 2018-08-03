@@ -1,6 +1,6 @@
 <template>
 	<span class="error-text" v-if="messages">
-		<p v-for="message in messages" v-text="message"></p>
+		<span v-for="message in messages" v-text="message"></span>
 	</span>
 </template>
 
