@@ -15,7 +15,7 @@
       "notify": false,
       "open": false,
       "port": 5757,
-      "proxy": "localhost:8000",
+      "proxy": "web:80",
       "snippetOptions": {
         "rule": {
           "match": "</body>"

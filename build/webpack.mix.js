@@ -1,7 +1,7 @@
 const mix = require('laravel-mix');
 const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
 
-const { assets, src } = require('./helpers');
+const { assets, public, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
 
 // Load the multi-lingual support
@@ -31,7 +31,7 @@ mix
 		chunkname: assets('img/sprite.svg'),
 		svg4everyone: true,
 	})
-	.copyDirectory(src('static'), assets('static'));
+	.copyDirectory(src('static'), public(assets('static')));
 
 css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
 js.files.forEach(filename => mix.js(src(`js/${filename}`), assets('js')));

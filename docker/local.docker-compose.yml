@@ -1,6 +1,16 @@
 version: '3'
 services:
 
+  web:
+    image: nginx:1.15
+    volumes:
+      - ../:/var/www
+      - ./local.web.default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - db
+    ports:
+      - 8000:80
+
   app:
     build:
       context: ../
@@ -15,9 +25,7 @@ services:
       - "COMPOSER_ALLOW_SUPERUSER=true"
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
     ports:
-      - 8000:8000
       - 5757:5757
-    command: php artisan serve --host=0.0.0.0
 
   db:
     image: mariadb:10.3
