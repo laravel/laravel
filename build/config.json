@@ -7,9 +7,8 @@
   "config": {
     "browserSync": {
       "files": [
-        "templates",
-        "public/assets/css",
-        "public/assets/js",
+        "public/assets",
+        "resources/views",
         "!**/*.map"
       ],
       "ghostMode": false,
