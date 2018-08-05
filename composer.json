@@ -11,7 +11,6 @@
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
-        "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
