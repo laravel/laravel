@@ -50,6 +50,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [Invoice Ninja](https://www.invoiceninja.com)
 - [iMi digital](https://www.imi-digital.de/)
 - [Earthlink](https://www.earthlink.ro/)
+- [Steadfast Collective](https://steadfastcollective.com/)
 
 ## Contributing
 
