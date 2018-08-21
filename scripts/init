@@ -9,14 +9,20 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-echo "--> copying .env.example file"
+FIRST_TIME=[ ! -f /tmp/foo.txt ]
 
-cp .env.example .env
+if $FIRST_TIME; then
+    echo "--> copying .env.example file"
+
+    cp .env.example .env
+fi
 
 echo "--> scripts/setup: Running setup"
 
 scripts/setup
 
-echo "--> generating Laravel encryption key"
+if $FIRST_TIME; then
+    echo "--> generating Laravel encryption key"
 
-docker-compose exec app php artisan key:generate
+    docker-compose exec app php artisan key:generate
+fi
