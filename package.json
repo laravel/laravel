@@ -18,7 +18,7 @@
         "lang.js": "^1.1.12",
         "laravel-localization-loader": "^1.0.5",
         "laravel-mix": "^2.0",
-        "lodash": "^4.17.4",
+        "lodash": "^4.17.5",
         "node-sass-json-importer": "^3.3.1",
         "normalize.css": "^7.0",
         "svg-spritemap-webpack-plugin": "^1.2.0",
