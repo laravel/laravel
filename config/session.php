@@ -96,7 +96,7 @@ return [
     |
     */
 
-    'store' => env('SESSION_CONNECTION', null),
+    'store' => env('SESSION_STORE', null),
 
     /*
     |--------------------------------------------------------------------------
