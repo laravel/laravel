@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factory;
 |
 */
 
-/** @var Factory $factory */
+/* @var Factory $factory */
 $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
