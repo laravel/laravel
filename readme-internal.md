@@ -4,7 +4,7 @@
 
 1) Download and install Docker (https://www.docker.com/)
 
-2) Ensure MAMP/Homestead or any other environment that's using ports 80, 5757, 3306, or 8080 are not running.
+2) Ensure MAMP/Homestead/Other Docker containers or any other environment that's using ports 8000, 5757, 13306, or 8080 are not running
 
 ---
 
