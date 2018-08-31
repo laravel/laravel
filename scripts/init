@@ -9,9 +9,10 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-FIRST_TIME=[ ! -f /tmp/foo.txt ]
+FIRST_TIME=false
 
-if $FIRST_TIME; then
+if [ ! -f .env ]; then
+    FIRST_TIME=true
     echo "--> copying .env.example file"
 
     cp .env.example .env
