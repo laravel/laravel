@@ -3,6 +3,7 @@ services:
 
   web:
     image: nginx:1.15
+    restart: always
     volumes:
       - ../:/var/www
       - ./local.web.default.conf:/etc/nginx/conf.d/default.conf
@@ -31,7 +32,8 @@ services:
     image: mariadb:10.3
     restart: always
     volumes:
-      - ../docker/local.schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ../docker/local.db.schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - database:/var/lib/mysql
     environment:
       - "MYSQL_ROOT_PASSWORD=root"
     ports:
@@ -42,3 +44,6 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+volumes:
+  database:
