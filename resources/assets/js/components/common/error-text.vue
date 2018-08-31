@@ -1,6 +1,6 @@
 <template>
-	<span class="error-text" v-if="messages">
-		<span v-for="message in messages" v-text="message"></span>
+	<span class="error-text" v-if="errors">
+		<p v-for="(message) in errors" :key="message" v-text="message"></p>
 	</span>
 </template>
 
