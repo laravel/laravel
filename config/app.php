@@ -21,8 +21,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | running in. Based on this value you can enable/disable features of
+    | the app. Most common naming is "local", "testing", "production".
     |
     */
 
