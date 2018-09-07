@@ -68,7 +68,7 @@ class Kernel extends HttpKernel
      * Forces the listed middleware to always be in the given order.
      *
      * @var array
-     */    
+     */
     protected $middlewarePriority = [
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
