@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "db5ac1922581e2b6f9d64d7d0824882b",
+    "content-hash": "5e1b0e6ffb414197c52ce18d22d8dc4f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -267,21 +267,62 @@
             "time": "2018-04-10T10:11:19+00:00"
         },
         {
-            "name": "engageinteractive/laravel-frontend",
-            "version": "1.0.7",
+            "name": "engageinteractive/laravel-config-provider",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/engageinteractive/laravel-frontend.git",
-                "reference": "603fa1d5d2a99234174891fe876090366276ee13"
+                "url": "https://github.com/engageinteractive/laravel-config-provider.git",
+                "reference": "3f2025a7b64746cc20b2933898bf8831c70ab624"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/603fa1d5d2a99234174891fe876090366276ee13",
-                "reference": "603fa1d5d2a99234174891fe876090366276ee13",
+                "url": "https://api.github.com/repos/engageinteractive/laravel-config-provider/zipball/3f2025a7b64746cc20b2933898bf8831c70ab624",
+                "reference": "3f2025a7b64746cc20b2933898bf8831c70ab624",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": ">=5.5 <5.7"
+                "laravel/framework": ">=5.5 <5.8"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.1",
+                "orchestra/testbench": "^3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EngageInteractive\\LaravelConfigProvider\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Nadin",
+                    "email": "nadinengland@gmail.com"
+                }
+            ],
+            "description": "Allows your users to change which config file your Laravel package uses at runtime.",
+            "time": "2018-09-13T11:20:55+00:00"
+        },
+        {
+            "name": "engageinteractive/laravel-frontend",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/engageinteractive/laravel-frontend.git",
+                "reference": "8c27611c89b1a82f03253a284b6cc2b33f57a2f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/8c27611c89b1a82f03253a284b6cc2b33f57a2f2",
+                "reference": "8c27611c89b1a82f03253a284b6cc2b33f57a2f2",
+                "shasum": ""
+            },
+            "require": {
+                "engageinteractive/laravel-config-provider": "^1.0",
+                "laravel/framework": ">=5.5 <5.8"
             },
             "require-dev": {
                 "mockery/mockery": "^1.1",
@@ -291,13 +332,13 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Engage\\LaravelFrontend\\ServiceProvider"
+                        "EngageInteractive\\LaravelFrontend\\ServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Engage\\LaravelFrontend\\": "src/"
+                    "EngageInteractive\\LaravelFrontend\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -311,7 +352,7 @@
                 }
             ],
             "description": "Frontend Build Framework for Laravel Projects",
-            "time": "2018-07-04T14:02:54+00:00"
+            "time": "2018-09-13T11:52:13+00:00"
         },
         {
             "name": "erusev/parsedown",

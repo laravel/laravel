@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
-        "engageinteractive/laravel-frontend": "^1.0.7",
+        "engageinteractive/laravel-frontend": "v2.0.0",
         "fideloper/proxy": "^4.0",
         "laravel/dusk": "^3.0",
         "laravel/framework": "5.6.*",

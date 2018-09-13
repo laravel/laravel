@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Engage\LaravelFrontend\ConfigProvider;
+use EngageInteractive\LaravelFrontend\ConfigProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
