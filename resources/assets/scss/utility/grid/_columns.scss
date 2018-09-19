@@ -53,7 +53,8 @@ Quickly build complex layouts.
 */
 
 .row {
-	@include cf;
+	display: flex;
+	flex-wrap: wrap;
 	margin-left: n($grid-column-gutter);
 
 	@include mq(tablet) {
@@ -63,21 +64,11 @@ Quickly build complex layouts.
 	@include mq(desktop) {
 		margin-left: n($grid-column-gutter--desktop);
 	}
-
-	&--compact {
-		> .column {
-			margin-top: $spacing-unit--small;
-
-			@include mq(tablet) {
-				margin-top: $spacing-unit;
-			}
-		}
-	}
 }
 
 .column {
+	flex-shrink: 0;
 	position: relative;
-	float: left;
 	width: 100%;
 	margin-top: $grid-column-gutter;
 	padding-left: $grid-column-gutter;
