@@ -165,7 +165,7 @@ select {
 	&:focus {
 		border-color: $c--grey;
 
-		[data-whatinput='keyboard'] & {
+		[data-whatintent='keyboard'] & {
 			border-color: $c--blue;
 			box-shadow: 0 0 5px $c--blue;
 		}
@@ -181,7 +181,7 @@ select {
 		&:focus {
 			border-color: $c--negative;
 
-			[data-whatinput='keyboard'] & {
+			[data-whatintent='keyboard'] & {
 				box-shadow: 0 0 5px $c--negative;
 			}
 		}
@@ -239,7 +239,7 @@ $radio-inner-size: h($checkbox-size);
 	}
 
 	&:focus {
-		[data-whatinput='keyboard'] & {
+		[data-whatintent='keyboard'] & {
 			+ label::before {
 				border-color: $c--blue;
 				box-shadow: 0 0 3px 1px $c--blue;

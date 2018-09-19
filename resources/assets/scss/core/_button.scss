@@ -68,7 +68,7 @@ Other states:
 	-webkit-tap-highlight-color: rgba($c--white, 0);
 
 	&:focus {
-		[data-whatinput='keyboard'] & {
+		[data-whatintent='keyboard'] & {
 			box-shadow: 0px 0px 3px $c--blue, 0px 0px 6px $c--blue, 0px 0px 9px $c--blue;
 		}
 	}
