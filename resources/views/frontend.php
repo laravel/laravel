@@ -10,5 +10,7 @@ return [
         'url' => 'http://www.example.com/',
         'creator_twitter_handle' => '@author_handle',
         'site_twitter_handle' => '@site_handle',
+        'share_title' => 'Share title',
+        'share_description' => 'Share description',
     ],
 ];
