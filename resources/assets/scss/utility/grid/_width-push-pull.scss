@@ -3,12 +3,12 @@
 
 	@if $modifier != '' {
 		$modifierClass: '#{$modifier}-';
+	} @else {
+		$modifier: 'base';
 	}
 
 	@for $i from 1 through $grid-column-count {
-
 		@if $dev-mode {
-
 			.width--#{$modifierClass}#{$i} {
 				width: grid-calc($i);
 			}
@@ -20,9 +20,7 @@
 			.pull--#{$modifierClass}#{$i} {
 				left: 0 - grid-calc($i);
 			}
-
 		} @else {
-
 			@if index( map-deep-get($grid-bp, $modifier, width) , $i) or map-deep-get($grid-bp, $modifier, width) == true {
 				.width--#{$modifierClass}#{$i} {
 					width: grid-calc($i);
@@ -40,9 +38,7 @@
 					left: 0 - grid-calc($i);
 				}
 			}
-
 		}
-
 	}
 
 	.push--#{$modifierClass}0 {
@@ -53,11 +49,7 @@
 @include width-push-pull;
 
 @each $name, $min-width in $breakpoints {
-
 	@include mq($name) {
-
 		@include width-push-pull(#{$name});
-
 	}
-
 }

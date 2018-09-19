@@ -78,36 +78,27 @@ Since we employ a top-left margin in most instances, the flush-first utility is 
 }
 
 @mixin flush-first($modifier: '') {
-
 	$modifierClass: '';
 
 	@if $modifier != '' {
 		$modifierClass: '#{$modifier}-';
-	}
-	@else {
+	} @else {
 		$modifier: 'base';
 	}
 
 	@for $i from 1 through $grid-column-count {
-
 		@if $dev-mode {
 			@include flush-first-item($modifierClass, $i);
 		} @else if index( map-deep-get($grid-bp, $modifier, flush) , $i) or map-deep-get($grid-bp, $modifier, flush) == true {
 			@include flush-first-item($modifierClass, $i);
 		}
-
 	}
-
 }
 
 @include flush-first;
 
 @each $name, $min-width in $breakpoints {
-
 	@include mq($name) {
-
 		@include flush-first(#{$name});
-
 	}
-
 }
