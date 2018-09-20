@@ -145,10 +145,14 @@ Basic text field examples:
 */
 
 $input-border-width: 1px;
+$input-font-size: $p;
 $input-line-height: 1.5;
-$input-padding: rem(12px);
+$input-padding: $spacing-unit--x-small;
 $input-validation-icon: $p;
 $input-height: ($input-padding * 2) + (rem($input-border-width) * 2) + ($p * $input-line-height);
+
+$checkbox-size: $spacing-unit;
+$radio-inner-size: h($checkbox-size);
 
 input,
 textarea,
@@ -160,7 +164,7 @@ select {
 	border: $input-border-width solid $c--grey-light;
 	border-radius: 0;
 	color: $c--black;
-	font: normal #{$p}/#{$input-line-height} $stack;
+	font: normal #{$input-font-size}/#{$input-line-height} $stack;
 
 	&:focus {
 		border-color: $c--grey;
@@ -213,14 +217,12 @@ textarea {
 
 
 // checkboxes and radios
-$checkbox-size: $spacing-unit--small;
-$radio-inner-size: h($checkbox-size);
-
 .checkbox,
 .radio {
 	@include vh;
 
 	+ label {
+		display: block;
 		position: relative;
 		padding-left: $checkbox-size+$spacing-unit--x-small;
 		cursor: pointer;
@@ -229,12 +231,13 @@ $radio-inner-size: h($checkbox-size);
 			@include pseudo;
 			top: 50%;
 			left: 0;
+			width: 1em;
+			height: 1em;
 			transform: translateY(-50%);
-			width: $checkbox-size;
-			height: $checkbox-size;
 			background: center center no-repeat;
 			background-size: 80%;
 			border: 2px solid $c--grey;
+			font-size: $checkbox-size;
 		}
 	}
 
@@ -277,15 +280,16 @@ $radio-inner-size: h($checkbox-size);
 	}
 
 	&:checked {
-		+label::after {
+		+ label::after {
 			@include pseudo;
 			top: 50%;
 			left: h($checkbox-size - $radio-inner-size);
 			transform: translateY(-50%);
-			width: $radio-inner-size;
-			height: $radio-inner-size;
+			width: 1em;
+			height: 1em;
 			background: $c--grey-dark;
 			border-radius: 50%;
+			font-size: $radio-inner-size;
 		}
 	}
 }
@@ -295,25 +299,24 @@ $radio-inner-size: h($checkbox-size);
 select {
 	// iOS Zoom Hack
 	@media screen and (-webkit-min-device-pixel-ratio: 0) {
-		font-size: $p !important;
+		font-size: $input-font-size !important;
 	}
 }
 
 select[size],
 select[multiple] {
-	padding: ($input-padding / 2) $input-padding;
+	padding: h($input-padding) $input-padding;
 	height: auto;
 	background-image: none;
 
 	option {
-		padding: ($input-padding / 2);
+		padding: h($input-padding);
 	}
 }
 
 .select {
 	display: block;
 	position: relative;
-	height: $input-height;
 
 	select {
 		padding-right: $input-validation-icon * 3;
@@ -321,11 +324,16 @@ select[multiple] {
 
 	// arrow
 	&::after {
-		@include css-triangle($c--grey-dark, 'down', 8px);
-		top: 50%; right: $input-validation-icon;
-		margin-top: -4px;
-		z-index: 3;
+		@include pseudo;;
+		top: 50%;
+		right: $input-validation-icon;
+		width: 1em;
+		height: 1em;
 		pointer-events: none;
+		transform: translateY(-50%);
+		background-image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--grey-dark}" d="M4.516,7.548c0.436-0.446,1.043-0.481,1.576,0L10,11.295l3.908-3.747c0.533-0.481,1.141-0.446,1.574,0 c0.436,0.445,0.408,1.197,0,1.615c-0.406,0.418-4.695,4.502-4.695,4.502C10.57,13.888,10.285,14,10,14s-0.57-0.112-0.789-0.335 c0,0-4.287-4.084-4.695-4.502C4.107,8.745,4.08,7.993,4.516,7.548z"/></svg>');
+		background-size: cover;
+		font-size: $input-validation-icon;
 	}
 }
 
@@ -360,13 +368,13 @@ textarea[disabled] {
 	line-height: $lh--small;
 
 	&::before {
-		@include css-triangle($c--negative, up, 10px);
+		@include pseudo;
 		bottom: 100%;
-		left: 50%;
-		transform: translateX(-50%);
-	}
-
-	&--success {
-		@include vh;
+		left: rem(2px);
+		z-index: 2;
+		width: $spacing-unit--small;
+		height: $spacing-unit--2x-small;
+		background: svg-url('<svg viewBox="0 0 20 20" preserveAspectRatio="none"><polygon fill="#{$c--negative}" points="10,0 0,20 20,20"/></svg>') 50% 50%;
+		background-size: cover;
 	}
 }
