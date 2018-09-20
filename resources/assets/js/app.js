@@ -26,4 +26,8 @@ Vue.component('password-reset-form', require('./components/accounts/password-res
 
 const app = new Vue({
 	el: '#app',
+
+	mounted: () => {
+		require('svg4everybody')();
+	},
 });

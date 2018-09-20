@@ -1,5 +1,6 @@
 window._ = require('lodash');
 require('what-input');
+require('object-fit-images')();
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
