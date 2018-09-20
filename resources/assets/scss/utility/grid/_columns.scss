@@ -67,19 +67,20 @@ Quickly build complex layouts.
 }
 
 .column {
+	@mixin macro($spacing) {
+		margin-top: $spacing;
+		padding-left: $spacing;
+	}
+	@include macro($grid-column-gutter);
 	flex-shrink: 0;
 	position: relative;
 	width: 100%;
-	margin-top: $grid-column-gutter;
-	padding-left: $grid-column-gutter;
 
 	@include mq(tablet) {
-		margin-top: $grid-column-gutter--tablet;
-		padding-left: $grid-column-gutter--tablet;
+		@include macro($grid-column-gutter--tablet);
 	}
 
 	@include mq(desktop) {
-		margin-top: $grid-column-gutter--desktop;
-		padding-left: $grid-column-gutter--desktop;
+		@include macro($grid-column-gutter--desktop);
 	}
 }
