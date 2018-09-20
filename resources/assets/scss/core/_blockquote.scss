@@ -1,34 +1,10 @@
 /*---
 
-Extended quotations, with support for citation:
-
 ```
 <blockquote class="blockquote">
-	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-
-	<cite class="blockquote__meta">Author name here, Role/department</cite>
-</blockquote>
-```
-
-```
-<blockquote class="blockquote blockquote--right">
-	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-
-	<cite class="blockquote__meta">Author name here, Role/department</cite>
-</blockquote>
-```
-
-```
-<blockquote class="blockquote blockquote--left">
-	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-
-	<cite class="blockquote__meta">Author name here, Role/department</cite>
-</blockquote>
-```
-
-```
-<blockquote class="blockquote blockquote--centre">
-	<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+	<div class="blockquote__content">
+		<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+	</div>
 
 	<cite class="blockquote__meta">Author name here, Role/department</cite>
 </blockquote>
@@ -40,42 +16,22 @@ Extended quotations, with support for citation:
 	position: relative;
 	max-width: 45em;
 
-	p {
+	&__content {
 		font-size: $p--medium;
 		line-height: $lh--large;
 
-		@include mq(tablet-small) {
+		@include mq(tablet) {
 			font-size: $p--large;
 		}
 	}
 
-	cite {
+	&__meta {
 		display: inline-block;
 		margin-top: $rel-spacing-unit--small;
 		font-size: $p--small;
 
-		@include mq(tablet-small) {
+		@include mq(tablet) {
 			font-size: $p;
 		}
-	}
-
-	&--left,
-	&--right {
-		max-width: 50%;
-	}
-
-	&--left {
-		padding-right: $spacing-unit;
-		float: left;
-	}
-
-	&--right {
-		padding-left: $spacing-unit;
-		float: right;
-	}
-
-	&--centre {
-		@include push--auto;
-		text-align: center;
 	}
 }
