@@ -1,0 +1,72 @@
+/*---
+
+```
+<div class="media">
+	<div class="placeholder">
+		<img src="//placehold.it/1600x900" alt="Always specify alt text">
+	</div>
+</div>
+```
+
+```
+<div class="media media--left">
+	<div class="placeholder">
+		<img src="//placehold.it/1600x900" alt="Always specify alt text">
+	</div>
+</div>
+```
+
+```
+<div class="media media--right">
+	<div class="placeholder">
+		<img src="//placehold.it/1600x900" alt="Always specify alt text">
+	</div>
+</div>
+```
+
+```
+<div class="media media--centre">
+	<div class="placeholder">
+		<img src="//placehold.it/1600x900" alt="Always specify alt text">
+	</div>
+</div>
+```
+
+*/
+
+.media {
+	width: 100%;
+
+	@include mq(tablet-small) {
+
+		&--left,
+		&--right {
+			max-width: 50%;
+			padding-bottom: $spacing-unit--small;
+
+			&:last-child {
+				padding-bottom: 0;
+			}
+		}
+
+		&--left {
+			padding-right: $spacing-unit--small;
+			float: left;
+		}
+
+		&--right {
+			padding-left: $spacing-unit--small;
+			float: right;
+		}
+
+		&--centre {
+			clear: both;
+			max-width: 75%;
+
+			&,
+			> * {
+				@include push--auto;
+			}
+		}
+	}
+}
