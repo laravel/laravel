@@ -1,48 +1,8 @@
-/*---
-
-Placeholder is useful for reserving a set space/size on a page, so the content flow doesn't change as images load in.
-
-```
-<div style="max-width: 35em">
-	<div class="placeholder">
-		<img src="//placehold.it/1600x900" alt="">
-	</div>
-</div>
-```
-
-```
-<div style="max-width: 35em">
-	<div class="placeholder placeholder--square">
-		<img src="//placehold.it/1600x1600" alt="">
-	</div>
-</div>
-```
-
-```
-<div style="max-width: 35em">
-	<div class="placeholder placeholder--landscape">
-		<img src="//placehold.it/1600x1200" alt="">
-	</div>
-</div>
-```
-
-```
-<div style="max-width: 35em">
-	<div class="placeholder placeholder--portrait">
-		<img src="//placehold.it/1200x1600" alt="">
-	</div>
-</div>
-```
-
-```
-<div class="media">
-	<div class="placeholder">
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/5wO91G9fBMc" frameborder="0" allowfullscreen></iframe>
-	</div>
-</div>
-```
-
-*/
+$placeholder-sizes: (
+	landscape: (4, 3),
+	portrait: (3, 4),
+	square: (1, 1),
+);
 
 .placeholder {
 	@include responsive-ratio(16, 9, true);
@@ -51,20 +11,15 @@ Placeholder is useful for reserving a set space/size on a page, so the content f
 
 	> * {
 		position: absolute;
-		top: 0;	left: 0;
+		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
 	}
 
-	&--square {
-		@include responsive-ratio(1, 1, true);
-	}
-
-	&--landscape {
-		@include responsive-ratio(4, 3, true);
-	}
-
-	&--portrait {
-		@include responsive-ratio(3, 4, true);
+	@each $size, $ratio in $placeholder-sizes {
+		&--#{$size} {
+			@include responsive-ratio(nth($ratio, 1), nth($ratio, 2), true);
+		}
 	}
 }
