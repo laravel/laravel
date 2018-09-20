@@ -40,6 +40,7 @@
 		@include('layouts/partials/site-footer')
 	</div>
 
+	<script src="https://cdn.polyfill.io/v2/polyfill.js?features=Array.from,Array.prototype.find,Element.prototype.classList,IntersectionObserver,Promise"></script>
 	<script src="{{ mix('/assets/js/app.js') }}" async></script>
 </body>
 </html>
