@@ -13,36 +13,48 @@
 
 */
 
-.push-top {
-	margin-top: $spacing-unit--small;
+@mixin push-top($spacing, $modifier) {
+	$modifier: if($modifier and $modifier != 'base', --#{$modifier}, '');
 
-	@include mq(tablet) {
-		margin-top: $spacing-unit;
+	.push-top#{$modifier} {
+		margin-top: $spacing;
 	}
+}
 
-	&--small {
-		margin-top: $spacing-unit--x-small;
+$spacing-groups: (
+	small: ($spacing-unit--x-small, $spacing-unit--small),
+	base: ($spacing-unit--small, $spacing-unit),
+	medium: ($spacing-unit--small, $spacing-unit--medium),
+	large: ($spacing-unit, $spacing-unit--large),
+	x-large: ($spacing-unit--medium, $spacing-unit--large, $spacing-unit--x-large),
+);
 
+@each $modifier, $spacing in $spacing-groups {
+	$s--base: nth($spacing, 1);
+	$s--tablet: if(length($spacing) >= 2, nth($spacing, 2), false);
+	$s--desktop: if(length($spacing) >= 3, nth($spacing, 3), false);
+
+	@include push-top($s--base, $modifier);
+
+	@if $s--tablet {
 		@include mq(tablet) {
-			margin-top: $spacing-unit--small;
+			@include push-top($s--tablet, $modifier);
 		}
 	}
 
-	&--medium {
-		margin-top: $spacing-unit;
-
-		@include mq(tablet) {
-			margin-top: $spacing-unit--medium;
+	@if $s--desktop {
+		@include mq(desktop) {
+			@include push-top($s--desktop, $modifier);
 		}
 	}
+}
 
-	&--large {
-		margin-top: $spacing-unit--medium;
+.push-auto {
+	@include push--auto;
+}
 
-		@include mq(tablet) {
-			margin-top: $spacing-unit--large;
-		}
-	}
+.flush-top {
+	margin-top: 0;
 }
 
 /*
