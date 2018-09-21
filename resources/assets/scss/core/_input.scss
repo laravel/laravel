@@ -224,7 +224,7 @@ textarea {
 	+ label {
 		display: block;
 		position: relative;
-		padding-left: $checkbox-size+$spacing-unit--x-small;
+		padding-left: $checkbox-size + $spacing-unit--x-small;
 		cursor: pointer;
 
 		&::before {
