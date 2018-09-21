@@ -14,5 +14,5 @@ yarn-error.log
 .phpunit.result.cache
 *.DS_Store
 
-/public/assets/
-/public/mix-minifest.json
+public/assets/
+public/mix-manifest.json
