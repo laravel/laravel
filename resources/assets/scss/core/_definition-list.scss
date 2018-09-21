@@ -21,11 +21,11 @@ A list of groups of terms and descriptions:
 */
 
 .dl {
-	dt,
-	dd {
+	> dt,
+	> dd {
 	}
 
-	dt {
+	> dt {
 		margin-top: $rel-spacing-unit;
 		font-weight: $w--bold;
 
@@ -34,7 +34,7 @@ A list of groups of terms and descriptions:
 		}
 	}
 
-	dd {
+	> dd {
 		margin-top: $rel-spacing-unit--small;
 	}
 }
