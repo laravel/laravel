@@ -29,7 +29,6 @@ mix
 		src: src('sprite/**/*.svg'),
 		filename: assets('img/sprite.svg'),
 		chunkname: assets('img/sprite.svg'),
-		svg4everyone: true,
 		prefix: '',
 	})
 	.copyDirectory(src('static'), public(assets('static')));
