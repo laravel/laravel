@@ -22,6 +22,7 @@ mix
 			fonts: `${paths.assets}/fonts`,
 			images: `${paths.assets}/img`,
 		},
+		processCssUrls: false,
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)
