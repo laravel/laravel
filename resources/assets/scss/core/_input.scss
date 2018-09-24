@@ -3,38 +3,38 @@
 Basic text field examples:
 
 ```
-<div class="row row--compact flush-first--1">
-	<div class="column">
+<div class="flush-first--1">
+	<div class="push-top">
 		<label class="label" for="form-example-text">Text</label>
 
 		<input type="text" name="form-example-text" id="form-example-text">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-value">Text (with value)</label>
 
 		<input type="text" name="form-example-text-value" id="form-example-text-value" value="A test value">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-required">Text (required)</label>
 
 		<input type="text" name="form-example-text-required" id="form-example-text-required" required>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-placeholder">Text (with placeholder)</label>
 
 		<input type="text" name="form-example-text-placeholder" id="form-example-text-placeholder" placeholder="A placeholder value">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-disabled">Text (disabled)</label>
 
 		<input type="text" name="form-example-text-disabled" id="form-example-text-disabled" disabled>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-disabled-2">Text (failed validation)</label>
 
 		<input type="text" name="form-example-text-disabled-2" id="form-example-text-disabled-2" class="is-invalid" required>
@@ -42,49 +42,49 @@ Basic text field examples:
 		<span class="error-text">Name Required</span>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-text-disabled-3">Text (passed validation)</label>
 
 		<input type="text" name="form-example-text-disabled-3" id="form-example-text-disabled-3" class="is-valid" required>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-email">Email</label>
 
 		<input type="email" name="form-example-email" id="form-example-email">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-date">Date</label>
 
 		<input type="date" name="form-example-date" id="form-example-date">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-search">Search</label>
 
 		<input type="search" name="form-search" id="form-search">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-telephone">Telephone</label>
 
 		<input type="tel" name="form-example-telephone" id="form-example-telephone">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-number">Number</label>
 
 		<input type="number" name="form-example-number" id="form-example-number">
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-textarea">Textarea</label>
 
 		<textarea name="form-example-textarea" id="form-example-textarea" rows="10"></textarea>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-select-unstyled">Select (unstyled)</label>
 
 		<select name="form-example-select-unstyled" id="form-example-select-unstyled">
@@ -100,7 +100,7 @@ Basic text field examples:
 		</select>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-select-styled">Select (styled, with custom arrow)</label>
 
 		<div class="select">
@@ -118,7 +118,7 @@ Basic text field examples:
 		</div>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<label class="label" for="form-example-select-multiple">Select (multiple)</label>
 
 		<select name="form-example-select-multiple" id="form-example-select-multiple" multiple="multiple" size="5" class="valid">
@@ -128,13 +128,13 @@ Basic text field examples:
 		</select>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<input id="form-example-checkbox-1b" type="checkbox" class="checkbox" checked>
 
 		<label for="form-example-checkbox-1b">Checkbox</label>
 	</div>
 
-	<div class="column">
+	<div class="push-top">
 		<input id="form-example-radio-1b" type="radio" class="radio" checked>
 
 		<label for="form-example-radio-1b">Checkbox</label>
