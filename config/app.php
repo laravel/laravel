@@ -92,6 +92,19 @@ return [
     */
 
     'fallback_locale' => 'en',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Faker Locale Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The locale set here will be used by the Faker PHP library when it will
+    | generate localized random data for testing such as a postal address
+    | or a telephone number. This is the default locale we are setting.
+    |
+    */
+
+    'faker_locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------
