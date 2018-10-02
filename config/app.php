@@ -95,12 +95,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Faker Locale Configuration
+    | Faker Locale
     |--------------------------------------------------------------------------
     |
-    | The locale set here will be used by the Faker PHP library when it will
-    | generate localized random data for testing such as a postal address
-    | or a telephone number. This is the default locale we are setting.
+    | This locale will be used by the Faker PHP library when generating fake
+    | data for your database seeds. For example, this will be used to get
+    | localized telephone numbers, street address information and more.
     |
     */
 
