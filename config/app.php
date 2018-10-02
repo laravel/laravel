@@ -92,7 +92,7 @@ return [
     */
 
     'fallback_locale' => 'en',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Faker Locale Configuration
