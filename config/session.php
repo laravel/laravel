@@ -1,5 +1,16 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Config Option Precedence
+|--------------------------------------------------------------------------
+|
+| You can define your session default config options here. Please note 
+| that *.env files have higher precedence and will override any values 
+| defined here. 
+|
+*/
+
 use Illuminate\Support\Str;
 
 return [
