@@ -3,21 +3,49 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Config\Repository;
 use Fideloper\Proxy\TrustProxies as Middleware;
 
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
+     * Create a new trusted proxies middleware instance.
      *
-     * @var array
+     * @param \Illuminate\Contracts\Config\Repository $config
      */
-    protected $proxies;
+    public function __construct(Repository $config)
+    {
+        parent::__construct($config);
+
+        $this->setProxiesFromConfig();
+        $this->setHeadersFromConfig();
+    }
 
     /**
-     * The headers that should be used to detect proxies.
-     *
-     * @var int
+     * Set Proxies from config. The trusted proxies for this application.
      */
-    protected $headers = Request::HEADER_X_FORWARDED_ALL;
+    private function setProxiesFromConfig()
+    {
+        $this->proxies = null;
+        $config = $this->config->get('trustedproxy.proxies');
+        if ($config === '*' || $config === '**' || is_array($config)) {
+            $this->proxies = $config;
+        } elseif ($config && is_string($config)) {
+            $this->proxies = explode(',', $config);
+        }
+    }
+
+    /**
+     * Set Headers from config and check valid values. The headers that should be used to detect proxies.
+     */
+    private function setHeadersFromConfig()
+    {
+        $this->headers = Request::HEADER_X_FORWARDED_ALL;
+        $config = $this->config->get('trustedproxy.headers');
+        if ($config === 'HEADER_X_FORWARDED_AWS_ELB') {
+            $this->headers = Request::HEADER_X_FORWARDED_AWS_ELB;
+        } elseif ($config === 'HEADER_FORWARDED') {
+            $this->headers = Request::HEADER_FORWARDED;
+        }
+    }
 }
