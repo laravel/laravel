@@ -120,4 +120,17 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Pretend
+    |--------------------------------------------------------------------------
+    |
+    | To enable pretend mode, set the pretend option to true.  When in pretend
+    | mode, messages will be written to your application's log files instead of
+    | being sent to the recipient.
+    |
+    */
+
+    'pretend' => false,
+
 ];
