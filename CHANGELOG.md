@@ -8,7 +8,7 @@
 - Added possibility to make httpOnly CSRF cookie optional ([#4692](https://github.com/laravel/laravel/pull/4692))
 - Added `beyondcode/laravel-dump-server` : `^1.0` to `composer.json` ([ff99e2f](https://github.com/laravel/laravel/commit/ff99e2fd5c6f868b9be53420057551c790f10785), [#4736](https://github.com/laravel/laravel/pull/4736))
 - Added `argon2id` support in `hashing.php` ([28908d8](https://github.com/laravel/laravel/commit/28908d83d9f3b078ae01ed21a42b87edf1fd393d))
-- Added `SESSION_CONNECTION` and `SESSION_CONNECTION` env. variable ([#4735](https://github.com/laravel/laravel/pull/4735))
+- Added `SESSION_CONNECTION` and `SESSION_STORE` env. variable ([#4735](https://github.com/laravel/laravel/pull/4735))
 
 ### Changed
 - Changed `QUEUE_DRIVER` env variable name to `QUEUE_CONNECTION` ([c30adc8](https://github.com/laravel/laravel/commit/c30adc88c1cf3f30618145c8b698734cbe03b19c))
