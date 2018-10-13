@@ -1,5 +1,15 @@
 # Release Notes
 
+## [v5.6.33 (2018-08-13)](https://github.com/laravel/laravel/compare/v5.6.21...v5.6.33)
+
+### Added
+- Added `Http/Middleware/CheckForMaintenanceMode.php` ([#4703](https://github.com/laravel/laravel/pull/4703))
+
+### Changed
+- Update font and colors in `scss` ([6646ad7](https://github.com/laravel/laravel/commit/6646ad7c527e2b3320661fa1d76a54dd6e896e57))
+- Changed message for `alpha_dash` validation rule ([#4661](https://github.com/laravel/laravel/pull/4661))
+
+
 ## [v5.6.21 (2018-05-21)](https://github.com/laravel/laravel/compare/v5.6.12...v5.6.21)
 
 ### Added
