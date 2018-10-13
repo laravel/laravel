@@ -1,5 +1,17 @@
 # Release Notes
 
+## [v5.6.21 (2018-05-21)](https://github.com/laravel/laravel/compare/v5.6.12...v5.6.21)
+
+### Added
+- Added hashing configuration ([#4613](https://github.com/laravel/laravel/pull/4613))
+- Added stderr example into `config/logging.php` ([66f5757](https://github.com/laravel/laravel/commit/66f5757d58cb3f6d1152ec2d5f12e247eb2242e2))
+- Added `SES_REGION` to local environment file ([#4629](https://github.com/laravel/laravel/pull/4629))
+- Added messages for `gt`/`lt`/`gte`/`lte` validation rules ([#4654](https://github.com/laravel/laravel/pull/4654))
+
+### Changed
+- Set `bcrypt rounds` using the `hashing` config ([#4643](https://github.com/laravel/laravel/pull/4643))
+
+
 ## v5.6.12 (2018-03-14)
 
 ### Added
