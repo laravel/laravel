@@ -1,5 +1,27 @@
 # Release Notes
 
+## [v5.7.0 (2018-09-04)](https://github.com/laravel/laravel/compare/v5.6.33...v5.7.0)
+
+### Added
+- Added email verification functionality ([#4689](https://github.com/laravel/laravel/pull/4689))
+- Added customizable redirect on auth failure ([a14e623](https://github.com/laravel/laravel/commit/a14e62325cbe82a615ccd2e80925c75cb0bf1eaf))
+- Added possibility to make httpOnly CSRF cookie optional ([#4692](https://github.com/laravel/laravel/pull/4692))
+- Added `beyondcode/laravel-dump-server` : `^1.0` to `composer.json` ([ff99e2f](https://github.com/laravel/laravel/commit/ff99e2fd5c6f868b9be53420057551c790f10785), [#4736](https://github.com/laravel/laravel/pull/4736))
+- Added `argon2id` support in `hashing.php` ([28908d8](https://github.com/laravel/laravel/commit/28908d83d9f3b078ae01ed21a42b87edf1fd393d))
+- Added `SESSION_CONNECTION` and `SESSION_CONNECTION` env. variable ([#4735](https://github.com/laravel/laravel/pull/4735))
+
+### Changed
+- Changed `QUEUE_DRIVER` env variable name to `QUEUE_CONNECTION` ([c30adc8](https://github.com/laravel/laravel/commit/c30adc88c1cf3f30618145c8b698734cbe03b19c))
+- Use seperate cache database for Redis ([#4665](https://github.com/laravel/laravel/pull/4665))
+- Upgrade Lodash to `^4.17.5` ([#4730](https://github.com/laravel/laravel/pull/4730))
+- Changed font to Nuntio from Raleway ([#4727](https://github.com/laravel/laravel/pull/4727))
+- Defined `mix` as `const` in `webpack.mix.js` ([#4741](https://github.com/laravel/laravel/pull/4741))
+- Make Asset Directory Flattened ([ff38d4e](https://github.com/laravel/laravel/commit/ff38d4e1a007c1a7709b5a614da1036adb464b32))
+
+### Fixed
+- Fixed pagination translation ([#4744](https://github.com/laravel/laravel/pull/4744))
+
+
 ## [v5.6.33 (2018-08-13)](https://github.com/laravel/laravel/compare/v5.6.21...v5.6.33)
 
 ### Added
