@@ -33,17 +33,23 @@ return [
     |
     | Supported: "session", "token"
     |
+    | All authentication guards have a path for user to be redirected to
+    | if he/she is not authenticated.
+    | Supported: path string, route name
+    |
     */
 
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'path' => '/',
         ],
 
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+            //'path' => api guard doesn't have redirect path.
         ],
     ],
 
