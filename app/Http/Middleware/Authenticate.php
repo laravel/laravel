@@ -7,10 +7,11 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 class Authenticate extends Middleware
 {
     /**
-     * the guard name of current auth middleware
+     * the guard name of current auth middleware.
      * @var string
      */
     protected $guard;
+
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *
@@ -28,8 +29,7 @@ class Authenticate extends Middleware
 
             if (Route::has($path)) {
                 return route($path);
-            }
-            else {
+            } else {
                 return $path;
             }
         }
@@ -46,6 +46,6 @@ class Authenticate extends Middleware
     protected function authenticate($request, array $guards)
     {
         $this->guard = empty($guards) ? $this->auth->getDefaultDriver() : $guards[0];
-        parent::authenticate($request, $guards); 
+        parent::authenticate($request, $guards);
     }
 }
