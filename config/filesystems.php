@@ -66,4 +66,19 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Filesystem Links
+    |--------------------------------------------------------------------------
+    |
+    | Define links to create in your application.
+    |
+    | Format: "link" => "target"
+    |
+    */
+
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+    ],
+
 ];
