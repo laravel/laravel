@@ -110,6 +110,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Editor / IDE
+    |--------------------------------------------------------------------------
+    |
+    | This value is used by whoops PrettyPageHandler to enabled the ability
+    | to open referenced files directly in your editor and IDE. This feature
+    | only works in case your php-source files are locally accessible to the
+    | machine on which the editor is installed.
+    |
+    */
+
+    'editor' => env('APP_EDITOR'),    
+    
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
