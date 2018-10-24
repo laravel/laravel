@@ -8,7 +8,7 @@
 ### Inside the container
 1. **RUN** `composer config -g github-oauth.github.com <token>`
 (To create the token go to: https://github.com/settings/tokens/new and set the **repo** permissions)
-2. **RUN** `composer create-project --prefer-dist digbang/laravel-project . "dev-digbangs-way/5.7"`
+2. **RUN** `composer create-project --prefer-dist digbang/laravel-project . "dev-5.7_digbangs-way"`
 
 ### After creating the project
 3. Commit and push the new files
