@@ -17,11 +17,13 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-const files = require.context('./', true, /\.vue$/i)
+Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-files.keys().map(key => {
-    return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
-})
+// const files = require.context('./', true, /\.vue$/i)
+
+// files.keys().map(key => {
+//     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
+// })
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
