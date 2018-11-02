@@ -15,7 +15,11 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+const files = require.context('./', true, /\.vue$/i)
+files.keys().map(key => {
+    const name = _.last(key.split('/')).split('.')[0]
+    return Vue.component(name, files(key))
+})
 
 const app = new Vue({
     el: '#app'
