@@ -13,7 +13,7 @@ class Authenticate extends Middleware
      * @param  array  $guards
      * @return string
      */
-    protected function redirectTo($request, $guards)
+    protected function redirectTo($request, array $guards)
     {
         return route('login');
     }
