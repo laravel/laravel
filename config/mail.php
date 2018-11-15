@@ -120,4 +120,17 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | If you are using the "log" driver, you may specify a different channel
+    | name if you prefer to keep e-mail messages separated from other log
+    | messages. Otherwise, Laravel will select the default log channel.
+    |
+    */
+
+    'log_channel' => null,
+
 ];
