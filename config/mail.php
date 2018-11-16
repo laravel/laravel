@@ -127,7 +127,7 @@ return [
     |
     | If you are using the "log" driver, you may specify the logging channel
     | if you prefer to keep mail messages separate from other log entries
-    | for simpler reading. Otherwise, The default channel will be used.
+    | for simpler reading. Otherwise, the default channel will be used.
     |
     */
 
