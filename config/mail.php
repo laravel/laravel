@@ -126,8 +126,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | If you are using the "log" driver, you may specify a different channel
-    | name if you prefer to keep e-mail messages separated from other log
-    | messages. Otherwise, Laravel will select the default log channel.
+    | name if you prefer to keep email messages separated from other log
+    | messages. Otherwise, Laravel will use the default log channel.
     |
     */
 
