@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Route;
-use Engage\LaravelFrontend\Concerns\TestsTemplateController;
+use EngageInteractive\LaravelFrontend\Concerns\TestsTemplateController;
 
 use Tests\TestCase;
 
