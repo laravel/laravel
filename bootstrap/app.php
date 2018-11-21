@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    dirname(__DIR__)
+    $_ENV['LARAVEL_BASE_PATH'] ?? dirname(__DIR__)
 );
 
 /*
