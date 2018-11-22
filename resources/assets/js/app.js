@@ -19,15 +19,17 @@ Vue.filter('trans', function (...args) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('login-form', require('./components/accounts/login-form.vue'));
-Vue.component('register-form', require('./components/accounts/register-form.vue'));
-Vue.component('forgot-password-form', require('./components/accounts/forgot-password-form.vue'));
-Vue.component('password-reset-form', require('./components/accounts/password-reset-form.vue'));
-
 const app = new Vue({
 	el: '#app',
 
 	mounted: () => {
 		require('svg4everybody')();
+	},
+
+	components: {
+		'login-form': require('./components/accounts/login-form.vue')),
+		'register-form': require('./components/accounts/register-form.vue')),
+		'forgot-password-form': require('./components/accounts/forgot-password-form.vue')),
+		'password-reset-form': require('./components/accounts/password-reset-form.vue')),
 	},
 });
