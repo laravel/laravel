@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use EngageInteractive\LaravelFrontend\ConfigProvider;
+
+use App\Http\ViewComposers\PageDefaultsViewComposer;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -15,8 +16,10 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->make(ConfigProvider::class)->get('enabled')) {
-            View::composer('app/*', 'App\Http\ViewComposers\FrontendViewComposer');
-        }
+        // Here the 'app/' directory is assumed to be all the individual pages,
+        // and does not contain partials, or layouts. This is because the
+        // composer will be ran multiple times if the Blade template extends
+        // from files also in the 'app/' directory.
+        View::composer('app/*', PageDefaultsViewComposer::class);
     }
 }

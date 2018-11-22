@@ -29,7 +29,11 @@ class VerifyCodeController extends Controller
      */
     public function create(Request $request)
     {
-        return view('app/accounts/resend-verify-code');
+        return view('app/accounts/resend-verify-code', [
+            'model' => [
+                'action' => route('verify-codes.create'),
+            ],
+        ]);
     }
 
     /**

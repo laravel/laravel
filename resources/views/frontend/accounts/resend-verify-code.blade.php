@@ -1,4 +1,4 @@
-@extends('resend-verify-code', [
+@extends('app/accounts/resend-verify-code', [
 	'model' => [
 		'action' => route('frontend.echo', [
 			'json' => [

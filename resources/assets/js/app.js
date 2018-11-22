@@ -27,9 +27,10 @@ const app = new Vue({
 	},
 
 	components: {
-		'login-form': require('./components/accounts/login-form.vue')),
-		'register-form': require('./components/accounts/register-form.vue')),
-		'forgot-password-form': require('./components/accounts/forgot-password-form.vue')),
-		'password-reset-form': require('./components/accounts/password-reset-form.vue')),
+		'login-form': require('./components/accounts/login-form.vue'),
+		'register-form': require('./components/accounts/register-form.vue'),
+		'forgot-password-form': require('./components/accounts/forgot-password-form.vue'),
+		'password-reset-form': require('./components/accounts/password-reset-form.vue'),
+		'resend-verify-code-form': require('./components/accounts/resend-verify-code-form.vue'),
 	},
 });

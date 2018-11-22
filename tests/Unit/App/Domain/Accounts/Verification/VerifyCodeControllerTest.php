@@ -30,6 +30,7 @@ class VerifyCodeControllerTest extends TestCase
 
     public function test_create_GivenGuest_ShowsForm()
     {
+        $this->withoutExceptionHandling();
         // Given
         $this->assertGuest();
 

@@ -54,7 +54,7 @@ return [
             'password_confirmation' => 'Password confirmation',
         ],
     ],
-    'resend_verify_codes' => [
+    'resend_verify_code' => [
         'login' => 'Already verified your account?',
         'forgot_password' => 'Forgotten your password?',
         'button' => 'Resend',
