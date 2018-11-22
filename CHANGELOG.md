@@ -11,10 +11,10 @@
 - Added `SESSION_CONNECTION` and `SESSION_STORE` env. variable ([#4735](https://github.com/laravel/laravel/pull/4735))
 
 ### Changed
-- BREAKING CHANGE! Changed `QUEUE_DRIVER` env variable name to `QUEUE_CONNECTION` ([c30adc8](https://github.com/laravel/laravel/commit/c30adc88c1cf3f30618145c8b698734cbe03b19c))
+- Changed `QUEUE_DRIVER` env variable name to `QUEUE_CONNECTION` ([c30adc8](https://github.com/laravel/laravel/commit/c30adc88c1cf3f30618145c8b698734cbe03b19c))
 - Use separate cache database for Redis ([#4665](https://github.com/laravel/laravel/pull/4665))
 - Upgrade Lodash to `^4.17.5` ([#4730](https://github.com/laravel/laravel/pull/4730))
-- Changed font to Nuntio from Raleway ([#4727](https://github.com/laravel/laravel/pull/4727))
+- Changed font to `Nunito` from `Raleway` ([#4727](https://github.com/laravel/laravel/pull/4727))
 - Defined `mix` as `const` in `webpack.mix.js` ([#4741](https://github.com/laravel/laravel/pull/4741))
 - Make Asset Directory Flattened ([ff38d4e](https://github.com/laravel/laravel/commit/ff38d4e1a007c1a7709b5a614da1036adb464b32))
 
