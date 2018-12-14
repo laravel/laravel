@@ -17,14 +17,17 @@
         "cross-env": "^5.1",
         "lang.js": "^1.1.12",
         "laravel-localization-loader": "^1.0.5",
-        "laravel-mix": "^2.0",
+        "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
         "node-sass-json-importer": "^3.3.1",
         "normalize.css": "^7.0",
         "object-fit-images": "^3.2.4",
-        "svg4everybody": "^2.1.9",
+        "resolve-url-loader": "^2.3.1",
+        "sass": "^1.15.2",
+        "sass-loader": "^7.1.0",
         "svg-spritemap-webpack-plugin": "^1.2.0",
-        "vue": "^2.5.7",
+        "svg4everybody": "^2.1.9",
+        "vue": "^2.5.17",
         "what-input": "^5.1.1"
     }
 }
