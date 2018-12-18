@@ -1,5 +1,106 @@
 # Release Notes
 
+## [v5.7.15 (2018-11-22)](https://github.com/laravel/laravel/compare/v5.7.13...v5.7.15)
+
+### Added
+- Add asset url configuration option ([63a4039](https://github.com/laravel/laravel/commit/63a403912362654962654e30cec695128d418987))
+- Add `log_channel` configuration option ([#4855](https://github.com/laravel/laravel/pull/4855))
+- Add env variable for compiled view path ([5ea6fe1](https://github.com/laravel/laravel/commit/5ea6fe18a89c3d0f5c0860d3777bff97510577b5))
+- Use env superglobal ([071a05b](https://github.com/laravel/laravel/commit/071a05bd76ee7eca0ea15ea107b49bcbad9af925))
+- Add date_equals validation message ([#4863](https://github.com/laravel/laravel/pull/4863))
+
+### Changed
+- Remove lodash dependency when auto registering Vue components ([#4853](https://github.com/laravel/laravel/pull/4853))
+- Clean up auto register Vue components ([#4854](https://github.com/laravel/laravel/pull/4854))
+- Normalize `composer.json` ([#4856](https://github.com/laravel/laravel/pull/4856))
+- Update `Kernel.php` ([#4861](https://github.com/laravel/laravel/pull/4861))
+- Change variable name ([03ac80b](https://github.com/laravel/laravel/commit/03ac80b779be0f93e6f9d2dae56533d1e5569c35))
+
+
+## [v5.7.13 (2018-11-07)](https://github.com/laravel/laravel/compare/v5.7.0...v5.7.13)
+
+### Added
+- Adding papertrail log channel option ([#4749](https://github.com/laravel/laravel/pull/4749))
+- Add missing Mailgun 'endpoint' option ([#4752](https://github.com/laravel/laravel/pull/4752))
+- Add new Stripe webhook config values ([#4803](https://github.com/laravel/laravel/pull/4803))
+- Add message for UUID validation rule ([#4834](https://github.com/laravel/laravel/pull/4834))
+- Introduce sqlite foreign_key_constraints config option ([#4838](https://github.com/laravel/laravel/pull/4838))
+- Auto register Vue components ([#4843](https://github.com/laravel/laravel/pull/4843))
+
+### Changed
+- Updated `QUEUE_DRIVER` env var to `QUEUE_CONNECTION` in `phpunit.xml` ([#4746](https://github.com/laravel/laravel/pull/4746))
+- Update VerificationController ([#4756](https://github.com/laravel/laravel/pull/4756))
+- Seeded users should be verified by default ([#4761](https://github.com/laravel/laravel/pull/4761))
+- Preserve colors ([#4763](https://github.com/laravel/laravel/pull/4763))
+- Set logs to daily by default ([#4767](https://github.com/laravel/laravel/pull/4767))
+- Change default days to 14 for daily channel ([cd8dd76](https://github.com/laravel/laravel/commit/cd8dd76b67fb3ae9984b1477df4a9a3f0131ca87))
+- Check if register route is enabled ([#4775](https://github.com/laravel/laravel/pull/4775))
+- Update lang attribute ([#4781](https://github.com/laravel/laravel/pull/4781))
+- Changes the translation for "required_with_all" validation rule ([#4782](https://github.com/laravel/laravel/pull/4782))
+- Update database config ([#4783](https://github.com/laravel/laravel/pull/4783))
+- Removing double arrow alignments ([#4830](https://github.com/laravel/laravel/pull/4830))
+- Update vue version to 2.5.17 ([#4831](https://github.com/laravel/laravel/pull/4831))
+- Use env value for redis queue name ([#4837](https://github.com/laravel/laravel/pull/4837))
+
+### Fixed
+- Update `HttpKernel` to use `Authenticate` middleware under `App` namespace ([#4757](https://github.com/laravel/laravel/pull/4757))
+- Persist the `/storage/framework/cache/data` directory ([#4760](https://github.com/laravel/laravel/pull/4760))
+- Make app path stream safe ([#4777](https://github.com/laravel/laravel/pull/4777))
+- Use correct facade ([#4780](https://github.com/laravel/laravel/pull/4780))
+- Revert [#4744](https://github.com/laravel/laravel/pull/4780) ([#4791](https://github.com/laravel/laravel/pull/4791))
+- Don't redirect for api calls ([#4805](https://github.com/laravel/laravel/pull/4805))
+- Fix bad font size render on link ([#4822](https://github.com/laravel/laravel/pull/4822))
+- Changed syntax for validation ([#4820](https://github.com/laravel/laravel/pull/4820))
+- Fix running mix tasks error ([#4832](https://github.com/laravel/laravel/pull/4832))
+
+### Removed
+- Remove X-UA-Compatible meta tag ([#4748](https://github.com/laravel/laravel/pull/4748))
+
+
+## [v5.7.0 (2018-09-04)](https://github.com/laravel/laravel/compare/v5.6.33...v5.7.0)
+
+### Added
+- Added email verification functionality ([#4689](https://github.com/laravel/laravel/pull/4689))
+- Added customizable redirect on auth failure ([a14e623](https://github.com/laravel/laravel/commit/a14e62325cbe82a615ccd2e80925c75cb0bf1eaf))
+- Added possibility to make httpOnly CSRF cookie optional ([#4692](https://github.com/laravel/laravel/pull/4692))
+- Added `beyondcode/laravel-dump-server` : `^1.0` to `composer.json` ([ff99e2f](https://github.com/laravel/laravel/commit/ff99e2fd5c6f868b9be53420057551c790f10785), [#4736](https://github.com/laravel/laravel/pull/4736))
+- Added `argon2id` support in `hashing.php` ([28908d8](https://github.com/laravel/laravel/commit/28908d83d9f3b078ae01ed21a42b87edf1fd393d))
+- Added `SESSION_CONNECTION` and `SESSION_STORE` env. variable ([#4735](https://github.com/laravel/laravel/pull/4735))
+
+### Changed
+- Changed `QUEUE_DRIVER` env variable name to `QUEUE_CONNECTION` ([c30adc8](https://github.com/laravel/laravel/commit/c30adc88c1cf3f30618145c8b698734cbe03b19c))
+- Use separate cache database for Redis ([#4665](https://github.com/laravel/laravel/pull/4665))
+- Upgrade Lodash to `^4.17.5` ([#4730](https://github.com/laravel/laravel/pull/4730))
+- Changed font to `Nunito` from `Raleway` ([#4727](https://github.com/laravel/laravel/pull/4727))
+- Defined `mix` as `const` in `webpack.mix.js` ([#4741](https://github.com/laravel/laravel/pull/4741))
+- Make Asset Directory Flattened ([ff38d4e](https://github.com/laravel/laravel/commit/ff38d4e1a007c1a7709b5a614da1036adb464b32))
+
+### Fixed
+- Fixed pagination translation ([#4744](https://github.com/laravel/laravel/pull/4744))
+
+
+## [v5.6.33 (2018-08-13)](https://github.com/laravel/laravel/compare/v5.6.21...v5.6.33)
+
+### Added
+- Added `Http/Middleware/CheckForMaintenanceMode.php` ([#4703](https://github.com/laravel/laravel/pull/4703))
+
+### Changed
+- Update font and colors in `scss` ([6646ad7](https://github.com/laravel/laravel/commit/6646ad7c527e2b3320661fa1d76a54dd6e896e57))
+- Changed message for `alpha_dash` validation rule ([#4661](https://github.com/laravel/laravel/pull/4661))
+
+
+## [v5.6.21 (2018-05-21)](https://github.com/laravel/laravel/compare/v5.6.12...v5.6.21)
+
+### Added
+- Added hashing configuration ([#4613](https://github.com/laravel/laravel/pull/4613))
+- Added stderr example into `config/logging.php` ([66f5757](https://github.com/laravel/laravel/commit/66f5757d58cb3f6d1152ec2d5f12e247eb2242e2))
+- Added `SES_REGION` to local environment file ([#4629](https://github.com/laravel/laravel/pull/4629))
+- Added messages for `gt`/`lt`/`gte`/`lte` validation rules ([#4654](https://github.com/laravel/laravel/pull/4654))
+
+### Changed
+- Set `bcrypt rounds` using the `hashing` config ([#4643](https://github.com/laravel/laravel/pull/4643))
+
+
 ## v5.6.12 (2018-03-14)
 
 ### Added
