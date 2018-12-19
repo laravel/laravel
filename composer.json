@@ -1,5 +1,5 @@
 {
-    "name": "laravel/laravel",
+    "name": "healthengine/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": [
@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2.9",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0"
