@@ -20,6 +20,7 @@
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^7.5"
+        "squizlabs/php_codesniffer": "^3.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -48,6 +49,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "test": [
+            "@phpcs",
+            "@phpunit"
+        ],
+        "phpcbf": "@php vendor/bin/phpcbf",
+        "phpcs": "@php vendor/bin/phpcs",
+        "phpunit": "@php vendor/bin/phpunit --colors=always",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
