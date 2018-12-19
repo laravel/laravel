@@ -1,11 +1,22 @@
+.env
+.notags
+.phpunit.result.cache
+/.idea
+/.vagrant
+/.vscode
 /node_modules
+# dont include things that can be built
+/public/css/app.css
 /public/hot
+/public/js/app.js
+/public/mix-manifest.json
 /public/storage
 /storage/*.key
 /vendor
-.env
-.phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
+tags
+tags.lock
+tags.temp
 yarn-error.log
