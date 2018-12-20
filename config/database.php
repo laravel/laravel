@@ -134,7 +134,7 @@ return [
             env('CACHE_REDIS_SENTINEL_3'),
             'options' => [
                 'replication' => 'sentinel',
-                'service' => 'cachemaster'),
+                'service' => 'cachemaster',
                 'parameters' => [
                     'password' => env('REDIS_PASSWORD', null),
                     'database' => 0,
