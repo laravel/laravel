@@ -125,6 +125,22 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
         ],
+        
+        // Create a custom connection to use redis sentinel
+        'cache_sentinel' => [
+            // Set the Sentinel Host from Environment (optinal you can hardcode if want to use in prod only)
+            env('CACHE_REDIS_SENTINEL_1'),
+            env('CACHE_REDIS_SENTINEL_2'),
+            env('CACHE_REDIS_SENTINEL_3'),
+            'options' => [
+                'replication' => 'sentinel',
+                'service' => 'cachemaster'),
+                'parameters' => [
+                    'password' => env('REDIS_PASSWORD', null),
+                    'database' => 0,
+                ],
+            ],
+        ],
 
     ],
 
