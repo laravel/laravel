@@ -11,9 +11,9 @@
 
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<link rel="icon" type="image/png" href="/assets/img/meta/favicon-32.png">
-	<link rel="apple-touch-icon" href="/assets/img/meta/favicon-180.png">
-	<link rel="mask-icon" href="/assets/img/meta/mask-icon.svg" color="#000000">
+	<link rel="icon" type="image/png" href="/assets/static/img/meta/favicon-32.png">
+	<link rel="apple-touch-icon" href="/assets/static/img/meta/favicon-180.png">
+	<link rel="mask-icon" href="/assets/static/img/meta/mask-icon.svg" color="#000000">
 
 	<link rel="stylesheet" href="{{ mix('/assets/css/app.css') }}">
 
