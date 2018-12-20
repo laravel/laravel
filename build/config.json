@@ -25,7 +25,8 @@
     },
     "css": {
       "files": [
-        "app.scss"
+        "app.scss",
+        "error.scss"
       ],
       "autoprefixer": {
         "cascade": false
