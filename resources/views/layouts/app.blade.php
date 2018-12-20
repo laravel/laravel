@@ -32,6 +32,8 @@
 	<meta property="og:description" content="{{ $page['share_description'] }}">
 </head>
 <body>
+	@include('layouts/partials/outdated-browser')
+
 	<div id="app">
 		@include('layouts/partials/site-header')
 
