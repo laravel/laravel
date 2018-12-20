@@ -1,5 +1,18 @@
 # Release Notes
 
+## [v5.7.19 (2018-12-15)](https://github.com/laravel/laravel/compare/v5.7.15...v5.7.19)
+
+### Added
+- Add language entry for `starts_with` rule ([#4866](https://github.com/laravel/laravel/pull/4866))
+- Add env variable ([e1b8847](https://github.com/laravel/laravel/commit/e1b8847a92bdd85163990ee2e3284262da09b5fd))
+
+### Changed
+- Update .gitignore ([bc435e7](https://github.com/laravel/laravel/commit/bc435e7fdd8308d133a404b1daa811dd30d95fe5))
+- Bump to Mix v4 ([4882](https://github.com/laravel/laravel/pull/4882))
+
+### Fixed
+- Fixed mixed up comment order ([#4867](https://github.com/laravel/laravel/pull/4867))
+
 ## [v5.7.15 (2018-11-22)](https://github.com/laravel/laravel/compare/v5.7.13...v5.7.15)
 
 ### Added
