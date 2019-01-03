@@ -13,6 +13,7 @@
 ### Fixed
 - Fixed mixed up comment order ([#4867](https://github.com/laravel/laravel/pull/4867))
 
+
 ## [v5.7.15 (2018-11-22)](https://github.com/laravel/laravel/compare/v5.7.13...v5.7.15)
 
 ### Added
