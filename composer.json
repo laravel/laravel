@@ -98,7 +98,11 @@
             "php artisan doctrine:clear:metadata:cache",
             "php artisan doctrine:generate:proxies",
             "php artisan doctrine:schema:update --force"
-        ]
+        ],
+        "stan": "php -d memory_limit=500M ./vendor/bin/phpstan analyse -l 3 -c phpstan.neon src app config resources tests",
+        "unit": "./vendor/bin/phpunit",
+        "cs": "./vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "coverage": "./vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
         "preferred-install": "dist",
