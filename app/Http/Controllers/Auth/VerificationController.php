@@ -28,13 +28,23 @@ class VerificationController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Users must be logged in to verify
+     *
+     * @var boolean
+     */
+    protected $forceAuth = true;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        if ($this->forceAuth) {
+            $this->middleware('auth');
+        }
+
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
