@@ -35,6 +35,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - **[Tighten Co.](https://tighten.co)**
 - **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
 - **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
 - **[British Software Development](https://www.britishsoftware.co)**
 - [UserInsights](https://userinsights.com)
 - [Fragrantica](https://www.fragrantica.com)
