@@ -4,6 +4,7 @@
 /.idea
 /.vagrant
 /.vscode
+/coverage
 /node_modules
 # dont include things that can be built
 /public/css/app.css

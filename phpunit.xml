@@ -25,6 +25,11 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="coverage/clover.xml"/>
+        <log type="coverage-html" target="coverage"/>
+        <log type="coverage-text" target="php://stdout"/>
+    </logging>
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
