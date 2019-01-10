@@ -28,9 +28,9 @@ class VerificationController extends Controller
     protected $redirectTo = '/home';
 
     /**
-     * Users must be logged in to verify
+     * Users must be logged in to verify.
      *
-     * @var boolean
+     * @var bool
      */
     protected $forceAuth = true;
 
