@@ -1,0 +1,6 @@
+Options -Indexes
+
+RewriteEngine On
+RewriteBase /
+RewriteRule .* /public/index.php [L]
+
