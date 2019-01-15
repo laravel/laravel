@@ -8,7 +8,7 @@ class TrustHosts extends Middleware
 {
     /**
      * The trusted host names.
-     * 
+     *
      * @var array
      */
     protected $trustedHosts = [];
