@@ -650,7 +650,7 @@
 	@if $margin {
 		@if $margin == 'vertical' {
 			@include flush--ends;
-		} @elseif $margin == 'horizontal' {
+		} @else if $margin == 'horizontal' {
 			@include flush--sides;
 		} @else {
 			margin: 0;

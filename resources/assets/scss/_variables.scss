@@ -1,6 +1,6 @@
+@import '../variables.json';
 @import 'settings';
 @import 'utility/functions';
-@import '../variables.json';
 
 
 /*
@@ -100,6 +100,7 @@ $grid-column-gutter--desktop: $spacing-unit--large;
 
 // media queries and breakpoints
 // build mobile first 300+
+$breakpoints: map-get($variables, 'breakpoints');
 $breakpoints--rem: $breakpoints;
 
 @each $name, $width in $breakpoints {

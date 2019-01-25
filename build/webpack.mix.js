@@ -11,7 +11,7 @@ new ComponentFactory().install(require('./mix-modules/I18n'));
 new ComponentFactory().install(require('./mix-modules/SassJsonLoader'));
 
 // Svg combinating
-require('@ayctor/laravel-mix-svg-sprite');
+new ComponentFactory().install(require('./mix-modules/SvgSprite'));
 
 // Typical setup
 mix
@@ -26,12 +26,17 @@ mix
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)
-	.svgSprite({
-		src: src('sprite/**/*.svg'),
-		filename: assets('img/sprite.svg'),
-		chunkname: assets('img/sprite.svg'),
-		prefix: '',
+	.svgSprite(src('sprite/**/*.svg'), {
+		output: {
+			filename: assets('img/sprite.svg'),
+		},
 	})
+	// .svgSprite({
+	// 	src: src('sprite/**/*.svg'),
+	// 	filename: assets('img/sprite.svg'),
+	// 	chunk: assets('img/sprite.svg'),
+	// 	prefix: '',
+	// })
 	.copyDirectory(src('static'), public(assets('static')));
 
 css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
