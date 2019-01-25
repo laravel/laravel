@@ -36,6 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
+            'lenient' => false,
             'channels' => ['daily'],
         ],
 
