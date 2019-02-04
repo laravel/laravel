@@ -29,11 +29,11 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be mutated to dates.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $dates = [
-        'email_verified_at',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 }
