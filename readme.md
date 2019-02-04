@@ -56,6 +56,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [Steadfast Collective](https://steadfastcollective.com/)
 - [We Are The Robots Inc.](https://watr.mx/)
 - [Understand.io](https://www.understand.io/)
+- [Abdel Elrafa](https://abdelelrafa.com)
 
 ## Contributing
 
