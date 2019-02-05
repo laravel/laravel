@@ -5,8 +5,8 @@ services:
     image: nginx:1.15
     restart: always
     volumes:
-      - ../:/var/www
-      - ./local.web.default.conf:/etc/nginx/conf.d/default.conf
+      - ../:/var/www:delegated
+      - ./local.web.default.conf:/etc/nginx/conf.d/default.conf:delegated
     depends_on:
       - db
     ports:
@@ -18,8 +18,10 @@ services:
       dockerfile: docker/local.app.Dockerfile
     restart: always
     volumes:
-      - ../:/var/www
-      - ./local.app.php.ini:/usr/local/etc/php/php.ini
+      - ../:/var/www:delegated
+      - ./local.app.php.ini:/usr/local/etc/php/php.ini:delegated
+      - ~/.composer/docker-cache/:/root/.composer:cached
+      - ~/.yarn/docker-cache/:/root/.yarn:cached
     depends_on:
       - db
     environment:
