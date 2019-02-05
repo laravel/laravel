@@ -27,6 +27,7 @@ services:
     environment:
       - "COMPOSER_ALLOW_SUPERUSER=true"
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
+      - "YARN_CACHE_FOLDER=/root/.yarn-cache"
     ports:
       - 5757:5757
 
