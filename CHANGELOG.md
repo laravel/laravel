@@ -1,5 +1,19 @@
 # Release Notes
 
+## [Unreleased](https://github.com/laravel/laravel/compare/v5.7.19...master)
+
+### Added
+- Hint for lenient log stacks ([#4918](https://github.com/laravel/laravel/pull/4918))
+- Attribute casting for `email_verified_at` on `User` model stub ([#4930](https://github.com/laravel/laravel/pull/4930))
+
+### Changed
+- Remove unused Bootstrap class ([#4917](https://github.com/laravel/laravel/pull/4917))
+- Change order of boot and register methods in service providers ([#4921](https://github.com/laravel/laravel/pull/4921))
+- `web.config` comment to help debug issues ([#4924](https://github.com/laravel/laravel/pull/4924))
+- Use `Str::random()` instead of `str_random()` ([#4926](https://github.com/laravel/laravel/pull/4926))
+- Remove unnecessary link type on "welcome" view ([#4935](https://github.com/laravel/laravel/pull/4935))
+
+
 ## [v5.7.19 (2018-12-15)](https://github.com/laravel/laravel/compare/v5.7.15...v5.7.19)
 
 ### Added
