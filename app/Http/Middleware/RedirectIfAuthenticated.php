@@ -17,6 +17,10 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, ...$guards)
     {
+        if (empty($guards)) {
+            $guards = [null];
+        }
+
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 return redirect('/home');
