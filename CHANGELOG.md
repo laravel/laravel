@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v5.7.19...master)
+## [v5.7.28 (2019-02-05)](https://github.com/laravel/laravel/compare/v5.7.19...v5.7.28)
 
 ### Added
 - Hint for lenient log stacks ([#4918](https://github.com/laravel/laravel/pull/4918))
