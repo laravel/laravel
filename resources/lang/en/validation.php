@@ -81,6 +81,7 @@ return [
         'string' => 'The :attribute may not be greater than :max characters.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
+    'message' => 'The given data was invalid.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
