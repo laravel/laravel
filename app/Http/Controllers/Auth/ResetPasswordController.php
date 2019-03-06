@@ -28,6 +28,13 @@ class ResetPasswordController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Indicates whether should login users after resetting their password.
+     *
+     * @var bool
+     */
+    protected $shouldLoginUser = true;
+
+    /**
      * Create a new controller instance.
      *
      * @return void

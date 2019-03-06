@@ -31,6 +31,13 @@ class RegisterController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Indicates whether should login users after registration.
+     *
+     * @var bool
+     */
+    protected $shouldLoginUser = true;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
