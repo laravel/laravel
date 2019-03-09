@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.9",
         "fideloper/proxy": "^4.0",
+        "healthengine/laravel-easy-aws": "^1.2",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0"
     },
