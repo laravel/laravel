@@ -1,5 +1,11 @@
 # Release Notes
 
+## [Unreleased](https://github.com/laravel/laravel/compare/v5.8.3...master)
+
+### Changed
+- Upgrade the collision dependency from v2 to v3 ([#4963](https://github.com/laravel/laravel/pull/4963))
+
+
 ## [v5.8.3 (2019-03-05)](https://github.com/laravel/laravel/compare/v5.8.0...v5.8.3)
 
 ### Added
@@ -11,6 +17,7 @@
 ### Fixed
 - Comment out non-existing model class and policy example ([f4ff4f4](https://github.com/laravel/laravel/commit/f4ff4f4176f7d931e301f36b95a46285ac61b8b8))
 - Only apply MySQL PDO options when extension exists ([3001f3c](https://github.com/laravel/laravel/commit/3001f3c6e232ba7ce2ecdbdfe6e43b4c64ee05ad))
+
 
 ## [v5.8.0 (2019-02-26)](https://github.com/laravel/laravel/compare/v5.7.28...v5.8.0)
 
