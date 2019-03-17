@@ -53,7 +53,9 @@
             "@php artisan package:discover --ansi"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php -r \"file_exists('database/migrations/2014_10_12_000000_create_users_table.php') && rename('database/migrations/2014_10_12_000000_create_users_table.php', 'database/migrations/'.date('Y_m_d_His').'_create_users_table.php') && sleep(1);\"",
+            "@php -r \"file_exists('database/migrations/2014_10_12_100000_create_password_resets_table.php') && rename('database/migrations/2014_10_12_100000_create_password_resets_table.php', 'database/migrations/'.date('Y_m_d_His').'_create_password_resets_table.php');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
