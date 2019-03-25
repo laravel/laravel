@@ -21,6 +21,7 @@ services:
       - ../:/var/www:delegated
       - ./local.app.php.ini:/usr/local/etc/php/php.ini:delegated
       - ~/.composer/docker-cache/:/root/.composer:cached
+      - ~/.composer/auth.json:/root/.composer/auth.json:delegated
       - ~/.yarn/docker-cache/:/root/.yarn:cached
     depends_on:
       - db
