@@ -30,14 +30,12 @@ mix
 		output: {
 			filename: assets('img/sprite.svg'),
 		},
+		sprite: {
+			prefix: false,
+		},
 	})
-	// .svgSprite({
-	// 	src: src('sprite/**/*.svg'),
-	// 	filename: assets('img/sprite.svg'),
-	// 	chunk: assets('img/sprite.svg'),
-	// 	prefix: '',
-	// })
-	.copyDirectory(src('static'), public(assets('static')));
+	.copyDirectory(src('static'), public(assets('static')))
+	.version();
 
 css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
 js.files.forEach(filename => mix.js(src(`js/${filename}`), assets('js')));
