@@ -15,8 +15,8 @@ class CreateVerifyCodesTable extends Migration
     public function up()
     {
         Schema::create('verify_codes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('account_id');
+            $table->bigIncrements('id')->index();
+            $table->unsignedBigInteger('account_id');
             $table->uuid('code')->default(DB::raw('uuid()'));
             $table->string('token');
             $table->timestamp('expired_at')->useCurrent();
