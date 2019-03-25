@@ -42,7 +42,7 @@
 		@include('layouts/partials/site-footer')
 	</div>
 
-	<script src="https://cdn.polyfill.io/v2/polyfill.js?features=Array.from,Array.prototype.find,Element.prototype.classList,Element.prototype.matches,IntersectionObserver,Promise"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=Array.from%2CPromise%2CIntersectionObserver%2CElement.prototype.matches%2CElement.prototype.classList%2CArray.prototype.find"></script>
 	<script src="{{ mix('/assets/js/app.js') }}" async></script>
 </body>
 </html>
