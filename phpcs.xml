@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<ruleset name="HealthEngine coding standard">
+    <description>HealthEngine coding standard</description>
+
+    <!-- display progress -->
+    <arg value="p" />
+    <!-- use colors in output -->
+    <arg name="colors" />
+
+    <!-- set basepath to `.` -->
+    <arg name="basepath" value="" />
+
+    <!-- use PSR2 standard -->
+    <rule ref="PSR2" />
+    <!-- add come custom rules -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition" />
+    <rule ref="Generic.CodeAnalysis.EmptyStatement" />
+    <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall" />
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement" />
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod" />
+    <rule ref="Generic.Commenting.Fixme" />
+    <rule ref="Generic.Commenting.Todo" />
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="sizeof" value="count" />
+                <element key="delete" value="unset" />
+                <element key="env" value="null" />
+            </property>
+        </properties>
+        <exclude-pattern>config</exclude-pattern>
+    </rule>
+    <rule ref="Generic.PHP.NoSilencedErrors" />
+    <rule ref="Generic.PHP.Syntax" />
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <properties>
+            <property name="allowMultiline" value="true" />
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing" />
+    <!-- ignore the class namespace for the database since they are autloaded differently -->
+    <rule ref="PSR1.Classes.ClassDeclaration">
+        <exclude-pattern>database</exclude-pattern>
+    </rule>
+    <rule ref="PSR12.Classes.ClassInstantiation" />
+
+    <!-- paths to check -->
+    <file>app</file>
+    <file>config</file>
+    <file>database</file>
+    <file>routes</file>
+    <file>tests</file>
+</ruleset>
