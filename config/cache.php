@@ -99,4 +99,17 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Allow Null
+    |--------------------------------------------------------------------------
+    |
+    | This option determines whether a cached value of null is considered
+    | for that key existing. This default may also be overridden using
+    | the $allowNull parameter of has, remember and rememberForever.
+    |
+    */
+
+    'allow-null' => false,
+
 ];
