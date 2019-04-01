@@ -57,6 +57,7 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - [We Are The Robots Inc.](https://watr.mx/)
 - [Understand.io](https://www.understand.io/)
 - [Abdel Elrafa](https://abdelelrafa.com)
+- [Hyper Host](https://hyper.host)
 
 ## Contributing
 
