@@ -1,0 +1,1 @@
+@extends('errors/500')
