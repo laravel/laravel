@@ -65,6 +65,12 @@ textarea {
 	}
 }
 
+input {
+	&[type=password] {
+		font-family: 'system-ui', sans-serif;
+	}
+}
+
 textarea {
 	height: auto;
 }
