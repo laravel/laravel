@@ -1,25 +1,3 @@
-/*---
-
-```
-<div class="breadcrumb">
-	<a class="breadcrumb__item breadcrumb__item--link" href="#0">Home</a>
-
-	<svg class="breadcrumb__icon icon">
-		<use xlink:href="/assets/img/sprite.svg#chevron-thin-right"></use>
-	</svg>
-
-	<a class="breadcrumb__item breadcrumb__item--link" href="#0">Foo</a>
-
-	<svg class="breadcrumb__icon icon">
-		<use xlink:href="/assets/img/sprite.svg#chevron-thin-right"></use>
-	</svg>
-
-	<span class="breadcrumb__item">Bar</span>
-</div>
-```
-
-*/
-
 .breadcrumb {
 	display: flex;
 	flex-wrap: wrap;
