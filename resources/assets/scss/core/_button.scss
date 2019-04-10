@@ -1,6 +1,6 @@
 .button {
 	position: relative;
-	padding: rem(17px);
+	padding: $spacing-unit--small;
 	background-color: $c--brand-primary;
 	color: $c--white;
 	font-family: $stack;
@@ -11,7 +11,9 @@
 
 	&:focus {
 		[data-whatintent='keyboard'] & {
-			box-shadow: 0px 0px 3px $c--blue, 0px 0px 6px $c--blue, 0px 0px 9px $c--blue;
+			box-shadow: 0px 0px 3px $c--blue,
+						0px 0px 6px $c--blue,
+						0px 0px 9px $c--blue;
 		}
 	}
 
