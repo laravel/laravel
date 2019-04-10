@@ -48,20 +48,14 @@ select {
 
 input,
 textarea {
-	&.is-valid,
 	&.is-invalid {
 		padding-right: $input-validation-icon * 3;
-		background-size: $input-validation-icon;
-		background-repeat: no-repeat;
-		background-position: right $input-validation-icon center;
-	}
-
-	&.is-valid {
-		background-image: svg-url('<svg viewBox="0 0 32 32"><path fill="#{$c--positive}" d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>');
-	}
-
-	&.is-invalid {
-		background-image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--negative}" d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0 c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697c0.469-0.469,1.228-0.469,1.697,0 L10,8.183l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0c0.469,0.469,0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15 C14.817,13.62,14.817,14.38,14.348,14.849z"/></svg>');
+		background: {
+			image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--negative}" d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0 c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697c0.469-0.469,1.228-0.469,1.697,0 L10,8.183l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0c0.469,0.469,0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15 C14.817,13.62,14.817,14.38,14.348,14.849z"/></svg>');
+			position: right $input-validation-icon center;
+			repeat: no-repeat;
+			size: $input-validation-icon;
+		}
 	}
 }
 
