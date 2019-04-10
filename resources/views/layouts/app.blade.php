@@ -16,7 +16,7 @@
 
 	@include('layouts/partials/outdated-browser')
 
-	<div id="app">
+	<div id="app" class="site-wrapper">
 		@include('layouts/partials/site-header')
 
 		@yield('content')

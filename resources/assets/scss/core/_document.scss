@@ -34,14 +34,6 @@ body {
 	line-height: $lh;
 }
 
-.site-wrapper {
-	@include soft--ends($spacing-unit);
-
-	@include mq(tablet) {
-		@include soft--ends($spacing-unit--large);
-	}
-}
-
 
 /*
 
