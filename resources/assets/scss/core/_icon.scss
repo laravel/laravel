@@ -1,4 +1,7 @@
 $icon-size: 1em;
+$icon-sizes: (
+	user: (49, 54)
+);
 
 .icon {
 	display: inline-block;
@@ -13,6 +16,12 @@ $icon-size: 1em;
 		$x: 3;
 		$y: 24;
 		vertical-align: n($x/$y * 100%);
+	}
+
+	@each $icon, $ratio in $icon-sizes {
+		&--#{$icon} {
+			width: nth($ratio, 1) / nth($ratio, 2) * 1em;
+		}
 	}
 }
 
