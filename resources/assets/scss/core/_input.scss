@@ -1,9 +1,9 @@
 $input-border-width: 1px;
 $input-font-size: $p;
-$input-line-height: 1.5;
-$input-padding: $spacing-unit--x-small;
+$input-line-height: $p * 1.5;
+$input-padding--x: $spacing-unit--small;
+$input-padding--y: $spacing-unit--x-small;
 $input-validation-icon: $p;
-$input-height: ($input-padding * 2) + (rem($input-border-width) * 2) + ($p * $input-line-height);
 
 $checkbox-size: $spacing-unit;
 $radio-inner-size: h($checkbox-size);
@@ -12,8 +12,7 @@ input,
 textarea,
 select {
 	display: block;
-	padding: $input-padding;
-	height: $input-height;
+	padding: $input-padding--y $input-padding--x;
 	background: $c--white;
 	border: $input-border-width solid $c--grey-light;
 	border-radius: 0;
@@ -159,12 +158,12 @@ select {
 
 select[size],
 select[multiple] {
-	padding: h($input-padding) $input-padding;
+	padding: h($input-padding--y) $input-padding--x;
 	height: auto;
 	background-image: none;
 
 	option {
-		padding: h($input-padding);
+		padding: h($input-padding--y) h($input-padding--x);
 	}
 }
 
