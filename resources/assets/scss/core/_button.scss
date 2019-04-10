@@ -26,32 +26,4 @@
 			color: mix($c--grey-light, $c--black, 60%);
 		}
 	}
-
-	// colours
-	&--secondary {
-		background-color: $c--black;
-	}
-
-	&--positive {
-		background-color: $c--positive;
-	}
-
-	&--negative {
-		background-color: $c--negative;
-	}
-
-	// sizes
-	&--large {
-		padding: rem(22px) rem(30px);
-
-		@include mq(tablet) {
-			padding: rem(25px) rem(40px);
-			font-size: $p--medium;
-		}
-	}
-
-	&--small {
-		padding: rem(12px);
-		font-size: $p--small;
-	}
 }
