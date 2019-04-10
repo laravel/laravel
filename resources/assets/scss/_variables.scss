@@ -231,43 +231,6 @@ $c--negative: $c--red;
 $c--body-bg: $c--white;
 $c--body-colour: $c--black;
 
-// colour map (only use colours from the styleguide)
-// used for when looping through panel/theme styles
-$colours: (
-	// primary colours
-	'yellow': (
-		'base': $c--brand-primary
-	),
-	'green': (
-		'base': $c--green
-	),
-	'red': (
-		'base': $c--red
-	),
-	'blue': (
-		'base': $c--blue
-	),
-	// greyscale
-	'black': (
-		'base': $c--black
-	),
-	'grey': (
-		'base': $c--grey
-	),
-	'grey-dark': (
-		'base': $c--grey-dark
-	),
-	'grey-light': (
-		'base': $c--grey-light
-	),
-	'grey-off-white': (
-		'base': $c--grey-x-light
-	),
-	'white': (
-		'base': $c--white
-	)
-);
-
 
 /*
 

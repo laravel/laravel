@@ -135,16 +135,6 @@
 
 */
 
-// Contain floats / clearfix
-@mixin cf {
-
-	&::after {
-		content: '';
-		display: table;
-		clear: both;
-	}
-}
-
 // Hide from both screenreaders and browsers
 @mixin hidden {
 	display: none;
@@ -251,54 +241,6 @@
 
 /*
 
-	Content margins
-
-	fore removing first/last child margins
-
-	example: default
-	.element {
-		@include content-margins;
-	}
-
-	output:
-	.element > *:first-child {
-		margin-top: 0;
-	}
-	.element > *:last-child {
-		margin-bottom: 0;
-	}
-
-	example: empty selector
-	.element {
-		@include content-margins('false');
-	}
-
-	output:
-	.element:first-child {
-		margin-top: 0;
-	}
-	.element:last-child {
-		margin-bottom: 0;
-	}
-
-*/
-
-@mixin content-margins($selector: '> *', $last-child: false) {
-	@if not $selector {
-		$selector: '&';
-	}
-
-	#{unquote($selector)} {
-		&:first-child { margin-top: 0; }
-		@if $last-child {
-			&:last-child { margin-bottom: 0; }
-		}
-	}
-}
-
-
-/*
-
 	CSS Triangle
 
 	used for creating CSS only triangles
@@ -348,36 +290,6 @@
 
 /*
 
-	Hide text
-
-	example:
-
-	.element {
-		@include hide-text;
-	}
-
-*/
-
-@mixin hide-text($break: false, $indent: 200%, $align: left, $overflow: hidden) {
-	@if $break {
-		position: absolute;
-		top: 0; left: 0;
-		pointer-events: none;
-	}
-	text: {
-		indent: $indent;
-		align: $align;
-	}
-	font-size: 0;
-	white-space: nowrap;
-	@if $overflow {
-		overflow: $overflow;
-	}
-}
-
-
-/*
-
 	Responsive ratio
 
 	Used for creating scalable elements that maintain the same ratio
@@ -401,109 +313,6 @@
 	} @else {
 		padding-top: $padding;
 	}
-}
-
-
-/*
-
-	Typography
-
-	Text image replacement, with responsive ratio
-
-	HTML:
-
-	<h1 class="element">
-		<span>Text to replace</span>
-	</h1>
-
-	example:
-	.element {
-		@include typography(200, 50, 'hello-world');
-	}
-
-
-*/
-
-@mixin typography($w, $h, $file, $type: png, $overflow: hidden) {
-	@include responsive-ratio($w, $h, true);
-	position: relative;
-	max-width: $w * 1px;
-	background: url('/assets/img/typography/#{$file}.#{$type}') 50% 50% no-repeat;
-	background-size: contain;
-
-	span {
-		@include hide-text(true, $overflow: $overflow);
-	}
-}
-
-
-/*
-
-	Icon
-
-	For using fontastic icons in pseudo elements
-
-*/
-
-@mixin icon-css($content: false) {
-	@if $content {
-		content: '#{$content}';
-	}
-	display: block;
-	font-family: 'icon-font-family' !important;
-	font-style: normal !important;
-	font-weight: normal !important;
-	font-variant: normal !important;
-	text-transform: none !important;
-	speak: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-
-/*
-
-	Colours
-
-	background, colour, etc. match up with colour map in _variables.scss
-
-	modify to suit per project
-
-*/
-
-@mixin colours(
-	$selector: false,
-	$chain: '&--',
-	$background: 'base',
-	$border: true
-) {
-
-	@each $name, $values in $colours {
-		#{$chain}#{$name} {
-
-			@if $selector {
-
-				#{$selector} {
-					@if $background {
-						background-color: map-get($values, $background);
-						@if $border {
-							border-color: darken(map-get($values, $background), 20%);
-						}
-					}
-				}
-
-			} @else {
-
-				@if $background {
-					background-color: map-get($values, $background);
-				}
-
-			}
-		}
-
-	}
-
 }
 
 
@@ -566,26 +375,6 @@
 
 */
 
-@mixin align($vertical: true, $horizontal: false, $position: relative) {
-	@if $position {
-		position: $position;
-	}
-	@if $vertical {
-		top: 50%;
-	}
-	@if $horizontal {
-		left: 50%;
-	}
-
-	@if $vertical and $horizontal {
-		transform: translateX(-50%) translateY(-50%);
-	} @else if $vertical {
-		transform: translateY(-50%);
-	} @else {
-		transform: translateX(-50%);
-	}
-}
-
 @mixin antialias {
 	font-smoothing: antialiased;
 	-webkit-font-smoothing: antialiased;
@@ -611,7 +400,6 @@
 }
 
 @mixin hardware($backface: true, $perspective: 1000) {
-
 	@if $backface {
 		backface-visibility: hidden;
 	}
@@ -646,23 +434,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
-@mixin unlist($margin: true, $padding: true) {
-	@if $margin {
-		@if $margin == 'vertical' {
-			@include flush--ends;
-		} @else if $margin == 'horizontal' {
-			@include flush--sides;
-		} @else {
-			margin: 0;
-		}
-	}
-	@if $padding {
-		padding: 0;
-	}
-	list-style: none;
-}
-
 
 @mixin unselectable {
 	-webkit-touch-callout: none;

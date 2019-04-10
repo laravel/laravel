@@ -2,10 +2,6 @@
 	@include vh;
 }
 
-.cf {
-	@include cf;
-}
-
 .overlay {
 	@include object-fit(cover);
 	position: absolute;
