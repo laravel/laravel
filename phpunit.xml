@@ -29,5 +29,6 @@
         <server name="MAIL_DRIVER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
+        <env name="APP_CONFIG_CACHE" value="/storage"/>
     </php>
 </phpunit>
