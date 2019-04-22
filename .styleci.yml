@@ -6,5 +6,4 @@ php:
     not-name:
       - index.php
       - server.php
-js: true
 css: true
