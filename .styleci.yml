@@ -1,6 +1,7 @@
 php:
   preset: laravel
   disabled:
+    - short_list_syntax
     - unused_use
   finder:
     not-name:
