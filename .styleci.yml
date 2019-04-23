@@ -7,7 +7,6 @@ php:
       - index.php
       - server.php
 js:
-  print-width: 100
   finder:
     not-name:
       - webpack.mix.js
