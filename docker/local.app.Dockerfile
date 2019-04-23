@@ -1,21 +1,11 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.3-fpm-alpine
 
 RUN apk update \
     && apk add \
-        # Common
         build-base \
-        # Laravel
-        libmcrypt-dev \
-        mysql-client \
-        # Node JS
-        git \
-        yarn \
-        python \
-        bash \
         libpng-dev \
-    && docker-php-ext-install pdo_mysql zip \
+        libzip-dev \
+    && docker-php-ext-install pdo_mysql zip bcmath gd exif \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
 RUN apk add chromium chromium-chromedriver
-
-WORKDIR /var/www/

@@ -8,7 +8,7 @@
 
 ---
 
-## Setup
+## Setup: When creating a new repo
 
 Note: All of the following commands are run from the root of the project.*
 
@@ -19,11 +19,27 @@ Note: All of the following commands are run from the root of the project.*
    rm -rf .git
    ```
 2. Fill out an APP_NAME and a COMPOSE_PROJECT_NAME to the `.env.example`.
-3. Run `scripts/init`
+3. Run `scripts/setup`
+
+## Setup: When working with an existing repo
+
+Note: All of the following commands are run from the root of the project.*
+
+1. Run `scripts/setup`
 
 ---
 
-### Watching/building
+### Building the frontend assets
 
-Run `scripts/watch`
+To run the watch task you can run run `scripts/watch` from the root of the project.
 
+If you want to access the node container directly you can use the following:
+
+ - docker-compose run --rm node [your shell command]
+
+Alternatively you can use the shorthand:
+
+ - scripts/node [your shell command]
+ - scripts/node bash            # Enter the container, or
+ - scripts/node yarn run dev    # Build assets in dev mode
+ - scripts/node yarn run prod   # Build assets in prod mode

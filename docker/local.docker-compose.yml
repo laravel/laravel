@@ -3,7 +3,7 @@ services:
 
   web:
     image: nginx:1.15
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
       - ./local.web.default.conf:/etc/nginx/conf.d/default.conf:delegated
@@ -16,7 +16,7 @@ services:
     build:
       context: ../
       dockerfile: docker/local.app.Dockerfile
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
       - ./local.app.php.ini:/usr/local/etc/php/php.ini:delegated
@@ -25,6 +25,7 @@ services:
       - ~/.yarn/docker-cache/:/root/.yarn:cached
     depends_on:
       - db
+    working_dir: /var/www
     environment:
       - "COMPOSER_ALLOW_SUPERUSER=true"
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
@@ -34,7 +35,7 @@ services:
 
   db:
     image: mariadb:10.3
-    restart: always
+    restart: unless-stopped
     volumes:
       - ../docker/local.db.schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
       - database:/var/lib/mysql
@@ -43,9 +44,18 @@ services:
     ports:
       - 13306:3306
 
+  node:
+    image: node:10
+    volumes:
+      - ../:/app:delegated
+      - ~/.yarn/docker-cache/:/root/.yarn:cached
+    environment:
+      - "YARN_CACHE_FOLDER=/root/.yarn-cache"
+    working_dir: /app
+
   adminer:
     image: adminer
-    restart: always
+    restart: unless-stopped
     ports:
       - 8080:8080
 

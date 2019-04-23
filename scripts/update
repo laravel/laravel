@@ -9,6 +9,6 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-docker-compose run --rm app yarn install
-docker-compose run --rm app php /usr/bin/composer install --prefer-dist
-docker-compose run --rm app php artisan migrate:fresh --seed
+docker-compose run --rm node yarn install
+docker-compose exec app php /usr/bin/composer install --prefer-dist
+docker-compose exec app php artisan migrate:fresh --seed

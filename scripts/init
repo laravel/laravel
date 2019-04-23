@@ -2,6 +2,7 @@
 
 # Purpose:
 #
+# [DEPRECATED: Use setup instead]
 # Used to setup the project for the very first time when checked out.
 
 set -e
@@ -9,21 +10,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-FIRST_TIME=false
-
-if [ ! -f .env ]; then
-    FIRST_TIME=true
-    echo "--> copying .env.example file"
-
-    cp .env.example .env
-fi
-
-echo "--> scripts/setup: Running setup"
-
 scripts/setup
-
-if $FIRST_TIME; then
-    echo "--> generating Laravel encryption key"
-
-    docker-compose exec app php artisan key:generate
-fi

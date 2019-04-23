@@ -2,11 +2,11 @@
 
 # Purpose:
 #
-# Runs the frontend build tasks
+# Runs the frontend node container
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
-scripts/node yarn run watch
+docker-compose run --rm node $@
