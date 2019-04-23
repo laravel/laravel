@@ -16,12 +16,13 @@
         "sentry/sentry-laravel": "^1.0.1"
     },
     "require-dev": {
-        "laravel/dusk": "^3.0",
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "laravel/dusk": "^3.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
+        "nunomaduro/larastan": "^0.3.16",
         "phpunit/phpunit": "^7.5"
     },
     "config": {
