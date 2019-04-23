@@ -9,4 +9,8 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+echo "--> Running static analyser:"
+docker-compose exec app php artisan code:analyse
+
+echo "--> Running PHPUnit:"
 docker-compose exec app php ./vendor/bin/phpunit $@
