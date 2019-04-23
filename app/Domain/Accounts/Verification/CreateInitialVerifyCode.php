@@ -3,6 +3,7 @@
 namespace App\Domain\Accounts\Verification;
 
 use Illuminate\Auth\Events\Registered;
+use App\Domain\Accounts\Account;
 
 class CreateInitialVerifyCode
 {
@@ -32,6 +33,10 @@ class CreateInitialVerifyCode
      */
     public function handle(Registered $event)
     {
+        if (!$event->user instanceof Account) {
+            return;
+        }
+
         $this->service->create($event->user);
     }
 }

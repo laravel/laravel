@@ -24,8 +24,9 @@ class VerifyCodeController extends Controller
     /**
      * Shows form for requesting additional verify emails.
      *
-     * @param Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * 
+     * @return \Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -39,8 +40,9 @@ class VerifyCodeController extends Controller
     /**
      * Inbound links for email verification.
      *
-     * @param Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * 
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function show(Request $request, VerifyCodeService $service)
     {
@@ -56,9 +58,10 @@ class VerifyCodeController extends Controller
     /**
      * Generates a new VerifyCode, triggering email send email.
      *
-     * @param Request  $request
-     * @param VerifyCodeService  $service
-     * @return \Illuminate\Http\JsonResponse
+     * @param \Illuminate\Http\Request  $request
+     * @param \App\Domain\Accounts\Verification\VerifyCodeService  $service
+     * 
+     * @return array
      */
     public function store(Request $request, VerifyCodeService $service)
     {

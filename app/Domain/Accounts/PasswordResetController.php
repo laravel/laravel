@@ -29,7 +29,7 @@ class PasswordResetController extends Controller
      * Display the form to request a password reset link.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -47,7 +47,7 @@ class PasswordResetController extends Controller
      * Send a reset link to the given user.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
     public function store(Request $request)
     {
@@ -82,7 +82,7 @@ class PasswordResetController extends Controller
      * Reset the given user's password.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return array|\Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
@@ -126,7 +126,7 @@ class PasswordResetController extends Controller
     /**
      * Get the guard to be used during password reset.
      *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     * @return \Illuminate\Contracts\Auth\Guard
      */
     protected function guard()
     {
