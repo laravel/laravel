@@ -6,4 +6,6 @@ php:
     not-name:
       - index.php
       - server.php
+js
+  print-width: 80
 css: true
