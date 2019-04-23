@@ -25,7 +25,7 @@ class AccountController extends Controller
      * Show the application registration form.
      *
      * @param  Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -42,7 +42,7 @@ class AccountController extends Controller
      * Handle a registration request for the application.
      *
      * @param  \App\Domain\Accounts\AccountStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(AccountStoreRequest $request)
     {

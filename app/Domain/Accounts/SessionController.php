@@ -30,7 +30,8 @@ class SessionController extends Controller
      * Display the form to login.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
+     * @return \Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -47,6 +48,7 @@ class SessionController extends Controller
      * Creates a new session, logging in the Account if credentials match.
      *
      * @param  SessionStoreRequest  $request
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(SessionStoreRequest $request)
@@ -58,7 +60,8 @@ class SessionController extends Controller
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * 
+     * @return array
      */
     public function destroy(Request $request)
     {
@@ -72,9 +75,9 @@ class SessionController extends Controller
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  $request  Request
-     * @param  $user  Account
+     * @param  \Illuminate\Http\Request     $request
+     * @param  \App\Domain\Accounts\Account $user
+     * 
      * @return array
      */
     protected function authenticated(Request $request, $user)
