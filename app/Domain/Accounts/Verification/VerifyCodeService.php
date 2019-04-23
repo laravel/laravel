@@ -20,6 +20,7 @@ class VerifyCodeService
 
     /**
      * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
+     * 
      * @return  void
      */
     public function __construct(Hasher $hasher)
@@ -31,10 +32,11 @@ class VerifyCodeService
      * Creates a VerifyCode that authorises an Account to consent. Will emit
      * created event to rest of app and notify the Account directly.
      *
-     * @param Account  $account
-     * @return VerifyCode
+     * @param  \App\Domain\Accounts\Account $account
+     * 
+     * @return \App\Domain\Accounts\Verification\VerifyCode
      */
-    public function create(Account $account) : VerifyCode
+    public function create(Account $account): VerifyCode
     {
         return call_user_func_array(function (VerifyCode $verifyCode, string $token) use ($account) {
             event(new Events\VerifyCodeCreated($verifyCode));
@@ -51,6 +53,7 @@ class VerifyCodeService
      *
      * @param  string  $code
      * @param  string  $token
+     * 
      * @return void
      */
     public function verify(string $code, string $token)
@@ -67,10 +70,11 @@ class VerifyCodeService
     /**
      * Create a new random token for the email.
      *
-     * @param  $email  string
+     * @param  string $email
+     * 
      * @return string
      */
-    protected function newToken(string $email) : string
+    protected function newToken(string $email): string
     {
         return hash_hmac('sha256', Str::random(40), $email);
     }
@@ -78,9 +82,9 @@ class VerifyCodeService
     /**
      * Returns date when the new token should expire.
      *
-     * @return Carbon
+     * @return \Carbon\Carbon
      */
-    protected function newExpiry() : Carbon
+    protected function newExpiry(): Carbon
     {
         return now()->addHours(config('accounts.verification.code_expiry_hours'));
     }
@@ -89,10 +93,11 @@ class VerifyCodeService
      * Within a transaction, deletes all previous verify codes and creates a
      * new one for the Account, returning the VerifyCode and token in an array.
      *
-     * @param  $account  Account
+     * @param  \App\Domain\Accounts\Account $account
+     * 
      * @return array
      */
-    protected function createVerifyCode(Account $account) : array
+    protected function createVerifyCode(Account $account): array
     {
         return DB::transaction(function () use ($account) {
             $account
@@ -117,11 +122,12 @@ class VerifyCodeService
      * Attempts find the VerifyCode and then verify the token matches. Account
      * will be verified is matches, code wil be deleted regardless if found.
      *
-     * @param  $code  string
-     * @param  $token  string
+     * @param  string $code  
+     * @param  string $token
+     * 
      * @return ?VerifyCode
      */
-    protected function attemptVerify(string $code, string $token) : ?VerifyCode
+    protected function attemptVerify(string $code, string $token): ?VerifyCode
     {
         return DB::transaction(function () use ($code, $token) {
             $verifyCode = VerifyCode::query()
