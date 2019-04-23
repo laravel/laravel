@@ -7,5 +7,5 @@ php:
       - index.php
       - server.php
 js:
-  print-width: 80
+  print-width: 100
 css: true
