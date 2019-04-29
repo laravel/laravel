@@ -30,8 +30,6 @@ services:
       - "COMPOSER_ALLOW_SUPERUSER=true"
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
       - "YARN_CACHE_FOLDER=/root/.yarn-cache"
-    ports:
-      - 5757:5757
 
   db:
     image: mariadb:10.3
@@ -52,6 +50,8 @@ services:
     environment:
       - "YARN_CACHE_FOLDER=/root/.yarn-cache"
     working_dir: /app
+    ports:
+      - 5757:5757
 
   adminer:
     image: adminer

@@ -9,4 +9,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-docker-compose run --rm node $@
+docker-compose run --service-ports --rm node $@
