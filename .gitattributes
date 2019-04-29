@@ -2,4 +2,5 @@
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
+.styleci.yml export-ignore
 CHANGELOG.md export-ignore
