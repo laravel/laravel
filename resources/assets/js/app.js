@@ -6,9 +6,9 @@ import svg4everybody from 'svg4everybody';
 import './bootstrap';
 
 // components
-import ForgotPassword from './components/accounts/forgot-password-form';
+import ForgotPasswordForm from './components/accounts/forgot-password-form';
 import LoginForm from './components/accounts/login-form';
-import PasswordReset from './components/accounts/password-reset-form';
+import PasswordResetForm from './components/accounts/password-reset-form';
 import RegisterForm from './components/accounts/register-form';
 import ResendVerifyCodeForm from './components/accounts/resend-verify-code-form';
 
@@ -21,9 +21,9 @@ new Vue({
 	el: '#app',
 
 	components: {
-		ForgotPassword,
+		ForgotPasswordForm,
 		LoginForm,
-		PasswordReset,
+		PasswordResetForm,
 		RegisterForm,
 		ResendVerifyCodeForm,
 	},
