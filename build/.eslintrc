@@ -54,6 +54,7 @@
 		"vue/key-spacing": 1,
 		"vue/match-component-file-name": 1,
 		"vue/no-boolean-default": 1,
+		"vue/no-v-html": 0,
 		"vue/no-restricted-syntax": 1,
 		"vue/object-curly-spacing": 1,
 		"vue/require-direct-export": 1,
