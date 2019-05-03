@@ -1,14 +1,20 @@
-function requireAll(r) {
-	return r.keys().reduce(function (acc, filename) {
-		const key = filename
-			.replace(/^\.\//, '')
-			.replace(/\.php$/, '')
-			.replace(/\//g, '.');
+import Lang from 'lang.js';
 
-		acc[key] = r(filename);
+const contexts = require.context('../../lang/', true, /\.php$/);
 
-		return acc;
-	}, {});
-};
+const messages = contexts.keys().reduce((acc, filename) => {
+	const key = filename
+		.replace(/^\.\//, '')
+		.replace(/\.php$/, '')
+		.replace(/\//g, '.');
 
-module.exports = requireAll(require.context('../../lang/', true, /\.php$/));
+	acc[key] = contexts(filename);
+
+	return acc;
+}, {});
+
+export default new Lang({
+	messages,
+	locale: 'en-gb',
+	fallback: 'en-gb',
+});
