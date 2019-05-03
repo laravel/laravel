@@ -13,9 +13,7 @@
 		props: {
 			errors: {
 				type: Array,
-				default() {
-					return [];
-				},
+				default: null,
 			},
 		},
 
