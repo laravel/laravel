@@ -1,64 +1,64 @@
 <template>
-	<form name="register" @submit.prevent="onSubmit" novalidate>
+	<form name="register" novalidate @submit.prevent="onSubmit">
 		<div
 			v-if="message"
 			v-text="message"
-		></div>
+		/>
 
 		<div>
 			<label>{{ 'accounts.register.labels.name' | trans }}</label>
 
 			<input
+				v-model="form.name"
 				type="text"
 				name="name"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.name' | trans"
-				v-model="form.name"
-			/>
+			>
 
-			<error-text :errors="errors.name"></error-text>
+			<error-text :errors="errors.name" />
 		</div>
 
 		<div>
 			<label>{{ 'accounts.register.labels.email' | trans }}</label>
 
 			<input
+				v-model="form.email"
 				type="email"
 				name="email"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.email' | trans"
-				v-model="form.email"
-			/>
+			>
 
-			<error-text :errors="errors.email"></error-text>
+			<error-text :errors="errors.email" />
 		</div>
 
 		<div>
 			<label>{{ 'accounts.register.labels.password' | trans }}</label>
 
 			<input
+				v-model="form.password"
 				type="password"
 				name="password"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.password' | trans"
-				v-model="form.password"
-			/>
+			>
 
-			<error-text :errors="errors.password"></error-text>
+			<error-text :errors="errors.password" />
 		</div>
 
 		<div>
 			<label>{{ 'accounts.register.labels.password_confirmation' | trans }}</label>
 
 			<input
+				v-model="form.password_confirmation"
 				type="password"
 				name="password_confirmation"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.register.placeholders.password_confirmation' | trans"
-				v-model="form.password_confirmation"
-			/>
+			>
 
-			<error-text :errors="errors.password_confirmation"></error-text>
+			<error-text :errors="errors.password_confirmation" />
 		</div>
 
 		<div>
@@ -68,7 +68,9 @@
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
-		>{{ 'accounts.register.button' | trans }}</button>
+		>
+			{{ 'accounts.register.button' | trans }}
+		</button>
 	</form>
 </template>
 
@@ -76,10 +78,13 @@
 	import Form from '../../mixins/form';
 
 	export default {
-		mixins: [ Form ],
+		mixins: [Form],
 
 		props: {
-			email: String,
+			email: {
+				type: String,
+				default: '',
+			},
 
 			loginUrl: {
 				type: String,
@@ -94,5 +99,5 @@
 				},
 			};
 		},
-	}
+	};
 </script>

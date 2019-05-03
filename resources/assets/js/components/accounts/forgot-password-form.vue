@@ -1,22 +1,22 @@
 <template>
-	<form name="forgot-password" @submit.prevent="onSubmit" novalidate>
+	<form name="forgot-password" novalidate @submit.prevent="onSubmit">
 		<div
 			v-if="message"
 			v-text="message"
-		></div>
+		/>
 
 		<div>
 			<label>{{ 'accounts.forgot_password.labels.email' | trans }}</label>
 
 			<input
+				v-model="form.email"
 				type="email"
 				name="email"
 				:disabled="isSubmitting"
 				:placeholder="'accounts.forgot_password.placeholders.email' | trans"
-				v-model="form.email"
-			/>
+			>
 
-			<error-text :errors="errors.email"></error-text>
+			<error-text :errors="errors.email" />
 		</div>
 
 		<div>
@@ -27,7 +27,9 @@
 		<button
 			type="submit"
 			:disabled="!isSubmitEnabled"
-		>{{ 'accounts.forgot_password.button' | trans }}</button>
+		>
+			{{ 'accounts.forgot_password.button' | trans }}
+		</button>
 	</form>
 </template>
 
@@ -35,10 +37,13 @@
 	import Form from '../../mixins/form';
 
 	export default {
-		mixins: [ Form ],
+		mixins: [Form],
 
 		props: {
-			email: String,
+			email: {
+				type: String,
+				default: '',
+			},
 
 			loginUrl: {
 				type: String,
@@ -58,5 +63,5 @@
 				},
 			};
 		},
-	}
+	};
 </script>
