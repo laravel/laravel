@@ -10,11 +10,13 @@ new ComponentFactory().install(require('./mix-modules/I18n'));
 // Allow JSON files to be loaded in Sass
 new ComponentFactory().install(require('./mix-modules/SassJsonLoader'));
 
-// Load JavaScript linter support
-new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
-
 // Svg combinating
 new ComponentFactory().install(require('./mix-modules/SvgSprite'));
+
+if (js.lint) {
+	// Load JavaScript linter support
+	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
+}
 
 // Typical setup
 mix

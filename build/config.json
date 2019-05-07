@@ -37,7 +37,8 @@
       "files": [
         "app.js"
       ],
-      "extract": []
+      "extract": [],
+      "lint": true
     }
   }
 }
