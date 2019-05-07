@@ -2,8 +2,20 @@
 
 ## [Unreleased](https://github.com/laravel/laravel/compare/v5.8.3...master)
 
+
+## [v5.8.16 (2019-05-07)](https://github.com/laravel/laravel/compare/v5.8.3...master)
+
+### Added
+- Add IDE type-hint to UserFactory ([#4990](https://github.com/laravel/laravel/pull/4990))
+- Update database config relating to Url addition ([#5018](https://github.com/laravel/laravel/pull/5018), [b0e0bdc](https://github.com/laravel/laravel/commit/b0e0bdc060ce068b73371919b904f3c7f0c1cfa6))
+
 ### Changed
 - Upgrade the collision dependency from v2 to v3 ([#4963](https://github.com/laravel/laravel/pull/4963))
+- Ignore SQLite journals ([#4971](https://github.com/laravel/laravel/pull/4971))
+- Prefix redis database connection by default ([#4982](https://github.com/laravel/laravel/pull/4982), [#4986](https://github.com/laravel/laravel/pull/4986), [#4987](https://github.com/laravel/laravel/pull/4987))
+
+### Removed
+- Remove `.navbar-laravel` CSS class ([65f8271](https://github.com/laravel/laravel/commit/65f8271032c113883fb3f1e8e7b3279821148ad1))
 
 
 ## [v5.8.3 (2019-03-05)](https://github.com/laravel/laravel/compare/v5.8.0...v5.8.3)
