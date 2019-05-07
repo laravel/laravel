@@ -39,11 +39,16 @@ mix
 			prefix: false,
 		},
 	})
-	.copyDirectory(src('static'), public(assets('static')))
-	.version();
+	.copyDirectory(src('static'), public(assets('static')));
 
 css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
 js.files.forEach(filename => mix.js(src(`js/${filename}`), assets('js')));
 
 // Uncomment if you want to separate vendor files.
 // mix.extract(js.extract);
+
+if (mix.inProduction()) {
+	mix.version();
+} else {
+	mix.sourceMaps(false, 'cheap-eval-source-map');
+}
