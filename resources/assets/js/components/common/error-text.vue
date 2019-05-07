@@ -1,11 +1,11 @@
 <template>
-	<span v-if="errors" class="error-text">
+	<div v-if="errors" class="error-text">
 		<p
 			v-for="(message) in errors"
 			:key="message"
 			v-text="message"
 		/>
-	</span>
+	</div>
 </template>
 
 <script>
