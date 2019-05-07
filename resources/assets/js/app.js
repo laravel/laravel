@@ -28,7 +28,7 @@ new Vue({
 		ResendVerifyCodeForm,
 	},
 
-	mounted: () => {
+	mounted() {
 		svg4everybody();
 	},
 });
