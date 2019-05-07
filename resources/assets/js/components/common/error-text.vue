@@ -1,13 +1,20 @@
 <template>
-	<span class="error-text" v-if="errors">
-		<p v-for="(message) in errors" :key="message" v-text="message"></p>
-	</span>
+	<div v-if="errors" class="error-text">
+		<p
+			v-for="(message) in errors"
+			:key="message"
+			v-text="message"
+		/>
+	</div>
 </template>
 
 <script>
 	export default {
 		props: {
-			errors: Array,
+			errors: {
+				type: Array,
+				default: null,
+			},
 		},
 
 		computed: {
@@ -18,5 +25,4 @@
 			},
 		},
 	};
-
 </script>

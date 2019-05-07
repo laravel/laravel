@@ -13,6 +13,11 @@ new ComponentFactory().install(require('./mix-modules/SassJsonLoader'));
 // Svg combinating
 new ComponentFactory().install(require('./mix-modules/SvgSprite'));
 
+if (js.lint) {
+	// Load JavaScript linter support
+	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
+}
+
 // Typical setup
 mix
 	.options({

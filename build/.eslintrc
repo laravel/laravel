@@ -1,0 +1,82 @@
+{
+	"extends": [
+		"airbnb-base",
+		"plugin:vue/recommended"
+	],
+	"plugins": [
+		"vue"
+	],
+	"globals": {
+		"_": true,
+		"axios": true,
+		"document": true,
+		"trans": true,
+		"window": true
+	},
+	"rules": {
+		"func-names": "off",
+		"import/no-extraneous-dependencies": "off",
+		"import/no-unresolved": "off",
+		"indent": [
+			"error",
+			"tab"
+		],
+		"no-console": [
+			"error",
+			{
+				"allow": [
+					"error"
+				]
+			}
+		],
+		"no-tabs": "off",
+		"object-shorthand": "off",
+		"one-var": "off",
+		"padded-blocks": "off",
+		"vue/html-indent": [
+			1,
+			"tab"
+		],
+		"vue/max-attributes-per-line": [
+			2,
+			{
+				"singleline": 3
+			}
+		],
+		"vue/array-bracket-spacing": 1,
+		"vue/arrow-spacing": 1,
+		"vue/block-spacing": 1,
+		"vue/brace-style": 1,
+		"vue/camelcase": 1,
+		"vue/comma-dangle": 1,
+		"vue/component-name-in-template-casing": 1,
+		"vue/eqeqeq": 1,
+		"vue/key-spacing": 1,
+		"vue/match-component-file-name": 1,
+		"vue/no-boolean-default": 1,
+		"vue/no-v-html": 0,
+		"vue/no-restricted-syntax": 1,
+		"vue/object-curly-spacing": 1,
+		"vue/require-direct-export": 1,
+		"vue/script-indent": [
+			2,
+			"tab",
+			{
+				"baseIndent": 1
+			}
+		],
+		"vue/space-infix-ops": 1,
+		"vue/space-unary-ops": 1,
+		"vue/v-on-function-call": 1
+	},
+	"overrides": [
+		{
+			"files": [
+				"*.vue"
+			],
+			"rules": {
+				"indent": "off"
+			}
+		}
+	]
+}
