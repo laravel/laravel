@@ -1,3 +1,3 @@
-FROM digbang/php-dev:7.2
+FROM digbang/php-dev:7.3
 
 RUN mkdir /proxies && chown -R www-data:www-data /proxies && ln -s /proxies /var/www/html/proxies
