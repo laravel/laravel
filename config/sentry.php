@@ -18,4 +18,9 @@ return [
     'logging' => [
         'enabled' => env('SENTRY_LOGGING_ENABLED', false),
     ],
+
+    'breadcrumbs' => [
+        // Capture bindings on SQL queries logged in breadcrumbs
+        'sql_bindings' => true,
+    ],
 ];
