@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Util\OrderedRouteDefiner;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\OrderedRouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use Symfony\Component\Finder\Finder;

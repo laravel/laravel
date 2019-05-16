@@ -7,7 +7,7 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Listings\Listing;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;

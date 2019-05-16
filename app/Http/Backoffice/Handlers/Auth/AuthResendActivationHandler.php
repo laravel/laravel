@@ -6,7 +6,7 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Requests\Auth\ResendActivationRequest;
 use App\Http\Kernel;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Activations\Activation;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;

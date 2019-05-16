@@ -7,7 +7,7 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Listings\Listing;
 use Digbang\Backoffice\Repositories\DoctrineUserRepository;
 use Digbang\Security\Exceptions\SecurityException;

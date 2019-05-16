@@ -6,7 +6,7 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;

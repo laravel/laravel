@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Util;
+namespace App\Http\Utils;
 
 interface OrderedRouteDefiner extends RouteDefiner
 {

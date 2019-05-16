@@ -4,7 +4,7 @@ namespace App\Http\Backoffice\Handlers\Dashboard;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
-use App\Http\Util\RouteDefiner;
+use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Routing\Router;
 
