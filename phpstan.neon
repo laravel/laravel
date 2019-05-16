@@ -1,0 +1,41 @@
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Call to an undefined static method Money\\Money::ARS\(\)\.#'
+        - '#Call to an undefined static method Illuminate\\Support\\Facades\\.*#'
+        - '#Call to an undefined static method Intervention\\Image\\Facades\\Image::make\(\)\.#'
+        - '#Invalid array key type array\|Illuminate\\Contracts\\Translation\\Translator\|string\|null\.#'
+        - '#Cannot access offset string on array|Illuminate\\Contracts\\Translation\\Translator|string.#'
+        - '#Method Mockery\\MockInterface::shouldReceive\(\).*#'
+        - '#Access to undefined constant App\\Infrastructure\\Doctrine\\Repositories\\DoctrineReadRepository::CLASS_NAME\.#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Validation\\Validator::errors\(\)\.#'
+        - '#Call to an undefined method Illuminate\\Http\\RedirectResponse::withWarning\(\)\.#'
+        - '#.+Mockery\\MockInterface.+#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::method\(\)#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::expects\(\)#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::shouldReceive\(\)#'
+        - '#Access to an undefined property PHPUnit_Framework_MockObject_MockObject::\$[a-zA-Z0-9_]+#'
+        - '#Call to an undefined method PHPUnit_Framework_MockObject_MockObject::[a-zA-Z0-9_]+\(\)#'
+        - '#Call to an undefined method Cartalyst\\Sentinel\\Users\\UserInterface::[a-zA-Z0-9_]+\(\)#'
+        - '#Call to an undefined method LaravelDoctrine\\Fluent\\Fluent::chronos[a-zA-Z0-9_]+\(\).#'
+        - '#Static method Illuminate\\Support\\Facades\\App::environment\(\) invoked with 1 parameter, 0 required.#'
+        - '#Static method Illuminate\\Support\\Facades\\App::environment\(\) invoked with 1 parameter, 0 required.#'
+        - '#Call to an undefined method Digbang\\Locations\\CountryRepository::findAll\(\).#'
+        - '#Call to an undefined method Illuminate\\Http\\Request::validate\(\).#'
+        - '#Access to an undefined property Illuminate\\Http\\Request::\$id.#'
+        - '#Call to static method make\(\) on an unknown class Image#'
+        - '#Illuminate\\Filesystem\\FilesystemManager::putFileAs\(\)#'
+        - '#Cannot access offset 0 on [a-zA-Z0-9\\_]+#'
+        - '#Method App\\Http\\Requests\\[a-zA-Z0-9]+\\[a-zA-Z0-9]+Request::[a-zA-Z0-9]+\(\) should return [a-zA-Z0-9]+ but returns array|string|null.#'
+        - '#Call to an undefined method Illuminate\\Http\\RedirectResponse::with[a-zA-Z0-9]+\(\).#'
+        - '#Call to an undefined method LaravelDoctrine\\Fluent\\Relations\\ManyToMany::addInverseJoinColumn().#'
+        - '#Call to an undefined method IteratorAggregate::map().#'
+    bootstrap: vendor/autoload.php
+    excludes_analyse:
+        - app/ExceptionHandler.php
+        - app/Infrastructure/Doctrine/Validation/DoctrineInsensitivePresenceVerifier.php
+        - resources/views/vendor/backoffice/gen/generation.blade.php
+includes:
+        - vendor/phpstan/phpstan-phpunit/extension.neon
+        - vendor/phpstan/phpstan-phpunit/rules.neon
+        - vendor/phpstan/phpstan-mockery/extension.neon

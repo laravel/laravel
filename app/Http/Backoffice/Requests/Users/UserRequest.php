@@ -12,6 +12,8 @@ class UserRequest extends Request
     public function getUser(): User
     {
         $id = $this->route(static::ROUTE_PARAM_ID);
+
+        /** @var User $user */
         $user = security()->users()->findById($id);
 
         if (! $user) {

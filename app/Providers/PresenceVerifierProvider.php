@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Doctrine\Validation\DoctrineInsensitivePresenceVerifier;
+use App\Infrastructure\Doctrine\Validation\DoctrineInsensitivePresenceVerifier;
 use Illuminate\Validation\ValidationServiceProvider;
 
 class PresenceVerifierProvider extends ValidationServiceProvider

@@ -13,7 +13,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         if (config('app.debug')) {
-            $this->app['router']->get('logs', LogViewerController::class . '@index');
+            $this->app->get('router')->get('logs', LogViewerController::class . '@index');
         }
 
         $orderedRoutes = [];

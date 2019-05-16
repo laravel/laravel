@@ -47,11 +47,10 @@ class UserEditFormHandler extends Handler implements RouteDefiner
             UserEditRequest::FIELD_USERNAME => $user->getUsername(),
         ];
 
-        /** @var User|Roleable|Permissible $user */
         if ($user instanceof Roleable) {
+            /* @var \Doctrine\Common\Collections\Collection $roles */
             $roles = $user->getRoles();
 
-            /* @var \Doctrine\Common\Collections\Collection $roles */
             $data[UserEditRequest::FIELD_ROLES . '[]'] = $roles->map(function (Role $role) {
                 return $role->getRoleSlug();
             })->toArray();

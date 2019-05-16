@@ -40,9 +40,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->command('inspire', function () {
-            /* @var \Illuminate\Console\Command $this */
-            $this->comment(\Illuminate\Foundation\Inspiring::quote());
-        })->describe('Display an inspiring quote');
+
     }
 }

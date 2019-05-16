@@ -11,6 +11,8 @@ class ActivateRequest extends Request
     public function getUser(): User
     {
         $id = $this->route(AuthActivateHandler::ROUTE_PARAM_USER);
+
+        /** @var User $user */
         $user = security()->users()->findById($id);
 
         if (! $user) {

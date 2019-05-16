@@ -35,7 +35,7 @@ abstract class DataImporter
     /**
      * @param int $count
      *
-     * @return RowCollection
+     * @return RowCollection|array
      */
     abstract public function next(int $count);
 }

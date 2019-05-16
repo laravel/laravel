@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Doctrine\Validation;
+namespace App\Infrastructure\Doctrine\Validation;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Types\Type;

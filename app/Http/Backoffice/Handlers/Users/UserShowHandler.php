@@ -51,10 +51,9 @@ class UserShowHandler extends Handler implements RouteDefiner
         ];
 
         if ($user instanceof Roleable) {
-            /** @var User|Roleable $user */
+            /** @var \Doctrine\Common\Collections\Collection $roles */
             $roles = $user->getRoles();
 
-            /* @var \Doctrine\Common\Collections\Collection $roles */
             $data[trans('backoffice::auth.roles')] = implode(', ', $roles->map(function (Role $role) {
                 return $role->getName();
             })->toArray());

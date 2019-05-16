@@ -27,15 +27,18 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
         "beyondcode/laravel-dump-server": "^1.0",
+        "brainmaestro/composer-git-hooks": "^2.4",
         "facade/ignition": "^1.4",
+        "friendsofphp/php-cs-fixer": "^2.9.3",
         "fzaninotto/faker": "^1.4",
+        "garygreen/pretty-routes": "^1.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
+        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-mockery": "^0.11",
+        "phpstan/phpstan-phpunit": "^0.11",
         "phpunit/phpunit": "^8.0",
-        "friendsofphp/php-cs-fixer": "^2.9.3",
-        "garygreen/pretty-routes": "^1.0",
         "arcanedev/log-viewer": "^5.0",
-        "brainmaestro/composer-git-hooks": "^2.4",
         "symfony/thanks": "^1.0"
     },
     "suggest": {
@@ -62,6 +65,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+              "sentry/sentry-laravel"
             ]
         },
         "hooks": {

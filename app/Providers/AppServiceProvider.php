@@ -60,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function configureMonologSentryHandler()
     {
-        if (config('sentry.enabled') && config('sentry.logging.enabled')) {
+        if (env('SENTRY_ENABLED')) {
             $this->app->register(\Sentry\Laravel\ServiceProvider::class);
         }
     }

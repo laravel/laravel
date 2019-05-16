@@ -3,6 +3,8 @@
 namespace App\Infrastructure\Util;
 
 use Illuminate\Http\UploadedFile;
+use Maatwebsite\Excel\Collections\RowCollection;
+use Maatwebsite\Excel\Collections\SheetCollection;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Readers\LaravelExcelReader;
 
@@ -30,6 +32,7 @@ class ExcelImporter extends DataImporter
     /** {@inheritdoc} */
     public function next(int $count)
     {
+        /** @var SheetCollection|RowCollection $rows */
         $rows = $this->reader->takeRows($this->cursor)->all();
         $this->reader->skipRows($this->cursor += $count);
 
