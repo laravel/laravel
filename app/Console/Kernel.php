@@ -40,6 +40,5 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-
     }
 }

@@ -20,6 +20,8 @@ return [
 
     'log_level' => env('LOG_LEVEL', 'debug'),
 
+    'sentry_enabled' => env('SENTRY_ENABLED'),
+
     /*
     |--------------------------------------------------------------------------
     | Log Channels

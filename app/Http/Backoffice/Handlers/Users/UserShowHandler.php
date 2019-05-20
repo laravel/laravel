@@ -12,7 +12,6 @@ use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
-use Digbang\Security\Users\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Router;
 

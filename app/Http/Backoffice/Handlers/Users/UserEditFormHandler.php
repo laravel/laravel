@@ -14,7 +14,6 @@ use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Permissions\Permissible;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
-use Digbang\Security\Users\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
