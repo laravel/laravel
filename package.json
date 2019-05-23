@@ -29,7 +29,8 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "svg-spritemap-webpack-plugin": "^3.2.0",
-        "svg4everybody": "^2.1.9",
+		"svg4everybody": "^2.1.9",
+		"tornis": "^0.1.3",
         "vue": "^2.5.22",
         "vue-template-compiler": "^2.5.22",
         "what-input": "^5.1.1"

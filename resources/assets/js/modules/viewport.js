@@ -1,32 +1,21 @@
+import {
+	watchViewport,
+} from 'tornis';
 import variables from '../../variables.json';
 
 let width = 0,
-	height = 0,
-	prevWidth,
-	prevHeight,
-	timer = null;
+	height = 0;
 
-const breakpoints = {},
-	listeners = {},
-	update = () => {
-		prevWidth = width;
-		prevHeight = height;
+const updateValues = ({
+	size,
+}) => {
+	width = size.x;
+	height = size.y;
+};
 
-		width = window.innerWidth;
-		height = window.innerHeight;
+const breakpoints = {};
 
-		Object.keys(listeners).forEach((name) => {
-			listeners[name](prevWidth !== width, prevHeight !== height);
-		});
-	};
-
-window.addEventListener('resize', () => {
-	clearTimeout(timer);
-
-	timer = setTimeout(update, 300);
-});
-
-update();
+watchViewport(updateValues);
 
 Object.keys(variables.breakpoints).forEach((name) => {
 	let value = variables.breakpoints[name];
@@ -41,14 +30,6 @@ Object.keys(variables.breakpoints).forEach((name) => {
 export const getWidth = () => width;
 
 export const getHeight = () => height;
-
-export const addListener = (name, listener) => {
-	listeners[name] = listener;
-};
-
-export const removeListener = (name) => {
-	delete listeners[name];
-};
 
 export const mq = (name, extremum = 'min', property = 'width') => {
 	if (!window.matchMedia) {
