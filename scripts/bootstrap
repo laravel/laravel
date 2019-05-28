@@ -113,7 +113,8 @@ echo ""
 echo -e "--> "$COLOUR_GREEN"Installing application dependencies"$COLOUR_RESET
 if $OPT_DO_UPDATE; then
     ./scripts/update
-    echo -e "\n"
+
+    echo ""
 else
     echo -e "Install application dependencies was skipped because --no-update was passed\n"
 fi
