@@ -2,14 +2,20 @@
 
 # Purpose:
 #
-# Checks to see you have a recent version of Docker & Docker composer installed.
+# Bootstraps the project with the Docker application stack.
 
 set -e
+[ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
+echo -e "--> Bootstrapping Docker project"
+
 MINIMUM_DOCKER_VERSION=1.12
 MINIMUM_DOCKER_COMPOSE_VERSION=1
+
+COLOUR_GREEN="\x1b[32;01m"
+COLOUR_RESET="\x1b[39;49;00m"
 
 function executableCheck {
     local EXE=$1
@@ -23,7 +29,7 @@ function executableCheck {
 
     # check if the command is executable
     if [ ! -e ${EXE} ]; then
-        echo Docker installed but not executable
+        echo "Docker installed but not executable"
     fi
 }
 
@@ -33,15 +39,14 @@ function versionCheck {
     local SYSTEM=$3
     local CHECK=`echo "$VERSION>=$MINIMUM" | bc -l`
     if [ "$CHECK" == "0" ]; then
-        echo ${SYSTEM} version mismatch, please upgrade ${SYSTEM}
+        echo "${SYSTEM} version mismatch, please upgrade ${SYSTEM}"
         exit 1
     else
-        echo ${SYSTEM} version OK
+        echo "${SYSTEM} version OK"
     fi
 }
 
-echo "--> Checking Docker version"
-
+echo -e "--> "$COLOUR_GREEN"Checking Docker version"$COLOUR_RESET
 # validate Docker command and version
 DOCKER_EXE=$(/usr/bin/which docker || echo 0)
 executableCheck ${DOCKER_EXE} "docker"
@@ -55,3 +60,29 @@ executableCheck ${DOCKER_COMPOSE_EXE} "docker-compose"
 
 DOCKER_COMPOSE_VERSION="$(${DOCKER_COMPOSE_EXE} --version | cut -f 3 -d' ' | cut -f 1,2 -d '.')";
 versionCheck ${DOCKER_COMPOSE_VERSION} ${MINIMUM_DOCKER_COMPOSE_VERSION} "Docker Compose"
+echo -e "\n"
+
+# Builds all Docker compose services.
+echo -e "--> "$COLOUR_GREEN"Building all Docker compose services"$COLOUR_RESET
+docker-compose build
+echo -e "\n"
+
+# Serves the Docker containers.
+echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
+docker-compose up -d --build --no-recreate
+echo -e "\n"
+
+# Installs any application dependencies; e.g. Composer, Yarn.
+echo -e "--> "$COLOUR_GREEN"Installing application dependencies"$COLOUR_RESET
+scripts/update
+echo -e "\n"
+
+if grep -q "APP_KEY=\\n" .env; then
+    echo "--> Generating Laravel encryption key"
+    docker-compose exec app php artisan key:generate
+fi
+
+echo -e $COLOUR_GREEN"Project is initialised! 🚀"$COLOUR_RESET
+
+echo -e "Web app: http://localhost:8000"
+echo -e "Database: http://localhost:8080\n"
