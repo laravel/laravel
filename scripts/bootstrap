@@ -123,7 +123,7 @@ if [ -z "$APP_KEY" ]; then
     echo -e "--> "$COLOUR_GREEN"Application initial setup"$COLOUR_RESET
     echo "Generating Laravel encryption key"
 
-    docker-compose exec app php artisan key:generate
+    ./scripts/console key:generate
 
     echo ""
 fi
