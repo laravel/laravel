@@ -29,6 +29,9 @@ class PageDefaultsViewComposer extends BaseViewComposer
                 'share_title' => 'Share title',
                 'share_description' => 'Share description',
             ],
+            'links' => [
+                'home' => route('frontend.show', 'home/home'),
+			],
         ];
     }
 
@@ -52,6 +55,9 @@ class PageDefaultsViewComposer extends BaseViewComposer
                 'site_twitter_handle' => '@site_handle',
                 'share_title' => 'Share title',
                 'share_description' => 'Share description',
+			],
+			'links' => [
+				'home' => route('home.show'),
             ],
         ];
     }
