@@ -7,6 +7,8 @@
 set -e
 [ -z "${DEBUG}" ] || set -x
 
+cd "$(dirname "$0")/.."
+
 # Bash colour variables
 COLOUR_GREEN="\x1b[32;01m"
 COLOUR_RED="\x1b[31;01m"
@@ -30,6 +32,7 @@ do
     esac
 done
 
+# Bash function to check cli binary executes
 function executableCheck {
     local EXE=$1
     local NAME=$2
@@ -44,6 +47,7 @@ function executableCheck {
     fi
 }
 
+# Bash function to check version number meets requirements
 function versionCheck {
     local VERSION=$1
     local MINIMUM=$2
@@ -54,8 +58,6 @@ function versionCheck {
         exit 1
     fi
 }
-
-cd "$(dirname "$0")/.."
 
 echo -e $COLOUR_WHITE"🐳 Bootstrapping project...\n"$COLOUR_RESET
 
@@ -80,7 +82,9 @@ echo -e "--> "$COLOUR_GREEN"Checking project environment file"$COLOUR_RESET
 # Checks for dotenv existence.
 if [ ! -f .env ]; then
     echo -e "Copying .env.example file to .env"
+
     cp .env.example .env
+
 fi
 
 # Extract the project environment file into bash vars.
@@ -105,6 +109,7 @@ echo -e "Environment file OK\n"
 
 # Build and serve all the Docker containers.
 echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
+
 docker-compose up -d --build --no-recreate
 
 echo ""
@@ -112,6 +117,7 @@ echo ""
 # Installs any application dependencies; e.g. Composer, Yarn.
 echo -e "--> "$COLOUR_GREEN"Installing application dependencies"$COLOUR_RESET
 if $OPT_DO_UPDATE; then
+
     ./scripts/update
 
     echo ""

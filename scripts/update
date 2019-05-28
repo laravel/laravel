@@ -9,6 +9,11 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+echo "Updating build dependencies"
 ./scripts/build yarn install
+
+echo -e "\nUpdating application dependencies"
 docker-compose exec app php /usr/bin/composer install --prefer-dist --no-suggest
+
+echo -e "\nUpdating Database"
 docker-compose exec app php artisan migrate:fresh --seed
