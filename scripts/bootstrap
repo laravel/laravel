@@ -110,7 +110,7 @@ echo -e "Environment file OK\n"
 # Build and serve all the Docker containers.
 echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
 
-docker-compose up -d --build --no-recreate
+docker-compose up -d --build
 
 echo ""
 
