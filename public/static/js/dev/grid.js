@@ -1,4 +1,4 @@
-// <script src="/assets/static/js/dev/grid.js"></script>
+// <script src="/static/js/dev/grid.js"></script>
 
 ;(function(){
 
