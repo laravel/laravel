@@ -7,15 +7,28 @@
 set -e
 [ -z "${DEBUG}" ] || set -x
 
-cd "$(dirname "$0")/.."
+# Bash colour variables
+COLOUR_GREEN="\x1b[32;01m"
+COLOUR_RED="\x1b[31;01m"
+COLOUR_YELLOW="\x1b[33;01m"
+COLOUR_WHITE="\x1b[97;01m"
+COLOUR_RESET="\x1b[39;49;00m"
 
-echo -e "--> Bootstrapping Docker project"
-
+# Set default values
 MINIMUM_DOCKER_VERSION=1.12
 MINIMUM_DOCKER_COMPOSE_VERSION=1
+OPT_DO_UPDATE=true
 
-COLOUR_GREEN="\x1b[32;01m"
-COLOUR_RESET="\x1b[39;49;00m"
+# Parse script option parameters
+for i in "$@"
+do
+    case $i in
+        --no-update) 
+            OPT_DO_UPDATE=false
+            shift
+        ;;
+    esac
+done
 
 function executableCheck {
     local EXE=$1
@@ -23,13 +36,11 @@ function executableCheck {
     if [ "$EXE" == "0" ]; then
         echo No \"${NAME}\" command found
         exit 1
-    else
-        echo \"${NAME}\" command found
     fi
 
     # check if the command is executable
     if [ ! -e ${EXE} ]; then
-        echo "Docker installed but not executable"
+        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${NAME} is installed but not executable"
     fi
 }
 
@@ -39,14 +50,16 @@ function versionCheck {
     local SYSTEM=$3
     local CHECK=`echo "$VERSION>=$MINIMUM" | bc -l`
     if [ "$CHECK" == "0" ]; then
-        echo "${SYSTEM} version mismatch, please upgrade ${SYSTEM}"
+        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${SYSTEM} version mismatch, please upgrade"
         exit 1
-    else
-        echo "${SYSTEM} version OK"
     fi
 }
 
-echo -e "--> "$COLOUR_GREEN"Checking Docker version"$COLOUR_RESET
+cd "$(dirname "$0")/.."
+
+echo -e $COLOUR_WHITE"🐳 Bootstrapping project...\n"$COLOUR_RESET
+
+echo -e "--> "$COLOUR_GREEN"Checking local Docker environment"$COLOUR_RESET
 # validate Docker command and version
 DOCKER_EXE=$(/usr/bin/which docker || echo 0)
 executableCheck ${DOCKER_EXE} "docker"
@@ -60,29 +73,62 @@ executableCheck ${DOCKER_COMPOSE_EXE} "docker-compose"
 
 DOCKER_COMPOSE_VERSION="$(${DOCKER_COMPOSE_EXE} --version | cut -f 3 -d' ' | cut -f 1,2 -d '.')";
 versionCheck ${DOCKER_COMPOSE_VERSION} ${MINIMUM_DOCKER_COMPOSE_VERSION} "Docker Compose"
-echo -e "\n"
+echo -e "Local Docker environment OK\n"
 
-# Builds all Docker compose services.
-echo -e "--> "$COLOUR_GREEN"Building all Docker compose services"$COLOUR_RESET
-docker-compose build
-echo -e "\n"
+echo -e "--> "$COLOUR_GREEN"Checking project environment file"$COLOUR_RESET
 
-# Serves the Docker containers.
+# Checks for dotenv existence.
+if [ ! -f .env ]; then
+    echo -e "Copying .env.example file to .env"
+    cp .env.example .env
+fi
+
+# Extract the project environment file into bash vars.
+export $(grep -v '^#' .env | xargs -0)
+
+# Throw if there is no compose file.
+if [ -z "$COMPOSE_FILE" ]; then
+    echo -e "\n"
+    echo -e $COLOUR_RED "ERROR"$COLOUR_RESET" COMPOSE_FILE is empty or missing from the .env file\n"
+    exit 1
+fi
+echo -e "Using Docker Compose file: $COMPOSE_FILE"
+
+# Throw if there is no compose prefix
+if [ -z "$COMPOSE_PROJECT_NAME" ]; then
+    echo -e "\n"
+    echo -e $COLOUR_RED "ERROR"$COLOUR_RESET" COMPOSE_PROJECT_NAME is empty or missing from the .env file\n"
+    exit 1
+fi
+echo -e "Using Docker Compose prefix: $COMPOSE_PROJECT_NAME"
+echo -e "Environment file OK\n"
+
+# Build and serve all the Docker containers.
 echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
 docker-compose up -d --build --no-recreate
-echo -e "\n"
+
+echo ""
 
 # Installs any application dependencies; e.g. Composer, Yarn.
 echo -e "--> "$COLOUR_GREEN"Installing application dependencies"$COLOUR_RESET
-scripts/update
-echo -e "\n"
+if $OPT_DO_UPDATE; then
+    ./scripts/update
+    echo -e "\n"
+else
+    echo -e "Install application dependencies was skipped because --no-update was passed\n"
+fi
 
-if grep -q "APP_KEY=\\n" .env; then
-    echo "--> Generating Laravel encryption key"
+# If no application key, generate one
+if [ -z "$APP_KEY" ]; then
+    echo -e "--> "$COLOUR_GREEN"Application initial setup"$COLOUR_RESET
+    echo "Generating Laravel encryption key"
+
     docker-compose exec app php artisan key:generate
+
+    echo ""
 fi
 
 echo -e $COLOUR_GREEN"Project is initialised! 🚀"$COLOUR_RESET
 
-echo -e "Web app: http://localhost:8000"
-echo -e "Database: http://localhost:8080\n"
+echo -e "Web app:  --> http://localhost:8000"
+echo -e "Database: --> http://localhost:8080"
