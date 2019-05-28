@@ -17,7 +17,7 @@
 	<div id="app" class="site-wrapper">
 		<main class="error-message">
 			<div class="logo placeholder placeholder--logo">
-				<img src="/assets/static/img/branding/logo.svg" alt="Engage logo">
+				<img src="/static/img/branding/logo.svg" alt="Engage logo">
 			</div>
 
 			@yield('content')
