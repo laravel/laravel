@@ -2,7 +2,7 @@
 
 # Purpose:
 #
-# Installs dependencies inside application container.
+# Installs application dependencies inside app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x

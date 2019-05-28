@@ -2,7 +2,7 @@
 
 # Purpose:
 #
-# Bootstraps the project with the Docker application stack.
+# Bootstraps the project into an initialised state.
 
 set -e
 [ -z "${DEBUG}" ] || set -x

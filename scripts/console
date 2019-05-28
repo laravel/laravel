@@ -2,7 +2,7 @@
 
 # Purpose:
 #
-# Opens a console in the application container.
+# Runs a console command in the app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x

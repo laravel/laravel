@@ -2,7 +2,7 @@
 
 # Purpose:
 #
-# Starts tests in running app container.
+# Runs applications tests in the running app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x

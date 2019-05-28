@@ -2,11 +2,18 @@
 
 # Purpose:
 #
-# Runs the frontend node container
+# Runs a command inside the build container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
+# If no arguments are passed; run dev build
+if [[ $# -eq 0 ]] ; then
+    ./scripts/build yarn run dev
+    exit 0
+fi
+
+# Pass any arguments as command into the build container 
 docker-compose run --service-ports --rm build $@
