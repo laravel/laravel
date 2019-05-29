@@ -16,4 +16,4 @@ echo -e "\nUpdating application dependencies"
 docker-compose exec app php /usr/bin/composer install --prefer-dist --no-suggest
 
 echo -e "\nUpdating Database"
-docker-compose exec app php artisan migrate:fresh --seed
+./scripts/console migrate:fresh --seed
