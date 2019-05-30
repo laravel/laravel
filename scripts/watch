@@ -2,11 +2,11 @@
 
 # Purpose:
 #
-# Runs the frontend build tasks
+# Runs frontend watch task in the build container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
-scripts/node yarn run watch
+./scripts/build yarn run watch

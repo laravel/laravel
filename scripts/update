@@ -2,13 +2,18 @@
 
 # Purpose:
 #
-# Installs dependencies inside application container.
+# Installs application dependencies inside app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
-scripts/node yarn install
+echo "Updating build dependencies"
+./scripts/build yarn install
+
+echo -e "\nUpdating application dependencies"
 docker-compose exec app php /usr/bin/composer install --prefer-dist --no-suggest
-docker-compose exec app php artisan migrate:fresh --seed
+
+echo -e "\nUpdating Database"
+./scripts/console migrate:fresh --seed

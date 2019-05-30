@@ -2,11 +2,11 @@
 
 # Purpose:
 #
-# Runs the frontend node container
+# Runs a console command in the app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
-docker-compose run --service-ports --rm node $@
+docker-compose exec app php artisan $@

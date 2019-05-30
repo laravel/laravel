@@ -2,46 +2,66 @@
 
 # Purpose:
 #
-# Checks to see you have a recent version of Docker & Docker composer installed.
+# Bootstraps the project into an initialised state.
 
 set -e
+[ -z "${DEBUG}" ] || set -x
 
 cd "$(dirname "$0")/.."
 
+# Bash colour variables
+COLOUR_GREEN="\x1b[32;01m"
+COLOUR_RED="\x1b[31;01m"
+COLOUR_YELLOW="\x1b[33;01m"
+COLOUR_WHITE="\x1b[97;01m"
+COLOUR_RESET="\x1b[39;49;00m"
+
+# Set default values
 MINIMUM_DOCKER_VERSION=1.12
 MINIMUM_DOCKER_COMPOSE_VERSION=1
+OPT_DO_UPDATE=true
 
+# Parse script option parameters
+for i in "$@"
+do
+    case $i in
+        --no-update) 
+            OPT_DO_UPDATE=false
+            shift
+        ;;
+    esac
+done
+
+# Bash function to check cli binary executes
 function executableCheck {
     local EXE=$1
     local NAME=$2
     if [ "$EXE" == "0" ]; then
         echo No \"${NAME}\" command found
         exit 1
-    else
-        echo \"${NAME}\" command found
     fi
 
     # check if the command is executable
     if [ ! -e ${EXE} ]; then
-        echo Docker installed but not executable
+        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${NAME} is installed but not executable"
     fi
 }
 
+# Bash function to check version number meets requirements
 function versionCheck {
     local VERSION=$1
     local MINIMUM=$2
     local SYSTEM=$3
     local CHECK=`echo "$VERSION>=$MINIMUM" | bc -l`
     if [ "$CHECK" == "0" ]; then
-        echo ${SYSTEM} version mismatch, please upgrade ${SYSTEM}
+        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${SYSTEM} version mismatch, please upgrade"
         exit 1
-    else
-        echo ${SYSTEM} version OK
     fi
 }
 
-echo "--> Checking Docker version"
+echo -e $COLOUR_WHITE"🐳 Bootstrapping project...\n"$COLOUR_RESET
 
+echo -e "--> "$COLOUR_GREEN"Checking local Docker environment"$COLOUR_RESET
 # validate Docker command and version
 DOCKER_EXE=$(/usr/bin/which docker || echo 0)
 executableCheck ${DOCKER_EXE} "docker"
@@ -55,3 +75,67 @@ executableCheck ${DOCKER_COMPOSE_EXE} "docker-compose"
 
 DOCKER_COMPOSE_VERSION="$(${DOCKER_COMPOSE_EXE} --version | cut -f 3 -d' ' | cut -f 1,2 -d '.')";
 versionCheck ${DOCKER_COMPOSE_VERSION} ${MINIMUM_DOCKER_COMPOSE_VERSION} "Docker Compose"
+echo -e "Local Docker environment OK\n"
+
+echo -e "--> "$COLOUR_GREEN"Checking project environment file"$COLOUR_RESET
+
+# Checks for dotenv existence.
+if [ ! -f .env ]; then
+    echo -e "Copying .env.example file to .env"
+
+    cp .env.example .env
+
+fi
+
+# Extract the project environment file into bash vars.
+export $(grep -v '^#' .env | xargs -0)
+
+# Throw if there is no compose file.
+if [ -z "$COMPOSE_FILE" ]; then
+    echo -e "\n"
+    echo -e $COLOUR_RED "ERROR"$COLOUR_RESET" COMPOSE_FILE is empty or missing from the .env file\n"
+    exit 1
+fi
+echo -e "Using Docker Compose file: $COMPOSE_FILE"
+
+# Throw if there is no compose prefix
+if [ -z "$COMPOSE_PROJECT_NAME" ]; then
+    echo -e "\n"
+    echo -e $COLOUR_RED "ERROR"$COLOUR_RESET" COMPOSE_PROJECT_NAME is empty or missing from the .env file\n"
+    exit 1
+fi
+echo -e "Using Docker Compose prefix: $COMPOSE_PROJECT_NAME"
+echo -e "Environment file OK\n"
+
+# Build and serve all the Docker containers.
+echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
+
+docker-compose up -d --build
+
+echo ""
+
+# Installs any application dependencies; e.g. Composer, Yarn.
+echo -e "--> "$COLOUR_GREEN"Installing application dependencies"$COLOUR_RESET
+if $OPT_DO_UPDATE; then
+
+    ./scripts/update
+
+    echo ""
+else
+    echo -e "Install application dependencies was skipped because --no-update was passed\n"
+fi
+
+# If no application key, generate one
+if [ -z "$APP_KEY" ]; then
+    echo -e "--> "$COLOUR_GREEN"Application initial setup"$COLOUR_RESET
+    echo "Generating Laravel encryption key"
+
+    ./scripts/console key:generate
+
+    echo ""
+fi
+
+echo -e $COLOUR_GREEN"Project is initialised! 🚀"$COLOUR_RESET
+
+echo -e "Web app:  --> http://localhost:8000"
+echo -e "Database: --> http://localhost:8080"

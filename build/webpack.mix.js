@@ -38,8 +38,7 @@ mix
 		sprite: {
 			prefix: false,
 		},
-	})
-	.copyDirectory(src('static'), public(assets('static')));
+	});
 
 css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
 js.files.forEach(filename => mix.js(src(`js/${filename}`), assets('js')));

@@ -2,15 +2,18 @@
 
 # Purpose:
 #
-# Starts tests in running app container.
+# Runs applications tests in the running app container.
 
 set -e
 [ -z "${DEBUG}" ] || set -x
 
+COLOUR_GREEN="\x1b[32;01m"
+COLOUR_RESET="\x1b[39;49;00m"
+
 cd "$(dirname "$0")/.."
 
-echo "--> Running static analyser:"
-docker-compose exec app php artisan code:analyse
+echo -e "--> "$COLOUR_GREEN"Testing application with static analyser\n"$COLOUR_RESET
+./scripts/console code:analyse
 
-echo "--> Running PHPUnit:"
+echo -e "--> "$COLOUR_GREEN"Testing application with PHPUnit\n"$COLOUR_RESET
 docker-compose exec app php ./vendor/bin/phpunit $@

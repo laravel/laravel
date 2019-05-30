@@ -21,14 +21,12 @@ services:
       - ../:/var/www:delegated
       - ./local.app.php.ini:/usr/local/etc/php/php.ini:delegated
       - ~/.composer/docker-cache/:/root/.composer:cached
-      - ~/.yarn/docker-cache/:/root/.yarn:cached
     depends_on:
       - db
     working_dir: /var/www
     environment:
       - "COMPOSER_ALLOW_SUPERUSER=true"
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
-      - "YARN_CACHE_FOLDER=/root/.yarn-cache"
 
   db:
     image: mariadb:10.3
@@ -41,13 +39,13 @@ services:
     ports:
       - 13306:3306
 
-  node:
+  build:
     image: node:10
     volumes:
       - ../:/app:delegated
       - ~/.yarn/docker-cache/:/root/.yarn:cached
     environment:
-      - "YARN_CACHE_FOLDER=/root/.yarn-cache"
+      - "YARN_CACHE_FOLDER=/root/.yarn"
     working_dir: /app
     ports:
       - 5757:5757
