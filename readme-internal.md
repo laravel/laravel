@@ -1,45 +1,67 @@
-# Engage Laravel Framework
+# [Project devs to add: Project name]
 
-## Prerequisites
+## Project background
+[Project devs to add: Add a short description about what this project codebase is.]
 
-1) Download and install Docker (https://www.docker.com/)
+## Project architecture
+[Project devs to add: Add a short description on codebase architecture.]
 
-2) Ensure MAMP/Homestead/Other Docker containers or any other environment that's using ports 8000, 5757, 13306, or 8080 are not running
+| Project element | Software |
+| --------------- |---------------|
+| **Backend**        | PHP 7.3 |
+| **Database**       | MariaDB |
+| **Framework**      | Laravel 5.8 |
+| **Build system**   | Laravel Mix / Webpack |
+| **JS Framework**   | VueJS |
 
----
+## Running a local version
+The application can be accessed locally via the endpoints below:
+| Endpoint | URI |
+| --------------- |---------------|
+| Web application | http://localhost:8000 |
+| Database        | http://localhost:8080 |
 
-## Setup: When creating a new repo
+### Prerequisites
+1) [Download](https://docs.docker.com/docker-for-mac/install/) and install Docker Desktop for Mac.
+2) Ensure no other applications are using the same ports as the Docker containers in this projects use. e.g. Ports: 8000, 5757, 13306, 8080.
 
-Note: All of the following commands are run from the root of the project.*
+### Establish a running environment
 
-1. Clone Laravel repo, removing the git repository:
-   ```
-   git clone https://github.com/engageinteractive/laravel --depth new-folder-name
-   cd new-folder-name
-   rm -rf .git
-   ```
-2. Fill out an APP_NAME and a COMPOSE_PROJECT_NAME to the `.env.example`.
-3. Run `scripts/setup`
+##### 1. Starting up service containers:
+To start the project, run `scripts/bootstrap`.
+If this is the first time checking out the project. The script will create an environment file from the example file, and run any application initialistion scripts.
 
-## Setup: When working with an existing repo
+##### 2. Building assets:
+To build any compiled assets, run `scripts/build`.
 
-Note: All of the following commands are run from the root of the project.*
+[Project devs to add: Add any additional information here]
 
-1. Run `scripts/setup`
+### Scripts reference
+##### `scripts/bootstrap`
+Use the bootstrap script to start a project in an initialised state.
+**Usage:**: `$ scripts/bootstrap [args]`
+| Argument        | Description   |
+| --------------- |---------------|
+| **--no-update** | Makes the script skip application dependency installation |
 
----
+This script creates a .env file if one isn’t present, builds and starts the Docker service containers, installs applications dependencies (Composer packages, Node modules, Database schema, and seeding data), and generates an application key.
 
-### Building the frontend assets
+##### `scripts/update`
+**Usage:**: `$ scripts/update`
+Update installs application dependencies inside app container. For example Composer packages, Node modules, Database schema, and seeding data
 
-To run the watch task you can run run `scripts/watch` from the root of the project.
+##### `scripts/build`
+**Usage:** `$ scripts/build [command]`
+Build is used for building front-end assets. If no command is passed, the script will run yarn’s development build task.
 
-If you want to access the node container directly you can use the following:
+##### `scripts/watch`
+**Usage:** `$ scripts/watch`
+Shortcut to Yarn's watch task
 
- - docker-compose run --rm node [your shell command]
+##### `scripts/test`
+**Usage:** `$ scripts/test`
+Test runs the applications testing suite. It will run a php static analyser, followed by PHPunit.
 
-Alternatively you can use the shorthand:
-
- - scripts/node [your shell command]
- - scripts/node bash            # Enter the container, or
- - scripts/node yarn run dev    # Build assets in dev mode
- - scripts/node yarn run prod   # Build assets in prod mode
+##### `scripts/console`
+**Usage:** `$ scripts/console [args]`
+Console runs the given arguments in the applications command line interface.
