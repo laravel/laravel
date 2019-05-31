@@ -2,13 +2,13 @@
   "paths": {
     "src": "resources/assets",
     "dest": "public",
-    "assets": "assets"
+    "compiled": "compiled"
   },
   "config": {
     "browserSync": {
       "files": [
-        "public/assets/css",
-        "public/assets/js",
+        "public/compiled/css",
+        "public/compiled/js",
         "resources/views",
         "!**/*.map"
       ],

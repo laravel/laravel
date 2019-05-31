@@ -1,7 +1,7 @@
 const mix = require('laravel-mix');
 const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
 
-const { assets, public, src } = require('./helpers');
+const { compiled, public, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
 
 // Load the multi-lingual support
@@ -24,8 +24,8 @@ mix
 		autoprefixer: css.autoprefixer,
 		cleanCss: css.cleanCss,
 		fileLoaderDirs: {
-			fonts: `${paths.assets}/fonts`,
-			images: `${paths.assets}/img`,
+			fonts: `${paths.compiled}/fonts`,
+			images: `${paths.compiled}/img`,
 		},
 		processCssUrls: false,
 	})
@@ -33,15 +33,15 @@ mix
 	.setPublicPath(paths.dest)
 	.svgSprite(src('sprite/**/*.svg'), {
 		output: {
-			filename: assets('img/sprite.svg'),
+			filename: compiled('img/sprite.svg'),
 		},
 		sprite: {
 			prefix: false,
 		},
 	});
 
-css.files.forEach(filename => mix.sass(src(`scss/${filename}`), assets('css')));
-js.files.forEach(filename => mix.js(src(`js/${filename}`), assets('js')));
+css.files.forEach(filename => mix.sass(src(`scss/${filename}`), compiled('css')));
+js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
 
 // Uncomment if you want to separate vendor files.
 // mix.extract(js.extract);
