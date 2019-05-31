@@ -16,6 +16,7 @@
 
 ## Running a local version
 The application can be accessed locally via the endpoints below:
+
 | Endpoint | URI |
 | --------------- |---------------|
 | Web application | http://localhost:8000 |
@@ -40,6 +41,7 @@ To build any compiled assets, run `scripts/build`.
 ##### `scripts/bootstrap`
 Use the bootstrap script to start a project in an initialised state.
 **Usage:**: `$ scripts/bootstrap [args]`
+
 | Argument        | Description   |
 | --------------- |---------------|
 | **--no-update** | Makes the script skip application dependency installation |
