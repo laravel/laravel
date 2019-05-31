@@ -2,7 +2,7 @@
 <html>
 <head>
 	@include('layouts/partials/meta', [
-		'stylesheet' => '/assets/css/error.css'
+		'stylesheet' => '/compiled/css/error.css'
 	])
 
 	@include('layouts/partials/gtm', [
