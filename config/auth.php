@@ -100,4 +100,16 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Redirect authenticated
+    |--------------------------------------------------------------------------
+    |
+    | This option specifies where users are redirected after registering,
+    | logging in or trying to log in when already logged in.
+    |
+    */
+
+    'redirect_authenticated' => '/home',
+
 ];
