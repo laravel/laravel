@@ -18,11 +18,14 @@
 		"import/no-extraneous-dependencies": "off",
 		"import/no-unresolved": "off",
 		"indent": [
-			"error",
-			"tab"
+			"warn",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
 		],
 		"no-console": [
-			"error",
+			"warn",
 			{
 				"allow": [
 					"error"
@@ -49,7 +52,10 @@
 		"vue/brace-style": 1,
 		"vue/camelcase": 1,
 		"vue/comma-dangle": 1,
-		"vue/component-name-in-template-casing": 1,
+		"vue/component-name-in-template-casing": [
+			1,
+			"kebab-case"
+		],
 		"vue/eqeqeq": 1,
 		"vue/key-spacing": 1,
 		"vue/match-component-file-name": 1,
@@ -62,7 +68,8 @@
 			2,
 			"tab",
 			{
-				"baseIndent": 1
+				"baseIndent": 1,
+				"switchCase": 1
 			}
 		],
 		"vue/space-infix-ops": 1,
