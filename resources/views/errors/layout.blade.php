@@ -1,15 +1,18 @@
-<!doctype html>
-<html>
-<head>
+@extends('layouts/base')
+
+@section('head')
 	@include('layouts/partials/meta', [
-		'stylesheet' => '/compiled/css/error.css'
+		'stylesheet' => '/compiled/css/error.css',
 	])
 
 	@include('layouts/partials/tracking')
-</head>
-<body>
-	@include('layouts/partials/tracking', ['body' => true])
+@endsection
 
+@section('app:before')
+	@include('layouts/partials/tracking', ['body' => true])
+@endsection
+
+@section('app')
 	<div id="app" class="site-wrapper">
 		<main class="error-message">
 			<div class="logo placeholder placeholder--logo">
@@ -19,5 +22,4 @@
 			@yield('content')
 		</main>
 	</div>
-</body>
-</html>
+@endsection

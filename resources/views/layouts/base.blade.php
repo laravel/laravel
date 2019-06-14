@@ -1,11 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	@section('head')
-		@include('layouts/partials/meta', [
-			'stylesheet' => '/compiled/css/app.css'
-		])
-	@show
+	@yield('head')
 </head>
 <body>
 	@yield('app:before')

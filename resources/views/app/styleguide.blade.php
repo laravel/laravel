@@ -33,7 +33,9 @@
 		}
 	</style>
 
-	@parent
+	@include('layouts/partials/meta', [
+		'stylesheet' => '/compiled/css/app.css',
+	])
 
 	<style>
 		@if ($model['bg'] ?? false)

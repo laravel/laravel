@@ -1,7 +1,9 @@
 @extends('layouts/base')
 
 @section('head')
-	@parent
+	@include('layouts/partials/meta', [
+		'stylesheet' => '/compiled/css/app.css',
+	])
 
 	@include('layouts/partials/tracking')
 @endsection
