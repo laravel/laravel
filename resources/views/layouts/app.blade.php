@@ -3,15 +3,11 @@
 @section('head')
 	@parent
 
-	@include('layouts/partials/gtm', [
-		'placement' => 'head',
-	])
+	@include('layouts/partials/tracking')
 @endsection
 
 @section('app:before')
-	@include('layouts/partials/gtm', [
-		'placement' => 'body',
-	])
+	@include('layouts/partials/tracking', ['body' => true])
 
 	@include('layouts/partials/outdated-browser')
 @endsection

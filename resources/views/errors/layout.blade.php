@@ -5,14 +5,10 @@
 		'stylesheet' => '/compiled/css/error.css'
 	])
 
-	@include('layouts/partials/gtm', [
-		'placement' => 'head'
-	])
+	@include('layouts/partials/tracking')
 </head>
 <body>
-	@include('layouts/partials/gtm', [
-		'placement' => 'body'
-	])
+	@include('layouts/partials/tracking', ['body' => true])
 
 	<div id="app" class="site-wrapper">
 		<main class="error-message">
