@@ -1,0 +1,152 @@
+<template>
+	<article>
+		<slot />
+
+		<div class="mt-4">
+			<div
+				v-observe-visibility="observerOptions"
+				class="relative bg-grey-lightest border"
+			>
+				<iframe
+					v-if="$data.iframeActive"
+					ref="iframe"
+					class="block w-px min-w-full"
+					:src="url"
+				/>
+
+				<button
+					v-else
+					class="flex justify-center w-full h-full focus:outline-none"
+					:style="{height: `${this.$props.minHeight}px`}"
+					@click="loadIframe"
+				>
+					<icon class="block text-5xl text-grey" name="play" />
+				</button>
+
+				<div class="absolute pin-b pin-r mb-2 mr-2">
+					<ul class="list-reset flex -mb-1 -mr-1">
+						<li v-if="$props.component">
+							<button
+								class="p-1 leading-none text-grey hover:text-accent focus:outline-none"
+								@click="$data.showCode = !$data.showCode"
+							>
+								<icon class="align-top" name="code" />
+							</button>
+						</li>
+
+						<li>
+							<a
+								class="p-1 inline-block leading-none text-grey hover:text-accent"
+								:href="url"
+							>
+								<icon class="external" name="external" />
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div
+				v-if="$props.component"
+				v-show="$data.showCode"
+				class="overflow-scroll"
+			>
+				<pre><code
+					ref="code"
+					class="p-4 text-sm leading-normal font-mono bg-grey-lighter lang-html"
+					v-text="code"
+				/></pre>
+			</div>
+		</div>
+	</article>
+</template>
+
+<script>
+	import markup from './markup';
+
+	export default {
+		props: {
+			attributes: {
+				type: Array,
+				required: true,
+			},
+
+			block: {
+				type: String,
+				required: true,
+			},
+
+			component: {
+				type: Object,
+				default: null,
+			},
+
+			minHeight: {
+				type: Number,
+				default: 200,
+			},
+
+			preview: {
+				type: String,
+				required: true,
+			},
+
+			section: {
+				type: String,
+				required: true,
+			},
+		},
+
+		data() {
+			return {
+				iframeActive: false,
+				showCode: false,
+			};
+		},
+
+		computed: {
+			code() {
+				const { name, type } = this.$props.component;
+
+				return markup[type](name, this.$props.attributes);
+			},
+
+			observerOptions() {
+				return {
+					callback: this.visibilityChanged,
+					throttle: 500,
+				};
+			},
+
+			url() {
+				return `block?section=${this.$props.section}&block=${this.$props.block}&preview=${this.$props.preview}`;
+			},
+		},
+
+		mounted() {
+			if (this.$props.component) {
+				window.hljs.highlightBlock(this.$refs.code);
+			}
+		},
+
+		methods: {
+			loadIframe() {
+				this.$data.iframeActive = true;
+
+				this.$nextTick(() => window.iFrameResize({
+					minHeight: this.$props.minHeight,
+				}, this.$refs.iframe));
+			},
+
+			visibilityChanged(isVisible) {
+				if (this.$data.iframeActive) {
+					return;
+				}
+
+				if (isVisible) {
+					this.loadIframe();
+				}
+			},
+		},
+	};
+</script>
