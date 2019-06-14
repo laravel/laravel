@@ -11,7 +11,7 @@
 	</div>
 
 	@section('app:after')
-		<script src="https://polyfill.io/v3/polyfill.min.js?features=Array.from%2CPromise%2CIntersectionObserver%2CElement.prototype.matches%2CElement.prototype.classList%2CArray.prototype.find"></script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features={{ implode('%2C', ['Array.from', 'Promise', 'IntersectionObserver', 'Element.prototype.matches', 'Element.prototype.classList', 'Array.prototype.find']) }}"></script>
 		<script src="{{ mix('/compiled/js/app.js') }}" async></script>
 	@show
 </body>
