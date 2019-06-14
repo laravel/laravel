@@ -1,3 +1,4 @@
+import EInput from '../components/common/input.vue';
 import ErrorText from '../components/common/error-text.vue';
 
 export default {
@@ -63,6 +64,7 @@ export default {
 	},
 
 	components: {
+		EInput,
 		ErrorText,
 	},
 };
