@@ -1,0 +1,75 @@
+version: '3.5'
+
+services:
+  db:
+    image: mariadb:latest
+    networks:
+      - internal
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: laraveldb
+      MYSQL_ROOT_PASSWORD: coolrootpw
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpw
+
+  php-migrater:
+    image: phillaf/php-mysql
+    networks:
+      - internal
+    volumes:
+      - .:/usr/share/nginx/html
+    working_dir: /usr/share/nginx/html
+    command: php artisan migrate:refresh --seed
+    links:
+      - db
+
+  phpmyadmin:
+    networks:
+      - proxy
+      - internal
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpw
+      MYSQL_ROOT_PASSWORD: coolrootpw
+
+  php:
+    image: phillaf/php-mysql
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+    volumes:
+      - .:/usr/share/nginx/html
+    links:
+      - db
+
+  nginx:
+    image: nginx:latest
+    networks:
+      - proxy
+      - internal
+    ports:
+      - 8000:80
+    volumes:
+      - ./.docker/site.conf:/etc/nginx/conf.d/default.conf
+      - .:/usr/share/nginx/html
+      - ./logs:/usr/share/nginx/logs/
+    links:
+      - php
+
+volumes:
+  db_data: {}
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false

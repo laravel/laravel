@@ -27,6 +27,28 @@ Laravel has the most extensive and thorough [documentation](https://laravel.com/
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+# Quickstart using docker!
+
+We now got an inbuild docker-compose with which you are able to easily setup a local development environment. Our environment contains the following containers:
+
+- **nginx** representing our web server
+- **php-fpm** to handle the php stuff
+- **db** representing a mariadb database server
+- **phpMyAdmin** to access the db container
+- **php-migrater** to migrate our database
+
+The docker-compose file can be started using the following command:
+``docker-compose up -d``
+
+To stop the environment just type
+``docker-compose down``
+
+The migration can be triggered with the following command
+``docker-compose up php-migrater``
+
+That's it. Have fun deploying.
+**Attention! The php-migrater will be scheduled executed on each docker-compose start!**
+
 ## Laravel Sponsors
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
