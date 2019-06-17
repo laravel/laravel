@@ -5,7 +5,7 @@
 		<div class="mt-4">
 			<div
 				v-observe-visibility="observerOptions"
-				class="relative bg-grey-lightest border"
+				class="relative bg-gray-100 border"
 			>
 				<iframe
 					v-if="$data.iframeActive"
@@ -17,26 +17,26 @@
 				<button
 					v-else
 					class="flex justify-center w-full h-full focus:outline-none"
-					:style="{height: `${this.$props.minHeight}px`}"
+					:style="{ height: `${this.$props.minHeight}px` }"
 					@click="loadIframe"
 				>
-					<icon class="block text-5xl text-grey" name="play" />
+					<icon class="block text-5xl text-gray-500" name="play" />
 				</button>
 
-				<div class="absolute pin-b pin-r mb-2 mr-2">
-					<ul class="list-reset flex -mb-1 -mr-1">
+				<div class="absolute bottom-0 right-0 mb-1 mr-1">
+					<ul class="flex leading-none">
 						<li v-if="$props.component">
 							<button
-								class="p-1 leading-none text-grey hover:text-accent focus:outline-none"
+								class="p-1 leading-none text-gray-500 hover:text-accent focus:outline-none"
 								@click="$data.showCode = !$data.showCode"
 							>
-								<icon class="align-top" name="code" />
+								<icon name="code" />
 							</button>
 						</li>
 
 						<li>
 							<a
-								class="p-1 inline-block leading-none text-grey hover:text-accent"
+								class="block p-1 leading-none text-gray-500 hover:text-accent"
 								:href="url"
 							>
 								<icon class="external" name="external" />
@@ -53,7 +53,7 @@
 			>
 				<pre><code
 					ref="code"
-					class="p-4 text-sm leading-normal font-mono bg-grey-lighter lang-html"
+					class="p-4 text-sm font-mono bg-gray-200 lang-html"
 					v-text="code"
 				/></pre>
 			</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="text-grey-darkest antialiased" lang="en">
+<html class="text-gray-800 antialiased" lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 	<link rel="icon" type="image/png" href="{{ $model['meta']['icon'] }}">
 
 	<link href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.8/styles/github.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@0.7.4/dist/tailwind.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@1.0.4/dist/tailwind.min.css" rel="stylesheet">
 
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700&display=swap" rel="stylesheet">
 
@@ -17,15 +17,6 @@
 		html {
 			font-family: 'Source Sans Pro', sans-serif;
 			scroll-behavior: smooth;
-		}
-
-		a,
-		button {
-			color: inherit;
-		}
-
-		a {
-			text-decoration: none;
 		}
 
 		.icon {
@@ -53,15 +44,15 @@
 		<header>
 			<div class="container mx-auto py-16 px-4">
 				<div class="flex items-center">
-					<h1 class="text-5xl tracking-tight text-black font-bold">Styleguide</h1>
+					<h1 class="text-5xl tracking-tighter text-gray-900 font-bold">Styleguide</h1>
 				</div>
 			</div>
 		</header>
 
-		<nav class="sticky pin-l pin-t w-full overflow-hidden bg-accent text-white z-20">
+		<nav class="sticky left-0 top-0 w-full overflow-hidden bg-accent text-white z-20">
 			<div class="container mx-auto px-4">
 				<div class="flex items-center h-12">
-					<ul class="list-reset flex -ml-4 font-semibold">
+					<ul class="flex -ml-4 font-semibold">
 						@foreach ($model['sections'] as $slug => $section)
 							<li class="ml-4">
 								<a class="hover:underline" href="#{{ $slug }}">{{ $section['heading'] }}</a>
@@ -70,14 +61,14 @@
 					</ul>
 
 					<div class="ml-auto">
-						<ul class="list-reset flex">
+						<ul class="flex">
 							<li>
 								<button
-									class="flex items-center h-8 leading-none focus:outline-none"
+									class="flex items-center h-8 focus:outline-none"
 									:class="{ 'opacity-50': !$data.toggle.copy }"
 									@click="$data.toggle.copy = !$data.toggle.copy"
 								>
-									<icon class="align-top" name="copy"></icon>
+									<icon name="copy"></icon>
 
 									<span class="ml-2 text-xs font-bold uppercase">Copy</span>
 								</button>
@@ -92,22 +83,22 @@
 			@foreach ($model['sections'] as $slug => $section)
 				<section class="block -mt-12 pt-12" id="{{ $slug }}">
 					<div class="container mx-auto px-4 mt-16">
-						<h2 class="text-4xl text-black font-bold">
+						<h2 class="text-4xl text-gray-900 font-bold">
 							<a href="#{{ $slug }}">{{ $section['heading'] }}</a>
 						</h2>
 
 						@if ($section['copy'] ?? false)
-							<p v-if="$data.toggle.copy" class="max-w-lg mt-4 text-xl leading-normal">{{ $section['copy'] }}</p>
+							<p v-if="$data.toggle.copy" class="max-w-3xl mt-4 text-xl">{{ $section['copy'] }}</p>
 						@endif
 					</div>
 
 					@if ($section['blocks'])
 						<div class="relative mt-2">
-							<nav class="sticky pin-l pin-t w-full -mt-12 pt-12 z-10">
+							<nav class="sticky left-0 top-0 w-full -mt-12 pt-12 z-10">
 								<div class="bg-white">
 									<div class="container mx-auto px-4">
 										<div class="flex items-center h-12 border-b">
-											<ul class="list-reset flex -ml-4 text-accent font-semibold">
+											<ul class="flex -ml-4 text-accent font-semibold">
 												@foreach ($section['blocks'] as $blockSlug => $block)
 													<li class="ml-4">
 														<a class="hover:underline" href="#{{ $blockSlug }}">{{ $block['heading'] }}</a>
@@ -122,12 +113,12 @@
 							<div class="container mx-auto px-4">
 								@foreach ($section['blocks'] as $blockSlug => $block)
 									<section class="-mt-24 pt-24" id="{{ $blockSlug }}">
-										<h3 class="mt-10 text-2xl text-black font-semibold">
+										<h3 class="mt-10 text-2xl text-gray-900 font-semibold">
 											<a href="#{{ $blockSlug }}">{{ $block['heading'] }}</a>
 										</h3>
 
 										@if ($block['copy'] ?? false)
-											<p v-if="$data.toggle.copy" class="max-w-lg mt-4 text-lg leading-normal">{{ $block['copy'] }}</p>
+											<p v-if="$data.toggle.copy" class="max-w-3xl mt-4 text-lg">{{ $block['copy'] }}</p>
 										@endif
 
 										@foreach ($block['previews'] as $previewSlug => $preview)
@@ -142,12 +133,12 @@
 												:component='@json($preview['component'] ?? null)'
 											>
 												@if ($preview['heading'] ?? false)
-													<h4 class="mt-5 text-lg text-black font-semibold">
+													<h4 class="mt-5 text-lg text-gray-900 font-semibold">
 														<a href="{{ "#$blockSlug-$previewSlug" }}">{{ $preview['heading'] }}</a>
 													</h4>
 
 													@if ($preview['copy'] ?? false)
-														<p v-if="$data.toggle.copy" class="max-w-lg mt-4 leading-normal">{{ $preview['copy'] }}</p>
+														<p v-if="$data.toggle.copy" class="max-w-3xl mt-4">{{ $preview['copy'] }}</p>
 													@endif
 												@endif
 
