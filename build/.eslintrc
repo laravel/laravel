@@ -46,35 +46,58 @@
 				"singleline": 3
 			}
 		],
-		"vue/array-bracket-spacing": 1,
-		"vue/arrow-spacing": 1,
-		"vue/block-spacing": 1,
-		"vue/brace-style": 1,
-		"vue/camelcase": 1,
-		"vue/comma-dangle": 1,
+		"vue/no-v-html": "off",
+		"vue/array-bracket-spacing": "warn",
+		"vue/arrow-spacing": "warn",
+		"vue/block-spacing": "warn",
+		"vue/brace-style": [
+			"warn",
+			"1tbs",
+			{
+				"allowSingleLine": true
+			}
+		],
+		"vue/camelcase": [
+			"warn",
+			{
+				"properties": "never"
+			}
+		],
+		"vue/comma-dangle": [
+			"warn",
+			{
+				"arrays": "always-multiline",
+				"objects": "always-multiline",
+				"imports": "always-multiline",
+				"exports": "always-multiline",
+				"functions": "always-multiline"
+			}
+		],
 		"vue/component-name-in-template-casing": [
-			1,
+			"warn",
 			"kebab-case"
 		],
-		"vue/eqeqeq": 1,
-		"vue/key-spacing": 1,
-		"vue/match-component-file-name": 1,
-		"vue/no-boolean-default": 1,
-		"vue/no-v-html": 0,
-		"vue/no-restricted-syntax": 1,
-		"vue/object-curly-spacing": 1,
-		"vue/require-direct-export": 1,
+		"vue/eqeqeq": "warn",
+		"vue/key-spacing": "warn",
+		"vue/match-component-file-name": "warn",
+		"vue/no-boolean-default": "warn",
+		"vue/no-restricted-syntax": "warn",
+		"vue/object-curly-spacing": [
+			"warn",
+			"always"
+		],
+		"vue/require-direct-export": "warn",
 		"vue/script-indent": [
-			2,
+			"warn",
 			"tab",
 			{
 				"baseIndent": 1,
 				"switchCase": 1
 			}
 		],
-		"vue/space-infix-ops": 1,
-		"vue/space-unary-ops": 1,
-		"vue/v-on-function-call": 1
+		"vue/space-infix-ops": "warn",
+		"vue/space-unary-ops": "warn",
+		"vue/v-on-function-call": "warn"
 	},
 	"overrides": [
 		{
