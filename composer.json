@@ -11,7 +11,8 @@
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.9.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "ramsey/uuid": "^3.7"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
