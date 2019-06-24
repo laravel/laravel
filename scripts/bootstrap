@@ -88,7 +88,8 @@ if [ ! -f .env ]; then
 fi
 
 # Extract the project environment file into bash vars.
-export $(grep -v '^#' .env | xargs -0)
+export $(grep COMPOSE_FILE .env)
+export $(grep COMPOSE_PROJECT_NAME .env)
 
 # Throw if there is no compose file.
 if [ -z "$COMPOSE_FILE" ]; then
