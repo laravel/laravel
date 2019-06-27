@@ -67,6 +67,14 @@ return [
     | Middlewares to run when adding frontend routes.
     |
     */
-    'middleware' => [ 'web' ],
+	'middleware' => [ 'web' ],
+
+	/*
+    |--------------------------------------------------------------------------
+    | Frontend Template Flag
+    |--------------------------------------------------------------------------
+    |
+    */
+    'template_flag' => 'frontend',
 
 ];

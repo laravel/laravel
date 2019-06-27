@@ -18,7 +18,7 @@ class PageDefaultsViewComposer extends BaseViewComposer
     {
         return [
             'page' => [
-                'title' => 'Page Title',
+                'title' => 'Frontend | Page Title',
                 'site_name' => 'Site Name',
                 'description' => 'Page description',
                 'meta_description' => 'Meta description',
@@ -45,7 +45,7 @@ class PageDefaultsViewComposer extends BaseViewComposer
     {
         return [
             'page' => [
-                'title' => 'Page Title',
+                'title' => 'App | Page Title',
                 'site_name' => 'Site Name',
                 'description' => 'Page description',
                 'meta_description' => 'Meta description',
