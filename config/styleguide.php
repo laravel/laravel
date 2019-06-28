@@ -57,6 +57,29 @@ return [
 								],
 							],
 						],
+						'standard' => [
+							'heading' => 'Standard',
+							'copy' => 'Ad do voluptate ipsum commodo nulla irure exercitation. Occaecat ullamco veniam velit non elit nisi deserunt ullamco. Eu sit excepteur et esse nulla voluptate laboris do.',
+							'component' => [
+								'name' => 'icon',
+								'type' => 'vue',
+							],
+							'style' => 'font-size: 50px; line-height: 1',
+							'attributes' => [
+								[
+									'name' => 'chevron-up',
+								],
+								[
+									'name' => 'chevron-down',
+								],
+								[
+									'name' => 'chevron-left',
+								],
+								[
+									'name' => 'chevron-right',
+								],
+							],
+						],
 					],
 				],
 			],

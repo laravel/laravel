@@ -4,7 +4,8 @@
 	justify-content: center;
 
 	&__item {
-		display: inline-block;
+		display: flex;
+		align-items: center;
 		margin-left: $spacing-unit--x-small;
 
 		&:first-child {
@@ -40,8 +41,8 @@
 		padding: $spacing-unit--x-small;
 		text-decoration: none;
 
-		&:hover,
-		&:focus {
+		&:link:hover,
+		&:link:focus {
 			background-color: $c--black;
 			color: $c--white;
 		}
