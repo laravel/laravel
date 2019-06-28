@@ -19,15 +19,15 @@ class PageDefaultsViewComposer extends BaseViewComposer
         return [
             'page' => [
                 'title' => 'Frontend | Page Title',
-                'site_name' => 'Site Name',
                 'description' => 'Page description',
-                'meta_description' => 'Meta description',
+                'site_name' => 'Site Name',
                 'social_image' => asset('/static/img/meta/share.png'),
-                'url' => 'http://www.example.com/',
+                'url' => url()->current(),
                 'creator_twitter_handle' => '@author_handle',
                 'site_twitter_handle' => '@site_handle',
                 'share_title' => 'Share title',
                 'share_description' => 'Share description',
+                'type' => 'article',
             ],
             'links' => [
                 'home' => route('frontend.show', 'home/home'),
@@ -45,16 +45,16 @@ class PageDefaultsViewComposer extends BaseViewComposer
     {
         return [
             'page' => [
-                'title' => 'App | Page Title',
+                'title' => trans('meta.default.title'),
+                'description' => trans('meta.default.description'),
                 'site_name' => 'Site Name',
-                'description' => 'Page description',
-                'meta_description' => 'Meta description',
                 'social_image' => asset('/static/img/meta/share.png'),
-                'url' => 'http://www.example.com/',
+                'url' => url()->current(),
                 'creator_twitter_handle' => '@author_handle',
                 'site_twitter_handle' => '@site_handle',
-                'share_title' => 'Share title',
-                'share_description' => 'Share description',
+                'share_title' => trans('meta.default.share_title'),
+                'share_description' => trans('meta.default.share_description'),
+                'type' => 'article',
 			],
 			'links' => [
 				'home' => route('home.show'),
