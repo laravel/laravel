@@ -39,6 +39,53 @@ return [
 						],
 					],
 				],
+				'colour' => [
+					'heading' => 'Colours',
+					'copy' => 'Culpa consequat incididunt ea id ad in labore nostrud. Sunt enim eu laboris laborum qui fugiat elit consectetur Lorem mollit adipisicing velit.',
+					'previews' => [
+						'brand' => [
+							'heading' => 'Brand',
+							'partial' => 'foundation/colours',
+							'attributes' => [
+								[
+									'colours' => [
+										'#ff585d',
+										'#fe0',
+									],
+								],
+							],
+						],
+						'greyscale' => [
+							'heading' => 'Greyscale',
+							'partial' => 'foundation/colours',
+							'attributes' => [
+								[
+									'colours' => [
+										'#1a1a1a',
+										'#444',
+										'#888',
+										'#ddd',
+										'#fafafa',
+										'#fff',
+									],
+								],
+							],
+						],
+						'other' => [
+							'heading' => 'Other',
+							'partial' => 'foundation/colours',
+							'attributes' => [
+								[
+									'colours' => [
+										'#f50023',
+										'#24b35d',
+										'#4D90FE',
+									],
+								],
+							],
+						],
+					],
+				],
 				'icon' => [
 					'heading' => 'Icons',
 					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
