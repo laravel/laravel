@@ -22,6 +22,9 @@
             <directory suffix=".php">./app</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="Tests\Listener" />
+    </listeners>
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
