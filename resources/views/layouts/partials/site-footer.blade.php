@@ -1,1 +1,5 @@
-<footer class="site-footer"></footer>
+<footer class="site-footer">
+	<div class="container">
+		&copy; {{ date('Y') }}
+	</div>
+</footer>

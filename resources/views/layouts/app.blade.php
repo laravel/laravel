@@ -17,7 +17,11 @@
 @section('app')
 	@include('layouts/partials/site-header')
 
-	@yield('content')
+	<main class="site-content">
+		<div class="container">
+			@yield('content')
+		</div>
+	</main>
 
 	@include('layouts/partials/site-footer')
 @endsection
