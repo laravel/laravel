@@ -1,7 +1,6 @@
 .env.backup
 .notags
 .phpunit.result.cache
-.phpunit.result.cache
 /.idea
 /.vagrant
 /.vscode
