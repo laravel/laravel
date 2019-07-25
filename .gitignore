@@ -1,11 +1,20 @@
+.env.backup
+.notags
+.phpunit.result.cache
+.phpunit.result.cache
+/.idea
+/.vagrant
+/.vscode
+/coverage
 /node_modules
+# dont include things that can be built
+/public/css/app.css
 /public/hot
+/public/js/app.js
+/public/mix-manifest.json
 /public/storage
 /storage/*.key
 /vendor
-.env
-.env.backup
-.phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log

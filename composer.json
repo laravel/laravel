@@ -1,5 +1,5 @@
 {
-    "name": "laravel/laravel",
+    "name": "healthengine/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": [
@@ -8,8 +8,11 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.2.9",
         "fideloper/proxy": "^4.0",
+        "healthengine/laravel-better-models": "^1.0",
+        "healthengine/laravel-easy-aws": "^1.2",
+        "healthengine/laravel-logging": "^1.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0"
     },
@@ -19,7 +22,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "squizlabs/php_codesniffer": "^3.3"
     },
     "config": {
         "optimize-autoloader": true,
@@ -48,6 +52,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "test": [
+            "@phpcs",
+            "@phpunit"
+        ],
+        "phpcbf": "@php vendor/bin/phpcbf",
+        "phpcs": "@php vendor/bin/phpcs",
+        "phpunit": "@php vendor/bin/phpunit --colors=always",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
