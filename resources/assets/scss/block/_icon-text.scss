@@ -1,0 +1,12 @@
+.icon-text {
+	display: flex;
+	align-items: center;
+
+	> * {
+		margin-left: $spacing-unit--x-small;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}

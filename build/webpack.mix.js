@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const tailwindcss = require('tailwindcss');
 const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
 
 const { compiled, public, src } = require('./helpers');
@@ -28,6 +29,9 @@ mix
 			images: `${paths.compiled}/img`,
 		},
 		processCssUrls: false,
+        postCss: [
+            tailwindcss('./build/tailwind.config.js'),
+        ],
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)

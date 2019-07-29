@@ -1,47 +1,41 @@
 // UTILITIES
 
 // some useful style resets and initial form styling
-@import '~normalize.css/normalize.css';
-@import 'utility/reset/spacing';
-@import 'utility/reset/form';
+// @import 'utility/reset/form';
 
 
 // System-wide styles, mixins and placeholders
 @import 'utility/mixins';
 @import 'utility/fonts';
-@import 'utility/grid/grid';
-@import 'utility/grid/width-push-pull';
+// @import 'utility/grid/grid';
+// @import 'utility/grid/width-push-pull';
 @import 'utility/animations';
 
 
-// CORE
+// Core
 // basic building blocks, typically single html tags
 
 @import 'core/document';
 @import 'core/typography';
 @import 'core/anchor';
 @import 'core/button';
-@import 'core/horizontal-rule';
 @import 'core/icon';
-@import 'core/img';
-@import 'core/input';
-@import 'core/label';
+// @import 'core/input';
 @import 'core/list';
-@import 'core/table';
 
 
-// BLOCK
+// Block
 // simple combinations of cores and reusable components not tied to a specific section
 
-@import 'block/breadcrumb';
-@import 'block/container';
-@import 'block/copy';
-@import 'block/pagination';
+// @import 'block/breadcrumb';
+// @import 'block/container';
+// @import 'block/copy';
+// @import 'block/pagination';
 @import 'block/placeholder';
-@import 'block/reveal';
+// @import 'block/reveal';
 
 
-// LAYOUT
+// Layout
 // distinct section of an interface
 
 @import 'layout/outdated-browser';
@@ -51,21 +45,14 @@
 @import 'layout/site-footer';
 
 
-// PAGE
-// layouts stitched together to form pages
-
-// @import 'page/*';
-
-
-// OVERRIDING UTILITIES
+// Overriding utilities
 // any aditional utilities that should have more important than other CSS
 
-@import 'utility/flush-first';
+// @import 'utility/flush-first';
 @import 'utility/helper-classes';
-@import 'utility/visible';
 
 
-// EXTRAS
+// Extras
 // miscellaneous project extras
 
 @import 'utility/print';

@@ -1,31 +1,38 @@
+button,
 .button {
-	position: relative;
-	padding: $spacing-unit--small;
-	background-color: $c--brand-primary;
-	color: $c--white;
-	font-family: $stack;
-	font-size: $p;
-	font-weight: $w--normal;
-	text-decoration: none;
-	-webkit-tap-highlight-color: rgba($c--white, 0);
+	@apply leading-none;
+
+	&:focus {
+		@apply outline-none;
+	}
+}
+
+.button {
+	@apply
+		relative
+		p-4
+		bg-brand-red
+		text-white
+		font-mono
+		text-base
+		font-bold
+		no-underline;
+	-webkit-tap-highlight-color: transparent;
 
 	&:focus {
 		[data-whatintent='keyboard'] & {
-			box-shadow: 0px 0px 3px $c--blue,
-						0px 0px 6px $c--blue,
-						0px 0px 9px $c--blue;
+		    @apply shadow-outline;
 		}
 	}
 
 	&:active {
-		top: 4px;
+		@apply top-4;
 	}
 
 	&[disabled] {
 		&,
 		&:focus {
-			background-color: $c--grey-light;
-			color: mix($c--grey-light, $c--black, 60%);
+			@apply cursor-not-allowed opacity-50;
 		}
 	}
 }

@@ -1,13 +1,22 @@
 <template>
-	<div class="table-wrapper">
-		<table>
-			<caption v-if="caption" v-html="caption" />
+	<div class="max-w-full overflow-x-auto">
+		<table
+			:class="classList"
+		>
+			<caption
+				v-if="caption"
+				v-html="caption"
+			/>
 
 			<thead v-if="headers">
 				<th
 					v-for="(header, index) in headers"
 					:key="index"
 					scope="col"
+					class="align-top py-3 pr-3 font-bold text-left"
+					:class="{
+						'pl-3': index === 0,
+					}"
 					v-html="header"
 				/>
 			</thead>
@@ -20,6 +29,10 @@
 					<td
 						v-for="(cell, cellIndex) in row"
 						:key="cellIndex"
+						class="align-top py-3 pr-3 border-t border-solid border-grey-500"
+						:class="{
+							'pl-3': cellIndex === 0,
+						}"
 						v-html="cell"
 					/>
 				</tr>
@@ -44,6 +57,20 @@
 			content: {
 				type: Object,
 				required: true,
+			},
+		},
+
+		computed: {
+			classList() {
+				return [
+					'w-full',
+					'border',
+					'border-solid',
+					'border-grey-500',
+					'border-collapse',
+					'font-base',
+					'leading-xs',
+				];
 			},
 		},
 	};

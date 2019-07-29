@@ -1,4 +1,3 @@
 .site-footer {
-	position: relative;
-	z-index: z(site-footer);
+	@apply relative z-site-footer;
 }

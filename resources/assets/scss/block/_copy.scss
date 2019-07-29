@@ -1,8 +1,12 @@
 .copy {
-	max-width: 35em;
+	// max-width: 35em;
 
-	> *:first-child {
-		margin-top: 0;
+	> * {
+		@apply mt-em;
+
+		&:first-child {
+			margin-top: 0;
+		}
 	}
 
 	h1 {

@@ -1,39 +1,26 @@
-$icon-size: 1em;
-$icon-sizes: (
-	user: (49, 54)
-);
+// $icon-size: 1em;
+// $icon-sizes: (
+// 	user: (49, 54)
+// );
 
-.icon {
-	display: inline-block;
-	width: $icon-size;
-	height: $icon-size;
-	fill: currentColor;
-	vertical-align: top;
+// .icon {
+// 	display: inline-block;
+// 	width: $icon-size;
+// 	height: $icon-size;
+// 	fill: currentColor;
+// 	vertical-align: top;
 
-	&--inline {
-		// y = line-height measurment was taken at
-		// x =  how far off centre the baseline is, at `y`
-		$x: 3;
-		$y: 24;
-		vertical-align: n($x/$y * 100%);
-	}
+// 	&--inline {
+// 		// y = line-height measurment was taken at
+// 		// x =  how far off centre the baseline is, at `y`
+// 		$x: 3;
+// 		$y: 24;
+// 		vertical-align: n($x/$y * 100%);
+// 	}
 
-	@each $icon, $ratio in $icon-sizes {
-		&--#{$icon} {
-			width: nth($ratio, 1) / nth($ratio, 2) * 1em;
-		}
-	}
-}
-
-.icon-text {
-	display: flex;
-	align-items: center;
-
-	> * {
-		margin-left: $spacing-unit--x-small;
-
-		&:first-child {
-			margin-left: 0;
-		}
-	}
-}
+// 	@each $icon, $ratio in $icon-sizes {
+// 		&--#{$icon} {
+// 			width: nth($ratio, 1) / nth($ratio, 2) * 1em;
+// 		}
+// 	}
+// }

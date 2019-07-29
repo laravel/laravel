@@ -20,18 +20,13 @@
 */
 
 html {
-	font-size: $html-font-size;
-	min-height: 100%;
-	overflow-y: scroll;
+	@apply min-h-full overflow-y-scroll;
+	font-size: 100%;
 	-webkit-text-size-adjust: none;
 }
 
 body {
-	background-color: $c--body-bg;
-	color: $c--body-colour;
-	font-family: $stack;
-	font-size: $p;
-	line-height: $lh;
+	@apply bg-white text-black font-sans text-base leading-normal;
 }
 
 
@@ -42,8 +37,7 @@ body {
 */
 
 @include selection {
-	background: $c--brand-primary;
-	color: $c--white;
+	@apply bg-black text-white;
 	text-shadow: none;
 }
 
@@ -55,5 +49,5 @@ body {
 */
 
 [v-cloak] {
-	display: none;
+	@apply hidden;
 }

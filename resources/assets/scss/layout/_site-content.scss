@@ -1,5 +1,3 @@
 .site-content {
-	@include soft--ends($spacing-unit--small);
-	position: relative;
-	z-index: z(site-content);
+	@apply relative z-site-content;
 }

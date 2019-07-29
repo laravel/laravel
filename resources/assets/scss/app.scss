@@ -1,2 +1,9 @@
 @import 'variables';
+
+@tailwind base;
+
+@tailwind components;
+
 @import 'import';
+
+@tailwind utilities;

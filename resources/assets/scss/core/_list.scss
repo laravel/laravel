@@ -1,9 +1,9 @@
 .ol,
 .ul {
-	@include push--sides($spacing-unit);
+	@apply mx-5;
 
 	> li {
-		margin-top: $rel-spacing-unit--small;
+		@apply mt-em;
 
 		&:first-child {
 			margin-top: 0;
@@ -12,9 +12,9 @@
 }
 
 .ol {
-	list-style-type: decimal;
+	@apply list-decimal;
 }
 
 .ul {
-	list-style-type: disc;
+	@apply list-disc;
 }

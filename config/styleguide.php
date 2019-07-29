@@ -129,6 +129,40 @@ return [
 						],
 					],
 				],
+				'table' => [
+					'heading' => 'Table',
+					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
+					'previews' => [
+						['component' => [
+								'name' => 'e-table',
+								'type' => 'vue',
+							],
+							'stack' => true,
+							'attributes' => [
+								[
+									'headers' => [
+										'Caption X',
+										'Caption Y',
+									],
+									'content' => [
+										[
+											'Content row x',
+											'Content row y',
+										],
+										[
+											'Content row x',
+											'Content row y',
+										],
+										[
+											'Content row x',
+											'Content row y',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
 			],
 		],
 		'block' => [

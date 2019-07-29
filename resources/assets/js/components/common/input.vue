@@ -1,10 +1,9 @@
 <template>
 	<div>
-		<label
+		<e-label
 			v-if="label && !isCheckboxOrRadio"
 			:for="id"
-			class="label"
-			v-html="label"
+			:text="label"
 		/>
 
 		<input
