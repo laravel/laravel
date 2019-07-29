@@ -4,7 +4,7 @@
 [Project devs to add: Add a short description about what this project codebase is.]
 
 ## Project architecture
-[Project devs to add: Add a short description on codebase architecture.]
+[Project devs to add: Add a short description, or any notes on the codebase's architecture.]
 
 | Project element | Software |
 | --------------- |---------------|
