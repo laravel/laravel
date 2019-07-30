@@ -6,19 +6,18 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
-| Bootstrap the testing environment
+| Bootstrap The Test Environment
 |--------------------------------------------------------------------------
 |
-| You have the option to specify console commands that will execute before your
-| test suite is run. Caching config, routes, & events may improve performance
-| and bring your testing environment closer to production.
+| You may specify console commands that execute once before your test is
+| run. You are free to add your own additional commands or logic into
+| this file as needed in order to help your test suite run quicker.
 |
 */
 
 $commands = [
     'config:cache',
     'event:cache',
-    // 'route:cache',
 ];
 
 $app = require __DIR__.'/../bootstrap/app.php';
