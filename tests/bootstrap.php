@@ -4,6 +4,8 @@ use Illuminate\Contracts\Console\Kernel;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+chdir(__DIR__.'/../');
+
 /*
 |--------------------------------------------------------------------------
 | Bootstrap The Test Environment
