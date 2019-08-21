@@ -1,0 +1,17 @@
+// Import bootstrap variables including default color palette and fonts
+@import "bootstrap/less/variables.less";
+
+// Import datepicker component
+@import "_bootstrap-datetimepicker.less";
+
+//this is here so the compiler doesn't complain about a missing bootstrap mixin
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Bootstrap.v3.Datetimepicker.CSS</id>
+        <version>4.0.0</version>
+        <title>Bootstrap 3 Datetimepicker CSS</title>
+        <authors>Eonasdan</authors>
+        <owners>Eonasdan</owners>
+        <projectUrl>https://github.com/Eonasdan/bootstrap-datetimepicker</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A date/time picker component designed to work with Bootstrap 3 and Momentjs.
+
+For usage, installation and demos see Project Site on GitHub
+
+For LESS version install Bootstrap.v3.Datetimepicker</description>
+        <releaseNotes>
+          Check the change log on Github at https://github.com/Eonasdan/bootstrap-datetimepicker/wiki/Change-Log
+
+          IMPORANT! The Nuget packages will be depreciated in an upcoming release. Moving forward, Asp.Net/Nuget will NOT be delivering content packages like this one and you will need to use bower. See https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1128 for more
+        </releaseNotes>
+        <tags>bootstrap date time picker datetimepicker datepicker jquery</tags>
+        <dependencies>
+            <dependency id="bootstrap" version="3.3.0" />
+            <dependency id="Moment.js" version="2.9.0" />
+        </dependencies>
+    </metadata>
+	<files>
+        <file src="..\..\src\js\bootstrap-datetimepicker.js" target="content\Scripts" />
+        <file src="..\..\build\js\bootstrap-datetimepicker.min.js" target="content\Scripts" />
+        <file src="..\..\build\css\bootstrap-datetimepicker.css" target="content\Content" />
+        <file src="..\..\build\css\bootstrap-datetimepicker.min.css" target="content\Content" />		
+        <file src="install.ps1" target="tools\" />
+    </files>
+</package>

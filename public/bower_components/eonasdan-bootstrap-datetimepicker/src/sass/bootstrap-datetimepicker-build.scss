@@ -1,0 +1,16 @@
+// Import bootstrap variables including default color palette and fonts
+//@import "../../node_modules/bootstrap/less/variables.less";
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+// Import datepicker component
+@import "_bootstrap-datetimepicker";
