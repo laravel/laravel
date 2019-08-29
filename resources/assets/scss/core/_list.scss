@@ -6,7 +6,7 @@
 		@apply mt-em;
 
 		&:first-child {
-			margin-top: 0;
+			@apply mt-0;
 		}
 	}
 }

@@ -1,11 +1,11 @@
 .copy {
-	// max-width: 35em;
+	@apply max-w-copy;
 
 	> * {
 		@apply mt-em;
 
 		&:first-child {
-			margin-top: 0;
+			@apply mt-0;
 		}
 	}
 

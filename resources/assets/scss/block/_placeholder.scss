@@ -10,15 +10,10 @@ $placeholder-sizes: (
 
 .placeholder {
 	@include responsive-ratio(16, 9, true);
-	position: relative;
-	width: 100%;
+	@apply relative w-full;
 
 	> * {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+		@apply absolute top-0 left-0 w-full h-full;
 	}
 
 	@each $size, $ratio in $placeholder-sizes {

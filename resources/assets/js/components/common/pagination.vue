@@ -1,23 +1,14 @@
 <template>
-	<ol class="pagination">
+	<ol class="flex justify-center">
 		<li
 			v-for="(page, index) in pages"
 			:key="index"
-			class="pagination__item"
-			:class="[
-				page.modifier ? `pagination__item--${page.modifier}` : null,
-				{
-					'pagination__item--disabled': page.disabled,
-					'pagination__item--current': page.current
-				}
-			]"
+			:class="itemClassList(page.type)"
 		>
 			<a
 				:is="page.url ? 'a' : 'span'"
 				:href="page.url"
-				:class="[
-					page.gap ? 'pagination__gap' : 'pagination__link'
-				]"
+				:class="linkClassList(page.type, page.disabled, page.current)"
 				v-html="page.title"
 			/>
 		</li>
@@ -30,6 +21,44 @@
 			pages: {
 				type: Array,
 				required: true,
+			},
+		},
+
+		data() {
+			return {
+				hiddenSmallScreen: ['jump', 'prev', 'next', 'gap', 'page-end'],
+			};
+		},
+
+		methods: {
+			itemClassList(type) {
+				const classes = ['mx-1', 'align-center'];
+
+				if (this.$data.hiddenSmallScreen.includes(type)) {
+					classes.push('hidden', 'tablet:flex');
+				} else {
+					classes.push('flex');
+				}
+
+				return classes;
+			},
+
+			linkClassList(type, isDisabled, isCurrent) {
+				const classes = ['block', 'text-sm', 'leading-none', 'p-2'];
+
+				if (isDisabled) {
+					classes.push('bg-grey-300', 'cursor-not-allowed');
+				} else if (isCurrent) {
+					classes.push('bg-green');
+				} else if (type !== 'gap') {
+					classes.push('bg-blue');
+				}
+
+				if (type !== 'gap' && !isDisabled) {
+					classes.push('text-white', 'no-underline', 'hover:bg-red');
+				}
+
+				return classes;
 			},
 		},
 	};

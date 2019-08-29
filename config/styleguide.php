@@ -169,6 +169,102 @@ return [
 			'heading' => 'Blocks',
 			'copy' => 'More complex components',
 			'blocks' => [
+				'breadcrumb' => [
+					'heading' => 'Breadcrumb',
+					'previews' => [
+						['component' => [
+								'name' => 'breadcrumb',
+								'type' => 'vue',
+							],
+							'attributes' => [
+								[
+									'pages' => [
+										[
+											'title' => 'Home',
+											'url' => '#',
+										],
+										[
+											'title' => 'Parent page',
+											'url' => '#',
+										],
+										[
+											'title' => 'Current page',
+											'url' => '#',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
+				'pagination' => [
+					'heading' => 'Pagination',
+					'previews' => [
+						['component' => [
+								'name' => 'pagination',
+								'type' => 'vue',
+							],
+							'attributes' => [
+								[
+									'pages' => [
+										[
+											'title' => 'First',
+											'type' => 'jump',
+											'disabled' => true,
+										],
+										[
+											'title' => 'Prev',
+											'type' => 'prev',
+											'disabled' => true,
+										],
+										[
+											'title' => '1',
+											'url' => '#',
+											'current' => true,
+										],
+										[
+											'title' => '2',
+											'url' => '#',
+										],
+										[
+											'title' => '3',
+											'url' => '#',
+										],
+										[
+											'title' => '&hellip;',
+											'type' => 'gap',
+										],
+										[
+											'title' => '40',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => '41',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => '42',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => 'Next',
+											'url' => '#',
+											'type' => 'next',
+										],
+										[
+											'title' => 'Last',
+											'url' => '#',
+											'type' => 'jump',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
 				'placeholder' => [
 					'heading' => 'Placeholders',
 					'previews' => [
