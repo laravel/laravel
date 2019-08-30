@@ -1,6 +1,6 @@
 <template>
 	<label
-		class="block mb-half-em pointer-cursor font-bold"
+		class="block mb-half-em pointer-cursor font-bold leading-small"
 		v-html="text"
 	/>
 </template>

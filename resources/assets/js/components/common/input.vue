@@ -7,18 +7,35 @@
 		/>
 
 		<input
+			:is="element"
 			:id="id"
 			:type="type"
 			:value="value"
-			:class="type"
+			:class="[
+				type,
+				{
+					input: !isCheckboxOrRadio,
+				},
+			]"
+			:placeholder="placeholder"
+			:rows="rows"
 			@input="$emit('input', $event.target.value)"
-		>
+		/>
 
 		<label
 			v-if="label && isCheckboxOrRadio"
 			:for="id"
-			v-html="label"
-		/>
+			class="checkbox-label"
+		>
+			<span class="checkbox-label__icon-wrapper">
+				<icon name="check" class="checkbox-label__icon" />
+			</span>
+
+			<span
+				class="checkbox-label__content"
+				v-html="label"
+			/>
+		</label>
 
 		<error-text :errors="error" />
 	</div>
@@ -53,6 +70,16 @@
 				default: null,
 			},
 
+			placeholder: {
+				type: String,
+				default: null,
+			},
+
+			rows: {
+				type: Number,
+				default: null,
+			},
+
 			error: {
 				type: Object,
 				default: () => {},
@@ -60,6 +87,12 @@
 		},
 
 		computed: {
+			element() {
+				const types = ['textarea'];
+
+				return types.includes(this.$props.type) ? this.$props.type : 'input';
+			},
+
 			isCheckboxOrRadio() {
 				const inputs = ['checkbox', 'radio'];
 

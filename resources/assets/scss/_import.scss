@@ -5,6 +5,7 @@
 
 
 // System-wide styles, mixins and placeholders
+@import 'utility/functions';
 @import 'utility/mixins';
 @import 'utility/fonts';
 @import 'utility/grid';
@@ -19,14 +20,14 @@
 @import 'core/anchor';
 @import 'core/button';
 @import 'core/icon';
-// @import 'core/input';
+@import 'core/input';
 @import 'core/list';
 
 
 // Block
 // simple combinations of cores and reusable components not tied to a specific section
 
-// @import 'block/container';
+@import 'block/container';
 @import 'block/copy';
 @import 'block/placeholder';
 
@@ -44,9 +45,3 @@
 // any aditional utilities that should have more important than other CSS
 
 @import 'utility/helper-classes';
-
-
-// Extras
-// miscellaneous project extras
-
-@import 'utility/print';

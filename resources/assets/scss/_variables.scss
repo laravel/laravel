@@ -1,5 +1,4 @@
 @import '../variables.json';
-// @import 'utility/functions';
 
 $colors: map-get($variables, colors);
 
@@ -45,36 +44,6 @@ $h--6: (
 	tablet: 'lg',
 	desktop: 'xl',
 );
-
-// font stacks
-// for embedded custom fonts, list name below as normal. To generate code see example in utlity/core.scss
-// $stack: Helvetica, Arial, sans-serif;
-// $stack--heading: $stack;
-
-// letter spacing
-// $ls: (
-// 	// base: -30
-// );
-
-
-/*
-
-	Layout
-
-*/
-
-// page gutter
-// $page-gutter: $spacing-unit;
-// $page-gutter--tablet: $spacing-unit--medium;
-// $page-gutter--desktop: $spacing-unit--large;
-
-// grid
-// $grid-column-count: 24;
-// $grid-column-gutter: $spacing-unit;
-// $grid-column-gutter--tablet: $spacing-unit--medium;
-// $grid-column-gutter--desktop: $spacing-unit--large;
-
-// $max-width: breakpoint('desktop', true);
 
 
 /*

@@ -8,7 +8,9 @@ import lang from './i18n';
 
 // Common
 import EButton from './components/common/button';
+import EInput from './components/common/input';
 import ELabel from './components/common/label';
+import ESelect from './components/common/select';
 import ETable from './components/common/table';
 import Breadcrumb from './components/common/breadcrumb';
 import Icon from './components/common/icon';
@@ -16,17 +18,19 @@ import IconText from './components/common/icon-text';
 import Pagination from './components/common/pagination';
 
 // Accounts
-import ForgotPasswordForm from './components/accounts/forgot-password-form';
-import LoginForm from './components/accounts/login-form';
-import PasswordResetForm from './components/accounts/password-reset-form';
-import RegisterForm from './components/accounts/register-form';
-import ResendVerifyCodeForm from './components/accounts/resend-verify-code-form';
+// import ForgotPasswordForm from './components/accounts/forgot-password-form';
+// import LoginForm from './components/accounts/login-form';
+// import PasswordResetForm from './components/accounts/password-reset-form';
+// import RegisterForm from './components/accounts/register-form';
+// import ResendVerifyCodeForm from './components/accounts/resend-verify-code-form';
 
 Vue.filter('trans', (...args) => lang.get(...args));
 
 // Global
 Vue.component('EButton', EButton);
+Vue.component('EInput', EInput);
 Vue.component('ELabel', ELabel);
+Vue.component('ESelect', ESelect);
 Vue.component('ETable', ETable);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('Icon', Icon);
@@ -39,11 +43,11 @@ new Vue({
 	// Local
 	components: {
 		// App
-		ForgotPasswordForm,
-		LoginForm,
-		PasswordResetForm,
-		RegisterForm,
-		ResendVerifyCodeForm,
+		// ForgotPasswordForm,
+		// LoginForm,
+		// PasswordResetForm,
+		// RegisterForm,
+		// ResendVerifyCodeForm,
 
 		// Styleguide
 		// ExampleStyleguideOnlyComponent,

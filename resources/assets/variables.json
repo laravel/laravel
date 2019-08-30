@@ -1,6 +1,4 @@
 {
-	"rems-on": true,
-	"em-media-queries": true,
 	"browser-default-font-size": 16,
 	"breakpoints": {
 		"phone": 375,
@@ -13,34 +11,6 @@
 		"desktop-wide": 1440
 	},
 	"columns": 24,
-	"colors": {
-		"inherit": "inherit",
-		"brand-red": "#ff585d",
-		"black": "#000",
-		"grey": {
-			"100": "#fafafa",
-			"200": "#eee",
-			"300": "#ddd",
-			"400": "#ddd",
-			"500": "#aaa",
-			"600": "#888",
-			"700": "#444",
-			"800": "#222",
-			"900": "#111"
-		},
-		"white": "#fff",
-		"blue": "#00f",
-		"green": "#24b35d",
-		"red": "#f50023",
-		"social": {
-			"twitter": "#55acee",
-			"facebook": "#3b5998",
-			"youtube": "#bb0000",
-			"pinterest": "#cb2027",
-			"linkedin": "#007bb5",
-			"instagram": "#8a3ab9"
-		}
-	},
 	"z-indexes": [
 		"outdated-browser",
 		"site-header",

@@ -13,21 +13,11 @@ button,
 		p-4
 		bg-brand-red
 		text-white
-		font-mono
+		font-body
 		text-base
-		font-bold
+		font-normal
 		no-underline;
 	-webkit-tap-highlight-color: transparent;
-
-	&:focus {
-		[data-whatintent='keyboard'] & {
-		    @apply shadow-outline;
-		}
-	}
-
-	&:active {
-		@apply top-4;
-	}
 
 	&[disabled] {
 		&,

@@ -26,8 +26,8 @@
 	position: $pos;
 }
 
-// Responsive ratio - Used for creating scalable elements that maintain the same ratio
 @mixin responsive-ratio($x, $y, $pseudo: false) {
+	// Responsive ratio - Used for creating scalable elements that maintain the same ratio
 	$padding: ($y / $x) * 100%;
 
 	@if $pseudo {
@@ -41,49 +41,7 @@
 	}
 }
 
-@mixin retina {
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-	only screen and (-moz-min-device-pixel-ratio: 1.5),
-	only screen and (-o-min-device-pixel-ratio: 3 / 2),
-	only screen and (min-device-pixel-ratio: 1.5),
-	only screen and (min-resolution: 1.5dppx) {
-		@content;
-	}
-}
-
-@mixin selection {
-	::-moz-selection { @content; }
-	::selection { @content; }
-}
-
 @mixin unselectable {
     @apply select-none;
     -webkit-touch-callout: none;
-}
-
-@mixin vh($focusable: false) {
-    // Hide only visually, but have it available for screenreaders
-	@apply absolute border-none overflow-hidden p-0;
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	clip: rect(0 0 0 0);
-
-	@if $focusable {
-		@include vh-focusable;
-	}
-}
-
-@mixin vh-reset {
-	@apply static w-auto h-auto m-0 overflow-visible;
-	clip: auto;
-}
-
-@mixin vh-focusable {
-    // Allow the element to be focusable when navigated to via the keyboard
-	&:active,
-	&:focus {
-		@apply static w-auto h-auto m-0 overflow-visible;
-		clip: auto;
-	}
 }

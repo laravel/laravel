@@ -1,17 +1,15 @@
-// .container {
-// 	@include push--sides($page-gutter);
-// 	position: relative;
-// 	max-width: $max-width;
+.container {
+	@apply max-w-container mx-5 relative;
 
-// 	@include mq(tablet) {
-// 		@include push--sides($page-gutter--tablet);
-// 	}
+	@screen tablet {
+		@apply mx-6;
+	}
 
-// 	@include mq(desktop) {
-// 		@include push--sides($page-gutter--desktop);
-// 	}
+	@screen desktop {
+		@apply mx-8;
+	}
 
-// 	@include mq(em($max-width + (2 * $page-gutter--desktop))) {
-// 		@include push--auto;
-// 	}
-// }
+	@media (min-width: theme('maxWidth.containerWithGutters')) {
+		@apply mx-auto;
+	}
+}

@@ -1,233 +1,114 @@
-$input-border-width: 1px;
-$input-font-size: $p;
-$input-line-height: $p * 1.5;
-$input-padding--x: $spacing-unit--small;
-$input-padding--y: $spacing-unit--x-small;
-$input-validation-icon: $p;
-
-$checkbox-size: $spacing-unit;
-$radio-inner-size: h($checkbox-size);
-
-input,
-textarea,
-select {
-	display: block;
-	padding: $input-padding--y $input-padding--x;
-	background: $c--white;
-	border: $input-border-width solid $c--grey-light;
-	border-radius: 0;
-	color: $c--black;
-	font: normal #{$input-font-size}/#{$input-line-height} $stack;
+.input {
+	@apply
+		block
+		w-full
+		p-4
+		bg-white
+		border
+		border-grey-500
+		rounded-none
+		text-black;
 
 	&:focus {
-		border-color: $c--grey;
-
-		[data-whatintent='keyboard'] & {
-			border-color: $c--blue;
-			box-shadow: 0 0 5px $c--blue;
-		}
+		@apply border-grey-700;
 	}
 
-	@include input-placeholder {
-		color: $c--grey-light;
+	&::placeholder {
+		@apply text-grey-500;
 	}
 
 	&.is-invalid {
-		border-color: $c--negative;
-
-		&:focus {
-			border-color: $c--negative;
-
-			[data-whatintent='keyboard'] & {
-				box-shadow: 0 0 5px $c--negative;
-			}
-		}
-	}
-}
-
-input,
-textarea {
-	&.is-invalid {
-		padding-right: $input-validation-icon * 3;
-		background: {
-			image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--negative}" d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0 c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697c0.469-0.469,1.228-0.469,1.697,0 L10,8.183l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0c0.469,0.469,0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15 C14.817,13.62,14.817,14.38,14.348,14.849z"/></svg>');
-			position: right $input-validation-icon center;
-			repeat: no-repeat;
-			size: $input-validation-icon;
-		}
+		@apply border-red;
 	}
 }
 
 input {
 	&[type=password] {
-		font-family: 'system-ui', sans-serif;
+		@apply font-system;
 	}
 }
 
-textarea {
-	height: auto;
-}
-
-
-// checkboxes and radios
 .checkbox,
 .radio {
-	@include vh;
-
-	+ label {
-		display: block;
-		position: relative;
-		padding-left: $checkbox-size + $spacing-unit--x-small;
-		cursor: pointer;
-
-		&::before {
-			@include pseudo;
-			top: 50%;
-			left: 0;
-			width: 1em;
-			height: 1em;
-			transform: translateY(-50%);
-			background: center center no-repeat;
-			background-size: 80%;
-			border: 2px solid $c--grey;
-			font-size: $checkbox-size;
-		}
-	}
+	@apply sr-only;
 
 	&:focus {
-		[data-whatintent='keyboard'] & {
-			+ label::before {
-				border-color: $c--blue;
-				box-shadow: 0 0 3px 1px $c--blue;
+		[data-whatintent=keyboard] & {
+			+ .checkbox-label .checkbox-label__icon-wrapper {
+				box-shadow: 0 0 5px theme('colors.blue');
 			}
 		}
 	}
 
-	&[disabled] {
-		+ label {
-			cursor: not-allowed;
-			opacity: .4;
-			text-decoration: none;
+	&:checked {
+		+ .checkbox-label .checkbox-label__icon {
+			transform: scale(.8);
 		}
 	}
 
-	// validation
+	&[disabled] {
+		+ .checkbox-label {
+			@apply opacity-25 cursor-not-allowed;
+		}
+	}
+
 	&.is-invalid {
-		+ label::before {
-			border-color: $c--negative;
+		+ .checkbox-label .checkbox-label__content {
+			@apply text-red;
 		}
 	}
 }
 
-.checkbox {
-	&:checked {
-		+ label::before {
-			background-image: svg-url('<svg viewBox="0 0 32 32"><path fill="#{$c--body-colour}" d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z"/></svg>');
+.checkbox-label {
+	@apply
+		flex
+		items-start;
+
+	&__icon-wrapper {
+		@apply
+			flex
+			justify-center
+			items-center
+			flex-shrink-0
+			relative
+			w-em
+			h-em
+			text-4xl
+			bg-grey-300
+			pointer-events-none;
+	}
+
+	&__icon {
+		transform: scale(0);
+		font-size: .8em;
+	}
+
+	&__content {
+		@apply
+			block
+			ml-2;
+		padding: {
+			top: .1875rem;
+			bottom: .1875rem;
 		}
 	}
 }
 
 .radio {
-	+ label::before {
-		border-radius: 50%;
-	}
-
-	&:checked {
-		+ label::after {
-			@include pseudo;
-			top: 50%;
-			left: h($checkbox-size - $radio-inner-size);
-			transform: translateY(-50%);
-			width: 1em;
-			height: 1em;
-			background: $c--grey-dark;
-			border-radius: 50%;
-			font-size: $radio-inner-size;
-		}
-	}
-}
-
-
-// select and multi select
-select {
-	// iOS Zoom Hack
-	@media screen and (-webkit-min-device-pixel-ratio: 0) {
-		font-size: $input-font-size !important;
-	}
-}
-
-select[size],
-select[multiple] {
-	padding: h($input-padding--y) $input-padding--x;
-	height: auto;
-	background-image: none;
-
-	option {
-		padding: h($input-padding--y) h($input-padding--x);
+	+ .checkbox-label .checkbox-label__icon-wrapper {
+		@apply rounded-50;
 	}
 }
 
 .select {
-	display: block;
-	position: relative;
+	@apply block relative;
 
 	select {
-		padding-right: $input-validation-icon * 3;
+		@apply pr-12;
 	}
 
-	// arrow
-	&::after {
-		@include pseudo;;
-		top: 50%;
-		right: $input-validation-icon;
-		width: 1em;
-		height: 1em;
-		pointer-events: none;
-		transform: translateY(-50%);
-		background-image: svg-url('<svg viewBox="0 0 20 20"><path fill="#{$c--grey-dark}" d="M4.516,7.548c0.436-0.446,1.043-0.481,1.576,0L10,11.295l3.908-3.747c0.533-0.481,1.141-0.446,1.574,0 c0.436,0.445,0.408,1.197,0,1.615c-0.406,0.418-4.695,4.502-4.695,4.502C10.57,13.888,10.285,14,10,14s-0.57-0.112-0.789-0.335 c0,0-4.287-4.084-4.695-4.502C4.107,8.745,4.08,7.993,4.516,7.548z"/></svg>');
-		background-size: cover;
-		font-size: $input-validation-icon;
-	}
-}
-
-
-// disabled form fields
-
-input[disabled],
-select[disabled],
-select[disabled] option,
-select[disabled] optgroup,
-textarea[disabled] {
-	&,
-	&:focus,
-	&:hover,
-	&:active {
-		background-color: $c--grey-light;
-		border-color: $c--grey-light;
-		color: $c--white;
-	}
-}
-
-
-// error labels for extra descriptive errors
-.error-text {
-	display: inline-block;
-	position: relative;
-	margin-top: $spacing-unit--x-small;
-	padding: $spacing-unit--x-small;
-	background-color: $c--negative;
-	color: $c--white;
-	font-size: $p--small;
-	line-height: $lh--small;
-
-	&::before {
-		@include pseudo;
-		bottom: 100%;
-		left: rem(2px);
-		z-index: 2;
-		width: $spacing-unit--small;
-		height: $spacing-unit--2x-small;
-		background: svg-url('<svg viewBox="0 0 20 20" preserveAspectRatio="none"><polygon fill="#{$c--negative}" points="10,0 0,20 20,20"/></svg>') 50% 50%;
-		background-size: cover;
+	&__icon {
+	    @apply absolute top-1/2 right-0 w-em h-em pointer-events-none;
+	    transform: translate(-100%, -50%);
 	}
 }

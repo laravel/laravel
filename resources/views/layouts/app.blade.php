@@ -17,7 +17,7 @@
 @section('app')
 	@include('layouts/partials/site-header')
 
-	<main class="site-content font-hairline font-thin font-light font-normal font-medium font-semibold font-bold font-extrabold font-black">
+	<main class="site-content">
 		<div class="container">
 			@yield('content')
 		</div>
