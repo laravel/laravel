@@ -15,7 +15,6 @@
     },
     "require-dev": {
         "facade/ignition": "^1.4",
-        "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
