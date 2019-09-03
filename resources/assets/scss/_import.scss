@@ -1,9 +1,3 @@
-// UTILITIES
-
-// some useful style resets and initial form styling
-// @import 'utility/reset/form';
-
-
 // System-wide styles, mixins and placeholders
 @import 'utility/functions';
 @import 'utility/mixins';
@@ -11,10 +5,8 @@
 @import 'utility/grid';
 @import 'utility/animations';
 
-
 // Core
 // basic building blocks, typically single html tags
-
 @import 'core/document';
 @import 'core/typography';
 @import 'core/anchor';
@@ -23,25 +15,12 @@
 @import 'core/input';
 @import 'core/list';
 
-
 // Block
 // simple combinations of cores and reusable components not tied to a specific section
-
 @import 'block/container';
 @import 'block/copy';
 @import 'block/placeholder';
 
-
-// Layout
-// distinct section of an interface
-
-@import 'layout/site-wrapper';
-@import 'layout/site-header';
-@import 'layout/site-content';
-@import 'layout/site-footer';
-
-
 // Overriding utilities
 // any aditional utilities that should have more important than other CSS
-
 @import 'utility/helper-classes';

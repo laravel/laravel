@@ -6,7 +6,7 @@
 <body>
 	@yield('app:before')
 
-	<div id="app" class="site-wrapper" v-cloak>
+	<div id="app" class="relative" v-cloak>
 		@yield('app')
 	</div>
 

@@ -112,3 +112,8 @@ input {
 	    transform: translate(-100%, -50%);
 	}
 }
+
+// remove dropdown for IE11
+select::-ms-expand {
+	display: none;
+}
