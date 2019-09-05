@@ -10,6 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --env.mixfile=build/webpack.mix"
     },
     "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^1.2.0",
         "axios": "^0.18",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
@@ -24,7 +25,12 @@
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
         "normalize.css": "^7.0",
-        "object-fit-images": "^3.2.4",
+		"object-fit-images": "^3.2.4",
+		"postcss-easy-import": "^3.0.0",
+		"postcss-extend-rule": "^3.0.0",
+		"postcss-mixins": "^6.2.2",
+		"postcss-nested": "^4.1.2",
+		"postcss-units": "^1.2.1",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",

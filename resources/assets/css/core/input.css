@@ -84,13 +84,9 @@ input {
 	}
 
 	&__content {
-		@apply
-			block
-			ml-2;
-		padding: {
-			top: .1875rem;
-			bottom: .1875rem;
-		}
+		@apply block ml-2;
+		padding-top: .1875rem;
+		padding-bottom: .1875rem;
 	}
 }
 
@@ -113,7 +109,6 @@ input {
 	}
 }
 
-// remove dropdown for IE11
 select::-ms-expand {
 	display: none;
 }

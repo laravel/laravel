@@ -1,0 +1,11 @@
+@define-mixin font-face $name, $filename, $weight: theme('fontWeight.normal'), $style: normal {
+	@font-face {
+		font-family: $name;
+		src: url('/static/fonts/$(filename).woff2') format('woff2'),
+			 url('/static/fonts/$(filename).woff') format('woff');
+		font-style: $style;
+		font-weight: $weight;
+	}
+}
+
+/* @mixin font-face Clarendon, clarendon-webfont, theme('fontWeight.normal'), normal; */

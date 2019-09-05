@@ -18,7 +18,7 @@
 	}
 
 	h3 {
-		@extend .h3;
+	    @extend .h3;
 	}
 
 	h4 {

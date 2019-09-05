@@ -1,0 +1,37 @@
+%heading {
+	@apply font-bold font-heading leading-none;
+
+	a {
+		@apply font-bold;
+	}
+}
+
+.h1 {
+    @extend %heading;
+	@mixin font-size 4xl, 5xl, 6xl;
+}
+
+.h2 {
+    @extend %heading;
+	@mixin font-size 3xl, 4xl, 5xl;
+}
+
+.h3 {
+    @extend %heading;
+    @mixin font-size 2xl, 3xl, 4xl;
+}
+
+.h4 {
+    @extend %heading;
+    @mixin font-size xl, 2xl, 3xl;
+}
+
+.h5 {
+    @extend %heading;
+    @mixin font-size lg, xl, 2xl;
+}
+
+.h6 {
+	@extend %heading;
+    @mixin font-size base, lg, xl;
+}

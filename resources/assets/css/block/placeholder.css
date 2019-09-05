@@ -1,0 +1,18 @@
+.placeholder {
+	@apply relative w-full;
+
+	> * {
+		@apply absolute top-0 left-0 w-full h-full;
+	}
+
+	&::before {
+		@mixin ratio 16, 9;
+		@apply block w-full;
+		content: '';
+	}
+
+	&--landscape::before { @mixin ratio 4, 3 }
+	&--portrait::before { @mixin ratio 3, 4 }
+	&--square::before { @mixin ratio 1, 1 }
+	&--logo::before { @mixin ratio 300, 87 }
+}

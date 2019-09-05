@@ -1,8 +1,5 @@
 <template>
-	<svg
-		class="icon"
-		:class="`icon--${name}`"
-	>
+	<svg class="inline-block w-em h-em fill-current align-top">
 		<use :xlink:href="`/compiled/img/sprite.svg#${name}`" />
 	</svg>
 </template>

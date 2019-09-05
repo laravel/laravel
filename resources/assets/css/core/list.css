@@ -1,5 +1,4 @@
-.ol,
-.ul {
+%list {
 	@apply mx-5;
 
 	> li {
@@ -12,9 +11,11 @@
 }
 
 .ol {
+	@extend %list;
 	@apply list-decimal;
 }
 
 .ul {
+    @extend %list;
 	@apply list-disc;
 }

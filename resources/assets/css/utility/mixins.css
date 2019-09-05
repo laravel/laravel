@@ -1,0 +1,11 @@
+@define-mixin font-size $base, $tablet, $desktop {
+    @apply text-$(base);
+
+	@screen tablet {
+		@apply text-$(tablet);
+	}
+
+	@screen desktop {
+		@apply text-$(desktop);
+	}
+}

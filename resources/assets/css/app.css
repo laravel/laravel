@@ -1,50 +1,26 @@
-@import '../variables.json';
+@import 'tailwindcss/base';
 
-$colors: map-get($variables, colors);
+@import 'tailwindcss/components';
 
+@import 'utility/mixins';
+@import 'utility/fonts';
+@import 'utility/animations';
 
-/*
+@import 'core/document';
+@import 'core/typography';
+@import 'core/anchor';
+@import 'core/button';
+@import 'core/input';
+@import 'core/list';
 
-	Typography
+@import 'block/container';
+@import 'block/copy';
+@import 'block/grid';
+@import 'block/placeholder';
 
-*/
+@import 'tailwindcss/utilities';
 
-$h--1: (
-	base: '4xl',
-	tablet: '5xl',
-	desktop: '6xl',
-);
-
-$h--2: (
-	base: '3xl',
-	tablet: '4xl',
-	desktop: '5xl',
-);
-
-$h--3: (
-	base: '2xl',
-	tablet: '3xl',
-	desktop: '4xl',
-);
-
-$h--4: (
-	base: 'xl',
-	tablet: '2xl',
-	desktop: '3xl',
-);
-
-$h--5: (
-	base: 'lg',
-	tablet: 'xl',
-	desktop: '2xl',
-);
-
-$h--6: (
-	base: 'base',
-	tablet: 'lg',
-	desktop: 'xl',
-);
-
+@import 'utility/print';
 
 /*
 
@@ -52,7 +28,7 @@ $h--6: (
 
 */
 
-// Cubic
+/* // Cubic
 $ease--in-cubic: cubic-bezier(.55,.055,.675,.19);
 $ease--out-cubic: cubic-bezier(.215,.61,.355,1);
 $ease--in-out-cubic: cubic-bezier(.645,.045,.355,1);
@@ -94,3 +70,4 @@ $ease--in-out-back: cubic-bezier(.68,-0.55,.265,1.55);
 
 // Smooth fade
 $ease--smooth-fade: cubic-bezier(.365,.005,.355,1);
+*/
