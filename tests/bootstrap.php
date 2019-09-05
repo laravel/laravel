@@ -4,6 +4,10 @@ use Illuminate\Contracts\Console\Kernel;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+if (file_exists($_SERVER['APP_CONFIG_CACHE'])) {
+    unlink($_SERVER['APP_CONFIG_CACHE']);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Bootstrap The Test Environment
