@@ -44,9 +44,9 @@ return [
     */
 
     'argon' => [
-        'memory' => 1024,
-        'threads' => 2,
-        'time' => 2,
+        'memory' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+        'threads' => PASSWORD_ARGON2_DEFAULT_THREADS,
+        'time' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
     ],
 
 ];
