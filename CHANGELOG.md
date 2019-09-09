@@ -1,6 +1,6 @@
 # Release Notes
 
-## [v5.8.35 (2019-08-XX)](https://github.com/laravel/laravel/compare/v5.8.17...v5.8.35)
+## [v5.8.35 (2019-09-09)](https://github.com/laravel/laravel/compare/v5.8.17...v5.8.35)
 
 ### Added
 - Add DYNAMODB_ENDPOINT to the cache config ([#5034](https://github.com/laravel/laravel/pull/5034))
