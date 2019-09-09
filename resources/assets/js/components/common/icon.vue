@@ -3,7 +3,7 @@
 		class="icon"
 		:class="`icon--${name}`"
 	>
-		<use :xlink:href="`/assets/img/sprite.svg#${name}`" />
+		<use :xlink:href="`/compiled/img/sprite.svg#${name}`" />
 	</svg>
 </template>
 
