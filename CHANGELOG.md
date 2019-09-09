@@ -7,7 +7,38 @@
 - Encourage to use PHPUnit 8 ([0582a20](https://github.com/laravel/laravel/commit/0582a20adddc0e6bd16ca05eeae93e6412924ad6))
 
 
-## [v5.8.16 (2019-05-07)](https://github.com/laravel/laravel/compare/v5.8.3...master)
+## [v5.8.35 (2019-09-09)](https://github.com/laravel/laravel/compare/v5.8.17...v5.8.35)
+
+### Added
+- Add DYNAMODB_ENDPOINT to the cache config ([#5034](https://github.com/laravel/laravel/pull/5034))
+- Added support for new redis URL property ([#5037](https://github.com/laravel/laravel/pull/5037))
+- Add .env.backup to gitignore ([#5046](https://github.com/laravel/laravel/pull/5046))
+- Using environment variable to set redis prefix ([#5062](https://github.com/laravel/laravel/pull/5062))
+
+### Changed
+- Update axios package ([#5038](https://github.com/laravel/laravel/pull/5038))
+- Use generic default db config ([6f3d68f](https://github.com/laravel/laravel/commit/6f3d68f67f3dab0e0d853719696ede8dfd9cc4e1))
+- Update deprecated pusher option ([#5058](https://github.com/laravel/laravel/pull/5058))
+- Move TrustProxies to highest priority ([#5055](https://github.com/laravel/laravel/pull/5055))
+
+### Fixed
+- Fixed lodash version ([#5060](https://github.com/laravel/laravel/pull/5060))
+
+### Removed
+- Remove Stripe config settings ([#5075](https://github.com/laravel/laravel/pull/5075), [bb43372](https://github.com/laravel/laravel/commit/bb433725483803a27f21d3b21317072610bc3e9c))
+- Remove unnecessary X-CSRF-TOKEN header from our Axios instance ([#5083](https://github.com/laravel/laravel/pull/5083))
+
+
+## [v5.8.17 (2019-05-14)](https://github.com/laravel/laravel/compare/v5.8.16...v5.8.17)
+
+### Added
+- Add ends_with validation message ([#5020](https://github.com/laravel/laravel/pull/5020))
+
+### Fixed
+- Fix type hint for case of trusting all proxies (string) ([#5025](https://github.com/laravel/laravel/pull/5025))
+
+
+## [v5.8.16 (2019-05-07)](https://github.com/laravel/laravel/compare/v5.8.3...v5.8.16)
 
 ### Added
 - Add IDE type-hint to UserFactory ([#4990](https://github.com/laravel/laravel/pull/4990))
