@@ -1,13 +1,69 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v5.8.3...develop)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.0.1...master)
+
+### Fixed
+- Delete cached config file before running tests ([#5091](https://github.com/laravel/laravel/pull/5091))
+
+
+## [v6.0.1 (2019-08-27)](https://github.com/laravel/laravel/compare/v6.0.0...v6.0.1)
+
+### Added
+- Add Ignition ([41ee35d](https://github.com/laravel/laravel/commit/41ee35d01f4e57c47e924400db8a805089664141), [13ab419](https://github.com/laravel/laravel/commit/13ab419d59e2f0d2e188a5157a3cc17f72db595c))
+
+
+## [v6.0.0 (2019-08-27)](https://github.com/laravel/laravel/compare/v5.8.35...v6.0.0)
+
+### Added
+- Add ThrottleRequests to the priority array ([#5057](https://github.com/laravel/laravel/pull/5057))
+- Add PHPUnit bootstrap file to allow execution of console commands before a test run ([#5050](https://github.com/laravel/laravel/pull/5050), [8f2a278](https://github.com/laravel/laravel/commit/8f2a27868f7f9e0a0bbf69fa83d06b8a7a1b7894))
+- Add failed jobs table ([b7d2b48](https://github.com/laravel/laravel/commit/b7d2b48b75afbaa34c82688cb30be2f00a7d8c57), [#5082](https://github.com/laravel/laravel/pull/5082))
+- Add new failed driver option ([e6becd2](https://github.com/laravel/laravel/commit/e6becd2ca35a650f51ed49525935e8ca65671152))
 
 ### Changed
 - Require PHP 7.2 ([25cf4c4](https://github.com/laravel/laravel/commit/25cf4c492308b9c5148f9522d8dd8f8f18819f50))
 - Encourage to use PHPUnit 8 ([0582a20](https://github.com/laravel/laravel/commit/0582a20adddc0e6bd16ca05eeae93e6412924ad6))
+- Use phpredis as default Redis client ([#5085](https://github.com/laravel/laravel/pull/5085))
+
+### Removed
+- Remove services deleted from core ([#5019](https://github.com/laravel/laravel/pull/5019))
+- Remove dumpserver ([f053116](https://github.com/laravel/laravel/commit/f053116c5680e77c3a6c73afd193984a17ea482d))
+- Remove UI scaffolding ([fc39b07](https://github.com/laravel/laravel/commit/fc39b073f3f61a22f1b48329e294ebb881700dbe))
+- Remove deprecated language line ([#5074](https://github.com/laravel/laravel/pull/5074))
 
 
-## [v5.8.16 (2019-05-07)](https://github.com/laravel/laravel/compare/v5.8.3...master)
+## [v5.8.35 (2019-09-09)](https://github.com/laravel/laravel/compare/v5.8.17...v5.8.35)
+
+### Added
+- Add DYNAMODB_ENDPOINT to the cache config ([#5034](https://github.com/laravel/laravel/pull/5034))
+- Added support for new redis URL property ([#5037](https://github.com/laravel/laravel/pull/5037))
+- Add .env.backup to gitignore ([#5046](https://github.com/laravel/laravel/pull/5046))
+- Using environment variable to set redis prefix ([#5062](https://github.com/laravel/laravel/pull/5062))
+
+### Changed
+- Update axios package ([#5038](https://github.com/laravel/laravel/pull/5038))
+- Use generic default db config ([6f3d68f](https://github.com/laravel/laravel/commit/6f3d68f67f3dab0e0d853719696ede8dfd9cc4e1))
+- Update deprecated pusher option ([#5058](https://github.com/laravel/laravel/pull/5058))
+- Move TrustProxies to highest priority ([#5055](https://github.com/laravel/laravel/pull/5055))
+
+### Fixed
+- Fixed lodash version ([#5060](https://github.com/laravel/laravel/pull/5060))
+
+### Removed
+- Remove Stripe config settings ([#5075](https://github.com/laravel/laravel/pull/5075), [bb43372](https://github.com/laravel/laravel/commit/bb433725483803a27f21d3b21317072610bc3e9c))
+- Remove unnecessary X-CSRF-TOKEN header from our Axios instance ([#5083](https://github.com/laravel/laravel/pull/5083))
+
+
+## [v5.8.17 (2019-05-14)](https://github.com/laravel/laravel/compare/v5.8.16...v5.8.17)
+
+### Added
+- Add ends_with validation message ([#5020](https://github.com/laravel/laravel/pull/5020))
+
+### Fixed
+- Fix type hint for case of trusting all proxies (string) ([#5025](https://github.com/laravel/laravel/pull/5025))
+
+
+## [v5.8.16 (2019-05-07)](https://github.com/laravel/laravel/compare/v5.8.3...v5.8.16)
 
 ### Added
 - Add IDE type-hint to UserFactory ([#4990](https://github.com/laravel/laravel/pull/4990))
