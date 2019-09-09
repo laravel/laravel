@@ -13,13 +13,11 @@
 @endsection
 
 @section('app')
-	<div id="app" class="site-wrapper">
-		<main class="error-message">
-			<div class="logo placeholder placeholder--logo">
-				<img src="/static/img/branding/logo.svg" alt="Engage logo">
-			</div>
+	<main class="error-message">
+		<div class="logo placeholder placeholder--logo">
+			<img src="/static/img/branding/logo.svg" alt="Engage logo">
+		</div>
 
-			@yield('content')
-		</main>
-	</div>
+		@yield('content')
+	</main>
 @endsection

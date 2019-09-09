@@ -38,6 +38,12 @@ const colors = {
 	},
 };
 
+const easing = {};
+
+forEach(variables.easing, (value, key) => {
+	easing[key] = `cubic-bezier(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`;
+});
+
 const screens = {};
 
 forEach(variables.breakpoints, (px, key) => {
@@ -119,6 +125,7 @@ module.exports = {
 			containerWithGutters: relative(1464),
 			copy: '35em',
 		},
+		transitionTimingFunction: easing,
 		zIndex: zIndexes,
 		extend: {
 			inset: {
@@ -132,6 +139,9 @@ module.exports = {
 		},
 	},
 	variants: {},
+	plugins: [
+		require('tailwindcss-transitions')(),
+	],
 	corePlugins: {
 		container: false,
 	},
