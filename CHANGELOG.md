@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.0.1...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.0.1...develop)
 
 ### Fixed
 - Delete cached config file before running tests ([#5091](https://github.com/laravel/laravel/pull/5091))
