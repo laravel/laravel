@@ -1,0 +1,72 @@
+$h--1: (
+	base: '4xl',
+	tablet: '5xl',
+	desktop: '6xl',
+);
+
+$h--2: (
+	base: '3xl',
+	tablet: '4xl',
+	desktop: '5xl',
+);
+
+$h--3: (
+	base: '2xl',
+	tablet: '3xl',
+	desktop: '4xl',
+);
+
+$h--4: (
+	base: 'xl',
+	tablet: '2xl',
+	desktop: '3xl',
+);
+
+$h--5: (
+	base: 'lg',
+	tablet: 'xl',
+	desktop: '2xl',
+);
+
+$h--6: (
+	base: 'base',
+	tablet: 'lg',
+	desktop: 'xl',
+);
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	@apply font-bold font-heading leading-none;
+
+	a {
+		@apply font-bold;
+	}
+}
+
+.h1 {
+	@include font-size($h--1);
+}
+
+.h2 {
+	@include font-size($h--2);
+}
+
+.h3 {
+	@include font-size($h--3);
+}
+
+.h4 {
+	@include font-size($h--4);
+}
+
+.h5 {
+	@include font-size($h--5);
+}
+
+.h6 {
+	@include font-size($h--6);
+}

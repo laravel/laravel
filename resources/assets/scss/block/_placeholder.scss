@@ -1,0 +1,24 @@
+$placeholder-sizes: (
+	// base sizes
+	landscape: (4, 3),
+	portrait: (3, 4),
+	square: (1, 1),
+
+	// branding
+	logo: (300, 87),
+);
+
+.placeholder {
+	@include responsive-ratio(16, 9, true);
+	@apply relative w-full;
+
+	> * {
+		@apply absolute top-0 left-0 w-full h-full;
+	}
+
+	@each $size, $ratio in $placeholder-sizes {
+		&--#{$size} {
+			@include responsive-ratio(nth($ratio, 1), nth($ratio, 2), true);
+		}
+	}
+}

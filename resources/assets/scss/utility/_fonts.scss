@@ -1,0 +1,20 @@
+/*
+
+	Font face
+
+	example:
+
+	@include font-face('Clarendon', 'clarendon-webfont');
+	@include font-face('Clarendon', 'clarendon-webfont', $w--bold, italic);
+
+*/
+
+@mixin font-face($name, $filename, $weight: normal, $style: normal) {
+	@font-face {
+		font-family: $name;
+		src: url('/static/fonts/#{$filename}.woff2') format('woff2'),
+			 url('/static/fonts/#{$filename}.woff') format('woff');
+		font-style: $style;
+		font-weight: $weight;
+	}
+}

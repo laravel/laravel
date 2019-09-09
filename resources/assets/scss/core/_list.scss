@@ -11,7 +11,7 @@
 }
 
 .ol {
-	@extend %list;
+    @extend %list;
 	@apply list-decimal;
 }
 

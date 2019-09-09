@@ -1,0 +1,45 @@
+@mixin font-size($sizes) {
+	@each $breakpoint, $size in $sizes {
+		@if $breakpoint == base {
+			@apply text-#{$size};
+		} @else {
+			@screen #{$breakpoint} {
+				@apply text-#{$size};
+			}
+		}
+	}
+}
+
+@mixin hardware($backface: true, $perspective: 1000) {
+    @if $backface {
+        backface-visibility: hidden;
+    }
+
+    perspective: $perspective;
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: ''){
+	content: $content;
+	display: $display;
+	position: $pos;
+}
+
+@mixin responsive-ratio($x, $y, $pseudo: false) {
+	// Responsive ratio - Used for creating scalable elements that maintain the same ratio
+	$padding: ($y / $x) * 100%;
+
+	@if $pseudo {
+		&::before {
+			@include pseudo($pos: relative);
+			width: 100%;
+			padding-top: $padding;
+		}
+	} @else {
+		padding-top: $padding;
+	}
+}
+
+@mixin unselectable {
+    @apply select-none;
+    -webkit-touch-callout: none;
+}

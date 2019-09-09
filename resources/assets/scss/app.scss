@@ -1,7 +1,8 @@
-@import 'tailwindcss/base';
+@tailwind base;
 
-@import 'tailwindcss/components';
+@tailwind components;
 
+@import 'utility/functions';
 @import 'utility/mixins';
 @import 'utility/fonts';
 @import 'utility/animations';
@@ -18,6 +19,6 @@
 @import 'block/grid';
 @import 'block/placeholder';
 
-@import 'tailwindcss/utilities';
+@tailwind utilities;
 
 @import 'utility/print';

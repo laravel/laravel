@@ -5,22 +5,8 @@ const { compiled, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
 
 const postCssPlugins = [
-    require('postcss-easy-import')(),
-	require('postcss-mixins')({
-		mixins: {
-			ratio: (mixin, ratioA, ratioB) => {
-				return {
-					'&': {
-						paddingTop: `${ratioB / ratioA * 100}%`,
-					},
-				};
-			},
-		},
-	}),
 	require('postcss-units')(),
 	require('tailwindcss')('./build/tailwind.config.js'),
-	require('postcss-nested')(),
-    require('postcss-extend-rule')(),
 ];
 
 if (mix.inProduction() || 1 === 1) {
@@ -58,6 +44,7 @@ mix
 			images: `${paths.compiled}/img`,
 		},
 		processCssUrls: false,
+		postCss: postCssPlugins,
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)
@@ -70,7 +57,7 @@ mix
 		},
 	});
 
-css.files.forEach(filename => mix.postCss(src(`css/${filename}`), compiled('css'), postCssPlugins));
+css.files.forEach(filename => mix.sass(src(`scss/${filename}`), compiled('css')));
 js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
 
 // Uncomment if you want to separate vendor files.
