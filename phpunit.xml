@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
          bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
@@ -25,17 +28,25 @@
     <extensions>
         <extension class="Tests\Bootstrap"/>
     </extensions>
+    <logging>
+        <log type="coverage-clover" target="coverage/clover.xml"/>
+        <log type="coverage-html" target="coverage"/>
+        <log type="coverage-text" target="php://stdout"/>
+    </logging>
     <php>
+        <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
         <server name="APP_ENV" value="testing"/>
+        <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
+        <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
+        <server name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
+        <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
+        <server name="DB_CONNECTION" value="sqlite"/>
+        <server name="DB_DATABASE" value=":memory:"/>
+        <server name="DB_FOREIGN_KEYS" value="true"/>
         <server name="MAIL_DRIVER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
-        <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
-        <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
-        <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
-        <server name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
-        <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
     </php>
 </phpunit>
