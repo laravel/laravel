@@ -44,7 +44,7 @@ return [
     */
 
     'argon' => [
-        'memory' => 8192,
+        'memory' => version_compare(PHP_VERSION, '7.4') >= 0 ? 1024 * 1024 : 1024,
         'threads' => 2,
         'time' => 2,
     ],
