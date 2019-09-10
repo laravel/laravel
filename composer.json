@@ -13,7 +13,7 @@
         "laravel/framework": "^6.0",
         "healthengine/laravel-better-models": "^1.0",
         "healthengine/laravel-easy-aws": "^1.2",
-        "healthengine/laravel-logging": "^1.0",
+        "healthengine/laravel-logging": "^1.2",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
