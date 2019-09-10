@@ -6,37 +6,7 @@ const relative = (px, unit = 'rem', base = variables['browser-default-font-size'
 const letterSpacing = value => `${value / 1000}em`;
 
 // values
-const colors = {
-	inherit: 'inherit',
-	transparent: 'transparent',
-	brand: {
-		red: '#ff585d',
-	},
-	black: '#000',
-	grey: {
-		100: '#fafafa',
-		200: '#eee',
-		300: '#ddd',
-		400: '#ddd',
-		500: '#aaa',
-		600: '#888',
-		700: '#444',
-		800: '#222',
-		900: '#111',
-	},
-	white: '#fff',
-	blue: '#00f',
-	green: '#24b35d',
-	red: '#f50023',
-	social: {
-		twitter: '#55acee',
-		facebook: '#3b5998',
-		youtube: '#bb0000',
-		pinterest: '#cb2027',
-		linkedin: '#007bb5',
-		instagram: '#8a3ab9',
-	},
-};
+const colors = variables['colors'];
 
 const easing = {};
 
@@ -56,10 +26,10 @@ for (let column = 1; column <= variables.columns; column++) {
 	widths[`${column}/${variables.columns}`] = `${column / variables.columns * 100}%`;
 }
 
-const zIndexes = {};
+const zIndex = {};
 
 for (let index = 0; index < variables['z-indexes'].length; index++) {
-	zIndexes[variables['z-indexes'][index]] = variables['z-indexes'].length - index;
+	zIndex[variables['z-indexes'][index]] = variables['z-indexes'].length - index;
 }
 
 // tailwind settings
@@ -71,21 +41,6 @@ module.exports = {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
 			heading: ['custom-heading', 'Georgia', 'serif'],
 			system: ['system-ui', 'sans-serif'],
-		},
-		borderColor: theme => ({
-			red: theme('colors.red'),
-			grey: {
-				'500': theme('colors.grey.500'),
-				'700': theme('colors.grey.700'),
-			},
-		}),
-		borderRadius: {
-			none: 0,
-			'50': '50%',
-		},
-		borderWidth: {
-			default: '1px',
-			'0': '0',
 		},
 		boxShadow: {
 			none: 'none',
@@ -114,28 +69,34 @@ module.exports = {
 		},
 		lineHeight: {
 			none: 1,
-			xs: 1.1,
-			sm: 1.1,
+			tight: 1.1,
+			snug: 1.2,
 			normal: 1.5,
-			lg: 1.75,
-			xl: 2,
+			relaxed: 1.75,
+			loose: 2,
 		},
 		maxWidth: {
 			container: relative(1400),
-			containerWithGutters: relative(1464),
 			copy: '35em',
 		},
 		transitionTimingFunction: easing,
-		zIndex: zIndexes,
+		zIndex,
 		extend: {
-			inset: {
-				'1/2': '50%',
+			borderRadius: {
+				'50': '50%',
 			},
+			inset: (theme, { negative }) => ({
+				'1/2': '50%',
+				...widths,
+				...(negative(widths)),
+			}),
 			spacing: {
 				em: '1em',
-				'half-em': '.5em',
+				'1/2em': '.5em',
 			},
-			width: widths,
+			width: {
+				...widths,
+			},
 		},
 	},
 	variants: {},

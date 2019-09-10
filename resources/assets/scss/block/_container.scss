@@ -1,15 +1,11 @@
 .container {
-	@apply max-w-container mx-5 relative;
+	@apply max-w-container mx-auto px-5 relative;
 
-	@screen tablet {
-		@apply mx-6;
+	@screen md {
+		@apply px-6;
 	}
 
-	@screen desktop {
-		@apply mx-8;
-	}
-
-	@media (min-width: theme('maxWidth.containerWithGutters')) {
-		@apply mx-auto;
+	@screen xl {
+		@apply px-8;
 	}
 }

@@ -15,11 +15,11 @@
 		width: 100%;
 	}
 
-	@screen tablet {
+	@screen md {
 	    @include macro(6);
 	}
 
-	@screen desktop {
+	@screen xl {
 	    @include macro(8);
 	}
 }

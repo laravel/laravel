@@ -56,19 +56,19 @@
 	<button class="button">test</button>
 
 	<div class="grid">
-		<div class="grid__item tablet:w-8/24 tablet:mt-0">
+		<div class="grid__item md:w-8/24 md:mt-0">
 			<div style="background: blue;color: white;">
 				grid item
 			</div>
 		</div>
 
-		<div class="grid__item tablet:w-8/24 tablet:mt-0">
+		<div class="grid__item md:w-8/24 md:mt-0">
 			<div style="background: blue;color: white;">
 				grid item
 			</div>
 		</div>
 
-		<div class="grid__item tablet:w-8/24 tablet:mt-0">
+		<div class="grid__item md:w-8/24 md:mt-0">
 			<div style="background: blue;color: white;">
 				grid item
 			</div>

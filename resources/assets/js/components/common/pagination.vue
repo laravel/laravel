@@ -35,7 +35,7 @@
 				const classes = ['mx-1', 'align-center'];
 
 				if (this.$data.hiddenSmallScreen.includes(type)) {
-					classes.push('hidden', 'tablet:flex');
+					classes.push('hidden', 'md:flex');
 				} else {
 					classes.push('flex');
 				}

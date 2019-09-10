@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="errors"
-		class="error-text inline-flex relative mt-1 text-red italic text-sm leading-sm"
+		class="error-text inline-flex relative mt-1 text-red italic text-sm leading-snug"
 	>
 		<p
 			v-for="(message) in errors"

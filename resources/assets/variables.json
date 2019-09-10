@@ -1,14 +1,42 @@
 {
 	"browser-default-font-size": 16,
 	"breakpoints": {
-		"phone": 375,
-		"phone-wide": 480,
-		"phablet": 560,
-		"tablet-small": 640,
-		"tablet": 768,
-		"tablet-wide": 1024,
-		"desktop": 1248,
-		"desktop-wide": 1440
+		"xs": 375,
+		"sm": 560,
+		"md": 768,
+		"lg": 1024,
+		"xl": 1248
+	},
+	"colors": {
+	    "inherit": "inherit",
+	    "transparent": "transparent",
+	    "brand": {
+	        "red": "#ff585d"
+	    },
+	    "black": "#000",
+	    "grey": {
+	        "100": "#fafafa",
+	        "200": "#eee",
+	        "300": "#ddd",
+	        "400": "#ddd",
+	        "500": "#aaa",
+	        "600": "#888",
+	        "700": "#444",
+	        "800": "#222",
+	        "900": "#111"
+	    },
+	    "white": "#fff",
+	    "blue": "#00f",
+	    "green": "#24b35d",
+	    "red": "#f50023",
+	    "social": {
+	        "twitter": "#55acee",
+	        "facebook": "#3b5998",
+	        "youtube": "#bb0000",
+	        "pinterest": "#cb2027",
+	        "linkedin": "#007bb5",
+	        "instagram": "#8a3ab9"
+	    }
 	},
 	"columns": 24,
 	"easing": {

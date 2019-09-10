@@ -1,37 +1,37 @@
 $h--1: (
 	base: '4xl',
-	tablet: '5xl',
-	desktop: '6xl',
+	md: '5xl',
+	xl: '6xl',
 );
 
 $h--2: (
 	base: '3xl',
-	tablet: '4xl',
-	desktop: '5xl',
+	md: '4xl',
+	xl: '5xl',
 );
 
 $h--3: (
 	base: '2xl',
-	tablet: '3xl',
-	desktop: '4xl',
+	md: '3xl',
+	xl: '4xl',
 );
 
 $h--4: (
 	base: 'xl',
-	tablet: '2xl',
-	desktop: '3xl',
+	md: '2xl',
+	xl: '3xl',
 );
 
 $h--5: (
 	base: 'lg',
-	tablet: 'xl',
-	desktop: '2xl',
+	md: 'xl',
+	xl: '2xl',
 );
 
 $h--6: (
 	base: 'base',
-	tablet: 'lg',
-	desktop: 'xl',
+	md: 'lg',
+	xl: 'xl',
 );
 
 .h1,

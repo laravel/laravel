@@ -69,7 +69,7 @@
 					'border-grey-500',
 					'border-collapse',
 					'font-base',
-					'leading-xs',
+					'leading-tight',
 				];
 			},
 		},

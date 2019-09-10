@@ -9,7 +9,7 @@ const postCssPlugins = [
 	require('tailwindcss')('./build/tailwind.config.js'),
 ];
 
-if (mix.inProduction() || 1 === 1) {
+if (mix.inProduction()) {
 	postCssPlugins.push(require('@fullhuman/postcss-purgecss')({
 		content: [
 			src('../views/**/!(styleguide).blade.php'),
@@ -22,9 +22,6 @@ if (mix.inProduction() || 1 === 1) {
 
 // Load the multi-lingual support
 new ComponentFactory().install(require('./mix-modules/I18n'));
-
-// Allow JSON files to be loaded in Sass
-// new ComponentFactory().install(require('./mix-modules/SassJsonLoader'));
 
 // Svg combinating
 new ComponentFactory().install(require('./mix-modules/SvgSprite'));
