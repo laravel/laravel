@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "php": "^7.2.9",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
         "healthengine/laravel-better-models": "^1.0",
