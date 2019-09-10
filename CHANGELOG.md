@@ -1,9 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.0.1...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.0.2...master)
+
+
+## [v6.0.2 (2019-09-10)](https://github.com/laravel/laravel/compare/v6.0.1...v6.0.2)
+
+### Changed
+- Order imports alphabetically ([79fb6af](https://github.com/laravel/laravel/commit/79fb6af96ebf0325cef15c3132157fdf75f6fd6c), [#5100](https://github.com/laravel/laravel/pull/5100))
 
 ### Fixed
 - Delete cached config file before running tests ([#5091](https://github.com/laravel/laravel/pull/5091))
+- Update Argon memory ([#5097](https://github.com/laravel/laravel/pull/5097))
 
 
 ## [v6.0.1 (2019-08-27)](https://github.com/laravel/laravel/compare/v6.0.0...v6.0.1)
