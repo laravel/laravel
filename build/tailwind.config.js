@@ -15,14 +15,11 @@ const easing = mapValues(variables.easing, val => `cubic-bezier(${val[0]}, ${val
 
 const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
 
-const cols = variables.columns;
-const widths = mapKeys(mapValues(range(0, cols), (v) => ratio(cols, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${cols}`);
+const c = variables.columns;
+const widths = mapKeys(mapValues(range(0, c), (v) => ratio(c, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${c}`);
 
 const z = variables['z-indexes'];
-const zIndex = z.reduce((v, k) => {
-	v[k] = z.length - z.indexOf(k);
-	return v;
-}, {});
+const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
 
 // tailwind settings
 module.exports = {
