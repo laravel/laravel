@@ -4,6 +4,7 @@ const variables = require('../resources/assets/variables.json');
 // converters and calculators
 const relative = (px, unit = 'rem', base = variables['browser-default-font-size']) => `${px / base}${unit}`;
 const letterSpacing = value => `${value / 1000}em`;
+const ratio = (x, y) => `${y / x * 100}%`;
 
 // values
 const colors = variables['colors'];
@@ -90,6 +91,13 @@ module.exports = {
 				...widths,
 				...(negative(widths)),
 			}),
+			padding: {
+				full: '100%',
+				logo: ratio(300, 87),
+				'9/16': ratio(16, 9),
+				'3/4': ratio(4, 3),
+				'4/3': ratio(3, 4),
+			},
 			spacing: {
 				em: '1em',
 				'1/2em': '.5em',

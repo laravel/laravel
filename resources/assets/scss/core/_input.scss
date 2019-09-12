@@ -3,7 +3,6 @@
 		block
 		w-full
 		p-4
-		appearance-none
 		bg-white
 		border
 		border-grey-500
@@ -105,7 +104,7 @@ input {
 	@apply block relative;
 
 	select {
-		@apply pr-12;
+		@apply pr-12 appearance-none;
 	}
 
 	&__icon {

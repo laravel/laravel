@@ -18,7 +18,7 @@
 	@include('layouts/partials/site-header')
 
 	<main class="relative z-site-content">
-		<div class="container">
+		<div class="e-container">
 			@yield('content')
 		</div>
 	</main>

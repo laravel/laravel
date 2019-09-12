@@ -1,13 +1,11 @@
 button,
-.button {
-	@apply leading-none;
-
+.e-button {
 	&:focus {
 		@apply outline-none;
 	}
 }
 
-.button {
+.e-button {
 	@apply
 		relative
 		p-4
@@ -16,6 +14,7 @@ button,
 		font-body
 		text-base
 		font-normal
+		leading-none
 		no-underline;
 	-webkit-tap-highlight-color: transparent;
 

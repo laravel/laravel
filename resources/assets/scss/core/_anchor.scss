@@ -1,14 +1,11 @@
-a,
-.a {
+a {
 	@apply text-brand-red cursor-pointer underline;
 
 	&:hover {
 		@apply no-underline;
 	}
-}
 
-a {
-    &:link {
-		-webkit-tap-highlight-color: transparent;
+	&:link {
+	    -webkit-tap-highlight-color: transparent;
 	}
 }

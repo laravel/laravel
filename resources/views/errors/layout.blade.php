@@ -14,9 +14,9 @@
 
 @section('app')
 	<main class="error-message">
-		<div class="logo placeholder placeholder--logo">
+		<placeholder class="pt-logo">
 			<img src="/static/img/branding/logo.svg" alt="Engage logo">
-		</div>
+		</placeholder>
 
 		@yield('content')
 	</main>
