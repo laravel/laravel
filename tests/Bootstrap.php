@@ -38,7 +38,7 @@ class Bootstrap implements BeforeFirstTestHook, AfterLastTestHook
     public function executeAfterLastTest(): void
     {
         array_map('unlink', glob('bootstrap/cache/*.phpunit.php'));
-        
+
         $console = $this->createApplication()->make(Kernel::class);
 
         $console->call("config:clear");
