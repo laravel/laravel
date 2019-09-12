@@ -1,4 +1,6 @@
-const forEach = require('lodash/forEach');
+const mapKeys = require('lodash/mapKeys');
+const mapValues = require('lodash/mapValues');
+const range = require('lodash/range');
 const variables = require('../resources/assets/variables.json');
 
 // converters and calculators
@@ -9,29 +11,18 @@ const ratio = (x, y) => `${y / x * 100}%`;
 // values
 const colors = variables['colors'];
 
-const easing = {};
+const easing = mapValues(variables.easing, val => `cubic-bezier(${val[0]}, ${val[1]}, ${val[2]}, ${val[3]})`);
 
-forEach(variables.easing, (value, key) => {
-	easing[key] = `cubic-bezier(${value[0]}, ${value[1]}, ${value[2]}, ${value[3]})`;
-});
+const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
 
-const screens = {};
+const cols = variables.columns;
+const widths = mapKeys(mapValues(range(0, cols), (v) => ratio(cols, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${cols}`);
 
-forEach(variables.breakpoints, (px, key) => {
-	screens[key] = relative(px, 'em');
-});
-
-const widths = {};
-
-for (let column = 1; column <= variables.columns; column++) {
-	widths[`${column}/${variables.columns}`] = `${column / variables.columns * 100}%`;
-}
-
-const zIndex = {};
-
-for (let index = 0; index < variables['z-indexes'].length; index++) {
-	zIndex[variables['z-indexes'][index]] = variables['z-indexes'].length - index;
-}
+const z = variables['z-indexes'];
+const zIndex = z.reduce((v, k) => {
+	v[k] = z.length - z.indexOf(k);
+	return v;
+}, {});
 
 // tailwind settings
 module.exports = {
