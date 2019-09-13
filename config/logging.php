@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
@@ -69,6 +70,11 @@ return [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
             ],
+        ],
+        
+        'none' => [
+            'driver' => 'monolog',
+            'handler' => NullHandler::class,
         ],
 
         'stderr' => [
