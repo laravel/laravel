@@ -71,7 +71,7 @@ return [
                 'port' => env('PAPERTRAIL_PORT'),
             ],
         ],
-        
+
         'none' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
