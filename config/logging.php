@@ -72,7 +72,7 @@ return [
             ],
         ],
 
-        'none' => [
+        'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
