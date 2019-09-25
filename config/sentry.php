@@ -1,7 +1,8 @@
 <?php
 
-return array(
-    'dsn' => env('SENTRY_LARAVEL_DSN'),
+return [
+
+    'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
     // capture release as git sha
     // 'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
@@ -12,4 +13,5 @@ return array(
         'sql_bindings' => true,
 
     ],
-);
+
+];

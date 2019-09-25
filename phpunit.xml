@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true">
+         stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
@@ -23,18 +23,16 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="DB_DATABASE" value="testing"/>
-        <!--
-        Uncomment if you want to run the unit tests from the host machine
-
-        <env name="DB_HOST" value="127.0.0.1"/>
-        <env name="DB_PORT" value="13306"/>
-        -->
-        <env name="BCRYPT_ROUNDS" value="4"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="MAIL_DRIVER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <server name="MAIL_DRIVER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
+        <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
+        <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
+        <server name="APP_ROUTES_CACHE" value="bootstrap/cache/routes.phpunit.php"/>
+        <server name="APP_EVENTS_CACHE" value="bootstrap/cache/events.phpunit.php"/>
     </php>
 </phpunit>
