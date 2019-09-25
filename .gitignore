@@ -3,6 +3,9 @@
 /public/storage
 /storage/*.key
 /vendor
+/public/compiled/
+/public/assets/
+/public/mix-manifest.json
 .env
 .env.backup
 .phpunit.result.cache
@@ -10,3 +13,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+*.DS_Store
