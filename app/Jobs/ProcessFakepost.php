@@ -22,7 +22,7 @@ class ProcessFakepost implements ShouldQueue
      *
      * @var string
      */
-    CONST URL = 'https://atomic.incfile.com/fakeposts';
+    CONST URL = 'https://atomic.incfile.com/fakepost';
 
     /**
      * Expected HTTP code that define a successful request.
