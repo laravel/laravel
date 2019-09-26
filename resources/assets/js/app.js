@@ -8,9 +8,7 @@ import lang from './i18n';
 
 // Common
 import EButton from './components/common/button';
-import EInput from './components/common/input';
 import ELabel from './components/common/label';
-import ESelect from './components/common/select';
 import ETable from './components/common/table';
 import Breadcrumb from './components/common/breadcrumb';
 import Icon from './components/common/icon';
@@ -29,9 +27,7 @@ Vue.filter('trans', (...args) => lang.get(...args));
 
 // Global
 Vue.component('EButton', EButton);
-Vue.component('EInput', EInput);
 Vue.component('ELabel', ELabel);
-Vue.component('ESelect', ESelect);
 Vue.component('ETable', ETable);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('Icon', Icon);

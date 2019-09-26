@@ -13,11 +13,15 @@
 @endsection
 
 @section('app')
-	<main class="error-message">
-		<placeholder class="pt-logo">
-			<img src="/static/img/branding/logo.svg" alt="Engage logo">
-		</placeholder>
+	<main class="m-auto max-w-copy p-3 text-center">
+		<div class="m-auto w-48">
+			<placeholder class="pt-logo">
+				<img src="/static/img/branding/logo.svg" alt="Engage logo">
+			</placeholder>
+		</div>
 
-		@yield('content')
+		<div class="e-copy mt-4">
+			@yield('content')
+		</div>
 	</main>
 @endsection

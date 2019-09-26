@@ -6,8 +6,10 @@
 @import 'utility/fonts';
 
 @import 'core/document';
+@import 'core/typography';
 @import 'core/anchor';
 
+@import 'block/copy';
 @import 'block/placeholder';
 
 html,
@@ -23,19 +25,4 @@ body {
     @apply flex-shrink-0;
 }
 
-.error-message {
-    @apply m-auto max-w-copy p-3 text-center;
-
-    .logo {
-        @apply m-auto block w-48;
-    }
-
-    h1,
-    p {
-        @apply mt-5;
-    }
-
-    h1 {
-        @apply text-3xl font-bold;
-    }
-}
+@tailwind utilities;
