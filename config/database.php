@@ -16,6 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ return [
             'url' => env('DATABASE_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true)
         ],
 
         'mysql' => [
@@ -51,6 +52,7 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'decrypt_password' => false,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
@@ -71,6 +73,7 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'decrypt_password' => false,
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -86,6 +89,7 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'decrypt_password' => false,
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
