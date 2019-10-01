@@ -14,15 +14,15 @@
         "laravel-doctrine/extensions": "^1.0",
         "gedmo/doctrine-extensions": "^2.4",
         "beberlei/DoctrineExtensions": "^1.0",
-        "digbang/doctrine-extensions": "^1.0",
+        "digbang/doctrine-extensions": "^2.0",
         "digbang/backoffice": "^6.1",
         "digbang/files": "^1.0",
         "digbang/utils": "^1.1",
         "laravelcollective/html": "^6.0",
         "beberlei/assert": "^2.6",
         "cakephp/chronos": "^1.1",
-        "sentry/sentry": "^1.6",
-        "sentry/sentry-laravel": "^0.9"
+        "sentry/sentry": "^2.2",
+        "sentry/sentry-laravel": "^1.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
