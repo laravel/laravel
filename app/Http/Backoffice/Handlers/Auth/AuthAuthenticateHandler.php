@@ -33,7 +33,7 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
 
             $authenticated = $securityApi->authenticate(
                 $credentials,
-                $request->input('remember'));
+                $request->input('remember') ?? false);
 
             if ($authenticated) {
                 return $redirector->intended(
