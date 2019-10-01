@@ -13,14 +13,17 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\Backoffice\RoleAddCommand::class,
+        Commands\Backoffice\RolePermissionAddCommand::class,
+        Commands\Backoffice\UserAddCommand::class,
+        Commands\Backoffice\UserPermissionAddCommand::class,
+        Commands\Backoffice\UserRoleAddCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      */
     protected function schedule(Schedule $schedule)
     {
@@ -29,14 +32,17 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Register the commands for the application.
+     * Register the Closure based commands for the application.
      *
-     * @return void
+     * This is where you may define all of your Closure based console
+     * commands. Each Closure is bound to a command instance allowing a
+     * simple approach to interacting with each command's IO methods.
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
-        require base_path('routes/console.php');
+        $this->command('inspire', function () {
+            /* @var \Illuminate\Console\Command $this */
+            $this->comment(\Illuminate\Foundation\Inspiring::quote());
+        })->describe('Display an inspiring quote');
     }
 }

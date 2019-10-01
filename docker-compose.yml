@@ -1,0 +1,40 @@
+version: '2'
+services:
+  php:
+    image: digbang/php-dev:7.3
+    ports:
+     - "80:80"
+     - "443:443"
+    volumes:
+     - .:/var/www/html
+     - ./docker/apache:/etc/apache2/sites-enabled:ro
+    networks:
+     - appnet
+  redis:
+    image: redis:alpine
+    networks:
+     - appnet
+  db:
+    image: postgres:latest
+    ports:
+     - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: project-name
+      POSTGRES_DB: project-name
+      POSTGRES_USER: project-name
+    volumes:
+     - data:/var/lib/postgresql/data
+    networks:
+     - appnet
+  mail:
+    image: mailhog/mailhog:latest
+    ports:
+     - "8025:8025"
+    networks:
+     - appnet
+networks:
+  appnet:
+    driver: "bridge"
+volumes:
+  data:
+    driver: "local"

@@ -1,61 +1,105 @@
 {
     "name": "laravel/laravel",
-    "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "type": "project",
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "laravel-doctrine/orm": "^1.5",
+        "laravel-doctrine/fluent": "^1.1",
+        "laravel-doctrine/extensions": "^1.0",
+        "gedmo/doctrine-extensions": "^2.4",
+        "beberlei/DoctrineExtensions": "^1.0",
+        "digbang/doctrine-extensions": "^1.0",
+        "digbang/backoffice": "^6.1",
+        "laravelcollective/html": "^6.0",
+        "beberlei/assert": "^2.6",
+        "cakephp/chronos": "^1.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.4",
+        "beyondcode/laravel-dump-server": "^1.0",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0"
+        "phpunit/phpunit": "^8.0",
+        "friendsofphp/php-cs-fixer": "^2.9.3",
+        "garygreen/pretty-routes": "^1.0",
+        "arcanedev/log-viewer": "^5.0",
+        "brainmaestro/composer-git-hooks": "^2.4",
+        "symfony/thanks": "^1.0"
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
+    "suggest": {
+        "intervention/image":        "PHP image handling and manipulation library.",
+        "cviebrock/image-validator": "Extra Laravel validation rules for dealing with images.",
+        "dingo/api":                 "API development.",
+        "omnipay/omnipay":           "Payment gateway abstraction.",
+        "moneyphp/money":            "Work with money safer, easier, and fun!"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "app/",
+            "ProjectName\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+            ]
+        },
+        "hooks": {
+            "pre-commit": "docker run -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/phpunit\"",
+            "post-commit": "docker run -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code php bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes\""
+        }
+    },
     "scripts": {
+        "post-root-package-install": [
+            "bash -c 'sed -i \"s/project-name/${PWD##*/}/g\" .env.example docker-compose.yml sonar-project.properties docker/postgres/Dockerfile'",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"require __DIR__.'/vendor/autoload.php'; file_put_contents(__DIR__.'/composer.json', str_replace('Project'.'Name', studly_case(basename(__DIR__)), file_get_contents(__DIR__.'/composer.json')));\"",
+            "composer dump"
+        ],
+        "post-install-cmd": [
+            "vendor/bin/cghooks add --ignore-lock --force-win"
+        ],
+        "post-update-cmd": [
+            "vendor/bin/cghooks update --force-win"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+        "build": [
+            "npm install",
+            "npm run production",
+            "php artisan clear-compiled",
+            "php artisan vendor:publish --tag=\"assets\"",
+            "php artisan doctrine:clear-cache:metadata",
+            "php artisan doctrine:generate:proxies",
+            "php artisan doctrine:schema:update --force"
         ]
-    }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "repositories" : [
+        { "url": "git@github.com:digbang/backoffice.git", "type": "vcs" }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

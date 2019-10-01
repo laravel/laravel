@@ -6,6 +6,12 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    public const API = 'api';
+    public const WEB = 'web';
+    public const BACKOFFICE = 'security:backoffice';
+    public const BACKOFFICE_PUBLIC = 'security:backoffice:public';
+    public const BACKOFFICE_PERSISTENT_LISTING = 'persistent';
+
     /**
      * The application's global HTTP middleware stack.
      *

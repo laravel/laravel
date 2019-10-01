@@ -2,72 +2,41 @@
 
 namespace App\Providers;
 
+use App\Http\Util\OrderedRouteDefiner;
+use App\Http\Util\RouteDefiner;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
+use Symfony\Component\Finder\Finder;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
-
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-
-        parent::boot();
-    }
-
-    /**
-     * Define the routes for the application.
-     *
-     * @return void
-     */
     public function map()
     {
-        $this->mapApiRoutes();
+        if (config('app.debug')) {
+            $this->app['router']->get('logs', LogViewerController::class . '@index');
+        }
 
-        $this->mapWebRoutes();
+        $orderedRoutes = [];
+        /** @var Finder $controllers */
+        $controllers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
+        foreach ($controllers as $file) {
+            $className = 'App' . str_replace([app_path(), '/', '.php'], ['', '\\', ''], $file);
+            $class = new \ReflectionClass($className);
 
-        //
-    }
+            if ($class->isSubclassOf(RouteDefiner::class)) {
+                $routeOrder = 0;
+                if ($class->isSubclassOf(OrderedRouteDefiner::class)) {
+                    $routeOrder = $this->app->call([$className, 'getRouteOrder']);
+                }
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
-    }
+                $orderedRoutes[$className] = $routeOrder;
+            }
+        }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+        asort($orderedRoutes, SORT_NATURAL);
+
+        foreach ($orderedRoutes as $className => $order) {
+            $this->app->call([$className, 'defineRoute']);
+        }
     }
 }
