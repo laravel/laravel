@@ -21,3 +21,10 @@ mix.js('resources/js/app.js', 'public/js')
  */
 mix.react('resources/client/js/client.js', 'public/client/js')
    .sass('resources/client/sass/client.scss', 'public/client/css');
+
+mix.options({
+  hmrOptions: {
+    host: process.env.MIX_HOT_MODULE_REPLACEMENT_HOST,
+    port: process.env.MIX_HOT_MODULE_REPLACEMENT_PORT,
+  }
+});
