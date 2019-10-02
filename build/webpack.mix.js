@@ -1,14 +1,27 @@
 const mix = require('laravel-mix');
 const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
 
-const { compiled, public, src } = require('./helpers');
+const { compiled, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
+
+const postCssPlugins = [
+	require('postcss-units')(),
+	require('tailwindcss')('./build/tailwind.config.js'),
+];
+
+if (mix.inProduction()) {
+	postCssPlugins.push(require('@fullhuman/postcss-purgecss')({
+		content: [
+			src('../views/**/!(styleguide).blade.php'),
+			src('js/components/**/*.vue'),
+		],
+		// https://medium.com/@kyis/vue-tailwind-purgecss-the-right-way-c70d04461475
+		defaultExtractor: content => content.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [],
+	}));
+}
 
 // Load the multi-lingual support
 new ComponentFactory().install(require('./mix-modules/I18n'));
-
-// Allow JSON files to be loaded in Sass
-new ComponentFactory().install(require('./mix-modules/SassJsonLoader'));
 
 // Svg combinating
 new ComponentFactory().install(require('./mix-modules/SvgSprite'));
@@ -28,6 +41,7 @@ mix
 			images: `${paths.compiled}/img`,
 		},
 		processCssUrls: false,
+		postCss: postCssPlugins,
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)

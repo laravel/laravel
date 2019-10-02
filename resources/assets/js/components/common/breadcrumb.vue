@@ -1,24 +1,24 @@
 <template>
-	<div class="breadcrumb">
+	<div class="flex flex-wrap items-center">
 		<template v-for="(page, index) in pages">
 			<span
 				v-if="index === ($props.pages.length - 1)"
 				:key="`label-${index}`"
-				class="breadcrumb__item"
+				class=""
 				v-text="page.title"
 			/>
 
 			<template v-else>
 				<a
 					:key="`link-${index}`"
-					class="breadcrumb__item breadcrumb__item--link"
+					class="mr-2"
 					:href="page.url"
 					v-text="page.title"
 				/>
 
 				<icon
 					:key="`icon-${index}`"
-					class="breadcrumb__icon"
+					class="mr-2 text-sm text-grey-500"
 					name="chevron-right"
 				/>
 			</template>
@@ -33,6 +33,14 @@
 				type: Array,
 				required: true,
 			},
+		},
+
+		data() {
+			return {
+				itemClasses: [
+
+				],
+			};
 		},
 	};
 </script>

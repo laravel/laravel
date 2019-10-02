@@ -1,2 +1,23 @@
-@import 'variables';
-@import 'import';
+@tailwind base;
+
+@tailwind components;
+
+@import 'utility/functions';
+@import 'utility/mixins';
+@import 'utility/fonts';
+@import 'utility/animations';
+
+@import 'core/document';
+@import 'core/typography';
+@import 'core/anchor';
+@import 'core/button';
+@import 'core/input';
+
+@import 'block/container';
+@import 'block/copy';
+@import 'block/grid';
+@import 'block/placeholder';
+
+@tailwind utilities;
+
+@import 'utility/print';

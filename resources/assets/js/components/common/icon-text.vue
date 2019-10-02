@@ -1,10 +1,10 @@
 <template>
-	<div class="icon-text">
+	<div class="flex items-center">
 		<icon v-if="!iconAfter" :name="icon" />
 
-		<span v-html="text" />
+		<span class="ml-1" v-html="text" />
 
-		<icon v-if="iconAfter" :name="icon" />
+		<icon v-if="iconAfter" :name="icon" class="ml-1" />
 	</div>
 </template>
 

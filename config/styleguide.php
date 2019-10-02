@@ -129,12 +129,142 @@ return [
 						],
 					],
 				],
+				'table' => [
+					'heading' => 'Table',
+					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
+					'previews' => [
+						['component' => [
+								'name' => 'e-table',
+								'type' => 'vue',
+							],
+							'stack' => true,
+							'attributes' => [
+								[
+									'headers' => [
+										'Caption X',
+										'Caption Y',
+									],
+									'content' => [
+										[
+											'Content row x',
+											'Content row y',
+										],
+										[
+											'Content row x',
+											'Content row y',
+										],
+										[
+											'Content row x',
+											'Content row y',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
 			],
 		],
 		'block' => [
 			'heading' => 'Blocks',
 			'copy' => 'More complex components',
 			'blocks' => [
+				'breadcrumb' => [
+					'heading' => 'Breadcrumb',
+					'previews' => [
+						['component' => [
+								'name' => 'breadcrumb',
+								'type' => 'vue',
+							],
+							'attributes' => [
+								[
+									'pages' => [
+										[
+											'title' => 'Home',
+											'url' => '#',
+										],
+										[
+											'title' => 'Parent page',
+											'url' => '#',
+										],
+										[
+											'title' => 'Current page',
+											'url' => '#',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
+				'pagination' => [
+					'heading' => 'Pagination',
+					'previews' => [
+						['component' => [
+								'name' => 'pagination',
+								'type' => 'vue',
+							],
+							'attributes' => [
+								[
+									'pages' => [
+										[
+											'title' => 'First',
+											'type' => 'jump',
+											'disabled' => true,
+										],
+										[
+											'title' => 'Prev',
+											'type' => 'prev',
+											'disabled' => true,
+										],
+										[
+											'title' => '1',
+											'url' => '#',
+											'current' => true,
+										],
+										[
+											'title' => '2',
+											'url' => '#',
+										],
+										[
+											'title' => '3',
+											'url' => '#',
+										],
+										[
+											'title' => '&hellip;',
+											'type' => 'gap',
+										],
+										[
+											'title' => '40',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => '41',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => '42',
+											'url' => '#',
+											'type' => 'page-end'
+										],
+										[
+											'title' => 'Next',
+											'url' => '#',
+											'type' => 'next',
+										],
+										[
+											'title' => 'Last',
+											'url' => '#',
+											'type' => 'jump',
+										],
+									],
+								],
+							],
+						],
+					],
+				],
 				'placeholder' => [
 					'heading' => 'Placeholders',
 					'previews' => [

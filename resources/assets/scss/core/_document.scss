@@ -1,59 +1,31 @@
-/*
-
-	Box sizing
-
-*/
-
-* {
-	&,
-	&::before,
-	&::after {
-		box-sizing: border-box;
-	}
-}
-
-
-/*
-
-	Basic document styling
-
-*/
-
 html {
-	font-size: $html-font-size;
-	min-height: 100%;
-	overflow-y: scroll;
+	@apply min-h-full overflow-y-scroll text-100;
 	-webkit-text-size-adjust: none;
 }
 
 body {
-	background-color: $c--body-bg;
-	color: $c--body-colour;
-	font-family: $stack;
-	font-size: $p;
-	line-height: $lh;
+	@apply bg-white text-black font-body text-base leading-normal;
 }
 
+*:focus {
+    @apply outline-none;
 
-/*
+    [data-whatintent=keyboard] & {
+        box-shadow: 0 0 5px theme('colors.blue');
+        @apply shadow-outline;
+    }
+}
 
-	Text selection/highlighting
+[disabled],
+[disabled] * {
+    @apply opacity-25 shadow-none cursor-not-allowed select-none;
+}
 
-*/
-
-@include selection {
-	background: $c--brand-primary;
-	color: $c--white;
+::selection {
+	@apply bg-black text-white;
 	text-shadow: none;
 }
 
-
-/*
-
-	Vue
-
-*/
-
 [v-cloak] {
-	display: none;
+	@apply hidden;
 }

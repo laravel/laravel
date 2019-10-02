@@ -17,8 +17,8 @@
 @section('app')
 	@include('layouts/partials/site-header')
 
-	<main class="site-content">
-		<div class="container">
+	<main class="relative z-site-content">
+		<div class="e-container">
 			@yield('content')
 		</div>
 	</main>

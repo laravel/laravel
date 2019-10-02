@@ -1,15 +1,75 @@
 {
-  "rems-on": true,
-  "em-media-queries": true,
-  "browser-default-font-size": 16,
-  "breakpoints": {
-    "phone": 375,
-    "phone-wide": 480,
-    "phablet": 560,
-    "tablet-small": 640,
-    "tablet": 768,
-    "tablet-wide": 1024,
-    "desktop": 1248,
-    "desktop-wide": 1440
-  }
+	"browser-default-font-size": 16,
+	"breakpoints": {
+		"xs": 375,
+		"sm": 560,
+		"md": 768,
+		"lg": 1024,
+		"xl": 1248
+	},
+	"colors": {
+	    "inherit": "inherit",
+	    "transparent": "transparent",
+	    "brand": {
+	        "red": "#ff585d"
+	    },
+	    "black": "#000",
+	    "grey": {
+	        "100": "#fafafa",
+	        "200": "#eee",
+	        "300": "#ddd",
+	        "400": "#ddd",
+	        "500": "#aaa",
+	        "600": "#888",
+	        "700": "#444",
+	        "800": "#222",
+	        "900": "#111"
+	    },
+	    "white": "#fff",
+	    "blue": "#00f",
+	    "green": "#24b35d",
+	    "red": "#f50023",
+	    "social": {
+	        "twitter": "#55acee",
+	        "facebook": "#3b5998",
+	        "youtube": "#bb0000",
+	        "pinterest": "#cb2027",
+	        "linkedin": "#007bb5",
+	        "instagram": "#8a3ab9"
+	    }
+	},
+	"columns": 24,
+	"easing": {
+		"in-cubic": [0.55, 0.055, 0.675, 0.19],
+		"out-cubic": [0.215, 0.61, 0.355, 1],
+		"in-out-cubic": [0.645, 0.045, 0.355, 1],
+		"in-circ": [0.6, 0.04, 0.98, 0.335],
+		"out-circ": [0.075, 0.82, 0.165, 1],
+		"in-out-circ": [0.785, 0.135, 0.15, 0.86],
+		"in-expo": [0.95, 0.05, 0.795, 0.035],
+		"out-expo": [0.19, 1, 0.22, 1],
+		"in-out-expo": [1, 0, 0, 1],
+		"in-quad": [0.55, 0.085, 0.68, 0.53],
+		"out-quad": [0.25, 0.46, 0.450, 0.94],
+		"in-out-quad": [0.455, 0.03, 0.515, 0.955],
+		"in-quart": [0.895, 0.03, 0.685, 0.22],
+		"out-quart": [0.165, 0.84, 0.44, 1],
+		"in-out-quart": [0.77, 0, 0.175, 1],
+		"in-quint": [0.755, 0.05, 0.855, 0.06],
+		"out-quint": [0.23, 1, 0.320, 1],
+		"in-out-quint": [0.86, 0, 0.07, 1],
+		"in-sine": [0.47, 0, 0.745, 0.715],
+		"out-sine": [0.39, 0.575, 0.565, 1],
+		"in-out-sine": [0.445, 0.05, 0.55, 0.95],
+		"in-back": [0.6, -0.28, 0.735, 0.045],
+		"out-back": [0.175, 0.885, 0.32, 1.275],
+		"in-out-back": [0.68, -0.55, 0.265, 1.55],
+		"smooth-fade": [0.365, 0.005, 0.355, 1]
+	},
+	"z-indexes": [
+		"outdated-browser",
+		"site-header",
+		"site-content",
+		"site-footer"
+	]
 }

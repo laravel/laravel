@@ -2,10 +2,8 @@ import 'what-input';
 
 import axios from 'axios';
 import lodash from 'lodash';
-import objectFitImages from 'object-fit-images';
 
 window._ = lodash;
-objectFitImages();
 
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

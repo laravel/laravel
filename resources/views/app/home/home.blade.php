@@ -2,4 +2,6 @@
 
 @section('content')
 
+	Home
+
 @endsection
