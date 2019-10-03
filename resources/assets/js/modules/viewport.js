@@ -1,6 +1,6 @@
 import {
 	watchViewport,
-} from 'tornis';
+} from 'tornis/dist/tornis.es5';
 import variables from '../../variables.json';
 
 let width = 0,

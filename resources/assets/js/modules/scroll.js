@@ -1,6 +1,6 @@
 import {
 	watchViewport,
-} from 'tornis';
+} from 'tornis/dist/tornis.es5';
 
 let x = 0,
     y = 0;
