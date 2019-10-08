@@ -3,27 +3,37 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
-class ResetPasswordController extends Controller
+class ConfirmPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Controller
+    | Confirm Password Controller
     |--------------------------------------------------------------------------
     |
-    | This controller is responsible for handling password reset requests
+    | This controller is responsible for handling password confirmations
     | and uses a simple trait to include this behavior. You're free to
     | explore this trait and override any methods you wish to tweak.
     |
     */
 
-    use ResetsPasswords;
+    use ConfirmsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
+     * Where to redirect users when the intended url fails.
      *
      * @var string
      */
     protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 }
