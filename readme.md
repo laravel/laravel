@@ -58,6 +58,8 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - [Understand.io](https://www.understand.io/)
 - [Abdel Elrafa](https://abdelelrafa.com)
 - [Hyper Host](https://hyper.host)
+- [Appoly](https://www.appoly.co.uk)
+- [OP.GG](https://op.gg)
 
 ## Contributing
 
