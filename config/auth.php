@@ -100,4 +100,17 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Password Confirmation Timeout
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the amount of seconds before a password confirmation
+    | is timed out and the user's prompted to give their password again on the
+    | confirmation screen. By default the timeout lasts for three hours.
+    |
+    */
+
+    'password_timeout' => 10800,
+
 ];
