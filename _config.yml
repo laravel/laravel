@@ -1,0 +1,5 @@
+theme: jekyll-theme-slate
+collections:
+  haikus:
+    output: true
+    permalink: /haikus/:name

@@ -18,4 +18,3 @@ Route::group([
 ], function () {
     Route::get('get', 'UserController@get');
 });
-

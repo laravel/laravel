@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hacktoberfest.iml" filepath="$PROJECT_DIR$/.idea/hacktoberfest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ewiki_laravel.iml" filepath="$PROJECT_DIR$/.idea/ewiki_laravel.iml" />
     </modules>
   </component>
 </project>
