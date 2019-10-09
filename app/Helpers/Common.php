@@ -1,9 +1,4 @@
 <?php
-
-<<<<<<< HEAD
-
-=======
->>>>>>> upstream/develop
 namespace App\Helpers;
 
 use Hashids\Hashids;
@@ -34,8 +29,4 @@ class Common
         }
         return $decoded;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> upstream/develop
 }

@@ -5,12 +5,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Facades\Log;
 
-<<<<<<< HEAD
-class ResponseHelper
-{
-=======
 class ResponseHelper {
->>>>>>> upstream/develop
     public static function success($data = [])
     {
         $response = [
