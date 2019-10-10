@@ -15,6 +15,6 @@ const messages = contexts.keys().reduce((acc, filename) => {
 
 export default new Lang({
 	messages,
-	locale: 'en-gb',
-	fallback: 'en-gb',
+	locale: 'en',
+	fallback: 'en',
 });
