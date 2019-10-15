@@ -13,3 +13,16 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+
+
+Route::get('/user/email', function (Request $request) {
+    return $request->user()->email;
+});
+Route::post('/user/name', function (Request $request) {
+    return $request->user()->name;
+});
