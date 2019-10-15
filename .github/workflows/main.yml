@@ -16,5 +16,5 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name : Run tests
-      run: ./vendor/bin/phpunit
+    # - name : Run tests
+    #   run: ./vendor/bin/phpunit
