@@ -1,6 +1,6 @@
 name: PHP Composer
 
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
