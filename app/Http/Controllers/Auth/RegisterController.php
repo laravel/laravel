@@ -30,7 +30,7 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        return UserModeler::create([
+        return UserModel::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => md5($data['password']),
