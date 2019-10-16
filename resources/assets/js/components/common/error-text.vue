@@ -19,13 +19,5 @@
 				default: null,
 			},
 		},
-
-		computed: {
-			messages() {
-				return (!_.isEmpty(this.$props.errors))
-					? this.$props.errors
-					: null;
-			},
-		},
 	};
 </script>
