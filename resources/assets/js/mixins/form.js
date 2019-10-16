@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import ErrorText from '../components/common/error-text.vue';
 
 export default {
@@ -36,7 +38,7 @@ export default {
 		},
 
 		onSubmitSuccess(response) {
-			const redirect = _.get(response, 'data.redirect');
+			const redirect = get(response, 'data.redirect');
 
 			if (redirect) {
 				window.location = redirect;
@@ -49,12 +51,12 @@ export default {
 		onSubmitFailure(error) {
 			this.$data.isError = true;
 
-			if (_.get(error, 'response.status') !== 422) {
+			if  get(error, 'response.status') !== 422) {
 				return;
 			}
 
-			this.$data.errorMessage = _.get(error, 'response.data.message');
-			this.$data.errors = (_.get(error, 'response.data.errors') || {});
+			this.$data.errorMessage = get(error, 'response.data.message');
+			this.$data.errors =  get(error, 'response.data.errors') || {});
 		},
 
 		onSubmitAlways() {
