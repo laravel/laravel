@@ -2,8 +2,10 @@ php:
   preset: laravel
   enabled:
     - length_ordered_imports
+    - long_list_syntax
   disabled:
     - alpha_ordered_imports
+    - short_list_syntax
     - unused_use
   finder:
     not-name:
