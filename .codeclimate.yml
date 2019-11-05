@@ -1,0 +1,13 @@
+version: "2"         # required to adjust maintainability checks
+plugins:
+  sonar-php:
+    enabled: true
+    config:
+      tests_patterns:
+        - tests/**
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+  phan:
+    enabled: true
