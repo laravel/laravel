@@ -13,4 +13,3 @@ plugins:
     enabled: true
     config:
       ignore-undeclared: true
-      dead-code-detection: true
