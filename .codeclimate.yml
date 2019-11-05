@@ -11,3 +11,6 @@ plugins:
     enabled: true
   phan:
     enabled: true
+    config:
+      ignore-undeclared: true
+      dead-code-detection: true
