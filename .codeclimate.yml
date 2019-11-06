@@ -5,8 +5,28 @@ plugins:
     config:
       tests_patterns:
         - tests/**
+    checks:
+      php:S1192:
+        enabled: false
   phpcodesniffer:
     enabled: true
+    checks:
+      PSR2 Methods FunctionCallSignature ContentAfterOpenBracket:
+        enabled: false
+      PSR2 Methods FunctionCallSignature CloseBracketLine:
+        enabled: false
+      Squiz Functions MultiLineFunctionDeclaration SpaceAfterFunction:
+        enabled: false
+      Squiz ControlStructures ForEachLoopDeclaration SpaceAfterOpen:
+        enabled: false
+      PSR2 ControlStructures ControlStructureSpacing SpaceBeforeCloseBrace:
+        enabled: false
+      Squiz ControlStructures ControlSignature SpaceAfterCloseParenthesis:
+        enabled: false
+      PSR2 Files EndFileNewline NoneFound:
+        enabled: false
+      PSR2 Methods FunctionClosingBrace SpacingBeforeClose:
+        enabled: false
   phpmd:
     enabled: true
   phan:
