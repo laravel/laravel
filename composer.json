@@ -56,7 +56,16 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "@ide-helpers"
+        ],
+        "ide:generate": "@php artisan ide-helper:generate",
+        "ide:models": "@php artisan ide-helper:models --dir=\"app/Models\"",
+        "ide:meta": "@php artisan ide-helper:meta",
+        "ide-helpers": [
+            "@ide:generate",
+            "@ide:meta",
+            "@ide:models"
         ]
     }
 }
