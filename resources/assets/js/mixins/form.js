@@ -51,7 +51,7 @@ export default {
 		onSubmitFailure(error) {
 			this.$data.isError = true;
 
-			if  get(error, 'response.status') !== 422) {
+			if (get(error, 'response.status') !== 422) {
 				return;
 			}
 
