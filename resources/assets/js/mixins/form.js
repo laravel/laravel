@@ -56,7 +56,7 @@ export default {
 			}
 
 			this.$data.errorMessage = get(error, 'response.data.message');
-			this.$data.errors =  get(error, 'response.data.errors') || {});
+			this.$data.errors = (get(error, 'response.data.errors') || {});
 		},
 
 		onSubmitAlways() {
