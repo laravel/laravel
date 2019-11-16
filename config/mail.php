@@ -90,6 +90,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | SMTP Advanced Options
+    |--------------------------------------------------------------------------
+    |
+    | Some servers need unusual options. Some give errors when connecting if
+    | you don't set "local_domain" or "source_ip". The underlying transport's
+    | connection may need some of the options available to PHP streams.
+    |
+    */
+
+    //'local_domain' => 'example.com',
+
+    //'source_ip' => '127.0.0.1',
+
+    //'stream' => ['ssl' => ['allow_self_signed' => true, 'verify_peer' => false]],
+
+    /*
+    |--------------------------------------------------------------------------
     | Sendmail System Path
     |--------------------------------------------------------------------------
     |
