@@ -1,6 +1,22 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.2.0...develop)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.5.2...develop)
+
+
+## [v6.5.2 (2019-11-21)](https://github.com/laravel/laravel/compare/v6.4.0...v6.5.2)
+
+### Changed
+- Update .styleci.yml ([bfd4b1e](https://github.com/laravel/laravel/commit/bfd4b1e92f7c6b4e6b74cfdde995a5afad648d96))
+
+
+## [v6.4.0 (2019-10-21)](https://github.com/laravel/laravel/compare/v6.2.0...v6.4.0)
+
+### Changed
+- Add xml schema to phpunit ([#5139](https://github.com/laravel/laravel/pull/5139))
+
+### Fixed
+- Fixes required version of the framework within `composer.json` ([#5130](https://github.com/laravel/laravel/pull/5130))
+- Security fix: Waiting before retrying password reset ([ace38c1](https://github.com/laravel/laravel/commit/ace38c133f3d8088fc7477f56b9db6fdc0098d06), [ba2f2ab](https://github.com/laravel/laravel/commit/ba2f2abe830f5d03c52fd9c88411859cf863abd6), [953b488](https://github.com/laravel/laravel/commit/953b488b8bb681d4d6e12227645c7c1b7ac26935))
 
 
 ## [v6.2.0 (2019-10-08)](https://github.com/laravel/laravel/compare/v6.0.2...v6.2.0)
