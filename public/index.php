@@ -7,7 +7,7 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
-define('LARAVEL_START', microtime(true));
+define('LARAVEL_START', function_exists('hrtime') ? hrtime(true) / 1e9 : microtime(true));
 
 /*
 |--------------------------------------------------------------------------
