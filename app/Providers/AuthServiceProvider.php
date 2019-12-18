@@ -19,16 +19,6 @@ class AuthServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind(AuthenticatesRequests::class, Authenticate::class);
-    }
-
-    /**
      * Register any authentication / authorization services.
      *
      * @return void
