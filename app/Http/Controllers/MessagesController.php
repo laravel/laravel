@@ -10,10 +10,9 @@ class MessagesController extends Controller
 {
     public function store(Request $request)
     {
-
         $rules = [
-            'name' => ['required', 'max:255'],
-            'phone' => ['required', 'max:30', new ValidPhone],
+            'name'    => ['required', 'max:255'],
+            'phone'   => ['required', 'max:30', new ValidPhone],
             'message' => ['required', 'max:20000'], // Limit for TEXT is about 21844 in UTF8
         ];
 
@@ -24,4 +23,5 @@ class MessagesController extends Controller
 
         return response()->json($message);
     }
+
 }

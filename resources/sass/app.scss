@@ -1,23 +1,23 @@
-@import "~bootstrap";
+@import '~bootstrap';
 
 body {
-  background-color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 400;
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
+    background-color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
 }
 
 #messages_form {
-  width: 100%;
-  max-width: 420px;
-  padding: 15px;
-  margin: auto;
+    width: 100%;
+    max-width: 420px;
+    padding: 15px;
+    margin: auto;
 
-  .alert-success {
-    display: none;
-  }
+    .alert-success {
+        display: none;
+    }
 }
