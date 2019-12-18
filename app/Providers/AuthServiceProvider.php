@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\Authenticate;
-use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
