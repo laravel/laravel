@@ -50,6 +50,7 @@
             </div>
         </div>
         <div class="text-center">
+            <button class="btn btn-outline-secondary" type="button" onclick="clearForm()">Clear</button>
             <button class="btn btn-primary ml-2" type="submit">Save</button>
         </div>
     </form>
@@ -77,10 +78,7 @@
                     })
                         .then(function (response) {
                             // Clear form and show message
-                            name.value = '';
-                            phone.value = '';
-                            message.value = '';
-                            form.classList.remove('was-validated');
+                            clearForm();
                             $('#alert')
                                 .text('Thank you, ' + response.data.name + ', we will process your request soon')
                                 .show();
@@ -114,6 +112,29 @@
                 event.returnValue = false;
                 if(event.preventDefault) event.preventDefault();
             }
+        }
+
+        // Clear form data and errors
+        function clearForm() {
+            document.getElementById('messages_form').classList.remove('was-validated');
+
+            let name = document.getElementById('name');
+            let phone = document.getElementById('phone');
+            let message = document.getElementById('message');
+
+            name.value = '';
+            phone.value = '';
+            message.value = '';
+
+            name.classList.remove('is-invalid');
+            phone.classList.remove('is-invalid');
+            message.classList.remove('is-invalid');
+
+            // Restore default error messages
+            $('.invalid-feedback').each((i, el) => {
+                console.log($(el).text($(el).data('message')));
+            })
+
         }
     </script>
     </body>
