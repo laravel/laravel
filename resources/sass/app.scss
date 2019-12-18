@@ -1,9 +1,23 @@
 @import "~bootstrap";
 
-html, body {
+body {
   background-color: #fff;
-  color: #636b6f;
   font-family: 'Nunito', sans-serif;
-  font-weight: 200;
+  font-weight: 400;
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+}
+
+#messages_form {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
+
+  .alert-success {
+    display: none;
+  }
 }
