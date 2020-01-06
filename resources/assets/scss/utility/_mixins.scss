@@ -11,11 +11,11 @@
 }
 
 @mixin hardware($backface: true, $perspective: 1000) {
-    @if $backface {
-        backface-visibility: hidden;
-    }
+	@if $backface {
+		backface-visibility: hidden;
+	}
 
-    perspective: $perspective;
+	perspective: $perspective;
 }
 
 @mixin pseudo($display: block, $pos: absolute, $content: ''){
@@ -40,6 +40,6 @@
 }
 
 @mixin unselectable {
-    @apply select-none;
-    -webkit-touch-callout: none;
+	@apply select-none;
+	-webkit-touch-callout: none;
 }

@@ -1,12 +1,16 @@
 <!doctype html>
 <html>
 <head>
-	@yield('head')
+	@include('layouts/partials/meta')
+
+	@include('layouts/partials/tracking')
 </head>
 <body>
-	@yield('app:before')
+	@include('layouts/partials/tracking', ['body' => true])
 
-	<div id="app" class="relative" v-cloak>
+	@include('layouts/partials/outdated-browser')
+
+	<div id="app" class="flex flex-col relative w-full min-h-full" v-cloak>
 		@yield('app')
 	</div>
 

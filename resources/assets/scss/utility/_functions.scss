@@ -9,10 +9,10 @@
 */
 
 @function map-deep-get($map, $keys...) {
-    @each $key in $keys {
-        $map: map-get($map, $key);
-    }
-    @return $map;
+	@each $key in $keys {
+		$map: map-get($map, $key);
+	}
+	@return $map;
 }
 
 
@@ -42,34 +42,34 @@
 */
 
 @function svg-url($svg){
-    @if not str-index($svg,xmlns) {
-        $svg: str-replace($svg, '<svg','<svg xmlns="http://www.w3.org/2000/svg"');
-    }
-    $encoded:'';
-    $slice: 2000;
-    $index: 0;
-    $loops: ceil(str-length($svg)/$slice);
-    @for $i from 1 through $loops {
-        $chunk: str-slice($svg, $index, $index + $slice - 1);
-        $chunk: str-replace($chunk, '"', '\'');
-        $chunk: str-replace($chunk, '%', '%25');
-        $chunk: str-replace($chunk, '#', '%23');
-        $chunk: str-replace($chunk, '{', '%7B');
-        $chunk: str-replace($chunk, '}', '%7D');
-        $chunk: str-replace($chunk, '<', '%3C');
-        $chunk: str-replace($chunk, '>', '%3E');
-        $encoded: #{$encoded}#{$chunk};
-        $index: $index + $slice;
-    }
-    @return url("data:image/svg+xml,#{$encoded}");
+	@if not str-index($svg,xmlns) {
+		$svg: str-replace($svg, '<svg','<svg xmlns="http://www.w3.org/2000/svg"');
+	}
+	$encoded:'';
+	$slice: 2000;
+	$index: 0;
+	$loops: ceil(str-length($svg)/$slice);
+	@for $i from 1 through $loops {
+		$chunk: str-slice($svg, $index, $index + $slice - 1);
+		$chunk: str-replace($chunk, '"', '\'');
+		$chunk: str-replace($chunk, '%', '%25');
+		$chunk: str-replace($chunk, '#', '%23');
+		$chunk: str-replace($chunk, '{', '%7B');
+		$chunk: str-replace($chunk, '}', '%7D');
+		$chunk: str-replace($chunk, '<', '%3C');
+		$chunk: str-replace($chunk, '>', '%3E');
+		$encoded: #{$encoded}#{$chunk};
+		$index: $index + $slice;
+	}
+	@return url("data:image/svg+xml,#{$encoded}");
 }
 
 //  Helper function to replace characters in a string
 @function str-replace($string, $search, $replace: '') {
-    $index: str-index($string, $search);
-    @return if($index,
-        str-slice($string, 1, $index - 1) + $replace +
-        str-replace(str-slice($string, $index +
-        str-length($search)), $search, $replace),
-        $string);
+	$index: str-index($string, $search);
+	@return if($index,
+		str-slice($string, 1, $index - 1) + $replace +
+		str-replace(str-slice($string, $index +
+		str-length($search)), $search, $replace),
+		$string);
 }
