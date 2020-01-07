@@ -1,4 +1,4 @@
-@extends('errors/layout', [
+@extends('layouts/error', [
 	'page' => [
 		'title' => 'Server error',
 		'description' => 'Sorry, it looks like something has broken.',

@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="/static/img/meta/favicon-180.png">
 <link rel="mask-icon" href="/static/img/meta/mask-icon.svg" color="#000000">
 
-<link rel="stylesheet" href="{{ mix('/compiled/css/app.css') }}">
+<link rel="stylesheet" href="{{ isset($mix_stylesheet) && !$mix_stylesheet ? $stylesheet : mix($stylesheet) }}">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $page['share_title'] ?? $page['title'] ?? null }}">
