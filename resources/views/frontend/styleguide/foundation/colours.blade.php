@@ -1,3 +1,3 @@
 @foreach ($colours as $colour)
-	<p class="placeholder placeholder--square" style="background-color: {{ $colour }}; width: 100px;"></p>
+	<placeholder class="pt-full" style="background-color: {{ $colour }}; width: 100px;"></placeholder>
 @endforeach

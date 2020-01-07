@@ -274,7 +274,7 @@ return [
 								'type' => 'blade',
 							],
 							'stack' => true,
-							'style' => 'max-width: 200px',
+							'style' => 'width: 200px',
 							'attributes' => [
 								[
 									'modifier' => null,
@@ -282,17 +282,17 @@ return [
 									'title' => 'Alt text',
 								],
 								[
-									'modifier' => 'landscape',
+									'modifier' => '3/4',
 									'src' => '//placehold.it/400x300',
 									'title' => 'Alt text',
 								],
 								[
-									'modifier' => 'portrait',
+									'modifier' => '4/3',
 									'src' => '//placehold.it/300x400',
 									'title' => 'Alt text',
 								],
 								[
-									'modifier' => 'square',
+									'modifier' => 'full',
 									'src' => '//placehold.it/400',
 									'title' => 'Alt text',
 								],
