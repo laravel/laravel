@@ -1,3 +1,3 @@
-<div class="placeholder{{ $modifier ? ' placeholder--' . $modifier : false }}">
+<placeholder class="{{ $modifier ? 'pt-' . $modifier : false }}">
 	<img src="{{ $src }}" alt="{{ $title }}">
-</div>
+</placeholder>
