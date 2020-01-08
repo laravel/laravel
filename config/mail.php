@@ -43,6 +43,10 @@ return [
             'password' => env('MAIL_PASSWORD'),
         ],
 
+        'ses' => [
+            'transport' => 'ses',
+        ],
+
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => '/usr/sbin/sendmail -bs',
