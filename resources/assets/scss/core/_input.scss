@@ -58,9 +58,9 @@ input {
 	}
 
 	&--radio {
-    	+ .e-checkbox-label .e-checkbox-label__icon-wrapper {
-        	@apply rounded-50;
-    	}
+		+ .e-checkbox-label .e-checkbox-label__icon-wrapper {
+			@apply rounded-1/2;
+		}
 	}
 }
 
@@ -107,8 +107,8 @@ input {
 	}
 
 	&__icon {
-	    @apply absolute top-1/2 right-0 w-em h-em pointer-events-none;
-	    transform: translate(-100%, -50%);
+		@apply absolute top-1/2 right-0 w-em h-em pointer-events-none;
+		transform: translate(-100%, -50%);
 	}
 }
 

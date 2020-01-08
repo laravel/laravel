@@ -46,7 +46,7 @@ module.exports = {
 			'4xl': relative(30),
 			'5xl': relative(36),
 			'6xl': relative(44),
-			'100': '100%',
+			full: '100%',
 		},
 		fontWeight: {
 			normal: 400,
@@ -72,7 +72,7 @@ module.exports = {
 		zIndex,
 		extend: {
 			borderRadius: {
-				'50': '50%',
+				'1/2': '50%',
 			},
 			inset: (theme, { negative }) => ({
 				'1/2': '50%',

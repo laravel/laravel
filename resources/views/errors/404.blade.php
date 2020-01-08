@@ -1,4 +1,4 @@
-@extends('errors/layout', [
+@extends('layouts/error', [
 	'page' => [
 		'title' => 'Page not found',
 		'description' => 'Sorry, the page you are looking for could not be found.',

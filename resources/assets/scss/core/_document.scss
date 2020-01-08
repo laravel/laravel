@@ -1,24 +1,24 @@
 html {
-	@apply min-h-full overflow-y-scroll text-100;
+	@apply h-full min-h-full overflow-y-scroll text-full;
 	-webkit-text-size-adjust: none;
 }
 
 body {
-	@apply bg-white text-black font-body text-base leading-normal;
+	@apply flex min-h-full bg-white text-black font-body text-base leading-normal;
 }
 
 *:focus {
-    @apply outline-none;
+	@apply outline-none;
 
-    [data-whatintent=keyboard] & {
-        box-shadow: 0 0 5px theme('colors.blue');
-        @apply shadow-outline;
-    }
+	[data-whatintent=keyboard] & {
+		box-shadow: 0 0 5px theme('colors.blue');
+		@apply shadow-outline;
+	}
 }
 
 [disabled],
 [disabled] * {
-    @apply opacity-25 shadow-none cursor-not-allowed select-none;
+	@apply opacity-25 shadow-none cursor-not-allowed select-none;
 }
 
 ::selection {

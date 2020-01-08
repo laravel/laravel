@@ -7,6 +7,9 @@
 	])
 @endsection
 
+@section('app:before')
+@endsection
+
 @section('app')
 	<div class="container mx-auto py-12 px-5">
 		<h1 class="text-4xl xl:text-5xl tracking-tighter text-gray-900 font-bold">Templates</h1>
