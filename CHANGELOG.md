@@ -1,6 +1,23 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.5.2...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.8.0...master)
+
+
+## [v6.8.0 (2019-12-16)](https://github.com/laravel/laravel/compare/v6.5.2...v6.8.0)
+
+### Added
+- Add "none" to supported same site options in session config ([#5174](https://github.com/laravel/laravel/pull/5174))
+
+### Changed
+- Rename `encrypted` to `forceTLS` for Pusher ([#5159](https://github.com/laravel/laravel/pull/5159))
+- Use laravel/tinker v2 ([#5161](https://github.com/laravel/laravel/pull/5161))
+- Use PHPUnit TestCase and in-memory DB ([#5169](https://github.com/laravel/laravel/pull/5169))
+- DRY up path to /home ([#5173](https://github.com/laravel/laravel/pull/5173))
+- Change some default settings ([f48e2d5](https://github.com/laravel/laravel/commit/f48e2d500cb53cc4a09dfcb40beb0abafd79de4f))
+
+### Fixed
+- Consistent alphabetical order ([#5167](https://github.com/laravel/laravel/pull/5167))
+- Update redirectTo return type PHPDoc ([#5175](https://github.com/laravel/laravel/pull/5175))
 
 
 ## [v6.5.2 (2019-11-21)](https://github.com/laravel/laravel/compare/v6.4.0...v6.5.2)
