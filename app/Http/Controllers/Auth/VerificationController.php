@@ -26,8 +26,12 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
+    protected function redirectTo()
+    {
+        session()->flash('status', 'Email Verified.');
+        return RouteServiceProvider::HOME;
+    }
+    
     /**
      * Create a new controller instance.
      *
