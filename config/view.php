@@ -43,6 +43,6 @@ return [
      | and precompiling your views we can skip this check to save time.
      |
      */
-    'check_compiled' => env('APP_ENV') !== 'production',
+    'expires' => env('APP_ENV') !== 'production',
 
 ];
