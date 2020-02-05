@@ -65,7 +65,7 @@ return [
         ],
 
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Symbolic Links
@@ -76,7 +76,7 @@ return [
     | target path. Use the `storage:link` command to generate them.
     |
     */
-    
+
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
