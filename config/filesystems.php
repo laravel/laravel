@@ -65,5 +65,20 @@ return [
         ],
 
     ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Symbolic Links
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure as many symbolic links as you wish for your
+    | application. The key is the symbolic link and the value is the
+    | target path. Use the `storage:link` command to generate them.
+    |
+    */
+    
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+    ],
 
 ];
