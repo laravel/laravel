@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-class ExampleTest extends TestCase
+class ExampleTest extends BaseTestCase
 {
     /**
      * A basic test example.
