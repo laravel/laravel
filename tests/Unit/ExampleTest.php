@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 
-class ExampleTest extends PHPUnit\Framework\TestCase
+class ExampleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * A basic test example.
