@@ -5,17 +5,12 @@ namespace App\Providers;
 use App\Http\Utils\OrderedRouteDefiner;
 use App\Http\Utils\RouteDefiner;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use Symfony\Component\Finder\Finder;
 
 class RouteServiceProvider extends ServiceProvider
 {
     public function map()
     {
-        if (config('app.debug')) {
-            $this->app->get('router')->get('logs', LogViewerController::class . '@index');
-        }
-
         $orderedRoutes = [];
         /** @var Finder $handlers */
         $handlers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
