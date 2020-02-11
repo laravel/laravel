@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail;
 trait SendsEmails
 {
     /**
-     * @param User   $user
      * @param string $link
      */
     public function sendPasswordReset(User $user, $link): void
@@ -20,7 +19,6 @@ trait SendsEmails
     }
 
     /**
-     * @param User   $user
      * @param string $link
      */
     public function sendActivation(User $user, $link): void
@@ -32,7 +30,6 @@ trait SendsEmails
 
     /**
      * @param string $view
-     * @param User   $user
      * @param string $link
      * @param string $subject
      */

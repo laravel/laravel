@@ -23,8 +23,6 @@ class RoleAddCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param SecurityContext $securityContext
      */
     public function handle(SecurityContext $securityContext)
     {

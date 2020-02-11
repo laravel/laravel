@@ -13,9 +13,6 @@ abstract class AddPermissionCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param SecurityContext $securityContext
-     * @param EntityManager   $entityManager
-     *
      * @return int
      */
     public function handle(SecurityContext $securityContext, EntityManager $entityManager)
@@ -43,8 +40,6 @@ abstract class AddPermissionCommand extends Command
     }
 
     /**
-     * @param SecurityApi $security
-     *
      * @return string[]
      */
     protected function getPermissions(SecurityApi $security)
@@ -59,8 +54,6 @@ abstract class AddPermissionCommand extends Command
     }
 
     /**
-     * @param SecurityApi $security
-     *
      * @return Permissible
      */
     abstract protected function getPermissible(SecurityApi $security);

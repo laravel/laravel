@@ -14,8 +14,6 @@ abstract class DataImporter
     protected $isEndOfFile = false;
 
     /**
-     * @param UploadedFile $uploadedFile
-     *
      * @return DataImporter
      */
     abstract public function fromUploadedFile(UploadedFile $uploadedFile): self;
@@ -33,8 +31,6 @@ abstract class DataImporter
     }
 
     /**
-     * @param int $count
-     *
      * @return RowCollection|array
      */
     abstract public function next(int $count);
