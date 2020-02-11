@@ -26,8 +26,6 @@ class DataExporter
     }
 
     /**
-     * @param string $sheetName
-     *
      * @return DataExporter
      */
     public function setSheetName(string $sheetName): self
@@ -38,8 +36,6 @@ class DataExporter
     }
 
     /**
-     * @param array $columnFormats
-     *
      * @return DataExporter
      */
     public function setColumnFormats(array $columnFormats): self
@@ -50,8 +46,6 @@ class DataExporter
     }
 
     /**
-     * @param array $cellWrappings
-     *
      * @return DataExporter
      */
     public function setCellWrappings(array $cellWrappings): self
@@ -61,10 +55,6 @@ class DataExporter
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @param string $fileName
-     */
     public function xls(array $data, string $fileName)
     {
         $this->excel($data, $fileName)->download(static::EXTENSION_XLS, [
@@ -100,8 +90,6 @@ class DataExporter
 
     /**
      * Translates given keys with lang files.
-     *
-     * @param  array $array_keys
      *
      * @return array
      */

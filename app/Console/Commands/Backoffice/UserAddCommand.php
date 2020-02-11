@@ -23,8 +23,6 @@ class UserAddCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @param SecurityContext $securityContext
      */
     public function handle(SecurityContext $securityContext)
     {

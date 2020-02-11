@@ -22,9 +22,6 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
      */
     protected $connection = null;
 
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -38,7 +35,6 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
      * @param string $value
      * @param int    $excludeId
      * @param string $idColumn
-     * @param array  $extra
      *
      * @return int
      */
@@ -69,8 +65,6 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
      *
      * @param string $collection
      * @param string $column
-     * @param array  $values
-     * @param array  $extra
      *
      * @return int
      */
@@ -109,10 +103,6 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
         return $builder;
     }
 
-    /**
-     * @param array        $extra
-     * @param QueryBuilder $builder
-     */
     protected function queryExtraConditions(array $extra, QueryBuilder $builder)
     {
         foreach ($extra as $key => $extraValue) {

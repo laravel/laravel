@@ -8,8 +8,6 @@ use Doctrine\ORM\EntityNotFoundException;
 interface ReadRepository extends ObjectRepository
 {
     /**
-     * @param int $id
-     *
      * @throws EntityNotFoundException
      *
      * @return object
@@ -17,8 +15,6 @@ interface ReadRepository extends ObjectRepository
     public function get(int $id);
 
     /**
-     * @param int $id
-     *
      * @throws EntityNotFoundException
      *
      * @return object|null
@@ -31,8 +27,6 @@ interface ReadRepository extends ObjectRepository
     public function all();
 
     /**
-     * @param array      $criteria
-     * @param array|null $orderBy
      * @param int|null   $limit
      * @param int|null   $offset
      *

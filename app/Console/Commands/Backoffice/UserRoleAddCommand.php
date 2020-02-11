@@ -29,9 +29,6 @@ class UserRoleAddCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param SecurityContext $securityContext
-     * @param EntityManager   $entityManager
-     *
      * @return int
      */
     public function handle(SecurityContext $securityContext, EntityManager $entityManager)
@@ -81,10 +78,7 @@ class UserRoleAddCommand extends Command
         }
 
         if (! $user instanceof Roleable) {
-            throw new \OutOfBoundsException(
-                'The configured User class needs to extend ' . Roleable::class . ' to use roles.',
-                2
-            );
+            throw new \OutOfBoundsException('The configured User class needs to extend ' . Roleable::class . ' to use roles.', 2);
         }
     }
 

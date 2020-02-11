@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use ProjectName\Exceptions\DomainException;
 
 class Handler extends ExceptionHandler
 {
@@ -33,13 +34,14 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     *
-     * @return \Illuminate\Http\Response
+     * @throws Exception
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof DomainException) {
+            $exception = new DomainExceptionDecorator($exception);
+        }
+
         return parent::render($request, $exception);
     }
 }
