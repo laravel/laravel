@@ -1,7 +1,7 @@
 <template>
 	<component
 		:is="elementComputed"
-		class="e-button x"
+		class="e-button"
 		:href="$props.href"
 		v-html="$props.text"
 	/>
