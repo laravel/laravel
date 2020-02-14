@@ -16,10 +16,10 @@
 	}
 
 	@screen md {
-	    @include macro(6);
+		@include macro(6);
 	}
 
 	@screen xl {
-	    @include macro(8);
+		@include macro(8);
 	}
 }
