@@ -7,21 +7,21 @@ import './bootstrap';
 import lang from './i18n';
 
 // Common
-import EButton from './components/common/button';
-import ELabel from './components/common/label';
-import ETable from './components/common/table';
-import Breadcrumb from './components/common/breadcrumb';
-import Icon from './components/common/icon';
-import IconText from './components/common/icon-text';
-import Pagination from './components/common/pagination';
+import EButton from './components/common/Button';
+import ELabel from './components/common/Label';
+import ETable from './components/common/Table';
+import Breadcrumb from './components/common/Breadcrumb';
+import Icon from './components/common/Icon';
+import IconText from './components/common/IconText';
+import Pagination from './components/common/Pagination';
 import Placeholder from './components/common/Placeholder';
 
 // Accounts
-// import ForgotPasswordForm from './components/accounts/forgot-password-form';
-// import LoginForm from './components/accounts/login-form';
-// import PasswordResetForm from './components/accounts/password-reset-form';
-// import RegisterForm from './components/accounts/register-form';
-// import ResendVerifyCodeForm from './components/accounts/resend-verify-code-form';
+// import ForgotPasswordForm from './components/accounts/ForgotPasswordForm';
+// import LoginForm from './components/accounts/LoginForm';
+// import PasswordResetForm from './components/accounts/PasswordResetForm';
+// import RegisterForm from './components/accounts/RegisterForm';
+// import ResendVerifyCodeForm from './components/accounts/ResendVerifyCodeForm';
 
 Vue.filter('trans', (...args) => lang.get(...args));
 
