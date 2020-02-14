@@ -15,6 +15,7 @@
 	},
 	"rules": {
 		"func-names": "off",
+		"import/extensions": "never",
 		"import/no-extraneous-dependencies": "off",
 		"import/no-unresolved": "off",
 		"indent": [
