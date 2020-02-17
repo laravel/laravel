@@ -111,3 +111,19 @@ mkdir proxies
 chmod -R 755 proxies
 chown www-data:www-data proxies/
 ```
+
+## Repositories on Request
+
+If you need a repository you may do this:
+
+Example: 
+```php
+public function users(): ?array
+{
+    if ($this->input(self::USER_IDS)) {
+        return $this->repository(UserRepository::class)->find($this->input(self::USER_IDS));
+    }
+
+    return null;
+}
+```
