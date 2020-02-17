@@ -24,7 +24,6 @@ class UserCreateHandler extends Handler implements RouteDefiner
 
     public function __invoke(UserCreateRequest $request)
     {
-        dd($request->dd());
         try {
             /** @var User $user */
             $user = security()->users()->create($request->getCredentials(), function (User $user) use ($request) {
