@@ -12,7 +12,7 @@ abstract class FormRequest extends Request
      * @param string $className
      * @return ReadRepository|ObjectRepository
      */
-    protected function getRepository(string $className)
+    protected function repository(string $className)
     {
         $repository = $this->container->make($className);
 
