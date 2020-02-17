@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Doctrine\Repositories;
 
 use Digbang\Utils\Doctrine\QueryBuilderDecorator;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
@@ -59,6 +60,17 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
     public function all()
     {
         return $this->findAll();
+    }
+
+    public function findManyById(array $ids): array
+    {
+        /** @var ClassMetadata $meta */
+        $meta = $this->_em->getClassMetadata(get_class($this->_entityName));
+        $identifier = $meta->getSingleIdentifierFieldName();
+
+        return $this->_em->getRepository($this->_entityName)->findBy([
+            $identifier => $ids
+        ]);
     }
 
     public function refresh($entity)

@@ -40,4 +40,6 @@ interface ReadRepository extends ObjectRepository
      * @param mixed $entity
      */
     public function refresh($entity);
+
+    public function findManyById(array $id): array;
 }
