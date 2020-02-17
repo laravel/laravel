@@ -62,7 +62,7 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
         return $this->findAll();
     }
 
-    public function findManyById(array $ids): array
+    public function findByIds(array $ids): array
     {
         /** @var ClassMetadataInfo $meta */
         $meta = $this->_em->getClassMetadata(get_class($this->_entityName));

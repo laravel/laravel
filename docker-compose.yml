@@ -15,16 +15,6 @@ services:
     image: redis:alpine
     networks:
      - appnet
-  node:
-    build: docker/node
-    command: node dev-server.js
-    working_dir: /usr/src/app
-    volumes:
-     - .:/usr/src/app
-    ports:
-     - "81:81"
-    networks:
-     - appnet
   db:
     image: postgres:latest
     ports:

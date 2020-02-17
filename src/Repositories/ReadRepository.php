@@ -41,5 +41,5 @@ interface ReadRepository extends ObjectRepository
      */
     public function refresh($entity);
 
-    public function findManyById(array $id): array;
+    public function findByIds(array $id): array;
 }

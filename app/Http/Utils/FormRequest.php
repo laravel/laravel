@@ -3,10 +3,10 @@
 namespace App\Http\Utils;
 
 use Doctrine\Common\Persistence\ObjectRepository;
-use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use ProjectName\Repositories\ReadRepository;
 
-abstract class FormRequest extends Request
+abstract class FormRequest extends BaseFormRequest
 {
     /**
      * @param string $className
@@ -20,6 +20,6 @@ abstract class FormRequest extends Request
             return $repository;
         }
 
-        throw new \DomainException('The class not implements ReadRepositoy');
+        throw new \RuntimeException("$className must implement ReadRepository or ObjectRepository");
     }
 }

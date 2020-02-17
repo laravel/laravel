@@ -98,13 +98,13 @@
 
 
 ## Folder Permissions
-Permissions
+Directories
 ```
 // at the root of the project
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
 ```
-Fixes proxy error
+Proxies
 ```
 // at the root of the project
 mkdir proxies
@@ -122,6 +122,30 @@ public function users(): ?array
 {
     if ($this->input(self::USER_IDS)) {
         return $this->repository(UserRepository::class)->find($this->input(self::USER_IDS));
+    }
+
+    return null;
+}
+```
+
+If you need a repository method that doesnt exist in ReadRepository, you must create a private method into your request.
+
+Example:
+
+```php
+private function roleRepository(): RoleRepository
+{
+    /** @var RoleRepository $repository */
+    $repository = $this->repository(RoleRepository::class);
+
+    return $repository;
+}
+
+
+public function roles(): ?array
+{
+    if ($this->input(self::ROLE_NAME)) {
+        return $this->roleRepository()->findByName($this->input(self::ROLE_NAME));
     }
 
     return null;
