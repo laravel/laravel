@@ -2,41 +2,38 @@
 
 namespace App\Http\Backoffice\Handlers\Users;
 
+use App\Exports\UserExport;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
-use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserExportHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(UserCriteriaRequest $request, DataExporter $exporter)
+    public function __invoke(UserCriteriaRequest $request, Excel $exporter)
     {
         $items = new Collection($this->getData($request));
         $items = $items->map(function (User $user) {
             return [
-                trans('backoffice::auth.first_name') => $user->getName()->getFirstName(),
-                trans('backoffice::auth.last_name') => $user->getName()->getLastName(),
-                trans('backoffice::auth.email') => $user->getEmail(),
-                trans('backoffice::auth.username') => $user->getUsername(),
-                trans('backoffice::auth.activated') => $user->isActivated() ? $user->getActivatedAt()->format(trans('backoffice::default.datetime_format')) : '',
-                trans('backoffice::auth.last_login') => $user->getLastLogin() ? $user->getLastLogin()->format(trans('backoffice::default.datetime_format')) : '',
+                $user->getName()->getFirstName(),
+                $user->getName()->getLastName(),
+                $user->getEmail(),
+                $user->getUsername(),
+                $user->isActivated() ? $user->getActivatedAt()->format(trans('backoffice::default.datetime_format')) : '',
+                $user->getLastLogin() ? $user->getLastLogin()->format(trans('backoffice::default.datetime_format')) : '',
             ];
-        })->toArray();
+        });
 
-        $filename = (new \DateTime())->format('Ymd') . ' - ' . trans('backoffice::auth.users');
-        $exporter
-            ->setSheetName(trans('backoffice::auth.users'))
-            ->xls(
-                $items,
-                $filename
-            );
+        $filename = (new \DateTime())->format('Ymd') . ' - ' . trans('backoffice::auth.users') . '.xls';
+
+        return $exporter->download(new UserExport($items), $filename);
     }
 
     public static function defineRoute(Router $router): void

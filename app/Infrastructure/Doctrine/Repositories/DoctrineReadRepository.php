@@ -6,6 +6,7 @@ use Digbang\Utils\Doctrine\QueryBuilderDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use ProjectName\Repositories\ReadRepository;
 
 abstract class DoctrineReadRepository extends EntityRepository implements ReadRepository
@@ -59,6 +60,17 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
     public function all()
     {
         return $this->findAll();
+    }
+
+    public function findByIds(array $ids): array
+    {
+        /** @var ClassMetadataInfo $meta */
+        $meta = $this->_em->getClassMetadata(get_class($this->_entityName));
+        $identifier = $meta->getSingleIdentifierFieldName();
+
+        return $this->_em->getRepository($this->_entityName)->findBy([
+            $identifier => $ids,
+        ]);
     }
 
     public function refresh($entity)

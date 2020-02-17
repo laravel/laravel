@@ -92,3 +92,62 @@
     * https://site.com should redirect to https://www.site.com
     * The sub-domain (www), can be interchanged in the examples. But you must choose to use it and redirect TO it or not use it and redirect FROM it.
     * Please see docker/apache/default.conf for the server configuration to access the site and resources.
+
+## Publish Assets
+1. `php artisan vendor:publish --provider "Digbang\\Backoffice\\BackofficeServiceProvider" --tag assets --force`
+
+
+## Folder Permissions
+Directories
+```
+// at the root of the project
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+```
+Proxies
+```
+// at the root of the project
+mkdir proxies
+chmod -R 755 proxies
+chown www-data:www-data proxies/
+```
+
+## Repositories on Request
+
+If you need a repository you may do this:
+
+Example: 
+```php
+public function users(): ?array
+{
+    if ($this->input(self::USER_IDS)) {
+        return $this->repository(UserRepository::class)->find($this->input(self::USER_IDS));
+    }
+
+    return null;
+}
+```
+
+If you need a repository method that doesnt exist in ReadRepository, you must create a private method into your request.
+
+Example:
+
+```php
+private function roleRepository(): RoleRepository
+{
+    /** @var RoleRepository $repository */
+    $repository = $this->repository(RoleRepository::class);
+
+    return $repository;
+}
+
+
+public function roles(): ?array
+{
+    if ($this->input(self::ROLE_NAME)) {
+        return $this->roleRepository()->findByName($this->input(self::ROLE_NAME));
+    }
+
+    return null;
+}
+```

@@ -2,7 +2,7 @@
 
 namespace App\Http\Backoffice\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Utils\FormRequest;
 
 class Request extends FormRequest
 {
