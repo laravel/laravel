@@ -2,22 +2,23 @@
 
 namespace App\Http\Backoffice\Handlers\Roles;
 
+use App\Exports\RoleExport;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
-use App\Infrastructure\Util\DataExporter;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleExportHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(RoleCriteriaRequest $request, DataExporter $exporter)
+    public function __invoke(RoleCriteriaRequest $request, Excel $exporter)
     {
         $items = new Collection($this->getData($request));
         $items = $items->map(function (Role $role) {
@@ -29,19 +30,15 @@ class RoleExportHandler extends Handler implements RouteDefiner
             }
 
             return [
-                'Id' => $role->getRoleId(),
-                trans('backoffice::auth.name') => $role->getName(),
-                trans('backoffice::auth.users') => implode(', ', $users),
+                $role->getRoleId(),
+                $role->getName(),
+                implode(', ', $users),
             ];
-        })->toArray();
+        });
 
-        $filename = (new \DateTime())->format('Ymd') . ' - ' . trans('backoffice::auth.roles');
-        $exporter
-            ->setSheetName(trans('backoffice::auth.roles'))
-            ->xls(
-                $items,
-                $filename
-            );
+        $filename = (new \DateTime())->format('Ymd') . ' - ' . trans('backoffice::auth.roles') . '.xls';
+
+        return $exporter->download(new RoleExport($items), $filename);
     }
 
     public static function defineRoute(Router $router): void

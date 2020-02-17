@@ -92,3 +92,22 @@
     * https://site.com should redirect to https://www.site.com
     * The sub-domain (www), can be interchanged in the examples. But you must choose to use it and redirect TO it or not use it and redirect FROM it.
     * Please see docker/apache/default.conf for the server configuration to access the site and resources.
+
+## Publish Assets
+1. `php artisan vendor:publish --provider "Digbang\\Backoffice\\BackofficeServiceProvider" --tag assets --force`
+
+
+## Folder Permissions
+Permissions
+```
+// at the root of the project
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+```
+Fixes proxy error
+```
+// at the root of the project
+mkdir proxies
+chmod -R 755 proxies
+chown www-data:www-data proxies/
+```

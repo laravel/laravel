@@ -1,3 +1,3 @@
 FROM node:latest
 
-RUN npm install --global yarn cross-env webpack webpack-dev-server && npm rebuild
+RUN npm install --global cross-env webpack webpack-dev-server && npm rebuild
