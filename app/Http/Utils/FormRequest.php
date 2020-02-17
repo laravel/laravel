@@ -2,16 +2,21 @@
 
 namespace App\Http\Utils;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Illuminate\Foundation\Http\FormRequest as Request;
 use ProjectName\Repositories\ReadRepository;
 
 abstract class FormRequest extends Request
 {
-    private function getRepository(string $className): ?ReadRepository
+    /**
+     * @param string $className
+     * @return ReadRepository|ObjectRepository
+     */
+    protected function getRepository(string $className)
     {
         $repository = $this->container->make($className);
 
-        if ($repository instanceof ReadRepository) {
+        if ($repository instanceof ReadRepository || $repository instanceof  ObjectRepository) {
             return $repository;
         }
 

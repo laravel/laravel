@@ -4,6 +4,7 @@ namespace App\Http\Backoffice\Requests\Users;
 
 use App\Http\Backoffice\Requests\Request;
 use Digbang\Security\Users\DefaultUser;
+use Digbang\Security\Users\UserRepository;
 
 class UserCreateRequest extends Request
 {
