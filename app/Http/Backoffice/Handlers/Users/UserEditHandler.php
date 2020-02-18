@@ -17,7 +17,7 @@ class UserEditHandler extends Handler implements RouteDefiner
 {
     public function __invoke(UserEditRequest $request)
     {
-        $user = $request->getUser();
+        $user = $request->getUserById();
 
         try {
             security()->users()->update($user, $request->getCredentials());

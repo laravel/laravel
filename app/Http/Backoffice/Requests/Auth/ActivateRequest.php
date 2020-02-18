@@ -8,11 +8,11 @@ use Digbang\Security\Users\User;
 
 class ActivateRequest extends Request
 {
-    public function getUser(): User
+    public function getUserById(): User
     {
         $id = $this->route(AuthActivateHandler::ROUTE_PARAM_USER);
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = security()->users()->findById($id);
 
         if (! $user) {

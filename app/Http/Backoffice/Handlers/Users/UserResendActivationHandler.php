@@ -20,7 +20,7 @@ class UserResendActivationHandler extends Handler implements RouteDefiner
 
     public function __invoke(UserRequest $request)
     {
-        $user = $request->getUser();
+        $user = $request->getUserById();
 
         try {
             $activation = security()->activations()->create($user);

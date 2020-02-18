@@ -26,7 +26,7 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
     ) {
         $email = $request->getEmail();
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $securityApi->users()->findByCredentials(['email' => $email]);
 
         if (! $user) {

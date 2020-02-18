@@ -9,7 +9,6 @@ use ProjectName\Repositories\ReadRepository;
 abstract class FormRequest extends BaseFormRequest
 {
     /**
-     * @param string $className
      * @return ReadRepository|ObjectRepository
      */
     protected function repository(string $className)
