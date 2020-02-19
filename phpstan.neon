@@ -10,7 +10,7 @@ parameters:
     level: 5
 
     ignoreErrors:
-        - '#Unsafe usage of new static#'
+        - '#Call to an undefined method LaravelDoctrine\\Fluent\\Fluent::chronos[a-zA-Z0-9_]+\(\).#'
 
     excludes_analyse:
         - ./*/*/FileToBeExcluded.php
