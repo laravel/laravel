@@ -22,7 +22,9 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
     {
         $email = $request->getEmail();
 
-        if (! $email || ! ($user = $securityApi->users()->findByCredentials(['email' => $email]))) {
+        /** @var User $user */
+        $user = $securityApi->users()->findByCredentials(['email' => $email]);
+        if (! $user) {
             return $redirector->back()
                 ->withErrors(['email' => trans('backoffice::auth.validation.user.not-found')]);
         }
@@ -30,7 +32,6 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
         /** @var \Digbang\Security\Reminders\Reminder $reminder */
         $reminder = $securityApi->reminders()->create($user);
 
-        /* @var User $user */
         $this->sendPasswordReset(
             $user,
             AuthResetPasswordFormHandler::route($user->getUserId(), $reminder->getCode())
