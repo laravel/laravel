@@ -4,25 +4,25 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
-class LoginController extends Controller
+class ConfirmPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Login Controller
+    | Confirm Password Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
+    | This controller is responsible for handling password confirmations and
+    | uses a simple trait to include the behavior. You're free to explore
+    | this trait and override any functions that require customization.
     |
     */
 
-    use AuthenticatesUsers;
+    use ConfirmsPasswords;
 
     /**
-     * Where to redirect users after login.
+     * Where to redirect users when the intended url fails.
      *
      * @var string
      */
@@ -35,6 +35,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('auth');
     }
 }
