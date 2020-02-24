@@ -9,11 +9,6 @@ const postCssPlugins = [
 	require('tailwindcss')('./build/tailwind.config.js'),
 ];
 
-const postCssWhitelist = [
-	/^e-decoration-/,
-	/^e-trans-/,
-];
-
 if (mix.inProduction()) {
 	postCssPlugins.push(require('@fullhuman/postcss-purgecss')({
 		content: [
@@ -22,7 +17,7 @@ if (mix.inProduction()) {
 		],
 		// https://medium.com/@kyis/vue-tailwind-purgecss-the-right-way-c70d04461475
 		defaultExtractor: content => content.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [],
-		whitelistPatterns: postCssWhitelist,
+		whitelistPatterns: css.postCssWhitelist.map(element => new RegExp(element)),
 	}));
 }
 
