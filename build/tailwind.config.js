@@ -67,9 +67,6 @@ module.exports = {
 		transitionTimingFunction: easing,
 		zIndex,
 		extend: {
-			borderRadius: {
-				'1/2': '50%',
-			},
 			inset: (theme, { negative }) => ({
 				'1/2': '50%',
 				...widths,
