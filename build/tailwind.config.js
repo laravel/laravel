@@ -64,10 +64,6 @@ module.exports = {
 			relaxed: 1.75,
 			loose: 2,
 		},
-		maxWidth: {
-			container: relative(1400),
-			copy: '35em',
-		},
 		transitionTimingFunction: easing,
 		zIndex,
 		extend: {
@@ -79,6 +75,10 @@ module.exports = {
 				...widths,
 				...(negative(widths)),
 			}),
+			maxWidth: {
+				container: relative(1400),
+				copy: '35em',
+			},
 			padding: {
 				full: '100%',
 				logo: ratio(300, 87),
