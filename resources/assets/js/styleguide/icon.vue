@@ -1,6 +1,6 @@
 <template>
 	<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path v-for="(path, index) in paths" :key="index" :d="path" />
+		<path v-for="(path, index) in cPaths" :key="index" :d="path" />
 	</svg>
 </template>
 
@@ -35,7 +35,7 @@
 		},
 
 		computed: {
-			paths() {
+			cPaths() {
 				return icons[this.$props.name];
 			},
 		},

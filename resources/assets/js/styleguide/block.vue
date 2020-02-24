@@ -4,14 +4,14 @@
 
 		<div class="mt-4">
 			<div
-				v-observe-visibility="observerOptions"
+				v-observe-visibility="cObserverOptions"
 				class="relative bg-gray-100 border"
 			>
 				<iframe
 					v-if="$data.iframeActive"
 					ref="iframe"
 					class="block w-px min-w-full"
-					:src="url"
+					:src="cUrl"
 				/>
 
 				<button
@@ -37,7 +37,7 @@
 						<li>
 							<a
 								class="block p-1 leading-none text-gray-500 hover:text-accent"
-								:href="url"
+								:href="cUrl"
 							>
 								<icon class="external" name="external" />
 							</a>
@@ -54,7 +54,7 @@
 				<pre><code
 					ref="code"
 					class="p-4 text-sm font-mono bg-gray-200 lang-html"
-					v-text="code"
+					v-text="cCode"
 				/></pre>
 			</div>
 		</div>
@@ -105,20 +105,20 @@
 		},
 
 		computed: {
-			code() {
+			cCode() {
 				const { name, type } = this.$props.component;
 
 				return markup[type](name, this.$props.attributes);
 			},
 
-			observerOptions() {
+			cObserverOptions() {
 				return {
 					callback: this.visibilityChanged,
 					throttle: 500,
 				};
 			},
 
-			url() {
+			cUrl() {
 				return `block?section=${this.$props.section}&block=${this.$props.block}&preview=${this.$props.preview}`;
 			},
 		},

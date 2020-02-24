@@ -1,6 +1,6 @@
 <template>
 	<component
-		:is="elementComputed"
+		:is="cElement"
 		class="e-button"
 		:href="$props.href"
 		v-html="$props.text"
@@ -22,7 +22,7 @@
 		},
 
 		computed: {
-			elementComputed: function () {
+			cElement: function () {
 				return this.href ? 'a' : 'button';
 			},
 		},

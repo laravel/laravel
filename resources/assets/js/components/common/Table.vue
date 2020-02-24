@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-full overflow-x-auto">
 		<table
-			:class="classList"
+			:class="cClasses"
 		>
 			<caption
 				v-if="caption"
@@ -61,7 +61,7 @@
 		},
 
 		computed: {
-			classList() {
+			cClasses() {
 				return [
 					'w-full',
 					'border',
