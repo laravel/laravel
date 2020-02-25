@@ -1,7 +1,7 @@
 {
     "/compiled/js/app.js": "/compiled/js/app.js",
-    "/compiled/css/app.css": "/compiled/css/app.css",
     "/compiled/js/styleguide.js": "/compiled/js/styleguide.js",
     "/spritemap.js": "/spritemap.js",
-    "/compiled/img/sprite.svg": "/compiled/img/sprite.svg"
+    "/compiled/img/sprite.svg": "/compiled/img/sprite.svg",
+    "/compiled/css/app.css": "/compiled/css/app.css"
 }

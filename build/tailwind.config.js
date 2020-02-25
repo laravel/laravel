@@ -93,10 +93,11 @@ module.exports = {
 		},
 	},
 	variants: {},
-	plugins: [
-		require('tailwindcss-transitions')(),
-	],
 	corePlugins: {
 		container: false,
+		rotate: false,
+		scale: false,
+		skew: false,
+		translate: false,
 	},
 };

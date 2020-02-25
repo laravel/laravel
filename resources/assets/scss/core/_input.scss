@@ -59,7 +59,7 @@ input {
 
 	&--radio {
 		+ .e-checkbox-label .e-checkbox-label__icon-wrapper {
-			@apply rounded-1/2;
+			@apply rounded-full;
 		}
 	}
 }

@@ -11,7 +11,6 @@ body {
 	@apply outline-none;
 
 	[data-whatintent=keyboard] & {
-		box-shadow: 0 0 5px theme('colors.blue');
 		@apply shadow-outline;
 	}
 }
