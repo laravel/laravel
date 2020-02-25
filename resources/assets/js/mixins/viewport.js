@@ -1,7 +1,3 @@
-import {
-	watchViewport,
-	getViewportState,
-} from 'tornis/dist/tornis.es5';
 import debounce from 'lodash/debounce';
 import variables from '../../variables.json';
 
@@ -26,27 +22,11 @@ export default {
 
 	methods: {
 		watchViewport() {
-			let initial = true;
+			this.onResize();
 
-			watchViewport(({ scroll, size }) => {
-				if (size.changed) {
-					if (initial) {
-						this.onResize(size);
-					} else {
-						this.onDebouncedResize(size);
-					}
-				}
-
-				if (scroll.changed || size.changed) {
-					this.onScroll(scroll);
-				}
-
-				initial = false;
+			window.addEventListener('resize', () => {
+				this.onDebouncedResize();
 			});
-		},
-
-		getViewportState() {
-			return getViewportState();
 		},
 
 		onResize() {},
