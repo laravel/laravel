@@ -3,6 +3,7 @@ import variables from '../../variables.json';
 
 const breakpoints = {};
 
+// TODO: convert to Object.fromEntries
 Object.keys(variables.breakpoints).forEach((name) => {
 	let value = variables.breakpoints[name];
 
@@ -15,23 +16,17 @@ Object.keys(variables.breakpoints).forEach((name) => {
 
 export default {
 	created() {
-		this.onDebouncedResize = debounce((...args) => {
-			this.onResize(...args);
-		}, 300);
+		this.onDebouncedResize = debounce(this.onResize, 300);
+	},
+
+	mounted() {
+		this.onResize();
+
+		window.addEventListener('resize', this.onDebouncedResize);
 	},
 
 	methods: {
-		watchViewport() {
-			this.onResize();
-
-			window.addEventListener('resize', () => {
-				this.onDebouncedResize();
-			});
-		},
-
 		onResize() {},
-
-		onScroll() {},
 
 		mq(name, extremum = 'min', property = 'width') {
 			if (!window.matchMedia) {
