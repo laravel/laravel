@@ -8,6 +8,7 @@ use App\Http\Backoffice\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
+use Digbang\Security\Users\User;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
@@ -21,8 +22,9 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
     {
         $email = $request->getEmail();
 
-        /** @var \Digbang\Security\Users\User $user */
-        if (! $email || ! ($user = $securityApi->users()->findByCredentials(['email' => $email]))) {
+        /** @var User $user */
+        $user = $securityApi->users()->findByCredentials(['email' => $email]);
+        if (! $user) {
             return $redirector->back()
                 ->withErrors(['email' => trans('backoffice::auth.validation.user.not-found')]);
         }

@@ -20,7 +20,7 @@ class UserResetPasswordHandler extends Handler implements RouteDefiner
 
     public function __invoke(UserRequest $request)
     {
-        $user = $request->getUser();
+        $user = $request->getUserById();
 
         try {
             /** @var \Digbang\Security\Reminders\Reminder $reminder */

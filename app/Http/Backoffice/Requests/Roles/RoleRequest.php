@@ -13,7 +13,7 @@ class RoleRequest extends Request
     {
         $id = $this->route(static::ROUTE_PARAM_ID);
 
-        /** @var Role $role */
+        /** @var Role|null $role */
         $role = security()->roles()->findById($id);
 
         if (! $role) {

@@ -16,7 +16,7 @@ class UserDeleteHandler extends Handler implements RouteDefiner
 {
     public function __invoke(UserRequest $request)
     {
-        $user = $request->getUser();
+        $user = $request->getUserById();
 
         try {
             security()->users()->destroy($user);

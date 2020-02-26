@@ -8,6 +8,7 @@ use App\Http\Backoffice\Requests\Auth\ResetPasswordRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
+use Digbang\Security\Users\User;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
@@ -22,7 +23,8 @@ class AuthResetPasswordHandler extends Handler implements RouteDefiner
         SecurityApi $securityApi,
         Redirector $redirector
     ) {
-        $user = $request->getUser();
+        /** @var User $user */
+        $user = $request->getUserById();
         $code = $request->getCode();
 
         if ($user->getUserId() != $request->input('id')) {

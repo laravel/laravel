@@ -12,6 +12,7 @@ use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
+use Digbang\Security\Users\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Router;
 
@@ -27,7 +28,8 @@ class UserShowHandler extends Handler implements RouteDefiner
 
     public function __invoke(UserRequest $request, Factory $view)
     {
-        $user = $request->getUser();
+        /** @var User $user */
+        $user = $request->getUserById();
 
         $breadcrumb = backoffice()->breadcrumb([
             trans('backoffice::default.home') => DashboardHandler::class,

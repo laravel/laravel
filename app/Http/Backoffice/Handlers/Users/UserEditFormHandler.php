@@ -14,6 +14,8 @@ use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Permissions\Permissible;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
+use Digbang\Security\Users\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -30,7 +32,8 @@ class UserEditFormHandler extends Handler implements RouteDefiner
 
     public function __invoke(UserRequest $request, Factory $view)
     {
-        $user = $request->getUser();
+        /** @var User $user */
+        $user = $request->getUserById();
 
         $form = $this->buildForm(
             security()->url()->to(UserEditHandler::route($user->getUserId())),
@@ -47,12 +50,14 @@ class UserEditFormHandler extends Handler implements RouteDefiner
         ];
 
         if ($user instanceof Roleable) {
-            /* @var \Doctrine\Common\Collections\Collection $roles */
+            /** @var ArrayCollection $roles */
             $roles = $user->getRoles();
 
-            $data[UserEditRequest::FIELD_ROLES . '[]'] = $roles->map(function (Role $role) {
+            $rolesSlugs = $roles->map(function (Role $role) {
                 return $role->getRoleSlug();
             })->toArray();
+
+            $data[UserEditRequest::FIELD_ROLES . '[]'] = $rolesSlugs;
         }
 
         if ($user instanceof Permissible) {

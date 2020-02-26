@@ -24,7 +24,7 @@ class AuthActivateHandler extends Handler implements RouteDefiner
         Redirector $redirector,
         Factory $view
     ) {
-        $user = $request->getUser();
+        $user = $request->getUserById();
         $code = $request->getCode();
 
         $activations = $securityApi->activations();

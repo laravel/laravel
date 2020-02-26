@@ -4,6 +4,7 @@ namespace App\Infrastructure\Doctrine\Validation;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Illuminate\Validation\PresenceVerifierInterface;
@@ -95,6 +96,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
      */
     protected function select($collection)
     {
+        /** @var EntityManager $em */
         $em = $this->getEntityManager($collection);
         $builder = $em->createQueryBuilder();
 

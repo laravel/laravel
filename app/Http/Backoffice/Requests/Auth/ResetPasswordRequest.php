@@ -4,7 +4,7 @@ namespace App\Http\Backoffice\Requests\Auth;
 
 use App\Http\Backoffice\Handlers\Auth\AuthResetPasswordHandler;
 use App\Http\Backoffice\Requests\Request;
-use Digbang\Security\Users\User;
+use Cartalyst\Sentinel\Users\UserInterface;
 
 class ResetPasswordRequest extends Request
 {
@@ -22,11 +22,10 @@ class ResetPasswordRequest extends Request
         ];
     }
 
-    public function getUser(): User
+    public function getUserById(): UserInterface
     {
         $id = $this->route(AuthResetPasswordHandler::ROUTE_PARAM_USER);
 
-        /** @var User $user */
         $user = security()->users()->findById($id);
 
         if (! $user) {
