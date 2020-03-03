@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.0.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.0.0...develop)
 
 
 ## [v7.0.0 (2020-03-03)](https://github.com/laravel/laravel/compare/v6.18.0...v7.0.0)
