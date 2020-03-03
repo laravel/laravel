@@ -32,7 +32,8 @@
         "cascade": false
       },
       "cleanCss": {},
-      "postCssWhitelist": [
+      "purgeCssWhitelist": [],
+      "purgeCssWhitelistPatterns": [
         "^e-trans-"
       ]
     },
