@@ -1,6 +1,33 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.8.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.18.0...6.x)
+
+
+## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
+
+### Changed
+- Update cross-env and resolve-url-loader to the latest ([#5210](https://github.com/laravel/laravel/pull/5210), [#5216](https://github.com/laravel/laravel/pull/5216))
+- Bump fzaninotto/faker version to support PHP 7.4 ([#5218](https://github.com/laravel/laravel/pull/5218))
+- Remove redundant default attributes from `phpunit.xml` ([#5233](https://github.com/laravel/laravel/pull/5233))
+
+
+## [v6.12.0 (2020-01-14)](https://github.com/laravel/laravel/compare/v6.8.0...v6.12.0)
+
+### Added
+- Allow configurable emergency logger ([#5179](https://github.com/laravel/laravel/pull/5179))
+- Add `MAIL_FROM_ADDRESS` & `MAIL_FROM_NAME` to `.env` file ([#5180](https://github.com/laravel/laravel/pull/5180))
+- Add missing full stop for some validation messages ([#5205](https://github.com/laravel/laravel/pull/5205))
+
+### Changed
+- Use class name to be consistent with web middleware ([140d4d9](https://github.com/laravel/laravel/commit/140d4d9b0a4581cec046875361e87c2981b3f9fe))
+- Use file session driver again ([#5201](https://github.com/laravel/laravel/pull/5201))
+
+### Fixed
+- Correct exception handler doc ([#5187](https://github.com/laravel/laravel/pull/5187))
+- Fix types consistency in Redis database config ([#5191](https://github.com/laravel/laravel/pull/5191))
+
+### Security
+- Update laravel mix and sass loader ([#5203](https://github.com/laravel/laravel/pull/5203))
 
 
 ## [v6.8.0 (2019-12-16)](https://github.com/laravel/laravel/compare/v6.5.2...v6.8.0)
