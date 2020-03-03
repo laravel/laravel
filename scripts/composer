@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Purpose:
+#
+# Runs a console command in the app container.
+
+set -e
+[ -z "${DEBUG}" ] || set -x
+
+cd "$(dirname "$0")/.."
+
+docker-compose exec app composer $@
