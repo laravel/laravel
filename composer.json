@@ -70,15 +70,12 @@
         }
     },
     "scripts": {
-        "post-root-package-install": [
-          "bash -c 'sed -i \"s/project-name/${PWD##*/}/g\" .env.example docker-compose.yml sonar-project.properties docker/postgres/Dockerfile readme.md'",
-          "bash -c 'echo \"Please remember to change NAME and DESCRIPTION on your composer.json with the real project name\"'",
-          "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
+        "post-root-package-install": [],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
             "php composer/replace_namespaces.php",
-            "bash -c 'rm -rf composer'"
+            "bash -c 'rm -rf composer'",
+            "bash -c 'ln -s /proxies proxies",
+            "@build"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -92,12 +89,13 @@
         ],
         "build": [
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "php artisan key:generate",
+            "php artisan key:generate --ansi",
             "php artisan clear-compiled",
             "php artisan vendor:publish --tag=\"assets\"",
             "php artisan doctrine:clear:metadata:cache",
             "php artisan doctrine:generate:proxies",
-            "php artisan doctrine:schema:update --force"
+            "php artisan doctrine:schema:update --force",
+            "php artisan migrate"
         ],
         "stan": "php -d memory_limit=500M ./vendor/bin/phpstan analyse -l 3 -c phpstan.neon src app config resources tests",
         "unit": "./vendor/bin/phpunit",
