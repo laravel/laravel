@@ -37,17 +37,15 @@
         "nunomaduro/collision": "^3.0",
         "nunomaduro/larastan": "^0.5.2",
         "phpunit/phpunit": "^8.0",
-        "symfony/thanks": "^1.0"
+        "roave/security-advisories": "dev-master"
     },
     "suggest": {
-        "intervention/image":        "PHP image handling and manipulation library.",
+        "intervention/image": "PHP image handling and manipulation library.",
         "cviebrock/image-validator": "Extra Laravel validation rules for dealing with images.",
-        "dingo/api":                 "API development.",
-        "omnipay/omnipay":           "Payment gateway abstraction.",
+        "omnipay/omnipay": "Payment gateway abstraction.",
         "digbang/settings": "Dynamic settings, stored in the database. Settings the backoffice admin can alter",
         "digbang/money": "Money PHP bridge for Laravel",
-        "moneyphp/money":            "Work with money safer, easier, and fun!",
-        "beberlei/assert": "^2.6"
+        "moneyphp/money": "Work with money safer, easier, and fun!"
     },
     "autoload": {
         "psr-4": {
