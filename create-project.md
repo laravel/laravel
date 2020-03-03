@@ -16,3 +16,15 @@
 3. Commit and push the new files
 4. ...
 5. Profit
+
+## Installing an already created project
+1. Start the containers
+2. Access the PHP container and:
+> A. **RUN** `composer config -g github-oauth.github.com <token>`
+(To create the token go to: https://github.com/settings/tokens/new and set the **repo** permissions)
+
+> B. **RUN** `composer install`
+
+> C. **RUN** `ln -s /proxies proxies`
+
+> D. **RUN** `composer build`

@@ -2,10 +2,16 @@
 
 ## Installation
 1. Clone repository
-2. `composer install`
-3. `npm install` in node container
-4. `composer build` 
-5. `npm run dev` in node container for frontend dev server
+2. Start the containers
+2. Access the PHP container and:
+> A. **RUN** `composer config -g github-oauth.github.com <token>`
+(To create the token go to: https://github.com/settings/tokens/new and set the **repo** permissions)
+
+> B. **RUN** `composer install`
+
+> C. **RUN** `ln -s /proxies proxies`
+
+> D. **RUN** `composer build`
 
 ## Minio configuration
 1. ADD "127.0.0.1 s3" to your hosts file
@@ -20,7 +26,7 @@
 3. Enable Sentry on your .env file
 
 ## System Requirements
-* php: 7.2.x
+* php: 7.4.x
 * php ini configurations:
     * `upload_max_filesize = 100M`
     * `post_max_size = 100M`
@@ -73,7 +79,7 @@
     * zlib
 * Composer PHP
 * apache: 2.4.x / nginx
-* postgres: 9.6.x / 10.x
+* postgres: 11.x / 12.x
 * postgres extensions:
   * Unaccent Extension
 * redis
@@ -96,20 +102,18 @@
 ## Publish Assets
 1. `php artisan vendor:publish --provider "Digbang\\Backoffice\\BackofficeServiceProvider" --tag assets --force`
 
-
-## Folder Permissions
-Directories
+## SPECIAL DIRECTORIES
+Permissions
 ```
-// at the root of the project
+// at the root of the project (only on linux)
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
 ```
-Proxies
+
+Proxies (ensure the symlink exists...)
 ```
-// at the root of the project
-mkdir proxies
-chmod -R 755 proxies
-chown www-data:www-data proxies/
+// ... if not; inside of the PHP container run
+ln -s /proxies /proxies
 ```
 
 ## Repositories on Request
