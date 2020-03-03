@@ -1,6 +1,57 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.8.0...develop)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.0.0...master)
+
+
+## [v7.0.0 (2020-03-03)](https://github.com/laravel/laravel/compare/v6.18.0...v7.0.0)
+
+### Added
+- Add HandleCors middleware ([#5189](https://github.com/laravel/laravel/pull/5189), [0bec06c](https://github.com/laravel/laravel/commit/0bec06cd45a7f6eda0d52f78dd5ff767d94ed5cc))
+- Add new `view.expires` option ([#5209](https://github.com/laravel/laravel/pull/5209), [91dd1f6](https://github.com/laravel/laravel/commit/91dd1f61cdd3c7949593a4435dff8b77322761f2))
+- Add `links` option to filesystem config ([#5222](https://github.com/laravel/laravel/pull/5222))
+- Add Guzzle dependency ([c434eae](https://github.com/laravel/laravel/commit/c434eae43d673a709bb840f5f2e03b58da30682b), [705076f](https://github.com/laravel/laravel/commit/705076ffc28a834a1eb76b3550be2b6269a8fefb))
+- Add array mailer ([#5240](https://github.com/laravel/laravel/pull/5240))
+
+### Changed
+- Laravel 7 constraint ([054bb43](https://github.com/laravel/laravel/commit/054bb43038f4acb7f356dd668715225ffc2e55ba))
+- Implement new primary key syntax ([#5147](https://github.com/laravel/laravel/pull/5147))
+- Switch to Symfony 5 ([#5157](https://github.com/laravel/laravel/pull/5157))
+- Bumps `nunomaduro/collision` dependency to 4.1 ([#5221](https://github.com/laravel/laravel/pull/5221))
+- Utilize Authentication Middleware Contract ([#5181](https://github.com/laravel/laravel/pull/5181), [#5182](https://github.com/laravel/laravel/pull/5182))
+- Remove auth scaffolding ([b5bb91f](https://github.com/laravel/laravel/commit/b5bb91fea79a3bd5504cbcadfd4766f41f7d01ce), [13e4389](https://github.com/laravel/laravel/commit/13e43893ba2457c3e49898f0066a5ce8d7ea74f4), [3ee0065](https://github.com/laravel/laravel/commit/3ee0065bcd879b82ee42023165f8a8f71e893011))
+- Import facades ([4d565e6](https://github.com/laravel/laravel/commit/4d565e681cbf496e0cdfb58743d4ae8238cef15e))
+- Ignition v2 ([#5211](https://github.com/laravel/laravel/pull/5211))
+- Bumped defaults for Laravel 7 ([#5195](https://github.com/laravel/laravel/pull/5195))
+- Update mail config ([76d8227](https://github.com/laravel/laravel/commit/76d822768dcab14fa1ee1fd1f4a24065234860db), [61ec16f](https://github.com/laravel/laravel/commit/61ec16fe392967766b68d865ed10d56275a78718), [e43d454](https://github.com/laravel/laravel/commit/e43d4546a9c0bde49dae51fd6f4e2766674f1152), [130b8c8](https://github.com/laravel/laravel/commit/130b8c8bcb8f167e7013e7846004b2df3e405b72))
+- Remove hyphen on email ([ffc74ba](https://github.com/laravel/laravel/commit/ffc74ba143a7de4a89f2c3fd525a5621ca879e38))
+- Use `MAIL_MAILER` in test environment ([#5239](https://github.com/laravel/laravel/pull/5239))
+
+
+## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
+
+### Changed
+- Update cross-env and resolve-url-loader to the latest ([#5210](https://github.com/laravel/laravel/pull/5210), [#5216](https://github.com/laravel/laravel/pull/5216))
+- Bump fzaninotto/faker version to support PHP 7.4 ([#5218](https://github.com/laravel/laravel/pull/5218))
+- Remove redundant default attributes from `phpunit.xml` ([#5233](https://github.com/laravel/laravel/pull/5233))
+
+
+## [v6.12.0 (2020-01-14)](https://github.com/laravel/laravel/compare/v6.8.0...v6.12.0)
+
+### Added
+- Allow configurable emergency logger ([#5179](https://github.com/laravel/laravel/pull/5179))
+- Add `MAIL_FROM_ADDRESS` & `MAIL_FROM_NAME` to `.env` file ([#5180](https://github.com/laravel/laravel/pull/5180))
+- Add missing full stop for some validation messages ([#5205](https://github.com/laravel/laravel/pull/5205))
+
+### Changed
+- Use class name to be consistent with web middleware ([140d4d9](https://github.com/laravel/laravel/commit/140d4d9b0a4581cec046875361e87c2981b3f9fe))
+- Use file session driver again ([#5201](https://github.com/laravel/laravel/pull/5201))
+
+### Fixed
+- Correct exception handler doc ([#5187](https://github.com/laravel/laravel/pull/5187))
+- Fix types consistency in Redis database config ([#5191](https://github.com/laravel/laravel/pull/5191))
+
+### Security
+- Update laravel mix and sass loader ([#5203](https://github.com/laravel/laravel/pull/5203))
 
 
 ## [v6.8.0 (2019-12-16)](https://github.com/laravel/laravel/compare/v6.5.2...v6.8.0)
