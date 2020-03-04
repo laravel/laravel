@@ -64,21 +64,18 @@ module.exports = {
 			relaxed: 1.75,
 			loose: 2,
 		},
-		maxWidth: {
-			container: relative(1400),
-			copy: '35em',
-		},
 		transitionTimingFunction: easing,
 		zIndex,
 		extend: {
-			borderRadius: {
-				'1/2': '50%',
-			},
 			inset: (theme, { negative }) => ({
 				'1/2': '50%',
 				...widths,
 				...(negative(widths)),
 			}),
+			maxWidth: {
+				container: relative(1400),
+				copy: '35em',
+			},
 			padding: {
 				full: '100%',
 				logo: ratio(300, 87),
@@ -96,10 +93,11 @@ module.exports = {
 		},
 	},
 	variants: {},
-	plugins: [
-		require('tailwindcss-transitions')(),
-	],
 	corePlugins: {
 		container: false,
+		rotate: false,
+		scale: false,
+		skew: false,
+		translate: false,
 	},
 };
