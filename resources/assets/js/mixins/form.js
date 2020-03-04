@@ -21,7 +21,7 @@ export default {
 	},
 
 	computed: {
-		isSubmitEnabled() {
+		cIsSubmitEnabled() {
 			return (!this.$data.isSubmitting);
 		},
 	},
