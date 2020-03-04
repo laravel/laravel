@@ -67,6 +67,7 @@
 		"smooth-fade": [0.365, 0.005, 0.355, 1]
 	},
 	"z-indexes": [
+		"accessibility-skip-links",
 		"outdated-browser",
 		"site-header",
 		"site-content",
