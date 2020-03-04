@@ -1,12 +1,9 @@
-import {
-	watchViewport,
-	getViewportState,
-} from 'tornis/dist/tornis.es5';
 import debounce from 'lodash/debounce';
 import variables from '../../variables.json';
 
 const breakpoints = {};
 
+// TODO: convert to Object.fromEntries
 Object.keys(variables.breakpoints).forEach((name) => {
 	let value = variables.breakpoints[name];
 
@@ -19,39 +16,17 @@ Object.keys(variables.breakpoints).forEach((name) => {
 
 export default {
 	created() {
-		this.onDebouncedResize = debounce((...args) => {
-			this.onResize(...args);
-		}, 300);
+		this.onDebouncedResize = debounce(this.onResize, 300);
+	},
+
+	mounted() {
+		this.onResize();
+
+		window.addEventListener('resize', this.onDebouncedResize);
 	},
 
 	methods: {
-		watchViewport() {
-			let initial = true;
-
-			watchViewport(({ scroll, size }) => {
-				if (size.changed) {
-					if (initial) {
-						this.onResize(size);
-					} else {
-						this.onDebouncedResize(size);
-					}
-				}
-
-				if (scroll.changed || size.changed) {
-					this.onScroll(scroll);
-				}
-
-				initial = false;
-			});
-		},
-
-		getViewportState() {
-			return getViewportState();
-		},
-
 		onResize() {},
-
-		onScroll() {},
 
 		mq(name, extremum = 'min', property = 'width') {
 			if (!window.matchMedia) {

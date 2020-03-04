@@ -2,7 +2,7 @@ version: '3'
 services:
 
   web:
-    image: nginx:1.15
+    image: nginx:1.17
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
@@ -40,7 +40,7 @@ services:
       - 13306:3306
 
   build:
-    image: node:10
+    image: node:12
     volumes:
       - ../:/app:delegated
       - ~/.yarn/docker-cache/:/root/.yarn:cached

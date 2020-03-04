@@ -31,7 +31,11 @@
       "autoprefixer": {
         "cascade": false
       },
-      "cleanCss": {}
+      "cleanCss": {},
+      "purgeCssWhitelist": [],
+      "purgeCssWhitelistPatterns": [
+        "^e-trans-"
+      ]
     },
     "js": {
       "files": [
