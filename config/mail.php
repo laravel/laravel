@@ -51,15 +51,15 @@ return [
             'transport' => 'sendmail',
             'path' => '/usr/sbin/sendmail -bs',
         ],
-  
+
         'mailgun' => [
             'transport' => 'mailgun',
         ],
-        
+
         'postmark' => [
             'transport' => 'postmark',
         ],
-        
+
         'log' => [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),
