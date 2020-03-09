@@ -32,8 +32,8 @@
         "svg4everybody": "^2.1.9",
         "tailwindcss": "^1.2.0",
         "tailwindcss-transitions": "^2.1.0",
-        "vue": "^2.5.22",
-        "vue-template-compiler": "^2.5.22",
+        "vue": "^2.6.11",
+        "vue-template-compiler": "^2.6.11",
         "what-input": "^5.1.1"
     }
 }
