@@ -2,10 +2,8 @@ a {
 	@apply text-brand-red cursor-pointer underline;
 
 	&:hover {
-		@apply no-underline;
-	}
-
-	&:link {
-		-webkit-tap-highlight-color: transparent;
+		[data-whatintent=keyboard] & {
+			@apply no-underline;
+		}
 	}
 }
