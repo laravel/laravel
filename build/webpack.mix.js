@@ -36,7 +36,10 @@ if (js.lint) {
 // Typical setup
 mix
 	.options({
-		autoprefixer: css.autoprefixer,
+		autoprefixer: {
+			options: css.autoprefixer,
+			enabled: true,
+		},
 		cleanCss: css.cleanCss,
 		fileLoaderDirs: {
 			fonts: `${paths.compiled}/fonts`,

@@ -1,0 +1,121 @@
+<template>
+	<component
+		:is="cElement"
+		:class="[
+			'block',
+			{
+				'e-is-invalid': $props.errors,
+			},
+		]"
+	>
+		<e-label
+			v-if="$props.label"
+			element="span"
+			:text="$props.label"
+		/>
+
+		<slot
+			v-if="$slots.default"
+		/>
+
+		<component
+			:is="$props.element"
+			v-else
+			:type="cInputType"
+			:class="cInputClass"
+			:options="$props.options"
+			v-bind="$attrs"
+			@input="$emit('update', $event.target.value)"
+		/>
+
+		<error-text :errors="$props.errors" />
+	</component>
+</template>
+
+<style lang="scss">
+	.e-input {
+		@apply
+			block
+			w-full
+			p-4
+			bg-white
+			border
+			border-grey-500
+			rounded-none
+			text-black;
+
+		&:focus {
+			@apply border-grey-700;
+		}
+
+		&::placeholder {
+			@apply text-grey-500;
+		}
+	}
+</style>
+
+<script>
+	import ELabel from './Label';
+	import ESelect from './Select';
+	import ErrorText from '../ErrorText';
+
+	export default {
+		components: {
+			ELabel,
+			ESelect,
+			ErrorText,
+		},
+
+		inheritAttrs: false,
+
+		model: {
+			prop: 'value',
+			event: 'update',
+		},
+
+		props: {
+			element: {
+				type: String,
+				default: 'input',
+			},
+
+			label: {
+				type: String,
+				default: null,
+			},
+
+			errors: {
+				type: Array,
+				default: null,
+			},
+
+			options: {
+				type: [Array, Object],
+				default: null,
+			},
+		},
+
+		computed: {
+			cElement() {
+				return this.$props.label ? 'label' : 'div';
+			},
+
+			cInputType() {
+				return this.$attrs.type || (this.$props.element === 'input' ? 'text' : null);
+			},
+
+			cInputClass() {
+				const classes = {
+					'e-select': 'e-select',
+				};
+
+				return [
+					classes[this.$props.element] || 'e-input',
+					{
+						'font-system': this.$attrs.type === 'password',
+					},
+				];
+			},
+		},
+	};
+</script>
