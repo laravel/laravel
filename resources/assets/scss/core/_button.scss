@@ -1,5 +1,4 @@
-button,
-.e-button {
+button {
 	&:focus {
 		@apply outline-none;
 	}
@@ -16,12 +15,4 @@ button,
 		font-normal
 		leading-none
 		no-underline;
-	-webkit-tap-highlight-color: transparent;
-
-	&[disabled] {
-		&,
-		&:focus {
-			@apply cursor-not-allowed opacity-50;
-		}
-	}
 }
