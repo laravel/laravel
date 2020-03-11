@@ -13,6 +13,8 @@
 	@section('app:before')
 		@include('layouts/partials/tracking', ['body' => true])
 
+		@include('layouts/partials/accessibility-skip-links')
+
 		@include('layouts/partials/outdated-browser')
 	@show
 

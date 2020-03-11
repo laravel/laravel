@@ -3,7 +3,7 @@
 @section('app')
 	@include('layouts/partials/site-header')
 
-	<main class="relative z-site-content">
+	<main class="relative z-site-content" id="site-content">
 		<div class="e-container">
 			@yield('content')
 		</div>
