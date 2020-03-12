@@ -132,6 +132,7 @@
 													:attributes='@json($preview['attributes'])'
 													:background-color='@json($preview['bg'] ?? null)'
 													:component='@json($preview['component'] ?? null)'
+													:autoload='@json($preview['autoload'] ?? true)'
 												>
 													@if ($preview['heading'] ?? false)
 														<h4 class="mt-5 text-lg text-gray-900 font-semibold">

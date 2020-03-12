@@ -183,6 +183,7 @@ return [
 								'name' => 'breadcrumb',
 								'type' => 'vue',
 							],
+							'autoload' => false,
 							'attributes' => [
 								[
 									'pages' => [
@@ -212,6 +213,7 @@ return [
 								'name' => 'pagination',
 								'type' => 'vue',
 							],
+							'autoload' => false,
 							'container' => true,
 							'attributes' => [
 								[
@@ -282,6 +284,7 @@ return [
 								'name' => 'placeholder',
 								'type' => 'blade',
 							],
+							'autoload' => false,
 							'stack' => true,
 							'style' => 'width: 200px',
 							'attributes' => [

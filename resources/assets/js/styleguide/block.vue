@@ -16,11 +16,14 @@
 
 				<button
 					v-else
-					class="flex justify-center w-full h-full focus:outline-none"
+					class="flex justify-center items-center w-full h-full p-6 focus:outline-none"
 					:style="{ height: `${this.$props.minHeight}px` }"
 					@click="loadIframe"
 				>
-					<icon class="block text-5xl text-gray-500" name="play" />
+					<icon
+						class="block text-5xl text-gray-500"
+						:name="cLoadIcon"
+					/>
 				</button>
 
 				<div class="absolute bottom-0 right-0 mb-1 mr-1">
@@ -95,6 +98,8 @@
 				type: String,
 				required: true,
 			},
+
+			autoload: Boolean,
 		},
 
 		data() {
@@ -112,14 +117,22 @@
 			},
 
 			cObserverOptions() {
-				return {
-					callback: this.visibilityChanged,
-					throttle: 500,
-				};
+				if (this.$props.autoload) {
+					return {
+						callback: this.visibilityChanged,
+						throttle: 500,
+					};
+				}
+
+				return null;
 			},
 
 			cUrl() {
 				return `block?section=${this.$props.section}&block=${this.$props.block}&preview=${this.$props.preview}`;
+			},
+
+			cLoadIcon() {
+				return this.$props.autoload ? 'code' : 'play';
 			},
 		},
 
