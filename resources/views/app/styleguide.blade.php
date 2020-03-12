@@ -47,7 +47,7 @@
 @endsection
 
 @section('app')
-	<div class="sg-preview sg-preview--{{ $model['stack'] ?? false ? 'vertical' : 'horizontal' }}" style="{{ $model['style'] ?? '' }}">
+	<div class="sg-preview sg-preview--{{ $model['stack'] ?? true ? 'vertical' : 'horizontal' }}" style="{{ $model['style'] ?? '' }}">
 		@foreach ($model['attributes'] as $attributes)
 			<div class="sg-preview__item">
 				@if ($model['component'] ?? false)

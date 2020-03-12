@@ -54,6 +54,7 @@ return [
 									],
 								],
 							],
+							'stack' => false,
 						],
 						'greyscale' => [
 							'heading' => 'Greyscale',
@@ -70,6 +71,7 @@ return [
 									],
 								],
 							],
+							'stack' => false,
 						],
 						'other' => [
 							'heading' => 'Other',
@@ -83,6 +85,7 @@ return [
 									],
 								],
 							],
+							'stack' => false,
 						],
 					],
 				],
@@ -103,6 +106,7 @@ return [
 									'name' => 'logo',
 								],
 							],
+							'stack' => false,
 						],
 						'standard' => [
 							'heading' => 'Standard',
@@ -126,6 +130,7 @@ return [
 									'name' => 'chevron-right',
 								],
 							],
+							'stack' => false,
 						],
 					],
 				],
@@ -133,7 +138,8 @@ return [
 					'heading' => 'Table',
 					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'e-table',
 								'type' => 'vue',
 							],
@@ -172,7 +178,8 @@ return [
 				'breadcrumb' => [
 					'heading' => 'Breadcrumb',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'breadcrumb',
 								'type' => 'vue',
 							],
@@ -200,7 +207,8 @@ return [
 				'pagination' => [
 					'heading' => 'Pagination',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'pagination',
 								'type' => 'vue',
 							],
