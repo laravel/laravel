@@ -7,7 +7,8 @@
 		<component
 			:is="field.component || 'input-wrapper'"
 			v-for="(field, index) in $props.fields"
-			:key="index"
+			:key="`${field.name}-${index}`"
+			ref="fields"
 			v-model="$data.form[field.name]"
 			v-bind="field"
 			:errors="$data.errors[field.name]"

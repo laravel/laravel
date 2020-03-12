@@ -1,12 +1,7 @@
 <template>
 	<div>
 		<label
-			:class="[
-				'flex items-start',
-				{
-					'e-is-invalid': $props.errors,
-				},
-			]"
+			class="flex items-start"
 			:disabled="$attrs.disabled"
 		>
 			<slot

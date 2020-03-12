@@ -1,12 +1,7 @@
 <template>
 	<component
 		:is="cElement"
-		:class="[
-			'block',
-			{
-				'e-is-invalid': $props.errors,
-			},
-		]"
+		class="block"
 	>
 		<e-label
 			v-if="$props.label"

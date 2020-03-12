@@ -75,9 +75,7 @@ export default {
 			if (!this.$data.errors) return;
 
 			this.$nextTick(() => {
-				const $firstError = this.$el.querySelector('.e-is-invalid');
-
-				if (!$firstError) return;
+				const $firstError = this.$refs.fields.filter(el => el.errors)[0].$el;
 
 				$firstError.scrollIntoView({
 					behavior: 'smooth',
