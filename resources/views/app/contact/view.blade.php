@@ -2,9 +2,6 @@
 
 @section('content')
 
-	<e-form
-		action="{{ $model['action'] }}"
-		:fields="{{ json_encode($model['fields'] ?? []) }}"
-	></e-form>
+	<e-form v-bind='@json($model)'></e-form>
 
 @endsection
