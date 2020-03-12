@@ -212,6 +212,7 @@ return [
 								'name' => 'pagination',
 								'type' => 'vue',
 							],
+							'container' => true,
 							'attributes' => [
 								[
 									'pages' => [
