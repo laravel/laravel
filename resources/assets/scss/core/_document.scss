@@ -11,7 +11,7 @@ body {
 	@apply outline-none;
 
 	[data-whatintent=keyboard] & {
-		@apply shadow-outline;
+		@apply shadow-focus;
 	}
 }
 

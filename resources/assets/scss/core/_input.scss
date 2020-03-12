@@ -1,0 +1,23 @@
+.e-input {
+	@apply
+		block
+		w-full
+		p-4
+		bg-white
+		border
+		border-grey-500
+		rounded-none
+		text-black;
+
+	&:focus {
+		@apply border-grey-700;
+	}
+
+	&::placeholder {
+		@apply text-grey-500;
+	}
+}
+
+select::-ms-expand {
+	display: none;
+}

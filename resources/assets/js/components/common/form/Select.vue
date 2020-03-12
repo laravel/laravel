@@ -32,12 +32,6 @@
 	</div>
 </template>
 
-<style lang="scss">
-	select::-ms-expand {
-		display: none;
-	}
-</style>
-
 <script>
 	export default {
 		inheritAttrs: false,

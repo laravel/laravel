@@ -20,9 +20,18 @@
 				:checked="cChecked"
 				v-bind="$attrs"
 				@change="updateInput"
+				@focus="onWhatFocus"
+				@blur="onWhatBlur"
 			>
 
-			<div class="flex-shrink-0 w-5 mr-2 py-1px">
+			<div
+				:class="[
+					'flex-shrink-0 w-5 mr-2 py-1px',
+					{
+						'shadow-focus': hasKeyboardFocus,
+					},
+				]"
+			>
 				<placeholder class="my-1px pt-full">
 					<svg
 						class="w-full"
@@ -67,19 +76,19 @@
 	</div>
 </template>
 
-<style lang="scss">
-	[data-whatintent=keyboard] .e-checkbox:focus + * {
-		@apply shadow-focus;
-	}
-</style>
-
 <script>
 	import ErrorText from '../ErrorText';
+
+	import WhatFocus from '../../../mixins/what-focus';
 
 	export default {
 		components: {
 			ErrorText,
 		},
+
+		mixins: [
+			WhatFocus,
+		],
 
 		inheritAttrs: false,
 

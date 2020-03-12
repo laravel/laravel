@@ -32,28 +32,6 @@
 	</component>
 </template>
 
-<style lang="scss">
-	.e-input {
-		@apply
-			block
-			w-full
-			p-4
-			bg-white
-			border
-			border-grey-500
-			rounded-none
-			text-black;
-
-		&:focus {
-			@apply border-grey-700;
-		}
-
-		&::placeholder {
-			@apply text-grey-500;
-		}
-	}
-</style>
-
 <script>
 	import ELabel from './Label';
 	import ESelect from './Select';
