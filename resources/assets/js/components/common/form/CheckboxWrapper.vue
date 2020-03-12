@@ -22,7 +22,7 @@
 				@change="updateInput"
 			>
 
-			<div class="flex-shrink-0 w-5 text-gold mr-2 py-1px">
+			<div class="flex-shrink-0 w-5 mr-2 py-1px">
 				<placeholder class="my-1px pt-full">
 					<svg
 						class="w-full"
