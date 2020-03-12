@@ -44,7 +44,7 @@
 						stroke-linejoin="round"
 					>
 						<path
-							v-if="cChecked"
+							v-if="$data.checked"
 							d="M 11.5 20 L 17.5 27 L 28.5 16"
 						/>
 
@@ -93,8 +93,8 @@
 		inheritAttrs: false,
 
 		model: {
-			prop: 'modelValue',
-			event: 'change',
+			prop: 'value',
+			event: 'input',
 		},
 
 		props: {
@@ -108,24 +108,9 @@
 				default: 'checkbox',
 			},
 
-			value: {
-				type: String,
-				default: null,
-			},
-
-			modelValue: {
-				type: [String, Boolean],
-				default: null,
-			},
-
 			trueValue: {
 				type: [String, Boolean],
 				default: true,
-			},
-
-			falseValue: {
-				type: [String, Boolean],
-				default: false,
 			},
 
 			errors: {
@@ -134,33 +119,19 @@
 			},
 		},
 
-		computed: {
-			cChecked() {
-				if (this.modelValue instanceof Array) {
-					return this.modelValue.includes(this.value);
-				}
-
-				return this.modelValue === this.trueValue;
-			},
+		data() {
+			return {
+				checked: null,
+			};
 		},
 
 		methods: {
 			updateInput(event) {
 				const isChecked = event.target.checked;
 
-				if (this.modelValue instanceof Array) {
-					const newValue = [...this.modelValue];
+				this.$data.checked = isChecked;
 
-					if (isChecked) {
-						newValue.push(this.value);
-					} else {
-						newValue.splice(newValue.indexOf(this.value), 1);
-					}
-
-					this.$emit('change', newValue);
-				} else {
-					this.$emit('change', isChecked ? this.trueValue : this.falseValue);
-				}
+				this.$emit('input', isChecked ? this.trueValue : false);
 			},
 		},
 	};

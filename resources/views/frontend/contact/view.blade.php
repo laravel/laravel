@@ -63,7 +63,6 @@
 				'name' => 'newsletter',
 				'label' => trans('global.form.labels.newsletter'),
 				// 'trueValue' => 'true value',
-				// 'falseValue' => 'false value',
 			],
 			[
 				'component' => 'checkbox-wrapper',

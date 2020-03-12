@@ -5,7 +5,7 @@
 			class="e-input pr-12 appearance-none"
 			v-bind="$attrs"
 			v-on="$listeners"
-			@change="$emit('update', $event.target.value)"
+			@change="$emit('input', $event.target.value)"
 		>
 			<option
 				:value="null"

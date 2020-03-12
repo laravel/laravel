@@ -25,7 +25,7 @@
 			:class="cInputClass"
 			:options="$props.options"
 			v-bind="$attrs"
-			@input="$emit('update', $event.target.value)"
+			@input="$emit('input', $event.target.value)"
 		/>
 
 		<error-text :errors="$props.errors" />
@@ -48,7 +48,7 @@
 
 		model: {
 			prop: 'value',
-			event: 'update',
+			event: 'input',
 		},
 
 		props: {
