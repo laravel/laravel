@@ -52,15 +52,15 @@
 		<nav class="sticky left-0 top-0 w-full overflow-hidden bg-accent text-white z-20">
 			<div class="container mx-auto px-4">
 				<div class="flex items-center h-12">
-					<ul class="flex -ml-4 font-semibold">
+					<ul class="flex -ml-4 font-semibold overflow-x-scroll">
 						@foreach ($model['sections'] as $slug => $section)
-							<li class="ml-4">
+							<li class="ml-4 flex-shrink-0">
 								<a class="hover:underline" href="#{{ $slug }}">{{ $section['heading'] }}</a>
 							</li>
 						@endforeach
 					</ul>
 
-					<div class="ml-auto">
+					<div class="ml-auto pl-4">
 						<ul class="flex">
 							<li>
 								<button
@@ -98,9 +98,9 @@
 								<div class="bg-white pointer-events-auto">
 									<div class="container mx-auto px-4">
 										<div class="flex items-center h-12 border-b">
-											<ul class="flex -ml-4 text-accent font-semibold">
+											<ul class="flex -ml-4 text-accent font-semibold overflow-x-scroll">
 												@foreach ($section['blocks'] as $blockSlug => $block)
-													<li class="ml-4">
+													<li class="ml-4 flex-shrink-0">
 														<a class="hover:underline" href="#{{ $blockSlug }}">{{ $block['heading'] }}</a>
 													</li>
 												@endforeach
