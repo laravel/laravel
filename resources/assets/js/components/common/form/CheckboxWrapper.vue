@@ -17,7 +17,7 @@
 				v-else
 				:type="$props.type"
 				class="e-checkbox sr-only"
-				:checked="cChecked"
+				:checked="$data.checked"
 				v-bind="$attrs"
 				@change="updateInput"
 				@focus="onWhatFocus"
