@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
-    public function report(Exception $exception)
+    public function report(\Throwable $exception)
     {
         if (config('logging.sentry_enabled') && app()->bound('sentry')) {
             app('sentry')->captureException($exception);
@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
      *
      * @throws Exception
      */
-    public function render($request, Exception $exception)
+    public function render($request, \Throwable $exception)
     {
         if ($exception instanceof DomainException) {
             $exception = new DomainExceptionDecorator($exception);
