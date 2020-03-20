@@ -18,7 +18,7 @@
 		@include('layouts/partials/outdated-browser')
 	@show
 
-	<div id="app" class="flex flex-col relative w-full min-h-full" v-cloak>
+	<div id="app" v-cloak>
 		@yield('app')
 	</div>
 

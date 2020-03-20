@@ -1,10 +1,10 @@
 html {
-	@apply h-full min-h-full overflow-y-scroll text-full;
+	@apply text-full;
 	-webkit-text-size-adjust: none;
 }
 
 body {
-	@apply flex min-h-full bg-white text-black font-body text-base leading-normal;
+	@apply bg-white text-black font-body text-base leading-normal;
 }
 
 *:focus {
