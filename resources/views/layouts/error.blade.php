@@ -1,7 +1,7 @@
 @extends('layouts/base')
 
 @section('app')
-	<main class="flex items-center w-full min-h-screen p-3 text-center">
+	<main class="flex items-center min-h-screen p-3 text-center">
 		<div class="e-copy m-auto max-w-copy">
 			@yield('content')
 		</div>
