@@ -1,9 +1,29 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.0.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.3.0...master)
 
 
-## [v7.0.0 (2020-03-03)](https://github.com/laravel/laravel/compare/v6.18.0...v7.0.0)
+## [v7.3.0 (2020-03-24)](https://github.com/laravel/laravel/compare/v7.0.0...v7.3.0)
+
+### Added
+- Add serialize option to array cache config ([#5244](https://github.com/laravel/laravel/pull/5244))
+- Add Mailgun and Postmark mailer ([#5243](https://github.com/laravel/laravel/pull/5243))
+- Add new SQS queue suffix option ([#5252](https://github.com/laravel/laravel/pull/5252))
+- Allow configuring the timeout for the smtp driver ([#5262](https://github.com/laravel/laravel/pull/5262))
+
+### Changed
+- Cleanup session config ([#5261](https://github.com/laravel/laravel/pull/5261))
+
+### Fixed
+- Ensure that `app.debug` is a bool ([5ddbfb8](https://github.com/laravel/laravel/commit/5ddbfb845439fcd5a46c23530b8774421a931760))
+- Fix S3 endpoint url reference ([#5267](https://github.com/laravel/laravel/pull/5267))
+- Update default CORS config ([#5259](https://github.com/laravel/laravel/pull/5259))
+
+### Removed
+- Remove `view.expires` config entry ([641fcfb](https://github.com/laravel/laravel/commit/641fcfb60aa47266c5b4767830dc45bad00c561c))
+
+
+## [v7.0.0 (2020-03-03)](https://github.com/laravel/laravel/compare/v6.18.3...v7.0.0)
 
 ### Added
 - Add HandleCors middleware ([#5189](https://github.com/laravel/laravel/pull/5189), [0bec06c](https://github.com/laravel/laravel/commit/0bec06cd45a7f6eda0d52f78dd5ff767d94ed5cc))
@@ -25,6 +45,13 @@
 - Update mail config ([76d8227](https://github.com/laravel/laravel/commit/76d822768dcab14fa1ee1fd1f4a24065234860db), [61ec16f](https://github.com/laravel/laravel/commit/61ec16fe392967766b68d865ed10d56275a78718), [e43d454](https://github.com/laravel/laravel/commit/e43d4546a9c0bde49dae51fd6f4e2766674f1152), [130b8c8](https://github.com/laravel/laravel/commit/130b8c8bcb8f167e7013e7846004b2df3e405b72))
 - Remove hyphen on email ([ffc74ba](https://github.com/laravel/laravel/commit/ffc74ba143a7de4a89f2c3fd525a5621ca879e38))
 - Use `MAIL_MAILER` in test environment ([#5239](https://github.com/laravel/laravel/pull/5239))
+
+
+## [v6.18.3 (2020-03-24)](https://github.com/laravel/laravel/compare/v6.18.0...v6.18.3)
+
+### Fixed
+- Ensure that `app.debug` is a bool ([5ddbfb8](https://github.com/laravel/laravel/commit/5ddbfb845439fcd5a46c23530b8774421a931760))
+- Fix S3 endpoint url reference ([#5267](https://github.com/laravel/laravel/pull/5267))
 
 
 ## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
