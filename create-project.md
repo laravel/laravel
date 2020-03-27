@@ -3,7 +3,7 @@
 ## Creation and first commit
 1. Create the new repo on github
 2. Clone the new repo
-3. **RUN** `docker run -it --rm -v $(pwd -W &> /dev/null && pwd -W || pwd):/usr/src/myapp -w="/usr/src/<PROJECT-NAME>" digbang/php-dev:7.4 bash`
+3. **RUN** `docker run -it --rm -v $(pwd -W &> /dev/null && pwd -W || pwd):/usr/src/<PROJECT-NAME> -w="/usr/src/<PROJECT-NAME>" digbang/php-dev:7.4 bash`
 
 > Please, change <PROJECT-NAME> with the slug of the namespace you want for your project. This is important, as the composer project creation will rename and rewrite some files using that name.
 
