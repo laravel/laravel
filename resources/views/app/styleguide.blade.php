@@ -47,21 +47,27 @@
 @endsection
 
 @section('app')
-	<div class="sg-preview sg-preview--{{ $model['stack'] ?? false ? 'vertical' : 'horizontal' }}" style="{{ $model['style'] ?? '' }}">
+	<div class="sg-preview sg-preview--{{ $model['stack'] ?? true ? 'vertical' : 'horizontal' }}" style="{{ $model['style'] ?? '' }}">
 		@foreach ($model['attributes'] as $attributes)
 			<div class="sg-preview__item">
-				@if ($model['component'] ?? false)
-					@if ($model['component']['type'] === 'vue')
-						<component
-							is="{{ $model['component']['name'] }}"
-							v-bind='@json($attributes)'
-						></component>
+				@if ($model['container'] ?? false)
+					<div class="e-container">
+				@endif
+					@if ($model['component'] ?? false)
+						@if ($model['component']['type'] === 'vue')
+							<component
+								is="{{ $model['component']['name'] }}"
+								v-bind='@json($attributes)'
+							></component>
+						@else
+							@component('components/' . $model['component']['name'], $attributes)
+							@endcomponent
+						@endif
 					@else
-						@component('components/' . $model['component']['name'], $attributes)
-						@endcomponent
+						@include('frontend/styleguide/' . $model['partial'], $attributes)
 					@endif
-				@else
-					@include('frontend/styleguide/' . $model['partial'], $attributes)
+				@if ($model['container'] ?? false)
+					</div>
 				@endif
 			</div>
 		@endforeach

@@ -8,12 +8,11 @@
 		"xl": 1248
 	},
 	"colors": {
-	    "inherit": "inherit",
-	    "transparent": "transparent",
 	    "brand": {
 	        "red": "#ff585d"
 	    },
 	    "black": "#000",
+	    "white": "#fff",
 	    "grey": {
 	        "100": "#fafafa",
 	        "200": "#eee",
@@ -25,7 +24,6 @@
 	        "800": "#222",
 	        "900": "#111"
 	    },
-	    "white": "#fff",
 	    "blue": "#00f",
 	    "green": "#24b35d",
 	    "red": "#f50023",
@@ -36,7 +34,9 @@
 	        "pinterest": "#cb2027",
 	        "linkedin": "#007bb5",
 	        "instagram": "#8a3ab9"
-	    }
+	    },
+	    "inherit": "inherit",
+	    "transparent": "transparent"
 	},
 	"columns": 24,
 	"easing": {

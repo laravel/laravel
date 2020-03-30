@@ -1,5 +1,35 @@
 <?php
 
+// colours
+$variables = file_get_contents('../resources/assets/variables.json');
+$variablesObj = json_decode($variables);
+$keys = array_keys((array)$variablesObj->colors);
+$colorsArr = [];
+
+foreach ($variablesObj->colors as $key => $colors) {
+	if (gettype($colors) === 'object') {
+		foreach (array_keys((array)$colors) as $colorKey) {
+			array_push($colorsArr, $key . '-' . $colorKey);
+		}
+	} else {
+		array_push($colorsArr, $key);
+	}
+}
+
+// icons
+function icon($file) {
+	return str_replace('.svg', '', basename($file));
+}
+
+$iconFiles = glob('../resources/assets/sprite/*.svg');
+$icons = [];
+
+foreach ($iconFiles as $icon) {
+	array_push($icons, [
+		'name' => str_replace('.svg', '', basename($icon)),
+	]);
+}
+
 return [
 	'meta' => [
 		'title' => 'Styleguide',
@@ -41,47 +71,13 @@ return [
 				],
 				'colour' => [
 					'heading' => 'Colours',
-					'copy' => 'Culpa consequat incididunt ea id ad in labore nostrud. Sunt enim eu laboris laborum qui fugiat elit consectetur Lorem mollit adipisicing velit.',
 					'previews' => [
-						'brand' => [
-							'heading' => 'Brand',
+						[
 							'partial' => 'foundation/colours',
 							'attributes' => [
 								[
-									'colours' => [
-										'#ff585d',
-										'#fe0',
-									],
-								],
-							],
-						],
-						'greyscale' => [
-							'heading' => 'Greyscale',
-							'partial' => 'foundation/colours',
-							'attributes' => [
-								[
-									'colours' => [
-										'#1a1a1a',
-										'#444',
-										'#888',
-										'#ddd',
-										'#fafafa',
-										'#fff',
-									],
-								],
-							],
-						],
-						'other' => [
-							'heading' => 'Other',
-							'partial' => 'foundation/colours',
-							'attributes' => [
-								[
-									'colours' => [
-										'#f50023',
-										'#24b35d',
-										'#4D90FE',
-									],
-								],
+									'colours' => $colorsArr,
+								]
 							],
 						],
 					],
@@ -90,42 +86,14 @@ return [
 					'heading' => 'Icons',
 					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
 					'previews' => [
-						'logo' => [
-							'heading' => 'Logo',
-							'copy' => 'Ad do voluptate ipsum commodo nulla irure exercitation. Occaecat ullamco veniam velit non elit nisi deserunt ullamco. Eu sit excepteur et esse nulla voluptate laboris do.',
-							'component' => [
-								'name' => 'icon',
-								'type' => 'vue',
-							],
-							'style' => 'font-size: 200px; line-height: 1',
-							'attributes' => [
-								[
-									'name' => 'logo',
-								],
-							],
-						],
-						'standard' => [
-							'heading' => 'Standard',
-							'copy' => 'Ad do voluptate ipsum commodo nulla irure exercitation. Occaecat ullamco veniam velit non elit nisi deserunt ullamco. Eu sit excepteur et esse nulla voluptate laboris do.',
+						[
 							'component' => [
 								'name' => 'icon',
 								'type' => 'vue',
 							],
 							'style' => 'font-size: 50px; line-height: 1',
-							'attributes' => [
-								[
-									'name' => 'chevron-up',
-								],
-								[
-									'name' => 'chevron-down',
-								],
-								[
-									'name' => 'chevron-left',
-								],
-								[
-									'name' => 'chevron-right',
-								],
-							],
+							'attributes' => $icons,
+							'stack' => false,
 						],
 					],
 				],
@@ -133,7 +101,8 @@ return [
 					'heading' => 'Table',
 					'copy' => 'Est commodo labore do eiusmod ea aute ea exercitation. Et quis ea aliqua culpa cupidatat pariatur sunt. Eu eiusmod dolor ut duis ad.',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'e-table',
 								'type' => 'vue',
 							],
@@ -172,10 +141,12 @@ return [
 				'breadcrumb' => [
 					'heading' => 'Breadcrumb',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'breadcrumb',
 								'type' => 'vue',
 							],
+							'autoload' => false,
 							'attributes' => [
 								[
 									'pages' => [
@@ -200,10 +171,13 @@ return [
 				'pagination' => [
 					'heading' => 'Pagination',
 					'previews' => [
-						['component' => [
+						[
+							'component' => [
 								'name' => 'pagination',
 								'type' => 'vue',
 							],
+							'autoload' => false,
+							'container' => true,
 							'attributes' => [
 								[
 									'pages' => [
@@ -273,6 +247,7 @@ return [
 								'name' => 'placeholder',
 								'type' => 'blade',
 							],
+							'autoload' => false,
 							'stack' => true,
 							'style' => 'width: 200px',
 							'attributes' => [
