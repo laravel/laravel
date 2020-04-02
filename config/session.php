@@ -109,7 +109,7 @@ return [
     | rid of old sessions from storage. Here are the chances that it will
     | happen on a given request. By default, the odds are 0 out of 100.
     |
-    | This option can use excessive CPU if you have too many sessions files.
+    | This option can use excessive CPU if you have too many session files.
     |
     */
 
