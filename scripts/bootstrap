@@ -130,7 +130,7 @@ fi
 export $(grep APP_KEY .env)
 if [ -z "$APP_KEY" ]; then
     echo -e "--> "$COLOUR_GREEN"Application initial setup"$COLOUR_RESET
-    echo -e $COLOUR_RED" Encryption key not generated"$COLOUR_RESET
+    echo -e $COLOUR_RED"Encryption key not generated"$COLOUR_RESET
     echo "Generating encryption key"
 
     ./scripts/console key:generate
@@ -141,8 +141,8 @@ fi
 # Generate frontend assets if they don't exist
 FILE_MIX_MANIFEST=public/mix-manifest.json
 if [ ! -f "$FILE_MIX_MANIFEST" ]; then
-    echo -e "--> "$COLOUR_GREEN"Frontend init"$COLOUR_RESET
-    echo -e $COLOUR_RED"Frontend assets not compilied!"$COLOUR_RESET
+    echo -e "--> "$COLOUR_GREEN"Frontend initial setup"$COLOUR_RESET
+    echo -e $COLOUR_RED"Frontend assets not compilied"$COLOUR_RESET
     echo "Compiling frontend assets"
 
     docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run development --display=errors-only --no-progress
