@@ -1,17 +1,12 @@
 <?php
 
 // colours
-$variables = file_get_contents('../resources/assets/variables.json');
-$variablesObj = json_decode($variables);
-$keys = array_keys((array)$variablesObj->colors);
+$variables = file_get_contents(resource_path('assets/variables.json'));
+$variablesArray = json_decode($variables, JSON_OBJECT_AS_ARRAY);
+$keys = array_keys((array)$variablesArray['colors']);
 $colorsArr = [];
-
-foreach ($variablesObj->colors as $key => $colors) {
-	if (gettype($colors) === 'object') {
-		foreach (array_keys((array)$colors) as $colorKey) {
-			array_push($colorsArr, $key . '-' . $colorKey);
-		}
-	} else {
+if (isset($variablesArray['colors']) && is_array($variablesArray['colors'])) {
+	foreach ($variablesArray['colors'] as $key => $colors) {
 		array_push($colorsArr, $key);
 	}
 }
