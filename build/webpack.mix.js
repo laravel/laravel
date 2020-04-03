@@ -44,6 +44,7 @@ mix
 		},
 		processCssUrls: false,
 		postCss: postCssPlugins,
+		clearConsole: !(process.env.NO_CLI_FLUSH),
 	})
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest)
