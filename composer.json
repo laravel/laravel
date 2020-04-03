@@ -1,12 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "engageinteractive/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
-    "license": "MIT",
+    "description": "",
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.2",
@@ -20,9 +15,9 @@
     "require-dev": {
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
-        "nunomaduro/larastan": "^0.4.0",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.1",
+        "nunomaduro/larastan": "^0.5.5",
         "phpunit/phpunit": "^8.5"
     },
     "config": {
