@@ -119,6 +119,8 @@ if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   exitWithMessageOnError "Downloading Composer failed"
   $PHP composer-setup.php
   exitWithMessageOnError "Installing Composer failed"
+  mv composer.phar $DEPLOYMENT_TARGET
+  exitWithMessageOnError "Moving composer.phar failed"
   $PHP -r 'unlink("composer-setup.php");'
   exitWithMessageOnError "Deleting composer installation file failed"
 fi
