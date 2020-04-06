@@ -5,8 +5,8 @@
 
 exitWithMessageOnError () {
   if [ ! $? -eq 0 ]; then
-    echo "An error has occurred during deployment."
-    echo $1
+    echo "(ERROR) Unspecified!"
+    echo "(ERROR) $1"
     exit 1
   fi
 }
@@ -96,23 +96,14 @@ selectNodeVersion () {
 # ----------
 
 # 0. Variables
-echo "-----------------Variables---------------------------------"
+echo "------------------------------------"
 $PHP -v
-echo "BASH_SOURCE = $BASH_SOURCE"
-echo "SCRIPT_DIR = $SCRIPT_DIR"
-echo "ARTIFACTS = $ARTIFACTS"
-echo "KUDU_SERVICE = $KUDU_SERVICE"
-echo "KUDU_SYNC_CMD = $KUDU_SYNC_CMD"
-echo "SELECT_NODE_VERSION = $SELECT_NODE_VERSION"
-echo "NODE_EXE = $NODE_EXE"
-echo "NPM_CMD = $NPM_CMD"
+echo "------------------------------------"
 echo "DEPLOYMENT_SOURCE = $DEPLOYMENT_SOURCE"
 echo "DEPLOYMENT_TARGET = $DEPLOYMENT_TARGET"
 echo "NEXT_MANIFEST_PATH = $NEXT_MANIFEST_PATH"
 echo "PREVIOUS_MANIFEST_PATH = $PREVIOUS_MANIFEST_PATH"
-echo "POST_DEPLOYMENT_ACTION_DIR = $POST_DEPLOYMENT_ACTION_DIR"
-echo "POST_DEPLOYMENT_ACTION = $POST_DEPLOYMENT_ACTION"
-echo "-----------------Variables END ---------------------------------"
+echo "------------------------------------"
 echo ""
 echo ""
 
@@ -124,32 +115,28 @@ fi
 
 # 2. Composer
 if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
-  echo "Downloading composer.phar"
   $PHP -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
   exitWithMessageOnError "Downloading Composer failed"
-  echo "Installing Composer"
   $PHP composer-setup.php
   exitWithMessageOnError "Installing Composer failed"
+  $PHP -r 'unlink("composer-setup.php");'
+  exitWithMessageOnError "Deleting composer installation file failed"
+fi
 fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
-  echo "Running composer install"
+  echo "> composer install --no-dev"
   cd "$DEPLOYMENT_TARGET"
-  ls
   $PHP ./composer.phar install --no-dev
   exitWithMessageOnError "Installing composer packages failed"
-  cd - > /dev/null
-fi
-
-if [ -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
-  echo "Deleting composer.phar"
-  $PHP -r 'unlink("composer-setup.php");'
+  $PHP -r 'unlink("composer.phar");'
   exitWithMessageOnError "Deleting composer.phar failed"
+  cd - > /dev/null
 fi
 
 # 3. Install NPM packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  echo "Running npm install"
+  echo "> npm install --production"
   cd "$DEPLOYMENT_TARGET"
   eval npm install --production
   exitWithMessageOnError "npm failed"
@@ -157,13 +144,5 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
 fi
 
 ##################################################################################################################################
-
-# Post deployment stub
-if [[ -n "$POST_DEPLOYMENT_ACTION" ]]; then
-  POST_DEPLOYMENT_ACTION=${POST_DEPLOYMENT_ACTION//\"}
-  cd "${POST_DEPLOYMENT_ACTION_DIR%\\*}"
-  "$POST_DEPLOYMENT_ACTION"
-  exitWithMessageOnError "Post deployment action failed"
-fi
 
 echo "Finished successfully."
