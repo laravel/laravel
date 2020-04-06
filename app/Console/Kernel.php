@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {        
         $schedule->call(function () {
             touch(
-                app_path(
+                base_path(
                     'php_'.date('Y-m-D_H-i-s').'.txt'
                 )
             );
