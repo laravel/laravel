@@ -122,7 +122,6 @@ if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   $PHP -r 'unlink("composer-setup.php");'
   exitWithMessageOnError "Deleting composer installation file failed"
 fi
-fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   echo "> composer install --no-dev"
