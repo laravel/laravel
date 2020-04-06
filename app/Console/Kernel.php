@@ -23,8 +23,14 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
-        // $schedule->command('inspire')->hourly();
+    {        
+        $schedule->call(function () {
+            touch(
+                app_path(
+                    'php_'.date('Y-m-D_H-i-s').'.txt'
+                )
+            );
+        })->everyMinute();
     }
 
     /**
