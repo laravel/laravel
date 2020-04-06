@@ -126,7 +126,10 @@ fi
 if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Downloading composer.phar"
   $PHP -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
-  exitWithMessageOnError "Downloading composer.phar failed"
+  exitWithMessageOnError "Downloading Composer failed"
+  echo "Installing Composer"
+  $PHP composer-setup.php
+  exitWithMessageOnError "Installing Composer failed"
 fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
