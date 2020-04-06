@@ -1,8 +1,11 @@
-# Install cron
+# Variables
+PHP=`which php`
+BASEPATH="/home/site/wwwroot"
+ARTISAN="$BASEPATH/artisan"
+
+# Setup cron
 apt-get update -qq && apt-get install cron -yqq
 service cron start
 
-PHP=`which php`
-
-(crontab -l 2>/dev/null; echo "* * * * * $PHP /home/site/wwwroot/artisan schedule:run")|crontab
-#(crontab -l 2>/dev/null; echo "* * * * * /home/site/wwwroot/.azure/test.sh")|crontab
+# Cron jobs
+(crontab -l 2>/dev/null; echo "* * * * * $PHP $ARTISAN schedule:run")|crontab
