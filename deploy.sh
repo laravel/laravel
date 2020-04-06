@@ -21,7 +21,7 @@ exitWithMessageOnError "Missing node.js executable, please install node.js, if a
 # Setup
 # -----
 
-PHP=`which php
+PHP=`which php`
 
 SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
 SCRIPT_DIR="${SCRIPT_DIR%/*}"
