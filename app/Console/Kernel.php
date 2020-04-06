@@ -25,11 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {        
         $schedule->call(function () {
-            touch(
-                base_path(
-                    'php_'.date('Y-m-D_H-i-s').'.txt'
-                )
-            );
+            info(date('Y-m-D_H-i-s'));
         })->everyMinute();
     }
 
