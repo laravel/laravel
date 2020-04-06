@@ -97,7 +97,7 @@ selectNodeVersion () {
 
 # 0. Variables
 echo "-----------------Variables---------------------------------"
-echo "PHP = $PHP"
+$PHP -v
 echo "BASH_SOURCE = $BASH_SOURCE"
 echo "SCRIPT_DIR = $SCRIPT_DIR"
 echo "ARTIFACTS = $ARTIFACTS"
