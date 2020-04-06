@@ -123,26 +123,6 @@ fi
 if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Download composer.phar"
   eval php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  echo "Deleting composer.phar"
-  eval php -r "unlink('composer-setup.php');"
-
-
-  echo Composer self update
-  call :ExecuteCmd php composer.phar self-update
-  IF !ERRORLEVEL! NEQ 0 goto error
-  echo Install Composer plugin
-  call :ExecuteCmd php composer.phar global require "hirak/prestissimo"
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  echo Composer install
-  call :ExecuteCmd php composer.phar install --no-dev
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-
-# 2. Composer
-if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
-  echo "Download composer.phar"
-  eval php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   exitWithMessageOnError "Downloading composer failed"
 fi
 
