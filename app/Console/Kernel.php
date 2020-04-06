@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {        
         $schedule->call(function () {
-            info(date('Y-m-D_H-i-s'));
+            info('test! ' .date('Y-m-D_H-i-s'));
         })->everyMinute();
     }
 
