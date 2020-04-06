@@ -135,7 +135,8 @@ fi
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   echo "Running composer install"
   cd "$DEPLOYMENT_TARGET"
-  $PHP composer.phar install --no-dev
+  ls
+  $PHP ./composer.phar install --no-dev
   exitWithMessageOnError "Installing composer packages failed"
   cd - > /dev/null
 fi
