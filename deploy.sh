@@ -1,16 +1,11 @@
 #!/bin/bash
 
-# ----------------------
-# KUDU Deployment Script
-# Version: 0.2.2
-# ----------------------
-
 # Helpers
 # -------
 
 exitWithMessageOnError () {
   if [ ! $? -eq 0 ]; then
-    echo "An error has occurred during web site deployment."
+    echo "An error has occurred during deployment."
     echo $1
     exit 1
   fi
@@ -51,7 +46,7 @@ fi
 
 if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
   # Install kudu sync
-  echo Installing Kudu Sync
+  echo "Installing Kudu Sync"
   npm install kudusync -g --silent
   exitWithMessageOnError "npm failed"
 
@@ -98,24 +93,76 @@ selectNodeVersion () {
 # Deployment
 # ----------
 
+# 0. Variables
+echo "-----------------Variables---------------------------------"
+echo "BASH_SOURCE = $BASH_SOURCE"
+echo "SCRIPT_DIR = $SCRIPT_DIR"
+echo "ARTIFACTS = $ARTIFACTS"
+echo "KUDU_SERVICE = $KUDU_SERVICE"
+echo "KUDU_SYNC_CMD = $KUDU_SYNC_CMD"
+echo "SELECT_NODE_VERSION = $SELECT_NODE_VERSION"
+echo "NODE_EXE = $NODE_EXE"
+echo "NPM_CMD = $NPM_CMD"
+echo "DEPLOYMENT_SOURCE = $DEPLOYMENT_SOURCE"
+echo "DEPLOYMENT_TARGET = $DEPLOYMENT_TARGET"
+echo "NEXT_MANIFEST_PATH = $NEXT_MANIFEST_PATH"
+echo "PREVIOUS_MANIFEST_PATH = $PREVIOUS_MANIFEST_PATH"
+echo "POST_DEPLOYMENT_ACTION_DIR = $POST_DEPLOYMENT_ACTION_DIR"
+echo "POST_DEPLOYMENT_ACTION = $POST_DEPLOYMENT_ACTION"
+echo "-----------------Variables END ---------------------------------"
+echo ""
+echo ""
+
 # 1. KuduSync
 if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
   "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
   exitWithMessageOnError "Kudu Sync failed"
 fi
 
-# 2. Install Composer modules 
+# 2. Composer
+if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
+  echo "Download composer.phar"
+  eval php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  echo "Deleting composer.phar"
+  eval php -r "unlink('composer-setup.php');"
+
+
+  echo Composer self update
+  call :ExecuteCmd php composer.phar self-update
+  IF !ERRORLEVEL! NEQ 0 goto error
+  echo Install Composer plugin
+  call :ExecuteCmd php composer.phar global require "hirak/prestissimo"
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  echo Composer install
+  call :ExecuteCmd php composer.phar install --no-dev
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+
+# 2. Composer
+if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
+  echo "Download composer.phar"
+  eval php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  exitWithMessageOnError "Downloading composer failed"
+fi
+
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
-  echo Running composer install
+  echo "Running composer install"
   cd "$DEPLOYMENT_TARGET"
-  eval php composer.phar install
-  exitWithMessageOnError "composer failed"
+  eval php composer.phar install --no-dev
+  exitWithMessageOnError "Installing composer packages failed"
   cd - > /dev/null
+fi
+
+if [ -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
+  echo "Deleting composer.phar"
+  eval php -r "unlink('composer-setup.php');"
+  exitWithMessageOnError "Deleting composer.phar failed"
 fi
 
 # 3. Install NPM packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  echo Running npm install
+  echo "Running npm install"
   cd "$DEPLOYMENT_TARGET"
   eval npm install --production
   exitWithMessageOnError "npm failed"
@@ -129,7 +176,7 @@ if [[ -n "$POST_DEPLOYMENT_ACTION" ]]; then
   POST_DEPLOYMENT_ACTION=${POST_DEPLOYMENT_ACTION//\"}
   cd "${POST_DEPLOYMENT_ACTION_DIR%\\*}"
   "$POST_DEPLOYMENT_ACTION"
-  exitWithMessageOnError "post deployment action failed"
+  exitWithMessageOnError "Post deployment action failed"
 fi
 
 echo "Finished successfully."
