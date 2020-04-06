@@ -21,6 +21,8 @@ exitWithMessageOnError "Missing node.js executable, please install node.js, if a
 # Setup
 # -----
 
+PHP=`which php
+
 SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
 SCRIPT_DIR="${SCRIPT_DIR%/*}"
 ARTIFACTS=$SCRIPT_DIR/../artifacts
@@ -95,6 +97,7 @@ selectNodeVersion () {
 
 # 0. Variables
 echo "-----------------Variables---------------------------------"
+echo "PHP = $PHP"
 echo "BASH_SOURCE = $BASH_SOURCE"
 echo "SCRIPT_DIR = $SCRIPT_DIR"
 echo "ARTIFACTS = $ARTIFACTS"
@@ -122,21 +125,21 @@ fi
 # 2. Composer
 if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Downloading composer.phar"
-  eval php -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
+  $PHP -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
   exitWithMessageOnError "Downloading composer.phar failed"
 fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.json" ]; then
   echo "Running composer install"
   cd "$DEPLOYMENT_TARGET"
-  eval php composer.phar install --no-dev
+  $PHP composer.phar install --no-dev
   exitWithMessageOnError "Installing composer packages failed"
   cd - > /dev/null
 fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Deleting composer.phar"
-  eval php -r 'unlink("composer-setup.php");'
+  $PHP -r 'unlink("composer-setup.php");'
   exitWithMessageOnError "Deleting composer.phar failed"
 fi
 
