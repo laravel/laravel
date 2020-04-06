@@ -122,7 +122,7 @@ fi
 # 2. Composer
 if [ ! -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Downloading composer.phar"
-  eval php -r -- 'copy("https://getcomposer.org/installer", "composer-setup.php");'
+  eval php -r 'copy("https://getcomposer.org/installer", "composer-setup.php");'
   exitWithMessageOnError "Downloading composer.phar failed"
 fi
 
@@ -136,7 +136,7 @@ fi
 
 if [ -e "$DEPLOYMENT_TARGET/composer.phar" ]; then
   echo "Deleting composer.phar"
-  eval php -r -- 'unlink("composer-setup.php");'
+  eval php -r 'unlink("composer-setup.php");'
   exitWithMessageOnError "Deleting composer.phar failed"
 fi
 
