@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.3.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.6.0...master)
+
+
+## [v7.6.0 (2020-04-15)](https://github.com/laravel/laravel/compare/v7.3.0...v7.6.0)
+
+### Changed
+- Disable Telescope in PHPUnit ([#5277](https://github.com/laravel/laravel/pull/5277))
+
+### Fixed
+- Add both endpoint and url env variables ([#5276](https://github.com/laravel/laravel/pull/5276))
 
 
 ## [v7.3.0 (2020-03-24)](https://github.com/laravel/laravel/compare/v7.0.0...v7.3.0)
