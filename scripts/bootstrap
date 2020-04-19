@@ -138,3 +138,12 @@ if [ ! -f "$FILE_MIX_MANIFEST" ]; then
 fi
 
 echo -e $COLOUR_GREEN"Project is initialised! 🚀"$COLOUR_RESET
+
+URI="http://localhost:8000"
+PING=$(curl -I $URI 2>/dev/null | head -n 1 | cut -d$' ' -f2)
+
+if [ "$PING" == "200" ]; then
+    echo -e "-->$COLOUR_GREEN Web app running at:$COLOUR_RESET $URI"
+else
+    echo -e "-->$COLOUR_RED Web app currently down!$COLOUR_RESET (Status: $PING) at: $URI"
+fi
