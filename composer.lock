@@ -436,12 +436,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/engageinteractive/laravel-frontend.git",
-                "reference": "dad42fa8bb0b9f71a35deb376cf2026cf9c61b82"
+                "reference": "1d0e4072a8366c0d99a6b089b689129121a42c9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/dad42fa8bb0b9f71a35deb376cf2026cf9c61b82",
-                "reference": "dad42fa8bb0b9f71a35deb376cf2026cf9c61b82",
+                "url": "https://api.github.com/repos/engageinteractive/laravel-frontend/zipball/1d0e4072a8366c0d99a6b089b689129121a42c9d",
+                "reference": "1d0e4072a8366c0d99a6b089b689129121a42c9d",
                 "shasum": ""
             },
             "require": {
@@ -473,7 +473,7 @@
                 "MIT"
             ],
             "description": "Frontend Build Framework for Laravel Projects",
-            "time": "2020-04-19T16:56:37+00:00"
+            "time": "2020-04-19T17:46:41+00:00"
         },
         {
             "name": "engageinteractive/laravel-view-models",
