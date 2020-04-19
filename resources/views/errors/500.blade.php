@@ -1,16 +1,7 @@
-@extends('layouts/error', [
-	'page' => [
-		'title' => 'Server error',
-		'description' => 'Sorry, it looks like something has broken.',
-	],
-])
+@extends('layouts/minimal')
 
-@section('content')
+@section('code', '500')
 
-	<h1>Server error</h1>
-
-	<p>Sorry, it looks like something has&nbsp;broken.</p>
-
-	<p><a href="/">Return to the homepage</a></p>
-
-@endsection
+@section('title', __('errors.server_error.title'))
+@section('heading', __('errors.server_error.title'))
+@section('message', __('errors.server_error.message'))
