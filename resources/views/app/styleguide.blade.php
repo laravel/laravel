@@ -64,7 +64,7 @@
 							@endcomponent
 						@endif
 					@else
-						@include('frontend/styleguide/' . $model['partial'], $attributes)
+						@include('templates/styleguide/' . $model['partial'], $attributes)
 					@endif
 				@if ($model['container'] ?? false)
 					</div>
