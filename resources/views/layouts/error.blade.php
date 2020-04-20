@@ -1,9 +1,15 @@
-@extends('layouts/base')
+@extends('layouts/minimal')
 
-@section('app')
-	<main class="flex items-center min-h-screen p-3 text-center">
-		<div class="e-copy m-auto max-w-copy">
-			@yield('content')
-		</div>
-	</main>
+@section('title')
+	{{ $title }}
+@endsection
+
+@section('message')
+	<h1>{{ $heading ?? $title }}</h1>
+
+	<p>{{ $message }}</p>
+
+	@if ($cta ?? true)
+		<p><a href="{{ $url ?? '/' }}">{{ $cta ?? 'Return to the homepage' }}</a></p>
+	@endif
 @endsection
