@@ -8,7 +8,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "sentry/sentry-laravel": "^1.7",
-        "engageinteractive/laravel-frontend": "^3.0",
+        "engageinteractive/laravel-frontend": "^4.0",
+        "engageinteractive/laravel-view-models": "^1.0",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3"
     },

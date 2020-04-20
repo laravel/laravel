@@ -7,57 +7,43 @@ return [
     | Enabled
     |--------------------------------------------------------------------------
     |
-    | Turns the frontend routes on. You should ensure this is set to false in
-    | production environments.
+    | Turns the frontend routes on. Should be disabled on production.
     |
     */
-    'enabled' => env('FRONTEND_ENABLED', false),
+    'enabled' => env('TEMPLATES_ENABLED', false),
 
     /*
     |--------------------------------------------------------------------------
     | Route Name
     |--------------------------------------------------------------------------
     |
-    | Name prefix of the routes defined by the package, e.g.:
-    |
-    | route('frontend.index')
+    | Name prefix of the routes defined by the package
+    | e.g. route('templates.index')
     |
     */
-    'route_name' => 'frontend',
+    'route_name' => 'templates',
 
     /*
     |--------------------------------------------------------------------------
     | Route Path
     |--------------------------------------------------------------------------
     |
-    | URL path prefix of the  routes defined by the package, e.g.:
-    |
-    | /frontend/
+    | URL path prefix of the  routes defined by the package
+    | e.g. /templates/
     |
     */
-    'route_path' => 'frontend',
+    'route_path' => 'templates',
 
     /*
     |--------------------------------------------------------------------------
     | Resource Path
     |--------------------------------------------------------------------------
     |
-    | Path prefix within the resources/views/ folder that the package looks for
+    | Path prefix within the /resources/ folder that the package looks for
     | the frontend templates.
     |
     */
-    'resource_path' => 'frontend',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Index Template Path
-    |--------------------------------------------------------------------------
-    |
-    | Path to the index template that lists out all the others, from the
-    | resources/views/ folder.
-    |
-    */
-    'index_template_path' => 'app/frontend',
+    'resource_path' => 'templates',
 
     /*
     |--------------------------------------------------------------------------
@@ -75,6 +61,16 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'template_flag' => 'frontend',
+    'template_flag' => 'template',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show Styleguide Link
+    |--------------------------------------------------------------------------
+    |
+    | If enabled, an external link to the styleguide will be displayed.
+    |
+    */
+    'show_styleguide' => true,
 
 ];

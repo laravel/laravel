@@ -2,46 +2,16 @@
 
 namespace App\Http\ViewComposers;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
-
-use EngageInteractive\LaravelFrontend\PageDefaultsViewComposer as BaseViewComposer;
+use Engage\LaravelFrontend\PageDefaultsViewComposer as BaseViewComposer;
 
 class PageDefaultsViewComposer extends BaseViewComposer
 {
     /**
-     * Gets frontend default variables.
+     * Returns developer-defined application default variables.
      *
      * @return array
      */
-    protected function defaultsForFrontend()
-    {
-        return [
-            'page' => [
-                'title' => 'Frontend | Page Title',
-                'description' => 'Page description',
-                'site_name' => 'Site Name',
-                'social_image' => asset('/static/img/meta/share.png'),
-                'url' => url()->current(),
-                'creator_twitter_handle' => '@author_handle',
-                'site_twitter_handle' => '@site_handle',
-                'share_title' => 'Share title',
-                'share_description' => 'Share description',
-                'type' => 'article',
-            ],
-            'links' => [
-                'home' => route('frontend.show', 'home/home'),
-			],
-        ];
-    }
-
-    /**
-     * Gets application default variables (i.e. ones used when not in the
-     * frontend templates.)
-     *
-     * @return array
-     */
-    protected function defaultsForApp()
+    protected function app(): array
     {
         return [
             'page' => [
@@ -59,6 +29,20 @@ class PageDefaultsViewComposer extends BaseViewComposer
 			'links' => [
 				'home' => route('home.show'),
             ],
+        ];
+    }
+
+    /**
+     * Returns developer-defined frontend default variables.
+     *
+     * @return array
+     */
+    protected function templates(): array
+    {
+        return [
+            'links' => [
+                'home' => route('templates.show', 'home/index'),
+			],
         ];
     }
 }
