@@ -1,3 +1,3 @@
-{{-- @description Shows on a page error --}}
+{{-- @description Server Error --}}
 
 @extends('errors/500')
