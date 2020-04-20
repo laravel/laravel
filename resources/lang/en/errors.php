@@ -14,7 +14,8 @@ return [
 
     'not_found' => [
         'title' => 'Not Found',
-        'message' => 'It looks like the page you\'re looking for is no longer here.',
+        'message' => 'It looks like the page you’re looking for is no longer here.',
+        // 'cta' => false,
     ],
 
     /*
@@ -38,14 +39,14 @@ return [
     | 401: Unauthorized
     |--------------------------------------------------------------------------
     |
-    | 401 semantically means "unauthorised", the user does not have valid 
+    | 401 semantically means "unauthorised", the user does not have valid
     | authentication credentials for the target resource.
     |
     */
 
     'unauthorised' => [
         'title' => 'Unauthorised',
-        'message' => 'You\'re unauthorised to make this request.',
+        'message' => 'You’re unauthorised to make this request.',
     ],
 
 
@@ -62,7 +63,7 @@ return [
 
     'forbidden' => [
         'title' => 'Forbidden',
-        'message' => 'You\'re unauthorised to make this request.',
+        'message' => 'You’re unauthorised to make this request.',
     ],
 
 
@@ -94,5 +95,6 @@ return [
     'max_requests' => [
         'title' => 'Too Many Requests',
         'message' => 'There were too many requests to the server.',
+        'cta' => false,
     ],
 ];
