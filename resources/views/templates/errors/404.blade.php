@@ -1,3 +1,3 @@
-{{-- @description Shows on a page not found --}}
+{{-- @description Page Not Found --}}
 
 @extends('errors/404')
