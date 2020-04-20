@@ -29,10 +29,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | URL path prefix of the  routes defined by the package
-    | e.g. /_templates/
+    | e.g. /templates/
     |
     */
-    'route_path' => '_templates',
+    'route_path' => 'templates',
 
     /*
     |--------------------------------------------------------------------------
