@@ -13,7 +13,7 @@ COLOUR_RESET="\x1b[39;49;00m"
 cd "$(dirname "$0")/.."
 
 echo -e "--> "$COLOUR_GREEN"Testing application with static analyser\n"$COLOUR_RESET
-./scripts/console code:analyse
+docker-compose exec app ./vendor/bin/phpstan analyse
 
 echo -e "--> "$COLOUR_GREEN"Testing application with PHPUnit\n"$COLOUR_RESET
 docker-compose exec app php ./vendor/bin/phpunit $@
