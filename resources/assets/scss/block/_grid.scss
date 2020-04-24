@@ -1,25 +1,7 @@
 .e-grid {
-	@mixin macro($spacing) {
-		@apply -ml-#{$spacing};
-
-		&__item {
-			@apply mt-#{$spacing} pl-#{$spacing};
-		}
-	}
-	@include macro(5);
-	@apply flex flex-wrap;
+	@apply flex flex-wrap -ml-5;
 
 	&__item {
-		flex-shrink: 0;
-		position: relative;
-		width: 100%;
-	}
-
-	@screen md {
-		@include macro(6);
-	}
-
-	@screen xl {
-		@include macro(8);
+		@apply flex-shrink-0 relative w-full pl-5;
 	}
 }
