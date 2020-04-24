@@ -1,11 +1,18 @@
 <template>
-	<svg class="inline-block w-em h-em fill-current align-top">
-		<use :xlink:href="`/compiled/img/sprite.svg#${name}`" />
-	</svg>
+	<sprite
+		class="inline-block w-em h-em fill-current align-top"
+		:name="$props.name"
+	/>
 </template>
 
 <script>
+	import Sprite from './Sprite';
+
 	export default {
+		components: {
+			Sprite,
+		},
+
 		props: {
 			name: {
 				type: String,
