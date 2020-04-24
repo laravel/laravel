@@ -5,12 +5,12 @@
 			class="e-input pr-12 appearance-none"
 			v-bind="$attrs"
 			v-on="$listeners"
-			@change="$emit('input', $event.target.value)"
+			@change="$emit('input', $event)"
 		>
 			<option
 				:value="null"
 				disabled
-				v-html="$options.filters.trans('global.form.select_default')"
+				v-html="cDefaultOption"
 			/>
 
 			<option
@@ -37,6 +37,11 @@
 		inheritAttrs: false,
 
 		props: {
+			default: {
+				type: String,
+				default: null,
+			},
+
 			value: {
 				type: String,
 				default: null,
@@ -45,6 +50,12 @@
 			options: {
 				type: [Array, Object],
 				default: () => {},
+			},
+		},
+
+		computed: {
+			cDefaultOption() {
+				return this.$props.default || this.$options.filters.trans('global.form.select_default');
 			},
 		},
 	};
