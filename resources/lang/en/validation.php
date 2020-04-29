@@ -96,7 +96,7 @@ return [
     'password' => 'The password is incorrect.',
     'present' => 'We can’t continue without the :attribute!',
     'regex' => 'Sorry, :attribute isn’t in the right format.',
-    'required' => 'Oops, you missed this one!',
+    'required' => 'Oops, you missed the :attribute field!',
     'required_if' => 'The :other is :value, so we also need a :attribute.',
     'required_unless' => 'We need :attribute unless :other is in :values.',
     'required_with' => 'You entered :values, so we also need a :attribute.',
