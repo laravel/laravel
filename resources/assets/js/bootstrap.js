@@ -1,7 +1,5 @@
-import whatInput from 'what-input';
 import axios from 'axios';
 
-window.whatInput = whatInput;
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

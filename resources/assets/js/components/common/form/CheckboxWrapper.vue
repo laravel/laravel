@@ -15,16 +15,14 @@
 				:checked="$data.checked"
 				v-bind="$attrs"
 				@change="updateInput"
-				@focus="onWhatFocus"
-				@blur="onWhatBlur"
+				@focus="$data.hasKeyboardFocus = isKeyboard()"
+				@blur="$data.hasKeyboardFocus = false"
 			>
 
 			<div
 				:class="[
 					'flex-shrink-0 w-5 mr-2 py-1px',
-					{
-						'shadow-focus': hasKeyboardFocus,
-					},
+					{ 'shadow-focus': $data.hasKeyboardFocus },
 				]"
 			>
 				<placeholder class="my-1px pt-full">
@@ -74,16 +72,14 @@
 <script>
 	import ErrorText from '../ErrorText';
 
-	import WhatFocus from '../../../mixins/what-focus';
+	import Input from '../../../mixins/input';
 
 	export default {
 		components: {
 			ErrorText,
 		},
 
-		mixins: [
-			WhatFocus,
-		],
+		mixins: [Input],
 
 		inheritAttrs: false,
 
@@ -117,6 +113,7 @@
 		data() {
 			return {
 				checked: null,
+				hasKeyboardFocus: false,
 			};
 		},
 
