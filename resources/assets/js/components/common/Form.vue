@@ -23,9 +23,7 @@
 	import Form from '../../mixins/form';
 
 	export default {
-		mixins: [
-			Form,
-		],
+		mixins: [Form],
 
 		props: {
 			fields: {
