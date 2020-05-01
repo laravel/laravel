@@ -1,8 +1,14 @@
 import get from 'lodash/get';
 
-import ErrorText from '../components/common/error-text.vue';
+import CheckboxWrapper from '../components/common/form/CheckboxWrapper';
+import InputWrapper from '../components/common/form/InputWrapper';
 
 export default {
+	components: {
+		CheckboxWrapper,
+		InputWrapper,
+	},
+
 	props: {
 		action: {
 			type: String,
@@ -57,14 +63,25 @@ export default {
 
 			this.$data.errorMessage = get(error, 'response.data.message');
 			this.$data.errors = (get(error, 'response.data.errors') || {});
+
+			this.scrollToError();
 		},
 
 		onSubmitAlways() {
 			this.$data.isSubmitting = false;
 		},
-	},
 
-	components: {
-		ErrorText,
+		scrollToError() {
+			if (!this.$data.errors) return;
+
+			this.$nextTick(() => {
+				const $firstError = this.$refs.fields.filter(el => el.errors)[0].$el;
+
+				$firstError.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+				});
+			});
+		},
 	},
 };

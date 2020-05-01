@@ -33,7 +33,8 @@ module.exports = {
 		},
 		boxShadow: {
 			none: 'none',
-			outline: `0px 0px 3px ${colors.blue}, 0px 0px 6px ${colors.blue}, 0px 0px 9px ${colors.blue}`,
+			focus: `0 0 5px ${colors.blue}`,
+			outline: `0 0 3px ${colors.blue}, 0 0 6px ${colors.blue}, 0 0 9px ${colors.blue}`,
 		},
 		fontSize: {
 			xs: relative(12),

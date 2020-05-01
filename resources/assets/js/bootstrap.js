@@ -1,5 +1,3 @@
-import 'what-input';
-
 import axios from 'axios';
 
 window.axios = axios;

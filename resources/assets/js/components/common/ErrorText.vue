@@ -1,10 +1,10 @@
 <template>
 	<div
-		v-if="errors"
+		v-if="$props.errors"
 		class="error-text inline-flex relative mt-1 text-red italic text-sm leading-snug"
 	>
 		<p
-			v-for="(message) in errors"
+			v-for="(message) in $props.errors"
 			:key="message"
 			v-text="message"
 		/>

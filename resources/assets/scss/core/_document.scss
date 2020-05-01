@@ -11,12 +11,11 @@ body {
 	@apply outline-none;
 
 	[data-whatintent=keyboard] & {
-		@apply shadow-outline;
+		@apply shadow-focus;
 	}
 }
 
-[disabled],
-[disabled] * {
+[disabled] {
 	@apply opacity-25 shadow-none cursor-not-allowed select-none;
 }
 
