@@ -17,7 +17,7 @@ trait CreatesApplication
         $app = require __DIR__.'/../bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
-        
+
         Artisan::call('key:generate');
 
         return $app;
