@@ -25,7 +25,12 @@ const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
 module.exports = {
 	theme: {
 		screens,
-		colors,
+		colors: {
+			transparent: 'transparent',
+			current: 'currentColor',
+			inherit: 'inherit',
+			...colors,
+		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
 			heading: ['custom-heading', 'Georgia', 'serif'],
