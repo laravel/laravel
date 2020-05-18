@@ -13,9 +13,7 @@ services:
       - 8000:80
 
   app:
-    build:
-      context: ../
-      dockerfile: docker/local.app.Dockerfile
+    image: engageinteractive/base-php:7.4
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
