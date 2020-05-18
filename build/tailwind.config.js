@@ -23,6 +23,7 @@ const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
 
 // tailwind settings
 module.exports = {
+  target: 'relaxed',
 	theme: {
 		screens,
 		colors: {
