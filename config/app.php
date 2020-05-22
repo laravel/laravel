@@ -186,6 +186,9 @@ return [
     | is started. However, feel free to register as many as you wish as
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
+    | The aliases are registered as aliases classes in the root namespace. So
+    | if you want to use the "App" facade somewhere, simply add it to your
+    | imports: use App;
     */
 
     'aliases' => [
