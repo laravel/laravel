@@ -8,35 +8,33 @@
 		"xl": 1248
 	},
 	"colors": {
-	    "brand": {
-	        "red": "#ff585d"
-	    },
-	    "black": "#000",
-	    "white": "#fff",
-	    "grey": {
-	        "100": "#fafafa",
-	        "200": "#eee",
-	        "300": "#ddd",
-	        "400": "#ddd",
-	        "500": "#aaa",
-	        "600": "#888",
-	        "700": "#444",
-	        "800": "#222",
-	        "900": "#111"
-	    },
-	    "blue": "#00f",
-	    "green": "#24b35d",
-	    "red": "#f50023",
-	    "social": {
-	        "twitter": "#55acee",
-	        "facebook": "#3b5998",
-	        "youtube": "#bb0000",
-	        "pinterest": "#cb2027",
-	        "linkedin": "#007bb5",
-	        "instagram": "#8a3ab9"
-	    },
-	    "inherit": "inherit",
-	    "transparent": "transparent"
+		"brand": {
+			"red": "#ff585d"
+		},
+		"black": "#000",
+		"white": "#fff",
+		"grey": {
+			"100": "#fafafa",
+			"200": "#eee",
+			"300": "#ddd",
+			"400": "#ddd",
+			"500": "#aaa",
+			"600": "#888",
+			"700": "#444",
+			"800": "#222",
+			"900": "#111"
+		},
+		"blue": "#00f",
+		"green": "#24b35d",
+		"red": "#f50023",
+		"social": {
+			"twitter": "#55acee",
+			"facebook": "#3b5998",
+			"youtube": "#bb0000",
+			"pinterest": "#cb2027",
+			"linkedin": "#007bb5",
+			"instagram": "#8a3ab9"
+		}
 	},
 	"columns": 24,
 	"easing": {
