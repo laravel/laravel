@@ -19,9 +19,17 @@ define('LARAVEL_START', microtime(true));
 | into the script here so that we don't have to worry about manual
 | loading any of our classes later on. It feels great to relax.
 |
+| Here might throw a exception when composer installing dependences.
+|
 */
 
-require __DIR__.'/../vendor/autoload.php';
+try {
+    require __DIR__.'/../vendor/autoload.php';
+} catch (\Throwable $e) {
+    header('HTTP/1.0 500 Server updating');
+    echo 'Server updating.';
+    return;
+}
 
 /*
 |--------------------------------------------------------------------------
