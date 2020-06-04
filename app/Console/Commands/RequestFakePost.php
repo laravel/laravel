@@ -49,7 +49,7 @@ class RequestFakePost extends Command
         if($this->argument('processOption')=='4')
             $this->sendRequest('https://atomic.incfile.com/fakepost',1);
         else if($this->argument('processOption')=='5')
-            $this->sendRequest('https://atomic.incfile.com/fakepost',1000);
+            $this->sendRequest('https://atomic.incfile.com/fakepost',100000);
         else
             $this->info('Argument required to execute request,(accepted only:4 or 5), example:"php artisan request:fake 4"');
     }
