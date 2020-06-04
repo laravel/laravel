@@ -1,0 +1,2 @@
+*.sqlite
+*.sqlite-journal
