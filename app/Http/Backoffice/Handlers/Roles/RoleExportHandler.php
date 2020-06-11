@@ -15,13 +15,14 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Roles\RoleSorting;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class RoleExportHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(RoleCriteriaRequest $request, Excel $exporter)
+    public function __invoke(RoleCriteriaRequest $request, Excel $exporter): BinaryFileResponse
     {
         $items = new Collection($this->getData($request));
-        $items = $items->map(function (Role $role) {
+        $items = $items->map(function (Role $role): array {
             $users = [];
 
             /** @var User $user */
@@ -48,18 +49,21 @@ class RoleExportHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/export", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_EXPORT,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(array $filter): string
     {
-        return route(static::class, $filter);
+        return route(self::class, $filter);
     }
 
+    /**
+     * @return array|\Illuminate\Pagination\LengthAwarePaginator
+     */
     private function getData(RoleCriteriaRequest $request)
     {
         /** @var \Digbang\Backoffice\Repositories\DoctrineRoleRepository $roles */
@@ -81,7 +85,7 @@ class RoleExportHandler extends Handler implements RouteDefiner
         ];
 
         $selectedSorts = $roleSorting->get(array_keys($sortings));
-        if (empty($selectedSorts)) {
+        if (count($selectedSorts) === 0) {
             $selectedSorts = [array_first(array_keys($sortings)) => 'ASC'];
         }
 

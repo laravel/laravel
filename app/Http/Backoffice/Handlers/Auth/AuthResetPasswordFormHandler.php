@@ -17,14 +17,17 @@ class AuthResetPasswordFormHandler extends Handler implements RouteDefiner
     public const ROUTE_PARAM_CODE = 'code';
     protected const ROUTE_NAME = 'backoffice.auth.password.reset';
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function __invoke(
         ResetPasswordFormRequest $request,
         SecurityApi $securityApi,
         Redirector $redirector,
         Factory $view
     ) {
-        $user = $request->getUserById();
-        $code = $request->getCode();
+        $user = $request->findUser();
+        $code = $request->code();
 
         if ($securityApi->reminders()->exists($user, $code)) {
             return $view->make('backoffice::auth.reset-password', [
@@ -42,16 +45,16 @@ class AuthResetPasswordFormHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->get($backofficePrefix . '/auth/password/reset/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
-            ->name(static::ROUTE_NAME)
+            ->get($backofficePrefix . '/auth/password/reset/{' . self::ROUTE_PARAM_USER . '}/{' . self::ROUTE_PARAM_CODE . '}', self::class)
+            ->name(self::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(int $userId, string $code): string
     {
-        return route(static::ROUTE_NAME, [
-            static::ROUTE_PARAM_USER => $userId,
-            static::ROUTE_PARAM_CODE => $code,
+        return route(self::ROUTE_NAME, [
+            self::ROUTE_PARAM_USER => $userId,
+            self::ROUTE_PARAM_CODE => $code,
         ]);
     }
 }

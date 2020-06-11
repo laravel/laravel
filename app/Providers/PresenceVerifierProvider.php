@@ -9,10 +9,8 @@ class PresenceVerifierProvider extends ValidationServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
      */
-    protected $defer = true;
+    protected bool $defer = true;
 
     /**
      * @return string[]

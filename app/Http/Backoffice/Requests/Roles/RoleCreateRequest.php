@@ -11,33 +11,42 @@ class RoleCreateRequest extends Request
     public const FIELD_SLUG = 'slug';
     public const FIELD_PERMISSIONS = 'permissions';
 
-    public function rules()
+    public function name(): string
+    {
+        return $this->get(self::FIELD_NAME);
+    }
+
+    public function slug(): ?string
+    {
+        return $this->get(self::FIELD_SLUG);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function permissions(): array
+    {
+        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function rules(): array
     {
         return [
-            static::FIELD_NAME => 'required|unique:' . DefaultRole::class . ',name',
+            self::FIELD_NAME => 'required|unique:' . DefaultRole::class . ',name',
         ];
     }
 
+    /**
+     * @return array|string[]
+     */
     public function messages()
     {
         return [
-            static::FIELD_NAME . '.required' => trans('backoffice::auth.validation.role.name'),
-            static::FIELD_NAME . '.unique' => trans('backoffice::auth.validation.role.unique'),
+            self::FIELD_NAME . '.required' => trans('backoffice::auth.validation.role.name'),
+            self::FIELD_NAME . '.unique' => trans('backoffice::auth.validation.role.unique'),
         ];
-    }
-
-    public function getName(): string
-    {
-        return $this->get(static::FIELD_NAME);
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->get(static::FIELD_SLUG);
-    }
-
-    public function getPermissions(): array
-    {
-        return $this->get(static::FIELD_PERMISSIONS, []) ?? [];
     }
 }

@@ -9,6 +9,8 @@ use ProjectName\Repositories\ReadRepository;
 abstract class FormRequest extends BaseFormRequest
 {
     /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      * @return ReadRepository|ObjectRepository
      */
     protected function repository(string $className)

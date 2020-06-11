@@ -8,7 +8,7 @@ use Cartalyst\Sentinel\Users\UserInterface;
 
 class ResetPasswordFormRequest extends Request
 {
-    public function getUserById(): UserInterface
+    public function findUser(): UserInterface
     {
         $id = $this->route(AuthResetPasswordFormHandler::ROUTE_PARAM_USER);
 
@@ -21,7 +21,7 @@ class ResetPasswordFormRequest extends Request
         return $user;
     }
 
-    public function getCode(): string
+    public function code(): string
     {
         return $this->route(AuthResetPasswordFormHandler::ROUTE_PARAM_CODE);
     }

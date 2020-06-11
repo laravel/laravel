@@ -11,7 +11,6 @@ use Cake\Chronos\Chronos;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Digbang\Security\Contracts\SecurityApi;
-use Digbang\Security\Users\UserRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
@@ -19,10 +18,12 @@ use Illuminate\Support\MessageBag;
 
 class AuthAuthenticateHandler extends Handler implements RouteDefiner
 {
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function __invoke(
         LoginRequest $request,
         SecurityApi $securityApi,
-        UserRepository $users,
         Redirector $redirector,
         Factory $view
     ) {
@@ -53,19 +54,18 @@ class AuthAuthenticateHandler extends Handler implements RouteDefiner
         }
     }
 
-    /** @param Router $router */
     public static function defineRoute(Router $router): void
     {
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->post("$backofficePrefix/auth/login", static::class)
-            ->name(static::class)
+            ->post("$backofficePrefix/auth/login", self::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 }

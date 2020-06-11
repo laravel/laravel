@@ -8,7 +8,7 @@ use Digbang\Security\Users\User;
 
 class ActivateRequest extends Request
 {
-    public function getUserById(): User
+    public function findUser(): User
     {
         $id = $this->route(AuthActivateHandler::ROUTE_PARAM_USER);
 
@@ -22,7 +22,7 @@ class ActivateRequest extends Request
         return $user;
     }
 
-    public function getCode(): string
+    public function code(): string
     {
         return $this->route(AuthActivateHandler::ROUTE_PARAM_CODE);
     }

@@ -10,6 +10,7 @@ use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Activations\Activation;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
@@ -23,8 +24,8 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
         ResendActivationRequest $request,
         SecurityApi $securityApi,
         Redirector $redirector
-    ) {
-        $email = $request->getEmail();
+    ): RedirectResponse {
+        $email = $request->email();
 
         /** @var User|null $user */
         $user = $securityApi->users()->findByCredentials(['email' => $email]);
@@ -55,13 +56,13 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->post("$backofficePrefix/auth/activate/resend", static::class)
-            ->name(static::ROUTE_NAME)
+            ->post("$backofficePrefix/auth/activate/resend", self::class)
+            ->name(self::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string
     {
-        return route(static::ROUTE_NAME);
+        return route(self::ROUTE_NAME);
     }
 }

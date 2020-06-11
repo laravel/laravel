@@ -12,19 +12,20 @@ use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Permissions\Permissible;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class RoleEditHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(RoleEditRequest $request)
+    public function __invoke(RoleEditRequest $request): RedirectResponse
     {
         $role = $request->getRole();
 
         try {
-            $role->setName($request->getName());
+            $role->setName($request->name());
 
             if ($role instanceof Permissible) {
-                $role->syncPermissions($request->getPermissions());
+                $role->syncPermissions($request->permissions());
             }
 
             security()->roles()->save($role);
@@ -46,17 +47,17 @@ class RoleEditHandler extends Handler implements RouteDefiner
 
         $router
             ->put("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
             ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $roleId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             RoleRequest::ROUTE_PARAM_ID => $roleId,
         ]);
     }

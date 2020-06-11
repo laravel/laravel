@@ -12,20 +12,21 @@ use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Permissions\Permissible;
 use Digbang\Security\Roles\Role;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class RoleCreateHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(RoleCreateRequest $request)
+    public function __invoke(RoleCreateRequest $request): RedirectResponse
     {
         try {
             $roles = security()->roles();
 
             /** @var Role|Permissible $role */
-            $role = $roles->create($request->getName(), $request->getSlug());
+            $role = $roles->create($request->name(), $request->slug());
 
-            if ($request->getPermissions() && $role instanceof Permissible) {
-                foreach ($request->getPermissions() as $permission) {
+            if ($request->permissions() && $role instanceof Permissible) {
+                foreach ($request->permissions() as $permission) {
                     $role->addPermission($permission);
                 }
 
@@ -49,15 +50,15 @@ class RoleCreateHandler extends Handler implements RouteDefiner
 
         $router
             ->post("$backofficePrefix/$routePrefix/", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_CREATE,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 }

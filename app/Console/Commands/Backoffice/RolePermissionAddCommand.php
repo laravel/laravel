@@ -13,7 +13,11 @@ class RolePermissionAddCommand extends AddPermissionCommand
      *
      * @var string
      */
-    protected $signature = 'backoffice:roles:permissions:add {role : The role slug} {permissions? : A comma-separated list of permissions. If omitted, all permissions will be added.}';
+    protected $signature = 'backoffice:roles:permissions:add
+        {role : The role slug}
+        {permissions? : A comma-separated list of permissions. If omitted, all permissions will be added.}
+        {context? : Security context of the user and role (default: backoffice).}
+    ';
 
     /**
      * The console command description.
@@ -22,12 +26,11 @@ class RolePermissionAddCommand extends AddPermissionCommand
      */
     protected $description = 'Add permission/s to a backoffice role.';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPermissible(SecurityApi $security)
+    protected function getPermissible(SecurityApi $security): Permissible
     {
         $slug = $this->argument('role');
+
+        /** @var Permissible $role */
         $role = $security->roles()->findOneBy(['slug' => $slug]);
 
         $this->assertRole($role, "Role [$slug] does not exist.");
@@ -36,13 +39,10 @@ class RolePermissionAddCommand extends AddPermissionCommand
     }
 
     /**
-     * @param object|null $role
-     * @param string $message
-     *
      * @throws \OutOfBoundsException
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    private function assertRole($role, $message)
+    private function assertRole(?object $role, string $message): void
     {
         if (! $role) {
             throw new EntityNotFoundException($message, 1);

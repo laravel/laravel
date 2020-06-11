@@ -6,18 +6,25 @@ use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
 use Digbang\Security\SecurityContext;
 use Digbang\Security\Users\User;
+use Digbang\Security\Users\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Illuminate\Console\Command;
 
 class UserRoleAddCommand extends Command
 {
+    private const SECURITY_CONTEXT = 'backoffice';
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'backoffice:users:roles:add {username : The user\'s username} {role : The role slug}';
+    protected $signature = 'backoffice:users:roles:add
+        {username : The user\'s username}
+        {role : The role slug}
+        {context? : Security context of the user and role (default: backoffice).}
+    ';
 
     /**
      * The console command description.
@@ -26,20 +33,18 @@ class UserRoleAddCommand extends Command
      */
     protected $description = 'Add a role to a backoffice user.';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle(SecurityContext $securityContext, EntityManager $entityManager)
+    public function handle(SecurityContext $securityContext, EntityManager $entityManager): int
     {
-        $security = $securityContext->getSecurity('backoffice');
+        $security = $securityContext->getSecurity($this->argument('context') ?? self::SECURITY_CONTEXT);
 
         $username = $this->argument('username');
         $roleName = $this->argument('role');
 
+        /** @var UserRepository $users */
+        $users = $security->users();
+
         /** @var User|Roleable $user */
-        $user = $security->users()->findOneBy(['username' => $username]);
+        $user = $users->findOneBy(['username' => $username]);
 
         try {
             $this->assertUser($user, "Username [$username] does not exist.");
@@ -65,16 +70,13 @@ class UserRoleAddCommand extends Command
     }
 
     /**
-     * @param User|null $user
-     * @param string $message
-     *
      * @throws \OutOfBoundsException
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    protected function assertUser($user, $message = 'User does not exist.')
+    protected function assertUser(?User $user, ?string $message = null): void
     {
         if (! $user) {
-            throw new EntityNotFoundException($message, 1);
+            throw new EntityNotFoundException($message ?? 'User does not exist.', 1);
         }
 
         if (! $user instanceof Roleable) {
@@ -83,12 +85,9 @@ class UserRoleAddCommand extends Command
     }
 
     /**
-     * @param Role|null $role
-     * @param string $message
-     *
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    protected function assertRoleExists($role, $message)
+    protected function assertRoleExists(?Role $role, string $message): void
     {
         if (! $role) {
             throw new EntityNotFoundException($message, 3);

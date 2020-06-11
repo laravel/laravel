@@ -15,77 +15,89 @@ class UserEditRequest extends UserRequest
     public const FIELD_ROLES = 'roles';
     public const FIELD_PERMISSIONS = 'permissions';
 
-    public function rules()
+    public function firstName(): ?string
     {
-        $userId = $this->route(static::ROUTE_PARAM_ID);
+        return $this->get(self::FIELD_FIRST_NAME);
+    }
+
+    public function lastName(): ?string
+    {
+        return $this->get(self::FIELD_LAST_NAME);
+    }
+
+    public function email(): string
+    {
+        return $this->get(self::FIELD_EMAIL);
+    }
+
+    public function username(): string
+    {
+        return $this->get(self::FIELD_USERNAME);
+    }
+
+    public function password(): string
+    {
+        return $this->get(self::FIELD_PASSWORD);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function roles(): array
+    {
+        return $this->get(self::FIELD_ROLES, []) ?? [];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function permissions(): array
+    {
+        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+    }
+
+    public function credentials(): array
+    {
+        return $this->all([
+            self::FIELD_FIRST_NAME,
+            self::FIELD_LAST_NAME,
+            self::FIELD_EMAIL,
+            self::FIELD_USERNAME,
+            self::FIELD_PASSWORD,
+            self::FIELD_ROLES,
+            self::FIELD_PERMISSIONS,
+        ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function rules(): array
+    {
+        $userId = $this->route(self::ROUTE_PARAM_ID);
 
         return [
-            static::FIELD_FIRST_NAME => 'max:255',
-            static::FIELD_LAST_NAME => 'max:255',
-            static::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address,' . $userId,
-            static::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username,' . $userId,
-            static::FIELD_PASSWORD => 'nullable|confirmed|min:3',
-            static::FIELD_ROLES => 'array',
-            static::FIELD_PERMISSIONS => 'array',
+            self::FIELD_FIRST_NAME => 'max:255',
+            self::FIELD_LAST_NAME => 'max:255',
+            self::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address,' . $userId,
+            self::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username,' . $userId,
+            self::FIELD_PASSWORD => 'nullable|confirmed|min:3',
+            self::FIELD_ROLES => 'array',
+            self::FIELD_PERMISSIONS => 'array',
         ];
     }
 
+    /**
+     * @return array|string[]
+     */
     public function messages()
     {
         return [
-            static::FIELD_EMAIL . '.required' => trans('backoffice::auth.validation.user.email-required'),
-            static::FIELD_EMAIL . '.unique' => trans('backoffice::auth.validation.user.user-email-repeated'),
-            static::FIELD_USERNAME . '.required' => trans('backoffice::auth.validation.user.user-username-repeated'),
-            static::FIELD_USERNAME . '.unique' => trans('backoffice::auth.validation.user.user-username-repeated'),
-            static::FIELD_PASSWORD . '.required' => trans('backoffice::auth.validation.user.password-required'),
+            self::FIELD_EMAIL . '.required' => trans('backoffice::auth.validation.user.email-required'),
+            self::FIELD_EMAIL . '.unique' => trans('backoffice::auth.validation.user.user-email-repeated'),
+            self::FIELD_USERNAME . '.required' => trans('backoffice::auth.validation.user.user-username-repeated'),
+            self::FIELD_USERNAME . '.unique' => trans('backoffice::auth.validation.user.user-username-repeated'),
+            self::FIELD_PASSWORD . '.required' => trans('backoffice::auth.validation.user.password-required'),
         ];
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->get(static::FIELD_FIRST_NAME);
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->get(static::FIELD_LAST_NAME);
-    }
-
-    public function getEmail(): string
-    {
-        return $this->get(static::FIELD_EMAIL);
-    }
-
-    public function getUsername(): string
-    {
-        return $this->get(static::FIELD_USERNAME);
-    }
-
-    public function getPassword(): string
-    {
-        return $this->get(static::FIELD_PASSWORD);
-    }
-
-    public function getRoles(): array
-    {
-        return $this->get(static::FIELD_ROLES, []) ?? [];
-    }
-
-    public function getPermissions(): array
-    {
-        return $this->get(static::FIELD_PERMISSIONS, []) ?? [];
-    }
-
-    public function getCredentials(): array
-    {
-        return $this->all([
-            static::FIELD_FIRST_NAME,
-            static::FIELD_LAST_NAME,
-            static::FIELD_EMAIL,
-            static::FIELD_USERNAME,
-            static::FIELD_PASSWORD,
-            static::FIELD_ROLES,
-            static::FIELD_PERMISSIONS,
-        ]);
     }
 }

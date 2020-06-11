@@ -3,7 +3,8 @@
 namespace App\Infrastructure\Doctrine\Validation;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
@@ -11,17 +12,12 @@ use Illuminate\Validation\PresenceVerifierInterface;
 
 class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
+    protected ManagerRegistry $registry;
 
     /**
      * The database connection to use.
-     *
-     * @var string
      */
-    protected $connection = null;
+    protected ?string $connection = null;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -44,7 +40,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
         $builder = $this->select($collection);
         $builder->where($this->getWhereClause($collection, $column));
 
-        if (! is_null($excludeId) && $excludeId != 'NULL') {
+        if (! is_null($excludeId) && $excludeId !== 'NULL') {
             $idColumn = $idColumn ?: 'id';
             $builder->andWhere("e.{$idColumn} <> :" . $this->prepareParam($idColumn));
         }
@@ -54,7 +50,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
         $query = $builder->getQuery();
         $query->setParameter($this->prepareParam($column), $value);
 
-        if (! is_null($excludeId) && $excludeId != 'NULL') {
+        if (! is_null($excludeId) && $excludeId !== 'NULL') {
             $query->setParameter($this->prepareParam($idColumn), $excludeId);
         }
 
@@ -81,20 +77,13 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
 
     /**
      * Set the connection to be used.
-     *
-     * @param string $connection
      */
-    public function setConnection($connection)
+    public function setConnection(string $connection): void
     {
         $this->connection = $connection;
     }
 
-    /**
-     * @param string $collection
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    protected function select($collection)
+    protected function select(string $collection): QueryBuilder
     {
         /** @var EntityManager $em */
         $em = $this->getEntityManager($collection);
@@ -105,7 +94,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
         return $builder;
     }
 
-    protected function queryExtraConditions(array $extra, QueryBuilder $builder)
+    protected function queryExtraConditions(array $extra, QueryBuilder $builder): void
     {
         foreach ($extra as $key => $extraValue) {
             $builder->andWhere("e.{$key} = :" . $this->prepareParam($key));
@@ -113,39 +102,35 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
         }
     }
 
-    /**
-     * @param string $entity
-     *
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
-     */
-    protected function getEntityManager($entity)
+    protected function getEntityManager(string $entity): ?ObjectManager
     {
         if (! is_null($this->connection)) {
-            return $this->registry->getManager($this->connection);
+            /** @var ObjectManager $manager */
+            $manager = $this->registry->getManager($this->connection);
+
+            return $manager;
         }
 
-        return $this->registry->getManagerForClass($entity);
+        /** @var ObjectManager|null $manager */
+        $manager = $this->registry->getManagerForClass($entity);
+
+        return $manager;
     }
 
-    /**
-     * @param string $column
-     *
-     * @return string
-     */
-    protected function prepareParam($column)
+    protected function prepareParam(string $column): string
     {
         return str_replace('.', '', $column);
     }
 
-    private function getWhereClause($collection, $column)
+    private function getWhereClause(string $collection, string $column): string
     {
         /** @var ClassMetadata $metadata */
         $metadata = $this->getEntityManager($collection)->getClassMetadata($collection);
         $field = $metadata->fieldMappings[$column];
 
         switch ($field['type']) {
-            case Type::STRING:
-            case Type::TEXT:
+            case Types::STRING:
+            case Types::TEXT:
                 return "LOWER(e.{$column}) = LOWER(:{$this->prepareParam($column)})";
             default:
                 return "e.{$column} = :{$this->prepareParam($column)}";

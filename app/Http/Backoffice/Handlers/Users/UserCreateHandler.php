@@ -16,21 +16,22 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
 use Digbang\Security\Users\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class UserCreateHandler extends Handler implements RouteDefiner
 {
     use SendsEmails;
 
-    public function __invoke(UserCreateRequest $request)
+    public function __invoke(UserCreateRequest $request): RedirectResponse
     {
         try {
             /** @var User $user */
-            $user = security()->users()->create($request->getCredentials(), function (User $user) use ($request) {
-                $this->addRoles($user, $request->getRoles());
+            $user = security()->users()->create($request->credentials(), function (User $user) use ($request): void {
+                $this->addRoles($user, $request->roles());
             });
 
-            if ($request->getActivated()) {
+            if ($request->activated()) {
                 security()->activate($user);
             } else {
                 /** @var Activation $activation */
@@ -57,25 +58,27 @@ class UserCreateHandler extends Handler implements RouteDefiner
 
         $router
             ->post("$backofficePrefix/$routePrefix/", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_CREATE,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 
     private function addRoles(User $user, array $roles): void
     {
-        if ($user instanceof Roleable && ! empty($roles)) {
+        if ($user instanceof Roleable && count($roles) > 0) {
             /* @var Roleable $user */
             foreach ($roles as $role) {
                 /** @var Role $role */
-                if ($role = security()->roles()->findBySlug($role)) {
+                $role = security()->roles()->findBySlug($role);
+
+                if ($role) {
                     $user->addRole($role);
                 }
             }

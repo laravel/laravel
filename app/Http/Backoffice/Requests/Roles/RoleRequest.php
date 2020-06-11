@@ -11,7 +11,7 @@ class RoleRequest extends Request
 
     public function getRole(): Role
     {
-        $id = $this->route(static::ROUTE_PARAM_ID);
+        $id = $this->route(self::ROUTE_PARAM_ID);
 
         /** @var Role|null $role */
         $role = security()->roles()->findById($id);

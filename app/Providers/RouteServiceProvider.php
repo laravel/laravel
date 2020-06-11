@@ -9,10 +9,10 @@ use Symfony\Component\Finder\Finder;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public function map()
+    public function map(): void
     {
         $orderedRoutes = [];
-        /** @var Finder $handlers */
+
         $handlers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
         foreach ($handlers as $file) {
             $className = 'App' . str_replace([app_path(), '/', '.php'], ['', '\\', ''], $file);

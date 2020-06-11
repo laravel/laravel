@@ -6,11 +6,12 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
+use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
 class DashboardHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(SecurityApi $securityApi)
+    public function __invoke(SecurityApi $securityApi): View
     {
         return view('backoffice::empty', [
             'user' => $securityApi->getUser(),
@@ -22,13 +23,13 @@ class DashboardHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->get("$backofficePrefix/", static::class)
-            ->name(static::class)
+            ->get("$backofficePrefix/", self::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 }

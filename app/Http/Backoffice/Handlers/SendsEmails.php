@@ -8,38 +8,27 @@ use Illuminate\Support\Facades\Mail;
 
 trait SendsEmails
 {
-    /**
-     * @param string $link
-     */
-    public function sendPasswordReset(User $user, $link): void
+    public function sendPasswordReset(User $user, string $link): void
     {
         $this->send('backoffice::emails.reset-password', $user, $link, trans(
             'backoffice::emails.reset-password.subject'
         ));
     }
 
-    /**
-     * @param string $link
-     */
-    public function sendActivation(User $user, $link): void
+    public function sendActivation(User $user, string $link): void
     {
         $this->send('backoffice::emails.activation', $user, $link, trans(
             'backoffice::emails.activation.subject'
         ));
     }
 
-    /**
-     * @param string $view
-     * @param string $link
-     * @param string $subject
-     */
-    protected function send($view, User $user, $link, $subject): void
+    protected function send(string $view, User $user, string $link, string $subject): void
     {
         $from = config('backoffice.emails');
 
         $name = $user->getName() ?: $user->getUsername();
 
-        Mail::send($view, ['name' => $name, 'link' => $link], function (Message $message) use ($user, $from, $subject, $name) {
+        Mail::send($view, ['name' => $name, 'link' => $link], function (Message $message) use ($user, $from, $subject, $name): void {
             $message
                 ->from($from['address'], $from['name'])
                 ->to($user->getEmail(), $name)

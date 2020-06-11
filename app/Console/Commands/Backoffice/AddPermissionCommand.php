@@ -10,15 +10,12 @@ use Illuminate\Console\Command;
 
 abstract class AddPermissionCommand extends Command
 {
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle(SecurityContext $securityContext, EntityManager $entityManager)
+    private const SECURITY_CONTEXT = 'backoffice';
+
+    public function handle(SecurityContext $securityContext, EntityManager $entityManager): int
     {
         try {
-            $security = $securityContext->getSecurity('backoffice');
+            $security = $securityContext->getSecurity($this->argument('context') ?? self::SECURITY_CONTEXT);
 
             $permissible = $this->getPermissible($security);
             $permissions = $this->getPermissions($security);
@@ -42,7 +39,7 @@ abstract class AddPermissionCommand extends Command
     /**
      * @return string[]
      */
-    protected function getPermissions(SecurityApi $security)
+    protected function getPermissions(SecurityApi $security): array
     {
         $permissions = $this->argument('permissions');
 
@@ -53,8 +50,5 @@ abstract class AddPermissionCommand extends Command
         return $security->permissions()->all();
     }
 
-    /**
-     * @return Permissible
-     */
-    abstract protected function getPermissible(SecurityApi $security);
+    abstract protected function getPermissible(SecurityApi $security): Permissible;
 }

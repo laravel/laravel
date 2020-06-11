@@ -10,11 +10,12 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class RoleDeleteHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(RoleRequest $request)
+    public function __invoke(RoleRequest $request): RedirectResponse
     {
         $role = $request->getRole();
 
@@ -41,17 +42,17 @@ class RoleDeleteHandler extends Handler implements RouteDefiner
 
         $router
             ->delete("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_DELETE,
             ])
             ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $roleId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             RoleRequest::ROUTE_PARAM_ID => $roleId,
         ]);
     }

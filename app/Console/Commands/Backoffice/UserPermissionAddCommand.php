@@ -13,7 +13,11 @@ class UserPermissionAddCommand extends AddPermissionCommand
      *
      * @var string
      */
-    protected $signature = 'backoffice:users:permissions:add {username : The username of the user} {permissions? : A comma-separated list of permissions. If omitted, all permissions will be added.}';
+    protected $signature = 'backoffice:users:permissions:add
+        {username : The username of the user}
+        {permissions? : A comma-separated list of permissions. If omitted, all permissions will be added.}
+        {context? : Security context of the user and role (default: backoffice).}
+    ';
 
     /**
      * The console command description.
@@ -22,27 +26,23 @@ class UserPermissionAddCommand extends AddPermissionCommand
      */
     protected $description = 'Add permission/s to a backoffice user.';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getPermissible(SecurityApi $security)
+    protected function getPermissible(SecurityApi $security): Permissible
     {
         $username = $this->argument('username');
 
+        /** @var Permissible $user */
         $user = $security->users()->findOneBy(['username' => $username]);
+
         $this->assertUser($user, "Username [$username] does not exist.");
 
         return $user;
     }
 
     /**
-     * @param object|null $user
-     * @param string      $message
-     *
      * @throws \OutOfBoundsException
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    protected function assertUser($user, $message)
+    protected function assertUser(?object $user, string $message): void
     {
         if (! $user) {
             throw new EntityNotFoundException($message, 1);

@@ -12,20 +12,20 @@ use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
 class RoleEditFormHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    private PermissionParser $permissionParser;
 
     public function __construct(PermissionParser $permissionParser)
     {
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(RoleRequest $request, Factory $view)
+    public function __invoke(RoleRequest $request, Factory $view): View
     {
         $role = $request->getRole();
 
@@ -36,7 +36,7 @@ class RoleEditFormHandler extends Handler implements RouteDefiner
             security()->url()->to(RoleListHandler::route())
         );
 
-        $permissions = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission) {
+        $permissions = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission): string {
             return $permission->getName();
         })->toArray();
 
@@ -66,22 +66,22 @@ class RoleEditFormHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/{" . RoleRequest::ROUTE_PARAM_ID . '}/edit', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_UPDATE,
             ])
             ->where(RoleRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $roleId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             RoleRequest::ROUTE_PARAM_ID => $roleId,
         ]);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
+    private function buildForm(string $target, string $label, string $method = Request::METHOD_POST, string $cancelAction = '', array $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 

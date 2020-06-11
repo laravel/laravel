@@ -2,7 +2,7 @@ version: '3.7'
 services:
   php:
     container_name: project-name_php_1
-    image: digbang/php-dev:7.4
+    build: docker/php
     ports:
      - "80:80"
      - "443:443"
@@ -14,7 +14,7 @@ services:
      - appnet
   db:
     container_name: project-name_db_1
-    image: postgres:latest
+    build: docker/postgres
     ports:
      - "5432:5432"
     environment:

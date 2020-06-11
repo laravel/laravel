@@ -7,12 +7,18 @@ use Illuminate\Console\Command;
 
 class UserAddCommand extends Command
 {
+    private const SECURITY_CONTEXT = 'backoffice';
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'backoffice:users:add {username : The user\'s username.} {email : The user\'s email address.}';
+    protected $signature = 'backoffice:users:add
+        {username : The user\'s username.}
+        {email : The user\'s email address.}
+        {context? : Security context of the user and role (default: backoffice).}
+    ';
 
     /**
      * The console command description.
@@ -21,12 +27,9 @@ class UserAddCommand extends Command
      */
     protected $description = 'Add a user to the backoffice.';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle(SecurityContext $securityContext)
+    public function handle(SecurityContext $securityContext): void
     {
-        $security = $securityContext->getSecurity('backoffice');
+        $security = $securityContext->getSecurity($this->argument('context') ?? self::SECURITY_CONTEXT);
 
         $security->registerAndActivate([
             'username' => $this->argument('username'),

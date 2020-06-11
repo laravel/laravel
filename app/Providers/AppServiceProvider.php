@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @var string[]
      */
-    private $classBindings = [
+    private array $classBindings = [
         //Generic Repositories
         Repositories\PersistRepository::class => Doctrine\DoctrinePersistRepository::class,
 
@@ -27,13 +27,6 @@ class AppServiceProvider extends ServiceProvider
         ],
         */
     ];
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot()
-    {
-    }
 
     /**
      * Register any application services.
@@ -57,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureMonologSentryHandler();
     }
 
-    private function configureMonologSentryHandler()
+    private function configureMonologSentryHandler(): void
     {
         if (env('SENTRY_ENABLED')) {
             $this->app->register(\Sentry\Laravel\ServiceProvider::class);

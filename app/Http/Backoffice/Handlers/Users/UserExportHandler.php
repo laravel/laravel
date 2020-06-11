@@ -8,19 +8,21 @@ use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
+use Digbang\Backoffice\Repositories\DoctrineUserRepository;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Users\UserSorting;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UserExportHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(UserCriteriaRequest $request, Excel $exporter)
+    public function __invoke(UserCriteriaRequest $request, Excel $exporter): BinaryFileResponse
     {
         $items = new Collection($this->getData($request));
-        $items = $items->map(function (User $user) {
+        $items = $items->map(function (User $user): array {
             return [
                 $user->getName()->getFirstName(),
                 $user->getName()->getLastName(),
@@ -43,36 +45,39 @@ class UserExportHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/export", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_EXPORT,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(array $filter): string
     {
-        return route(static::class, $filter);
+        return route(self::class, $filter);
     }
 
+    /**
+     * @return \Illuminate\Pagination\LengthAwarePaginator|int|mixed|string
+     */
     private function getData(UserCriteriaRequest $request)
     {
-        /** @var \Digbang\Backoffice\Repositories\DoctrineUserRepository $users */
+        /** @var DoctrineUserRepository $users */
         $users = security()->users();
 
-        $filters = $request->getFilter()->values();
+        $filters = $request->getFilter();
 
-        $filters = array_filter($filters, function ($field) {
+        $availableFilters = array_filter($filters->values(), function ($field): bool {
             return $field !== null && $field !== '';
         });
 
-        if (array_key_exists('activated', $filters)) {
-            $filters['activated'] = $filters['activated'] == 'true';
+        if ($filters->has('activated')) {
+            $availableFilters['activated'] = $filters->getBoolean('activated');
         }
 
         $sorting = $this->convertSorting($request->getSorting());
 
-        return $users->search($filters, $sorting, null, 0);
+        return $users->search($availableFilters, $sorting, null, 0);
     }
 
     /*
@@ -89,7 +94,7 @@ class UserExportHandler extends Handler implements RouteDefiner
         ];
 
         $selectedSorts = $userSorting->get(array_keys($sortings));
-        if (empty($selectedSorts)) {
+        if (count($selectedSorts) === 0) {
             $selectedSorts = [
                 UserSorting::FIRST_NAME => 'ASC',
                 UserSorting::LAST_NAME => 'ASC',

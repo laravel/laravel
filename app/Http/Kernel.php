@@ -27,6 +27,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\LocaleMiddleware::class,
+        \App\Http\Middleware\SentryContext::class,
     ];
 
     /**
@@ -45,8 +47,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         self::API => [
-            'throttle:60,1',
-            'bindings',
+            \App\Http\Middleware\SetApiDefaultHeaders::class,
+            'auth:api',
         ],
         self::BACKOFFICE => [
             self::WEB,
@@ -80,5 +82,20 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * This forces non-global middleware to always be in the given order.
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \App\Http\Middleware\SetApiDefaultHeaders::class,
+        \App\Http\Middleware\LocaleMiddleware::class,
+        \Illuminate\Auth\Middleware\Authenticate::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\SentryContext::class,
     ];
 }

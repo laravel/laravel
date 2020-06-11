@@ -6,7 +6,10 @@ use App\Http\Backoffice\Requests\Request;
 
 class ForgotPasswordRequest extends Request
 {
-    public function rules()
+    /**
+     * @return string[]
+     */
+    public function rules(): array
     {
         return [
             'email' => 'required|email',

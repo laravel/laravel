@@ -164,11 +164,10 @@ return [
          * Package Service Providers...
          */
         LaravelDoctrine\Extensions\GedmoExtensionsServiceProvider::class,
-        LaravelDoctrine\Extensions\BeberleiExtensionsServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Digbang\Backoffice\BackofficeServiceProvider::class,
-        Digbang\Files\FilesServiceProvider::class,
         Digbang\DoctrineExtensions\DoctrineExtensionsServiceProvider::class,
+        Digbang\SafeQueue\DoctrineQueueProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,8 +236,6 @@ return [
         /*
          * Package Facades...
          */
-        'Form' => Collective\Html\FormFacade::class,
-        'HTML' => Collective\Html\HtmlFacade::class,
         'Sentry' => Sentry\Laravel\Facade::class,
 
         /*

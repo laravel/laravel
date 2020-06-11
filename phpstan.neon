@@ -13,6 +13,9 @@ parameters:
         - '#Call to an undefined method LaravelDoctrine\\Fluent\\Fluent::chronos[a-zA-Z0-9_]+\(\).#'
 
     excludes_analyse:
-        - ./*/*/FileToBeExcluded.php
+        - config/insights.php
+        - preloader.php
+        - storage/preloader.php
 
     checkMissingIterableValueType: false
+    inferPrivatePropertyTypeFromConstructor: true

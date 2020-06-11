@@ -9,12 +9,14 @@ use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Listings\Listing;
+use Digbang\Backoffice\Repositories\DoctrineRoleRepository;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
@@ -23,15 +25,14 @@ use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
 class RoleListHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    private PermissionParser $permissionParser;
 
     public function __construct(PermissionParser $permissionParser)
     {
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(RoleCriteriaRequest $request, Factory $view)
+    public function __invoke(RoleCriteriaRequest $request, Factory $view): View
     {
         $list = $this->getListing();
 
@@ -59,16 +60,16 @@ class RoleListHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_LIST,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE_LISTING]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 
     private function getListing(): Listing
@@ -84,18 +85,20 @@ class RoleListHandler extends Handler implements RouteDefiner
             ->hide(['id', 'slug'])
             ->sortable(['name']);
 
-        $listing->addValueExtractor('id', function (Role $role) {
+        $listing->addValueExtractor('id', function (Role $role): int {
             return $role->getRoleId();
         });
 
-        $listing->addValueExtractor('slug', function (Role $role) {
+        $listing->addValueExtractor('slug', function (Role $role): string {
             return $role->getRoleSlug();
         });
 
-        $listing->addValueExtractor('users', function (Role $role) {
+        $listing->addValueExtractor('users', function (Role $role): string {
             $users = [];
-            foreach ($role->getUsers() as $user) {
-                /* @var User $user */
+
+            /** @var User[] $roleUsers */
+            $roleUsers = $role->getUsers();
+            foreach ($roleUsers as $user) {
                 $users[] = $user->getUsername();
             }
 
@@ -126,23 +129,27 @@ class RoleListHandler extends Handler implements RouteDefiner
     {
         $actions = backoffice()->actions();
 
-        try {
-            $actions->link(
-                security()->url()->to(RoleCreateFormHandler::route()),
-                fa('plus') . ' ' . trans('backoffice::default.new', ['model' => trans('backoffice::auth.role')]),
-                ['class' => 'btn btn-primary']
-            );
-        } catch (SecurityException $e) {
-        }
+        $actions->link(function () {
+            try {
+                return security()->url()->to(RoleCreateFormHandler::route());
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('plus') . ' ' . trans('backoffice::default.new', ['model' => trans('backoffice::auth.role')]),
+        [
+            'class' => 'btn btn-primary',
+        ]);
 
-        try {
-            $actions->link(
-                security()->url()->to(RoleExportHandler::route($request->all())),
-                fa('file-excel-o') . ' ' . trans('backoffice::default.export'),
-                ['class' => 'btn btn-success']
-            );
-        } catch (SecurityException $e) {
-        }
+        $actions->link(function () use ($request) {
+            try {
+                return security()->url()->to(RoleExportHandler::route($request->all()));
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('file-excel-o') . ' ' . trans('backoffice::default.export'),
+        [
+            'class' => 'btn btn-success',
+        ]);
 
         $list->setActions($actions);
 
@@ -194,9 +201,12 @@ class RoleListHandler extends Handler implements RouteDefiner
         $list->setRowActions($rowActions);
     }
 
+    /**
+     * @return array|\Illuminate\Pagination\LengthAwarePaginator
+     */
     private function getData(RoleCriteriaRequest $request)
     {
-        /** @var \Digbang\Backoffice\Repositories\DoctrineRoleRepository $roles */
+        /** @var DoctrineRoleRepository $roles */
         $roles = security()->roles();
 
         $filter = $request->getFilter()->values();
@@ -217,7 +227,7 @@ class RoleListHandler extends Handler implements RouteDefiner
         ];
 
         $selectedSorts = $roleSorting->get(array_keys($sortings));
-        if (empty($selectedSorts)) {
+        if (count($selectedSorts) === 0) {
             $selectedSorts = [array_first(array_keys($sortings)) => 'ASC'];
         }
 

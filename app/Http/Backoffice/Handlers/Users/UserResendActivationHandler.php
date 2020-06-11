@@ -12,15 +12,18 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
+use Digbang\Security\Users\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class UserResendActivationHandler extends Handler implements RouteDefiner
 {
     use SendsEmails;
 
-    public function __invoke(UserRequest $request)
+    public function __invoke(UserRequest $request): RedirectResponse
     {
-        $user = $request->getUserById();
+        /** @var User $user */
+        $user = $request->findUser();
 
         try {
             $activation = security()->activations()->create($user);
@@ -45,17 +48,17 @@ class UserResendActivationHandler extends Handler implements RouteDefiner
 
         $router
             ->post("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/resend-activation', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_RESEND_ACTIVATION,
             ])
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             UserRequest::ROUTE_PARAM_ID => $userId,
         ]);
     }

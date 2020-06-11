@@ -17,6 +17,9 @@ class AuthActivateHandler extends Handler implements RouteDefiner
     public const ROUTE_PARAM_USER = 'user_id';
     public const ROUTE_PARAM_CODE = 'code';
 
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function __invoke(
         ActivateRequest $request,
         SecurityApi $securityApi,
@@ -24,8 +27,8 @@ class AuthActivateHandler extends Handler implements RouteDefiner
         Redirector $redirector,
         Factory $view
     ) {
-        $user = $request->getUserById();
-        $code = $request->getCode();
+        $user = $request->findUser();
+        $code = $request->code();
 
         $activations = $securityApi->activations();
 
@@ -51,16 +54,16 @@ class AuthActivateHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->get($backofficePrefix . '/auth/activate/{' . static::ROUTE_PARAM_USER . '}/{' . static::ROUTE_PARAM_CODE . '}', static::class)
-            ->name(static::class)
+            ->get($backofficePrefix . '/auth/activate/{' . self::ROUTE_PARAM_USER . '}/{' . self::ROUTE_PARAM_CODE . '}', self::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(int $userId, string $code): string
     {
-        return route(static::class, [
-            static::ROUTE_PARAM_USER => $userId,
-            static::ROUTE_PARAM_CODE => $code,
+        return route(self::class, [
+            self::ROUTE_PARAM_USER => $userId,
+            self::ROUTE_PARAM_CODE => $code,
         ]);
     }
 }

@@ -6,13 +6,14 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
 class AuthLoginHandler extends Handler implements RouteDefiner
 {
     public const ROUTE_NAME = 'backoffice.auth.login';
 
-    public function __invoke(Factory $view)
+    public function __invoke(Factory $view): View
     {
         return $view->make('backoffice::auth.login');
     }
@@ -22,13 +23,13 @@ class AuthLoginHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->get("$backofficePrefix/auth/login", static::class)
-            ->name(static::ROUTE_NAME)
+            ->get("$backofficePrefix/auth/login", self::class)
+            ->name(self::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string
     {
-        return route(static::ROUTE_NAME);
+        return route(self::ROUTE_NAME);
     }
 }

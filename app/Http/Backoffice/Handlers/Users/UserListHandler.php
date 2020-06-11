@@ -15,6 +15,7 @@ use Digbang\Security\Users\User;
 use Digbang\Utils\CriteriaRequest;
 use Digbang\Utils\Sorting;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
@@ -23,7 +24,7 @@ use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserListHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(UserCriteriaRequest $request, Factory $view)
+    public function __invoke(UserCriteriaRequest $request, Factory $view): View
     {
         $list = $this->getListing();
 
@@ -51,16 +52,16 @@ class UserListHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_LIST,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE_LISTING]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 
     private function getListing(): Listing
@@ -79,19 +80,19 @@ class UserListHandler extends Handler implements RouteDefiner
             ->hide(['id', 'user_id', 'name'])
             ->sortable(['firstName', 'lastName', 'lastLogin', 'email', 'username']);
 
-        $listing->addValueExtractor('firstName', function (User $user) {
+        $listing->addValueExtractor('firstName', function (User $user): string {
             return $user->getName()->getFirstName();
         });
 
-        $listing->addValueExtractor('lastName', function (User $user) {
+        $listing->addValueExtractor('lastName', function (User $user): string {
             return $user->getName()->getLastName();
         });
 
-        $listing->addValueExtractor('lastLogin', function (User $user) {
+        $listing->addValueExtractor('lastLogin', function (User $user): string {
             return $user->getLastLogin() ? $user->getLastLogin()->format(trans('backoffice::default.datetime_format')) : '';
         });
 
-        $listing->addValueExtractor('id', function (User $user) {
+        $listing->addValueExtractor('id', function (User $user): int {
             return $user->getUserId();
         });
 
@@ -113,26 +114,27 @@ class UserListHandler extends Handler implements RouteDefiner
     {
         $actions = backoffice()->actions();
 
-        try {
-            $actions->link(
-                url()->to(UserCreateFormHandler::route()),
-                fa('plus') . ' ' . trans('backoffice::default.new', ['model' => trans('backoffice::auth.user')]),
-                [
-                    'class' => 'btn btn-primary',
-                ]
-            );
-        } catch (SecurityException $e) { /* Do nothing */
-        }
-        try {
-            $actions->link(
-                url()->to(UserExportHandler::route($request->all())),
-                fa('file-excel-o') . ' ' . trans('backoffice::default.export'),
-                [
-                    'class' => 'btn btn-success',
-                ]
-            );
-        } catch (SecurityException $e) { /* Do nothing */
-        }
+        $actions->link(function () {
+            try {
+                return security()->url()->to(UserCreateFormHandler::route());
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('plus') . ' ' . trans('backoffice::default.new', ['model' => trans('backoffice::auth.user')]),
+        [
+            'class' => 'btn btn-primary',
+        ]);
+
+        $actions->link(function () use ($request) {
+            try {
+                return security()->url()->to(UserExportHandler::route($request->all()));
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('file-excel-o') . ' ' . trans('backoffice::default.export'),
+        [
+            'class' => 'btn btn-success',
+        ]);
 
         $list->setActions($actions);
 
@@ -235,26 +237,29 @@ class UserListHandler extends Handler implements RouteDefiner
         $list->setRowActions($rowActions);
     }
 
+    /**
+     * @return \Illuminate\Pagination\LengthAwarePaginator|int|mixed|string
+     */
     private function getData(CriteriaRequest $request)
     {
         /** @var DoctrineUserRepository $users */
         $users = security()->users();
 
-        $filters = $request->getFilter()->values();
+        $filters = $request->getFilter();
 
-        $filters = array_filter($filters, function ($field) {
+        $availableFilters = array_filter($filters->values(), function ($field): bool {
             return $field !== null && $field !== '';
         });
 
-        if (array_key_exists('activated', $filters)) {
-            $filters['activated'] = $filters['activated'] == 'true';
+        if ($filters->has('activated')) {
+            $availableFilters['activated'] = $filters->getBoolean('activated');
         }
 
         $sorting = $this->convertSorting($request->getSorting());
         $limit = $request->getPaginationData()->getLimit();
         $offset = $request->getPaginationData()->getOffset();
 
-        return $users->search($filters, $sorting, $limit, $offset);
+        return $users->search($availableFilters, $sorting, $limit, $offset);
     }
 
     /*
@@ -271,7 +276,7 @@ class UserListHandler extends Handler implements RouteDefiner
         ];
 
         $selectedSorts = $userSorting->get(array_keys($sortings));
-        if (empty($selectedSorts)) {
+        if (count($selectedSorts) === 0) {
             $selectedSorts = [
                 UserSorting::FIRST_NAME => 'ASC',
                 UserSorting::LAST_NAME => 'ASC',

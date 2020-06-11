@@ -1,6 +1,6 @@
 <?php
 
-use \Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\Finder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -25,7 +25,6 @@ $files = $files
 
 /** @var \Symfony\Component\Finder\SplFileInfo $file */
 foreach ($files as $file) {
-
     $projectName = basename(dirname(__DIR__));
     $namespace = studly_case($projectName);
 

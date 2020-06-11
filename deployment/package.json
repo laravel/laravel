@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}

@@ -11,16 +11,19 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
+use Digbang\Security\Users\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
 class UserEditHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(UserEditRequest $request)
+    public function __invoke(UserEditRequest $request): RedirectResponse
     {
-        $user = $request->getUserById();
+        /** @var User $user */
+        $user = $request->findUser();
 
         try {
-            security()->users()->update($user, $request->getCredentials());
+            security()->users()->update($user, $request->credentials());
 
             return redirect()->to(url()->to(UserListHandler::route()));
         } catch (ValidationException $e) {
@@ -37,17 +40,17 @@ class UserEditHandler extends Handler implements RouteDefiner
 
         $router
             ->put("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             UserRequest::ROUTE_PARAM_ID => $userId,
         ]);
     }

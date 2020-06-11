@@ -9,37 +9,29 @@ interface ReadRepository extends ObjectRepository
 {
     /**
      * @throws EntityNotFoundException
+     */
+    public function get(int $id): object;
+
+    public function findOne(int $id): ?object;
+
+    public function all(): array;
+
+    /**
+     * @param null $limit
+     * @param null $offset
      *
-     * @return object
+     * @return object[]
      */
-    public function get(int $id);
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array;
 
-    /**
-     * @throws EntityNotFoundException
-     *
-     * @return object|null
-     */
-    public function findOne(int $id);
+    public function findOneBy(array $criteria): ?object;
 
-    /**
-     * @return array
-     */
-    public function all();
-
-    /**
-     * @param int|null   $limit
-     * @param int|null   $offset
-     *
-     * @return array
-     */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
-
-    public function findOneBy(array $criteria);
-
-    /**
-     * @param mixed $entity
-     */
-    public function refresh($entity);
+    public function refresh(object $entity): void;
 
     public function findByIds(array $id): array;
+
+    /**
+     * @return void
+     */
+    public function clear();
 }

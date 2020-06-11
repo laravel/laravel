@@ -11,20 +11,20 @@ use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
 class RoleCreateFormHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    private PermissionParser $permissionParser;
 
     public function __construct(PermissionParser $permissionParser)
     {
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(Factory $view)
+    public function __invoke(Factory $view): View
     {
         $label = trans('backoffice::default.new', ['model' => trans('backoffice::auth.role')]);
 
@@ -55,19 +55,19 @@ class RoleCreateFormHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/create", [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::ROLE_CREATE,
             ])
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(): string
     {
-        return route(static::class);
+        return route(self::class);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
+    private function buildForm(string $target, string $label, string $method = Request::METHOD_POST, string $cancelAction = '', array $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 

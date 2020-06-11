@@ -9,6 +9,7 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
@@ -18,8 +19,11 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
 
     protected const ROUTE_NAME = 'backoffice.auth.password.forgot-request';
 
-    public function __invoke(Redirector $redirector, ForgotPasswordRequest $request, SecurityApi $securityApi)
-    {
+    public function __invoke(
+        Redirector $redirector,
+        ForgotPasswordRequest $request,
+        SecurityApi $securityApi
+    ): RedirectResponse {
         $email = $request->getEmail();
 
         /** @var User $user */
@@ -48,13 +52,13 @@ class AuthForgotPasswordHandler extends Handler implements RouteDefiner
         $backofficePrefix = config('backoffice.global_url_prefix');
 
         $router
-            ->post("$backofficePrefix/auth/password/forgot", static::class)
-            ->name(static::ROUTE_NAME)
+            ->post("$backofficePrefix/auth/password/forgot", self::class)
+            ->name(self::ROUTE_NAME)
             ->middleware([Kernel::BACKOFFICE_PUBLIC]);
     }
 
     public static function route(): string
     {
-        return route(static::ROUTE_NAME);
+        return route(self::ROUTE_NAME);
     }
 }

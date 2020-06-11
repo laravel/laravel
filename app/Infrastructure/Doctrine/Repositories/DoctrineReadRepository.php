@@ -2,15 +2,17 @@
 
 namespace App\Infrastructure\Doctrine\Repositories;
 
+use App\Infrastructure\Doctrine\Pagination\Paginator;
 use Digbang\Utils\Doctrine\QueryBuilderDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use ProjectName\Repositories\ReadRepository;
 
 abstract class DoctrineReadRepository extends EntityRepository implements ReadRepository
 {
+    use Paginator;
+
     public function __construct(EntityManager $entityManager)
     {
         parent::__construct($entityManager, $entityManager->getClassMetadata($this->getEntity()));
@@ -19,10 +21,8 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
     /**
      * @param string $alias
      * @param null $indexBy
-     *
-     * @return QueryBuilderDecorator
      */
-    public function createQueryBuilder($alias, $indexBy = null)
+    public function createQueryBuilder($alias, $indexBy = null): QueryBuilderDecorator
     {
         return (new QueryBuilderDecorator(
                 $this->_em->createQueryBuilder()
@@ -31,12 +31,9 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
             ->from($this->_entityName, $alias, $indexBy);
     }
 
-    abstract public function getEntity();
+    abstract public function getEntity(): string;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function get(int $id)
+    public function get(int $id): object
     {
         $entity = $this->findOne($id);
         if ($entity) {
@@ -46,25 +43,28 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
         throw new EntityNotFoundException($this->getEntity());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function findOne(int $id)
+    public function findOne(int $id): ?object
     {
         return $this->find($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function all()
+    public function all(): array
     {
         return $this->findAll();
     }
 
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        return parent::findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null): ?object
+    {
+        return parent::findOneBy($criteria, $orderBy);
+    }
+
     public function findByIds(array $ids): array
     {
-        /** @var ClassMetadataInfo $meta */
         $meta = $this->_em->getClassMetadata($this->_entityName);
         $identifier = $meta->getSingleIdentifierFieldName();
 
@@ -73,7 +73,7 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
         ]);
     }
 
-    public function refresh($entity)
+    public function refresh(object $entity): void
     {
         $this->_em->refresh($entity);
     }

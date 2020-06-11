@@ -17,23 +17,23 @@ use Digbang\Security\Roles\Roleable;
 use Digbang\Security\Users\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
 class UserEditFormHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    private PermissionParser $permissionParser;
 
     public function __construct(PermissionParser $permissionParser)
     {
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(UserRequest $request, Factory $view)
+    public function __invoke(UserRequest $request, Factory $view): View
     {
         /** @var User $user */
-        $user = $request->getUserById();
+        $user = $request->findUser();
 
         $form = $this->buildForm(
             security()->url()->to(UserEditHandler::route($user->getUserId())),
@@ -95,22 +95,22 @@ class UserEditFormHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/edit', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_UPDATE,
             ])
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             UserRequest::ROUTE_PARAM_ID => $userId,
         ]);
     }
 
-    private function buildForm($target, $label, $method = Request::METHOD_POST, $cancelAction = '', $options = []): Form
+    private function buildForm(string $target, string $label, string $method = Request::METHOD_POST, string $cancelAction = '', array $options = []): Form
     {
         $form = backoffice()->form($target, $label, $method, $cancelAction, $options);
 
@@ -143,7 +143,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
             /* @var \Digbang\Security\Roles\Role $role */
             $options[$role->getRoleSlug()] = $role->getName();
 
-            $rolePermissions[$role->getRoleSlug()] = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission) {
+            $rolePermissions[$role->getRoleSlug()] = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission): string {
                 return $permission->getName();
             })->toArray();
         }

@@ -14,22 +14,22 @@ use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
 use Digbang\Security\Users\User;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
 class UserShowHandler extends Handler implements RouteDefiner
 {
-    /** @var PermissionParser */
-    private $permissionParser;
+    private PermissionParser $permissionParser;
 
     public function __construct(PermissionParser $permissionParser)
     {
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(UserRequest $request, Factory $view)
+    public function __invoke(UserRequest $request, Factory $view): View
     {
         /** @var User $user */
-        $user = $request->getUserById();
+        $user = $request->findUser();
 
         $breadcrumb = backoffice()->breadcrumb([
             trans('backoffice::default.home') => DashboardHandler::class,
@@ -55,42 +55,46 @@ class UserShowHandler extends Handler implements RouteDefiner
             /** @var \Doctrine\Common\Collections\Collection $roles */
             $roles = $user->getRoles();
 
-            $data[trans('backoffice::auth.roles')] = implode(', ', $roles->map(function (Role $role) {
+            $data[trans('backoffice::auth.roles')] = implode(', ', $roles->map(function (Role $role): string {
                 return $role->getName();
             })->toArray());
         }
 
         $actions = backoffice()->actions();
 
-        try {
-            $actions->link(
-                security()->url()->to(UserEditFormHandler::route($user->getUserId())),
-                fa('edit') . ' ' . trans('backoffice::default.edit'),
-                ['class' => 'btn btn-success']
-            );
-        } catch (SecurityException $e) {
-        }
+        $actions->link(function () use ($user) {
+            try {
+                return security()->url()->to(UserEditFormHandler::route($user->getUserId()));
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('edit') . ' ' . trans('backoffice::default.edit'),
+        [
+            'class' => 'btn btn-success',
+        ]);
 
-        try {
-            $actions->link(
-                security()->url()->to(UserListHandler::route()),
-                trans('backoffice::default.back'),
-                ['class' => 'btn btn-default']
-            );
-        } catch (SecurityException $e) {
-        }
+        $actions->link(function () {
+            try {
+                return security()->url()->to(UserListHandler::route());
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, trans('backoffice::default.back'),
+        [
+            'class' => 'btn btn-default',
+        ]);
 
         $topActions = backoffice()->actions();
 
-        try {
-            $topActions->link(
-                security()->url()->to(UserListHandler::route()),
-                fa('arrow-left') . ' ' . trans('backoffice::default.back')
-            );
-        } catch (SecurityException $e) {
-        }
+        $topActions->link(function () {
+            try {
+                return security()->url()->to(UserListHandler::route());
+            } catch (SecurityException $e) {
+                return false;
+            }
+        }, fa('arrow-left') . ' ' . trans('backoffice::default.back'));
 
-        return view()->make('backoffice::show', [
+        return $view->make('backoffice::show', [
             'title' => trans('backoffice::auth.users'),
             'breadcrumb' => $breadcrumb,
             'label' => trans('backoffice::auth.user_name', [
@@ -110,17 +114,17 @@ class UserShowHandler extends Handler implements RouteDefiner
 
         $router
             ->get("$backofficePrefix/$routePrefix/{" . UserRequest::ROUTE_PARAM_ID . '}/', [
-                'uses' => static::class,
+                'uses' => self::class,
                 'permission' => Permission::OPERATOR_READ,
             ])
             ->where(UserRequest::ROUTE_PARAM_ID, '[0-9]+')
-            ->name(static::class)
+            ->name(self::class)
             ->middleware([Kernel::BACKOFFICE]);
     }
 
     public static function route(int $userId): string
     {
-        return route(static::class, [
+        return route(self::class, [
             UserRequest::ROUTE_PARAM_ID => $userId,
         ]);
     }

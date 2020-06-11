@@ -6,7 +6,10 @@ use App\Http\Backoffice\Requests\Request;
 
 class LoginRequest extends Request
 {
-    public function rules()
+    /**
+     * @return string[]
+     */
+    public function rules(): array
     {
         return [
             'email' => 'required_without:login|email',
