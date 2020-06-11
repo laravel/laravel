@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => array_diff(explode(',', env('LOG_CHANNEL', 'single')), ['stack']),
             'ignore_exceptions' => false,
         ],
 
