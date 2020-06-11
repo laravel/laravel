@@ -26,7 +26,7 @@ class PresenceVerifierProvider extends ValidationServiceProvider
     /**
      * Register the database presence verifier.
      */
-    protected function registerPresenceVerifier()
+    protected function registerPresenceVerifier(): void
     {
         $this->app->singleton('validation.presence', function ($app) {
             return new DoctrineInsensitivePresenceVerifier($app['registry']);
