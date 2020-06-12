@@ -1,14 +1,14 @@
 const axios = require('axios')
 
-const [slackToken, CHANNEL, env, from, to, githubToken] = process.argv.slice(2)
+const [slackToken, slackChannel, env, repo, githubToken, from, to] = process.argv.slice(2)
 const slack_token = `Bearer ${slackToken}`;
 const github_token = `token ${githubToken}`;
-
+const icon = 'https://url.icon.com';
 
 if(from && to) {
   axios
     .get(
-      `https://api.github.com/repos/demiansc/smart-trust-api/compare/${from}...${to}`,
+      `${repo}/compare/${from}...${to}`,
        {
          headers: {
            Authorization: github_token,
@@ -36,9 +36,9 @@ if(from && to) {
         .post(
           'https://slack.com/api/chat.postMessage',
           {
-            icon_url: 'https://smart-trust.digbang.com/static/logo.svg',
+            icon_url: icon,
             username: 'Deploy tracker',
-            channel: CHANNEL,
+            channel: slackChannel,
             text: `Deploy started for *${env}*${
               commitMessages.length ? ` with ${commitMessages.length} new commits:` : ' with no new commits.'
             }`,
@@ -69,9 +69,9 @@ if(! from && !to) {
     .post(
       'https://slack.com/api/chat.postMessage',
       {
-        icon_url: 'https://smart-trust.digbang.com/static/logo.svg',
+        icon_url: icon,
         username: 'Deploy tracker',
-        channel: CHANNEL,
+        channel: slackChannel,
         text: `Deploy finished successfully for *${env}*`,
         pretty: 1,
       },
