@@ -11,7 +11,6 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -25,7 +24,7 @@ class RoleEditFormHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(RoleRequest $request, Factory $view): View
+    public function __invoke(RoleRequest $request): View
     {
         $role = $request->getRole();
 
@@ -52,7 +51,7 @@ class RoleEditFormHandler extends Handler implements RouteDefiner
             trans('backoffice::default.edit'),
         ]);
 
-        return $view->make('backoffice::edit', [
+        return view()->make('backoffice::edit', [
             'title' => trans('backoffice::auth.roles'),
             'form' => $form,
             'breadcrumb' => $breadcrumb,

@@ -67,14 +67,13 @@ class AdminAddCommand extends Command
     }
 
     /**
-     * @return Permissible|Role
+     * @return Permissible|Role|null
      */
     private function role()
     {
         /** @var DoctrineRoleRepository $roleRepository */
         $roleRepository = $this->security->roles();
 
-        /** @var Role|Permissible $role */
         $role = $roleRepository->findOneBy(['slug' => self::ADMIN_ROLE_SLUG]);
 
         if (! $role) {

@@ -72,7 +72,7 @@ class RoleExportHandler extends Handler implements RouteDefiner
         $filter = $request->getFilter()->values();
         $sorting = $this->convertSorting($request->getSorting());
 
-        return $roles->search($filter, $sorting, null, 0);
+        return $roles->search($filter, $sorting, 10000, 0);
     }
 
     /*

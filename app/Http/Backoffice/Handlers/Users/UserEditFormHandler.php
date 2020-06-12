@@ -16,7 +16,6 @@ use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
 use Digbang\Security\Users\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -30,7 +29,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(UserRequest $request, Factory $view): View
+    public function __invoke(UserRequest $request): View
     {
         /** @var User $user */
         $user = $request->findUser();
@@ -81,7 +80,7 @@ class UserEditFormHandler extends Handler implements RouteDefiner
             trans('backoffice::default.edit'),
         ]);
 
-        return $view->make('backoffice::edit', [
+        return view()->make('backoffice::edit', [
             'title' => trans('backoffice::auth.users'),
             'form' => $form,
             'breadcrumb' => $breadcrumb,

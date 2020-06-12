@@ -13,7 +13,6 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Roles\Roleable;
 use Digbang\Security\Users\User;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
@@ -26,7 +25,7 @@ class UserShowHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(UserRequest $request, Factory $view): View
+    public function __invoke(UserRequest $request): View
     {
         /** @var User $user */
         $user = $request->findUser();
@@ -94,7 +93,7 @@ class UserShowHandler extends Handler implements RouteDefiner
             }
         }, fa('arrow-left') . ' ' . trans('backoffice::default.back'));
 
-        return $view->make('backoffice::show', [
+        return view()->make('backoffice::show', [
             'title' => trans('backoffice::auth.users'),
             'breadcrumb' => $breadcrumb,
             'label' => trans('backoffice::auth.user_name', [

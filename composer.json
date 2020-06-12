@@ -29,17 +29,18 @@
     "require-dev": {
         "arcanedev/log-viewer": "^7.0",
         "barryvdh/laravel-debugbar": "^3.3",
-        "beyondcode/laravel-dump-server": "^1.4",
         "barryvdh/laravel-ide-helper": "^2.6",
+        "beyondcode/laravel-dump-server": "^1.4",
         "brainmaestro/composer-git-hooks": "^2.8",
         "facade/ignition": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.9",
         "fzaninotto/faker": "^1.9",
         "garygreen/pretty-routes": "^1.0",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^4.1",
+        "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
         "nunomaduro/phpinsights": "^1.14",
+        "pestphp/pest": "^0.1.5",
         "phpunit/phpunit": "^9.0",
         "roave/security-advisories": "dev-master"
     },
@@ -72,7 +73,7 @@
             ]
         },
         "hooks": {
-            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; vendor/bin/phpunit\"",
+            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer test; composer stan\"",
             "post-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes\""
         }
     },
@@ -109,10 +110,10 @@
             "php artisan migrate"
         ],
         "cs": "./vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "coverage": "./vendor/bin/phpunit --coverage-html coverage",
+        "coverage": "./vendor/bin/pest --coverage-html coverage",
         "insights": "php -d memory_limit=2000M ./vendor/bin/phpinsights -v --config-path=config/insights.php",
-        "stan": "php -d memory_limit=500M ./vendor/bin/phpstan analyse -l 3 -c phpstan.neon src app config resources tests",
-        "unit": "./vendor/bin/phpunit"
+        "stan": "./vendor/bin/phpstan analyse --memory-limit=1G",
+        "test": "./vendor/bin/pest"
     },
     "config": {
         "preferred-install": "dist",

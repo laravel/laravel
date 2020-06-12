@@ -7,8 +7,6 @@ use App\Http\Backoffice\Requests\Auth\ResetPasswordFormRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthResetPasswordFormHandler extends Handler implements RouteDefiner
@@ -22,21 +20,19 @@ class AuthResetPasswordFormHandler extends Handler implements RouteDefiner
      */
     public function __invoke(
         ResetPasswordFormRequest $request,
-        SecurityApi $securityApi,
-        Redirector $redirector,
-        Factory $view
+        SecurityApi $securityApi
     ) {
         $user = $request->findUser();
         $code = $request->code();
 
         if ($securityApi->reminders()->exists($user, $code)) {
-            return $view->make('backoffice::auth.reset-password', [
+            return view()->make('backoffice::auth.reset-password', [
                 'id' => $user->getUserId(),
                 'resetCode' => $code,
             ]);
         }
 
-        return $redirector->to(AuthLoginHandler::route())
+        return redirect()->to(AuthLoginHandler::route())
             ->with('danger', trans('backoffice::auth.validation.reset-password.incorrect'));
     }
 

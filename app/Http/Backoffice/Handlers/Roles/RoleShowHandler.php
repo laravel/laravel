@@ -10,7 +10,6 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
@@ -23,7 +22,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(RoleRequest $request, Factory $view): View
+    public function __invoke(RoleRequest $request): View
     {
         $role = $request->getRole();
 
@@ -75,7 +74,7 @@ class RoleShowHandler extends Handler implements RouteDefiner
             }
         }, fa('arrow-left') . ' ' . trans('backoffice::default.back'));
 
-        return $view->make('backoffice::show', [
+        return view()->make('backoffice::show', [
             'title' => trans('backoffice::auth.roles'),
             'breadcrumb' => $breadcrumb,
             'label' => $role->getName(),

@@ -8,8 +8,6 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthActivateHandler extends Handler implements RouteDefiner
@@ -23,9 +21,7 @@ class AuthActivateHandler extends Handler implements RouteDefiner
     public function __invoke(
         ActivateRequest $request,
         SecurityApi $securityApi,
-        Repository $config,
-        Redirector $redirector,
-        Factory $view
+        Repository $config
     ) {
         $user = $request->findUser();
         $code = $request->code();
@@ -33,18 +29,18 @@ class AuthActivateHandler extends Handler implements RouteDefiner
         $activations = $securityApi->activations();
 
         if ($activations->completed($user)) {
-            return $redirector->to(AuthLoginHandler::route())
+            return redirect()->to(AuthLoginHandler::route())
                 ->with('warning', trans('backoffice::auth.validation.user.already-active'));
         }
 
         if ($activations->exists($user, $code)) {
             $activations->complete($user, $code);
 
-            return $redirector->to(AuthLoginHandler::route())
+            return redirect()->to(AuthLoginHandler::route())
                 ->with('success', trans('backoffice::auth.activation.success'));
         }
 
-        return $view->make('backoffice::auth.activation-expired', [
+        return view()->make('backoffice::auth.activation-expired', [
             'email' => $config->get('backoffice.auth.contact'),
         ]);
     }

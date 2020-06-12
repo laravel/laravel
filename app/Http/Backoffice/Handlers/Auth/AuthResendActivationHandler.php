@@ -11,7 +11,6 @@ use Digbang\Security\Activations\Activation;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthResendActivationHandler extends Handler implements RouteDefiner
@@ -22,8 +21,7 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
 
     public function __invoke(
         ResendActivationRequest $request,
-        SecurityApi $securityApi,
-        Redirector $redirector
+        SecurityApi $securityApi
     ): RedirectResponse {
         $email = $request->email();
 
@@ -31,8 +29,10 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
         $user = $securityApi->users()->findByCredentials(['email' => $email]);
 
         if (! $user) {
-            $redirector->back()->withInput()->withErrors([
-                'email' => trans('backoffice::auth.validation.activation.incorrect', $email),
+            redirect()->back()->withInput()->withErrors([
+                'email' => trans('backoffice::auth.validation.activation.incorrect', [
+                    'email' => $email,
+                ]),
             ]);
         }
 
@@ -46,7 +46,7 @@ class AuthResendActivationHandler extends Handler implements RouteDefiner
             AuthActivateHandler::route($user->getUserId(), $activation->getCode())
         );
 
-        return $redirector->to(AuthLoginHandler::route())->with(
+        return redirect()->to(AuthLoginHandler::route())->with(
             'success', trans('backoffice::auth.activation.email-sent')
         );
     }

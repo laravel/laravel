@@ -11,7 +11,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Implementation bindings.
      *
-     * @var string[]
+     * @var string[]|array[]
      */
     private array $classBindings = [
         //Generic Repositories

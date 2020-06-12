@@ -5,6 +5,9 @@ parameters:
 
     paths:
         - app
+        - src
+        - resources
+        - config
 
     # The level 8 is the highest level
     level: 5
@@ -12,10 +15,13 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method LaravelDoctrine\\Fluent\\Fluent::chronos[a-zA-Z0-9_]+\(\).#'
 
+    reportUnmatchedIgnoredErrors: false
+
     excludes_analyse:
         - config/insights.php
         - preloader.php
         - storage/preloader.php
+        - app/Exceptions/Traits/ConvertsExceptions.php
 
     checkMissingIterableValueType: false
     inferPrivatePropertyTypeFromConstructor: true

@@ -155,3 +155,31 @@ public function roles(): ?array
     return null;
 }
 ```
+
+## HTTP Codes references
+The next list contains the HTTP codes returned by the API and the meaning in the present context:
+
+* HTTP 200 Ok: the request has been processed successfully.
+* HTTP 201 Created: the resource has been created. It's associated with a POST Request.
+* HTTP 204 No Content: the request has been processed successfully but does not need to return an entity-body.
+* HTTP 400 Bad Request: the request could not been processed by the API. You should review the data sent to.
+* HTTP 401 Unauthorized: When the request was performed to the login endpoint, means that credentials are not matching with any. When the request was performed to another endpoint means that the token it's not valid anymore due TTL expiration.
+* HTTP 403 Forbidden: the credentials provided with the request has not the necessary permission to be processed.
+* HTTP 404 Not Found: the endpoint requested does not exist in the API. 
+* HTTP 422: the payload sent to the API did not pass the validation process.
+* HTTP 500: an unknown error was triggered during the process.
+
+Please refer to https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html for reference
+
+## Php Stan
+
+https://phpstan.org/user-guide/getting-started
+
+## Php Insight
+
+https://phpinsights.com/get-started.html
+
+## Laravel Responder
+
+https://github.com/flugger/laravel-responder
+

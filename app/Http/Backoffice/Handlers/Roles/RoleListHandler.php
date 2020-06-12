@@ -15,7 +15,6 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -32,7 +31,7 @@ class RoleListHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(RoleCriteriaRequest $request, Factory $view): View
+    public function __invoke(RoleCriteriaRequest $request): View
     {
         $list = $this->getListing();
 
@@ -46,7 +45,7 @@ class RoleListHandler extends Handler implements RouteDefiner
             trans('backoffice::auth.roles'),
         ]);
 
-        return $view->make('backoffice::index', [
+        return view()->make('backoffice::index', [
             'title' => trans('backoffice::auth.roles'),
             'list' => $list,
             'breadcrumb' => $breadcrumb,

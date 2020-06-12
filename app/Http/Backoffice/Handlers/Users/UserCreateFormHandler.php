@@ -9,7 +9,6 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -23,7 +22,7 @@ class UserCreateFormHandler extends Handler implements RouteDefiner
         $this->permissionParser = $permissionParser;
     }
 
-    public function __invoke(Factory $view): View
+    public function __invoke(): View
     {
         $label = trans('backoffice::default.new', ['model' => trans('backoffice::auth.user')]);
 
@@ -40,7 +39,7 @@ class UserCreateFormHandler extends Handler implements RouteDefiner
             $label,
         ]);
 
-        return $view->make('backoffice::create', [
+        return view()->make('backoffice::create', [
             'title' => trans('backoffice::auth.users'),
             'form' => $form,
             'breadcrumb' => $breadcrumb,

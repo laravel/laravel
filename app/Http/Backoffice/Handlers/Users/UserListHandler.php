@@ -14,7 +14,6 @@ use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Users\User;
 use Digbang\Utils\CriteriaRequest;
 use Digbang\Utils\Sorting;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -24,7 +23,7 @@ use ProjectName\Repositories\Criteria\Users\UserSorting;
 
 class UserListHandler extends Handler implements RouteDefiner
 {
-    public function __invoke(UserCriteriaRequest $request, Factory $view): View
+    public function __invoke(UserCriteriaRequest $request): View
     {
         $list = $this->getListing();
 
@@ -38,7 +37,7 @@ class UserListHandler extends Handler implements RouteDefiner
             trans('backoffice::auth.users'),
         ]);
 
-        return $view->make('backoffice::index', [
+        return view()->make('backoffice::index', [
             'title' => trans('backoffice::auth.users'),
             'list' => $list,
             'breadcrumb' => $breadcrumb,
@@ -172,7 +171,6 @@ class UserListHandler extends Handler implements RouteDefiner
                 'title' => trans('backoffice::default.edit'),
             ]
         );
-
         $rowActions->form(
             function (Collection $row) {
                 try {

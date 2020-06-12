@@ -75,7 +75,7 @@ class UserCreateHandler extends Handler implements RouteDefiner
         if ($user instanceof Roleable && count($roles) > 0) {
             /* @var Roleable $user */
             foreach ($roles as $role) {
-                /** @var Role $role */
+                /** @var Role|null $role */
                 $role = security()->roles()->findBySlug($role);
 
                 if ($role) {

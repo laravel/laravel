@@ -8,10 +8,8 @@ use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCreateRequest;
 use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
-use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Permissions\Permissible;
-use Digbang\Security\Roles\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
@@ -22,7 +20,7 @@ class RoleCreateHandler extends Handler implements RouteDefiner
         try {
             $roles = security()->roles();
 
-            /** @var Role|Permissible $role */
+            /** @var \Digbang\Security\Roles\Role $role */
             $role = $roles->create($request->name(), $request->slug());
 
             if ($request->permissions() && $role instanceof Permissible) {
@@ -36,8 +34,6 @@ class RoleCreateHandler extends Handler implements RouteDefiner
             return redirect()->to(
                 security()->url()->route(RoleListHandler::class)
             );
-        } catch (ValidationException $e) {
-            return redirect()->back()->withInput()->withErrors($e->getErrors());
         } catch (SecurityException $e) {
             return redirect()->to(url()->to(DashboardHandler::route()))->withDanger(trans('backoffice::auth.permission_error'));
         }

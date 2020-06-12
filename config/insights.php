@@ -46,7 +46,7 @@ return [
     */
 
     'exclude' => [
-        //  'path/to/directory-or-file'
+        'proxies',
     ],
 
     'add' => [

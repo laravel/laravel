@@ -7,18 +7,17 @@ use App\Http\Kernel;
 use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Routing\Router;
 
 class AuthLogoutHandler extends Handler implements RouteDefiner
 {
     protected const ROUTE_NAME = 'backoffice.auth.logout';
 
-    public function __invoke(SecurityApi $securityApi, Redirector $redirector): RedirectResponse
+    public function __invoke(SecurityApi $securityApi): RedirectResponse
     {
         $securityApi->logout();
 
-        return $redirector->to(AuthLoginHandler::route());
+        return redirect()->to(AuthLoginHandler::route());
     }
 
     public static function defineRoute(Router $router): void

@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\Backoffice\AdminAddCommand::class,
         Commands\Backoffice\RoleAddCommand::class,
         Commands\Backoffice\RolePermissionAddCommand::class,
         Commands\Backoffice\UserAddCommand::class,
