@@ -25,71 +25,6 @@
 2. Configure your .env variables
 3. Enable Sentry on your .env file
 
-## System Requirements
-* php: 7.4.x
-* php ini configurations:
-    * `upload_max_filesize = 100M`
-    * `post_max_size = 100M`
-    * This numbers are illustrative. Set them according to your project needs.  
-
-* php extensions:
-    * bcmath
-    * Core
-    * ctype
-    * curl
-    * date
-    * dom
-    * fileinfo
-    * filter
-    * ftp
-    * gd
-    * hash
-    * iconv
-    * imagick
-    * intl
-    * json
-    * libxml
-    * mbstring
-    * mcrypt
-    * mysqlnd
-    * openssl
-    * pcntl
-    * pcre
-    * PDO
-    * pdo_pgsql
-    * pdo_sqlite
-    * Phar
-    * posix
-    * readline
-    * Reflection
-    * session
-    * SimpleXML
-    * soap
-    * SPL
-    * sqlite3
-    * standard
-    * tidy
-    * tokenizer
-    * xdebug
-    * xml
-    * xmlreader
-    * xmlwriter
-    * ZendOPcache
-    * zip
-    * zlib
-* Composer PHP
-* apache: 2.4.x / nginx
-* postgres: 11.x / 12.x
-* postgres extensions:
-  * Unaccent Extension
-* redis
-* node
-* npm
-* yarn 
-* SO Packages:
-    * locales
-    * locales-all
-
 ## System Configuration
 
 * Remember that all sites must use HTTPS. And please choose a proper redirect:
@@ -173,13 +108,197 @@ Please refer to https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html for refe
 
 ## Php Stan
 
+You should now have a ``phpstan.neon`` file that allows you to configure the basics of this package.
+
+https://github.com/nunomaduro/larastan
 https://phpstan.org/user-guide/getting-started
 
 ## Php Insight
+
+### Config File
+
+You should now have a ``config/insights.php`` file that allows you to configure the basics of this package.
 
 https://phpinsights.com/get-started.html
 
 ## Laravel Responder
 
+###Creating Responses
+
+```php
+return responder()
+    ->success($user, UserProfileTransformer::class)
+    ->meta([
+        'meta' => $this->shouldRefreshToken(),
+    ])
+    ->respond();
+```
+
+###Creating Transformers
+``php artisan make:transformer ProductTransformer --plain``
+
+### Handling Exceptions
+
+#### Convert Custom Exceptions
+
+In addition to letting the package convert Laravel exceptions, you can also convert your own exceptions using the `convert` method in the `render` method:
+
+```php
+$this->convert($exception, [
+    InvalidValueException => PageNotFoundException,
+]);
+```
+
+You can optionally give it a closure that throws the new exception, if you want to give it constructor parameters: 
+
+```php
+$this->convert($exception, [
+    MaintenanceModeException => function ($exception) {
+        throw new ServerDownException($exception->retryAfter);
+    },
+]);
+```
+
+### Creating HTTP Exceptions
+
+An exception class is a convenient place to store information about an error. The package provides an abstract exception class `Flugg\Responder\Exceptions\Http\HttpException`, which has knowledge about status code, an error code and an error message. Continuing on our product example from above, we could create our own `HttpException` class:
+
+```php
+<?php
+
+namespace App\Exceptions;
+
+use Flugg\Responder\Exceptions\Http\HttpException;
+
+class SoldOutException extends HttpException
+{
+    /**
+     * The HTTP status code.
+     *
+     * @var int
+     */
+    protected $status = 400;
+
+    /**
+     * The error code.
+     *
+     * @var string|null
+     */
+    protected $errorCode = 'sold_out_error';
+
+    /**
+     * The error message.
+     *
+     * @var string|null
+     */
+    protected $message = 'The requested product is sold out.';
+}
+```
+
+You can also add a `data` method returning additional error data:
+
+```php
+/**
+ * Retrieve additional error data.
+ *
+ * @return array|null
+ */
+public function data()
+{
+    return [
+        'shipments' => Shipment::all()
+    ];
+}
+```
+
+If you're letting the package handle exceptions, you can now throw the exception anywhere in your application and it will automatically be rendered to an error response.
+
+```php
+throw new SoldOutException();
+```
+
 https://github.com/flugger/laravel-responder
 
+## JWT Auth
+
+#### Config File
+
+You should now have a ``config/jwt.php`` file that allows you to configure the basics of this package.
+
+####Generate secret key
+
+I have included a helper command to generate a key for you:
+
+``php artisan jwt:secret``
+
+This will update your ``.env`` file with something like ``JWT_SECRET=foobar``
+
+It is the key that will be used to sign your tokens. How that happens exactly will depend on the algorithm that you choose to use.
+
+https://github.com/tymondesigns/jwt-auth
+
+## System Requirements
+* php: 7.4.x
+* php ini configurations:
+    * `upload_max_filesize = 100M`
+    * `post_max_size = 100M`
+    * This numbers are illustrative. Set them according to your project needs.  
+
+* php extensions:
+    * bcmath
+    * Core
+    * ctype
+    * curl
+    * date
+    * dom
+    * fileinfo
+    * filter
+    * ftp
+    * gd
+    * hash
+    * iconv
+    * imagick
+    * intl
+    * json
+    * libxml
+    * mbstring
+    * mcrypt
+    * mysqlnd
+    * openssl
+    * pcntl
+    * pcre
+    * PDO
+    * pdo_pgsql
+    * pdo_sqlite
+    * Phar
+    * posix
+    * readline
+    * redis
+    * Reflection
+    * session
+    * SimpleXML
+    * soap
+    * SPL
+    * sqlite3
+    * standard
+    * tidy
+    * tokenizer
+    * xdebug
+    * xml
+    * xmlreader
+    * xmlwriter
+    * ZendOPcache
+    * zip
+    * zlib
+* Composer PHP
+* apache: 2.4.x / nginx
+* postgres: 11.x / 12.x
+* postgres extensions:
+  * Unaccent Extension
+* redis
+* node
+* npm
+* yarn 
+* SO Packages:
+    * locales
+    * locales-all
