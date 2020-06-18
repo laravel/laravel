@@ -9,9 +9,6 @@ class EntityPagination extends LengthAwarePaginator
 {
     protected PaginationData $paginationData;
 
-    /** @var int */
-    protected $currentPage;
-
     /**
      * @param mixed $items
      */
@@ -26,11 +23,6 @@ class EntityPagination extends LengthAwarePaginator
         $path = $path ?: \Illuminate\Pagination\Paginator::resolveCurrentPath();
 
         parent::__construct($items, $total, $perPage, $this->currentPage, compact('path'));
-    }
-
-    public function currentPage(): int
-    {
-        return $this->currentPage;
     }
 
     public function getPaginationData(): PaginationData
