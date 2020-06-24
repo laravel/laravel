@@ -4,13 +4,19 @@ use Symfony\Component\Finder\Finder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$files = Finder::create()->files()->in(__DIR__ . '/..')->depth('== 0')->name([
-    'composer.json',
-    '.env.example',
-    '.env',
-    'docker-compose.yml',
-    'readme.md',
-]);
+$files = Finder::create()
+    ->files()
+    ->in(__DIR__ . '/..')
+    ->depth('== 0')
+    ->ignoreDotFiles(false)
+    ->name([
+        'composer.json',
+        '.env.example',
+        '.env',
+        'docker-compose.yml',
+        'readme.md',
+    ]
+);
 
 $docker = Finder::create()->files()->in(__DIR__ . '/../docker');
 
