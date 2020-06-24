@@ -80,15 +80,12 @@
     "scripts": {
         "post-root-package-install": [],
         "post-create-project-cmd": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php composer/replace_namespaces.php",
             "bash -c 'rm -rf composer'",
-            "bash -c 'ln -s /proxies proxies'",
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "bash -c 'rm -rf create-project.md'",
             "php artisan key:generate --ansi",
-            "php artisan vendor:publish --tag=\"assets\"",
-            "php artisan doctrine:clear:metadata:cache",
-            "php artisan doctrine:schema:update --force",
-            "php artisan migrate"
+            "php artisan vendor:publish --tag=\"assets\""
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -101,7 +98,6 @@
             "bash -c 'vendor/bin/cghooks update --force-win'"
         ],
         "build": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php artisan key:generate --ansi",
             "php artisan vendor:publish --tag=\"assets\"",
             "php artisan doctrine:clear:metadata:cache",
