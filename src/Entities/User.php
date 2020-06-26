@@ -2,21 +2,29 @@
 
 namespace ProjectName\Entities;
 
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use LaravelDoctrine\Extensions\SoftDeletes\SoftDeletes;
+use LaravelDoctrine\Extensions\Timestamps\Timestamps;
+use LaravelDoctrine\ORM\Auth\Authenticatable;
 use ProjectName\Immutables\Name;
+use ProjectName\Payloads\UserPayload;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User
+class User implements AuthenticatableContract, JWTSubject
 {
+    use Authenticatable;
+    use Timestamps;
+    use SoftDeletes;
+
     private ?int $id = null;
     private Name $name;
-    private string $username;
     private string $email;
 
-    public function __construct(?int $id, string $firstName, string $lastname, string $username, string $email)
+    public function __construct(UserPayload $userPayload)
     {
-        $this->id = $id;
-        $this->name = new Name($firstName, $lastname);
-        $this->username = $username;
-        $this->email = $email;
+        $this->changeEmail($userPayload->email());
+        $this->setPassword($userPayload->password());
+        $this->changeName($userPayload->firstName(), $userPayload->lastname());
     }
 
     public function getId(): ?int
@@ -29,13 +37,41 @@ class User
         return $this->name;
     }
 
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function changeEmail(string $email): void
+    {
+        $this->email = trim($email);
+    }
+
+    public function setPassword(string $plainPassword): void
+    {
+        $this->password = password_hash($plainPassword, PASSWORD_BCRYPT);
+    }
+
+    public function changeName(string $firstName, string $lastName): void
+    {
+        $this->name = new Name(trim($firstName), trim($lastName));
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getAuthIdentifier();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }
