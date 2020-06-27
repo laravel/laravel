@@ -2,9 +2,18 @@
 actions:
 - description: "complete testing from Infile"
   planning:
+  - type of commands
+    - configure
+    - list
+    - scan jobs (consume pending requets)
   - ask to user what kind of proccess server will do
     - Cluster request
     - Sender request
+      - divide commands
+        - questions
+        - Sender
+        - worker queue
+        - open hook
       - Type of message with format?
         - application/json
         - plain/text
@@ -14,5 +23,5 @@ actions:
       - in case of failing do you want?
         - ask you ever
         - automatitly resolve problem if it is fixable
-      - any way can we communicate with you? (email, number phone or hook)
+      - any way can we communicate with you? (email, number phone or hook
 ...
