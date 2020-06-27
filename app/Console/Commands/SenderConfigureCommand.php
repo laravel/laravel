@@ -7,7 +7,7 @@ use App\Rules\FilePathRule;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
-class SerderConfigureCommand extends Command
+class SenderConfigureCommand extends Command
 {
     /**
      * The name and signature of the console command.

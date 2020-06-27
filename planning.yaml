@@ -10,9 +10,10 @@ actions:
     - Cluster request
     - Sender request
       - divide commands
-        - questions
+        - configure
+        - worker queue - it is not required more, there is a command like that.
+          > queue:work Start processing jobs on the queue as a daemon
         - Sender
-        - worker queue
         - open hook
       - Type of message with format?
         - application/json
