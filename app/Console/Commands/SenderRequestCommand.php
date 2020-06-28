@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
+use App\Jobs\SendRequestJob;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Client\Response;
 
 class SenderRequestCommand extends Command
 {
@@ -40,12 +43,8 @@ class SenderRequestCommand extends Command
      */
     public function handle()
     {
-        $configurationJson = Storage::disk('private')
-            ->get('requestDefault.json');
-        $configuration = json_decode($configurationJson);
+        $job = (new SendRequestJob)->delay(Carbon::now()->addSeconds(5));
 
-        /** @var Response $response */
-        $response = Http::get($configuration->route);
-        echo $response->body();
+        dispatch($job);
     }
 }
