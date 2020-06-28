@@ -30,23 +30,23 @@ class SendRequestJob implements ShouldQueue
      */
     public function handle()
     {
-        // $configurationJson = Storage::disk('private')
-        //     ->get('requestDefault.json');
-        // $configuration = json_decode($configurationJson);
+        $configurationJson = Storage::disk('private')
+            ->get('requestDefault.json');
+        $configuration = json_decode($configurationJson);
 
-        // $client = new Client();
-        // try {
-        //     $response = $client->request($configuration->method, $configuration->route);
-        // } catch (ServerException $e) {
-        //     event(new ServerIsDownEvent($e->getResponse()));
-        //     return;
-        // } catch (RequestException $e) {
-        //     event(new ClientIssuesEvent($e->getResponse()));
+        $client = new Client();
+        try {
+            $response = $client->request($configuration->method, $configuration->route);
+        } catch (ServerException $e) {
+            event(new ServerIsDownEvent($e->getResponse()));
+            return;
+        } catch (RequestException $e) {
+            event(new ClientIssuesEvent($e->getResponse()));
 
-        //     return;
-        // }
+            return;
+        }
 
-        // Log::info($response->getBody()->getContents());
+        Log::info($response->getBody()->getContents());
     }
 
     public function retryUntil()
