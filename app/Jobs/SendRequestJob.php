@@ -2,28 +2,26 @@
 
 namespace App\Jobs;
 
+use App\Events\ClientIssuesEvent;
 use Illuminate\Bus\Queueable;
+use App\Events\ServerIsDownEvent;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class SendRequestJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    private const LIMIT_TRYING = 3;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Execute the job.
@@ -32,13 +30,27 @@ class SendRequestJob implements ShouldQueue
      */
     public function handle()
     {
-        $configurationJson = Storage::disk('private')
-            ->get('requestDefault.json');
-        $configuration = json_decode($configurationJson);
+        // $configurationJson = Storage::disk('private')
+        //     ->get('requestDefault.json');
+        // $configuration = json_decode($configurationJson);
 
-        /** @var Response $response */
-        $response = Http::get($configuration->route);
+        // $client = new Client();
+        // try {
+        //     $response = $client->request($configuration->method, $configuration->route);
+        // } catch (ServerException $e) {
+        //     event(new ServerIsDownEvent($e->getResponse()));
+        //     return;
+        // } catch (RequestException $e) {
+        //     event(new ClientIssuesEvent($e->getResponse()));
 
-        Log::info($response->body());
+        //     return;
+        // }
+
+        // Log::info($response->getBody()->getContents());
+    }
+
+    public function retryUntil()
+    {
+        return now()->addSeconds(3);
     }
 }

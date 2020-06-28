@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/testing', function () {
+    $client = new GuzzleHttp\Client();
+    try {
+
+        $res = $client->request('GET', 'https://api.github.com/user');
+    } catch (ClientException $e) {
+    } catch (ServerException $e) {
+        var_dump($e->getResponse()->getStatusCode());
+        return;
+    }
+    var_dump('pase');
 });
