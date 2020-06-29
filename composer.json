@@ -12,7 +12,7 @@
         "digbang/backoffice": "^7.0",
         "digbang/doctrine-extensions": "^3.0",
         "digbang/safe-queue": "^0.4",
-        "digbang/utils": "^1.1",
+        "digbang/utils": "^1.5",
         "fideloper/proxy": "^4.0",
         "flugger/laravel-responder": "^3.1",
         "fruitcake/laravel-cors": "^1.0",
