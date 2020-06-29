@@ -43,7 +43,9 @@ class SenderRequestCommand extends Command
      */
     public function handle()
     {
-        $job = (new SendRequestJob)->delay(Carbon::now()->addSeconds(5));
+        $job = (new SendRequestJob)
+            ->onQueue('sender:request')
+            ->delay(Carbon::now()->addSeconds(5));
 
         dispatch($job);
     }

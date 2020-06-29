@@ -22,16 +22,17 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ServerIsDownEvent::class => [
+            SendEmailServicesIssuesListener::class,
+
+        ],
+        ClientIssuesEvent::class => [
+            SendEmailServicesIssuesListener::class,
+        ],
+        PackageCannotBeDeliveriedEvent::class => [
+            LogAnErrorListener::class,
         ]
-        // ServerIsDownEvent::class => [
-        //     SendEmailServicesIssuesListener::class,
-        // ],
-        // ClientIssuesEvent::class => [
-        //     SendEmailServicesIssuesListener::class,
-        // ],
-        // PackageCannotBeDeliveriedEvent::class => [
-        //     LogAnErrorListener::class,
-        // ]
     ];
 
     /**

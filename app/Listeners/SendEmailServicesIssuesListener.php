@@ -2,10 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Log;
+use App\Events\ClientIssuesEvent;
 use App\Dommain\BelongsToResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendEmailServicesIssuesListener
 {
@@ -20,10 +21,10 @@ class SendEmailServicesIssuesListener
     /**
      * Handle the event.
      *
-     * @param  BelongsToResponse  $event
+     * @param  ClientIssuesEvent  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(ClientIssuesEvent $event)
     {
         // here should send a email or a notification abut issue
         Log::error($event->getResponse()->getBody()->getContents());

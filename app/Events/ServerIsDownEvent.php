@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Dommain\BelongsToJob;
 use App\Dommain\BelongsToResponse;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Http\Client\Response;
@@ -19,20 +20,29 @@ class ServerIsDownEvent implements BelongsToResponse
 
     /** @var ResponseInterface */
     private $response;
+    /** @var string */
+    private $queue;
 
     /**
      * Create a new event instance.
      *
+     * @param string $nameQueue
      * @return void
      */
-    public function __construct(ResponseInterface $response)
+    public function __construct(ResponseInterface $response, $nameQueue)
     {
         $this->response = $response;
+        $this->queueName = $nameQueue;
     }
 
     public function getResponse()
     {
         return $this->response;
+    }
+
+    public function getNameQueue()
+    {
+        $this->queue;
     }
 
     /**

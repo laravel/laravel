@@ -5,12 +5,11 @@ namespace App\Jobs;
 use App\Events\ClientIssuesEvent;
 use Illuminate\Bus\Queueable;
 use App\Events\ServerIsDownEvent;
+use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -20,6 +19,8 @@ use GuzzleHttp\Exception\RequestException;
 class SendRequestJob implements ShouldQueue
 {
     private const LIMIT_TRYING = 3;
+
+    public $maxExceptions = 3;
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,15 +36,23 @@ class SendRequestJob implements ShouldQueue
         $configuration = json_decode($configurationJson);
 
         $client = new Client();
+
         try {
             $response = $client->request($configuration->method, $configuration->route);
         } catch (ServerException $e) {
-            event(new ServerIsDownEvent($e->getResponse()));
-            return;
-        } catch (RequestException $e) {
-            event(new ClientIssuesEvent($e->getResponse()));
+            if ($this->attempts() == 3)
+                event(new ServerIsDownEvent($e->getResponse(), $this->queue));
 
-            return;
+            throw $e;
+        } catch (RequestException $e) {
+            if ($this->attempts() == 3)
+                event(new ClientIssuesEvent($e->getResponse()));
+
+            throw $e;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+
+            throw $e;
         }
 
         Log::info($response->getBody()->getContents());
