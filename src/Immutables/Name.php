@@ -7,10 +7,10 @@ class Name
     private string $firstName;
     private string $lastName;
 
-    public function __construct(string $firstName, string $lastname)
+    public function __construct(string $firstName, string $lastName)
     {
         $this->firstName = $firstName;
-        $this->lastName = $lastname;
+        $this->lastName = $lastName;
     }
 
     public function __toString(): string
