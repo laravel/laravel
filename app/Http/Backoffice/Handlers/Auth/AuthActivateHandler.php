@@ -5,12 +5,11 @@ namespace App\Http\Backoffice\Handlers\Auth;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\ActivateRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Config\Repository;
 use Illuminate\Routing\Router;
 
-class AuthActivateHandler extends Handler implements RouteDefiner
+class AuthActivateHandler extends Handler
 {
     public const ROUTE_PARAM_USER = 'user_id';
     public const ROUTE_PARAM_CODE = 'code';

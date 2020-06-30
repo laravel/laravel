@@ -7,7 +7,6 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Repositories\DoctrineUserRepository;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
@@ -17,7 +16,7 @@ use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Users\UserSorting;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class UserExportHandler extends Handler implements RouteDefiner
+class UserExportHandler extends Handler
 {
     public function __invoke(UserCriteriaRequest $request, Excel $exporter): BinaryFileResponse
     {

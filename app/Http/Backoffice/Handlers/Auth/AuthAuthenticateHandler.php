@@ -6,7 +6,6 @@ use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\LoginRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Cake\Chronos\Chronos;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
@@ -14,7 +13,7 @@ use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Routing\Router;
 use Illuminate\Support\MessageBag;
 
-class AuthAuthenticateHandler extends Handler implements RouteDefiner
+class AuthAuthenticateHandler extends Handler
 {
     /**
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse

@@ -13,13 +13,28 @@ class Name
         $this->lastName = $lastname;
     }
 
-    public function getFirstName(): string
+    public function __toString(): string
+    {
+        return $this->fullName();
+    }
+
+    public function firstName(): string
     {
         return $this->firstName;
     }
 
-    public function getLastName(): string
+    public function lastName(): string
     {
         return $this->lastName;
+    }
+
+    public function fullName(string $separator = ' '): string
+    {
+        return $this->firstName . $separator . $this->lastName;
+    }
+
+    public function sortableName(): string
+    {
+        return "$this->lastName, $this->firstName";
     }
 }

@@ -4,12 +4,11 @@ namespace App\Http\Backoffice\Handlers\Auth;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class AuthLogoutHandler extends Handler implements RouteDefiner
+class AuthLogoutHandler extends Handler
 {
     protected const ROUTE_NAME = 'backoffice.auth.logout';
 

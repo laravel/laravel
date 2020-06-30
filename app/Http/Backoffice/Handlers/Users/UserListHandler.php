@@ -7,7 +7,6 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Listings\Listing;
 use Digbang\Backoffice\Repositories\DoctrineUserRepository;
 use Digbang\Security\Exceptions\SecurityException;
@@ -21,7 +20,7 @@ use Illuminate\Support\Collection;
 use ProjectName\Repositories\Criteria\Users\UserFilter;
 use ProjectName\Repositories\Criteria\Users\UserSorting;
 
-class UserListHandler extends Handler implements RouteDefiner
+class UserListHandler extends Handler
 {
     public function __invoke(UserCriteriaRequest $request): View
     {

@@ -7,13 +7,12 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class RoleDeleteHandler extends Handler implements RouteDefiner
+class RoleDeleteHandler extends Handler
 {
     public function __invoke(RoleRequest $request): RedirectResponse
     {

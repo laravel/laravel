@@ -12,8 +12,8 @@ class UserProfileTransformer extends Transformer
         return [
             'id' => $user->getId(),
             'email' => $user->getEmail(),
-            'firstName' => $user->getName()->getFirstName(),
-            'lastName' => $user->getName()->getLastName(),
+            'firstName' => $user->getName()->firstName(),
+            'lastName' => $user->getName()->lastName(),
         ];
     }
 }

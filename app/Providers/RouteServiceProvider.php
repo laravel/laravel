@@ -2,36 +2,41 @@
 
 namespace App\Providers;
 
-use App\Http\Utils\OrderedRouteDefiner;
 use App\Http\Utils\RouteDefiner;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use ReflectionClass;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class RouteServiceProvider extends ServiceProvider
 {
     public function map(): void
     {
-        $orderedRoutes = [];
+        $routes = [];
 
-        $handlers = Finder::create()->files()->in(app_path('Http/*/Handlers'));
+        $handlers = Finder::create()->files()->in(base_path('app/Http/*/Handlers'));
         foreach ($handlers as $file) {
-            $className = 'App' . str_replace([app_path(), '/', '.php'], ['', '\\', ''], $file);
-            $class = new \ReflectionClass($className);
+            $className = $this->fullyQualifiedName($file);
 
-            if ($class->isSubclassOf(RouteDefiner::class)) {
-                $routeOrder = 0;
-                if ($class->isSubclassOf(OrderedRouteDefiner::class)) {
-                    $routeOrder = $this->app->call([$className, 'getRouteOrder']);
-                }
-
-                $orderedRoutes[$className] = $routeOrder;
+            $reflection = new ReflectionClass($className);
+            if ($reflection->isInstantiable() && $reflection->implementsInterface(RouteDefiner::class)) {
+                $routeOrder = $this->app->call([$className, 'routePriority']);
+                $routes[$className] = $routeOrder;
             }
         }
 
-        asort($orderedRoutes, SORT_NATURAL);
+        arsort($routes, SORT_NUMERIC);
 
-        foreach ($orderedRoutes as $className => $order) {
+        foreach ($routes as $className => $order) {
             $this->app->call([$className, 'defineRoute']);
         }
+    }
+
+    private function fullyQualifiedName(SplFileInfo $file): string
+    {
+        $namespace = ucfirst(str_replace('/', '\\', substr($file->getPath(), strlen(base_path()) + 1)));
+        $class = $file->getFilenameWithoutExtension();
+
+        return "$namespace\\$class";
     }
 }

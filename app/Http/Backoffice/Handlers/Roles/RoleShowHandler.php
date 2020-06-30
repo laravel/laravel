@@ -7,13 +7,12 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Support\PermissionParser;
 use Digbang\Security\Exceptions\SecurityException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
-class RoleShowHandler extends Handler implements RouteDefiner
+class RoleShowHandler extends Handler
 {
     private PermissionParser $permissionParser;
 

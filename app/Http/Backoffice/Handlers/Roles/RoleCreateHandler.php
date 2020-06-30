@@ -7,13 +7,12 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCreateRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Permissions\Permissible;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class RoleCreateHandler extends Handler implements RouteDefiner
+class RoleCreateHandler extends Handler
 {
     public function __invoke(RoleCreateRequest $request): RedirectResponse
     {

@@ -7,14 +7,13 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Exceptions\SecurityException;
 use Digbang\Security\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class UserDeleteHandler extends Handler implements RouteDefiner
+class UserDeleteHandler extends Handler
 {
     public function __invoke(UserRequest $request): RedirectResponse
     {

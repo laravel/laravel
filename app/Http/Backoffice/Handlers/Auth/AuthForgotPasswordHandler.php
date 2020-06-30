@@ -6,13 +6,12 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class AuthForgotPasswordHandler extends Handler implements RouteDefiner
+class AuthForgotPasswordHandler extends Handler
 {
     use SendsEmails;
 

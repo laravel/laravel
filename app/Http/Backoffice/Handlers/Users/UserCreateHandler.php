@@ -9,7 +9,6 @@ use App\Http\Backoffice\Handlers\SendsEmails;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Users\UserCreateRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Exceptions\ValidationException;
 use Digbang\Security\Activations\Activation;
 use Digbang\Security\Exceptions\SecurityException;
@@ -19,7 +18,7 @@ use Digbang\Security\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class UserCreateHandler extends Handler implements RouteDefiner
+class UserCreateHandler extends Handler
 {
     use SendsEmails;
 

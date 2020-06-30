@@ -5,11 +5,10 @@ namespace App\Http\Api\Handlers\User;
 use App\Http\Api\Handlers\Handler;
 use App\Http\Api\Transformers\UserProfileTransformer;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Router;
 
-class UserProfileHandler extends Handler implements RouteDefiner
+class UserProfileHandler extends Handler
 {
     public function __invoke(): JsonResponse
     {

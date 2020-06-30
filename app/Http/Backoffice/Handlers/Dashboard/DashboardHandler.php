@@ -4,12 +4,11 @@ namespace App\Http\Backoffice\Handlers\Dashboard;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
-class DashboardHandler extends Handler implements RouteDefiner
+class DashboardHandler extends Handler
 {
     public function __invoke(SecurityApi $securityApi): View
     {

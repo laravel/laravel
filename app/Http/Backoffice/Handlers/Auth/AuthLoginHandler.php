@@ -4,11 +4,10 @@ namespace App\Http\Backoffice\Handlers\Auth;
 
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Router;
 
-class AuthLoginHandler extends Handler implements RouteDefiner
+class AuthLoginHandler extends Handler
 {
     public const ROUTE_NAME = 'backoffice.auth.login';
 

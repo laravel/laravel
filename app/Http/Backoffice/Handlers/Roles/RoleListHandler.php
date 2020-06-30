@@ -7,7 +7,6 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Listings\Listing;
 use Digbang\Backoffice\Repositories\DoctrineRoleRepository;
 use Digbang\Backoffice\Support\PermissionParser;
@@ -22,7 +21,7 @@ use Illuminate\Support\Collection;
 use ProjectName\Repositories\Criteria\Roles\RoleFilter;
 use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 
-class RoleListHandler extends Handler implements RouteDefiner
+class RoleListHandler extends Handler
 {
     private PermissionParser $permissionParser;
 

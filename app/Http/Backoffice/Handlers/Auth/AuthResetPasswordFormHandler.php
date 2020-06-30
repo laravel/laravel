@@ -5,11 +5,10 @@ namespace App\Http\Backoffice\Handlers\Auth;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\ResetPasswordFormRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Illuminate\Routing\Router;
 
-class AuthResetPasswordFormHandler extends Handler implements RouteDefiner
+class AuthResetPasswordFormHandler extends Handler
 {
     public const ROUTE_PARAM_USER = 'user_id';
     public const ROUTE_PARAM_CODE = 'code';

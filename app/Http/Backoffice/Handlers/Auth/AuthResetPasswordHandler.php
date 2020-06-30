@@ -6,13 +6,12 @@ use App\Http\Backoffice\Handlers\Dashboard\DashboardHandler;
 use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\ResetPasswordRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Contracts\SecurityApi;
 use Digbang\Security\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Router;
 
-class AuthResetPasswordHandler extends Handler implements RouteDefiner
+class AuthResetPasswordHandler extends Handler
 {
     public const ROUTE_PARAM_USER = 'user_id';
     public const ROUTE_PARAM_CODE = 'code';

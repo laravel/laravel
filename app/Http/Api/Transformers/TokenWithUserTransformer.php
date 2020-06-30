@@ -15,8 +15,8 @@ class TokenWithUserTransformer extends Transformer
             'user' => [
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
-                'firstName' => $user->getName()->getFirstName(),
-                'lastName' => $user->getName()->getLastName(),
+                'firstName' => $user->getName()->firstName(),
+                'lastName' => $user->getName()->lastName(),
             ],
         ];
     }

@@ -7,7 +7,6 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleCriteriaRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\Users\User;
 use Digbang\Utils\Sorting;
@@ -17,7 +16,7 @@ use Maatwebsite\Excel\Excel;
 use ProjectName\Repositories\Criteria\Roles\RoleSorting;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class RoleExportHandler extends Handler implements RouteDefiner
+class RoleExportHandler extends Handler
 {
     public function __invoke(RoleCriteriaRequest $request, Excel $exporter): BinaryFileResponse
     {

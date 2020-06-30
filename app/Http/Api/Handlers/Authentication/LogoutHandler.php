@@ -4,14 +4,13 @@ namespace App\Http\Api\Handlers\Authentication;
 
 use App\Http\Api\Handlers\Handler;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
 use Tymon\JWTAuth\JWTGuard;
 
-class LogoutHandler extends Handler implements RouteDefiner
+class LogoutHandler extends Handler
 {
     public function __invoke(AuthManager $auth): JsonResponse
     {

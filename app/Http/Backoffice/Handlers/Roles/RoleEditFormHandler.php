@@ -8,14 +8,13 @@ use App\Http\Backoffice\Permission;
 use App\Http\Backoffice\Requests\Roles\RoleEditRequest;
 use App\Http\Backoffice\Requests\Roles\RoleRequest;
 use App\Http\Kernel;
-use App\Http\Utils\RouteDefiner;
 use Digbang\Backoffice\Forms\Form;
 use Digbang\Backoffice\Support\PermissionParser;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
-class RoleEditFormHandler extends Handler implements RouteDefiner
+class RoleEditFormHandler extends Handler
 {
     private PermissionParser $permissionParser;
 
