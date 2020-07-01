@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Asset URL
+    |--------------------------------------------------------------------------
+    |
+    | The base URL used for your application's asset files, if you are defining
+    | them via asset('img/photo.jpg') through a different server or a content
+    | delivery network, for example. If it's not set, we'll default to the
+    | application URL (above). Leave off the trailing slash.
+    |
+    */
+    'asset_url' => env('ASSET_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
