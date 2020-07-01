@@ -172,6 +172,10 @@ class UserListHandler extends Handler
         );
         $rowActions->form(
             function (Collection $row) {
+                if ($row->get('id') == Permission::PROTECTED_USER) {
+                    return false;
+                }
+
                 try {
                     return url()->to(UserDeleteHandler::route($row->get('id')));
                 } catch (SecurityException $e) {

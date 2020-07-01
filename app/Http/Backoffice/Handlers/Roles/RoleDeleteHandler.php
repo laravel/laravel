@@ -18,6 +18,10 @@ class RoleDeleteHandler extends Handler
     {
         $role = $request->getRole();
 
+        if ($role->getRoleId() === Permission::PROTECTED_ROLE) {
+            return redirect()->back()->withDanger(trans('validation.backoffice.roles.protected_deletion'));
+        }
+
         try {
             security()->roles()->delete($role);
 

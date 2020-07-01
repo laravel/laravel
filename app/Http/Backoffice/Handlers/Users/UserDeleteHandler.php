@@ -20,6 +20,10 @@ class UserDeleteHandler extends Handler
         /** @var User $user */
         $user = $request->findUser();
 
+        if ($user->getUserId() === Permission::PROTECTED_USER) {
+            return redirect()->back()->withDanger(trans('validation.backoffice.users.protected_deletion'));
+        }
+
         try {
             security()->users()->destroy($user);
 

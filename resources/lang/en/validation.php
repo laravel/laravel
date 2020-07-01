@@ -149,4 +149,12 @@ return [
 
     'attributes' => [],
 
+    'backoffice' => [
+        'users' => [
+            'protected_deletion' => 'Cannot delete protected User',
+        ],
+        'roles' => [
+            'protected_deletion' => 'Cannot delete protected Role',
+        ],
+    ],
 ];

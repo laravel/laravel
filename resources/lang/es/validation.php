@@ -120,4 +120,12 @@ return [
 
     'attributes' => [],
 
+    'backoffice' => [
+        'users' => [
+            'protected_deletion' => 'No se puede borrar un Usuario protegido',
+        ],
+        'roles' => [
+            'protected_deletion' => 'No se puede borrar un Rol protegido',
+        ],
+    ],
 ];

@@ -4,6 +4,9 @@ namespace App\Http\Backoffice;
 
 final class Permission
 {
+    public const PROTECTED_USER = 1;
+    public const PROTECTED_ROLE = 1;
+
     public const ROLE_LIST = 'backoffice.roles.list';
     public const ROLE_READ = 'backoffice.roles.read';
     public const ROLE_CREATE = 'backoffice.roles.create';

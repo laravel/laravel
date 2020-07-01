@@ -179,6 +179,10 @@ class RoleListHandler extends Handler
 
         $rowActions->form(
             function (Collection $row) {
+                if ($row->get('id') == Permission::PROTECTED_ROLE) {
+                    return false;
+                }
+
                 try {
                     return security()->url()->to(RoleDeleteHandler::route($row->get('id')));
                 } catch (SecurityException $e) {
