@@ -47,6 +47,9 @@ return [
 
     'exclude' => [
         'proxies',
+        'app/Infrastructure/Doctrine/Repositories/DoctrineReadRepository.php',
+        'app/Infrastructure/Doctrine/Validation/DoctrineInsensitivePresenceVerifier.php',
+        'src/Repositories/ReadRepository.php',
     ],
 
     'add' => [

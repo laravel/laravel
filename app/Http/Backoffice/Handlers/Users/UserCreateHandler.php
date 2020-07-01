@@ -72,9 +72,8 @@ class UserCreateHandler extends Handler
     private function addRoles(User $user, array $roles): void
     {
         if ($user instanceof Roleable && count($roles) > 0) {
-            /* @var Roleable $user */
+            /** @var Role|null $role */
             foreach ($roles as $role) {
-                /** @var Role|null $role */
                 $role = security()->roles()->findBySlug($role);
 
                 if ($role) {

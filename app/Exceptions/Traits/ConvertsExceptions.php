@@ -24,10 +24,8 @@ trait ConvertsExceptions
 {
     /**
      * Convert a default exception to an API exception.
-     *
-     * @return void
      */
-    protected function convertDefaultException(Throwable $exception)
+    protected function convertDefaultException(Throwable $exception): void
     {
         $this->convert($exception, array_diff_key([
             AuthenticationException::class => UnauthenticatedException::class,
@@ -36,7 +34,7 @@ trait ConvertsExceptions
             ModelNotFoundException::class => PageNotFoundException::class,
             DomainException::class => DomainHttpException::class,
             EntityNotFoundException::class => EntityNotFoundHttpException::class,
-            ValidationException::class => function ($exception) {
+            ValidationException::class => function ($exception): void {
                 throw new ValidationFailedException($exception->validator);
             },
         ], array_flip($this->dontConvert)));
@@ -44,10 +42,8 @@ trait ConvertsExceptions
 
     /**
      * Convert an exception to another exception.
-     *
-     * @return void
      */
-    protected function convert(Throwable $exception, array $convert)
+    protected function convert(Throwable $exception, array $convert): void
     {
         foreach ($convert as $source => $target) {
             if ($exception instanceof $source) {
@@ -55,7 +51,7 @@ trait ConvertsExceptions
                     $target($exception);
                 }
 
-                throw new $target;
+                throw new $target();
             }
         }
     }
@@ -69,15 +65,5 @@ trait ConvertsExceptions
             ->error($exception->errorCode(), $exception->message())
             ->data($exception->data())
             ->respond($exception->statusCode(), $exception->getHeaders());
-    }
-
-    /**
-     * Report to Sentry Service.
-     */
-    private function sentryReport(Throwable $exception): void
-    {
-        if ($this->shouldReport($exception) && config('logging.sentry_enabled') && app()->bound('sentry')) {
-            app('sentry')->captureException($exception);
-        }
     }
 }

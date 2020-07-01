@@ -95,8 +95,9 @@ class UserCreateFormHandler extends Handler
 
         $options = [];
         $rolePermissions = [];
+
+        /** @var \Digbang\Security\Roles\Role $role */
         foreach ($roles as $role) {
-            /* @var \Digbang\Security\Roles\Role $role */
             $options[$role->getRoleSlug()] = $role->getName();
 
             $rolePermissions[$role->getRoleSlug()] = $role->getPermissions()->map(function (\Digbang\Security\Permissions\Permission $permission): string {

@@ -20,10 +20,8 @@ class Handler extends ExceptionHandler
 
     /**
      * A list of default exception types that should not be converted.
-     *
-     * @var array
      */
-    protected $dontConvert = [
+    protected array $dontConvert = [
         ModelNotFoundException::class,
     ];
 
@@ -68,5 +66,15 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Report to Sentry Service.
+     */
+    private function sentryReport(Throwable $exception): void
+    {
+        if ($this->shouldReport($exception) && config('logging.sentry_enabled') && app()->bound('sentry')) {
+            app('sentry')->captureException($exception);
+        }
     }
 }
