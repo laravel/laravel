@@ -6,6 +6,7 @@ use App\Http\Api\Transformers\TokenTransformer;
 use App\Http\Utils\RouteDefiner;
 use Cake\Chronos\Chronos;
 use Illuminate\Auth\AuthManager;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,15 +24,11 @@ abstract class Handler extends BaseHandler implements RouteDefiner
 
     public const GUARD = 'api';
 
-    protected AuthManager $auth;
-    private JWTAuth $jwtAuth;
-    private Parser $jwtParser;
+    private Container $app;
 
-    public function __construct(AuthManager $auth, JWTAuth $jwtAuth, Parser $jwtParser)
+    public function __construct(Container $app)
     {
-        $this->auth = $auth;
-        $this->jwtAuth = $jwtAuth;
-        $this->jwtParser = $jwtParser;
+        $this->app = $app;
     }
 
     public static function routePriority(): int
@@ -41,9 +38,14 @@ abstract class Handler extends BaseHandler implements RouteDefiner
 
     protected function shouldRefreshToken(): array
     {
-        $token = $this->jwtAuth->getToken();
+        /** @var JWTAuth $jwtAuth */
+        $jwtAuth = $this->app->make(JWTAuth::class);
+        /** @var Parser $jwtParser */
+        $jwtParser = $this->app->make(Parser::class);
+
+        $token = $jwtAuth->getToken();
         if ($token) {
-            $parsedToken = $this->jwtParser->parse($token->get());
+            $parsedToken = $jwtParser->parse($token->get());
 
             if ($parsedToken->isExpired((new Chronos())->subMinutes(config('jwt.auto_refresh_ttl') * 60))) {
                 $newToken = $this->guard()->refresh();
@@ -67,13 +69,19 @@ abstract class Handler extends BaseHandler implements RouteDefiner
 
     protected function tokenTTL(): int
     {
-        return $this->jwtAuth->factory()->getTTL() * 60;
+        /** @var JWTAuth $jwtAuth */
+        $jwtAuth = $this->app->make(JWTAuth::class);
+
+        return $jwtAuth->factory()->getTTL() * 60;
     }
 
     protected function guard(): JWTGuard
     {
+        /** @var AuthManager $authManager */
+        $authManager = $this->app->make(AuthManager::class);
+
         /** @var JWTGuard $guard */
-        $guard = $this->auth->guard(self::GUARD);
+        $guard = $authManager->guard(self::GUARD);
 
         return $guard;
     }

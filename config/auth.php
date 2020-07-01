@@ -66,7 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'doctrine',
-            'model' => /*App\User::class*/ '',
+            'model' => \ProjectName\Entities\User::class,
         ],
     ],
 

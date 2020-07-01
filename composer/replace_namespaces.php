@@ -22,6 +22,7 @@ $docker = Finder::create()->files()->in(__DIR__ . '/../docker');
 
 $classes = Finder::create()->files()->in([
     __DIR__ . '/../app',
+    __DIR__ . '/../config',
     __DIR__ . '/../src',
 ]);
 
