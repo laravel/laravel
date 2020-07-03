@@ -123,7 +123,7 @@ https://phpinsights.com/get-started.html
 
 ## Laravel Responder
 
-###Creating Responses
+### Creating Responses
 
 ```php
 return responder()
@@ -134,7 +134,7 @@ return responder()
     ->respond();
 ```
 
-###Creating Transformers
+### Creating Transformers
 ``php artisan make:transformer ProductTransformer --plain``
 
 ### Handling Exceptions
