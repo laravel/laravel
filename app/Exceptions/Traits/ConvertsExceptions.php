@@ -33,7 +33,7 @@ trait ConvertsExceptions
             NotFoundHttpException::class => PageNotFoundException::class,
             ModelNotFoundException::class => PageNotFoundException::class,
             DomainException::class => function (DomainException $exception) {
-                throw new DomainHttpException(trans('exception.' . $exception->getKey()));
+                throw new DomainHttpException(trans('exceptions.' . $exception->getKey()));
             },
             EntityNotFoundException::class => EntityNotFoundHttpException::class,
             ValidationException::class => function ($exception): void {
