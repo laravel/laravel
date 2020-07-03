@@ -32,7 +32,9 @@ trait ConvertsExceptions
             AuthorizationException::class => UnauthorizedException::class,
             NotFoundHttpException::class => PageNotFoundException::class,
             ModelNotFoundException::class => PageNotFoundException::class,
-            DomainException::class => DomainHttpException::class,
+            DomainException::class => function (DomainException $exception) {
+                throw new DomainHttpException(trans('exception.' . $exception->getKey()));
+            },
             EntityNotFoundException::class => EntityNotFoundHttpException::class,
             ValidationException::class => function ($exception): void {
                 throw new ValidationFailedException($exception->validator);

@@ -12,9 +12,4 @@ class DomainHttpException extends HttpException
 
     /** @var string|null */
     protected $errorCode = 'DOMAIN_EXCEPTION';
-
-    public function __construct()
-    {
-        parent::__construct(trans('exception.entity.notFound'));
-    }
 }
