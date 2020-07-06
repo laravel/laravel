@@ -302,3 +302,34 @@ https://github.com/tymondesigns/jwt-auth
 * SO Packages:
     * locales
     * locales-all
+
+## Overriding php configuration
+
+### Overriding php ini default configurations
+In order to override .ini configurations, use the `custom.ini` file in `./docker/php/conf.d` directory on the root of the project.
+After changing the file, you will need to rebuild your container: `docker-compose up -d --build php`.
+
+> It's recommended to change `upload_max_filesize`, `post_max_size`. Have in mind this values should be changed in all environments.
+
+> It's recommended to change `memory_limit` if you need it. In this case, only in dev environments.
+
+### Overriding extensions configuration
+In order to override any extension setting you should be able to put the corresponding `.ini` file inside `/docker/php/conf.d` directory on the root of the project.
+After changing the file, you will need to rebuild your container: `docker-compose up -d --build php`.
+
+> Remember, by convention any extension config file should be named as `docker-php-ext-`` followed by the extension name itself.
+
+For example, if you wish to override `opcache` (enabled by default) you should create the following file:
+`./docker/php/conf.d/docker-php-ext-opcache.ini` and fill it with everything you need.
+
+If you wish to override `xdebug` (disabled by default), then create this file `./docker/php/conf.d/docker-php-ext-xdebug.ini` and change the needed configurations.
+
+### Notes
+```
+If you want to test different configurations, you can mount the files in conf.d as volumes. That way, restarting apache or the container will use the new configurations.
+To do so, you can add this (as an example) to the volumes configured on docker-compose.yml:
+
+- .:/docker/php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+
+After finishing with the tests and changes, please remove the volume configuration and rebuild the container with the new configs.
+```
