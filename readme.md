@@ -313,16 +313,17 @@ After changing the file, you will need to rebuild your container: `docker-compos
 
 > It's recommended to change `memory_limit` if you need it. In this case, only in dev environments.
 
-### Overriding extensions configuration
-In order to override any extension setting you should be able to put the corresponding `.ini` file inside `/docker/php/conf.d` directory on the root of the project.
-After changing the file, you will need to rebuild your container: `docker-compose up -d --build php`.
+## Override extensions config
+In order to override any extension setting you should be able to put the corresponding **.ini** file inside **./docker/php/conf.d** folder, that is relative to the application root folder.
 
-> Remember, by convention any extension config file should be named as `docker-php-ext-`` followed by the extension name itself.
+> Remember, by convention any extension config file should be named as ``docker-php-ext-{extension name}.ini``.
 
-For example, if you wish to override `opcache` (enabled by default) you should create the following file:
-`./docker/php/conf.d/docker-php-ext-opcache.ini` and fill it with everything you need.
+For example, if you wish to override **opcache** you should create the following file:
+``./docker/php/conf.d/docker-php-ext-opcache.ini`` and fill it with everything you need. Same for **xdebug**: ``./docker/php/conf.d/docker-php-ext-xdebug.ini``.
 
-If you wish to override `xdebug` (disabled by default), then create this file `./docker/php/conf.d/docker-php-ext-xdebug.ini` and change the needed configurations.
+Then, copy those files from the host into the container, use the following command inside ``./docker/php/Dockerfile``: ``COPY conf.d /usr/local/etc/php/conf.d/``
+
+> It will be reflected on the next ``docker-compose up --build``
 
 ### Notes
 ```
