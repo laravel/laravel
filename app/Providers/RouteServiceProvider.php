@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The path to the "home" route for your application.
      *
-     * Used by Laravel's authentication services to properly redirect users.
+     * This is used by Laravel authentication to redirect users after login.
      *
      * @var string
      */
