@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+if (file_exists(__DIR__.'/../bootstrap/maintenance.php')) {
+    require __DIR__.'/../bootstrap/maintenance.php';
+}
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
