@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -195,5 +194,4 @@ return [
     */
 
     'same_site' => null,
-
 ];
