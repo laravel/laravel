@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Doctrine\Repositories;
 
-use App\Infrastructure\Doctrine\Pagination\Paginator;
+use Digbang\Utils\Pagination\Paginator;
 use Digbang\Utils\Doctrine\QueryBuilderDecorator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
