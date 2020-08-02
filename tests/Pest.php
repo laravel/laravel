@@ -2,12 +2,12 @@
 
 /*
 |--------------------------------------------------------------------------
-| Lorem ipsum dolor
+| Bind Traits And Classes
 |--------------------------------------------------------------------------
 |
-| Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-| et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exerci
-| tation ullamco laboris nisi ut aliquip ex ea commodo consequat du
+| The `uses` function lets you recursively bind traits and classes to 
+| your test files. By default, test files are already bound to the
+| PHPUnit test case class. Of course, feel free to modify this.
 |
 */
 
