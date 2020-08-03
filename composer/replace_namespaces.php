@@ -30,11 +30,11 @@ $files = $files
     ->append($docker)
     ->append($classes);
 
+$projectName = $_ENV['PROJECT_NAME'] ?? basename(dirname(__DIR__));
+$namespace = $_ENV['PROJECT_NAMESPACE'] ?? studly_case($projectName);
+
 /** @var \Symfony\Component\Finder\SplFileInfo $file */
 foreach ($files as $file) {
-    $projectName = basename(dirname(__DIR__));
-    $namespace = studly_case($projectName);
-
     file_put_contents(
         $file->getRealPath(),
         str_replace(
