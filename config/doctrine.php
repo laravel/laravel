@@ -24,7 +24,9 @@ return [
             'dev' => env('APP_DEBUG', false),
             'meta' => 'fluent',
             'connection' => env('DB_CONNECTION', 'mysql'),
-            'namespaces' => [],
+            'namespaces' => [
+                'ProjectName\Entities',
+            ],
             'paths' => [],
             'repository' => Doctrine\ORM\EntityRepository::class,
             'proxies' => [
