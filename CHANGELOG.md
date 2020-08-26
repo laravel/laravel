@@ -73,19 +73,6 @@
 - Use `MAIL_MAILER` in test environment ([#5239](https://github.com/laravel/laravel/pull/5239))
 
 
-## [v6.18.8 (2020-04-16)](https://github.com/laravel/laravel/compare/v6.18.3...v6.18.8)
-
-### Fixed
-- Add both endpoint and url env variables ([#5276](https://github.com/laravel/laravel/pull/5276))
-
-
-## [v6.18.3 (2020-03-24)](https://github.com/laravel/laravel/compare/v6.18.0...v6.18.3)
-
-### Fixed
-- Ensure that `app.debug` is a bool ([5ddbfb8](https://github.com/laravel/laravel/commit/5ddbfb845439fcd5a46c23530b8774421a931760))
-- Fix S3 endpoint url reference ([#5267](https://github.com/laravel/laravel/pull/5267))
-
-
 ## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
 
 ### Changed
