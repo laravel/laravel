@@ -114,4 +114,17 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Email Address Verification
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the amount of seconds before a verification link
+    | times out and the user needs to rerequest email address verification.
+    |
+    */
+
+    'verification' => [
+        'expire' => 60,
+    ],
 ];
