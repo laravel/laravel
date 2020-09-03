@@ -24,7 +24,7 @@ const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
 // tailwind settings
 module.exports = {
 	purge: false,
-  target: 'relaxed',
+	target: 'relaxed',
 	theme: {
 		screens,
 		colors: {
