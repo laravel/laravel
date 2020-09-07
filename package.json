@@ -30,7 +30,7 @@
         "sass-loader": "^8.0.0",
         "svg-spritemap-webpack-plugin": "^3.2.0",
         "svg4everybody": "^2.1.9",
-        "tailwindcss": "~1.4",
+        "tailwindcss": "~1.7",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11",
         "what-input": "^5.1.1"
