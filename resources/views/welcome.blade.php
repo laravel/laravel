@@ -23,14 +23,14 @@
     <body class="antialiased">
         <div class="relative sm:flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             @if (Route::has('login'))
-                <div class="block sm:absolute text-center sm:text-right top-0 right-0 px-6 py-4">
+                <div class="sm:absolute text-center sm:text-right top-0 right-0 px-6 py-4">
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
+                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-400 underline">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-400 underline">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-400 underline">Register</a>
                         @endif
                     @endif
                 </div>
