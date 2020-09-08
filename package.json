@@ -10,6 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --env.mixfile=build/webpack.mix"
     },
     "devDependencies": {
+        "@braid/vue-formulate": "^2.4.3",
         "@fullhuman/postcss-purgecss": "^1.2.0",
         "axios": "^0.19",
         "browser-sync": "^2.24.6",

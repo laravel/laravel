@@ -1,23 +1,21 @@
 <template>
 	<div class="block relative">
 		<select
-			:value="$props.value"
-			class="e-input pr-12 appearance-none"
-			v-bind="$attrs"
-			v-on="$listeners"
-			@change="$emit('input', $event)"
+			v-model="$props.context.model"
+			v-bind="$props.context.attributes"
+			class="pr-12 appearance-none"
 		>
 			<option
-				:value="null"
+				value=""
 				disabled
-				v-html="cDefaultOption"
+				v-html="$props.context.placeholder"
 			/>
 
 			<option
-				v-for="(option, key) in $props.options"
-				:key="key"
-				:value="Array.isArray($props.options) ? option : key"
-				v-html="option"
+				v-for="(option, index) in $props.context.options"
+				:key="index"
+				:value="option.value"
+				v-html="option.label"
 			/>
 		</select>
 
@@ -34,28 +32,10 @@
 
 <script>
 	export default {
-		inheritAttrs: false,
-
 		props: {
-			default: {
-				type: String,
-				default: null,
-			},
-
-			value: {
-				type: String,
-				default: null,
-			},
-
-			options: {
-				type: [Array, Object],
-				default: () => {},
-			},
-		},
-
-		computed: {
-			cDefaultOption() {
-				return this.$props.default || this.$options.filters.trans('global.form.select_default');
+			context: {
+				type: Object,
+				required: true,
 			},
 		},
 	};
