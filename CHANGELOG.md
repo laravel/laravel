@@ -1,6 +1,32 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.3.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.25.0...develop)
+
+
+## [v7.25.0 (2020-08-11)](https://github.com/laravel/laravel/compare/v7.12.0...v7.25.0)
+
+### Added
+- Add password reset migration ([9e5ba57](https://github.com/laravel/laravel/commit/9e5ba571a60a57ca2c3938bc5bd81d222cb6e618))
+
+### Changed
+- Bump `fruitcake/laravel-cors` ([#5320](https://github.com/laravel/laravel/pull/5320))
+- Set framework version `^7.24` ([#5370](https://github.com/laravel/laravel/pull/5370))
+
+
+## [v7.12.0 (2020-05-18)](https://github.com/laravel/laravel/compare/v7.6.0...v7.12.0)
+
+### Added
+- Allow configuring the auth_mode for SMTP mail driver ([#5293](https://github.com/laravel/laravel/pull/5293))
+- Add basic trust host middleware ([5639581](https://github.com/laravel/laravel/commit/5639581ea56ecd556cdf6e6edc37ce5795740fd7))
+
+
+## [v7.6.0 (2020-04-15)](https://github.com/laravel/laravel/compare/v7.3.0...v7.6.0)
+
+### Changed
+- Disable Telescope in PHPUnit ([#5277](https://github.com/laravel/laravel/pull/5277))
+
+### Fixed
+- Add both endpoint and url env variables ([#5276](https://github.com/laravel/laravel/pull/5276))
 
 
 ## [v7.3.0 (2020-03-24)](https://github.com/laravel/laravel/compare/v7.0.0...v7.3.0)
@@ -45,13 +71,6 @@
 - Update mail config ([76d8227](https://github.com/laravel/laravel/commit/76d822768dcab14fa1ee1fd1f4a24065234860db), [61ec16f](https://github.com/laravel/laravel/commit/61ec16fe392967766b68d865ed10d56275a78718), [e43d454](https://github.com/laravel/laravel/commit/e43d4546a9c0bde49dae51fd6f4e2766674f1152), [130b8c8](https://github.com/laravel/laravel/commit/130b8c8bcb8f167e7013e7846004b2df3e405b72))
 - Remove hyphen on email ([ffc74ba](https://github.com/laravel/laravel/commit/ffc74ba143a7de4a89f2c3fd525a5621ca879e38))
 - Use `MAIL_MAILER` in test environment ([#5239](https://github.com/laravel/laravel/pull/5239))
-
-
-## [v6.18.3 (2020-03-24)](https://github.com/laravel/laravel/compare/v6.18.0...v6.18.3)
-
-### Fixed
-- Ensure that `app.debug` is a bool ([5ddbfb8](https://github.com/laravel/laravel/commit/5ddbfb845439fcd5a46c23530b8774421a931760))
-- Fix S3 endpoint url reference ([#5267](https://github.com/laravel/laravel/pull/5267))
 
 
 ## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
