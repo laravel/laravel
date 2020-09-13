@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.25.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.25.0...develop)
 
 
 ## [v7.25.0 (2020-08-11)](https://github.com/laravel/laravel/compare/v7.12.0...v7.25.0)
