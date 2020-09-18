@@ -44,7 +44,7 @@ Vue.use(VueFormulate, {
 		label: ({ classification }) => {
 			switch (classification) {
 				case 'box':
-					return 'hiddenx';
+					return 'sr-only';
 				default:
 					return 'block mb-1/2em cursor-pointer font-bold leading-snug';
 			}

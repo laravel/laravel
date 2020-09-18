@@ -58,6 +58,7 @@
 
 		<span
 			class="leading-normal self-center"
+			aria-hidden="true"
 			v-html="$props.context.label"
 		/>
 	</label>
