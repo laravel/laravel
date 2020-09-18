@@ -5,6 +5,22 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+
+/*
+|--------------------------------------------------------------------------
+| Handle CORS
+|--------------------------------------------------------------------------
+|
+| If the application is a web service and there 
+| is a problem in CORS then adding this 
+| header can help, and if it is not needed,just add me a // sign as a comment
+|
+*/
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+
+
 /*
 |--------------------------------------------------------------------------
 | Check If Application Is Under Maintenance
