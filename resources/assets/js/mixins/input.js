@@ -1,3 +1,5 @@
+import whatInput from 'what-input';
+
 export default {
 	data() {
 		return {
@@ -7,7 +9,7 @@ export default {
 
 	methods: {
 		isKeyboard() {
-			return window.whatInput.ask() === 'keyboard';
+			return whatInput.ask() === 'keyboard';
 		},
 	},
 };
