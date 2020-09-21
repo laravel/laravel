@@ -1,7 +1,9 @@
 #!/usr/bin/env php
-<?php
+<?php define('LARAVEL_START', microtime(true));
 
-define('LARAVEL_START', microtime(true));
+    use Illuminate\Contracts\Console\Kernel;
+    use Symfony\Component\Console\Input\ArgvInput;
+    use Symfony\Component\Console\Output\ConsoleOutput;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,13 +31,8 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 | or another output device for the developers. Here goes nothing!
 |
 */
-
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-
-$status = $kernel->handle(
-    $input = new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\ConsoleOutput
-);
+$kernel = $app->make(Kernel::class);
+$status = $kernel->handle($input = new ArgvInput, new ConsoleOutput);
 
 /*
 |--------------------------------------------------------------------------
