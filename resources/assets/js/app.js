@@ -1,5 +1,7 @@
 /* eslint-disable no-new */
 
+import 'what-input';
+
 import Vue from 'vue';
 import svg4everybody from 'svg4everybody';
 
@@ -8,7 +10,6 @@ import lang from './i18n';
 
 // Common
 import EButton from './components/common/Button';
-import EForm from './components/common/Form';
 import ETable from './components/common/Table';
 import Breadcrumb from './components/common/Breadcrumb';
 import Icon from './components/common/Icon';
@@ -27,7 +28,6 @@ Vue.filter('trans', (...args) => lang.get(...args));
 
 // Global
 Vue.component('EButton', EButton);
-Vue.component('EForm', EForm);
 Vue.component('ETable', ETable);
 Vue.component('Breadcrumb', Breadcrumb);
 Vue.component('Icon', Icon);

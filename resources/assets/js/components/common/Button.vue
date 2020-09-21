@@ -1,21 +1,28 @@
 <template>
 	<component
 		:is="cElement"
-		class="e-button"
+		v-bind="$props.context.attributes"
+		:class="[
+			'relative',
+			'p-4',
+			'bg-brand-red text-white',
+			'font-body text-base font-normal leading-none',
+			'no-underline',
+		]"
 		:href="$props.href"
-		v-html="$props.text"
+		v-html="$props.context.label || $props.text"
 	/>
 </template>
 
 <script>
 	export default {
 		props: {
-			text: {
-				type: String,
-				required: true,
+			context: {
+				type: Object,
+				default: () => ({}),
 			},
 
-			href: {
+			text: {
 				type: String,
 				default: null,
 			},
@@ -23,7 +30,7 @@
 
 		computed: {
 			cElement: function () {
-				return this.href ? 'a' : 'button';
+				return this.$attrs.href ? 'a' : 'button';
 			},
 		},
 	};
