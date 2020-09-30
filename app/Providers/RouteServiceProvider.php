@@ -29,6 +29,15 @@ class RouteServiceProvider extends ServiceProvider
     // protected $namespace = 'App\\Http\\Controllers';
 
     /**
+     * The SPA route action for the application.
+     *
+     * When present, all routes in your routes/spa.php file will be directed to this action.
+     *
+     * @var array|string
+     */
+    protected $spaAction = 'SPAController@index';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
@@ -46,6 +55,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(function () {
+                    collect(require base_path('routes/spa.php'))
+                        ->each(function ($path) {
+                            Route::get($path, $this->spaAction);
+                        });
+                });
         });
     }
 
