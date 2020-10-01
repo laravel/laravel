@@ -47,6 +47,7 @@ return [
 
         'ses' => [
             'transport' => 'ses',
+            'version' => env('AWS_API_VERSION', 'latest'),
         ],
 
         'mailgun' => [
