@@ -73,8 +73,7 @@
             ]
         },
         "hooks": {
-            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer test; composer stan\"",
-            "post-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes\""
+            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; vendor/bin/php-cs-fixer fix --allow-risky=yes; composer test; composer stan\""
         }
     },
     "scripts": {
