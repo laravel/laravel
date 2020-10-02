@@ -20,8 +20,6 @@ class PageDefaultsViewComposer extends BaseViewComposer
                 'site_name' => 'Site Name',
                 'social_image' => asset('/static/img/meta/share.png'),
                 'url' => url()->current(),
-                'creator_twitter_handle' => '@author_handle',
-                'site_twitter_handle' => '@site_handle',
                 'share_title' => trans('meta.default.share_title'),
                 'share_description' => trans('meta.default.share_description'),
                 'type' => 'article',
