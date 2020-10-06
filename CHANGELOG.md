@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.0.1...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.1.0...master)
+
+
+## [v8.1.0 (2020-10-06)](https://github.com/laravel/laravel/compare/v8.0.3...v8.1.0)
+
+### Added
+- Added `LOG_LEVEL` env variable ([#5442](https://github.com/laravel/laravel/pull/5442))
+
+### Changed
+- Type hint the middleware Request ([#5438](https://github.com/laravel/laravel/pull/5438))
 
 
 ## [v8.0.3 (2020-09-22)](https://github.com/laravel/laravel/compare/v8.0.2...v8.0.3)
