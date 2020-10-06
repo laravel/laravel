@@ -3,6 +3,27 @@
 ## [Unreleased](https://github.com/laravel/laravel/compare/v8.0.1...master)
 
 
+## [v8.0.3 (2020-09-22)](https://github.com/laravel/laravel/compare/v8.0.2...v8.0.3)
+
+### Changed
+- Add comment ([a6ca577](https://github.com/laravel/laravel/commit/a6ca5778391b150102637459ac3b2a42d78d495b))
+
+
+## [v8.0.2 (2020-09-22)](https://github.com/laravel/laravel/compare/v8.0.1...v8.0.2)
+
+### Changed
+- Fully qualified user model in seeder ([#5406](https://github.com/laravel/laravel/pull/5406))
+- Update model path in `AuthServiceProvider`'s policies ([#5412](https://github.com/laravel/laravel/pull/5412))
+- Add commented code ([69d0c50](https://github.com/laravel/laravel/commit/69d0c504e3ff01e0fd219e02ebac9b1c22151c2a))
+
+### Fixed
+- Swap route order ([292a5b2](https://github.com/laravel/laravel/commit/292a5b26a9293d82ab5a7d0bb81bba02ea71758e))
+- Fix route when uncomment $namespace ([#5424](https://github.com/laravel/laravel/pull/5424))
+
+### Removed
+- Removed `$namespace` property ([b33852e](https://github.com/laravel/laravel/commit/b33852ecace72791f4bc28b8dd84c108166512bf))
+
+
 ## [v8.0.1 (2020-09-09)](https://github.com/laravel/laravel/compare/v8.0.0...v8.0.1)
 
 ### Changed
