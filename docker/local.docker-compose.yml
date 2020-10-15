@@ -27,7 +27,7 @@ services:
       - "DBUS_SESSION_BUS_ADDRESS=/dev/null"
 
   db:
-    image: mariadb:10.3
+    image: mariadb:10.4
     restart: unless-stopped
     volumes:
       - ../docker/local.db.schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
