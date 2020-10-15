@@ -17,7 +17,6 @@ services:
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
-      - ./local.app.php.ini:/usr/local/etc/php/php.ini:delegated
       - ~/.composer/docker-cache/:/root/.composer:cached
     depends_on:
       - db
