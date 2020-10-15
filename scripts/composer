@@ -9,4 +9,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-docker-compose exec app composer $@
+docker-compose exec app php -d memory_limit=-1 /usr/bin/composer $@
