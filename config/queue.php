@@ -86,4 +86,18 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Batching Jobs
+    |--------------------------------------------------------------------------
+    |
+    | These options configure the database connection with which to keep
+    | track of job batches.
+    |
+    */
+
+    'batching' => [
+        'table' => 'job_batches',
+        'database' => env('DB_CONNECTION', 'mysql'),
+    ],
 ];
