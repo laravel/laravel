@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.1.0...develop)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.2.0...develop)
+
+
+## [v8.2.0 (2020-10-20)](https://github.com/laravel/laravel/compare/v8.1.0...v8.2.0)
+
+### Added
+- Added 'LOG_LEVEL' env variable in `.env.example` ([#5445](https://github.com/laravel/laravel/pull/5445))
+- Add 'multiple_of' translation ([#5449](https://github.com/laravel/laravel/pull/5449))
 
 
 ## [v8.1.0 (2020-10-06)](https://github.com/laravel/laravel/compare/v8.0.3...v8.1.0)
