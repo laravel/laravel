@@ -14,7 +14,6 @@ class RenameTable extends Migration
     public function up()
     {
         Schema::rename("test", "test_renamed");
-
     }
 
     /**
