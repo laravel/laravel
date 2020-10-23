@@ -82,4 +82,15 @@ return [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
+
+    'jobs' => [
+        'default' => [
+            'queue' => env('QUEUE_DEFAULT_QUEUE', 'default'),
+            'connection' => env('QUEUE_DEFAULT_CONNECTION', env('QUEUE_CONNECTION', 'sync')),
+        ],
+        'mails' => [
+            'queue' => env('QUEUE_MAILS_QUEUE', 'default'),
+            'connection' => env('QUEUE_MAILS_CONNECTION', env('QUEUE_CONNECTION', 'sync')),
+        ],
+    ],
 ];

@@ -2,7 +2,9 @@
 
 namespace ProjectName\Entities;
 
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use LaravelDoctrine\Extensions\SoftDeletes\SoftDeletes;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 use LaravelDoctrine\ORM\Auth\Authenticatable;
@@ -10,9 +12,10 @@ use ProjectName\Immutables\Name;
 use ProjectName\Payloads\UserPayload;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User implements AuthenticatableContract, JWTSubject
+class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContract
 {
     use Authenticatable;
+    use CanResetPassword;
     use Timestamps;
     use SoftDeletes;
 
