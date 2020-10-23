@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4656fcb9a9e7f51824f46bbd1b0f71a3",
+    "content-hash": "6596255a5658ab943a1017586950a8da",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -321,32 +321,32 @@
         },
         {
             "name": "cartalyst/sentinel",
-            "version": "v4.0.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cartalyst/sentinel.git",
-                "reference": "5c6cf08dcdac3e2e46da351196c37efaeeb7f6e0"
+                "reference": "9f7a8c6c27e00a5601c3f78e381cd4dcfee84321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/sentinel/zipball/5c6cf08dcdac3e2e46da351196c37efaeeb7f6e0",
-                "reference": "5c6cf08dcdac3e2e46da351196c37efaeeb7f6e0",
+                "url": "https://api.github.com/repos/cartalyst/sentinel/zipball/9f7a8c6c27e00a5601c3f78e381cd4dcfee84321",
+                "reference": "9f7a8c6c27e00a5601c3f78e381cd4dcfee84321",
                 "shasum": ""
             },
             "require": {
-                "cartalyst/support": "^4.0",
-                "illuminate/support": "^7.0",
-                "php": "^7.2.5"
+                "cartalyst/support": "^5.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
             },
             "require-dev": {
                 "cartalyst/php-cs-fixer-config": "^1.0",
-                "illuminate/cookie": "^7.0",
-                "illuminate/database": "^7.0",
-                "illuminate/events": "^7.0",
-                "illuminate/http": "^7.0",
-                "illuminate/session": "^7.0",
+                "illuminate/cookie": "^8.0",
+                "illuminate/database": "^8.0",
+                "illuminate/events": "^8.0",
+                "illuminate/http": "^8.0",
+                "illuminate/session": "^8.0",
                 "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^9.0"
             },
             "suggest": {
                 "illuminate/database": "By default, Sentinel utilizes the powerful Illuminate database layer.",
@@ -357,7 +357,7 @@
             "extra": {
                 "component": "package",
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "5.0.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -386,7 +386,7 @@
                     "homepage": "https://cartalyst.com"
                 }
             ],
-            "description": "PHP 7.2.5+ Fully-featured Authentication & Authorization System",
+            "description": "PHP 7.3+ Fully-featured Authentication & Authorization System",
             "keywords": [
                 "auth",
                 "cartalyst",
@@ -394,38 +394,38 @@
                 "php",
                 "security"
             ],
-            "time": "2020-03-05T22:56:14+00:00"
+            "time": "2020-09-12T19:42:21+00:00"
         },
         {
             "name": "cartalyst/support",
-            "version": "v4.0.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cartalyst/support.git",
-                "reference": "93978144898bd839feb563a5a563df077d21cb14"
+                "reference": "976ea71efab17c8d50a485c8db9db0de5b49b3a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cartalyst/support/zipball/93978144898bd839feb563a5a563df077d21cb14",
-                "reference": "93978144898bd839feb563a5a563df077d21cb14",
+                "url": "https://api.github.com/repos/cartalyst/support/zipball/976ea71efab17c8d50a485c8db9db0de5b49b3a5",
+                "reference": "976ea71efab17c8d50a485c8db9db0de5b49b3a5",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5"
+                "php": "^7.3"
             },
             "require-dev": {
                 "cartalyst/php-cs-fixer-config": "^1.0",
-                "illuminate/mail": "^7.0",
-                "illuminate/validation": "^7.0",
+                "illuminate/mail": "^8.0",
+                "illuminate/validation": "^8.0",
                 "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^8.0",
-                "symfony/translation": "~3.2"
+                "phpunit/phpunit": "^9.0",
+                "symfony/translation": "^5.1"
             },
             "type": "library",
             "extra": {
                 "component": "package",
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
@@ -451,7 +451,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2020-03-03T18:26:42+00:00"
+            "time": "2020-09-12T19:33:30+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -719,40 +719,39 @@
         },
         {
             "name": "digbang/backoffice",
-            "version": "v7.1.7",
+            "version": "v8.0.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:digbang/backoffice.git",
-                "reference": "1215291143a5b2883faed3e5c92854cc3869eb78"
+                "reference": "610c051404ac42f3ba515a442717e94b0aa3fa2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digbang/backoffice/zipball/1215291143a5b2883faed3e5c92854cc3869eb78",
-                "reference": "1215291143a5b2883faed3e5c92854cc3869eb78",
+                "url": "https://api.github.com/repos/digbang/backoffice/zipball/610c051404ac42f3ba515a442717e94b0aa3fa2b",
+                "reference": "610c051404ac42f3ba515a442717e94b0aa3fa2b",
                 "shasum": ""
             },
             "require": {
-                "digbang/fonts": "^0.2",
+                "digbang/fonts": "^0.3",
                 "digbang/security": "^5.3",
                 "digbang/utils": "^1.4",
-                "illuminate/config": "^7.0",
-                "illuminate/database": "^7.0",
-                "illuminate/pagination": "^7.0",
-                "illuminate/support": "^7.0",
-                "illuminate/translation": "^7.0",
-                "illuminate/validation": "^7.0",
-                "illuminate/view": "^7.0",
+                "illuminate/config": "^7.0|^8.0",
+                "illuminate/database": "^7.0|^8.0",
+                "illuminate/pagination": "^7.0|^8.0",
+                "illuminate/support": "^7.0|^8.0",
+                "illuminate/translation": "^7.0|^8.0",
+                "illuminate/validation": "^7.0|^8.0",
+                "illuminate/view": "^7.0|^8.0",
                 "laravelcollective/html": "^6.1",
                 "maatwebsite/excel": "^3.1",
-                "nette/reflection": "^2.4",
-                "php": "^7.2.5"
+                "php": "^7.3"
             },
             "require-dev": {
                 "digbang/backoffice-template": "1.0.0",
                 "doctrine/common": "~2.5",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "laravel-doctrine/fluent": "^1.1",
-                "laravel/framework": "^7.0",
+                "laravel/framework": "^7.0|^8.0",
                 "phpspec/phpspec": "^6.1",
                 "roave/security-advisories": "dev-master"
             },
@@ -776,9 +775,9 @@
             ],
             "description": "A set of libraries, helpers and templates for a backoffice (admin / panel) project.",
             "support": {
-                "source": "https://github.com/digbang/backoffice/tree/v7.1.7"
+                "source": "https://github.com/digbang/backoffice/tree/v8.0.1"
             },
-            "time": "2020-09-01T14:07:31+00:00"
+            "time": "2020-10-23T13:54:41+00:00"
         },
         {
             "name": "digbang/doctrine-extensions",
@@ -833,21 +832,21 @@
         },
         {
             "name": "digbang/fonts",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digbang/fonts.git",
-                "reference": "7fd7e5db6a4fd57ea80fc7d31e2af5117551bdbd"
+                "reference": "fcc00ad81d6528ec3170dcf145bdd01b6098dfc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digbang/fonts/zipball/7fd7e5db6a4fd57ea80fc7d31e2af5117551bdbd",
-                "reference": "7fd7e5db6a4fd57ea80fc7d31e2af5117551bdbd",
+                "url": "https://api.github.com/repos/digbang/fonts/zipball/fcc00ad81d6528ec3170dcf145bdd01b6098dfc8",
+                "reference": "fcc00ad81d6528ec3170dcf145bdd01b6098dfc8",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^5.4|^6.0|^7.0",
-                "php": ">=7.0.0"
+                "illuminate/support": "^7.0|^8.0",
+                "php": "^7.3"
             },
             "require-dev": {
                 "phpspec/phpspec": "~2.0"
@@ -876,31 +875,31 @@
                 }
             ],
             "description": "Helpers to build icons for multiple (and custom) sources.",
-            "time": "2020-03-16T12:35:20+00:00"
+            "time": "2020-09-15T20:06:08+00:00"
         },
         {
             "name": "digbang/safe-queue",
-            "version": "v0.4.1",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digbang/safe-queue.git",
-                "reference": "5bd7fda3cc8961f729287316d9938d48095b0ff4"
+                "reference": "949ebf65585a3686a5e234dbcad199adacdbc01d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digbang/safe-queue/zipball/5bd7fda3cc8961f729287316d9938d48095b0ff4",
-                "reference": "5bd7fda3cc8961f729287316d9938d48095b0ff4",
+                "url": "https://api.github.com/repos/digbang/safe-queue/zipball/949ebf65585a3686a5e234dbcad199adacdbc01d",
+                "reference": "949ebf65585a3686a5e234dbcad199adacdbc01d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/queue": "^6.0|^7.0",
+                "illuminate/queue": "^7.0|^8.0",
                 "laravel-doctrine/orm": "^1.3",
                 "php": ">=7.2"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.15",
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^5.3",
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^8.0|^9.3",
                 "satooshi/php-coveralls": "^1.0"
             },
             "type": "library",
@@ -924,7 +923,7 @@
                 }
             ],
             "description": "A Laravel Doctrine friendly daemonising queue worker for Laravel",
-            "time": "2020-05-06T14:53:27+00:00"
+            "time": "2020-09-15T20:53:28+00:00"
         },
         {
             "name": "digbang/security",
@@ -2089,30 +2088,29 @@
         },
         {
             "name": "dragonmantank/cron-expression",
-            "version": "v2.3.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonmantank/cron-expression.git",
-                "reference": "65b2d8ee1f10915efb3b55597da3404f096acba2"
+                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/65b2d8ee1f10915efb3b55597da3404f096acba2",
-                "reference": "65b2d8ee1f10915efb3b55597da3404f096acba2",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/48212cdc0a79051d50d7fc2f0645c5a321caf926",
+                "reference": "48212cdc0a79051d50d7fc2f0645c5a321caf926",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0|^8.0"
+                "php": "^7.1|^8.0"
+            },
+            "replace": {
+                "mtdowling/cron-expression": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.4|^7.0|^8.0|^9.0"
+                "phpstan/phpstan": "^0.11|^0.12",
+                "phpunit/phpunit": "^7.0|^8.0|^9.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Cron\\": "src/Cron/"
@@ -2123,11 +2121,6 @@
                 "MIT"
             ],
             "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                },
                 {
                     "name": "Chris Tankersley",
                     "email": "chris@ctankersley.com",
@@ -2145,7 +2138,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-10-13T00:52:37+00:00"
+            "time": "2020-10-13T01:26:01+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2584,6 +2577,68 @@
             "time": "2020-08-21T01:27:20+00:00"
         },
         {
+            "name": "graham-campbell/result-type",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Result-Type.git",
+                "reference": "7e279d2cd5d7fbb156ce46daada972355cea27bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/7e279d2cd5d7fbb156ce46daada972355cea27bb",
+                "reference": "7e279d2cd5d7fbb156ce46daada972355cea27bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0",
+                "phpoption/phpoption": "^1.7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5|^7.5|^8.5|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\ResultType\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "graham@alt-three.com"
+                }
+            ],
+            "description": "An Implementation Of The Result Type",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Result Type",
+                "Result-Type",
+                "result"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/graham-campbell/result-type",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-04-13T13:17:36+00:00"
+        },
+        {
             "name": "guzzlehttp/promises",
             "version": "1.4.0",
             "source": {
@@ -2808,35 +2863,35 @@
         },
         {
             "name": "laravel-doctrine/extensions",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-doctrine/extensions.git",
-                "reference": "a9e3402f365c3ee5caddd2bc48517e71637f5760"
+                "reference": "33617e88f4332f2197f10ccdb004cf2d87fdba69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-doctrine/extensions/zipball/a9e3402f365c3ee5caddd2bc48517e71637f5760",
-                "reference": "a9e3402f365c3ee5caddd2bc48517e71637f5760",
+                "url": "https://api.github.com/repos/laravel-doctrine/extensions/zipball/33617e88f4332f2197f10ccdb004cf2d87fdba69",
+                "reference": "33617e88f4332f2197f10ccdb004cf2d87fdba69",
                 "shasum": ""
             },
             "require": {
-                "illuminate/auth": "^7.0",
-                "illuminate/config": "^7.0",
-                "illuminate/contracts": "^7.0",
-                "illuminate/http": "^7.0",
-                "illuminate/support": "^7.0",
-                "laravel-doctrine/orm": "1.6.*",
-                "php": ">=7.2.5"
+                "illuminate/auth": "^8.0",
+                "illuminate/config": "^8.0",
+                "illuminate/contracts": "^8.0",
+                "illuminate/http": "^8.0",
+                "illuminate/support": "^8.0",
+                "laravel-doctrine/orm": "^1.7",
+                "php": "^7.3"
             },
             "require-dev": {
                 "beberlei/doctrineextensions": "^1.0",
                 "gedmo/doctrine-extensions": "^2.4",
-                "mockery/mockery": "~1.3.1",
-                "phpunit/phpunit": "^8.5"
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^9.3"
             },
             "suggest": {
-                "beberlei/DoctrineExtensions": "Query/Type Doctrine2 extensions (^1.0)",
+                "beberlei/doctrineextensions": "Query/Type Doctrine2 extensions (^1.0)",
                 "gedmo/doctrine-extensions": "Behavioral Doctrine2 extensions (^2.4)"
             },
             "type": "library",
@@ -2865,7 +2920,7 @@
                 "laravel",
                 "orm"
             ],
-            "time": "2020-03-08T22:32:08+00:00"
+            "time": "2020-09-16T11:04:25+00:00"
         },
         {
             "name": "laravel-doctrine/fluent",
@@ -2930,41 +2985,42 @@
         },
         {
             "name": "laravel-doctrine/orm",
-            "version": "1.6.1",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-doctrine/orm.git",
-                "reference": "5441be75d0884fd0c223037dfcee602351915c89"
+                "reference": "d4a6c4ac1e41a6337e553bc1b887650d5adddfbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-doctrine/orm/zipball/5441be75d0884fd0c223037dfcee602351915c89",
-                "reference": "5441be75d0884fd0c223037dfcee602351915c89",
+                "url": "https://api.github.com/repos/laravel-doctrine/orm/zipball/d4a6c4ac1e41a6337e553bc1b887650d5adddfbc",
+                "reference": "d4a6c4ac1e41a6337e553bc1b887650d5adddfbc",
                 "shasum": ""
             },
             "require": {
+                "doctrine/inflector": "^1.4",
                 "doctrine/orm": "^2.6|^2.7",
                 "doctrine/persistence": "^1.3",
-                "illuminate/auth": "^7.0",
-                "illuminate/console": "^7.0",
-                "illuminate/container": "^7.0",
-                "illuminate/contracts": "^7.0",
-                "illuminate/pagination": "^7.0",
-                "illuminate/routing": "^7.0",
-                "illuminate/support": "^7.0",
-                "illuminate/validation": "^7.0",
-                "illuminate/view": "^7.0",
-                "php": "^7.2.5",
+                "illuminate/auth": "^8.0",
+                "illuminate/console": "^8.0",
+                "illuminate/container": "^8.0",
+                "illuminate/contracts": "^8.0",
+                "illuminate/pagination": "^8.0",
+                "illuminate/routing": "^8.0",
+                "illuminate/support": "^8.0",
+                "illuminate/validation": "^8.0",
+                "illuminate/view": "^8.0",
+                "php": "^7.3",
                 "symfony/serializer": "^2.7|^3.0|^4.0|^5.0"
             },
             "require-dev": {
                 "barryvdh/laravel-debugbar": "~3.0",
-                "illuminate/log": "^7.0",
-                "illuminate/notifications": "^7.0",
-                "illuminate/queue": "^7.0",
+                "illuminate/log": "^8.0",
+                "illuminate/notifications": "^8.0",
+                "illuminate/queue": "^8.0",
                 "itsgoingd/clockwork": "~1.9",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^7.0"
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^9.3"
             },
             "suggest": {
                 "fzaninotto/faker": "Required to use the entity factory builder (~1.4).",
@@ -3019,51 +3075,50 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-07-23T03:23:00+00:00"
+            "time": "2020-09-19T08:18:50+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v7.28.4",
+            "version": "v8.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "de187e9200948bab6975167e480950abcd5efdac"
+                "reference": "8d1f25fb8d124d5a24df9714ed8d481c43f9efe6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/de187e9200948bab6975167e480950abcd5efdac",
-                "reference": "de187e9200948bab6975167e480950abcd5efdac",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/8d1f25fb8d124d5a24df9714ed8d481c43f9efe6",
+                "reference": "8d1f25fb8d124d5a24df9714ed8d481c43f9efe6",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.4|^2.0",
-                "dragonmantank/cron-expression": "^2.0",
+                "dragonmantank/cron-expression": "^3.0.2",
                 "egulias/email-validator": "^2.1.10",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "league/commonmark": "^1.3",
-                "league/flysystem": "^1.0.34",
+                "league/flysystem": "^1.1",
                 "monolog/monolog": "^2.0",
-                "nesbot/carbon": "^2.17",
-                "opis/closure": "^3.1",
-                "php": "^7.2.5",
+                "nesbot/carbon": "^2.31",
+                "opis/closure": "^3.6",
+                "php": "^7.3",
                 "psr/container": "^1.0",
                 "psr/simple-cache": "^1.0",
-                "ramsey/uuid": "^3.7|^4.0",
+                "ramsey/uuid": "^4.0",
                 "swiftmailer/swiftmailer": "^6.0",
-                "symfony/console": "^5.0",
-                "symfony/error-handler": "^5.0",
-                "symfony/finder": "^5.0",
-                "symfony/http-foundation": "^5.0",
-                "symfony/http-kernel": "^5.0",
-                "symfony/mime": "^5.0",
-                "symfony/polyfill-php73": "^1.17",
-                "symfony/process": "^5.0",
-                "symfony/routing": "^5.0",
-                "symfony/var-dumper": "^5.0",
+                "symfony/console": "^5.1",
+                "symfony/error-handler": "^5.1",
+                "symfony/finder": "^5.1",
+                "symfony/http-foundation": "^5.1",
+                "symfony/http-kernel": "^5.1",
+                "symfony/mime": "^5.1",
+                "symfony/process": "^5.1",
+                "symfony/routing": "^5.1",
+                "symfony/var-dumper": "^5.1",
                 "tijsverkoyen/css-to-inline-styles": "^2.2.2",
-                "vlucas/phpdotenv": "^4.0",
+                "vlucas/phpdotenv": "^5.2",
                 "voku/portable-ascii": "^1.4.8"
             },
             "conflict": {
@@ -3077,6 +3132,7 @@
                 "illuminate/broadcasting": "self.version",
                 "illuminate/bus": "self.version",
                 "illuminate/cache": "self.version",
+                "illuminate/collections": "self.version",
                 "illuminate/config": "self.version",
                 "illuminate/console": "self.version",
                 "illuminate/container": "self.version",
@@ -3089,6 +3145,7 @@
                 "illuminate/hashing": "self.version",
                 "illuminate/http": "self.version",
                 "illuminate/log": "self.version",
+                "illuminate/macroable": "self.version",
                 "illuminate/mail": "self.version",
                 "illuminate/notifications": "self.version",
                 "illuminate/pagination": "self.version",
@@ -3106,16 +3163,15 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^3.0",
                 "doctrine/dbal": "^2.6",
-                "filp/whoops": "^2.4",
-                "guzzlehttp/guzzle": "^6.3.1|^7.0",
+                "filp/whoops": "^2.8",
+                "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
                 "league/flysystem-cached-adapter": "^1.0",
-                "mockery/mockery": "^1.3.1",
-                "moontoast/math": "^1.1",
-                "orchestra/testbench-core": "^5.0",
+                "mockery/mockery": "^1.4.2",
+                "orchestra/testbench-core": "^6.0",
                 "pda/pheanstalk": "^4.0",
-                "phpunit/phpunit": "^8.4|^9.0",
+                "phpunit/phpunit": "^8.5.8|^9.3.3",
                 "predis/predis": "^1.1.1",
-                "symfony/cache": "^5.0"
+                "symfony/cache": "^5.1"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.0).",
@@ -3126,39 +3182,44 @@
                 "ext-pcntl": "Required to use all features of the queue worker.",
                 "ext-posix": "Required to use all features of the queue worker.",
                 "ext-redis": "Required to use the Redis cache and queue drivers (^4.0|^5.0).",
-                "filp/whoops": "Required for friendly error pages in development (^2.4).",
+                "filp/whoops": "Required for friendly error pages in development (^2.8).",
                 "fzaninotto/faker": "Required to use the eloquent factory builder (^1.9.1).",
-                "guzzlehttp/guzzle": "Required to use the HTTP Client, Mailgun mail driver and the ping methods on schedules (^6.3.1|^7.0).",
+                "guzzlehttp/guzzle": "Required to use the HTTP Client, Mailgun mail driver and the ping methods on schedules (^6.5.5|^7.0.1).",
                 "laravel/tinker": "Required to use the tinker console command (^2.0).",
                 "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (^1.0).",
                 "league/flysystem-cached-adapter": "Required to use the Flysystem cache (^1.0).",
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
-                "mockery/mockery": "Required to use mocking (^1.3.1).",
-                "moontoast/math": "Required to use ordered UUIDs (^1.1).",
+                "mockery/mockery": "Required to use mocking (^1.4.2).",
                 "nyholm/psr7": "Required to use PSR-7 bridging features (^1.2).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (^4.0).",
-                "phpunit/phpunit": "Required to use assertions and run tests (^8.4|^9.0).",
+                "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3).",
                 "predis/predis": "Required to use the predis connector (^1.1.2).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0).",
-                "symfony/cache": "Required to PSR-6 cache bridge (^5.0).",
-                "symfony/filesystem": "Required to create relative storage directory symbolic links (^5.0).",
+                "symfony/cache": "Required to PSR-6 cache bridge (^5.1).",
+                "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
                 "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.x-dev"
+                    "dev-master": "8.x-dev"
                 }
             },
             "autoload": {
                 "files": [
+                    "src/Illuminate/Collections/helpers.php",
+                    "src/Illuminate/Events/functions.php",
                     "src/Illuminate/Foundation/helpers.php",
                     "src/Illuminate/Support/helpers.php"
                 ],
                 "psr-4": {
-                    "Illuminate\\": "src/Illuminate/"
+                    "Illuminate\\": "src/Illuminate/",
+                    "Illuminate\\Support\\": [
+                        "src/Illuminate/Macroable/",
+                        "src/Illuminate/Collections/"
+                    ]
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3177,7 +3238,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-10-06T14:22:09+00:00"
+            "time": "2020-10-20T20:12:53+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4271,278 +4332,6 @@
                 }
             ],
             "time": "2020-10-23T06:02:30+00:00"
-        },
-        {
-            "name": "nette/caching",
-            "version": "v3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/caching.git",
-                "reference": "b9ecbf920f240bd1ab14900d9a77876924ad7fb4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/caching/zipball/b9ecbf920f240bd1ab14900d9a77876924ad7fb4",
-                "reference": "b9ecbf920f240bd1ab14900d9a77876924ad7fb4",
-                "shasum": ""
-            },
-            "require": {
-                "nette/finder": "^2.4 || ^3.0",
-                "nette/utils": "^2.4 || ^3.0",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "latte/latte": "^2.4",
-                "nette/di": "^v3.0",
-                "nette/tester": "^2.0",
-                "tracy/tracy": "^2.4"
-            },
-            "suggest": {
-                "ext-pdo_sqlite": "to use SQLiteStorage or SQLiteJournal"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "⏱ Nette Caching: library with easy-to-use API and many cache backends.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "cache",
-                "journal",
-                "memcached",
-                "nette",
-                "sqlite"
-            ],
-            "time": "2019-11-19T18:41:40+00:00"
-        },
-        {
-            "name": "nette/finder",
-            "version": "v2.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/finder.git",
-                "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/finder/zipball/4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
-                "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
-                "shasum": ""
-            },
-            "require": {
-                "nette/utils": "^2.4 || ^3.0",
-                "php": ">=7.1"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
-            },
-            "require-dev": {
-                "nette/tester": "^2.0",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "filesystem",
-                "glob",
-                "iterator",
-                "nette"
-            ],
-            "time": "2020-01-03T20:35:40+00:00"
-        },
-        {
-            "name": "nette/reflection",
-            "version": "v2.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/reflection.git",
-                "reference": "b12327e98ead74e87a1315e0d48182a702adf901"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/reflection/zipball/b12327e98ead74e87a1315e0d48182a702adf901",
-                "reference": "b12327e98ead74e87a1315e0d48182a702adf901",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "nette/caching": "^2.2 || ^3.0",
-                "nette/utils": "^2.4 || ^3.0",
-                "php": ">=5.6.0"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
-            },
-            "require-dev": {
-                "nette/di": "^2.4 || ^3.0",
-                "nette/tester": "^2.0",
-                "tracy/tracy": "^2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "Nette Reflection: docblock annotations parser and common reflection classes",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "annotation",
-                "nette",
-                "reflection"
-            ],
-            "abandoned": true,
-            "time": "2017-07-11T19:28:57+00:00"
-        },
-        {
-            "name": "nette/utils",
-            "version": "v3.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/utils.git",
-                "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
-                "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "nette/tester": "~2.0",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.3"
-            },
-            "suggest": {
-                "ext-gd": "to use Image",
-                "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
-                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
-                "ext-json": "to use Nette\\Utils\\Json",
-                "ext-mbstring": "to use Strings::lower() etc...",
-                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
-                "ext-xml": "to use Strings::length() etc. when mbstring is not available"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0-only",
-                "GPL-3.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "array",
-                "core",
-                "datetime",
-                "images",
-                "json",
-                "nette",
-                "paginator",
-                "password",
-                "slugify",
-                "string",
-                "unicode",
-                "utf-8",
-                "utility",
-                "validation"
-            ],
-            "time": "2020-08-07T10:34:21+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -9196,37 +8985,39 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v4.1.8",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "572af79d913627a9d70374d27a6f5d689a35de32"
+                "reference": "fba64139db67123c7a57072e5f8d3db10d160b66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/572af79d913627a9d70374d27a6f5d689a35de32",
-                "reference": "572af79d913627a9d70374d27a6f5d689a35de32",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/fba64139db67123c7a57072e5f8d3db10d160b66",
+                "reference": "fba64139db67123c7a57072e5f8d3db10d160b66",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9 || ^7.0 || ^8.0",
-                "phpoption/phpoption": "^1.7.3",
-                "symfony/polyfill-ctype": "^1.17"
+                "ext-pcre": "*",
+                "graham-campbell/result-type": "^1.0.1",
+                "php": "^7.1.3 || ^8.0",
+                "phpoption/phpoption": "^1.7.4",
+                "symfony/polyfill-ctype": "^1.17",
+                "symfony/polyfill-mbstring": "^1.17",
+                "symfony/polyfill-php80": "^1.17"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-filter": "*",
-                "ext-pcre": "*",
-                "phpunit/phpunit": "^4.8.35 || ^5.7.27 || ^6.5.6 || ^7.0"
+                "phpunit/phpunit": "^7.5.20 || ^8.5.2 || ^9.0"
             },
             "suggest": {
-                "ext-filter": "Required to use the boolean validator.",
-                "ext-pcre": "Required to use most of the library."
+                "ext-filter": "Required to use the boolean validator."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "5.2-dev"
                 }
             },
             "autoload": {
@@ -9266,7 +9057,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T19:22:52+00:00"
+            "time": "2020-09-14T15:57:31+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -9342,30 +9133,33 @@
     "packages-dev": [
         {
             "name": "arcanedev/log-viewer",
-            "version": "7.1.0",
+            "version": "8.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/LogViewer.git",
-                "reference": "46643ff4865e6aa9bfe97d10c962a2661480191d"
+                "reference": "a65d3faf1830f45cd987ed0682278cbd4aa7077e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/46643ff4865e6aa9bfe97d10c962a2661480191d",
-                "reference": "46643ff4865e6aa9bfe97d10c962a2661480191d",
+                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/a65d3faf1830f45cd987ed0682278cbd4aa7077e",
+                "reference": "a65d3faf1830f45cd987ed0682278cbd4aa7077e",
                 "shasum": ""
             },
             "require": {
-                "arcanedev/support": "^7.0",
+                "arcanedev/support": "^8.0",
                 "ext-json": "*",
-                "php": "^7.2.5",
-                "psr/log": "^1.0"
+                "php": "^7.3",
+                "psr/log": "^1.1"
             },
             "require-dev": {
-                "orchestra/testbench": "^5.0",
-                "phpunit/phpunit": "^8.5"
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
             },
             "type": "library",
             "extra": {
+                "branch-alias": {
+                    "dev-develop": "8.x-dev"
+                },
                 "laravel": {
                     "providers": [
                         "Arcanedev\\LogViewer\\LogViewerServiceProvider",
@@ -9404,35 +9198,36 @@
                 "log-viewer",
                 "logviewer"
             ],
-            "time": "2020-07-06T08:31:38+00:00"
+            "time": "2020-09-09T09:43:59+00:00"
         },
         {
             "name": "arcanedev/support",
-            "version": "7.1.2",
+            "version": "8.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/Support.git",
-                "reference": "7e4199d30f04c611ba5d895e663f111c217ff5a3"
+                "reference": "96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/7e4199d30f04c611ba5d895e663f111c217ff5a3",
-                "reference": "7e4199d30f04c611ba5d895e663f111c217ff5a3",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d",
+                "reference": "96280ceaa1918bddfc25ffb6f58d9b96ef44ae5d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/filesystem": "^7.0",
-                "illuminate/support": "^7.0",
-                "php": "^7.2.5"
+                "illuminate/contracts": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
             },
             "require-dev": {
-                "orchestra/testbench": "^5.0",
-                "phpunit/phpunit": "^8.0|^9.0"
+                "laravel/framework": "^8.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.x-dev"
+                    "dev-develop": "8.x-dev"
                 }
             },
             "autoload": {
@@ -9462,7 +9257,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2020-03-12T09:28:19+00:00"
+            "time": "2020-09-09T12:09:28+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -10807,6 +10602,84 @@
                 }
             ],
             "time": "2020-06-29T13:22:24+00:00"
+        },
+        {
+            "name": "nette/utils",
+            "version": "v3.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/utils.git",
+                "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/utils/zipball/c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
+                "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "nette/tester": "~2.0",
+                "phpstan/phpstan": "^0.12",
+                "tracy/tracy": "^2.3"
+            },
+            "suggest": {
+                "ext-gd": "to use Image",
+                "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
+                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
+                "ext-json": "to use Nette\\Utils\\Json",
+                "ext-mbstring": "to use Strings::lower() etc...",
+                "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
+                "ext-xml": "to use Strings::length() etc. when mbstring is not available"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0-only",
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "homepage": "https://nette.org",
+            "keywords": [
+                "array",
+                "core",
+                "datetime",
+                "images",
+                "json",
+                "nette",
+                "paginator",
+                "password",
+                "slugify",
+                "string",
+                "unicode",
+                "utf-8",
+                "utility",
+                "validation"
+            ],
+            "time": "2020-08-07T10:34:21+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -12982,6 +12855,7 @@
             ],
             "description": "FinderFacade is a convenience wrapper for Symfony's Finder component.",
             "homepage": "https://github.com/sebastianbergmann/finder-facade",
+            "abandoned": true,
             "time": "2020-02-08T06:07:58+00:00"
         },
         {
