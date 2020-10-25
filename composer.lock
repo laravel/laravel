@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f1b79d9d9cbf038277aadfde02b9f39f",
+    "content-hash": "d2bed9eb8f3fb860339e0c65067fc5a7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1638,6 +1638,119 @@
                 "php"
             ],
             "time": "2020-09-26T10:30:38+00:00"
+        },
+        {
+            "name": "nuwave/lighthouse",
+            "version": "v4.17.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nuwave/lighthouse.git",
+                "reference": "94b2a44b1a7a17edb31cc16f8928b330c942db8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/94b2a44b1a7a17edb31cc16f8928b330c942db8a",
+                "reference": "94b2a44b1a7a17edb31cc16f8928b330c942db8a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/auth": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/bus": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/contracts": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/http": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/pagination": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/queue": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/routing": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/support": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/validation": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "nesbot/carbon": "^1.26.0 || ^2.0",
+                "php": ">= 7.1",
+                "webonyx/graphql-php": "^0.13.2"
+            },
+            "require-dev": {
+                "bensampo/laravel-enum": "^1.28.3 || ^2.0 || ^3.0",
+                "ergebnis/composer-normalize": "^2.2.2",
+                "haydenpierce/class-finder": "^0.4",
+                "laravel/framework": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "laravel/lumen-framework": "5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0",
+                "laravel/scout": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "mll-lab/graphql-php-scalars": "^2.1",
+                "mockery/mockery": "^1.0",
+                "nunomaduro/larastan": "^0.6.0",
+                "orchestra/testbench": "3.5.* || 3.6.* || 3.7.* || 3.8.* || 3.9.* || ^4.0 || ^5.0 || ^6.0",
+                "phpbench/phpbench": "^0.17.0",
+                "phpstan/phpstan-mockery": "^0.12.5",
+                "phpunit/phpunit": "^6.5 || ^7.5 || ^8.4",
+                "pusher/pusher-php-server": "^3.2"
+            },
+            "suggest": {
+                "bensampo/laravel-enum": "Convenient enum definitions that can easily be registered in your Schema",
+                "haydenpierce/class-finder": "Required for the artisan command lighthouse:validate-schema",
+                "laravel/scout": "Required for the @search directive",
+                "mll-lab/graphql-php-scalars": "Useful scalar types, required for @whereConditions",
+                "mll-lab/laravel-graphql-playground": "GraphQL IDE for better development workflow - integrated with Laravel"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Nuwave\\Lighthouse\\LighthouseServiceProvider",
+                        "Nuwave\\Lighthouse\\OrderBy\\OrderByServiceProvider",
+                        "Nuwave\\Lighthouse\\SoftDeletes\\SoftDeletesServiceProvider"
+                    ],
+                    "aliases": {
+                        "graphql": "Nuwave\\Lighthouse\\GraphQL"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nuwave\\Lighthouse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christopher Moore",
+                    "email": "chris@nuwavecommerce.com",
+                    "homepage": "https://www.nuwavecommerce.com"
+                },
+                {
+                    "name": "Benedikt Franke",
+                    "email": "benedikt@franke.tech",
+                    "homepage": "https://franke.tech"
+                }
+            ],
+            "description": "A framework for serving GraphQL from Laravel",
+            "homepage": "https://lighthouse-php.com",
+            "keywords": [
+                "graphql",
+                "laravel",
+                "laravel-graphql"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/spawnia",
+                    "type": "github"
+                },
+                {
+                    "url": "https://issuehunt.io/r/nuwave/lighthouse",
+                    "type": "issuehunt"
+                },
+                {
+                    "url": "https://www.patreon.com/lighthouse_php",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/nuwave/lighthouse",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-08T14:40:30+00:00"
         },
         {
             "name": "opis/closure",
@@ -5164,6 +5277,64 @@
                 "routing"
             ],
             "time": "2020-09-09T08:42:38+00:00"
+        },
+        {
+            "name": "webonyx/graphql-php",
+            "version": "v0.13.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webonyx/graphql-php.git",
+                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
+                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.1||^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^6.0",
+                "phpbench/phpbench": "^0.14.0",
+                "phpstan/phpstan": "^0.11.4",
+                "phpstan/phpstan-phpunit": "^0.11.0",
+                "phpstan/phpstan-strict-rules": "^0.11.0",
+                "phpunit/phpcov": "^5.0",
+                "phpunit/phpunit": "^7.2",
+                "psr/http-message": "^1.0",
+                "react/promise": "2.*"
+            },
+            "suggest": {
+                "psr/http-message": "To use standard GraphQL server",
+                "react/promise": "To leverage async resolving on React PHP platform"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GraphQL\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP port of GraphQL reference implementation",
+            "homepage": "https://github.com/webonyx/graphql-php",
+            "keywords": [
+                "api",
+                "graphql"
+            ],
+            "funding": [
+                {
+                    "url": "https://opencollective.com/webonyx-graphql-php",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-07-02T05:49:25+00:00"
         }
     ],
     "packages-dev": [
@@ -5576,6 +5747,48 @@
                 "test"
             ],
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "haydenpierce/class-finder",
+            "version": "0.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/hpierce1102/ClassFinder.git",
+                "reference": "b8393ea73d25010e3e946e317d0e8797c788cb20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=b8393ea73d25010e3e946e317d0e8797c788cb20",
+                "reference": "b8393ea73d25010e3e946e317d0e8797c788cb20",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HaydenPierce\\ClassFinder\\": "src/",
+                    "HaydenPierce\\ClassFinder\\UnitTest\\": "test/unit"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hayden Pierce",
+                    "email": "hayden@haydenpierce.com"
+                }
+            ],
+            "description": "A library that can provide of a list of classes in a given namespace",
+            "time": "2020-04-20T17:38:50+00:00"
         },
         {
             "name": "mockery/mockery",
