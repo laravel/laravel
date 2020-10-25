@@ -69,3 +69,21 @@ git checkout main
 git merge blueprint/main
 # you can also use rebase here
 ```
+
+## Usage
+
+### Development URL
+
+If you want to access your local project under a specific url you can add an entry like the following to your hosts file.
+
+```
+127.0.0.1 laravel-blueprint.local
+```
+
+### Create Admin User
+
+To create a admin user you can execute the following command.
+
+```
+php artisan orchid:admin admin admin@admin.com password
+```
