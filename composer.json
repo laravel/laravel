@@ -13,7 +13,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "orchid/platform": "^9.7"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -59,7 +60,8 @@
         ],
         "post-install-cmd": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "@php artisan migrate"
         ]
     }
 }

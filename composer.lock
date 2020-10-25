@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b56bfb5d21eaae286e532c3ed2f8941",
+    "content-hash": "f1b79d9d9cbf038277aadfde02b9f39f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -995,6 +995,72 @@
             "time": "2020-10-20T20:12:53+00:00"
         },
         {
+            "name": "laravel/scout",
+            "version": "v8.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/scout.git",
+                "reference": "1241ecf4e876b8fcb8311160b471e6915bc1ab66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/1241ecf4e876b8fcb8311160b471e6915bc1ab66",
+                "reference": "1241ecf4e876b8fcb8311160b471e6915bc1ab66",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/bus": "^6.0|^7.0|^8.0",
+                "illuminate/contracts": "^6.0|^7.0|^8.0",
+                "illuminate/database": "^6.0|^7.0|^8.0",
+                "illuminate/http": "^6.0|^7.0|^8.0",
+                "illuminate/pagination": "^6.0|^7.0|^8.0",
+                "illuminate/queue": "^6.0|^7.0|^8.0",
+                "illuminate/support": "^6.0|^7.0|^8.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "algolia/algoliasearch-client-php": "^2.2",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0|^9.3"
+            },
+            "suggest": {
+                "algolia/algoliasearch-client-php": "Required to use the Algolia engine (^2.2)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Scout\\ScoutServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Scout\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Scout provides a driver based solution to searching your Eloquent models.",
+            "keywords": [
+                "algolia",
+                "laravel",
+                "search"
+            ],
+            "time": "2020-10-20T18:44:35+00:00"
+        },
+        {
             "name": "laravel/tinker",
             "version": "v2.4.2",
             "source": {
@@ -1387,6 +1453,52 @@
             "time": "2020-07-23T08:41:23+00:00"
         },
         {
+            "name": "myclabs/php-enum",
+            "version": "1.7.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/php-enum.git",
+                "reference": "5f36467c7a87e20fbdc51e524fd8f9d1de80187c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/5f36467c7a87e20fbdc51e524fd8f9d1de80187c",
+                "reference": "5f36467c7a87e20fbdc51e524fd8f9d1de80187c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "1.*",
+                "vimeo/psalm": "^3.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MyCLabs\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP Enum contributors",
+                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
+                }
+            ],
+            "description": "PHP Enum implementation",
+            "homepage": "http://github.com/myclabs/php-enum",
+            "keywords": [
+                "enum"
+            ],
+            "time": "2020-02-14T08:15:52+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "2.41.5",
             "source": {
@@ -1587,6 +1699,201 @@
                 "serialize"
             ],
             "time": "2020-10-11T21:42:15+00:00"
+        },
+        {
+            "name": "orchid/blade-icons",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchidsoftware/blade-icons.git",
+                "reference": "f74bcc5e4804e61d1a0f97e0e84861aee9180a20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchidsoftware/blade-icons/zipball/f74bcc5e4804e61d1a0f97e0e84861aee9180a20",
+                "reference": "f74bcc5e4804e61d1a0f97e0e84861aee9180a20",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "laravel/framework": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orchid\\Icons\\IconServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchid\\Icons\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "tabuna",
+                    "email": "bliz48rus@gmail.com"
+                }
+            ],
+            "description": "An easy way inline SVG images in your Blade templates.",
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tabuna/10usd",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-09-08T21:34:16+00:00"
+        },
+        {
+            "name": "orchid/icons",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchidsoftware/icons.git",
+                "reference": "86014fb48aaba9d64e040588cd394af3309bba06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchidsoftware/icons/zipball/86014fb48aaba9d64e040588cd394af3309bba06",
+                "reference": "86014fb48aaba9d64e040588cd394af3309bba06",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Orchid\\IconPack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandr Chernyaev",
+                    "email": "bliz48rus@gmail.com"
+                },
+                {
+                    "name": "Dmitry Skirta"
+                },
+                {
+                    "name": "Jamal Jama"
+                },
+                {
+                    "name": "Ahmad Firoz"
+                }
+            ],
+            "description": "Simple and Minimal Line Icons",
+            "time": "2020-09-26T13:20:57+00:00"
+        },
+        {
+            "name": "orchid/platform",
+            "version": "9.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orchidsoftware/platform.git",
+                "reference": "4feec27289c32266d313ffe7a5f0378c8a17e3ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/4feec27289c32266d313ffe7a5f0378c8a17e3ba",
+                "reference": "4feec27289c32266d313ffe7a5f0378c8a17e3ba",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^8.0",
+                "laravel/scout": "^8.0",
+                "myclabs/php-enum": "^1.7",
+                "orchid/blade-icons": "^1.2.0",
+                "orchid/icons": "^2.0",
+                "tabuna/breadcrumbs": "^2.1",
+                "watson/active": "^6.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.10",
+                "fzaninotto/faker": "^1.4",
+                "guzzlehttp/guzzle": "~6.0",
+                "mockery/mockery": "~1.0",
+                "orchestra/testbench": "^6.2",
+                "orchestra/testbench-dusk": "^6.1",
+                "phpunit/php-code-coverage": "^9.0",
+                "phpunit/phpunit": "^9.0",
+                "sti3bas/laravel-scout-array-driver": "^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orchid\\Platform\\Providers\\FoundationServiceProvider"
+                    ],
+                    "aliases": {
+                        "Alert": "Orchid\\Support\\Facades\\Alert",
+                        "Dashboard": "Orchid\\Support\\Facades\\Dashboard"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orchid\\Access\\": "src/Access/",
+                    "Orchid\\Alert\\": "src/Alert/",
+                    "Orchid\\Attachment\\": "src/Attachment/",
+                    "Orchid\\Filters\\": "src/Filters/",
+                    "Orchid\\Metrics\\": "src/Metrics/",
+                    "Orchid\\Platform\\": "src/Platform/",
+                    "Orchid\\Screen\\": "src/Screen/",
+                    "Orchid\\Support\\": "src/Support/"
+                },
+                "files": [
+                    "src/Support/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandr Chernyaev",
+                    "email": "bliz48rus@gmail.com",
+                    "homepage": "https://tabuna.github.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Platform for back-office applications, admin panel or CMS your Laravel app.",
+            "homepage": "https://orchid.software",
+            "keywords": [
+                "admin",
+                "cmf",
+                "cms",
+                "extranet",
+                "framework",
+                "laravel",
+                "orchid",
+                "platform",
+                "rad"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tabuna/10usd",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://opencollective.com/orchid",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2020-10-24T20:55:24+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -4535,6 +4842,73 @@
             "time": "2020-09-18T14:27:32+00:00"
         },
         {
+            "name": "tabuna/breadcrumbs",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tabuna/breadcrumbs.git",
+                "reference": "30a90f260dabfb05bb43be1e17a74129c348932d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/30a90f260dabfb05bb43be1e17a74129c348932d",
+                "reference": "30a90f260dabfb05bb43be1e17a74129c348932d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^8.0",
+                "opis/closure": "^3.5"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~6.0",
+                "phpunit/php-code-coverage": "^7.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tabuna\\Breadcrumbs\\BreadcrumbsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Breadcrumbs": "Tabuna\\Breadcrumbs\\Breadcrumbs"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tabuna\\Breadcrumbs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandr Chernyaev",
+                    "email": "bliz48rus@gmail.com"
+                },
+                {
+                    "name": "Dwight Watson",
+                    "email": "dwight@studentservices.com.au"
+                },
+                {
+                    "name": "Dave James Miller",
+                    "email": "dave@davejamesmiller.com"
+                }
+            ],
+            "description": "An easy way to add breadcrumbs to your Laravel app.",
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tabuna/10usd",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-10-15T20:45:32+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.3",
             "source": {
@@ -4728,6 +5102,68 @@
                 }
             ],
             "time": "2020-07-22T23:32:04+00:00"
+        },
+        {
+            "name": "watson/active",
+            "version": "6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dwightwatson/active.git",
+                "reference": "d40b71141dab95062429fa56bfd5034062aa3791"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dwightwatson/active/zipball/d40b71141dab95062429fa56bfd5034062aa3791",
+                "reference": "d40b71141dab95062429fa56bfd5034062aa3791",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^8.0",
+                "illuminate/http": "^8.0",
+                "illuminate/routing": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.1",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Watson\\Active\\ActiveServiceProvider"
+                    ],
+                    "aliases": {
+                        "Active": "Watson\\Watson\\Facades\\Active"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Watson\\Active\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dwight Watson",
+                    "email": "dwight@studiousapp.com"
+                }
+            ],
+            "description": "Laravel helper for recognising the current route, controller and action",
+            "keywords": [
+                "active",
+                "laravel",
+                "routing"
+            ],
+            "time": "2020-09-09T08:42:38+00:00"
         }
     ],
     "packages-dev": [
