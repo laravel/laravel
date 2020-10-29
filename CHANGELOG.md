@@ -1,6 +1,20 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.2.0...develop)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.3.0...develop)
+
+
+## [v8.3.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v8.2.0...v8.3.0)
+
+### Added
+- PHP 8 Support ([4c25cb9](https://github.com/laravel/laravel/commit/4c25cb953a0bbd4812bf92af71a13920998def1e))
+
+### Changed
+- Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+- Update minimum Laravel version ([86d4ec0](https://github.com/laravel/laravel/commit/86d4ec095f1681df736d53206780d79f5857907c))
+- Revert to per user API rate limit ([#5456](https://github.com/laravel/laravel/pull/5456), [bec982b](https://github.com/laravel/laravel/commit/bec982b0a3962c8a3e1f665e987360bb8c056298))
+
+### Fixed
+- Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
 
 
 ## [v8.2.0 (2020-10-20)](https://github.com/laravel/laravel/compare/v8.1.0...v8.2.0)
@@ -49,6 +63,20 @@
 ## [v8.0.0 (2020-09-08)](https://github.com/laravel/laravel/compare/v7.28.0...v8.0.0)
 
 Laravel 8 comes with a lot of changes to the base skeleton. Please consult the diff to see what's changed.
+
+
+## [v7.29.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v7.28.0...v7.29.0)
+
+### Added
+- PHP 8 Support ([4c25cb9](https://github.com/laravel/laravel/commit/4c25cb953a0bbd4812bf92af71a13920998def1e))
+
+### Changed
+- Bump minimum PHP version ([#5452](https://github.com/laravel/laravel/pull/5452))
+- Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+- Update minimum Laravel version ([02ca853](https://github.com/laravel/laravel/commit/02ca853809a97f372a3c6dc535c566efff9f6571))
+
+### Fixed
+- Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
 
 
 ## [v7.28.0 (2020-09-08)](https://github.com/laravel/laravel/compare/v7.25.0...v7.28.0)
@@ -124,6 +152,41 @@ Nothing specific.
 - Update mail config ([76d8227](https://github.com/laravel/laravel/commit/76d822768dcab14fa1ee1fd1f4a24065234860db), [61ec16f](https://github.com/laravel/laravel/commit/61ec16fe392967766b68d865ed10d56275a78718), [e43d454](https://github.com/laravel/laravel/commit/e43d4546a9c0bde49dae51fd6f4e2766674f1152), [130b8c8](https://github.com/laravel/laravel/commit/130b8c8bcb8f167e7013e7846004b2df3e405b72))
 - Remove hyphen on email ([ffc74ba](https://github.com/laravel/laravel/commit/ffc74ba143a7de4a89f2c3fd525a5621ca879e38))
 - Use `MAIL_MAILER` in test environment ([#5239](https://github.com/laravel/laravel/pull/5239))
+
+
+## [v6.19.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v6.18.8...v6.19.0)
+
+### Added
+- PHP 8 Support ([4c25cb9](https://github.com/laravel/laravel/commit/4c25cb953a0bbd4812bf92af71a13920998def1e))
+
+### Changed
+- Bump minimum PHP version ([#5452](https://github.com/laravel/laravel/pull/5452))
+- Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+- Update minimum Laravel version ([b8d5825](https://github.com/laravel/laravel/commit/b8d582581a1067e3b1715cce477b22455acc3d36))
+
+### Fixed
+- Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
+
+
+## [v6.18.35 (2020-08-11)](https://github.com/laravel/laravel/compare/v6.18.8...v6.18.35)
+
+### Changed
+- Set framework version to `^6.18.35` ([#5369](https://github.com/laravel/laravel/pull/5369))
+- Bump lodash from 4.17.15 to 4.17.19 ([f465c51](https://github.com/laravel/laravel/commit/f465c511c009235fc7bfa06bfcb41294e60e9b42))
+- Disable webpack-dev-server host check ([#5288](https://github.com/laravel/laravel/pull/5288))
+
+
+## [v6.18.8 (2020-04-16)](https://github.com/laravel/laravel/compare/v6.18.3...v6.18.8)
+
+### Fixed
+- Add both endpoint and url env variables ([#5276](https://github.com/laravel/laravel/pull/5276))
+
+
+## [v6.18.3 (2020-03-24)](https://github.com/laravel/laravel/compare/v6.18.0...v6.18.3)
+
+### Fixed
+- Ensure that `app.debug` is a bool ([5ddbfb8](https://github.com/laravel/laravel/commit/5ddbfb845439fcd5a46c23530b8774421a931760))
+- Fix S3 endpoint url reference ([#5267](https://github.com/laravel/laravel/pull/5267))
 
 
 ## [v6.18.0 (2020-02-24)](https://github.com/laravel/laravel/compare/v6.12.0...v6.18.0)
