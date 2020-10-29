@@ -10,12 +10,11 @@
 
 ### Changed
 - Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
-- Update minimum Laravel version ([02ca853](https://github.com/laravel/laravel/commit/02ca853809a97f372a3c6dc535c566efff9f6571))
+- Update minimum Laravel version ([86d4ec0](https://github.com/laravel/laravel/commit/86d4ec095f1681df736d53206780d79f5857907c))
 - Revert to per user API rate limit ([#5456](https://github.com/laravel/laravel/pull/5456), [bec982b](https://github.com/laravel/laravel/commit/bec982b0a3962c8a3e1f665e987360bb8c056298))
 
 ### Fixed
 - Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
-
 
 
 ## [v8.2.0 (2020-10-20)](https://github.com/laravel/laravel/compare/v8.1.0...v8.2.0)
