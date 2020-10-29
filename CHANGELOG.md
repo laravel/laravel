@@ -1,6 +1,20 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.28.0...7.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.29.0...7.x)
+
+
+## [v7.29.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v7.28.0...v7.29.0)
+
+### Added
+- PHP 8 Support ([4c25cb9](https://github.com/laravel/laravel/commit/4c25cb953a0bbd4812bf92af71a13920998def1e))
+
+### Changed
+- Bump minimum PHP version ([#5452](https://github.com/laravel/laravel/pull/5452))
+- Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+- Update minimum Laravel version ([02ca853](https://github.com/laravel/laravel/commit/02ca853809a97f372a3c6dc535c566efff9f6571))
+
+### Fixed
+- Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
 
 
 ## [v7.28.0 (2020-09-08)](https://github.com/laravel/laravel/compare/v7.25.0...v7.28.0)
