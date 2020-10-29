@@ -1,6 +1,19 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.18.35...6.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.19.0...6.x)
+
+
+## [v6.19.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v6.18.8...v6.19.0)
+
+### Added
+- PHP 8 Support ([4c25cb9](https://github.com/laravel/laravel/commit/4c25cb953a0bbd4812bf92af71a13920998def1e))
+
+### Changed
+- Bump minimum PHP version ([#5452](https://github.com/laravel/laravel/pull/5452))
+- Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+
+### Fixed
+- Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
 
 
 ## [v6.18.35 (2020-08-11)](https://github.com/laravel/laravel/compare/v6.18.8...v6.18.35)
