@@ -11,6 +11,7 @@
 ### Changed
 - Bump minimum PHP version ([#5452](https://github.com/laravel/laravel/pull/5452))
 - Update Faker ([#5461](https://github.com/laravel/laravel/pull/5461))
+- Update minimum Laravel version ([b8d5825](https://github.com/laravel/laravel/commit/b8d582581a1067e3b1715cce477b22455acc3d36))
 
 ### Fixed
 - Delete removed webpack flag ([#5460](https://github.com/laravel/laravel/pull/5460))
