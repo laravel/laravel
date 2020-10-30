@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.29.0...7.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.30.0...7.x)
+
+
+## [v7.30.0 (2020-10-30)](https://github.com/laravel/laravel/compare/v7.29.0...v7.30.0)
+
+### Changed
+- Bumped some dependencies
 
 
 ## [v7.29.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v7.28.0...v7.29.0)
