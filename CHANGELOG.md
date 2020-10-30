@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v6.19.0...6.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v6.20.0...6.x)
+
+
+## [v6.20.0 (2020-10-30)](https://github.com/laravel/laravel/compare/v6.19.0...v6.20.0)
+
+### Changed
+- Bumped several dependencies
 
 
 ## [v6.19.0 (2020-10-29)](https://github.com/laravel/laravel/compare/v6.18.8...v6.19.0)
