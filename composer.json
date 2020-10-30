@@ -11,7 +11,7 @@
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.20",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.5"
     },
     "require-dev": {
         "facade/ignition": "^1.16.4",
