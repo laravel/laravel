@@ -66,6 +66,6 @@
 - Re-add property to route service provider ([9cbc381](https://github.com/laravel/laravel/commit/9cbc3819f7b1c268447996d347a1733aa68e16d7))
 
 
-## [v8.0.0 (2020-09-08)](https://github.com/laravel/laravel/compare/v7.30.0...v8.0.0)
+## [v8.0.0 (2020-09-08)](https://github.com/laravel/laravel/compare/v7.30.1...v8.0.0)
 
 Laravel 8 comes with a lot of changes to the base skeleton. Please consult the diff to see what's changed.
