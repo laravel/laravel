@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v7.30.0...7.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v7.30.1...7.x)
+
+
+## [v7.30.1 (2020-10-31)](https://github.com/laravel/laravel/compare/v7.30.0...v7.30.1)
+
+### Fixed
+- Lower Ignition constraint to allow PHP 7.2 installs ([ff35597](https://github.com/laravel/laravel/commit/ff355973475624d9dc9ed5fd157a0ba0bef84710))
 
 
 ## [v7.30.0 (2020-10-30)](https://github.com/laravel/laravel/compare/v7.29.0...v7.30.0)
