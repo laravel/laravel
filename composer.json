@@ -16,7 +16,7 @@
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
+        "facade/ignition": "^2.0",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.3",
