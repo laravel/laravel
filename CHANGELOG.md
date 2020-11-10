@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.4.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.4.1...master)
+
+
+## [v8.4.1 (2020-11-10)](https://github.com/laravel/laravel/compare/v8.4.0...v8.4.1)
+
+### Changed
+- Add auth line ([b54ef29](https://github.com/laravel/laravel/commit/b54ef297b3c723c8438596c6e6afef93a7458b98))
 
 
 ## [v8.4.0 (2020-10-30)](https://github.com/laravel/laravel/compare/v8.3.0...v8.4.0)
