@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/{locale}/{user}', function (\App\Models\User $user) {
+    dd($user);
+});
