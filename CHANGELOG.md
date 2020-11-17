@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.4.1...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.4.2...master)
+
+
+## [v8.4.2 (2020-11-17)](https://github.com/laravel/laravel/compare/v8.4.1...v8.4.2)
+
+### Changed
+- Add sanctum cookie endpoint to default cors paths ([aa6d3660](https://github.com/laravel/laravel/commit/aa6d3660114c93e537a52e0ba3c03071a7f3e67f))
+- Modify the `cache.php` docblocks ([#5468](https://github.com/laravel/laravel/pull/5468))
+- Add stub handler ([4931af1](https://github.com/laravel/laravel/commit/4931af14006610bf8fd1f860cea1117c68133e94))
+
+### Fixed
+- Closed @auth correctly ([#5471](https://github.com/laravel/laravel/pull/5471))
 
 
 ## [v8.4.1 (2020-11-10)](https://github.com/laravel/laravel/compare/v8.4.0...v8.4.1)
