@@ -42,7 +42,7 @@ class PageDefaultsViewComposer extends BaseViewComposer
     {
         return [
             'links' => [
-                'home' => route('templates.show', 'home/index'),
+                'home' => route('templates.show', 'home/view'),
             ],
         ];
     }
