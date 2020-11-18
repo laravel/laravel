@@ -39,8 +39,7 @@
     },
     "js": {
       "files": [
-        "app.js",
-        "styleguide/styleguide.js"
+        "app.js"
       ],
       "extract": [],
       "lint": true
