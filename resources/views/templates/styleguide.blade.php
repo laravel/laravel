@@ -58,8 +58,13 @@
 		],
 		'buttons' => [
 			[
-				'title' => 'Button',
-				'url' => 'XXX',
+				'bg' => 'bg-grey-100',
+				'items' => [
+					[
+						'title' => 'Visit our website',
+						'href' => '#',
+					],
+				],
 			],
 		],
 		'colours' => [

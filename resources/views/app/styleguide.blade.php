@@ -51,9 +51,11 @@
 			<h1 class="e-h3">Buttons</h1>
 
 			<div class="e-copy space-y-5">
-				@foreach ($model['buttons'] as $button)
-					<div>
-						<e-button text="{{ $button['title'] }}"></e-button>
+				@foreach ($model['buttons'] as $group)
+					<div class="p-5 flex gap-x-5 {{ $group['bg'] }}">
+						@foreach ($group['items'] as $button)
+							<e-button v-bind='@json($button)'></e-button>
+						@endforeach
 					</div>
 				@endforeach
 			</div>
