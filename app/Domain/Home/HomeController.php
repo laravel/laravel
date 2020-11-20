@@ -11,8 +11,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show()
+    public function index()
     {
-        return view('app/home/view');
+        return view('app/homepage');
     }
 }
