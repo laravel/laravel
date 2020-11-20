@@ -1,5 +1,5 @@
 <?php
 
 Route::get('/')
-    ->uses('Home\HomeController')
+    ->uses('Home\HomeController@show')
     ->name('home.show');
