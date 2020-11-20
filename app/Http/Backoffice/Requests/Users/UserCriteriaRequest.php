@@ -17,4 +17,12 @@ class UserCriteriaRequest extends BackofficeCriteriaRequest
     {
         return UserSorting::class;
     }
+
+    protected function getSortingDefaults(): array
+    {
+        return [
+            UserSorting::FIRST_NAME => 'ASC',
+            UserSorting::LAST_NAME => 'ASC',
+        ];
+    }
 }

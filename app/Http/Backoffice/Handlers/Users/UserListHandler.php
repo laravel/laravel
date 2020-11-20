@@ -276,20 +276,13 @@ class UserListHandler extends Handler
             UserSorting::LAST_LOGIN => 'u.lastLogin',
         ];
 
-        $selectedSorts = $userSorting->get(array_keys($sortings));
-        if (count($selectedSorts) === 0) {
-            $selectedSorts = [
-                UserSorting::FIRST_NAME => 'ASC',
-                UserSorting::LAST_NAME => 'ASC',
-            ];
+        $converted = [];
+        foreach ($userSorting->getRaw() as $field => $sense) {
+            if (isset($sortings[$field])) {
+                $converted[$sortings[$field]] = $sense;
+            }
         }
 
-        $orderBy = [];
-        foreach ($selectedSorts as $key => $sense) {
-            $key = $sortings[$key];
-            $orderBy[$key] = $sense;
-        }
-
-        return $orderBy;
+        return $converted;
     }
 }

@@ -17,4 +17,11 @@ class RoleCriteriaRequest extends BackofficeCriteriaRequest
     {
         return RoleSorting::class;
     }
+
+    protected function getSortingDefaults(): array
+    {
+        return [
+            RoleSorting::NAME => 'ASC',
+        ];
+    }
 }
