@@ -5,6 +5,9 @@
  *
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
+ * 
+ * best 
+ * @author  "name": Taylor Otwell  "email": <taylor@laravel.com>
  */
 
 $uri = urldecode(
