@@ -139,27 +139,119 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        
+        // Enables authentication and authorization (gates)
         Illuminate\Auth\AuthServiceProvider::class,
+        
+        /*
+         * Supposedly enabled broadcasting but not really, as the docs say you
+         * still have to enable App\Providers\BroadcastServiceProvider to use it.
+         */
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        
+        /*
+         * God only knows what's this. The only mention of `Bus` in docks is when
+         * describing how to mock one.
+         */
         Illuminate\Bus\BusServiceProvider::class,
+        
+        /*
+         * Enables cache service.
+         */
         Illuminate\Cache\CacheServiceProvider::class,
+        
+        /*
+         * Enables artisan, migrations and something else.
+         */
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        
+        /*
+         * Allows you to interact with cookies in Laravel code.
+         */
         Illuminate\Cookie\CookieServiceProvider::class,
+        
+        /*
+         * Launches database connection stuff and Eloquent.
+         */
         Illuminate\Database\DatabaseServiceProvider::class,
+        
+        /*
+         * Provides Encryption features. Is this maybe required for some other 
+         * core features? Cookies?
+         */
         Illuminate\Encryption\EncryptionServiceProvider::class,
+        
+        /*
+         * Enables Storage stuff.
+         */
         Illuminate\Filesystem\FilesystemServiceProvider::class,
+        
+        /*
+         * Huh? It appears to only bootstrap the formrequest validation stuff.
+         */
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        
+        /*
+         * Registers hashing helpers.
+         */
         Illuminate\Hashing\HashServiceProvider::class,
+        
+        /*
+         * Enables email stuff.
+         */
         Illuminate\Mail\MailServiceProvider::class,
+        
+        /*
+         * Enables user notifications. Probably depends on mails.
+         */
         Illuminate\Notifications\NotificationServiceProvider::class,
+        
+        /*
+         * Enables pagination tools.
+         */
         Illuminate\Pagination\PaginationServiceProvider::class,
+        
+        /*
+         * According to documentation this thing does not exist.
+         */
         Illuminate\Pipeline\PipelineServiceProvider::class,
+        
+        /*
+         * Enables queue.
+         */
         Illuminate\Queue\QueueServiceProvider::class,
+        
+        /*
+         * Provides redis. Why is this not commented out?
+         */
         Illuminate\Redis\RedisServiceProvider::class,
+        
+        /*
+         * Apparently provides password resetting features.
+         */
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        
+        /*
+         * Enables sessions? Or just the session helpers? Does Auth depend on
+         * this being enabled one or vice versa?
+         */
         Illuminate\Session\SessionServiceProvider::class,
+        
+        /*
+         * Enables translation functions. But not the directives in blade, so this
+         * is probably a dependency for that...?
+         */
         Illuminate\Translation\TranslationServiceProvider::class,
+        
+        /*
+         * Provides validator. Is it the same as the one provided by foundation
+         * provider?
+         */
         Illuminate\Validation\ValidationServiceProvider::class,
+        
+        /*
+         * Enables blade and the other tooling that lets you `return view(...)`.
+         */
         Illuminate\View\ViewServiceProvider::class,
 
         /*
