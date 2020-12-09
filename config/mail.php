@@ -41,8 +41,15 @@ return [
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'auth_mode' => null,
+            'timeout' => env('MAIL_TIMEOUT'),
+            'auth_mode' => env('MAIL_AUTH_MODE'),
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => env('MAIL_STREAM_ALLOW_SELF_SIGNED', false),
+                    'verify_peer' => env('MAIL_STREAM_VERIFY_PEER', true),
+                    'verify_peer_name' => env('MAIL_STREAM_VERIFY_PEER_NAME', true),
+                ],
+            ],
         ],
 
         'ses' => [
