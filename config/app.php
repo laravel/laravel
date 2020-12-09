@@ -140,7 +140,9 @@ return [
          * Laravel Framework Service Providers...
          */
         
-        // Enables authentication and authorization (gates)
+        /*
+         * Enables authentication and authorization (gates).
+         */
         Illuminate\Auth\AuthServiceProvider::class,
         
         /*
