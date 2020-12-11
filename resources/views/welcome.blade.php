@@ -16,5 +16,6 @@
     <div class="vue-examples">
         <example-component></example-component>
         <example-count></example-count>
+        <example-grab></example-grab>
     </div>
 @endsection

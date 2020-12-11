@@ -23,11 +23,11 @@
                 '<i><a href="https://vuejs.org/v2/guide/typescript.html">Click Detail</a> for more information</i>'
             ];
             return {
-                description
+                description: _.join(description, '<br>')            // Test global lodash
             }
         },
         mounted(): void {
-            this.description = _.join(this.description, '<br>');        // Test global lodash
+            console.log('Vue Component mounted.');
         }
     })
 </script>
