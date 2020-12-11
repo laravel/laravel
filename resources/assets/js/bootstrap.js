@@ -1,4 +1,8 @@
-window._ = require('lodash');
+const globalThis = require('globalthis')();
+
+globalThis.Vue = require('vue').default;
+
+globalThis._ = require('lodash');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -7,7 +11,7 @@ window._ = require('lodash');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
+    globalThis.$ = globalThis.jQuery = require('jquery');
 
     require('bootstrap-sass');
 } catch (e) {}
@@ -18,9 +22,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+globalThis.axios = require('axios').default;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+globalThis.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -31,7 +35,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    globalThis.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }

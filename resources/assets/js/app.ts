@@ -1,6 +1,3 @@
-// @ts-ignore
-const globalThis = require('globalthis')();
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -8,9 +5,6 @@ const globalThis = require('globalthis')();
  */
 
 require('./bootstrap');
-
-// @ts-ignore
-globalThis.Vue = require('vue').default;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20,6 +14,4 @@ globalThis.Vue = require('vue').default;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-const app = new Vue({
-    el: '#app',
-});
+new Vue().$mount('#app');
