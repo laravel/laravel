@@ -1,6 +1,7 @@
 const globalThis = require('globalthis')();
 
 globalThis.Vue = require('vue').default;
+globalThis.Component = require('vue-class-component').default;
 
 globalThis._ = require('lodash');
 

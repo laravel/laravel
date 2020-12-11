@@ -13,5 +13,6 @@ require('./bootstrap');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('example-count', require('./components/ExampleCount.vue').default);
 
 new Vue().$mount('#app');
