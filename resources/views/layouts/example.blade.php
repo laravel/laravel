@@ -65,4 +65,5 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @includeIf('layouts.polyfill')
 </html>
