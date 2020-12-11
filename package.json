@@ -14,8 +14,9 @@
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.1",
         "jquery": "^3.2",
-        "laravel-mix": "^2.0",
+        "laravel-mix": "^5.0.9",
         "lodash": "^4.17.4",
-        "vue": "^2.5.7"
+        "vue": "^2.6.12",
+        "vue-template-compiler": "^2.6.12"
     }
 }
