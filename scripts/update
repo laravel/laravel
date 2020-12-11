@@ -17,3 +17,6 @@ docker-compose exec app php /usr/bin/composer install --prefer-dist --no-suggest
 
 echo -e "\nUpdating Database"
 ./scripts/console migrate:fresh --seed
+
+echo -e "\nGenerating IDE helpers"
+./scripts/console ide-helper:generate
