@@ -7,9 +7,6 @@
 
         <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
         <!-- Styles -->
         <style>
             html, body {
@@ -62,10 +59,20 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .vue-examples {
+                margin: 20px 0;
+                text-align: left;
+            }
         </style>
+
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref full-height" id="app">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -82,4 +89,7 @@
             </div>
         </div>
     </body>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </html>
