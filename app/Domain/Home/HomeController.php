@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 class HomeController extends Controller
 {
     /**
-     * Loads the Home Page.
+     * Shows the Home Page.
      *
      * @return \Illuminate\View\View
      */
-    public function __invoke()
+    public function index()
     {
-        return view('app/home/home');
+        return view('app/homepage');
     }
 }
