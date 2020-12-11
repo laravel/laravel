@@ -36,8 +36,8 @@
         grab() {
             let now = Date.now();
             axios.get(this.url).then((res: AxiosResponse) => {
-                this.html = now + ' Axios Response:\n';
-                this.html += $('<div>' + res.data + '</div>').find('style').html();
+                this.html = now + ' grab the $("#app").text() from Axios Response:\n';
+                this.html += $('<div>' + res.data + '</div>').find('#app').text();
             }).catch((err: AxiosError) => {
                 this.html = now + ' Axios Error:\n';
                 this.html += JSON.stringify(err, null, 2);
