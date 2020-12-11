@@ -13,6 +13,7 @@
         "axios": "^0.17",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.1",
+        "globalthis": "^1.0.1",
         "jquery": "^3.2",
         "laravel-mix": "^5.0.9",
         "lodash": "^4.17.4",
@@ -20,6 +21,8 @@
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.30.0",
         "sass-loader": "^10.1.0",
+        "ts-loader": "^8.0.11",
+        "typescript": "^4.1.2",
         "vue": "^2.6.12",
         "vue-template-compiler": "^2.6.12"
     }
