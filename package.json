@@ -16,6 +16,10 @@
         "jquery": "^3.2",
         "laravel-mix": "^5.0.9",
         "lodash": "^4.17.4",
+        "node-sass": "^5.0.0",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.30.0",
+        "sass-loader": "^10.1.0",
         "vue": "^2.6.12",
         "vue-template-compiler": "^2.6.12"
     }
