@@ -13,7 +13,7 @@ services:
       - 8000:80
 
   app:
-    image: engageinteractive/base-php:7.4
+    image: engageinteractive/base-php:8.0
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
