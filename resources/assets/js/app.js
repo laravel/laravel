@@ -3,7 +3,6 @@
 import 'what-input';
 
 import Vue from 'vue';
-import svg4everybody from 'svg4everybody';
 
 import './bootstrap';
 import lang from './i18n';
@@ -28,7 +27,5 @@ new Vue({
 	// Local
 	components: {},
 
-	mounted() {
-		svg4everybody();
-	},
+	mounted() {},
 });
