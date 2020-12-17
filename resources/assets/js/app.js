@@ -23,9 +23,4 @@ Vue.component('Placeholder', Placeholder);
 
 new Vue({
 	el: '#app',
-
-	// Local
-	components: {},
-
-	mounted() {},
 });
