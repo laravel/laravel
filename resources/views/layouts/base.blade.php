@@ -30,7 +30,6 @@
 		<script src="https://polyfill.io/v3/polyfill.min.js?features={{ implode('%2C', [
 			'Promise',
 			'IntersectionObserver',
-			'Element.prototype.classList',
 		]) }}"></script>
 		<script src="{{ mix('/compiled/js/app.js') }}" async></script>
 	@show
