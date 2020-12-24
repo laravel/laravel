@@ -1,7 +1,5 @@
-.e-input {
-	&::placeholder {
-		@apply text-grey-500;
-	}
+::placeholder {
+	@apply text-grey-500;
 }
 
 select::-ms-expand {
