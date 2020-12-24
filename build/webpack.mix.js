@@ -60,8 +60,15 @@ mix
 		},
 	});
 
-css.files.forEach(filename => mix.sass(src(`scss/${filename}`), compiled('css')));
+const combined = [];
+
+css.files.forEach((filename) => {
+	mix.sass(src(`scss/${filename}`), compiled('css'));
+	combined.push(`${paths.dest}/${compiled('css')}/${filename.replace('scss', 'css')}`);
+});
 js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
+
+mix.combine(combined, `${paths.dest}/${compiled('css')}/app.css`);
 
 // Uncomment if you want to separate vendor files.
 // mix.extract(js.extract);
