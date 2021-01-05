@@ -1,12 +1,20 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.6...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.7...8.x)
+
+
+## [v8.5.7 (2021-01-05)](https://github.com/laravel/laravel/compare/v8.5.6...v8.5.7)
+
+### Changed
+- Update sail to the v1.0.1 ([#5507](https://github.com/laravel/laravel/pull/5507))
+- Upgrade to Mix v6 ([#5505](https://github.com/laravel/laravel/pull/5505))
+- Updated Axios ([4de728e](https://github.com/laravel/laravel/commit/4de728e78c91b496ce5de09983a56e229aa0ade1))
 
 
 ## [v8.5.6 (2020-12-22)](https://github.com/laravel/laravel/compare/v8.5.5...v8.5.6)
 
 ### Added
-- Add `lock_connection` ([](https://github.com/laravel/laravel/commit/bc339f712389cf536ad7e340453f35d1dd865777), [e8788a7](https://github.com/laravel/laravel/commit/e8788a768899ff2a2ef1fe78e24b46e6e10175dc))
+- Add `lock_connection` ([bc339f7](https://github.com/laravel/laravel/commit/bc339f712389cf536ad7e340453f35d1dd865777), [e8788a7](https://github.com/laravel/laravel/commit/e8788a768899ff2a2ef1fe78e24b46e6e10175dc))
 
 
 ## [v8.5.5 (2020-12-12)](https://github.com/laravel/laravel/compare/v8.5.4...v8.5.5)
