@@ -25,3 +25,5 @@ parameters:
 
     checkMissingIterableValueType: false
     inferPrivatePropertyTypeFromConstructor: true
+    parallel:
+        processTimeout: 300.0
