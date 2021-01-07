@@ -43,6 +43,8 @@ services:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sail
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping"]
     redis:
         image: 'redis:alpine'
         ports:
@@ -51,6 +53,8 @@ services:
             - 'sailredis:/data'
         networks:
             - sail
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
     # memcached:
     #     image: 'memcached:alpine'
     #     ports:
