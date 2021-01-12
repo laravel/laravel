@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# A hook to try and prevent users committing credentials
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+git diff --cached --name-only --diff-filter=AM -z $against | grep "^.env" > /dev/null
+	if [ $? -eq 0 ]
+then
+	cat <<\EOF
+Error: It appears your trying to commit changes to an environment file
+
+This is probably not what you want to do, if you commit these changes to a public place
+such as Github, these credentials will also be public.
+
+If you know what you are doing you can disable this check using:
+
+  git commit --no-verify
+
+This will disable the check on this commit only.
+
+Otherwise use:
+
+  git restore --staged -- .env*
+EOF
+	exit 1
+fi
