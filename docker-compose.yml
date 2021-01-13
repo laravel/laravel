@@ -60,8 +60,8 @@ services:
     mailhog:
         image: 'mailhog/mailhog:latest'
         ports:
-            - 1025:1025
-            - 8025:8025
+            - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+            - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
 networks:
