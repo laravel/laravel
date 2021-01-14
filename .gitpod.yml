@@ -1,6 +1,4 @@
-image:
-  file: .gitpod.dockerfile
-  context: apache
+image: gitpod/workspace-mysql
 ports:
   - port: 8001
     onOpen: ignore
@@ -11,13 +9,11 @@ tasks:
     command: echo "Hallo"
   - name: MySQL
     command: >
-        gp await-port 3306 && mysql -e "source mysql_script.sql;"
+      gp await-port 3306 && mysql -e "source mysql_script.sql;"
   - name: Apache
     command: >
-        apachectl start;
-        multitail /var/log/apache2/error.log -I /var/log/apache2/access.log
-
-
+      apachectl start; multitail /var/log/apache2/error.log -I
+      /var/log/apache2/access.log
 
 vscode:
   extensions:
