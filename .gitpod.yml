@@ -1,0 +1,24 @@
+image:
+  file: .gitpod.dockerfile
+  context: apache
+ports:
+  - port: 8001
+    onOpen: ignore
+  - port: 3306
+    onOpen: ignore
+tasks:
+  - init: composer install
+    command: echo "Hallo"
+  - name: MySQL
+    command: >
+        gp await-port 3306 && mysql -e "source mysql_script.sql;"
+  - name: Apache
+    command: >
+        apachectl start;
+        multitail /var/log/apache2/error.log -I /var/log/apache2/access.log
+
+
+
+vscode:
+  extensions:
+    - cweijan.vscode-mysql-client2@2.8.7:ZcsJWdWH6JqLB6jm7olSsg==
