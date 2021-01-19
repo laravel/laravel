@@ -38,7 +38,7 @@ Vue.use(VueFormulate, {
 				case 'group':
 					return null;
 				default:
-					return 'e-input block w-full p-4 bg-white border border-grey-500 rounded-none text-black focus:border-grey-700';
+					return 'e-input block w-full p-4 bg-white border border-grey-500 rounded-none text-black focus:border-grey-700 focus:shadow-none';
 			}
 		},
 		label: ({ classification }) => {

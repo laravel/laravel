@@ -7,14 +7,6 @@ body {
 	@apply bg-white text-black font-body text-base leading-normal;
 }
 
-*:focus {
-	@apply outline-none;
-
-	[data-whatintent=keyboard] & {
-		@apply shadow-focus;
-	}
-}
-
 [disabled] {
 	@apply opacity-25 shadow-none cursor-not-allowed select-none;
 }
@@ -26,4 +18,28 @@ body {
 
 [v-cloak] {
 	@apply hidden;
+}
+
+:focus {
+	@apply shadow-focus outline-none;
+
+	~ .e-focus-sibling {
+		@apply shadow-focus;
+	}
+
+	&:not(:focus-visible) {
+		@apply shadow-none;
+
+		~ .e-focus-sibling {
+			@apply shadow-none;
+		}
+	}
+}
+
+:focus-visible {
+	@apply shadow-focus;
+
+	~ .e-focus-sibling {
+		@apply shadow-focus;
+	}
 }

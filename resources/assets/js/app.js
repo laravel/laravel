@@ -1,7 +1,4 @@
 /* eslint-disable no-new */
-
-import 'what-input';
-
 import Vue from 'vue';
 
 import './bootstrap';
