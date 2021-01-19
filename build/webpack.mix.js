@@ -63,8 +63,8 @@ mix
 const combined = [];
 
 css.files.forEach((filename) => {
-	mix.sass(src(`scss/${filename}`), compiled('css'));
-	combined.push(`${paths.dest}/${compiled('css')}/${filename.replace('scss', 'css')}`);
+	mix.sass(src(`scss/${filename}`), compiled('temp'));
+	combined.push(`${paths.dest}/${compiled('temp')}/${filename.replace('scss', 'css')}`);
 });
 js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
 
