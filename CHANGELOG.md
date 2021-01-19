@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.7...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.9...master)
+
+
+## [v8.5.9 (2021-01-19)](https://github.com/laravel/laravel/compare/v8.5.8...v8.5.9)
+
+### Removed
+- Delete `docker-compose.yml` ([#5522](https://github.com/laravel/laravel/pull/5522))
+
+
+## [v8.5.8 (2021-01-12)](https://github.com/laravel/laravel/compare/v8.5.7...v8.5.8)
+
+### Fixed
+- Update `TrustProxies.php` ([#5514](https://github.com/laravel/laravel/pull/5514))
 
 
 ## [v8.5.7 (2021-01-05)](https://github.com/laravel/laravel/compare/v8.5.6...v8.5.7)
