@@ -12,7 +12,7 @@ const postCssPlugins = [
 if (mix.inProduction()) {
 	postCssPlugins.push(require('@fullhuman/postcss-purgecss')({
 		content: [
-			src('../views/**/!(styleguide).blade.php'),
+			src('../views/**/*.blade.php'),
 			src('js/components/**/*.vue'),
 		],
 		// https://medium.com/@kyis/vue-tailwind-purgecss-the-right-way-c70d04461475

@@ -1,81 +1,77 @@
 @extends('layouts/base')
 
-@section('head')
-	<style>
-		.sg-preview {
-			display: flex;
-		}
-
-		.sg-preview--horizontal {
-		}
-
-		.sg-preview--vertical {
-			flex-direction: column;
-		}
-
-		.sg-preview__item {
-		}
-
-		.sg-preview--vertical .sg-preview__item {
-			margin-top: 20px;
-		}
-
-		.sg-preview--vertical .sg-preview__item:first-child {
-			margin-top: 0;
-		}
-
-		.sg-preview--horizontal .sg-preview__item {
-			margin-left: 20px;
-		}
-
-		.sg-preview--horizontal .sg-preview__item:first-child {
-			margin-left: 0;
-		}
-	</style>
-
-	@include('layouts/partials/meta', [
-		'stylesheet' => '/compiled/css/app.css',
-	])
-
-	<style>
-		@if ($model['bg'] ?? false)
-			body {
-				background-color: {{ $model['bg'] }};
-			}
-		@endif
-	</style>
-@endsection
-
 @section('app')
-	<div class="sg-preview sg-preview--{{ $model['stack'] ?? true ? 'vertical' : 'horizontal' }}" style="{{ $model['style'] ?? '' }}">
-		@foreach ($model['attributes'] as $attributes)
-			<div class="sg-preview__item">
-				@if ($model['container'] ?? false)
-					<div class="e-container">
-				@endif
-					@if ($model['component'] ?? false)
-						@if ($model['component']['type'] === 'vue')
-							<component
-								is="{{ $model['component']['name'] }}"
-								v-bind='@json($attributes)'
-							></component>
-						@else
-							@component('components/' . $model['component']['name'], $attributes)
-							@endcomponent
-						@endif
-					@else
-						@include('templates/styleguide/' . $model['partial'], $attributes)
-					@endif
-				@if ($model['container'] ?? false)
+
+	<div class="e-container py-16 space-y-16">
+		<section class="space-y-5">
+			<h1 class="e-h3">Fonts</h1>
+
+			<div class="space-y-5">
+				@foreach ($model['fonts'] as $font)
+					<div class="space-y-2">
+						<p>{{ $font }}</p>
+
+						<p class="{{ $font }}">The quick brown fox jumps over the lazy dog</p>
 					</div>
-				@endif
+				@endforeach
 			</div>
-		@endforeach
+		</section>
+
+		<section class="space-y-5">
+			<h1 class="e-h3">Headings</h1>
+
+			<div class="space-y-5">
+				@foreach ($model['typography'] as $item)
+					<div class="space-y-2">
+						<p>{{ $item['name'] }}</p>
+
+						<div class="{{ $item['class'] }}">{!! $item['copy'] !!}</div>
+					</div>
+				@endforeach
+			</div>
+		</section>
+
+		<section class="space-y-5">
+			<h1 class="e-h3">Colours</h1>
+
+			<div class="grid grid-cols-2 gap-2 md:grid-cols-6 xl:grid-cols-8">
+				@foreach ($model['colours'] as $colour)
+					<div>
+						<div class="e-placeholder pt-full bg-{{ $colour }} border border-grey-300"></div>
+
+						<div class="p-2 text-center truncate border-l border-r border-b border-grey-300">
+							{{ $colour }}
+						</div>
+					</div>
+				@endforeach
+			</div>
+		</section>
+
+		<section class="space-y-5">
+			<h1 class="e-h3">Buttons</h1>
+
+			<div class="e-copy space-y-5">
+				@foreach ($model['buttons'] as $group)
+					<div class="p-5 flex gap-x-5 {{ $group['bg'] }}">
+						@foreach ($group['items'] as $button)
+							<e-button v-bind='@json($button)'></e-button>
+						@endforeach
+					</div>
+				@endforeach
+			</div>
+		</section>
+
+		<section class="space-y-5">
+			<h1 class="e-h3">Icons</h1>
+
+			<div class="flex flex-wrap">
+				@foreach ($model['icons'] as $icon)
+					<div class="e-h1 flex-shrink-0 mr-2 mb-2" title="{{ $icon }}">
+						<icon name="{{ $icon }}"></icon>
+					</div>
+				@endforeach
+			</div>
+		</section>
 	</div>
-@endsection
 
-@section('app:after')
-	<script src="/static/js/styleguide/iframeResizer.contentWindow.min.js"></script>
-
-	@parent
 @endsection

@@ -9,9 +9,11 @@
 			'font-body text-base font-normal leading-none',
 			'no-underline',
 		]"
-		:href="$props.href"
-		v-html="$props.context.label || $props.text"
-	/>
+	>
+		<slot>
+			<span v-text="$props.context.label || $props.title" />
+		</slot>
+	</component>
 </template>
 
 <script>
@@ -22,7 +24,7 @@
 				default: () => ({}),
 			},
 
-			text: {
+			title: {
 				type: String,
 				default: null,
 			},
