@@ -92,11 +92,7 @@
 		],
 		'icons' => [
 			'check',
-			'chevron-down',
-			'chevron-left',
 			'chevron-right',
-			'chevron-up',
-			'logo',
 		],
 	],
 ])
