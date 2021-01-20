@@ -1,5 +1,6 @@
 {
 	"browser-default-font-size": 16,
+	"em-media-queries": true,
 	"breakpoints": {
 		"xs": 375,
 		"sm": 560,
