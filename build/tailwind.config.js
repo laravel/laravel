@@ -16,9 +16,6 @@ const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
 const c = variables.columns;
 const widths = mapKeys(mapValues(range(0, c), (v) => ratio(c, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${c}`);
 
-const z = variables['z-indexes'];
-const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
-
 // tailwind settings
 module.exports = {
 	purge: false,
@@ -92,7 +89,6 @@ module.exports = {
 			loose: 2,
 		},
 		transitionTimingFunction: easing,
-		zIndex,
 		extend: {
 			boxShadow: theme => ({
 				focus: `0 0 5px ${theme('colors.blue')}`
@@ -119,6 +115,10 @@ module.exports = {
 			},
 			width: {
 				...widths,
+			},
+			zIndex: {
+				'-1': -1,
+				1: 1,
 			},
 		},
 	},

@@ -35,12 +35,5 @@
 		"out-back": [0.175, 0.885, 0.32, 1.275],
 		"in-out-back": [0.68, -0.55, 0.265, 1.55],
 		"smooth-fade": [0.365, 0.005, 0.355, 1]
-	},
-	"z-indexes": [
-		"accessibility-skip-links",
-		"outdated-browser",
-		"site-header",
-		"site-content",
-		"site-footer"
-	]
+	}
 }
