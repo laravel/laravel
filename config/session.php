@@ -133,6 +133,48 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Session Cookie Prefix
+    |--------------------------------------------------------------------------
+    |
+    | This feature adds a set of restrictions upon the names which may be used
+    | for cookies with specific properties. These restrictions enable user
+    | agents to smuggle cookie state to the server within the confines of the
+    | existing `Cookie` request header syntax and limits the ways in which
+    | cookies may be abused.
+    |
+    | It is ideal to make secure cookies writable only from `secure origins`.
+    | Cookie prefixes make it possible to flag your cookies to have different
+    | behaviour, in a backward compatible way. It uses a dirty trick to put a
+    | flag in the name of the cookie. When a cookie name starts with this
+    | flag, it triggers additional browser policies on the cookie in
+    | supporting browsers.
+    |
+    | The `__Secure-` prefix makes a cookie accessible from HTTPS sites only.
+    | A HTTP site can not read or update a cookie if the name starts with
+    | `__Secure-`. This protects against the cookie smuggling attack, where
+    | an attacker uses a forged insecure site to overwrite a secure cookie.
+    |
+    | The `__Host-` prefix does the same as the `__Secure-` prefix and more.
+    | A `__Host-` prefixed cookie is only accessible by the same domain it is
+    | set on. This means that a 'subdomain can no longer overwrite the cookie
+    | value'.
+    |
+    | Supported: "secure", "host" and "none"
+    |
+    | Secure - Requires `https`, cookie `session.secure` set to `true` and
+    | can be used with subdomains. This is the `default` setting.
+    |
+    | Host - Requires `https`, cookie `session.secure` set to `true`, can't
+    | be used with subdomains and the `session.path` has a value of `/`.
+    |
+    | None - Don't turn this security feature on. Not recommended.
+    |
+    */
+
+    'cookie_prefix' => 'secure',
+
+    /*
+    |--------------------------------------------------------------------------
     | Session Cookie Path
     |--------------------------------------------------------------------------
     |
