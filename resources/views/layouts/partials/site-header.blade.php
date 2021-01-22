@@ -1,4 +1,4 @@
-<header class="relative z-site-header">
+<header>
 	<div class="e-container">
 		<h1>
 			<a href="{{ $links['home'] }}">Project name</a>

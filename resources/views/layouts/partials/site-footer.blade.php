@@ -1,4 +1,4 @@
-<footer class="relative z-site-footer">
+<footer>
 	<div class="e-container">
 		&copy; {{ date('Y') }}
 	</div>

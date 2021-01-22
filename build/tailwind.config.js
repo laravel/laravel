@@ -9,17 +9,12 @@ const letterSpacing = value => `${value / 1000}em`;
 const ratio = (x, y) => `${y / x * 100}%`;
 
 // values
-const colors = variables['colors'];
-
 const easing = mapValues(variables.easing, val => `cubic-bezier(${val[0]}, ${val[1]}, ${val[2]}, ${val[3]})`);
 
 const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
 
 const c = variables.columns;
 const widths = mapKeys(mapValues(range(0, c), (v) => ratio(c, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${c}`);
-
-const z = variables['z-indexes'];
-const zIndex = z.reduce((v, name, i) => ({ ...v, [name]: z.length - i }), {});
 
 // tailwind settings
 module.exports = {
@@ -31,17 +26,38 @@ module.exports = {
 			transparent: 'transparent',
 			current: 'currentColor',
 			inherit: 'inherit',
-			...colors,
+			brand: {
+				red: '#ff585d'
+			},
+			black: '#000',
+			white: '#fff',
+			grey: {
+				100: '#fafafa',
+				200: '#eee',
+				300: '#ddd',
+				400: '#ddd',
+				500: '#aaa',
+				600: '#888',
+				700: '#444',
+				800: '#222',
+				900: '#111',
+			},
+			blue: '#00f',
+			green: '#24b35d',
+			red: '#f50023',
+			social: {
+				twitter: '#55acee',
+				facebook: '#3b5998',
+				youtube: '#bb0000',
+				pinterest: '#cb2027',
+				linkedin: '#007bb5',
+				instagram: '#8a3ab9',
+			},
 		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
 			heading: ['custom-heading', 'Georgia', 'serif'],
 			system: ['system-ui', 'sans-serif'],
-		},
-		boxShadow: {
-			none: 'none',
-			focus: `0 0 5px ${colors.blue}`,
-			outline: `0 0 3px ${colors.blue}, 0 0 6px ${colors.blue}, 0 0 9px ${colors.blue}`,
 		},
 		fontSize: {
 			xs: relative(12),
@@ -73,8 +89,10 @@ module.exports = {
 			loose: 2,
 		},
 		transitionTimingFunction: easing,
-		zIndex,
 		extend: {
+			boxShadow: theme => ({
+				focus: `0 0 5px ${theme('colors.blue')}`
+			}),
 			inset: (theme, { negative }) => ({
 				'1/2': '50%',
 				...widths,
@@ -97,6 +115,10 @@ module.exports = {
 			},
 			width: {
 				...widths,
+			},
+			zIndex: {
+				'-1': -1,
+				1: 1,
 			},
 		},
 	},

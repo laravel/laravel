@@ -1,40 +1,12 @@
 {
 	"browser-default-font-size": 16,
+	"em-media-queries": true,
 	"breakpoints": {
 		"xs": 375,
 		"sm": 560,
 		"md": 768,
 		"lg": 1024,
 		"xl": 1248
-	},
-	"colors": {
-		"brand": {
-			"red": "#ff585d"
-		},
-		"black": "#000",
-		"white": "#fff",
-		"grey": {
-			"100": "#fafafa",
-			"200": "#eee",
-			"300": "#ddd",
-			"400": "#ddd",
-			"500": "#aaa",
-			"600": "#888",
-			"700": "#444",
-			"800": "#222",
-			"900": "#111"
-		},
-		"blue": "#00f",
-		"green": "#24b35d",
-		"red": "#f50023",
-		"social": {
-			"twitter": "#55acee",
-			"facebook": "#3b5998",
-			"youtube": "#bb0000",
-			"pinterest": "#cb2027",
-			"linkedin": "#007bb5",
-			"instagram": "#8a3ab9"
-		}
 	},
 	"columns": 24,
 	"easing": {
@@ -63,12 +35,5 @@
 		"out-back": [0.175, 0.885, 0.32, 1.275],
 		"in-out-back": [0.68, -0.55, 0.265, 1.55],
 		"smooth-fade": [0.365, 0.005, 0.355, 1]
-	},
-	"z-indexes": [
-		"accessibility-skip-links",
-		"outdated-browser",
-		"site-header",
-		"site-content",
-		"site-footer"
-	]
+	}
 }
