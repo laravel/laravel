@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import Sprite from '../../../img/sprite.svg';
+	import Sprite from 'assets/img/sprite.svg';
 
 	export default {
 		props: {

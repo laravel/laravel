@@ -32,6 +32,13 @@ if (js.lint) {
 
 // Typical setup
 mix
+	.webpackConfig({
+		resolve: {
+			alias: {
+				'assets': __dirname + '/../resources/assets',
+			},
+		},
+	})
 	.options({
 		autoprefixer: {
 			options: css.autoprefixer,

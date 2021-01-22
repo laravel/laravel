@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import variables from '../../variables.json';
+import variables from 'assets/variables.json';
 
 const breakpoints = {};
 
