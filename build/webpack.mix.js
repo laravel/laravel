@@ -25,9 +25,6 @@ if (mix.inProduction()) {
 // Load the multi-lingual support
 new ComponentFactory().install(require('./mix-modules/I18n'));
 
-// Svg combinating
-new ComponentFactory().install(require('./mix-modules/SvgSprite'));
-
 if (js.lint) {
 	// Load JavaScript linter support
 	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
@@ -35,6 +32,13 @@ if (js.lint) {
 
 // Typical setup
 mix
+	.webpackConfig({
+		resolve: {
+			alias: {
+				'assets': __dirname + '/../resources/assets',
+			},
+		},
+	})
 	.options({
 		autoprefixer: {
 			options: css.autoprefixer,
@@ -50,15 +54,7 @@ mix
 		clearConsole: !(process.env.NO_CLI_FLUSH),
 	})
 	.browserSync(browserSync)
-	.setPublicPath(paths.dest)
-	.svgSprite(src('sprite/**/*.svg'), {
-		output: {
-			filename: compiled('img/sprite.svg'),
-		},
-		sprite: {
-			prefix: false,
-		},
-	});
+	.setPublicPath(paths.dest);
 
 const combined = [];
 

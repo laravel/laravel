@@ -5,6 +5,8 @@
 </template>
 
 <script>
+	import Sprite from 'assets/img/sprite.svg';
+
 	export default {
 		props: {
 			name: {
@@ -14,7 +16,7 @@
 
 			url: {
 				type: String,
-				default: window.app.sprite,
+				default: Sprite,
 			},
 		},
 	};

@@ -20,10 +20,11 @@
 		</select>
 
 		<icon
-			name="chevron-down"
+			name="chevron-right"
 			:class="[
 				'absolute top-1/2 right-0',
 				'w-em h-em -mt-1/2em mr-em',
+				'transform rotate-90',
 				'pointer-events-none',
 			]"
 		/>

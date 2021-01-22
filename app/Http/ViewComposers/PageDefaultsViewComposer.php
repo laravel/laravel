@@ -23,9 +23,6 @@ class PageDefaultsViewComposer extends BaseViewComposer
                 'share_title' => trans('meta.default.share_title'),
                 'share_description' => trans('meta.default.share_description'),
                 'type' => 'article',
-                'js' => [
-                    'sprite' => (string) mix('/compiled/img/sprite.svg'),
-                ],
             ],
             'links' => [
                 'home' => route('homepage.index'),

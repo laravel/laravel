@@ -23,10 +23,6 @@
 	</div>
 
 	@section('app:after')
-		<script>
-			window.app = @json($page['js']);
-		</script>
-
 		<script src="https://polyfill.io/v3/polyfill.min.js?features={{ implode('%2C', [
 			'Promise',
 			'IntersectionObserver',
