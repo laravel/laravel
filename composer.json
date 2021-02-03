@@ -73,8 +73,8 @@
             ]
         },
         "hooks": {
-            "pre-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer test; composer stan\"",
-            "post-commit": "docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer cs;\""
+            "pre-commit": "BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')\n\nif [ $BRANCH_NAME != '(no branch)' ]\nthen\n docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer test; composer stan\" \nfi",
+            "post-commit":"BRANCH_NAME=$(git branch | grep '*' | sed 's/* //')\n\nif [ $BRANCH_NAME != '(no branch)' ]\nthen\n docker run --rm -t -v $(pwd -W &> /dev/null && pwd -W || pwd):/code digbang/php-dev:7.4 bash -c \"cd /code; composer cs;\" \nfi"
         }
     },
     "scripts": {
