@@ -1,59 +1,4 @@
-import Vue from 'vue';
-import VueFormulate from '@braid/vue-formulate';
 import get from 'lodash/get';
-
-import Box from '../components/common/form/Box';
-import ESelect from '../components/common/form/Select';
-
-Vue.component('Box', Box);
-Vue.component('ESelect', ESelect);
-
-Vue.use(VueFormulate, {
-	library: {
-		checkbox: {
-			component: 'Box',
-		},
-		button: {
-			component: 'EButton',
-		},
-		radio: {
-			component: 'Box',
-		},
-		submit: {
-			component: 'EButton',
-		},
-		select: {
-			component: 'ESelect',
-		},
-	},
-	classes: {
-		outer: '',
-		wrapper: '',
-		element: '',
-		input: ({ classification }) => {
-			switch (classification) {
-				case 'box':
-				case 'button':
-				case 'submit':
-				case 'group':
-					return null;
-				default:
-					return 'e-input block w-full p-4 bg-white border border-grey-500 rounded-none text-black focus:border-grey-700 focus:shadow-none';
-			}
-		},
-		label: ({ classification }) => {
-			switch (classification) {
-				case 'box':
-					return 'sr-only';
-				default:
-					return 'block mb-1/2em cursor-pointer font-bold leading-snug';
-			}
-		},
-		help: 'text-sm mt-1/2em text-gray-600',
-		error: 'inline-flex relative mt-1/2em text-red italic text-sm leading-snug',
-		decorator: 'bg-green',
-	},
-});
 
 export default {
 	props: {
@@ -61,26 +6,39 @@ export default {
 			type: String,
 			required: true,
 		},
+
+		schema: {
+			type: [Array, Object],
+			default: null,
+		},
+
+		values: {
+			type: Object,
+			default() {},
+		},
 	},
 
 	data() {
 		return {
 			message: null,
 			errors: {},
-			form: {},
+			form: this.$props.values || {},
 			isSubmitting: false,
 			isError: false,
+			response: null,
 		};
 	},
 
 	computed: {
 		cIsSubmitEnabled() {
-			return (!this.$data.isSubmitting);
+			return !this.$data.isSubmitting && !this.$data.response;
 		},
 	},
 
 	methods: {
 		onSubmit() {
+			if (this.$data.response) return;
+
 			this.$data.isSubmitting = true;
 
 			axios
@@ -98,6 +56,12 @@ export default {
 			} else {
 				this.$data.isError = false;
 				this.$data.form = {};
+
+				const resp = get(response, 'data.response');
+
+				if (resp) {
+					this.$data.response = resp;
+				}
 			}
 		},
 
@@ -122,7 +86,9 @@ export default {
 			if (!this.$data.errors) return;
 
 			this.$nextTick(() => {
-				const $firstError = this.$refs.fields.filter(el => el.errors)[0].$el;
+				const $firstError = this.$el.querySelector('.e-error');
+
+				if (!$firstError) return;
 
 				$firstError.scrollIntoView({
 					behavior: 'smooth',
