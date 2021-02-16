@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.9...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.10...8.x)
+
+
+## [v8.5.10 (2021-02-16)](https://github.com/laravel/laravel/compare/v8.5.9...v8.5.10)
+
+### Changed
+- Add "ably" in comment as a broadcast connection ([#5531](https://github.com/laravel/laravel/pull/5531))
+- Add unverified state to UserFactory ([#5533](https://github.com/laravel/laravel/pull/5533))
+- Update login wording ([9a56a60](https://github.com/laravel/laravel/commit/9a56a60cc9e3785683e256d511ee1fb533025a0a))
+
+### Fixed
+- Fix dead link in web.config ([#5528](https://github.com/laravel/laravel/pull/5528))
 
 
 ## [v8.5.9 (2021-01-19)](https://github.com/laravel/laravel/compare/v8.5.8...v8.5.9)
