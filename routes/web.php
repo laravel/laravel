@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/','pages.home');
 Route::view('/about','pages.about');
-Route::view('/politica-de-privacidad','pages.privcy');
+Route::view('/politica-de-privacidad','pages.privacy');
 Route::view('/politica-de-cookies','pages.cookies')->name('cookies');
 Route::view('{path}', 'pages.wizard')->where('path', 'contact|email-sent');
