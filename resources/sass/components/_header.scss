@@ -1,0 +1,8 @@
+.header{
+    height: $header-height;
+    background-color: $header-bg-color;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem;
+    align-content: center;
+}

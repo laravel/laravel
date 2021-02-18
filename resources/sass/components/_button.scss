@@ -1,0 +1,25 @@
+.btn{
+    &.btn-primary{
+        background-color: $primary;
+        color: #FFFFFF;
+        padding: $padding-primary-button;
+        transition: 0.2s;
+        border-radius: $border-radius;
+        &:hover{
+            background-color: $hover-primary;
+            // color: #000000;
+        }
+    }
+
+    &.btn-outline-primary{
+        border: 2px solid $primary;
+        color: $primary;
+        padding: $padding-primary-button;
+        transition: 0.2s;
+        border-radius: $border-radius;
+        &:hover{
+            background-color: $primary;
+            color: #FFFFFF;
+        }
+    }
+}
