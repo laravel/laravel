@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,N]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -19,3 +22,14 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<ifModule mod_headers.c>
+  #  images expire after 1 month
+  <filesMatch ".(gif|webp|png|jpg|jpeg|ico|pdf|svg|js)$">
+    Header set Cache-Control "max-age=2592000"
+  </filesMatch>
+  # CSS expires after 1 day
+  <filesMatch ".(css)$">
+    Header set Cache-Control "max-age=86400"
+  </filesMatch>
+</ifModule>
