@@ -32,7 +32,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Define the model's unverified state.
+     * Indicate that the model's email address should be unverified.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */

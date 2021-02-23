@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.10...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.11...master)
+
+
+## [v8.5.11 (2021-02-23)](https://github.com/laravel/laravel/compare/v8.5.10...v8.5.11)
+
+### Fixed
+- Don't flash 'current_password' input ([#5541](https://github.com/laravel/laravel/pull/5541))
 
 
 ## [v8.5.10 (2021-02-16)](https://github.com/laravel/laravel/compare/v8.5.9...v8.5.10)
