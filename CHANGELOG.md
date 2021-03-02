@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.11...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.12...master)
+
+
+## [v8.5.12 (2021-03-02)](https://github.com/laravel/laravel/compare/v8.5.11...v8.5.12)
+
+### Fixed
+- Added sans-serif as Fallback Font ([#5543](https://github.com/laravel/laravel/pull/5543))
+- Don't trim `current_password` ([#5546](https://github.com/laravel/laravel/pull/5546))
 
 
 ## [v8.5.11 (2021-02-23)](https://github.com/laravel/laravel/compare/v8.5.10...v8.5.11)
