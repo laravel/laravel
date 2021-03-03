@@ -30,7 +30,7 @@ class AuthenticationRequest
         ];
     }
 
-    public function validate(): array
+    public function validate(): void
     {
         $this->request()->validate([
             self::EMAIL => 'required|email',
