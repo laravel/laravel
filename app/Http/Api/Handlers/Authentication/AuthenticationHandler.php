@@ -5,6 +5,7 @@ namespace App\Http\Api\Handlers\Authentication;
 use App\Http\Api\Handlers\Handler;
 use App\Http\Api\Requests\Authentication\AuthenticationRequest;
 use App\Http\Api\Transformers\TokenWithUserTransformer;
+use App\Http\Kernel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
@@ -34,6 +35,7 @@ class AuthenticationHandler extends Handler
     public static function defineRoute(Router $router): void
     {
         $router->post('api/authentication/authenticate', self::class)
-            ->name(self::class);
+            ->name(self::class)
+            ->middleware(Kernel::PUBLIC_API);
     }
 }

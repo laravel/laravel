@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     public const API = 'api';
+    public const PUBLIC_API = 'public-api';
     public const WEB = 'web';
     public const BACKOFFICE = 'backoffice';
     public const BACKOFFICE_PUBLIC = 'backoffice-public';
@@ -46,8 +47,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-        self::API => [
+        self::PUBLIC_API => [
             \App\Http\Middleware\SetApiDefaultHeaders::class,
+        ],
+        self::API => [
+            self::PUBLIC_API,
             'auth:api',
         ],
         self::BACKOFFICE => [
