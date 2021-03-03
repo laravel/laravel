@@ -1,5 +1,7 @@
 <?php
 
+use App\Infrastructure\Doctrine\Mappings;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +37,9 @@ return [
                 'auto_generate' => env('DOCTRINE_PROXY_AUTOGENERATE', false),
             ],
             'mappings' => [
+                Mappings\Embeddables\NameMapping::class,
+
+                Mappings\UserMapping::class
             ],
             /*
             |--------------------------------------------------------------------------

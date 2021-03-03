@@ -4,24 +4,32 @@ namespace App\Http\Api\Requests\Authentication;
 
 use App\Http\Api\Requests\Request;
 
-class AuthenticationRequest extends Request
+class AuthenticationRequest
 {
     public const EMAIL = 'email';
     public const PASSWORD = 'password';
 
+    /** @var Request */
+    private Request $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
     public function credentials(): array
     {
         return [
-            self::EMAIL => $this->get(self::EMAIL),
-            self::PASSWORD => $this->get(self::PASSWORD),
+            self::EMAIL => $this->request->get(self::EMAIL),
+            self::PASSWORD => $this->request->get(self::PASSWORD),
         ];
     }
 
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        $this->request->validate([
             self::EMAIL => 'required|email',
             self::PASSWORD => 'required',
-        ];
+        ]);
     }
 }
