@@ -14,8 +14,6 @@ class AuthenticationHandler extends Handler
 {
     public function __invoke(AuthenticationRequest $request): JsonResponse
     {
-        $request->validate();
-
         $token = $this->guard()->attempt($request->credentials());
         if ($token) {
             /** @var User $user */
