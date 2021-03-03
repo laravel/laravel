@@ -17,17 +17,22 @@ class AuthenticationRequest
         $this->request = $request;
     }
 
+    public function request(): Request
+    {
+        return $this->request;
+    }
+
     public function credentials(): array
     {
         return [
-            self::EMAIL => $this->request->get(self::EMAIL),
-            self::PASSWORD => $this->request->get(self::PASSWORD),
+            self::EMAIL => $this->request()->get(self::EMAIL),
+            self::PASSWORD => $this->request()->get(self::PASSWORD),
         ];
     }
 
     public function validate(): array
     {
-        $this->request->validate([
+        $this->request()->validate([
             self::EMAIL => 'required|email',
             self::PASSWORD => 'required',
         ]);
