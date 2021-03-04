@@ -17,7 +17,7 @@ parameters:
 
     reportUnmatchedIgnoredErrors: false
 
-    excludes_analyse:
+    excludePaths:
         - config/insights.php
         - preloader.php
         - storage/preloader.php

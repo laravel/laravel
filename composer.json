@@ -40,7 +40,8 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
         "nunomaduro/phpinsights": "^1.14",
-        "pestphp/pest": "^0.1.5",
+        "pestphp/pest": "^1.0.2",
+        "pestphp/pest-plugin-laravel": "^1.0",
         "phpunit/phpunit": "^9.0",
         "roave/security-advisories": "dev-master"
     },

@@ -39,7 +39,7 @@ return [
             'mappings' => [
                 Mappings\Embeddables\NameMapping::class,
 
-                Mappings\UserMapping::class
+                Mappings\UserMapping::class,
             ],
             /*
             |--------------------------------------------------------------------------

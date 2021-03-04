@@ -18,10 +18,6 @@ abstract class DoctrineReadRepository extends EntityRepository implements ReadRe
         parent::__construct($entityManager, $entityManager->getClassMetadata($this->getEntity()));
     }
 
-    /**
-     * @param string $alias
-     * @param null $indexBy
-     */
     public function createQueryBuilder($alias, $indexBy = null): QueryBuilderDecorator
     {
         return (new QueryBuilderDecorator(

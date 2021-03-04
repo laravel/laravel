@@ -13,7 +13,7 @@ it('has welcome page')
     ->get('/backoffice')
     ->assertStatus(302);
 
-it('Create Admin Role', function () {
+it('creates Admin Role', function () {
     /** @var DoctrineRoleRepository $roleRepository */
     $roleRepository = security()->roles();
 
@@ -22,5 +22,5 @@ it('Create Admin Role', function () {
     /** @var Role|Permissible $roleSearch */
     $roleSearch = $roleRepository->findOneBy(['slug' => 'admin']);
 
-    assertEquals($role->getRoleId(), $roleSearch->getRoleId());
+    $this->assertEquals($role->getRoleId(), $roleSearch->getRoleId());
 });

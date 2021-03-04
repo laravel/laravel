@@ -17,7 +17,7 @@ abstract class FormRequest extends BaseFormRequest
     {
         $repository = $this->container->make($className);
 
-        if ($repository instanceof ReadRepository || $repository instanceof  ObjectRepository) {
+        if ($repository instanceof ReadRepository || $repository instanceof ObjectRepository) {
             return $repository;
         }
 
