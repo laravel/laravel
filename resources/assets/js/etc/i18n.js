@@ -1,6 +1,6 @@
 import Lang from 'lang.js';
 
-const contexts = require.context('../../lang/', true, /\.php$/);
+const contexts = require.context('../../../lang/', true, /\.php$/);
 
 const messages = contexts.keys().reduce((acc, filename) => {
 	const key = filename

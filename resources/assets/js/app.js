@@ -2,7 +2,8 @@
 import Vue from 'vue';
 
 import './bootstrap';
-import lang from './i18n';
+import './etc/forms';
+import lang from './etc/i18n';
 
 // Common
 import EButton from './components/common/Button';
