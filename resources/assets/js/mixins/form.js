@@ -14,7 +14,7 @@ export default {
 
 		values: {
 			type: Object,
-			default() {},
+			default: () => ({}),
 		},
 	},
 
@@ -22,7 +22,7 @@ export default {
 		return {
 			message: null,
 			errors: {},
-			form: this.$props.values || {},
+			form: this.$props.values,
 			isSubmitting: false,
 			isError: false,
 			response: null,
