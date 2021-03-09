@@ -1,6 +1,14 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.12...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.13...master)
+
+
+## [v8.5.13 (2021-03-09)](https://github.com/laravel/laravel/compare/v8.5.12...v8.5.13)
+
+### Changed
+- Use same default queue name for all drivers ([#5549](https://github.com/laravel/laravel/pull/5549))
+- Standardise "must" and "may" language in validation ([#5552](https://github.com/laravel/laravel/pull/5552))
+- Add missing 'after_commit' key to queue config ([#5554](https://github.com/laravel/laravel/pull/5554))
 
 
 ## [v8.5.12 (2021-03-02)](https://github.com/laravel/laravel/compare/v8.5.11...v8.5.12)
