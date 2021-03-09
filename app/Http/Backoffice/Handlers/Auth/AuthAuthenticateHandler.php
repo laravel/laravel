@@ -22,14 +22,14 @@ class AuthAuthenticateHandler extends Handler
         LoginRequest $request,
         SecurityApi $securityApi
     ) {
-        $errors = new MessageBag();
+        $request->validate();
 
         try {
-            $credentials = $request->all(['email', 'username', 'login', 'password']);
+            $credentials = $request->request()->all(['email', 'username', 'login', 'password']);
 
             $authenticated = $securityApi->authenticate(
                 $credentials,
-                $request->input('remember') ?? false);
+                $request->request()->input('remember') ?? false);
 
             if ($authenticated) {
                 return redirect()->intended(
@@ -37,6 +37,7 @@ class AuthAuthenticateHandler extends Handler
                 );
             }
 
+            $errors = new MessageBag();
             $errors->add('password', trans('backoffice::auth.validation.password.wrong'));
 
             return redirect()->to(AuthLoginHandler::route())->withInput()->withErrors($errors);

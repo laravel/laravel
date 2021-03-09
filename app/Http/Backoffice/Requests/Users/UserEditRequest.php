@@ -17,27 +17,27 @@ class UserEditRequest extends UserRequest
 
     public function firstName(): ?string
     {
-        return $this->get(self::FIELD_FIRST_NAME);
+        return $this->request()->get(self::FIELD_FIRST_NAME);
     }
 
     public function lastName(): ?string
     {
-        return $this->get(self::FIELD_LAST_NAME);
+        return $this->request()->get(self::FIELD_LAST_NAME);
     }
 
     public function email(): string
     {
-        return $this->get(self::FIELD_EMAIL);
+        return $this->request()->get(self::FIELD_EMAIL);
     }
 
     public function username(): string
     {
-        return $this->get(self::FIELD_USERNAME);
+        return $this->request()->get(self::FIELD_USERNAME);
     }
 
     public function password(): string
     {
-        return $this->get(self::FIELD_PASSWORD);
+        return $this->request()->get(self::FIELD_PASSWORD);
     }
 
     /**
@@ -45,7 +45,7 @@ class UserEditRequest extends UserRequest
      */
     public function roles(): array
     {
-        return $this->get(self::FIELD_ROLES, []) ?? [];
+        return $this->request()->get(self::FIELD_ROLES, []) ?? [];
     }
 
     /**
@@ -53,12 +53,12 @@ class UserEditRequest extends UserRequest
      */
     public function permissions(): array
     {
-        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+        return $this->request()->get(self::FIELD_PERMISSIONS, []) ?? [];
     }
 
     public function credentials(): array
     {
-        return $this->all([
+        return $this->request()->all([
             self::FIELD_FIRST_NAME,
             self::FIELD_LAST_NAME,
             self::FIELD_EMAIL,
@@ -69,14 +69,11 @@ class UserEditRequest extends UserRequest
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        $userId = $this->route(self::ROUTE_PARAM_ID);
+        $userId = $this->request()->route(self::ROUTE_PARAM_ID);
 
-        return [
+        return $this->request()->validate([
             self::FIELD_FIRST_NAME => 'max:255',
             self::FIELD_LAST_NAME => 'max:255',
             self::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address,' . $userId,
@@ -84,20 +81,12 @@ class UserEditRequest extends UserRequest
             self::FIELD_PASSWORD => 'nullable|confirmed|min:3',
             self::FIELD_ROLES => 'array',
             self::FIELD_PERMISSIONS => 'array',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
+        ], [
             self::FIELD_EMAIL . '.required' => trans('backoffice::auth.validation.user.email-required'),
             self::FIELD_EMAIL . '.unique' => trans('backoffice::auth.validation.user.user-email-repeated'),
             self::FIELD_USERNAME . '.required' => trans('backoffice::auth.validation.user.user-username-repeated'),
             self::FIELD_USERNAME . '.unique' => trans('backoffice::auth.validation.user.user-username-repeated'),
             self::FIELD_PASSWORD . '.required' => trans('backoffice::auth.validation.user.password-required'),
-        ];
+        ]);
     }
 }

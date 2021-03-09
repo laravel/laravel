@@ -21,6 +21,8 @@ class AuthForgotPasswordHandler extends Handler
         ForgotPasswordRequest $request,
         SecurityApi $securityApi
     ): RedirectResponse {
+        $request->validate();
+
         $email = $request->getEmail();
 
         /** @var User|null $user */

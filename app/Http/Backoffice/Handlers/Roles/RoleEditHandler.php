@@ -20,6 +20,8 @@ class RoleEditHandler extends Handler
     {
         $role = $request->getRole();
 
+        $request->validate();
+
         try {
             $role->setName($request->name());
 

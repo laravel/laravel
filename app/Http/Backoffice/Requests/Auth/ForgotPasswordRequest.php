@@ -2,22 +2,19 @@
 
 namespace App\Http\Backoffice\Requests\Auth;
 
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 
-class ForgotPasswordRequest extends Request
+class ForgotPasswordRequest extends BaseRequest
 {
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        return $this->request()->validate([
             'email' => 'required|email',
-        ];
+        ]);
     }
 
     public function getEmail(): string
     {
-        return $this->get('email');
+        return $this->request()->get('email');
     }
 }

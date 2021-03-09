@@ -3,14 +3,14 @@
 namespace App\Http\Backoffice\Requests\Auth;
 
 use App\Http\Backoffice\Handlers\Auth\AuthResetPasswordFormHandler;
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Cartalyst\Sentinel\Users\UserInterface;
 
-class ResetPasswordFormRequest extends Request
+class ResetPasswordFormRequest extends BaseRequest
 {
     public function findUser(): UserInterface
     {
-        $id = $this->route(AuthResetPasswordFormHandler::ROUTE_PARAM_USER);
+        $id = $this->request()->route(AuthResetPasswordFormHandler::ROUTE_PARAM_USER);
 
         $user = security()->users()->findById($id);
 
@@ -23,6 +23,6 @@ class ResetPasswordFormRequest extends Request
 
     public function code(): string
     {
-        return $this->route(AuthResetPasswordFormHandler::ROUTE_PARAM_CODE);
+        return $this->request()->route(AuthResetPasswordFormHandler::ROUTE_PARAM_CODE);
     }
 }

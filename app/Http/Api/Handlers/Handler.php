@@ -7,9 +7,6 @@ use App\Http\Utils\RouteDefiner;
 use Cake\Chronos\Chronos;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseHandler;
 use Lcobucci\JWT\Parser;
 use ProjectName\Entities\User;
@@ -18,10 +15,6 @@ use Tymon\JWTAuth\JWTGuard;
 
 abstract class Handler extends BaseHandler implements RouteDefiner
 {
-    use AuthorizesRequests;
-    use DispatchesJobs;
-    use ValidatesRequests;
-
     public const GUARD = 'api';
 
     private Container $app;

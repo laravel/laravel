@@ -10,14 +10,17 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 use LaravelDoctrine\ORM\Auth\Authenticatable;
 use ProjectName\Immutables\Name;
 use ProjectName\Payloads\UserPayload;
+use ProjectName\Payloads\UserUpdatePayload;
+use ProjectName\Utils\JWTSubjectTrait;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContract
 {
-    use Authenticatable;
-    use CanResetPassword;
     use Timestamps;
     use SoftDeletes;
+    use Authenticatable;
+    use JWTSubjectTrait;
+    use CanResetPassword;
 
     private ?int $id = null;
     private Name $name;
@@ -26,7 +29,7 @@ class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContr
     public function __construct(UserPayload $userPayload)
     {
         $this->changeEmail($userPayload->email());
-        $this->setPassword($userPayload->password());
+        $this->changePassword($userPayload->password());
         $this->changeName($userPayload->firstName(), $userPayload->lastname());
     }
 
@@ -45,36 +48,33 @@ class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContr
         return $this->email;
     }
 
-    public function changeEmail(string $email): void
+    public function update(UserUpdatePayload $userPayload): void
+    {
+        if ($userPayload->email()) {
+            $this->changeEmail($userPayload->email());
+        }
+
+        if ($userPayload->password()) {
+            $this->setPassword($userPayload->password());
+        }
+
+        if ($userPayload->firstName() && $userPayload->lastname()) {
+            $this->changeName($userPayload->firstName(), $userPayload->lastname());
+        }
+    }
+
+    private function changeEmail(string $email): void
     {
         $this->email = trim($email);
     }
 
-    public function setPassword(string $plainPassword): void
+    private function changePassword(string $plainPassword): void
     {
         $this->password = password_hash($plainPassword, PASSWORD_BCRYPT);
     }
 
-    public function changeName(string $firstName, string $lastName): void
+    private function changeName(string $firstName, string $lastName): void
     {
         $this->name = new Name(trim($firstName), trim($lastName));
-    }
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getAuthIdentifier();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     */
-    public function getJWTCustomClaims(): array
-    {
-        return [];
     }
 }

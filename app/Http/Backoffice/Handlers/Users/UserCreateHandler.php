@@ -24,6 +24,8 @@ class UserCreateHandler extends Handler
 
     public function __invoke(UserCreateRequest $request): RedirectResponse
     {
+        $request->validate();
+
         try {
             /** @var User $user */
             $user = security()->users()->create($request->credentials(), function (User $user) use ($request): void {

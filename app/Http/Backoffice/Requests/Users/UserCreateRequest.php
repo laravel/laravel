@@ -2,10 +2,10 @@
 
 namespace App\Http\Backoffice\Requests\Users;
 
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Digbang\Security\Users\DefaultUser;
 
-class UserCreateRequest extends Request
+class UserCreateRequest extends BaseRequest
 {
     public const FIELD_FIRST_NAME = 'firstName';
     public const FIELD_LAST_NAME = 'lastName';
@@ -19,32 +19,32 @@ class UserCreateRequest extends Request
 
     public function firstName(): ?string
     {
-        return $this->get(self::FIELD_FIRST_NAME);
+        return $this->request()->get(self::FIELD_FIRST_NAME);
     }
 
     public function lastName(): ?string
     {
-        return $this->get(self::FIELD_LAST_NAME);
+        return $this->request()->get(self::FIELD_LAST_NAME);
     }
 
     public function email(): string
     {
-        return $this->get(self::FIELD_EMAIL);
+        return $this->request()->get(self::FIELD_EMAIL);
     }
 
     public function username(): string
     {
-        return $this->get(self::FIELD_USERNAME);
+        return $this->request()->get(self::FIELD_USERNAME);
     }
 
     public function password(): string
     {
-        return $this->get(self::FIELD_PASSWORD);
+        return $this->request()->get(self::FIELD_PASSWORD);
     }
 
     public function activated(): bool
     {
-        return $this->get(self::FIELD_ACTIVATED, false);
+        return $this->request()->get(self::FIELD_ACTIVATED, false);
     }
 
     /**
@@ -52,7 +52,7 @@ class UserCreateRequest extends Request
      */
     public function roles(): array
     {
-        return $this->get(self::FIELD_ROLES, []) ?? [];
+        return $this->request()->get(self::FIELD_ROLES, []) ?? [];
     }
 
     /**
@@ -60,12 +60,12 @@ class UserCreateRequest extends Request
      */
     public function permissions(): array
     {
-        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+        return $this->request()->get(self::FIELD_PERMISSIONS, []) ?? [];
     }
 
     public function credentials(): array
     {
-        return $this->all([
+        return $this->request()->all([
             self::FIELD_FIRST_NAME,
             self::FIELD_LAST_NAME,
             self::FIELD_EMAIL,
@@ -77,12 +77,9 @@ class UserCreateRequest extends Request
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        return $this->request()->validate([
             self::FIELD_FIRST_NAME => 'max:255',
             self::FIELD_LAST_NAME => 'max:255',
             self::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address',
@@ -91,20 +88,12 @@ class UserCreateRequest extends Request
             self::FIELD_ACTIVATED => 'boolean',
             self::FIELD_ROLES => 'array',
             self::FIELD_PERMISSIONS => 'array',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
+        ], [
             self::FIELD_EMAIL . '.required' => trans('backoffice::auth.validation.user.email-required'),
             self::FIELD_EMAIL . '.unique' => trans('backoffice::auth.validation.user.user-email-repeated'),
             self::FIELD_USERNAME . '.required' => trans('backoffice::auth.validation.user.user-username-repeated'),
             self::FIELD_USERNAME . '.unique' => trans('backoffice::auth.validation.user.user-username-repeated'),
             self::FIELD_PASSWORD . '.required' => trans('backoffice::auth.validation.user.password-required'),
-        ];
+        ]);
     }
 }

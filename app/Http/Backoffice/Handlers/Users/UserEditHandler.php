@@ -21,6 +21,8 @@ class UserEditHandler extends Handler
         /** @var User $user */
         $user = $request->findUser();
 
+        $request->validate();
+
         try {
             security()->users()->update($user, $request->credentials());
 

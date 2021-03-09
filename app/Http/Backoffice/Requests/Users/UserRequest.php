@@ -2,16 +2,16 @@
 
 namespace App\Http\Backoffice\Requests\Users;
 
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Cartalyst\Sentinel\Users\UserInterface;
 
-class UserRequest extends Request
+class UserRequest extends BaseRequest
 {
     public const ROUTE_PARAM_ID = 'user_id';
 
     public function findUser(): UserInterface
     {
-        $id = $this->route(self::ROUTE_PARAM_ID);
+        $id = $this->request()->route(self::ROUTE_PARAM_ID);
 
         $user = security()->users()->findById($id);
 

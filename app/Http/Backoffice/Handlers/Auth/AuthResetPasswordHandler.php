@@ -21,6 +21,8 @@ class AuthResetPasswordHandler extends Handler
         ResetPasswordRequest $request,
         SecurityApi $securityApi
     ): RedirectResponse {
+        $request->validate();
+
         /** @var User $user */
         $user = $request->findUser();
         $code = $request->code();

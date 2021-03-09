@@ -11,7 +11,7 @@ class RoleEditRequest extends RoleRequest
 
     public function name(): string
     {
-        return $this->get(self::FIELD_NAME);
+        return $this->request()->get(self::FIELD_NAME);
     }
 
     /**
@@ -19,27 +19,16 @@ class RoleEditRequest extends RoleRequest
      */
     public function permissions(): array
     {
-        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+        return $this->request()->get(self::FIELD_PERMISSIONS, []) ?? [];
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
-            'name' => 'required|unique:' . DefaultRole::class . ',name,' . $this->route(self::ROUTE_PARAM_ID),
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function messages()
-    {
-        return [
+        return $this->request()->validate([
+            'name' => 'required|unique:' . DefaultRole::class . ',name,' . $this->request()->route(self::ROUTE_PARAM_ID),
+        ], [
             'name.required' => trans('backoffice::auth.validation.role.name'),
             'name.unique' => trans('backoffice::auth.validation.role.unique'),
-        ];
+        ]);
     }
 }

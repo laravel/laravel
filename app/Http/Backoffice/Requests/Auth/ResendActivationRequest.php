@@ -2,32 +2,21 @@
 
 namespace App\Http\Backoffice\Requests\Auth;
 
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 
-class ResendActivationRequest extends Request
+class ResendActivationRequest extends BaseRequest
 {
     public function email(): string
     {
-        return $this->get('email');
+        return $this->request()->get('email');
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        return $this->request()->validate([
             'email' => 'required|email',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
+        ], [
             'email' => trans('backoffice::auth.validation.activation.email'),
-        ];
+        ]);
     }
 }

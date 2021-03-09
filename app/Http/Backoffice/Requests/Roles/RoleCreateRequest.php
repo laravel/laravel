@@ -2,10 +2,10 @@
 
 namespace App\Http\Backoffice\Requests\Roles;
 
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Digbang\Security\Roles\DefaultRole;
 
-class RoleCreateRequest extends Request
+class RoleCreateRequest extends BaseRequest
 {
     public const FIELD_NAME = 'name';
     public const FIELD_SLUG = 'slug';
@@ -13,12 +13,12 @@ class RoleCreateRequest extends Request
 
     public function name(): string
     {
-        return $this->get(self::FIELD_NAME);
+        return $this->request()->get(self::FIELD_NAME);
     }
 
     public function slug(): ?string
     {
-        return $this->get(self::FIELD_SLUG);
+        return $this->request()->get(self::FIELD_SLUG);
     }
 
     /**
@@ -26,27 +26,16 @@ class RoleCreateRequest extends Request
      */
     public function permissions(): array
     {
-        return $this->get(self::FIELD_PERMISSIONS, []) ?? [];
+        return $this->request()->get(self::FIELD_PERMISSIONS, []) ?? [];
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        return $this->request()->validate([
             self::FIELD_NAME => 'required|unique:' . DefaultRole::class . ',name',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
+        ], [
             self::FIELD_NAME . '.required' => trans('backoffice::auth.validation.role.name'),
             self::FIELD_NAME . '.unique' => trans('backoffice::auth.validation.role.unique'),
-        ];
+        ]);
     }
 }

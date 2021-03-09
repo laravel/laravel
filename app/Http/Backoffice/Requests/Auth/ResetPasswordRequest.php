@@ -3,14 +3,14 @@
 namespace App\Http\Backoffice\Requests\Auth;
 
 use App\Http\Backoffice\Handlers\Auth\AuthResetPasswordHandler;
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Cartalyst\Sentinel\Users\UserInterface;
 
-class ResetPasswordRequest extends Request
+class ResetPasswordRequest extends BaseRequest
 {
     public function findUser(): UserInterface
     {
-        $id = $this->route(AuthResetPasswordHandler::ROUTE_PARAM_USER);
+        $id = $this->request()->route(AuthResetPasswordHandler::ROUTE_PARAM_USER);
 
         $user = security()->users()->findById($id);
 
@@ -23,31 +23,20 @@ class ResetPasswordRequest extends Request
 
     public function code(): string
     {
-        return $this->route(AuthResetPasswordHandler::ROUTE_PARAM_CODE);
+        return $this->request()->route(AuthResetPasswordHandler::ROUTE_PARAM_CODE);
     }
 
     public function password(): string
     {
-        return $this->get('password');
+        return $this->request()->get('password');
     }
 
-    /**
-     * @return string[]
-     */
-    public function rules(): array
+    public function validate(): array
     {
-        return [
+        return $this->request()->validate([
             'password' => 'required|confirmed',
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
+        ], [
             'password' => trans('backoffice::auth.validation.reset-password.confirmation'),
-        ];
+        ]);
     }
 }

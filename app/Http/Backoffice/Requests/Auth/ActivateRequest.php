@@ -3,14 +3,14 @@
 namespace App\Http\Backoffice\Requests\Auth;
 
 use App\Http\Backoffice\Handlers\Auth\AuthActivateHandler;
-use App\Http\Backoffice\Requests\Request;
+use App\Http\Utils\BaseRequest;
 use Digbang\Security\Users\User;
 
-class ActivateRequest extends Request
+class ActivateRequest extends BaseRequest
 {
     public function findUser(): User
     {
-        $id = $this->route(AuthActivateHandler::ROUTE_PARAM_USER);
+        $id = $this->request()->route(AuthActivateHandler::ROUTE_PARAM_USER);
 
         /** @var User|null $user */
         $user = security()->users()->findById($id);
@@ -24,6 +24,6 @@ class ActivateRequest extends Request
 
     public function code(): string
     {
-        return $this->route(AuthActivateHandler::ROUTE_PARAM_CODE);
+        return $this->request()->route(AuthActivateHandler::ROUTE_PARAM_CODE);
     }
 }

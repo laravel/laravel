@@ -22,6 +22,8 @@ class AuthResendActivationHandler extends Handler
         ResendActivationRequest $request,
         SecurityApi $securityApi
     ): RedirectResponse {
+        $request->validate();
+
         $email = $request->email();
 
         /** @var User|null $user */

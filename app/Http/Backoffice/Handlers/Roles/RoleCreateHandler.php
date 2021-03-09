@@ -17,6 +17,8 @@ class RoleCreateHandler extends Handler
     public function __invoke(RoleCreateRequest $request): RedirectResponse
     {
         try {
+            $request->validate();
+
             $roles = security()->roles();
 
             /** @var \Digbang\Security\Roles\Role $role */
