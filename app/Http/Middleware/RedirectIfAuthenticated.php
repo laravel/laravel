@@ -11,6 +11,8 @@ class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
+     * User won't be able to see those requests which is under this middleware.
+     * (i.e. User do not need to see 'login page' again if they are authenticated)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
