@@ -4,7 +4,7 @@ namespace App\Http\Utils;
 
 use Illuminate\Http\Request;
 
-class BaseRequest
+abstract class BaseRequest
 {
     private Request $request;
 
