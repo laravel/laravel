@@ -78,7 +78,7 @@ export default {
 		},
 
 		async onSubmitSuccess(response) {
-			const { data: { redirect, response: resp } } = await response.json();
+			const { redirect, response: resp } = await response.json();
 
 			if (redirect) {
 				window.location = redirect;
@@ -99,7 +99,7 @@ export default {
 				throw new Error(`Unexpected response status: ${response.status}`);
 			}
 
-			const { data: { errors = {}, message } } = await response.json();
+			const { errors = {}, message } = await response.json();
 
 			this.$data.errorMessage = message;
 			this.$data.errors = errors;
