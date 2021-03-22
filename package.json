@@ -12,7 +12,6 @@
     "devDependencies": {
         "@braid/vue-formulate": "^2.4.3",
         "@fullhuman/postcss-purgecss": "^1.2.0",
-        "axios": "^0.19",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
