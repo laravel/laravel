@@ -1,7 +1,6 @@
 /* eslint-disable no-new */
 import Vue from 'vue';
 
-import './bootstrap';
 import './etc/forms';
 import lang from './etc/i18n';
 
