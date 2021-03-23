@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.14...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.15...8.x)
+
+
+## [v8.5.15 (2021-03-23)](https://github.com/laravel/laravel/compare/v8.5.14...v8.5.15)
+
+### Changed
+- Add prohibited validation rule ([#5569](https://github.com/laravel/laravel/pull/5569))
+- Re-order composer.json ([#5570](https://github.com/laravel/laravel/pull/5570))
 
 
 ## [v8.5.14 (2021-03-16)](https://github.com/laravel/laravel/compare/v8.5.13...v8.5.14)
