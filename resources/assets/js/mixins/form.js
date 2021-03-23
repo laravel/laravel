@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-
 export default {
 	props: {
 		action: {
@@ -20,11 +18,11 @@ export default {
 
 	data() {
 		return {
-			message: null,
+			errorMessage: null,
 			errors: {},
 			form: this.$props.values,
-			isSubmitting: false,
 			isError: false,
+			isSubmitting: false,
 			response: null,
 		};
 	},
@@ -33,23 +31,54 @@ export default {
 		cIsSubmitEnabled() {
 			return !this.$data.isSubmitting && !this.$data.response;
 		},
+
+		cCsrfToken() {
+			const token = document.head.querySelector('meta[name="csrf-token"]');
+
+			if (!token) {
+				console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+			}
+
+			return token.content;
+		},
 	},
 
 	methods: {
-		onSubmit() {
+		async onSubmit() {
 			if (this.$data.response) return;
 
 			this.$data.isSubmitting = true;
 
-			axios
-				.post(this.$props.action, this.$data.form)
-				.then(this.onSubmitSuccess)
-				.catch(this.onSubmitFailure)
-				.then(this.onSubmitAlways, this.onSubmitAlways);
+			const body = new FormData();
+
+
+			Object.keys(this.$data.form)
+				.forEach(key => body.append(key, this.$data.form[key]));
+
+			try {
+				const response = await fetch(this.$props.action, {
+					method: 'POST',
+					headers: {
+						'X-Requested-With': 'XMLHttpRequest',
+						'X-CSRF-TOKEN': this.cCsrfToken,
+					},
+					body,
+				});
+
+				if (!response.ok) {
+					throw response;
+				}
+
+				this.onSubmitSuccess(response);
+			} catch (error) {
+				this.onSubmitFailure(error);
+			} finally {
+				this.onSubmitAlways();
+			}
 		},
 
-		onSubmitSuccess(response) {
-			const redirect = get(response, 'data.redirect');
+		async onSubmitSuccess(response) {
+			const { redirect, response: resp } = await response.json();
 
 			if (redirect) {
 				window.location = redirect;
@@ -57,23 +86,23 @@ export default {
 				this.$data.isError = false;
 				this.$data.form = {};
 
-				const resp = get(response, 'data.response');
-
 				if (resp) {
 					this.$data.response = resp;
 				}
 			}
 		},
 
-		onSubmitFailure(error) {
+		async onSubmitFailure(response) {
 			this.$data.isError = true;
 
-			if (get(error, 'response.status') !== 422) {
-				return;
+			if (response.status !== 422) {
+				throw new Error(`Unexpected response status: ${response.status}`);
 			}
 
-			this.$data.errorMessage = get(error, 'response.data.message');
-			this.$data.errors = (get(error, 'response.data.errors') || {});
+			const { errors = {}, message } = await response.json();
+
+			this.$data.errorMessage = message;
+			this.$data.errors = errors;
 
 			this.scrollToError();
 		},
