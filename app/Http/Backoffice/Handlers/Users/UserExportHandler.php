@@ -76,7 +76,7 @@ class UserExportHandler extends Handler
 
         $sorting = $this->convertSorting($request->getSorting());
 
-        return $users->search($availableFilters, $sorting, null, 0);
+        return $users->search($availableFilters, $sorting, null, null);
     }
 
     /*

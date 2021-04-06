@@ -71,7 +71,7 @@ class RoleExportHandler extends Handler
         $filter = $request->getFilter()->values();
         $sorting = $this->convertSorting($request->getSorting());
 
-        return $roles->search($filter, $sorting, 10000, 0);
+        return $roles->search($filter, $sorting, null, null);
     }
 
     /*
