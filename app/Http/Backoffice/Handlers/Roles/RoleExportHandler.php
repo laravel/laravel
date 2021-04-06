@@ -83,17 +83,13 @@ class RoleExportHandler extends Handler
             RoleSorting::NAME => 'r.name',
         ];
 
-        $selectedSorts = $roleSorting->get(array_keys($sortings));
-        if (count($selectedSorts) === 0) {
-            $selectedSorts = [array_first(array_keys($sortings)) => 'ASC'];
+        $converted = [];
+        foreach ($roleSorting->getRaw() as $field => $sense) {
+            if (isset($sortings[$field])) {
+                $converted[$sortings[$field]] = $sense;
+            }
         }
 
-        $orderBy = [];
-        foreach ($selectedSorts as $key => $sense) {
-            $key = $sortings[$key];
-            $orderBy[$key] = $sense;
-        }
-
-        return $orderBy;
+        return $converted;
     }
 }
