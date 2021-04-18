@@ -17,6 +17,8 @@ class ProcessRequest implements ShouldQueue
 
     public $tries = 5;
 
+    public $backoff = 5;
+
 
     /**
      *
@@ -40,11 +42,11 @@ class ProcessRequest implements ShouldQueue
      */
     public function handle()
     {
-            $response = Http::post($this->url);
-            if ($response->failed()) {
-                \Log::info('Post to'. $this->url .' failed with status: ' . $response->status());
-                $response->throw();
-            }
-            \Log::info('Post to'. $this->url .' successfully with status: ' . $response->status());
+        $response = Http::post($this->url);
+        if ($response->failed()) {
+            \Log::error('Post to' . $this->url . ' failed with status: ' . $response->status());
+            $response->throw();
+        }
+        \Log::info('Post to' . $this->url . ' successfully with status: ' . $response->status());
     }
 }
