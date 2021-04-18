@@ -9,10 +9,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class ProcessRequest implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $tries = 5;
 
 
     /**
@@ -37,12 +40,11 @@ class ProcessRequest implements ShouldQueue
      */
     public function handle()
     {
-        $response = Http::post($this->url);
-        if ($response->failed()) {
-            \Log::error('Post to '. $this->url .' failed with status: ' . $response->status());
-            return -1;
-        }
-        \Log::info('Post to'. $this->url .' successfully with status: ' . $response->status());
-        return 0;
+            $response = Http::post($this->url);
+            if ($response->failed()) {
+                \Log::info('Post to'. $this->url .' failed with status: ' . $response->status());
+                $response->throw();
+            }
+            \Log::info('Post to'. $this->url .' successfully with status: ' . $response->status());
     }
 }

@@ -39,6 +39,6 @@ class PostCommand extends Command
      */
     public function handle()
     {
-        ProcessRequest::dispatch('https://atomic.incfile.com/fakepost')->onQueue('posts');
+        ProcessRequest::dispatch('https://atomic.incfile.com/fakepost')->de;
     }
 }
