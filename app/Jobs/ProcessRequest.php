@@ -39,9 +39,10 @@ class ProcessRequest implements ShouldQueue
     {
         $response = Http::post($this->url);
         if ($response->failed()) {
-            \Log::error("error");
-            $response->throw();
+            \Log::error('Post to '. $this->url .' failed with status: ' . $response->status());
+            return -1;
         }
-        return true;
+        \Log::info('Post to'. $this->url .' successfully with status: ' . $response->status());
+        return 0;
     }
 }

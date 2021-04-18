@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Jobs\ProcessRequest;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 
 class PostCommand extends Command
 {
@@ -38,6 +39,6 @@ class PostCommand extends Command
      */
     public function handle()
     {
-       ProcessRequest::dispatch('https://atomic.incfile.com/fakepost')->onQueue('posts');
+        ProcessRequest::dispatch('https://atomic.incfile.com/fakepost')->onQueue('posts');
     }
 }
