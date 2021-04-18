@@ -19,7 +19,6 @@ class ProcessRequest implements ShouldQueue
 
     public $backoff = 5;
 
-
     /**
      *
      */
