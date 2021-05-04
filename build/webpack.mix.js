@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const { compiled, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
@@ -23,18 +23,22 @@ if (mix.inProduction()) {
 }
 
 if (js.lint) {
-	// Load JavaScript linter support
-	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
+	mix.webpackConfig((webpack) => {
+		return {
+			plugins: [
+				new ESLintPlugin({
+					extensions: ['js', 'vue'],
+					overrideConfigFile: './build/.eslintrc',
+				}),
+			],
+		};
+	});
 }
 
 // Typical setup
 mix
-	.webpackConfig({
-		resolve: {
-			alias: {
-				'assets': __dirname + '/../resources/assets',
-			},
-		},
+	.alias({
+		'assets': __dirname + '/../resources/assets',
 	})
 	.options({
 		autoprefixer: {
@@ -59,7 +63,7 @@ css.files.forEach((filename) => {
 	mix.sass(src(`scss/${filename}`), compiled('temp'));
 	combined.push(`${paths.dest}/${compiled('temp')}/${filename.replace('scss', 'css')}`);
 });
-js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
+js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')).vue({ version: 2 }));
 
 mix.combine(combined, `${paths.dest}/${compiled('css')}/app.css`);
 
@@ -69,5 +73,5 @@ mix.combine(combined, `${paths.dest}/${compiled('css')}/app.css`);
 if (mix.inProduction()) {
 	mix.version();
 } else {
-	mix.sourceMaps(false, 'cheap-eval-source-map');
+	mix.sourceMaps(false, 'eval-cheap-source-map');
 }

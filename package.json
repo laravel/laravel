@@ -2,12 +2,12 @@
     "private": true,
     "scripts": {
         "dev": "yarn run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --env.mixfile=build/webpack.mix",
-        "watch": "yarn run development --watch",
-        "watch-poll": "yarn run watch --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js --env.mixfile=build/webpack.mix",
+        "development": "mix --mix-config=build/webpack.mix.js",
+        "watch": "yarn run dev watch",
+        "watch-poll": "yarn run dev watch -- --watch-options-poll=1000",
+        "hot": "yarn run dev watch --hot",
         "prod": "yarn run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --env.mixfile=build/webpack.mix"
+        "production": "mix --production --mix-config=build/webpack.mix.js"
     },
     "devDependencies": {
         "@braid/vue-formulate": "^2.4.3",
@@ -15,19 +15,21 @@
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
-        "eslint": "^5.16.0",
-        "eslint-config-airbnb-base": "^13.1.0",
-        "eslint-loader": "^2.1.2",
-        "eslint-plugin-import": "^2.17.2",
-        "eslint-plugin-vue": "^5.2.2",
-        "laravel-mix": "^5.0.1",
+        "eslint": "^7.25.0",
+        "eslint-config-airbnb-base": "^14.2.1",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-vue": "^7.9.0",
+        "eslint-webpack-plugin": "^2.5.4",
+        "laravel-mix": "^6.0.18",
         "lodash": "^4.17.13",
+        "postcss": "^8.1",
         "postcss-units": "^1.2.1",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
         "tailwindcss": "~1.7",
         "vue": "^2.6.11",
+        "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.11"
     }
 }
