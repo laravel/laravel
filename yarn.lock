@@ -4701,11 +4701,6 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-json-loader@^0.5.4:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
-  integrity sha512-QLPs8Dj7lnf3e3QYS1zkCo+4ZwqOiF9d/nZnYozTISxXWCfNs9yuky5rJw4/W34s7POaNlbZmQGaB5NiXCbP4w==
-
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -4782,19 +4777,6 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
-
-lang.js@^1.1.12:
-  version "1.1.14"
-  resolved "https://registry.yarnpkg.com/lang.js/-/lang.js-1.1.14.tgz#96329c064c18f8d5e1299d79d827a368af08c710"
-  integrity sha512-HsNKw3b7tYHwDQux3lQtbLGAntwJ5fl8Pl1BPXTKu+gdpaZsK9d787yFmLi6/LSXeNSgPO1CjZDKkrrPsERbSw==
-
-laravel-localization-loader@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/laravel-localization-loader/-/laravel-localization-loader-1.0.5.tgz#aef66e121ec0f92831ab6de3d7fb382f9c9b0593"
-  integrity sha512-2RtkFoVIWqhtCTQ+bwmiYgPhD9Z0pv3ShZMU20lE9W7KwSXE39dzLMsz+v35Uq2o6+3BwJ6Sy0KNzL4xJJMrHA==
-  dependencies:
-    json-loader "^0.5.4"
-    php-array-loader "^1.0.0"
 
 laravel-mix@^5.0.1:
   version "5.0.1"
@@ -6009,25 +5991,6 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-php-array-loader@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/php-array-loader/-/php-array-loader-1.0.1.tgz#78173cc8aadbda57b8491f5dffe144afb9eadd71"
-  integrity sha1-eBc8yKrb2le4SR9d/+FEr7nq3XE=
-  dependencies:
-    php-array-parser "^1.0.0"
-
-php-array-parser@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/php-array-parser/-/php-array-parser-1.0.1.tgz#9da12683c3bebbe228a7e238c716435437631eaa"
-  integrity sha512-elnanzvSd/+U2eWD9Hp2MIab6LzWlnp9J+sTrQasDoR6VsWMDa3fDYBS8pojvu3RwPbpgDUHUxV5WGhfJ1NewQ==
-  dependencies:
-    php-parser "^2.0.3"
-
-php-parser@^2.0.3:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-2.2.0.tgz#67384f0a5933dbbef40beab0ab31d0b8c582ff88"
-  integrity sha1-ZzhPClkz2770C+qwqzHQuMWC/4g=
 
 picomatch@^2.0.4, picomatch@^2.0.7:
   version "2.2.1"

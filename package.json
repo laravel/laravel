@@ -20,8 +20,6 @@
         "eslint-loader": "^2.1.2",
         "eslint-plugin-import": "^2.17.2",
         "eslint-plugin-vue": "^5.2.2",
-        "lang.js": "^1.1.12",
-        "laravel-localization-loader": "^1.0.5",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.13",
         "postcss-units": "^1.2.1",

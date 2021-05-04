@@ -22,9 +22,6 @@ if (mix.inProduction()) {
 	}));
 }
 
-// Load the multi-lingual support
-new ComponentFactory().install(require('./mix-modules/I18n'));
-
 if (js.lint) {
 	// Load JavaScript linter support
 	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
