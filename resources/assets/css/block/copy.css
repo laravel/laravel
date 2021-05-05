@@ -1,5 +1,5 @@
 .e-copy {
-	@apply max-w-copy;
+	@apply max-w-prose;
 
 	> * {
 		@apply mt-em;
@@ -9,28 +9,22 @@
 		}
 	}
 
-	h1 {
-		@extend .e-h1;
+	h2,
+	h3,
+	h4 {
+		@apply font-bold font-heading leading-none;
 	}
 
 	h2 {
-		@extend .e-h2;
+		@apply text-3xl md:text-4xl xl:text-5xl;
 	}
 
 	h3 {
-		@extend .e-h3;
+		@apply text-2xl md:text-3xl xl:text-4xl;
 	}
 
 	h4 {
-		@extend .e-h4;
-	}
-
-	h5 {
-		@extend .e-h5;
-	}
-
-	h6 {
-		@extend .e-h6;
+		@apply text-xl md:text-2xl xl:text-3xl;
 	}
 
 	ol,

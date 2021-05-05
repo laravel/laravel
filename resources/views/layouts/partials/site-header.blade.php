@@ -1,7 +1,5 @@
 <header>
-	<div class="e-container">
-		<h1>
-			<a href="{{ $links['home'] }}">Project name</a>
-		</h1>
-	</div>
+	<h1>
+		<a href="{{ $links['home'] }}">Project name</a>
+	</h1>
 </header>

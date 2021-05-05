@@ -1,0 +1,3 @@
+a {
+	@apply text-inherit cursor-pointer underline hover:no-underline;
+}

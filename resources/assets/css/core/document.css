@@ -1,0 +1,36 @@
+html {
+	@apply text-full;
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	@apply bg-white text-black font-body text-base leading-normal;
+}
+
+[v-cloak] {
+	@apply hidden;
+}
+
+[disabled] {
+	@apply opacity-25 shadow-none cursor-not-allowed select-none;
+}
+
+::selection {
+	@apply bg-black text-white;
+	text-shadow: none;
+}
+
+:focus {
+	@apply outline-none;
+}
+
+:focus,
+:focus-visible,
+:focus-visible ~ .e-focus-sibling {
+	@apply ring-2 ring-blue ring-offset-2 ring-opacity-75;
+}
+
+:focus:not(:focus-visible)
+:focus:not(:focus-visible) ~ .e-focus-sibling {
+	@apply ring-0;
+}

@@ -1,17 +1,16 @@
 {
     "private": true,
     "scripts": {
-        "dev": "yarn run development",
+        "dev": "TAILWIND_MODE=build yarn run development",
         "development": "mix --mix-config=build/webpack.mix.js",
-        "watch": "yarn run dev watch",
-        "watch-poll": "yarn run dev watch -- --watch-options-poll=1000",
-        "hot": "yarn run dev watch --hot",
+        "watch": "yarn run development watch",
+        "watch-poll": "yarn run development watch -- --watch-options-poll=1000",
+        "hot": "yarn run development watch --hot",
         "prod": "yarn run production",
         "production": "mix --production --mix-config=build/webpack.mix.js"
     },
     "devDependencies": {
         "@braid/vue-formulate": "^2.4.3",
-        "@fullhuman/postcss-purgecss": "^1.2.0",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
@@ -23,11 +22,10 @@
         "laravel-mix": "^6.0.18",
         "lodash": "^4.17.13",
         "postcss": "^8.1",
-        "postcss-units": "^1.2.1",
+        "postcss-import": "14.0.1",
+        "postcss-nested": "5.0.5",
         "resolve-url-loader": "^3.1.0",
-        "sass": "^1.15.2",
-        "sass-loader": "^8.0.0",
-        "tailwindcss": "~1.7",
+        "tailwindcss": "^2.1.2",
         "vue": "^2.6.11",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.11"

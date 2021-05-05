@@ -4,9 +4,7 @@
 	@include('layouts/partials/site-header')
 
 	<main id="site-content">
-		<div class="e-container">
-			@yield('content')
-		</div>
+		@yield('content')
 	</main>
 
 	@include('layouts/partials/site-footer')

@@ -1,16 +1,18 @@
-@tailwind base;
 
-@tailwind components;
-
-@import 'utility/functions';
-@import 'utility/mixins';
 @import 'utility/fonts';
+
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @import 'core/document';
 @import 'core/typography';
 @import 'core/anchor';
-@import 'core/input';
+@import 'core/animation';
 
 @import 'block/container';
 @import 'block/copy';
 @import 'block/placeholder';
+
+@import 'utility/print';

@@ -26,16 +26,7 @@
     },
     "css": {
       "files": [
-        "app-base.scss",
-        "app-utilities.scss"
-      ],
-      "autoprefixer": {
-        "cascade": false
-      },
-      "cleanCss": {},
-      "purgeCssWhitelist": [],
-      "purgeCssWhitelistPatterns": [
-        "^e-trans-"
+        "app.css"
       ]
     },
     "js": {

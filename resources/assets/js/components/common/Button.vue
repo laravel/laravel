@@ -5,7 +5,7 @@
 		:class="[
 			'relative',
 			'p-4',
-			'bg-brand-red text-white',
+			'bg-black text-white',
 			'font-body text-base font-normal leading-none',
 			'no-underline',
 		]"
