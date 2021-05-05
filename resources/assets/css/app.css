@@ -13,6 +13,5 @@
 
 @import 'block/container';
 @import 'block/copy';
-@import 'block/placeholder';
 
 @import 'utility/print';
