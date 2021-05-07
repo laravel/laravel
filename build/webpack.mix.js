@@ -29,6 +29,10 @@ mix
 		'assets': __dirname + '/../resources/assets',
 	})
 	.options({
+		fileLoaderDirs: {
+			fonts: `${paths.compiled}/fonts`,
+			images: `${paths.compiled}/img`,
+		},
 		processCssUrls: false,
 		postCss: postCssPlugins,
 		clearConsole: !(process.env.NO_CLI_FLUSH),
