@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  web:
+  nginx:
     image: nginx:1.19
     restart: unless-stopped
     volumes:
