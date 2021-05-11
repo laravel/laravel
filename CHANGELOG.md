@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.16...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.17...master)
+
+
+## [v8.5.17 (2021-05-11)](https://github.com/laravel/laravel/compare/v8.5.16...v8.5.17)
+
+### Security
+- Bump framework version to include SQL server security fix ([#5601](https://github.com/laravel/laravel/pull/5601))
 
 
 ## [v8.5.16 (2021-04-20)](https://github.com/laravel/laravel/compare/v8.5.15...v8.5.16)
