@@ -37,6 +37,10 @@ return [
             'driver' => 'apc',
         ],
 
+        'octane' => [
+            'driver' => 'octane',
+        ],
+
         'array' => [
             'driver' => 'array',
             'serialize' => false,
