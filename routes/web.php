@@ -19,3 +19,6 @@ Route::get('/', function () {
 Route::get('/admin/list/{$id}' ,function (int $id){
     return 'id 的值：'.$id;
 });
+Route::get('/admin/getOne/{$id}' ,function (int $id){
+    return 'id 的值：'.$id;
+});
