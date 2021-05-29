@@ -15,5 +15,6 @@ return [
 
     'previous' => '&laquo; Previous',
     'next' => 'Next &raquo;',
+    'footer' => 'Showing :firstItem to :lastItem of :total results',
 
 ];
