@@ -133,7 +133,7 @@ FILE_MIX_MANIFEST=public/mix-manifest.json
 if [ ! -f "$FILE_MIX_MANIFEST" ]; then
     echo -e "--> "$COLOUR_GREEN"Frontend initial setup"$COLOUR_RESET
     echo "Frontend assets not compiled --> Compiling frontend assets"
-    docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run development --display=errors-only --no-progress
+    docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run development --no-progress
     echo ""
 fi
 
