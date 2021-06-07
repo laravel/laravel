@@ -1,6 +1,3 @@
-const mapKeys = require('lodash/mapKeys');
-const mapValues = require('lodash/mapValues');
-const range = require('lodash/range');
 const { src } = require('./helpers');
 const variables = require('../resources/assets/variables.json');
 
@@ -10,12 +7,11 @@ const letterSpacing = value => `${value / 1000}em`;
 const ratio = (x, y) => `${y / x * 100}%`;
 
 // values
-const transitionTimingFunction = mapValues(variables.easing, val => `cubic-bezier(${val[0]}, ${val[1]}, ${val[2]}, ${val[3]})`);
-
-const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
-
-const c = variables.columns;
-const width = mapKeys(mapValues(range(0, c), (v) => ratio(c, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${c}`);
+const width = Object.fromEntries([...Array(variables.columns).keys()]
+	.map(v => [
+		`${v + 1}/${variables.columns}`,
+		`${(v + 1) / variables.columns * 100}%`
+	]));
 
 // tailwind settings
 module.exports = {
@@ -27,7 +23,9 @@ module.exports = {
 		],
 	},
 	theme: {
-		screens,
+		screens: Object.fromEntries(
+			Object.entries(variables.breakpoints).map(([name, px]) => [name, relative(px, 'em')])
+		),
 		colors: {
 			transparent: 'transparent',
 			current: 'currentColor',
@@ -108,7 +106,9 @@ module.exports = {
 				em: '1em',
 				'1/2em': '.5em',
 			},
-			transitionTimingFunction,
+			transitionTimingFunction: Object.fromEntries(
+				Object.entries(variables.easing).map(([name, v]) => [name, `cubic-bezier(${v.join(', ')})`])
+			),
 			width,
 			zIndex: {
 				'-1': -1,
