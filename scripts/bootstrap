@@ -25,7 +25,7 @@ OPT_DO_UPDATE=true
 for i in "$@"
 do
     case $i in
-        --no-update) 
+        --no-update)
             OPT_DO_UPDATE=false
             shift
         ;;
@@ -133,7 +133,7 @@ FILE_MIX_MANIFEST=public/mix-manifest.json
 if [ ! -f "$FILE_MIX_MANIFEST" ]; then
     echo -e "--> "$COLOUR_GREEN"Frontend initial setup"$COLOUR_RESET
     echo "Frontend assets not compiled --> Compiling frontend assets"
-    docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run development --no-progress
+    docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run dev --no-progress
     echo ""
 fi
 
