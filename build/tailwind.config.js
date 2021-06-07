@@ -6,13 +6,6 @@ const relative = (px, unit = 'rem', base = variables['browser-default-font-size'
 const letterSpacing = value => `${value / 1000}em`;
 const ratio = (x, y) => `${y / x * 100}%`;
 
-// values
-const width = Object.fromEntries([...Array(variables.columns).keys()]
-	.map(v => [
-		`${v + 1}/${variables.columns}`,
-		`${(v + 1) / variables.columns * 100}%`
-	]));
-
 // tailwind settings
 module.exports = {
 	mode: 'jit',
@@ -92,8 +85,8 @@ module.exports = {
 		},
 		extend: {
 			inset: (theme, { negative }) => ({
-				...width,
-				...(negative(width)),
+				...theme('width'),
+				...(negative(theme('width'))),
 			}),
 			maxWidth: {
 				container: relative(1440),
@@ -109,7 +102,10 @@ module.exports = {
 			transitionTimingFunction: Object.fromEntries(
 				Object.entries(variables.easing).map(([name, v]) => [name, `cubic-bezier(${v.join(', ')})`])
 			),
-			width,
+			width: Object.fromEntries([...Array(variables.columns).keys()].map(v => [
+				`${v + 1}/${variables.columns}`,
+				`${(v + 1) / variables.columns * 100}%`
+			])),
 			zIndex: {
 				'-1': -1,
 				1: 1,
