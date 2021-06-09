@@ -16,7 +16,7 @@
       "notify": false,
       "open": false,
       "port": 5757,
-      "proxy": "web:80",
+      "proxy": "nginx:80",
       "snippetOptions": {
         "rule": {
           "match": "</body>"
@@ -26,16 +26,7 @@
     },
     "css": {
       "files": [
-        "app-base.scss",
-        "app-utilities.scss"
-      ],
-      "autoprefixer": {
-        "cascade": false
-      },
-      "cleanCss": {},
-      "purgeCssWhitelist": [],
-      "purgeCssWhitelistPatterns": [
-        "^e-trans-"
+        "app.css"
       ]
     },
     "js": {

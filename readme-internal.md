@@ -67,3 +67,9 @@ Test runs the applications testing suite. It will run a php static analyser, fol
 ##### `scripts/console`
 **Usage:** `$ scripts/console [args]`
 Console runs the given arguments in the applications command line interface.
+
+## Editor settings
+
+### Tailwind CSS
+
+If you're using Visual Studio Code, there are some handy settings to implement for Tailwind CSS if you're using the [Tailwind CSS Intellisense extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss). These can be viewed on the [Tailwind CSS Intellisense GitHub repository](https://github.com/tailwindlabs/tailwindcss-intellisense#recommended-vs-code-settings).

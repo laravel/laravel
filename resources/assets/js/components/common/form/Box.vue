@@ -1,6 +1,6 @@
 <template>
 	<label
-		class="flex items-start relative"
+		class="inline-flex items-start relative cursor-pointer"
 		:disabled="$props.context.attributes.disabled"
 		:for="$props.context.id"
 	>
@@ -15,11 +15,11 @@
 		<div class="relative flex-shrink-0 w-8 h-8 mr-2">
 			&nbsp;
 
-			<placeholder class="pt-full absolute top-1/2 left-0 w-full transform -translate-y-1/2">
+			<div class="absolute top-1/2 left-0 w-full pt-full transform -translate-y-1/2">
 				<div
 					:class="[
-						'flex items-center justify-center border-1 border-grey-900',
-						'bg-grey-100',
+						'flex items-center justify-center absolute inset-0',
+						'bg-grey-100 border-1 border-grey-900',
 						{
 							'rounded-full': $props.context.type === 'radio',
 							'bg-grey-200': $props.context.hasValue,
@@ -34,11 +34,11 @@
 						name="check"
 					/>
 				</div>
-			</placeholder>
+			</div>
 		</div>
 
 		<span
-			class="self-center cursor-pointer"
+			class="self-center"
 			aria-hidden="true"
 			v-html="$props.context.label"
 		/>

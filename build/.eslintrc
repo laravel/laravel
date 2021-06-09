@@ -7,15 +7,12 @@
 		"vue"
 	],
 	"globals": {
-		"_": true,
-		"axios": true,
 		"document": true,
-		"trans": true,
 		"window": true
 	},
 	"rules": {
 		"func-names": "off",
-		"import/extensions": "never",
+		"import/extensions": "off",
 		"import/no-extraneous-dependencies": "off",
 		"import/no-unresolved": "off",
 		"indent": [

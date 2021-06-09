@@ -1,50 +1,34 @@
 const mix = require('laravel-mix');
-const ComponentFactory = require('laravel-mix/src/components/ComponentFactory');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const { compiled, src } = require('./helpers');
 const { config: { browserSync, css, js }, paths } = require('./config');
 
 const postCssPlugins = [
-	require('postcss-units')(),
+	require('postcss-import'),
 	require('tailwindcss')('./build/tailwind.config.js'),
+	require('postcss-nested'),
 ];
 
-if (mix.inProduction()) {
-	postCssPlugins.push(require('@fullhuman/postcss-purgecss')({
-		content: [
-			src('../views/**/*.blade.php'),
-			src('js/**/*.{js,vue}'),
-		],
-		// https://medium.com/@kyis/vue-tailwind-purgecss-the-right-way-c70d04461475
-		defaultExtractor: content => content.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [],
-		whitelist: css.purgeCssWhitelist,
-		whitelistPatterns: css.purgeCssWhitelistPatterns.map(element => new RegExp(element)),
-	}));
-}
-
-// Load the multi-lingual support
-new ComponentFactory().install(require('./mix-modules/I18n'));
-
 if (js.lint) {
-	// Load JavaScript linter support
-	new ComponentFactory().install(require('./mix-modules/ESLintLoader'));
+	mix.webpackConfig((webpack) => {
+		return {
+			plugins: [
+				new ESLintPlugin({
+					extensions: ['js', 'vue'],
+					overrideConfigFile: './build/.eslintrc',
+				}),
+			],
+		};
+	});
 }
 
 // Typical setup
 mix
-	.webpackConfig({
-		resolve: {
-			alias: {
-				'assets': __dirname + '/../resources/assets',
-			},
-		},
+	.alias({
+		'assets': __dirname + '/../resources/assets',
 	})
 	.options({
-		autoprefixer: {
-			options: css.autoprefixer,
-			enabled: true,
-		},
-		cleanCss: css.cleanCss,
 		fileLoaderDirs: {
 			fonts: `${paths.compiled}/fonts`,
 			images: `${paths.compiled}/img`,
@@ -56,15 +40,8 @@ mix
 	.browserSync(browserSync)
 	.setPublicPath(paths.dest);
 
-const combined = [];
-
-css.files.forEach((filename) => {
-	mix.sass(src(`scss/${filename}`), compiled('temp'));
-	combined.push(`${paths.dest}/${compiled('temp')}/${filename.replace('scss', 'css')}`);
-});
-js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')));
-
-mix.combine(combined, `${paths.dest}/${compiled('css')}/app.css`);
+css.files.forEach(filename => mix.postCss(src(`css/${filename}`), compiled('css')));
+js.files.forEach(filename => mix.js(src(`js/${filename}`), compiled('js')).vue({ version: 2 }));
 
 // Uncomment if you want to separate vendor files.
 // mix.extract(js.extract);
@@ -72,5 +49,5 @@ mix.combine(combined, `${paths.dest}/${compiled('css')}/app.css`);
 if (mix.inProduction()) {
 	mix.version();
 } else {
-	mix.sourceMaps(false, 'cheap-eval-source-map');
+	mix.sourceMaps(false, 'eval-cheap-source-map');
 }

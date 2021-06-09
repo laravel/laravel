@@ -1,5 +1,3 @@
 <footer>
-	<div class="e-container">
-		&copy; {{ date('Y') }}
-	</div>
+	&copy; {{ date('Y') }}
 </footer>

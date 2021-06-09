@@ -1,0 +1,3 @@
+.e-container {
+	@apply max-w-container mx-auto px-5 md:px-6 xl:px-8;
+}

@@ -37,7 +37,7 @@
 			<div class="grid grid-cols-2 gap-2 md:grid-cols-6 xl:grid-cols-8">
 				@foreach ($model['colours'] as $colour)
 					<div>
-						<div class="e-placeholder pt-full bg-{{ $colour }} border border-grey-300"></div>
+						<div class="pt-full bg-{{ $colour }} border border-grey-300"></div>
 
 						<div class="p-2 text-center truncate border-l border-r border-b border-grey-300">
 							{{ $colour }}

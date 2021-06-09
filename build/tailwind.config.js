@@ -1,6 +1,4 @@
-const mapKeys = require('lodash/mapKeys');
-const mapValues = require('lodash/mapValues');
-const range = require('lodash/range');
+const { src } = require('./helpers');
 const variables = require('../resources/assets/variables.json');
 
 // converters and calculators
@@ -8,43 +6,40 @@ const relative = (px, unit = 'rem', base = variables['browser-default-font-size'
 const letterSpacing = value => `${value / 1000}em`;
 const ratio = (x, y) => `${y / x * 100}%`;
 
-// values
-const easing = mapValues(variables.easing, val => `cubic-bezier(${val[0]}, ${val[1]}, ${val[2]}, ${val[3]})`);
-
-const screens = mapValues(variables.breakpoints, px => relative(px, 'em'));
-
-const c = variables.columns;
-const widths = mapKeys(mapValues(range(0, c), (v) => ratio(c, v + 1)), (v, k) => `${parseInt(k, 10) + 1}/${c}`);
-
 // tailwind settings
 module.exports = {
-	purge: false,
-	target: 'relaxed',
+	mode: 'jit',
+	purge: {
+		content: [
+			src('../views/**/*.blade.php'),
+			src('js/**/*.{js,vue}'),
+		],
+	},
 	theme: {
-		screens,
+		screens: Object.fromEntries(
+			Object.entries(variables.breakpoints).map(([name, px]) => [name, relative(px, 'em')])
+		),
 		colors: {
 			transparent: 'transparent',
 			current: 'currentColor',
 			inherit: 'inherit',
-			brand: {
-				red: '#ff585d'
-			},
 			black: '#000',
 			white: '#fff',
 			grey: {
-				100: '#fafafa',
-				200: '#eee',
-				300: '#ddd',
-				400: '#ddd',
-				500: '#aaa',
-				600: '#888',
-				700: '#444',
+				50: '#fafafa',
+				100: '#eee',
+				200: '#ddd',
+				300: '#ccc',
+				400: '#aaa',
+				500: '#888',
+				600: '#666',
+				700: '#333',
 				800: '#222',
 				900: '#111',
 			},
-			blue: '#00f',
-			green: '#24b35d',
-			red: '#f50023',
+			blue: '#3b82f6',
+			green: '#22c55e',
+			red: '#ef4444',
 			social: {
 				twitter: '#55acee',
 				facebook: '#3b5998',
@@ -53,72 +48,69 @@ module.exports = {
 				linkedin: '#007bb5',
 				instagram: '#8a3ab9',
 			},
+			focus: '#3b82f6',
 		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
 			heading: ['custom-heading', 'Georgia', 'serif'],
 			system: ['system-ui', 'sans-serif'],
 		},
-		fontSize: {
-			xs: relative(12),
-			sm: relative(14),
-			base: relative(16),
-			lg: relative(18),
-			xl: relative(20),
-			'2xl': relative(22),
-			'3xl': relative(26),
-			'4xl': relative(30),
-			'5xl': relative(36),
-			'6xl': relative(44),
+		fontSize: (theme) => ({
 			full: '100%',
-		},
-		fontWeight: {
-			normal: 400,
-			bold: 700,
-		},
+			xs: [relative(12), theme('lineHeight.normal')],
+			sm: [relative(14), theme('lineHeight.normal')],
+			base: [relative(16), theme('lineHeight.normal')],
+			lg: [relative(18), theme('lineHeight.normal')],
+			xl: [relative(20), theme('lineHeight.normal')],
+			'2xl': [relative(24), theme('lineHeight.snug')],
+			'3xl': [relative(30), theme('lineHeight.snug')],
+			'4xl': [relative(36), theme('lineHeight.tight')],
+			'5xl': [relative(48), theme('lineHeight.extra-tight')],
+			'6xl': [relative(60), theme('lineHeight.none')],
+			'7xl': [relative(72), theme('lineHeight.none')],
+			'8xl': [relative(96), theme('lineHeight.none')],
+			'9xl': [relative(128), theme('lineHeight.none')],
+		}),
 		letterSpacing: {
 			normal: 0,
 			wide: letterSpacing(50),
 		},
 		lineHeight: {
 			none: 1,
-			tight: 1.1,
-			snug: 1.2,
+			'extra-tight': 1.1,
+			tight: 1.25,
+			snug: 1.375,
 			normal: 1.5,
-			relaxed: 1.75,
+			relaxed: 1.625,
 			loose: 2,
 		},
-		transitionTimingFunction: easing,
 		extend: {
-			boxShadow: theme => ({
-				focus: `0 0 5px ${theme('colors.blue')}`
-			}),
 			inset: (theme, { negative }) => ({
-				'1/2': '50%',
-				...widths,
-				...(negative(widths)),
+				...theme('width'),
+				...(negative(theme('width'))),
 			}),
 			maxWidth: {
-				container: relative(1400),
-				copy: '35em',
+				container: relative(1440),
 			},
 			padding: {
 				full: '100%',
-				logo: ratio(300, 87),
 				'9/16': ratio(16, 9),
-				'3/4': ratio(4, 3),
-				'4/3': ratio(3, 4),
 			},
 			spacing: {
 				em: '1em',
 				'1/2em': '.5em',
 			},
-			width: {
-				...widths,
-			},
+			transitionTimingFunction: Object.fromEntries(
+				Object.entries(variables.easing).map(([name, v]) => [name, `cubic-bezier(${v.join(', ')})`])
+			),
+			width: Object.fromEntries([...Array(variables.columns).keys()].map(v => [
+				`${v + 1}/${variables.columns}`,
+				`${(v + 1) / variables.columns * 100}%`
+			])),
 			zIndex: {
 				'-1': -1,
 				1: 1,
+				2: 2,
 			},
 		},
 	},

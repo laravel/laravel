@@ -7,6 +7,10 @@ body {
 	@apply bg-white text-black font-body text-base leading-normal;
 }
 
+[v-cloak] {
+	@apply hidden;
+}
+
 [disabled] {
 	@apply opacity-25 shadow-none cursor-not-allowed select-none;
 }
@@ -16,30 +20,31 @@ body {
 	text-shadow: none;
 }
 
-[v-cloak] {
-	@apply hidden;
+*:focus,
+button:focus {
+	@apply outline-none;
 }
 
-:focus {
-	@apply shadow-focus outline-none;
-
+/* focus-visible split out (thanks Safari) */
+*:focus-visible {
+	&,
 	~ .e-focus-sibling {
-		@apply shadow-focus;
+		@apply ring-2 ring-focus;
 	}
+}
+
+*:focus {
+	&,
+	~ .e-focus-sibling {
+		/* should match above (thanks Safari) */
+		@apply ring-2 ring-focus;
+	}
+
 
 	&:not(:focus-visible) {
-		@apply shadow-none;
-
+		&,
 		~ .e-focus-sibling {
-			@apply shadow-none;
+			@apply ring-0;
 		}
-	}
-}
-
-:focus-visible {
-	@apply shadow-focus;
-
-	~ .e-focus-sibling {
-		@apply shadow-focus;
 	}
 }
