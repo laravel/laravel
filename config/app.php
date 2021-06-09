@@ -55,6 +55,8 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
+    
+    'mix_url' => env('MIX_ASSET_URL', null),    
 
     /*
     |--------------------------------------------------------------------------
