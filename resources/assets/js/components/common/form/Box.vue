@@ -1,6 +1,6 @@
 <template>
 	<label
-		class="flex items-start relative"
+		class="inline-flex items-start relative cursor-pointer"
 		:disabled="$props.context.attributes.disabled"
 		:for="$props.context.id"
 	>
@@ -38,7 +38,7 @@
 		</div>
 
 		<span
-			class="self-center cursor-pointer"
+			class="self-center"
 			aria-hidden="true"
 			v-html="$props.context.label"
 		/>
