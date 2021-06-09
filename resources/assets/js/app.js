@@ -7,6 +7,7 @@ import './etc/forms';
 import EButton from './components/common/Button';
 import Icon from './components/common/Icon';
 import Placeholder from './components/common/Placeholder';
+
 // Global
 Vue.component('EButton', EButton);
 Vue.component('Icon', Icon);

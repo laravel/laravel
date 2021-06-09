@@ -51,7 +51,6 @@ export default {
 
 			const body = new FormData();
 
-
 			Object.keys(this.$data.form)
 				.forEach(key => body.append(key, this.$data.form[key]));
 
