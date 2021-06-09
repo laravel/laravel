@@ -44,7 +44,7 @@ Vue.use(VueFormulate, {
 				case 'group':
 					return null;
 				default:
-					return 'block w-full p-4 py-3 text-black text-base font-body font-normal bg-white border border-grey-500 rounded-none placeholder-grey-500 bg-clip-padding focus:border-grey-900 ';
+					return 'block w-full p-4 py-3 text-black text-base font-body font-normal bg-white border-2 border-grey-500 rounded-none placeholder-grey-400 bg-clip-padding';
 			}
 		},
 		label: ({ classification }) => {

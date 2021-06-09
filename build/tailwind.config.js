@@ -48,6 +48,7 @@ module.exports = {
 				linkedin: '#007bb5',
 				instagram: '#8a3ab9',
 			},
+			focus: '#3b82f6',
 		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],

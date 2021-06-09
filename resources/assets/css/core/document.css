@@ -20,17 +20,31 @@ body {
 	text-shadow: none;
 }
 
-:focus {
+*:focus,
+button:focus {
 	@apply outline-none;
 }
 
-:focus,
-:focus-visible,
-:focus-visible ~ .e-focus-sibling {
-	@apply ring-2 ring-blue ring-offset-2 ring-opacity-75;
+/* focus-visible split out (thanks Safari) */
+*:focus-visible {
+	&,
+	~ .e-focus-sibling {
+		@apply ring-2 ring-focus;
+	}
 }
 
-:focus:not(:focus-visible)
-:focus:not(:focus-visible) ~ .e-focus-sibling {
-	@apply ring-0;
+*:focus {
+	&,
+	~ .e-focus-sibling {
+		/* should match above (thanks Safari) */
+		@apply ring-2 ring-focus;
+	}
+
+
+	&:not(:focus-visible) {
+		&,
+		~ .e-focus-sibling {
+			@apply ring-0;
+		}
+	}
 }
