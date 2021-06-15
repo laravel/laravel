@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.19...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.20...8.x)
+
+
+## [v8.5.20 (2021-06-15)](https://github.com/laravel/laravel/compare/v8.5.19...v8.5.20)
+
+### Changed
+- Add translation for current_password rule ([#5628](https://github.com/laravel/laravel/pull/5628))
 
 
 ## [v8.5.19 (2021-06-01)](https://github.com/laravel/laravel/compare/v8.5.18...v8.5.19)
