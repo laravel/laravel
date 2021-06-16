@@ -89,16 +89,16 @@ return [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-    
+
     /*
     |----------------------------------------------------------------------------
     | Batch Configuration
-    |---------------------------------------------------------------------------- 
-    | This option will allow us to change `job_batches` table name and DB connection 
-    | used for the same.
+    |----------------------------------------------------------------------------
+    | This option will allow us to change `job_batches` table name and DB connection
+    | used for for storing batches table.
     |
     */
-    'batching'=>[
+    'batching' => [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'job_batches'
     ]
