@@ -8,7 +8,7 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
-[*.{blade.php,css,js,vue}]
+[*.{blade.php,css,js,svg,vue}]
 indent_style = tab
 
 [*.md]
