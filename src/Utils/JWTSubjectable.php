@@ -2,7 +2,7 @@
 
 namespace ProjectName\Utils;
 
-trait JWTSubjectTrait
+trait JWTSubjectable
 {
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

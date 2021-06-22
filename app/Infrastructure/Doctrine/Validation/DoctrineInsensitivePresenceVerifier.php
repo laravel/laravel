@@ -2,12 +2,12 @@
 
 namespace App\Infrastructure\Doctrine\Validation;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Illuminate\Validation\PresenceVerifierInterface;
 
 class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
@@ -105,7 +105,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
     protected function getEntityManager(string $entity): ?ObjectManager
     {
         if (! is_null($this->connection)) {
-            /** @var ObjectManager $manager */
+            /** @var ObjectManager|null $manager */
             $manager = $this->registry->getManager($this->connection);
 
             return $manager;

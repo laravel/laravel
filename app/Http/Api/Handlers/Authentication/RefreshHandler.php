@@ -8,11 +8,10 @@ use App\Http\Kernel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
-use Tymon\JWTAuth\JWTAuth;
 
 class RefreshHandler extends Handler
 {
-    public function __invoke(JWTAuth $jwtAuth): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $token = $this->guard()->refresh();
         if ($token) {

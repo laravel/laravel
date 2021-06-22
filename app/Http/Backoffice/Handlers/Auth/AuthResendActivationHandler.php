@@ -47,9 +47,12 @@ class AuthResendActivationHandler extends Handler
             AuthActivateHandler::route($user->getUserId(), $activation->getCode())
         );
 
-        return redirect()->to(AuthLoginHandler::route())->with(
-            'success', trans('backoffice::auth.activation.email-sent')
-        );
+        return redirect()
+            ->to(AuthLoginHandler::route())
+            ->with(
+                'success',
+                trans('backoffice::auth.activation.email-sent')
+            );
     }
 
     public static function defineRoute(Router $router): void

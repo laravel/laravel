@@ -15,13 +15,9 @@ use Illuminate\Support\MessageBag;
 
 class AuthAuthenticateHandler extends Handler
 {
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
-     */
-    public function __invoke(
-        LoginRequest $request,
-        SecurityApi $securityApi
-    ) {
+    /** @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse */
+    public function __invoke(LoginRequest $request, SecurityApi $securityApi)
+    {
         $request->validate();
 
         try {
@@ -29,7 +25,8 @@ class AuthAuthenticateHandler extends Handler
 
             $authenticated = $securityApi->authenticate(
                 $credentials,
-                $request->request()->input('remember') ?? false);
+                $request->request()->input('remember') ?? false
+            );
 
             if ($authenticated) {
                 return redirect()->intended(

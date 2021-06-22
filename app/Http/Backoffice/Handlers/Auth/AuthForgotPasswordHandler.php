@@ -40,8 +40,11 @@ class AuthForgotPasswordHandler extends Handler
             AuthResetPasswordFormHandler::route($user->getUserId(), $reminder->getCode())
         );
 
-        return redirect()->to(AuthLoginHandler::route())
-            ->with('info', trans('backoffice::auth.reset-password.email-sent',
+        return redirect()
+            ->to(AuthLoginHandler::route())
+            ->with(
+                'info',
+                trans('backoffice::auth.reset-password.email-sent',
                 ['email' => $user->getEmail()]
             ));
     }

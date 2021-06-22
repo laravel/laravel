@@ -34,13 +34,20 @@ class AuthResetPasswordHandler extends Handler
 
             $securityApi->login($user);
 
-            return redirect()->to(DashboardHandler::route())->with(
-                'success', trans('backoffice::auth.reset-password.success', ['email' => $user->getEmail()])
-            );
+            return redirect()
+                ->to(DashboardHandler::route())
+                ->with(
+                    'success',
+                    trans('backoffice::auth.reset-password.success', ['email' => $user->getEmail()])
+                );
         }
 
-        return redirect()->to(AuthLoginHandler::route())
-            ->with('danger', trans('backoffice::auth.validation.reset-password.incorrect'));
+        return redirect()
+            ->to(AuthLoginHandler::route())
+            ->with(
+                'danger',
+                trans('backoffice::auth.validation.reset-password.incorrect')
+            );
     }
 
     public static function defineRoute(Router $router): void

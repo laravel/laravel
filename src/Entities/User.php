@@ -11,7 +11,7 @@ use LaravelDoctrine\ORM\Auth\Authenticatable;
 use ProjectName\Immutables\Name;
 use ProjectName\Payloads\UserPayload;
 use ProjectName\Payloads\UserUpdatePayload;
-use ProjectName\Utils\JWTSubjectTrait;
+use ProjectName\Utils\JWTSubjectable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContract
@@ -19,7 +19,7 @@ class User implements AuthenticatableContract, JWTSubject, CanResetPasswordContr
     use Timestamps;
     use SoftDeletes;
     use Authenticatable;
-    use JWTSubjectTrait;
+    use JWTSubjectable;
     use CanResetPassword;
 
     private ?int $id = null;

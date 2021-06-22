@@ -2,8 +2,8 @@
 
 namespace ProjectName\Repositories;
 
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\Persistence\ObjectRepository;
 
 interface ReadRepository extends ObjectRepository
 {
