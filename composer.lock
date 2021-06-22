@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6d72fbdfcf27389e82062479812b5b6",
+    "content-hash": "4f394b9037835b2bb8647cf42539646a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -625,21 +625,21 @@
         },
         {
             "name": "digbang/backoffice",
-            "version": "dev-master",
+            "version": "v8.1.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:digbang/backoffice.git",
-                "reference": "5c97ba20a78197124be91f34a86baa1cb5a7ed92"
+                "reference": "33992e8d8600c7bca699aea929fe8f162f33c9ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digbang/backoffice/zipball/5c97ba20a78197124be91f34a86baa1cb5a7ed92",
-                "reference": "5c97ba20a78197124be91f34a86baa1cb5a7ed92",
+                "url": "https://api.github.com/repos/digbang/backoffice/zipball/33992e8d8600c7bca699aea929fe8f162f33c9ec",
+                "reference": "33992e8d8600c7bca699aea929fe8f162f33c9ec",
                 "shasum": ""
             },
             "require": {
                 "digbang/fonts": "^0.3",
-                "digbang/security": "dev-master",
+                "digbang/security": "^5.5",
                 "digbang/utils": "^1.4",
                 "illuminate/config": "^7.0|^8.0",
                 "illuminate/database": "^7.0|^8.0",
@@ -661,7 +661,6 @@
                 "phpspec/phpspec": "^6.1",
                 "roave/security-advisories": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -682,9 +681,9 @@
             ],
             "description": "A set of libraries, helpers and templates for a backoffice (admin / panel) project.",
             "support": {
-                "source": "https://github.com/digbang/backoffice/tree/master"
+                "source": "https://github.com/digbang/backoffice/tree/v8.1.2"
             },
-            "time": "2021-06-22T13:14:39+00:00"
+            "time": "2021-06-22T14:19:33+00:00"
         },
         {
             "name": "digbang/doctrine-extensions",
@@ -846,16 +845,16 @@
         },
         {
             "name": "digbang/security",
-            "version": "dev-master",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digbang/security.git",
-                "reference": "f8c042a9035710e1b2adf831d85f26fb1ee3daa9"
+                "reference": "6e44214553dc82ae565ecfcf2c2e3bb38c930848"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digbang/security/zipball/f8c042a9035710e1b2adf831d85f26fb1ee3daa9",
-                "reference": "f8c042a9035710e1b2adf831d85f26fb1ee3daa9",
+                "url": "https://api.github.com/repos/digbang/security/zipball/6e44214553dc82ae565ecfcf2c2e3bb38c930848",
+                "reference": "6e44214553dc82ae565ecfcf2c2e3bb38c930848",
                 "shasum": ""
             },
             "require": {
@@ -875,7 +874,6 @@
                 "phpspec/phpspec": "^7.0",
                 "phpstan/phpstan": "^0.12"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -895,9 +893,9 @@
             "description": "Security package for Laravel projects in Digbang.",
             "support": {
                 "issues": "https://github.com/digbang/security/issues",
-                "source": "https://github.com/digbang/security/tree/master"
+                "source": "https://github.com/digbang/security/tree/v5.5.1"
             },
-            "time": "2021-06-22T13:13:46+00:00"
+            "time": "2021-06-22T13:26:25+00:00"
         },
         {
             "name": "digbang/utils",
@@ -3082,16 +3080,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.47.0",
+            "version": "v8.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "93db226946453f4285558b7c3166ddb6e7ea5400"
+                "reference": "014443366257e4fa34071882e2b04217274a3ec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/93db226946453f4285558b7c3166ddb6e7ea5400",
-                "reference": "93db226946453f4285558b7c3166ddb6e7ea5400",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/014443366257e4fa34071882e2b04217274a3ec9",
+                "reference": "014443366257e4fa34071882e2b04217274a3ec9",
                 "shasum": ""
             },
             "require": {
@@ -3170,7 +3168,7 @@
                 "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
                 "league/flysystem-cached-adapter": "^1.0",
                 "mockery/mockery": "^1.4.2",
-                "orchestra/testbench-core": "^6.8",
+                "orchestra/testbench-core": "^6.23",
                 "pda/pheanstalk": "^4.0",
                 "phpunit/phpunit": "^8.5.8|^9.3.3",
                 "predis/predis": "^1.1.2",
@@ -3246,7 +3244,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-06-15T14:00:32+00:00"
+            "time": "2021-06-22T13:41:32+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -14680,7 +14678,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "digbang/backoffice": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
