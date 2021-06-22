@@ -3,29 +3,24 @@
 namespace App\Http\Api\Handlers\Authentication;
 
 use App\Http\Api\Handlers\Handler;
+use App\Http\Api\Transformers\TokenTransformer;
 use App\Http\Kernel;
-use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
 use Tymon\JWTAuth\JWTAuth;
-use Tymon\JWTAuth\JWTGuard;
 
 class RefreshHandler extends Handler
 {
-    public function __invoke(AuthManager $auth, JWTAuth $jwtAuth): JsonResponse
+    public function __invoke(JWTAuth $jwtAuth): JsonResponse
     {
-        /** @var JWTGuard $guard */
-        $guard = $auth->guard(self::GUARD);
-
-        $token = $guard->refresh();
+        $token = $this->guard()->refresh();
         if ($token) {
+
+            $response = (new TokenTransformer())->transform($token, $this->tokenTTL());
+
             return responder()
-                ->success([
-                    'access_token' => $token,
-                    'token_type' => 'bearer',
-                    'expires_in' => $jwtAuth->factory()->getTTL() * 60,
-                ])
+                ->success($response)
                 ->respond();
         }
 

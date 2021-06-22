@@ -4,20 +4,15 @@ namespace App\Http\Api\Handlers\Authentication;
 
 use App\Http\Api\Handlers\Handler;
 use App\Http\Kernel;
-use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
-use Tymon\JWTAuth\JWTGuard;
 
 class LogoutHandler extends Handler
 {
-    public function __invoke(AuthManager $auth): JsonResponse
+    public function __invoke(): JsonResponse
     {
-        /** @var JWTGuard $guard */
-        $guard = $auth->guard(self::GUARD);
-
-        $guard->logout();
+        $this->guard()->logout();
 
         return responder()
             ->success()
