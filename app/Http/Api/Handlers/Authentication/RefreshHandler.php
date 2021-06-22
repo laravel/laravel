@@ -16,7 +16,6 @@ class RefreshHandler extends Handler
     {
         $token = $this->guard()->refresh();
         if ($token) {
-
             $response = (new TokenTransformer())->transform($token, $this->tokenTTL());
 
             return responder()
