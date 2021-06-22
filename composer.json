@@ -9,7 +9,7 @@
         "ext-json": "*",
         "beberlei/assert": "^2.6",
         "cakephp/chronos": "^2.0",
-        "digbang/backoffice": "dev-master",
+        "digbang/backoffice": "^8.1",
         "digbang/doctrine-extensions": "^3.0",
         "digbang/safe-queue": "^0.5",
         "digbang/utils": "^1.7",
