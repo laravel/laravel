@@ -10,7 +10,7 @@ proxies
 .env
 .env.backup
 .phpunit.result.cache
-.php_cs.cache
+.php-cs-fixer.cache
 /.phpstorm.meta.php
 /_ide_helper.php
 cghooks.lock
