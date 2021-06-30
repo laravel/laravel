@@ -43,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (config('app.debug')) {
             $this->app->register(\Arcanedev\LogViewer\LogViewerServiceProvider::class);
+            $this->app->register(\Arcanedev\LogViewer\Providers\DeferredServicesProvider::class);
             $this->app->register(\PrettyRoutes\ServiceProvider::class);
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }

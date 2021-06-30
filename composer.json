@@ -68,7 +68,10 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-              "sentry/sentry-laravel"
+                "arcanedev/log-viewer",
+                "barryvdh/laravel-ide-helper",
+                "garygreen/pretty-routes",
+                "sentry/sentry-laravel"
             ]
         },
         "hooks": {
