@@ -9,7 +9,6 @@ parameters:
         - resources
         - config
 
-    # The level 8 is the highest level
     level: 5
 
     ignoreErrors:
@@ -23,7 +22,10 @@ parameters:
         - storage/preloader.php
         - app/Exceptions/Traits/ConvertsExceptions.php
 
+    checkMissingClosureNativeReturnTypehintRule: true
     checkMissingIterableValueType: false
+    checkUninitializedProperties: true
     inferPrivatePropertyTypeFromConstructor: true
+
     parallel:
         processTimeout: 300.0
