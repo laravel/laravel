@@ -51,7 +51,7 @@ class UserEditFormHandler extends Handler
             /** @var ArrayCollection $roles */
             $roles = $user->getRoles();
 
-            $rolesSlugs = $roles->map(function (Role $role) {
+            $rolesSlugs = $roles->map(function (Role $role): string {
                 return $role->getRoleSlug();
             })->toArray();
 

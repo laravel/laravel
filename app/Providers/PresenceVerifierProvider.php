@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Infrastructure\Doctrine\Validation\DoctrineInsensitivePresenceVerifier;
+use Illuminate\Validation\PresenceVerifierInterface;
 use Illuminate\Validation\ValidationServiceProvider;
 
 class PresenceVerifierProvider extends ValidationServiceProvider
@@ -28,7 +29,7 @@ class PresenceVerifierProvider extends ValidationServiceProvider
      */
     protected function registerPresenceVerifier(): void
     {
-        $this->app->singleton('validation.presence', function ($app) {
+        $this->app->singleton('validation.presence', function ($app): PresenceVerifierInterface {
             return new DoctrineInsensitivePresenceVerifier($app['registry']);
         });
     }

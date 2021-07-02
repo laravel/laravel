@@ -24,7 +24,7 @@ class BroadcastServiceProvider extends ServiceProvider
          | used to check if an authenticated user can listen to the channel.
          |
          */
-        Broadcast::channel('App.User.{id}', function ($user, $id) {
+        Broadcast::channel('App.User.{id}', function ($user, $id): bool {
             return (int) $user->id === (int) $id;
         });
     }
