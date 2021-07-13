@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.21...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.22...8.x)
+
+
+## [v8.5.22 (2021-07-13)](https://github.com/laravel/laravel/compare/v8.5.21...v8.5.22)
+
+### Changed
+- Add RateLimiter facade alias ([#5642](https://github.com/laravel/laravel/pull/5642))
 
 
 ## [v8.5.21 (2021-07-06)](https://github.com/laravel/laravel/compare/v8.5.20...v8.5.21)
