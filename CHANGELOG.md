@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.20...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.22...master)
+
+
+## [v8.5.22 (2021-07-13)](https://github.com/laravel/laravel/compare/v8.5.21...v8.5.22)
+
+### Changed
+- Add RateLimiter facade alias ([#5642](https://github.com/laravel/laravel/pull/5642))
+
+
+## [v8.5.21 (2021-07-06)](https://github.com/laravel/laravel/compare/v8.5.20...v8.5.21)
+
+### Changed
+- Update validation language files ([#5637](https://github.com/laravel/laravel/pull/5637), [#5636](https://github.com/laravel/laravel/pull/5636))
 
 
 ## [v8.5.20 (2021-06-15)](https://github.com/laravel/laravel/compare/v8.5.19...v8.5.20)
