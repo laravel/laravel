@@ -3,6 +3,7 @@
 		:is="cElement"
 		v-bind="$props.context.attributes"
 		:class="[
+			'inline-block',
 			'relative',
 			'p-4',
 			'bg-black text-white',
