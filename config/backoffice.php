@@ -15,7 +15,7 @@ return [
                     'custom_table' => null,
                     'custom_mapping' => null,
                     'custom_repository' => Digbang\Backoffice\Repositories\DoctrineUserRepository::class,
-                    'password_ttl' => 30, //days
+                    'password_ttl' => null, //days
                 ],
                 'roles' => [
                     'enabled' => true,
