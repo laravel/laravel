@@ -6,6 +6,8 @@ use App\Http\Backoffice\Handlers\Handler;
 use App\Http\Backoffice\Requests\Auth\ActivateRequest;
 use App\Http\Kernel;
 use Digbang\Security\Contracts\SecurityApi;
+use Digbang\Security\Reminders\Reminder;
+use Digbang\Security\Users\User;
 use Illuminate\Config\Repository;
 use Illuminate\Routing\Router;
 
@@ -35,6 +37,11 @@ class AuthActivateHandler extends Handler
         if ($activations->exists($user, $code)) {
             $activations->complete($user, $code);
 
+            if ($user->hasExpiredPassword()) {
+                return redirect()->to($this->buildPasswordChangeUrl($securityApi, $user))
+                    ->with('success', trans('backoffice::auth.activation.success-with-reset'));
+            }
+
             return redirect()->to(AuthLoginHandler::route())
                 ->with('success', trans('backoffice::auth.activation.success'));
         }
@@ -60,5 +67,13 @@ class AuthActivateHandler extends Handler
             self::ROUTE_PARAM_USER => $userId,
             self::ROUTE_PARAM_CODE => $code,
         ]);
+    }
+
+    private function buildPasswordChangeUrl(SecurityApi $securityApi, User $user)
+    {
+        /** @var Reminder $reminder */
+        $reminder = $securityApi->reminders()->create($user);
+
+        return AuthResetPasswordFormHandler::route($user->getUserId(), $reminder->getCode());
     }
 }

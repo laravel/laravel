@@ -63,6 +63,7 @@ class AdminAddCommand extends Command
             'password' => $this->secret('Password: '),
             'firstName' => $this->ask('First Name: '),
             'lastName' => $this->ask('Last Name: '),
+            'forcePasswordChange' => $this->confirm('Force password change?', false),
         ]);
     }
 

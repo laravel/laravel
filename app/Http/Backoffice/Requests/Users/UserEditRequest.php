@@ -77,7 +77,7 @@ class UserEditRequest extends UserRequest
             self::FIELD_FIRST_NAME => 'max:255',
             self::FIELD_LAST_NAME => 'max:255',
             self::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address,' . $userId,
-            self::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username,' . $userId,
+            self::FIELD_USERNAME => 'required|alpha_num|max:255|unique:' . DefaultUser::class . ',username,' . $userId,
             self::FIELD_PASSWORD => 'nullable|confirmed|min:3',
             self::FIELD_ROLES => 'array',
             self::FIELD_PERMISSIONS => 'array',

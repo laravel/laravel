@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\BackofficeRedirectExpiredPassword;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -56,6 +57,7 @@ class Kernel extends HttpKernel
         self::BACKOFFICE => [
             self::WEB,
             'security:backoffice',
+            BackofficeRedirectExpiredPassword::class,
         ],
         self::BACKOFFICE_PUBLIC => [
             self::WEB,

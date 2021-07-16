@@ -37,6 +37,7 @@ class UserAddCommand extends Command
             'password' => $this->secret('Insert password: '),
             'firstName' => $this->ask('Insert First Name: '),
             'lastName' => $this->ask('Insert Last Name: '),
+            'forcePasswordChange' => $this->confirm('Force password change?', false),
         ]);
 
         $this->info('User created!');

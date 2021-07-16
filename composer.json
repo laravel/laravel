@@ -8,7 +8,7 @@
         "php": "^7.4",
         "ext-json": "*",
         "cakephp/chronos": "^2.0",
-        "digbang/backoffice": "^8.1",
+        "digbang/backoffice": "^8.2",
         "digbang/doctrine-extensions": "^3.0",
         "digbang/safe-queue": "^0.5",
         "digbang/utils": "^1.7",

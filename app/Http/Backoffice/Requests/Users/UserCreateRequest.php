@@ -13,6 +13,7 @@ class UserCreateRequest extends BaseRequest
     public const FIELD_USERNAME = 'username';
     public const FIELD_PASSWORD = 'password';
     public const FIELD_PASSWORD_CONFIRMATION = 'password_confirmation';
+    public const FIELD_PASSWORD_FORCE_CHANGE = 'forcePasswordChange';
     public const FIELD_ACTIVATED = 'activated';
     public const FIELD_ROLES = 'roles';
     public const FIELD_PERMISSIONS = 'permissions';
@@ -40,6 +41,11 @@ class UserCreateRequest extends BaseRequest
     public function password(): string
     {
         return $this->request()->get(self::FIELD_PASSWORD);
+    }
+
+    public function passwordForceChange(): bool
+    {
+        return true;
     }
 
     public function activated(): bool
@@ -74,7 +80,9 @@ class UserCreateRequest extends BaseRequest
             self::FIELD_ACTIVATED,
             self::FIELD_ROLES,
             self::FIELD_PERMISSIONS,
-        ]);
+        ]) + [
+            self::FIELD_PASSWORD_FORCE_CHANGE => $this->passwordForceChange(),
+        ];
     }
 
     public function validate(): array
@@ -83,7 +91,7 @@ class UserCreateRequest extends BaseRequest
             self::FIELD_FIRST_NAME => 'max:255',
             self::FIELD_LAST_NAME => 'max:255',
             self::FIELD_EMAIL => 'required|email|max:255|unique:' . DefaultUser::class . ',email.address',
-            self::FIELD_USERNAME => 'required|alpha|max:255|unique:' . DefaultUser::class . ',username',
+            self::FIELD_USERNAME => 'required|alpha_num|max:255|unique:' . DefaultUser::class . ',username',
             self::FIELD_PASSWORD => 'required|confirmed|min:3',
             self::FIELD_ACTIVATED => 'boolean',
             self::FIELD_ROLES => 'array',

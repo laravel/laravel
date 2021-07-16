@@ -12,7 +12,7 @@ class AuthResetPasswordFormHandler extends Handler
 {
     public const ROUTE_PARAM_USER = 'user_id';
     public const ROUTE_PARAM_CODE = 'code';
-    protected const ROUTE_NAME = 'backoffice.auth.password.reset';
+    public const ROUTE_NAME = 'backoffice.auth.password.reset';
 
     /**
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
