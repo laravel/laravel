@@ -15,5 +15,5 @@ return [
 
     'failed' => 'Las credenciales no coinciden con nuestros registros.',
     'throttle' => 'Demasiados intentos de login. Por favor, intente nuevamente en :seconds segundos.',
-
+    'expired' => 'El token de autenticación expiró.',
 ];

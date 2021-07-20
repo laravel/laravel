@@ -2,11 +2,11 @@
 
 namespace App\Http\Api\Handlers\Authentication;
 
+use App\Exceptions\UnauthenticatedException;
 use App\Http\Api\Handlers\Handler;
 use App\Http\Api\Transformers\TokenTransformer;
 use App\Http\Kernel;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Router;
 
 class RefreshHandler extends Handler
@@ -14,17 +14,16 @@ class RefreshHandler extends Handler
     public function __invoke(): JsonResponse
     {
         $token = $this->guard()->refresh();
-        if ($token) {
-            $response = (new TokenTransformer())->transform($token, $this->tokenTTL());
 
-            return responder()
-                ->success($response)
-                ->respond();
+        if (! $token) {
+            throw new UnauthenticatedException(trans('auth.expired'));
         }
 
+        $response = (new TokenTransformer())->transform($token, $this->tokenTTL());
+
         return responder()
-            ->error(Response::HTTP_UNAUTHORIZED, trans('errors.unauthenticated'))
-            ->respond(Response::HTTP_UNAUTHORIZED);
+            ->success($response)
+            ->respond();
     }
 
     public static function defineRoute(Router $router): void

@@ -7,10 +7,10 @@ use Flugg\Responder\Exceptions\Http\UnauthenticatedException as UnauthenticatedE
 class UnauthenticatedException extends UnauthenticatedExceptionBase
 {
     /** @var string|null */
-    protected $errorCode = 'HTTP_UNAUTHORIZED';
+    protected $errorCode = 'HTTP_UNAUTHENTICATED';
 
-    public function __construct()
+    public function __construct(string $message = null, array $headers = null)
     {
-        parent::__construct(trans('errors.unauthenticated'));
+        parent::__construct($message ?? trans('errors.unauthenticated'), $headers);
     }
 }
