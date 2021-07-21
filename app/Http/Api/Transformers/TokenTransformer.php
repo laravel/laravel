@@ -9,9 +9,9 @@ class TokenTransformer extends Transformer
     public function transform(string $token, int $ttl): array
     {
         return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $ttl,
+            'accessToken' => $token,
+            'tokenType' => 'bearer',
+            'expiresIn' => $ttl,
         ];
     }
 }
