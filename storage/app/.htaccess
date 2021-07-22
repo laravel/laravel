@@ -1,0 +1,4 @@
+<FilesMatch "\.(?:inc|php|js|jsx|swf)$">
+Order allow,deny
+Deny from all
+</FilesMatch>
