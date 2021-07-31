@@ -113,8 +113,8 @@ return [
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
+    | This key is used by the Illuminate encrypter service and must be set to
+    | a random 32 bytes base64 encoded string, otherwise encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
     */
