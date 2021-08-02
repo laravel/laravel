@@ -23,10 +23,10 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Fruitcake\Cors\HandleCors::class,
+        \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\LocaleMiddleware::class,
         \App\Http\Middleware\SentryContext::class,
