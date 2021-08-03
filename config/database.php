@@ -90,7 +90,31 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
+        'mysql_local' => [
+            'driver' => 'mysql',
+            'timezone'  => '-5:00',
+            'url' => env('DATABASE_URL'),
+            'read' =>array(
+                'host' => env('DB_HOST_READ_L', '127.0.0.1'),
+            ),
+            'write' =>array(
+                'host' => env('DB_HOST_WRITE_L', '127.0.0.1'),
+            ),
+            'port' => env('DB_PORT_L', '3306'),
+            'database' => env('DB_DATABASE_L', 'forge'),
+            'username' => env('DB_USERNAME_L', 'forge'),
+            'password' => env('DB_PASSWORD_L', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
     ],
 
     /*

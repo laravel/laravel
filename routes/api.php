@@ -13,7 +13,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+// in a routes file
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::post('/submit-form', function () {
+//    //
+//})->middleware(\Spatie\HttpLogger\Middlewares\HttpLogger::class);
+
+
+Route::group(['prefix'=>'v1'], function () {
+    Route::get('status','App\Http\Controllers\Controller@status');
 });
+
