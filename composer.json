@@ -6,8 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "fideloper/proxy": "^4.4.1",
-        "fruitcake/laravel-cors": "^2.0.3",
+        "fideloper/proxy": "dev-master",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.5|dev-develop"
@@ -16,7 +15,6 @@
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.2",
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
