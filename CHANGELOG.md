@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.23...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.24...8.x)
+
+
+## [v8.5.24 (2021-08-10)](https://github.com/laravel/laravel/compare/v8.5.23...v8.5.24)
+
+### Changed
+- Use new `TrustProxies` middleware ([#5662](https://github.com/laravel/laravel/pull/5662))
 
 
 ## [v8.5.23 (2021-08-03)](https://github.com/laravel/laravel/compare/v8.5.22...v8.5.23)
