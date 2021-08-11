@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use Illuminate\Validation\PresenceVerifierInterface;
+use Illuminate\Validation\DatabasePresenceVerifierInterface;
 
-class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
+class DoctrineInsensitivePresenceVerifier implements DatabasePresenceVerifierInterface
 {
     protected ManagerRegistry $registry;
 
@@ -78,7 +78,7 @@ class DoctrineInsensitivePresenceVerifier implements PresenceVerifierInterface
     /**
      * Set the connection to be used.
      */
-    public function setConnection(string $connection): void
+    public function setConnection($connection): void
     {
         $this->connection = $connection;
     }
