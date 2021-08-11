@@ -56,5 +56,5 @@
           with:
             app-name: 'safecoms'
             slot-name: 'production'
-            publish-profile: ${{ secrets.AzureAppService_PublishProfile_713226f27a6c4eb59a27b83fca2968ff }}
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_204a24178da84491b71d5d09e4836b39 }}
             package: .
