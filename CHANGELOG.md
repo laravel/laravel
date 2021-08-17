@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.5.24...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.0...8.x)
+
+
+## [v8.6.0 (2021-08-17)](https://github.com/laravel/laravel/compare/v8.5.24...v8.6.0)
+
+### Added
+- Sanctum ([#5663](https://github.com/laravel/laravel/pull/5663))
 
 
 ## [v8.5.24 (2021-08-10)](https://github.com/laravel/laravel/compare/v8.5.23...v8.5.24)
