@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.0...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.1...master)
+
+
+## [v8.6.1 (2021-08-24)](https://github.com/laravel/laravel/compare/v8.6.0...v8.6.1)
+
+### Changed
+- Add failover driver to default mail config file ([#5672](https://github.com/laravel/laravel/pull/5672))
 
 
 ## [v8.6.0 (2021-08-17)](https://github.com/laravel/laravel/compare/v8.5.24...v8.6.0)
