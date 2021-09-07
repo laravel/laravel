@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.1...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.2...8.x)
+
+
+## [v8.6.2 (2021-09-07)](https://github.com/laravel/laravel/compare/v8.6.1...v8.6.2)
+
+### Changed
+- Dark mode auth links contrast ([#5678](https://github.com/laravel/laravel/pull/5678))
+- Added prohibits validation message ([#5681](https://github.com/laravel/laravel/pull/5681))
 
 
 ## [v8.6.1 (2021-08-24)](https://github.com/laravel/laravel/compare/v8.6.0...v8.6.1)
