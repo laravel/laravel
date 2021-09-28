@@ -39,16 +39,17 @@ services:
   s3:
     container_name: project-name_s3_1
     image: minio/minio
+    command: server --console-address ":9001" /data
     ports:
       - "9000:9000"
+      - "9001:9001"
     environment:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: 12345678
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: 12345678
     volumes:
       - s3:/data
     networks:
-     - appnet
-    command: server /data
+      - appnet
     # See README.md
 networks:
   appnet:
