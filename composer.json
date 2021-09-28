@@ -23,12 +23,12 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
+            "Database\\Factories\\": "database/factories/",
             "Tests\\": "tests/"
         }
     },
