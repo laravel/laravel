@@ -44,9 +44,11 @@ class AuthForgotPasswordHandler extends Handler
             ->to(AuthLoginHandler::route())
             ->with(
                 'info',
-                trans('backoffice::auth.reset-password.email-sent',
-                ['email' => $user->getEmail()]
-            ));
+                trans(
+                    'backoffice::auth.reset-password.email-sent',
+                    ['email' => $user->getEmail()]
+                )
+            );
     }
 
     public static function defineRoute(Router $router): void

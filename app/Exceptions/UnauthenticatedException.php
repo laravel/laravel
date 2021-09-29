@@ -11,9 +11,6 @@ class UnauthenticatedException extends UnauthenticatedExceptionBase
 
     /**
      * Construct the exception class.
-     *
-     * @param string|null $message
-     * @param array|null  $headers
      */
     public function __construct(string $message = null, array $headers = null)
     {
