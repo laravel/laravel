@@ -39,7 +39,7 @@ services:
   s3:
     container_name: project-name_s3_1
     image: minio/minio
-    command: server --console-address ":9001" /data
+    command: server --address ":9000" --console-address ":9001" /data
     ports:
       - "9000:9000"
       - "9001:9001"
