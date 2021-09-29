@@ -42,6 +42,17 @@ class Handler extends ExceptionHandler
         EntityNotFoundException::class,
     ];
 
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
+
     public function report(Throwable $exception)
     {
         $this->sentryReport($exception);
