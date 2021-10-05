@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.2...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.3...master)
+
+
+## [v8.6.3 (2021-10-05)](https://github.com/laravel/laravel/compare/v8.6.2...v8.6.3)
+
+### Changed
+- Add failover in supported mail configurations comment section ([#5692](https://github.com/laravel/laravel/pull/5692))
+- Keeping access tokens migration id consistent ([#5691](https://github.com/laravel/laravel/pull/5691))
+- Ensures downloaded version of Collision supports PHP 8.1 ([#5697](https://github.com/laravel/laravel/pull/5697))
+
+### Fixed
+- Update lte and gte validation messages to have a grammatically parallel structure ([#5699](https://github.com/laravel/laravel/pull/5699))
 
 
 ## [v8.6.2 (2021-09-07)](https://github.com/laravel/laravel/compare/v8.6.1...v8.6.2)
