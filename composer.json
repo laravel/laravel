@@ -9,8 +9,7 @@
         "fruitcake/laravel-cors": "dev-develop",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^9.0",
-        "laravel/sanctum": "^2.11|dev-develop",
-        "laravel/tinker": "^2.5|dev-develop"
+        "laravel/sanctum": "^2.11|dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
