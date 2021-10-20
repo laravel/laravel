@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.3...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.4...8.x)
+
+
+## [v8.6.4 (2021-10-20)](https://github.com/laravel/laravel/compare/v8.6.3...v8.6.4)
+
+### Changed
+- Log deprecations instead of treating them as exceptions ([#5711](https://github.com/laravel/laravel/pull/5711))
 
 
 ## [v8.6.3 (2021-10-05)](https://github.com/laravel/laravel/compare/v8.6.2...v8.6.3)
