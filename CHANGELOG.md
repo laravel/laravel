@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.4...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.5...8.x)
+
+
+## [v8.6.5 (2021-10-26)](https://github.com/laravel/laravel/compare/v8.6.4...v8.6.5)
+
+### Changed
+- Guess database factory model by default ([#5713](https://github.com/laravel/laravel/pull/5713))
 
 
 ## [v8.6.4 (2021-10-20)](https://github.com/laravel/laravel/compare/v8.6.3...v8.6.4)
