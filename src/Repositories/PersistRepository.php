@@ -16,7 +16,7 @@ interface PersistRepository
      */
     public function flush(?object $entity = null, bool $evictCache = false): void;
 
-    public function clear(?object $entity = null): void;
+    public function clear(): void;
 
     /**
      * @throws \Throwable

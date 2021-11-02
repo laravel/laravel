@@ -10,6 +10,7 @@ class ActivateRequest extends BaseRequest
 {
     public function findUser(): User
     {
+        /** @var int $id */
         $id = $this->request()->route(AuthActivateHandler::ROUTE_PARAM_USER);
 
         /** @var User|null $user */

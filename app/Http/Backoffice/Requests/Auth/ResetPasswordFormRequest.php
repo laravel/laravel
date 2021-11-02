@@ -10,6 +10,7 @@ class ResetPasswordFormRequest extends BaseRequest
 {
     public function findUser(): UserInterface
     {
+        /** @var int $id */
         $id = $this->request()->route(AuthResetPasswordFormHandler::ROUTE_PARAM_USER);
 
         $user = security()->users()->findById($id);

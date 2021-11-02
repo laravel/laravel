@@ -22,7 +22,6 @@ parameters:
         - storage/preloader.php
         - app/Exceptions/Traits/ConvertsExceptions.php
 
-    checkMissingClosureNativeReturnTypehintRule: true
     checkMissingIterableValueType: false
     checkUninitializedProperties: true
     inferPrivatePropertyTypeFromConstructor: true

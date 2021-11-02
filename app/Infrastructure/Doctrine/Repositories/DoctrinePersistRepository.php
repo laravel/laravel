@@ -41,9 +41,9 @@ class DoctrinePersistRepository implements PersistRepository
         }
     }
 
-    public function clear(?object $entity = null): void
+    public function clear(): void
     {
-        $this->entityManager->clear($entity);
+        $this->entityManager->clear();
     }
 
     /**

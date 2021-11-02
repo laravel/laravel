@@ -20,6 +20,8 @@ class Handler extends ExceptionHandler
 
     /**
      * A list of default exception types that should not be converted.
+     *
+     * @var string[]
      */
     protected array $dontConvert = [
         ModelNotFoundException::class,
@@ -28,7 +30,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var string[]
      */
     protected $dontReport = [
         AuthenticationException::class,
@@ -40,17 +42,6 @@ class Handler extends ExceptionHandler
         TokenMismatchException::class,
         ValidationException::class,
         EntityNotFoundException::class,
-    ];
-
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array
-     */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
     ];
 
     public function report(Throwable $exception)

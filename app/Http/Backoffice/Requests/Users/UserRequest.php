@@ -11,6 +11,7 @@ class UserRequest extends BaseRequest
 
     public function findUser(): UserInterface
     {
+        /** @var int $id */
         $id = $this->request()->route(self::ROUTE_PARAM_ID);
 
         $user = security()->users()->findById($id);
