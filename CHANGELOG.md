@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.5...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.6...8.x)
+
+
+## [v8.6.6 (2021-11-09)](https://github.com/laravel/laravel/compare/v8.6.5...v8.6.6)
+
+### Changed
+- Remove redundant `tap()` helper in `index.php` ([#5719](https://github.com/laravel/laravel/pull/5719))
+- Add `Js` facade ([399d435](https://github.com/laravel/laravel/commit/399d435c4f0b41a5b6d3e14894195f9196d36bb8))
 
 
 ## [v8.6.5 (2021-10-26)](https://github.com/laravel/laravel/compare/v8.6.4...v8.6.5)
