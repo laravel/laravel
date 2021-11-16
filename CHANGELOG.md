@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.6...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.7...8.x)
+
+
+## [v8.6.7 (2021-11-16)](https://github.com/laravel/laravel/compare/v8.6.6...v8.6.7)
+
+### Changed
+- Added `declined` and `declined_if` validation rules ([#5723](https://github.com/laravel/laravel/pull/5723))
+- Should be identical with current sanctum config file ([#5725](https://github.com/laravel/laravel/pull/5725))
 
 
 ## [v8.6.6 (2021-11-09)](https://github.com/laravel/laravel/compare/v8.6.5...v8.6.6)
