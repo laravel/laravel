@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.7...master)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.8...master)
+
+
+## [v8.6.8 (2021-11-23)](https://github.com/laravel/laravel/compare/v8.6.7...v8.6.8)
+
+### Changed
+- Order validation rules alphabetically ([#5728](https://github.com/laravel/laravel/pull/5728))
+- Removes the Console\Kernel::$commands property ([#5727](https://github.com/laravel/laravel/pull/5727))
 
 
 ## [v8.6.7 (2021-11-16)](https://github.com/laravel/laravel/compare/v8.6.6...v8.6.7)
