@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 
-use app\Models\User;
 
-class Controller extends BaseController
+class UserAPIController extends Controller
 {
     public function getAllUsers() {
-        $users = User::get()->toJson();
+        $users = User::all();
         return response($users, 200);
     }
-    })
+
+    public function createUser(Request $request) {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required'
+        ]);
+
+    }
 }
