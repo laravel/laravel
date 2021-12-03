@@ -9,7 +9,7 @@ class TrimStrings extends Middleware
     /**
      * The names of the attributes that should not be trimmed.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $except = [
         'current_password',
