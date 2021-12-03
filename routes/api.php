@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/users', [UserAPIController::class, 'getAllUsers']);
+Route::post('/users/create', [UserAPIController::class, 'createUser']);
