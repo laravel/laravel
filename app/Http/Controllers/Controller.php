@@ -20,6 +20,8 @@ class UserAPIController extends Controller
             'last_name' => 'required',
             'email' => 'required'
         ]);
+        $user = User::create($request->all());
 
+        return response($user, 201);
     }
 }
