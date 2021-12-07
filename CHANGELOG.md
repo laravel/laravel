@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.8...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.9...8.x)
+
+
+## [v8.6.9 (2021-12-07)](https://github.com/laravel/laravel/compare/v8.6.8...v8.6.9)
+
+### Changed
+- Improves generic types on the skeleton ([#5740](https://github.com/laravel/laravel/pull/5740))
+- Add option to set sendmail path ([#5741](https://github.com/laravel/laravel/pull/5741))
+
+### Fixed
+- Fix asset publishing if they were already published ([#5734](https://github.com/laravel/laravel/pull/5734))
 
 
 ## [v8.6.8 (2021-11-23)](https://github.com/laravel/laravel/compare/v8.6.7...v8.6.8)
