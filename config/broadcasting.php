@@ -40,8 +40,7 @@ return [
                 'useTLS' => true,
             ],
             'client_options' => [
-                // Pass custom Guzzle options: https://docs.guzzlephp.org/en/stable/request-options.html
-                // 'verify' => true,
+                // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
 
