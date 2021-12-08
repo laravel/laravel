@@ -39,6 +39,10 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
             ],
+            'client_options' => [
+                // Pass custom Guzzle options: https://docs.guzzlephp.org/en/stable/request-options.html
+                // 'verify' => true,
+            ],
         ],
 
         'ably' => [
