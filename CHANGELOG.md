@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.9...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.10...8.x)
+
+
+## [v8.6.10 (2021-12-22)](https://github.com/laravel/laravel/compare/v8.6.9...v8.6.10)
+
+### Changed
+- Bump Laravel to v8.75 ([#5750](https://github.com/laravel/laravel/pull/5750))
+- Simplify the maintenance file call ([#5752](https://github.com/laravel/laravel/pull/5752))
+- Add enum translation ([#5753](https://github.com/laravel/laravel/pull/5753))
+- Add mac_address validation message ([#5754](https://github.com/laravel/laravel/pull/5754))
+
+### Removed
+- Delete web.config ([#5744](https://github.com/laravel/laravel/pull/5744))
 
 
 ## [v8.6.9 (2021-12-07)](https://github.com/laravel/laravel/compare/v8.6.8...v8.6.9)
