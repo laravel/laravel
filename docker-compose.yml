@@ -1,0 +1,59 @@
+
+version: "3.0"
+
+services:
+  webserver:
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    container_name: laravel_nginx
+    volumes:
+      - ./:/var/www/html
+      - .docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - .docker/data/logs/nginx:/var/log/nginx
+    ports:
+      - 8080:80
+    depends_on: 
+      - mysql
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: .docker/php-fpm/Dockerfile
+    container_name: laravel_php-fpm
+    volumes:
+      - ./:/var/www/html
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_mysql
+    volumes:
+      - .docker/data/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_ROOT_PASSWORD: root
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root  
+  
+      
+  workspace:
+    build:
+      context: .
+      dockerfile: .docker/workspace/Dockerfile
+    container_name: laravel_workspace
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    tty: true
+
