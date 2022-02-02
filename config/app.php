@@ -179,11 +179,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Local-only autoloaded Service Providers
+    | Local-only Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
     | The service providers listed here will be only loaded on the
-    | request when your application i running in local environment.
+    | request when your application is running in local environment.
     |
     */
 
