@@ -179,6 +179,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Local-only autoloaded Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | The service providers listed here will be only loaded on the
+    | request when your application i running in local environment.
+    |
+    */
+
+    'local_providers' => [
+
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
     | Class Aliases
     |--------------------------------------------------------------------------
     |
