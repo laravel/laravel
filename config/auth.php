@@ -80,7 +80,7 @@ return [
     | than one user table or model in the application and you want to have
     | separate password reset settings based on the specific user types.
     |
-    | The expire time is the number of minutes that the reset token should be
+    | The expire time is the number of minutes that each reset token will be
     | considered valid. This security feature keeps tokens short-lived so
     | they have less time to be guessed. You may change this as needed.
     |
