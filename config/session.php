@@ -57,11 +57,11 @@ return [
     | data will get serialized into a string for storage. Typically, JSON
     | serialization will be fine unless PHP objects are in the session.
     |
-    | Supported: "json", "php"
+    | Supported: "php", "json"
     |
     */
 
-    'serialization' => 'json',
+    'serialization' => 'php',
 
     /*
     |--------------------------------------------------------------------------
