@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if(!$request->expectsJson()){
+        if (! $request->expectsJson()) {
             $guards = empty($guards) ? [null] : $guards;
 
             foreach ($guards as $guard) {
