@@ -1,0 +1,10 @@
+In the documentation there is no any clear discussion how to batch insert or update using eloquent or query builder.
+Suppose I want to insert 1k data from selecting another table. So by doing the raw sql code I can do this. The following code is given below.
+
+INSERT INTO table2 (column1, column2, column3, ...)
+SELECT column1, column2, column3, ...
+FROM table1
+WHERE condition;
+
+But if I want to do the same thing I cannot do this using Query builder or eloquent by using insertUsing.
+I think Batch data insert,update by using eloquent or  query builder should add.
