@@ -36,6 +36,18 @@ class PostRequestjob implements ShouldQueue
     {
         $GouttleResponse = (new PostRequestInfraestructure)->Gouttle_Post_Request($this->url);
 
-        return $GouttleResponse;
+        echo $GouttleResponse;
+    }
+
+
+        /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    public function failed(Throwable $exception)
+    {
+        echo "job has been failed, retrying on 5 minutes, error context: ".$exception."";
     }
 }
