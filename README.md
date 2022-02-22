@@ -23,3 +23,4 @@ Using an API ( App\Http\Controllers\PostController::Post ) and implementing Lara
  - Run Laravel Queue: php artisan queue:work
 
     - *For Implementing better performance i recommend using Lumen Micro-framework to implementing Fast APIs and microservices to handle this 100k requests*
+    - *In a Infrastructure Perspective i recommend using Kubernetes for scale servers depends in the needs to handle the 100k requests*
