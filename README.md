@@ -22,4 +22,4 @@ Using an API ( App\Http\Controllers\PostController::Post ) and implementing Lara
 
  - Run Laravel Queue: php artisan queue:work
 
-    - *For Implementing better performance a recommend using Lumen Microframework to implementing Fast APIs and microservices to handle this 100k requests*
+    - *For Implementing better performance i recommend using Lumen Micro-framework to implementing Fast APIs and microservices to handle this 100k requests*
