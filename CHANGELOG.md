@@ -1,6 +1,14 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.0.1...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.0...9.x)
+
+## [v9.1.0](https://github.com/laravel/laravel/compare/v9.0.1...v9.1.0) - 2022-02-22
+
+### Changed
+
+- Remove namespace from Routes by @emargareten in https://github.com/laravel/laravel/pull/5818
+- Update sanctum config file by @suyar in https://github.com/laravel/laravel/pull/5820
+- Replace Laravel CORS package by @driesvints in https://github.com/laravel/laravel/pull/5825
 
 ## [v9.0.1](https://github.com/laravel/laravel/compare/v9.0.0...v9.0.1) - 2022-02-15
 
