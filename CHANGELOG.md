@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.1...9.x)
+
+## [v9.1.1](https://github.com/laravel/laravel/compare/v9.1.0...v9.1.1) - 2022-03-08
+
+### Changed
+
+- Add option to configure Mailgun transporter scheme by @jnoordsij in https://github.com/laravel/laravel/pull/5831
+- Add `throw` to filesystems config by @ankurk91 in https://github.com/laravel/laravel/pull/5835
+
+### Fixed
+
+- Small typo fix in filesystems.php by @tooshay in https://github.com/laravel/laravel/pull/5827
+- Update sendmail default params by @driesvints in https://github.com/laravel/laravel/pull/5836
 
 ## [v9.1.0](https://github.com/laravel/laravel/compare/v9.0.1...v9.1.0) - 2022-02-22
 
