@@ -1,0 +1,74 @@
+<script setup>
+	import { useField } from 'vee-validate';
+
+	import ErrorText from './ErrorText';
+
+	const props = defineProps({
+		label: {
+			type: String,
+			required: true,
+		},
+
+		name: {
+			type: String,
+			required: true,
+		},
+
+		options: {
+			type: Array,
+			required: true,
+		},
+
+		rules: {
+			type: String,
+			default: null,
+		},
+
+		validationName: {
+			type: String,
+			default: null,
+		},
+	});
+
+	const {
+		value,
+		errorMessage,
+	} = useField(props.name, props.rules, {
+		label: props.validationName || props.label,
+	});
+</script>
+
+<template>
+	<div class="inline-flex flex-col items-start relative cursor-pointer">
+		<span v-text="label" />
+
+		<span class="grid md:grid-cols-2 gap-2">
+			<label
+				v-for="(option, index) in options"
+				:key="index"
+				class="flex items-center gap-x-2 relative cursor-pointer"
+			>
+				<span class="relative w-5 h-5 rounded-full border">
+					<input
+						v-model="value"
+						:value="option.value"
+						class="appearance-none absolute -inset-px rounded-full w-5 h-5"
+						type="radio"
+					>
+
+					<span
+						v-show="value === option.value"
+						class="absolute inset-0.5 rounded-full bg-focus"
+					/>
+				</span>
+
+				<span v-text="option.label" />
+			</label>
+		</span>
+
+		<error-text
+			v-if="errorMessage"
+			:message="errorMessage"
+		/>
+	</div>
+</template>

@@ -1,18 +1,17 @@
-/* eslint-disable no-new */
-import Vue from 'vue';
+import { createApp } from 'vue';
 
-import './etc/forms';
+import '@/js/etc/validators';
 
-// Common
+import Form from './components/common/form';
 import Button from './components/common/Button';
 import Icon from './components/common/Icon';
 import Placeholder from './components/common/Placeholder';
 
-// Global
-Vue.component('EButton', Button);
-Vue.component('Icon', Icon);
-Vue.component('Placeholder', Placeholder);
+const app = createApp({});
 
-new Vue({
-	el: '#app',
-});
+app.component('EForm', Form);
+app.component('EButton', Button);
+app.component('EPlaceholder', Placeholder);
+app.component('EIcon', Icon);
+
+app.mount('#app');

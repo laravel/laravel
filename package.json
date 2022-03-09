@@ -10,24 +10,26 @@
         "production": "mix --production --mix-config=build/webpack.mix.js"
     },
     "devDependencies": {
-        "@braid/vue-formulate": "^2.4.3",
+        "@vee-validate/i18n": "^4.5.10",
+        "@vee-validate/rules": "^4.5.10",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
         "eslint": "^7.25.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-plugin-import": "2.22.1",
-        "eslint-plugin-vue": "^7.9.0",
+        "eslint-plugin-vue": "^8.5.0",
         "eslint-webpack-plugin": "^2.5.4",
         "laravel-mix": "^6.0.25",
-        "lodash": "^4.17.13",
+        "laravel-mix-eslint": "^0.2.0",
         "postcss": "^8.3.5",
         "postcss-import": "14.0.1",
         "postcss-nested": "5.0.5",
         "resolve-url-loader": "^3.1.0",
         "tailwindcss": "^2.2.4",
-        "vue": "^2.6.11",
-        "vue-loader": "^15.9.5",
-        "vue-template-compiler": "^2.6.11"
+        "vee-validate": "^4.5.10",
+        "vue": "^3.2.31",
+        "vue-loader": "^17.0.0",
+        "vue-template-compiler": "^2.6.14"
     }
 }

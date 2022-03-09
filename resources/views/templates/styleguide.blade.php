@@ -112,5 +112,103 @@
 			'check',
 			'chevron-right',
 		],
+		'forms' => [
+			[
+				'action' => route('templates.echo', [
+					'json' => [
+						'redirect' => null,
+						'response' => [
+							'title' => 'Thanks for your submission',
+						],
+					],
+				]),
+				'schema' => [
+					[
+						'as' => 'input',
+						'label' => 'First name',
+						'name' => 'first_name',
+						'placeholder' => 'Your first name',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'input',
+						'label' => 'Last name',
+						'name' => 'last_name',
+						'placeholder' => 'Your last name',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'input',
+						'type' => 'email',
+						'label' => 'Email Address',
+						'name' => 'email',
+						'placeholder' => 'Your email address',
+						'rules' => 'required|email',
+					],
+					[
+						'as' => 'input',
+						'type' => 'tel',
+						'label' => 'Phone number',
+						'name' => 'phone',
+						'placeholder' => 'Your phone number',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'textarea',
+						'label' => 'Your comments',
+						'name' => 'comments',
+						'placeholder' => 'Your comments',
+					],
+					[
+						'as' => 'checkbox',
+						'label' => 'Terms and conditions Aperiam necessitatibus culpa iusto dolor accusantium Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis voluptatem suscipit vitae, vel ullam facere accusantium distinctio quibusdam nam architecto voluptates aut, libero officiis necessitatibus quaerat hic quia culpa unde?',
+						'name' => 'terms',
+						'validation-name' => 'Terms and Conditions',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'radio',
+						'label' => 'Activity',
+						'name' => 'activity',
+						'options' => [
+							[
+								'value' => 'walking',
+								'label' => 'Walking',
+							],
+							[
+								'value' => 'running',
+								'label' => 'Running',
+							],
+							[
+								'value' => 'climbing',
+								'label' => 'Climbing',
+							],
+						],
+						'rules' => 'required',
+					],
+					[
+						'as' => 'select',
+						'label' => 'Transport',
+						'name' => 'transport',
+						'placeholder' => 'Transportation type',
+						'options' => [
+							[
+								'value' => 'car',
+								'label' => 'Car',
+							],
+							[
+								'value' => 'train',
+								'label' => 'Train',
+							],
+							[
+								'value' => 'bus',
+								'label' => 'Bus',
+							],
+						],
+						'rules' => 'required',
+					],
+				],
+			],
+		],
 	],
 ])

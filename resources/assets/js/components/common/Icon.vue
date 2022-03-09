@@ -1,23 +1,28 @@
+<script setup>
+	import ESprite from './Sprite';
+
+	defineProps({
+		name: {
+			type: String,
+			required: true,
+		},
+
+		size: {
+			type: String,
+			default: 'w-em h-em',
+		},
+
+		block: Boolean,
+	});
+</script>
+
 <template>
-	<sprite
-		class="inline-block w-em h-em fill-current align-top"
-		:name="$props.name"
+	<e-sprite
+		:class="[
+			'fill-current align-top',
+			block ? 'block' : 'inline-block',
+			size,
+		]"
+		:name="name"
 	/>
 </template>
-
-<script>
-	import Sprite from './Sprite';
-
-	export default {
-		components: {
-			Sprite,
-		},
-
-		props: {
-			name: {
-				type: String,
-				required: true,
-			},
-		},
-	};
-</script>

@@ -1,14 +1,16 @@
 {
 	"extends": [
 		"airbnb-base",
-		"plugin:vue/recommended"
+		"plugin:vue/vue3-recommended"
 	],
 	"plugins": [
 		"vue"
 	],
 	"globals": {
 		"document": true,
-		"window": true
+		"window": true,
+		"defineProps": "readonly",
+		"defineEmits": "readonly"
 	},
 	"rules": {
 		"func-names": "off",
