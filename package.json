@@ -12,6 +12,7 @@
     "devDependencies": {
         "@vee-validate/i18n": "^4.5.10",
         "@vee-validate/rules": "^4.5.10",
+        "@vueuse/core": "^8.0.0",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",

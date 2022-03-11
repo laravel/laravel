@@ -1378,6 +1378,27 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.31.tgz#c90de7126d833dcd3a4c7534d534be2fb41faa4e"
   integrity sha512-ymN2pj6zEjiKJZbrf98UM2pfDd6F2H7ksKw7NDt/ZZ1fh5Ei39X5tABugtT03ZRlWd9imccoK0hE8hpjpU7irQ==
 
+"@vueuse/core@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-8.0.0.tgz#71c13c1e0c0d6a196f6c049fd431ba314f782f89"
+  integrity sha512-CU8oQhTaAQ4+9IlEHnaGk88qQ2fSvALHixWZhfyA2j18G42XeyJz3V0FmnBMWZUwd7VRSHJZFbGziZ6o5npNow==
+  dependencies:
+    "@vueuse/metadata" "8.0.0"
+    "@vueuse/shared" "8.0.0"
+    vue-demi "*"
+
+"@vueuse/metadata@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-8.0.0.tgz#8f8676e9a3d6872c9a41583d9a3e67f3604114d7"
+  integrity sha512-23R9pqgfJnfmUnGCOtaDkwaNYEAO7N6whvaAFAs5D5xHXgqAj+z/tLhwQzSJw/ZzJGUb8W5L+VgP9S7SL35riw==
+
+"@vueuse/shared@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-8.0.0.tgz#2b452362c797dadb8d85ed169e386262a390e28c"
+  integrity sha512-HUIFZ5Vc3aGvIzDQJJhg2+Ok5xvNuwxoz5HrOr/M765wlj357WiMYzhU2XGljL6IcmK29SP/1Jb4Fra7A4PBCw==
+  dependencies:
+    vue-demi "*"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -8417,6 +8438,11 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-demi@*:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.1.tgz#f7e18efbecffd11ab069d1472d7a06e319b4174c"
+  integrity sha512-QL3ny+wX8c6Xm1/EZylbgzdoDolye+VpCXRhI2hug9dJTP3OUJ3lmiKN3CsVV3mOJKwFi0nsstbgob0vG7aoIw==
 
 vue-eslint-parser@^8.0.1:
   version "8.3.0"
