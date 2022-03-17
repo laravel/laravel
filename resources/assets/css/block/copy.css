@@ -1,12 +1,8 @@
 .e-copy {
 	@apply max-w-prose;
 
-	> * {
+	> *:not(:first-child) {
 		@apply mt-em;
-
-		&:first-child {
-			@apply mt-0;
-		}
 	}
 
 	h2,
