@@ -1,40 +1,40 @@
 {
-  "paths": {
-    "src": "resources/assets",
-    "dest": "public",
-    "compiled": "compiled"
-  },
-  "config": {
-    "browserSync": {
-      "files": [
-        "public/compiled/css",
-        "public/compiled/js",
-        "resources/views",
-        "!**/*.map"
-      ],
-      "ghostMode": false,
-      "notify": false,
-      "open": false,
-      "port": 5757,
-      "proxy": "nginx:80",
-      "snippetOptions": {
-        "rule": {
-          "match": "</body>"
-        }
-      },
-      "ui": false
-    },
-    "css": {
-      "files": [
-        "app.css"
-      ]
-    },
-    "js": {
-      "files": [
-        "app.js"
-      ],
-      "extract": [],
-      "lint": true
-    }
-  }
+	"paths": {
+		"src": "resources/assets",
+		"dest": "public",
+		"compiled": "compiled"
+	},
+	"config": {
+		"browserSync": {
+			"files": [
+				"public/compiled/css",
+				"public/compiled/js",
+				"resources/views",
+				"!**/*.map"
+			],
+			"ghostMode": false,
+			"notify": false,
+			"open": false,
+			"port": 5757,
+			"proxy": "nginx:80",
+			"snippetOptions": {
+				"rule": {
+					"match": "</body>"
+				}
+			},
+			"ui": false
+		},
+		"css": {
+			"files": [
+				"app.css"
+			]
+		},
+		"js": {
+			"files": [
+				"app.js"
+			],
+			"extract": [],
+			"lint": true
+		}
+	}
 }

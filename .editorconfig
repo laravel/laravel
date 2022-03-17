@@ -16,3 +16,6 @@ trim_trailing_whitespace = false
 
 [*.{yml,yaml}]
 indent_size = 2
+
+[*.eslintrc]
+indent_style = tab
