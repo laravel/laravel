@@ -1,6 +1,6 @@
 php:
   preset: laravel
-  version: 8
+  version: 8.1
   disabled:
     - no_unused_imports
   finder:
