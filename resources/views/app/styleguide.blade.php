@@ -74,6 +74,18 @@
 		</section>
 
 		<section class="space-y-5">
+			<h1 class="e-h3">Imagery</h1>
+
+			<div class="flex flex-wrap">
+				@foreach ($model['images'] as $image)
+					<e-placeholder
+						v-bind="{{ json_encode($image) }}"
+					></e-placeholder>
+				@endforeach
+			</div>
+		</section>
+
+		<section class="space-y-5">
 			<h1 class="e-h3">Forms</h1>
 
 			<div class="flex flex-wrap">

@@ -41,13 +41,11 @@
 			}));
 	};
 
-	const cClassList = [
-		[props.classList].flat(),
-		{ 'absolute top-0 left-0 w-full h-full object-cover': props.overlay },
-	];
-	const cSrc = props.src.slice(-1)[0];
-	const cSrcset = srcSet();
-	const cSrcsetWebP = srcSet(true);
+	const source = {
+		default: props.src.at(-1),
+		srcSet: srcSet(),
+		srcSetWebP: srcSet(true),
+	};
 </script>
 
 <script>
@@ -59,24 +57,29 @@
 </script>
 
 <template>
-	<picture :key="cSrc">
+	<picture :key="source.default">
 		<source
-			v-for="item in cSrcsetWebP"
+			v-for="item in source.srcSetWebP"
 			:key="item.srcset"
 			v-bind="item"
 		>
 
 		<source
-			v-for="item in cSrcset"
+			v-for="item in source.srcSet"
 			:key="item.srcset"
 			v-bind="item"
 		>
 
 		<img
 			v-bind="$attrs"
-			:class="cClassList"
-			:loading="$props.loading"
-			:src="cSrc"
+			:class="[
+				[classList].flat(),
+				{
+					'absolute top-0 left-0 w-full h-full object-cover': overlay,
+				},
+			]"
+			:loading="loading"
+			:src="source.default"
 		>
 	</picture>
 </template>

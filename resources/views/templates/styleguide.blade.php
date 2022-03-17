@@ -112,6 +112,24 @@
 			'check',
 			'chevron-right',
 		],
+		'images' => [
+			[
+				'src' => [
+					'http://via.placeholder.com/2000x2400/888/000',
+					'http://via.placeholder.com/1600x900/888/000',
+					'http://via.placeholder.com/500x200/888/000',
+				],
+				'webp' => [
+					'http://via.placeholder.com/2000x2400.webp/888/000',
+					'http://via.placeholder.com/1600x900.webp/888/000',
+					'http://via.placeholder.com/500x200.webp/888/000',
+				],
+				'sizes' => [
+					1248,
+					768,
+				],
+			],
+		],
 		'forms' => [
 			[
 				'action' => route('templates.echo', [
