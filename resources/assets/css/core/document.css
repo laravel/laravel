@@ -11,7 +11,7 @@ body {
 	@apply hidden;
 }
 
-[disabled]:not([disabled="false"]) {
+[disabled] {
 	@apply opacity-25 shadow-none cursor-not-allowed select-none;
 }
 

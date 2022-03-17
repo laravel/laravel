@@ -2,7 +2,7 @@ import { reactive, toRefs } from 'vue';
 
 export default function useFormSubmission() {
 	const data = reactive({
-		isSubmitting: false,
+		isSubmitting: null,
 		response: null,
 		errorMessage: null,
 		errors: null,
@@ -65,7 +65,7 @@ export default function useFormSubmission() {
 		} catch (error) {
 			onSubmitFailure(error);
 		} finally {
-			data.isSubmitting = false;
+			data.isSubmitting = null;
 		}
 	};
 
