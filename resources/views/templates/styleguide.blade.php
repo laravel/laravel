@@ -229,6 +229,10 @@
 						],
 						'rules' => 'required',
 					],
+					[
+						'as' => 'submit',
+						'title' => 'Submit',
+					],
 				],
 			],
 		],

@@ -51,6 +51,7 @@
 			checkbox: FormBox,
 			select: FormSelect,
 			textarea: FormTextarea,
+			submit: 'e-button',
 		};
 
 		return components[as] ?? FormInput;
@@ -76,17 +77,22 @@
 		:disabled="isSubmitting"
 		@submit="onSubmit"
 	>
-		<component
-			:is="fieldComponent(as)"
-			v-for="({ as, ...field }) in schema"
-			:key="field.name"
-			v-bind="field"
-		/>
+		<div
+			v-for="({ as, ...field }, index) in schema"
+			:key="index"
+		>
+			<e-button
+				v-if="as === 'submit'"
+				v-bind="field"
+				:disabled="hasErrors"
+				@click.prevent="onSubmit"
+			/>
 
-		<e-button
-			title="Submit"
-			:disabled="hasErrors"
-			@click.prevent="onSubmit"
-		/>
+			<component
+				:is="fieldComponent(as)"
+				v-else
+				v-bind="field"
+			/>
+		</div>
 	</form>
 </template>
