@@ -16,6 +16,11 @@
 			required: true,
 		},
 
+		values: {
+			type: Object,
+			default: null,
+		},
+
 		schema: {
 			type: Array,
 			default: null,
@@ -32,7 +37,9 @@
 		handleSubmit,
 		// values,
 		errors,
-	} = useForm();
+	} = useForm({
+		initialValues: props.values || null,
+	});
 
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 	const onSubmit = handleSubmit((v) => submit(props.action, v));

@@ -140,6 +140,10 @@
 						],
 					],
 				]),
+				'values' => [
+					'first_name' => 'Rick',
+					'last_name' => 'Astley',
+				],
 				'schema' => [
 					[
 						'as' => 'input',
