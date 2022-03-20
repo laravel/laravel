@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  fpm:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: .
+      dockerfile: docker/Fpm.Dockerfile
+    image: php
+    container_name: php
+    restart: unless-stopped
+    working_dir: /var/www/laravel.crm
+    volumes:
+      - ./:/var/www/laravel.crm
+    links:
+      - mysql
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/Nginx.Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8095:80
+    links:
+      - fpm
+    volumes:
+      - ./:/var/www/laravel.crm
+  mysql:
+    image: mysql:8.0.28
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_DATABASE: laravel_crm
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+
