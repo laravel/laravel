@@ -1,0 +1,18 @@
+.github
+.env
+.env.example
+docker-compose.yml
+composer.json
+laravel.crm.code-workspace
+
+
+docker
+
+
+# if you are using debugbar
+storage/debugbar
+
+storage/logs
+storage/framework/cache/data
+storage/framework/sessions/*
+storage/framework/testing
