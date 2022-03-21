@@ -9,7 +9,7 @@
         "prod": "npm run production",
         "production": "mix --production"
     },
-    "devDependencies": {
+    "dependencies": {
         "axios": "^0.25",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
