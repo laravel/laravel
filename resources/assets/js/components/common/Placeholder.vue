@@ -17,8 +17,8 @@
 	const attrs = useAttrs();
 	const slots = useSlots();
 
-	const cAttrs = slots.default ? attrs : null;
-	const cTag = attrs.href ? 'a' : props.tag;
+	const componentAttrs = slots.default ? attrs : null;
+	const as = attrs.href ? 'a' : props.tag;
 </script>
 
 <script>
@@ -31,10 +31,10 @@
 
 <template>
 	<component
-		:is="cTag"
+		:is="as"
 		:class="ratioClass"
 		class="block relative w-full"
-		v-bind="cAttrs"
+		v-bind="componentAttrs"
 	>
 		<slot>
 			<e-img

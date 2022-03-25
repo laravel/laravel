@@ -9,12 +9,12 @@
 	});
 
 	const attrs = useAttrs();
-	const element = attrs.href ? 'a' : 'button';
+	const as = attrs.href ? 'a' : 'button';
 </script>
 
 <template>
 	<component
-		:is="element"
+		:is="as"
 		:class="[
 			'inline-block',
 			'relative',
