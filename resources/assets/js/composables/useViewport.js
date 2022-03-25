@@ -17,7 +17,7 @@ const useResize = (callback, delay = 300) => {
 
 	onMounted(() => window.addEventListener('resize', onDebouncedResize));
 	onUnmounted(() => window.removeEventListener('resize', onDebouncedResize));
-}
+};
 
 const useMq = () => {
 	const breakpoints = reactive(useBreakpoints(variables.breakpoints));
@@ -25,7 +25,7 @@ const useMq = () => {
 	return {
 		...toRefs(breakpoints),
 	};
-}
+};
 
 export {
 	useResize,
