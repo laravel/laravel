@@ -8,7 +8,7 @@
 	h2,
 	h3,
 	h4 {
-		@apply font-bold font-heading leading-none;
+		@apply font-bold font-heading;
 	}
 
 	h2 {
