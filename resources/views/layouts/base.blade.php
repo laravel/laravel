@@ -14,8 +14,6 @@
 		@include('layouts/partials/tracking', ['body' => true])
 
 		@include('layouts/partials/accessibility-skip-links')
-
-		@include('layouts/partials/outdated-browser')
 	@show
 
 	<div id="app" v-cloak>
