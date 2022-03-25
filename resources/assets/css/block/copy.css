@@ -27,12 +27,8 @@
 	ul {
 		@apply mx-5;
 
-		> li {
+		> li:not(:first-child) {
 			@apply mt-em;
-
-			&:first-child {
-				@apply mt-0;
-			}
 		}
 	}
 
