@@ -32,11 +32,11 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "@php -r \"@unlink('bootstrap/cache/packages.php');\""
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php -r \"@unlink('bootstrap/cache/packages.php');\"",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
@@ -44,10 +44,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
         ]
     },
     "extra": {
