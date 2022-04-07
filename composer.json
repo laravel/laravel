@@ -32,7 +32,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
+        "pre-install-cmd": [
             "@php -r \"@unlink('bootstrap/cache/packages.php');\""
         ],
         "post-update-cmd": [
