@@ -1,6 +1,6 @@
 import { reactive, toRefs } from 'vue';
 
-export default function useFormSubmission() {
+export default function useFormSubmission(skipFalsy) {
 	const data = reactive({
 		isSubmitting: null,
 		response: null,
@@ -45,6 +45,7 @@ export default function useFormSubmission() {
 		const body = new FormData();
 
 		Object.keys(values)
+			.filter((key) => values[key] || !skipFalsy)
 			.forEach((key) => body.append(key, values[key]));
 
 		try {
