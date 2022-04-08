@@ -31,6 +31,8 @@
 		submit,
 		response,
 		isSubmitting,
+		fieldErrors,
+		errorMessage,
 	} = useFormSubmission();
 
 	const {
@@ -65,6 +67,11 @@
 </script>
 
 <template>
+	frontend errors: {{ errors }}<br>
+	server errors: {{ fieldErrors }}<br>
+	server errorMessage: {{ errorMessage }}<br>
+	hasErrors: {{ hasErrors }}<br>
+
 	<pre
 		v-if="response"
 		v-text="response"

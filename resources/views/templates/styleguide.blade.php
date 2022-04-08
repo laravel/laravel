@@ -86,10 +86,10 @@
 			],
 		],
 		'colours' => [
- 			'black',
- 			'white',
- 			'grey-50',
- 			'grey-100',
+			'black',
+			'white',
+			'grey-50',
+			'grey-100',
 			'grey-200',
 			'grey-300',
 			'grey-400',
@@ -98,10 +98,10 @@
 			'grey-700',
 			'grey-800',
 			'grey-900',
- 			'blue',
- 			'green',
- 			'red',
- 			'social-twitter',
+			'blue',
+			'green',
+			'red',
+			'social-twitter',
 			'social-facebook',
 			'social-youtube',
 			'social-pinterest',
@@ -139,10 +139,24 @@
 							'title' => 'Thanks for your submission',
 						],
 					],
+					// Simulated form errors
+					// 'status' => 422,
+					// 'json' => [
+					// 	'errors' => [
+					// 		'email' => [
+					// 			ucfirst(_mock()->wordsBetween(5, 8)),
+					// 		],
+					// 	],
+					// 	'message' => ucfirst(_mock()->wordsBetween(5, 8)),
+					// ],
 				]),
 				'values' => [
 					'first_name' => 'Rick',
 					'last_name' => 'Astley',
+					'email' => 'rick.astley@email.com',
+					'terms' => true,
+					'activity' => 'climbing',
+					'transport' => 'bus',
 				],
 				'schema' => [
 					[
@@ -173,7 +187,6 @@
 						'label' => 'Phone number',
 						'name' => 'phone',
 						'placeholder' => 'Your phone number',
-						'rules' => 'required',
 					],
 					[
 						'as' => 'textarea',

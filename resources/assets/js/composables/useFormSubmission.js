@@ -5,7 +5,7 @@ export default function useFormSubmission() {
 		isSubmitting: null,
 		response: null,
 		errorMessage: null,
-		errors: null,
+		fieldErrors: null,
 	});
 
 	const csrfToken = () => {
@@ -36,7 +36,7 @@ export default function useFormSubmission() {
 		const { errors = {}, message } = await response.json();
 
 		data.errorMessage = message;
-		data.errors = errors;
+		data.fieldErrors = errors;
 	};
 
 	const submit = async (action, values) => {
