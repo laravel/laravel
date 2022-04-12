@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.11...8.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v8.6.12...8.x)
+
+## [v8.6.12](https://github.com/laravel/laravel/compare/v8.6.11...v8.6.12) - 2022-04-12
+
+### Changed
+
+- Fix empty paths for server.php  by @driesvints in https://github.com/laravel/laravel/pull/5863
 
 ## [v8.6.11](https://github.com/laravel/laravel/compare/v8.6.10...v8.6.11) - 2022-02-08
 
