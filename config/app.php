@@ -127,6 +127,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Maintenance driver
+    |--------------------------------------------------------------------------
+    |
+    | The driver that will be used to store the maintenance status.
+    | Supported: "file", "cache"
+    |
+    */
+    'maintenance' => [
+        'driver' => 'file',
+        'store'  => 'default', // Only used when driver is "cache"
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
