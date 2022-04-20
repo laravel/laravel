@@ -138,7 +138,7 @@ return [
         'driver' => 'file',
         'store'  => 'default', // Only used when driver is "cache"
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
