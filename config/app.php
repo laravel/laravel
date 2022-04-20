@@ -136,7 +136,7 @@ return [
     */
     'maintenance' => [
         'driver' => 'file',
-        'store'  => 'default', // Only used when driver is "cache"
+        'store'  => 'redis', // Only used when driver is "cache"
     ],
 
     /*
