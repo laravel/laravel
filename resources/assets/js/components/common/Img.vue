@@ -1,4 +1,6 @@
 <script setup>
+	import { computed } from 'vue';
+
 	const props = defineProps({
 		classList: {
 			type: [Array, String],
@@ -41,11 +43,11 @@
 			}));
 	};
 
-	const source = {
+	const source = computed(() => ({
 		default: props.src.at(-1),
 		srcSet: srcSet(),
 		srcSetWebP: srcSet(true),
-	};
+	}));
 </script>
 
 <script>
