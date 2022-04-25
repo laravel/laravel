@@ -60,7 +60,7 @@
 				},
 			]"
 			:name="name"
-			:placeholder="placeholder || label"
+			:placeholder="placeholder"
 			@change="handleChange"
 			@input="handleChange"
 			@blur="handleBlur"
