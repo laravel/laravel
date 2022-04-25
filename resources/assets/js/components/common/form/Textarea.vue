@@ -33,6 +33,16 @@
 			type: String,
 			default: null,
 		},
+
+		rows: {
+			type: Number,
+			default: 4,
+		},
+
+		cols: {
+			type: Number,
+			default: 50,
+		},
 	});
 
 	const {
@@ -51,8 +61,8 @@
 
 		<textarea
 			v-model="value"
-			:rows="4"
-			:cols="50"
+			:rows="rows"
+			:cols="cols"
 			:class="[
 				'border',
 				{
