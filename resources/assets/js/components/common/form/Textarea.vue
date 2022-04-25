@@ -65,7 +65,7 @@
 			:rows="rows"
 			:cols="cols"
 			:class="[
-				'border',
+				'border placeholder-grey-400',
 				{
 					'border-red': errorMessage,
 				},

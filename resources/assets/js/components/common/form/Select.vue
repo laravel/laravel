@@ -63,6 +63,7 @@
 				<option
 					value=""
 					disabled
+					hidden
 					v-html="placeholder"
 				/>
 
@@ -73,6 +74,15 @@
 					v-html="option.label"
 				/>
 			</select>
+
+			<span
+				v-if="placeholder && !value"
+				:class="[
+					'absolute inset-0 right-12',
+					'truncate text-grey-400 pointer-events-none',
+				]"
+				v-text="placeholder"
+			/>
 
 			<e-icon
 				name="chevron-right"

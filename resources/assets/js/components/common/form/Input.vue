@@ -54,7 +54,7 @@
 			v-bind="$attrs"
 			:type="type"
 			:class="[
-				'border',
+				'border placeholder-grey-400',
 				{
 					'border-red': errorMessage,
 				},
