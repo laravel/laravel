@@ -61,6 +61,7 @@
 
 		<textarea
 			v-model="value"
+			v-bind="$attrs"
 			:rows="rows"
 			:cols="cols"
 			:class="[

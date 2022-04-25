@@ -38,6 +38,7 @@
 		<div class="inline-flex items-start">
 			<input
 				v-model="value"
+				v-bind="$attrs"
 				:true-value="true"
 				:false-value="false"
 				type="checkbox"

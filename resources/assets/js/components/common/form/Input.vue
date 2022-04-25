@@ -51,6 +51,7 @@
 
 		<input
 			v-model="value"
+			v-bind="$attrs"
 			:type="type"
 			:class="[
 				'border',

@@ -51,6 +51,7 @@
 				<span class="relative w-5 h-5 rounded-full border">
 					<input
 						v-model="value"
+						v-bind="$attrs"
 						:value="option.value"
 						class="appearance-none absolute -inset-px rounded-full w-5 h-5"
 						type="radio"

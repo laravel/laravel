@@ -54,6 +54,7 @@
 			<select
 				:id="name"
 				v-model="value"
+				v-bind="$attrs"
 				:class="[
 					'pr-12 border appearance-none',
 					{ 'border-red': errorMessage },
