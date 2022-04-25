@@ -6,7 +6,7 @@
 
 	import FormInput from './Input';
 	import FormRadio from './Radio';
-	import FormBox from './Box';
+	import FormCheckbox from './Checkbox';
 	import FormSelect from './Select';
 	import FormTextarea from './Textarea';
 
@@ -50,7 +50,7 @@
 		const components = {
 			input: FormInput,
 			radio: FormRadio,
-			checkbox: FormBox,
+			checkbox: FormCheckbox,
 			select: FormSelect,
 			textarea: FormTextarea,
 			submit: 'e-button',
