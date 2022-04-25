@@ -2,13 +2,13 @@
 	import { useAttrs, useSlots } from 'vue';
 	import EImg from './Img';
 
-	const props = defineProps({
+	defineProps({
 		ratioClass: {
 			type: String,
 			default: 'pt-9/16',
 		},
 
-		tag: {
+		as: {
 			type: String,
 			default: 'div',
 		},
@@ -18,7 +18,6 @@
 	const slots = useSlots();
 
 	const componentAttrs = slots.default ? attrs : null;
-	const as = attrs.href ? 'a' : props.tag;
 </script>
 
 <script>
@@ -31,7 +30,7 @@
 
 <template>
 	<component
-		:is="as"
+		:is="$attrs.href ? 'a' : as"
 		:class="ratioClass"
 		class="block relative w-full"
 		v-bind="componentAttrs"
