@@ -84,22 +84,11 @@
 		:disabled="isSubmitting"
 		@submit="onSubmit"
 	>
-		<div
+		<component
+			:is="fieldComponent(as)"
 			v-for="({ as, ...field }, index) in schema"
 			:key="index"
-		>
-			<e-button
-				v-if="as === 'submit'"
-				v-bind="field"
-				:disabled="hasErrors"
-				@click.prevent="onSubmit"
-			/>
-
-			<component
-				:is="fieldComponent(as)"
-				v-else
-				v-bind="field"
-			/>
-		</div>
+			v-bind="field"
+		/>
 	</form>
 </template>

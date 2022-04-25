@@ -151,12 +151,12 @@
 					// ],
 				]),
 				'values' => [
-					'first_name' => 'Rick',
-					'last_name' => 'Astley',
-					'email' => 'rick.astley@email.com',
-					'terms' => true,
-					'activity' => 'climbing',
-					'transport' => 'bus',
+					'first_name' => null,
+					'last_name' => null,
+					'email' => null,
+					'terms' => false,
+					'activity' => null,
+					'transport' => null,
 				],
 				'schema' => [
 					[
