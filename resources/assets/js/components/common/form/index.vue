@@ -16,13 +16,13 @@
 			required: true,
 		},
 
-		values: {
-			type: Object,
+		schema: {
+			type: Array,
 			default: null,
 		},
 
-		schema: {
-			type: Array,
+		values: {
+			type: Object,
 			default: null,
 		},
 	});

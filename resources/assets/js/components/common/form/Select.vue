@@ -14,11 +14,6 @@
 			required: true,
 		},
 
-		rules: {
-			type: String,
-			default: null,
-		},
-
 		options: {
 			type: Array,
 			required: true,
@@ -27,6 +22,11 @@
 		placeholder: {
 			type: String,
 			required: true,
+		},
+
+		rules: {
+			type: String,
+			default: null,
 		},
 
 		validationName: {

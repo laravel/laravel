@@ -4,6 +4,11 @@
 	import ErrorText from './ErrorText';
 
 	const props = defineProps({
+		cols: {
+			type: Number,
+			default: 50,
+		},
+
 		label: {
 			type: String,
 			required: true,
@@ -14,22 +19,7 @@
 			required: true,
 		},
 
-		type: {
-			type: String,
-			default: 'text',
-		},
-
 		placeholder: {
-			type: String,
-			default: null,
-		},
-
-		rules: {
-			type: String,
-			default: null,
-		},
-
-		validationName: {
 			type: String,
 			default: null,
 		},
@@ -39,9 +29,19 @@
 			default: 4,
 		},
 
-		cols: {
-			type: Number,
-			default: 50,
+		rules: {
+			type: String,
+			default: null,
+		},
+
+		type: {
+			type: String,
+			default: 'text',
+		},
+
+		validationName: {
+			type: String,
+			default: null,
 		},
 	});
 
