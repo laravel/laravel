@@ -2,7 +2,7 @@
 	import { computed } from 'vue';
 	import { useForm } from 'vee-validate';
 
-	import useFormSubmission from '@/js/composables/form-submission';
+	import useFormSubmission from '@/js/composables/formSubmission';
 
 	import FormInput from './Input';
 	import FormRadio from './Radio';
