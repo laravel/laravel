@@ -3,14 +3,14 @@
 	import EImg from './Img';
 
 	defineProps({
-		ratioClass: {
-			type: String,
-			default: 'pt-9/16',
-		},
-
 		as: {
 			type: String,
 			default: 'div',
+		},
+
+		ratioClass: {
+			type: String,
+			default: 'pt-9/16',
 		},
 	});
 
