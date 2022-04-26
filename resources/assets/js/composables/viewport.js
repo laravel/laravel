@@ -1,6 +1,4 @@
 import {
-	reactive,
-	toRefs,
 	onMounted,
 	onUnmounted,
 } from 'vue';
@@ -19,13 +17,7 @@ const useResize = (callback, delay = 300) => {
 	onUnmounted(() => window.removeEventListener('resize', onDebouncedResize));
 };
 
-const useMq = () => {
-	const breakpoints = reactive(useBreakpoints(variables.breakpoints));
-
-	return {
-		...toRefs(breakpoints),
-	};
-};
+const useMq = () => useBreakpoints(variables.breakpoints);
 
 export {
 	useResize,

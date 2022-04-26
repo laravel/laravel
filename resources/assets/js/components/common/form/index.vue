@@ -2,7 +2,7 @@
 	import { computed } from 'vue';
 	import { useForm } from 'vee-validate';
 
-	import useFormSubmission from '@/js/composables/useFormSubmission';
+	import useFormSubmission from '@/js/composables/form-submission';
 
 	import FormInput from './Input';
 	import FormRadio from './Radio';
@@ -67,10 +67,12 @@
 </script>
 
 <template>
-	frontend errors: {{ errors }}<br>
-	server errors: {{ fieldErrors }}<br>
-	server errorMessage: {{ errorMessage }}<br>
-	hasErrors: {{ hasErrors }}<br>
+	<pre>
+		frontend errors: {{ errors }}<br>
+		server errors: {{ fieldErrors }}<br>
+		server errorMessage: {{ errorMessage }}<br>
+		hasErrors: {{ hasErrors }}<br>
+	</pre>
 
 	<pre
 		v-if="response"
