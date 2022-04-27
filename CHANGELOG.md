@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.5...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.6...9.x)
+
+## [v9.1.6](https://github.com/laravel/laravel/compare/v9.1.5...v9.1.6) - 2022-04-20
+
+### Changed
+
+- Move password lines into main translation file by @taylorotwell in https://github.com/laravel/laravel/commit/db0d052ece1c17c506633f4c9f5604b65e1cc3a4
+- Add missing maintenance to config by @ibrunotome in https://github.com/laravel/laravel/pull/5868
 
 ## [v9.1.5](https://github.com/laravel/laravel/compare/v9.1.4...v9.1.5) - 2022-04-12
 
