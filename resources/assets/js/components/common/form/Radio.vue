@@ -30,10 +30,7 @@
 		},
 	});
 
-	const {
-		value,
-		errorMessage,
-	} = useField(props.name, props.rules, {
+	const { value } = useField(props.name, props.rules, {
 		label: props.validationName || props.label,
 	});
 </script>
@@ -67,9 +64,6 @@
 			</label>
 		</span>
 
-		<error-text
-			v-if="errorMessage"
-			:message="errorMessage"
-		/>
+		<error-text :name="name" />
 	</div>
 </template>

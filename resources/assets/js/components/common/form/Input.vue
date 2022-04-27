@@ -1,6 +1,5 @@
 <script setup>
 	import { useField } from 'vee-validate';
-
 	import ErrorText from './ErrorText';
 
 	const props = defineProps({
@@ -66,9 +65,6 @@
 			@blur="handleBlur"
 		>
 
-		<error-text
-			v-if="errorMessage"
-			:message="errorMessage"
-		/>
+		<error-text :name="name" />
 	</label>
 </template>

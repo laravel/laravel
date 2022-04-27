@@ -77,9 +77,6 @@
 			@blur="handleBlur"
 		/>
 
-		<error-text
-			v-if="errorMessage"
-			:message="errorMessage"
-		/>
+		<error-text :name="name" />
 	</label>
 </template>

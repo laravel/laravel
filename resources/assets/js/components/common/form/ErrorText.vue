@@ -1,6 +1,8 @@
 <script setup>
+	import { ErrorMessage } from 'vee-validate';
+
 	defineProps({
-		message: {
+		name: {
 			type: String,
 			required: true,
 		},
@@ -8,8 +10,8 @@
 </script>
 
 <template>
-	<span
+	<error-message
 		class="font-bold text-xs text-red"
-		v-text="message"
+		:name="name"
 	/>
 </template>
