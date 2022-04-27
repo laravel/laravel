@@ -1,9 +1,8 @@
 <script setup>
-	import { useField } from 'vee-validate';
-
+	import { Field as RenderlessSelect } from 'vee-validate';
 	import ErrorText from './ErrorText';
 
-	const props = defineProps({
+	defineProps({
 		label: {
 			type: String,
 			required: true,
@@ -21,7 +20,7 @@
 
 		placeholder: {
 			type: String,
-			required: true,
+			default: null,
 		},
 
 		rules: {
@@ -34,13 +33,6 @@
 			default: null,
 		},
 	});
-
-	const {
-		value,
-		errorMessage,
-	} = useField(props.name, props.rules, {
-		label: props.validationName || props.label,
-	});
 </script>
 
 <template>
@@ -51,38 +43,37 @@
 		/>
 
 		<div class="flex relative">
-			<select
+			<renderless-select
 				:id="name"
-				v-model="value"
+				v-slot="{ field, errorMessage }"
 				v-bind="$attrs"
-				:class="[
-					'pr-12 border appearance-none',
-					{ 'border-red': errorMessage },
-				]"
+				:name="name"
+				:label="validationName || label"
+				:rules="rules"
 			>
-				<option
-					value=""
-					disabled
-					hidden
-					v-html="placeholder"
-				/>
+				<select
+					:class="[
+						'pr-12 border appearance-none',
+						{ 'border-red': errorMessage },
+					]"
+					v-bind="field"
+				>
+					<option
+						v-if="placeholder"
+						value=""
+						selected
+						disabled
+						v-html="placeholder"
+					/>
 
-				<option
-					v-for="(option, index) in options"
-					:key="index"
-					:value="option.value"
-					v-html="option.label"
-				/>
-			</select>
-
-			<span
-				v-if="placeholder && !value"
-				:class="[
-					'absolute inset-0 right-12',
-					'truncate text-grey-400 pointer-events-none',
-				]"
-				v-text="placeholder"
-			/>
+					<option
+						v-for="(option, index) in options"
+						:key="index"
+						:value="option.value"
+						v-html="option.label"
+					/>
+				</select>
+			</renderless-select>
 
 			<e-icon
 				name="chevron-right"
@@ -95,9 +86,6 @@
 			/>
 		</div>
 
-		<error-text
-			v-if="errorMessage"
-			:message="errorMessage"
-		/>
+		<error-text :name="name" />
 	</div>
 </template>
