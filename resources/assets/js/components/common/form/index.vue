@@ -37,7 +37,7 @@
 
 	const {
 		handleSubmit,
-		// values,
+		values,
 		errors,
 	} = useForm({
 		initialValues: props.values || null,
@@ -67,12 +67,14 @@
 </script>
 
 <template>
-	<pre>
+	<pre class="hidden">
 		frontend errors: {{ errors }}<br>
 		server errors: {{ fieldErrors }}<br>
 		server errorMessage: {{ errorMessage }}<br>
 		hasErrors: {{ hasErrors }}<br>
 	</pre>
+
+	<pre v-text="values" />
 
 	<pre
 		v-if="response"

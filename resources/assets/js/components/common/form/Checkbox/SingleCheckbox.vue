@@ -1,7 +1,7 @@
 <script setup>
 	import { useField } from 'vee-validate';
-
-	import ErrorText from './ErrorText';
+	import VisuallyChecked from './VisuallyChecked';
+	import ErrorText from '../ErrorText';
 
 	const props = defineProps({
 		label: {
@@ -42,35 +42,7 @@
 				class="peer sr-only"
 			>
 
-			<div
-				:class="[
-					'relative flex-shrink-0 w-8 h-8 mr-2',
-					'peer-focus:ring-2 peer-focus:ring-focus',
-				]"
-			>
-				&nbsp;
-
-				<div class="absolute top-1/2 left-0 w-full pt-full transform -translate-y-1/2">
-					<div
-						:class="[
-							'flex items-center justify-center absolute inset-0',
-							'bg-grey-100 border-1 border-grey-900',
-							{
-								'bg-grey-200': value,
-							},
-						]"
-					>
-						<e-icon
-							:class="[
-								'transform transition-transform duration-200 ease-out-cubic',
-								value ? 'scale-90' : 'scale-0',
-							]"
-							size="w-full h-full"
-							name="check"
-						/>
-					</div>
-				</div>
-			</div>
+			<visually-checked :checked="value" />
 
 			<span
 				class="self-center"

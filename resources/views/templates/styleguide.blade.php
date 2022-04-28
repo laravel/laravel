@@ -202,23 +202,24 @@
 						'rules' => 'required',
 					],
 					[
-						'as' => 'radio',
-						'label' => 'Activity',
-						'name' => 'activity',
+						'as' => 'checkbox',
+						'label' => 'Your favourite fruit',
+						'name' => 'fruit',
 						'options' => [
 							[
-								'value' => 'walking',
-								'label' => 'Walking',
+								'value' => 'apple',
+								'label' => 'Apple',
 							],
 							[
-								'value' => 'running',
-								'label' => 'Running',
+								'value' => 'pear',
+								'label' => 'Pear',
 							],
 							[
-								'value' => 'climbing',
-								'label' => 'Climbing',
+								'value' => 'orange',
+								'label' => 'Orange',
 							],
 						],
+						'validation-name' => 'foo',
 						'rules' => 'required',
 					],
 					[

@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import './etc/validators';
 
 import Button from './components/common/Button';
-import Form from './components/common/form';
+import Form from './components/common/Form';
 import Icon from './components/common/Icon';
 import Placeholder from './components/common/Placeholder';
 
