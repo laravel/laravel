@@ -1,6 +1,7 @@
 <script setup>
 	import { useField } from 'vee-validate';
 
+	import LabelText from './LabelText';
 	import ErrorText from './ErrorText';
 
 	const props = defineProps({
@@ -57,7 +58,7 @@
 
 <template>
 	<label class="flex flex-col gap-y-1">
-		<span v-text="label" />
+		<label-text :text="label" />
 
 		<textarea
 			v-model="value"

@@ -1,6 +1,7 @@
 <script setup>
 	import { useField } from 'vee-validate';
 
+	import LabelText from './LabelText';
 	import ErrorText from './ErrorText';
 
 	const props = defineProps({
@@ -37,7 +38,7 @@
 
 <template>
 	<div class="inline-flex flex-col items-start relative cursor-pointer">
-		<span v-text="label" />
+		<label-text :text="label" />
 
 		<span class="grid md:grid-cols-2 gap-2">
 			<label

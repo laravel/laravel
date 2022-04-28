@@ -203,6 +203,26 @@
 					],
 					[
 						'as' => 'checkbox',
+						'label' => 'Toppings',
+						'name' => 'toppings',
+						'options' => [
+							[
+								'value' => 'sprinkles',
+								'label' => 'Sprinkles',
+							],
+							[
+								'value' => 'caramel',
+								'label' => 'Caramel',
+							],
+							[
+								'value' => 'oreos',
+								'label' => 'Oreos',
+							],
+						],
+						'rules' => 'required',
+					],
+					[
+						'as' => 'radio',
 						'label' => 'Your favourite fruit',
 						'name' => 'fruit',
 						'options' => [
@@ -219,7 +239,7 @@
 								'label' => 'Orange',
 							],
 						],
-						'validation-name' => 'foo',
+						'validation-name' => 'favourite fruit',
 						'rules' => 'required',
 					],
 					[

@@ -1,5 +1,7 @@
 <script setup>
 	import { Field as RenderlessSelect } from 'vee-validate';
+
+	import LabelText from './LabelText';
 	import ErrorText from './ErrorText';
 
 	defineProps({
@@ -37,10 +39,7 @@
 
 <template>
 	<div class="inline-flex flex-col">
-		<label
-			:for="name"
-			v-text="label"
-		/>
+		<label-text :text="label" />
 
 		<div class="flex relative">
 			<renderless-select

@@ -1,6 +1,7 @@
 <script setup>
 	import { Field as RenderlessCheckbox } from 'vee-validate';
 	import VisuallyChecked from './VisuallyChecked';
+	import LabelText from '../LabelText';
 	import ErrorText from '../ErrorText';
 
 	defineProps({
@@ -33,7 +34,7 @@
 
 <template>
 	<div class="flex flex-col gap-y-2">
-		<span v-text="label" />
+		<label-text :text="label" />
 
 		<div class="flex flex-col gap-y-2">
 			<renderless-checkbox
