@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.6...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.7...9.x)
+
+## [v9.1.7](https://github.com/laravel/laravel/compare/v9.1.6...v9.1.7) - 2022-05-03
+
+### Changed
+
+- Deprecation log stack trace option by @driesvints in https://github.com/laravel/laravel/pull/5874
 
 ## [v9.1.6](https://github.com/laravel/laravel/compare/v9.1.5...v9.1.6) - 2022-04-20
 
