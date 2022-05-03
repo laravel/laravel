@@ -1,11 +1,33 @@
-import { reactive, toRefs } from 'vue';
+import {
+	reactive,
+	computed,
+	toRefs,
+	nextTick,
+} from 'vue';
 
-export default function useFormSubmission(skipFalsy) {
+export default function useFormSubmission({ wrapper, skipFalsy, setErrors }) {
 	const data = reactive({
 		isSubmitting: null,
 		response: null,
 		errorMessage: null,
 		fieldErrors: null,
+	});
+
+	const firstErrorElement = computed(() => {
+		if (!data.fieldErrors) return null;
+
+		const firstError = Object.keys(data.fieldErrors)[0];
+		const target = wrapper.value.querySelector(`input[name=${firstError}]`);
+
+		return target;
+	});
+
+	const thankYouElement = computed(() => {
+		if (!data.response) return null;
+
+		const target = wrapper.value.querySelector('.e-thank-you');
+
+		return target;
 	});
 
 	const csrfToken = () => {
@@ -18,6 +40,20 @@ export default function useFormSubmission(skipFalsy) {
 		return token;
 	};
 
+	const scrollTo = async (success) => {
+		await nextTick();
+
+		const el = success
+			? thankYouElement.value
+			: firstErrorElement.value;
+
+		el.scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+			inline: 'center',
+		});
+	};
+
 	const onSubmitSuccess = async (response) => {
 		const { redirect, response: resp } = await response.json();
 
@@ -26,6 +62,8 @@ export default function useFormSubmission(skipFalsy) {
 		} else if (resp) {
 			data.response = resp;
 		}
+
+		scrollTo(true);
 	};
 
 	const onSubmitFailure = async (response) => {
@@ -37,6 +75,9 @@ export default function useFormSubmission(skipFalsy) {
 
 		data.errorMessage = message;
 		data.fieldErrors = errors;
+
+		setErrors(errors);
+		scrollTo(false);
 	};
 
 	const submit = async (action, values) => {

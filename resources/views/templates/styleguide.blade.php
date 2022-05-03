@@ -155,7 +155,8 @@
 					'last_name' => null,
 					'email' => null,
 					'terms' => false,
-					'activity' => null,
+					'toppings' => [],
+					'fruit' => null,
 					'transport' => null,
 				],
 				'schema' => [

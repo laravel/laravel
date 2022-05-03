@@ -1,5 +1,5 @@
 <script setup>
-	import { computed } from 'vue';
+	import { ref, computed } from 'vue';
 	import { useForm } from 'vee-validate';
 
 	import useFormSubmission from '@/js/composables/formSubmission';
@@ -27,23 +27,28 @@
 		},
 	});
 
-	const {
-		submit,
-		response,
-		isSubmitting,
-		fieldErrors,
-		errorMessage,
-	} = useFormSubmission();
+	const wrapper = ref(null);
 
 	const {
 		handleSubmit,
-		values,
-		errors,
+		setErrors,
+		// errors,
 	} = useForm({
 		initialValues: props.values || null,
 	});
 
-	const hasErrors = computed(() => !!Object.keys(errors.value).length);
+	const {
+		submit,
+		response,
+		isSubmitting,
+		errorMessage,
+	} = useFormSubmission({
+		wrapper: computed(() => wrapper.value || document),
+		skipFalsy: false,
+		setErrors,
+	});
+
+	// const hasErrors = computed(() => !!Object.keys(errors.value).length);
 	const onSubmit = handleSubmit((v) => submit(props.action, v));
 
 	const fieldComponent = (as) => {
@@ -67,32 +72,32 @@
 </script>
 
 <template>
-	<pre class="hidden">
-		frontend errors: {{ errors }}<br>
-		server errors: {{ fieldErrors }}<br>
-		server errorMessage: {{ errorMessage }}<br>
-		hasErrors: {{ hasErrors }}<br>
-	</pre>
-
-	<pre v-text="values" />
-
-	<pre
-		v-if="response"
-		v-text="response"
-	/>
-
-	<form
-		v-else
-		novalidate
-		class="flex flex-col items-start gap-y-4"
-		:disabled="isSubmitting"
-		@submit="onSubmit"
-	>
-		<component
-			:is="fieldComponent(as)"
-			v-for="({ as, ...field }, index) in schema"
-			:key="index"
-			v-bind="field"
+	<div ref="wrapper">
+		<pre
+			v-if="response"
+			class="e-thank-you"
+			v-text="response"
 		/>
-	</form>
+
+		<form
+			v-else
+			novalidate
+			class="flex flex-col items-start gap-y-4"
+			:disabled="isSubmitting"
+			@submit="onSubmit"
+		>
+			<pre
+				v-if="errorMessage"
+				class="e-h4 text-red"
+				v-text="errorMessage"
+			/>
+
+			<component
+				:is="fieldComponent(as)"
+				v-for="({ as, ...field }, index) in schema"
+				:key="index"
+				v-bind="field"
+			/>
+		</form>
+	</div>
 </template>
