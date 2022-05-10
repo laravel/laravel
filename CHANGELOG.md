@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.7...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.8...9.x)
+
+## [v9.1.8](https://github.com/laravel/laravel/compare/v9.1.7...v9.1.8) - 2022-05-05
+
+### Changed
+
+- Add local_domain option to smtp configuration by @bintzandt in https://github.com/laravel/laravel/pull/5877
+- Add specific test user in seeder by @driesvints in https://github.com/laravel/laravel/pull/5879
 
 ## [v9.1.7](https://github.com/laravel/laravel/compare/v9.1.6...v9.1.7) - 2022-05-03
 
