@@ -19,6 +19,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | View Cache
+    |--------------------------------------------------------------------------
+    |
+    | This option determines whether the compiled Blade templates will be
+    | cached for your application. Disabling cached views can be helpful
+    | during development, however make sure to enable it in production.
+    |
+    */
+
+    'cache' => env('VIEW_CACHE', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Compiled View Path
     |--------------------------------------------------------------------------
     |
