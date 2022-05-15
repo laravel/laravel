@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
-        "fruitcake/laravel-cors": "dev-develop",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "dev-develop",
         "laravel/tinker": "dev-develop"
