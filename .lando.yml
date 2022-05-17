@@ -1,0 +1,34 @@
+name: laravel-with-devops
+recipe: laravel
+env_file:
+  - .env.lando
+config:
+  webroot: public
+  php: "8.0"
+  composer_version: "2.3.5"
+  via: apache:2.4 # or nginx
+  database: mysql:5.7
+  cache: none # or redis or memcached
+  xdebug: false
+  config:
+    database: .lando/my-custom.cnf
+    php: .lando/php.ini
+    server: .lando/server.conf
+    vhosts: .lando/default.conf
+
+services:
+  node:
+    type: node:14
+  mailhog:
+    type: mailhog:v1.0.0
+    portforward: true
+    hogfrom:
+      - appserver
+
+proxy:
+  mailhog:
+    - mail.laravel-with-devops.lndo.site
+
+tooling:
+  npm:
+    service: node
