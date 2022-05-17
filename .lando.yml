@@ -6,19 +6,33 @@ config:
   webroot: public
   php: "8.0"
   composer_version: "2.3.5"
-  via: apache:2.4 # or nginx
+  via: nginx:1.17 # or apache:2.4
   database: mysql:5.7
   cache: none # or redis or memcached
   xdebug: false
   config:
-    database: .lando/my-custom.cnf
-    php: .lando/php.ini
-    server: .lando/server.conf
-    vhosts: .lando/default.conf
+#    database: .lando/my-custom.cnf
+#    php: .lando/php.ini
+#    server: .lando/server.conf
+#    vhosts: .lando/default.conf
+
+excludes:
+  - node_modules
 
 services:
+
+  appserver:
+    ssl: true
+    sslExpose: true
+    build:
+      - composer install
+
   node:
-    type: node:14
+    type: node
+    build:
+      - npm install
+      - npm run dev
+
   mailhog:
     type: mailhog:v1.0.0
     portforward: true
@@ -32,3 +46,4 @@ proxy:
 tooling:
   npm:
     service: node
+    cmd: npm
