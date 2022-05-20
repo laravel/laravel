@@ -62,3 +62,48 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Warden Setup
+
+Edit file .env
+
+```text
+WARDEN_ENV_NAME=laravel
+WARDEN_ENV_TYPE=laravel
+WARDEN_WEB_ROOT=/
+
+TRAEFIK_DOMAIN=laravel.local
+TRAEFIK_SUBDOMAIN=app
+
+MARIADB_VERSION=10.4
+NODE_VERSION=10
+COMPOSER_VERSION=1
+PHP_VERSION=7.4
+PHP_XDEBUG_3=1
+REDIS_VERSION=5.0
+
+WARDEN_DB=1
+WARDEN_REDIS=1
+
+## Laravel Config
+APP_URL=http://app.laravel.local
+APP_KEY=base64:MXpWu4vEa9Nhew2C852O8KMXubjMvXxrJYr9aZLOR/k=
+
+APP_ENV=local
+APP_DEBUG=true
+
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=laravel
+
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+MAIL_DRIVER=sendmail
+```
