@@ -1,15 +1,13 @@
 import { configure, defineRule } from 'vee-validate';
-import { required, email } from '@vee-validate/rules';
+import AllRules from '@vee-validate/rules';
 import { localize } from '@vee-validate/i18n';
 
-defineRule('required', required);
-defineRule('email', email);
+import messages from 'assets/../lang/en-validation.json';
+
+Object.keys(AllRules).forEach((rule) => {
+	defineRule(rule, AllRules[rule]);
+});
 
 configure({
-	generateMessage: localize('en', {
-		messages: {
-			required: 'The {field} field is required!',
-			email: 'Please enter a valid email adress!',
-		},
-	}),
+	generateMessage: localize('en', { messages }),
 });
