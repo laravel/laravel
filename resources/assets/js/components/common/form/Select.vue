@@ -52,7 +52,7 @@
 			>
 				<select
 					:class="[
-						'pr-12 border appearance-none',
+						'pr-12 border appearance-none w-full',
 						{ 'border-red': errorMessage },
 					]"
 					v-bind="field"
