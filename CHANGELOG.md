@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.8...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.9...9.x)
+
+## [v9.1.9](https://github.com/laravel/laravel/compare/v9.1.8...v9.1.9) - 2022-05-28
+
+### Changed
+
+- Switch to ESM imports by @jessarcher in https://github.com/laravel/laravel/pull/5895
 
 ## [v9.1.8](https://github.com/laravel/laravel/compare/v9.1.7...v9.1.8) - 2022-05-05
 
