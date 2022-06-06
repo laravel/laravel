@@ -1,5 +1,6 @@
 <script setup>
 	import sprite from 'assets/img/sprite.svg';
+	import { computed } from 'vue';
 
 	const props = defineProps({
 		name: {
@@ -13,7 +14,7 @@
 		},
 	});
 
-	const asset = `${props.url}#${props.name}`;
+	const asset = computed(() => `${props.url}#${props.name}`);
 </script>
 
 <template>
