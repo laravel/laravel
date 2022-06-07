@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.9...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.10...9.x)
+
+## [v9.1.10](https://github.com/laravel/laravel/compare/v9.1.9...v9.1.10) - 2022-06-07
+
+### Changed
+
+- Add language line by @taylorotwell in https://github.com/laravel/laravel/commit/b084aacc5ad105e39c2b058e9523e73655be8d1f
+- Improve Pusher configuration for easy development by @oanhnn in https://github.com/laravel/laravel/pull/5897
 
 ## [v9.1.9](https://github.com/laravel/laravel/compare/v9.1.8...v9.1.9) - 2022-05-28
 
