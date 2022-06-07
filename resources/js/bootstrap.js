@@ -26,6 +26,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
+//     wsHost: process.env.MIX_PUSHER_HOST ?? `ws-${process.env.MIX_PUSHER_CLUSTER}.pusher.com`,
+//     wsPort: process.env.MIX_PUSHER_PORT ?? 80,
+//     wssPort: process.env.MIX_PUSHER_PORT ?? 443,
+//     forceTLS: (proces.env.MIX_PUSHER_SCHEME ?? 'https') === 'https',
+//     enabledTransports: ['ws', 'wss'],
 // });
