@@ -17,6 +17,12 @@ class BroadcastServiceProvider extends ServiceProvider
         Broadcast::channelAuthorizationRoutes();
         Broadcast::userAuthenticationRoutes();
 
+        Broadcast::resolveAuthenticatedUserUsing(function ($request) {
+            return [
+                'id' => $request->user()->id,
+            ];
+        });
+
         require base_path('routes/channels.php');
     }
 }
