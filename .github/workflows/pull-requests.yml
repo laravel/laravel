@@ -1,9 +1,8 @@
-name: Pull Requests
+name: pull requests
 
 on:
   pull_request_target:
-    types:
-      - opened
+    types: [opened]
 
 permissions:
   pull-requests: write
