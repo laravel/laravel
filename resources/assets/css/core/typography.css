@@ -4,7 +4,7 @@
 .e-h4,
 .e-h5,
 .e-h6 {
-	@apply font-bold font-heading leading-none;
+	@apply font-bold font-heading;
 }
 
 .e-h1 {

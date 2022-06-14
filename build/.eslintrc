@@ -1,110 +1,109 @@
 {
-	"extends": [
-		"airbnb-base",
-		"plugin:vue/recommended"
-	],
-	"plugins": [
-		"vue"
-	],
-	"globals": {
-		"document": true,
-		"window": true
-	},
-	"rules": {
-		"func-names": "off",
-		"import/extensions": "off",
-		"import/no-extraneous-dependencies": "off",
-		"import/no-unresolved": "off",
-		"indent": [
-			"warn",
-			"tab",
-			{
-				"SwitchCase": 1
-			}
-		],
-		"no-console": [
-			"warn",
-			{
-				"allow": [
-					"error"
-				]
-			}
-		],
-		"no-tabs": "off",
-		"object-shorthand": "off",
-		"one-var": "off",
-		"padded-blocks": "off",
-		"vue/html-indent": [
-			1,
-			"tab"
-		],
-		"vue/max-attributes-per-line": [
-			2,
-			{
-				"singleline": 3
-			}
-		],
-		"vue/no-v-html": "off",
-		"vue/array-bracket-spacing": "warn",
-		"vue/arrow-spacing": "warn",
-		"vue/block-spacing": "warn",
-		"vue/brace-style": [
-			"warn",
-			"1tbs",
-			{
-				"allowSingleLine": true
-			}
-		],
-		"vue/camelcase": [
-			"warn",
-			{
-				"properties": "never"
-			}
-		],
-		"vue/comma-dangle": [
-			"warn",
-			{
-				"arrays": "always-multiline",
-				"objects": "always-multiline",
-				"imports": "always-multiline",
-				"exports": "always-multiline",
-				"functions": "always-multiline"
-			}
-		],
-		"vue/component-name-in-template-casing": [
-			"warn",
-			"kebab-case"
-		],
-		"vue/eqeqeq": "warn",
-		"vue/key-spacing": "warn",
-		"vue/match-component-file-name": "warn",
-		"vue/no-boolean-default": "warn",
-		"vue/no-restricted-syntax": "warn",
-		"vue/object-curly-spacing": [
-			"warn",
-			"always"
-		],
-		"vue/require-direct-export": "warn",
-		"vue/script-indent": [
-			"warn",
-			"tab",
-			{
-				"baseIndent": 1,
-				"switchCase": 1
-			}
-		],
-		"vue/space-infix-ops": "warn",
-		"vue/space-unary-ops": "warn",
-		"vue/v-on-function-call": "warn"
-	},
-	"overrides": [
-		{
-			"files": [
-				"*.vue"
-			],
-			"rules": {
-				"indent": "off"
-			}
-		}
-	]
+    "extends": [
+        "airbnb-base",
+        "plugin:vue/vue3-recommended"
+    ],
+    "plugins": [
+        "vue"
+    ],
+    "globals": {
+        "defineProps": "readonly",
+        "defineEmits": "readonly"
+    },
+    "rules": {
+        "func-names": "off",
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off",
+        "import/no-unresolved": "off",
+        "indent": [
+            "warn",
+            "tab",
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "no-console": [
+            "warn",
+            {
+                "allow": [
+                    "error"
+                ]
+            }
+        ],
+        "no-tabs": "off",
+        "object-shorthand": "off",
+        "padded-blocks": "off",
+        "vue/html-indent": [
+            1,
+            "tab"
+        ],
+        "vue/max-attributes-per-line": [
+            2,
+            {
+                "singleline": 3
+            }
+        ],
+        "vue/no-v-html": "off",
+        "vue/array-bracket-spacing": "warn",
+        "vue/arrow-spacing": "warn",
+        "vue/block-spacing": "warn",
+        "vue/brace-style": [
+            "warn",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
+        "vue/camelcase": [
+            "warn",
+            {
+                "properties": "never"
+            }
+        ],
+        "vue/comma-dangle": [
+            "warn",
+            {
+                "arrays": "always-multiline",
+                "objects": "always-multiline",
+                "imports": "always-multiline",
+                "exports": "always-multiline",
+                "functions": "always-multiline"
+            }
+        ],
+        "vue/component-name-in-template-casing": [
+            "warn",
+            "kebab-case"
+        ],
+        "vue/eqeqeq": "warn",
+        "vue/key-spacing": "warn",
+        "vue/match-component-file-name": "warn",
+        "vue/no-boolean-default": "warn",
+        "vue/no-restricted-syntax": "warn",
+        "vue/object-curly-spacing": [
+            "warn",
+            "always"
+        ],
+        "vue/require-direct-export": "warn",
+        "vue/script-indent": [
+            "warn",
+            "tab",
+            {
+                "baseIndent": 1,
+                "switchCase": 1
+            }
+        ],
+        "vue/space-infix-ops": "warn",
+        "vue/space-unary-ops": "warn",
+        "vue/v-on-function-call": "warn"
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.vue"
+            ],
+            "rules": {
+                "indent": "off"
+            }
+        }
+    ]
 }

@@ -1,7 +1,20 @@
+<script setup>
+	import { useAttrs } from 'vue';
+
+	defineProps({
+		title: {
+			type: String,
+			default: null,
+		},
+	});
+
+	const attrs = useAttrs();
+	const as = attrs.href ? 'a' : 'button';
+</script>
+
 <template>
 	<component
-		:is="cElement"
-		v-bind="$props.context.attributes"
+		:is="as"
 		:class="[
 			'inline-block',
 			'relative',
@@ -12,29 +25,7 @@
 		]"
 	>
 		<slot>
-			<span v-text="$props.context.label || $props.title" />
+			<span v-text="title" />
 		</slot>
 	</component>
 </template>
-
-<script>
-	export default {
-		props: {
-			context: {
-				type: Object,
-				default: () => ({}),
-			},
-
-			title: {
-				type: String,
-				default: null,
-			},
-		},
-
-		computed: {
-			cElement: function () {
-				return this.$attrs.href ? 'a' : 'button';
-			},
-		},
-	};
-</script>

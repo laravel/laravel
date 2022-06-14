@@ -1,18 +1,14 @@
 .e-copy {
 	@apply max-w-prose;
 
-	> * {
+	> *:not(:first-child) {
 		@apply mt-em;
-
-		&:first-child {
-			@apply mt-0;
-		}
 	}
 
 	h2,
 	h3,
 	h4 {
-		@apply font-bold font-heading leading-none;
+		@apply font-bold font-heading;
 	}
 
 	h2 {
@@ -31,12 +27,8 @@
 	ul {
 		@apply mx-5;
 
-		> li {
+		> li:not(:first-child) {
 			@apply mt-em;
-
-			&:first-child {
-				@apply mt-0;
-			}
 		}
 	}
 

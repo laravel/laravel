@@ -1,23 +1,24 @@
+<script setup>
+	import sprite from 'assets/img/sprite.svg';
+	import { computed } from 'vue';
+
+	const props = defineProps({
+		name: {
+			type: String,
+			required: true,
+		},
+
+		url: {
+			type: String,
+			default: sprite,
+		},
+	});
+
+	const asset = computed(() => `${props.url}#${props.name}`);
+</script>
+
 <template>
 	<svg>
-		<use :xlink:href="`${$props.url}#${$props.name}`" />
+		<use :xlink:href="asset" />
 	</svg>
 </template>
-
-<script>
-	import Sprite from 'assets/img/sprite.svg';
-
-	export default {
-		props: {
-			name: {
-				type: String,
-				required: true,
-			},
-
-			url: {
-				type: String,
-				default: Sprite,
-			},
-		},
-	};
-</script>

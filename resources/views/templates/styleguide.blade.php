@@ -86,10 +86,10 @@
 			],
 		],
 		'colours' => [
- 			'black',
- 			'white',
- 			'grey-50',
- 			'grey-100',
+			'black',
+			'white',
+			'grey-50',
+			'grey-100',
 			'grey-200',
 			'grey-300',
 			'grey-400',
@@ -98,10 +98,10 @@
 			'grey-700',
 			'grey-800',
 			'grey-900',
- 			'blue',
- 			'green',
- 			'red',
- 			'social-twitter',
+			'blue',
+			'green',
+			'red',
+			'social-twitter',
 			'social-facebook',
 			'social-youtube',
 			'social-pinterest',
@@ -111,6 +111,165 @@
 		'icons' => [
 			'check',
 			'chevron-right',
+		],
+		'images' => [
+			[
+				'src' => [
+					'http://via.placeholder.com/2000x2400/888/000',
+					'http://via.placeholder.com/1600x900/888/000',
+					'http://via.placeholder.com/500x200/888/000',
+				],
+				'webp' => [
+					'http://via.placeholder.com/2000x2400.webp/888/000',
+					'http://via.placeholder.com/1600x900.webp/888/000',
+					'http://via.placeholder.com/500x200.webp/888/000',
+				],
+				'sizes' => [
+					1248,
+					768,
+				],
+			],
+		],
+		'forms' => [
+			[
+				'action' => route('templates.echo', [
+					'json' => [
+						'redirect' => null,
+						'response' => [
+							'title' => 'Thanks for your submission',
+						],
+					],
+					// Simulated form errors
+					// 'status' => 422,
+					// 'json' => [
+					// 	'errors' => [
+					// 		'email' => [
+					// 			ucfirst(_mock()->wordsBetween(5, 8)),
+					// 		],
+					// 	],
+					// 	'message' => ucfirst(_mock()->wordsBetween(5, 8)),
+					// ],
+				]),
+				'values' => [
+					'first_name' => null,
+					'last_name' => null,
+					'email' => null,
+					'terms' => false,
+					'toppings' => [],
+					'fruit' => null,
+					'transport' => null,
+				],
+				'schema' => [
+					[
+						'as' => 'input',
+						'label' => 'First name',
+						'name' => 'first_name',
+						'placeholder' => 'Your first name',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'input',
+						'label' => 'Last name',
+						'name' => 'last_name',
+						'placeholder' => 'Your last name',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'input',
+						'type' => 'email',
+						'label' => 'Email Address',
+						'name' => 'email',
+						'placeholder' => 'Your email address',
+						'rules' => 'required|email',
+					],
+					[
+						'as' => 'input',
+						'type' => 'tel',
+						'label' => 'Phone number',
+						'name' => 'phone',
+						'placeholder' => 'Your phone number',
+					],
+					[
+						'as' => 'textarea',
+						'label' => 'Your comments',
+						'name' => 'comments',
+						'placeholder' => 'Your comments',
+					],
+					[
+						'as' => 'checkbox',
+						'label' => 'Terms and conditions Aperiam necessitatibus culpa iusto dolor accusantium Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis voluptatem suscipit vitae, vel ullam facere accusantium distinctio quibusdam nam architecto voluptates aut, libero officiis necessitatibus quaerat hic quia culpa unde?',
+						'name' => 'terms',
+						'validation-name' => 'Terms and Conditions',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'checkbox',
+						'label' => 'Toppings',
+						'name' => 'toppings',
+						'options' => [
+							[
+								'value' => 'sprinkles',
+								'label' => 'Sprinkles',
+							],
+							[
+								'value' => 'caramel',
+								'label' => 'Caramel',
+							],
+							[
+								'value' => 'oreos',
+								'label' => 'Oreos',
+							],
+						],
+						'rules' => 'required',
+					],
+					[
+						'as' => 'radio',
+						'label' => 'Your favourite fruit',
+						'name' => 'fruit',
+						'options' => [
+							[
+								'value' => 'apple',
+								'label' => 'Apple',
+							],
+							[
+								'value' => 'pear',
+								'label' => 'Pear',
+							],
+							[
+								'value' => 'orange',
+								'label' => 'Orange',
+							],
+						],
+						'validation-name' => 'favourite fruit',
+						'rules' => 'required',
+					],
+					[
+						'as' => 'select',
+						'label' => 'Transport',
+						'name' => 'transport',
+						'placeholder' => 'Transportation type',
+						'options' => [
+							[
+								'value' => 'car',
+								'label' => 'Car',
+							],
+							[
+								'value' => 'train',
+								'label' => 'Train',
+							],
+							[
+								'value' => 'bus',
+								'label' => 'Bus',
+							],
+						],
+						'rules' => 'required',
+					],
+					[
+						'as' => 'submit',
+						'title' => 'Submit',
+					],
+				],
+			],
 		],
 	],
 ])

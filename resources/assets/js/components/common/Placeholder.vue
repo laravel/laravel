@@ -1,46 +1,45 @@
+<script setup>
+	import { useAttrs, useSlots } from 'vue';
+	import EImg from './Img';
+
+	defineProps({
+		as: {
+			type: String,
+			default: 'div',
+		},
+
+		ratioClass: {
+			type: String,
+			default: 'pt-9/16',
+		},
+	});
+
+	const attrs = useAttrs();
+	const slots = useSlots();
+
+	const componentAttrs = slots.default ? attrs : null;
+</script>
+
+<script>
+	export default {
+		name: 'EPlaceholder',
+
+		inheritAttrs: false,
+	};
+</script>
+
 <template>
 	<component
-		:is="cTag"
-		:class="$props.ratioClass"
+		:is="$attrs.href ? 'a' : as"
+		:class="ratioClass"
 		class="block relative w-full"
-		v-bind="cAttrs"
+		v-bind="componentAttrs"
 	>
 		<slot>
-			<e-img overlay v-bind="$attrs" />
+			<e-img
+				overlay
+				v-bind="$attrs"
+			/>
 		</slot>
 	</component>
 </template>
-
-<script>
-	import EImg from './Img';
-
-	export default {
-		components: {
-			EImg,
-		},
-
-		inheritAttrs: false,
-
-		props: {
-			ratioClass: {
-				type: String,
-				default: 'pt-9/16',
-			},
-
-			tag: {
-				type: String,
-				default: 'div',
-			},
-		},
-
-		computed: {
-			cAttrs() {
-				return this.$slots.default ? this.$attrs : null;
-			},
-
-			cTag() {
-				return this.$attrs.href ? 'a' : this.$props.tag;
-			},
-		},
-	};
-</script>
