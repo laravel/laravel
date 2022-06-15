@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
-     *
+     * new edit
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
