@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->singleton(
+    Symfony\Component\Console\Output\ConsoleOutput::class,
+    Symfony\Component\Console\Output\ConsoleOutput::class
+);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
