@@ -42,7 +42,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    Symfony\Component\Console\Output\ConsoleOutput::class,
+    Symfony\Component\Console\Output\ConsoleOutputInterface::class,
     Symfony\Component\Console\Output\ConsoleOutput::class
 );
 
