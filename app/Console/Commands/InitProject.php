@@ -31,8 +31,8 @@ class InitProject extends Command
     {
         //Optional: serve after finishing
         $serve = $this->choice(
-            "Would you like to serve after finishing?",
-            ["No", "Yes"],
+            'Would you like to serve after finishing?',
+            ['No', 'Yes'],
             1
         );
 
