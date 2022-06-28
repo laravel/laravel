@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.1.10...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.2.0...9.x)
+
+## [v9.2.0](https://github.com/laravel/laravel/compare/v9.1.10...v9.2.0) - 2022-06-28
+
+### Added
+
+- Vite by @jessarcher in https://github.com/laravel/laravel/pull/5904
+- Added support for easy development configuration in bootstrap.js by @rennokki in https://github.com/laravel/laravel/pull/5900
+
+### Changed
+
+- Sorted entries in the `en` validation translations file by @FaridAghili in https://github.com/laravel/laravel/pull/5899
 
 ## [v9.1.10](https://github.com/laravel/laravel/compare/v9.1.9...v9.1.10) - 2022-06-07
 
