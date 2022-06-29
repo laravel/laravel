@@ -4,6 +4,20 @@
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "repositories": [
+        {
+            "type":"package",
+            "package": {
+                "name": "aljes96/laravel-sail",
+                "version":"1.15.0",
+                "source": {
+                    "url": "https://github.com/aljes96/laravel-sail.git",
+                    "type": "git",
+                    "reference":"v1.15.0"
+                }
+            }
+        }
+    ],
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
@@ -13,7 +27,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
+        "aljes96/laravel-sail": "~1.15.0",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
