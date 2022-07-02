@@ -10,5 +10,8 @@ export default defineConfig({
             ],
             refresh: true,
         }),
+        esbuild: {
+           legalComments: 'none',
+        },
     ],
 });
