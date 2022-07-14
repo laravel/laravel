@@ -7,6 +7,7 @@
 .env
 .env.backup
 .phpunit.result.cache
+.styleci.yml
 Homestead.json
 Homestead.yaml
 auth.json
