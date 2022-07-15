@@ -15,10 +15,6 @@ return new class extends Migration
     {
         Schema::create('rotarydies', function (Blueprint $table) {
             $table->increments('id');
-            Select::make('rotarydies_cylinder_id')
-                ->relationship('cylinder', 'teeth')
-                ->searchable()
-                ->required();
             $table->string('customermark');
             $table->decimal('aroundsize');
             $table->decimal('acrosssize');
