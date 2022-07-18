@@ -25,16 +25,21 @@ class CylinderResource extends Resource
     protected static ?string $model = Cylinder::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Rotary Die';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                
                 TextInput::make('teeth')->numeric(),
                 TextInput::make('circumference_mm')->numeric(),
                 TextInput::make('circumference_inch')->numeric(),
                 Toggle::make('machine1'),
                 Toggle::make('machine2'),
+
+                
 
 
             ]);
@@ -44,7 +49,10 @@ class CylinderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('teeth'),
+                TextColumn::make('teeth')
+                                ->searchable()
+                ->sortable()
+                ->label('Teeth'),
                 TextColumn::make('circumference_mm'),
                 TextColumn::make('circumference_inch'),
                 BooleanColumn::make('machine1'),
