@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.2.1...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.0...9.x)
+
+## [v9.3.0](https://github.com/laravel/laravel/compare/v9.2.1...v9.3.0) - 2022-07-20
+
+### Added
+
+- Uses `laravel/pint` for styling by @nunomaduro in https://github.com/laravel/laravel/pull/5945
+
+### Changed
+
+- Bump axios version by @ankurk91 in https://github.com/laravel/laravel/pull/5946
+- Vite 3 support by @timacdonald in https://github.com/laravel/laravel/pull/5944
 
 ## [v9.2.1](https://github.com/laravel/laravel/compare/v9.2.0...v9.2.1) - 2022-07-13
 
