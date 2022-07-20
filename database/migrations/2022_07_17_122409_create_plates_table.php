@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('plates', function (Blueprint $table) {
             $table->id();
             $table->string('plateno');
-            $table->bigIncrements('plates_media_id');
+            $table->bigInteger('plates_media_id');
             $table->timestamps();
 
         });

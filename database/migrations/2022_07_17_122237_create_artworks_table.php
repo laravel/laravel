@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('jobrun');
             $table->integer('labelrepeat');
             $table->integer('printedqty');
-            $table->bigIncrements('artworks_media_id');
+            $table->bigInteger('artworks_media_id');
             $table->timestamps();
         });
     }
