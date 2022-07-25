@@ -1,6 +1,26 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.2.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.0...9.x)
+
+## [v9.3.0](https://github.com/laravel/laravel/compare/v9.2.1...v9.3.0) - 2022-07-20
+
+### Added
+
+- Uses `laravel/pint` for styling by @nunomaduro in https://github.com/laravel/laravel/pull/5945
+
+### Changed
+
+- Bump axios version by @ankurk91 in https://github.com/laravel/laravel/pull/5946
+- Vite 3 support by @timacdonald in https://github.com/laravel/laravel/pull/5944
+
+## [v9.2.1](https://github.com/laravel/laravel/compare/v9.2.0...v9.2.1) - 2022-07-13
+
+### Changed
+
+- Add auth.json to skeleton by @driesvints in https://github.com/laravel/laravel/pull/5924
+- Update `bootstrap.js` by @irsyadadl in https://github.com/laravel/laravel/pull/5929
+- Add default reloading to skeleton by @timacdonald in https://github.com/laravel/laravel/pull/5927
+- Update to the latest version of laravel-vite-plugin by @jessarcher in https://github.com/laravel/laravel/pull/5943
 
 ## [v9.2.0](https://github.com/laravel/laravel/compare/v9.1.10...v9.2.0) - 2022-06-28
 
