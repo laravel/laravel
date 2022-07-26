@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.1...9.x)
+
+## [v9.3.1](https://github.com/laravel/laravel/compare/v9.3.0...v9.3.1) - 2022-07-26
+
+### Changed
+
+- Update font delivery by @abenerd in https://github.com/laravel/laravel/pull/5952
+- Don't need to ignore vite config file by @GrahamCampbell in https://github.com/laravel/laravel/pull/5953
 
 ## [v9.3.0](https://github.com/laravel/laravel/compare/v9.2.1...v9.3.0) - 2022-07-20
 
