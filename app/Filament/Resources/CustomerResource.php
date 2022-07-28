@@ -30,7 +30,7 @@ class CustomerResource extends Resource
             ->schema([
                 TextInput::make('name')->required(),
                 TextInput::make('city')->required(),
-         
+
             ]);
     }
 
@@ -39,11 +39,11 @@ class CustomerResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->searchable()
-->sortable()
-->label('Customer Name'),
-TextColumn::make('ciety') 
-->label('City'),
+                    ->searchable()
+                    ->sortable()
+                    ->label('Customer Name'),
+                TextColumn::make('City')
+                    ->label('City'),
             ])->defaultSort('name', 'asc')
             ->filters([
                 //
@@ -55,14 +55,14 @@ TextColumn::make('ciety')
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -70,5 +70,5 @@ TextColumn::make('ciety')
             'create' => Pages\CreateCustomer::route('/create'),
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
-    }    
+    }
 }

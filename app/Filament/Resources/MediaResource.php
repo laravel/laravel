@@ -12,6 +12,11 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+
 
 class MediaResource extends Resource
 {
@@ -24,7 +29,7 @@ class MediaResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('mediatype')->required(),
             ]);
     }
 
@@ -32,7 +37,8 @@ class MediaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('mediatype'),
+        
             ])
             ->filters([
                 //

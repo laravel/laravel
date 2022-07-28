@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PlateResource\Pages;
 use App\Filament\Resources\PlateResource\RelationManagers;
 use App\Models\Plate;
+use App\Models\Media;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,12 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+
+
 
 class PlateResource extends Resource
 {
@@ -24,7 +31,14 @@ class PlateResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('plateno')->required(),
+
+                Select::make('plates_media_id')
+                ->label('Media')
+                ->options(Media::all()->pluck('mediatype', 'id'))
+                ->searchable()
+                ->required(),
+                
             ]);
     }
 
@@ -32,7 +46,8 @@ class PlateResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('plateno'),
+                TextColumn::make('media.mediatype')
             ])
             ->filters([
                 //
