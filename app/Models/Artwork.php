@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Artwork extends Model
 {
     use HasFactory;
-    protected $fillable = ['description', 'artworks_order_id', 'requiredqty', 'jobrun', 'labelrepeat', 'printedqty', 'artworks_media_id',];
+    protected $fillable = ['description', 'artworks_order_id', 'requiredqty', 'jobrun', 'labelrepeat', 'printedqty', 'remark', 'artworks_media_id', 'awstatus'];
 
     public function order(): BelongsTo
     {

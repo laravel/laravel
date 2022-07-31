@@ -22,7 +22,7 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-bookmark';
     protected static ?string $navigationGroup = 'Artworks';
 
     public static function form(Form $form): Form
@@ -38,7 +38,7 @@ class MediaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('mediatype'),
-        
+
             ])
             ->filters([
                 //
@@ -50,14 +50,14 @@ class MediaResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -65,5 +65,5 @@ class MediaResource extends Resource
             'create' => Pages\CreateMedia::route('/create'),
             'edit' => Pages\EditMedia::route('/{record}/edit'),
         ];
-    }    
+    }
 }

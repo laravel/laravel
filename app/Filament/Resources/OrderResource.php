@@ -24,7 +24,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-view-list';
     protected static ?string $navigationGroup = 'Artworks';
 
     public static function form(Form $form): Form
@@ -53,6 +53,7 @@ class OrderResource extends Resource
 
 
 
+
             ]);
     }
 
@@ -76,7 +77,9 @@ class OrderResource extends Resource
                         'warning' => 'cancelled',
                         'success' => 'printed',
                         'warning' => 'delivered',
-                    ])->searchable()
+                    ])->searchable(),
+                TextColumn::make('updated_at')
+                    ->sortable(),
 
 
                 // 'neworder','inprocess','noartwork','approved','cancelled','printed','delivered'
@@ -99,7 +102,8 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ArtworksRelationManager::class,
+
         ];
     }
 

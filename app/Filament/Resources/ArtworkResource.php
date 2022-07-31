@@ -18,13 +18,16 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\BadgeColumn;
+
+
 
 
 class ArtworkResource extends Resource
 {
     protected static ?string $model = Artwork::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
     protected static ?string $navigationGroup = 'Artworks';
 
     public static function form(Form $form): Form
@@ -39,10 +42,20 @@ class ArtworkResource extends Resource
                     ->searchable()
                     ->required(),
                 TextInput::make('requiredqty')->required(),
-                TextInput::make('jobrun'),
-                TextInput::make('labelrepeat'),
-                TextInput::make('printedqty'),
-                TextInput::make('artworks_media_id'),
+                // TextInput::make('jobrun'),
+                // TextInput::make('labelrepeat'),
+                // TextInput::make('printedqty'),
+                TextInput::make('remark'),
+                Select::make('awstatus')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'printed' => 'Printed',
+                        'platesent' => 'Plate Sent',
+                        'sentforapproval' => 'Sent for Approval',
+                        'noartworkfile' => 'No Artwork File',
+                    ])
+                // TextInput::make('artworks_media_id'),
                 // $table->id();
                 // $table->string('description');
                 // $table->bigInteger('artworks_order_id');
@@ -64,13 +77,26 @@ class ArtworkResource extends Resource
                     ->sortable()
                     ->label('Description'),
                 TextColumn::make('requiredqty'),
-                TextColumn::make('jobrun'),
-                TextColumn::make('labelrepeat'),
-                TextColumn::make('printedqty'),
+                // TextColumn::make('jobrun'),
+                // TextColumn::make('labelrepeat'),
+                // TextColumn::make('printedqty'),
                 TextColumn::make('order.orderno'),
 
-                TextColumn::make('created_at'),
+                TextColumn::make('remark'),
+
+                BadgeColumn::make('awstatus')
+                    ->colors([
+                        'warning' => 'Pending',
+                        'warning' => 'sentforapproval',
+                        'success' => 'Approved',
+                        'success' => 'Printed',
+                        'success' => 'Plate Sent',
+                        'warning' => 'noartworkfile',
+                    ])->sortable(),
                 TextColumn::make('updated_at'),
+
+
+
 
 
 

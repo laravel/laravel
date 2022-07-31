@@ -20,9 +20,24 @@ class ArtworksRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('orderno')
-                    ->required()
-                    ->maxLength(255),
+
+                Forms\Components\TextInput::make('description')->required(),
+
+                Forms\Components\TextInput::make('requiredqty')->required(),
+                Forms\Components\TextInput::make('jobrun'),
+                Forms\Components\TextInput::make('labelrepeat'),
+                Forms\Components\TextInput::make('printedqty'),
+                // Forms\Components\TextInput::make('artworks_media_id'),
+                Forms\Components\Select::make('awstatus')
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'printed' => 'Printed',
+                        'platesent' => 'Plate Sent',
+                        'sentforapproval' => 'Sent for Approval',
+                        'noartworkfile' => 'No Artwork File',
+                    ]),
+                Forms\Components\TextInput::make('remark'),
             ]);
     }
 
@@ -30,7 +45,22 @@ class ArtworksRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('orderno'),
+                Tables\Columns\TextColumn::make('description')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('requiredqty'),
+
+                Tables\Columns\BadgeColumn::make('awstatus')
+                    ->colors([
+                        'warning' => 'Pending',
+                        'warning' => 'sentforapproval',
+                        'success' => 'Approved',
+                        'success' => 'Printed',
+                        'success' => 'Plate Sent',
+                        'warning' => 'noartworkfile',
+                    ])->sortable(),
+                Tables\Columns\TextColumn::make('remark'),
+
             ])
             ->filters([
                 //
@@ -45,5 +75,5 @@ class ArtworksRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
 }
