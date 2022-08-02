@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.1...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.2...9.x)
+
+## [v9.3.2](https://github.com/laravel/laravel/compare/v9.3.1...v9.3.2) - 2022-08-01
+
+### Changed
+
+- Update Sanctum by @suyar in https://github.com/laravel/laravel/pull/5957
+- Allow Pest plugin in Composer by @driesvints in https://github.com/laravel/laravel/pull/5959
 
 ## [v9.3.1](https://github.com/laravel/laravel/compare/v9.3.0...v9.3.1) - 2022-07-26
 
