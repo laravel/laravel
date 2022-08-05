@@ -10,11 +10,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Plate extends Model
 {
     use HasFactory;
-    protected $fillable =   [ 'plateno', 'plates_media_id' ];
+    protected $fillable =   ['plateno', 'plates_media_id'];
 
-    
+
     public function media(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'plates_media_id');
+    }
+    public function artworks(): HasMany
+    {
+        return $this->hasMany(Artwork::class, 'artworks_plate_id');
     }
 }

@@ -34,11 +34,11 @@ class PlateResource extends Resource
                 TextInput::make('plateno')->required(),
 
                 Select::make('plates_media_id')
-                ->label('Media')
-                ->options(Media::all()->pluck('mediatype', 'id'))
-                ->searchable()
-                ->required(),
-                
+                    ->label('Media')
+                    ->options(Media::all()->pluck('mediatype', 'id'))
+                    ->searchable()
+                    ->required(),
+
             ]);
     }
 
@@ -59,14 +59,14 @@ class PlateResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ArtworksRelationManager::class,
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -74,5 +74,5 @@ class PlateResource extends Resource
             'create' => Pages\CreatePlate::route('/create'),
             'edit' => Pages\EditPlate::route('/{record}/edit'),
         ];
-    }    
+    }
 }

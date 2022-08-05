@@ -7,6 +7,7 @@ use App\Filament\Resources\ArtworkResource\RelationManagers;
 use App\Models\Artwork;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Plate;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -18,7 +19,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\BadgeColumn;
+use pxlrbt\FilamentExcel\Actions\Pages\ExportBulkAction;
+
+
 
 
 
@@ -45,6 +50,14 @@ class ArtworkResource extends Resource
                 // TextInput::make('jobrun'),
                 // TextInput::make('labelrepeat'),
                 // TextInput::make('printedqty'),
+                Select::make('artworks_plate_id')
+                    ->label('Plate ID')
+                    ->options(Plate::all()->pluck('plateno', 'id'))
+                    ->searchable()
+                    ->required(),
+
+
+
                 TextInput::make('remark'),
                 Select::make('awstatus')
                     ->options([
@@ -54,7 +67,9 @@ class ArtworkResource extends Resource
                         'platesent' => 'Plate Sent',
                         'sentforapproval' => 'Sent for Approval',
                         'noartworkfile' => 'No Artwork File',
-                    ])
+                    ]),
+
+                Toggle::make('prepressstage')->label('Prepress Done'),
                 // TextInput::make('artworks_media_id'),
                 // $table->id();
                 // $table->string('description');
@@ -82,7 +97,7 @@ class ArtworkResource extends Resource
                 // TextColumn::make('printedqty'),
                 TextColumn::make('order.orderno'),
 
-                TextColumn::make('remark'),
+
 
                 BadgeColumn::make('awstatus')
                     ->colors([
@@ -93,7 +108,10 @@ class ArtworkResource extends Resource
                         'success' => 'Plate Sent',
                         'warning' => 'noartworkfile',
                     ])->sortable(),
+                BooleanColumn::make('prepressstage')->label('Prepress Done')->sortable(),
+                TextColumn::make('remark'),
                 TextColumn::make('updated_at'),
+
 
 
 
@@ -113,13 +131,15 @@ class ArtworkResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+
+
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PlatesRelationManager::class,
         ];
     }
 

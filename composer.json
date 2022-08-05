@@ -13,6 +13,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "psr/simple-cache": "^1.0",
+        "pxlrbt/filament-excel": "^1.0",
         "spatie/laravel-backup": "^8.1"
     },
     "require-dev": {

@@ -36,7 +36,8 @@ class ArtworksRelationManager extends RelationManager
                         'platesent' => 'Plate Sent',
                         'sentforapproval' => 'Sent for Approval',
                         'noartworkfile' => 'No Artwork File',
-                    ]),
+                    ])->required(),
+                Forms\Components\Toggle::make('prepressstage')->label('Prepress Done'),
                 Forms\Components\TextInput::make('remark'),
             ]);
     }
@@ -49,6 +50,7 @@ class ArtworksRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('requiredqty'),
+                Tables\Columns\BooleanColumn::make('prepressstage')->label('Prepress Done')->sortable(),
 
                 Tables\Columns\BadgeColumn::make('awstatus')
                     ->colors([

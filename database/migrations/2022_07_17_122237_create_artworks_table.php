@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('labelrepeat');
             $table->integer('printedqty');
             $table->bigInteger('artworks_media_id');
+            $table->bigInteger('artworks_plate_id');
             $table->string('remark');
             $table->timestamps();
         });
