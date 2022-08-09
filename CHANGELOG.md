@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.2...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.3...9.x)
+
+## [v9.3.3](https://github.com/laravel/laravel/compare/v9.3.2...v9.3.3) - 2022-08-03
+
+### Changed
+
+- Validation added `doesnt_end_with` translation by @kichetof in https://github.com/laravel/laravel/pull/5962
 
 ## [v9.3.2](https://github.com/laravel/laravel/compare/v9.3.1...v9.3.2) - 2022-08-01
 
