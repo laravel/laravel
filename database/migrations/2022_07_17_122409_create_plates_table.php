@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('plateno');
             $table->bigInteger('plates_media_id');
+            $table->string('remark');
             $table->timestamps();
-
         });
     }
 

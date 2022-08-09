@@ -18,6 +18,11 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+
+
 
 
 class OrderResource extends Resource
@@ -89,13 +94,16 @@ class OrderResource extends Resource
             ])->defaultSort('orderno', 'desc')
 
             ->filters([
-                //
+                SelectFilter::make('orders_customer_id')->relationship('customer', 'name')
+
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export'),
             ]);
     }
 

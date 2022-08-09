@@ -21,7 +21,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\BadgeColumn;
-use pxlrbt\FilamentExcel\Actions\Pages\ExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
 
 
 
@@ -131,6 +131,8 @@ class ArtworkResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                FilamentExportBulkAction::make('export')
+
 
 
             ]);

@@ -38,6 +38,7 @@ class PlateResource extends Resource
                     ->options(Media::all()->pluck('mediatype', 'id'))
                     ->searchable()
                     ->required(),
+                TextInput::make('remark')->required(),
 
             ]);
     }
@@ -46,8 +47,11 @@ class PlateResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('plateno'),
-                TextColumn::make('media.mediatype')
+                TextColumn::make('plateno')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('media.mediatype'),
+                TextColumn::make('remarks'),
             ])
             ->filters([
                 //
@@ -57,7 +61,7 @@ class PlateResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])->defaultSort('plateno', 'asc');
     }
 
     public static function getRelations(): array

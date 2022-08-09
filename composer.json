@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "alperenersoy/filament-export": "^0.1.5",
         "filament/filament": "^2.0",
         "filament/forms": "^2.0",
         "filament/tables": "^2.0",
