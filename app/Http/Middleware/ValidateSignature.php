@@ -12,11 +12,11 @@ class ValidateSignature extends Middleware
      * @var array<int, string>
      */
     protected $ignore = [
-        //'utm_campaign',
-        //'utm_source',
-        //'utm_medium',
-        //'utm_content',
-        //'utm_term',
-        //'fbclid',
+        // 'utm_campaign',
+        // 'utm_source',
+        // 'utm_medium',
+        // 'utm_content',
+        // 'utm_term',
+        // 'fbclid',
     ];
 }
