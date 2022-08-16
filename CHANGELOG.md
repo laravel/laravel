@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.3...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.4...9.x)
+
+## [v9.3.4](https://github.com/laravel/laravel/compare/v9.3.3...v9.3.4) - 2022-08-15
+
+### Changed
+
+- Add ValidateSignature middleware for ignore params by @valorin in https://github.com/laravel/laravel/pull/5942
 
 ## [v9.3.3](https://github.com/laravel/laravel/compare/v9.3.2...v9.3.3) - 2022-08-03
 
