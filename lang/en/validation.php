@@ -99,7 +99,7 @@ return [
         'numeric' => 'The :attribute must be at least :min.',
         'string' => 'The :attribute must be at least :min characters.',
     ],
-    'min_digits' => 'The :attribute must not have less than :min digits.',
+    'min_digits' => 'The :attribute must have at least :min digits.',
     'multiple_of' => 'The :attribute must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
