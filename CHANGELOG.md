@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.5...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.6...9.x)
+
+## [v9.3.6](https://github.com/laravel/laravel/compare/v9.3.5...v9.3.6) - 2022-08-29
+
+### Changed
+
+- Bump Vite plugin version by @timacdonald in https://github.com/laravel/laravel/pull/5977
 
 ## [v9.3.5](https://github.com/laravel/laravel/compare/v9.3.4...v9.3.5) - 2022-08-22
 
