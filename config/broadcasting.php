@@ -49,10 +49,10 @@ return [
 
         'ably' => [
             'driver' => 'ably',
+            'native_client' => env('ABLY_NATIVE_CLIENT', false),
             'key' => env('ABLY_KEY'),
             'token_expiry' => env('ABLY_TOKEN_EXPIRY', 3600),
             'disable_public_channels' => env('ABLY_DISABLE_PUBLIC_CHANNELS', false),
-            'pusher_adapter' => env('ABLY_PUSHER_ADAPTER', false),
         ],
 
         'redis' => [
