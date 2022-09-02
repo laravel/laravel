@@ -1,33 +1,29 @@
-@extends('layouts.app-master')
+@extends('layouts.master')
 
 @section('content')
-
-    <h1 class="mb-3">Laravel 8 User Roles and Permissions Step by Step Tutorial - codeanddeploy.com</h1>
-
-    <div class="bg-light p-4 rounded">
-        <h1>Users</h1>
-        <div class="lead">
-            Manage your users here.
-            <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
-        </div>
-
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
         <div class="mt-2">
             @include('layouts.partials.messages')
         </div>
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col" width="1%">#</th>
-                <th scope="col" width="15%">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col" width="10%">Username</th>
-                <th scope="col" width="10%">Roles</th>
-                <th scope="col" width="1%" colspan="3"></th>    
-            </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
+        {{-- <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6> --}}
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th scope="col" width="1%">#</th>
+                        <th scope="col" width="15%">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col" width="10%">Username</th>
+                        <th scope="col" width="10%">Roles</th>
+                        <th scope="col" width="1%" colspan="3"></th>   
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($users as $user)
                     <tr>
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
@@ -47,12 +43,16 @@
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
-
-        <div class="d-flex">
-            {!! $users->links() !!}
+                    
+                </tbody>
+            </table>
+            <div class="d-flex">
+                {!! $users->links() !!}
+            </div>
         </div>
-
     </div>
+</div>
+
+  
+    
 @endsection
