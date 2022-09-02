@@ -1,6 +1,32 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.2...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.6...9.x)
+
+## [v9.3.6](https://github.com/laravel/laravel/compare/v9.3.5...v9.3.6) - 2022-08-29
+
+### Changed
+
+- Bump Vite plugin version by @timacdonald in https://github.com/laravel/laravel/pull/5977
+
+## [v9.3.5](https://github.com/laravel/laravel/compare/v9.3.4...v9.3.5) - 2022-08-22
+
+### Changed
+
+- `max_digits` and `min_digits` validation translations by @danharrin in https://github.com/laravel/laravel/pull/5975
+- Use short closure by @taylorotwell in https://github.com/laravel/laravel/commit/7b17f5f32623c2ee75f2bff57a42bb8f180ac779
+- Use except by @taylorotwell in https://github.com/laravel/laravel/commit/e2e25f607a894427d6545f611ad3c8d94d022e9d
+
+## [v9.3.4](https://github.com/laravel/laravel/compare/v9.3.3...v9.3.4) - 2022-08-15
+
+### Changed
+
+- Add ValidateSignature middleware for ignore params by @valorin in https://github.com/laravel/laravel/pull/5942
+
+## [v9.3.3](https://github.com/laravel/laravel/compare/v9.3.2...v9.3.3) - 2022-08-03
+
+### Changed
+
+- Validation added `doesnt_end_with` translation by @kichetof in https://github.com/laravel/laravel/pull/5962
 
 ## [v9.3.2](https://github.com/laravel/laravel/compare/v9.3.1...v9.3.2) - 2022-08-01
 
