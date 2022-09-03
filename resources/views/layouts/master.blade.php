@@ -23,7 +23,7 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
 
 </head>
 
@@ -32,8 +32,10 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+        @if (Auth::check())
+            @include('layouts.partials.sidebar')
+        @endif
         <!-- Sidebar -->
-        @include('layouts.partials.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -43,16 +45,18 @@
             <div id="content">
 
                 <!-- Topbar -->
-               @include('layouts.partials.navbar')
+                @include('layouts.partials.navbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                    </div>
+                    <br>
+                    @if (Auth::check())
+                        <!-- Page Heading -->
+                        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        </div> --}}
+                    @endif
                     <!-- Content Row -->
                     @yield('content')
 
@@ -63,7 +67,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-           @include('layouts.partials.footer')
+            @include('layouts.partials.footer')
             <!-- End of Footer -->
 
         </div>

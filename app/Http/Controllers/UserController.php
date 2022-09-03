@@ -107,11 +107,11 @@ class UserController extends Controller
     
         $input = $request->all();
         if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
+            $input['password'] = ($input['password']);
         }else{
             $input = Arr::except($input,array('password'));    
         }
-    
+        // dd($input);
         $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id',$id)->delete();

@@ -17,6 +17,7 @@ class CreateGamesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('title', 70);
+            $table->string('video_url');
             $table->string('description', 320);
             // $table->text('body');
             $table->timestamps();
