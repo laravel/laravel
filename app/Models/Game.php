@@ -13,7 +13,8 @@ class Game extends Model
         'user_id',
         'title',
         'description',
-        'video_url'
+        'video_url',
+        'image'
     ];
 
     public function user()

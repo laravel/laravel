@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar static-top shadow">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{{ route('home') }}">
         <img src="{{ asset('assets/img/header_logo.svg') }}" alt="" width="20%">
         FunOlympic Games 2022
     </a>

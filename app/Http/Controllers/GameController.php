@@ -56,9 +56,18 @@ class GameController extends Controller
             'video_url' => 'required',
 
         ]);
-        
-        $insert=$request->all();
+        // dd($request->all());
+        // $insert=$request->all();
+        $insert = $request->except(['_token']);
         $insert['user_id']=Auth::user()->id;
+
+           if($request->file('image')){
+           
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('assets/img/'), $filename);
+            $insert['image'] = $filename;
+        }
         Game::create($insert);
     
         return redirect()->route('games.index')
@@ -104,7 +113,12 @@ class GameController extends Controller
         ]);
     
         $game->update($request->all());
-    
+        if($request->file('image')){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('assets/img/'), $filename);
+            $game['image'] = $filename;
+        }
         return redirect()->route('games.index')
                         ->with('success','Game updated successfully');
     }

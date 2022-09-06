@@ -17,15 +17,24 @@
                         <div>
                             Name: {{ $game->title }}
                         </div>
-                        <div>
+                        <div class="row">
+                        <div col="col-md-8">
                             <div class="media">
                                 <div class="media-body">
                                     <iframe src="{{ url('https://www.youtube.com/embed/5Peo-ivmupE') }}" width="560" height="315" frameborder="0" allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
+                        <div col="col-md-4" style="margin-left: 33px;">
+                            <img src="{{asset('assets/img/'.$game->image)}}" alt="" style="width: 488px;max-width: 488px;">
+                        </div>
+                        </div>
                         <div>
                             Decription: {{ $game->description }}
+                        </div>
+                    
+                        <div>
+                            {{-- Decription: {{ $game->image }} --}}
                         </div>
                     </div>
                 </div>

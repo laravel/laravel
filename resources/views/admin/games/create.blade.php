@@ -10,7 +10,7 @@
                         {{-- <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                         </div> --}}
-                        <form method="POST" action="{{ route('games.store') }}">
+                        <form method="POST" action="{{ route('games.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <div class="form-group">
@@ -22,6 +22,12 @@
                                 <div class="form-group">
                                     <strong>Video URL:</strong>
                                     {!! Form::text('video_url', null, array('placeholder' => 'Video Url','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                                    <div class="mb-3">
+                                <div class="form-group">
+                                    <strong>Image:</strong>
+                                    {!! Form::file('image', null, array('placeholder' => 'image','class' => 'form-control')) !!}
                                 </div>
                             </div>
                             <div class="mb-3">

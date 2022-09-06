@@ -18,6 +18,8 @@
                             <th scope="col" width="5%">Title</th>
                             <th scope="col" width="10%">Video URL</th>
                             {{-- <th scope="col" width="10%">Username</th> --}}
+                            <th scope="col" width="10%">Image</th>
+
                             <th scope="col" width="10%">Description</th>
                             <th scope="col" width="1%" colspan="3">Action</th>
                         </tr>
@@ -28,6 +30,9 @@
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $game->title }}</td>
                                 <td>{{ $game->video_url }}</td>
+                                <td> <img src="{{asset('assets/img/'.$game->image)}}" width="70%;" height="50%;;" alt="image">
+                                              
+                                </td>
                                 <td>{{ $game->description }}</td>
 
                                 <td>
