@@ -2,7 +2,7 @@
 
 ## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.7...9.x)
 
-## [v9.3.7](https://github.com/laravel/laravel/compare/v9.3.6...v9.3.7) - 2022-09-02
+## [v9.3.7](https://github.com/laravel/laravel/compare/v9.3.6...v9.3.7)1 - 2022-09-02
 
 ### Changed
 
