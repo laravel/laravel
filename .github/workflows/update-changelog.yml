@@ -4,6 +4,9 @@ on:
   release:
     types: [released]
 
+permissions: {}
 jobs:
   update:
+    permissions:
+      contents: write # to push (stefanzweifel/git-auto-commit-action)
     uses: laravel/.github/.github/workflows/update-changelog.yml@main
