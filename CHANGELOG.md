@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.7...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.8...9.x)
+
+## [v9.3.8](https://github.com/laravel/laravel/compare/v9.3.7...v9.3.8) - 2022-09-20
+
+### Changed
+
+- Validation added `required_if_accepted` by @luisprmat in https://github.com/laravel/laravel/pull/5987
 
 ## [v9.3.7](https://github.com/laravel/laravel/compare/v9.3.6...v9.3.7) - 2022-09-02
 
