@@ -18,6 +18,9 @@ mix
 				'__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
 			}),
 		],
+		stats: {
+			children: true,
+		},
 	}))
 	.options({
 		autoprefixer: {
@@ -40,6 +43,7 @@ mix
 	})
 	.postCss(src('css/app.css'), compiled('css'), [
 		require('postcss-import'),
+		require('tailwindcss/nesting'),
 		require('tailwindcss')('./resources/assets/css/tailwind.config.js'),
 		require('postcss-nested'),
 	])
