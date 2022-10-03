@@ -1,54 +1,38 @@
-const { src } = require('./helpers');
-const variables = require('../resources/assets/variables.json');
-
-// converters and calculators
-const relative = (px, unit = 'rem', base = variables['browser-default-font-size']) => `${px / base}${unit}`;
-const letterSpacing = value => `${value / 1000}em`;
-const ratio = (x, y) => `${y / x * 100}%`;
+const { src } = require('../../../build/helpers');
+const { relative, variables, withOpacity } = require('./helpers');
 
 // tailwind settings
 module.exports = {
-	mode: 'jit',
-	purge: {
-		content: [
-			src('../views/**/*.blade.php'),
-			src('js/**/*.{js,vue}'),
-		],
-	},
+	content: [
+		src('../views/**/*.blade.php'),
+		src('js/**/*.{js,vue}'),
+	],
 	theme: {
 		screens: Object.fromEntries(
 			Object.entries(variables.breakpoints).map(([name, px]) => [name, relative(px, 'em')])
 		),
 		colors: {
-			transparent: 'transparent',
 			current: 'currentColor',
 			inherit: 'inherit',
+			transparent: 'transparent',
 			black: '#000',
 			white: '#fff',
 			grey: {
 				50: '#fafafa',
-				100: '#eee',
-				200: '#ddd',
-				300: '#ccc',
-				400: '#aaa',
-				500: '#888',
-				600: '#666',
-				700: '#333',
-				800: '#222',
-				900: '#111',
+				100: '#f5f5f5',
+				200: '#e5e5e5',
+				300: '#d4d4d4',
+				400: '#a3a3a3',
+				500: '#737373',
+				600: '#525252',
+				700: '#404040',
+				800: '#262626',
+				900: '#171717',
 			},
-			blue: '#3b82f6',
 			green: '#22c55e',
 			red: '#ef4444',
-			social: {
-				twitter: '#55acee',
-				facebook: '#3b5998',
-				youtube: '#bb0000',
-				pinterest: '#cb2027',
-				linkedin: '#007bb5',
-				instagram: '#8a3ab9',
-			},
 			focus: '#3b82f6',
+			sample: withOpacity('--sample'),
 		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
@@ -71,10 +55,6 @@ module.exports = {
 			'8xl': [relative(96), theme('lineHeight.none')],
 			'9xl': [relative(128), theme('lineHeight.none')],
 		}),
-		letterSpacing: {
-			normal: 0,
-			wide: letterSpacing(50),
-		},
 		lineHeight: {
 			none: 1,
 			'extra-tight': 1.1,
@@ -85,16 +65,15 @@ module.exports = {
 			loose: 2,
 		},
 		extend: {
+			aspectRatio: {
+				'16/9': '16 / 9',
+			},
 			inset: (theme, { negative }) => ({
 				...theme('width'),
 				...(negative(theme('width'))),
 			}),
 			maxWidth: {
 				container: relative(1440),
-			},
-			padding: {
-				full: '100%',
-				'9/16': ratio(16, 9),
 			},
 			spacing: {
 				em: '1em',

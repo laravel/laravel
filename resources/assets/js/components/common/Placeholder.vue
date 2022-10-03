@@ -10,7 +10,7 @@
 
 		ratioClass: {
 			type: String,
-			default: 'pt-9/16',
+			default: 'aspect-16/9',
 		},
 	});
 

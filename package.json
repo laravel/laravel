@@ -27,7 +27,7 @@
         "postcss-import": "14.0.1",
         "postcss-nested": "5.0.5",
         "resolve-url-loader": "^3.1.0",
-        "tailwindcss": "^2.2.4",
+        "tailwindcss": "^3.1.8",
         "vee-validate": "^4.5.10",
         "vue": "^3.2.31",
         "vue-loader": "^17.0.0",

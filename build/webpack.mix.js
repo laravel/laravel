@@ -11,16 +11,14 @@ mix
 		'assets': __dirname + '/../resources/assets',
 		'@': path.join(__dirname, `../${paths.src}`),
 	})
-	.webpackConfig((webpack) => {
-		return {
-			plugins: [
-				new webpack.DefinePlugin({
-					'__VUE_OPTIONS_API__': JSON.stringify(true),
-					'__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
-				}),
-			],
-		};
-	})
+	.webpackConfig((webpack) => ({
+		plugins: [
+			new webpack.DefinePlugin({
+				'__VUE_OPTIONS_API__': JSON.stringify(true),
+				'__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
+			}),
+		],
+	}))
 	.options({
 		autoprefixer: {
 			options: {
@@ -42,7 +40,7 @@ mix
 	})
 	.postCss(src('css/app.css'), compiled('css'), [
 		require('postcss-import'),
-		require('tailwindcss')('./build/tailwind.config.js'),
+		require('tailwindcss')('./resources/assets/css/tailwind.config.js'),
 		require('postcss-nested'),
 	])
 	.browserSync(browserSync)

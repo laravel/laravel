@@ -34,10 +34,12 @@
 		<section class="space-y-5">
 			<h1 class="e-h3">Colours</h1>
 
+			<p class="italic">Note: If colour doesn't appear here, it hasn't been used in the project.</p>
+
 			<div class="grid grid-cols-2 gap-2 md:grid-cols-6 xl:grid-cols-8">
 				@foreach ($model['colours'] as $colour)
 					<div>
-						<div class="pt-full bg-{{ $colour }} border border-grey-300"></div>
+						<div class="aspect-square bg-{{ $colour }} border border-grey-300"></div>
 
 						<div class="p-2 text-center truncate border-l border-r border-b border-grey-300">
 							{{ $colour }}
@@ -66,7 +68,7 @@
 
 			<div class="flex flex-wrap">
 				@foreach ($model['icons'] as $icon)
-					<div class="e-h1 flex-shrink-0 mr-2 mb-2" title="{{ $icon }}">
+					<div class="e-h1 shrink-0 mr-2 mb-2" title="{{ $icon }}">
 						<e-icon name="{{ $icon }}"></e-icon>
 					</div>
 				@endforeach
