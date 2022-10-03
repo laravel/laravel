@@ -1,7 +1,8 @@
 <script setup>
 	import { useField } from 'vee-validate';
-	import VisuallyChecked from './VisuallyChecked';
+
 	import ErrorText from '../ErrorText';
+	import VisuallyChecked from './VisuallyChecked';
 
 	const props = defineProps({
 		label: {
@@ -31,8 +32,8 @@
 </script>
 
 <template>
-	<label class="inline-flex flex-col items-start relative cursor-pointer">
-		<div class="inline-flex items-start">
+	<div class="flex flex-col gap-y-2">
+		<div class="inline-flex items-start gap-x-2">
 			<input
 				v-model="value"
 				v-bind="$attrs"
@@ -44,11 +45,7 @@
 
 			<visually-checked :checked="value" />
 
-			<span
-				class="self-center"
-				aria-hidden="true"
-				v-html="label"
-			/>
+			<span v-text="label" />
 		</div>
 
 		<error-text :name="name" />

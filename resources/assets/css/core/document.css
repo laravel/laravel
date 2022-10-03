@@ -28,16 +28,16 @@ button:focus {
 /* focus-visible split out (thanks Safari) */
 *:focus-visible {
 	&,
-	~ .e-focus-sibling {
+	~ .e-focus-sibling > .e-focus-sibling__outline {
 		@apply ring-2 ring-focus;
 	}
 }
 
 *:focus {
 	&,
-	~ .e-focus-sibling {
+	~ .e-focus-sibling > .e-focus-sibling__outline {
 		/* should match above (thanks Safari) */
-		@apply ring-2 ring-focus;
+		@apply ring-2 ring-green;
 	}
 
 
