@@ -10,7 +10,7 @@
 
 <script>
 	export default {
-		name: 'ECheckbox',
+		name: 'FormCheckbox',
 	};
 </script>
 

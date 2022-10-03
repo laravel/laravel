@@ -20,7 +20,7 @@
 				{ 'rounded-full': radio },
 			]"
 		>
-			<e-icon
+			<ui-icon
 				:class="[
 					'transition-transform duration-200 ease-out-cubic',
 					checked ? 'scale-90' : 'scale-0',

@@ -74,7 +74,7 @@
 				</select>
 			</renderless-select>
 
-			<e-icon
+			<ui-icon
 				name="chevron-right"
 				:class="[
 					'absolute top-1/2 right-0',

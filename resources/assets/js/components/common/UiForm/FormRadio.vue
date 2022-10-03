@@ -3,7 +3,7 @@
 
 	import ErrorText from './ErrorText';
 	import LabelText from './LabelText';
-	import VisuallyChecked from './Checkbox/VisuallyChecked';
+	import VisuallyChecked from './FormCheckbox/VisuallyChecked';
 
 	const props = defineProps({
 		label: {

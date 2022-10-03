@@ -56,7 +56,7 @@
 				@foreach ($model['buttons'] as $group)
 					<div class="p-5 flex gap-x-5 {{ $group['bg'] }}">
 						@foreach ($group['items'] as $button)
-							<e-button v-bind='@json($button)'></e-button>
+							<ui-button v-bind='@json($button)'></ui-button>
 						@endforeach
 					</div>
 				@endforeach
@@ -69,7 +69,7 @@
 			<div class="flex flex-wrap">
 				@foreach ($model['icons'] as $icon)
 					<div class="e-h1 shrink-0 mr-2 mb-2" title="{{ $icon }}">
-						<e-icon name="{{ $icon }}"></e-icon>
+						<ui-icon name="{{ $icon }}"></ui-icon>
 					</div>
 				@endforeach
 			</div>
@@ -80,9 +80,9 @@
 
 			<div class="flex flex-wrap">
 				@foreach ($model['images'] as $image)
-					<e-placeholder
+					<ui-placeholder
 						v-bind="{{ json_encode($image) }}"
-					></e-placeholder>
+					></ui-placeholder>
 				@endforeach
 			</div>
 		</section>
@@ -92,7 +92,7 @@
 
 			<div class="flex flex-wrap">
 				@foreach ($model['forms'] as $form)
-					<e-form v-bind="{{ json_encode($form) }}"></e-form>
+					<ui-form v-bind="{{ json_encode($form) }}"></ui-form>
 				@endforeach
 			</div>
 		</section>
