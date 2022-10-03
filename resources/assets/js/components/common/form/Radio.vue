@@ -45,7 +45,7 @@
 			<label
 				v-for="(option, index) in options"
 				:key="index"
-				class="flex items-start gap-x-2"
+				class="flex items-start gap-x-2 cursor-pointer"
 			>
 				<input
 					v-model="value"

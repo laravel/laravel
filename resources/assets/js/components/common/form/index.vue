@@ -82,7 +82,7 @@
 		<form
 			v-else
 			novalidate
-			class="flex flex-col items-start gap-y-4"
+			class="flex flex-col items-start gap-y-5"
 			:disabled="isSubmitting"
 			@submit="onSubmit"
 		>

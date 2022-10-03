@@ -38,7 +38,7 @@
 </script>
 
 <template>
-	<div class="inline-flex flex-col">
+	<label class="inline-flex flex-col gap-y-2 cursor-pointer">
 		<label-text :text="label" />
 
 		<div class="flex relative">
@@ -78,13 +78,13 @@
 				name="chevron-right"
 				:class="[
 					'absolute top-1/2 right-0',
-					'-mt-1/2em mr-em',
-					'transform rotate-90',
+					'mr-em',
+					'transform rotate-90 -translate-y-1/2',
 					'pointer-events-none',
 				]"
 			/>
 		</div>
 
 		<error-text :name="name" />
-	</div>
+	</label>
 </template>

@@ -47,7 +47,7 @@
 </script>
 
 <template>
-	<label class="flex flex-col gap-y-1">
+	<label class="flex flex-col gap-y-2 cursor-pointer">
 		<label-text :text="label" />
 
 		<input

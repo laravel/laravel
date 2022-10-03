@@ -15,8 +15,8 @@
 				'e-focus-sibling__outline',
 				'flex items-center justify-center',
 				'absolute top-1/2 left-0 w-full aspect-square -translate-y-1/2',
-				'bg-grey-100 border',
-				checked ? 'border-grey-200' : 'border-grey-900',
+				'border border-grey-900',
+				checked ? 'border-grey-200' : 'bg-grey-100',
 				{ 'rounded-full': radio },
 			]"
 		>

@@ -32,7 +32,7 @@
 </script>
 
 <template>
-	<div class="flex flex-col gap-y-2">
+	<label class="flex flex-col gap-y-2 cursor-pointer">
 		<div class="inline-flex items-start gap-x-2">
 			<input
 				v-model="value"

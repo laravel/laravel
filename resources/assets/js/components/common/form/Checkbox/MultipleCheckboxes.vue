@@ -48,7 +48,7 @@
 				:value="option.value"
 				:rules="rules"
 			>
-				<label class="flex items-start gap-x-2">
+				<label class="flex items-start gap-x-2 cursor-pointer">
 					<input
 						:name="name"
 						type="checkbox"
