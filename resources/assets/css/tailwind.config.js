@@ -1,5 +1,5 @@
 const { src } = require('../../../build/helpers');
-const { relative, variables, withOpacity } = require('./helpers');
+const { relative, variables } = require('./helpers');
 
 // tailwind settings
 module.exports = {
@@ -32,7 +32,6 @@ module.exports = {
 			green: '#22c55e',
 			red: '#ef4444',
 			focus: '#3b82f6',
-			sample: withOpacity('--sample'),
 		},
 		fontFamily: {
 			body: ['custom-body', 'Helvetica', 'sans-serif'],
