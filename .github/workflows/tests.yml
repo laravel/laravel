@@ -39,7 +39,7 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        command: composer install --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+        run: composer install --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
 
       - name: Copy environment file
         run: cp .env.example .env
