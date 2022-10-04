@@ -18,9 +18,6 @@ mix
 				'__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
 			}),
 		],
-		stats: {
-			children: true,
-		},
 	}))
 	.options({
 		autoprefixer: {
