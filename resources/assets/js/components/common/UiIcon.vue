@@ -1,5 +1,5 @@
 <script setup>
-	import ESprite from './Sprite';
+	import SvgSprite from './SvgSprite';
 
 	defineProps({
 		name: {
@@ -17,7 +17,7 @@
 </script>
 
 <template>
-	<e-sprite
+	<svg-sprite
 		:class="[
 			'fill-current align-top',
 			block ? 'block' : 'inline-block',

@@ -4,11 +4,11 @@
 
 	import useFormSubmission from '@/js/composables/formSubmission';
 
-	import FormInput from './Input';
-	import FormRadio from './Radio';
-	import FormCheckbox from './Checkbox';
-	import FormSelect from './Select';
-	import FormTextarea from './Textarea';
+	import FormInput from './FormInput';
+	import FormRadio from './FormRadio';
+	import FormCheckbox from './FormCheckbox';
+	import FormSelect from './FormSelect';
+	import FormTextarea from './FormTextarea';
 
 	const props = defineProps({
 		action: {
@@ -58,7 +58,7 @@
 			checkbox: FormCheckbox,
 			select: FormSelect,
 			textarea: FormTextarea,
-			submit: 'e-button',
+			submit: 'ui-button',
 		};
 
 		return components[as] ?? FormInput;
@@ -67,7 +67,7 @@
 
 <script>
 	export default {
-		name: 'EForm',
+		name: 'UiForm',
 	};
 </script>
 
@@ -82,7 +82,7 @@
 		<form
 			v-else
 			novalidate
-			class="flex flex-col items-start gap-y-4"
+			class="flex flex-col items-start gap-y-5"
 			:disabled="isSubmitting"
 			@submit="onSubmit"
 		>

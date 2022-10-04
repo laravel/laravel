@@ -52,8 +52,6 @@
 
 <script>
 	export default {
-		name: 'EImg',
-
 		inheritAttrs: false,
 	};
 </script>

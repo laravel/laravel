@@ -1,8 +1,9 @@
 <script setup>
 	import { useField } from 'vee-validate';
 
-	import LabelText from './LabelText';
 	import ErrorText from './ErrorText';
+	import LabelText from './LabelText';
+	import VisuallyChecked from './FormCheckbox/VisuallyChecked';
 
 	const props = defineProps({
 		label: {
@@ -37,29 +38,24 @@
 </script>
 
 <template>
-	<div class="inline-flex flex-col items-start relative cursor-pointer">
+	<div class="flex flex-col gap-y-2">
 		<label-text :text="label" />
 
-		<span class="grid md:grid-cols-2 gap-2">
+		<span class="flex flex-col gap-y-2">
 			<label
 				v-for="(option, index) in options"
 				:key="index"
-				class="flex items-center gap-x-2 relative cursor-pointer"
+				class="flex items-start gap-x-2 cursor-pointer"
 			>
-				<span class="relative w-5 h-5 rounded-full border">
-					<input
-						v-model="value"
-						v-bind="$attrs"
-						:value="option.value"
-						class="appearance-none absolute -inset-px rounded-full w-5 h-5"
-						type="radio"
-					>
+				<input
+					v-model="value"
+					type="radio"
+					v-bind="$attrs"
+					:value="option.value"
+					class="peer sr-only"
+				>
 
-					<span
-						v-show="value === option.value"
-						class="absolute inset-0.5 rounded-full bg-focus"
-					/>
-				</span>
+				<visually-checked :checked="value === option.value" radio />
 
 				<span v-text="option.label" />
 			</label>

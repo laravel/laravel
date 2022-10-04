@@ -1,6 +1,5 @@
 <script setup>
 	import { useAttrs, useSlots } from 'vue';
-	import EImg from './Img';
 
 	defineProps({
 		as: {
@@ -10,7 +9,7 @@
 
 		ratioClass: {
 			type: String,
-			default: 'pt-9/16',
+			default: 'aspect-16/9',
 		},
 	});
 
@@ -22,8 +21,6 @@
 
 <script>
 	export default {
-		name: 'EPlaceholder',
-
 		inheritAttrs: false,
 	};
 </script>
@@ -36,7 +33,7 @@
 		v-bind="componentAttrs"
 	>
 		<slot>
-			<e-img
+			<ui-img
 				overlay
 				v-bind="$attrs"
 			/>

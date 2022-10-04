@@ -1,8 +1,9 @@
 <script setup>
 	import { Field as RenderlessCheckbox } from 'vee-validate';
-	import VisuallyChecked from './VisuallyChecked';
-	import LabelText from '../LabelText';
+
 	import ErrorText from '../ErrorText';
+	import LabelText from '../LabelText';
+	import VisuallyChecked from './VisuallyChecked';
 
 	defineProps({
 		label: {
@@ -47,7 +48,7 @@
 				:value="option.value"
 				:rules="rules"
 			>
-				<label class="flex items-center gap-x-1">
+				<label class="flex items-start gap-x-2 cursor-pointer">
 					<input
 						:name="name"
 						type="checkbox"
