@@ -19,11 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['8.0', 8.1]
-        stability: ['']
-        include:
-          - php: 8.2
-            stability: --ignore-platform-req=php+
+        php: ['8.0', 8.1, 8.2]
 
     name: PHP ${{ matrix.php }}
 
@@ -39,7 +35,7 @@ jobs:
           coverage: none
 
       - name: Install Composer dependencies
-        run: composer install ${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Copy environment file
         run: cp .env.example .env
