@@ -1,0 +1,71 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use {{ namespacedParentModel }};
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function index({{ parentModel }} ${{ parentModelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        //
+    }
+}

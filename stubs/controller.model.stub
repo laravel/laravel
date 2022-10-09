@@ -1,0 +1,50 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+
+class {{ class }} extends Controller
+{
+    public function index(): View
+    {
+        ${{ modelVariable }}s = {{ model }}::all();
+        return view('admin.{{ modelVariable }}s.index', compact('{{ modelVariable }}s'));
+    }
+
+    public function create(): View
+    {
+        return view('admin.{{ modelVariable }}s.create');
+    }
+
+    public function store({{ storeRequest }} $request): RedirectResponse
+    {
+        return redirect()->route('{{ modelVariable }}s.index');
+    }
+
+    public function show({{ model }} ${{ modelVariable }}): View
+    {
+        return view('admin.{{ modelVariable }}s.show', compact('{{ modelVariable }}'));
+    }
+
+    public function edit({{ model }} ${{ modelVariable }}): View
+    {
+        return view('admin.{{ modelVariable }}s.edit', compact('{{ modelVariable }}'));
+    }
+
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }}): RedirectResponse
+    {
+        return redirect()->route('{{ modelVariable }}s.index');
+    }
+
+    public function destroy({{ model }} ${{ modelVariable }}): RedirectResponse
+    {
+        ${{ modelVariable }}->delete();
+        return redirect()->route('{{ modelVariable }}s.index');
+    }
+}
