@@ -19,7 +19,7 @@ class ExportDataBase extends Command
      *
      * @var string
      */
-    protected $description = 'export database';
+    protected $description = 'export database to file sql';
 
     /**
      * Execute the console command.
