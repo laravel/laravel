@@ -1,10 +1,27 @@
 name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+      - '*.x'
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: read
 
 jobs:
   tests:
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['8.0', 8.1, 8.2]
+
+    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -13,12 +30,12 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-interaction
+        run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Copy environment file
         run: cp .env.example .env
