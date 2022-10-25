@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.8...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.9...9.x)
+
+## [v9.3.9](https://github.com/laravel/laravel/compare/v9.3.8...v9.3.9) - 2022-10-17
+
+### Changed
+
+- Update welcome page colours by @timacdonald in https://github.com/laravel/laravel/pull/6002
+- Ignore .env.production by @yasapurnama in https://github.com/laravel/laravel/pull/6004
+- Upgrade axios to v1.x by @ankurk91 in https://github.com/laravel/laravel/pull/6008
+- Shorten pusher host config by @buihanh2304 in https://github.com/laravel/laravel/pull/6009
 
 ## [v9.3.8](https://github.com/laravel/laravel/compare/v9.3.7...v9.3.8) - 2022-09-20
 
