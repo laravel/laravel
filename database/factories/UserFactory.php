@@ -28,6 +28,8 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the model's email address should be unverified.
+     *
+     * @return $this
      */
     public function unverified(): static
     {
