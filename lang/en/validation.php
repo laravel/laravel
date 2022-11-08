@@ -83,6 +83,7 @@ return [
         'numeric' => 'The :attribute must be less than or equal to :value.',
         'string' => 'The :attribute must be less than or equal to :value characters.',
     ],
+    'lowercase' => 'The :attribute must be lowercase.',
     'mac_address' => 'The :attribute must be a valid MAC address.',
     'max' => [
         'array' => 'The :attribute must not have more than :max items.',
