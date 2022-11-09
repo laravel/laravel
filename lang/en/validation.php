@@ -71,6 +71,7 @@ return [
     'ipv4' => 'The :attribute must be a valid IPv4 address.',
     'ipv6' => 'The :attribute must be a valid IPv6 address.',
     'json' => 'The :attribute must be a valid JSON string.',
+    'lowercase' => 'The :attribute must be lowercase.',
     'lt' => [
         'array' => 'The :attribute must have less than :value items.',
         'file' => 'The :attribute must be less than :value kilobytes.',
@@ -83,7 +84,6 @@ return [
         'numeric' => 'The :attribute must be less than or equal to :value.',
         'string' => 'The :attribute must be less than or equal to :value characters.',
     ],
-    'lowercase' => 'The :attribute must be lowercase.',
     'mac_address' => 'The :attribute must be a valid MAC address.',
     'max' => [
         'array' => 'The :attribute must not have more than :max items.',
