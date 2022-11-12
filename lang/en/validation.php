@@ -72,6 +72,7 @@ return [
     'ipv6' => 'The :attribute must be a valid IPv6 address.',
     'json' => 'The :attribute must be a valid JSON string.',
     'lowercase' => 'The :attribute must be lowercase.',
+    'uppercase' => 'The :attribute must be uppercase.',
     'lt' => [
         'array' => 'The :attribute must have less than :value items.',
         'file' => 'The :attribute must be less than :value kilobytes.',
