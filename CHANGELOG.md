@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.10...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.11...9.x)
+
+## [v9.3.11](https://github.com/laravel/laravel/compare/v9.3.10...v9.3.11) - 2022-11-14
+
+### Changed
+
+- Adds lowercase validation rule translation by @timacdonald in https://github.com/laravel/laravel/pull/6028
+- Adds uppercase validation rule translation by @michaelnabil230 in https://github.com/laravel/laravel/pull/6029
 
 ## [v9.3.10](https://github.com/laravel/laravel/compare/v9.3.9...v9.3.10) - 2022-10-28
 
