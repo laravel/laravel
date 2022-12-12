@@ -1,7 +1,3 @@
-:root {
-	color-scheme: only light;
-}
-
 html {
 	@apply text-full;
 	-webkit-text-size-adjust: none;
