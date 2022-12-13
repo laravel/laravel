@@ -8,6 +8,8 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+<meta name="color-scheme" content="only light">
+
 <link rel="icon" type="image/png" href="/static/img/meta/favicon-32.png">
 <link rel="apple-touch-icon" href="/static/img/meta/favicon-180.png">
 <link rel="mask-icon" href="/static/img/meta/mask-icon.svg" color="#000000">
