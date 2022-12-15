@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.3.12...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.4.0...9.x)
+
+## [v9.4.0](https://github.com/laravel/laravel/compare/v9.3.12...v9.4.0) - 2022-12-15
+
+### Added
+
+- Vite 4 support by @timacdonald in https://github.com/laravel/laravel/pull/6043
+
+### Changed
+
+- Add ulid and ascii validation message by @nshiro in https://github.com/laravel/laravel/pull/6046
 
 ## [v9.3.12](https://github.com/laravel/laravel/compare/v9.3.11...v9.3.12) - 2022-11-22
 
