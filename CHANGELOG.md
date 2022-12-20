@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.4.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.4.1...9.x)
+
+## [v9.4.1](https://github.com/laravel/laravel/compare/v9.4.0...v9.4.1) - 2022-12-19
+
+### Changed
+
+- Add decimal translation by @taylorotwell in https://github.com/laravel/laravel/commit/39f4830e92a7467b2a7fe6bc23d0ec14bc3b46a6
 
 ## [v9.4.0](https://github.com/laravel/laravel/compare/v9.3.12...v9.4.0) - 2022-12-15
 
