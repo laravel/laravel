@@ -1,0 +1,10 @@
+(create migration) 
+    php artisan make:migration create_products_table --create=products
+    php artisan migrate
+
+(routes/web.php)
+    Route::resource('products', ProductController::class);
+
+(create controller and model)
+    php artisan make:controller ProductController --resource --model=Product
+
