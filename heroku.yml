@@ -1,0 +1,7 @@
+setup:
+  config:
+    env_file: .env
+build:
+  docker:
+    web: devops/docker/Dockerfile
+    worker: devops/docker/Dockerfile

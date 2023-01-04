@@ -1,0 +1,73 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: ./devops/docker/Dockerfile
+      args:
+        APP_ENV: ${APP_ENV}
+        APP_PORT: ${APP_PORT}
+    container_name: '${APP_NAME}-web'
+    restart: on-failure
+    volumes:
+      - ./:/app
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    networks:
+      - boilerplate-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    links:
+      - "postgres:postgres"
+      - "cache:cache"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+  postgres:
+    image: 'postgres:14.2-alpine'
+    container_name: '${APP_NAME}-postgres'
+    restart: always
+    volumes:
+      - "./devops/postgres/create_development_database.sql:/docker-entrypoint-initdb.d/create_development_database.sql"
+    environment:
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_DATABASE}'
+    ports:
+      - '${DB_PORT}:5432'
+    networks:
+      - boilerplate-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U", "root" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+  cache:
+    image: 'redis:7.0-alpine'
+    container_name: '${APP_NAME}-redis'
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/cache:/data
+    ports:
+      - '${REDIS_PORT}:6379'
+    networks:
+      - boilerplate-network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+networks:
+  boilerplate-network:
+    driver: bridge

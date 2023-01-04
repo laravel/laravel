@@ -1,0 +1,152 @@
+{
+  "name": "Laravel Heroku Template",
+  "shortName": "LHT",
+  "description": "Laravel template - Nginx template with supervisor and php-fpm using Docker for Heroku",
+  "repository": "https://github.com/natemacs",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/120px-Laravel.svg.png",
+  "keywords": [
+    "nginx",
+    "heroku",
+    "container",
+    "supervisor",
+    "php",
+    "fpm",
+    "template",
+    "laravel"
+  ],
+  "stack": "container",
+  "env": {
+    "APP_NAME": {
+      "description": "Nome da aplicação.",
+      "value": "Laravel Heroku"
+    },
+    "APP_ENV": {
+      "description": "Application Enviroment. local|development|production",
+      "value": "production"
+    },
+    "APP_DEBUG": {
+      "description": "Application Debug. false|true",
+      "value": "false"
+    },
+    "APP_URL": {
+      "description": "Application URL.",
+      "value": "localhost"
+    },
+    "DB_CONNECTION": {
+      "description": "Database Connection.",
+      "value": "pgsql"
+    },
+    "BROADCAST_DRIVER": {
+      "value": "log"
+    },
+    "CACHE_DRIVER": {
+      "value": "redis"
+    },
+    "SESSION_DRIVER": {
+      "value": "file"
+    },
+    "SESSION_LIFETIME": {
+      "value": "120"
+    },
+    "FILESYSTEM_DISK": {
+      "value": "local"
+    },
+    "QUEUE_CONNECTION": {
+      "value": "sync"
+    },
+    "MEMCACHED_HOST": {
+      "value": "127.0.0.1"
+    },
+    "REDIS_CLIENT": {
+      "value": "predis"
+    },
+    "MAIL_MAILER": {
+      "value": "smtp"
+    },
+    "MAIL_HOST": {
+      "value": "smtp.mailtrap.io"
+    },
+    "MAIL_PORT": {
+      "value": "2525"
+    },
+    "MAIL_USERNAME": {
+      "value": "null"
+    },
+    "MAIL_PASSWORD": {
+      "value": "null"
+    },
+    "MAIL_ENCRYPTION": {
+      "value": "null"
+    },
+    "MAIL_FROM_ADDRESS": {
+      "value": "hello@example.com"
+    },
+    "MAIL_FROM_NAME": {
+      "value": "${APP_NAME}"
+    },
+    "MAIL_CC_ADDRESS": {
+      "value": "null"
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "value": "null"
+    },
+    "AWS_DEFAULT_REGION": {
+      "value": "us-east-1"
+    },
+    "AWS_BUCKET": {
+      "value": ""
+    },
+    "PUSHER_APP_ID": {
+      "value": ""
+    },
+    "PUSHER_APP_KEY": {
+      "value": ""
+    },
+    "PUSHER_APP_SECRET": {
+      "value": ""
+    },
+    "PUSHER_APP_CLUSTER": {
+      "value": ""
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    "laravel-scheduler",
+    {
+      "plan": "scheduler:standard",
+      "as": "SCHEDULER"
+    },
+    "laravel-cache",
+    {
+      "plan": "heroku-redis:mini",
+      "as": "REDIS"
+    },
+    "laravel-logs",
+    {
+      "plan": "papertrail:fixa",
+      "as": "PAPERTRAIL"
+    },
+    "laravel-postgres",
+    {
+      "plan": "heroku-postgresql:basic",
+      "as": "DATABASE"
+    }
+  ],
+  "environments": {
+    "development": {
+      "scripts": {}
+    },
+    "production": {
+      "scripts": {}
+    }
+  }
+}
