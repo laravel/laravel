@@ -51,8 +51,6 @@ COPY /devops/php-fpm/error_reporting.ini /usr/local/etc/php/conf.d/error_reporti
 
 COPY .env.example ${ROOT}/.env
 
-RUN php artisan key:generate
-
 COPY ./ $ROOT
 
 RUN if [ "$APP_ENV" = "local" ]; then \

@@ -5,6 +5,8 @@ echo "port: ${PORT}"
 
 envsubst "\$PORT" < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
 
+php artisan key:generate
+
 if [ -z "${DYNO}" ]; then
     echo "Running web application locally"
     php artisan migrate
