@@ -42,16 +42,16 @@ RUN docker-php-ext-install soap
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy config files to container
-COPY ../supervisor/supervisor.conf /etc/supervisord.conf
-COPY ../nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
-COPY ../nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ../php-fpm/php.ini /usr/local/etc/php/conf.d/app.ini
-COPY ../php-fpm/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
-COPY ../php-fpm/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
+COPY /devops/supervisor/supervisor.conf /etc/supervisord.conf
+COPY /devops/nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
+COPY /devops/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /devops/php-fpm/php.ini /usr/local/etc/php/conf.d/app.ini
+COPY /devops/php-fpm/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY /devops/php-fpm/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
 
-COPY ../../.env.example ${ROOT}/.env
+COPY .env.example ${ROOT}/.env
 
-COPY ../../ $ROOT
+COPY ./ $ROOT
 
 RUN if [ "$APP_ENV" = "local" ]; then \
         composer install --prefer-dist --optimize-autoloader; \
@@ -59,7 +59,7 @@ RUN if [ "$APP_ENV" = "local" ]; then \
         composer install --prefer-dist --optimize-autoloader --no-dev; \
     fi
 
-ADD ../scripts/entrypoint.sh /
+ADD /devops/scripts/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 CMD ["/bin/bash", "-c", "/entrypoint.sh ${PORT}"]

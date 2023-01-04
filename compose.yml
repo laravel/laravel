@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: ./
-      dockerfile: ./devops/docker/Dockerfile
+      dockerfile: ./Dockerfile
       args:
         APP_ENV: ${APP_ENV}
         APP_PORT: ${APP_PORT}
