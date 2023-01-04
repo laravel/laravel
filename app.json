@@ -17,7 +17,7 @@
   "stack": "container",
   "env": {
     "APP_NAME": {
-      "description": "Nome da aplicação.",
+      "description": "Application Name.",
       "value": "Laravel Heroku"
     },
     "APP_ENV": {
@@ -94,29 +94,34 @@
       "value": "us-east-1"
     },
     "AWS_BUCKET": {
-      "value": ""
+      "value": "",
+      "required": false
     },
     "PUSHER_APP_ID": {
-      "value": ""
+      "value": "",
+      "required": false
     },
     "PUSHER_APP_KEY": {
-      "value": ""
+      "value": "",
+      "required": false
     },
     "PUSHER_APP_SECRET": {
-      "value": ""
+      "value": "",
+      "required": false
     },
     "PUSHER_APP_CLUSTER": {
-      "value": ""
+      "value": "",
+      "required": false
     }
   },
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "basic"
+      "size": "eco"
     },
     "worker": {
       "quantity": 1,
-      "size": "basic"
+      "size": "eco"
     }
   },
   "addons": [
