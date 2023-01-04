@@ -117,30 +117,30 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "eco"
+      "size": "basic"
     },
     "worker": {
       "quantity": 1,
-      "size": "eco"
+      "size": "basic"
     }
   },
   "addons": [
-    "laravel-scheduler",
+    "scheduler",
     {
       "plan": "scheduler:standard",
       "as": "SCHEDULER"
     },
-    "laravel-cache",
+    "heroku-redis",
     {
       "plan": "heroku-redis:mini",
       "as": "REDIS"
     },
-    "laravel-logs",
+    "papertrail",
     {
       "plan": "papertrail:fixa",
       "as": "PAPERTRAIL"
     },
-    "laravel-postgres",
+    "heroku-postgresql",
     {
       "plan": "heroku-postgresql:basic",
       "as": "DATABASE"
