@@ -4,7 +4,6 @@
 @import 'tailwindcss/base';
 
 @import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 
 @import 'core/document';
 @import 'core/typography';
@@ -13,5 +12,7 @@
 
 @import 'block/container';
 @import 'block/copy';
+
+@import 'tailwindcss/utilities';
 
 @import 'utility/print';
