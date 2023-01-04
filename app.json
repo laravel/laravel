@@ -125,22 +125,18 @@
     }
   },
   "addons": [
-    "scheduler",
     {
       "plan": "scheduler:standard",
       "as": "SCHEDULER"
     },
-    "heroku-redis",
     {
       "plan": "heroku-redis:mini",
       "as": "REDIS"
     },
-    "papertrail",
     {
       "plan": "papertrail:fixa",
       "as": "PAPERTRAIL"
     },
-    "heroku-postgresql",
     {
       "plan": "heroku-postgresql:basic",
       "as": "DATABASE"
