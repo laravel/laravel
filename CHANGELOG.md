@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.5.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.5.1...9.x)
+
+## [v9.5.1](https://github.com/laravel/laravel/compare/v9.5.0...v9.5.1) - 2023-01-11
+
+### Changed
+
+- Use minimum stability "stable" by @taylorotwell in https://github.com/laravel/laravel/commit/c1092ec084bb294a61b0f1c2149fddd662f1fc55
 
 ## [v9.5.0](https://github.com/laravel/laravel/compare/v9.4.1...v9.5.0) - 2023-01-02
 
