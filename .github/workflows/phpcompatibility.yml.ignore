@@ -1,0 +1,10 @@
+name: Check PHP Compatibility
+on: [push]
+jobs:
+  Check-PHP-compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PHP Compatibility
+        uses: pantheon-systems/phpcompatibility-action@v1
+        with:
+          test-versions: 7.0-

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - "**.php"
+      - "phpcs.xml"
+      - ".github/workflows/phpcs.yml"
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    env:
+      PHPCS_TEST: "UNDEFINED"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # important!
+
+      # we may use whatever way to install phpcs, just specify the path on the next step
+      # however, curl seems to be the fastest
+      - name: Install PHP_CodeSniffer
+        run: |
+          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+          php phpcs.phar --version
+          ls -al
+      - name: Install PHPCompatibility
+        run: |
+          curl -L https://github.com/PHPCompatibility/PHPCompatibility/archive/refs/tags/9.3.5.tar.gz | tar -xz
+          ls -al PHPCompatibility-9.3.5/PHPCompatibility
+          php phpcs.phar \
+            --config-set installed_paths $(pwd)/PHPCompatibility-9.3.5/PHPCompatibility \
+            -i
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.3
+          coverage: none
+          tools: cs2pr
+      - name: Run test
+        run: |
+          git diff --name-only --diff-filter=d origin/master...HEAD | xargs -t \
+            php phpcs.phar \
+              -p \
+              -v \
+              --extensions=php \
+              --report=checkstyle \
+              --report-file=checkstyle.xml \
+              --standard=PHPCompatibility \
+              --runtime-set testVersion 7.0- && PHPCS_TEST="OK" || PHPCS_TEST="FAILED"
+          echo "Test end"
+          echo $PHPCS_TEST
+          echo "PHPCS_TEST=$PHPCS_TEST" >> $GITHUB_ENV
+      - name: Print test results
+        run: |
+          echo Test results: $PHPCS_TEST
+          [[ "FAILED" == "$PHPCS_TEST" ]] && cat checkstyle.xml || echo "OK"
+      - name: Show PHPCS results in PR
+        if: ${{ always() && $PHPCS_TEST == 'FAILED' }}
+        run: cs2pr ./checkstyle.xml

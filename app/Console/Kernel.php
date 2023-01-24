@@ -23,8 +23,9 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
+        json_validate('[1, 2, 3]');
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
