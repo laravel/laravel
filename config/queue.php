@@ -37,7 +37,7 @@ return [
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
-            'queue' => 'default',
+            'queue' => env('DATABASE_QUEUE', 'default'),
             'retry_after' => 90,
             'after_commit' => false,
         ],
@@ -45,7 +45,7 @@ return [
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
-            'queue' => 'default',
+            'queue' => env('BEANSTALKD_QUEUE', 'default'),
             'retry_after' => 90,
             'block_for' => 0,
             'after_commit' => false,
