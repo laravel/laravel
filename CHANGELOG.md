@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.5.1...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.5.2...9.x)
+
+## [v9.5.2](https://github.com/laravel/laravel/compare/v9.5.1...v9.5.2) - 2023-01-31
+
+### Changed
+
+- Adds "missing" validation rule translations by @timacdonald in https://github.com/laravel/laravel/pull/6078
 
 ## [v9.5.1](https://github.com/laravel/laravel/compare/v9.5.0...v9.5.1) - 2023-01-11
 
