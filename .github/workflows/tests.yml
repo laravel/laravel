@@ -37,11 +37,17 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Install NPM dependencies
+        run: npm install
+
       - name: Copy environment file
         run: cp .env.example .env
 
       - name: Generate app key
         run: php artisan key:generate
+
+      - name: Frontend assembly
+        run: npm run build
 
       - name: Execute tests
         run: vendor/bin/phpunit
