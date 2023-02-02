@@ -25,7 +25,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 if ($request->expectsJson()) {
                     return response()->json([
-                        'message' => 'You must be as guest user to access this route'
+                        'message' => 'You must be as guest user to access this route',
                     ], 400);
                 }
 
