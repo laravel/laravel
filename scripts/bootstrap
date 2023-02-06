@@ -17,8 +17,6 @@ COLOUR_WHITE="\x1b[97;01m"
 COLOUR_RESET="\x1b[39;49;00m"
 
 # Set default values
-MINIMUM_DOCKER_VERSION=1.12
-MINIMUM_DOCKER_COMPOSE_VERSION=1
 OPT_DO_UPDATE=true
 
 # Parse script option parameters
@@ -32,50 +30,8 @@ do
     esac
 done
 
-# Bash function to check cli binary executes
-function executableCheck {
-    local EXE=$1
-    local NAME=$2
-    if [ "$EXE" == "0" ]; then
-        echo No \"${NAME}\" command found
-        exit 1
-    fi
-
-    # check if the command is executable
-    if [ ! -e ${EXE} ]; then
-        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${NAME} is installed but not executable"
-    fi
-}
-
-# Bash function to check version number meets requirements
-function versionCheck {
-    local VERSION=$1
-    local MINIMUM=$2
-    local SYSTEM=$3
-    local CHECK=`echo "$VERSION>=$MINIMUM" | bc -l`
-    if [ "$CHECK" == "0" ]; then
-        echo -e $COLOUR_RED"ERROR"$COLOUR_RESET" ${SYSTEM} version mismatch, please upgrade"
-        exit 1
-    fi
-}
-
 echo -e $COLOUR_WHITE"🐳 Bootstrapping project...\n"$COLOUR_RESET
 
-echo -e "--> "$COLOUR_GREEN"Checking local Docker environment"$COLOUR_RESET
-# validate Docker command and version
-DOCKER_EXE=$(/usr/bin/which docker || echo 0)
-executableCheck ${DOCKER_EXE} "docker"
-
-DOCKER_VERSION=$(${DOCKER_EXE} --version | cut -f 3 -d' ' | cut -f 1,2 -d '.');
-# versionCheck ${DOCKER_VERSION} ${MINIMUM_DOCKER_VERSION} "Docker"
-
-# validate docker-compose command and version
-DOCKER_COMPOSE_EXE=$(/usr/bin/which docker-compose || echo 0)
-executableCheck ${DOCKER_COMPOSE_EXE} "docker-compose"
-
-DOCKER_COMPOSE_VERSION="$(${DOCKER_COMPOSE_EXE} --version | cut -f 3 -d' ' | cut -f 1,2 -d '.')";
-# versionCheck ${DOCKER_COMPOSE_VERSION} ${MINIMUM_DOCKER_COMPOSE_VERSION} "Docker Compose"
-echo -e "Local Docker environment OK\n"
 echo -e "--> "$COLOUR_GREEN"Checking project environment file"$COLOUR_RESET
 
 # Checks for dotenv existence.
@@ -133,7 +89,7 @@ FILE_MIX_MANIFEST=public/mix-manifest.json
 if [ ! -f "$FILE_MIX_MANIFEST" ]; then
     echo -e "--> "$COLOUR_GREEN"Frontend initial setup"$COLOUR_RESET
     echo "Frontend assets not compiled --> Compiling frontend assets"
-    docker-compose run -e NO_CLI_FLUSH=true --rm build yarn run dev --no-progress
+    docker compose run -e NO_CLI_FLUSH=true --rm build yarn run dev --no-progress
     echo ""
 fi
 

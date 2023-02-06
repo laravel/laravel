@@ -13,7 +13,7 @@ echo "Updating build dependencies"
 ./scripts/build yarn install
 
 echo -e "\nUpdating application dependencies"
-docker-compose exec app php /usr/bin/composer install --prefer-dist
+docker compose exec app php /usr/bin/composer install --prefer-dist
 
 echo -e "\nUpdating Database"
 ./scripts/console migrate:fresh --seed

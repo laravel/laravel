@@ -9,4 +9,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-docker-compose exec app php artisan $@
+docker compose exec app php artisan $@
