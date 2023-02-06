@@ -16,4 +16,4 @@ if [[ $# -eq 0 ]] ; then
 fi
 
 # Pass any arguments as command into the build container 
-docker-compose run --service-ports --rm build $@
+docker compose run --service-ports --rm build $@

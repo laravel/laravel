@@ -2,7 +2,7 @@ version: '3'
 services:
 
   nginx:
-    image: nginx:1.19
+    image: nginx:stable
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
@@ -13,7 +13,7 @@ services:
       - 8000:80
 
   app:
-    image: engageinteractive/base-php:8.0
+    image: engageinteractive/base-php:8.1
     restart: unless-stopped
     volumes:
       - ../:/var/www:delegated
@@ -37,7 +37,7 @@ services:
       - 13306:3306
 
   build:
-    image: node:14
+    image: node:18
     volumes:
       - ../:/app:delegated
       - ~/.yarn/docker-cache/:/root/.yarn:cached

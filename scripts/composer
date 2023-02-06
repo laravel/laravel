@@ -9,4 +9,4 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-docker-compose exec app php /usr/bin/composer $@
+docker compose exec app php /usr/bin/composer $@
