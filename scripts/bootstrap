@@ -107,7 +107,7 @@ echo -e "Environment file OK\n"
 
 # Build and serve all the Docker containers.
 echo -e "--> "$COLOUR_GREEN"Launching project containers"$COLOUR_RESET
-docker-compose up -d --build --quiet-pull
+docker compose pull && docker compose up --build --detach
 echo ""
 
 # Installs any application dependencies; e.g. Composer, Yarn.
