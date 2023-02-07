@@ -53,7 +53,7 @@
 
                 <div class="mt-16">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex hover:shadow-slate-500/40 motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-100 dark:hover:shadow-2xl dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
+                        <a href="https://laravel.com/docs" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-250 dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
                                 <div class="h-16 w-16 bg-red-50 dark:bg-red-900/20 flex items-center justify-center rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
@@ -73,7 +73,7 @@
                             </svg>
                         </a>
 
-                        <a href="https://laracasts.com" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex hover:shadow-slate-500/40 motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-100 dark:hover:shadow-2xl dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
+                        <a href="https://laracasts.com" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-250 dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
                                 <div class="h-16 w-16 bg-red-50 dark:bg-red-900/20 flex items-center justify-center rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
@@ -93,7 +93,7 @@
                             </svg>
                         </a>
 
-                        <a href="https://laravel-news.com" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex hover:shadow-slate-500/40 motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-100 dark:hover:shadow-2xl dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
+                        <a href="https://laravel-news.com" class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-250 dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
                                 <div class="h-16 w-16 bg-red-50 dark:bg-red-900/20 flex items-center justify-center rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
@@ -113,7 +113,7 @@
                             </svg>
                         </a>
 
-                        <div class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex hover:shadow-slate-500/40 motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-100 dark:hover:shadow-2xl dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
+                        <div class="block scale-100 p-6 bg-white dark:bg-neutral-700/20 dark:bg-gradient-to-bl from-red-900/30 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-slate-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] dark:hover:bg-red-900/20 transition-all duration-250 dark:hover:shadow-red-500/20 dark:backdrop-blur-[2px] dark:hover:ring-white/10 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
                                 <div class="h-16 w-16 bg-red-50 dark:bg-red-900/20 flex items-center justify-center rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
