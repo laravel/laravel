@@ -84,6 +84,10 @@ return [
     | considered valid. This security feature keeps tokens short-lived so
     | they have less time to be guessed. You may change this as needed.
     |
+    | Throttle describes the number of seconds that must past bevor a user
+    | can create another token. This prevents the same user from spamming
+    | multiple password resets in a short duration of time.
+    |
     */
 
     'passwords' => [
