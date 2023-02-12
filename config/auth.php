@@ -84,9 +84,9 @@ return [
     | considered valid. This security feature keeps tokens short-lived so
     | they have less time to be guessed. You may change this as needed.
     |
-    | Throttle describes the number of seconds that must past bevor a user
-    | can create another token. This prevents the same user from spamming
-    | multiple password resets in a short duration of time.
+    | The throttle setting is the number of seconds a user must wait before
+    | generating more password reset tokens. This prevents the user from
+    | quickly generating a very large amount of password reset tokens.
     |
     */
 
