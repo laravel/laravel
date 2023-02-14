@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.0...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.0...master)
 
 ## [v10.0.0 (2022-02-14)](https://github.com/laravel/laravel/compare/v9.5.2...v10.0.0)
 
