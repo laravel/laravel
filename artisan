@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+define('LARAVEL_HR_START', hrtime(true));
 define('LARAVEL_START', microtime(true));
 
 /*
