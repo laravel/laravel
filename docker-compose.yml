@@ -1,0 +1,67 @@
+version: "3.7"
+services:
+    app:
+        build:
+            args:
+                user: project
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: l10wd
+        container_name: l10wd-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - l10wd
+
+    db:
+        image: mysql:5.7
+        ports:
+            - 8889:3306
+        container_name: l10wd-db
+        restart: unless-stopped
+        environment:
+            MYSQL_USERNAME: ${DB_USERNAME}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+        networks:
+            - l10wd
+
+    nginx:
+        image: nginx:alpine
+        container_name: l10wd-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+            - l10wd
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: unless-stopped
+        container_name: phpmyadmin
+        depends_on:
+            - db
+        ports:
+            - "8080:80"
+        environment:
+            - PMA_ARBITRARY:1
+            - PMA_HOST:mysql
+            - MYSQL_USERNAME:${DB_USERNAME}
+            - MYSQL_ROOT_PASSWORD:${DB_PASSWORD}
+        networks:
+            - l10wd
+
+networks:
+    l10wd:
+        driver: bridge
