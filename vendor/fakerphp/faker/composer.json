@@ -1,0 +1,54 @@
+{
+    "name": "fakerphp/faker",
+    "type": "library",
+    "description": "Faker is a PHP library that generates fake data for you.",
+    "keywords": [
+        "faker",
+        "fixtures",
+        "data"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "François Zaninotto"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "psr/container": "^1.0 || ^2.0",
+        "symfony/deprecation-contracts": "^2.2 || ^3.0"
+    },
+    "require-dev": {
+        "ext-intl": "*",
+        "bamarni/composer-bin-plugin": "^1.4.1",
+        "symfony/phpunit-bridge": "^4.4 || ^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Faker\\": "src/Faker/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Faker\\Test\\": "test/Faker/",
+            "Faker\\Test\\Fixture\\": "test/Fixture/"
+        }
+    },
+    "conflict": {
+        "fzaninotto/faker": "*"
+    },
+    "suggest": {
+        "ext-curl": "Required by Faker\\Provider\\Image to download images.",
+        "ext-dom": "Required by Faker\\Provider\\HtmlLorem for generating random HTML.",
+        "ext-iconv": "Required by Faker\\Provider\\ru_RU\\Text::realText() for generating real Russian text.",
+        "ext-mbstring": "Required for multibyte Unicode string functionality."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "v1.17-dev"
+        }
+    }
+}
