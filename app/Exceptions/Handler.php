@@ -41,7 +41,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
+        // if closure return type changed change void to your return type
+        $this->reportable(function (Throwable $e): void {
             //
         });
     }
