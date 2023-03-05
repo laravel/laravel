@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="512" width="512" id="flag-icon-css-tl">
+  <defs>
+    <clipPath id="a">
+      <path fill-opacity=".67" d="M0 0h496.06v496.06H0z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#a)" fill-rule="evenodd" transform="scale(1.0321)">
+    <path fill="#cb000f" d="M0 0h999.07v496.06H0z"/>
+    <path d="M0 0c3.133 0 496.06 248.73 496.06 248.73L0 496.06V0z" fill="#f8c00c"/>
+    <path d="M0 0c2.084 0 330.01 248.73 330.01 248.73L0 496.06V0z"/>
+    <path d="M181.87 288.88l-58.92-13.058-30.105 51.194-4.71-57.819-58.862-12.956 53.133-24.045-3.19-57.537 38.984 42.039 53.618-24.447-27.93 52.221 37.983 44.408z" fill="#fff"/>
+  </g>
+</svg>

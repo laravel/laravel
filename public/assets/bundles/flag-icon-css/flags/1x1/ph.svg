@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="512" width="512" id="flag-icon-css-ph">
+  <path d="M0 0h512v256H0z" fill="#0038a8"/>
+  <path d="M0 256h512v256H0z" fill="#ce1126"/>
+  <path d="M443.405 256L0 512V0" fill="#fff"/>
+  <g transform="translate(159.289 256) scale(5.68889)" fill="#fcd116">
+    <circle r="9"/>
+    <g id="d">
+      <g id="c">
+        <g id="b">
+          <path d="M-1 0l.062.062L0 0l-.938-.062z" transform="scale(19)"/>
+          <path id="a" d="M-.884.116l.05.05L0 0z" transform="scale(19.2381)"/>
+          <use height="100%" width="100%" xlink:href="#a" transform="scale(1 -1)"/>
+        </g>
+        <use height="100%" width="100%" xlink:href="#b" transform="rotate(45)"/>
+      </g>
+      <use height="100%" width="100%" xlink:href="#c" transform="rotate(90)"/>
+    </g>
+    <use height="100%" width="100%" xlink:href="#d" transform="scale(-1)"/>
+    <g transform="translate(-2.02)">
+      <g id="f" transform="translate(37.962)">
+        <path id="e" d="M5 0L1.618 1.176l-.073 3.58-2.163-2.854-3.427 1.037L-2 0z"/>
+        <use height="100%" width="100%" xlink:href="#e" transform="scale(1 -1)"/>
+      </g>
+      <use height="100%" width="100%" xlink:href="#f" transform="rotate(120)"/>
+      <use height="100%" width="100%" xlink:href="#f" transform="rotate(-120)"/>
+    </g>
+  </g>
+</svg>

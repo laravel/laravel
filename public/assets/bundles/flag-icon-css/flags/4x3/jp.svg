@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="480" width="640" id="flag-icon-css-jp">
+  <defs>
+    <clipPath id="a">
+      <path fill-opacity=".67" d="M-88.001 32h640v480h-640z"/>
+    </clipPath>
+  </defs>
+  <g fill-rule="evenodd" clip-path="url(#a)" transform="translate(88.001 -32)" stroke-width="1pt">
+    <path fill="#fff" d="M-128 32h720v480h-720z"/>
+    <ellipse rx="194.93" ry="194.93" transform="translate(-168.44 8.618) scale(.76554)" cy="344.05" cx="523.08" fill="#d30000"/>
+  </g>
+</svg>
