@@ -53,12 +53,16 @@ return [
 
         'sqs' => [
             'driver' => 'sqs',
+            'type' => env('SQS_TYPE', 'standard'),
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
             'queue' => env('SQS_QUEUE', 'default'),
             'suffix' => env('SQS_SUFFIX'),
             'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            'message_group_id' => env('SQS_FIFO_MESSAGE_GROUP_ID', 'default'),
+            'message_deduplication_id' => env('SQS_FIFO_MESSAGE_DEDUPLICATION_ID', 'default'),
+            'allow_delay' => (bool) env('SQS_FIFO_ALLOW_DELAY', '0'), // 0 for false, 1 for true
             'after_commit' => false,
         ],
 
