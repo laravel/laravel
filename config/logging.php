@@ -69,8 +69,8 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'replace_placeholders' => true,
             'days' => 14,
+            'replace_placeholders' => true,
         ],
 
         'slack' => [
@@ -108,8 +108,8 @@ return [
         'syslog' => [
             'driver' => 'syslog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'replace_placeholders' => true,
             'facility' => LOG_USER,
+            'replace_placeholders' => true,
         ],
 
         'errorlog' => [
