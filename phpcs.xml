@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards">
+	<description>WooCommerce dev PHP_CodeSniffer ruleset.</description>
+
+	<file>.</file>
+
+	<!-- Exclude paths -->
+	<exclude-pattern>tests/cli/</exclude-pattern>
+	<exclude-pattern>includes/libraries/</exclude-pattern>
+	<exclude-pattern>includes/legacy/</exclude-pattern>
+	<exclude-pattern>includes/api/legacy/</exclude-pattern>
+	<exclude-pattern>includes/api/v1/</exclude-pattern>
+	<exclude-pattern>includes/class-wc-geo-ip.php</exclude-pattern>
+	<exclude-pattern>includes/wc-deprecated-functions.php</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>lib/</exclude-pattern>
+
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps" />
+
+	<!-- Strip the filepaths in reports down to the relevant bit. -->
+	<arg name="basepath" value="./" />
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8" />
+
+	<!-- Configs -->
+	<config name="minimum_supported_wp_version" value="5.2" />
+	<config name="testVersion" value="7.0-" />
+
+	<!-- Rules -->
+	<rule ref="WooCommerce-Core" />
+
+	<rule ref="WooCommerce.Functions.InternalInjectionMethod">
+		<include-pattern>src/</include-pattern>
+		<include-pattern>tests/php/src/</include-pattern>
+		<properties>
+			<property name="injectionMethod" value="init"/>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="woocommerce" />
+		</properties>
+	</rule>
+
+	<rule ref="PHPCompatibility">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>includes/**/abstract-*.php</exclude-pattern>
+		<exclude-pattern>tests/</exclude-pattern>
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>tests/php/src/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Classes.ClassFileName">
+		<include-pattern>src/</include-pattern>
+		<include-pattern>tests/php/src/</include-pattern>
+	</rule>
+
+	<rule ref="Squiz.Classes.ValidClassName">
+		<include-pattern>src/</include-pattern>
+		<include-pattern>tests/php/src/</include-pattern>
+	</rule>
+
+	<rule ref="Generic.Commenting">
+		<exclude-pattern>tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="PEAR.Functions.FunctionCallSignature.EmptyLine">
+		<exclude-pattern>tests/e2e-tests/</exclude-pattern>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>i18n/</exclude-pattern>
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>tests/php</exclude-pattern>
+		<exclude-pattern>tests/Tools/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>tests/php/</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>src/</exclude-pattern>
+		<exclude-pattern>tests/php/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+		<exclude-pattern>tests/php/</exclude-pattern>
+	</rule>
+
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>tests/php/</exclude-pattern>
+	</rule>
+</ruleset>
