@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.3...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.4...10.x)
+
+## [v10.0.4](https://github.com/laravel/laravel/compare/v10.0.3...v10.0.4) - 2023-02-27
+
+- Fix typo by @izzudin96 in https://github.com/laravel/laravel/pull/6128
+- Specify facility in the syslog driver config by @nicolus in https://github.com/laravel/laravel/pull/6130
 
 ## [v10.0.3](https://github.com/laravel/laravel/compare/v10.0.2...v10.0.3) - 2023-02-21
 
