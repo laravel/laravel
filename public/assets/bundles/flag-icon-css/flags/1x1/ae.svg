@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="512" width="512" id="flag-icon-css-ae">
+  <path fill="#00732f" d="M0 0h512v170.667H0z"/>
+  <path fill="#fff" d="M0 170.667h512v170.667H0z"/>
+  <path d="M0 341.333h512V512H0z"/>
+  <path fill="red" d="M0 0h180v512H0z"/>
+</svg>

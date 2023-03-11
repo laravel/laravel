@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="480" width="640" id="flag-icon-css-to">
+  <g fill-rule="evenodd" stroke-width="1pt">
+    <path fill="#c10000" d="M0 0h640v480H0z"/>
+    <path fill="#fff" d="M0 0h249.954v200.321H0z"/>
+    <g fill="#c10000">
+      <path d="M102.854 31.24h39.84v139.54h-39.84z"/>
+      <path d="M192.55 81.086v39.84H53.01v-39.84z"/>
+    </g>
+  </g>
+</svg>
