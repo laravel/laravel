@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.4...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.5...10.x)
+
+## [v10.0.5](https://github.com/laravel/laravel/compare/v10.0.4...v10.0.5) - 2023-03-08
+
+- Add replace_placeholders to log channels by @alanpoulain in https://github.com/laravel/laravel/pull/6139
 
 ## [v10.0.4](https://github.com/laravel/laravel/compare/v10.0.3...v10.0.4) - 2023-02-27
 
