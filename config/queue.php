@@ -75,6 +75,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Job Batching
+    |--------------------------------------------------------------------------
+    |
+    | These options configure the behaviour of job batching so you can
+    | control which database and table are used to store the batches.
+    | You may change them to any database / table you wish.
+    |
+    */
+
+    'batching' => [
+        'database' => env('DB_CONNECTION', 'mysql'),
+        'table' => 'job_batches',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Failed Queue Jobs
     |--------------------------------------------------------------------------
     |
