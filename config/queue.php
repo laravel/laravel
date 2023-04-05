@@ -78,9 +78,9 @@ return [
     | Job Batching
     |--------------------------------------------------------------------------
     |
-    | These options configure the behaviour of job batching so you can
-    | control which database and table are used to store the batches.
-    | You may change them to any database / table you wish.
+    | The following options configure the database and table that store job
+    | batching information. These options can be updated to any database
+    | connection and table which has been defined by your application.
     |
     */
 
