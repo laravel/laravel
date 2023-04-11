@@ -17,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
