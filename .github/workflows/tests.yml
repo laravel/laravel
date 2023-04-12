@@ -19,9 +19,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.1, 8.2]
+        php-versions: [8.1, 8.2]
 
-    name: PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php-versions }}
 
     steps:
       - name: Checkout code
@@ -30,7 +30,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: ${{ matrix.php-versions }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
