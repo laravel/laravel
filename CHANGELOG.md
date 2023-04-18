@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.0.6...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.1.0...10.x)
+
+## [v10.1.0](https://github.com/laravel/laravel/compare/v10.0.6...v10.1.0) - 2023-04-15
+
+- Minor skeleton slimming by @taylorotwell in https://github.com/laravel/laravel/pull/6159
 
 ## [v10.0.6](https://github.com/laravel/laravel/compare/v10.0.5...v10.0.6) - 2023-04-05
 
