@@ -1,0 +1,268 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body {
+    color: #fff;
+    font-family: "Bai Jamjuree", sans-serif;
+    background-image: url(/img/smoke.gif);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-size: cover;
+}
+/*.smoke {
+    background-image: url(/img/smoke.gif);
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-size: cover;
+}*/
+.contenedor {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 20%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    justify-content: center;
+    gap: 3vh;
+}
+.text-center {
+    text-align: center;
+}
+
+/* Location */
+.location {
+    font-size: 2rem;
+    line-height: initial;
+}
+.location span {
+    font-size: 2.5rem;
+}
+
+/* Citadel */
+.img-w {
+    width: 500px;
+}
+/* Photo */
+.mask {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 6vh 0;
+}
+.c-vector {
+    max-width: 600px;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.hexagono {
+    max-width: 600px;
+    width: 100%;
+    margin-top: 55px;
+}
+/* keyname */
+
+.keyname {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    line-height: initial;
+    gap: 30px;
+}
+.keyname span {
+    font-size: 5rem;
+}
+.corchete {
+    width: 40px;
+}
+
+/* name */
+.name {
+    margin-bottom: 20px;
+}
+.name span {
+    font-size: 2.5rem;
+    color: #fff;
+}
+.name h1 {
+    color: #00ccff;
+    font-size: 3.5rem;
+    margin: 0;
+    line-height: initial;
+}
+
+@media screen and (orientation: landscape) {
+    body {
+        background-size: cover;
+        background-position: center 73%;
+    }
+}
+
+.smoke {
+    height: 100vh;
+}
+
+/*
+img {
+    width: 80vh;
+    height: auto;
+}
+*/
+
+/* Image glitch */
+.image {
+    position: relative;
+    width: 50vh;
+    height: 60vh;
+}
+@keyframes image-anim-1 {
+    0% {
+        clip: rect(230px, 1000px, 519px, 0);
+    }
+    6.6666666667% {
+        clip: rect(161px, 1000px, 375px, 0);
+    }
+    13.3333333333% {
+        clip: rect(16px, 1000px, 682px, 0);
+    }
+    20% {
+        clip: rect(715px, 1000px, 878px, 0);
+    }
+    26.6666666667% {
+        clip: rect(373px, 1000px, 307px, 0);
+    }
+    33.3333333333% {
+        clip: rect(180px, 1000px, 565px, 0);
+    }
+    40% {
+        clip: rect(85px, 1000px, 293px, 0);
+    }
+    46.6666666667% {
+        clip: rect(488px, 1000px, 481px, 0);
+    }
+    53.3333333333% {
+        clip: rect(743px, 1000px, 93px, 0);
+    }
+    60% {
+        clip: rect(758px, 1000px, 248px, 0);
+    }
+    66.6666666667% {
+        clip: rect(734px, 1000px, 898px, 0);
+    }
+    73.3333333333% {
+        clip: rect(857px, 1000px, 847px, 0);
+    }
+    80% {
+        clip: rect(920px, 1000px, 481px, 0);
+    }
+    86.6666666667% {
+        clip: rect(366px, 1000px, 47px, 0);
+    }
+    93.3333333333% {
+        clip: rect(865px, 1000px, 57px, 0);
+    }
+    100% {
+        clip: rect(433px, 1000px, 55px, 0);
+    }
+}
+@keyframes image-anim-2 {
+    0% {
+        clip: rect(784px, 1000px, 461px, 0);
+    }
+    6.6666666667% {
+        clip: rect(50px, 1000px, 885px, 0);
+    }
+    13.3333333333% {
+        clip: rect(285px, 1000px, 628px, 0);
+    }
+    20% {
+        clip: rect(930px, 1000px, 895px, 0);
+    }
+    26.6666666667% {
+        clip: rect(556px, 1000px, 334px, 0);
+    }
+    33.3333333333% {
+        clip: rect(91px, 1000px, 369px, 0);
+    }
+    40% {
+        clip: rect(195px, 1000px, 385px, 0);
+    }
+    46.6666666667% {
+        clip: rect(837px, 1000px, 422px, 0);
+    }
+    53.3333333333% {
+        clip: rect(3px, 1000px, 215px, 0);
+    }
+    60% {
+        clip: rect(545px, 1000px, 695px, 0);
+    }
+    66.6666666667% {
+        clip: rect(316px, 1000px, 816px, 0);
+    }
+    73.3333333333% {
+        clip: rect(454px, 1000px, 363px, 0);
+    }
+    80% {
+        clip: rect(310px, 1000px, 679px, 0);
+    }
+    86.6666666667% {
+        clip: rect(505px, 1000px, 806px, 0);
+    }
+    93.3333333333% {
+        clip: rect(760px, 1000px, 916px, 0);
+    }
+    100% {
+        clip: rect(556px, 1000px, 556px, 0);
+    }
+}
+.image > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.image > img:nth-child(2),
+.image > img:nth-child(3) {
+    clip: rect(0, 0, 0, 0);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.image > img:nth-child(2) {
+    animation: image-anim-1 2s infinite linear alternate-reverse;
+}
+.image > img:nth-child(3) {
+    animation: image-anim-2 3s infinite linear alternate-reverse;
+}
+.image img {
+    width: 90%;
+    max-width: 300px;
+}
+.image img.grayscale {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+.image img.hue-rotate {
+    -webkit-filter: hue-rotate(90deg);
+    filter: hue-rotate(90deg);
+}
+
+.image.photo {
+    text-align: center;
+}
+
+.image.photo > img {
+    margin-right: 10px;
+}
