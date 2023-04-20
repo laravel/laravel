@@ -10,7 +10,6 @@
         </style>
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;600&display=swap" rel="stylesheet">
 
@@ -54,7 +53,6 @@
             
 
                 <div class="name">
-                    
                     <h1 class="alias">
                     <span>
                         Alias: 
