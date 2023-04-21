@@ -26,6 +26,8 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
+     * Middleware groups allow you to assign many middleware to one convenient name.
+     *
      * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
