@@ -844,7 +844,7 @@
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <p style="font-size: 1.6rem; font-weight: bold; text-align: center; margin-bottom: 20px;">Orgwany Laravel</p>
-            <div class="flex justify-center">
+            <div class="flex justify-center" style="user-select: none;">
                 <img src=" https://orgwany.com/wp-content/uploads/2022/06/icon.png" alt="Orgwany Logo" style="margin-top: -5px; width: 76px; height: 74px;"></img>
                 <p style="line-height: 62px; margin-right: 20px; margin-left: 10px; font-size: 1.7rem;">/</p>
                 <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
