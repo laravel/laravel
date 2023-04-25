@@ -2,7 +2,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/orgwany/laravel.git"
+            "url": "https://github.com/laravel/laravel"
         }
     ],
     "require": {
