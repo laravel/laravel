@@ -6,6 +6,6 @@
         }
     ],
     "require": {
-        "orgwany/laravel": "dev-main"
+        "laravel/laravel": "dev-main"
     }
 }
