@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+*.log
+*.sqlite
+*.sqlite-journal
