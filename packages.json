@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/orgwany/laravel.git"
+        }
+    ],
+    "require": {
+        "orgwany/laravel": "dev-main"
+    }
+}
