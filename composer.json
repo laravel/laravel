@@ -3,27 +3,28 @@
     "type": "project",
     "description": "",
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.1",
         "engageinteractive/laravel-frontend": "^4.0",
         "engageinteractive/laravel-view-models": "^1.0",
-        "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^2.0",
-        "laravel/framework": "^8.0",
-        "sentry/sentry-laravel": "^2.3"
+        "fruitcake/php-cors": "^1.2",
+        "laravel/framework": "^10.0",
+        "sentry/sentry-laravel": "^3.2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
-        "facade/ignition": "^2.3.6",
-        "fzaninotto/faker": "^1.9.1",
+        "spatie/laravel-ignition": "^2.0",
+        "fakerphp/faker": "^1.21",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^5.0",
-        "nunomaduro/larastan": "^0.6.4",
-        "phpunit/phpunit": "^9.3"
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "extra": {
         "laravel": {
@@ -42,7 +43,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [

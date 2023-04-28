@@ -37,7 +37,7 @@ services:
       - 13306:3306
 
   build:
-    image: node:18
+    image: node:16
     volumes:
       - ../:/app:delegated
       - ~/.yarn/docker-cache/:/root/.yarn:cached

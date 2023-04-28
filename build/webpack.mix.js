@@ -52,3 +52,9 @@ if (mix.inProduction()) {
 } else {
 	mix.sourceMaps(false, 'eval-cheap-source-map');
 }
+
+module.exports = {
+    output: {
+        hashFunction: "xxhash64"
+    }
+};
