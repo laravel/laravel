@@ -13,4 +13,7 @@ use Illuminate\Foundation\Application;
 |
 */
 
-return Application::create()->withExceptionHandling();
+return Application::create()
+    ->withExceptionHandling(function ($handler) {
+        //
+    });
