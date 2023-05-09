@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.1.1...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.2.0...10.x)
+
+## [v10.2.0](https://github.com/laravel/laravel/compare/v10.1.1...v10.2.0) - 2023-05-05
+
+- Update welcome.blade.php by @aymanatmeh in https://github.com/laravel/laravel/pull/6163
+- Sets package.json type to module by @timacdonald in https://github.com/laravel/laravel/pull/6090
+- Add url support for mail config by @chu121su12 in https://github.com/laravel/laravel/pull/6170
 
 ## [v10.1.1](https://github.com/laravel/laravel/compare/v10.0.7...v10.1.1) - 2023-04-18
 
