@@ -1,9 +1,8 @@
 <?php
 
-use Laravel\Sanctum\Sanctum;
-
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToke;
+use Laravel\Sanctum\Sanctum;
 
 return [
 
