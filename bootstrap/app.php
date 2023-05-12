@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 */
 
 return Application::create()
+    ->withBroadcasting()
     ->withExceptionHandling(function ($handler) {
         //
     });
