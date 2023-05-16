@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.2.0...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.2.1...10.x)
+
+## [v10.2.1](https://github.com/laravel/laravel/compare/v10.2.0...v10.2.1) - 2023-05-12
+
+- Add hashed cast to user password by @emargareten in https://github.com/laravel/laravel/pull/6171
+- Bring back pusher cluster config option by @jesseleite in https://github.com/laravel/laravel/pull/6174
 
 ## [v10.2.0](https://github.com/laravel/laravel/compare/v10.1.1...v10.2.0) - 2023-05-05
 
