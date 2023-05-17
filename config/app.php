@@ -164,7 +164,6 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        Illuminate\Foundation\Support\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
