@@ -25,6 +25,5 @@ class loginController extends Controller
         }
 
         return response()->json($querydata);
-
     }
 }

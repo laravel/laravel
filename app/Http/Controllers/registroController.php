@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class registroController extends Controller
 {
     //registrar
+    
     public function registrar(Request $data)
     {
         $data = (object) $data;

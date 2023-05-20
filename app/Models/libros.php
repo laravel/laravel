@@ -10,7 +10,7 @@ class libros extends Model
     use HasFactory;
 
     protected $table = 'libros';
-    protected $primaryKey = 'idlibro';
+    protected $primaryKey = 'id_libro';
     protected $keyType = 'int';
     public $timestamps = false;
 }

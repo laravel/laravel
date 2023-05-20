@@ -10,7 +10,7 @@ class estantes extends Model
     use HasFactory;
 
     protected $table = 'estantes';
-    protected $primaryKey = 'idestante';
+    protected $primaryKey = 'id_estante';
     protected $keyType = 'int';
     public $timestamps = false;
 }

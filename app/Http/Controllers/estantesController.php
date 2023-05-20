@@ -14,31 +14,41 @@ class estantesController extends Controller
     public function guardar(Request $data)
     {
         $data = (object) $data;
-        $estante = $data->estante;
+        $estante = (object) $data->estante;
 
-        $consulta = estantes::find($estante->idestante);
+        $consulta = estantes::find($estante->id_estante);
 
-        if($consulta == null){
+        if(!$consulta){
             $consulta = new estantes();
         }
-        $consulta->idestante = $estante->idestante;
+        $consulta->id_estante = $estante->id_estante;
         $consulta->nombre = $estante->nombre;
         $consulta->genero_lib = $estante->genero_lib;
+
+       $resultado = $consulta->save();
+       return response()->json($resultado);
+
     }
 
     //obtener por id
     public function buscarporid(Request $data)
     {
+
         $data = (object) $data;
-        $estante = $data->idestante;
+        $estante = $data->id_estante;
 
         $consulta = estantes::find($estante);
         return response()->json($consulta);
+
+
     }
 
     //mostrar todos los datos
     public function getAll()
     {
         $consulta = estantes::all();
+
+        return response()->json($consulta);
+        
     }
 }

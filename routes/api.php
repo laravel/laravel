@@ -24,20 +24,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 //Libros
-Route::post('/guardarLib', [librosController::class, 'guardar']); //guardar o actualizar
+Route::post('/guardarLib', [librosController::class, 'guardar']); //guardar o actualizar DONE
 Route::post('/buscarID', [librosController::class, 'buscarporid']); //buscar libro por id
-Route::post('/mostrarLib', [librosController::class, 'mostrar']); //mostrar todos los registros
+Route::post('/mostrarLib', [librosController::class, 'mostrar']); //mostrar todos los registros DONE
+//por genero
+Route::post('/libroAccion', [librosController::class, 'libroAccion']); //DONE mostrar todos los libros de accion DONE
+Route::post('/libroFantasia', [librosController::class, 'libroFantasia']); //DONE mostrar todos los libros de fantasia DONE
+Route::post('/libroCienciaFiccion', [librosController::class, 'cienciaFiccion']); // DONE mostrar todos los libros de ciencia ficcion DONE
+//buscar por autor
+Route::post('/annabanks', [librosController::class, 'annaBanks']); //mostrar libros de anna banks DONE
+Route::post('/neilGaiman', [librosController::class, 'neilGaiman']); //mostrar libros de Neil Gaiman DONE
+
 
 //registro
-Route::post('/usuarios', [registroController::class, 'mostrarAll']); //mostrar todos los registros
-Route::post('/registrar', [registroController::class, 'registrar']); //guardar o actualizar
+Route::post('/usuarios', [registroController::class, 'mostrarAll']); //mostrar todos los registros DONE
+Route::post('/registrar', [registroController::class, 'registrar']); //guardar o actualizar DONE
 Route::post('/buscarID', [registroController::class, 'buscarID']); //obtener registro por id
 
 //login
 Route::post('/login', [loginController::class, 'login']);
 
 //estantes
-Route::post('/guardarEst', [estantesController::class, 'guardar']);
-Route::post('/getAll', [estantesController::class, 'buscarporid']);
-Route::post('/getEstantes', [estantesController::class, 'getAll']);
+Route::post('/guardarEst', [estantesController::class, 'guardar']); //DONE
+Route::post('/buscarporID', [estantesController::class, 'buscarporid']);
+Route::post('/getEstantes', [estantesController::class, 'getAll']); //DONE 
 
