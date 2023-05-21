@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,9 @@ return Application::configure()
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
     )
-    ->withExceptionHandling(function ($handler) {
+    ->withMiddleware(function (Middleware $middleware) {
+        //
+    })
+    ->withExceptionHandling(function (ExceptionHandler $handler) {
         //
     })->create();
