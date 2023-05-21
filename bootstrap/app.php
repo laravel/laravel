@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-return Application::create()
+return Application::configure()
     ->withBroadcasting()
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -22,4 +22,4 @@ return Application::create()
     )
     ->withExceptionHandling(function ($handler) {
         //
-    });
+    })->create();
