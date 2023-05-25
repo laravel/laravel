@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /*
 |--------------------------------------------------------------------------
