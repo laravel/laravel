@@ -10,8 +10,8 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 |--------------------------------------------------------------------------
 |
 | The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the service container that can resolve all classes and components.
+| which serves as the "glue" for all the components of Laravel. We can
+| also use the application to configure core, foundational behavior.
 |
 */
 
