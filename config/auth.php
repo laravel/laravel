@@ -25,7 +25,7 @@ return [
     |
     | Next, you may define every authentication guard for your application.
     | Of course, a great default configuration has been defined for you
-    | here which uses session storage and the Eloquent user provider.
+    | which utilizes session storage plus the Eloquent user provider.
     |
     | All authentication drivers have a user provider. This defines how the
     | users are actually retrieved out of your database or other storage
@@ -105,7 +105,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may define the amount of seconds before a password confirmation
-    | times out and the user is prompted to re-enter their password via the
+    | window expires and users are asked to re-enter their password via the
     | confirmation screen. By default, the timeout lasts for three hours.
     |
     */
