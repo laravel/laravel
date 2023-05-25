@@ -24,8 +24,8 @@ require __DIR__.'/vendor/autoload.php';
 |--------------------------------------------------------------------------
 |
 | When we run the console application, the current CLI command will be
-| executed in this console and the response sent back to a terminal
-| or another output device for the developers. Here goes nothing!
+| executed by an Artisan command and the exit code is given back to
+| the caller. Once the command is handled, the script terminates.
 |
 */
 
