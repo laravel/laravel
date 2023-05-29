@@ -1,19 +1,43 @@
-/.phpunit.cache
+# Ignore node_modules directory
 /node_modules
+
+# Ignore compiled build files, hot-reloading files, and storage files in the public directory.
 /public/build
 /public/hot
 /public/storage
+
+# Ignore specific storage keys
 /storage/*.key
+
+# Ignore vendor directory
 /vendor
+
+# Ignore environment configuration files
 .env
 .env.backup
 .env.production
+.env.local
+
+# Ignore PHPUnit result cache
+/.phpunit.cache
 .phpunit.result.cache
+
+# Ignore Homestead configuration files
 Homestead.json
 Homestead.yaml
+
+# Ignore authentication configuration file
 auth.json
+
+# Ignore npm debug logs
 npm-debug.log
+
+# Ignore yarn error logs
 yarn-error.log
+
+# Ignore fleet directory
 /.fleet
+
+# Ignore IDE-specific files
 /.idea
 /.vscode
