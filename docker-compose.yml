@@ -2,7 +2,7 @@ version: '3'
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.2
+            context: ./docker/8.2
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -12,6 +12,7 @@ services:
         ports:
             - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+            - '${PUSHER_PORT:-6001}:6001'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
