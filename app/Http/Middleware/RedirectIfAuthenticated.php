@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated as Middleware;
 use Illuminate\Http\Request;
 
@@ -13,6 +12,6 @@ class RedirectIfAuthenticated extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return RouteServiceProvider::HOME;
+        return route('dashboard');
     }
 }
