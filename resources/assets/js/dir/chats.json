@@ -1,0 +1,158 @@
+[
+  {
+    "chats": [
+      {
+        
+        "id": 1,
+        "from_id": 2,
+        "to_id": 1,
+        "msg": "Good morning 😊",
+        "has_dropDown": true,
+        "has_images": [],
+        "has_files": [],
+        "datetime": "10:07 am",      
+        "isReplied": 2
+      },
+      {
+        "id": 2,
+        "from_id": 1,
+        "to_id": 2,
+        "has_dropDown": true,
+        "msg": "Good morning, How are you? What about our next meeting?",      
+        "has_images": [],
+        "has_files": [],
+        "datetime": "10:12 am",        
+        "isReplied": 1
+      },
+      {
+        "id": 3,
+        "from_id": 2,
+        "to_id": 1,
+        "has_dropDown": true,
+        "msg": "Yeah everything is fine. Our next meeting tomorrow at 10.00 AM",        
+        "has_images": [],
+        "has_files": [],
+        "datetime": "10:13 am",       
+        "isReplied": 2
+      },
+      {
+        "id": 4,
+        "from_id": 2,
+        "to_id": 1,
+        "has_dropDown": true,
+        "msg": "Hey, I'm going to meet a friend of mine at the department store. I have to buy some presents for my parents 🎁.",       
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:13 am",
+        "isReplied": 2
+      },
+      {
+        "id": 5,
+        "from_id": 1,
+        "to_id": 2,
+        "msg": "Wow that's great", 
+        "has_dropDown": true,      
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:14 am",
+        "isReplied": 1
+      },
+      {
+        "id": 6,
+        "from_id": 2,
+        "to_id": 1,
+        "msg": null,   
+        "has_dropDown": false,    
+        "has_images": ["assets/images/small/img-1.jpg","assets/images/small/img-2.jpg"],
+        "has_files": [],
+        "datetime":   "10:15 am",
+        "isReplied": 1
+      },
+      {
+        "id": 7,
+        "from_id": 1,
+        "to_id": 2,
+        "has_dropDown": false,
+        "msg": null,       
+        "has_images": null,
+        "has_files": ["assets/images/pdf/design-phase-1-approved.pdf"],
+        "datetime":   "10:16 am",
+        "isReplied": 1
+      },     
+      {
+        "id": 8,
+        "from_id": 2,
+        "to_id": 1,
+        "has_dropDown": false,
+        "msg": "typing...",        
+        "has_images": [],
+        "has_files": [],
+        "datetime": "",       
+        "isReplied": 2
+      }
+    ], 
+ 
+    "channel_chat" :[
+      {
+        "id": 1,
+        "from_id": 2,
+        "msg": "Good morning Everyone",    
+        "has_dropDown": true,   
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:07 am",
+        "isReplied": []
+      },
+      {
+        "id": 2,
+        "from_id": 1,
+        "has_dropDown": true,
+        "msg": "Good morning, How are you? What about our next meeting?",       
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:12 am",
+        "isReplied": []
+      },
+      {
+        "id": 3,
+        "from_id": 7,
+        "msg": "Yeah everything is fine, Our next meeting tomorrow at 10.00 am AM",   
+        "has_dropDown": true,    
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:13 am",
+        "isReplied": []
+      },
+      {
+        "id": 4,
+        "from_id": 7,
+        "has_dropDown": true,
+        "msg": "Wow that's great",       
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:14 am",
+        "isReplied": []
+      },
+      {
+        "id": 5,
+        "from_id": 1,
+        "has_dropDown": true,
+        "msg": "@Jean Berwick, Please Assign AB-123 to me",       
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:14 am",
+        "isReplied": []
+      },
+      {
+        "id": 6,
+        "from_id": 2,
+        "msg": "Okay, Sure",
+        "has_dropDown": true,       
+        "has_images": [],
+        "has_files": [],
+        "datetime":   "10:15 am",
+        "isReplied": []
+      }
+    ]
+  }
+]

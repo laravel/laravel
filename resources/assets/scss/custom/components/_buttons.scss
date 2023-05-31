@@ -1,0 +1,103 @@
+// 
+// _buttons.scss
+// 
+
+button,a {
+  outline: none !important;
+}
+
+
+// Rounded Buttons
+.btn-rounded {
+  border-radius: 30px;
+  border-radius: 30px;
+
+}
+
+.btn-dark, .btn-secondary{
+  color: $gray-200 !important;
+}
+
+.btn-outline-light{
+  color: $gray-900;
+}
+
+.btn-primary{
+  background-color: rgba(var(--bs-primary-rgb), 0.9);
+  border-color: rgba(var(--bs-primary-rgb), 0.9);
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: rgba(var(--bs-primary-rgb), 1);
+        border-color: rgba(var(--bs-primary-rgb), 1);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $btn-focus-width rgba(var(--bs-primary-rgb), 1);
+  }
+}
+
+//
+// Soft Buttons
+// 
+
+@mixin button-variant-soft($bg) {
+  color: $bg;
+  background-color: rgba($bg, 0.1);
+  border-color: transparent;
+
+  &:hover,
+  &:focus,
+  &:active{
+      color: $white;
+      background-color: $bg;
+  }
+
+  &:focus {
+      box-shadow: 0 0 0 $btn-focus-width rgba($bg, 0.5);
+  }
+}
+
+@each $color,
+$value in $theme-colors {
+  .btn-soft-#{$color} {
+      @include button-variant-soft($value);
+  }
+}
+
+.btn-soft-primary{
+  color: rgba(var(--bs-primary-rgb), 1);
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $white;
+        background-color: rgba(var(--bs-primary-rgb), 1);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $btn-focus-width rgba(var(--bs-primary-rgb), 0.5);
+  }
+}
+
+// Soft Light button
+.btn-soft-light {
+  color: $gray-600;
+
+  &:hover,
+  &:focus,
+  &:active {
+      color: $gray-800;
+  }
+}
+
+body[data-layout-mode="dark"] {
+  // buttons 
+  .btn-light {
+      color: $gray-dark-600;
+      background-color: $gray-dark-300;
+      border-color: $gray-dark-300 !important;
+  }
+}

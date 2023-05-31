@@ -1,0 +1,18 @@
+// 
+// _modal.scss
+// 
+
+body[data-layout-mode="dark"] {
+    // modal
+    .modal-header, .modal-footer{
+        border-color: $gray-dark-300;
+    }
+}
+
+
+.modal-header-colored {
+    .modal-header {
+        background-color:  rgba(var(--bs-primary-rgb), 1);
+        margin: 0 -1px -1px -1px;
+    }
+}

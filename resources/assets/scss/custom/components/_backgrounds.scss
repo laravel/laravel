@@ -1,0 +1,84 @@
+// 
+// backgrounds.scss
+//
+
+
+@each $color,
+$value in $theme-colors {
+    .bg-soft-#{$color} {
+        background-color: rgba(($value), 0.2) !important;
+    }   
+}
+
+.bg-soft-primary{
+    background-color: rgba(var(--bs-primary-rgb), 0.2)!important;
+}
+
+.bg-pattern-1{
+    background-image: url("../images/bg-pattern/pattern-01.png");
+}
+.bg-pattern-2{
+    background-image: url("../images/bg-pattern/pattern-02.png");
+}
+.bg-pattern-3{
+    background-image: url("../images/bg-pattern/pattern-03.png");
+}
+.bg-pattern-4{
+    background-image: url("../images/bg-pattern/pattern-04.png");
+}
+.bg-pattern-5{
+    background-image: url("../images/bg-pattern/pattern-05.png");
+}
+.bg-pattern-6{
+    background-image: url("../images/bg-pattern/pattern-06.png");
+}
+.bg-pattern-7{
+    background-image: url("../images/bg-pattern/pattern-07.png");
+}
+.bg-pattern-8{
+    background-image: url("../images/bg-pattern/pattern-08.png");
+}
+.bg-pattern-9{
+    background-image: url("../images/bg-pattern/pattern-09.png");
+}
+.bg-pattern-10{
+    background-image: url("../images/bg-pattern/pattern-10.png");
+}
+
+// dark
+.bg-patterndark-1{
+    background-image: url("../images/bg-pattern/dark/pattern-1.png");
+}
+.bg-patterndark-2{
+    background-image: url("../images/bg-pattern/dark/pattern-2.png");
+}
+.bg-patterndark-3{
+    background-image: url("../images/bg-pattern/dark/pattern-3.png");
+}
+.bg-patterndark-4{
+    background-image: url("../images/bg-pattern/dark/pattern-4.png");
+}
+
+
+body[data-layout-mode="dark"] {
+    // Background Colors
+
+    .bg-body{
+        background-color: darken($gray-dark-200, 2%) !important;
+    }
+    .bg-light {
+        background-color: $gray-dark-300 !important;
+    }
+
+    .bg-dark {
+        background-color: lighten($gray-dark-200,2%) !important;
+    }
+
+    .bg-soft-light{
+        background-color: rgba($gray-dark-300, 0.25) !important;
+    }
+}
+
+.bg-primary-custom {
+    background-color: var(--bs-primary) !important;
+}

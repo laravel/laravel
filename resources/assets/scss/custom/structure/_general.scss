@@ -1,0 +1,14 @@
+body[data-layout-mode="dark"] {
+    background-color: lighten($gray-dark-200, 2%);
+    color: $gray-dark-500;
+
+
+    .h1,.h2,.h3,.h4,.h5,.h6,
+    h1,h2,h3,h4,h5,h6 {
+        color: $gray-dark-600;
+    }
+}
+
+.ml-44{
+    margin-left: 44px;
+}

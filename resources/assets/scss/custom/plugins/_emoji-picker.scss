@@ -1,0 +1,99 @@
+//
+// emoji-picker.scss
+//
+
+.fg-emoji-picker{
+    width: 250px !important;
+    box-shadow: $box-shadow !important;
+    top: auto !important;
+    bottom: 70px;
+
+    *{
+        font-family: $font-family-base !important;
+        color: $body-color !important;
+    }
+    @media (max-width:991.98px) {
+        left: 14px !important;
+        top: auto !important;
+        bottom: 60px;
+    }
+
+    .fg-emoji-picker-container-title{
+        color: $dark !important;
+    }
+
+    .fg-emoji-picker-search{
+        height: 40px !important;
+        input{
+            background-color: $input-bg !important;
+            color: $input-color !important;
+            border: 1px solid $border-color;
+            padding: $input-btn-padding-y $input-btn-padding-x !important;
+            font-size: $font-size-base !important;
+            &::placeholder{
+                color: $input-placeholder-color !important;
+            }
+        }
+
+        svg{
+            fill: $body-color !important;
+            right: 11px;
+            top: 12px;
+        }
+    }
+
+    .fg-emoji-picker-categories{
+        background-color: $light !important;
+        li.active{
+            background-color: rgba(var(--bs-primary-rgb), 0.2);
+        }
+        a{
+            &:hover{
+                background-color: rgba(var(--bs-primary-rgb), 0.2);
+            }
+        }
+        
+    }
+}
+
+.fg-emoji-picker-grid > li:hover{
+    background-color: rgba(var(--bs-primary-rgb), 0.2) !important;
+}
+
+a.fg-emoji-picker-close-button{
+    background-color: darken($light, 4%) !important;
+}
+
+body[data-layout-mode="dark"] {
+    .fg-emoji-picker{
+        background-color: $gray-dark-300;
+        *{
+            color: $gray-dark-400 !important;
+        }
+        .fg-emoji-picker-categories{
+            background-color: lighten($gray-dark-300, 2%) !important;
+            svg{
+                fill: $gray-dark-500;
+            }
+        }
+
+        .fg-emoji-picker-search{
+            input{
+                background-color: $gray-dark-300 !important;
+                border-color: lighten($gray-dark-300, 2%) !important;
+            }
+
+            svg{
+                fill: $gray-dark-500 !important;
+            }
+        }
+    }
+
+    .fg-emoji-picker-grid > li{
+        background-color: $gray-dark-300;
+    }
+
+    a.fg-emoji-picker-close-button{
+        background-color: lighten($gray-dark-300, 2%) !important;
+    }
+}

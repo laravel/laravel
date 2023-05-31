@@ -1,0 +1,89 @@
+//
+// Forms.scss
+//
+
+
+[type="tel"],
+[type="url"],
+[type="email"],
+[type="number"] {
+ &::placeholder{
+   text-align: left; /*rtl: right*/
+ }
+}
+
+
+.form-check,
+.form-check-input,
+.form-check-label {
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.form-check-input:checked {
+  background-color: rgba(var(--bs-primary-rgb), 1);
+  border-color: rgba(var(--bs-primary-rgb), 1);
+}
+
+
+
+body[data-layout-mode="dark"]{
+
+  // Form Control
+  .form-control {
+    color: $gray-dark-500;
+    background-color: lighten($gray-dark-300,2%);
+    border: 1px solid lighten($gray-dark-300,2%);
+    &::placeholder{
+      color: $gray-dark-400;
+    }
+
+    &:disabled, &[readonly]{
+      background-color: $gray-dark-200;
+      border-color: $gray-dark-200;
+    }
+  }
+  // form-select
+  .form-select{
+    color: $gray-dark-500;
+    background-color: lighten($gray-dark-300,2%);
+    border: 1px solid lighten($gray-dark-300,2%);
+    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$gray-dark-800}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>"));
+}
+
+// form-check
+
+.form-check-input{
+  background-color: $gray-dark-300;
+  border-color: rgba($white, 0.25);
+  &:checked{
+      background-color: $form-check-input-checked-bg-color;
+      border-color: $form-check-input-checked-border-color;
+    }
+}
+
+// form switch
+
+.form-switch {
+    .form-check-input {
+        background-image: escape-svg($form-switch-checked-bg-image)
+    }
+}
+
+// input group
+.input-group-text{
+    background-color: $gray-dark-300;
+    border-color: $gray-dark-300;
+    color: $gray-dark-600;
+}
+
+.form-control{
+    &::-webkit-file-upload-button {
+        background-color: $gray-dark-300;
+        color: $gray-dark-600;
+    }
+    &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+        background-color: $gray-dark-300;
+    }
+}
+}

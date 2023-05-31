@@ -1,0 +1,43 @@
+// 
+// _table.scss
+// 
+
+.table {
+  th {
+      font-weight: $font-weight-bold;
+  }
+}
+
+//Table centered
+.table-centered {
+  td,th {
+      vertical-align: middle !important;
+  }
+}
+
+.table-nowrap {
+  th, td {
+    white-space: nowrap;
+  }
+}
+
+body[data-layout-mode="dark"] {
+  // table 
+  .table {
+      border-color: lighten($gray-dark-200,5%);
+      color: $gray-dark-400;
+  }
+
+  .table-bordered {
+    border-color: $gray-dark-300;
+  
+    th,
+    td {
+      border-color: $gray-dark-300;
+    }
+  }
+
+  .table>:not(:last-child)>:last-child>* {
+    border-bottom-color: $gray-dark-300;
+  }
+}

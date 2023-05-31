@@ -1,0 +1,46 @@
+// 
+// _badge.scss
+// 
+
+.badge{
+  &[href] {
+    color: $white;
+  }
+}
+
+// Soft badge
+@mixin badge-variant-soft($bg) {
+  color: $bg;
+  background-color: rgba($bg, 0.18);
+
+  &[href] {
+    color: $bg;
+    text-decoration: none;
+    background-color: rgba($bg, 0.4);
+  }
+}
+
+@each $color, $value in $theme-colors {
+  .badge-soft-#{$color} {
+      @include badge-variant-soft($value);
+  }
+}
+
+// Dark badge
+
+.badge-dark{
+  color: $light;
+}
+
+body[data-layout-mode=dark]{
+  .badge{
+      &.bg-light, &.badge-soft-light, &.badge-outline-light{
+          color: $gray-dark-500;
+      }
+  }
+
+  .badge-soft-dark{
+      background-color: rgba($gray-dark-500, 0.18);
+      color: $gray-dark-500;
+  }
+}

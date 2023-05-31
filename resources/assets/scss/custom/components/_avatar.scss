@@ -1,0 +1,64 @@
+//
+// avatar.scss
+//
+
+.avatar-xs {
+  height: 1.8rem;
+  width: 1.8rem;
+}
+
+.avatar-sm {
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+.avatar-md {
+  height: 4rem;
+  width: 4rem;
+}
+
+.avatar-lg {
+  height: 5rem;
+  width: 5rem;
+}
+
+.avatar-xl {
+  height: 6rem;
+  width: 6rem;
+}
+
+.avatar-title {
+  align-items: center;
+  background-color: rgba(var(--bs-primary-rgb), 1);
+  color: $white;
+  display: flex;
+  font-weight: $font-weight-medium;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+// avatar group
+.avatar-group {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 8px;
+  .avatar-group-item {
+    margin-left: -8px;
+    border: 2px solid $card-bg;
+    border-radius: 50%;
+    transition: all 0.2s;
+    &:hover{
+      position: relative;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+body[data-layout-mode="dark"] {
+  .avatar-group{
+    .avatar-group-item{
+      border-color: $gray-dark-200;
+    }
+  }
+}

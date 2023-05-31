@@ -1,0 +1,36 @@
+// 
+// _card.scss
+// 
+
+.card {
+  margin-bottom: $grid-gutter-width;
+}
+
+.card-drop {
+  color: $body-color;
+}
+
+.card-title {
+  font-size: 15px;
+  margin: 0 0 7px 0;
+  font-weight: $font-weight-semibold;
+}
+
+.card-title-desc {
+  color: $gray-600;
+  margin-bottom: 24px;  
+}
+
+body[data-layout-mode="dark"] {
+
+  .card, .card-header, .card-footer,
+  .modal-content, .offcanvas {
+      background-color: $gray-dark-200;
+      border-color: lighten($gray-dark-200,4%) !important;
+  }
+
+  .card-title-desc{
+      color: $gray-dark-400;
+  }
+}
+

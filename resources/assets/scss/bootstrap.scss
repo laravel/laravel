@@ -1,0 +1,27 @@
+/*
+Template Name: Doot - Responsive Bootstrap 5 Chat App
+Author: Themesbrand
+Version: 1.0.0
+Website: https://Themesbrand.com/
+Contact: Themesbrand@gmail.com
+File: Custom Bootstrap Css File
+*/
+
+
+//Core files
+@import "./node_modules/bootstrap/scss/functions";
+@import "./node_modules/bootstrap/scss/variables";
+@import "variables";
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+@import "custom/components/reboot";
+@import "custom/components/backgrounds";
+@import "custom/components/badge";
+@import "custom/components/buttons";
+@import "custom/components/breadcrumb";
+@import "custom/components/card";
+@import "custom/components/dropdown";
+@import "custom/components/nav";
+@import "custom/components/table";
+@import "custom/components/pagination";
+@import "custom/components/progress";

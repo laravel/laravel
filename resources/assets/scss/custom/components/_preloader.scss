@@ -1,0 +1,47 @@
+// 
+// _progress.scss
+// 
+
+.loader-line{
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .line:nth-last-child(1) {
+      animation: loadingLine 1.25s 1s infinite;
+  }
+  .line:nth-last-child(2) {
+      animation: loadingLine 1.25s 0.75s infinite;
+  }
+  .line:nth-last-child(3) {
+      animation: loadingLine 1.25s 0.5s infinite;
+  }
+  .line:nth-last-child(4) {
+      animation: loadingLine 1.25s 0.25s infinite;
+  }
+  .line:nth-last-child(5) {
+      animation: loadingLine 1.25s 0s infinite;
+  }
+}
+
+.line {
+    display: inline-block;
+    width: 4px;
+    height: 10px;
+    border-radius: 14px;
+    background-color: rgba($text-muted, 0.7);
+}
+
+@keyframes loadingLine {
+    0% {
+      height: 10px;
+    }
+    50% {
+      height: 28px;
+    }
+    100% {
+      height: 10px;
+    }
+}
+

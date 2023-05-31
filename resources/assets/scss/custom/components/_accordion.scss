@@ -1,0 +1,60 @@
+
+//
+// accordion.scss
+//
+
+.custom-accordion {
+    .card {
+        + .card {
+            margin-top: 0.5rem;
+        }
+    }
+
+    a {
+        i.accor-plus-icon {
+            font-size: 16px;
+        }
+        &.collapsed {
+            i.accor-plus-icon {
+                &:before {
+                    content: "\F0142";
+                }
+            }
+        }
+    }
+}
+
+.accordion-button {
+    &:after {
+        margin-left: auto/*rtl:0*/;
+        margin-right:0/*rtl:auto*/;
+    }
+}
+
+body[data-layout-mode="dark"] {
+
+    // accordion
+
+    .accordion-button{
+        background-color: $gray-dark-200;
+        border-color: $gray-dark-300;
+        color: $gray-dark-600;
+        &:not(.collapsed){
+            background-color: $gray-dark-300;
+            box-shadow: inset 0 -1px 0 $gray-dark-200;
+        }
+
+        &::after {
+            background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$white}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>"));
+        }
+    }
+
+    .accordion-item{
+        border-color: $gray-dark-300;
+        background-color: $gray-dark-200;
+    }
+    
+    .accordion-collapse{
+        border-color: $gray-dark-300;
+    }
+}

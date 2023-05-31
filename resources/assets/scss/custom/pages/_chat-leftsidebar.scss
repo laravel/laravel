@@ -1,0 +1,323 @@
+// 
+// chat-leftsidebar.scss
+//
+
+
+.chat-leftsidebar {
+    height: calc(100vh - 60px);;
+    position: relative;
+    background-color: $sidebar-sub-bg;
+    box-shadow: $box-shadow;
+
+    @media (min-width: 992px) {
+        min-width: 300px;
+        max-width: 300px;
+        height: 100vh;
+    }
+
+    .user-status-box {
+        background-color: $light;
+        padding: 8px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 16px;
+        display: block;
+
+        .chat-user-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+}
+
+.chat-search-box {
+    .form-control {
+        border: 0;
+    }
+
+    .search-icon-btn {
+        font-size: 16px;
+        position: absolute;
+        right: 13px;
+        top: 0;
+    }
+}
+
+.chat-room-list {
+    max-height: calc(100vh - 130px);
+
+    @media (max-width: 991.98px) {
+        height: calc(100vh - 190px);
+    }
+}
+
+.chat-group-list {
+    height: calc(100vh - 140px);
+    @media (max-width: 991.98px) {
+        height: calc(100vh - 198px);
+    }
+}
+
+
+.chat-list {
+    margin: 0;
+
+    li {
+        &.active {
+            a {
+                background-color: rgba(var(--bs-primary-rgb), 1);
+                color: $white;
+
+                span.avatar-title {
+                    color: $white !important;
+                    &.bg-light{
+                        background-color: rgba($light, 0.25) !important;
+                    }
+                }
+
+                .badge {
+                    background-color: rgba($light, 0.25) !important;
+                    color: $white !important;
+                }
+
+                .bg-primary {
+                    background-color: rgba($white, 0.25) !important;
+                }
+            }
+        }
+
+        a {
+            display: block;
+            padding: 5px 24px;
+            color: lighten($gray-700,7.5%);
+            transition: all 0.4s;
+            font-size: 14px;
+        }
+
+        .chat-user-message {
+            font-size: 14px;
+        }
+
+        .unread-msg-user {
+            font-weight: 600;
+        }
+
+        &.typing {
+            .chat-user-message {
+                color: rgba(var(--bs-primary-rgb), 1);
+                font-weight: $font-weight-medium;
+
+                .dot {
+                    background-color: rgba(var(--bs-primary-rgb), 1);
+                }
+            }
+        }
+
+        .unread-message {
+            position: absolute;
+            display: inline-block;  
+            right: 24px/*rtl:auto*/;
+            left: auto/*rtl:0*/;
+            top: 33px;
+
+            .badge {
+                line-height: 16px;
+                font-weight: $font-weight-semibold;
+                font-size: 10px;
+            }
+        }
+    }
+}
+
+.chat-user-img {
+    position: relative;
+
+    .user-status {
+        width: 10px;
+        height: 10px;
+        background-color: $gray-500;
+        border-radius: 50%;
+        border: 2px solid $card-bg;
+        position: absolute;
+        right: 0;
+        left: auto;
+        bottom: 0;
+    }
+
+    &.online {
+        .user-status {
+            background-color: $success;
+        }
+    }
+
+    &.away {
+        .user-status {
+            background-color: $warning;
+        }
+    }
+}
+
+// contact list
+
+.contact-list {
+    li {
+        cursor: pointer;
+        padding: 8px 24px;
+    }
+}
+
+.contact-list-title{
+    padding: 6px 24px;
+    color: rgba(var(--bs-primary-rgb), 1);
+    font-weight: $font-weight-medium;
+    position: relative;
+    font-size: 12px;
+    &:after{
+        content: "";
+        height: 1px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 50px;
+        right: 0;
+        background-color: $border-color;
+    }
+}
+
+// Calls
+
+.chat-call-list, .chat-bookmark-list{
+    max-height: calc(100vh - 68px);
+
+    @media (max-width: 991.98px) {
+        height: calc(100vh - 125px);
+    }
+    li{
+        position: relative;
+        padding: 10px 24px;
+        border-bottom: 1px solid $border-color;
+
+        &:last-child{
+            border-bottom: 0;
+        }
+    }
+}
+
+
+// settings
+
+
+.profile-user {
+    position: relative;
+    display: inline-block;
+
+    .profile-photo-edit {
+        position: absolute;
+        right: 0/*rtl:auto*/;
+        left: auto/*rtl:0*/;
+        bottom: 0;
+        cursor: pointer;
+    }
+
+    .user-profile-img{
+        object-fit: cover;
+    }
+
+    .profile-img-file-input{
+        display: none;
+    }
+}
+
+.theme-btn-list{
+    &.theme-color-list{
+        .form-check .form-check-input:checked+.form-check-label::before{
+            color: $white;
+        }
+    }
+    .form-check{
+        padding: 0;
+        .form-check-input{
+            display: none;
+        }
+
+        .form-check-label{
+            position: relative;
+        }
+
+        .form-check-input:checked + .form-check-label {
+            &::before{
+                content: "\e9a4";
+                font-family: boxicons!important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                color: rgba(var(--bs-primary-rgb), 1);
+                font-size: 16px;
+                z-index: 1;
+            }
+
+            &.light-background{
+                &::before{
+                    color: rgba(var(--bs-primary-rgb), 1);
+                }
+            }
+        }
+    }
+
+    &.theme-btn-list-img{
+        .theme-btn{
+            background-color: transparent !important;
+        }
+    }
+    
+}
+
+.theme-btn{
+    cursor: pointer;
+    border: 1px solid $gray-400;
+}
+
+body[data-layout-mode="dark"] {
+
+    .chat-leftsidebar{
+        background-color: darken($gray-dark-300, 3%);
+    }
+
+    .chat-list {
+        li{
+            a{
+                color: $gray-dark-600;
+            }
+
+            &.active{
+                a{
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    .chat-user-img .user-status{
+        border-color: $gray-dark-200;
+    }
+
+    .contact-list-title:after{
+        background-color: $gray-dark-300;
+    }
+
+    .theme-btn{
+        border-color: $gray-dark-300;
+    }
+
+    // Calls
+
+    .chat-call-list, .chat-bookmark-list{
+        li{
+            border-bottom: 1px solid $gray-dark-300;
+        }
+    }
+}
+

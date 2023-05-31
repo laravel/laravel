@@ -1,0 +1,125 @@
+[   
+    {
+        "id": 1,
+        "name": "Patrick Hendricks",
+        "dateTime": "13 Aug, 2021, 01:05PM",
+        "profile": "assets/images/users/avatar-11.jpg",
+        "callTime":"02:34",
+        "callVideo" : true, 
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+
+    },
+    {
+        "id": 2,
+        "name": "Steven Jury",
+        "dateTime": "13 Aug, 2021, 06:45PM",
+        "profile": "assets/images/users/avatar-7.jpg",
+        "callTime":"01:02",
+        "callVideo" : false,
+        "callTypeIcon":"bx bxs-phone-call align-middle",
+        "callArrowType":"ri-arrow-right-up-fill text-danger align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },
+    {
+        "id": 3,
+        "name": "Robert Ledonne",
+        "dateTime": "13 Aug, 2021, 04:30PM",
+        "profile": "",
+        "callTime":"01:40",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },    
+    {
+        "id": 4,
+        "name": "Bella Cote",
+        "dateTime": "13 Aug, 2021, 04:30PM",
+        "profile": "assets/images/users/avatar-2.jpg",
+        "callTime":"00:40",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },
+    {
+        "id": 5,
+        "name": "Nicholas Staten",
+        "dateTime": "13 Aug, 2021, 01:05PM",
+        "profile": "assets/images/users/avatar-3.jpg",
+        "callTime":"05:20",
+        "callVideo" : false,
+        "callTypeIcon":"bx bxs-phone-call align-middle",
+        "callArrowType":"ri-arrow-right-up-fill text-danger align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },
+    {
+        "id": 6,
+        "name": "Jessica Lewis",
+        "dateTime": "13 Aug, 2021, 11:34AM",
+        "profile": "assets/images/users/avatar-10.jpg",
+        "callTime":"06:05",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },
+    {
+        "id": 7,
+        "name": "John Foss",
+        "dateTime": "12 Aug, 2021, 07:35PM",
+        "profile": "assets/images/users/avatar-9.jpg",
+        "callTime":"02:34",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":true,
+        "multipleUsers":"+2"
+    },
+    {
+        "id": 8,
+        "name": "Steven Jury",
+        "dateTime": "12 Aug, 2021, 07:35PM",
+        "profile": "assets/images/users/avatar-7.jpg",
+        "callTime":"04:50",
+        "callVideo" : false,
+        "callTypeIcon":"bx bxs-phone-call align-middle",
+        "callArrowType":"ri-arrow-right-up-fill text-danger align-bottom",
+        "mutipleUsercalls":true,
+        "multipleUsers":"+4"
+    },
+    {
+        "id": 9,
+        "name": "Robert Ledonne",
+        "dateTime": "11 Aug, 2021, 04:30PM",
+        "profile": "",
+        "callTime":"02:30",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    },
+    {
+        "id": 10,
+        "name": "Bella Cote",
+        "dateTime": "11 Aug, 2021, 02:35PM",
+        "profile": "assets/images/users/avatar-2.jpg",
+        "callTime":"02:34",
+        "callVideo" : true,
+        "callTypeIcon":"bx bx-video align-middle",
+        "callArrowType":"ri-arrow-left-down-fill text-success align-bottom",
+        "mutipleUsercalls":false,
+        "multipleUsers":""
+    }  
+    
+  ]
+  
