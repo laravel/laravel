@@ -70,4 +70,14 @@ class Group extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function isUserType(): bool
+    {
+        return $this->type == self::TYPE_USER;
+    }
+
+    public function isGroupType(): bool
+    {
+        return $this->type == self::TYPE_GROUP;
+    }
 }
