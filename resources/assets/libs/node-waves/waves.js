@@ -1,3 +1,3 @@
-import Wave from 'node-waves'
+import Waves from 'node-waves'
 
-window.Wave = Wave;
+window.Waves = Waves;

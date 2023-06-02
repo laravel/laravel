@@ -19,7 +19,6 @@ export default defineConfig({
                 'resources/assets/js/pages/validation.init.js',
 
                 'resources/assets/libs/bootstrap/bootstrap.js',
-                'resources/assets/libs/fg-emoji-picker/fgEmojiPicker.js',
                 'resources/assets/libs/glightbox/glightbox.js',
                 'resources/assets/libs/node-waves/waves.js',
                 'resources/assets/libs/simplebar/simplebar.js',

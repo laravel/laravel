@@ -19,7 +19,7 @@
     @vite('resources/assets/libs/swiper/swiper-bundle.js')
 
     <!-- fg-emoji-picker JS -->
-    @vite('resources/assets/libs/fg-emoji-picker/fgEmojiPicker.js')
+    <script src="{{ asset('assets/libs/fg-emoji-picker/fgEmojiPicker.js') }}"></script>
 
     <!-- page init -->
     @vite('resources/assets/js/pages/index.init.js')

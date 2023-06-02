@@ -91,7 +91,7 @@
 
     <!-- start chat conversation -->
 
-    <div class="chat-conversation p-3 p-lg-4 " id="chat-conversation" data-simplebar>
+    <div class="chat-conversation p-3 p-lg-4 overflow-auto" id="chat-conversation" data-simplebar>
         @livewire('user-chat-conversation-list', compact('group'), key('group-'.$group['id']))
     </div>
 
