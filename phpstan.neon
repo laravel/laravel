@@ -1,0 +1,12 @@
+includes:
+    - ./vendor/worksome/coding-style/larastan.neon
+
+parameters:
+    paths:
+        - app
+
+    # The level 8 is the highest level
+    level: 0
+
+    ignoreErrors:
+        - '#Static call to instance method .*?::dispatch(Now)?\(\)\.#'
