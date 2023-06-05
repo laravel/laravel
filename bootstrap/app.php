@@ -16,10 +16,10 @@ use Illuminate\Foundation\Configuration\Middleware;
 */
 
 return Application::configure()
-    ->withBroadcasting()
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
+        channels: __DIR__.'/../routes/channels.php',
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
