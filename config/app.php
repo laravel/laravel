@@ -117,8 +117,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This key is utilized by Laravel's encryption services and should be set
-    | to a random, 32 character string; otherwise, these encrypted strings
-    | will not be safe. Please do this before deploying the application.
+    | to a random, 32 character string or all of the encrypted strings are
+    | not secure. You should do this prior to deploying the application.
     |
     */
 
