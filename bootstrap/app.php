@@ -25,6 +25,6 @@ return Application::configure()
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
-    ->withExceptionHandling(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
