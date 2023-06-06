@@ -25,7 +25,7 @@ return Application::configure()
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
-    ->withCommandsIn([
+    ->withCommands([
         __DIR__.'/../app/Console/Commands',
     ])
     ->withExceptionHandling(function (ExceptionHandler $handler) {
