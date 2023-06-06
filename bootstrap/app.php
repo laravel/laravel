@@ -19,13 +19,13 @@ return Application::configure()
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
         channels: __DIR__.'/../routes/channels.php',
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
     })
     ->withCommands([
+        __DIR__.'/../routes/console.php',
         __DIR__.'/../app/Console/Commands',
     ])
     ->withExceptionHandling(function (Exceptions $exceptions) {
