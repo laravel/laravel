@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 /*
@@ -28,6 +28,6 @@ return Application::configure()
     ->withCommands([
         __DIR__.'/../app/Console/Commands',
     ])
-    ->withExceptionHandling(function (ExceptionHandler $handler) {
+    ->withExceptionHandling(function (Exceptions $exceptions) {
         //
     })->create();
