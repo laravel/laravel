@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.2",
+    "php": "^8.1",
     "flugger/laravel-responder": "^3.3",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.10",
@@ -28,7 +28,7 @@
     "nunomaduro/collision": "^7.0",
     "pestphp/pest": "^2.6",
     "pestphp/pest-plugin-laravel": "^2.0",
-    "phpunit/phpunit": "^10.2",
+    "phpunit/phpunit": "^10.1",
     "ramsey/conventional-commits": "^1.5",
     "spatie/laravel-ignition": "^2.0",
     "webgriffe/captainhook": "^2.1",
