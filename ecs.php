@@ -8,7 +8,7 @@ use Worksome\CodingStyle\WorksomeEcsConfig;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([
-        __DIR__ . '/app',
+        __DIR__ . '/src',
         __DIR__ . '/tests',
         __DIR__ . '/config',
     ]);

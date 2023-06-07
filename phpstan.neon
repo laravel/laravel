@@ -2,11 +2,19 @@ includes:
     - ./vendor/worksome/coding-style/larastan.neon
 
 parameters:
+    reportUnmatchedIgnoredErrors: false
     paths:
-        - app
+        - src
+        - database
+        - tests
 
-    # The level 8 is the highest level
-    level: 0
+    # The level 9 is the highest level
+    level: 9
 
     ignoreErrors:
-        - '#Static call to instance method .*?::dispatch(Now)?\(\)\.#'
+        - '#^PHPUnit tests are not allowed\. Please use Pest PHP instead\. If this is a TestCase, make it abstract to pass validation\.$#'
+        - '#^Illuminate\\Support\\Facades\\[a-zA-Z0-9\\_]+ facade should not be used\.$#'
+        -
+            message: '#^Undefined variable: \$this$#'
+            path: tests/*
+

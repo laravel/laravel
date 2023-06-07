@@ -19,6 +19,6 @@ class Application extends LaravelApplication
          *
          * @see https://github.com/regnerisch/laravel-beyond/issues/66
          */
-        $this->useAppPath($basePath.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'App');
+        $this->useAppPath($basePath . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'App');
     }
 }

@@ -1,0 +1,62 @@
+{
+  "env": { "browser": true, "commonjs": true, "es2021": true },
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/typescript",
+    "plugin:import/warnings",
+    "plugin:react/recommended",
+    "prettier",
+    "typescript"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "import",
+    "react",
+    "simple-import-sort",
+    "sort-destructure-keys",
+    "typescript-sort-keys"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/space-before-blocks": "error",
+    "arrow-spacing": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
+    ],
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "no-multi-spaces": "error",
+    "no-multiple-empty-lines": "error",
+    "no-trailing-spaces": "error",
+    "no-whitespace-before-property": "error",
+    "react/react-in-jsx-scope": "off",
+    "simple-import-sort/exports": "error",
+    "import/prefer-default-export": "off",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react", "^@?\\w"],
+          ["@/(.*)", "^[./]"]
+        ]
+      }
+    ],
+    "sort-destructure-keys/sort-destructure-keys": 2,
+    "sort-keys": "error",
+    "space-before-blocks": "off",
+    "typescript-sort-keys/interface": "error"
+  },
+  "settings": {
+    "import/parsers": { "@typescript-eslint/parser": [".ts", ".tsx"] },
+    "import/resolver": {
+      "typescript": { "alwaysTryTypes": true, "project": "./tsconfig.json" }
+    },
+    "react": { "version": "detect" }
+  }
+}

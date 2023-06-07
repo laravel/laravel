@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\SetList;
 use Worksome\CodingStyle\WorksomeRectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -15,7 +16,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // Define extra rule sets to be applied
     $rectorConfig->sets([
-        // SetList::DEAD_CODE,
+        SetList::DEAD_CODE,
     ]);
 
     // Register extra a single rules
