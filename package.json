@@ -1,13 +1,46 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.8.0",
-        "vite": "^4.0.0"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "format": "pretty-quick --staged",
+    "lint": "eslint . --fix",
+    "spell-checker": "cspell . --no-progress",
+    "spell-checker:staged": "git diff --cached --name-only | npx cspell --no-summary --no-progress --no-must-find-files --file-list stdin"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.1.0",
+    "cspell": "^6.31.1",
+    "eslint": "^8.41.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-typescript": "^3.0.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-sort-destructure-keys": "^1.5.0",
+    "eslint-plugin-typescript-sort-keys": "^2.3.0",
+    "laravel-vite-plugin": "^0.8",
+    "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
+    "pretty-quick": "^3.1.3",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vite-plugin-checker": "^0.6.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.11.2"
+  }
 }
