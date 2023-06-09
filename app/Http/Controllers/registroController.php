@@ -20,13 +20,14 @@ class registroController extends Controller
         if(!$consulta){
             $consulta = new registro();
         }
-        $consulta->idusuario = $registro->idusuario;
         $consulta->nombre = $registro->nombre;
         $consulta->apellido = $registro->apellido;
         $consulta->email = $registro->email;
         $consulta->username = $registro->username;
         $consulta->password = $registro->password;
         $consulta->estado = $registro->estado;
+        $consulta->idusuario = $registro->idusuario;
+
 
         $resultado = $consulta->save();
         return response()->json($resultado);

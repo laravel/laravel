@@ -82,6 +82,16 @@ class librosController extends Controller
           return response()->json($consulta);
       }  
 
+       //mostrar libros donde el genero sea misterio
+       public function misterio()
+       {
+           $consulta = libros::where('genero', "misterio")->get();
+   
+           return response()->json($consulta);
+       }  
+ 
+
+
 
       // BUSCAR LIBRO POR AUTOR //
       
@@ -96,6 +106,13 @@ class librosController extends Controller
       public function neilGaiman()
       {
           $consulta = libros::where('autor', "Neil Gaiman")->get();
+  
+          return response()->json($consulta);
+      }  
+
+      public function alexMirez()
+      {
+          $consulta = libros::where('autor', "Alex Mirez")->get();
   
           return response()->json($consulta);
       }  
