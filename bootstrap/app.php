@@ -17,9 +17,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 */
 
 return Application::configure()
-    ->withProviders([
-        AppServiceProvider::class,
-    ])
+    ->withProviders()
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
