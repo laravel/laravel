@@ -1,2 +1,3 @@
 *
 !.gitignore
+!package-providers.php
