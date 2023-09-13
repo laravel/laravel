@@ -65,7 +65,7 @@
     "test": "vendor/bin/pest --coverage-html --parallel  --profile reports/",
     "ecs": "vendor/bin/ecs",
     "ecs:fix": "vendor/bin/ecs --fix",
-    "phpstan": "vendor/bin/phpstan analyse",
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=4G",
     "rector": "vendor/bin/rector process --dry-run --ansi",
     "rector:fix": "vendor/bin/rector process --ansi",
     "fixer": "composer ecs:fix && composer phpstan && composer rector:fix"

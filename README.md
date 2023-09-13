@@ -16,26 +16,26 @@ We help digital health startups, clinics, and medtech companies ideate, design, 
 
 Requirements: Php >= 8.2.0 & Composer
 
-- `brew install php@8.1 composer` Mac OS X with brew
-- `apt-get install php8.1` Ubuntu with apt-get (use sudo if is necessary)
+- `brew install php@8.2 composer` Mac OS X with brew
+- `apt-get install php8.2` Ubuntu with apt-get (use sudo if is necessary)
 
 This step is not necessary when you use Docker.
 
 ### Techs
 
 - Docker
-    - Laravel Sail
+  - Laravel Sail
 - Laravel 10.X & Php 8.2
-    - Tools
-        - Clockwork Debug Bar
-        - Ide Helper
-        - Phpstan
-        - Php ECS
-        - Rector Php
-        - XDebug
-    - Single Action and Clean Controllers
-    - Request Classes
-    - Strict Mode
+  - Tools
+    - Clockwork Debug Bar
+    - Ide Helper
+    - Phpstan
+    - Php ECS
+    - Rector Php
+    - XDebug
+  - Single Action and Clean Controllers
+  - Request Classes
+  - Strict Mode
 - Vite
 - Postcss
 - Prettier
@@ -48,12 +48,12 @@ This step is not necessary when you use Docker.
 - Minio
 - Mailpit
 - Pest Php for Backend Testing
-    - Coverage HTML Report
+  - Coverage HTML Report
 - Browser Testing with Dusk (using selenium)
 - Git
-    - PR Template
-    - Issue Template
-    - Git Hooks with CaptainHook
+  - PR Template
+  - Issue Template
+  - Git Hooks with CaptainHook
 
 ### Backend Installation
 
@@ -292,9 +292,9 @@ To access services in local environment with host aliases, add the following ali
 
 - php: 8.2.x
 - php ini configurations:
-    - `upload_max_filesize = 100M`
-    - `post_max_size = 100M`
-    - These numbers are illustrative. Set them according to your project needs.
+  - `upload_max_filesize = 100M`
+  - `post_max_size = 100M`
+  - These numbers are illustrative. Set them according to your project needs.
 
 ## Emoji Guide
 
