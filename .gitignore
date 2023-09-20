@@ -12,6 +12,7 @@
 Homestead.json
 Homestead.yaml
 auth.json
+docker-compose*.override.yml
 npm-debug.log
 yarn-error.log
 /.fleet
