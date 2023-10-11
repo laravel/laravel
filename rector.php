@@ -10,7 +10,7 @@ return static function (RectorConfig $rectorConfig): void {
     WorksomeRectorConfig::setup($rectorConfig);
 
     $rectorConfig->paths([
-        __DIR__ . '/app',
+        __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
 
