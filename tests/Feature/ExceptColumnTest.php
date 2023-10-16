@@ -1,7 +1,8 @@
 <?php
 
 test('except_columns', function () {
-    // Create some test data
+
+    /** @var \App\Models\Article $article */
     $article = \App\Models\Article::query()->create([
         'title' => 'Test Title',
         'slug' => fake()->slug(),
@@ -14,10 +15,9 @@ test('except_columns', function () {
         'thumbnail' => 'test_thumbnail.jpg',
     ]);
 
-    // Perform the query and assert the results
     $result = \App\Models\Article::query()->exceptColumns(['full_description', 'deleted_at', 'thumbnail'])->get();
 
-    // Assert that the 'full_description', 'deleted_at', and 'thumbnail' columns are not included in the results
+
     $this->assertArrayNotHasKey('full_description', $result[0]->getAttributes());
     $this->assertArrayNotHasKey('deleted_at', $result[0]->getAttributes());
     $this->assertArrayNotHasKey('thumbnail', $result[0]->getAttributes());
