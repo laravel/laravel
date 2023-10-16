@@ -17,8 +17,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('except',function (){
-    $articles =  \App\Models\Article::query()->exceptColumns(['full_description','deleted_at','thumbnail'])->get();
-    dd($articles);
-});
