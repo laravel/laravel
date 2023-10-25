@@ -8,6 +8,7 @@ import axios from "axios";
 
 window.axios = axios;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**

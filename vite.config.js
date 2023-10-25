@@ -6,7 +6,10 @@ import checker from "vite-plugin-checker";
 
 export default defineConfig({
   plugins: [
-    laravel({ input: ["resources/css/app.css", "resources/js/app.tsx"], refresh: true }),
+    laravel({
+      input: ["resources/css/app.css", "resources/js/App.tsx"],
+      refresh: true,
+    }),
     react(),
     checker({ typescript: true }),
     {

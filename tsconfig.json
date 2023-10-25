@@ -13,19 +13,15 @@
     "noEmit": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@/*": ["*"],
-      "@/components/*": ["components/*"],
-      "@/routes/*": ["routes/*"],
-      "@/services/*": ["services/*"],
-      "@/interfaces/*": ["interfaces/*"],
-      "@/icons/*": ["components/icons/*"],
-      "@/interceptors/*": ["interceptors/*"]
+      "@/*": ["*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
-  "exclude": ["build", "dist", "node_modules", "public", "vendor"]
+  "include": ["./resources/js/**/*", ".eslintrc.cjs", "prettier.config.cjs"]
 }

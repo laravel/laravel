@@ -1,20 +1,21 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { RouterProvider } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
-import router from "./router";
+import { Router } from "./router";
 
 import "../css/app.css";
 import "./bootstrap";
 
 const queryClient = new QueryClient();
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,
 );
