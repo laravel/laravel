@@ -198,4 +198,14 @@ return [
 
     'same_site' => 'lax',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Blocking
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to set the maximum number of seconds the session lock should be held for.
+    |
+    */
+
+    'block_lock_seconds' => env('SESSION_BLOCK_LOCK_SECONDS', 10),
 ];
