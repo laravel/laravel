@@ -208,4 +208,15 @@ return [
     */
 
     'block_lock_seconds' => env('SESSION_BLOCK_LOCK_SECONDS', 10),
+
+    /*
+   |--------------------------------------------------------------------------
+   | Session Blocking
+   |--------------------------------------------------------------------------
+   |
+   | This option allows you to set the maximum number of seconds to wait while attempting to acquire a route block session lock.
+   |
+   */
+
+    'block_wait_seconds' => env('SESSION_BLOCK_LOCK_SECONDS', 10),
 ];
