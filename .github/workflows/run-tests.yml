@@ -63,4 +63,4 @@ jobs:
           php artisan key:generate
 
       - name: Execute application tests
-        run: php artisan test --parallel --recreate-databases
+        run: php artisan test
