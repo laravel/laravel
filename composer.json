@@ -8,8 +8,8 @@
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^11.0",
-        "laravel/tinker": "dev-develop",
-        "laravel/sanctum": "^4.0"
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "dev-develop"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
