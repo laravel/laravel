@@ -74,7 +74,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => env('PG_SCHEMA', 'public'),
+            'search_path' => env('PG_SEARCH_PATH', 'public'),
             'sslmode' => 'prefer',
         ],
 
