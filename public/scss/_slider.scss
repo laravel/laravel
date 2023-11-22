@@ -1,0 +1,155 @@
+.slider_bg_1{
+    background-image: url(../img/banner/banner.png);
+}
+.slider_bg_2{
+    background-image: url(../img/banner/banner_2.png);
+}
+.slider_area{
+    position: relative;
+    z-index: 0;
+    .single_slider{
+        height: 700px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        @media #{$mobile_device} {
+            height: auto;
+        }
+        @media #{$tablet_device} {
+            height: 700px;
+        }
+        @media #{$mid_device} {
+            height: 550px;
+        }
+        .slider_text{
+            @media #{$mobile_device}{
+                margin-top: 120px;
+                margin-bottom: 100px;
+            }
+            h5{
+                font-size: 30px;
+                color: #fff;
+                font-weight: 400;
+            }
+            h3{
+                font-family: $font1;
+                font-size: 56px;
+                font-weight: 500;
+                color: #fff;
+             @media #{$mobile_device} {
+               font-size: 30px;
+                margin-bottom: 30px;
+                line-height: 45px;
+            }
+             @media #{$tablet_device} {
+                font-size: 34px;
+                line-height: 1.4;
+                margin-bottom: 35px;
+            }
+             @media #{$mid_device} {
+               font-size: 40px;
+               line-height: 1.4;
+            }
+             @media #{$large_device} {
+                font-size: 60px;
+                font-weight: 400;
+                line-height: 74px;
+            }
+            }
+            p{
+                font-size: 16px;
+                font-weight: 400;
+                color: #FFFFFF;
+                font-family: $font2;
+                margin-bottom: 35px;
+            }
+            .button_search{
+                text-align: right;
+                @media #{$mobile_device} {
+                    text-align: left;
+                }
+            }
+            .quality{
+                margin-top: 40px;
+                @media #{$mobile_device} {
+                    margin-top: 20px;
+                }
+                ul{
+                    li{
+                        display: inline-block;
+                        @media #{$mobile_device}{
+                            margin-bottom: 10px;
+                        }
+                        button{
+                            border: none;
+                            background: rgba(255,255,255,.20) ;
+                            border-radius: 5px;
+                            font-size: 14px;
+                            color :#fff;
+                            font-weight: #000;
+                            font-family: $font2;
+                            padding: 5px 19px;
+                            display: inline-block;
+                            margin: 0 3px;
+                            @include transition(.3s);
+                            cursor: pointer;
+                            &:hover{
+                                background: #F91842;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ilstration_img {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        right: 7%;
+        @media #{$mid_device} {
+            right: 0;
+        }
+        img{
+            @media #{$mid_device}{
+                width: 75%;
+            }
+            @media #{$large_device}{
+                width: 75%;
+            }
+        }
+    }
+}
+.gj-picker-md div[role="navigator"] {
+
+    padding-left: 30px !important;
+
+}
+.gj-datepicker-md [role="right-icon"] {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 16px;
+	color: #919191;
+	margin-right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.nice-select::after {
+	content: "\f0d7";
+	display: block;
+	pointer-events: none;
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	transition: all 0.15s ease-in-out;
+	width: 5px;
+	font-family: 'fontawesome';
+	color: #ddd;
+	transform: translateY(-50%);
+	font-size: 16px;
+	right: 25px;
+    color: #AAB1B7;
+    height: auto;
+    margin-top: 0;
+}

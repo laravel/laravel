@@ -1,0 +1,157 @@
+.accordion_area{
+    position: relative;
+    &.extra_padding {
+        margin-top: 150px;
+        @media #{$mobile_device} {
+            margin-top: 50px;
+        }
+        @media #{$tablet_device} {
+            margin-top: 100px;
+        }
+    }
+    @media #{$min_dev} {
+        height: 700px !important;
+    }
+    &::before{
+        position: absolute;
+        left: 0;
+        width: 50%;
+        top: 0;
+        height: 100%;
+        content: '';
+        background-image: url(../img/faq/faq.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        @media #{$mobile_device} {
+            display: none;
+        }
+        @media #{$tablet_device} {
+            display: none;
+        }
+    }
+    @media #{$mobile_device} {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    @media #{$tablet_device} {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .accordion_thumb{
+        @include border-radius(10px);
+        overflow: hidden;
+        padding-left: 68px;
+        @media #{$mobile_device} {
+            padding-left: 0;
+        }
+        @media #{$tablet_device} {
+            padding-left: 0;
+        }
+        img{
+            width: 100%;
+            @include border-radius(10px);
+        }
+    }
+    .faq_ask{
+        padding-top: 130px;
+        padding-bottom: 130px;
+        @media #{$mobile_device} {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        @media #{$tablet_device} {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        h3{
+            font-size: 44px;
+            font-weight: 400;
+            color:#040E27;
+            margin-bottom: 50px;
+        }
+        #accordion{
+            .card {
+                position: relative;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: none;
+                border-radius: .25rem;
+                border-bottom: 1px solid #E8E8E8 !important ;
+            }
+           .card .card-header {
+                background-color: transparent;
+                padding: 4px 14px;
+                border: none;
+            }
+            button {
+                font-size: 18px;
+                color:#040E27 !important;
+                font-weight: 400 !important;
+                span{
+                    @media #{$mobile_device} {
+                        display: none;
+                    }
+                }
+            }
+            .card .card-header {
+                background-color: transparent;
+                padding: 4px 30px;
+            }
+            // h5 button.btn.btn-link::after {
+            //     position: absolute;
+            //     content: "\e648";
+            //     top: 9px;
+            //     left: -24px;
+            //     height: auto;
+            //     font-family: 'themify';
+            //     color: #0f2137;
+            //     font-size: 14px;
+            // }
+            .card .card-body {
+
+                font-size: 15px;
+                line-height: 28px;
+                color: #727272;
+                padding: 10px 30px 32px;
+                font-weight: 400;
+                line-height: 28px;
+            
+            }
+            .btn-link.focus, .btn-link:focus {
+                text-decoration: none;
+                border-color: transparent;
+                box-shadow: none;
+            }
+        }
+    }
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0;
+        border-radius: .25rem;
+        margin-bottom: 9px !important;
+    }
+    .btn {
+        white-space: normal !important;
+    }
+}

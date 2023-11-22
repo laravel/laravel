@@ -1,0 +1,57 @@
+
+    .job_filter{
+        .range_wrap label {
+            font-size: 16px;
+            color: #001D38;
+            font-weight: 400;
+            margin-bottom: 19px;
+            margin-top: 4px;
+        }
+        span.range{
+            color:#040E27;
+            font-size: 16px;
+            font-weight: 400;
+            display: block;
+            margin-bottom: 15px;
+        }
+        p{
+            margin-top: 14px;
+            margin-bottom: 27px;
+            input{
+                background-color: transparent; 
+            }
+        }
+        .ui-widget.ui-widget-content {
+            border: 0;
+            background: #D1FFE7;
+        }
+        .ui-slider-horizontal {
+            height: 2px;
+        }
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+            border: 2px solid #00D363;
+            background: #fff;
+            font-weight: normal;
+            width: 14px;
+            height: 16px;
+            border-radius: 5px;
+        }
+        .ui-widget-header {
+            background: #00D363;
+        }
+        .ui-slider-horizontal .ui-slider-handle {
+            top: -7px;
+            margin-left: -.6em;
+        }
+        .range_wrap{
+            p{
+                input{
+                    &::placeholder{
+                        font-size: 14px !important;
+                        color: #7A838B !important;
+                        font-weight: 400 !important;
+                    }
+                }
+            }
+        }
+    }

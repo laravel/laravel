@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48.199" height="48.199" viewBox="0 0 48.199 48.199">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#86d0d9"/>
+      <stop offset="0.241" stop-color="#74c5cf"/>
+      <stop offset="0.72" stop-color="#46abb6"/>
+      <stop offset="1" stop-color="#299ba6"/>
+    </linearGradient>
+  </defs>
+  <g id="logo" transform="translate(-146.361 -278.075)">
+    <path id="Path_112" data-name="Path 112" d="M207.327,287.421a24.089,24.089,0,0,0-29.058-7.168c.5-.03,1-.051,1.5-.051a24.006,24.006,0,0,1,16.566,6.606,24,24,0,0,1,11.021,1.05c.133.045.267.088.4.135C207.618,287.8,207.474,287.61,207.327,287.421Z" transform="translate(-17.818)" fill="url(#linear-gradient)"/>
+    <path id="Path_113" data-name="Path 113" d="M222.318,298.75c-.132-.047-.266-.09-.4-.135a24,24,0,0,0-11.021-1.05,24.019,24.019,0,0,1,7.431,15.346c.064.708.1,1.422.1,2.146a24.1,24.1,0,0,1-14.09,21.921,24.09,24.09,0,0,0,17.978-38.228Z" transform="translate(-32.377 -10.756)" fill="url(#linear-gradient)"/>
+    <path id="Path_114" data-name="Path 114" d="M146.561,337.167a24.111,24.111,0,0,0,15.871,20.692,23.969,23.969,0,0,1-4.563-12.623A24.141,24.141,0,0,1,146.561,337.167Z" transform="translate(-0.112 -32.998)" fill="url(#linear-gradient)"/>
+    <path id="Path_115" data-name="Path 115" d="M200.465,334.751c0-.724-.037-1.438-.1-2.146a24.093,24.093,0,0,1-28.2,10.083,23.969,23.969,0,0,0,4.563,12.623,24.053,24.053,0,0,0,8.14,1.413c.505,0,1.005-.021,1.5-.052A24.1,24.1,0,0,0,200.465,334.751Z" transform="translate(-14.412 -30.451)" fill="url(#linear-gradient)"/>
+    <path id="Path_116" data-name="Path 116" d="M157.757,314.927c-.033-.516-.055-1.033-.055-1.557A24.1,24.1,0,0,1,178.521,289.5a24.006,24.006,0,0,0-16.566-6.606c-.506,0-1.007.021-1.5.051a24.1,24.1,0,0,0-14.09,21.922c0,.673.034,1.337.088,1.995A24.141,24.141,0,0,0,157.757,314.927Z" transform="translate(0 -2.689)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

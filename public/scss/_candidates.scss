@@ -1,0 +1,117 @@
+.featured_candidates_area{
+    background: #F5F7FA;
+    padding-bottom: 100px;
+    &.candidate_page_padding{
+        padding-top: 100px;
+        .single_candidates {
+            margin-bottom: 30px;
+        }
+    }
+    .single_candidates{
+        background: #fff;
+        @include border-radius(5px);
+        padding: 35px 45px;
+        @media #{$tablet_device} {
+            padding: 25px 30px;
+        }
+        @media #{$mid_device} {
+            padding: 25px 20px;
+        }
+        .thumb{
+            width: 110px;
+            height: 110px;
+            @include border-radius(50%);
+            margin: auto;
+            img{
+                width: 100%;
+                @include border-radius(50%);
+            }
+        }
+        h4{
+            font-size: 20px;
+            font-weight: 400;
+            color: #001D38;
+            margin-top: 24px;
+            margin-bottom: 6px;
+            @include transition(.3s);
+        }
+        p{
+            font-size: 16px;
+            font-weight: 400;
+            color: #AAB1B7;
+            margin-bottom: 0;
+        }
+        &:hover{
+            h4{
+                color: #00D363;
+            }
+        }
+    }
+    .owl-carousel .owl-nav div {
+        background: rgba(10, 140, 255,.1);
+        height: 38px;
+        left: 0px;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        -webkit-transition: all 0.3s ease 0s;
+        -o-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        width: 38px;
+        color: #0A8CFF;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        left: 50px;
+        font-size: 15px;
+        line-height: 38px;
+        border: none;
+        left: -19px;
+        &.owl-next {
+            left: auto;
+            right: -19px;
+        }
+        &:hover{
+            background: rgba(10, 140, 255,.5);
+            color: #fff;
+            border: none;
+        }
+    }
+}
+
+// pagination_wrap 
+.pagination_wrap{
+    text-align: center;
+    margin-top: 20px;
+    ul{
+        li{
+            display: inline-block;
+            a{
+                width: 38px;
+                height: 38px;
+                border: 1px solid #EAEAEA;
+                @include border-radius(50%);
+                font-size: 16px;
+                text-align: center;
+                line-height: 38px;
+                display: inline-block;
+                color: #AAB1B7;
+                font-size: 14px;
+                margin: 0 4px;
+                i{
+                    line-height: 38px;
+                }
+                span{
+                    line-height: 38px;
+                }
+                &:hover{
+                    border-color: #00D363;
+                    color: #00D363;
+                }
+            }
+        }
+    }
+}

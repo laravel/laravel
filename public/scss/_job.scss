@@ -1,0 +1,73 @@
+.job_searcing_wrap{
+    position: relative;
+    z-index: 0;
+    padding: 116px 0;
+    @media #{$mobile_device} {
+        padding: 30px 0;
+    }
+    @media #{$tablet_device} {
+        padding: 60px 0;
+    }
+    background: #2B9BFF !important;
+    &.overlay::before{
+        background: #0A8CFF;
+        opacity: .8;
+        width: 50%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        @media #{$mobile_device} {
+            height: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+    &::after{
+        background-image: url(../img/job/1.png);
+        width: 50%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        left: 0;
+        top: 0;
+        content: '';
+        position: absolute;
+        @media #{$mobile_device} {
+            height: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+    .searching_text{
+        position: relative;
+        z-index: 8;
+        @media #{$mobile_device}{
+            margin: 30px 0;
+        }
+        h3{
+            font-size: 38px;
+            font-weight: 400;
+            color: #FFFFFF;
+            @media #{$mobile_device}{
+                font-size: 25px;
+            }
+            @media #{$tablet_device}{
+                font-size: 25px;
+            }
+        }
+        p{
+            font-weight: 400;
+            color: #FFFFFF;
+            font-size: 16px;
+            margin-bottom: 30px;
+            margin-top: 12px;
+        }
+        a{
+
+        }
+    }
+}
