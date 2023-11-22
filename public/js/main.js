@@ -38,7 +38,8 @@ var slider = $('.slider_active');
 if(slider.length) {
   slider.owlCarousel({
     loop:true,
-    margin:0,
+      margin: 0,
+    rtl:true,
   items:1,
   autoplay:true,
   navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
@@ -78,7 +79,8 @@ var testmonial = $('.testmonial_active');
 if(testmonial.length){
   testmonial.owlCarousel({
   loop:true,
-  margin:0,
+      margin: 0,
+  rtl:true,
   autoplay:true,
   navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
     nav:true,
@@ -116,7 +118,8 @@ var candidate = $('.candidate_active');
 if(candidate.length){
   candidate.owlCarousel({
   loop:true,
-  margin:30,
+  margin: 30,
+  rtl:true,
   autoplay:true,
   navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
   nav:true,
@@ -175,11 +178,11 @@ if(candidate.length){
     $(this).addClass('active');
     event.preventDefault();
 	});
-  
+
   // wow js
   new WOW().init();
 
-  // counter 
+  // counter
   $('.counter').counterUp({
     delay: 10,
     time: 10000
@@ -214,7 +217,8 @@ $('.popup-video').magnificPopup({
     brand.owlCarousel({
     loop:true,
     autoplay:true,
-    nav:false,
+        nav: false,
+    rtl:true,
     dots:false,
     autoplayHoverPause: true,
     autoplaySpeed: 800,
@@ -244,7 +248,8 @@ if (document.getElementById('default-select')) {
 $('.details_active').owlCarousel({
   loop:true,
   margin:0,
-items:1,
+    items: 1,
+rtl:true,
 // autoplay:true,
 navText:['<i class="ti-angle-left"></i>','<i class="ti-angle-right"></i>'],
 nav:true,
@@ -296,7 +301,7 @@ $(document).ready(function() {
 
 
 
-//------- Mailchimp js --------//  
+//------- Mailchimp js --------//
 function mailChimp() {
   $('#mc_embed_signup').find('form').ajaxChimp();
 }
@@ -335,4 +340,4 @@ mailChimp();
 
 
 
-})(jQuery);	
+})(jQuery);

@@ -8,9 +8,11 @@
                 <div class="row align-items-center">
                     <div class="col-lg-7 col-md-6">
                         <div class="slider_text">
-                            <h5 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".2s">4536+ Jobs listed</h5>
-                            <h3 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".3s">Find your Dream Job</h3>
-                            <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".4s">We provide online instant cash loans with quick approval that suit your term length</p>
+                            <h5 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".2s">4536+ شغل ثبت شه</h5>
+                            <h3 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".3s">خدمات مورد نظر خود را پیدا کنید</h3>
+                            <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".4s">
+                                ما به شما کمک میکنیم تا به راحتی با خدمات دهندگان شهرتان ارتباط برقرار کنید
+                            </p>
                             <div class="sldier_btn wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".5s">
                                 <a href="#" class="boxed-btn3">Upload your Resume</a>
                             </div>
@@ -19,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="ilstration_img wow fadeInRight d-none d-lg-block text-right" data-wow-duration="1s" data-wow-delay=".2s">
+        <div class="ilstration_img wow fadeInRight d-none d-lg-block text-left" data-wow-duration="1s" data-wow-delay=".2s">
             <img src="img/banner/illustration.png" alt="">
         </div>
     </div>
@@ -31,13 +33,13 @@
             <div class="row cat_search">
                 <div class="col-lg-3 col-md-4">
                     <div class="single_input">
-                        <input type="text" placeholder="Search keyword">
+                        <input type="text" placeholder="کلمه کلیدی">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4">
                     <div class="single_input">
                         <select class="wide" >
-                            <option data-display="Location">Location</option>
+                            <option data-display="Location">مکان</option>
                             <option value="1">Dhaka</option>
                             <option value="2">Rangpur</option>
                             <option value="4">Sylet</option>
@@ -47,7 +49,7 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="single_input">
                         <select class="wide">
-                            <option data-display="Category">Category</option>
+                            <option data-display="Category">دسته بندی</option>
                             <option value="1">Category 1</option>
                             <option value="2">Category 2</option>
                             <option value="4">Category 3</option>
@@ -56,14 +58,14 @@
                 </div>
                 <div class="col-lg-3 col-md-12">
                     <div class="job_btn">
-                        <a href="#" class="boxed-btn3">Find Job</a>
+                        <a href="#" class="boxed-btn3">جست و جو</a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="popular_search d-flex align-items-center">
-                        <span>Popular Search:</span>
+                        <span>بیشترین جست و جو ها:</span>
                         <ul>
                             <li><a href="#">Design & Creative</a></li>
                             <li><a href="#">Marketing</a></li>
@@ -150,11 +152,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="section_title">
-                        <h3>Job Listing</h3>
+                        <h3>فهرست خدمات قابل ارائه</h3>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="brouse_job text-right">
+                    <div class="brouse_job text-left">
                         <a href="jobs.html" class="boxed-btn4">Browse More Job</a>
                     </div>
                 </div>
@@ -461,7 +463,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <div class="brouse_job text-right">
+                    <div class="brouse_job text-left">
                         <a href="jobs.html" class="boxed-btn4">Browse More Job</a>
                     </div>
                 </div>
