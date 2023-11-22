@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "candidates.css",
+	"sources": [
+		"../scss/candidates.scss"
+	],
+	"sourcesContent": [
+		""
+	],
+	"names": [],
+	"mappings": ""
+}

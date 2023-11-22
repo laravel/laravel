@@ -1,0 +1,76 @@
+.service_area{
+    padding-top: 150px;
+    padding-bottom: 120px;
+    @media #{$mobile_device}{
+        padding-top: 50px;
+        padding-bottom: 30px;
+    }
+    @media #{$tablet_device}{
+        padding-top: 100px;
+        padding-bottom: 70px;
+    }
+    .single_service{
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0a8cff+0,054680+100 */
+        background: #0a8cff; /* Old browsers */
+        background: -moz-linear-gradient(top,  #0a8cff 0%, #054680 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #0a8cff 0%,#054680 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #0a8cff 0%,#054680 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0a8cff', endColorstr='#054680',GradientType=0 ); /* IE6-9 */
+        @include border-radius(5px);
+        margin-bottom: 30px;
+        .service_icon{
+            margin: 50px auto 43px auto;
+            display: inline-block;
+        }
+        .info{
+            span{
+                font-size: 16px;
+                color: #fff;
+                font-weight: 400;
+                display: block;
+                margin-bottom: 15px;
+            }
+            h3{
+                color: #33D4D6;
+                font-weight: 400;
+                font-size: 30px;
+            }
+        }
+        .service_content{
+            padding: 30px 50px 50px 50px;
+            margin-top: 28px;
+            border-top: 1px solid rgba(255,255,255,.15);
+            @media #{$mid_device} {
+                padding: 30px 23px 50px 23px;
+            }
+            ul{
+                li{
+                    font-size: 16px;
+                    line-height: 32px;
+                    color: #fff;
+                    font-weight: 400;
+                    position: relative;
+                    z-index: 0;
+                    padding-left: 18px;
+                    &::before{
+                        width: 8px;
+                        height: 8px;
+                        @include border-radius(50%);
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background: #33D4D6;
+                    }
+                }
+            }
+            .apply_btn{
+                margin-top: 40px;
+                button{
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+.top_companies_area{
+    background: #F5F7FA;
+    padding-bottom: 70px;
+    @media #{$mobile_device}{
+        margin-bottom: 40px;
+    }
+    .brouse_job{
+        @media #{$mobile_device} {
+            text-align: left !important;
+            margin-top: 15px;
+            a{
+                
+            }
+        }
+    }
+    .single_company{
+        background: #fff;
+        padding: 25px;
+        @include border-radius(5px);
+        margin-bottom: 30px;
+        .thumb{
+            width: 82px;
+            height: 82px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 15px;
+            background:#F5F7FA;
+            margin-right: 25px;
+            border: 1px solid #F0F0F0;
+        }
+        h3{
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 18px;
+            margin-top: 20px;
+        }
+        p{
+            font-size: 16px;
+            color:#AAB1B7;
+            margin-bottom: 0;
+            font-weight: 400;
+            span{
+                background:#E6F3FF;
+                color:#0A8CFF;
+                font-size: 16px;
+                font-weight: 400;
+                padding: 6px 17px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+        }
+    }
+}

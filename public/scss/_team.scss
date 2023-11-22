@@ -1,0 +1,81 @@
+.team_area{
+    padding-top: 108px;
+    padding-bottom: 83px;
+    &.minus_padding{
+        padding-top: 50px;
+    }
+    @media #{$mobile_device} {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .single_team{
+        margin-bottom: 30px;
+        .team_thumb{
+            overflow: hidden;
+            margin-bottom: 26px;
+            @include border-radius(10px);
+            position: relative;
+            img{
+                width: 100%;
+                @include transform(scale(1));
+                @include transition(.3s);
+            }
+            .social_link{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                background: rgba(0, 29, 56, .50);
+                @include border-radius(10px);
+                text-align: center;
+                padding: 13px 0;
+                @include transition(.5s);
+                transform: translateY(100%) scale(1.2);
+                opacity: 0;
+                visibility: hidden;
+                li{
+                    display: inline-block;
+                    a{
+                        font-size: 15px;
+                        color: #C7C7C7;
+                        margin: 0 6px;
+                        &:hover{
+                            color: #F91842;
+                        }
+                    }
+                }
+            }
+        }
+        .team_info{
+            h3{
+                font-size: 22px;
+                font-weight: 400;
+                color: #001D38;
+                margin-bottom: 0;
+                font-family: $font2;
+            }
+            p{
+                font-size: 14px;
+                font-weight: 300;
+                color: #727272;
+                margin-top: 6px;
+                margin-bottom: 8px;
+                font-family: $font2;
+            }
+
+        }
+        &:hover{
+            .team_thumb{
+                img{
+                    width: 100%;
+                    @include transform(scale(1.1));
+                    @include transition(.3s);
+                }
+                .social_link{
+                    transform: translateY(0%) scale(1);
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

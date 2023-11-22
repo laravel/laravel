@@ -1,0 +1,49 @@
+@font-face {
+  font-family: Shabnam;
+  src: url('Shabnam-FD.eot');
+  src: url('Shabnam-FD.eot?#iefix') format('embedded-opentype'),
+       url('Shabnam-FD.woff2') format('woff2'),
+       url('Shabnam-FD.woff') format('woff'),
+       url('Shabnam-FD.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('Shabnam-Bold-FD.eot');
+  src: url('Shabnam-Bold-FD.eot?#iefix') format('embedded-opentype'),
+       url('Shabnam-Bold-FD.woff2') format('woff2'),
+       url('Shabnam-Bold-FD.woff') format('woff'),
+       url('Shabnam-Bold-FD.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('Shabnam-Thin-FD.eot');
+  src: url('Shabnam-Thin-FD.eot?#iefix') format('embedded-opentype'),
+       url('Shabnam-Thin-FD.woff2') format('woff2'),
+       url('Shabnam-Thin-FD.woff') format('woff'),
+       url('Shabnam-Thin-FD.ttf') format('truetype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('Shabnam-Light-FD.eot');
+  src: url('Shabnam-Light-FD.eot?#iefix') format('embedded-opentype'),
+       url('Shabnam-Light-FD.woff2') format('woff2'),
+       url('Shabnam-Light-FD.woff') format('woff'),
+       url('Shabnam-Light-FD.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Shabnam;
+  src: url('Shabnam-Medium-FD.eot');
+  src: url('Shabnam-Medium-FD.eot?#iefix') format('embedded-opentype'),
+       url('Shabnam-Medium-FD.woff2') format('woff2'),
+       url('Shabnam-Medium-FD.woff') format('woff'),
+       url('Shabnam-Medium-FD.ttf') format('truetype');
+  font-weight: 500;
+}

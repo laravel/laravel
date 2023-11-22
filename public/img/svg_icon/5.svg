@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42.592" height="48.069" viewBox="0 0 42.592 48.069">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.296" y1="1.404" x2="0.096" y2="0.064" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f074ac"/>
+      <stop offset="0.5" stop-color="#eb008b"/>
+      <stop offset="1" stop-color="#cd118c"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.625" y1="0.697" x2="-0.739" y2="-1.206" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="0.723" y1="0.777" x2="-0.412" y2="-0.591" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="1.547" y1="-0.452" x2="-0.894" y2="2.093" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-5" x1="1.476" y1="-0.307" x2="-1.061" y2="2.153" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-6" x1="1.318" y1="-0.553" x2="-0.615" y2="1.954" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-7" x1="1.523" y1="1.938" x2="0.175" y2="0.058" xlink:href="#linear-gradient"/>
+  </defs>
+  <g id="logo" transform="translate(-547.024 -471.205)">
+    <path id="Path_102" data-name="Path 102" d="M554.174,531.541,547.024,520h11.03l7.661,11.541Z" transform="translate(0 -24.31)" fill="url(#linear-gradient)"/>
+    <path id="Path_103" data-name="Path 103" d="M572.484,559.029l-4.7-8.029h11.03l5.21,8.029Z" transform="translate(-10.344 -39.755)" fill="url(#linear-gradient-2)"/>
+    <path id="Path_104" data-name="Path 104" d="M601.452,508.039,593.434,497h11.031l8.274,11.039Z" transform="translate(-23.122 -12.851)" fill="url(#linear-gradient-3)"/>
+    <path id="Path_105" data-name="Path 105" d="M577.333,495.529l-16.06,23.82H572.91l10.206-15.576Z" transform="translate(-7.099 -12.119)" fill="url(#linear-gradient-4)"/>
+    <path id="Path_106" data-name="Path 106" d="M562.881,471.205,547.024,495.69h11.03l9.856-15.919Z" transform="translate(0 0)" fill="url(#linear-gradient-5)"/>
+    <path id="Path_107" data-name="Path 107" d="M593.339,519l-16.189,24.086h11.637L604.625,519Z" transform="translate(-15.009 -23.812)" fill="url(#linear-gradient-6)"/>
+    <path id="Path_108" data-name="Path 108" d="M583.731,480.029,578.777,472h11.031l5.21,8.029Z" transform="translate(-15.82 -0.396)" fill="url(#linear-gradient-7)"/>
+  </g>
+</svg>

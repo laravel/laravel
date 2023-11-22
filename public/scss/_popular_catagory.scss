@@ -1,0 +1,44 @@
+.popular_catagory_area{
+    background: #F5F7FA;
+    padding: 100px 0;
+    .single_catagory{
+        background: #FFFFFF;
+        @include border-radius(5px);
+        padding: 38px 25px ;
+        border: 1px solid transparent;
+        @include transition(.3s);
+        margin-bottom: 30px;
+        a{
+            h4{
+                font-size: 20px;
+                font-weight: 400;
+                margin-bottom: 15px;
+                @include transition(.3s);
+
+            }
+
+        }
+        p{
+            font-size: 16px;
+            color: #AAB1B7;
+            margin-bottom: 0;
+            font-weight: 400;
+            span{
+                background: #E6F3FF;
+                color: #0A8CFF;
+                font-size: 16px;
+                font-weight: 400;
+                padding: 6px 17px;
+                @include border-radius(5px);
+                margin-right: 10px;
+            }
+        }
+        &:hover{
+            h4{
+                color: $green_color;
+                text-decoration: underline;
+            }
+            border-color: #B2F2D0;
+        }
+    }
+}
