@@ -19,6 +19,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Rehash On Login
+    |--------------------------------------------------------------------------
+    |
+    | Setting this option to true will enable the Session Guard to automatically
+    | rehash the user's password upon login, when their password has an older
+    | hash configuration - gracefully upgrading stored hashes for security.
+    |
+    */
+
+    'rehash_on_login' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Bcrypt Options
     |--------------------------------------------------------------------------
     |
