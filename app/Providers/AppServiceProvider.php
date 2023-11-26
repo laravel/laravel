@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        /**
+         * Set default string length for database schema.
+         * Necessary for older MySQL/MariaDB versions to support utf8mb4 encoding (like emojis).
+         * Ensures compatibility with index size limits (191 * 4 = 764 bytes).
+         * Uncomment if using older database versions; newer versions handle this automatically.
+         */
+//        Schema::defaultStringLength(191);
     }
 }
