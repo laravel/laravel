@@ -36,6 +36,7 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
+            'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
@@ -58,6 +59,7 @@ return [
 
         'postmark' => [
             'transport' => 'postmark',
+            // 'message_stream_id' => null,
             // 'client' => [
             //     'timeout' => 5,
             // ],
