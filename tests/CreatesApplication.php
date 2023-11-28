@@ -8,7 +8,7 @@ use Illuminate\Foundation\Application;
 trait CreatesApplication
 {
     /**
-     * Creates the application.
+     * Create a new application instance.
      */
     public function createApplication(): Application
     {
