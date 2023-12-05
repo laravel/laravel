@@ -6,7 +6,7 @@ use Livewire\Attributes\Validate;
 
 class CountryForm extends BaseFormComponent
 {
-    #[Validate('required')]
+    #[Validate('required|max:3')]
     public string|null $name;
 
     #[Validate('required')]
