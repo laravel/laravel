@@ -5,7 +5,6 @@ namespace App\Livewire\Datatable;
 use App\Models\Country;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class CountriesTable extends BaseTable
 {

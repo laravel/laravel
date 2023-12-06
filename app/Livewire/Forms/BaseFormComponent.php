@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Contracts\View\Factory;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class BaseFormComponent extends Component
 {
@@ -39,9 +40,9 @@ class BaseFormComponent extends Component
     }
 
     /**
-     * @return RedirectResponse
+     * @return Redirector|RedirectResponse
      */
-    public function submitForm() //: RedirectResponse
+    public function submitForm() : Redirector|RedirectResponse
     {
         $this->validate();
 
@@ -49,7 +50,7 @@ class BaseFormComponent extends Component
 
         $this->_save();
 
-//        request()->session()->flash('success', sprintf("%s %s successfully", class_basename($this->model), ($isNew ? 'created' : 'updated')));
+        request()->session()->flash('success', sprintf("%s %s successfully", class_basename($this->model), ($isNew ? 'created' : 'updated')));
 
         return redirect()->route($this->modelIndexRoute);
     }

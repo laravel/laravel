@@ -29,6 +29,22 @@
 
             <!-- Page Content -->
             <main>
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-dismissible custom-alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <h5><i class="icon fa fa-check"></i> Success!</h5>
+                        {{ $message }}
+                    </div>
+                @endif
+                @if ($message = Session::get('danger'))
+                    <div class="alert alert-danger alert-dismissible custom-alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <h5><i class="icon fa fa-check"></i> Errors!</h5>
+                        {{ $message }}
+                    </div>
+                @endif
+
+
                 {{ $slot }}
             </main>
         </div>
