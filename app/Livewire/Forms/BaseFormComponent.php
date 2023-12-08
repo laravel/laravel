@@ -26,9 +26,7 @@ class BaseFormComponent extends Component
      */
     public function mount(): void
     {
-        foreach ($this->_getFromProperties() as $fromProperty) {
-            $this->$fromProperty = $this->model->$fromProperty;
-        }
+        $this->_setFormProperties();
     }
 
     /**
@@ -56,6 +54,15 @@ class BaseFormComponent extends Component
     }
 
     /**
+     * @return void
+     */
+    public function formReset(): void
+    {
+        $this->model->refresh();
+        $this->_setFormProperties();
+    }
+
+    /**
      * @return Model
      */
     protected function _save(): Model
@@ -78,5 +85,15 @@ class BaseFormComponent extends Component
     protected function _getFromProperties(): array
     {
         return $this->model->getFillable();
+    }
+
+    /**
+     * @return void
+     */
+    protected function _setFormProperties(): void
+    {
+        foreach ($this->_getFromProperties() as $fromProperty) {
+            $this->$fromProperty = $this->model->$fromProperty;
+        }
     }
 }
