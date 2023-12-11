@@ -14,7 +14,7 @@
         "livewire/livewire": "^3.0",
         "livewire/volt": "^1.0",
         "maatwebsite/excel": "^3.1",
-        "rappasoft/laravel-livewire-tables": "^3.1"
+        "yajra/laravel-datatables": "^10.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -16,10 +16,6 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <x-nav-wire-link :href="route($modelCreateRoute)" :active="request()->routeIs($modelCreateRoute)" class="btn btn-primary btn-sm">
-            Add {{ $baseName }}
-        </x-nav-wire-link>
-
         <x-datatable-section>
             @includeFirst([sprintf("%s.datatable", $resourcePath), 'backend.crud.datatable'])
         </x-datatable-section>

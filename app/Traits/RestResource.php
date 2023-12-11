@@ -4,6 +4,7 @@ namespace App\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 /**
@@ -33,6 +34,8 @@ trait RestResource
 
     protected string $resourcePath;
 
+    protected bool $indexIsDatatable = true;
+
     protected string $indexBladePath = "backend.crud.index";
 
     protected string $createBladePath = "backend.crud.create";
@@ -42,13 +45,15 @@ trait RestResource
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return Application|Factory|View|JsonResponse
      */
-    public function index(): Application|Factory|View
+    public function index(): Application|Factory|View|JsonResponse
     {
         $data = $this->_getBladeVariables() + $this->_indexFormData();
 
-        return view($this->indexBladePath, $data);
+        return $this->indexIsDatatable ?
+            (new $this->datatableClass)->with([])->render($this->indexBladePath, $data) :
+            view($this->indexBladePath, $data);
     }
 
     /**
