@@ -9,10 +9,16 @@ use Illuminate\Validation\Rule as ValidationRule;
 class CountryForm extends BaseFormComponent
 {
     #[Validate]
-    public string|null $name;
+    public string|null $name = null;
 
-    #[Validate]
-    public string|null $short_code;
+    #[Validate('required|max:10')]
+    public string|null $short_code = null;
+
+    #[Validate('nullable|max:25')]
+    public string|null $color = null;
+
+    #[Validate('nullable|date_format:Y-m-d')]
+    public string|null $date = null;
 
     protected function rules()
     {
@@ -22,7 +28,6 @@ class CountryForm extends BaseFormComponent
                 'max:100',
                 ValidationRule::unique('countries', 'name')->ignore($this->model->id, 'id')->whereNull('deleted_at'),
             ],
-            'short_code' => 'required|max:10',
         ];
     }
 }

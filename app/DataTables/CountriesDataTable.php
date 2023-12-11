@@ -55,6 +55,7 @@ class CountriesDataTable extends BaseDataTable
             Column::make('id')->visible(false),
             Column::make('name')->addClass('fw-bold'),
             Column::make('short_code'),
+            Column::make('created_at'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
