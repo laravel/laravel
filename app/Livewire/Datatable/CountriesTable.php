@@ -8,8 +8,6 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 
 class CountriesTable extends BaseTable
 {
-    protected $model = Country::class;
-
     public function columns(): array
     {
         return [
@@ -21,18 +19,7 @@ class CountriesTable extends BaseTable
                 ->searchable()
                 ->sortable(),
             BooleanColumn::make('Active', 'active'),
-            Column::make('Action')
-                ->label(
-                    fn ($row, Column $column) => view('livewire.datatables.action-column')->with(
-                        [
-                            'row' => $row,
-                            'modelClass' => $this->model,
-                            'viewLink' => route('countries.show', $row),
-                            'editLink' => route('countries.edit', $row),
-                            'deleteLink' => route('countries.destroy', $row),
-                        ]
-                    )
-                )->html(),
+            $this->_getActionColumn()
         ];
     }
 }

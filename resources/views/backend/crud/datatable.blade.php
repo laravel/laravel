@@ -5,4 +5,4 @@
 {{--HOPE EVERY ONE READ THIS COMMENT :)--}}
 {{--CONFIRM WITH PRAKASH BEFORE YOU CHANGE SOMETHING HERE--}}
 
-<livewire:datatable.countries-table />
+<livewire:datatable.countries-table :restPrefix="$restPrefix" :modelClass="$modelClass"/>

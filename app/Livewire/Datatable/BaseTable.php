@@ -12,13 +12,24 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class BaseTable extends DataTableComponent
 {
+    public string $restPrefix;
+
+    public string $modelClass;
+
+    protected $model = ''; // We must specify this one and should not null (we just override - need to check any issue occurs)
+
+    public function mount(string $restPrefix, string $modelClass): void
+    {
+        $this->restPrefix = $restPrefix;
+        $this->modelClass = $this->model = $modelClass;
+    }
+
     public function configure(): void
     {
         $this->setBulkActionsStatus(true);
         $this->setBulkActions([
             'exportSelected' => 'Export',
         ]);
-
         $this->setPrimaryKey('id');
     }
 
@@ -31,19 +42,16 @@ class BaseTable extends DataTableComponent
     {
         return [
             Column::make("Id", "id")->deselected(),
-            Column::make('Action')
-                ->label(
-                    fn ($row, Column $column) => view('livewire.datatables.action-column')->with(
-                        [
-                            'row' => $row,
-                            'modelClass' => $this->model,
-                            'viewLink' => route('countries.show', $row),
-                            'editLink' => route('countries.edit', $row),
-                            'deleteLink' => route('countries.destroy', $row),
-                        ]
-                    )
-                )->html(),
+            $this->_getActionColumn(),
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModel()
+    {
+        return $this->modelClass;
     }
 
     /**
@@ -53,7 +61,23 @@ class BaseTable extends DataTableComponent
     public function destroy($id)
     {
         // @todo:: need to optimize more
-        $this->model::find($id)->delete();
+        $this->modelClass::find($id)->delete();
         $this->dispatch('refreshDatatable');
+    }
+
+    protected function _getActionColumn()
+    {
+        return Column::make('Action')
+            ->label(
+                fn ($row, Column $column) => view('livewire.datatables.action-column')->with(
+                    [
+                        'row' => $row,
+                        'modelClass' => $this->model,
+                        'viewLink' => route(sprintf("%s.show", $this->restPrefix), $row),
+                        'editLink' => route(sprintf("%s.edit", $this->restPrefix), $row),
+                        'deleteLink' => route(sprintf("%s.destroy", $this->restPrefix), $row),
+                    ]
+                )
+            )->html();
     }
 }
