@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Artikel</title>
-</head>
-<body>
+<x-template title="Daftar artikel">
     <a href="<?= route('article.create') ?>">Tambah artikel</a>
-    <?php foreach($articles as $article): ?>
+    @if(!@empty($articles))
+
+    @endempty)
+    @foreach($articles as $article)
         <div>
             <h4><?= $article['title'] ?></h4>
             <?= $article{'content'} ?>
@@ -14,7 +12,10 @@
             </div>
         </div>
         <hr/>
-        <?php endforeach ?>
+        @endforeach
+        @endif
+
+</x-template>
 
 
 
