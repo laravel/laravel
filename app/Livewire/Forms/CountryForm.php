@@ -8,9 +8,21 @@ use Illuminate\Validation\Rule as ValidationRule;
 
 class CountryForm extends BaseFormComponent
 {
-    #[Validate('required|max:100|string|unique:countries,name,{model.id},id')]
+    #[Validate]
     public string|null $name;
 
-    #[Validate('required|max:10')]
+    #[Validate]
     public string|null $short_code;
+
+    protected function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                'max:100',
+                ValidationRule::unique('countries', 'name')->ignore($this->model->id, 'id'),
+            ],
+            'short_code' => 'required|max:10',
+        ];
+    }
 }
