@@ -20,7 +20,7 @@ class CountryForm extends BaseFormComponent
             'name' => [
                 'required',
                 'max:100',
-                ValidationRule::unique('countries', 'name')->ignore($this->model->id, 'id'),
+                ValidationRule::unique('countries', 'name')->ignore($this->model->id, 'id')->whereNull('deleted_at'),
             ],
             'short_code' => 'required|max:10',
         ];
