@@ -6,8 +6,22 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "autoprefixer": "^10.4.2",
         "axios": "^1.6.1",
         "laravel-vite-plugin": "^0.8.0",
+        "postcss": "^8.4.6",
+        "tailwindcss": "^3.1.0",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.5.1",
+        "bootstrap": "^5.3.2",
+        "bootstrap-icons": "^1.11.2",
+        "datatables.net-bs5": "^1.13.8",
+        "datatables.net-buttons-bs5": "^2.4.2",
+        "datatables.net-select-bs5": "^1.7.0",
+        "laravel-datatables-vite": "^0.5.2",
+        "sass": "^1.69.5"
     }
 }
