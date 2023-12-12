@@ -17,16 +17,10 @@ use \App\Http\Controllers\CountryController;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
-
-Route::get('/counter', Counter::class);
-
-Route::resource('countries', CountryController::class);
+Route::middleware(['auth', 'verified'])->group(function() {
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('profile', 'profile')->name('profile');
+    Route::resource('countries', CountryController::class);
+});
 
 require __DIR__.'/auth.php';
