@@ -52,53 +52,51 @@ $sendVerification = function () {
 ?>
 
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
+    <div class="card card-body border-0 shadow mb-4 p-5">
+        <h2 class="h5 mb-4">{{ __('Profile Information') }}</h2>
+        <form wire:submit="updateProfileInformation">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <x-input-label for="name" :value="__('Name')" />
+                    <x-text-input wire:model="name" id="name" name="name" type="text" class="form-control" required autofocus autocomplete="name" />
+                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                </div>  
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <x-input-label for="email" :value="__('Email')" />
+                        <x-text-input wire:model="email" id="email" name="email" type="email" class="form-control" required autocomplete="username" />
+                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
-
-    <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
-
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-
-            @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
+                            @if (auth()->user() instanceof MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                    <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
-
-                        <button wire:click.prevent="sendVerification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    
+                        <button wire:click.prevent="sendVerification" class="btn btn-link text-sm text-gray-600">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
-
+                    
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                        <p class="mt-2 font-medium text-sm text-success">
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
-                    @endif
+                    @endif                    
                 </div>
             @endif
-        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <x-primary-button class="btn">{{ __('Save') }}</x-primary-button>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-            <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved.') }}
-            </x-action-message>
-        </div>
-    </form>
+                <x-action-message class="text-success" on="profile-updated">
+                    {{ __('Saved.') }}
+                </x-action-message>
+            </div>
+            </div>
+        </form>
+    </div>
 </section>

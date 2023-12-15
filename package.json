@@ -22,6 +22,7 @@
         "datatables.net-buttons-bs5": "^2.4.2",
         "datatables.net-select-bs5": "^1.7.0",
         "laravel-datatables-vite": "^0.5.2",
-        "sass": "^1.69.5"
+        "sass": "^1.69.5",
+        "sweetalert2": "^9.17.1"
     }
 }
