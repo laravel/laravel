@@ -1,4 +1,4 @@
-<x-template title="Daftar artikel">
+<x-template title="Daftar articles">
     <a href="<?= route('article.create') ?>">Tambah artikel</a>
     @if(!@empty($articles))
 

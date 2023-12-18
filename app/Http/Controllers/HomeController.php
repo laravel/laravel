@@ -8,10 +8,10 @@ class HomeController extends Controller
 {
     function index()
     {
-        return view()('home.index', [
-        'name' => 'Eko Bagus',
-        'tanggal' => date('y-m-d')
-        ''
+        return view('home.index', [
+            'name'=> 'Eko Bagus',
+            'tanggal'=> date('Y-m-d')
         ]);
     }
 }
+
