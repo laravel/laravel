@@ -55,5 +55,3 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit
-        env:
-          DB_HOST: mysql
