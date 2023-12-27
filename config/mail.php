@@ -28,8 +28,8 @@ return [
     | sending an e-mail. You will specify which one you are using for your
     | mailers below. You are free to add additional mailers as required.
     |
-    | Supported: "smtp", "sendmail", "mailgun", "ses", "ses-v2",
-    |            "postmark", "log", "array", "failover", "roundrobin"
+    | Supported: "smtp", "ses", "postmark", "mailgun", "sendmail", "log",
+    |            "array", "failover", "roundrobin"
     |
     */
 
