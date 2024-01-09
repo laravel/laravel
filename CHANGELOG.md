@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.3.1...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v10.3.2...10.x)
+
+## [v10.3.2](https://github.com/laravel/laravel/compare/v10.3.1...v10.3.2) - 2024-01-04
+
+* [10.x] Reverts `assertOk` change by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/laravel/pull/6303
+* Update Axios to latest version by [@u01jmg3](https://github.com/u01jmg3) in https://github.com/laravel/laravel/pull/6306
+* [10.x] Update Axios to latest version by [@u01jmg3](https://github.com/u01jmg3) in https://github.com/laravel/laravel/pull/6313
 
 ## [v10.3.1](https://github.com/laravel/laravel/compare/v10.3.0...v10.3.1) - 2023-12-23
 
