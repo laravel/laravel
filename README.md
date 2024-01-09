@@ -64,3 +64,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Sitemap:
+https://texaspost.github.io/2023-12-28-understanding-the-complex-relationship-between-belief-value-and-financial-markets/
+https://texaspost.github.io/2023-12-29-the-issue-with-trusting-adults/
+https://texaspost.github.io/2023-12-30-christmas-craft-ideas-for-kids-fun-projects-using-felt-ribbon-and-more/
+https://texaspost.github.io/2023-12-31-a-strategic-approach-to-learning-music-creation/
+https://texaspost.github.io/2024-01-02-selecting-engaging-books/
+https://texaspost.github.io/2024-01-02-the-role-of-local-governance-in-american-life/
+https://texaspost.github.io/2024-01-03-creative-solutions-to-home-renovation-challenges/
+https://texaspost.github.io/2024-01-03-how-getting-out-of-your-comfort-zone-and-playing-coed-soccer-changed-my-life/
+https://texaspost.github.io/2024-01-05-accessing-free-kindle-books-with-ease/
+https://texaspost.github.io/2023-12-27-navigating-bureaucracy-and-excuses-in-germany/
+https://texaspost.github.io/2023-12-28-understanding-the-financial-regulations-of-the-premier-league/
