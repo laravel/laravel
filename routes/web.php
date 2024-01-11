@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
  * routes are loaded within the "web" middleware group which includes
  * sessions, cookie encryption, and more. Go build something great!
  */
-
 Route::get('/', function () {
     return view('welcome');
 });

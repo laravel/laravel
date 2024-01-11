@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Schedule;
  * commands. Each Closure is bound to a command instance allowing a
  * simple approach to interacting with each command's IO methods.
  */
-
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
@@ -19,5 +18,4 @@ Artisan::command('inspire', function () {
  * or system commands. These tasks will be run automatically when due
  * using Laravel's built-in "schedule:run" Artisan console command.
  */
-
 Schedule::command('inspire')->hourly();
