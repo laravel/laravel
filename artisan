@@ -5,22 +5,11 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 define('LARAVEL_START', microtime(true));
 
-/**
- * Composer provides a convenient, automatically generated class loader for
- * this application. We just need to utilize it! We'll simply require it
- * into the script here so we don't need to manually load our classes.
- */
-
+// Register the Composer autoloader...
 require __DIR__.'/vendor/autoload.php';
 
-/**
- * When we run the console application, the current CLI command will be
- * executed by an Artisan command and the exit code is given back to
- * the caller. Once the command is handled, the script terminates.
- */
-
-$app = require_once __DIR__.'/bootstrap/app.php';
-
-$status = $app->handleCommand(new ArgvInput);
+// Bootstrap Laravel and handle the command...
+$status = (require_once __DIR__.'/bootstrap/app.php')
+    ->handleCommand(new ArgvInput);
 
 exit($status);
