@@ -74,7 +74,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => env('DB_SCHEMA', ''),
+            'search_path' => env('DB_SEARCH_PATH', ''),
             'sslmode' => 'prefer',
         ],
 
