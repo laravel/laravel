@@ -1,0 +1,2 @@
+upload_max_filesize=40M
+post_max_size=40M
