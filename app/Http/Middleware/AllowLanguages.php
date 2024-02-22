@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AllowLanguages
 {
     private $controller;
-    
+
     public function __construct(Controller $controller)
     {
         $this->controller = $controller;
@@ -23,10 +23,10 @@ class AllowLanguages
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $default_lang_code  =   app()->getLocale() ?? 'en';
-        $language_allowed   =   $this->controller->allowLanguages();
-        $language           =   request()->header()['x-language'][0] ?? $default_lang_code;
-        $language           =   in_array($language, $language_allowed) ? $language : $default_lang_code;
+        $default_lang_code = app()->getLocale() ?? 'en';
+        $language_allowed = $this->controller->allowLanguages();
+        $language = request()->header()['x-language'][0] ?? $default_lang_code;
+        $language = in_array($language, $language_allowed) ? $language : $default_lang_code;
         app()->setLocale($language);
 
         return $next($request);

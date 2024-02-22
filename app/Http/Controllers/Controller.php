@@ -10,7 +10,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function allowLanguages() : array
+    public function allowLanguages(): array
     {
         return ['en', 'ar'];
     }
