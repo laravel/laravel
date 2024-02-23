@@ -2,6 +2,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CoursesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,3 +24,6 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
+
+Route::resource('student', CoursesController::class);
+
