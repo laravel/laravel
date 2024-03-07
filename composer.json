@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^12.0",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
@@ -49,7 +49,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "11.x-dev"
+            "dev-master": "12.x-dev"
         },
         "laravel": {
             "dont-discover": []
