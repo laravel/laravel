@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "dev-l12",
+        "laravel/framework": "dev-prep-l12",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
