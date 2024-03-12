@@ -4,6 +4,8 @@
 
 ## [v10.3.3](https://github.com/laravel/laravel/compare/v10.3.2...v10.3.3) - 2024-02-13
 
+* Update welcome template by @taylorotwell in https://github.com/laravel/laravel/commit/d3287461e15862d1c7a8f10925988b4f1640d92b
+
 ## [v10.3.2](https://github.com/laravel/laravel/compare/v10.3.1...v10.3.2) - 2024-01-04
 
 * [10.x] Reverts `assertOk` change by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/laravel/pull/6303
