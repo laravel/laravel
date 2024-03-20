@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "lib-sqlite3-sqlite": "^3.35",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9"
     },
