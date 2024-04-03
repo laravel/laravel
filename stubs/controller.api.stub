@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class {{ class }}
+{
+    public function index(): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_CREATED);
+    }
+
+    public function show(string $id): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function update(Request $request, string $id): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_NO_CONTENT);
+    }
+}

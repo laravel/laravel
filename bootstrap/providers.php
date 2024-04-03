@@ -1,5 +1,10 @@
 <?php
 
+use Lightit\Shared\App\Providers\AppServiceProvider;
+use Lightit\Shared\App\Providers\EventServiceProvider;
+
+
 return [
-    App\Providers\AppServiceProvider::class,
+    AppServiceProvider::class,
+    EventServiceProvider::class,
 ];
