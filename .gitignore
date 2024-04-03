@@ -24,3 +24,11 @@ Homestead.yaml
 npm-debug.log
 Thumbs.db
 yarn-error.log
+/_ide_helper.php
+/.phpstorm.meta.php
+/reports/
+/tsconfig.tsbuildinfo
+/.phpunit.cache/
+
+# Sentry Config File
+.env.sentry-build-plugin
