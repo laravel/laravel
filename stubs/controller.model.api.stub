@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use {{ namespacedModel }};
+use {{ namespacedRequests }}
+
+class {{ class }}
+{
+    public function index(): JsonResponse
+    {
+        return responder()
+            ->success({{ model }}::paginate())
+            ->respond();
+    }
+
+    public function store({{ storeRequest }} $request): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_CREATED);
+    }
+
+    public function show({{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ modelVariable }})
+            ->respond();
+    }
+
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ modelVariable }})
+            ->respond();
+    }
+
+    public function destroy({{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        ${{ modelVariable }}->delete();
+
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_NO_CONTENT);
+    }
+}
