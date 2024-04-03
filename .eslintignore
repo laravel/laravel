@@ -1,0 +1,9 @@
+# Ignore node_modules for Frontend.
+node_modules/
+
+# Ignore vendor for Backend.
+vendor/
+
+public/build/
+
+reports/
