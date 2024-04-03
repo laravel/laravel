@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use {{ namespacedModel }};
+use {{ namespacedParentModel }};
+
+class {{ class }}
+{
+    public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->error()
+            ->respond(JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    public function show({{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ parentModelVariable }})
+            ->respond();
+    }
+
+    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ parentModelVariable }})
+            ->respond();
+    }
+
+    public function destroy({{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->error()
+            ->respond(JsonResponse::HTTP_NOT_FOUND);
+    }
+}

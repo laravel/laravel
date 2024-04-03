@@ -1,0 +1,49 @@
+{
+  "commit-msg": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\Webgriffe\\CaptainHook\\PreventCommitCaseSensitiveSameFilename"
+      },
+      { "action": "\\Sojeda\\CaptainHook\\ValidateConventionalCommit" }
+    ]
+  },
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "echo 'Cannot push to master branch directly. Please use another branch.'; exit 1",
+        "options": {},
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\OnBranch",
+            "args": ["main", "master", "develop"]
+          }
+        ]
+      },
+      { "action": "composer run-script ecs:fix", "options": [] },
+      { "action": "composer run-script rector:fix ", "options": [] },
+      { "action": "npm run format:check", "options": [] },
+      { "action": "npm run lint", "options": [] },
+      { "action": "npm run spell-checker:staged", "options": [] }
+    ]
+  },
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\CaptainHook\\App\\Hook\\Branch\\Action\\EnsureNaming",
+        "options": {
+          "regex": "#^(master|main|develop|staging|demo|(feature|test|(bug|hot)fix)(\\/[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*){1,2}|release\\/[0-9]+(\\.[0-9]+)*(-(alpha|beta|rc)[0-9]*)?)$#"
+        }
+      },
+      {
+        "action": "\\CaptainHook\\App\\Hook\\Composer\\Action\\CheckLockFile",
+        "options": []
+      },
+      { "action": "composer run-script phpstan", "options": [] },
+      { "action": "composer run-script rector", "options": [] },
+      { "action": "composer run-script ecs", "options": [] }
+    ]
+  }
+}
