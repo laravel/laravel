@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\View;
+use {{ namespacedModel }};
+use {{ namespacedRequests }}
+
+class {{ class }}
+{
+    public function index(): ViewContract
+    {
+        return View::make('{{ modelVariable }}.index', [
+            //
+        ]);
+    }
+
+    public function create(): ViewContract
+    {
+        return View::make('{{ modelVariable }}.create');
+    }
+
+    public function store({{ storeRequest }} $request): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_CREATED);
+    }
+
+    public function show({{ model }} ${{ modelVariable }}): ViewContract
+    {
+        return View::make('{{ modelVariable }}.show', [
+            '{{ modelVariable }}' => ${{ modelVariable }}
+        ]);
+    }
+
+    public function edit({{ model }} ${{ modelVariable }}): ViewContract
+    {
+        return View::make('{{ modelVariable }}.edit', [
+            '{{ modelVariable }}' => ${{ modelVariable }}
+        ]);
+    }
+
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ modelVariable }})
+            ->respond();
+    }
+
+    public function destroy({{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        ${{ modelVariable }}->delete();
+
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_NO_CONTENT);
+    }
+}

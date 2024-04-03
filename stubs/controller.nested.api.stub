@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use {{ namespacedModel }};
+use {{ namespacedParentModel }};
+
+class {{ class }}
+{
+    public function index({{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_CREATED);
+    }
+
+    public function show({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ modelVariable }})
+            ->respond();
+    }
+
+    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success(${{ modelVariable }})
+            ->respond();
+    }
+
+    public function destroy({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        ${{ modelVariable }}->delete();
+
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_NO_CONTENT);
+    }
+}

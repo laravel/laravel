@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use {{ namespacedModel }};
+use {{ namespacedParentModel }};
+
+class {{ class }}
+{
+    public function index({{ parentModel }} ${{ parentModelVariable }}): ViewContract
+    {
+        return View::make('{{ parentModelVariable }}.{{ modelVariable }}.index', [
+            //
+        ]);
+    }
+
+    public function create({{ parentModel }} ${{ parentModelVariable }}): ViewContract
+    {
+        return View::make('{{ parentModelVariable }}.{{ modelVariable }}.create', [
+            '{{ parentModelVariable }}' => ${{ parentModelVariable }}
+        ]);
+    }
+
+    public function store(Request $request, {{ parentModel }} ${{ parentModelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_CREATED);
+    }
+
+    public function show({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): ViewContract
+    {
+        return View::make('{{ modelVariable }}.show', [
+            '{{ parentModelVariable }}' => ${{ parentModelVariable }},
+            '{{ modelVariable }}' => ${{ modelVariable }}
+        ]);
+    }
+
+    public function edit({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): ViewContract
+    {
+        return View::make('{{ modelVariable }}.edit', [
+            '{{ parentModelVariable }}' => ${{ parentModelVariable }},
+            '{{ modelVariable }}' => ${{ modelVariable }}
+        ]);
+    }
+
+    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function destroy({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }}): JsonResponse
+    {
+        ${{ modelVariable }}->delete();
+
+        return responder()
+            ->success()
+            ->respond(JsonResponse::HTTP_NO_CONTENT);
+    }
+}

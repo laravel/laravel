@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Auth\Access\Response;
+use {{ namespacedModel }};
+use {{ namespacedUserModel }};
+
+class {{ class }}
+{
+    public function viewAny({{ user }} $user): bool
+    {
+        //
+    }
+
+    public function view({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        //
+    }
+
+    public function create({{ user }} $user): bool
+    {
+        //
+    }
+
+    public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        //
+    }
+
+    public function delete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        //
+    }
+
+    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        //
+    }
+
+    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    {
+        //
+    }
+}

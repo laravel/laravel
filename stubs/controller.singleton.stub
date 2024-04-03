@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+
+class {{ class }} 
+{
+    public function create(): JsonResponse
+    {
+        return responder()
+            ->error()
+            ->respond(JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        return responder()
+            ->error()
+            ->respond(JsonResponse::HTTP_NOT_FOUND);
+    }
+
+    public function show(): ViewContract
+    {
+        return View::make('show');
+    }
+
+    public function edit(): ViewContract
+    {
+        return View::make('edit');
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        return responder()
+            ->success()
+            ->respond();
+    }
+
+    public function destroy(): JsonResponse
+    {
+        return responder()
+            ->error()
+            ->respond(JsonResponse::HTTP_NOT_FOUND);
+    }
+}
