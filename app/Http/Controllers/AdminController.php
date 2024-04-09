@@ -32,8 +32,6 @@ class AdminController extends Controller
 {
 
 
-
-
     public function show_admin_login()
     {
         return view("admin.dashboard");
