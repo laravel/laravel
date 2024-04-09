@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Role_Rights;
